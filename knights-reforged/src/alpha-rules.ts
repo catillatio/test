@@ -13,17 +13,20 @@ export interface AlphaRules {
   limits: { inventory: number; transaction: number; property: number; landTransaction: number; mercenaries: number; participants: number };
   combat: { spiritCost: number; minimumHealth: number; cooldownSeconds: number; variation: number; winnerDamage: number; loserDamageMin: number; loserDamageMax: number; lootPercent: number; lootCap: number; xp: number; rewardedPerTarget: number; rewardWindowSeconds: number };
   maintenance: { policy: string; hourMilliseconds: number };
+  combatSkills:{pointsPerRating:number;percentPerRating:number;maxRating:number;powerPrecision:number};
   items: ItemDefinition[]; quests: QuestDefinition[]; properties: PropertyDefinition[];
 }
 export const previousAlpha = JSON.parse(readFileSync(new URL('../rulesets/alpha-0.1/rules.json', import.meta.url), 'utf8')) as AlphaRules;
-export const alpha = JSON.parse(readFileSync(new URL('../rulesets/alpha-0.2/rules.json', import.meta.url), 'utf8')) as AlphaRules;
-export const alphaCatalogs=[previousAlpha,alpha];
+export const phase35Catalog = JSON.parse(readFileSync(new URL('../rulesets/alpha-0.2/rules.json', import.meta.url), 'utf8')) as AlphaRules;
+export const alpha = JSON.parse(readFileSync(new URL('../rulesets/alpha-0.3/rules.json', import.meta.url), 'utf8')) as AlphaRules;
+export const alphaCatalogs=[previousAlpha,phase35Catalog,alpha];
 export const itemById = new Map(alpha.items.map(item => [item.id, item]));
 export const questById = new Map(alpha.quests.map(quest => [quest.id, quest]));
 export const propertyById = new Map(alpha.properties.map(property => [property.id, property]));
 export const lootById = new Map(alpha.quests.filter(quest=>quest.loot).map(quest=>[quest.loot!.id,quest.loot!]));
 const safe = (value: number, min = 0, max = 2147483647) => Number.isSafeInteger(value) && value >= min && value <= max;
-if (alpha.id !== 'alpha-0.2' || !alpha.provenance || alpha.items.length !== itemById.size || alpha.quests.length !== questById.size || alpha.properties.length !== propertyById.size) throw new Error('Invalid alpha catalog identity.');
+if (alpha.id !== 'alpha-0.3' || !alpha.provenance || alpha.items.length !== itemById.size || alpha.quests.length !== questById.size || alpha.properties.length !== propertyById.size) throw new Error('Invalid alpha catalog identity.');
+if(alpha.combatSkills.maxRating!==25||alpha.combatSkills.percentPerRating!==1||alpha.combatSkills.pointsPerRating!==1||alpha.combatSkills.powerPrecision!==100)throw new Error('Training changes require an explicit schema and balance review.');
 for (const item of alpha.items) {
   if (!/^[a-z0-9-]+$/.test(item.id) || !['weapon','armor','spell'].includes(item.category) || !safe(item.price,1) || !safe(item.attack) || !safe(item.defense) || !safe(item.upkeep) || !safe(item.level,1)) throw new Error('Invalid alpha item.');
 }
@@ -98,7 +101,7 @@ export function maintenanceBill(rate: number,from: Date,now: Date,remainder: big
 export function resolveAlphaCombat(attacker: { attack:number; health:number; maxHealth:number; gold:number },defender: { defense:number; health:number; maxHealth:number; gold:number },attackRoll:number,defenseRoll:number,rewarded=true) {
   const c = alpha.combat;
   if (![attackRoll,defenseRoll].every(n => Number.isInteger(n) && n >= -c.variation && n <= c.variation)) throw new RangeError('Invalid combat roll.');
-  const attackPower = attacker.attack*(100+attackRoll); const defensePower = defender.defense*(100+defenseRoll);
+  const attackPower = Math.round(attacker.attack*(100+attackRoll)); const defensePower = Math.round(defender.defense*(100+defenseRoll));
   const win = attackPower > defensePower;
   const gap = Math.abs(attackPower-defensePower)/100;
   const damage = Math.min(c.loserDamageMax,c.loserDamageMin+Math.floor(gap/2));
@@ -107,4 +110,12 @@ export function resolveAlphaCombat(attacker: { attack:number; health:number; max
   return { outcome:win ? 'attacker_win' as const : 'defender_win' as const, attackRoll,defenseRoll,attackPower,defensePower,
     attackerDamage,defenderDamage,attackerHealthAfter:Math.max(0,attacker.health-attackerDamage),defenderHealthAfter:Math.max(0,defender.health-defenderDamage),
     loot:rewarded ? Math.min(c.lootCap,Math.floor(loserGold*c.lootPercent/100)) : 0, attackerXp:rewarded && win ? c.xp : 0 };
+}
+
+// Keep hundredths so each +1% point contributes even to small early armies.
+// Zero training reproduces all pre-training integer powers exactly.
+export function trainedPower(base:number,rating:number) {
+  if(!Number.isSafeInteger(base)||base<1||!safe(rating,0,alpha.combatSkills.maxRating))throw new RangeError('Invalid combat training.');
+  const precision=alpha.combatSkills.powerPrecision;
+  return Math.round(base*(100+rating*alpha.combatSkills.percentPerRating)*precision/100)/precision;
 }

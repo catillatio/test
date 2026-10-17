@@ -1,4 +1,4 @@
-/* Phase 3.5 refinements retain the original compact shared layout. */
+/* Kingdom Come Phase 3.5 refinements retain the original compact shared layout. */
 .hourly-flow[data-flow=positive] { color:#adca98!important; }
 .hourly-flow[data-flow=negative] { color:#e9a292!important; }
 .hourly-flow[data-flow=neutral] { color:#c1c1ae!important; }
@@ -6,13 +6,21 @@
 .resource-upper [data-gold-digits="9"],.resource-upper [data-gold-digits="10"] { font-size:13px; letter-spacing:-.4px; }
 .profile-link { display:inline-flex; align-items:center; justify-content:center; min-width:50px; }
 .profile-tabs>a { flex:1; font-size:13px; padding-inline:7px; }
+.kingdoms-ui .profile-section-heading { padding:5px 9px; border-bottom:2px solid #c2c3b8; background:repeating-linear-gradient(130deg,#7190b235 0 8px,#101c2430 8px 16px),linear-gradient(90deg,#17374dd9,#16231c00); color:#eee8da; }
+.profile-section-heading>span { float:right; color:#d1c9a8; font:11px Arial,sans-serif; padding-top:3px; }
+.profile-inventory-grid,.report-equipment { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px 6px; margin:9px 0 15px; }
+.inventory-figure { position:relative; display:flex; flex-direction:column; align-items:center; gap:3px; min-width:0; margin:0; text-align:center; font-size:10px; overflow-wrap:anywhere; text-decoration:none; }
+.inventory-figure .fantasy-art { width:58px; height:58px; }.inventory-figure>strong { font-size:12px; color:#e3d1a0; }.inventory-figure>span:last-child { color:#c3bea9; }
+.profile-loadouts summary { font-size:12px; cursor:pointer; padding:8px 0; }.profile-account { margin-top:12px; }
+.report-outcome { display:grid; grid-template-columns:1fr 1fr; gap:8px 15px; }.report-outcome>div { display:flex; justify-content:space-between; gap:7px; font-size:13px; }.report-outcome dd { margin:0; font-weight:bold; }
+.report-army h3 { margin:9px 0; font-size:15px; }.report-army .flow-grid { margin-bottom:12px; }.unknown-equipment { width:58px; height:58px; display:grid; place-items:center; border:1px solid #666; background:#182018; font-size:27px; }
 .profile-identity { display:flex; align-items:center; gap:12px; padding:10px 5px 14px; border-bottom:1px solid #76705b; }
 .profile-identity img { flex:0 0 56px; object-fit:contain; filter:drop-shadow(0 2px 3px #000); }
 .profile-identity h2 { margin:0 0 3px; font:700 21px Georgia,serif; color:#f0d6a1; }
 .profile-identity p { margin:0; font-size:13px; }.profile-identity span { font-size:11px; color:#c6c7b8; }
 .profile-info { margin-top:12px; }
 .next-level-strip { background:#060805b0; border:1px solid #53533e; border-radius:3px; padding:9px 10px; display:flex; justify-content:space-between; font-size:14px; }
-.kingdoms-ui .profile-section-heading { font:700 16px Arial,sans-serif; margin:16px 0 7px; }
+.kingdoms-ui .profile-section-heading { font:700 16px Georgia,serif; margin:16px 0 7px; }
 .profile-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; }
 .profile-stat-grid>div,.profile-gold-flow>div { display:flex; align-items:baseline; justify-content:space-between; gap:8px; font-size:12px; }
 .profile-stat-grid dt,.profile-gold-flow dt { color:#cac6b9; }.profile-stat-grid dd,.profile-gold-flow dd { margin:0; font-weight:bold; font-variant-numeric:tabular-nums; }

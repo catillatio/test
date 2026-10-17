@@ -1,7 +1,7 @@
 import { type Database, transaction, type Sql } from './db.js';
 import { GameError } from './errors.js';
 import { rules, regenerate } from './rules.js';
-import { alpha,levelRequirement,selectEquipment,activeArmy,areRivals,lootById,type QuestDefinition,type OwnedItem } from './alpha-rules.js';
+import { alpha,levelRequirement,selectEquipment,activeArmy,areRivals,lootById,trainedPower,type QuestDefinition,type OwnedItem } from './alpha-rules.js';
 import { settleLand } from './land.js';
 import { estateState,type EstateState } from './estate.js';
 import { readInventory } from './inventory.js';
@@ -13,6 +13,7 @@ export interface CharacterRow {
   max_health:number;mana:number;max_mana:number;spirit:number;max_spirit:number;
   mana_updated_at:Date;spirit_updated_at:Date;attained_level:number;level_xp:number;
   skill_points:number;legacy_army_floor:number;profile_class:string;
+  attack_training:number;defense_training:number;
 }
 export interface ArmyLink { characterId:string;name:string;level:number;className:string;status:string;incoming:boolean; }
 export interface CharacterState {
@@ -23,7 +24,9 @@ export interface CharacterState {
   attackReadyAt:string;serverTime:string;energyNextAt:string|null;manaNextAt:string|null;spiritNextAt:string|null;healthNextAt:string|null;
   land:EstateState;rulesetId:string;
   economy:{grossHourlyIncome:number;propertyUpkeep:number;equipmentUpkeep:number;scheduledEquipmentUpkeep:number;otherUpkeep:number;totalUpkeep:number;netHourlyIncome:number;maintenancePaused:boolean};
-  battleStats:{wins:number;losses:number;total:number};
+  battleStats:{wins:number;losses:number;total:number;kills:number;deaths:number};
+  accountCreatedAt:string;accountAgeDays:number;
+  training:{attack:number;defense:number;attackBonusPercent:number;defenseBonusPercent:number;untrainedAttack:number;untrainedDefense:number};
   maintenance:{hourlyRate:number;reserveGold:string;arrearsGold:string;paused:boolean;resumeCost:number};
   army:ReturnType<typeof activeArmy>&{allies:number;mercenaries:number;links:ArmyLink[]};
   attackEquipment:ReturnType<typeof selectEquipment>;defenseEquipment:ReturnType<typeof selectEquipment>;
@@ -80,18 +83,26 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
     netHourlyIncome:land.hourlyIncome-land.hourlyUpkeep-activeEquipmentUpkeep,maintenancePaused:upkeep.paused};
   const battleStats=(await sql.query(`SELECT count(*)::int AS total,
     count(*) FILTER(WHERE (attacker_id=$1 AND outcome='attacker_win') OR (defender_id=$1 AND outcome='defender_win'))::int AS wins,
-    count(*) FILTER(WHERE (attacker_id=$1 AND outcome='defender_win') OR (defender_id=$1 AND outcome='attacker_win'))::int AS losses
+    count(*) FILTER(WHERE (attacker_id=$1 AND outcome='defender_win') OR (defender_id=$1 AND outcome='attacker_win'))::int AS losses,
+    count(*) FILTER(WHERE (attacker_id=$1 AND outcome='attacker_win' AND result->'defenderHealthAfter'='0'::jsonb) OR
+      (defender_id=$1 AND outcome='defender_win' AND COALESCE(result->'attackerHealthAfterDamage',result->'attackerHealthAfter')='0'::jsonb))::int AS kills,
+    count(*) FILTER(WHERE (defender_id=$1 AND outcome='attacker_win' AND result->'defenderHealthAfter'='0'::jsonb) OR
+      (attacker_id=$1 AND outcome='defender_win' AND COALESCE(result->'attackerHealthAfterDamage',result->'attackerHealthAfter')='0'::jsonb))::int AS deaths
     FROM battles WHERE attacker_id=$1 OR defender_id=$1`,[row.id])).rows[0] as CharacterState['battleStats'];
+  const accountCreated=new Date((await sql.query('SELECT created_at FROM accounts WHERE id=$1',[row.account_id])).rows[0]!.created_at);
+  const untrainedAttack=rules.baseAttack+(row.attained_level-1)*rules.attackPerLevel+(army.participants-1)*rules.unit.attack+attackEquipment.attack;
+  const untrainedDefense=rules.baseDefense+(row.attained_level-1)*rules.defensePerLevel+(army.participants-1)*rules.unit.defense+defenseEquipment.defense;
   return {id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:levelRequirement(row.attained_level),xpToNext:levelRequirement(row.attained_level)-row.level_xp,
     health:row.health,maxHealth:row.max_health,mana:row.mana,maxMana:row.max_mana,spirit:row.spirit,maxSpirit:row.max_spirit,energy:row.mana,
-    gold:wallet.balance,units,attack:rules.baseAttack+(row.attained_level-1)*rules.attackPerLevel+(army.participants-1)*rules.unit.attack+attackEquipment.attack,
-    defense:rules.baseDefense+(row.attained_level-1)*rules.defensePerLevel+(army.participants-1)*rules.unit.defense+defenseEquipment.defense,
+    gold:wallet.balance,units,attack:trainedPower(untrainedAttack,row.attack_training),defense:trainedPower(untrainedDefense,row.defense_training),
     equipped:Boolean(sword),inventoryId:sword?.inventoryId??null,inventory,questsCompleted:progress.reduce((n,p)=>n+p.completions,0),quests,loot,awards,
     stateVersion:row.state_version,skillPoints:row.skill_points,className:row.profile_class,
     attackReadyAt:new Date(row.attack_ready_at).toISOString(),serverTime:now.toISOString(),energyNextAt:manaNextAt,manaNextAt,
     spiritNextAt:next(row.spirit,row.max_spirit,row.spirit_updated_at,alpha.resources.spiritSeconds),
     healthNextAt:next(row.health,row.max_health,row.health_updated_at,alpha.resources.healthSeconds),
     land,economy,battleStats,rulesetId:alpha.id,army,attackEquipment,defenseEquipment,
+    accountCreatedAt:accountCreated.toISOString(),accountAgeDays:Math.max(0,Math.floor((+now-+accountCreated)/86400000)),
+    training:{attack:row.attack_training,defense:row.defense_training,attackBonusPercent:row.attack_training*alpha.combatSkills.percentPerRating,defenseBonusPercent:row.defense_training*alpha.combatSkills.percentPerRating,untrainedAttack,untrainedDefense},
     maintenance:{hourlyRate:upkeep.hourly_rate,reserveGold:upkeep.reserve_gold,arrearsGold:upkeep.arrears_gold,paused:upkeep.paused,
       resumeCost:Number(BigInt(upkeep.arrears_gold)+(BigInt(upkeep.reserve_gold)<BigInt(upkeep.hourly_rate)?BigInt(upkeep.hourly_rate)-BigInt(upkeep.reserve_gold):0n))}};
 }
@@ -129,7 +140,7 @@ export async function recentBattles(db:Database,characterId:string) {
   return (await db.query('SELECT id,result,created_at FROM battles WHERE attacker_id=$1 OR defender_id=$1 ORDER BY created_at DESC,id DESC LIMIT 10',[characterId])).rows;
 }
 export async function getBattle(db:Database,accountId:string,battleId:string) {
-  const row=(await db.query(`SELECT b.id,b.result,b.ruleset_id,b.created_at FROM battles b JOIN characters c ON c.account_id=$1
+  const row=(await db.query(`SELECT b.id,b.result,b.ruleset_id,b.created_at,b.attacker_id,b.defender_id,b.outcome FROM battles b JOIN characters c ON c.account_id=$1
     WHERE b.id=$2 AND (b.attacker_id=c.id OR b.defender_id=c.id)`,[accountId,battleId])).rows[0];
   if (!row) throw new GameError('BATTLE_NOT_FOUND','This battle is unavailable to your character.',404);return row;
 }

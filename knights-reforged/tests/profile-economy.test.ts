@@ -23,11 +23,11 @@ describe('Profile and authoritative active hourly gold',{skip:!testDatabaseUrl},
     for(const itemId of ['iron-sword','padded-coat','hearth-ward'])await r.ok(a,'/api/v1/inventory/purchases',{itemId});
     await r.ok(a,'/api/v1/army/recruitments',{unitId:'militia',quantity:2});
     await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id});await r.ok(b,'/api/v1/battles',{targetCharacterId:a.id});
-    assert.deepEqual((await r.me(a)).battleStats,{total:2,wins:2,losses:0});assert.deepEqual((await r.me(b)).battleStats,{total:2,wins:0,losses:2});
+    assert.deepEqual((await r.me(a)).battleStats,{total:2,wins:2,losses:0,kills:0,deaths:0});assert.deepEqual((await r.me(b)).battleStats,{total:2,wins:0,losses:2,kills:0,deaths:0});
     const home=await r.app.inject({method:'GET',url:'/game/home',headers:{cookie:a.cookie}}),topbar=/<header class="topbar">([\s\S]*?)<\/header>/.exec(home.body)![1]!;
     assert.match(topbar,/href="\/game\/profile"/);assert.ok(!topbar.includes('/logout'));
     const profile=await r.app.inject({method:'GET',url:'/game/profile',headers:{cookie:a.cookie}});assert.equal(profile.statusCode,200,profile.body);
-    for(const label of ['Stats','Gold Flow','Battles won','Army and Equipment','Spend skill points','Sign out'])assert.ok(profile.body.includes(label),label);
+    for(const label of ['Stats','Gross hourly income','Battles won','Army and Equipment','Sign out'])assert.ok(profile.body.includes(label),label);
     assert.match(profile.body,/action="\/logout"[\s\S]*name="csrf"/);
     assert.equal((await r.app.inject({method:'POST',url:'/logout',headers:{cookie:a.cookie},payload:{}})).statusCode,403);
     assert.equal((await r.app.inject({method:'POST',url:'/logout',headers:{cookie:a.cookie},payload:{csrf:a.csrf}})).statusCode,303);

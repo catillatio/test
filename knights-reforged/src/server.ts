@@ -8,10 +8,10 @@ const db = createDatabase(config.databaseUrl);
 const app = await createApp({ db, config, logger: true });
 try {
   await assertInstalledRulesets(db);
-  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='008_land_purchase_order.sql'");
+  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='009_combat_training.sql'");
   if (!schema.rows.length) throw new Error('Phase 3.5 migrations are incomplete. Run npm run db:migrate.');
   await app.listen({ host: config.host, port: config.port });
-  console.log(`Knights Reforged is ready at ${config.origin}`);
+  console.log(`Kingdom Come is ready at ${config.origin}`);
 } catch (error) {
   app.log.error(error, 'Startup failed. Run npm run db:migrate before starting.');
   await db.end();

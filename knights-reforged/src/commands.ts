@@ -23,7 +23,7 @@ const intents={
   land_buy:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction)}),
   sell:z.object({itemId:id,quantity:quantity(alpha.limits.transaction).default(1)}),
   land_sell:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction)}),
-  skill:z.object({resource:z.enum(['health','mana','spirit'])}),
+  skill:z.object({resource:z.enum(['health','mana','spirit','attack','defense'])}),
   maintain:z.object({}),
   quest_buy:z.object({questId:id}),
   invite:z.object({targetCharacterId:uuid}),
@@ -125,8 +125,8 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       const refund=await sellEstate(sql,actorId,intent.propertyId as string,intent.quantity as number,key,now);
       result.message='Sold '+intent.quantity+' properties for '+refund+' gold. Earned full hours were settled first.';result.data={goldReceived:refund};
     } else if (kind==='skill') {
-      const allocation=await allocateSkill(sql,actorId,intent.resource as 'health'|'mana'|'spirit',key,now);
-      result.message='Maximum '+intent.resource+' increased by '+allocation.delta+'.';result.data=allocation;
+      const allocation=await allocateSkill(sql,actorId,intent.resource as 'health'|'mana'|'spirit'|'attack'|'defense',key,now);
+      result.message=intent.resource==='attack'||intent.resource==='defense'?intent.resource+' training increased to '+allocation.capacity+' (+ '+allocation.capacity+'%).':'Maximum '+intent.resource+' increased by '+allocation.delta+'.';result.data=allocation;
     } else if (kind==='maintain') {
       await fundMaintenance(sql,actorId,key,now);
       result.message='Upkeep is funded. Maintained equipment is available to your army.';
@@ -181,7 +181,8 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         winnerId,winnerName:winnerId===actorId?actor.name:target.name,attackerHealthBefore:actor.health,defenderHealthBefore:target.health,
         attackerHealthAfterDamage:combat.attackerHealthAfter,attackerHealthAfter:after.health,attackerMaxHealth:actor.max_health,defenderMaxHealth:target.max_health,
         attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
-        attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,createdAt:now.toISOString()};
+        attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
+        attackerTraining:{...state.training},defenderTraining:{...targetState.training},createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       await awardMilestones(sql,actorId);

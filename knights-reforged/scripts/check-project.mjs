@@ -12,7 +12,7 @@ import {attributes,navigationLinks} from './html-contracts.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),read=path=>readFileSync(join(root,path),'utf8');
 const json=path=>JSON.parse(read(path));
-const rules=json('rulesets/recreation-0.1/rules.json'),landRules=json('rulesets/land-provisional-0.1/rules.json'),alpha=json('rulesets/alpha-0.2/rules.json');
+const rules=json('rulesets/recreation-0.1/rules.json'),landRules=json('rulesets/land-provisional-0.1/rules.json'),alpha=json('rulesets/alpha-0.3/rules.json');
 const contractSource=stripTypeScriptTypes(read('src/http-contracts.ts'),{mode:'transform'});
 const {navigation,templateScreens,commandRoutes}=await import('data:text/javascript;base64,'+Buffer.from(contractSource).toString('base64'));
 const results=[];
@@ -78,7 +78,7 @@ const state={id:playerId,name:'Arthur of the Vale',xp:60,level:4,levelXp:0,level
  attack:20,defense:18,equipped:true,inventoryId:inventory[0].inventoryId,inventory,questsCompleted:10,stateVersion:4,skillPoints:3,className:'Warden',attackReadyAt:now,serverTime:now,
  energyNextAt:next,manaNextAt:next,spiritNextAt:next,healthNextAt:next,land,rulesetId:alpha.id,
  maintenance:{hourlyRate:0,reserveGold:'0',arrearsGold:'0',paused:false,resumeCost:0},
- economy:{grossHourlyIncome:8,propertyUpkeep:1,equipmentUpkeep:0,scheduledEquipmentUpkeep:0,otherUpkeep:0,totalUpkeep:1,netHourlyIncome:7,maintenancePaused:false},battleStats:{wins:2,losses:1,total:3},
+ economy:{grossHourlyIncome:8,propertyUpkeep:1,equipmentUpkeep:0,scheduledEquipmentUpkeep:0,otherUpkeep:0,totalUpkeep:1,netHourlyIncome:7,maintenancePaused:false},battleStats:{wins:2,losses:1,total:3,kills:1,deaths:0},accountCreatedAt:now,accountAgeDays:0,training:{attack:0,defense:0,attackBonusPercent:0,defenseBonusPercent:0,untrainedAttack:20,untrainedDefense:18},
  army:{capacity:9,participants:4,total:4,allies:1,mercenaries:2,links:[{characterId:targetId,name:'Morgan',level:3,className:'Freeblade',status:'pending',incoming:true}]},
  attackEquipment:{attack:6,defense:2,selected:[]},defenseEquipment:{attack:6,defense:2,selected:[]},
  quests:alpha.quests.map(q=>({...q,completions:1,missing:{},missingCost:0,ready:true,lockReason:null})),loot:[{id:'watchtower-map',name:'Watchtower Map'}],awards:[{id:'quests-10',points:1}]};
@@ -86,10 +86,10 @@ const legacyBattle={id:battleId,attackerId:playerId,defenderId:targetId,attacker
 const newBattle={...legacyBattle,rulesetId:alpha.id,attackPower:2000,defensePower:1000,attackerArmy:4,defenderArmy:2,attackerMaxHealth:110,defenderMaxHealth:100,spiritSpent:1,rewarded:true,attackEquipment:[],defenseEquipment:[]};
 const opponent={id:targetId,name:'Morgan',level:3,units:2,armySize:3,className:'Freeblade',health:100,maxHealth:100};
 const fixture=(screen,extra={})=>({screen,state,nav:navigation,rules,landRules,alpha,csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:null,
- opponents:[opponent],nextOpponentCursor:null,battles:[],battle:newBattle,title:navigation.find(n=>n.id===screen)?.label??'The Realm',authMode:'login',formValues:{username:'',name:''},category:'weapon',questArea:'all',...extra});
+ opponents:[opponent],nextOpponentCursor:null,battles:[],battle:newBattle,title:navigation.find(n=>n.id===screen)?.label??'The Realm',authMode:'login',formValues:{username:'',name:''},category:'weapon',questArea:'all',profileTab:'player',...extra});
 const emptyLand={...land,hourlyIncome:0,hourlyUpkeep:0,totalUpkeep:0,netHourlyIncome:0,nextPaymentAt:null,holdings:[],properties:properties.map(p=>({...p,owned:0}))};
 const cases=[
- ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'profile',data:fixture('profile')},
+ ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'profile',data:fixture('profile')},{name:'profile-skills',data:fixture('profile',{profileTab:'skills'})},{name:'profile-battles',data:fixture('profile',{profileTab:'battles',battles:[{id:battleId,result:newBattle,created_at:now}]})},
  {name:'armory-armor',data:fixture('armory',{category:'armor'})},{name:'armory-spells',data:fixture('armory',{category:'spell'})},
  {name:'armory-paused',data:fixture('armory',{state:{...state,maintenance:{hourlyRate:3,reserveGold:'0',arrearsGold:'3',paused:true,resumeCost:6}}})},
  {name:'quests-missing',data:fixture('quests',{state:{...state,quests:state.quests.map(q=>({...q,missing:{'squires-blade':1},missingCost:5,ready:false,lockReason:'Equipment required'}))}})},
@@ -154,6 +154,10 @@ check('Original five tabs, selected artwork, secondary Land and profile Home sel
 check('Legacy HTML command routes are preserved through the alpha expansion',()=>{
  const baseline=json('tests/fixtures/land-form-contracts.json');
  for(const forms of Object.values(baseline.fixtures))for(const form of forms)assert.ok(posts.some(p=>p.test(form.action)),form.action);
+});
+check('Active branding and package lock use Kingdom Come',()=>{
+  const pkg=json('package.json'),lock=json('package-lock.json');assert.equal(pkg.name,'kingdom-come');assert.equal(lock.name,pkg.name);assert.equal(lock.packages[''].name,pkg.name);
+  for(const html of rendered.values()){assert.ok(html.includes('Kingdom Come'));assert.ok(!html.includes('Knights Reforged'));}
 });
 check('Upgraded pages bypass cached pre-expansion income clients',()=>{
   for(const example of cases){

@@ -3,14 +3,14 @@
   <a class="button button-outline" href="/game/land">Land <small><%= state.land.netHourlyIncome %> gold/hour net</small></a>
   <a class="button button-outline" href="/game/army">My Army (<%= state.army.participants %>)<small><%= state.army.total %> total participants</small></a>
   <a class="button button-outline" href="/game/quests">Quests<small><%= state.questsCompleted %> completed</small></a>
-  <a class="button button-outline" href="/game/profile#skills">Skills<small><%= state.skillPoints %> points available</small></a>
+  <a class="button button-outline" href="/game/profile?tab=skills#skills">Skills<small><%= state.skillPoints %> points available</small></a>
   <a class="button button-outline" href="/game/armory">Armory<small><%= state.inventory.reduce((n,i)=>n+i.quantity,0) %> equipment owned</small></a>
   <a class="button button-outline" href="/game/battle">Attack Rivals<small>Spend Spirit, earn renown</small></a>
 </section>
 <section class="panel next-goal"><h2 class="strip-title">Your next steps</h2><p>Quest for gold and experience. Equip your army, fight rivals, and invest in Land for your next return.</p>
   <% const next = state.quests.find(q=>q.level>state.level); %>
   <p><%= next ? 'Next quest tier unlocks at level '+next.level+'.' : 'The frontier is open. Improve your army and estate.' %> <strong><%= state.xpToNext %> XP</strong> to your next level.</p>
-  <% if (state.skillPoints) { %><a class="button button-gold" href="/game/profile#skills">Spend skill points</a><% } %>
+  <% if (state.skillPoints) { %><a class="button button-gold" href="/game/profile?tab=skills#skills">Spend skill points</a><% } %>
   <% if (state.maintenance.paused) { %><p class="warning">Equipment upkeep is paused. Free equipment remains usable.</p><a href="/game/armory" class="text-link">Manage upkeep ›</a><% } %>
 </section>
 <%- include('partials/history') %>

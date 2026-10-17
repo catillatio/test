@@ -73,6 +73,7 @@ try{
     await page.locator('[data-land-property="eclipse-citadel"]').scrollIntoViewIfNeeded();await page.screenshot({path:join(out,width+'-land-late.png')});
     await page.goto(origin+'/game/profile');await layout(width+' profile');assert.equal(await page.getByRole('button',{name:'Sign out',exact:true}).count(),1);
     await page.screenshot({path:join(out,width+'-profile.png'),fullPage:true});
+    for(const tab of ['skills','battles']){await page.goto(origin+'/game/profile?tab='+tab);await layout(width+' profile '+tab);await page.screenshot({path:join(out,width+'-profile-'+tab+'.png'),fullPage:true});}
   }
   await page.setViewportSize({width:390,height:844});
   for(const item of alpha.items.filter(item=>['eclipse-greatsword','eclipse-citadel-plate','eclipse-invocation'].includes(item.id))){
@@ -88,7 +89,10 @@ try{
   assert.equal(await page.getByRole('button',{name:'Buy Worldroot Bastion',exact:true}).isDisabled(),true);
   await act(page.getByRole('button',{name:'Sell Eclipse Citadel',exact:true}));assert.equal((await state()).economy.grossHourlyIncome,0);
   await act(page.getByRole('button',{name:'Buy Eclipse Citadel',exact:true}));
-  await page.goto(origin+'/game/profile');for(let i=0;i<10;i++)await act(page.getByRole('button',{name:'Increase Mana',exact:true}));assert.equal((await state()).maxMana,30);
+  await page.goto(origin+'/game/profile?tab=skills');for(let i=0;i<10;i++)await act(page.getByRole('button',{name:'Increase Mana',exact:true}));assert.equal((await state()).maxMana,30);
+  for(const name of ['Attack','Defense'])await act(page.getByRole('button',{name:'Increase '+name,exact:true}));assert.equal((await state()).training.attack,1);assert.equal((await state()).training.defense,1);
+  await page.evaluate(()=>scrollTo(0,0));assert.ok(await page.locator('.skip-link').evaluate(element=>element.getBoundingClientRect().bottom<=0));
+  await page.screenshot({path:join(out,'390-skills-progress.png'),fullPage:true});
   await page.goto(origin+'/game/quests?area=eclipse-crown');
   const discovery=page.locator('[data-quest="hold-last-meridian"]');await act(discovery.getByRole('button',{name:/Buy requirements/}));
   await act(discovery.getByRole('button',{name:'Do quest Hold the Last Meridian',exact:true}));

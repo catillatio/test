@@ -1,12 +1,12 @@
 {
-  "name": "Knights Reforged Phase 3 — private development",
+  "name": "Kingdom Come Phase 3 — private development",
   "dockerComposeFile": "../knights-reforged/.devcontainer/compose.yml",
   "service": "workspace",
   "workspaceFolder": "/workspaces/test",
   "remoteUser": "node",
   "forwardPorts": [3000],
   "portsAttributes": {
-    "3000": { "label": "Knights Reforged — keep PRIVATE", "onAutoForward": "notify", "protocol": "http" }
+    "3000": { "label": "Kingdom Come — keep PRIVATE", "onAutoForward": "notify", "protocol": "http" }
   },
   "postCreateCommand": "cd knights-reforged && node deployment/setup-development.mjs"
 }

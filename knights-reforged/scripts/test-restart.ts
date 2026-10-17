@@ -52,13 +52,13 @@ try{
     const response=await fetch(origin+url,{method:'POST',headers:{cookie:a.cookie,origin,'content-type':'application/json','x-csrf-token':a.csrf,'idempotency-key':randomUUID()},body:JSON.stringify(body)});
     assert.equal(response.status,200,await response.clone().text());return response.json();
   };
-  await command('/api/v1/quests/border-patrol/runs',{});await command('/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});
+  for(let i=0;i<3;i++)await command('/api/v1/quests/border-patrol/runs',{});await command('/api/v1/skills',{resource:'attack'});await command('/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});
   await command('/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});const battle=await command('/api/v1/battles',{targetCharacterId:b.id});
   const before=(await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}}).then(r=>r.json())).state;
   await stop();await start();
   const restored=await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}});assert.equal(restored.status,200);
   const after=(await restored.json()).state;
-  for(const key of ['id','gold','xp','level','mana','spirit','health','inventory','questsCompleted','land'])assert.deepEqual(after[key],before[key],key);
+  for(const key of ['id','gold','xp','level','mana','spirit','health','inventory','questsCompleted','land','training','skillPoints','maxMana'])assert.deepEqual(after[key],before[key],key);
   for(const owner of [a,b]){
     const report=await fetch(origin+'/api/v1/battles/'+battle.battleId,{headers:{cookie:owner.cookie}});assert.equal(report.status,200);
     assert.equal((await report.json()).battle.id,battle.battleId);

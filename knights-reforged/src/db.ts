@@ -10,7 +10,7 @@ export function createDatabase(url: string): Database {
   const parsed = new URL(url);
   if (!['postgres:', 'postgresql:'].includes(parsed.protocol)) throw new Error('DATABASE_URL must be a PostgreSQL URL.');
   return new pg.Pool({ connectionString: url, max: 12, connectionTimeoutMillis: 5000,
-    idleTimeoutMillis: 30000, application_name: 'knights-reforged' });
+    idleTimeoutMillis: 30000, application_name: 'kingdom-come' });
 }
 
 export async function transaction<T>(db: Database, work: (client: Connection) => Promise<T>): Promise<T> {

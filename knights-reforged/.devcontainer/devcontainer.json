@@ -1,5 +1,5 @@
 {
-  "name": "Knights Reforged — private development realm",
+  "name": "Kingdom Come — private development realm",
   "dockerComposeFile": "compose.yml",
   "service": "workspace",
   "workspaceFolder": "/workspaces/test",
@@ -7,7 +7,7 @@
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
-      "label": "Knights Reforged — keep PRIVATE",
+      "label": "Kingdom Come — keep PRIVATE",
       "onAutoForward": "notify",
       "protocol": "http"
     }

@@ -27,7 +27,15 @@ export async function awardMilestones(sql:Sql,characterId:string) {
   }
   return awarded;
 }
-export async function allocateSkill(sql:Sql,characterId:string,resource:'health'|'mana'|'spirit',commandId:string,now:Date) {
+export async function allocateSkill(sql:Sql,characterId:string,resource:'health'|'mana'|'spirit'|'attack'|'defense',commandId:string,now:Date) {
+  if(resource==='attack'||resource==='defense'){
+    const column=resource==='attack'?'attack_training':'defense_training',rule=alpha.combatSkills;
+    const row=(await sql.query(`UPDATE characters SET skill_points=skill_points-$2,${column}=${column}+1
+      WHERE id=$1 AND skill_points>=$2 AND ${column}<$3 RETURNING ${column} AS capacity`,[characterId,rule.pointsPerRating,rule.maxRating])).rows[0];
+    if(!row)throw new GameError('SKILL_UNAVAILABLE','Not enough skill points or the combat-training limit is reached.',409);
+    await sql.query('INSERT INTO skill_allocations(id,character_id,command_id,resource,points,capacity_added,capacity_after,ruleset_id) VALUES($1,$2,$3,$4,$5,1,$6,$7)',[randomUUID(),characterId,commandId,resource,rule.pointsPerRating,row.capacity,alpha.id]);
+    return {points:rule.pointsPerRating,delta:1,capacity:row.capacity as number};
+  }
   const points=resource==='spirit'?2:1;const delta=resource==='health'?10:1;
   const maximum=resource==='health'?alpha.resources.maxHealth:resource==='mana'?alpha.resources.maxMana:alpha.resources.maxSpirit;
   // Identifiers are selected from the server-owned enum, never arbitrary SQL.
@@ -36,7 +44,7 @@ export async function allocateSkill(sql:Sql,characterId:string,resource:'health'
   const row=(await sql.query(`UPDATE characters SET skill_points=skill_points-$2,${column}=${column}+$3,${resource}=${resource}+$3,
     ${timer}=CASE WHEN ${resource}=${column} THEN $5 ELSE ${timer} END WHERE id=$1 AND skill_points>=$2 AND ${column}+$3<=$4 RETURNING ${column} AS capacity`,[characterId,points,delta,maximum,now])).rows[0];
   if (!row) throw new GameError('SKILL_UNAVAILABLE','Not enough skill points or the resource capacity limit is reached.',409);
-  await sql.query('INSERT INTO skill_allocations(id,character_id,command_id,resource,points,capacity_added,capacity_after) VALUES($1,$2,$3,$4,$5,$6,$7)',
-    [randomUUID(),characterId,commandId,resource,points,delta,row.capacity]);
+  await sql.query('INSERT INTO skill_allocations(id,character_id,command_id,resource,points,capacity_added,capacity_after,ruleset_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8)',
+    [randomUUID(),characterId,commandId,resource,points,delta,row.capacity,alpha.id]);
   return {points,delta,capacity:row.capacity as number};
 }

@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {alpha,previousAlpha,itemById,questById,lootById,propertyPrice,selectEquipment,levelRequirement} from '../src/alpha-rules.js';
 
 test('the level-50 catalog adds content without changing any preexisting item or property contract',()=>{
-  assert.equal(alpha.id,'alpha-0.2');assert.equal(alpha.items.length,60);assert.equal(alpha.properties.length,21);assert.equal(alpha.quests.length,40);
+  assert.equal(alpha.id,'alpha-0.3');assert.equal(alpha.items.length,60);assert.equal(alpha.properties.length,21);assert.equal(alpha.quests.length,40);
   for(const category of ['weapon','armor','spell'])assert.equal(alpha.items.filter(item=>item.category===category).length,20);
   for(const old of previousAlpha.items){const current=itemById.get(old.id)!;for(const key of Object.keys(old))assert.deepEqual(current[key as keyof typeof current],old[key as keyof typeof old],old.id+': '+key);}
   for(const old of previousAlpha.properties){const current=alpha.properties.find(p=>p.id===old.id)!;for(const key of Object.keys(old))assert.deepEqual(current[key as keyof typeof current],old[key as keyof typeof old],old.id+': '+key);}

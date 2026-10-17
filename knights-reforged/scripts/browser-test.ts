@@ -53,9 +53,12 @@ async function screens(page:Page,label:string){
     await page.screenshot({path:join(out,label+'-'+screen.toLowerCase()+'.png'),fullPage:true});
   }
   await page.goto(config.origin+'/game/profile');
-  await page.getByRole('heading',{name:'Spend skill points'}).waitFor();
+  await page.getByRole('heading',{name:'Stats',exact:true}).waitFor();
+  await page.screenshot({path:join(out,label+'-player.png'),fullPage:true});
+  await page.getByRole('navigation',{name:'Character sections'}).getByRole('link',{name:/Skills/}).click();await page.getByRole('heading',{name:'Spend skill points',exact:true}).waitFor();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.screenshot({path:join(out,label+'-profile.png'),fullPage:true});
+  await page.getByRole('navigation',{name:'Character sections'}).getByRole('link',{name:'Battles',exact:true}).click();await page.getByRole('heading',{name:'Battle record',exact:true}).waitFor();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
 }
 try{
   const desktop=await browser.newContext({viewport:{width:1366,height:900}});
@@ -70,7 +73,7 @@ try{
   await action(a,a.getByRole('button',{name:'Do quest Patrol the border',exact:true}));
   for(let i=0;i<2;i++)await action(a,a.getByRole('button',{name:'Do Again',exact:true}));
   assert.equal((await state(a)).level,2);
-  await a.goto(config.origin+'/game/profile');
+  await a.goto(config.origin+'/game/profile?tab=skills');
   await action(a,a.getByRole('button',{name:'Increase Mana',exact:true}));assert.equal((await state(a)).maxMana,21);
   await a.goto(config.origin+'/game/quests');
   const road=a.locator('[data-quest="clear-old-road"]');
@@ -90,6 +93,7 @@ try{
   await action(a,a.getByRole('button',{name:'Invite ally',exact:true}));
   await b.goto(config.origin+'/game/army');await action(b,b.getByRole('button',{name:'Accept '+attackerName,exact:true}));
   assert.equal((await state(a)).army.allies,1);assert.equal((await state(b)).army.allies,1);
+  await a.goto(config.origin+'/game/profile?tab=skills');await action(a,a.getByRole('button',{name:'Increase Defense',exact:true}));assert.equal((await state(a)).training.defense,1);
 
   await a.goto(config.origin+'/game/armory?category=spell');
   await a.getByLabel('Buy quantity for Ember Word',{exact:true}).fill('2');

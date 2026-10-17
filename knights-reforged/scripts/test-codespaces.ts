@@ -88,6 +88,8 @@ try{
   const newCookie=(await context.cookies()).find(cookie=>cookie.name==='kr_session')!;assert.notEqual(newCookie.value,cookie.value);assert.equal(newCookie.secure,true);
   assert.equal((await app.inject({method:'GET',url:'/api/v1/me',headers:{cookie:'kr_session='+cookie.value}})).statusCode,401);
   await page.goto(config.origin+'/game/quests');await action(page.getByRole('button',{name:'Do quest Patrol the border',exact:true}));assert.equal((await state()).questsCompleted,2);
+  await action(page.getByRole('button',{name:'Do quest Patrol the border',exact:true}));
+  await page.goto(config.origin+'/game/profile?tab=skills');await action(page.getByRole('button',{name:'Increase Attack',exact:true}));assert.equal((await state()).training.attack,1);
   const returning=await browser.newContext({ignoreHTTPSErrors:true});
   await returning.route('**/*',route=>new URL(route.request().url()).origin===config.origin?route.continue():route.abort());
   await returning.addCookies([{name:'kr_session',value:oldRivalSession.token,url:config.origin,httpOnly:true,secure:false,sameSite:'Lax'}]);
@@ -100,7 +102,7 @@ try{
   const out=join(projectRoot,'test-results/codespaces-https');await mkdir(out,{recursive:true});await page.screenshot({path:join(out,'phone-quest-success.png'),fullPage:true});
   const summary={passed:true,fixture:'Real local TLS reverse proxy, standard Codespaces-shaped HTTPS origin and HTTP backend',live_provider_contacted:false,
     existing_accounts_preserved:true,pre_fix_non_secure_cookie_still_authenticates_over_https:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
-    form_actions:['Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login'],browser_errors:errors.length};
+    form_actions:['Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login','Attack skill allocation'],browser_errors:errors.length};
   await writeFile(join(out,'summary.json'),JSON.stringify(summary,null,2)+'\n');
   console.log('PASS: existing accounts can quest, buy, manage Land, battle, log out and log back in through a Codespaces HTTPS reverse-proxy fixture. Secure cookies, CSRF and Origin/forwarded-header forgery regressions pass.');
 }finally{

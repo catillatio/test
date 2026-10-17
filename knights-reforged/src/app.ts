@@ -85,7 +85,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id) : null);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
-    const query = request.query as { command?: string; category?: string;area?:string };
+    const query = request.query as { command?: string; category?: string;area?:string;tab?:string };
     if (session?.account_id && uuid.safeParse(query?.command).success) {
       const receipt = (await db.query('SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2', [session.account_id, query.command])).rows[0];
       notice = receipt?.result?.message ?? null;
@@ -95,9 +95,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
       screen, state, nav, rules, landRules, alpha, actionResult,
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       questArea: query.area==='all'||alpha.content?.areas.some(area=>area.id===query.area) ? query.area : 'nearby',
+      profileTab:query.tab==='skills'||query.tab==='battles'?query.tab:'player',
       csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
       commandId: randomUUID, notice, error: null, opponents: [], nextOpponentCursor:null, battles: [], battle: null,
-      title: 'Knights Reforged', authMode: 'login', formValues: { username: '', name: '' }, ...data,
+      title: 'Kingdom Come', authMode: 'login', formValues: { username: '', name: '' }, ...data,
     });
   }
 
@@ -141,12 +142,15 @@ export async function createApp(options: { db: Database; config: Config; logger?
       });
     });
   }
-  app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>render(request,reply,'profile',{title:'Character'}));
+  app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
+    const state=await getState(db,request.realmSession!.account_id!);
+    return render(request,reply,'profile',{title:'Character',state,battles:await recentBattles(db,state.id)});
+  });
   app.get('/game/battles/:id', { preHandler: requireAccount }, async (request, reply) => {
     const id = (request.params as {id:string}).id;
     if (!uuid.safeParse(id).success) throw new GameError('BATTLE_NOT_FOUND', 'That battle was not found.', 404);
     const battle = await getBattle(db, request.realmSession!.account_id!, id);
-    return render(request, reply, 'report', { battle: battle.result, title: 'Battle report' });
+    return render(request, reply, 'report', { battle: {...battle.result,attackerId:battle.attacker_id,defenderId:battle.defender_id,winnerId:battle.outcome==='attacker_win'?battle.attacker_id:battle.defender_id}, title: 'Battle report' });
   });
 
   for (const route of commandRoutes) {
@@ -159,7 +163,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
         return reply.redirect(result.battleId ? '/game/battles/' + result.battleId :
           '/game/' + destination[route.kind] + '?command=' + result.commandId +
           (destination[route.kind]==='armory' && ['weapon','armor','spell'].includes(String(result.data?.category)) ? '&category='+result.data!.category : '') +
-          (route.kind==='skill'?'#skills':route.kind==='profile'?'#account':''), 303);
+          (route.kind==='skill'?'&tab=skills#skills':route.kind==='profile'?'#account':''), 303);
       });
     }
   }

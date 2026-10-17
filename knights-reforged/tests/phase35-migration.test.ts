@@ -18,7 +18,7 @@ test('populated Phase 3 upgrade preserves accounts, progression, inventory, Land
   try{
     await migrate(db,{through:'005_maintenance_audit.sql'});
     // This isolated fixture represents a realm whose only alpha catalog was 0.1.
-    await db.query("DELETE FROM rulesets WHERE id='alpha-0.2'");
+    await db.query("DELETE FROM rulesets WHERE id IN ('alpha-0.2','alpha-0.3')");
     const account=randomUUID(),rivalAccount=randomUUID(),owner=randomUUID(),rival=randomUUID(),iron=randomUUID(),glaive=randomUUID(),first=randomUUID(),second=randomUUID(),receipt=randomUUID(),battleId=randomUUID(),fund=randomUUID();
     await db.query('INSERT INTO accounts(id,username,password_hash) VALUES($1,$2,$3),($4,$5,$3)',[account,'phase3_owner','retained_password_hash',rivalAccount,'phase3_rival']);
     const xp=Array.from({length:19},(_,i)=>levelRequirement(i+1)).reduce((n,value)=>n+value,100);
@@ -68,6 +68,8 @@ test('populated Phase 3 upgrade preserves accounts, progression, inventory, Land
     // Only the new level-10 and level-20 entitlements add two unspent points.
     for(const row of after.characters)if(row.id===owner){assert.equal(row.skill_points,5);row.skill_points=3;}
     for(const row of after.land_holdings){assert.ok(BigInt(row.purchase_order)>0n);delete row.purchase_order;}
+    for(const row of after.characters){assert.equal(row.attack_training,0);assert.equal(row.defense_training,0);delete row.attack_training;delete row.defense_training;}
+    for(const row of after.skill_allocations){assert.equal(row.ruleset_id,null);delete row.ruleset_id;}
     assert.deepEqual(after,before);
     assert.deepEqual((await db.query("SELECT * FROM rulesets WHERE id='alpha-0.1'")).rows,oldCatalog);
     assert.equal((await db.query("SELECT count(*)::int AS n FROM schema_migrations WHERE name IN ('006_fantasy_progression.sql','007_maintenance_event_identity.sql','008_land_purchase_order.sql')")).rows[0]!.n,3);
