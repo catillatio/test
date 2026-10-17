@@ -13,7 +13,7 @@ function browser(fetch,{land=false}={}){
   const values={health:node({textContent:'60'}),mana:node({textContent:'10'}),spirit:node({textContent:'0'})};
   const timers=Object.fromEntries(['health','mana','spirit'].map(name=>[name,node({dataset:{next:name==='mana'?'2026-10-17T12:00:05.000Z':''}})]));
   const meters=Object.fromEntries(['health','mana','spirit'].map(name=>[name,node()]));
-  const xp=node(),level=node(),quest=node({dataset:{questRun:'border-patrol'},disabled:false}),attack=node({dataset:{attackReady:'true'},disabled:true}),status=node();
+  const xp=node(),level=node(),hourly=node(),quest=node({dataset:{questRun:'border-patrol'},disabled:false}),attack=node({dataset:{attackReady:'true'},disabled:true}),status=node();
   root.querySelector=selector=>{
     for(const name of ['health','mana','spirit']){
       if(selector==='[data-resource-value="'+name+'"]')return values[name];
@@ -26,6 +26,7 @@ function browser(fetch,{land=false}={}){
   const document={hidden:false,querySelector:selector=>selector==='[data-realm-state]'?root:selector==='[data-land-screen]'&&land?{}:selector==='[data-xp-meter]'?xp:null,
     querySelectorAll:selector=>{
       if(selector==='[data-wallet-gold]')return [wallet];if(selector==='[data-level]')return [level];
+      if(selector==='[data-hourly-net]')return [hourly];
       if(selector==='[data-quest-run]')return [quest];if(selector==='button[data-attack-ready]')return [attack];
       if(selector==='[data-connection-status]')return [status];
       for(const name of ['health','mana','spirit'])if(selector==='[data-resource-value="'+name+'"]')return [values[name]];
@@ -34,7 +35,7 @@ function browser(fetch,{land=false}={}){
   runInNewContext(source,{document,performance:{now:()=>elapsed},AbortController,
     fetch:async(url,options)=>{requests.push({url,options});return fetch();},
     setTimeout:()=>1,clearTimeout:()=>{},setInterval:(callback,delay)=>intervals.push({callback,delay})});
-  return {wallet,values,timers,meters,xp,level,quest,attack,status,requests,document,listeners,
+  return {wallet,values,timers,meters,xp,level,hourly,quest,attack,status,requests,document,listeners,
     tick(ms){elapsed+=ms;intervals.find(t=>t.delay===1000).callback();},
     poll(){intervals.find(t=>t.delay===30000).callback();},
     apply(state){listeners.get('realm-state')({detail:state});}};
@@ -63,4 +64,10 @@ test('offline fetch errors preserve state and reconnect uses a bounded retry',as
 });
 test('Land polling supplies header state without a duplicate periodic request',()=>{
   const page=browser(async()=>response(state()),{land:true});page.poll();assert.equal(page.requests.length,0);page.apply(state());assert.equal(page.level.textContent,'2');
+});
+test('hourly header formats only the authoritative net, including suspension updates',()=>{
+  const page=browser(async()=>response(state()));
+  page.apply(state({economy:{netHourlyIncome:125}}));assert.equal(page.hourly.textContent,'+125 gold/hr');assert.equal(page.hourly.dataset.flow,'positive');
+  page.apply(state({stateVersion:7,economy:{netHourlyIncome:-40}}));assert.equal(page.hourly.textContent,'-40 gold/hr');assert.equal(page.hourly.dataset.flow,'negative');
+  page.apply(state({stateVersion:8,economy:{netHourlyIncome:0}}));assert.equal(page.hourly.textContent,'0 gold/hr');assert.equal(page.hourly.dataset.flow,'neutral');
 });

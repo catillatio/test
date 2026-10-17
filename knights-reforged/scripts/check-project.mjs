@@ -62,6 +62,7 @@ const state={id:playerId,name:'Arthur of the Vale',xp:60,level:4,levelXp:0,level
  attack:20,defense:18,equipped:true,inventoryId:inventory[0].inventoryId,inventory,questsCompleted:10,stateVersion:4,skillPoints:3,className:'Warden',attackReadyAt:now,serverTime:now,
  energyNextAt:next,manaNextAt:next,spiritNextAt:next,healthNextAt:next,land,rulesetId:alpha.id,
  maintenance:{hourlyRate:0,reserveGold:'0',arrearsGold:'0',paused:false,resumeCost:0},
+ economy:{grossHourlyIncome:8,propertyUpkeep:1,equipmentUpkeep:0,scheduledEquipmentUpkeep:0,otherUpkeep:0,totalUpkeep:1,netHourlyIncome:7,maintenancePaused:false},battleStats:{wins:2,losses:1,total:3},
  army:{capacity:9,participants:4,total:4,allies:1,mercenaries:2,links:[{characterId:targetId,name:'Morgan',level:3,className:'Freeblade',status:'pending',incoming:true}]},
  attackEquipment:{attack:6,defense:2,selected:[]},defenseEquipment:{attack:6,defense:2,selected:[]},
  quests:alpha.quests.map(q=>({...q,completions:1,missing:{},missingCost:0,ready:true,lockReason:null})),loot:[{id:'watchtower-map',name:'Watchtower Map'}],awards:[{id:'quests-10',points:1}]};

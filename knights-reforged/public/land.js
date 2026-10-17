@@ -36,8 +36,8 @@ if (root) {
       nextPayment = state.land.nextPaymentAt;
       setText('[data-land-gross]', number(state.land.hourlyIncome));
       setText('[data-land-upkeep]', number(state.land.hourlyUpkeep));
-      setText('[data-equipment-upkeep]', number(state.land.equipmentUpkeep || 0));
-      setText('[data-land-net]', number(state.land.netHourlyIncome));
+      setText('[data-equipment-upkeep]', number(state.economy?.equipmentUpkeep ?? state.land.equipmentUpkeep ?? 0));
+      setText('[data-land-net]', number(state.economy?.netHourlyIncome ?? state.land.netHourlyIncome));
       document.querySelectorAll('[data-wallet-gold]').forEach(element => { element.textContent = number(state.gold); });
       showTime(root.querySelector('[data-land-payment-time]'), nextPayment);
       const pending = root.querySelector('[data-land-pending]');

@@ -22,6 +22,8 @@ export interface CharacterState {
   inventory:OwnedItem[];questsCompleted:number;stateVersion:number;skillPoints:number;className:string;
   attackReadyAt:string;serverTime:string;energyNextAt:string|null;manaNextAt:string|null;spiritNextAt:string|null;healthNextAt:string|null;
   land:EstateState;rulesetId:string;
+  economy:{grossHourlyIncome:number;propertyUpkeep:number;equipmentUpkeep:number;scheduledEquipmentUpkeep:number;otherUpkeep:number;totalUpkeep:number;netHourlyIncome:number;maintenancePaused:boolean};
+  battleStats:{wins:number;losses:number;total:number};
   maintenance:{hourlyRate:number;reserveGold:string;arrearsGold:string;paused:boolean;resumeCost:number};
   army:ReturnType<typeof activeArmy>&{allies:number;mercenaries:number;links:ArmyLink[]};
   attackEquipment:ReturnType<typeof selectEquipment>;defenseEquipment:ReturnType<typeof selectEquipment>;
@@ -70,6 +72,15 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
   const next=(value:number,max:number,updated:Date,seconds:number)=>value<max?new Date(new Date(updated).getTime()+seconds*1000).toISOString():null;
   const manaNextAt=next(row.mana,row.max_mana,row.mana_updated_at,alpha.resources.manaSeconds);
   const sword=inventory.find(i=>i.id===rules.weapon.id&&i.quantity>0);
+  const land=await estateState(sql,row.id,wallet.balance,upkeep.hourly_rate,row.attained_level);
+  const activeEquipmentUpkeep=upkeep.paused?0:upkeep.hourly_rate;
+  const economy={grossHourlyIncome:land.hourlyIncome,propertyUpkeep:land.hourlyUpkeep,equipmentUpkeep:activeEquipmentUpkeep,
+    scheduledEquipmentUpkeep:upkeep.hourly_rate,otherUpkeep:0,totalUpkeep:land.hourlyUpkeep+activeEquipmentUpkeep,
+    netHourlyIncome:land.hourlyIncome-land.hourlyUpkeep-activeEquipmentUpkeep,maintenancePaused:upkeep.paused};
+  const battleStats=(await sql.query(`SELECT count(*)::int AS total,
+    count(*) FILTER(WHERE (attacker_id=$1 AND outcome='attacker_win') OR (defender_id=$1 AND outcome='defender_win'))::int AS wins,
+    count(*) FILTER(WHERE (attacker_id=$1 AND outcome='defender_win') OR (defender_id=$1 AND outcome='attacker_win'))::int AS losses
+    FROM battles WHERE attacker_id=$1 OR defender_id=$1`,[row.id])).rows[0] as CharacterState['battleStats'];
   return {id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:levelRequirement(row.attained_level),xpToNext:levelRequirement(row.attained_level)-row.level_xp,
     health:row.health,maxHealth:row.max_health,mana:row.mana,maxMana:row.max_mana,spirit:row.spirit,maxSpirit:row.max_spirit,energy:row.mana,
     gold:wallet.balance,units,attack:rules.baseAttack+(row.attained_level-1)*rules.attackPerLevel+(army.participants-1)*rules.unit.attack+attackEquipment.attack,
@@ -79,7 +90,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
     attackReadyAt:new Date(row.attack_ready_at).toISOString(),serverTime:now.toISOString(),energyNextAt:manaNextAt,manaNextAt,
     spiritNextAt:next(row.spirit,row.max_spirit,row.spirit_updated_at,alpha.resources.spiritSeconds),
     healthNextAt:next(row.health,row.max_health,row.health_updated_at,alpha.resources.healthSeconds),
-    land:await estateState(sql,row.id,wallet.balance,upkeep.hourly_rate,row.attained_level),rulesetId:alpha.id,army,attackEquipment,defenseEquipment,
+    land,economy,battleStats,rulesetId:alpha.id,army,attackEquipment,defenseEquipment,
     maintenance:{hourlyRate:upkeep.hourly_rate,reserveGold:upkeep.reserve_gold,arrearsGold:upkeep.arrears_gold,paused:upkeep.paused,
       resumeCost:Number(BigInt(upkeep.arrears_gold)+(BigInt(upkeep.reserve_gold)<BigInt(upkeep.hourly_rate)?BigInt(upkeep.hourly_rate)-BigInt(upkeep.reserve_gold):0n))}};
 }

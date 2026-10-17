@@ -157,7 +157,8 @@ export async function createApp(options: { db: Database; config: Config; logger?
         if (wantsJson(request)) return { ...result, state: await getState(db, request.realmSession!.account_id!) };
         return reply.redirect(result.battleId ? '/game/battles/' + result.battleId :
           '/game/' + destination[route.kind] + '?command=' + result.commandId +
-          (destination[route.kind]==='armory' && ['weapon','armor','spell'].includes(String(result.data?.category)) ? '&category='+result.data!.category : ''), 303);
+          (destination[route.kind]==='armory' && ['weapon','armor','spell'].includes(String(result.data?.category)) ? '&category='+result.data!.category : '') +
+          (route.kind==='skill'?'#skills':route.kind==='profile'?'#account':''), 303);
       });
     }
   }
@@ -170,7 +171,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.get('/api/v1/land', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!);
-    return { land: state.land, gold: state.gold, serverTime: state.serverTime, state };
+    return { land: state.land, economy:state.economy, gold: state.gold, serverTime: state.serverTime, state };
   });
   app.get('/api/v1/battles/:id', { preHandler: requireAccount }, async request => {
     const id = (request.params as {id:string}).id;

@@ -6,10 +6,7 @@
   <div class="account-menu">
     <% if (state) { %>
       <span class="account-name"><%= accountName %></span>
-      <form method="post" action="/logout">
-        <input type="hidden" name="csrf" value="<%= csrf %>">
-        <button class="button-quiet" type="submit">Sign out</button>
-      </form>
+      <a class="button-quiet profile-link" href="/game/profile"<% if (screen==='profile') { %> aria-current="page"<% } %>>Profile</a>
     <% } else { %>
       <a class="text-link" href="/rules">Realm rules</a>
     <% } %>

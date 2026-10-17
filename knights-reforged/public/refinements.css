@@ -1,0 +1,22 @@
+/* Phase 3.5 refinements retain the original compact shared layout. */
+.hourly-flow[data-flow=positive] { color:#adca98!important; }
+.hourly-flow[data-flow=negative] { color:#e9a292!important; }
+.hourly-flow[data-flow=neutral] { color:#c1c1ae!important; }
+.resource-upper .hourly-flow { font-size:10px; white-space:nowrap; margin-top:2px; }
+.profile-link { display:inline-flex; align-items:center; justify-content:center; min-width:50px; }
+.profile-tabs>a { flex:1; font-size:13px; padding-inline:7px; }
+.profile-identity { display:flex; align-items:center; gap:12px; padding:10px 5px 14px; border-bottom:1px solid #76705b; }
+.profile-identity img { flex:0 0 56px; object-fit:contain; filter:drop-shadow(0 2px 3px #000); }
+.profile-identity h2 { margin:0 0 3px; font:700 21px Georgia,serif; color:#f0d6a1; }
+.profile-identity p { margin:0; font-size:13px; }.profile-identity span { font-size:11px; color:#c6c7b8; }
+.profile-info { margin-top:12px; }
+.next-level-strip { background:#060805b0; border:1px solid #53533e; border-radius:3px; padding:9px 10px; display:flex; justify-content:space-between; font-size:14px; }
+.kingdoms-ui .profile-section-heading { font:700 16px Arial,sans-serif; margin:16px 0 7px; }
+.profile-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; }
+.profile-stat-grid>div,.profile-gold-flow>div { display:flex; align-items:baseline; justify-content:space-between; gap:8px; font-size:12px; }
+.profile-stat-grid dt,.profile-gold-flow dt { color:#cac6b9; }.profile-stat-grid dd,.profile-gold-flow dd { margin:0; font-weight:bold; font-variant-numeric:tabular-nums; }
+.profile-gold-flow { max-width:330px; display:grid; gap:6px; }.profile-gold-flow>div:last-child { border-top:1px solid #777453; padding-top:6px; }
+.skill-row small { display:block; max-width:250px; font-size:11px; color:#bbb9aa; margin-top:6px; }
+.profile-logout { border-top:1px solid #5e5b45; margin-top:15px; padding-top:15px; }
+#info,#skills,#discoveries,#account { scroll-margin-top:10px; }
+@media(max-width:380px) { .profile-stat-grid { gap:6px 10px; }.profile-stat-grid>div { font-size:11px; gap:5px; }.profile-identity h2 { font-size:19px; }.resource-upper .hourly-flow { font-size:9px; } }

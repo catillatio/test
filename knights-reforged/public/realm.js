@@ -9,6 +9,9 @@ if(root){
     if(!state||!Number.isSafeInteger(state.stateVersion)||state.stateVersion<version||!Number.isFinite(Date.parse(state.serverTime)))return;
     version=state.stateVersion;serverTime=Date.parse(state.serverTime);synced=performance.now();attackReady=Date.parse(state.attackReadyAt);
     text('[data-wallet-gold]',Number(state.gold).toLocaleString('en'));text('[data-level]',state.level);text('[data-level-xp]',state.levelXp);text('[data-level-required]',state.levelRequirement);
+    if(state.economy&&Number.isSafeInteger(state.economy.netHourlyIncome))for(const element of document.querySelectorAll('[data-hourly-net]')){
+      const net=state.economy.netHourlyIncome;element.textContent=(net>0?'+':'')+net.toLocaleString('en')+' gold/hr';element.dataset.flow=net>0?'positive':net<0?'negative':'neutral';
+    }
     const xp=document.querySelector('[data-xp-meter]');if(xp){xp.max=state.levelRequirement;xp.value=state.levelXp;}
     for(const name of ['health','mana','spirit']){
       const maximum=state['max'+name[0].toUpperCase()+name.slice(1)];
