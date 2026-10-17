@@ -1,0 +1,280 @@
+{
+  "milestone": "Kingdom Come Phase 4.1",
+  "branch": "feature/kingdom-come-phase-4-1-refinements",
+  "base_commit": "daf90695c8be7f4339c54c4ba199689984b30acc",
+  "implementation_commit": "96a2e9bcefd9835aa3f0bc5894b2a2112b39ad7e",
+  "environment": {
+    "node": "24.19.0",
+    "typescript": "5.9.3",
+    "postgresql": "18.4",
+    "browser": "Local Chromium; headless desktop and Android-style viewports",
+    "public_deployment": false,
+    "live_codespace_contacted": false
+  },
+  "typecheck": {
+    "passed": true,
+    "command": "npm run typecheck (also part of verify)"
+  },
+  "production_build": {
+    "passed": true,
+    "command": "npm run build (also part of verify)"
+  },
+  "full_regression": {
+    "tests": 175,
+    "pass": 175,
+    "fail": 0,
+    "skipped": 0,
+    "command": "TEST_DATABASE_URL=<disposable *_test URL> npm run verify"
+  },
+  "postgresql_regression": {
+    "tests": 110,
+    "pass": 110,
+    "fail": 0,
+    "skipped": 0,
+    "command": "TEST_DATABASE_URL=<disposable *_test URL> npm run test:postgres",
+    "overlaps_full_suite": true
+  },
+  "static_interface": {
+    "passed": 72,
+    "failed": 0,
+    "production_ejs_fixtures": 54,
+    "command": "npm run check:static"
+  },
+  "native_browser_loop": {
+    "passed": true,
+    "command": "npm run test:browser",
+    "viewports": [
+      "1366x900",
+      "390x844",
+      "360x800"
+    ],
+    "fixture_grants": false,
+    "browser_errors": 0
+  },
+  "level_50_browser_loop": {
+    "passed": true,
+    "command": "npm run test:browser:fantasy",
+    "widths": [
+      330,
+      360,
+      390,
+      1366
+    ],
+    "art_cells": 81,
+    "uses_explicit_test_fixtures": true
+  },
+  "codespaces_https_fixture": {
+    "passed": true,
+    "command": "npm run test:codespaces",
+    "native_posts": 28,
+    "browser_errors": 0,
+    "screen_visits": 108,
+    "widths": [
+      320,
+      360,
+      390,
+      412,
+      430,
+      1366
+    ],
+    "checks": {
+      "native_comments": true,
+      "safe_text": true,
+      "native_reporting": true,
+      "native_broadcasts": true,
+      "native_code_invitation_and_acceptance": true,
+      "native_attack_again_to_zero": true,
+      "public_profile_links": true,
+      "viewports": [
+        320,
+        360,
+        390,
+        412,
+        430,
+        1366
+      ],
+      "screensPerViewport": 18,
+      "screenshots": "test-results/phase41-browser",
+      "home_only_land": true,
+      "no_combat_cooldown": true,
+      "public_tales": true,
+      "active_quest_repeat": true,
+      "automatic_income_settlement": true,
+      "defeat_indicator": true,
+      "accessibility": "Named controls, native form labels, five-tab navigation, overflow and image checks; keyboard skip-link and native comment form with JavaScript disabled also passed"
+    },
+    "origin_rewrite_variants": [
+      "http://localhost:3001",
+      "https://localhost:3001",
+      "canonical HTTPS Origin"
+    ],
+    "secure_cookies": true,
+    "csrf_enforced": true,
+    "forged_origins_rejected": true,
+    "self_signed_certificate_for_loopback_fixture_only": true
+  },
+  "compiled_restart": {
+    "passed": true,
+    "command": "npm run test:restart",
+    "preserved": [
+      "sessions",
+      "accounts",
+      "progression",
+      "inventory",
+      "Land",
+      "Calling",
+      "funded bounty",
+      "private combat reports",
+      "comments",
+      "broadcasts",
+      "army invitation codes",
+      "pending invitations"
+    ]
+  },
+  "preserved_workspace_database": {
+    "passed": true,
+    "migration": "012_refinements.sql",
+    "unchanged_business_tables": 40,
+    "accounts": 166,
+    "characters": 166,
+    "battles": 5,
+    "holdings": 10,
+    "old_catalog_definitions_preserved": 10
+  },
+  "npc_upgrade_preservation": {
+    "passed": true,
+    "humanCharactersPreserved": 16,
+    "scopedTablesCompared": 44,
+    "population": [
+      {
+        "population_version": "passive-rivals-3",
+        "n": 150
+      }
+    ],
+    "armyCap": 10,
+    "devAccountReset": false
+  },
+  "finalized_rules": {
+    "version": "refinements-0.1",
+    "artificial_attack_cooldown_seconds": 0,
+    "bounty_minimum": 1,
+    "bounty_maximum": 10000,
+    "fee": "10% rounded up, minimum 1 gold; exact confirmation before placement",
+    "active_bounties_per_target": 1,
+    "rolling_target_placements": 50,
+    "rolling_seconds": 86400,
+    "expiry_seconds": 86400,
+    "finishing_attack_only": true,
+    "kills_per_successful_claim": 1,
+    "ordinary_knockout_kills": 0,
+    "bot_army_cap": 10,
+    "bot_population": "passive-rivals-3"
+  },
+  "edge_cases_verified": [
+    "first committed concurrent placement wins without charging the loser",
+    "50 successful rolling placements across sponsors and a midnight boundary",
+    "canceled/claimed/expired records retained and counted by placement timestamp",
+    "exact 24-hour cutoff, principal refund and retained recorded fee",
+    "simultaneous finish and expiration",
+    "concurrent finishing attacks and idempotent receipt replay",
+    "one unique reward and kill per claim",
+    "valid finishing hit that loses the army outcome",
+    "level-up during a finishing hit uses pre-combat eligibility",
+    "0 Health until natural recovery; immediately relistable recovering target",
+    "more than 100 creator refunds settle completely with monotonic state versions",
+    "large treasury retains overflow",
+    "NPCs are passive and reward-capped; human data/identity preserved",
+    "public Tales use actual records, keyset pagination and private report boundaries",
+    "unknown historical details remain unrecorded",
+    "Land linked only from Home",
+    "Do Again gold/enabled only for actual eligibility",
+    "automatic server income read with no manual refresh",
+    "comments safe rendering, report controls and mobile layouts"
+  ],
+  "artwork": {
+    "existing_art_preserved": true,
+    "new_generated_paintings": false,
+    "new_handwritten_asset": "inline heraldic shield/check/cross SVG in outcome partial",
+    "new_styles": "public/phase41.css",
+    "screenshots": [
+      {
+        "file": "docs/phase-4-1-preview/390-army-dashboard.png",
+        "bytes": 182794,
+        "sha256": "29e94fe4ff9ac7273a09d56486b7c31dbeac00e6d39a37843f40b42aab941649"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-battle-report.png",
+        "bytes": 250684,
+        "sha256": "1b4fae4e4056fdfaf6c1a2139cf86311b3a2b30e4b734e4f569461ba3fbb332b"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-battles.png",
+        "bytes": 219177,
+        "sha256": "eeb0d78b6aab2027a674dd8ff398f6276c6c51f88accc6dfc2570dfda811f046"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-bounty-confirm.png",
+        "bytes": 257189,
+        "sha256": "bd856c2099844dd10bf53a08c2f60149e4118e2ba73161c0a213fe1b44bc9a3f"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-bounty-list.png",
+        "bytes": 261668,
+        "sha256": "eb4cf3f1422c16568d9e9d7936d4b23300386e89b9abea0b4a5c84fe481799a5"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-broadcasts.png",
+        "bytes": 265969,
+        "sha256": "ff31491c0ff88b97575c6e9bf23451eb66035562aca17a33754101aba4d21ad7"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-comments.png",
+        "bytes": 238090,
+        "sha256": "b913f22aa6364d4cde018771be9e374a5ad8f2688ed4641f7da50a45bf667120"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-defeat-activity.png",
+        "bytes": 206927,
+        "sha256": "0b887bb289adfe3a728bb046babb55173e5df5726ec4abc2cc0ae38c61e10545"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-home.png",
+        "bytes": 244185,
+        "sha256": "06b36269a3900f64b4b6d14030526270dd6b4bbdef4b77ee03f582dba9baa13a"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-land-starter.png",
+        "bytes": 245086,
+        "sha256": "a62ca906a58d0a90390638ca0cf028dca5e6561136b965f815c33846eeebdbe1"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-profile.png",
+        "bytes": 406038,
+        "sha256": "ed32f80761d005df6cbe246ee767f0a75f7f0b765523cd2b1be6920c34a332e5"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-public-tales.png",
+        "bytes": 249359,
+        "sha256": "a0b9e5b71ae94026b7c520ddb87b99e7a4bc3d42bebf8f42afe01ab16f3b300f"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-quest-do-again.png",
+        "bytes": 341208,
+        "sha256": "2e4e4e4598d6d34e610065abbf6072ddfcdc9594582b2292d506fb62bb5efba5"
+      },
+      {
+        "file": "docs/phase-4-1-preview/390-recruit.png",
+        "bytes": 185454,
+        "sha256": "90a4e7f549956e2227d87b4800c6c97718198fbd0ebea9012dc3be3909ac03ba"
+      }
+    ]
+  },
+  "limitations": [
+    "Live super-winner Codespace not accessed; HTTPS forwarding reproduced locally",
+    "No physical Android device, embedded WebView or APK tested",
+    "No public hosting, container deployment, hostile-load or multi-day economy test",
+    "Coordinated funded kill trading cannot be identified perfectly; explicit final target limit and fee apply",
+    "Local packaged PostgreSQL lacks pg_dump; private exact-text logical row snapshot and preservation hashes were saved outside Git"
+  ],
+  "next_priority": "Permanent HTTPS hosting with durable PostgreSQL/backups, then a minimal Android WebView shell evaluation; no more gameplay expansion in this milestone"
+}

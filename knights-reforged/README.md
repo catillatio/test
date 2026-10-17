@@ -4,24 +4,24 @@ Previously Knights Reforged. The application directory, database identifiers and
 
 A server-rendered medieval multiplayer RPG inspired by Storm8 Kingdoms Live. Five original-style tabs connect repeatable quests, Mana, quantity equipment, automatically equipped armies, Spirit-based PvP, Land income and character progression. All gameplay calculations run on the server.
 
-**Active rules: `alpha-0.3` content, `strategy-0.2` specializations/rewards, `passive-rivals-2` development population and `community-0.1` combat/social policy.** The content, economic policy and combat formulas are reconstructed Kingdom Come rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
+**Active rules: `alpha-0.3` content, `strategy-0.2` specializations/rewards, `passive-rivals-3` development population, `community-0.1` social policy and `refinements-0.1` finalized combat/bounty rules.** The content, economic policy and combat formulas are reconstructed Kingdom Come rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
 
-Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdom-come-phase-4-social`, based on the completed `feature/kingdom-come-strategy-and-bounties` branch, retaining the Codespaces Origin fix. No branches are merged and nothing is deployed automatically.
+Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdom-come-phase-4-1-refinements`, based on the completed `feature/kingdom-come-phase-4-social` branch, retaining the Codespaces Origin fix. No branches are merged and nothing is deployed automatically.
 
-See [PHASE_4.md](PHASE_4.md) for repeat combat, public estates, persistent social feeds, consenting invitation codes, verification and exact Codespace commands. [Current screenshots](docs/phase-4-preview/README.md) and the [Android packaging assessment](APK_READINESS.md) accompany the milestone. No Android compatibility is claimed from browser tests.
+See [PHASE_4_1.md](PHASE_4_1.md) for finalized bounty rules, immediate repeat combat, public Tales, migration details, verification and exact Codespace commands. [Current screenshots](docs/phase-4-1-preview/README.md) and the [Android packaging assessment](APK_READINESS.md) accompany the milestone. No Android compatibility is claimed from browser tests.
 
-See [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) for current Calling bonuses, temporary rivals, development-account provisioning, funded bounties, verification and the port-3001 Codespace update. [Earlier milestone screenshots](docs/strategy-preview/README.md) remain available.
+Earlier [PHASE_4.md](PHASE_4.md) and [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) preserve their historical implementation records. Current rules supersede their former combat/bounty limits. The strategy report also covers Calling bonuses, temporary rivals, development-account provisioning, funded bounties, verification and the port-3001 Codespace update. [Earlier milestone screenshots](docs/strategy-preview/README.md) remain available.
 
 ## What works
 
-- Attack Again with current target Health, finishing attacks to zero, preserved resource/cooldown/reward checks and linked public profiles.
+- Attack Again with current target Health, finishing attacks to zero, Spirit/resource/reward checks without a combat cooldown and linked public profiles.
 - Illustrated saved-rate property holdings on private/public profiles, alongside authoritative income and inventory summaries.
 - Persistent Home All/Battles/Comments/Broadcasts feeds, shared profile comments, plain-text rendering, posting/report limits and auditable terminal moderation.
 - Compact Home grid, Profile Comments tab, Settings and Recruit/My Army/Dashboard with persistent invitation codes and recipient consent.
 
 - Three persistent Calling specializations, modest combat/recovery tradeoffs and guarded 24-hour switching.
-- A funded Bounty List with fees, eligibility/cooldown limits, atomic claims, cancellation and expiry refunds.
-- 150 optional passive development rivals across levels 1–50, normal combat/inventory and bounded daily rewards.
+- A funded Bounty List: 1–10,000 gold, exact fee confirmation, one active contract per target, shared 50-placement rolling daily limit, finishing-only claims and kills, cancellation and full principal refunds after 24 hours.
+- 150 optional passive development rivals across levels 1–50, armies capped at ten, progression-based equipment/gold, natural recovery and bounded daily rewards.
 - A guarded, repeatable `dev` account initializer; credentials are entered through a hidden prompt or workspace secret.
 - Persistent accounts and sessions; registration/login/logout, Argon2id, CSRF and strict Origin checks.
 - Health, Mana and Spirit with independent offline recovery, levels, skill points, capacity upgrades and milestones.
@@ -29,11 +29,11 @@ See [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) for current Calling bonuses, 
 - 40 repeatable quests across 11 regions, through level 50, with level/equipment/quantity/army requirements, separate requirement purchases and 12 persistent discoveries.
 - 21 properties through level 55, increasing purchase prices, FIFO selling, 60-minute offline income and separate equipment upkeep.
 - Paid militia and consenting player allies, capped participation, nearby-level rivals, Spirit-funded PvP and private persistent reports.
-- Four-tab owner Profile with account age, saved kills/deaths, illustrated quantity inventories, persistent Attack/Defense training, resource skills, private battles, Gold Flow and account/logout controls; the resource header displays actual active net gold per hour.
+- Four-tab owner Profile with account age, bounty-claim kills/deaths and archived legacy knockouts, illustrated quantity inventories, persistent Attack/Defense training, resource skills, paginated public Tales with private full reports, Gold Flow and account/logout controls; the resource header displays actual active net gold per hour.
 - 81 distinct AI-generated fantasy paintings in four efficient WebP sheets; recovered navigation/backgrounds, compact phone/PC screens, server-synchronized countdowns and working forms without JavaScript.
 - Shared Codespaces HTTPS origin handling for ordinary development, compiled startup and the preview helper; Secure cookies, CSRF and strict Origin checks remain enforced.
 
-See [KINGDOM_COME_REFINEMENTS.md](KINGDOM_COME_REFINEMENTS.md) for the rename, new remake evidence, Player/Skills/Battles tabs, bounded Attack/Defense allocation and preservation guarantees. See [PHASE_3_5.md](PHASE_3_5.md) for the session fix, new content, balancing, artwork, migration compatibility and verification limits. Current results are in [KINGDOM_COME_PHASE_3_5_VERIFICATION.json](KINGDOM_COME_PHASE_3_5_VERIFICATION.json). [PHASE_3_ALPHA.md](PHASE_3_ALPHA.md) preserves the earlier formulas and implementation record; its catalog counts and nominal-net display description are superseded by Phase 3.5.
+See [KINGDOM_COME_REFINEMENTS.md](KINGDOM_COME_REFINEMENTS.md) for the rename, new remake evidence, Player/Skills/Battles tabs, bounded Attack/Defense allocation and preservation guarantees. See [PHASE_3_5.md](PHASE_3_5.md) for the session fix, new content, balancing, artwork, migration compatibility and verification limits. Earlier Phase 3.5 results are in [KINGDOM_COME_PHASE_3_5_VERIFICATION.json](KINGDOM_COME_PHASE_3_5_VERIFICATION.json). [PHASE_3_ALPHA.md](PHASE_3_ALPHA.md) preserves the earlier formulas and implementation record; its catalog counts and nominal-net display description are superseded by Phase 3.5.
 
 Representative tested phone screens are in [the Phase 3.5 preview gallery](docs/phase-3-5-preview/README.md). The earlier gallery remains intact.
 
@@ -46,17 +46,19 @@ From the Codespaces terminal:
 ```bash
 cd /workspaces/test
 git status --short
-git fetch origin feature/kingdom-come-phase-4-social
-git switch -c feature/kingdom-come-phase-4-social FETCH_HEAD
+git fetch origin feature/kingdom-come-phase-4-1-refinements
+git switch -c feature/kingdom-come-phase-4-1-refinements FETCH_HEAD
 cd knights-reforged
 npm run db:migrate
+NODE_ENV=development ALLOW_DEV_PROVISIONING=1 npm run dev:bots
+npm run typecheck
 npm run build
 export NODE_ENV=development HOST=0.0.0.0 PORT=3001 ENABLE_DEV_BOTS=1
 export APP_ORIGIN=https://super-winner-4r7ppp6g7p4hq4rv-3001.app.github.dev
 npm start
 ```
 
-These commands use the existing installed dependencies and PostgreSQL connection; no dependency versions changed. If this feature branch already exists locally, switch to it and pull with `git pull --ff-only origin feature/kingdom-come-phase-4-social`. Preserve uncommitted work before switching. Existing player accounts, the managed dev account and the rival population persist without re-provisioning or reset. See the Phase 4 report for backup, moderation and smoke-test details.
+These commands use the existing installed dependencies and PostgreSQL connection; no dependency versions changed. If this feature branch already exists locally, switch to it and pull with `git pull --ff-only origin feature/kingdom-come-phase-4-1-refinements`. Preserve uncommitted work before switching. The guarded bot command upgrades existing NPC identities to the ten-member catalog; it does not reset the managed dev account or any normal player. Do not run `dev:account --reset` or demo resets. See the Phase 4.1 report for backup, moderation and smoke-test details.
 
 Without an explicit public `APP_ORIGIN`, launch methods derive the HTTPS origin from `CODESPACE_NAME`, `PORT` and `GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN` (default `app.github.dev`); copied loopback defaults use that address too. An explicit public origin takes precedence, including a Codespaces URL. Update a copied old preview URL explicitly. The preview helper loads `.env` before choosing its port; exported environment variables take precedence over `.env`. Restart the application after updating it; existing accounts and sessions are retained. In **Ports**, keep the running port (normally **3000**, or **3001** when configured) **Private**, then choose **Open in Browser**. Sign into GitHub in Chrome on Android to use the private forwarded address. This work does not create a Codespace, hosting service or public URL.
 
@@ -127,7 +129,7 @@ Try this manual loop in two game sessions:
 3. Recruit militia, buy extra equipment copies and inspect attack/defense loadouts.
 4. Invite the other character using their Recruit army code; accept in the second session.
 5. Attack a nearby rival and open the same report from both participants.
-6. Buy Land, inspect the countdown, sell an item/property, return after a full hour, and verify income.
+6. Open Home → Land, buy a property, inspect the countdown, sell an item/property, return after a full hour, and verify income.
 7. At level 3, search the Fallen Abbey for the Watchtower Map; work toward later army-gated quests.
 
 The 10–20 minute human-session target remains a playtesting goal. Automated runs establish that progression and the interconnected loop are reachable without administrative grants; they do not establish long-term balance.
@@ -140,9 +142,9 @@ The 10–20 minute human-session target remains a playtesting goal. Automated ru
 | Authoritative commands and projection | `src/commands.ts`, `src/game.ts` |
 | Equipment and progression | `src/inventory.ts`, `src/progression.ts`, `src/alpha-rules.ts` |
 | Economy and Land | `src/economy.ts`, `src/land.ts`, `src/estate.ts`, `src/maintenance.ts` |
-| Immutable catalogs | `alpha-0.3`, `strategy-0.2`, `passive-rivals-2`, `community-0.1`; previous versions retained |
+| Immutable catalogs | `alpha-0.3`, `strategy-0.2`, `passive-rivals-3`, `community-0.1`, `refinements-0.1`; previous versions retained |
 | Social, profiles and allies | `src/community.ts`, `src/feeds.ts`, `src/profiles.ts`, `scripts/moderate.ts` |
-| Compatible SQL | Additive migrations through `011_community.sql`; all earlier migrations retained |
+| Compatible SQL | Compatible migrations through `012_refinements.sql`; all earlier migrations retained |
 | Interface and art | `views/`, `public/alpha.css`, `public/refinements.css`, `public/realm.js`, `public/art/` |
 | Fidelity and evidence | `ORIGINAL_GAME_SPEC.md`, `VISUAL_OVERHAUL.md`, `PHASE_3_ALPHA.md`, `PHASE_3_5.md` |
 
