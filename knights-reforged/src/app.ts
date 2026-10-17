@@ -85,7 +85,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id) : null);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
-    const query = request.query as { command?: string; category?: string };
+    const query = request.query as { command?: string; category?: string;area?:string };
     if (session?.account_id && uuid.safeParse(query?.command).success) {
       const receipt = (await db.query('SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2', [session.account_id, query.command])).rows[0];
       notice = receipt?.result?.message ?? null;
@@ -94,6 +94,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     return reply.viewAsync('layout.ejs', {
       screen, state, nav, rules, landRules, alpha, actionResult,
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
+      questArea: query.area==='all'||alpha.content?.areas.some(area=>area.id===query.area) ? query.area : 'nearby',
       csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
       commandId: randomUUID, notice, error: null, opponents: [], nextOpponentCursor:null, battles: [], battle: null,
       title: 'Knights Reforged', authMode: 'login', formValues: { username: '', name: '' }, ...data,

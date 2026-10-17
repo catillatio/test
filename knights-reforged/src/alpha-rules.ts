@@ -1,30 +1,41 @@
 import { readFileSync } from 'node:fs';
 
 export type Category = 'weapon' | 'armor' | 'spell';
-export interface ItemDefinition { id: string; name: string; category: Category; description: string; price: number; attack: number; defense: number; upkeep: number; level: number; art: string; }
+export interface Illustration { atlas:'weapons'|'armor'|'spells'|'properties';column:number;row:number; }
+export interface ItemDefinition { id: string; name: string; category: Category; description: string; price: number; attack: number; defense: number; upkeep: number; level: number; art: string;tier?:string;illustration?:Illustration; }
 export interface QuestDefinition { id: string; name: string; area: string; description: string; level: number; mana: number; goldMin: number; goldMax: number; xp: number; army: number; items: Record<string, number>; requiresLoot?: string; loot?: { id: string; name: string; chance: number; firstGuaranteed: boolean }; }
-export interface PropertyDefinition { id: string; name: string; description: string; price: number; hourlyIncome: number; hourlyUpkeep: number; level: number; art: string; }
+export interface PropertyDefinition { id: string; name: string; description: string; price: number; hourlyIncome: number; hourlyUpkeep: number; level: number; art: string;tier?:string;illustration?:Illustration; }
 export interface AlphaRules {
   id: string; provenance: string; startingGold: number;
   resources: { health: number; mana: number; spirit: number; healthSeconds: number; healthAmount: number; manaSeconds: number; spiritSeconds: number; maxHealth: number; maxMana: number; maxSpirit: number };
-  progression: { thresholds: number[]; laterBase: number; laterStep: number; pointsPerLevel: number };
+  progression: { thresholds: number[]; laterBase: number; laterStep: number; pointsPerLevel: number;milestones?:{id:string;level:number;points:number}[] };
+  content?:{maxContentLevel:number;propertyHorizon:number;areas:{id:string;name:string;level:number;description:string}[]};
   limits: { inventory: number; transaction: number; property: number; landTransaction: number; mercenaries: number; participants: number };
   combat: { spiritCost: number; minimumHealth: number; cooldownSeconds: number; variation: number; winnerDamage: number; loserDamageMin: number; loserDamageMax: number; lootPercent: number; lootCap: number; xp: number; rewardedPerTarget: number; rewardWindowSeconds: number };
   maintenance: { policy: string; hourMilliseconds: number };
   items: ItemDefinition[]; quests: QuestDefinition[]; properties: PropertyDefinition[];
 }
-export const alpha = JSON.parse(readFileSync(new URL('../rulesets/alpha-0.1/rules.json', import.meta.url), 'utf8')) as AlphaRules;
+export const previousAlpha = JSON.parse(readFileSync(new URL('../rulesets/alpha-0.1/rules.json', import.meta.url), 'utf8')) as AlphaRules;
+export const alpha = JSON.parse(readFileSync(new URL('../rulesets/alpha-0.2/rules.json', import.meta.url), 'utf8')) as AlphaRules;
+export const alphaCatalogs=[previousAlpha,alpha];
 export const itemById = new Map(alpha.items.map(item => [item.id, item]));
 export const questById = new Map(alpha.quests.map(quest => [quest.id, quest]));
 export const propertyById = new Map(alpha.properties.map(property => [property.id, property]));
+export const lootById = new Map(alpha.quests.filter(quest=>quest.loot).map(quest=>[quest.loot!.id,quest.loot!]));
 const safe = (value: number, min = 0, max = 2147483647) => Number.isSafeInteger(value) && value >= min && value <= max;
-if (alpha.id !== 'alpha-0.1' || !alpha.provenance || alpha.items.length !== itemById.size || alpha.quests.length !== questById.size || alpha.properties.length !== propertyById.size) throw new Error('Invalid alpha catalog identity.');
+if (alpha.id !== 'alpha-0.2' || !alpha.provenance || alpha.items.length !== itemById.size || alpha.quests.length !== questById.size || alpha.properties.length !== propertyById.size) throw new Error('Invalid alpha catalog identity.');
 for (const item of alpha.items) {
   if (!/^[a-z0-9-]+$/.test(item.id) || !['weapon','armor','spell'].includes(item.category) || !safe(item.price,1) || !safe(item.attack) || !safe(item.defense) || !safe(item.upkeep) || !safe(item.level,1)) throw new Error('Invalid alpha item.');
 }
 for (const quest of alpha.quests) {
-  if (!safe(quest.level,1) || !safe(quest.mana,1) || !safe(quest.xp,1) || !safe(quest.goldMin) || !safe(quest.goldMax,quest.goldMin) || Object.entries(quest.items).some(([id,n]) => !itemById.has(id) || !safe(n,1))) throw new Error('Invalid alpha quest.');
+  if (!safe(quest.level,1) || !safe(quest.mana,1,alpha.resources.mana) || !safe(quest.xp,1,1000000) || !safe(quest.goldMin) || !safe(quest.goldMax,quest.goldMin) || !safe(quest.army,1,21) ||
+      Object.entries(quest.items).some(([id,n]) => !itemById.has(id) || !safe(n,1,alpha.limits.transaction) || itemById.get(id)!.level>quest.level) ||
+      quest.requiresLoot&&!lootById.has(quest.requiresLoot)) throw new Error('Invalid alpha quest: '+quest.id);
 }
+for(const property of alpha.properties)if(!safe(property.price,1,140000)||!safe(property.hourlyIncome,1)||!safe(property.hourlyUpkeep)||property.hourlyIncome<property.hourlyUpkeep||!safe(property.level,1))throw new Error('Invalid alpha property.');
+// Existing progression is a persistent entitlement. This expansion must not
+// silently reinterpret any attained level or in-level XP amount.
+for(const key of ['thresholds','laterBase','laterStep','pointsPerLevel'] as const)if(JSON.stringify(alpha.progression[key])!==JSON.stringify(previousAlpha.progression[key]))throw new Error('XP curve changes require an explicit compatibility migration.');
 
 export function levelRequirement(level: number): number {
   if (!safe(level,1,42949673)) throw new RangeError('Invalid level.');

@@ -170,7 +170,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     const p=await r.player();await r.prepare(p,1000,105);
     const bought=await r.ok(p,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:2});
     assert.equal(bought.data.goldSpent,45+50);assert.equal(bought.state.land.properties[0].price,propertyPrice(45,2));
-    await r.db.query("UPDATE land_holdings SET acquired_at=clock_timestamp()-interval '1 hour 30 minutes',accrued_through=clock_timestamp()-interval '1 hour 30 minutes' WHERE character_id=$1",[p.id]);
+    await r.db.query("UPDATE land_holdings SET acquired_at=statement_timestamp()-interval '1 hour 30 minutes',accrued_through=statement_timestamp()-interval '1 hour 30 minutes' WHERE character_id=$1",[p.id]);
     const before=await r.me(p);const key=randomUUID();
     const sold=await r.ok(p,'/api/v1/land/sales',{propertyId:'smallholding',quantity:1,refund:999999},key);
     assert.equal(sold.data.goldReceived,22);assert.equal(sold.state.gold,before.gold+22);assert.equal(sold.state.land.properties[0].owned,1);

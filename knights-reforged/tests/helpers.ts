@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { createApp } from '../src/app.js';
 import { loadConfig } from '../src/config.js';
-import { createDatabase, transaction } from '../src/db.js';
+import { createDatabase, transaction,type Database,type Sql } from '../src/db.js';
+import type {QueryResultRow} from 'pg';
 import { migrate } from '../src/migrate.js';
 import { lockCharacters, clock, type CharacterState } from '../src/game.js';
 import { ledger } from '../src/economy.js';
@@ -17,11 +18,16 @@ if (testDatabaseUrl) {
   }
 }
 export interface Player { id:string; cookie:string; csrf:string; accountId:string; }
-export async function realm() {
-  const db=createDatabase(testDatabaseUrl!);
-  await migrate(db);
+export async function realm(options:{clock?:()=>Date;logger?:boolean}={}) {
+  const pool=createDatabase(testDatabaseUrl!);await migrate(pool);
+  // Test-only clock adapter. All gameplay SQL/transactions are real PostgreSQL;
+  // only the server's explicit clock read is replaced. No production endpoint,
+  // environment switch, balance grant or historical timestamp rewrite exists.
+  const wrap=(sql:Sql):Sql=>({query:<T extends QueryResultRow>(statement:string,values?:unknown[])=>
+    statement==='SELECT clock_timestamp() AS now'?sql.query<T>('SELECT $1::timestamptz AS now',[options.clock!().toISOString()]):sql.query<T>(statement,values)});
+  const db:Database=options.clock?{...wrap(pool),connect:async()=>{const client=await pool.connect();return {...wrap(client),release:()=>client.release()};},end:()=>pool.end()}:pool;
   const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',DATABASE_URL:testDatabaseUrl});
-  const app=await createApp({db,config});
+  const app=await createApp({db,config,logger:options.logger});
   const session=(response:{headers:Record<string,unknown>}) => {
     const value=response.headers['set-cookie'];
     const line=(Array.isArray(value)?value.map(String):[String(value)]).find(cookie=>cookie.startsWith('kr_session='));

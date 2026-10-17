@@ -31,6 +31,7 @@ export async function buyEstate(sql:Sql,characterId:string,level:number,property
   const owned=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM land_holdings WHERE character_id=$1 AND property_id=$2',[characterId,propertyId])).rows[0]!.quantity as number;
   if (owned+quantity>alpha.limits.property) throw new GameError('LAND_LIMIT','The property ownership limit has been reached.',409);
   const prices=propertyQuote(property.price,owned,quantity);const cost=prices.reduce((n,price)=>n+price,0);
+  if(!Number.isSafeInteger(cost)||cost>2147483647)throw new GameError('TRANSACTION_LIMIT','That batch exceeds the carried-gold transaction limit. Buy a smaller quantity.',409);
   await ledger(sql,commandId,'land_purchase',[{characterId,amount:-cost}],alpha.id);
   let first='';
   // Each differently priced unit has a durable acquisition cost and the same
@@ -44,7 +45,7 @@ export async function buyEstate(sql:Sql,characterId:string,level:number,property
 }
 
 export async function sellEstate(sql:Sql,characterId:string,propertyId:string,quantity:number,commandId:string,now:Date) {
-  const batches=(await sql.query<HoldingRow>('SELECT * FROM land_holdings WHERE character_id=$1 AND property_id=$2 AND quantity>0 ORDER BY acquired_at,id FOR UPDATE',[characterId,propertyId])).rows;
+  const batches=(await sql.query<HoldingRow>('SELECT * FROM land_holdings WHERE character_id=$1 AND property_id=$2 AND quantity>0 ORDER BY acquired_at,purchase_order,id FOR UPDATE',[characterId,propertyId])).rows;
   if (batches.reduce((n,batch)=>n+batch.quantity,0)<quantity) throw new GameError('PROPERTY_NOT_OWNED','You do not own that many properties.',409);
   let left=quantity;let refund=0;
   for (const batch of batches) {

@@ -9,7 +9,7 @@ import { loadConfig,projectRoot } from '../src/config.js';
 import { type CharacterState } from '../src/game.js';
 
 const config=loadConfig(),origin=new URL(config.origin);
-if(config.nodeEnv==='production'||!['localhost','127.0.0.1','[::1]',process.env.ALLOWED_BROWSER_TEST_HOST].includes(origin.hostname)) throw new Error('Use a designated non-production test realm.');
+if(config.nodeEnv==='production'||!(config.originSource==='codespaces'||['localhost','127.0.0.1','[::1]',process.env.ALLOWED_BROWSER_TEST_HOST].includes(origin.hostname))) throw new Error('Use a designated non-production test realm.');
 const out=join(projectRoot,'test-results/browser');
 await mkdir(out,{recursive:true});
 const browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTABLE??'/usr/bin/chromium',headless:true,args:process.env.CHROMIUM_NO_SANDBOX==='1'?['--no-sandbox']:[]});
@@ -46,6 +46,10 @@ async function screens(page:Page,label:string){
     assert.ok((await page.locator('.page-backdrop').evaluate(element=>getComputedStyle(element).backgroundImage)).includes('bg_'+background+'.jpg'));
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),label+': horizontal overflow on '+screen);
     assert.equal(await page.locator('img').evaluateAll(images=>images.filter(img=>img instanceof HTMLImageElement&&(!img.complete||img.naturalWidth===0)).length),0);
+    assert.ok(await page.locator('[data-art-atlas]').evaluateAll(async elements=>{
+      const sources=[...new Set(elements.map(element=>getComputedStyle(element).backgroundImage).map(value=>/^url\("?([^\")]+)"?\)$/.exec(value)?.[1]))];
+      return (await Promise.all(sources.map(src=>new Promise<boolean>(resolve=>{if(!src)return resolve(false);const img=new Image();img.onload=()=>resolve(img.naturalWidth>0);img.onerror=()=>resolve(false);img.src=src;})))).every(Boolean);
+    }),label+': missing illustration atlas on '+screen);
     await page.screenshot({path:join(out,label+'-'+screen.toLowerCase()+'.png'),fullPage:true});
   }
   await page.goto(config.origin+'/game/profile');

@@ -1,7 +1,7 @@
 import { type Database, transaction, type Sql } from './db.js';
 import { GameError } from './errors.js';
 import { rules, regenerate } from './rules.js';
-import { alpha,levelRequirement,selectEquipment,activeArmy,areRivals,type QuestDefinition,type OwnedItem } from './alpha-rules.js';
+import { alpha,levelRequirement,selectEquipment,activeArmy,areRivals,lootById,type QuestDefinition,type OwnedItem } from './alpha-rules.js';
 import { settleLand } from './land.js';
 import { estateState,type EstateState } from './estate.js';
 import { readInventory } from './inventory.js';
@@ -27,7 +27,7 @@ export interface CharacterState {
   maintenance:{hourlyRate:number;reserveGold:string;arrearsGold:string;paused:boolean;resumeCost:number};
   army:ReturnType<typeof activeArmy>&{allies:number;mercenaries:number;links:ArmyLink[]};
   attackEquipment:ReturnType<typeof selectEquipment>;defenseEquipment:ReturnType<typeof selectEquipment>;
-  quests:(QuestDefinition&{completions:number;missing:Record<string,number>;missingCost:number;ready:boolean;lockReason:string|null})[];
+  quests:(QuestDefinition&{completions:number;missing:Record<string,number>;missingCost:number;ready:boolean;lockReason:string|null;requiresLootName:string|null})[];
   loot:{id:string;name:string}[];awards:{id:string;points:number}[];
 }
 export async function clock(sql:Sql) { return new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now); }
@@ -66,8 +66,9 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
   const quests=alpha.quests.map(quest=>{
     const missing=Object.fromEntries(Object.entries(quest.items).map(([id,n])=>[id,Math.max(0,n-(inventory.find(i=>i.id===id)?.quantity??0))]).filter(([,n])=>Number(n)>0)) as Record<string,number>;
     const missingCost=Object.entries(missing).reduce((n,[id,q])=>n+alpha.items.find(i=>i.id===id)!.price*q,0);
-    const lockReason=row.attained_level<quest.level?'Level '+quest.level+' required':Object.keys(missing).length?'Equipment required':quest.requiresLoot&&!loot.some(l=>l.id===quest.requiresLoot)?'Watchtower Map required':army.participants<quest.army?'Army of '+quest.army+' required':row.mana<quest.mana?'More Mana required':null;
-    return {...quest,missing,missingCost,completions:progress.find(p=>p.quest_id===quest.id)?.completions??0,ready:!lockReason,lockReason};
+    const requiresLootName=quest.requiresLoot?lootById.get(quest.requiresLoot)!.name:null;
+    const lockReason=row.attained_level<quest.level?'Level '+quest.level+' required':Object.keys(missing).length?'Equipment required':quest.requiresLoot&&!loot.some(l=>l.id===quest.requiresLoot)?requiresLootName+' required':army.participants<quest.army?'Army of '+quest.army+' required':row.mana<quest.mana?'More Mana required':null;
+    return {...quest,missing,missingCost,completions:progress.find(p=>p.quest_id===quest.id)?.completions??0,ready:!lockReason,lockReason,requiresLootName};
   });
   const next=(value:number,max:number,updated:Date,seconds:number)=>value<max?new Date(new Date(updated).getTime()+seconds*1000).toISOString():null;
   const manaNextAt=next(row.mana,row.max_mana,row.mana_updated_at,alpha.resources.manaSeconds);

@@ -57,6 +57,9 @@ try{
   const account=await registerAccount(db,{username,name:'Proxy Knight '+suffix,password});
   const rival=await registerAccount(db,{username:'rival_'+suffix,name:'Proxy Rival '+suffix,password:randomUUID()});
   const session=await createSession(db,account.accountId);
+  // A cookie issued by the old localhost-configured HTTP backend was not
+  // marked Secure. It must still authenticate over HTTPS after the upgrade.
+  const oldRivalSession=await createSession(db,rival.accountId);
   await context.addCookies([{name:'kr_session',value:session.token,url:config.origin,httpOnly:true,secure:true,sameSite:'Lax'}]);
   const page=await context.newPage(),errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
   const state=async()=>{const response=await page.request.get(config.origin+'/api/v1/me');assert.equal(response.status(),200);return (await response.json()).state;};
@@ -85,10 +88,18 @@ try{
   const newCookie=(await context.cookies()).find(cookie=>cookie.name==='kr_session')!;assert.notEqual(newCookie.value,cookie.value);assert.equal(newCookie.secure,true);
   assert.equal((await app.inject({method:'GET',url:'/api/v1/me',headers:{cookie:'kr_session='+cookie.value}})).statusCode,401);
   await page.goto(config.origin+'/game/quests');await action(page.getByRole('button',{name:'Do quest Patrol the border',exact:true}));assert.equal((await state()).questsCompleted,2);
+  const returning=await browser.newContext({ignoreHTTPSErrors:true});
+  await returning.route('**/*',route=>new URL(route.request().url()).origin===config.origin?route.continue():route.abort());
+  await returning.addCookies([{name:'kr_session',value:oldRivalSession.token,url:config.origin,httpOnly:true,secure:false,sameSite:'Lax'}]);
+  const oldPage=await returning.newPage();await oldPage.goto(config.origin+'/game/quests');
+  await Promise.all([oldPage.waitForURL(url=>url.searchParams.has('command')),oldPage.getByRole('button',{name:'Do quest Patrol the border',exact:true}).click()]);
+  assert.equal(await oldPage.getByRole('alert').count(),0);assert.equal((await oldPage.request.get(config.origin+'/api/v1/me').then(r=>r.json())).state.id,rival.characterId);
+  await oldPage.goto(config.origin+'/game/profile');await Promise.all([oldPage.waitForURL(config.origin+'/login'),oldPage.getByRole('button',{name:'Sign out',exact:true}).click()]);
+  assert.equal((await oldPage.request.get(config.origin+'/api/v1/me')).status(),401);await returning.close();
   assert.ok(observed.length>=8);observed.forEach(request=>assert.equal(request.origin,config.origin));assert.deepEqual(errors,[]);
   const out=join(projectRoot,'test-results/codespaces-https');await mkdir(out,{recursive:true});await page.screenshot({path:join(out,'phone-quest-success.png'),fullPage:true});
   const summary={passed:true,fixture:'Real local TLS reverse proxy, standard Codespaces-shaped HTTPS origin and HTTP backend',live_provider_contacted:false,
-    existing_accounts_preserved:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
+    existing_accounts_preserved:true,pre_fix_non_secure_cookie_still_authenticates_over_https:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
     form_actions:['Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login'],browser_errors:errors.length};
   await writeFile(join(out,'summary.json'),JSON.stringify(summary,null,2)+'\n');
   console.log('PASS: existing accounts can quest, buy, manage Land, battle, log out and log back in through a Codespaces HTTPS reverse-proxy fixture. Secure cookies, CSRF and Origin/forwarded-header forgery regressions pass.');

@@ -16,6 +16,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const port = Number(env.PORT ?? 3000);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid PORT.');
   const configured = env.APP_ORIGIN ? new URL(env.APP_ORIGIN) : null;
+  if(configured&&(!['http:','https:'].includes(configured.protocol)||configured.username||configured.password)) throw new Error('APP_ORIGIN must be an HTTP(S) origin without credentials.');
   if (configured && (configured.pathname !== '/' || configured.search || configured.hash)) throw new Error('APP_ORIGIN must not contain a path or query.');
   let codespaceOrigin:string|null=null;
   const forwardingDomain=(env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN ?? 'app.github.dev').toLowerCase();

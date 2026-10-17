@@ -12,7 +12,7 @@ import {attributes,navigationLinks} from './html-contracts.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),read=path=>readFileSync(join(root,path),'utf8');
 const json=path=>JSON.parse(read(path));
-const rules=json('rulesets/recreation-0.1/rules.json'),landRules=json('rulesets/land-provisional-0.1/rules.json'),alpha=json('rulesets/alpha-0.1/rules.json');
+const rules=json('rulesets/recreation-0.1/rules.json'),landRules=json('rulesets/land-provisional-0.1/rules.json'),alpha=json('rulesets/alpha-0.2/rules.json');
 const contractSource=stripTypeScriptTypes(read('src/http-contracts.ts'),{mode:'transform'});
 const {navigation,templateScreens,commandRoutes}=await import('data:text/javascript;base64,'+Buffer.from(contractSource).toString('base64'));
 const results=[];
@@ -43,8 +43,24 @@ for(const [manifest,count] of [['public/art/provenance.json',11],['public/art/la
     for(const item of art.assets)assert.equal(createHash('sha256').update(readFileSync(join(root,dirname(manifest),item.asset))).digest('hex'),item.sha256,item.asset);
   });
 }
+check('Fantasy illustration sheets and all catalog cell assignments are intact',()=>{
+  const manifest=json('public/art/fantasy-0.2/provenance.json');assert.equal(manifest.assets.length,4);
+  const cells=new Set();
+  for(const asset of manifest.assets){
+    const bytes=readFileSync(join(root,'public/art/fantasy-0.2',asset.asset));assert.equal(bytes.length,asset.bytes);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);
+    const bounds=manifest.observed_row_bounds[asset.atlas];assert.equal(bounds.length,asset.rows+1);assert.equal(bounds[0],0);assert.equal(bounds.at(-1),asset.height);
+    for(let i=1;i<bounds.length;i++)assert.ok(bounds[i]>bounds[i-1]);
+  }
+  for(const entry of [...alpha.items,...alpha.properties]){
+    const art=entry.illustration,atlas=manifest.assets.find(a=>a.atlas===art.atlas);assert.ok(atlas);
+    assert.ok(art.column>=0&&art.column<atlas.columns&&art.row>=0&&art.row<atlas.rows);
+    const key=art.atlas+':'+art.column+':'+art.row;assert.ok(!cells.has(key));cells.add(key);
+  }
+  assert.equal(cells.size,81);
+});
 check('CSS uses local assets; original tab gradients and safe areas remain',()=>{
-  for(const file of ['public/styles.css','public/kingdoms-live.css','public/alpha.css']){
+  for(const file of ['public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css']){
     for(const match of read(file).matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)){
       assert.ok(!/^(?:https?:|\/\/)/.test(match[1]));assert.ok(existsSync(resolve(root,dirname(file),match[1])),match[1]);
     }
@@ -70,7 +86,7 @@ const legacyBattle={id:battleId,attackerId:playerId,defenderId:targetId,attacker
 const newBattle={...legacyBattle,rulesetId:alpha.id,attackPower:2000,defensePower:1000,attackerArmy:4,defenderArmy:2,attackerMaxHealth:110,defenderMaxHealth:100,spiritSpent:1,rewarded:true,attackEquipment:[],defenseEquipment:[]};
 const opponent={id:targetId,name:'Morgan',level:3,units:2,armySize:3,className:'Freeblade',health:100,maxHealth:100};
 const fixture=(screen,extra={})=>({screen,state,nav:navigation,rules,landRules,alpha,csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:null,
- opponents:[opponent],nextOpponentCursor:null,battles:[],battle:newBattle,title:navigation.find(n=>n.id===screen)?.label??'The Realm',authMode:'login',formValues:{username:'',name:''},category:'weapon',...extra});
+ opponents:[opponent],nextOpponentCursor:null,battles:[],battle:newBattle,title:navigation.find(n=>n.id===screen)?.label??'The Realm',authMode:'login',formValues:{username:'',name:''},category:'weapon',questArea:'all',...extra});
 const emptyLand={...land,hourlyIncome:0,hourlyUpkeep:0,totalUpkeep:0,netHourlyIncome:0,nextPaymentAt:null,holdings:[],properties:properties.map(p=>({...p,owned:0}))};
 const cases=[
  ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'profile',data:fixture('profile')},
@@ -85,7 +101,7 @@ const cases=[
  {name:'land-retained',data:fixture('land',{state:{...state,land:{...land,pendingGold:'99999900000000000'}}})},
  {name:'battle-empty',data:fixture('battle',{opponents:[]})},{name:'battle-recovering',data:fixture('battle',{state:{...state,health:0,spirit:0}})},
  {name:'home-history',data:fixture('home',{battles:[{id:battleId,result:newBattle,created_at:now}]})},
- {name:'report-alpha',data:fixture('report')},{name:'report-legacy',data:fixture('report',{battle:legacyBattle})},
+ {name:'report-alpha',data:fixture('report')},{name:'report-previous-alpha',data:fixture('report',{battle:{...newBattle,rulesetId:'alpha-0.1'}})},{name:'report-legacy',data:fixture('report',{battle:legacyBattle})},
  ...['auth','rules','error'].flatMap(screen=>[{name:screen+'-public',data:fixture(screen,{state:null})},...(screen==='auth'?[{name:'register',data:fixture('auth',{state:null,authMode:'register'})}]:[{name:screen+'-signed-in',data:fixture(screen)}])]),
  {name:'escaped-name',data:fixture('home',{state:{...state,name:'<img src=x onerror=1>'}})},
  {name:'large-resources',data:fixture('home',{state:{...state,name:'MMMMMMMMMMMMMMMMMMMMMMMMMMMM',gold:2147483647,xp:2147483647,level:42949673}})},

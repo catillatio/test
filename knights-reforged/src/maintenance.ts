@@ -47,6 +47,11 @@ export async function refreshMaintenance(sql:Sql,characterId:string,commandId:st
   const rate=(await readInventory(sql,characterId)).reduce((n,item)=>n+item.quantity*item.upkeep,0);
   const old=await maintenanceAccount(sql,characterId,now);
   await sql.query('UPDATE maintenance_accounts SET hourly_rate=$2 WHERE character_id=$1',[characterId,rate]);
+  if(rate>0&&BigInt(old.reserve_gold)>BigInt(rate)) {
+    const excess=BigInt(old.reserve_gold)-BigInt(rate);
+    await sql.query('UPDATE maintenance_accounts SET reserve_gold=$2 WHERE character_id=$1',[characterId,rate]);
+    await creditGold(sql,characterId,excess,commandId,'maintenance_reserve_return',alpha.id);
+  }
   if (!rate) {
     if (BigInt(old.reserve_gold)) {
       await sql.query('UPDATE maintenance_accounts SET reserve_gold=0 WHERE character_id=$1',[characterId]);

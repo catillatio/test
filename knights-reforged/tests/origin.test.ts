@@ -23,6 +23,7 @@ test('an explicit custom HTTPS realm is preserved; ordinary local development st
 test('untrusted or malformed deployment metadata fails closed',()=>{
   for(const CODESPACE_NAME of ['bad/name','bad@name','x.evil.example','bad name'])assert.throws(()=>loadConfig({...codespace,CODESPACE_NAME}),/Codespace/);
   for(const domain of ['app.github.dev/attack','app.github.dev@evil.example','app.github.dev:443','https://app.github.dev'])assert.throws(()=>loadConfig({...codespace,GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:domain}),/forwarding domain/);
+  for(const APP_ORIGIN of ['ftp://localhost:3000','http://user:pass@localhost:3000'])assert.throws(()=>loadConfig({...codespace,APP_ORIGIN}),/HTTP\(S\) origin without credentials/);
   assert.throws(()=>loadConfig({APP_ORIGIN:'https://bluepawgames.com'}),/historical/);
   assert.throws(()=>loadConfig({APP_ORIGIN:'https://storm8.com'}),/historical/);
 });

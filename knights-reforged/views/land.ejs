@@ -9,8 +9,8 @@
 <div class="catalog land-properties">
 <% for (const property of state.land.properties) { const unlocked=state.level>=property.level;const available=property.maxAffordable; %>
 <article class="catalog-row land-property" data-land-property="<%= property.id %>" data-price-steps="<%= JSON.stringify(property.priceSteps) %>">
-<img class="catalog-art" src="/assets/art/alpha/<%= property.art %>.svg" width="76" height="76" alt="<%= property.name %> illustration">
-<div class="catalog-description"><h2><%= property.name %></h2><span>Income: <strong class="gold"><%= property.hourlyIncome %></strong> / hour</span><span>Upkeep: <%= property.hourlyUpkeep %> / hour</span><% if (!unlocked) { %><span class="warning">Level <%= property.level %> required</span><% } %></div>
+<%- include('partials/catalog-art',{entry:property,small:false}) %>
+<div class="catalog-description"><h2><%= property.name %></h2><small class="catalog-tier"><%= property.tier??'' %></small><span>Income: <strong class="gold"><%= property.hourlyIncome %></strong> / hour</span><span>Upkeep: <%= property.hourlyUpkeep %> / hour</span><% if (!unlocked) { %><span class="warning">Level <%= property.level %> required</span><% } %></div>
 <div class="catalog-trade"><div class="price-owned"><strong class="gold">● <span data-land-unit-price><%= property.price.toLocaleString('en') %></span></strong><span>Owned: <strong data-land-owned><%= property.owned %></strong></span></div>
 <div class="trade-actions">
 <form method="post" action="/game/land/buy" class="land-buy-form"><%- include('partials/command-fields') %><input type="hidden" name="propertyId" value="<%= property.id %>"><label class="sr-only" for="land-quantity-<%= property.id %>">Buy quantity for <%= property.name %></label><input class="quantity" id="land-quantity-<%= property.id %>" name="quantity" type="number" inputmode="numeric" min="1" max="<%= Math.max(1,available) %>" value="1" required<% if (!available||!unlocked) { %> disabled<% } %>><button class="button button-gold" type="submit" aria-label="Buy <%= property.name %>"<% if (!available||!unlocked) { %> disabled<% } %>>Buy</button></form>

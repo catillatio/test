@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { type Database,transaction } from './db.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
-import { alpha,itemById,questById,areRivals,resolveAlphaCombat } from './alpha-rules.js';
+import { alpha,itemById,questById,lootById,areRivals,resolveAlphaCombat } from './alpha-rules.js';
 import { clock,lockCharacters,materialize,stateFrom,type CharacterRow } from './game.js';
 import { ledger,creditGold } from './economy.js';
 import { purchaseItems,sellItem,readInventory } from './inventory.js';
@@ -77,7 +77,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         result.data={goldSpent:purchase.cost,items:projected.missing,questId:quest.id};
       } else {
         if (Object.keys(projected.missing).length) throw new GameError('MISSING_EQUIPMENT','Buy the required equipment before attempting this quest.',409);
-        if (quest.requiresLoot&&!state.loot.some(loot=>loot.id===quest.requiresLoot)) throw new GameError('LOOT_REQUIRED','Find the Watchtower Map at the Fallen Abbey.',409);
+        if (quest.requiresLoot&&!state.loot.some(loot=>loot.id===quest.requiresLoot)) throw new GameError('LOOT_REQUIRED','Discover the '+lootById.get(quest.requiresLoot)!.name+' before attempting this quest.',409);
         if (state.army.participants<quest.army) throw new GameError('ARMY_REQUIRED','This quest needs '+quest.army+' participating army members.',409);
         if (actor.mana<quest.mana) throw new GameError('INSUFFICIENT_MANA','Wait for Mana to recover or complete a cheaper quest.',409);
         const gold=randomInt(quest.goldMin,quest.goldMax+1);

@@ -4,9 +4,9 @@ import { type Database, type Sql, transaction } from './db.js';
 import { projectRoot } from './config.js';
 import { rules } from './rules.js';
 import { landRules } from './land-rules.js';
-import { alpha } from './alpha-rules.js';
+import { alpha,alphaCatalogs } from './alpha-rules.js';
 
-const definitions=[rules,landRules,alpha];
+const definitions=[rules,landRules,...alphaCatalogs];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 
@@ -35,5 +35,16 @@ export async function migrate(db: Database, options: { through?: string } = {}) 
       await client.query('INSERT INTO rulesets(id,definition) VALUES($1,$2) ON CONFLICT DO NOTHING', [definition.id, definition]);
     }
     await assertInstalledRulesets(client);
+    if((await client.query("SELECT name FROM schema_migrations WHERE name='006_fantasy_progression.sql'")).rows.length) {
+      // One-time entitlements also apply to existing high-level characters.
+      // Never recompute their XP/levels, touch their timers, or re-grant spent points.
+      for(const milestone of alpha.progression.milestones??[]) {
+        await client.query(`WITH awarded AS (
+          INSERT INTO progression_awards(character_id,award_id,points)
+          SELECT id,$1,$2 FROM characters WHERE attained_level>=$3
+          ON CONFLICT DO NOTHING RETURNING character_id,points)
+          UPDATE characters c SET skill_points=c.skill_points+a.points FROM awarded a WHERE c.id=a.character_id`,[milestone.id,milestone.points,milestone.level]);
+      }
+    }
   });
 }

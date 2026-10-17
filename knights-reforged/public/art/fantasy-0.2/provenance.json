@@ -1,0 +1,643 @@
+{
+  "source": "Original Knights Reforged artwork generated with image_gen.imagegen on 2026-10-17. Not recovered Storm8 artwork.",
+  "style": "Coherent painted dark medieval fantasy; grounded early tiers, runic/elemental midgame and dragon/astral/eclipse high tiers.",
+  "observed_row_bounds": {"weapons":[0,234,470,697,930,1200],"armor":[0,229,459,689,921,1200],"spells":[0,237,478,721,948,1200],"properties":[0,221,437,657,880,1127,1440]},
+  "layout_note": "Generated row heights vary. CSS maps these observed vertical pixel bounds instead of assuming a uniform grid. Original and runtime image files are unchanged by this layout correction.",
+  "processing": "Original generated PNGs preserved unchanged in the workspace. Runtime WebP sheets encoded with FFmpeg, quality 84, sized for mobile. CSS selects cells; no separate per-item HTTP image fetches.",
+  "assets": [
+    {
+      "atlas": "weapons",
+      "asset": "weapons.webp",
+      "columns": 4,
+      "rows": 5,
+      "width": 960,
+      "height": 1200,
+      "bytes": 156344,
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030",
+      "original_png": "/workspace/generated_images/exec-0f0ae170-dd29-4c44-b844-7c7ecabe86c5.png",
+      "original_sha256": "ae72869fcf4884739fc1ed1e9efa18b000a9686f5dad801dcf42942256e9880a"
+    },
+    {
+      "atlas": "armor",
+      "asset": "armor.webp",
+      "columns": 4,
+      "rows": 5,
+      "width": 960,
+      "height": 1200,
+      "bytes": 296830,
+      "sha256": "1210ae0ce0be9f37a613c754533738dceee3a4b63f43094bdd526d2998149fd1",
+      "original_png": "/workspace/generated_images/exec-1c4c7745-55a1-4f41-843e-bff0004e79b7.png",
+      "original_sha256": "193827c7136bd2e94170a06d62eba8408abcc8af020c1ee7eb36d8569c286b72"
+    },
+    {
+      "atlas": "spells",
+      "asset": "spells.webp",
+      "columns": 4,
+      "rows": 5,
+      "width": 960,
+      "height": 1200,
+      "bytes": 348390,
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67",
+      "original_png": "/workspace/generated_images/exec-85bd3815-feef-401b-a6e9-24cbfd1bf540.png",
+      "original_sha256": "33b83898e66071c641243ccafea60bd463b1e55bff1e96c6a822b8bc3e302ca2"
+    },
+    {
+      "atlas": "properties",
+      "asset": "properties.webp",
+      "columns": 4,
+      "rows": 6,
+      "width": 960,
+      "height": 1440,
+      "bytes": 487488,
+      "sha256": "cbce02b53f639b98f1b9761fd021c3e2bc7763b2ffda691cc114d78c783982b1",
+      "original_png": "/workspace/generated_images/exec-417405f0-d965-4c38-a313-8d5f6c171326.png",
+      "original_sha256": "8ddf3dedd293089c1984b01fa5e8a7354622b4bdcff4121e5609ed2cfa8d6a70"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "squires-blade",
+      "name": "Squire's Blade",
+      "atlas": "weapons",
+      "column": 0,
+      "row": 0
+    },
+    {
+      "id": "ash-spear",
+      "name": "Ash Spear",
+      "atlas": "weapons",
+      "column": 1,
+      "row": 0
+    },
+    {
+      "id": "iron-sword",
+      "name": "Iron sword",
+      "atlas": "weapons",
+      "column": 2,
+      "row": 0
+    },
+    {
+      "id": "ransackers-axe",
+      "name": "Ransacker's Axe",
+      "atlas": "weapons",
+      "column": 0,
+      "row": 1
+    },
+    {
+      "id": "sunsteel-glaive",
+      "name": "Sunsteel Glaive",
+      "atlas": "weapons",
+      "column": 2,
+      "row": 1
+    },
+    {
+      "id": "wicker-buckler",
+      "name": "Wicker Buckler",
+      "atlas": "armor",
+      "column": 0,
+      "row": 0
+    },
+    {
+      "id": "padded-coat",
+      "name": "Padded Coat",
+      "atlas": "armor",
+      "column": 2,
+      "row": 0
+    },
+    {
+      "id": "warden-mail",
+      "name": "Warden Mail",
+      "atlas": "armor",
+      "column": 3,
+      "row": 0
+    },
+    {
+      "id": "castellan-helm",
+      "name": "Castellan Helm",
+      "atlas": "armor",
+      "column": 1,
+      "row": 1
+    },
+    {
+      "id": "ember-word",
+      "name": "Ember Word",
+      "atlas": "spells",
+      "column": 0,
+      "row": 0
+    },
+    {
+      "id": "hearth-ward",
+      "name": "Hearth Ward",
+      "atlas": "spells",
+      "column": 1,
+      "row": 0
+    },
+    {
+      "id": "thorn-hex",
+      "name": "Thorn Hex",
+      "atlas": "spells",
+      "column": 3,
+      "row": 0
+    },
+    {
+      "id": "storm-sigil",
+      "name": "Storm Sigil",
+      "atlas": "spells",
+      "column": 1,
+      "row": 1
+    },
+    {
+      "id": "hazeltwig-longbow",
+      "name": "Hazeltwig Longbow",
+      "atlas": "weapons",
+      "column": 3,
+      "row": 0
+    },
+    {
+      "id": "wardens-halberd",
+      "name": "Warden's Halberd",
+      "atlas": "weapons",
+      "column": 1,
+      "row": 1
+    },
+    {
+      "id": "kingsguard-longsword",
+      "name": "Kingsguard Longsword",
+      "atlas": "weapons",
+      "column": 3,
+      "row": 1
+    },
+    {
+      "id": "briarheart-bow",
+      "name": "Briarheart Bow",
+      "atlas": "weapons",
+      "column": 0,
+      "row": 2
+    },
+    {
+      "id": "runescar-saber",
+      "name": "Runescar Saber",
+      "atlas": "weapons",
+      "column": 1,
+      "row": 2
+    },
+    {
+      "id": "stormglass-pike",
+      "name": "Stormglass Pike",
+      "atlas": "weapons",
+      "column": 2,
+      "row": 2
+    },
+    {
+      "id": "cinderwyrm-cleaver",
+      "name": "Cinderwyrm Cleaver",
+      "atlas": "weapons",
+      "column": 3,
+      "row": 2
+    },
+    {
+      "id": "moonthorn-recurve",
+      "name": "Moonthorn Recurve",
+      "atlas": "weapons",
+      "column": 0,
+      "row": 3
+    },
+    {
+      "id": "oathbound-greatsword",
+      "name": "Oathbound Greatsword",
+      "atlas": "weapons",
+      "column": 1,
+      "row": 3
+    },
+    {
+      "id": "gravewarden-scythe",
+      "name": "Gravewarden Scythe",
+      "atlas": "weapons",
+      "column": 2,
+      "row": 3
+    },
+    {
+      "id": "sun-etched-warhammer",
+      "name": "Sun-etched Warhammer",
+      "atlas": "weapons",
+      "column": 3,
+      "row": 3
+    },
+    {
+      "id": "dragonwake-falchion",
+      "name": "Dragonwake Falchion",
+      "atlas": "weapons",
+      "column": 0,
+      "row": 4
+    },
+    {
+      "id": "astral-conductor",
+      "name": "Astral Conductor",
+      "atlas": "weapons",
+      "column": 1,
+      "row": 4
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "name": "Crown of Ash Blade",
+      "atlas": "weapons",
+      "column": 2,
+      "row": 4
+    },
+    {
+      "id": "eclipse-greatsword",
+      "name": "Eclipse Greatsword",
+      "atlas": "weapons",
+      "column": 3,
+      "row": 4
+    },
+    {
+      "id": "tanned-leather-jerkin",
+      "name": "Tanned Leather Jerkin",
+      "atlas": "armor",
+      "column": 1,
+      "row": 0
+    },
+    {
+      "id": "gateward-kite-shield",
+      "name": "Gateward Kite Shield",
+      "atlas": "armor",
+      "column": 0,
+      "row": 1
+    },
+    {
+      "id": "runebound-hauberk",
+      "name": "Runebound Hauberk",
+      "atlas": "armor",
+      "column": 2,
+      "row": 1
+    },
+    {
+      "id": "verdant-aegis",
+      "name": "Verdant Aegis",
+      "atlas": "armor",
+      "column": 3,
+      "row": 1
+    },
+    {
+      "id": "argent-sentinel-plate",
+      "name": "Argent Sentinel Plate",
+      "atlas": "armor",
+      "column": 0,
+      "row": 2
+    },
+    {
+      "id": "frostweave-mantle",
+      "name": "Frostweave Mantle",
+      "atlas": "armor",
+      "column": 1,
+      "row": 2
+    },
+    {
+      "id": "embercrest-bulwark",
+      "name": "Embercrest Bulwark",
+      "atlas": "armor",
+      "column": 2,
+      "row": 2
+    },
+    {
+      "id": "nightwatch-carapace",
+      "name": "Nightwatch Carapace",
+      "atlas": "armor",
+      "column": 3,
+      "row": 2
+    },
+    {
+      "id": "oathkeepers-cuirass",
+      "name": "Oathkeeper's Cuirass",
+      "atlas": "armor",
+      "column": 0,
+      "row": 3
+    },
+    {
+      "id": "ossuary-raiment",
+      "name": "Ossuary Raiment",
+      "atlas": "armor",
+      "column": 1,
+      "row": 3
+    },
+    {
+      "id": "dawnforge-panoply",
+      "name": "Dawnforge Panoply",
+      "atlas": "armor",
+      "column": 2,
+      "row": 3
+    },
+    {
+      "id": "wyrmscale-aegis",
+      "name": "Wyrmscale Aegis",
+      "atlas": "armor",
+      "column": 3,
+      "row": 3
+    },
+    {
+      "id": "astral-archon-robes",
+      "name": "Astral Archon Robes",
+      "atlas": "armor",
+      "column": 0,
+      "row": 4
+    },
+    {
+      "id": "sovereigns-bastion",
+      "name": "Sovereign's Bastion",
+      "atlas": "armor",
+      "column": 1,
+      "row": 4
+    },
+    {
+      "id": "seraphic-vestment",
+      "name": "Seraphic Vestment",
+      "atlas": "armor",
+      "column": 2,
+      "row": 4
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "name": "Eclipse Citadel Plate",
+      "atlas": "armor",
+      "column": 3,
+      "row": 4
+    },
+    {
+      "id": "lantern-mote",
+      "name": "Lantern Mote",
+      "atlas": "spells",
+      "column": 2,
+      "row": 0
+    },
+    {
+      "id": "stonebinding",
+      "name": "Stonebinding",
+      "atlas": "spells",
+      "column": 0,
+      "row": 1
+    },
+    {
+      "id": "tempest-lance",
+      "name": "Tempest Lance",
+      "atlas": "spells",
+      "column": 2,
+      "row": 1
+    },
+    {
+      "id": "silverroot-ward",
+      "name": "Silverroot Ward",
+      "atlas": "spells",
+      "column": 3,
+      "row": 1
+    },
+    {
+      "id": "runic-convergence",
+      "name": "Runic Convergence",
+      "atlas": "spells",
+      "column": 0,
+      "row": 2
+    },
+    {
+      "id": "winters-judgment",
+      "name": "Winter's Judgment",
+      "atlas": "spells",
+      "column": 1,
+      "row": 2
+    },
+    {
+      "id": "ashen-revenant",
+      "name": "Ashen Revenant",
+      "atlas": "spells",
+      "column": 2,
+      "row": 2
+    },
+    {
+      "id": "moonwell-veil",
+      "name": "Moonwell Veil",
+      "atlas": "spells",
+      "column": 3,
+      "row": 2
+    },
+    {
+      "id": "oathfire-nova",
+      "name": "Oathfire Nova",
+      "atlas": "spells",
+      "column": 0,
+      "row": 3
+    },
+    {
+      "id": "grave-tide",
+      "name": "Grave Tide",
+      "atlas": "spells",
+      "column": 1,
+      "row": 3
+    },
+    {
+      "id": "dawnstar-benediction",
+      "name": "Dawnstar Benediction",
+      "atlas": "spells",
+      "column": 2,
+      "row": 3
+    },
+    {
+      "id": "dragons-last-breath",
+      "name": "Dragon's Last Breath",
+      "atlas": "spells",
+      "column": 3,
+      "row": 3
+    },
+    {
+      "id": "astral-tempest",
+      "name": "Astral Tempest",
+      "atlas": "spells",
+      "column": 0,
+      "row": 4
+    },
+    {
+      "id": "voidbound-chain",
+      "name": "Voidbound Chain",
+      "atlas": "spells",
+      "column": 1,
+      "row": 4
+    },
+    {
+      "id": "seraphs-rebuke",
+      "name": "Seraph's Rebuke",
+      "atlas": "spells",
+      "column": 2,
+      "row": 4
+    },
+    {
+      "id": "eclipse-invocation",
+      "name": "Eclipse Invocation",
+      "atlas": "spells",
+      "column": 3,
+      "row": 4
+    },
+    {
+      "id": "smallholding",
+      "name": "Smallholding",
+      "atlas": "properties",
+      "column": 0,
+      "row": 0
+    },
+    {
+      "id": "woodland",
+      "name": "Woodland",
+      "atlas": "properties",
+      "column": 1,
+      "row": 0
+    },
+    {
+      "id": "copper-workshop",
+      "name": "Copper Workshop",
+      "atlas": "properties",
+      "column": 2,
+      "row": 0
+    },
+    {
+      "id": "watchtower",
+      "name": "Watchtower",
+      "atlas": "properties",
+      "column": 3,
+      "row": 0
+    },
+    {
+      "id": "river-mill",
+      "name": "River Mill",
+      "atlas": "properties",
+      "column": 0,
+      "row": 1
+    },
+    {
+      "id": "hearthstead-hamlet",
+      "name": "Hearthstead Hamlet",
+      "atlas": "properties",
+      "column": 1,
+      "row": 1
+    },
+    {
+      "id": "crown-harbour",
+      "name": "Crown Harbour",
+      "atlas": "properties",
+      "column": 2,
+      "row": 1
+    },
+    {
+      "id": "granite-quarry",
+      "name": "Granite Quarry",
+      "atlas": "properties",
+      "column": 3,
+      "row": 1
+    },
+    {
+      "id": "bannerhold-manor",
+      "name": "Bannerhold Manor",
+      "atlas": "properties",
+      "column": 0,
+      "row": 2
+    },
+    {
+      "id": "silver-vein-mine",
+      "name": "Silver Vein Mine",
+      "atlas": "properties",
+      "column": 1,
+      "row": 2
+    },
+    {
+      "id": "moonwell-sanctuary",
+      "name": "Moonwell Sanctuary",
+      "atlas": "properties",
+      "column": 2,
+      "row": 2
+    },
+    {
+      "id": "ironwood-fort",
+      "name": "Ironwood Fort",
+      "atlas": "properties",
+      "column": 3,
+      "row": 2
+    },
+    {
+      "id": "tempest-port",
+      "name": "Tempest Port",
+      "atlas": "properties",
+      "column": 0,
+      "row": 3
+    },
+    {
+      "id": "runekeeper-academy",
+      "name": "Runekeeper Academy",
+      "atlas": "properties",
+      "column": 1,
+      "row": 3
+    },
+    {
+      "id": "oathbound-citadel",
+      "name": "Oathbound Citadel",
+      "atlas": "properties",
+      "column": 2,
+      "row": 3
+    },
+    {
+      "id": "dawnspire-cathedral",
+      "name": "Dawnspire Cathedral",
+      "atlas": "properties",
+      "column": 3,
+      "row": 3
+    },
+    {
+      "id": "wyrmcrest-keep",
+      "name": "Wyrmcrest Keep",
+      "atlas": "properties",
+      "column": 0,
+      "row": 4
+    },
+    {
+      "id": "astral-observatory",
+      "name": "Astral Observatory",
+      "atlas": "properties",
+      "column": 1,
+      "row": 4
+    },
+    {
+      "id": "throne-of-ash",
+      "name": "Throne of Ash",
+      "atlas": "properties",
+      "column": 2,
+      "row": 4
+    },
+    {
+      "id": "eclipse-citadel",
+      "name": "Eclipse Citadel",
+      "atlas": "properties",
+      "column": 3,
+      "row": 4
+    },
+    {
+      "id": "worldroot-bastion",
+      "name": "Worldroot Bastion",
+      "atlas": "properties",
+      "column": 0,
+      "row": 5
+    }
+  ],
+  "spare_property_cells": [
+    {
+      "column": 1,
+      "row": 5,
+      "purpose": "Mountain pass vignette"
+    },
+    {
+      "column": 2,
+      "row": 5,
+      "purpose": "Runic gate vignette"
+    },
+    {
+      "column": 3,
+      "row": 5,
+      "purpose": "Kingdom at dawn vignette"
+    }
+  ]
+}

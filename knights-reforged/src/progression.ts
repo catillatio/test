@@ -18,10 +18,12 @@ export async function awardMilestones(sql:Sql,characterId:string) {
   const row=(await sql.query(`SELECT c.attained_level,(SELECT COALESCE(SUM(completions),0)::int FROM character_quest_progress p WHERE p.character_id=c.id) AS quests,
     (SELECT count(*)::int FROM battles b WHERE b.attacker_id=c.id AND b.outcome='attacker_win') AS wins FROM characters c WHERE c.id=$1`,[characterId])).rows[0]!;
   const awarded:string[]=[];
-  for (const [id,qualifies] of [['quests-10',row.quests>=10],['level-5',row.attained_level>=5],['first-victory',row.wins>=1]] as const) {
+  const candidates=[{id:'quests-10',points:1,qualifies:row.quests>=10},{id:'first-victory',points:1,qualifies:row.wins>=1},
+    ...(alpha.progression.milestones??[]).map(milestone=>({...milestone,qualifies:row.attained_level>=milestone.level}))];
+  for (const {id,points,qualifies} of candidates) {
     if (!qualifies) continue;
-    const inserted=await sql.query('INSERT INTO progression_awards(character_id,award_id,points) VALUES($1,$2,1) ON CONFLICT DO NOTHING RETURNING award_id',[characterId,id]);
-    if (inserted.rows.length) { await sql.query('UPDATE characters SET skill_points=skill_points+1 WHERE id=$1',[characterId]);awarded.push(id); }
+    const inserted=await sql.query('INSERT INTO progression_awards(character_id,award_id,points) VALUES($1,$2,$3) ON CONFLICT DO NOTHING RETURNING award_id',[characterId,id,points]);
+    if (inserted.rows.length) { await sql.query('UPDATE characters SET skill_points=skill_points+$2 WHERE id=$1',[characterId,points]);awarded.push(id); }
   }
   return awarded;
 }

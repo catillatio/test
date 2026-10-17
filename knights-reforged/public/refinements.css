@@ -3,6 +3,7 @@
 .hourly-flow[data-flow=negative] { color:#e9a292!important; }
 .hourly-flow[data-flow=neutral] { color:#c1c1ae!important; }
 .resource-upper .hourly-flow { font-size:10px; white-space:nowrap; margin-top:2px; }
+.resource-upper [data-gold-digits="9"],.resource-upper [data-gold-digits="10"] { font-size:13px; letter-spacing:-.4px; }
 .profile-link { display:inline-flex; align-items:center; justify-content:center; min-width:50px; }
 .profile-tabs>a { flex:1; font-size:13px; padding-inline:7px; }
 .profile-identity { display:flex; align-items:center; gap:12px; padding:10px 5px 14px; border-bottom:1px solid #76705b; }
@@ -19,4 +20,40 @@
 .skill-row small { display:block; max-width:250px; font-size:11px; color:#bbb9aa; margin-top:6px; }
 .profile-logout { border-top:1px solid #5e5b45; margin-top:15px; padding-top:15px; }
 #info,#skills,#discoveries,#account { scroll-margin-top:10px; }
+.region-picker { margin:10px 0 14px; border:1px solid #6d6a51; border-radius:4px; background:#10150dd9; padding:8px 10px; font-size:12px; }
+.region-picker summary { cursor:pointer; min-height:28px; display:list-item; padding-top:4px; color:#e5ce95; }
+.region-picker nav { display:flex; flex-wrap:wrap; gap:5px; padding-top:8px; }.region-picker nav a { padding:7px 9px; border:1px solid #6f735b; background:#31372a; min-height:34px; }
+.region-description { color:#c5c2ab; font:italic 12px Georgia,serif; margin:4px 2px 10px; }
+.fantasy-art { display:block; width:72px; height:72px; flex:0 0 auto; border:1px solid #74775a; border-radius:3px; background-repeat:no-repeat; background-color:#151b10; background-size:400% 500%; background-position:var(--art-x,0%) var(--art-y,0%); box-shadow:0 2px 5px #0008; }
+.atlas-weapons { background-image:url('./art/fantasy-0.2/weapons.webp'); }.atlas-armor { background-image:url('./art/fantasy-0.2/armor.webp'); }.atlas-spells { background-image:url('./art/fantasy-0.2/spells.webp'); }
+.atlas-properties { background-image:url('./art/fantasy-0.2/properties.webp'); background-size:400% 600%; }
+.art-col-0 { --art-x:0%; }.art-col-1 { --art-x:33.333333%; }.art-col-2 { --art-x:66.666667%; }.art-col-3 { --art-x:100%; }
+.art-row-0 { --art-y:0%; }.art-row-1 { --art-y:25%; }.art-row-2 { --art-y:50%; }.art-row-3 { --art-y:75%; }.art-row-4 { --art-y:100%; }
+/* Generated boards have uneven row heights. Match their observed cell bounds\n   so every property/item shows one complete painting without adjacent scenes. */
+.atlas-weapons.art-row-0 { --art-y:0.000000%; background-size:400% 512.820513%; }
+.atlas-weapons.art-row-1 { --art-y:24.273859%; background-size:400% 508.474576%; }
+.atlas-weapons.art-row-2 { --art-y:48.304214%; background-size:400% 528.634361%; }
+.atlas-weapons.art-row-3 { --art-y:72.078594%; background-size:400% 515.021459%; }
+.atlas-weapons.art-row-4 { --art-y:100.000000%; background-size:400% 444.444444%; }
+.atlas-armor.art-row-0 { --art-y:0.000000%; background-size:400% 524.017467%; }
+.atlas-armor.art-row-1 { --art-y:23.608247%; background-size:400% 521.739130%; }
+.atlas-armor.art-row-2 { --art-y:47.319588%; background-size:400% 521.739130%; }
+.atlas-armor.art-row-3 { --art-y:71.177686%; background-size:400% 517.241379%; }
+.atlas-armor.art-row-4 { --art-y:100.000000%; background-size:400% 430.107527%; }
+.atlas-spells.art-row-0 { --art-y:0.000000%; background-size:400% 506.329114%; }
+.atlas-spells.art-row-1 { --art-y:24.713243%; background-size:400% 497.925311%; }
+.atlas-spells.art-row-2 { --art-y:49.947753%; background-size:400% 493.827160%; }
+.atlas-spells.art-row-3 { --art-y:74.100719%; background-size:400% 528.634361%; }
+.atlas-spells.art-row-4 { --art-y:100.000000%; background-size:400% 476.190476%; }
+.atlas-properties.art-row-0 { --art-y:0.000000%; background-size:400% 651.583710%; }
+.atlas-properties.art-row-1 { --art-y:18.055556%; background-size:400% 666.666667%; }
+.atlas-properties.art-row-2 { --art-y:35.819672%; background-size:400% 654.545455%; }
+.atlas-properties.art-row-3 { --art-y:53.985210%; background-size:400% 645.739910%; }
+.atlas-properties.art-row-4 { --art-y:73.763621%; background-size:400% 582.995951%; }
+.atlas-properties.art-row-5 { --art-y:100.000000%; background-size:400% 460.063898%; }
+.catalog-art.art-small { width:25px!important; height:25px!important; border-radius:2px; box-shadow:none; display:inline-block; vertical-align:middle; }
+.catalog-tier { display:block; color:#b6b18b; text-transform:uppercase; letter-spacing:.4px; font-size:8px; margin:2px 0 4px; }
+.kingdoms-ui .land-property.catalog-row { grid-template-columns:88px minmax(0,1fr) 136px; min-height:134px; }
+.land-property .fantasy-art { width:88px; height:88px; }
+@media(max-width:380px) { .fantasy-art { width:58px; height:58px; }.kingdoms-ui .land-property.catalog-row { grid-template-columns:76px minmax(0,1fr) 123px; gap:5px; }.land-property .fantasy-art { width:76px; height:76px; } }
 @media(max-width:380px) { .profile-stat-grid { gap:6px 10px; }.profile-stat-grid>div { font-size:11px; gap:5px; }.profile-identity h2 { font-size:19px; }.resource-upper .hourly-flow { font-size:9px; } }

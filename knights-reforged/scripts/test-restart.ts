@@ -18,7 +18,10 @@ const port=(socket.address() as {port:number}).port;await new Promise<void>(reso
 const origin='http://127.0.0.1:'+port;
 let child:ChildProcess|undefined,output='';
 async function start(){
-  child=spawn(process.execPath,[join(projectRoot,'dist/server.js')],{cwd:projectRoot,env:{...process.env,DATABASE_URL:testDatabaseUrl,NODE_ENV:'test',HOST:'127.0.0.1',PORT:String(port),APP_ORIGIN:origin},stdio:['ignore','pipe','pipe']});
+  // This fixture intentionally exercises loopback HTTP. Do not inherit the
+  // current Codespace's provider origin into its isolated child process.
+  const env={...process.env};delete env.CODESPACE_NAME;delete env.CODESPACES;delete env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN;
+  child=spawn(process.execPath,[join(projectRoot,'dist/server.js')],{cwd:projectRoot,env:{...env,DATABASE_URL:testDatabaseUrl,NODE_ENV:'test',HOST:'127.0.0.1',PORT:String(port),APP_ORIGIN:origin},stdio:['ignore','pipe','pipe']});
   child.stdout!.on('data',chunk=>{output=(output+chunk).slice(-4000);});child.stderr!.on('data',chunk=>{output=(output+chunk).slice(-4000);});
   for(let i=0;i<80;i++){
     if(child.exitCode!==null)throw new Error('Compiled server exited: '+output);
