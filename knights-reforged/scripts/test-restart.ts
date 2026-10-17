@@ -54,15 +54,25 @@ try{
   };
   for(let i=0;i<3;i++)await command('/api/v1/quests/border-patrol/runs',{});await command('/api/v1/skills',{resource:'attack'});await command('/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});
   await command('/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});const battle=await command('/api/v1/battles',{targetCharacterId:b.id});
+  // Fund the 100-gold escrow plus fee through quests after buying Land/gear.
+  for(let i=0;i<12;i++)await command('/api/v1/quests/border-patrol/runs',{});
+  for(let i=0;i<8;i++){
+    const response=await fetch(origin+'/api/v1/quests/border-patrol/runs',{method:'POST',headers:{cookie:b.cookie,origin,'content-type':'application/json','x-csrf-token':b.csrf,'idempotency-key':randomUUID()},body:'{}'});
+    assert.equal(response.status,200,await response.clone().text());
+  }
+  await command('/api/v1/profile',{className:'Warden'});
+  const bounty=await command('/api/v1/bounties/placements',{targetCharacterId:b.id,amount:100});
   const before=(await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}}).then(r=>r.json())).state;
   await stop();await start();
   const restored=await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}});assert.equal(restored.status,200);
   const after=(await restored.json()).state;
-  for(const key of ['id','gold','xp','level','mana','spirit','health','inventory','questsCompleted','land','training','skillPoints','maxMana'])assert.deepEqual(after[key],before[key],key);
+  for(const key of ['id','gold','xp','level','mana','spirit','health','inventory','questsCompleted','land','training','skillPoints','maxMana','className','calling'])assert.deepEqual(after[key],before[key],key);
+  const contracts=await fetch(origin+'/api/v1/bounties',{headers:{cookie:a.cookie}}).then(response=>response.json());
+  assert.equal(contracts.history.find((record:{id:string})=>record.id===bounty.data.bountyId).status,'active');
   for(const owner of [a,b]){
     const report=await fetch(origin+'/api/v1/battles/'+battle.battleId,{headers:{cookie:owner.cookie}});assert.equal(report.status,200);
     assert.equal((await report.json()).battle.id,battle.battleId);
   }
   assert.equal((await fetch(origin+'/game/profile',{headers:{cookie:a.cookie}})).status,200);
-  console.log('PASS: compiled server restarted; sessions, progression, inventory, Land clocks/balances and both players’ battle access survived.');
+  console.log('PASS: compiled server restarted; sessions, progression, inventory, Land, Calling, funded bounty and both players’ private battle access survived.');
 }finally{await stop();}

@@ -10,7 +10,7 @@ import { purchaseItems,sellItem,readInventory } from './inventory.js';
 import { grantExperience,awardMilestones,allocateSkill } from './progression.js';
 import { refreshMaintenance,fundMaintenance } from './maintenance.js';
 import { buyEstate,sellEstate } from './estate.js';
-import {strategy} from './strategy-rules.js';
+import {strategy,botCatalog} from './strategy-rules.js';
 import {prepareBot} from './development.js';
 import {lockBountyEscrow,expireBounties,placeBounty,cancelBounty,claimBounty} from './bounties.js';
 
@@ -219,7 +219,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        strategyRulesetId:strategy.id,temporaryRival:targetIsBot,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        strategyRulesetId:strategy.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?botCatalog.id:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       if(combat.outcome==='attacker_win'&&!targetIsBot){

@@ -18,12 +18,13 @@
     "test": "tsx --test --test-concurrency=1 tests/*.test.ts tests/*.test.mjs",
     "test:land:offline": "node --experimental-transform-types --import ./scripts/register-typescript.mjs tests/land-rules.test.ts",
     "test:land:client": "node tests/land-client.test.mjs",
-    "test:postgres": "TEST_ENGINE=postgres tsx --test --test-concurrency=1 tests/integration.test.ts tests/alpha-integration.test.ts tests/migration.test.ts tests/profile-economy.test.ts tests/fantasy-integration.test.ts tests/phase35-migration.test.ts tests/level50-playthrough.test.ts tests/training.test.ts tests/training-migration.test.ts tests/codespaces-origin.test.ts",
+    "test:postgres": "TEST_ENGINE=postgres tsx --test --test-concurrency=1 tests/integration.test.ts tests/alpha-integration.test.ts tests/migration.test.ts tests/profile-economy.test.ts tests/fantasy-integration.test.ts tests/phase35-migration.test.ts tests/level50-playthrough.test.ts tests/training.test.ts tests/training-migration.test.ts tests/codespaces-origin.test.ts tests/strategy.test.ts tests/bounties.test.ts tests/strategy-migration.test.ts",
     "test:browser": "tsx scripts/browser-test.ts",
     "test:browser:fantasy": "tsx scripts/browser-fantasy-test.ts",
     "test:restart": "tsx scripts/test-restart.ts",
     "test:codespaces": "tsx scripts/test-codespaces.ts",
     "balance:report": "tsx scripts/balance-report.ts",
+    "balance:strategy": "tsx scripts/strategy-balance.ts",
     "verify": "npm run typecheck && npm test && npm run build"
   },
   "dependencies": {

@@ -1,0 +1,11 @@
+{
+  "id":"passive-rivals-1",
+  "provenance":"Temporary passive Kingdom Come development population. Uses ordinary army, inventory, maintenance and combat systems; these are original alpha fixtures, not Storm8 data.",
+  "profiles":{
+    "green":{"armyPercent":40,"equipmentPercent":55,"itemLevelLag":6,"levelsPerTraining":12,"surname":"Brook"},
+    "seasoned":{"armyPercent":70,"equipmentPercent":80,"itemLevelLag":2,"levelsPerTraining":6,"surname":"Ironwood"},
+    "elite":{"armyPercent":100,"equipmentPercent":100,"itemLevelLag":0,"levelsPerTraining":3,"surname":"Drake"}
+  },
+  "healthBase":100,"levelsPerHealthUpgrade":5,"healthPerUpgrade":10,
+  "names":["Alden","Branna","Corin","Dara","Elric","Fenna","Gareth","Hesta","Idris","Jora","Kael","Liora","Merric","Nerys","Orin","Petra","Quill","Riona","Soren","Tamsin","Ulric","Veya","Wystan","Xara","Yorick","Zella","Anwen","Bryn","Cedric","Delia","Eamon","Fara","Galen","Hilda","Isen","Jessam","Kellan","Lyra","Marek","Nessa","Odel","Perrin","Rhos","Selene","Torin","Una","Varric","Wren","Ysolda","Zephan"]
+}

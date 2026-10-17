@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {realm,testDatabaseUrl,type Player} from './helpers.js';
 import {bountyBoard} from '../src/bounties.js';
+import {provisionBots} from '../src/development.js';
 
 const skip=!testDatabaseUrl?'Use a disposable TEST_DATABASE_URL ending in _test.':false;
 async function setup(){
-  let now=new Date('2032-01-01T00:00:00Z');const r=await realm({clock:()=>now});
+  let now=new Date('2032-01-01T00:00:00Z');const r=await realm({isolated:true,clock:()=>now});
   const advance=(seconds:number)=>{now=new Date(+now+seconds*1000);};
   async function veteran(name='Bounty Knight'){
     const p=await r.player(name);await r.prepare(p,25000,30);
@@ -132,4 +133,14 @@ test('hunter daily count and gold ceilings keep additional winning contracts fun
       const board=await bountyBoard(r.db,hunter.id);assert.match(board.active.find(row=>row.id===finalContract)!.claimBlockedReason!,/daily/);
     }finally{await r.close();}
   }
+});
+test('temporary rivals cannot receive bounties or become player allies',{skip},async()=>{
+  const r=await setup();try{
+    await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});
+    const actor=await r.veteran();const bot=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=3 LIMIT 1")).rows[0]!;
+    const before=(await r.me(actor)).gold;
+    const response=await r.command(actor,'/api/v1/bounties/placements',{targetCharacterId:bot.character_id,amount:1000});assert.equal(response.statusCode,409);assert.equal(response.json().error.code,'BOUNTY_ELIGIBILITY');
+    assert.equal((await r.command(actor,'/api/v1/army/invitations',{targetCharacterId:bot.character_id})).json().error.code,'BOT_ARMY_LINK');
+    assert.equal((await r.me(actor)).gold,before);
+  }finally{await r.close();}
 });

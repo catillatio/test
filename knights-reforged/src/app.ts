@@ -165,8 +165,12 @@ export async function createApp(options: { db: Database; config: Config; logger?
     return render(request,reply,'profile',{title:'Character',state,battles:await recentBattles(db,state.id)});
   });
   app.get('/game/bounties',{preHandler:requireAccount},async(request,reply)=>{
-    const state=await getState(db,request.realmSession!.account_id!);
-    return render(request,reply,'bounties',{title:'Bounty List',state,bountyBoard:await loadBountyBoard(db,state.id)});
+    const accountId=request.realmSession!.account_id!;
+    const character=(await db.query('SELECT id FROM characters WHERE account_id=$1',[accountId])).rows[0];
+    if(!character)throw new GameError('CHARACTER_NOT_FOUND','Your character was not found.',404);
+    const board=await loadBountyBoard(db,character.id);
+    const state=await getState(db,accountId);
+    return render(request,reply,'bounties',{title:'Bounty List',state,bountyBoard:board});
   });
   app.get('/game/battles/:id', { preHandler: requireAccount }, async (request, reply) => {
     const id = (request.params as {id:string}).id;

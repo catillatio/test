@@ -4,7 +4,7 @@ import {transaction} from './db.js';
 import {GameError} from './errors.js';
 import {strategy,bountyFee} from './strategy-rules.js';
 import {ledger,creditGold} from './economy.js';
-import {areRivals} from './alpha-rules.js';
+import {areRivals,activeArmy} from './alpha-rules.js';
 
 const rule=strategy.bounties;
 interface BountyRecord extends Record<string,any>{id:string;sponsor_id:string;target_id:string;amount:number;fee:number;status:string;created_at:Date;expires_at:Date;claimant_id:string|null;}
@@ -93,14 +93,15 @@ export async function bountyBoard(db:Database,characterId:string){
   return transaction(db,async sql=>{
     await lockBountyEscrow(sql);const now=new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now);
     await expireBounties(sql,now);
-    const active=(await sql.query<BountyRecord>(`SELECT b.*,c.name,c.attained_level AS level,c.profile_class,c.health,c.max_health,
-      (SELECT COALESCE(sum(quantity),0)::int+1 FROM army_stacks WHERE character_id=c.id) AS army_size,
+    const active=(await sql.query<BountyRecord>(`SELECT b.*,c.name,c.attained_level AS level,c.profile_class,c.health,c.max_health,c.legacy_army_floor,
+      (SELECT COALESCE(sum(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
+      (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted') AS allies,
       sponsor.name AS sponsor_name FROM bounties b JOIN characters c ON c.id=b.target_id JOIN characters sponsor ON sponsor.id=b.sponsor_id
       WHERE b.status='active' AND b.expires_at>$1 ORDER BY b.amount DESC,b.created_at,b.id LIMIT 100`,[now])).rows;
     const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name FROM bounties b
       JOIN characters c ON c.id=b.target_id JOIN characters s ON s.id=b.sponsor_id
       WHERE b.sponsor_id=$1 OR b.target_id=$1 OR b.claimant_id=$1 ORDER BY b.created_at DESC,b.id DESC LIMIT 50`,[characterId])).rows;
-    const listings=await Promise.all(active.map(async row=>({...row,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now)})));
+    const listings=await Promise.all(active.map(async row=>({...row,armySize:activeArmy(row.level,row.units,row.allies,row.legacy_army_floor).participants,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now)})));
     return {active:listings,history,eligible:await qualified(sql,characterId),serverTime:now.toISOString(),rulesetId:strategy.id};
   });
 }

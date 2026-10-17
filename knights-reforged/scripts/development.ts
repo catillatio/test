@@ -2,6 +2,8 @@ import {loadConfig} from '../src/config.js';
 import {createDatabase} from '../src/db.js';
 import {assertInstalledRulesets} from '../src/migrate.js';
 import {requireDevelopment,provisionBots,provisionDevelopmentAccount} from '../src/development.js';
+import {authenticate} from '../src/auth.js';
+import {getState} from '../src/game.js';
 
 async function hiddenPassword():Promise<string>{
   if(process.env.KINGDOM_DEV_PASSWORD){const password=process.env.KINGDOM_DEV_PASSWORD;delete process.env.KINGDOM_DEV_PASSWORD;return password;}
@@ -28,8 +30,14 @@ const config=loadConfig(),db=createDatabase(config.databaseUrl);
 try{
   await assertInstalledRulesets(db);
   if(!(await db.query("SELECT 1 FROM schema_migrations WHERE name='010_strategy_and_bounties.sql'")).rows.length)throw new Error('Run npm run db:migrate before development provisioning.');
-  const result=action==='bots'?await provisionBots(db,permission,process.argv.includes('--disable')):
-    await provisionDevelopmentAccount(db,permission,password,process.argv.includes('--reset'));
+  let result;
+  if(action==='bots')result=await provisionBots(db,permission,process.argv.includes('--disable'));
+  else{
+    const account=await provisionDevelopmentAccount(db,permission,password,process.argv.includes('--reset'));
+    await authenticate(db,'dev',password);
+    const state=await getState(db,account.accountId);
+    result={...account,gold:state.gold,army:state.army.participants,level:state.level};
+  }
   console.log(JSON.stringify({action,...result}));
 }catch(error){console.error(error instanceof Error?error.message:'Development provisioning failed.');process.exitCode=1;}
 finally{await db.end();}

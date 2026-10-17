@@ -18,8 +18,12 @@ if (testDatabaseUrl) {
   }
 }
 export interface Player { id:string; cookie:string; csrf:string; accountId:string; }
-export async function realm(options:{clock?:()=>Date;logger?:boolean;developmentBotsEnabled?:boolean}={}) {
-  const pool=createDatabase(testDatabaseUrl!);await migrate(pool);
+export async function realm(options:{clock?:()=>Date;logger?:boolean;developmentBotsEnabled?:boolean;isolated?:boolean}={}) {
+  const schema=options.isolated?'fixture_'+randomUUID().replaceAll('-',''):null;
+  const admin=schema?createDatabase(testDatabaseUrl!):null;
+  const databaseUrl=new URL(testDatabaseUrl!);
+  if(schema){await admin!.query(`CREATE SCHEMA ${schema}`);databaseUrl.searchParams.set('options','-c search_path='+schema);}
+  const pool=createDatabase(databaseUrl.href);await migrate(pool);
   // Test-only clock adapter. All gameplay SQL/transactions are real PostgreSQL;
   // only the server's explicit clock read is replaced. No production endpoint,
   // environment switch, balance grant or historical timestamp rewrite exists.
@@ -64,5 +68,5 @@ export async function realm(options:{clock?:()=>Date;logger?:boolean;development
       if(xp)await grantExperience(sql,actor.id,xp,await clock(sql));
     });
   }
-  return {db,app,player,me,command,ok,prepare,close:async()=>{await app.close();await db.end();}};
+  return {db,app,player,me,command,ok,prepare,close:async()=>{await app.close();await db.end();if(schema){await admin!.query(`DROP SCHEMA ${schema} CASCADE`);await admin!.end();}}};
 }

@@ -78,7 +78,7 @@ check('CSS uses local assets; original tab gradients and safe areas remain',()=>
 const playerId='11111111-1111-4111-8111-111111111111',targetId='22222222-2222-4222-8222-222222222222',battleId=randomUUID(),holdingId=randomUUID();
 const now='2026-10-17T12:00:00.000Z',next='2026-10-17T13:00:00.000Z';
 const inventory=alpha.items.slice(0,3).map(item=>({...item,inventoryId:randomUUID(),quantity:2}));
-const strategy=json('rulesets/strategy-0.1/rules.json');
+const strategy=json('rulesets/strategy-0.2/rules.json');
 const properties=alpha.properties.map((p,i)=>({...p,basePrice:p.price,owned:i===0?1:0,remaining:99,maxPurchase:25,maxAffordable:1,priceSteps:[p.price],unlocked:true}));
 const land={rulesetId:alpha.id,provisional:true,paymentIntervalSeconds:3600,hourlyIncome:8,hourlyUpkeep:1,equipmentUpkeep:0,totalUpkeep:1,netHourlyIncome:7,nextPaymentAt:next,pendingGold:'0',properties,
  holdings:[{id:holdingId,propertyId:'smallholding',name:'Smallholding',quantity:1,hourlyIncome:8,hourlyUpkeep:1,nextPaymentAt:next,rulesetId:landRules.id}]};
@@ -96,7 +96,7 @@ const opponent={id:targetId,name:'Morgan',level:3,units:2,armySize:3,className:'
 const fixture=(screen,extra={})=>({screen,state,nav:navigation,rules,landRules,alpha,strategy,developmentBotsEnabled:false,bountyBoard:{active:[],history:[],eligible:true},csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:null,
  opponents:[opponent],nextOpponentCursor:null,battles:[],battle:newBattle,title:navigation.find(n=>n.id===screen)?.label??'The Realm',authMode:'login',formValues:{username:'',name:''},category:'weapon',questArea:'all',profileTab:'player',...extra});
 const emptyLand={...land,hourlyIncome:0,hourlyUpkeep:0,totalUpkeep:0,netHourlyIncome:0,nextPaymentAt:null,holdings:[],properties:properties.map(p=>({...p,owned:0}))};
-const contract={id:randomUUID(),sponsor_id:playerId,target_id:targetId,name:'Morgan',target_name:'Morgan',sponsor_name:'Arthur',level:3,profile_class:'Freeblade',army_size:3,amount:1000,fee:100,status:'active',claimant_id:null,created_at:new Date(Date.parse(now)-7200000).toISOString(),expires_at:next,claimBlockedReason:'Sponsors cannot claim their own contracts.'};
+const contract={id:randomUUID(),sponsor_id:playerId,target_id:targetId,name:'Morgan',target_name:'Morgan',sponsor_name:'Arthur',level:3,profile_class:'Freeblade',army_size:3,armySize:3,amount:1000,fee:100,status:'active',claimant_id:null,created_at:new Date(Date.parse(now)-7200000).toISOString(),expires_at:next,claimBlockedReason:'Sponsors cannot claim their own contracts.'};
 const cases=[
  ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'bounties-empty',data:fixture('bounties')},{name:'bounties-own',data:fixture('bounties',{bountyBoard:{eligible:true,active:[contract],history:[contract,...['claimed','expired','canceled'].map(status=>({...contract,id:randomUUID(),status}))]}})},{name:'bounties-hunt',data:fixture('bounties',{bountyBoard:{eligible:true,active:[{...contract,sponsor_id:randomUUID(),claimBlockedReason:null}],history:[]}})},{name:'profile',data:fixture('profile')},{name:'profile-skills',data:fixture('profile',{profileTab:'skills'})},{name:'profile-battles',data:fixture('profile',{profileTab:'battles',battles:[{id:battleId,result:newBattle,created_at:now}]})},
  {name:'armory-armor',data:fixture('armory',{category:'armor'})},{name:'armory-spells',data:fixture('armory',{category:'spell'})},

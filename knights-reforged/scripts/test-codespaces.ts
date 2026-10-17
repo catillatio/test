@@ -20,12 +20,22 @@ import {createApp} from '../src/app.js';
 import {urlOrigin} from '../src/request-origin.js';
 import {registerAccount,createSession} from '../src/auth.js';
 import {testDatabaseUrl} from '../tests/helpers.js';
+import {provisionBots} from '../src/development.js';
+import {transaction} from '../src/db.js';
+import {ledger} from '../src/economy.js';
+import {grantExperience} from '../src/progression.js';
+import {lockCharacters,clock} from '../src/game.js';
+import {alpha,levelRequirement} from '../src/alpha-rules.js';
+import {executeCommand} from '../src/commands.js';
 
 if(!testDatabaseUrl)throw new Error('Use TEST_DATABASE_URL for a disposable *_test database.');
-const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'https://knights-session-fixture-3001.app.github.dev',PORT:'3001',CODESPACES:'true',CODESPACE_NAME:'knights-session-fixture',GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:'app.github.dev'});
+const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'https://knights-session-fixture-3001.app.github.dev',PORT:'3001',CODESPACES:'true',CODESPACE_NAME:'knights-session-fixture',GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:'app.github.dev',ENABLE_DEV_BOTS:'1'});
 assert.equal(config.origin,'https://knights-session-fixture-3001.app.github.dev');assert.equal(config.originSource,'explicit');assert.equal(config.secureCookies,true);
-const host=new URL(config.origin).hostname,db=createDatabase(testDatabaseUrl),temp=await mkdtemp(join(tmpdir(),'kr-https-'));
+const host=new URL(config.origin).hostname,temp=await mkdtemp(join(tmpdir(),'kr-https-'));
+const admin=createDatabase(testDatabaseUrl),schema='https_'+randomUUID().replaceAll('-','');await admin.query(`CREATE SCHEMA ${schema}`);
+const scopedUrl=new URL(testDatabaseUrl);scopedUrl.searchParams.set('options','-c search_path='+schema);const db=createDatabase(scopedUrl.href);
 await migrate(db);const app=await createApp({db,config});
+await provisionBots(db,{nodeEnv:'test',allowProvisioning:true});
 let browser:Browser|undefined,proxy:ReturnType<typeof tlsServer>|undefined,tunnel:Server|undefined;
 let originMode:'http'|'https'|'preserve'='http';
 const sockets=new Set<Socket>(),observed:{browserOrigin:string|undefined;upstreamOrigin:string|undefined;refererOrigin:string|null;fetchSite:string|undefined;forwardedProto:string;path:string}[]=[];
@@ -127,7 +137,76 @@ try{
   assert.equal(await oldPage.getByRole('alert').count(),0);assert.equal((await oldPage.request.get(config.origin+'/api/v1/me').then(r=>r.json())).state.id,rival.characterId);
   await oldPage.goto(config.origin+'/game/profile');await Promise.all([oldPage.waitForURL(config.origin+'/login'),oldPage.getByRole('button',{name:'Sign out',exact:true}).click()]);
   assert.equal((await oldPage.request.get(config.origin+'/api/v1/me')).status(),401);await returning.close();
-  assert.ok(observed.length>=12);
+  // The new milestone must also cross the same rewritten-Origin boundary.
+  originMode='http';
+  await page.goto(config.origin+'/game/profile');await page.getByLabel('Calling',{exact:true}).selectOption('Spellward');
+  await action(page.getByRole('button',{name:'Choose calling',exact:true}));assert.equal((await state()).className,'Spellward');
+  assert.equal((await state()).calling.manaSeconds,270);
+  const screenOut=join(projectRoot,'test-results/strategy-browser');await mkdir(screenOut,{recursive:true});
+  await page.locator('#account').scrollIntoViewIfNeeded();await page.screenshot({path:join(screenOut,'390-calling.png')});
+  async function fixture(name:string,level=3){
+    const nonce=randomUUID().replaceAll('-','').slice(0,6),displayName=name+' '+nonce;
+    const account=await registerAccount(db,{username:'contract_'+nonce,name:displayName,password:randomUUID()+'Aa1!'});
+    await transaction(db,async sql=>{
+      await lockCharacters(sql,[account.characterId]);await ledger(sql,null,'test_fixture',[{characterId:account.characterId,amount:1000000}],alpha.id);
+      await grantExperience(sql,account.characterId,Array.from({length:level-1},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0),await clock(sql));
+    });
+    for(let i=0;i<5;i++)await executeCommand(db,account.accountId,randomUUID(),'quest',{questId:'border-patrol'});
+    const session=await createSession(db,account.accountId);return {...account,name:displayName,token:session.token};
+  }
+  async function playerPage(token:string){
+    const ctx=await browser!.newContext({ignoreHTTPSErrors:true,viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+    await ctx.route('**/*',route=>new URL(route.request().url()).origin===config.origin?route.continue():route.abort());
+    await ctx.addCookies([{name:'kr_session',value:token,url:config.origin,httpOnly:true,secure:true,sameSite:'Lax'}]);
+    const player=await ctx.newPage();player.on('pageerror',error=>errors.push(error.message));return player;
+  }
+  async function submit(player:Page,button:Locator){const prior=player.url();await Promise.all([player.waitForURL(url=>url.href!==prior),button.click()]);assert.equal(await player.getByRole('alert').count(),0,await player.locator('body').innerText());}
+  const sponsor=await fixture('Ash Steward'),target=await fixture('Briar Outlaw'),hunter=await fixture('Crown Hunter');
+  await executeCommand(db,hunter.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
+  await executeCommand(db,hunter.accountId,randomUUID(),'buy',{itemId:'iron-sword',quantity:20});
+  const sponsorPage=await playerPage(sponsor.token);await sponsorPage.goto(config.origin+'/game/battle');
+  const row=sponsorPage.locator('.rival-row').filter({has:sponsorPage.getByRole('heading',{name:target.name,exact:true})});
+  await row.locator('summary').click();await row.locator('input[name="amount"]').fill('1000');
+  await submit(sponsorPage,sponsorPage.getByRole('button',{name:'Place bounty on '+target.name,exact:true}));
+  assert.match(await sponsorPage.locator('body').innerText(),/gold held in escrow/);
+  assert.equal(await sponsorPage.getByRole('button',{name:'Cancel',exact:true}).first().isDisabled(),true);
+  await sponsorPage.screenshot({path:join(screenOut,'390-bounty-sponsored.png'),fullPage:true});
+  const hunterPage=await playerPage(hunter.token);await hunterPage.goto(config.origin+'/game/bounties');
+  await hunterPage.screenshot({path:join(screenOut,'390-bounty-list.png'),fullPage:true});
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Hunt '+target.name,exact:true}));
+  assert.match(await hunterPage.locator('body').innerText(),/Bounty claimed!/);
+  const claimedId=hunterPage.url().split('/').at(-1)!;
+  const claimed=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+claimedId).then(response=>response.json())).battle;
+  assert.equal(claimed.bountyClaim.reward,1000);assert.ok(claimed.loot<=50);
+  assert.equal((await sponsorPage.request.get(config.origin+'/api/v1/battles/'+claimedId)).status(),404);
+  await hunterPage.screenshot({path:join(screenOut,'390-bounty-report.png'),fullPage:true});
+  const bot=(await db.query("SELECT c.id,c.name FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=3 AND b.tier='green'")).rows[0]!;
+  await new Promise(resolve=>setTimeout(resolve,alpha.combat.cooldownSeconds*1000+50));
+  await hunterPage.goto(config.origin+'/game/battle');
+  for(let i=0;i<40&&!(await hunterPage.getByRole('button',{name:'Attack '+bot.name,exact:true}).count());i++)await hunterPage.getByRole('link',{name:'More rivals',exact:true}).click();
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Attack '+bot.name,exact:true}));
+  const botReport=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+hunterPage.url().split('/').at(-1)).then(r=>r.json())).battle;
+  assert.equal(botReport.temporaryRival,true);assert.equal(botReport.bountyClaim,null);
+  const legend=await fixture('Fable Keeper',50);await executeCommand(db,legend.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
+  for(const itemId of ['eclipse-greatsword','eclipse-citadel-plate','eclipse-invocation'])await executeCommand(db,legend.accountId,randomUUID(),'buy',{itemId,quantity:5});
+  await executeCommand(db,legend.accountId,randomUUID(),'land_buy',{propertyId:'eclipse-citadel',quantity:1});
+  const legendPage=await playerPage(legend.token),widths=[330,360,390,1366];
+  for(const width of widths){
+    await legendPage.setViewportSize({width,height:width===1366?900:844});
+    for(const screen of ['profile','profile?tab=skills','land','battle','bounties']){
+      await legendPage.goto(config.origin+'/game/'+screen);
+      assert.equal(await legendPage.getByRole('alert').count(),0,screen);
+      assert.equal(await legendPage.locator('nav[aria-label="Primary navigation"] a').count(),5);
+      assert.equal(await legendPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,width+' '+screen+' horizontal overflow');
+      if(screen==='land'){
+        assert.equal(await legendPage.locator('[data-land-property]').count(),21);
+        const art=await legendPage.locator('.atlas-properties').first().evaluate(element=>getComputedStyle(element).backgroundImage);assert.ok(art.includes('land-simple-0.1'));
+        if(width===390){await legendPage.screenshot({path:join(screenOut,'390-land-starter.png')});await legendPage.locator('[data-land-property="eclipse-citadel"]').scrollIntoViewIfNeeded();await legendPage.screenshot({path:join(screenOut,'390-land-legendary.png')});}
+      }
+      if(width===390&&['profile','battle'].includes(screen))await legendPage.screenshot({path:join(screenOut,'390-'+screen+'.png'),fullPage:screen==='profile'});
+    }
+  }
+  assert.ok(observed.length>=16);
   observed.forEach(request=>{assert.equal(request.browserOrigin,config.origin);assert.equal(request.refererOrigin,config.origin);assert.equal(request.fetchSite,'same-origin');});
   for(const upstream of ['http://localhost:3001','https://localhost:3001',config.origin])assert.ok(observed.some(request=>request.upstreamOrigin===upstream),upstream);
   assert.ok(observed.some(request=>request.path==='/register'&&request.upstreamOrigin==='http://localhost:3001'));assert.deepEqual(errors,[]);
@@ -135,12 +214,14 @@ try{
   const summary={passed:true,fixture:'Real local TLS reverse proxy, Codespaces port 3001 origin rewriting and HTTP backend',live_provider_contacted:false,
     configured_origin:config.origin,origin_source:config.originSource,secure_cookies:config.secureCookies,
     native_browser_registration:true,observed_post_headers:observed,
+    calling_change:true,escrow_bounty_placement_and_claim:true,private_bounty_report:true,passive_bot_combat:true,
+    mobile_widths:widths,simplified_land_art:true,
     existing_accounts_preserved:true,pre_fix_non_secure_cookie_still_authenticates_over_https:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
     form_actions:['Registration','Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login','Attack skill allocation'],browser_errors:errors.length};
   await writeFile(join(out,'summary.json'),JSON.stringify(summary,null,2)+'\n');
-  console.log('PASS: native registration and existing accounts can quest, buy, manage Land, battle, log out and log back in through a Codespaces port-3001 HTTPS fixture with rewritten and preserved Origins. Secure cookies, CSRF and Origin/forwarded-header forgery regressions pass.');
+  console.log('PASS: registration, existing-player gameplay, Calling, funded bounties, passive rivals and mobile layouts pass through a Codespaces port-3001 HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/strategy-browser/.');
 }finally{
   await browser?.close();for(const socket of sockets)socket.destroy();
   if(tunnel)await new Promise<void>(resolve=>tunnel!.close(()=>resolve()));if(proxy)await new Promise<void>(resolve=>proxy!.close(()=>resolve()));
-  await app.close();await db.end();await rm(temp,{recursive:true,force:true});
+  await app.close();await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end();await rm(temp,{recursive:true,force:true});
 }
