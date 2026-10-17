@@ -13,6 +13,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const read = path => readFileSync(join(root, path), 'utf8');
 const manifest = JSON.parse(read('package.json'));
 const rules = JSON.parse(read('rulesets/recreation-0.1/rules.json'));
+const landRules = JSON.parse(read('rulesets/land-provisional-0.1/rules.json'));
 const contractSource = stripTypeScriptTypes(read('src/http-contracts.ts'), { mode: 'transform' });
 const { navigation, templateScreens, commandRoutes } = await import('data:text/javascript;base64,' + Buffer.from(contractSource).toString('base64'));
 const results = [];
@@ -29,6 +30,12 @@ const sourceFiles = [...filesIn('src', '.ts'), ...filesIn('scripts', '.ts'), ...
 check('TypeScript syntax parses with Node; no modules are imported/executed', () => {
   for (const file of sourceFiles) {
     const result = spawnSync(process.execPath, ['--experimental-transform-types', '--check', join(root, file)], { encoding: 'utf8' });
+    assert.equal(result.status, 0, file + ': ' + result.stderr);
+  }
+});
+check('Land browser script and offline test helper parse as JavaScript', () => {
+  for (const file of ['public/land.js', 'scripts/register-typescript.mjs', 'tests/land-client.test.mjs']) {
+    const result = spawnSync(process.execPath, ['--check', join(root, file)], { encoding: 'utf8' });
     assert.equal(result.status, 0, file + ': ' + result.stderr);
   }
 });
@@ -102,22 +109,41 @@ const playerId = '11111111-1111-4111-8111-111111111111';
 const targetId = '22222222-2222-4222-8222-222222222222';
 const inventoryId = '33333333-3333-4333-8333-333333333333';
 const battleId = '44444444-4444-4444-8444-444444444444';
+const holdingId = '55555555-5555-4555-8555-555555555555';
+const sampleLand = { rulesetId: landRules.id, provisional: true, paymentIntervalSeconds: 3600,
+  hourlyIncome: landRules.properties[0].hourlyIncome, hourlyUpkeep: landRules.properties[0].hourlyUpkeep,
+  netHourlyIncome: landRules.properties[0].hourlyIncome - landRules.properties[0].hourlyUpkeep,
+  nextPaymentAt: '2026-10-17T13:00:00.000Z', pendingGold: '0',
+  properties: landRules.properties.map((p, index) => ({ ...p, owned: index === 0 ? 1 : 0,
+    remaining: landRules.maxOwnedPerProperty - (index === 0 ? 1 : 0),
+    maxPurchase: landRules.maxPurchaseQuantity, maxAffordable: Math.min(landRules.maxPurchaseQuantity, Math.floor(85 / p.price)) })),
+  holdings: [{ id: holdingId, propertyId: landRules.properties[0].id, name: landRules.properties[0].name,
+    quantity: 1, hourlyIncome: landRules.properties[0].hourlyIncome, hourlyUpkeep: landRules.properties[0].hourlyUpkeep,
+    nextPaymentAt: '2026-10-17T13:00:00.000Z', rulesetId: landRules.id }] };
 const baseState = { id: playerId, name: 'Arthur of the Vale', xp: 10, level: 1, health: 97, energy: 9,
   gold: 85, units: 2, attack: 11, defense: 9, equipped: false, inventoryId: null,
   questsCompleted: 1, stateVersion: 4, attackReadyAt: '2026-10-17T12:00:00.000Z',
-  serverTime: '2026-10-17T12:01:00.000Z', energyNextAt: null, healthNextAt: null };
+  serverTime: '2026-10-17T12:01:00.000Z', energyNextAt: null, healthNextAt: null, land: sampleLand };
 const sampleBattle = { id: battleId, attackerId: playerId, defenderId: targetId,
   attackerName: 'Arthur of the Vale', defenderName: 'Morgan Ironwood', winnerName: 'Arthur of the Vale',
   winnerId: playerId, loot: 10, attackPower: 25, attackRoll: 6, defensePower: 12, defenseRoll: 3,
   attackerDamage: 3, defenderDamage: 18, attackerHealthAfter: 94, defenderHealthAfter: 82,
   attackerXp: 5, createdAt: '2026-10-17T12:00:00.000Z' };
 const opponent = { id: targetId, name: 'Morgan Ironwood', level: 1, units: 2, health: 100 };
-const fixture = (screen, extra = {}) => ({ screen, state: { ...baseState }, nav: navigation, rules,
+const fixture = (screen, extra = {}) => ({ screen, state: { ...baseState }, nav: navigation, rules, landRules,
   csrf: 'a'.repeat(64), accountName: 'arthur', commandId: randomUUID, notice: null, error: null,
   opponents: [opponent], battles: [], battle: sampleBattle, title: navigation.find(item => item.id === screen)?.label ?? 'The First Realm',
   authMode: 'login', formValues: { username: '', name: '' }, ...extra });
 const cases = [
   ...navigation.map(item => ({ name: item.id, data: fixture(item.id) })),
+  { name: 'land-empty', data: fixture('land', { state: { ...baseState, land: { ...sampleLand,
+    hourlyIncome: 0, hourlyUpkeep: 0, netHourlyIncome: 0, nextPaymentAt: null, holdings: [],
+    properties: sampleLand.properties.map(p => ({ ...p, owned: 0 })) } } }) },
+  { name: 'land-no-gold', data: fixture('land', { state: { ...baseState, gold: 0, land: { ...sampleLand,
+    properties: sampleLand.properties.map(p => ({ ...p, maxAffordable: 0 })) } } }) },
+  { name: 'land-limit', data: fixture('land', { state: { ...baseState, land: { ...sampleLand,
+    properties: sampleLand.properties.map(p => ({ ...p, owned: landRules.maxOwnedPerProperty, remaining: 0, maxPurchase: 0, maxAffordable: 0 })) } } }) },
+  { name: 'land-unclaimed-income', data: fixture('land', { state: { ...baseState, land: { ...sampleLand, pendingGold: '99999900000000000' } } }) },
   { name: 'armory-owned', data: fixture('armory', { state: { ...baseState, inventoryId } }) },
   { name: 'armory-equipped', data: fixture('armory', { state: { ...baseState, inventoryId, equipped: true } }) },
   { name: 'army-full', data: fixture('army', { state: { ...baseState, units: rules.armyCapacity } }) },
@@ -160,7 +186,7 @@ check('Rendered links, image paths, IDs, labels, CSRF fields, and POST contracts
   for (const [name, html] of rendered) {
     const ids = [...html.matchAll(/\bid="([^"]*)"/g)].map(m => m[1]);
     assert.equal(new Set(ids).size, ids.length, name + ': duplicate ID');
-    for (const match of html.matchAll(/<(?:a|link|img)\b([^>]+)>/g)) {
+    for (const match of html.matchAll(/<(?:a|link|img|script)\b([^>]+)>/g)) {
       const attrs = attributes(match[1]);
       const value = attrs.href ?? attrs.src;
       if (!value) continue;
@@ -191,6 +217,13 @@ check('Rendered links, image paths, IDs, labels, CSRF fields, and POST contracts
 check('Recovered artwork files match their recorded source hashes', () => {
   const art = JSON.parse(read('public/art/provenance.json'));
   assert.equal(art.assets.length, 11);
+  for (const item of art.assets) {
+    assert.equal(createHash('sha256').update(readFileSync(join(root, 'public/art', item.asset))).digest('hex'), item.sha256, item.asset);
+  }
+});
+check('Original Kingdoms Live Land artwork has separate provenance and correct hashes', () => {
+  const art = JSON.parse(read('public/art/land-provenance.json'));
+  assert.equal(art.assets.length, 2);
   for (const item of art.assets) {
     assert.equal(createHash('sha256').update(readFileSync(join(root, 'public/art', item.asset))).digest('hex'), item.sha256, item.asset);
   }

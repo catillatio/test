@@ -34,7 +34,7 @@ async function register(context: BrowserContext, suffix: string) {
   return { page, name };
 }
 async function screens(page: Page, label: string) {
-  for (const screen of ['Home', 'Quests', 'Battle', 'Armory', 'Army']) {
+  for (const screen of ['Home', 'Quests', 'Battle', 'Armory', 'Army', 'Land']) {
     await page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: screen, exact: true }).click();
     await page.getByRole('heading', { name: screen, exact: true }).waitFor();
     await page.waitForLoadState('load');
@@ -51,6 +51,15 @@ try {
   const { page: b, name: defenderName } = await register(phone, '_b');
   await screens(a, 'desktop');
   await screens(b, 'phone');
+  // The phone character buys Land; the desktop character keeps the existing
+  // quest/recruit/equip/PvP flow with its original starting balance.
+  await b.goto(config.origin + '/game/land');
+  await Promise.all([b.waitForURL('**/game/land?command=*'), b.getByRole('button', { name: 'Buy smallholding', exact: true }).click()]);
+  await b.getByRole('status').filter({ hasText: 'property purchased' }).waitFor();
+  await b.waitForFunction(() => /^\d{2}:\d{2}:\d{2}$/.test(document.querySelector('[data-land-countdown]')?.textContent ?? ''));
+  const incomeBefore = await b.locator('[data-land-countdown]').textContent();
+  await b.waitForTimeout(1100);
+  assert.notEqual(await b.locator('[data-land-countdown]').textContent(), incomeBefore, 'Countdown must tick without a reload.');
   await a.goto(config.origin + '/game/quests');
   await Promise.all([a.waitForURL('**/game/quests?command=*'), a.getByRole('button', { name: 'Begin patrol' }).click()]);
   await a.getByRole('status').filter({ hasText: 'Patrol complete' }).waitFor();
@@ -73,6 +82,6 @@ try {
   await a.screenshot({ path: join(out, 'desktop-battle-report.png'), fullPage: true });
   await b.screenshot({ path: join(out, 'phone-battle-report.png'), fullPage: true });
   assert.deepEqual(errors, []);
-  console.log('Five screens on PC/phone viewports and the two-player gameplay loop passed. Screenshots: test-results/browser/');
+  console.log('Six screens on PC/phone viewports, Land purchase/countdown and the two-player gameplay loop passed. Screenshots: test-results/browser/');
   console.log('Phone viewport checks are not an Android WebView/device test.');
 } finally { await browser.close(); }

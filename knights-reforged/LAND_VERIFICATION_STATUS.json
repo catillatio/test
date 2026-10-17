@@ -1,0 +1,45 @@
+{
+  "status": "implemented_locally_with_runtime_verification_blocked",
+  "branch": "feature/kingdoms-live-land",
+  "branch_base": "preserved_workspace_snapshot_not_verified_github_head",
+  "github_repository": "catillatio/test",
+  "github_clone_succeeded": false,
+  "pushed_to_github": false,
+  "merged": false,
+  "deployed": false,
+  "original_gameplay_formulas_recovered": false,
+  "land_ruleset": "land-provisional-0.1",
+  "payment_interval_seconds": 3600,
+  "implemented": [
+    "responsive_land_navigation_and_screen",
+    "persistent_property_purchase_batches",
+    "server_validated_idempotent_purchase_commands",
+    "hourly_income_with_offline_catch_up",
+    "property_upkeep_and_net_income",
+    "atomic_settlement_history_cursors_pending_income_and_ledger_credit",
+    "server_time_based_countdown_and_authenticated_refresh",
+    "additive_postgresql_migration",
+    "centralized_provisional_configuration_and_rate_snapshots"
+  ],
+  "tests": {
+    "land_calculation_and_configuration": { "passed": 12, "failed": 0, "command": "npm run test:land:offline" },
+    "land_client_logic": { "passed": 6, "failed": 0, "command": "npm run test:land:client", "uses_real_browser": false },
+    "offline_source_and_template_checks": { "passed": 41, "failed": 0, "template_fixture_cases": 32, "command": "node scripts/check-project.mjs", "uses_production_ejs": false },
+    "typescript_typecheck": { "executed": false, "attempted": true, "exit_code": 127, "blocker": "tsc: not found" },
+    "full_automated_suite": { "executed": false, "attempted": true, "exit_code": 127, "blocker": "tsx: not found" },
+    "postgresql_integration": { "executed": false, "tests_written_total": 22, "land_tests_written": 15 },
+    "browser_smoke": { "executed": false, "extended_for_land": true },
+    "android_device": { "executed": false }
+  },
+  "dependencies_installed": false,
+  "package_lock_created": false,
+  "typescript_build_executed": false,
+  "postgresql_migrations_executed": false,
+  "blockers": {
+    "git": "Failed to connect to proxy port 8080 before reaching GitHub",
+    "npm": "connect EPERM 172.31.0.221:8080",
+    "network_permission_attempt": "Interrupted without an install result; no additional attempts after user requested a stop",
+    "postgresql": "No executable available; Docker socket connect failed with operation not permitted"
+  },
+  "historical_server_contacted": false
+}

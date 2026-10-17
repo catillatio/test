@@ -2,9 +2,15 @@
 
 A TypeScript/Fastify modular backend, PostgreSQL schema, and responsive server-rendered interface for a small Knights Reforged recreation. The original server's gameplay formulas were not recovered. All costs, progression, damage, regeneration, and rewards here belong to the documented provisional `recreation-0.1` ruleset.
 
+## Provisional Kingdoms Live Land feature
+
+Land adds persistent property purchases and 60-minute passive income, including full offline hours, with a visible countdown, property upkeep and net income. It uses a separate `land-provisional-0.1` configuration; the existing gameplay ruleset is unchanged. Apply the additive `002_land.sql` migration using `npm run db:migrate` before starting this version. No demo reset or reseeding is required.
+
+See [LAND_SYSTEM.md](LAND_SYSTEM.md) for the provisional policy, configuration, routes, migration instructions and exact testing limitations. The feature's verification is recorded separately in [LAND_VERIFICATION_STATUS.json](LAND_VERIFICATION_STATUS.json). Calculation and countdown tests can run without npm dependencies on Node 24 using `npm run test:land:offline` and `npm run test:land:client`.
+
 ## Current verification status
 
-The source for accounts, cookie sessions, persistent characters, all five screens, quests, recruitment, weapon purchase/equip, and two-player battles is written. The templates reuse 11 recovered artwork files. A battle report is authorized for its two participants and persists in the database.
+The source for accounts, cookie sessions, persistent characters, all six screens, quests, recruitment, weapon purchase/equip, and two-player battles is written. The templates reuse 11 Knights Reforged artwork files plus two separately recorded Kingdoms Live Land assets. A battle report is authorized for its two participants and persists in the database.
 
 **This project has not yet been started against PostgreSQL or exercised in a browser.** Dependency installation and Docker work were deferred at the user's request. The checks completed so far are offline syntax/reference checks, template-tag-subset rendering with fixtures, HTML form/link/asset checks, and artwork hashes. These checks do not establish TypeScript type correctness, production EJS rendering, SQL correctness, concurrency behavior, or actual browser layout. See [test-results/static-checks.json](test-results/static-checks.json) for the latest local inspection output.
 
@@ -20,10 +26,10 @@ The Fastify/PostgreSQL integration tests and browser smoke script below are impl
 | Gameplay | [src/commands.ts](src/commands.ts): database transactions, idempotency keys, sorted character locks, economy entries |
 | PostgreSQL | [migrations/001_initial.sql](migrations/001_initial.sql), [src/migrate.ts](src/migrate.ts) |
 | Provisional rules | [rulesets/recreation-0.1/rules.json](rulesets/recreation-0.1/rules.json); also rendered at `/rules` |
-| Interface | [views/layout.ejs](views/layout.ejs), five primary view files and supporting views, [public/styles.css](public/styles.css) |
+| Interface | [views/layout.ejs](views/layout.ejs), six primary view files and supporting views, [public/styles.css](public/styles.css) |
 | Artwork | `public/art/`; [source paths and hashes](public/art/provenance.json) |
 
-HTML pages: `/login`, `/register`, `/rules`, `/game/home`, `/game/quests`, `/game/battle`, `/game/armory`, `/game/army`, and `/game/battles/:id`.
+HTML pages: `/login`, `/register`, `/rules`, `/game/home`, `/game/quests`, `/game/battle`, `/game/armory`, `/game/army`, `/game/land`, and `/game/battles/:id`.
 
 HTML commands: `POST /register`, `/login`, `/logout`, `/game/quests/:id/run`, `/game/army/recruit`, `/game/armory/buy`, `/game/armory/equip`, and `/game/battle/attack`. Successful commands redirect with HTTP 303. All changing forms require CSRF; gameplay forms additionally contain a unique command ID. Every gameplay outcome is calculated on the server.
 
@@ -83,7 +89,7 @@ The offline inspector requires only Node built-ins:
 node scripts/check-project.mjs
 ```
 
-It parses TypeScript syntax without resolving packages, checks local imports and declared dependency names, verifies package entrypoints, compiles/renders the EJS tag subset used by the templates with 27 UI fixture cases, checks form/link/asset contracts, and validates recovered-art hashes. It deliberately identifies runtime/database/browser checks as unverified. It does not install anything or open a network connection.
+It parses TypeScript syntax without resolving packages, checks local imports and declared dependency names, verifies package entrypoints, compiles/renders the EJS tag subset used by the templates with 32 UI fixture cases, checks form/link/asset contracts, and validates recovered-art hashes. It deliberately identifies runtime/database/browser checks as unverified. It does not install anything or open a network connection.
 
 After dependencies are installed:
 
@@ -101,7 +107,7 @@ docker compose exec db createdb -U knights knights_test
 TEST_DATABASE_URL=postgres://knights:knights_local@127.0.0.1:54329/knights_test npm run test:postgres
 ```
 
-These tests apply the real SQL migrations and exercise Fastify injection, actual EJS rendering, account/session security, all five pages, the full gameplay loop, tampered input, report ownership, simultaneous command retries, concurrent wallet spending, concurrent attack cooldowns, ledger consistency, and state surviving application recreation. They create uniquely named test accounts and leave test data in the disposable test database. `test:postgres` fails if the test URL is omitted. A non-loopback test database requires an explicit `ALLOWED_TEST_DATABASE_HOST` setting. These tests have **not** yet been run in this environment.
+These tests apply the real SQL migrations and exercise Fastify injection, actual EJS rendering, account/session security, all six pages, the full gameplay loop, tampered input, report ownership, simultaneous command retries, concurrent wallet spending, concurrent attack cooldowns, ledger consistency, and state surviving application recreation. They create uniquely named test accounts and leave test data in the disposable test database. `test:postgres` fails if the test URL is omitted. A non-loopback test database requires an explicit `ALLOWED_TEST_DATABASE_HOST` setting. These tests have **not** yet been run in this environment.
 
 The browser smoke script requires an already running disposable development realm and an existing Chromium executable:
 
@@ -109,7 +115,7 @@ The browser smoke script requires an already running disposable development real
 BROWSER_EXECUTABLE=/path/to/chromium npm run test:browser
 ```
 
-It creates two accounts, visits all five screens at PC and phone widths, checks image loading/horizontal overflow, plays the form-driven quest/recruit/purchase/equip/battle loop, and compares the two players' stored report. It restricts requests to `APP_ORIGIN`. It writes screenshots under `test-results/browser/`. It does not download a browser, and a phone viewport does not verify an Android WebView wrapper or physical device. This script has **not** yet been run.
+It creates two accounts, visits all six screens at PC and phone widths, checks image loading/horizontal overflow, plays the form-driven quest/recruit/purchase/equip/battle loop, and compares the two players' stored report. It restricts requests to `APP_ORIGIN`. It writes screenshots under `test-results/browser/`. It does not download a browser, and a phone viewport does not verify an Android WebView wrapper or physical device. This script has **not** yet been run.
 
 ## Scope still requiring verification or implementation
 

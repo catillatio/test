@@ -1,6 +1,7 @@
 import { type Database, transaction, type Sql } from './db.js';
 import { GameError } from './errors.js';
 import { rules, regenerate, powerFor, levelFor } from './rules.js';
+import { settleLand, getLandState, type LandState } from './land.js';
 
 export interface CharacterRow {
   id: string; account_id: string; name: string; xp: number; health: number; energy: number;
@@ -11,6 +12,7 @@ export interface CharacterState {
   gold: number; units: number; attack: number; defense: number; equipped: boolean;
   inventoryId: string | null; questsCompleted: number; stateVersion: number;
   attackReadyAt: string; serverTime: string; energyNextAt: string | null; healthNextAt: string | null;
+  land: LandState;
 }
 
 // Sample current time after obtaining character locks, rather than using the
@@ -25,7 +27,8 @@ export async function lockCharacters(sql: Sql, ids: string[]) {
 export async function materialize(sql: Sql, row: CharacterRow, now: Date): Promise<CharacterRow> {
   const hp = regenerate(row.health, rules.maxHealth, new Date(row.health_updated_at), now, rules.healthRegenSeconds, rules.healthRegenAmount);
   const en = regenerate(row.energy, rules.maxEnergy, new Date(row.energy_updated_at), now, rules.energyRegenSeconds);
-  const changed = hp.value !== row.health || en.value !== row.energy;
+  const landChanged = await settleLand(sql, row.id, now);
+  const changed = hp.value !== row.health || en.value !== row.energy || landChanged;
   await sql.query(`UPDATE characters SET health=$2,energy=$3,health_updated_at=$4,energy_updated_at=$5,
     state_version=state_version+$6 WHERE id=$1`, [row.id, hp.value, en.value, hp.updated, en.updated, changed ? 1 : 0]);
   return { ...row, health: hp.value, energy: en.value, health_updated_at: hp.updated, energy_updated_at: en.updated,
@@ -44,6 +47,7 @@ export async function stateFrom(sql: Sql, row: CharacterRow, now: Date): Promise
     gold: wallet.balance, units: army.quantity, ...powerFor(row.xp, army.quantity, equipped), equipped,
     inventoryId: item?.id ?? null, questsCompleted: progress?.completions ?? 0, stateVersion: row.state_version,
     attackReadyAt: new Date(row.attack_ready_at).toISOString(), serverTime: now.toISOString(),
+    land: await getLandState(sql, row.id, wallet.balance),
     energyNextAt: row.energy < rules.maxEnergy ? new Date(new Date(row.energy_updated_at).getTime()+rules.energyRegenSeconds*1000).toISOString() : null,
     healthNextAt: row.health < rules.maxHealth ? new Date(new Date(row.health_updated_at).getTime()+rules.healthRegenSeconds*1000).toISOString() : null };
 }

@@ -1,0 +1,16 @@
+{
+  "source": "User-supplied Kingdoms Live 1.6.3 APK",
+  "apkSha256": "671e7650511e2c2dbfbd010dd85813e9ec6bf1d77c7c4ca8f459b6d141a1b5e0",
+  "assets": [
+    {
+      "asset": "land.jpg",
+      "source": "res/drawable/bg_default.jpg",
+      "sha256": "489917cdfe0efd36ce3ba04b7d1bc4126da28517b756182e2d05ec6dc78a9ca6"
+    },
+    {
+      "asset": "tab-land.png",
+      "source": "res/drawable/buildings.png",
+      "sha256": "9502bb83389a1f0e722b659ee61f9f2e488d934795650df8a948f9d963c06378"
+    }
+  ]
+}

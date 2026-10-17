@@ -1,9 +1,12 @@
 import { createHash, randomInt, randomUUID } from 'node:crypto';
 import { z } from 'zod';
-import { type Database, transaction, type Sql } from './db.js';
+import { type Database, transaction } from './db.js';
 import { GameError } from './errors.js';
 import { rules, resolveCombat } from './rules.js';
 import { clock, lockCharacters, materialize, stateFrom, type CharacterRow } from './game.js';
+import { ledger } from './economy.js';
+import { landRules } from './land-rules.js';
+import { purchaseLand } from './land.js';
 
 const uuid = z.string().uuid();
 const intents = {
@@ -12,23 +15,13 @@ const intents = {
   buy: z.object({ itemId: z.literal(rules.weapon.id) }),
   equip: z.object({ inventoryEntryId: uuid }),
   attack: z.object({ targetCharacterId: uuid }),
+  land_buy: z.object({ propertyId: z.string().min(1).max(64), quantity: z.union([
+    z.number().int().min(1).max(landRules.maxPurchaseQuantity),
+    z.string().max(16).regex(/^[1-9][0-9]*$/).transform(Number).pipe(z.number().int().min(1).max(landRules.maxPurchaseQuantity)),
+  ]) }),
 };
 export type CommandKind = keyof typeof intents;
-export interface CommandResult { commandId: string; kind: CommandKind; message: string; battleId?: string; inventoryEntryId?: string; }
-
-async function ledger(sql: Sql, commandId: string, reason: string, changes: { characterId: string; amount: number }[]) {
-  const effective = changes.filter(c => c.amount !== 0);
-  if (!effective.length) return;
-  const transactionId = randomUUID();
-  await sql.query('INSERT INTO economy_transactions(id,command_id,reason,ruleset_id) VALUES($1,$2,$3,$4)', [transactionId, commandId, reason, rules.id]);
-  for (const change of effective) {
-    const row = (await sql.query(`UPDATE wallets SET balance=balance+$2
-      WHERE character_id=$1 AND balance+$2>=0 RETURNING balance`, [change.characterId, change.amount])).rows[0];
-    if (!row) throw new GameError('INSUFFICIENT_GOLD', 'You do not have enough gold for that action.', 409);
-    await sql.query('INSERT INTO economy_entries(id,transaction_id,character_id,amount,balance_after) VALUES($1,$2,$3,$4,$5)',
-      [randomUUID(), transactionId, change.characterId, change.amount, row.balance]);
-  }
-}
+export interface CommandResult { commandId: string; kind: CommandKind; message: string; battleId?: string; inventoryEntryId?: string; holdingId?: string; }
 
 export async function executeCommand(db: Database, accountId: string, commandId: unknown, kind: CommandKind, raw: unknown): Promise<CommandResult> {
   if (!uuid.safeParse(commandId).success) throw new GameError('INVALID_COMMAND_ID', 'Reload the page and try again with a new command ID.');
@@ -90,6 +83,9 @@ export async function executeCommand(db: Database, accountId: string, commandId:
       await client.query(`INSERT INTO equipment_slots(character_id,slot,inventory_entry_id) VALUES($1,'weapon',$2)
         ON CONFLICT(character_id,slot) DO UPDATE SET inventory_entry_id=EXCLUDED.inventory_entry_id`, [actorId, intent.inventoryEntryId]);
       result.message = 'Iron sword equipped. Your battle strength has increased.';
+    } else if (kind === 'land_buy') {
+      result.holdingId = await purchaseLand(client, actorId, id, intent.propertyId as string, intent.quantity as number, now);
+      result.message = `${intent.quantity} ${intent.quantity === 1 ? 'property purchased' : 'properties purchased'}. Each batch begins earning after a full hour.`;
     } else {
       const defender = rows.find(row => row.id !== actorId)!;
       if (actor.health <= 0 || defender.health <= 0) throw new GameError('NEEDS_RECOVERY', 'Both warriors need some health before a challenge.', 409);

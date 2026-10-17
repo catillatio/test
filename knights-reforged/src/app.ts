@@ -16,12 +16,13 @@ import { getState, getBattle, recentBattles, listOpponents, type CharacterState 
 import { executeCommand, type CommandKind } from './commands.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
+import { landRules } from './land-rules.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
 
 declare module 'fastify' { interface FastifyRequest { realmSession: Session | null; } }
 const uuid = z.string().uuid();
 const allowedScreens = new Set<string>(templateScreens);
-const destination: Record<CommandKind, string> = { quest: 'quests', recruit: 'army', buy: 'armory', equip: 'armory', attack: 'battle' };
+const destination: Record<CommandKind, string> = { quest: 'quests', recruit: 'army', buy: 'armory', equip: 'armory', attack: 'battle', land_buy: 'land' };
 const asBody = (request: FastifyRequest) => (request.body && typeof request.body === 'object' ? request.body : {}) as Record<string, unknown>;
 const wantsJson = (request: FastifyRequest) => request.url.startsWith('/api/') || (request.headers.accept ?? '').includes('application/json');
 
@@ -83,7 +84,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       notice = receipt?.result?.message ?? null;
     }
     return reply.viewAsync('layout.ejs', {
-      screen, state, nav, rules, csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
+      screen, state, nav, rules, landRules, csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
       commandId: randomUUID, notice, error: null, opponents: [], battles: [], battle: null,
       title: 'Knights Reforged', authMode: 'login', formValues: { username: '', name: '' }, ...data,
     });
@@ -150,6 +151,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/api/v1/opponents', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!);
     return { opponents: await listOpponents(db, state.id) };
+  });
+  app.get('/api/v1/land', { preHandler: requireAccount }, async request => {
+    const state = await getState(db, request.realmSession!.account_id!);
+    return { land: state.land, gold: state.gold, serverTime: state.serverTime };
   });
   app.get('/api/v1/battles/:id', { preHandler: requireAccount }, async request => {
     const id = (request.params as {id:string}).id;

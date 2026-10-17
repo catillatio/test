@@ -1,0 +1,34 @@
+{
+  "id": "land-provisional-0.1",
+  "provenance": "Provisional recreation values. Original Kingdoms Live property names, prices, yields and upkeep are unverified.",
+  "intervalProvenance": "The 60-minute interval comes from player recollection and the recreation requirements, not a recovered APK formula.",
+  "paymentIntervalSeconds": 3600,
+  "maxPurchaseQuantity": 25,
+  "maxOwnedPerProperty": 100,
+  "properties": [
+    {
+      "id": "smallholding",
+      "name": "Smallholding",
+      "description": "A modest plot worked by local tenants.",
+      "price": 45,
+      "hourlyIncome": 8,
+      "hourlyUpkeep": 1
+    },
+    {
+      "id": "woodland",
+      "name": "Woodland",
+      "description": "Managed woodland supplying timber to the realm.",
+      "price": 90,
+      "hourlyIncome": 18,
+      "hourlyUpkeep": 3
+    },
+    {
+      "id": "watchtower",
+      "name": "Watchtower",
+      "description": "A guarded crossing that collects tolls from passing trade.",
+      "price": 180,
+      "hourlyIncome": 38,
+      "hourlyUpkeep": 8
+    }
+  ]
+}
