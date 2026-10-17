@@ -17,7 +17,7 @@ export async function battleTales(sql:Sql,subjectId:string,viewerId:string,curso
   const [after,afterId]=cursorParts(cursor);
   const rows=(await sql.query(`SELECT b.id,b.created_at,b.attacker_id,b.defender_id,b.outcome,
     COALESCE(b.result->>'attackerName',a.name) AS attacker_name,COALESCE(b.result->>'defenderName',d.name) AS defender_name,
-    b.result->'loot' AS loot,b.result->'attackerXp' AS xp,b.result->'attackerDamage' AS attacker_damage,
+    b.result->'defenderXp' AS defender_xp,b.result->'loot' AS loot,b.result->'attackerXp' AS xp,b.result->'attackerDamage' AS attacker_damage,
     b.result->'defenderDamage' AS defender_damage,b.result->'bountyClaim'->'reward' AS bounty_reward,
     to_char(b.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_at
     FROM battles b JOIN characters a ON a.id=b.attacker_id JOIN characters d ON d.id=b.defender_id
@@ -26,7 +26,7 @@ export async function battleTales(sql:Sql,subjectId:string,viewerId:string,curso
   const entries=rows.slice(0,refinements.ui.publicTalesPageSize).map(row=>({id:row.id,createdAt:new Date(row.created_at).toISOString(),
     attackerId:row.attacker_id,defenderId:row.defender_id,attackerName:row.attacker_name,defenderName:row.defender_name,
     won:(row.outcome==='attacker_win'?row.attacker_id:row.defender_id)===subjectId,
-    loot:row.loot??null,attackerXp:row.xp??null,attackerDamage:row.attacker_damage??null,defenderDamage:row.defender_damage??null,
+    loot:row.loot??null,defenderXp:row.defender_xp??null,attackerXp:row.xp??null,attackerDamage:row.attacker_damage??null,defenderDamage:row.defender_damage??null,
     bountyReward:row.bounty_reward??0,canViewReport:[row.attacker_id,row.defender_id].includes(viewerId),cursor:row.cursor_at+'~'+row.id}));
   return {entries,nextCursor:rows.length>refinements.ui.publicTalesPageSize?entries.at(-1)!.cursor:null};
 }
@@ -37,7 +37,7 @@ export async function activityFeed(sql:Sql,viewerId:string,category:FeedCategory
   if(category==='all'||category==='battles')queries.push(`SELECT b.id,b.created_at,'battle' AS kind,
     jsonb_build_object('attackerId',b.attacker_id,'defenderId',b.defender_id,'attackerName',a.name,'defenderName',d.name,'outcome',b.outcome,
     'winnerId',CASE WHEN b.outcome='attacker_win' THEN b.attacker_id ELSE b.defender_id END,
-    'loot',b.result->'loot','xp',b.result->'attackerXp','attackerDamage',b.result->'attackerDamage','defenderDamage',b.result->'defenderDamage') AS data
+    'defenderXp',b.result->'defenderXp','loot',b.result->'loot','xp',b.result->'attackerXp','attackerDamage',b.result->'attackerDamage','defenderDamage',b.result->'defenderDamage') AS data
     FROM battles b JOIN characters a ON a.id=b.attacker_id JOIN characters d ON d.id=b.defender_id
     WHERE ${category==='battles'?'b.attacker_id=$1':'(b.attacker_id=$1 OR b.defender_id=$1)'}`);
   if(category==='all'||category==='comments'||category==='broadcasts')queries.push(`SELECT m.id,m.created_at,m.channel AS kind,

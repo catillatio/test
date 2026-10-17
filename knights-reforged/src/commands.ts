@@ -259,12 +259,21 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         [actorId,combat.attackerHealthAfter,now,alpha.combat.spiritCost,now]);
       await sql.query('UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,state_version=state_version+1 WHERE id=$1',[target.id,combat.defenderHealthAfter,now]);
       const progression=await grantExperience(sql,actorId,combat.attackerXp,now);
+      let defenderXpDetails:ReturnType<typeof victoryExperience>|null=null;
+      let defenderProgression:{xpAwarded:number;gained:number;level:number}|null=null;
+      if(combat.outcome==='defender_win'&&!targetIsBot){
+        const fullWins=(await sql.query(`SELECT count(*)::int AS n FROM battles WHERE defender_id=$1 AND attacker_id=$2
+          AND outcome='defender_win' AND result->'defenderFullXp'='true'::jsonb AND created_at>$3`,[target.id,actorId,new Date(+now-86400000)])).rows[0]!.n;
+        defenderXpDetails=victoryExperience(target.attained_level,actor.attained_level,fullWins<progressionEconomy.victoryXp.humanFullVictoriesPerTarget);
+        // Defense must never refill Health on a knockout or reset combat costs.
+        defenderProgression=await grantExperience(sql,target.id,defenderXpDetails.amount,now,false);
+      }
       const after=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[actorId])).rows[0]!;
       result.battleId=randomUUID();
       const battle={...combat,id:result.battleId,rulesetId:alpha.id,attackerId:actorId,defenderId:target.id,attackerName:actor.name,defenderName:target.name,
         winnerId,winnerName:winnerId===actorId?actor.name:target.name,attackerHealthBefore:actor.health,defenderHealthBefore:target.health,
         attackerHealthAfterDamage:combat.attackerHealthAfter,attackerHealthAfter:after.health,attackerMaxHealth:actor.max_health,defenderMaxHealth:target.max_health,
-        attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
+        defenderXp:defenderProgression?.xpAwarded??0,defenderXpDetails,defenderFullXp:defenderXpDetails?!defenderXpDetails.reduced:false,defenderLevelGained:defenderProgression?.gained??0,defenderLevelAfter:defenderProgression?.level??target.attained_level,attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
         progressionRulesetId:progressionEconomy.id,xpDetails,pvpRulesetId:pvp.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
@@ -275,6 +284,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         if(battle.bountyClaim)await sql.query('UPDATE battles SET result=$2 WHERE id=$1',[result.battleId,battle]);
       }
       await awardMilestones(sql,actorId);
+      if(defenderProgression)await awardMilestones(sql,target.id);
       result.message=battle.winnerName+' won the battle.'+(!rewarded?(targetIsBot?' Temporary-rival gold/full-XP budget reached: victories still earn 1 XP; ordinary gold is capped at zero.':' Repeat-encounter XP is reduced to 1 per victory; ordinary victory loot still applies.'):'' )+(lootDetails&&lootDetails.multiplier<100?' Repeat victory: '+lootDetails.multiplier+'% ordinary loot.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
     }
     await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);

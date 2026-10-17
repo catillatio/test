@@ -19,6 +19,13 @@ test('all three equipment categories and Land have keyboard-free controls; durab
    const replay=await r.app.inject({method:'POST',url,headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:{...payload,csrf:a.csrf,commandId:key}});assert.equal(replay.statusCode,303);assert.equal((await r.me(a)).gold,before.gold);
    const denied=await r.app.inject({method:'GET',url:String(response.headers.location),headers:{cookie:b.cookie}});assert.equal(denied.statusCode,404);
   }
+  const oldKey=randomUUID(),oldPayload={propertyId:'smallholding',quantity:1};
+  await r.ok(a,'/api/v1/land/purchases',oldPayload,oldKey);
+  await r.db.query("UPDATE command_receipts SET result=jsonb_set(result,'{data}',jsonb_build_object('goldSpent',result->'data'->'goldSpent')) WHERE account_id=$1 AND command_id=$2",[a.accountId,oldKey]);
+  const saved=await r.me(a),oldPost=await r.app.inject({method:'POST',url:'/game/land/buy',headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:{...oldPayload,csrf:a.csrf,commandId:oldKey}});
+  assert.equal(oldPost.statusCode,303);assert.equal(oldPost.headers.location,'/game/land?command='+oldKey);
+  assert.equal((await r.app.inject({method:'GET',url:String(oldPost.headers.location),headers:{cookie:a.cookie}})).statusCode,200);
+  assert.equal((await r.me(a)).gold,saved.gold);assert.deepEqual((await r.me(a)).land.holdings,saved.land.holdings);
   const home=await r.app.inject({method:'GET',url:'/game/home',headers:{cookie:a.cookie}});assert.ok(!home.body.includes('href="/game/bounties"'));assert.match(home.body,/href="\/game\/land"/);
   const battle=await r.app.inject({method:'GET',url:'/game/battle',headers:{cookie:a.cookie}});assert.match(battle.body,/href="\/game\/bounties"/);
   const quests=await r.app.inject({method:'GET',url:'/game/quests?area=all',headers:{cookie:a.cookie}});assert.match(quests.body,/region-chevron/);assert.match(quests.body,/Quest region/);assert.match(quests.body,/All regions/);

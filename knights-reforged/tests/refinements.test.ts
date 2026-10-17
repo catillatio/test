@@ -104,7 +104,7 @@ test('bot catalog upgrade caps armies at ten, scales real loadouts and gold, and
   const r=await setup();try{
     await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});
     const human=await r.veteran(),before=(await r.db.query('SELECT * FROM characters WHERE id=$1',[human.id])).rows;
-    const old=(await r.db.query("SELECT b.character_id,c.account_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite'")).rows[0]!;
+    const old=(await r.db.query("SELECT b.character_id,c.account_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite' AND b.variant=0")).rows[0]!;
     await r.db.query("UPDATE development_bots SET population_version='passive-rivals-2',population_key='passive-rivals-2:50:elite' WHERE character_id=$1",[old.character_id]);
     await r.db.query('UPDATE characters SET health=0,health_updated_at=$2,legacy_army_floor=21 WHERE id=$1',[old.character_id,r.now()]);
     await r.db.query('UPDATE army_stacks SET quantity=20 WHERE character_id=$1',[old.character_id]);

@@ -78,7 +78,7 @@ try{
   await page.setViewportSize({width:390,height:844});
   for(const item of alpha.items.filter(item=>['eclipse-greatsword','eclipse-citadel-plate','eclipse-invocation'].includes(item.id))){
     await page.goto(origin+'/game/armory?category='+item.category);
-    await page.getByLabel('Buy quantity for '+item.name,{exact:true}).fill('3');await act(page.getByRole('button',{name:'Buy '+item.name,exact:true}));
+    await page.getByRole('button',{name:'Increase quantity for '+item.name,exact:true}).click({clickCount:2});await act(page.getByRole('button',{name:'Buy '+item.name,exact:true}));
     assert.equal((await state()).inventory.find(entry=>entry.id===item.id)?.quantity,3);
   }
   await page.goto(origin+'/game/armory?category=weapon');await act(page.getByRole('button',{name:'Sell Eclipse Greatsword',exact:true}));
@@ -86,6 +86,7 @@ try{
   await page.goto(origin+'/game/land');await act(page.getByRole('button',{name:'Buy Eclipse Citadel',exact:true}));
   let current=await state();assert.equal(current.economy.grossHourlyIncome,3100);assert.equal(current.economy.propertyUpkeep,500);assert.equal(current.economy.equipmentUpkeep,480);assert.equal(current.economy.netHourlyIncome,2120);
   assert.equal((await page.locator('[data-hourly-net]').textContent())?.trim(),'+2,120 gold/hr');
+  await page.goto(origin+'/game/land');
   assert.equal(await page.getByRole('button',{name:'Buy Worldroot Bastion',exact:true}).isDisabled(),true);
   await act(page.getByRole('button',{name:'Sell Eclipse Citadel',exact:true}));assert.equal((await state()).economy.grossHourlyIncome,0);
   await act(page.getByRole('button',{name:'Buy Eclipse Citadel',exact:true}));

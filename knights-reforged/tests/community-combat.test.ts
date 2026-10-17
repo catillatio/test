@@ -15,7 +15,6 @@ test('Attack Again finishes a positive-Health defender at zero, keeps exact snap
     const a=await r.player('Finishing Knight'),b=await r.player('Wounded Rival');await r.prepare(a,1000);await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
     await r.db.query('UPDATE characters SET health=25,health_updated_at=$2 WHERE id=$1',[b.id,r.now()]);
     const total=(await r.me(a)).gold+(await r.me(b)).gold;
-    await r.ok(a,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});
     const first=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id}),one=await r.report(first.battleId);assert.ok(one.defenderHealthAfter<20&&one.defenderHealthAfter>0);
     const second=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id}),two=await r.report(second.battleId);assert.equal(two.defenderHealthAfter,0);
     assert.equal((await r.me(a)).spirit,1);assert.equal((await r.me(a)).gold+(await r.me(b)).gold,total);
@@ -55,9 +54,9 @@ test('repeating reports cannot bypass Spirit, attacker recovery, level range or 
 test('repeat bot attacks use the same engine and preserve the one-per-bot reward cap after a recovery',{skip},async()=>{
   const r=await setup(true);try{
     await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});const a=await r.player();
-    const bot=(await r.db.query("SELECT c.id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=1 AND b.tier='green'")).rows[0]!.id;
-    await r.ok(a,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});
-    const first=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot});assert.equal((await r.report(first.battleId)).rewarded,true);
+    const bot=(await r.db.query("SELECT c.id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=1 AND b.tier='green' AND b.variant=0")).rows[0]!.id;
+    await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
+    const first=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot});assert.equal((await r.report(first.battleId)).rewarded,true);assert.equal((await r.report(first.battleId)).outcome,'attacker_win');
     r.advance(600);const before=await r.me(a),second=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot}),report=await r.report(second.battleId);
     assert.equal(report.rewarded,false);assert.equal(report.loot,0);assert.equal(report.attackerXp,1);assert.equal(second.state.gold,before.gold);assert.equal(second.state.spirit,before.spirit-1);
     const profile=await r.app.inject({method:'GET',url:'/game/players/'+bot,headers:{cookie:a.cookie}});assert.equal(profile.statusCode,200,profile.body);assert.match(profile.body,/Temporary computer-controlled rival/);

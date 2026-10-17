@@ -71,3 +71,24 @@ test('a full shared cycle pays the displayed 3591 net after distinct property an
   const charges=(await r.db.query("SELECT sum(charged_gold)::text AS n FROM maintenance_events WHERE character_id=$1 AND reason='accrual'",[a.id])).rows[0]!.n;assert.equal(charges,'418');
  }finally{await r.close();}
 });
+
+test('human defensive victories also earn level-aware XP, diminish to one, replay once, and never refill Health on a defensive level-up',{skip},async()=>{
+ const r=await realm({isolated:true,clock:()=>new Date('2045-04-02T00:00:00Z')});try{
+  const a=await r.player('Honest Challenger'),b=await r.player('Iron Sentinel');await r.prepare(a,1000,650);await r.prepare(b,10000,650);
+  await r.ok(b,'/api/v1/army/recruitments',{unitId:'militia',quantity:20});await r.ok(b,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:20});
+  await r.db.query('UPDATE characters SET max_health=1000,health=1000,max_spirit=100,spirit=100 WHERE id=ANY($1::uuid[])',[[a.id,b.id]]);
+  const start=await r.me(b),xp=victoryExperience(start.level,start.level).amount;
+  for(let i=0;i<4;i++){
+   const before=await r.me(b),key=randomUUID(),hit=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key);
+   const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[hit.battleId])).rows[0]!.result;
+   assert.equal(report.outcome,'defender_win');assert.equal(report.attackerXp,0);assert.equal(report.defenderXp,i<3?xp:1);
+   const after=await r.me(b);assert.equal(after.xp-before.xp,report.defenderXp);assert.equal(after.health,before.health-report.defenderDamage);
+   await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key);assert.equal((await r.me(b)).xp,after.xp);
+   const page=await r.app.inject({method:'GET',url:'/game/battles/'+hit.battleId,headers:{cookie:b.cookie}});assert.ok(page.body.includes('XP gained</dt><dd>+'+report.defenderXp));
+  }
+  await r.db.query('UPDATE characters SET level_xp=$2 WHERE id=$1',[b.id,levelRequirement(start.level)-1]);
+  const before=await r.me(b),hit=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id});
+  const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[hit.battleId])).rows[0]!.result;
+  assert.equal(report.defenderLevelGained,1);assert.equal((await r.me(b)).health,before.health-report.defenderDamage);
+ }finally{await r.close();}
+});

@@ -29,7 +29,7 @@ async function state(page:Page):Promise<CharacterState>{
   const response=await page.request.get(config.origin+'/api/v1/me');assert.equal(response.status(),200);return (await response.json()).state;
 }
 async function action(page:Page,button:Locator){
-  const before=page.url();await Promise.all([page.waitForURL(url=>url.href!==before&&(url.searchParams.has('command')||/\/game\/battles\/[a-f0-9-]+$/.test(url.pathname))),button.click()]);
+  const before=page.url();await Promise.all([page.waitForURL(url=>url.href!==before&&(url.searchParams.has('command')||/\/game\/(?:battles|purchases)\/[a-f0-9-]+$/.test(url.pathname))),button.click()]);
   assert.equal(await page.getByRole('alert').count(),0,await page.locator('body').innerText());
 }
 async function screens(page:Page,label:string){
@@ -97,15 +97,17 @@ try{
   await a.goto(config.origin+'/game/profile?tab=skills');await action(a,a.getByRole('button',{name:'Increase Defense',exact:true}));assert.equal((await state(a)).training.defense,1);
 
   await a.goto(config.origin+'/game/armory?category=spell');
-  await a.getByLabel('Buy quantity for Ember Word',{exact:true}).fill('2');
+  await a.getByRole('button',{name:'Increase quantity for Ember Word',exact:true}).click();
   await action(a,a.getByRole('button',{name:'Buy Ember Word',exact:true}));
-  assert.equal(new URL(a.url()).searchParams.get('category'),'spell');
+  assert.ok(new URL(a.url()).pathname.startsWith('/game/purchases/'));
+  await a.goto(config.origin+'/game/armory?category=spell');
   assert.equal((await state(a)).inventory.find(item=>item.id==='ember-word')?.quantity,2);
   await action(a,a.getByRole('button',{name:'Sell Ember Word',exact:true}));
   assert.equal((await state(a)).inventory.find(item=>item.id==='ember-word')?.quantity,1);
 
   await b.goto(config.origin+'/game/land');
   await action(b,b.getByRole('button',{name:'Buy Smallholding',exact:true}));
+  await b.goto(config.origin+'/game/land');
   await b.waitForFunction(()=>/^\d{2}:\d{2}:\d{2}$/.test(document.querySelector('[data-land-countdown]')?.textContent??''));
   const countdown=await b.locator('[data-land-countdown]').textContent();await b.waitForTimeout(1100);
   assert.notEqual(await b.locator('[data-land-countdown]').textContent(),countdown);

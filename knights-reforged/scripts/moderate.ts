@@ -12,7 +12,7 @@ if(action!=='queue'&&!z.string().uuid().safeParse(id).success)throw new Error('A
 const config=loadConfig(),db=createDatabase(config.databaseUrl);
 try{
   await assertInstalledRulesets(db);
-  if(!(await db.query("SELECT 1 FROM schema_migrations WHERE name='013_pvp_economy.sql'")).rows.length)throw new Error('Run npm run db:migrate before moderation.');
+  if(!(await db.query("SELECT 1 FROM schema_migrations WHERE name='014_economy_and_progression.sql'")).rows.length)throw new Error('Run npm run db:migrate before moderation.');
   if(action==='queue'){
     const rows=(await db.query(`SELECT m.id,m.author_id,a.name,m.channel,m.body,m.status,m.created_at,count(r.id)::int AS reports,
       array_agg(DISTINCT r.reason) AS reasons FROM realm_messages m JOIN social_reports r ON r.message_id=m.id JOIN characters a ON a.id=m.author_id

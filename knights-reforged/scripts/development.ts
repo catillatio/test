@@ -29,7 +29,7 @@ const password=action==='account'?await hiddenPassword():'';
 const config=loadConfig(),db=createDatabase(config.databaseUrl);
 try{
   await assertInstalledRulesets(db);
-  if(!(await db.query("SELECT 1 FROM schema_migrations WHERE name='013_pvp_economy.sql'")).rows.length)throw new Error('Run npm run db:migrate before development provisioning.');
+  if(!(await db.query("SELECT 1 FROM schema_migrations WHERE name='014_economy_and_progression.sql'")).rows.length)throw new Error('Run npm run db:migrate before development provisioning.');
   let result;
   if(action==='bots')result=await provisionBots(db,permission,process.argv.includes('--disable'));
   else{

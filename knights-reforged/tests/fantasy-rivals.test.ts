@@ -16,7 +16,7 @@ test('all 450 fantasy names are distinct, valid, deterministic and cover every l
     assert.ok(Object.values(bp.quantities).every(q=>q>=0&&q<=bp.participants));
     assert.ok(bp.items.every(i=>i.level<=level));
     assert.ok(bp.properties.every(p=>alpha.properties.find(item=>item.id===p.id)!.level<=level));
-    assert.ok(bp.gold<200000&&bp.bankedGold<2147483647);
+    assert.ok(bp.gold<2147483647&&bp.bankedGold<2147483647);
     const economy=botCatalog.economy,percent=botCatalog.profiles[tier]!.goldPercent;
     assert.equal(bp.gold,Math.max(2500,Math.floor((economy.walletBase+Math.max(0,bp.netIncome)*economy.walletIncomeHours+bp.equipmentInvestment*economy.walletEquipmentPercent/100)*percent/100*(100+variant*7)/100)));
     assert.equal(bp.bankedGold,Math.floor((Math.max(0,bp.netIncome)*economy.vaultIncomeHours+bp.propertyInvestment*economy.vaultEstatePercent/100)*percent/100));
@@ -56,7 +56,7 @@ test('persistent rival estates, real saved costs, income and protected wealth su
       vault:(await r.db.query('SELECT * FROM vault_entries ORDER BY id')).rows});
     const saved=await snapshot(),again=await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});
     assert.equal(again.created,0);assert.equal(again.upgraded,0);assert.deepEqual(await snapshot(),saved);assert.deepEqual(await humanRows(),before);
-    const elder=bots.find(b=>b.attained_level===50&&b.tier==='elite')!;
+    const elder=bots.find(b=>b.attained_level===50&&b.tier==='elite'&&b.variant===0)!;
     const profile=await r.app.inject({method:'GET',url:'/api/v1/players/'+elder.character_id,headers:{cookie:human.cookie}});
     assert.equal(profile.statusCode,200,profile.body);assert.equal(profile.json().character.properties.length,4);
     assert.equal(profile.json().character.economy.grossHourlyIncome,botBlueprint(50,'elite').grossIncome);
@@ -70,7 +70,7 @@ test('daily rival preparation settles real offline Land and maintenance before a
   const r=await realm({isolated:true,developmentBotsEnabled:true,clock:()=>now});try{
     await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});const human=await r.player('Land Auditor');
     await r.prepare(human,0,Array.from({length:49},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0));
-    const bot=(await r.db.query("SELECT c.account_id,c.id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite'")).rows[0]!;
+    const bot=(await r.db.query("SELECT c.account_id,c.id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite' AND b.variant=0")).rows[0]!;
     const before=await getState(r.db,bot.account_id);now=new Date(+now+86400000);
     const fight=await r.ok(human,'/api/v1/battles',{targetCharacterId:bot.id});
     const saved=(await r.db.query('SELECT snapshot,result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!;

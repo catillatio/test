@@ -67,7 +67,7 @@ check('Simplified Land sheet preserves 21 property identities with verified imag
  assert.ok(read('public/strategy.css').includes('land-simple-0.1/properties.webp'));
 });
 check('CSS uses local assets; original tab gradients and safe areas remain',()=>{
-  for(const file of ['public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
+  for(const file of ['public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
     for(const match of read(file).matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)){
       assert.ok(!/^(?:https?:|\/\/)/.test(match[1]));assert.ok(existsSync(resolve(root,dirname(file),match[1])),match[1]);
     }
@@ -93,12 +93,15 @@ const state={invitationCode:'ABCDEF123456',id:playerId,name:'Arthur of the Vale'
 const legacyBattle={id:battleId,attackerId:playerId,defenderId:targetId,attackerName:'Arthur',defenderName:'Morgan',winnerName:'Arthur',winnerId:playerId,loot:3,attackPower:20,defensePower:10,attackRoll:2,defenseRoll:1,attackerDamage:3,defenderDamage:12,attackerHealthAfter:82,defenderHealthAfter:88,attackerXp:5,createdAt:now};
 const newBattle={...legacyBattle,rulesetId:alpha.id,attackPower:2000,defensePower:1000,attackerArmy:4,defenderArmy:2,attackerMaxHealth:110,defenderMaxHealth:100,spiritSpent:1,rewarded:true,attackEquipment:[],defenseEquipment:[]};
 const opponent={id:targetId,name:'Morgan',level:3,units:2,armySize:3,className:'Freeblade',health:100,maxHealth:100};
-const fixture=(screen,extra={})=>({screen,state,nav:navigation,rules,landRules,alpha,strategy,community,refinements,bountyRules,pvp,bountyPlacement:{allowed:true,reason:null},bountyTarget:{id:targetId,name:"Morgan",level:3,className:"Warden",health:100,maxHealth:100,temporaryRival:false},vaultEntries:[],developmentBotBountiesEnabled:false,relativeTime:()=> 'just now',publicCharacter:null,profileProperties:[{id:'smallholding',name:'Smallholding',quantity:1,grossIncome:8,upkeep:1,art:'farm',illustration:alpha.properties[0].illustration}],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:{targetId,targetName:'Morgan',amount:1,fee:1,total:2,rulesetId:refinements.id},feedTab:'all',feed:{entries:[],nextCursor:null},armyTab:'recruit',armyEvents:[],developmentBotsEnabled:false,bountyBoard:{active:[],history:[],eligible:true},csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:null,
+const fixture=(screen,extra={})=>({screen,recruitment:{allowed:true,reason:null,status:"none",automatic:false},purchase:{type:"equipment",entry:alpha.items[0],owned:2,available:2,costSteps:[5,10]},state,nav:navigation,rules,landRules,alpha,strategy,community,refinements,bountyRules,pvp,bountyPlacement:{allowed:true,reason:null},bountyTarget:{id:targetId,name:"Morgan",level:3,className:"Warden",health:100,maxHealth:100,temporaryRival:false},vaultEntries:[],developmentBotBountiesEnabled:false,relativeTime:()=> 'just now',publicCharacter:null,profileProperties:[{id:'smallholding',name:'Smallholding',quantity:1,grossIncome:8,upkeep:1,art:'farm',illustration:alpha.properties[0].illustration}],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:{targetId,targetName:'Morgan',amount:1,fee:1,total:2,rulesetId:refinements.id},feedTab:'all',feed:{entries:[],nextCursor:null},armyTab:'recruit',armyEvents:[],developmentBotsEnabled:false,bountyBoard:{active:[],history:[],eligible:true},csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:screen==='purchase'?{kind:"buy",data:{quantity:1,goldSpent:5,itemId:alpha.items[0].id}}:null,
  opponents:[opponent],nextOpponentCursor:null,battles:[],battle:newBattle,title:navigation.find(n=>n.id===screen)?.label??'The Realm',authMode:'login',formValues:{username:'',name:''},category:'weapon',questArea:'all',profileTab:'player',...extra});
 const emptyLand={...land,hourlyIncome:0,hourlyUpkeep:0,totalUpkeep:0,netHourlyIncome:0,nextPaymentAt:null,holdings:[],properties:properties.map(p=>({...p,owned:0}))};
 const contract={id:randomUUID(),sponsor_id:playerId,target_id:targetId,name:'Morgan',target_name:'Morgan',sponsor_name:'Arthur',level:3,profile_class:'Freeblade',army_size:3,armySize:3,amount:1000,fee:100,status:'active',claimant_id:null,created_at:new Date(Date.parse(now)-7200000).toISOString(),expires_at:next,claimBlockedReason:'Sponsors cannot claim their own contracts.'};
 const comment={id:randomUUID(),kind:'comment',createdAt:now,data:{authorId:targetId,authorName:'Morgan',profileId:playerId,profileName:'Arthur',body:'Welcome to the realm <script>!',reported:false}};
 const cases=[
+ {name:'purchase-equipment',data:fixture('purchase')},
+ {name:'purchase-land',data:fixture('purchase',{purchase:{type:'land',entry:properties[0],owned:2,available:2,costSteps:[45,95]},actionResult:{kind:'land_buy',data:{quantity:2,goldSpent:95}}})},
+ {name:'purchase-unavailable',data:fixture('purchase',{purchase:{type:'equipment',entry:alpha.items[0],owned:1000,available:0,costSteps:[5]}})},
  {name:'profile-public-tales',data:fixture('profile',{publicCharacter:{...state,id:targetId,name:'Morgan'},profileTab:'battles',tales:{entries:[{id:battleId,attackerId:randomUUID(),defenderId:targetId,attackerName:'Earlier Rival',defenderName:'Morgan',won:false,loot:3,attackerXp:5,attackerDamage:3,defenderDamage:30,bountyReward:0,canViewReport:false,createdAt:now}],nextCursor:now.replace('.000Z','.000001Z')+'~'+battleId}})},
  {name:'profile-legacy-tales',data:fixture('profile',{profileTab:'battles',tales:{entries:[{id:battleId,attackerId:playerId,defenderId:targetId,attackerName:'Arthur',defenderName:'Morgan',won:true,loot:null,attackerXp:null,attackerDamage:null,defenderDamage:null,bountyReward:0,canViewReport:true,createdAt:now}],nextCursor:null}})},
  {name:'home-defeat-activity',data:fixture('home',{feed:{entries:[{id:battleId,kind:'battle',createdAt:now,data:{...newBattle,winnerId:targetId}}],nextCursor:null}})},
@@ -143,7 +146,7 @@ for(const example of cases)check('Production EJS render: '+example.name,()=>{
  rendered.set(example.name,html);
 });
 const routeRegex=route=>new RegExp('^'+route.split('/').map(s=>s.startsWith(':')?'[^/]+':s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('/')+'$');
-const gets=['/','/login','/register','/rules','/game/profile','/game/bounties','/game/bounties/new','/game/vault','/game/settings','/game/players/:id',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
+const gets=['/','/login','/register','/rules','/game/profile','/game/bounties','/game/bounties/new','/game/vault','/game/settings','/game/purchases/:id','/game/players/:id',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
 const posts=['/login','/register','/logout','/game/bounties/preview',...commandRoutes.map(r=>r.html)].map(routeRegex),covered=new Set();
 check('Rendered links, asset references, unique IDs, labels, CSRF and command contracts',()=>{
  for(const [name,html] of rendered){
@@ -210,7 +213,7 @@ check('Upgraded pages bypass cached pre-expansion income clients',()=>{
     const html=rendered.get(example.name);assert.ok(html.includes('/assets/refinements.css?v='+alpha.id));
     assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase41-render1'));
-    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase41-render1'));
+    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase43-1'));
   }
 });
 check('Land retains countdown, offline payment, sale, retained-gold and no-script hooks',()=>{

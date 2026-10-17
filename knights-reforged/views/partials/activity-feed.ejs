@@ -4,7 +4,7 @@
 <article class="activity-entry activity-<%= entry.kind %>" id="activity-<%= entry.id %>">
 <% if(entry.kind==='battle') { const attacking=data.attackerId===state.id,opponentId=attacking?data.defenderId:data.attackerId,won=data.winnerId===state.id; %>
   <h3><%- include('outcome',{won}) %> <%= attacking?'You attacked':'You were attacked by' %> <a class="player-link" href="/game/players/<%= opponentId %>"><%= attacking?data.defenderName:data.attackerName %></a></h3>
-  <p><span class="gold"><%= won?'+':'−' %><%= data.loot??0 %> gold</span> · +<%= attacking?(data.xp??0):0 %> XP · <%= attacking?data.defenderDamage:data.attackerDamage %> damage dealt · <%= attacking?data.attackerDamage:data.defenderDamage %> received</p>
+  <p><span class="gold"><%= won?'+':'−' %><%= data.loot??0 %> gold</span> · +<%= attacking?(data.xp??0):(data.defenderXp??0) %> XP · <%= attacking?data.defenderDamage:data.attackerDamage %> damage dealt · <%= attacking?data.attackerDamage:data.defenderDamage %> received</p>
   <div class="feed-actions"><a class="button button-outline" href="/game/battles/<%= entry.id %>">View Battle / Attack</a><a class="text-link" href="/game/players/<%= opponentId %>">Profile ›</a></div>
 <% } else if(entry.kind==='comment'||entry.kind==='broadcast') { const own=data.authorId===state.id,host=data.profileId===state.id; %>
   <h3><span class="feed-icon" aria-hidden="true"><%= entry.kind==='broadcast'?'♜':'✉' %></span> <a class="player-link" href="/game/players/<%= data.authorId %>"><%= data.authorName %></a><% if(entry.kind==='comment') { %> on <a class="player-link" href="/game/players/<%= data.profileId %>?tab=comments"><%= data.profileName %>'s profile</a><% } else { %> broadcasts<% } %></h3>

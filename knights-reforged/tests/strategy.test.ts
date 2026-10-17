@@ -64,7 +64,7 @@ test('450 passive rivals span levels 1–50 with real quantity-limited equipment
     for(let level=1;level<=50;level++){
       const powers=[];
       for(const tier of strategy.bots.tiers){
-        const row=(await r.db.query('SELECT c.account_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=$1 AND b.tier=$2',[level,tier])).rows[0]!;
+        const row=(await r.db.query('SELECT c.account_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=$1 AND b.tier=$2 AND b.variant=0',[level,tier])).rows[0]!;
         const state=await getState(r.db,row.account_id);powers.push(state.defense);
         assert.equal(state.level,level);assert.equal(state.maintenance.paused,false);assert.ok(state.army.participants<=10);assert.ok(state.defenseEquipment.selected.length>0);
         assert.equal(state.maxMana,20+Math.floor(level/5));assert.equal(state.maxSpirit,3+Math.floor(level/10));
@@ -84,16 +84,16 @@ test('450 passive rivals span levels 1–50 with real quantity-limited equipment
         const item=alpha.items.filter(item=>item.category===category&&item.level<=level).sort((a,b)=>b.attack-a.attack||b.defense-a.defense)[0]!;
         await r.ok(player,'/api/v1/inventory/purchases',{itemId:item.id,quantity:21});
       }
-      const opponent=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=$1 AND b.tier='green'",[level])).rows[0]!;
+      const opponent=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=$1 AND b.tier='green' AND b.variant=0",[level])).rows[0]!;
       const before=await r.me(player);const fight=await r.ok(player,'/api/v1/battles',{targetCharacterId:opponent.character_id});
       const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.result;
       assert.equal(report.outcome,'attacker_win');assert.equal(report.attackPower,Math.round(before.attack*(100+report.attackRoll)));assert.equal(report.botPopulationVersion,botCatalog.id);
       assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=50);assert.equal(report.attackerXp,victoryExperience(level,level).amount);
     }
     const unprepared=await r.player('Unprepared Challenger');await r.prepare(unprepared,1000,Array.from({length:49},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0));
-    const elite=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite'")).rows[0]!;
+    const elite=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite' AND b.variant=0")).rows[0]!;
     const defeat=await r.ok(unprepared,'/api/v1/battles',{targetCharacterId:elite.character_id});assert.equal((await r.db.query('SELECT outcome FROM battles WHERE id=$1',[defeat.battleId])).rows[0]!.outcome,'defender_win');
-    const oldBot=(await r.db.query("SELECT b.character_id,c.account_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=1 AND b.tier='green'")).rows[0]!;
+    const oldBot=(await r.db.query("SELECT b.character_id,c.account_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=1 AND b.tier='green' AND b.variant=0")).rows[0]!;
     const history=(await r.db.query('SELECT * FROM battles ORDER BY id')).rows;
     const realPlayers=(await r.db.query('SELECT c.* FROM characters c JOIN accounts a ON a.id=c.account_id WHERE NOT a.login_disabled ORDER BY c.id')).rows;
     await r.db.query("UPDATE development_bots SET population_version='passive-rivals-1',population_key='passive-rivals-1:1:green',ruleset_id='strategy-0.1' WHERE character_id=$1",[oldBot.character_id]);

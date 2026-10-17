@@ -1,6 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {levelRequirement} from './alpha-rules.js';
-export const progressionEconomy=JSON.parse(readFileSync(new URL('../rulesets/progression-economy-0.1/rules.json',import.meta.url),'utf8')) as {
+export const initialProgressionEconomy=JSON.parse(readFileSync(new URL('../rulesets/progression-economy-0.1/rules.json',import.meta.url),'utf8'));
+export const progressionEconomy=JSON.parse(readFileSync(new URL('../rulesets/progression-economy-0.2/rules.json',import.meta.url),'utf8')) as {
  id:string;provenance:string;victoryXp:{requirementPercent:number;minimum:number;maximum:number;relativeLevelPercent:number;minimumDifficultyPercent:number;maximumDifficultyPercent:number;repeatedMinimum:number;humanFullVictoriesPerTarget:number;botFullVictoriesPerTarget:number;botFullVictoriesPerDay:number;windowSeconds:number};
  income:{intervalMilliseconds:number;policy:string};recruitment:{rosterLimit:number;botAcceptance:string};statistics:{kills:string;deaths:string};
 };

@@ -246,7 +246,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
         const input = route.kind === 'quest' || route.kind === 'quest_buy' ? { ...body, questId: (request.params as {id:string}).id } : body;
         const result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input,{developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled});
         if (wantsJson(request)) return { ...result, state: await getState(db, request.realmSession!.account_id!,config) };
-        if(route.kind==='buy'||route.kind==='land_buy')return reply.redirect('/game/purchases/'+result.commandId,303);
+        if((route.kind==='buy'&&result.data?.itemId&&typeof result.data.quantity==='number')||(route.kind==='land_buy'&&result.data?.propertyId&&typeof result.data.quantity==='number'))
+          return reply.redirect('/game/purchases/'+result.commandId,303);
+        // Replayed pre-4.3 receipts can lack item/quantity metadata. Preserve
+        // their original catalog confirmation instead of creating a broken receipt URL.
         if(route.kind==='comment')return reply.redirect('/game/players/'+result.data!.profileId+'?tab=comments&command='+result.commandId,303);
         if(route.kind==='social_report'||route.kind==='social_remove'){
           const location=result.data?.channel==='comment'&&result.data.profileId?'/game/players/'+result.data.profileId+'?tab=comments':'/game/home?feed=broadcasts';
