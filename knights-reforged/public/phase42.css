@@ -1,0 +1,17 @@
+/* Small shared refinements; existing artwork, tabs and screen density stay. */
+.profile-actions { margin-top:.4rem; padding:.65rem; }
+.profile-actions .opponent-health { margin:0 0 .3rem; font-size:.9rem; }
+.profile-actions meter { display:block; width:100%; height:.55rem; margin:.2rem 0 .65rem; }
+.opponent-actions { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.45fr); gap:.5rem; align-items:stretch; }
+.opponent-actions form,.opponent-actions .button { margin:0; width:100%; min-width:0; }
+.opponent-actions .button { min-height:44px; font-size:.9rem; padding:.55rem .35rem; display:flex; align-items:center; justify-content:center; text-align:center; }
+.opponent-actions .bounty-action { color:#f3dba3; border-color:#8a7347; }
+.bounty-eligibility { border-left:2px solid #a38a57; padding-left:.45rem; }
+.bounty-new input { max-width:100%; width:12rem; }
+.bounty-new label,.vault-transfers label { display:block; margin:.55rem 0 .3rem; font-size:.9rem; }
+.loot-detail { border-left:2px solid #b69651; padding:.4rem .6rem; background:#15120d9e; }
+.vault-transfers { display:grid; grid-template-columns:1fr 1fr; gap:.65rem; }
+.vault-transfers form,.vault-transfers input { min-width:0; width:100%; }
+.vault-transfers .button { width:100%; margin-top:.5rem; }
+.vault-entry { display:grid; gap:.2rem; padding:.6rem 0; border-bottom:1px solid #85704a55; font-size:.85rem; }
+.vault-entry time { color:#b6ac94; font-size:.75rem; }

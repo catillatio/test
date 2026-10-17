@@ -24,7 +24,7 @@ export interface ArmyLink { characterId:string;name:string;level:number;classNam
 export interface CharacterState {
   invitationCode:string;id:string;name:string;xp:number;level:number;levelXp:number;levelRequirement:number;xpToNext:number;
   health:number;maxHealth:number;mana:number;maxMana:number;spirit:number;maxSpirit:number;energy:number;
-  gold:number;units:number;attack:number;defense:number;equipped:boolean;inventoryId:string|null;
+  bankedGold:number;gold:number;units:number;attack:number;defense:number;equipped:boolean;inventoryId:string|null;
   inventory:OwnedItem[];questsCompleted:number;stateVersion:number;skillPoints:number;className:string;
   attackReadyAt:string;serverTime:string;energyNextAt:string|null;manaNextAt:string|null;spiritNextAt:string|null;healthNextAt:string|null;
   land:EstateState;rulesetId:string;
@@ -105,7 +105,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
   const untrainedDefense=rules.baseDefense+(row.attained_level-1)*rules.defensePerLevel+(army.participants-1)*rules.unit.defense+defenseEquipment.defense;
   return {invitationCode:await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:levelRequirement(row.attained_level),xpToNext:levelRequirement(row.attained_level)-row.level_xp,
     health:row.health,maxHealth:row.max_health,mana:row.mana,maxMana:row.max_mana,spirit:row.spirit,maxSpirit:row.max_spirit,energy:row.mana,
-    gold:wallet.balance,units,attack:callingPower(trainedPower(untrainedAttack,row.attack_training),calling.attackPercent),defense:callingPower(trainedPower(untrainedDefense,row.defense_training),calling.defensePercent),
+    bankedGold:(await sql.query('SELECT balance FROM vault_accounts WHERE character_id=$1',[row.id])).rows[0]?.balance??0,gold:wallet.balance,units,attack:callingPower(trainedPower(untrainedAttack,row.attack_training),calling.attackPercent),defense:callingPower(trainedPower(untrainedDefense,row.defense_training),calling.defensePercent),
     equipped:Boolean(sword),inventoryId:sword?.inventoryId??null,inventory,questsCompleted:progress.reduce((n,p)=>n+p.completions,0),quests,loot,awards,
     stateVersion:row.state_version,skillPoints:row.skill_points,className:row.profile_class,
     attackReadyAt:now.toISOString(),serverTime:now.toISOString(),energyNextAt:manaNextAt,manaNextAt,

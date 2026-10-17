@@ -103,6 +103,6 @@ describe('Fantasy tiers, transactions and persistent progression',{skip:!testDat
     assert.equal(battle.rulesetId,alpha.id);assert.equal(battle.attackerArmy,21);assert.equal(battle.defenderArmy,21);
     assert.equal(battle.attackEquipment.reduce((n:number,item:{quantity:number})=>n+item.quantity,0),9);
     assert.equal(battle.defenseEquipment.reduce((n:number,item:{quantity:number})=>n+item.quantity,0),12);assert.ok(battle.defenderDamage<=30);
-    const transfer=(await r.db.query("SELECT sum(e.amount)::int AS amount FROM economy_entries e JOIN economy_transactions t ON t.id=e.transaction_id WHERE t.command_id=$1 AND t.reason='battle_loot'",[fight.commandId])).rows[0]!;assert.equal(transfer.amount,0);
+    const transfer=(await r.db.query("SELECT COALESCE(sum(e.amount),0)::int AS amount FROM economy_entries e JOIN economy_transactions t ON t.id=e.transaction_id WHERE t.command_id=$1 AND t.reason='battle_loot'",[fight.commandId])).rows[0]!;assert.equal(transfer.amount,0);
   });
 });

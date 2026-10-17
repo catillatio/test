@@ -8,6 +8,10 @@ import {rules} from './rules.js';
 import {ledger,creditGold} from './economy.js';
 import {GameError} from './errors.js';
 import {refinements} from './refinement-rules.js';
+import {pvp} from './pvp-rules.js';
+import {buyEstate} from './estate.js';
+import {vaultTransfer} from './pvp-economy.js';
+import {propertyQuote} from './alpha-rules.js';
 import {materialize,type CharacterRow} from './game.js';
 
 export interface DevelopmentPermission{nodeEnv:string;allowProvisioning:boolean;}
@@ -15,7 +19,7 @@ export function requireDevelopment(permission:DevelopmentPermission){
   if(!['development','test'].includes(permission.nodeEnv)||!permission.allowProvisioning)
     throw new Error('Development provisioning requires NODE_ENV=development and ALLOW_DEV_PROVISIONING=1; production is prohibited.');
 }
-interface BotBlueprint{name:string;calling:Calling;participants:number;quantity:number;quantities:Record<string,number>;items:ItemDefinition[];training:number;health:number;mana:number;spirit:number;gold:number;}
+interface BotBlueprint{name:string;calling:Calling;participants:number;quantity:number;quantities:Record<string,number>;items:ItemDefinition[];training:number;health:number;mana:number;spirit:number;gold:number;bankedGold:number;properties:{id:string;quantity:number}[];equipmentInvestment:number;propertyInvestment:number;grossIncome:number;netIncome:number;}
 const blueprints=new Map<string,BotBlueprint>();
 function blueprintDefense(level:number,p:number,items:ItemDefinition[],quantities:Record<string,number>,training:number,calling:string){
   const base=rules.baseDefense+(level-1)*rules.defensePerLevel+(p-1)*rules.unit.defense+items.reduce((n,item)=>n+item.defense*quantities[item.id]!,0);
@@ -28,10 +32,22 @@ export function benchmarkAttack(level:number){
   const base=rules.baseAttack+(level-1)*rules.attackPerLevel+(p-1)*rules.unit.attack+items.reduce((n,item)=>n+item.attack*quantity,0);
   return callingPower(trainedPower(base,Math.floor(level/rule.levelsPerTraining)),callingFor(rule.calling).attackPercent);
 }
-export function botGoldAllowance(level:number,tier:string){
-  const policy=refinements.bots,profile=botCatalog.profiles[tier];
-  if(!profile||!Number.isInteger(level)||level<1||level>50)throw new RangeError('Invalid rival allowance.');
-  return Math.floor((policy.walletBase+level*policy.walletPerLevel+level*level*policy.walletPerLevelSquared)*profile.goldPercent/100);
+export function botGoldAllowance(level:number,tier:string,populationVersion=botCatalog.id){
+  if(populationVersion===botCatalog.id)return botBlueprint(level,tier).gold;
+  // An operator may start the new app before explicitly upgrading its NPCs.
+  // Do not fund an old, landless rival using a portfolio it does not own.
+  const percent=botCatalog.profiles[tier]?.goldPercent;
+  if(!percent||!Number.isInteger(level)||level<1||level>50)throw new RangeError('Invalid rival allowance.');
+  return populationVersion==='passive-rivals-3'?
+    Math.floor((refinements.bots.walletBase+level*refinements.bots.walletPerLevel+level*level*refinements.bots.walletPerLevelSquared)*percent/100):
+    strategy.bots.walletBase+level*strategy.bots.walletPerLevel;
+}
+function botEstate(level:number,tier:string){
+  const economy=botCatalog.economy,band=economy.estateBands.filter(b=>b.minimumLevel<=level).at(-1)!;
+  const unlocked=alpha.properties.filter(p=>p.level<=level);
+  const types=band.types?unlocked.slice(-band.types):[];
+  if(!band.types)return [];
+  return types.map((property,i)=>({id:property.id,quantity:Math.max(1,Math.round((band.copies+(i===0&&level>=21?1:0))*economy.estateCopiesPercent[tier]!/100))}));
 }
 export function botBlueprint(level:number,tier:string){
   const cached=blueprints.get(level+':'+tier);if(cached)return cached;
@@ -58,9 +74,18 @@ export function botBlueprint(level:number,tier:string){
       if(distance<best||(distance===best&&preference<bestPreference)){best=distance;bestPreference=preference;participants=p;quantities=candidate;}
     }
   }
-  const result:BotBlueprint={name:botCatalog.names[level-1]+' '+profile.surname,calling,
+  const properties=botEstate(level,tier);
+  const equipmentInvestment=items.reduce((sum,item)=>sum+item.price*quantities[item.id]!,0);
+  const propertyInvestment=properties.reduce((sum,holding)=>sum+propertyQuote(alpha.properties.find(p=>p.id===holding.id)!.price,0,holding.quantity).reduce((a,b)=>a+b,0),0);
+  const grossIncome=properties.reduce((sum,holding)=>sum+alpha.properties.find(p=>p.id===holding.id)!.hourlyIncome*holding.quantity,0);
+  const propertyUpkeep=properties.reduce((sum,holding)=>sum+alpha.properties.find(p=>p.id===holding.id)!.hourlyUpkeep*holding.quantity,0);
+  const equipmentUpkeep=items.reduce((sum,item)=>sum+item.upkeep*quantities[item.id]!,0);
+  const netIncome=grossIncome-propertyUpkeep-equipmentUpkeep,economy=botCatalog.economy;
+  const gold=Math.floor((economy.walletBase+Math.max(0,netIncome)*economy.walletIncomeHours+equipmentInvestment*economy.walletEquipmentPercent/100)*profile.goldPercent/100);
+  const bankedGold=Math.floor((Math.max(0,netIncome)*economy.vaultIncomeHours+propertyInvestment*economy.vaultEstatePercent/100)*profile.goldPercent/100);
+  const result:BotBlueprint={name:botCatalog.identities[level+':'+tier]!,calling,properties,equipmentInvestment,propertyInvestment,grossIncome,netIncome,gold,bankedGold,
     participants,quantity:Math.max(...Object.values(quantities)),quantities,items,training,
-    health:botCatalog.healthBase+Math.floor(level/botCatalog.levelsPerHealthUpgrade)*botCatalog.healthPerUpgrade+profile.healthBonus,mana:botCatalog.manaBase+Math.floor(level/botCatalog.levelsPerManaUpgrade),spirit:botCatalog.spiritBase+Math.floor(level/botCatalog.levelsPerSpiritUpgrade),gold:botGoldAllowance(level,tier)};
+    health:botCatalog.healthBase+Math.floor(level/botCatalog.levelsPerHealthUpgrade)*botCatalog.healthPerUpgrade+profile.healthBonus,mana:botCatalog.manaBase+Math.floor(level/botCatalog.levelsPerManaUpgrade),spirit:botCatalog.spiritBase+Math.floor(level/botCatalog.levelsPerSpiritUpgrade)};
   blueprints.set(level+':'+tier,result);return result;
 }
 export async function provisionBots(db:Database,permission:DevelopmentPermission,disable=false){
@@ -69,6 +94,7 @@ export async function provisionBots(db:Database,permission:DevelopmentPermission
   return transaction(db,async sql=>{
     await sql.query('SELECT pg_advisory_xact_lock(61824006)');
     if(disable){await sql.query('UPDATE development_bots SET active=false');return {created:0,active:0};}
+    await sql.query('SELECT id FROM characters WHERE id IN (SELECT character_id FROM development_bots) ORDER BY id FOR UPDATE');
     let created=0,upgraded=0;
     const now=new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now);
     for(let level=1;level<=50;level++)for(const tier of strategy.bots.tiers){
@@ -82,25 +108,45 @@ export async function provisionBots(db:Database,permission:DevelopmentPermission
         await sql.query(`INSERT INTO characters(id,account_id,name,attained_level,xp,level_xp,profile_class,max_health,health,attack_training,defense_training,max_mana,mana,max_spirit,spirit)
         VALUES($1,$2,$3,$4,$5,0,$6,$7,$7,$8,$8,$9,$9,$10,$10)`,[id,accountId,blueprint.name,level,xp,blueprint.calling,blueprint.health,blueprint.training,blueprint.mana,blueprint.spirit]);
         await sql.query('INSERT INTO wallets(character_id,balance) VALUES($1,0)',[id]);
-        await ledger(sql,null,'development_bot_allowance',[{characterId:id,amount:blueprint.gold}],refinements.id);
+
         await sql.query("INSERT INTO army_stacks(character_id,unit_definition_id,quantity) VALUES($1,'militia',$2)",[id,blueprint.participants-1]);
       }else{
-        await sql.query('UPDATE characters SET profile_class=$2,max_health=$3,health=LEAST(health,$3),attack_training=$5,defense_training=$5,legacy_army_floor=LEAST(legacy_army_floor,$4),max_mana=$6,mana=LEAST(mana,$6),max_spirit=$7,spirit=LEAST(spirit,$7),state_version=state_version+1 WHERE id=$1',[id,blueprint.calling,blueprint.health,refinements.bots.armyCap,blueprint.training,blueprint.mana,blueprint.spirit]);
+        const existing=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[id])).rows[0]!;
+        await materialize(sql,existing,now); // settle saved estates/upkeep; do not discard old income
+        await sql.query('UPDATE characters SET name=$8,profile_class=$2,max_health=$3,health=LEAST(health,$3),attack_training=$5,defense_training=$5,legacy_army_floor=LEAST(legacy_army_floor,$4),max_mana=$6,mana=LEAST(mana,$6),max_spirit=$7,spirit=LEAST(spirit,$7),state_version=state_version+1 WHERE id=$1',[id,blueprint.calling,blueprint.health,refinements.bots.armyCap,blueprint.training,blueprint.mana,blueprint.spirit,blueprint.name]);
         await sql.query("UPDATE army_stacks SET quantity=$2 WHERE character_id=$1 AND unit_definition_id='militia'",[id,blueprint.participants-1]);
         await sql.query('UPDATE inventory_entries SET quantity=0 WHERE character_id=$1',[id]);
         await sql.query('UPDATE inventory_lots SET remaining_quantity=0 WHERE character_id=$1',[id]);
       }
-      if(old){const balance=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[id])).rows[0]!.balance;await creditGold(sql,id,BigInt(Math.max(0,blueprint.gold-balance)),null,'development_bot_catalog_allowance',refinements.id);}
+      // Explicitly registered synthetic development capital, never a gameplay
+      // reward. Spend it through normal saved-cost purchases and the Vault.
+      const estatePurchases=[];let propertyCost=0;
+      for(const property of blueprint.properties){
+        const owned=(await sql.query('SELECT COALESCE(sum(quantity),0)::int AS n FROM land_holdings WHERE character_id=$1 AND property_id=$2',[id,property.id])).rows[0]!.n;
+        const quantity=Math.max(0,property.quantity-owned);
+        if(quantity){estatePurchases.push({...property,quantity});propertyCost+=propertyQuote(alpha.properties.find(p=>p.id===property.id)!.price,owned,quantity).reduce((a,b)=>a+b,0);}
+      }
+      const bank=(await sql.query('SELECT balance FROM vault_accounts WHERE character_id=$1',[id])).rows[0]?.balance??0;
+      const bankAdded=Math.max(0,blueprint.bankedGold-bank);
+      const balance=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[id])).rows[0]!.balance;
+      const capital=Math.max(0,blueprint.gold+blueprint.equipmentInvestment+propertyCost+bankAdded-balance);
+      await creditGold(sql,id,BigInt(capital),null,'development_bot_endowment',pvp.id);
+      await ledger(sql,null,'development_bot_equipment',[{characterId:id,amount:-blueprint.equipmentInvestment}],pvp.id);
+      // Install registry before adding estate references; never replace IDs.
+      await sql.query('INSERT INTO development_bots(character_id,population_key,population_version,tier,refilled_at,recovered_at,ruleset_id) VALUES($1,$2,$3,$4,$5,$5,$6) ON CONFLICT(character_id) DO NOTHING',[id,key,botCatalog.id,tier,now,pvp.id]);
+      for(const property of estatePurchases)await buyEstate(sql,id,level,property.id,property.quantity,randomUUID(),now);
+      for(const property of blueprint.properties)await sql.query('INSERT INTO development_bot_estates(character_id,population_version,property_id,quantity) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[id,botCatalog.id,property.id,property.quantity]);
+      if(bankAdded)await vaultTransfer(sql,id,bankAdded,true,randomUUID(),now);
       let rate=0;
       for(const item of blueprint.items){
         const quantity=blueprint.quantities[item.id]!;if(!quantity)continue;rate+=item.upkeep*quantity;
         const entry=(await sql.query('INSERT INTO inventory_entries(id,character_id,item_definition_id,ruleset_id,quantity,acquired_at) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(character_id,item_definition_id) DO UPDATE SET quantity=EXCLUDED.quantity RETURNING id',[randomUUID(),id,item.id,alpha.id,quantity,now])).rows[0]!.id;
         await sql.query(`INSERT INTO inventory_lots(id,inventory_entry_id,character_id,ruleset_id,acquired_quantity,remaining_quantity,unit_cost,acquired_at)
-          VALUES($1,$2,$3,$4,$5,$5,0,$6)`,[randomUUID(),entry,id,alpha.id,quantity,now]);
+          VALUES($1,$2,$3,$4,$5,$5,$7,$6)`,[randomUUID(),entry,id,alpha.id,quantity,now,item.price]);
       }
       await sql.query('INSERT INTO maintenance_accounts(character_id,hourly_rate,reserve_gold,settled_at) VALUES($1,$2,$3,$4) ON CONFLICT(character_id) DO UPDATE SET hourly_rate=EXCLUDED.hourly_rate,reserve_gold=EXCLUDED.reserve_gold,arrears_gold=0,remainder=0,paused=false,settled_at=EXCLUDED.settled_at',[id,rate,String(rate*strategy.bots.maintenanceHours),now]);
-      await sql.query('INSERT INTO development_bots(character_id,population_key,population_version,tier,refilled_at,recovered_at,ruleset_id) VALUES($1,$2,$3,$4,$5,$5,$6) ON CONFLICT(character_id) DO UPDATE SET population_key=EXCLUDED.population_key,population_version=EXCLUDED.population_version,active=true,recovered_at=EXCLUDED.recovered_at,ruleset_id=EXCLUDED.ruleset_id',[id,key,botCatalog.id,tier,now,refinements.id]);
-      await sql.query("INSERT INTO development_bot_events(id,character_id,kind,details,created_at) VALUES($1,$2,'provision',$3,$4)",[randomUUID(),id,{level,tier,participants:blueprint.participants,quantities:blueprint.quantities,maintenanceReserve:rate*strategy.bots.maintenanceHours,upgradedFrom:old?.population_version??null},now]);
+      await sql.query('INSERT INTO development_bots(character_id,population_key,population_version,tier,refilled_at,recovered_at,ruleset_id) VALUES($1,$2,$3,$4,$5,$5,$6) ON CONFLICT(character_id) DO UPDATE SET population_key=EXCLUDED.population_key,population_version=EXCLUDED.population_version,active=true,refilled_at=EXCLUDED.refilled_at,recovered_at=EXCLUDED.recovered_at,ruleset_id=EXCLUDED.ruleset_id',[id,key,botCatalog.id,tier,now,pvp.id]);
+      await sql.query("INSERT INTO development_bot_events(id,character_id,kind,details,created_at) VALUES($1,$2,'provision',$3,$4)",[randomUUID(),id,{level,tier,participants:blueprint.participants,quantities:blueprint.quantities,maintenanceReserve:rate*strategy.bots.maintenanceHours,endowment:capital,equipmentInvestment:blueprint.equipmentInvestment,propertyInvestment:propertyCost,bankAdded,properties:blueprint.properties,name:blueprint.name,upgradedFrom:old?.population_version??null},now]);
       if(old)upgraded++;else created++;
     }
     return {created,upgraded,active:Number((await sql.query('SELECT count(*)::int AS n FROM development_bots WHERE active')).rows[0]!.n)};
@@ -112,13 +158,20 @@ export async function prepareBot(sql:Sql,id:string,now:Date,enabled:boolean){
   if(!bot)return false;
   if(!enabled||!bot.active)throw new GameError('BOT_UNAVAILABLE','Temporary development rivals are disabled.',409);
   if(+now-+new Date(bot.refilled_at)>=86400000){
+    // Settle actual offline estates and the old maintenance interval BEFORE
+    // computing a development top-up. Earned income must not be lost, and
+    // refilling a reserve must not erase an uncharged maintenance period.
+    const row=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[id])).rows[0]!;
+    await materialize(sql,row,now);
     const level=(await sql.query('SELECT attained_level FROM characters WHERE id=$1',[id])).rows[0]!.attained_level;
     const balance=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[id])).rows[0]!.balance;
-    const amount=Math.max(0,botGoldAllowance(level,bot.tier)-balance);
+    const amount=Math.max(0,botGoldAllowance(level,bot.tier,bot.population_version)-balance);
     await creditGold(sql,id,BigInt(amount),null,'development_bot_allowance',refinements.id);
-    await sql.query('UPDATE maintenance_accounts SET reserve_gold=hourly_rate*$2,arrears_gold=0,paused=false,remainder=0,settled_at=$3 WHERE character_id=$1',[id,strategy.bots.maintenanceHours,now]);
+    const maintenance=(await sql.query('SELECT hourly_rate,reserve_gold,arrears_gold FROM maintenance_accounts WHERE character_id=$1',[id])).rows[0]!;
+    const reserveAdded=Math.max(0,maintenance.hourly_rate*strategy.bots.maintenanceHours-Number(maintenance.reserve_gold));
+    await sql.query('UPDATE maintenance_accounts SET reserve_gold=reserve_gold+$2,arrears_gold=0,paused=false,settled_at=$3 WHERE character_id=$1',[id,reserveAdded,now]);
     await sql.query('UPDATE development_bots SET refilled_at=$2 WHERE character_id=$1',[id,now]);
-    await sql.query("INSERT INTO development_bot_events(id,character_id,kind,details,created_at) VALUES($1,$2,'refresh',$3,$4)",[randomUUID(),id,{goldAdded:amount,maintenanceHours:strategy.bots.maintenanceHours},now]);
+    await sql.query("INSERT INTO development_bot_events(id,character_id,kind,details,created_at) VALUES($1,$2,'refresh',$3,$4)",[randomUUID(),id,{goldAdded:amount,maintenanceHours:strategy.bots.maintenanceHours,maintenanceReserveAdded:reserveAdded,maintenanceArrearsCleared:maintenance.arrears_gold},now]);
   }
   return true;
 }

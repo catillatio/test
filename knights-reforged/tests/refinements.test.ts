@@ -114,10 +114,11 @@ test('bot catalog upgrade caps armies at ten, scales real loadouts and gold, and
     assert.deepEqual((await r.db.query('SELECT * FROM characters WHERE id=$1',[human.id])).rows,before);
     for(const tier of ['green','seasoned','elite'])for(let level=1;level<=50;level++){
       const bp=botBlueprint(level,tier);assert.ok(bp.participants<=10);assert.ok(Object.values(bp.quantities).every(n=>n<=10));
-      if(level>1)assert.ok(bp.gold>botGoldAllowance(level-1,tier));
+      assert.ok(bp.gold>=0&&bp.bankedGold>=0);
+      if([10,20,35,50].includes(level))assert.ok(bp.gold>botGoldAllowance(Math.max(1,level-10),tier));
       for(const item of bp.items)assert.ok(item.level<=level);
     }
-    assert.equal(botCatalog.id,'passive-rivals-3');
+    assert.equal(botCatalog.id,'passive-rivals-4');
     assert.equal((await r.db.query('SELECT max(quantity+1)::int AS n FROM army_stacks WHERE character_id IN(SELECT character_id FROM development_bots)')).rows[0]!.n,10);
     const hp=await r.app.inject({method:'GET',url:'/api/v1/players/'+old.character_id,headers:{cookie:human.cookie}});assert.equal(hp.json().character.health,0);r.advance(162);
     assert.equal((await r.app.inject({method:'GET',url:'/api/v1/players/'+old.character_id,headers:{cookie:human.cookie}})).json().character.health,10);

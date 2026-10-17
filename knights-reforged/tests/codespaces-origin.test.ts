@@ -31,6 +31,10 @@ test('Phase 4 social and invitation POST routes keep Codespaces Origin, CSRF and
       ['/api/v1/army/code-invitations',{code:(await r.me(b)).invitationCode}],
       ['/api/v1/social/reports',{messageId:randomUUID(),reason:'spam'}],
       ['/api/v1/social/removals',{messageId:randomUUID()}],
+      ['/api/v1/vault/deposits',{amount:1}],
+      ['/api/v1/vault/withdrawals',{amount:1}],
+      ['/api/v1/bounties/placements',{targetCharacterId:b.id,amount:1}],
+      ['/game/bounties/preview',{targetCharacterId:b.id,amount:1}],
     ];
     for(const [url,payload] of routes){
       for(const patch of [{origin:'https://foreign.app.github.dev'},{origin:'null'},{'x-csrf-token':'0'.repeat(64)}]){

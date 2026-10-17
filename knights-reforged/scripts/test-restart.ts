@@ -66,11 +66,12 @@ try{
   const broadcast=await command('/api/v1/broadcasts',{body:'A new alliance seeks the dawn.'});
   const rivalState=(await fetch(origin+'/api/v1/me',{headers:{cookie:b.cookie}}).then(r=>r.json())).state;
   await command('/api/v1/army/code-invitations',{code:rivalState.invitationCode});
+  await command('/api/v1/vault/deposits',{amount:1});
   const before=(await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}}).then(r=>r.json())).state;
   await stop();await start();
   const restored=await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}});assert.equal(restored.status,200);
   const after=(await restored.json()).state;
-  for(const key of ['id','gold','xp','level','mana','spirit','health','inventory','questsCompleted','land','training','skillPoints','maxMana','className','calling','invitationCode','army'])assert.deepEqual(after[key],before[key],key);
+  for(const key of ['id','gold','bankedGold','xp','level','mana','spirit','health','inventory','questsCompleted','land','training','skillPoints','maxMana','className','calling','invitationCode','army'])assert.deepEqual(after[key],before[key],key);
   const contracts=await fetch(origin+'/api/v1/bounties',{headers:{cookie:a.cookie}}).then(response=>response.json());
   assert.equal(contracts.history.find((record:{id:string})=>record.id===bounty.data.bountyId).status,'active');
   for(const owner of [a,b]){
@@ -81,5 +82,6 @@ try{
   assert.ok(social.entries.some((entry:{id:string})=>entry.id===comment.data.messageId));
   assert.ok(social.entries.some((entry:{id:string})=>entry.id===broadcast.data.messageId));
   assert.equal((await fetch(origin+'/game/profile',{headers:{cookie:a.cookie}})).status,200);
-  console.log('PASS: compiled server restarted; sessions, progression, inventory, Land, Calling, funded bounty, comments, broadcasts, invitation codes, pending allies and both players’ private battle access survived.');
+  const sequenceDb=createDatabase(testDatabaseUrl!);try{assert.ok((await sequenceDb.query('SELECT victories FROM pvp_loot_sequences WHERE attacker_id=$1 AND defender_id=$2',[a.id,b.id])).rows.length===1);}finally{await sequenceDb.end();}
+  console.log('PASS: compiled server restarted; Vault, PvP sequence, sessions, progression, inventory, Land, Calling, funded bounty, comments, broadcasts, invitation codes, pending allies and both players’ private battle access survived.');
 }finally{await stop();}

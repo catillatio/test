@@ -1,0 +1,25 @@
+{
+  "id": "pvp-economy-0.1",
+  "provenance": "Phase 4.2 approved reconstructed economy, not recovered Storm8 formulas. Existing combat damage, Callings and recovery are unchanged.",
+  "loot": {
+    "percent": 3,
+    "maximum": 5000,
+    "windowSeconds": 86400,
+    "victoryPercentages": [100, 75, 50, 25, 10],
+    "botMaximum": 50,
+    "defenderVictoryLoot": 0
+  },
+  "bounties": {
+    "minimum": 1, "maximum": 10000,
+    "feePercent": 10, "minimumFee": 1,
+    "minimumLevel": 3, "minimumQuests": 5,
+    "durationSeconds": 86400, "cancelAfterSeconds": 3600,
+    "targetDailyLimit": 50,
+    "claimRequiresFinishingAttack": true,
+    "populationBotsExcluded": false,
+    "botTargetsRequireDevelopmentFlag": true,
+    "sponsorsCannotClaim": true
+  },
+  "vault": {"maximumBalance": 2147483647, "depositFee": 0, "interest": 0},
+  "bots": {"populationVersion": "passive-rivals-4", "dailyRewardedBattles": 6, "perTargetRewardedBattles": 1}
+}

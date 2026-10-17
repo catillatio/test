@@ -229,7 +229,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
       const report=await r.app.inject({method:'GET',url:'/api/v1/battles/'+last,headers:{cookie:a.cookie}});const battle=report.json().battle;
       assert.equal(battle.winnerId,a.id);assert.equal(battle.spiritSpent,1);assert.equal(battle.attackerArmy,3);
       assert.equal(battle.attackEquipment.reduce((n:number,item:{category:string;quantity:number})=>n+(item.category==='weapon'?item.quantity:0),0),3);
-      assert.equal(battle.rewarded,i<3);if(i===3){assert.equal(battle.loot,0);assert.equal(battle.attackerXp,0);}
+      assert.equal(battle.rewarded,i<3);assert.equal(battle.lootDetails.multiplier,[100,75,50,25][i]);if(i===3){assert.equal(battle.attackerXp,0);}
       const html=await r.app.inject({method:'GET',url:'/game/battles/'+last,headers:{cookie:b.cookie}});assert.equal(html.statusCode,200,html.body);
     }
     const state=await r.me(a);assert.equal(state.mana,original.mana);assert.equal(state.spirit,2);

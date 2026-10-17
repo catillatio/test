@@ -80,7 +80,7 @@ test('anonymous HTTP pages and authentication validation/CSRF errors render full
 test('authenticated screens and error paths share a complete rendering context',{skip:!testDatabaseUrl},async()=>{
   const r=await realm({isolated:true});try{
     const p=await r.player('Rendering Knight'),other=await r.player('Other Knight'),headers={cookie:p.cookie};
-    for(const page of ['home','profile','profile?tab=skills','profile?tab=comments','profile?tab=battles','quests','battle','bounties','armory','army','land','settings','players/'+other.id]){
+    for(const page of ['home','profile','profile?tab=skills','profile?tab=comments','profile?tab=battles','quests','battle','bounties','vault','armory','army','land','settings','players/'+other.id,'bounties/new?target='+other.id]){
       const result=await r.app.inject({method:'GET',url:'/game/'+page,headers});html(result);
       assert.match(result.body,/\/assets\/realm\.js\?v=/);
     }

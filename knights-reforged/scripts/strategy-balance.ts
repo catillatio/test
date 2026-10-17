@@ -1,3 +1,4 @@
+import {pvp,victoryLoot} from '../src/pvp-rules.js';
 // Exact enumeration of the existing 21x21 combat rolls. Arithmetic evidence,
 // not human playtesting or a claim of recovered original game formulas.
 import {mkdir,writeFile} from 'node:fs/promises';
@@ -22,11 +23,11 @@ const rows=Array.from({length:50},(_,index)=>{
     for(let a=-alpha.combat.variation;a<=alpha.combat.variation;a++)for(let d=-alpha.combat.variation;d<=alpha.combat.variation;d++){
       if(resolveAlphaCombat({attack,health:100,maxHealth:100,gold:1000},{defense,health:bot.health,maxHealth:bot.health,gold:bot.gold},a,d).outcome==='attacker_win')wins++;rolls++;
     }
-    return {tier,participants:bot.participants,itemQuantities:bot.quantities,defense,calling:bot.calling,winPercent:Math.round(wins/rolls*1000)/10,lootAtFullAllowance:Math.min(alpha.combat.lootCap,Math.floor(bot.gold*alpha.combat.lootPercent/100))};
+    return {tier,name:bot.name,gold:bot.gold,bankedGold:bot.bankedGold,properties:bot.properties,netHourlyIncome:bot.netIncome,participants:bot.participants,itemQuantities:bot.quantities,defense,calling:bot.calling,winPercent:Math.round(wins/rolls*1000)/10,lootAtFullAllowance:victoryLoot(bot.gold,1,true).amount};
   });return {level,benchmarkAttack:attack,benchmarkParticipants:reference.participants,rivals};
 });
 const report={ruleset:strategy.id,population:botCatalog.id,reference:'Mercenary-led Freeblade in a comparison company capped at ten, growing one place per five levels, with 70% company coverage, 80% equipment coverage, attack-selected equipment two levels below current level and one training rating per six levels. No player allies.',
   scope:'All 50 levels; all 441 equally likely roll pairs per rival. Results describe this one build, not universal balance.',
-  ceilings:{rewardedBotEncountersPerDay:6,rewardedPerBotPerDay:1,goldPerDay:6*alpha.combat.lootCap,xpPerDay:6*alpha.combat.xp,questAndLandBonuses:0},rows};
+  pvpRulesetId:pvp.id,ceilings:{rewardedBotEncountersPerDay:6,rewardedPerBotPerDay:1,goldPerDay:6*pvp.loot.botMaximum,xpPerDay:6*alpha.combat.xp,questAndLandBonuses:0},rows};
 const out=join(projectRoot,'test-results');await mkdir(out,{recursive:true});await writeFile(join(out,'strategy-balance.json'),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({ruleset:strategy.id,population:botCatalog.id,ceilings:report.ceilings,checkpoints:rows.filter(row=>[1,10,20,30,40,50].includes(row.level))},null,2));

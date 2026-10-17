@@ -29,7 +29,7 @@ import {alpha,levelRequirement} from '../src/alpha-rules.js';
 import {executeCommand} from '../src/commands.js';
 
 if(!testDatabaseUrl)throw new Error('Use TEST_DATABASE_URL for a disposable *_test database.');
-const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'https://knights-session-fixture-3001.app.github.dev',PORT:'3001',CODESPACES:'true',CODESPACE_NAME:'knights-session-fixture',GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:'app.github.dev',ENABLE_DEV_BOTS:'1'});
+const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'https://knights-session-fixture-3001.app.github.dev',PORT:'3001',CODESPACES:'true',CODESPACE_NAME:'knights-session-fixture',GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:'app.github.dev',ENABLE_DEV_BOTS:'1',ENABLE_DEV_BOT_BOUNTIES:'1'});
 assert.equal(config.origin,'https://knights-session-fixture-3001.app.github.dev');assert.equal(config.originSource,'explicit');assert.equal(config.secureCookies,true);
 const host=new URL(config.origin).hostname,temp=await mkdtemp(join(tmpdir(),'kr-https-'));
 const admin=createDatabase(testDatabaseUrl),schema='https_'+randomUUID().replaceAll('-','');await admin.query(`CREATE SCHEMA ${schema}`);
@@ -42,7 +42,7 @@ const sockets=new Set<Socket>(),observed:{browserOrigin:string|undefined;upstrea
 const track=(server:Server)=>server.on('connection',socket=>{sockets.add(socket);socket.on('close',()=>sockets.delete(socket));});
 const listen=async(server:Server)=>{server.listen(0,'127.0.0.1');await once(server,'listening');return (server.address() as {port:number}).port;};
 try{
-  const refinementOut=join(projectRoot,'test-results/phase41-browser');await mkdir(refinementOut,{recursive:true});
+  const refinementOut=join(projectRoot,'test-results/phase42-browser');await mkdir(refinementOut,{recursive:true});
   await app.listen({host:'127.0.0.1',port:0});const backend=(app.server.address() as {port:number}).port;
   const key=join(temp,'key.pem'),cert=join(temp,'cert.pem');
   execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-keyout',key,'-out',cert,'-days','1','-subj','/CN='+host,'-addext','subjectAltName=DNS:'+host],{stdio:'ignore'});
@@ -146,7 +146,7 @@ try{
   await page.goto(config.origin+'/game/profile');await page.getByLabel('Calling',{exact:true}).selectOption('Spellward');
   await action(page.getByRole('button',{name:'Choose calling',exact:true}));assert.equal((await state()).className,'Spellward');
   assert.equal((await state()).calling.manaSeconds,270);
-  const screenOut=join(projectRoot,'test-results/phase41-strategy-browser');await mkdir(screenOut,{recursive:true});
+  const screenOut=join(projectRoot,'test-results/phase42-strategy-browser');await mkdir(screenOut,{recursive:true});
   await page.locator('#account').scrollIntoViewIfNeeded();await page.screenshot({path:join(screenOut,'390-calling.png')});
   async function fixture(name:string,level=3){
     const nonce=randomUUID().replaceAll('-','').slice(0,6),displayName=name+' '+nonce;
@@ -169,9 +169,10 @@ try{
   await executeCommand(db,hunter.accountId,randomUUID(),'skill',{resource:'spirit'});
   await executeCommand(db,hunter.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
   await executeCommand(db,hunter.accountId,randomUUID(),'buy',{itemId:'iron-sword',quantity:20});
-  const sponsorPage=await playerPage(sponsor.token);await sponsorPage.goto(config.origin+'/game/battle');
-  const row=sponsorPage.locator('.rival-row').filter({has:sponsorPage.getByRole('heading',{name:target.name,exact:true})});
-  await row.locator('summary').click();await row.locator('input[name="amount"]').fill('1000');
+  const sponsorPage=await playerPage(sponsor.token);await sponsorPage.goto(config.origin+'/game/players/'+target.characterId);
+  const actions=sponsorPage.locator('.profile-actions');assert.equal(await actions.getByRole('button',{name:'Attack',exact:true}).count(),1);
+  await actions.getByRole('link',{name:'Add to Bounty List',exact:true}).click();
+  await sponsorPage.getByLabel('Escrowed bounty (1–10,000 gold)',{exact:true}).fill('1000');
   await submit(sponsorPage,sponsorPage.getByRole('button',{name:'Place bounty on '+target.name,exact:true}));
   assert.match(await sponsorPage.locator('body').innerText(),/Nonrefundable listing fee/);
   await sponsorPage.screenshot({path:join(screenOut,'390-bounty-confirm.png'),fullPage:true});
@@ -187,17 +188,40 @@ try{
   assert.match(await hunterPage.locator('body').innerText(),/Bounty claimed!/);
   const claimedId=hunterPage.url().split('/').at(-1)!;
   const claimed=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+claimedId).then(response=>response.json())).battle;
-  assert.equal(claimed.bountyClaim.reward,1000);assert.ok(claimed.loot<=50);
+  assert.equal(claimed.bountyClaim.reward,1000);assert.equal(claimed.loot,5000);assert.equal(claimed.pvpRulesetId,'pvp-economy-0.1');
   assert.equal((await sponsorPage.request.get(config.origin+'/api/v1/battles/'+claimedId)).status(),404);
   await hunterPage.screenshot({path:join(screenOut,'390-bounty-report.png'),fullPage:true});
   const bot=(await db.query("SELECT c.id,c.name FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=3 AND b.tier='green'")).rows[0]!;
-  await hunterPage.goto(config.origin+'/game/battle');
-  for(let i=0;i<40&&!(await hunterPage.getByRole('button',{name:'Attack '+bot.name,exact:true}).count());i++)await hunterPage.getByRole('link',{name:'More rivals',exact:true}).click();
-  await submit(hunterPage,hunterPage.getByRole('button',{name:'Attack '+bot.name,exact:true}));
+  await sponsorPage.goto(config.origin+'/game/players/'+bot.id);
+  await sponsorPage.screenshot({path:join(screenOut,'390-bot-profile-actions.png'),fullPage:true});
+  await sponsorPage.getByRole('link',{name:'Add to Bounty List',exact:true}).click();
+  await sponsorPage.getByLabel('Escrowed bounty (1–10,000 gold)',{exact:true}).fill('500');
+  await sponsorPage.waitForFunction(()=>document.querySelector('[data-bounty-total]')?.textContent==='550 gold');
+  await sponsorPage.screenshot({path:join(screenOut,'390-bot-bounty-placement.png'),fullPage:true});
+  await submit(sponsorPage,sponsorPage.getByRole('button',{name:'Place bounty on '+bot.name,exact:true}));
+  await submit(sponsorPage,sponsorPage.getByRole('button',{name:'Confirm bounty — 550 gold',exact:true}));
+  await db.query('UPDATE characters SET health=35,health_updated_at=clock_timestamp() WHERE id=$1',[bot.id]);
+  await hunterPage.goto(config.origin+'/game/players/'+bot.id);
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Attack',exact:true}));
   const botReport=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+hunterPage.url().split('/').at(-1)).then(r=>r.json())).battle;
-  assert.equal(botReport.temporaryRival,true);assert.equal(botReport.bountyClaim,null);
+  assert.equal(botReport.temporaryRival,true);assert.equal(botReport.bountyClaim,null);assert.ok(botReport.loot<=50);
+  assert.equal(await hunterPage.getByRole('button',{name:'Attack Again',exact:true}).isEnabled(),true);
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Attack Again',exact:true}));
+  const botClaim=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+hunterPage.url().split('/').at(-1)).then(r=>r.json())).battle;
+  assert.equal(botClaim.defenderHealthAfter,0);assert.equal(botClaim.bountyClaim.reward,500);assert.equal(botClaim.loot,0);assert.equal(botClaim.attackerXp,0);
+  assert.equal(await hunterPage.getByRole('button',{name:'Attack Again',exact:true}).isDisabled(),true);
+  await hunterPage.screenshot({path:join(screenOut,'390-bot-bounty-claim.png'),fullPage:true});
+  // Native Vault forms exercise the same secure cookies and rewritten Origin.
+  await hunterPage.goto(config.origin+'/game/vault');
+  await hunterPage.getByLabel('Deposit gold',{exact:true}).fill('2000');
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Deposit',exact:true}));
+  const banked=(await hunterPage.request.get(config.origin+'/api/v1/me').then(r=>r.json())).state.bankedGold;assert.equal(banked,2000);
+  await hunterPage.getByLabel('Withdraw gold',{exact:true}).fill('500');
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Withdraw',exact:true}));
+  assert.equal((await hunterPage.request.get(config.origin+'/api/v1/me').then(r=>r.json())).state.bankedGold,1500);
+  await hunterPage.screenshot({path:join(screenOut,'390-vault.png'),fullPage:true});
   // Phase 4: real native mobile POSTs, using the very same HTTPS rewrite.
-  const phase4Out=join(projectRoot,'test-results/phase41-browser');await mkdir(phase4Out,{recursive:true});
+  const phase4Out=join(projectRoot,'test-results/phase42-browser');await mkdir(phase4Out,{recursive:true});
   await hunterPage.goto(config.origin+'/game/home');await hunterPage.screenshot({path:join(phase4Out,'390-home.png'),fullPage:true});
   await hunterPage.goto(config.origin+'/game/home?feed=battles');assert.ok((await hunterPage.locator('.activity-battle').count())>=2);
   await hunterPage.screenshot({path:join(phase4Out,'390-battles.png'),fullPage:true});
@@ -252,10 +276,11 @@ try{
   const legend=await fixture('Fable Keeper',50);await executeCommand(db,legend.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
   for(const itemId of ['eclipse-greatsword','eclipse-citadel-plate','eclipse-invocation'])await executeCommand(db,legend.accountId,randomUUID(),'buy',{itemId,quantity:5});
   await executeCommand(db,legend.accountId,randomUUID(),'land_buy',{propertyId:'eclipse-citadel',quantity:1});
+  const elder=(await db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite'")).rows[0]!;
   const legendPage=await playerPage(legend.token),widths=[320,360,390,412,430,1366];
   for(const width of widths){
     await legendPage.setViewportSize({width,height:width===1366?900:844});
-    for(const screen of ['home','home?feed=battles','home?feed=comments','home?feed=broadcasts','profile','profile?tab=skills','profile?tab=comments','profile?tab=battles','players/'+target.characterId,'players/'+target.characterId+'?tab=comments','players/'+target.characterId+'?tab=battles','army','army?tab=army','army?tab=dashboard','settings','land','battle','bounties']){
+    for(const screen of ['home','home?feed=battles','home?feed=comments','home?feed=broadcasts','profile','profile?tab=skills','profile?tab=comments','profile?tab=battles','players/'+target.characterId,'players/'+target.characterId+'?tab=comments','players/'+target.characterId+'?tab=battles','army','army?tab=army','army?tab=dashboard','settings','land','battle','bounties','vault','players/'+elder.character_id,'bounties/new?target='+elder.character_id]){
       await legendPage.goto(config.origin+'/game/'+screen);
       assert.equal(await legendPage.getByRole('alert').count(),0,screen);
       assert.equal(await legendPage.locator('nav[aria-label="Primary navigation"] a').count(),5);
@@ -268,6 +293,7 @@ try{
       assert.equal(await legendPage.locator('button').evaluateAll(buttons=>buttons.some(button=>!button.textContent?.trim()&&!button.getAttribute('aria-label'))),false);
       assert.equal(await legendPage.locator('input:not([type="hidden"]), textarea, select').evaluateAll(elements=>elements.some(element=>!element.getAttribute('aria-label')&&!(element as HTMLInputElement).labels?.length)),false);
       assert.equal(await legendPage.locator('img').evaluateAll(images=>images.some(image=>image instanceof HTMLImageElement&&(!image.complete||image.naturalWidth===0))),false);
+      if(width===390&&screen==='players/'+elder.character_id)await legendPage.screenshot({path:join(screenOut,'390-level50-rival-profile.png'),fullPage:true});
       if(width===390&&screen==='profile')await legendPage.screenshot({path:join(phase4Out,'390-profile.png'),fullPage:true});
       if(screen==='land'){
         assert.equal(await legendPage.locator('[data-land-property]').count(),21);
@@ -321,11 +347,11 @@ try{
     configured_origin:config.origin,origin_source:config.originSource,secure_cookies:config.secureCookies,
     native_browser_registration:true,observed_post_headers:observed,
     calling_change:true,escrow_bounty_placement_and_claim:true,private_bounty_report:true,passive_bot_combat:true,
-    mobile_widths:widths,simplified_land_art:true,phase41:{native_comments:true,safe_text:true,native_reporting:true,native_broadcasts:true,native_code_invitation_and_acceptance:true,native_attack_again_to_zero:true,public_profile_links:true,viewports:widths,screensPerViewport:18,screenshots:'test-results/phase41-browser',home_only_land:true,no_combat_cooldown:true,public_tales:true,active_quest_repeat:true,automatic_income_settlement:true,defeat_indicator:true,accessibility:'Named controls, native form labels, five-tab navigation, overflow and image checks; keyboard skip-link and native comment form with JavaScript disabled also passed'},
+    mobile_widths:widths,simplified_land_art:true,phase42:{bot_bounty_native_flow:true,bot_finishing_claim_keeps_reward_cap:true,vault_native_deposit_and_withdraw:true,prominent_profile_actions:true,native_comments:true,safe_text:true,native_reporting:true,native_broadcasts:true,native_code_invitation_and_acceptance:true,native_attack_again_to_zero:true,public_profile_links:true,viewports:widths,screensPerViewport:21,screenshots:'test-results/phase42-browser',home_only_land:true,no_combat_cooldown:true,public_tales:true,active_quest_repeat:true,automatic_income_settlement:true,defeat_indicator:true,accessibility:'Named controls, native form labels, five-tab navigation, overflow and image checks; keyboard skip-link and native comment form with JavaScript disabled also passed'},
     existing_accounts_preserved:true,pre_fix_non_secure_cookie_still_authenticates_over_https:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
     form_actions:['Registration','Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login','Attack skill allocation'],browser_errors:errors.length};
   await writeFile(join(out,'summary.json'),JSON.stringify(summary,null,2)+'\n');
-  console.log('PASS: Phase 4.1 refinements, comments, broadcasts, code invitations, finishing Attack Again and 108 responsive screen visits pass. Registration, existing-player gameplay, Calling, funded bounties, passive rivals and mobile layouts pass through a Codespaces port-3001 HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/phase41-browser/ and test-results/phase41-strategy-browser/.');
+  console.log('PASS: Phase 4.2 player/bot profile bounty placement, finishing claims, Vault transactions, comments, broadcasts, invitations and 126 responsive screen visits pass. Registration, existing-player gameplay, Calling, funded bounties, passive rivals and mobile layouts pass through a Codespaces port-3001 HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/phase42-browser/ and test-results/phase42-strategy-browser/.');
 }finally{
   await browser?.close();for(const socket of sockets)socket.destroy();
   if(tunnel)await new Promise<void>(resolve=>tunnel!.close(()=>resolve()));if(proxy)await new Promise<void>(resolve=>proxy!.close(()=>resolve()));

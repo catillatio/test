@@ -7,7 +7,7 @@ import {recoverySeconds} from './strategy-rules.js';
 import {ledger,creditGold} from './economy.js';
 import {areRivals,activeArmy,alpha} from './alpha-rules.js';
 
-import {refinements,bountyRules as rule,finalizedBountyFee} from './refinement-rules.js';
+import {pvp,bountyRules as rule,bountyFee as finalizedBountyFee} from './pvp-rules.js';
 interface BountyRecord extends Record<string,any>{id:string;sponsor_id:string;target_id:string;amount:number;fee:number;status:string;created_at:Date;expires_at:Date;claimant_id:string|null;}
 // Alpha deliberately serializes escrow operations before taking character
 // locks. This one ordering covers attacks, claims, cancellation and refunds.
@@ -20,6 +20,14 @@ async function qualified(sql:Sql,id:string){
     COALESCE((SELECT sum(completions) FROM character_quest_progress WHERE character_id=c.id),0)::int AS quests
     FROM characters c WHERE c.id=$1`,[id])).rows[0];
   return !!row&&!row.bot&&row.attained_level>=rule.minimumLevel&&row.quests>=rule.minimumQuests;
+}
+async function targetQualified(sql:Sql,id:string,botTargetsEnabled:boolean){
+  const bot=(await sql.query('SELECT active FROM development_bots WHERE character_id=$1',[id])).rows[0];
+  return bot?botTargetsEnabled&&bot.active:qualified(sql,id);
+}
+export async function bountyPlacementAvailability(sql:Sql,sponsorId:string,targetId:string,now:Date,botTargetsEnabled=false){
+  try{await bountyQuote(sql,sponsorId,targetId,rule.minimum,now,botTargetsEnabled);return {allowed:true,reason:null};}
+  catch(error){if(error instanceof GameError)return {allowed:false,reason:error.message};throw error;}
 }
 export async function expireBounties(sql:Sql,now:Date,priorityTarget:string|null=null,onlySponsor:string|null=null){
   const expired=(await sql.query("SELECT * FROM bounties WHERE status='active' AND expires_at<=$1 AND ($3::uuid IS NULL OR sponsor_id=$3) ORDER BY CASE WHEN target_id=$2::uuid THEN 0 ELSE 1 END,expires_at,id LIMIT 100 FOR UPDATE",[now,priorityTarget,onlySponsor])).rows;
@@ -47,29 +55,27 @@ async function placementAvailable(sql:Sql,sponsorId:string,targetId:string,now:D
   if(count.occupied)throw new GameError('BOUNTY_EXISTS','That player already has an active bounty. No funds were charged.',409);
   if(count.daily>=rule.targetDailyLimit)throw new GameError('BOUNTY_LIMIT','This target has received 50 successfully placed bounties in the previous rolling 24 hours. No funds were charged.',409);
 }
-export async function bountyQuote(sql:Sql,sponsorId:string,targetId:string,amount:number,now:Date){
+export async function bountyQuote(sql:Sql,sponsorId:string,targetId:string,amount:number,now:Date,botTargetsEnabled=false){
   if(sponsorId===targetId)throw new GameError('SELF_BOUNTY','You cannot place a bounty on yourself.',409);
   if(!Number.isSafeInteger(amount)||amount<rule.minimum||amount>rule.maximum)throw new GameError('BOUNTY_AMOUNT','Choose a whole bounty amount from 1 to 10,000 gold.',409);
-  if(!await qualified(sql,sponsorId)||!await qualified(sql,targetId))throw new GameError('BOUNTY_ELIGIBILITY','Bounties require real players at level 3 with five completed quests.',409);
+  if(!await qualified(sql,sponsorId)||!await targetQualified(sql,targetId,botTargetsEnabled))throw new GameError('BOUNTY_ELIGIBILITY','Posting requires level 3 and five quests. Real targets need the same progress; temporary targets require the development bounty flag.',409);
   const levels=(await sql.query('SELECT attained_level FROM characters WHERE id=ANY($1::uuid[]) ORDER BY id',[[sponsorId,targetId]])).rows;
   if(levels.length!==2||!areRivals(levels[0]!.attained_level,levels[1]!.attained_level))throw new GameError('RIVAL_LEVEL_RANGE','Choose a rival near your level.',409);
   if(await allies(sql,sponsorId,targetId))throw new GameError('BOUNTY_ALLY','You cannot place a bounty on an army ally.',409);
   await placementAvailable(sql,sponsorId,targetId,now);
-  const target=(await sql.query('SELECT name FROM characters WHERE id=$1',[targetId])).rows[0]!;
+  const target=(await sql.query('SELECT name,attained_level FROM characters WHERE id=$1',[targetId])).rows[0]!;
   const fee=finalizedBountyFee(amount);
-  return {targetId,targetName:target.name,amount,fee,total:amount+fee,rulesetId:refinements.id};
+  return {targetId,targetName:target.name,targetLevel:target.attained_level,amount,fee,total:amount+fee,rulesetId:pvp.id};
 }
-export async function placeBounty(sql:Sql,sponsorId:string,targetId:string,amount:number,commandId:string,now:Date){
+export async function placeBounty(sql:Sql,sponsorId:string,targetId:string,amount:number,commandId:string,now:Date,botTargetsEnabled=false){
   if(sponsorId===targetId)throw new GameError('SELF_BOUNTY','You cannot place a bounty on yourself.',409);
   if(!Number.isSafeInteger(amount)||amount<rule.minimum||amount>rule.maximum)throw new GameError('BOUNTY_AMOUNT',`Bounties must be ${rule.minimum}–${rule.maximum} gold.`,409);
-  if(!await qualified(sql,sponsorId)||!await qualified(sql,targetId))throw new GameError('BOUNTY_ELIGIBILITY',`Bounties require real players at level ${rule.minimumLevel} with ${rule.minimumQuests} completed quests. Temporary rivals are excluded.`,409);
-  if(await allies(sql,sponsorId,targetId))throw new GameError('BOUNTY_ALLY','You cannot place a bounty on an army ally.',409);
-  await placementAvailable(sql,sponsorId,targetId,now);
+  await bountyQuote(sql,sponsorId,targetId,amount,now,botTargetsEnabled);
   const fee=finalizedBountyFee(amount),id=randomUUID();
-  await ledger(sql,commandId,'bounty_escrow',[{characterId:sponsorId,amount:-amount}],refinements.id);
-  await ledger(sql,commandId,'bounty_fee',[{characterId:sponsorId,amount:-fee}],refinements.id);
+  await ledger(sql,commandId,'bounty_escrow',[{characterId:sponsorId,amount:-amount}],pvp.id);
+  await ledger(sql,commandId,'bounty_fee',[{characterId:sponsorId,amount:-fee}],pvp.id);
   await sql.query(`INSERT INTO bounties(id,sponsor_id,target_id,amount,fee,status,ruleset_id,command_id,created_at,expires_at)
-    VALUES($1,$2,$3,$4,$5,'active',$6,$7,$8,$9)`,[id,sponsorId,targetId,amount,fee,refinements.id,commandId,now,new Date(+now+rule.durationSeconds*1000)]);
+    VALUES($1,$2,$3,$4,$5,'active',$6,$7,$8,$9)`,[id,sponsorId,targetId,amount,fee,pvp.id,commandId,now,new Date(+now+rule.durationSeconds*1000)]);
   await sql.query("INSERT INTO bounty_events(id,bounty_id,kind,character_id,amount,command_id,created_at) VALUES($1,$2,'placed',$3,$4,$5,$6)",[randomUUID(),id,sponsorId,amount,commandId,now]);
   return {bountyId:id,amount,fee,expiresAt:new Date(+now+rule.durationSeconds*1000).toISOString()};
 }
@@ -83,7 +89,9 @@ export async function cancelBounty(sql:Sql,sponsorId:string,bountyId:string,comm
   await sql.query("INSERT INTO bounty_events(id,bounty_id,kind,character_id,amount,command_id,created_at) VALUES($1,$2,'canceled',$3,$4,$5,$6)",[randomUUID(),bountyId,sponsorId,row.amount,commandId,now]);
   return {bountyId,refund:row.amount as number};
 }
-async function claimBlockedReason(sql:Sql,claimantId:string,row:Record<string,any>,now:Date,battleLevels?:[number,number]):Promise<string|null>{
+async function claimBlockedReason(sql:Sql,claimantId:string,row:Record<string,any>,now:Date,battleLevels?:[number,number],botTargetsEnabled=false):Promise<string|null>{
+  const bot=(await sql.query('SELECT active FROM development_bots WHERE character_id=$1',[row.target_id])).rows[0];
+  if(bot&&(!botTargetsEnabled||!bot.active))return 'Temporary-target bounties require the development bounty flag.';
   if(row.sponsor_id===claimantId)return 'Sponsors cannot claim their own contracts.';
   if(row.target_id===claimantId)return 'You are this contract’s target.';
   if((battleLevels&&battleLevels[0]<rule.minimumLevel)||!await qualified(sql,claimantId))return 'Reach level 3 and complete five quests.';
@@ -92,7 +100,7 @@ async function claimBlockedReason(sql:Sql,claimantId:string,row:Record<string,an
   if(await allies(sql,claimantId,row.target_id)||await allies(sql,claimantId,row.sponsor_id))return 'Army allies of the sponsor or target cannot claim.';
   return null;
 }
-export async function claimBounty(sql:Sql,claimantId:string,targetId:string,battleId:string,commandId:string,now:Date){
+export async function claimBounty(sql:Sql,claimantId:string,targetId:string,battleId:string,commandId:string,now:Date,botTargetsEnabled=false){
   const row=(await sql.query("SELECT * FROM bounties WHERE target_id=$1 AND status='active' AND expires_at>$2 FOR UPDATE",[targetId,now])).rows[0];
   if(!row)return null;
   // Prove the finishing action from the server's saved combat result. A prior
@@ -102,22 +110,22 @@ export async function claimBounty(sql:Sql,claimantId:string,targetId:string,batt
     AND created_at>=$4 AND created_at<$5 AND result->'defenderHealthAfter'='0'::jsonb
     AND (result->>'defenderHealthBefore')::int>0 AND (result->>'spiritSpent')::int>0`,[battleId,claimantId,targetId,row.created_at,row.expires_at])).rows[0];
   if(!battle||!Number.isInteger(battle.attacker_level)||!Number.isInteger(battle.defender_level)||
-    await claimBlockedReason(sql,claimantId,row,now,[battle.attacker_level,battle.defender_level]))return null;
+    await claimBlockedReason(sql,claimantId,row,now,[battle.attacker_level,battle.defender_level],botTargetsEnabled))return null;
   const claimed=await sql.query("UPDATE bounties SET status='claimed',claimant_id=$2,battle_id=$3,settled_at=$4 WHERE id=$1 AND status='active' RETURNING id",[row.id,claimantId,battleId,now]);
   if(!claimed.rows.length)return null;
   await creditGold(sql,claimantId,BigInt(row.amount),commandId,'bounty_reward',row.ruleset_id);
   await sql.query("INSERT INTO bounty_events(id,bounty_id,kind,character_id,amount,command_id,created_at) VALUES($1,$2,'claimed',$3,$4,$5,$6)",[randomUUID(),row.id,claimantId,row.amount,commandId,now]);
-  await sql.query("INSERT INTO bounty_kills(bounty_id,battle_id,claimant_id,target_id,ruleset_id,source,awarded_at) VALUES($1,$2,$3,$4,$5,'finishing_claim',$6)",[row.id,battleId,claimantId,targetId,refinements.id,now]);
-  return {id:row.id as string,reward:row.amount as number,rulesetId:row.ruleset_id as string,claimRulesetId:refinements.id};
+  await sql.query("INSERT INTO bounty_kills(bounty_id,battle_id,claimant_id,target_id,ruleset_id,source,awarded_at) VALUES($1,$2,$3,$4,$5,'finishing_claim',$6)",[row.id,battleId,claimantId,targetId,pvp.id,now]);
+  return {id:row.id as string,reward:row.amount as number,rulesetId:row.ruleset_id as string,claimRulesetId:pvp.id};
 }
-export async function bountyBoard(db:Database,characterId:string){
+export async function bountyBoard(db:Database,characterId:string,botTargetsEnabled=false){
   return transaction(db,async sql=>{
     await lockBountyEscrow(sql);const now=new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now);
     await settleExpiredBounties(sql,now);
     const active=(await sql.query<BountyRecord>(`SELECT b.*,c.name,c.attained_level AS level,c.profile_class,c.health,c.health_updated_at,c.max_health,c.legacy_army_floor,
       (SELECT COALESCE(sum(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
       (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted') AS allies,
-      sponsor.name AS sponsor_name FROM bounties b JOIN characters c ON c.id=b.target_id JOIN characters sponsor ON sponsor.id=b.sponsor_id
+      EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS temporary_rival, sponsor.name AS sponsor_name FROM bounties b JOIN characters c ON c.id=b.target_id JOIN characters sponsor ON sponsor.id=b.sponsor_id
       WHERE b.status='active' AND b.expires_at>$1 ORDER BY b.amount DESC,b.created_at,b.id LIMIT 100`,[now])).rows;
     const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name FROM bounties b
       JOIN characters c ON c.id=b.target_id JOIN characters s ON s.id=b.sponsor_id
@@ -126,9 +134,9 @@ export async function bountyBoard(db:Database,characterId:string){
       const health=regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value;
       // Board presentation only. Claim eligibility must still allow a winning
       // attack that has just reduced the defender to zero Health.
-      return {...row,health,armySize:activeArmy(row.level,row.units,row.allies,row.legacy_army_floor).participants,
-        attackBlockedReason:health===0?'Opponent defeated — 0 Health. Wait for their recovery.':null,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now)};
+      return {...row,health,armySize:Math.min(row.temporary_rival?10:Number.MAX_SAFE_INTEGER,activeArmy(row.level,row.units,row.allies,row.legacy_army_floor).participants),
+        attackBlockedReason:health===0?'Opponent defeated — 0 Health. Wait for their recovery.':null,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now,undefined,botTargetsEnabled)};
     }));
-    return {active:listings,history,eligible:await qualified(sql,characterId),serverTime:now.toISOString(),rulesetId:refinements.id};
+    return {active:listings,history,eligible:await qualified(sql,characterId),botTargetsEnabled,serverTime:now.toISOString(),rulesetId:pvp.id};
   });
 }

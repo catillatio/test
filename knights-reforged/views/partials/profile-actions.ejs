@@ -1,0 +1,10 @@
+<section class="panel profile-actions" data-combat-target="<%= character.id %>" aria-label="Opponent actions">
+<p class="opponent-health">Health <strong data-target-health><%= character.health %></strong> / <span data-target-max-health><%= character.maxHealth %></span></p>
+<meter data-target-meter min="0" max="<%= character.maxHealth %>" value="<%= character.health %>" aria-label="Opponent current Health"></meter>
+<div class="opponent-actions">
+<form method="post" action="/game/battle/attack" data-combat-form><%- include('command-fields') %><input type="hidden" name="targetCharacterId" value="<%= character.id %>"><button class="button button-gold" type="submit" data-attack-ready="<%= combatTarget?.eligible?'true':'false' %>"<% if(!combatTarget?.allowed) { %> disabled<% } %>>Attack</button></form>
+<a class="button button-outline bounty-action" href="/game/bounties/new?target=<%= character.id %>">Add to Bounty List</a>
+</div>
+<p class="compact-help combat-restriction" role="status" data-combat-restriction><%= combatTarget?.reason??'Each attack costs 1 Spirit. No repeat-attack cooldown.' %></p>
+<% if(!bountyPlacement.allowed) { %><p class="field-hint bounty-eligibility">Bounty unavailable: <%= bountyPlacement.reason %></p><% } else { %><p class="field-hint">Bounty eligible · 1–10,000 unbanked gold plus the disclosed listing fee. Review before funding.</p><% } %>
+</section>

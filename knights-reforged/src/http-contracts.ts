@@ -11,9 +11,11 @@ export const navigation = [
   { id: 'land', label: 'Land', icon: 'land' },
 ] as const;
 
-export const templateScreens = ['home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
+export const templateScreens = ['home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'bounty-new', 'vault', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
 
 export const commandRoutes = [
+  {kind:'vault_deposit',html:'/game/vault/deposit',api:'/api/v1/vault/deposits'},
+  {kind:'vault_withdraw',html:'/game/vault/withdraw',api:'/api/v1/vault/withdrawals'},
   { kind: 'quest', html: '/game/quests/:id/run', api: '/api/v1/quests/:id/runs' },
   { kind: 'recruit', html: '/game/army/recruit', api: '/api/v1/army/recruitments' },
   { kind: 'buy', html: '/game/armory/buy', api: '/api/v1/inventory/purchases' },

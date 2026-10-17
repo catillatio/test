@@ -10,10 +10,12 @@ import { purchaseItems,sellItem,readInventory } from './inventory.js';
 import { grantExperience,awardMilestones,allocateSkill } from './progression.js';
 import { refreshMaintenance,fundMaintenance } from './maintenance.js';
 import { buyEstate,sellEstate } from './estate.js';
-import {strategy,botCatalog} from './strategy-rules.js';
+import {strategy} from './strategy-rules.js';
 import {prepareBot} from './development.js';
 import {community} from './community-rules.js';
 import {refinements} from './refinement-rules.js';
+import {pvp,victoryLoot} from './pvp-rules.js';
+import {recordVictory,vaultTransfer} from './pvp-economy.js';
 import {postMessage,reportMessage,removeMessage,armyEvent,validateInvitation} from './community.js';
 import {lockBountyEscrow,settleExpiredBounties,placeBounty,cancelBounty,claimBounty} from './bounties.js';
 
@@ -31,6 +33,8 @@ const intents={
   land_sell:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction)}),
   skill:z.object({resource:z.enum(['health','mana','spirit','attack','defense'])}),
   maintain:z.object({}),
+  vault_deposit:z.object({amount:quantity(pvp.vault.maximumBalance)}),
+  vault_withdraw:z.object({amount:quantity(pvp.vault.maximumBalance)}),
   quest_buy:z.object({questId:id}),
   invite:z.object({targetCharacterId:uuid}),
   accept:z.object({targetCharacterId:uuid}),
@@ -42,14 +46,14 @@ const intents={
   social_report:z.object({messageId:uuid,reason:z.enum(['spam','abuse','other'])}),
   social_remove:z.object({messageId:uuid}),
   profile:z.object({className:z.enum(['Freeblade','Warden','Spellward'])}),
-  bounty_place:z.object({targetCharacterId:uuid,amount:quantity(refinements.bounties.maximum),quotedRulesetId:z.literal(refinements.id).optional()}),
+  bounty_place:z.object({targetCharacterId:uuid,amount:quantity(refinements.bounties.maximum),quotedRulesetId:z.enum([pvp.id,refinements.id]).optional()}),
   bounty_cancel:z.object({bountyId:uuid}),
 };
 export type CommandKind=keyof typeof intents;
 export interface CommandResult { commandId:string;kind:CommandKind;message:string;battleId?:string;inventoryEntryId?:string;holdingId?:string;data?:Record<string,unknown>; }
 const fingerprint=(kind:string,intent:unknown)=>createHash('sha256').update(JSON.stringify({kind,intent})).digest('hex');
 
-export async function executeCommand(db:Database,accountId:string,commandId:unknown,kind:CommandKind,raw:unknown,runtime:{developmentBotsEnabled?:boolean}={}):Promise<CommandResult> {
+export async function executeCommand(db:Database,accountId:string,commandId:unknown,kind:CommandKind,raw:unknown,runtime:{developmentBotsEnabled?:boolean;developmentBotBountiesEnabled?:boolean}={}):Promise<CommandResult> {
   const command=uuid.safeParse(commandId);if (!command.success) throw new GameError('INVALID_COMMAND_ID','Reload for a fresh action ID.');
   const parsed=intents[kind].safeParse(raw);
   if (!parsed.success) throw new GameError('INVALID_INTENT',parsed.error.issues[0]?.message??'Invalid action.');
@@ -94,7 +98,10 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     const state=await stateFrom(sql,actor,now);
     const result:CommandResult={commandId:key,kind,message:''};
 
-    if(kind==='comment'||kind==='broadcast'){
+    if(kind==='vault_deposit'||kind==='vault_withdraw'){
+      result.data=await vaultTransfer(sql,actorId,intent.amount as number,kind==='vault_deposit',key,now);
+      result.message=String(intent.amount)+' gold '+(kind==='vault_deposit'?'deposited in your protected Vault.':'withdrawn into your unbanked purse.');
+    }else if(kind==='comment'||kind==='broadcast'){
       const posted=await postMessage(sql,actorId,kind==='comment'?targetId:null,intent.body as string,key,now,actor.attained_level,state.questsCompleted);
       result.data=posted;result.message=kind==='comment'?'Comment posted.':'Broadcast sent to the realm.';
     }else if(kind==='social_report'){
@@ -179,7 +186,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       }
     } else if(kind==='bounty_place'&&target){
       if(!areRivals(actor.attained_level,target.attained_level))throw new GameError('RIVAL_LEVEL_RANGE','Place a bounty on a rival near your own level.',409);
-      const placed=await placeBounty(sql,actorId,target.id,intent.amount as number,key,now);
+      const placed=await placeBounty(sql,actorId,target.id,intent.amount as number,key,now,!!runtime.developmentBotsEnabled&&!!runtime.developmentBotBountiesEnabled);
       result.data=placed;result.message='Bounty placed: '+placed.amount+' gold held in escrow; '+placed.fee+' gold placement fee.';
     } else if(kind==='bounty_cancel'){
       const canceled=await cancelBounty(sql,actorId,intent.bountyId as string,key,now);
@@ -226,10 +233,16 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       }
       const variation=alpha.combat.variation;
       const combat=resolveAlphaCombat(state,targetState,randomInt(-variation,variation+1),randomInt(-variation,variation+1),rewarded);
-      const winnerId=combat.outcome==='attacker_win'?actorId:target.id;const loserId=winnerId===actorId?target.id:actorId;
+      const sequence=combat.outcome==='attacker_win'?await recordVictory(sql,actorId,target.id,now):null;
+      const lootDetails=sequence?{...victoryLoot(targetState.gold,sequence.victory,targetIsBot,rewarded),...sequence}:null;
+      // Damage remains alpha-0.3. Only attacking victories transfer carried
+      // gold; defensive wins never remove gold from the attacker. XP still
+      // obeys the existing anti-farming budget independently of human loot.
+      combat.loot=lootDetails?.amount??0;
+      const winnerId=combat.outcome==='attacker_win'?actorId:target.id;
       if (combat.loot) {
-        await ledger(sql,key,'battle_loot',[{characterId:loserId,amount:-combat.loot}],alpha.id);
-        await creditGold(sql,winnerId,BigInt(combat.loot),key,'battle_loot',alpha.id);
+        await ledger(sql,key,'battle_loot',[{characterId:target.id,amount:-combat.loot}],pvp.id);
+        await creditGold(sql,actorId,BigInt(combat.loot),key,'battle_loot',pvp.id);
       }
       await sql.query(`UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,
         spirit=spirit-$4,spirit_updated_at=CASE WHEN spirit=max_spirit THEN $3 ELSE spirit_updated_at END,attack_ready_at=$5 WHERE id=$1`,
@@ -244,15 +257,15 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?botCatalog.id:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        pvpRulesetId:pvp.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
-      if(combat.defenderHealthAfter===0&&!targetIsBot){
-        battle.bountyClaim=await claimBounty(sql,actorId,target.id,result.battleId,key,now);
+      if(combat.defenderHealthAfter===0){
+        battle.bountyClaim=await claimBounty(sql,actorId,target.id,result.battleId,key,now,!!runtime.developmentBotsEnabled&&!!runtime.developmentBotBountiesEnabled);
         if(battle.bountyClaim)await sql.query('UPDATE battles SET result=$2 WHERE id=$1',[result.battleId,battle]);
       }
       await awardMilestones(sql,actorId);
-      result.message=battle.winnerName+' won the battle.'+(!rewarded?' This repeat encounter awards no gold or XP.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
+      result.message=battle.winnerName+' won the battle.'+(!rewarded?(targetIsBot?' Temporary-rival reward limit reached: no ordinary gold or XP.':' Repeat-encounter XP limit reached; ordinary victory loot still applies.'):'' )+(lootDetails&&lootDetails.multiplier<100?' Repeat victory: '+lootDetails.multiplier+'% ordinary loot.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
     }
     await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);
     await sql.query('UPDATE command_receipts SET result=$3 WHERE account_id=$1 AND command_id=$2',[accountId,key,result]);

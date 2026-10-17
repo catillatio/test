@@ -16,8 +16,12 @@ export function recoverySeconds(name:string,resource:'health'|'mana'|'spirit',ba
 export function bountyFee(amount:number){return Math.max(strategy.bounties.minimumFee,Math.ceil(amount*strategy.bounties.feePercent/100));}
 export const previousBotCatalog=JSON.parse(readFileSync(new URL('../rulesets/passive-rivals-1/rules.json',import.meta.url),'utf8'));
 export const phase4BotCatalog=JSON.parse(readFileSync(new URL('../rulesets/passive-rivals-2/rules.json',import.meta.url),'utf8'));
-export const botCatalog=JSON.parse(readFileSync(new URL('../rulesets/passive-rivals-3/rules.json',import.meta.url),'utf8')) as {
+export const phase41BotCatalog=JSON.parse(readFileSync(new URL('../rulesets/passive-rivals-3/rules.json',import.meta.url),'utf8'));
+export const botCatalog=JSON.parse(readFileSync(new URL('../rulesets/passive-rivals-4/rules.json',import.meta.url),'utf8')) as {
+  identities:Record<string,string>;economy:{walletBase:number;walletIncomeHours:number;walletEquipmentPercent:number;vaultIncomeHours:number;vaultEstatePercent:number;estateBands:{minimumLevel:number;types:number;copies:number}[];estateCopiesPercent:Record<string,number>};
   id:string;provenance:string;armyCap:number;levelsPerArmyMember:number;manaBase:number;levelsPerManaUpgrade:number;spiritBase:number;levelsPerSpiritUpgrade:number;profiles:Record<string,{armyPercent:number;equipmentPercent:number;itemLevelLag:number;levelsPerTraining:number;surname:string;goldPercent:number;calling:'Freeblade'|'Warden'|'Spellward';spellMinimumLevel:number;armorMinimumLevel:number;healthBonus:number}>;
   healthBase:number;levelsPerHealthUpgrade:number;healthPerUpgrade:number;names:string[];calibrateSeasoned:boolean;calibrationElitePercent:number;benchmark:{armyPercent:number;equipmentPercent:number;itemLevelLag:number;levelsPerTraining:number;calling:string};
 };
-if(botCatalog.id!=='passive-rivals-3'||botCatalog.armyCap!==10||botCatalog.names.length!==50)throw new Error('Invalid passive rival population catalog.');
+if(botCatalog.id!=='passive-rivals-4'||botCatalog.armyCap!==10||botCatalog.names.length!==50)throw new Error('Invalid passive rival population catalog.');
+
+if(Object.keys(botCatalog.identities).length!==150||new Set(Object.values(botCatalog.identities)).size!==150||Object.values(botCatalog.identities).some(name=>name.length>28||!/^([\p{L}\p{N} '\-]){2,28}$/u.test(name)))throw new Error('Invalid fantasy rival identities.');

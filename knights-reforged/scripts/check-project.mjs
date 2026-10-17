@@ -78,11 +78,11 @@ check('CSS uses local assets; original tab gradients and safe areas remain',()=>
 const playerId='11111111-1111-4111-8111-111111111111',targetId='22222222-2222-4222-8222-222222222222',battleId=randomUUID(),holdingId=randomUUID();
 const now='2026-10-17T12:00:00.000Z',next='2026-10-17T13:00:00.000Z';
 const inventory=alpha.items.slice(0,3).map(item=>({...item,inventoryId:randomUUID(),quantity:2}));
-const strategy=json('rulesets/strategy-0.2/rules.json'),community=json('rulesets/community-0.1/rules.json'),refinements=json('rulesets/refinements-0.1/rules.json'),bountyRules=refinements.bounties;
+const strategy=json('rulesets/strategy-0.2/rules.json'),community=json('rulesets/community-0.1/rules.json'),refinements=json('rulesets/refinements-0.1/rules.json'),pvp=json('rulesets/pvp-economy-0.1/rules.json'),bountyRules=pvp.bounties;
 const properties=alpha.properties.map((p,i)=>({...p,basePrice:p.price,owned:i===0?1:0,remaining:99,maxPurchase:25,maxAffordable:1,priceSteps:[p.price],unlocked:true}));
 const land={rulesetId:alpha.id,provisional:true,paymentIntervalSeconds:3600,hourlyIncome:8,hourlyUpkeep:1,equipmentUpkeep:0,totalUpkeep:1,netHourlyIncome:7,nextPaymentAt:next,pendingGold:'0',properties,
  holdings:[{id:holdingId,propertyId:'smallholding',name:'Smallholding',quantity:1,hourlyIncome:8,hourlyUpkeep:1,nextPaymentAt:next,rulesetId:landRules.id}]};
-const state={invitationCode:'ABCDEF123456',id:playerId,name:'Arthur of the Vale',xp:60,level:4,levelXp:0,levelRequirement:45,xpToNext:45,health:85,maxHealth:110,mana:16,maxMana:21,spirit:2,maxSpirit:3,energy:16,gold:150,units:2,
+const state={invitationCode:'ABCDEF123456',id:playerId,name:'Arthur of the Vale',xp:60,level:4,levelXp:0,levelRequirement:45,xpToNext:45,health:85,maxHealth:110,mana:16,maxMana:21,spirit:2,maxSpirit:3,energy:16,bankedGold:250,gold:150,units:2,
  attack:20,defense:18,equipped:true,inventoryId:inventory[0].inventoryId,inventory,questsCompleted:10,stateVersion:4,skillPoints:3,className:'Warden',calling:{description:strategy.callings.Warden.description,attackPercent:-2,defensePercent:4,healthSeconds:162,manaSeconds:300,spiritSeconds:120,changeReadyAt:null,changeCost:0},attackReadyAt:now,serverTime:now,
  energyNextAt:next,manaNextAt:next,spiritNextAt:next,healthNextAt:next,land,rulesetId:alpha.id,
  maintenance:{hourlyRate:0,reserveGold:'0',arrearsGold:'0',paused:false,resumeCost:0},
@@ -93,7 +93,7 @@ const state={invitationCode:'ABCDEF123456',id:playerId,name:'Arthur of the Vale'
 const legacyBattle={id:battleId,attackerId:playerId,defenderId:targetId,attackerName:'Arthur',defenderName:'Morgan',winnerName:'Arthur',winnerId:playerId,loot:3,attackPower:20,defensePower:10,attackRoll:2,defenseRoll:1,attackerDamage:3,defenderDamage:12,attackerHealthAfter:82,defenderHealthAfter:88,attackerXp:5,createdAt:now};
 const newBattle={...legacyBattle,rulesetId:alpha.id,attackPower:2000,defensePower:1000,attackerArmy:4,defenderArmy:2,attackerMaxHealth:110,defenderMaxHealth:100,spiritSpent:1,rewarded:true,attackEquipment:[],defenseEquipment:[]};
 const opponent={id:targetId,name:'Morgan',level:3,units:2,armySize:3,className:'Freeblade',health:100,maxHealth:100};
-const fixture=(screen,extra={})=>({screen,state,nav:navigation,rules,landRules,alpha,strategy,community,refinements,bountyRules,relativeTime:()=> 'just now',publicCharacter:null,profileProperties:[{id:'smallholding',name:'Smallholding',quantity:1,grossIncome:8,upkeep:1,art:'farm',illustration:alpha.properties[0].illustration}],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:{targetId,targetName:'Morgan',amount:1,fee:1,total:2,rulesetId:refinements.id},feedTab:'all',feed:{entries:[],nextCursor:null},armyTab:'recruit',armyEvents:[],developmentBotsEnabled:false,bountyBoard:{active:[],history:[],eligible:true},csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:null,
+const fixture=(screen,extra={})=>({screen,state,nav:navigation,rules,landRules,alpha,strategy,community,refinements,bountyRules,pvp,bountyPlacement:{allowed:true,reason:null},bountyTarget:{id:targetId,name:"Morgan",level:3,className:"Warden",health:100,maxHealth:100,temporaryRival:false},vaultEntries:[],developmentBotBountiesEnabled:false,relativeTime:()=> 'just now',publicCharacter:null,profileProperties:[{id:'smallholding',name:'Smallholding',quantity:1,grossIncome:8,upkeep:1,art:'farm',illustration:alpha.properties[0].illustration}],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:{targetId,targetName:'Morgan',amount:1,fee:1,total:2,rulesetId:refinements.id},feedTab:'all',feed:{entries:[],nextCursor:null},armyTab:'recruit',armyEvents:[],developmentBotsEnabled:false,bountyBoard:{active:[],history:[],eligible:true},csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:null,
  opponents:[opponent],nextOpponentCursor:null,battles:[],battle:newBattle,title:navigation.find(n=>n.id===screen)?.label??'The Realm',authMode:'login',formValues:{username:'',name:''},category:'weapon',questArea:'all',profileTab:'player',...extra});
 const emptyLand={...land,hourlyIncome:0,hourlyUpkeep:0,totalUpkeep:0,netHourlyIncome:0,nextPaymentAt:null,holdings:[],properties:properties.map(p=>({...p,owned:0}))};
 const contract={id:randomUUID(),sponsor_id:playerId,target_id:targetId,name:'Morgan',target_name:'Morgan',sponsor_name:'Arthur',level:3,profile_class:'Freeblade',army_size:3,armySize:3,amount:1000,fee:100,status:'active',claimant_id:null,created_at:new Date(Date.parse(now)-7200000).toISOString(),expires_at:next,claimBlockedReason:'Sponsors cannot claim their own contracts.'};
@@ -104,6 +104,9 @@ const cases=[
  {name:'home-defeat-activity',data:fixture('home',{feed:{entries:[{id:battleId,kind:'battle',createdAt:now,data:{...newBattle,winnerId:targetId}}],nextCursor:null}})},
  {name:'quests-result-unavailable',data:fixture('quests',{state:{...state,mana:0,quests:state.quests.map(q=>({...q,ready:false,lockReason:'More Mana required'}))},actionResult:{kind:'quest',data:{questId:'border-patrol',questName:'Patrol',gold:8,xp:4,mana:2,levelGained:0,loot:null,milestones:[]}}})},
  {name:'bounty-confirm',data:fixture('bounty-confirm')},
+ {name:'bounty-new',data:fixture('bounty-new')},
+ {name:'bounty-unavailable',data:fixture('bounty-new',{bountyPlacement:{allowed:false,reason:'Target already listed.'}})},
+ {name:'vault',data:fixture('vault')},
  {name:'profile-no-land',data:fixture('profile',{profileProperties:[]})},
  {name:'profile-bot-no-land',data:fixture('profile',{publicCharacter:{...state,id:targetId,name:'Practice Rival',temporaryRival:true},profileProperties:[]})},
  {name:'report-defeated',data:fixture('report',{combatTarget:{targetId,name:'Morgan',health:0,maxHealth:100,allowed:false,eligible:false,reason:'Opponent defeated — 0 Health. Wait for recovery.'}})},
@@ -140,7 +143,7 @@ for(const example of cases)check('Production EJS render: '+example.name,()=>{
  rendered.set(example.name,html);
 });
 const routeRegex=route=>new RegExp('^'+route.split('/').map(s=>s.startsWith(':')?'[^/]+':s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('/')+'$');
-const gets=['/','/login','/register','/rules','/game/profile','/game/bounties','/game/settings','/game/players/:id',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
+const gets=['/','/login','/register','/rules','/game/profile','/game/bounties','/game/bounties/new','/game/vault','/game/settings','/game/players/:id',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
 const posts=['/login','/register','/logout','/game/bounties/preview',...commandRoutes.map(r=>r.html)].map(routeRegex),covered=new Set();
 check('Rendered links, asset references, unique IDs, labels, CSRF and command contracts',()=>{
  for(const [name,html] of rendered){
@@ -173,7 +176,7 @@ check('Original five tabs, selected artwork, Home-only Land and profile Home sel
  for(const example of cases){
   const links=navigationLinks(rendered.get(example.name),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
   if(!example.data.state)continue;
-  const selected=['report','bounties','bounty-confirm'].includes(example.data.screen)?'battle':['profile','settings'].includes(example.data.screen)?'home':example.data.screen;
+  const selected=['report','bounties','bounty-confirm','bounty-new'].includes(example.data.screen)?'battle':['profile','settings','vault'].includes(example.data.screen)?'home':example.data.screen;
   for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,'/assets/art/kingdoms-live/'+icons[id]+(id===selected?'_selected':'')+'.png');}
   assert.ok(!navigationLinks(rendered.get(example.name),'Secondary navigation').some(l=>l.href==='/game/land'));
   assert.equal((rendered.get(example.name).match(/href="\/game\/land"/g)||[]).length,example.data.screen==='home'?1:0);

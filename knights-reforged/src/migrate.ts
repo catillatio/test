@@ -8,9 +8,11 @@ import { alpha,alphaCatalogs } from './alpha-rules.js';
 import {strategy,botCatalog,previousStrategy,previousBotCatalog} from './strategy-rules.js';
 import {community} from './community-rules.js';
 import {refinements} from './refinement-rules.js';
+import {pvp} from './pvp-rules.js';
+import {phase41BotCatalog} from './strategy-rules.js';
 import {phase4BotCatalog} from './strategy-rules.js';
 
-const definitions=[rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,botCatalog,community,refinements];
+const definitions=[rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,botCatalog,community,refinements,pvp];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 

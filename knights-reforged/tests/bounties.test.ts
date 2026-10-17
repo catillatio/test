@@ -171,7 +171,7 @@ test('a public-profile bounty preview discloses the exact fee and confirmation r
     const a=await r.veteran(),b=await r.veteran(),target=await r.veteran(),before=(await r.me(a)).gold;
     const preview=await r.command(a,'/game/bounties/preview',{targetCharacterId:target.id,amount:'1'});assert.equal(preview.statusCode,200,preview.body);
     assert.match(preview.body,/Nonrefundable listing fee/);assert.match(preview.body,/Confirm bounty — 2 gold/);assert.equal((await r.me(a)).gold,before);
-    const profile=await r.app.inject({method:'GET',url:'/game/players/'+target.id,headers:{cookie:a.cookie}});assert.match(profile.body,/action="\/game\/bounties\/preview"/);
+    const profile=await r.app.inject({method:'GET',url:'/game/players/'+target.id,headers:{cookie:a.cookie}});assert.match(profile.body,/Add to Bounty List/);assert.ok(profile.body.includes("/game/bounties/new?target="+target.id));
     await r.ok(b,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1});
     const rejected=await r.command(a,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1,quotedRulesetId:'refinements-0.1'});assert.equal(rejected.json().error.code,'BOUNTY_EXISTS');assert.equal((await r.me(a)).gold,before);
     assert.equal((await r.command(a,'/game/bounties/preview',{targetCharacterId:target.id,amount:1.5})).statusCode,422);

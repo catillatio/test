@@ -15,8 +15,9 @@
   <link rel="stylesheet" href="/assets/community.css?v=community-0.1">
   <!-- Use the established layout context and a UI revision, not page-specific rules locals. -->
   <link rel="stylesheet" href="/assets/phase41.css?v=<%= alpha.id %>-phase41-render1">
+  <link rel="stylesheet" href="/assets/phase42.css?v=phase42-1">
 </head>
-<body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm'].includes(screen) ? 'battle' : screen %>">
+<body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="app-shell">
     <div class="page-backdrop" aria-hidden="true"></div>
