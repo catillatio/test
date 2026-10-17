@@ -1,0 +1,21 @@
+# class Lcom/google/gson/l; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/k;
+# source None
+# fields
+# Lcom/google/gson/l;->a:Lcom/google/gson/FieldNamingStrategy; access=0x12
+
+## Lcom/google/gson/l;-><init>(Lcom/google/gson/FieldNamingStrategy;)V access=0x10001
+# code_off=0x2e86c registers=2 incoming_words=2 outgoing_words=1 code_units=9 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: invoke-static {v1}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0006: iput-object v1, v0, "Lcom/google/gson/l;->a:Lcom/google/gson/FieldNamingStrategy;"
+0008: return-void
+
+## Lcom/google/gson/l;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/String; access=0x11
+# code_off=0x2e890 registers=4 incoming_words=2 outgoing_words=2 code_units=11 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/l;->a:Lcom/google/gson/FieldNamingStrategy;"
+0002: invoke-virtual {v3}, Lcom/google/gson/FieldAttributes;->b()Ljava/lang/reflect/Field;
+0005: move-result-object v1
+0006: invoke-interface {v0, v1}, Lcom/google/gson/FieldNamingStrategy;->translateName(Ljava/lang/reflect/Field;)Ljava/lang/String;
+0009: move-result-object v0
+000a: return-object v0

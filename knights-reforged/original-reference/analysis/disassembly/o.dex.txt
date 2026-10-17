@@ -1,0 +1,41 @@
+# class Lo; extends Ljava/lang/Object;
+# interfaces Li;
+# source None
+# fields
+
+## Lo;-><init>()V access=0x10001
+# code_off=0x30c2c registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lo;->a(Ld;Ljava/util/HashMap;Landroid/webkit/WebView;)V access=0x11
+# code_off=0x30c44 registers=9 incoming_words=4 outgoing_words=2 code_units=57 tries=0
+0000: const-string v0, "u"
+0002: invoke-virtual {v7, v0}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Ljava/lang/String;"
+0008: invoke-virtual {v6}, Ld;->j()Lf;
+000b: move-result-object v1
+000c: if-eqz v1, @002a
+000e: invoke-static {v0}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
+0011: move-result-object v2
+0012: invoke-virtual {v2}, Landroid/net/Uri;->getHost()Ljava/lang/String;
+0015: move-result-object v3
+0016: const-string v4, "admob.com"
+0018: invoke-virtual {v3, v4}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+001b: move-result v3
+001c: if-eqz v3, @002a
+001e: invoke-virtual {v2}, Landroid/net/Uri;->getPath()Ljava/lang/String;
+0021: move-result-object v2
+0022: const/4 v3, 4
+0023: invoke-virtual {v2, v3}, Ljava/lang/String;->substring(I)Ljava/lang/String;
+0026: move-result-object v2
+0027: invoke-virtual {v1, v2}, Lf;->b(Ljava/lang/String;)V
+002a: new-instance v1, "Lw;"
+002c: invoke-direct {v1}, Lw;-><init>()V
+002f: const/4 v2, 1
+0030: new-array v2, v2, "[Ljava/lang/String;"
+0032: const/4 v3, 0
+0033: aput-object v0, v2, v3
+0035: invoke-virtual {v1, v2}, Lw;->execute([Ljava/lang/Object;)Landroid/os/AsyncTask;
+0038: return-void

@@ -1,0 +1,181 @@
+# class Lcom/storm8/base/AmazonStoreManager; extends Ljava/lang/Object;
+# interfaces 
+# source AmazonStoreManager.java
+# fields
+# Lcom/storm8/base/AmazonStoreManager;->context:Lcom/storm8/base/Storm8MainActivity; access=0x2
+# Lcom/storm8/base/AmazonStoreManager;->observer:Lcom/storm8/base/AmazonStoreManager$AmazonPurchasingObserver; access=0x2
+# Lcom/storm8/base/AmazonStoreManager;->sdkAvailable:Z access=0x2
+
+## Lcom/storm8/base/AmazonStoreManager;-><init>()V access=0x10001
+# code_off=0x1e5e8 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: const/4 v0, 0
+0004: iput-boolean v0, v1, "Lcom/storm8/base/AmazonStoreManager;->sdkAvailable:Z"
+0006: return-void
+
+## Lcom/storm8/base/AmazonStoreManager;->access$0(Lcom/storm8/base/AmazonStoreManager;Ljava/lang/String;)V access=0x1008
+# code_off=0x1e608 registers=2 incoming_words=2 outgoing_words=2 code_units=4 tries=0
+0000: invoke-direct {v0, v1}, Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V
+0003: return-void
+
+## Lcom/storm8/base/AmazonStoreManager;->access$1(Lcom/storm8/base/AmazonStoreManager;)V access=0x1008
+# code_off=0x1e620 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Lcom/storm8/base/AmazonStoreManager;->showFailureResponse()V
+0003: return-void
+
+## Lcom/storm8/base/AmazonStoreManager;->access$2(Lcom/storm8/base/AmazonStoreManager;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V access=0x1008
+# code_off=0x1e638 registers=6 incoming_words=6 outgoing_words=6 code_units=4 tries=0
+0000: invoke-direct/range {v0, v1, v2, v3, v4, v5}, Lcom/storm8/base/AmazonStoreManager;->processPurchaseResponse(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
+0003: return-void
+
+## Lcom/storm8/base/AmazonStoreManager;->access$3(Lcom/storm8/base/AmazonStoreManager;Z)V access=0x1008
+# code_off=0x1e650 registers=2 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: iput-boolean v1, v0, "Lcom/storm8/base/AmazonStoreManager;->sdkAvailable:Z"
+0002: return-void
+
+## Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V access=0x2
+# code_off=0x1e668 registers=2 incoming_words=2 outgoing_words=0 code_units=1 tries=0
+0000: return-void
+
+## Lcom/storm8/base/AmazonStoreManager;->processPurchaseResponse(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V access=0x2
+# code_off=0x1e67c registers=10 incoming_words=6 outgoing_words=4 code_units=42 tries=0
+0000: const-string v0, "processPurchaseResponse(amazonUserId=%s, requestId=%s, purchaseToken=%s, sku=%s, status=%d)"
+0002: const/4 v1, 5
+0003: new-array v1, v1, "[Ljava/lang/Object;"
+0005: const/4 v2, 0
+0006: aput-object v5, v1, v2
+0008: const/4 v2, 1
+0009: aput-object v6, v1, v2
+000b: const/4 v2, 2
+000c: aput-object v7, v1, v2
+000e: const/4 v2, 3
+000f: aput-object v8, v1, v2
+0011: const/4 v2, 4
+0012: invoke-static {v9}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+0015: move-result-object v3
+0016: aput-object v3, v1, v2
+0018: invoke-static {v0, v1}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+001b: move-result-object v0
+001c: invoke-direct {v4, v0}, Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V
+001f: const-string v0, "Dispatching purchase information to server."
+0021: invoke-direct {v4, v0}, Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V
+0024: iget-object v0, v4, "Lcom/storm8/base/AmazonStoreManager;->context:Lcom/storm8/base/Storm8MainActivity;"
+0026: invoke-virtual {v0, v5, v7, v8}, Lcom/storm8/base/Storm8MainActivity;->processAmazonMarketTransaction(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+0029: return-void
+
+## Lcom/storm8/base/AmazonStoreManager;->showFailureResponse()V access=0x2
+# code_off=0x1e6e0 registers=4 incoming_words=1 outgoing_words=3 code_units=21 tries=0
+0000: const-string v1, "Amazon IAP Failed"
+0002: invoke-direct {v3, v1}, Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V
+0005: new-instance v0, "Ljava/util/HashMap;"
+0007: invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
+000a: const-string v1, "success"
+000c: const/4 v2, 0
+000d: invoke-static {v2}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+0010: move-result-object v2
+0011: invoke-virtual {v0, v1, v2}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0014: return-void
+
+## Lcom/storm8/base/AmazonStoreManager;->buyItem(Ljava/lang/String;I)Z access=0x4
+# code_off=0x1e71c registers=7 incoming_words=3 outgoing_words=2 code_units=94 tries=0
+0000: const/4 v1, 1
+0001: new-instance v2, "Ljava/lang/StringBuilder;"
+0003: const-string v3, "buyItem("
+0005: invoke-direct {v2, v3}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0008: invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000b: move-result-object v2
+000c: const-string v3, ", "
+000e: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0011: move-result-object v2
+0012: invoke-virtual {v2, v6}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0015: move-result-object v2
+0016: const-string v3, ")"
+0018: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001b: move-result-object v2
+001c: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+001f: move-result-object v2
+0020: invoke-direct {v4, v2}, Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V
+0023: if-ne v6, v1, @002d
+0025: iget-object v2, v4, "Lcom/storm8/base/AmazonStoreManager;->observer:Lcom/storm8/base/AmazonStoreManager$AmazonPurchasingObserver;"
+0027: if-eqz v2, @002d
+0029: iget-boolean v2, v4, "Lcom/storm8/base/AmazonStoreManager;->sdkAvailable:Z"
+002b: if-nez v2, @002f
+002d: const/4 v1, 0
+002e: return v1
+002f: new-instance v2, "Ljava/lang/StringBuilder;"
+0031: const-string v3, "PurchasingManager.initiatePurchaseRequest("
+0033: invoke-direct {v2, v3}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0036: invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0039: move-result-object v2
+003a: const-string v3, ")"
+003c: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+003f: move-result-object v2
+0040: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0043: move-result-object v2
+0044: invoke-direct {v4, v2}, Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V
+0047: invoke-static {v5}, Lcom/amazon/inapp/purchasing/PurchasingManager;->initiatePurchaseRequest(Ljava/lang/String;)Ljava/lang/String;
+004a: move-result-object v0
+004b: new-instance v2, "Ljava/lang/StringBuilder;"
+004d: const-string v3, "RequestID = "
+004f: invoke-direct {v2, v3}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0052: invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0055: move-result-object v2
+0056: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0059: move-result-object v2
+005a: invoke-direct {v4, v2}, Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V
+005d: goto @002e
+
+## Lcom/storm8/base/AmazonStoreManager;->isIAPSupported()Z access=0x1
+# code_off=0x1e7e8 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-boolean v0, v1, "Lcom/storm8/base/AmazonStoreManager;->sdkAvailable:Z"
+0002: return v0
+
+## Lcom/storm8/base/AmazonStoreManager;->resetIAPSupported()V access=0x1
+# code_off=0x1e800 registers=1 incoming_words=1 outgoing_words=0 code_units=1 tries=0
+0000: return-void
+
+## Lcom/storm8/base/AmazonStoreManager;->setContext(Lcom/storm8/base/Storm8MainActivity;)V access=0x1
+# code_off=0x1e814 registers=4 incoming_words=2 outgoing_words=3 code_units=91 tries=0
+0000: new-instance v0, "Ljava/lang/StringBuilder;"
+0002: const-string v1, "setContext("
+0004: invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0007: invoke-virtual {v3}, Ljava/lang/Object;->toString()Ljava/lang/String;
+000a: move-result-object v1
+000b: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000e: move-result-object v0
+000f: const-string v1, " "
+0011: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0014: move-result-object v0
+0015: invoke-virtual {v3}, Ljava/lang/Object;->hashCode()I
+0018: move-result v1
+0019: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+001c: move-result-object v0
+001d: const-string v1, ")"
+001f: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0022: move-result-object v0
+0023: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0026: move-result-object v0
+0027: invoke-direct {v2, v0}, Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V
+002a: iget-object v0, v2, "Lcom/storm8/base/AmazonStoreManager;->observer:Lcom/storm8/base/AmazonStoreManager$AmazonPurchasingObserver;"
+002c: if-nez v0, @005a
+002e: iput-object v3, v2, "Lcom/storm8/base/AmazonStoreManager;->context:Lcom/storm8/base/Storm8MainActivity;"
+0030: new-instance v0, "Lcom/storm8/base/AmazonStoreManager$AmazonPurchasingObserver;"
+0032: invoke-direct {v0, v2, v3}, Lcom/storm8/base/AmazonStoreManager$AmazonPurchasingObserver;-><init>(Lcom/storm8/base/AmazonStoreManager;Landroid/content/Context;)V
+0035: iput-object v0, v2, "Lcom/storm8/base/AmazonStoreManager;->observer:Lcom/storm8/base/AmazonStoreManager$AmazonPurchasingObserver;"
+0037: new-instance v0, "Ljava/lang/StringBuilder;"
+0039: const-string v1, "PurchasingManager.registerObserver("
+003b: invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+003e: iget-object v1, v2, "Lcom/storm8/base/AmazonStoreManager;->observer:Lcom/storm8/base/AmazonStoreManager$AmazonPurchasingObserver;"
+0040: invoke-virtual {v1}, Ljava/lang/Object;->hashCode()I
+0043: move-result v1
+0044: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0047: move-result-object v0
+0048: const-string v1, ")"
+004a: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+004d: move-result-object v0
+004e: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0051: move-result-object v0
+0052: invoke-direct {v2, v0}, Lcom/storm8/base/AmazonStoreManager;->debugLog(Ljava/lang/String;)V
+0055: iget-object v0, v2, "Lcom/storm8/base/AmazonStoreManager;->observer:Lcom/storm8/base/AmazonStoreManager$AmazonPurchasingObserver;"
+0057: invoke-static {v0}, Lcom/amazon/inapp/purchasing/PurchasingManager;->registerObserver(Lcom/amazon/inapp/purchasing/PurchasingObserver;)V
+005a: return-void

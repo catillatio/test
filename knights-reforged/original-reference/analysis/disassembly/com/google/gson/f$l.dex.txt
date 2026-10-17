@@ -1,0 +1,45 @@
+# class Lcom/google/gson/f$l; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/JsonSerializer;
+# source None
+# fields
+# Lcom/google/gson/f$l;->a:Z access=0x12
+
+## Lcom/google/gson/f$l;-><init>(Z)V access=0x10000
+# code_off=0x2dbcc registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-boolean v1, v0, "Lcom/google/gson/f$l;->a:Z"
+0005: return-void
+
+## Lcom/google/gson/f$l;->serialize(Ljava/lang/Object;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement; access=0x1011
+# code_off=0x2dbe8 registers=7 incoming_words=4 outgoing_words=2 code_units=63 tries=0
+0000: check-cast v4, "Ljava/lang/Double;"
+0002: iget-boolean v0, v3, "Lcom/google/gson/f$l;->a:Z"
+0004: if-nez v0, @0039
+0006: invoke-virtual {v4}, Ljava/lang/Double;->doubleValue()D
+0009: move-result-wide v0
+000a: invoke-static {v0, v1}, Ljava/lang/Double;->isNaN(D)Z
+000d: move-result v0
+000e: if-nez v0, @001a
+0010: invoke-virtual {v4}, Ljava/lang/Double;->doubleValue()D
+0013: move-result-wide v0
+0014: invoke-static {v0, v1}, Ljava/lang/Double;->isInfinite(D)Z
+0017: move-result v0
+0018: if-eqz v0, @0039
+001a: new-instance v0, "Ljava/lang/IllegalArgumentException;"
+001c: new-instance v1, "Ljava/lang/StringBuilder;"
+001e: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+0021: invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+0024: move-result-object v1
+0025: const-string v2, " is not a valid double value as per JSON specification. To override this"
+0027: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+002a: move-result-object v1
+002b: const-string v2, " behavior, use GsonBuilder.serializeSpecialDoubleValues() method."
+002d: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0030: move-result-object v1
+0031: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0034: move-result-object v1
+0035: invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+0038: throw v0
+0039: new-instance v0, "Lcom/google/gson/JsonPrimitive;"
+003b: invoke-direct {v0, v4}, Lcom/google/gson/JsonPrimitive;-><init>(Ljava/lang/Number;)V
+003e: return-object v0

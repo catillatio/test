@@ -1,0 +1,51 @@
+# class Lcom/google/gson/f$ab; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/JsonDeserializer;, Lcom/google/gson/JsonSerializer;
+# source None
+# fields
+
+## Lcom/google/gson/f$ab;-><init>()V access=0x11000
+# code_off=0x2d080 registers=2 incoming_words=1 outgoing_words=2 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v0}, Lcom/google/gson/f$ab;-><init>(B)V
+0004: return-void
+
+## Lcom/google/gson/f$ab;-><init>(B)V access=0x10002
+# code_off=0x2d09c registers=2 incoming_words=2 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/f$ab;->a(Lcom/google/gson/JsonElement;)Ljava/net/URI; access=0xa
+# code_off=0x2d0b4 registers=3 incoming_words=1 outgoing_words=2 code_units=17 tries=1
+0000: new-instance v0, "Ljava/net/URI;"
+0002: invoke-virtual {v2}, Lcom/google/gson/JsonElement;->getAsString()Ljava/lang/String;
+0005: move-result-object v1
+0006: invoke-direct {v0, v1}, Ljava/net/URI;-><init>(Ljava/lang/String;)V
+0009: return-object v0
+000a: move-exception v0
+000b: new-instance v1, "Lcom/google/gson/JsonParseException;"
+000d: invoke-direct {v1, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/Throwable;)V
+0010: throw v1
+# try @0000..@0009 handler_offset=1
+# handler_offset=1: Ljava/net/URISyntaxException; -> @000a
+
+## Lcom/google/gson/f$ab;->deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Ljava/lang/Object; access=0x1001
+# code_off=0x2d0f8 registers=5 incoming_words=4 outgoing_words=1 code_units=5 tries=0
+0000: invoke-static {v2}, Lcom/google/gson/f$ab;->a(Lcom/google/gson/JsonElement;)Ljava/net/URI;
+0003: move-result-object v0
+0004: return-object v0
+
+## Lcom/google/gson/f$ab;->serialize(Ljava/lang/Object;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement; access=0x1001
+# code_off=0x2d114 registers=6 incoming_words=4 outgoing_words=2 code_units=12 tries=0
+0000: check-cast v3, "Ljava/net/URI;"
+0002: new-instance v0, "Lcom/google/gson/JsonPrimitive;"
+0004: invoke-virtual {v3}, Ljava/net/URI;->toASCIIString()Ljava/lang/String;
+0007: move-result-object v1
+0008: invoke-direct {v0, v1}, Lcom/google/gson/JsonPrimitive;-><init>(Ljava/lang/String;)V
+000b: return-object v0
+
+## Lcom/google/gson/f$ab;->toString()Ljava/lang/String; access=0x1
+# code_off=0x2d13c registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: const-class v0, "Lcom/google/gson/f$ab;"
+0002: invoke-virtual {v0}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0

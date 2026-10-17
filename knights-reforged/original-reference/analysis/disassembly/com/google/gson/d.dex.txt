@@ -1,0 +1,53 @@
+# class Lcom/google/gson/d; extends Ljava/lang/RuntimeException;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/d;->a:Ljava/lang/Object; access=0x12
+
+## Lcom/google/gson/d;-><init>(Ljava/lang/Object;)V access=0x10000
+# code_off=0x1cec0 registers=3 incoming_words=2 outgoing_words=2 code_units=8 tries=0
+0000: const-string v0, "circular reference error"
+0002: invoke-direct {v1, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
+0005: iput-object v2, v1, "Lcom/google/gson/d;->a:Ljava/lang/Object;"
+0007: return-void
+
+## Lcom/google/gson/d;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/IllegalStateException; access=0x11
+# code_off=0x1cee0 registers=6 incoming_words=2 outgoing_words=3 code_units=80 tries=0
+0000: new-instance v0, "Ljava/lang/StringBuilder;"
+0002: invoke-virtual {v4}, Lcom/google/gson/d;->getMessage()Ljava/lang/String;
+0005: move-result-object v1
+0006: invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0009: if-eqz v5, @0031
+000b: const-string v1, "\n  "
+000d: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0010: move-result-object v1
+0011: const-string v2, "Offending field: "
+0013: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0016: move-result-object v1
+0017: new-instance v2, "Ljava/lang/StringBuilder;"
+0019: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+001c: invoke-virtual {v5}, Lcom/google/gson/FieldAttributes;->getName()Ljava/lang/String;
+001f: move-result-object v3
+0020: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0023: move-result-object v2
+0024: const-string v3, "\n"
+0026: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0029: move-result-object v2
+002a: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+002d: move-result-object v2
+002e: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0031: iget-object v1, v4, "Lcom/google/gson/d;->a:Ljava/lang/Object;"
+0033: if-eqz v1, @0046
+0035: const-string v1, "\n  "
+0037: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+003a: move-result-object v1
+003b: const-string v2, "Offending object: "
+003d: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0040: move-result-object v1
+0041: iget-object v2, v4, "Lcom/google/gson/d;->a:Ljava/lang/Object;"
+0043: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+0046: new-instance v1, "Ljava/lang/IllegalStateException;"
+0048: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+004b: move-result-object v0
+004c: invoke-direct {v1, v0, v4}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+004f: return-object v1

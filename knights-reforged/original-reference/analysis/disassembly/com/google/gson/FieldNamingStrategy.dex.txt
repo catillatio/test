@@ -1,0 +1,6 @@
+# class Lcom/google/gson/FieldNamingStrategy; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/FieldNamingStrategy;->translateName(Ljava/lang/reflect/Field;)Ljava/lang/String; access=0x401

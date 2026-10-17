@@ -1,0 +1,14 @@
+# class Lcom/storm8/kingdoms12/Splash; extends Lcom/storm8/base/Storm8Splash;
+# interfaces 
+# source Splash.java
+# fields
+
+## Lcom/storm8/kingdoms12/Splash;-><init>()V access=0x10001
+# code_off=0x30950 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Lcom/storm8/base/Storm8Splash;-><init>()V
+0003: return-void
+
+## Lcom/storm8/kingdoms12/Splash;->getSplashLayoutId()I access=0x1
+# code_off=0x30968 registers=2 incoming_words=1 outgoing_words=0 code_units=4 tries=0
+0000: const v0, 2130903042 (0x7f030002)
+0003: return v0

@@ -1,0 +1,584 @@
+[
+  {
+    "id": "0x7f020000",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "attack",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/attack.png"
+  },
+  {
+    "id": "0x7f020001",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "attack_selected",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/attack_selected.png"
+  },
+  {
+    "id": "0x7f020002",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "attack_w",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/attack_w.png"
+  },
+  {
+    "id": "0x7f020003",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "bg_attack",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/bg_attack.jpg"
+  },
+  {
+    "id": "0x7f020004",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "bg_bank",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/bg_bank.jpg"
+  },
+  {
+    "id": "0x7f020005",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "bg_default",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/bg_default.jpg"
+  },
+  {
+    "id": "0x7f020006",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "bg_equipment",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/bg_equipment.jpg"
+  },
+  {
+    "id": "0x7f020007",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "bg_hospital",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/bg_hospital.jpg"
+  },
+  {
+    "id": "0x7f020008",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "bg_missions",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/bg_missions.jpg"
+  },
+  {
+    "id": "0x7f020009",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "buildings",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/buildings.png"
+  },
+  {
+    "id": "0x7f02000a",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "default_bg",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/default_bg.png"
+  },
+  {
+    "id": "0x7f02000b",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "equipment",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/equipment.png"
+  },
+  {
+    "id": "0x7f02000c",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "equipment_selected",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/equipment_selected.png"
+  },
+  {
+    "id": "0x7f02000d",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "equipment_w",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/equipment_w.png"
+  },
+  {
+    "id": "0x7f02000e",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "home",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/home.png"
+  },
+  {
+    "id": "0x7f02000f",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "home_selected",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/home_selected.png"
+  },
+  {
+    "id": "0x7f020010",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "home_w",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/home_w.png"
+  },
+  {
+    "id": "0x7f020011",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "icon",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/icon.png"
+  },
+  {
+    "id": "0x7f020012",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "missions",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/missions.png"
+  },
+  {
+    "id": "0x7f020013",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "missions_selected",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/missions_selected.png"
+  },
+  {
+    "id": "0x7f020014",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "missions_w",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/missions_w.png"
+  },
+  {
+    "id": "0x7f020015",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "recruit",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/recruit.png"
+  },
+  {
+    "id": "0x7f020016",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "recruit_selected",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/recruit_selected.png"
+  },
+  {
+    "id": "0x7f020017",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "recruit_w",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/recruit_w.png"
+  },
+  {
+    "id": "0x7f020018",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "tab_bg",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/tab_bg.xml"
+  },
+  {
+    "id": "0x7f020019",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "tab_button_attack",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/tab_button_attack.xml"
+  },
+  {
+    "id": "0x7f02001a",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "tab_button_bg",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/tab_button_bg.xml"
+  },
+  {
+    "id": "0x7f02001b",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "tab_button_equipment",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/tab_button_equipment.xml"
+  },
+  {
+    "id": "0x7f02001c",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "tab_button_home",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/tab_button_home.xml"
+  },
+  {
+    "id": "0x7f02001d",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "tab_button_missions",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/tab_button_missions.xml"
+  },
+  {
+    "id": "0x7f02001e",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "tab_button_recruit",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/drawable/tab_button_recruit.xml"
+  },
+  {
+    "id": "0x7f020011",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "icon",
+    "config_hex": "240000000000000000000000000078000000000000000000040000000000000000000000",
+    "value": "res/drawable-ldpi/icon.png"
+  },
+  {
+    "id": "0x7f020011",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "icon",
+    "config_hex": "2400000000000000000000000000a0000000000000000000040000000000000000000000",
+    "value": "res/drawable-mdpi/icon.png"
+  },
+  {
+    "id": "0x7f020011",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "icon",
+    "config_hex": "2400000000000000000000000000d5000000000000000000040000000000000000000000",
+    "value": "res/drawable-tvdpi/icon.png"
+  },
+  {
+    "id": "0x7f020011",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "icon",
+    "config_hex": "2400000000000000000000000000f0000000000000000000040000000000000000000000",
+    "value": "res/drawable-hdpi/icon.png"
+  },
+  {
+    "id": "0x7f020011",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "icon",
+    "config_hex": "240000000000000000000000000040010000000000000000040000000000000000000000",
+    "value": "res/drawable-xhdpi/icon.png"
+  },
+  {
+    "id": "0x7f020011",
+    "package": "com.storm8.kingdoms12",
+    "type": "drawable",
+    "name": "icon",
+    "config_hex": "2400000000000000000000000000e0010000000000000000040000000000000000000000",
+    "value": "res/drawable-xxhdpi/icon.png"
+  },
+  {
+    "id": "0x7f030000",
+    "package": "com.storm8.kingdoms12",
+    "type": "layout",
+    "name": "main",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/layout/main.xml"
+  },
+  {
+    "id": "0x7f030001",
+    "package": "com.storm8.kingdoms12",
+    "type": "layout",
+    "name": "notification_toast",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/layout/notification_toast.xml"
+  },
+  {
+    "id": "0x7f030002",
+    "package": "com.storm8.kingdoms12",
+    "type": "layout",
+    "name": "splash",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/layout/splash.xml"
+  },
+  {
+    "id": "0x7f030003",
+    "package": "com.storm8.kingdoms12",
+    "type": "layout",
+    "name": "tab_button",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/layout/tab_button.xml"
+  },
+  {
+    "id": "0x7f040000",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "angel1",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/angel1.3gp"
+  },
+  {
+    "id": "0x7f040001",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "fireball",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/fireball.3gp"
+  },
+  {
+    "id": "0x7f040002",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "fireball2",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/fireball2.3gp"
+  },
+  {
+    "id": "0x7f040003",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "fireball3",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/fireball3.3gp"
+  },
+  {
+    "id": "0x7f040004",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "music1",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/music1.3gp"
+  },
+  {
+    "id": "0x7f040005",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "powerup1",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/powerup1.3gp"
+  },
+  {
+    "id": "0x7f040006",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "powerup2",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/powerup2.3gp"
+  },
+  {
+    "id": "0x7f040007",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "soldiers1",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/soldiers1.3gp"
+  },
+  {
+    "id": "0x7f040008",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "sword1",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/sword1.3gp"
+  },
+  {
+    "id": "0x7f040009",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "tap",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/tap.3gp"
+  },
+  {
+    "id": "0x7f04000a",
+    "package": "com.storm8.kingdoms12",
+    "type": "raw",
+    "name": "wood1",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/raw/wood1.3gp"
+  },
+  {
+    "id": "0x7f050000",
+    "package": "com.storm8.kingdoms12",
+    "type": "string",
+    "name": "hello",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "Hello World, Home!"
+  },
+  {
+    "id": "0x7f050001",
+    "package": "com.storm8.kingdoms12",
+    "type": "string",
+    "name": "app_name",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "Kingdoms Live"
+  },
+  {
+    "id": "0x7f060000",
+    "package": "com.storm8.kingdoms12",
+    "type": "style",
+    "name": "Theme.NoBackground",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "parent": "0x01030009",
+    "items": [
+      {
+        "name": "0x01010054",
+        "value": "@0x00000000"
+      }
+    ]
+  },
+  {
+    "id": "0x7f070000",
+    "package": "com.storm8.kingdoms12",
+    "type": "menu",
+    "name": "menu",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "res/menu/menu.xml"
+  },
+  {
+    "id": "0x7f080000",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "content",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f080001",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "webview",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f080002",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "tab_bar",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f080003",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "toast_layout_root",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f080004",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "image",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f080005",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "text",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f080006",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "splashscreen",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f080007",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "button_bg",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f080008",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "button_image",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f080009",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "button_label",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f08000a",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "home",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f08000b",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "missions",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f08000c",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "battle",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f08000d",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "equipment",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f08000e",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "investment",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  },
+  {
+    "id": "0x7f08000f",
+    "package": "com.storm8.kingdoms12",
+    "type": "id",
+    "name": "recruit",
+    "config_hex": "240000000000000000000000000000000000000000000000000000000000000000000000",
+    "value": "false"
+  }
+]

@@ -1,0 +1,24 @@
+# class Lcom/google/gson/ObjectNavigator$Visitor; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->end(Lcom/google/gson/ao;)V access=0x401
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->getTarget()Ljava/lang/Object; access=0x401
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->start(Lcom/google/gson/ao;)V access=0x401
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->startVisitingObject(Ljava/lang/Object;)V access=0x401
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->visitArray(Ljava/lang/Object;Ljava/lang/reflect/Type;)V access=0x401
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->visitArrayField(Lcom/google/gson/FieldAttributes;Ljava/lang/reflect/Type;Ljava/lang/Object;)V access=0x401
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->visitFieldUsingCustomHandler(Lcom/google/gson/FieldAttributes;Ljava/lang/reflect/Type;Ljava/lang/Object;)Z access=0x401
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->visitObjectField(Lcom/google/gson/FieldAttributes;Ljava/lang/reflect/Type;Ljava/lang/Object;)V access=0x401
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->visitPrimitive(Ljava/lang/Object;)V access=0x401
+
+## Lcom/google/gson/ObjectNavigator$Visitor;->visitUsingCustomHandler(Lcom/google/gson/ao;)Z access=0x401

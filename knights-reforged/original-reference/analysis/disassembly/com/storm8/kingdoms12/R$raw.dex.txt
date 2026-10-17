@@ -1,0 +1,20 @@
+# class Lcom/storm8/kingdoms12/R$raw; extends Ljava/lang/Object;
+# interfaces 
+# source R.java
+# fields
+# Lcom/storm8/kingdoms12/R$raw;->angel1:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->fireball:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->fireball2:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->fireball3:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->music1:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->powerup1:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->powerup2:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->soldiers1:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->sword1:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->tap:I access=0x19
+# Lcom/storm8/kingdoms12/R$raw;->wood1:I access=0x19
+
+## Lcom/storm8/kingdoms12/R$raw;-><init>()V access=0x10001
+# code_off=0x247b8 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void

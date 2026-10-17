@@ -1,0 +1,15 @@
+# class Lorg/apache/commons/codec/CharEncoding; extends Ljava/lang/Object;
+# interfaces 
+# source CharEncoding.java
+# fields
+# Lorg/apache/commons/codec/CharEncoding;->ISO_8859_1:Ljava/lang/String; access=0x19
+# Lorg/apache/commons/codec/CharEncoding;->US_ASCII:Ljava/lang/String; access=0x19
+# Lorg/apache/commons/codec/CharEncoding;->UTF_16:Ljava/lang/String; access=0x19
+# Lorg/apache/commons/codec/CharEncoding;->UTF_16BE:Ljava/lang/String; access=0x19
+# Lorg/apache/commons/codec/CharEncoding;->UTF_16LE:Ljava/lang/String; access=0x19
+# Lorg/apache/commons/codec/CharEncoding;->UTF_8:Ljava/lang/String; access=0x19
+
+## Lorg/apache/commons/codec/CharEncoding;-><init>()V access=0x10001
+# code_off=0x25bf4 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void

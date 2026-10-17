@@ -1,0 +1,16 @@
+# class Lcom/storm8/base/Storm8MainActivity$5; extends Ljava/lang/Object;
+# interfaces Landroid/content/DialogInterface$OnClickListener;
+# source Storm8MainActivity.java
+# fields
+# Lcom/storm8/base/Storm8MainActivity$5;->this$0:Lcom/storm8/base/Storm8MainActivity; access=0x1010
+
+## Lcom/storm8/base/Storm8MainActivity$5;-><init>(Lcom/storm8/base/Storm8MainActivity;)V access=0x10000
+# code_off=0x1ea78 registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8MainActivity$5;->this$0:Lcom/storm8/base/Storm8MainActivity;"
+0002: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0005: return-void
+
+## Lcom/storm8/base/Storm8MainActivity$5;->onClick(Landroid/content/DialogInterface;I)V access=0x1
+# code_off=0x1ea94 registers=3 incoming_words=3 outgoing_words=1 code_units=4 tries=0
+0000: invoke-interface {v1}, Landroid/content/DialogInterface;->cancel()V
+0003: return-void

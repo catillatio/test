@@ -1,0 +1,91 @@
+# class Lcom/google/gson/ModifyFirstLetterNamingPolicy; extends Lcom/google/gson/av;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/ModifyFirstLetterNamingPolicy;->a:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier; access=0x12
+
+## Lcom/google/gson/ModifyFirstLetterNamingPolicy;-><init>(Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;)V access=0x10001
+# code_off=0x314f4 registers=2 incoming_words=2 outgoing_words=1 code_units=9 tries=0
+0000: invoke-direct {v0}, Lcom/google/gson/av;-><init>()V
+0003: invoke-static {v1}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0006: iput-object v1, v0, "Lcom/google/gson/ModifyFirstLetterNamingPolicy;->a:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0008: return-void
+
+## Lcom/google/gson/ModifyFirstLetterNamingPolicy;->a(CLjava/lang/String;I)Ljava/lang/String; access=0xa
+# code_off=0x31518 registers=5 incoming_words=3 outgoing_words=2 code_units=33 tries=0
+0000: invoke-virtual {v3}, Ljava/lang/String;->length()I
+0003: move-result v0
+0004: if-ge v4, v0, @001c
+0006: new-instance v0, "Ljava/lang/StringBuilder;"
+0008: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+000b: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+000e: move-result-object v0
+000f: invoke-virtual {v3, v4}, Ljava/lang/String;->substring(I)Ljava/lang/String;
+0012: move-result-object v1
+0013: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0016: move-result-object v0
+0017: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+001a: move-result-object v0
+001b: return-object v0
+001c: invoke-static {v2}, Ljava/lang/String;->valueOf(C)Ljava/lang/String;
+001f: move-result-object v0
+0020: goto @001b
+
+## Lcom/google/gson/ModifyFirstLetterNamingPolicy;->a(Ljava/lang/String;Ljava/lang/reflect/Type;Ljava/util/Collection;)Ljava/lang/String; access=0x14
+# code_off=0x3156c registers=10 incoming_words=4 outgoing_words=3 code_units=107 tries=0
+0000: const/4 v2, 0
+0001: new-instance v3, "Ljava/lang/StringBuilder;"
+0003: invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+0006: invoke-virtual {v7, v2}, Ljava/lang/String;->charAt(I)C
+0009: move-result v0
+000a: move v1, v2
+000b: invoke-virtual {v7}, Ljava/lang/String;->length()I
+000e: move-result v4
+000f: add-int/lit8 v4, v4, -1
+0011: if-ge v1, v4, @0023
+0013: invoke-static {v0}, Ljava/lang/Character;->isLetter(C)Z
+0016: move-result v4
+0017: if-nez v4, @0023
+0019: invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+001c: add-int/lit8 v1, v1, 1
+001e: invoke-virtual {v7, v1}, Ljava/lang/String;->charAt(I)C
+0021: move-result v0
+0022: goto @000b
+0023: invoke-virtual {v7}, Ljava/lang/String;->length()I
+0026: move-result v4
+0027: if-ne v1, v4, @002e
+0029: invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+002c: move-result-object v7
+002d: return-object v7
+002e: iget-object v4, v6, "Lcom/google/gson/ModifyFirstLetterNamingPolicy;->a:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0030: sget-object v5, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->UPPER:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0032: if-ne v4, v5, @0035
+0034: const/4 v2, 1
+0035: if-eqz v2, @0050
+0037: invoke-static {v0}, Ljava/lang/Character;->isUpperCase(C)Z
+003a: move-result v4
+003b: if-nez v4, @0050
+003d: invoke-static {v0}, Ljava/lang/Character;->toUpperCase(C)C
+0040: move-result v0
+0041: add-int/lit8 v1, v1, 1
+0043: invoke-static {v0, v7, v1}, Lcom/google/gson/ModifyFirstLetterNamingPolicy;->a(CLjava/lang/String;I)Ljava/lang/String;
+0046: move-result-object v0
+0047: invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+004a: move-result-object v0
+004b: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+004e: move-result-object v7
+004f: goto @002d
+0050: if-nez v2, @002d
+0052: invoke-static {v0}, Ljava/lang/Character;->isUpperCase(C)Z
+0055: move-result v2
+0056: if-eqz v2, @002d
+0058: invoke-static {v0}, Ljava/lang/Character;->toLowerCase(C)C
+005b: move-result v0
+005c: add-int/lit8 v1, v1, 1
+005e: invoke-static {v0, v7, v1}, Lcom/google/gson/ModifyFirstLetterNamingPolicy;->a(CLjava/lang/String;I)Ljava/lang/String;
+0061: move-result-object v0
+0062: invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0065: move-result-object v0
+0066: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0069: move-result-object v7
+006a: goto @002d

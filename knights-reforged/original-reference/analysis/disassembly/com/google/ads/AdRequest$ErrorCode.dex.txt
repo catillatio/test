@@ -1,0 +1,76 @@
+# class Lcom/google/ads/AdRequest$ErrorCode; extends Ljava/lang/Enum;
+# interfaces 
+# source None
+# fields
+# Lcom/google/ads/AdRequest$ErrorCode;->INTERNAL_ERROR:Lcom/google/ads/AdRequest$ErrorCode; access=0x4019
+# Lcom/google/ads/AdRequest$ErrorCode;->INVALID_REQUEST:Lcom/google/ads/AdRequest$ErrorCode; access=0x4019
+# Lcom/google/ads/AdRequest$ErrorCode;->NETWORK_ERROR:Lcom/google/ads/AdRequest$ErrorCode; access=0x4019
+# Lcom/google/ads/AdRequest$ErrorCode;->NO_FILL:Lcom/google/ads/AdRequest$ErrorCode; access=0x4019
+# Lcom/google/ads/AdRequest$ErrorCode;->b:[Lcom/google/ads/AdRequest$ErrorCode; access=0x101a
+# Lcom/google/ads/AdRequest$ErrorCode;->a:Ljava/lang/String; access=0x2
+
+## Lcom/google/ads/AdRequest$ErrorCode;-><clinit>()V access=0x10008
+# code_off=0x17d60 registers=7 incoming_words=0 outgoing_words=4 code_units=70 tries=0
+0000: const/4 v6, 3
+0001: const/4 v5, 2
+0002: const/4 v4, 1
+0003: const/4 v3, 0
+0004: new-instance v0, "Lcom/google/ads/AdRequest$ErrorCode;"
+0006: const-string v1, "INVALID_REQUEST"
+0008: const-string v2, "Invalid Google Ad request."
+000a: invoke-direct {v0, v1, v3, v2}, Lcom/google/ads/AdRequest$ErrorCode;-><init>(Ljava/lang/String;ILjava/lang/String;)V
+000d: sput-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->INVALID_REQUEST:Lcom/google/ads/AdRequest$ErrorCode;"
+000f: new-instance v0, "Lcom/google/ads/AdRequest$ErrorCode;"
+0011: const-string v1, "NO_FILL"
+0013: const-string v2, "No ad to show."
+0015: invoke-direct {v0, v1, v4, v2}, Lcom/google/ads/AdRequest$ErrorCode;-><init>(Ljava/lang/String;ILjava/lang/String;)V
+0018: sput-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->NO_FILL:Lcom/google/ads/AdRequest$ErrorCode;"
+001a: new-instance v0, "Lcom/google/ads/AdRequest$ErrorCode;"
+001c: const-string v1, "NETWORK_ERROR"
+001e: const-string v2, "A network error occurred."
+0020: invoke-direct {v0, v1, v5, v2}, Lcom/google/ads/AdRequest$ErrorCode;-><init>(Ljava/lang/String;ILjava/lang/String;)V
+0023: sput-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->NETWORK_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+0025: new-instance v0, "Lcom/google/ads/AdRequest$ErrorCode;"
+0027: const-string v1, "INTERNAL_ERROR"
+0029: const-string v2, "There was an internal error."
+002b: invoke-direct {v0, v1, v6, v2}, Lcom/google/ads/AdRequest$ErrorCode;-><init>(Ljava/lang/String;ILjava/lang/String;)V
+002e: sput-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->INTERNAL_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+0030: const/4 v0, 4
+0031: new-array v0, v0, "[Lcom/google/ads/AdRequest$ErrorCode;"
+0033: sget-object v1, "Lcom/google/ads/AdRequest$ErrorCode;->INVALID_REQUEST:Lcom/google/ads/AdRequest$ErrorCode;"
+0035: aput-object v1, v0, v3
+0037: sget-object v1, "Lcom/google/ads/AdRequest$ErrorCode;->NO_FILL:Lcom/google/ads/AdRequest$ErrorCode;"
+0039: aput-object v1, v0, v4
+003b: sget-object v1, "Lcom/google/ads/AdRequest$ErrorCode;->NETWORK_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+003d: aput-object v1, v0, v5
+003f: sget-object v1, "Lcom/google/ads/AdRequest$ErrorCode;->INTERNAL_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+0041: aput-object v1, v0, v6
+0043: sput-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->b:[Lcom/google/ads/AdRequest$ErrorCode;"
+0045: return-void
+
+## Lcom/google/ads/AdRequest$ErrorCode;-><init>(Ljava/lang/String;ILjava/lang/String;)V access=0x10002
+# code_off=0x17dfc registers=4 incoming_words=4 outgoing_words=3 code_units=6 tries=0
+0000: invoke-direct {v0, v1, v2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
+0003: iput-object v3, v0, "Lcom/google/ads/AdRequest$ErrorCode;->a:Ljava/lang/String;"
+0005: return-void
+
+## Lcom/google/ads/AdRequest$ErrorCode;->valueOf(Ljava/lang/String;)Lcom/google/ads/AdRequest$ErrorCode; access=0x9
+# code_off=0x17e18 registers=2 incoming_words=1 outgoing_words=2 code_units=9 tries=0
+0000: const-class v0, "Lcom/google/ads/AdRequest$ErrorCode;"
+0002: invoke-static {v0, v1}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
+0005: move-result-object v0
+0006: check-cast v0, "Lcom/google/ads/AdRequest$ErrorCode;"
+0008: return-object v0
+
+## Lcom/google/ads/AdRequest$ErrorCode;->values()[Lcom/google/ads/AdRequest$ErrorCode; access=0x9
+# code_off=0x17e3c registers=1 incoming_words=0 outgoing_words=1 code_units=9 tries=0
+0000: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->b:[Lcom/google/ads/AdRequest$ErrorCode;"
+0002: invoke-virtual {v0}, [Lcom/google/ads/AdRequest$ErrorCode;->clone()Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "[Lcom/google/ads/AdRequest$ErrorCode;"
+0008: return-object v0
+
+## Lcom/google/ads/AdRequest$ErrorCode;->toString()Ljava/lang/String; access=0x11
+# code_off=0x17e60 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/ads/AdRequest$ErrorCode;->a:Ljava/lang/String;"
+0002: return-object v0

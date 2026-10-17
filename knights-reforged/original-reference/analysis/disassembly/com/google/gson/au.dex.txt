@@ -1,0 +1,91 @@
+# class Lcom/google/gson/au; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/au;->a:Ljava/util/Map; access=0x19
+# Lcom/google/gson/au;->b:Ljava/util/Map; access=0x19
+
+## Lcom/google/gson/au;-><clinit>()V access=0x10008
+# code_off=0x1be98 registers=4 incoming_words=0 outgoing_words=4 code_units=88 tries=0
+0000: const/16 v2, 16
+0002: new-instance v0, "Ljava/util/HashMap;"
+0004: invoke-direct {v0, v2}, Ljava/util/HashMap;-><init>(I)V
+0007: new-instance v1, "Ljava/util/HashMap;"
+0009: invoke-direct {v1, v2}, Ljava/util/HashMap;-><init>(I)V
+000c: sget-object v2, "Ljava/lang/Boolean;->TYPE:Ljava/lang/Class;"
+000e: const-class v3, "Ljava/lang/Boolean;"
+0010: invoke-static {v0, v1, v2, v3}, Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V
+0013: sget-object v2, "Ljava/lang/Byte;->TYPE:Ljava/lang/Class;"
+0015: const-class v3, "Ljava/lang/Byte;"
+0017: invoke-static {v0, v1, v2, v3}, Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V
+001a: sget-object v2, "Ljava/lang/Character;->TYPE:Ljava/lang/Class;"
+001c: const-class v3, "Ljava/lang/Character;"
+001e: invoke-static {v0, v1, v2, v3}, Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V
+0021: sget-object v2, "Ljava/lang/Double;->TYPE:Ljava/lang/Class;"
+0023: const-class v3, "Ljava/lang/Double;"
+0025: invoke-static {v0, v1, v2, v3}, Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V
+0028: sget-object v2, "Ljava/lang/Float;->TYPE:Ljava/lang/Class;"
+002a: const-class v3, "Ljava/lang/Float;"
+002c: invoke-static {v0, v1, v2, v3}, Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V
+002f: sget-object v2, "Ljava/lang/Integer;->TYPE:Ljava/lang/Class;"
+0031: const-class v3, "Ljava/lang/Integer;"
+0033: invoke-static {v0, v1, v2, v3}, Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V
+0036: sget-object v2, "Ljava/lang/Long;->TYPE:Ljava/lang/Class;"
+0038: const-class v3, "Ljava/lang/Long;"
+003a: invoke-static {v0, v1, v2, v3}, Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V
+003d: sget-object v2, "Ljava/lang/Short;->TYPE:Ljava/lang/Class;"
+003f: const-class v3, "Ljava/lang/Short;"
+0041: invoke-static {v0, v1, v2, v3}, Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V
+0044: sget-object v2, "Ljava/lang/Void;->TYPE:Ljava/lang/Class;"
+0046: const-class v3, "Ljava/lang/Void;"
+0048: invoke-static {v0, v1, v2, v3}, Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V
+004b: invoke-static {v0}, Ljava/util/Collections;->unmodifiableMap(Ljava/util/Map;)Ljava/util/Map;
+004e: move-result-object v0
+004f: sput-object v0, "Lcom/google/gson/au;->a:Ljava/util/Map;"
+0051: invoke-static {v1}, Ljava/util/Collections;->unmodifiableMap(Ljava/util/Map;)Ljava/util/Map;
+0054: move-result-object v0
+0055: sput-object v0, "Lcom/google/gson/au;->b:Ljava/util/Map;"
+0057: return-void
+
+## Lcom/google/gson/au;-><init>()V access=0x10002
+# code_off=0x1bf58 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/au;->a(Ljava/util/Map;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V access=0xa
+# code_off=0x1bf70 registers=4 incoming_words=4 outgoing_words=3 code_units=7 tries=0
+0000: invoke-interface {v0, v2, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0003: invoke-interface {v1, v3, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0006: return-void
+
+## Lcom/google/gson/au;->a(Ljava/lang/Class;)Z access=0x9
+# code_off=0x1bf90 registers=2 incoming_words=1 outgoing_words=2 code_units=10 tries=0
+0000: sget-object v0, "Lcom/google/gson/au;->b:Ljava/util/Map;"
+0002: invoke-static {v1}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0005: invoke-interface {v0, v1}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+0008: move-result v0
+0009: return v0
+
+## Lcom/google/gson/au;->b(Ljava/lang/Class;)Ljava/lang/Class; access=0x9
+# code_off=0x1bfb4 registers=2 incoming_words=1 outgoing_words=2 code_units=16 tries=0
+0000: invoke-static {v1}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0003: sget-object v0, "Lcom/google/gson/au;->a:Ljava/util/Map;"
+0005: invoke-interface {v0, v1}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0008: move-result-object v0
+0009: check-cast v0, "Ljava/lang/Class;"
+000b: if-nez v0, @000e
+000d: return-object v1
+000e: move-object v1, v0
+000f: goto @000d
+
+## Lcom/google/gson/au;->c(Ljava/lang/Class;)Ljava/lang/Class; access=0x9
+# code_off=0x1bfe4 registers=2 incoming_words=1 outgoing_words=2 code_units=16 tries=0
+0000: invoke-static {v1}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0003: sget-object v0, "Lcom/google/gson/au;->b:Ljava/util/Map;"
+0005: invoke-interface {v0, v1}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0008: move-result-object v0
+0009: check-cast v0, "Ljava/lang/Class;"
+000b: if-nez v0, @000e
+000d: return-object v1
+000e: move-object v1, v0
+000f: goto @000d

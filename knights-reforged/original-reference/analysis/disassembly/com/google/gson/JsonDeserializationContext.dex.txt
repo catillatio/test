@@ -1,0 +1,6 @@
+# class Lcom/google/gson/JsonDeserializationContext; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/JsonDeserializationContext;->deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;)Ljava/lang/Object; access=0x401

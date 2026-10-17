@@ -1,0 +1,50 @@
+# class Lcom/google/gson/g; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/ExclusionStrategy;
+# source None
+# fields
+# Lcom/google/gson/g;->a:Ljava/util/Collection; access=0x12
+
+## Lcom/google/gson/g;-><init>(Ljava/util/Collection;)V access=0x10001
+# code_off=0x2e6e0 registers=2 incoming_words=2 outgoing_words=1 code_units=9 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: invoke-static {v1}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0006: iput-object v1, v0, "Lcom/google/gson/g;->a:Ljava/util/Collection;"
+0008: return-void
+
+## Lcom/google/gson/g;->shouldSkipClass(Ljava/lang/Class;)Z access=0x11
+# code_off=0x2e704 registers=4 incoming_words=2 outgoing_words=2 code_units=28 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/g;->a:Ljava/util/Collection;"
+0002: invoke-interface {v0}, Ljava/util/Collection;->iterator()Ljava/util/Iterator;
+0005: move-result-object v1
+0006: invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+0009: move-result v0
+000a: if-eqz v0, @001a
+000c: invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/ExclusionStrategy;"
+0012: invoke-interface {v0, v3}, Lcom/google/gson/ExclusionStrategy;->shouldSkipClass(Ljava/lang/Class;)Z
+0015: move-result v0
+0016: if-eqz v0, @0006
+0018: const/4 v0, 1
+0019: return v0
+001a: const/4 v0, 0
+001b: goto @0019
+
+## Lcom/google/gson/g;->shouldSkipField(Lcom/google/gson/FieldAttributes;)Z access=0x11
+# code_off=0x2e74c registers=4 incoming_words=2 outgoing_words=2 code_units=28 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/g;->a:Ljava/util/Collection;"
+0002: invoke-interface {v0}, Ljava/util/Collection;->iterator()Ljava/util/Iterator;
+0005: move-result-object v1
+0006: invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+0009: move-result v0
+000a: if-eqz v0, @001a
+000c: invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/ExclusionStrategy;"
+0012: invoke-interface {v0, v3}, Lcom/google/gson/ExclusionStrategy;->shouldSkipField(Lcom/google/gson/FieldAttributes;)Z
+0015: move-result v0
+0016: if-eqz v0, @0006
+0018: const/4 v0, 1
+0019: return v0
+001a: const/4 v0, 0
+001b: goto @0019

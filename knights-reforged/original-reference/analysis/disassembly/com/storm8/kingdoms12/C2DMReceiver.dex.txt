@@ -1,0 +1,25 @@
+# class Lcom/storm8/kingdoms12/C2DMReceiver; extends Lcom/google/android/c2dm/C2DMBaseReceiver;
+# interfaces 
+# source C2DMReceiver.java
+# fields
+# Lcom/storm8/kingdoms12/C2DMReceiver;->C2DM_SENDER:Ljava/lang/String; access=0x19
+
+## Lcom/storm8/kingdoms12/C2DMReceiver;-><clinit>()V access=0x10008
+# code_off=0x304a4 registers=1 incoming_words=0 outgoing_words=0 code_units=24 tries=0
+0000: const v0, 2130903041 (0x7f030001)
+0003: sput v0, "Lcom/google/android/c2dm/C2DMBaseReceiver$c2dmNotification;->toastLayout:I"
+0005: const v0, 2131230725 (0x7f080005)
+0008: sput v0, "Lcom/google/android/c2dm/C2DMBaseReceiver$c2dmNotification;->toastTextId:I"
+000a: const v0, 2130837521 (0x7f020011)
+000d: sput v0, "Lcom/google/android/c2dm/C2DMBaseReceiver$c2dmNotification;->iconDrawable:I"
+000f: const-class v0, "Lcom/storm8/kingdoms12/Main;"
+0011: sput-object v0, "Lcom/google/android/c2dm/C2DMBaseReceiver$c2dmNotification;->mainClass:Ljava/lang/Class;"
+0013: const-string v0, "Kingdoms Live"
+0015: sput-object v0, "Lcom/google/android/c2dm/C2DMBaseReceiver$c2dmNotification;->appName:Ljava/lang/String;"
+0017: return-void
+
+## Lcom/storm8/kingdoms12/C2DMReceiver;-><init>()V access=0x10001
+# code_off=0x304e4 registers=2 incoming_words=1 outgoing_words=2 code_units=6 tries=0
+0000: const-string v0, "kingdoms12-c2dm@storm8.com"
+0002: invoke-direct {v1, v0}, Lcom/google/android/c2dm/C2DMBaseReceiver;-><init>(Ljava/lang/String;)V
+0005: return-void

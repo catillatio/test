@@ -1,0 +1,242 @@
+# class La; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# La;->a:Ljava/util/Map; access=0x1a
+# La;->b:Ljava/util/Map; access=0x1a
+
+## La;-><clinit>()V access=0x10008
+# code_off=0x162ec registers=3 incoming_words=0 outgoing_words=3 code_units=133 tries=0
+0000: new-instance v0, "Ljava/util/HashMap;"
+0002: invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
+0005: const-string v1, "/invalidRequest"
+0007: new-instance v2, "Lk;"
+0009: invoke-direct {v2}, Lk;-><init>()V
+000c: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+000f: const-string v1, "/loadAdURL"
+0011: new-instance v2, "Ll;"
+0013: invoke-direct {v2}, Ll;-><init>()V
+0016: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0019: invoke-static {v0}, Ljava/util/Collections;->unmodifiableMap(Ljava/util/Map;)Ljava/util/Map;
+001c: move-result-object v0
+001d: sput-object v0, "La;->a:Ljava/util/Map;"
+001f: new-instance v0, "Ljava/util/HashMap;"
+0021: invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
+0024: const-string v1, "/open"
+0026: new-instance v2, "Ln;"
+0028: invoke-direct {v2}, Ln;-><init>()V
+002b: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+002e: const-string v1, "/close"
+0030: new-instance v2, "Lj;"
+0032: invoke-direct {v2}, Lj;-><init>()V
+0035: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0038: const-string v1, "/log"
+003a: new-instance v2, "Lm;"
+003c: invoke-direct {v2}, Lm;-><init>()V
+003f: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0042: const-string v1, "/click"
+0044: new-instance v2, "Lo;"
+0046: invoke-direct {v2}, Lo;-><init>()V
+0049: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+004c: const-string v1, "/httpTrack"
+004e: new-instance v2, "Lo;"
+0050: invoke-direct {v2}, Lo;-><init>()V
+0053: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0056: const-string v1, "/reloadRequest"
+0058: new-instance v2, "Lp;"
+005a: invoke-direct {v2}, Lp;-><init>()V
+005d: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0060: const-string v1, "/settings"
+0062: new-instance v2, "Lq;"
+0064: invoke-direct {v2}, Lq;-><init>()V
+0067: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+006a: const-string v1, "/touch"
+006c: new-instance v2, "Lr;"
+006e: invoke-direct {v2}, Lr;-><init>()V
+0071: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0074: const-string v1, "/video"
+0076: new-instance v2, "Ls;"
+0078: invoke-direct {v2}, Ls;-><init>()V
+007b: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+007e: invoke-static {v0}, Ljava/util/Collections;->unmodifiableMap(Ljava/util/Map;)Ljava/util/Map;
+0081: move-result-object v0
+0082: sput-object v0, "La;->b:Ljava/util/Map;"
+0084: return-void
+
+## La;-><init>()V access=0x10002
+# code_off=0x16408 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## La;->a(Landroid/webkit/WebView;)V access=0x9
+# code_off=0x16420 registers=2 incoming_words=1 outgoing_words=2 code_units=11 tries=0
+0000: const-string v0, "Calling onshow."
+0002: invoke-static {v0}, Lt;->d(Ljava/lang/String;)V
+0005: const-string v0, "javascript:AFMA_ReceiveMessage('onshow', {'version': 'afma-sdk-a-v4.0.4'});"
+0007: invoke-virtual {v1, v0}, Landroid/webkit/WebView;->loadUrl(Ljava/lang/String;)V
+000a: return-void
+
+## La;->a(Ld;La$a;Landroid/net/Uri;Landroid/webkit/WebView;)V access=0x8
+# code_off=0x16448 registers=9 incoming_words=4 outgoing_words=4 code_units=206 tries=0
+0000: const/4 v2, 0
+0001: invoke-static {v7}, Lu;->a(Landroid/net/Uri;)Ljava/util/HashMap;
+0004: move-result-object v3
+0005: if-nez v3, @000d
+0007: const-string v0, "An error occurred while parsing the message parameters."
+0009: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+000c: return-void
+000d: invoke-static {v7}, La;->c(Landroid/net/Uri;)Z
+0010: move-result v0
+0011: if-eqz v0, @00a0
+0013: invoke-virtual {v7}, Landroid/net/Uri;->getHost()Ljava/lang/String;
+0016: move-result-object v0
+0017: if-nez v0, @001f
+0019: const-string v0, "An error occurred while parsing the AMSG parameters."
+001b: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+001e: goto @000c
+001f: const-string v1, "launch"
+0021: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0024: move-result v1
+0025: if-eqz v1, @006c
+0027: const-string v0, "/open"
+0029: const-string v1, "a"
+002b: const-string v4, "intent"
+002d: invoke-virtual {v3, v1, v4}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0030: const-string v1, "u"
+0032: const-string v4, "url"
+0034: invoke-virtual {v3, v4}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0037: move-result-object v4
+0038: invoke-virtual {v3, v1, v4}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+003b: const-string v1, "url"
+003d: invoke-virtual {v3, v1}, Ljava/util/HashMap;->remove(Ljava/lang/Object;)Ljava/lang/Object;
+0040: move-object v1, v0
+0041: sget-object v0, "La$1;->a:[I"
+0043: invoke-virtual {v6}, La$a;->ordinal()I
+0046: move-result v4
+0047: aget v0, v0, v4
+0049: packed-switch v0, @00c6
+004c: move-object v0, v2
+004d: if-nez v0, @00be
+004f: new-instance v0, "Ljava/lang/StringBuilder;"
+0051: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+0054: const-string v2, "No AdResponse found, <message: "
+0056: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0059: move-result-object v0
+005a: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+005d: move-result-object v0
+005e: const-string v1, ">"
+0060: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0063: move-result-object v0
+0064: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0067: move-result-object v0
+0068: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+006b: goto @000c
+006c: const-string v1, "closecanvas"
+006e: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0071: move-result v1
+0072: if-eqz v1, @0078
+0074: const-string v0, "/close"
+0076: move-object v1, v0
+0077: goto @0041
+0078: const-string v1, "log"
+007a: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+007d: move-result v0
+007e: if-eqz v0, @0084
+0080: const-string v0, "/log"
+0082: move-object v1, v0
+0083: goto @0041
+0084: new-instance v0, "Ljava/lang/StringBuilder;"
+0086: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+0089: const-string v1, "An error occurred while parsing the AMSG: "
+008b: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+008e: move-result-object v0
+008f: invoke-virtual {v7}, Landroid/net/Uri;->toString()Ljava/lang/String;
+0092: move-result-object v1
+0093: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0096: move-result-object v0
+0097: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+009a: move-result-object v0
+009b: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+009e: goto/16 @000c
+00a0: invoke-static {v7}, La;->b(Landroid/net/Uri;)Z
+00a3: move-result v0
+00a4: if-eqz v0, @00c3
+00a6: invoke-virtual {v7}, Landroid/net/Uri;->getPath()Ljava/lang/String;
+00a9: move-result-object v0
+00aa: move-object v1, v0
+00ab: goto @0041
+00ac: sget-object v0, "La;->a:Ljava/util/Map;"
+00ae: invoke-interface {v0, v1}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+00b1: move-result-object v0
+00b2: check-cast v0, "Li;"
+00b4: goto @004d
+00b5: sget-object v0, "La;->b:Ljava/util/Map;"
+00b7: invoke-interface {v0, v1}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+00ba: move-result-object v0
+00bb: check-cast v0, "Li;"
+00bd: goto @004d
+00be: invoke-interface {v0, v5, v3, v8}, Li;->a(Ld;Ljava/util/HashMap;Landroid/webkit/WebView;)V
+00c1: goto/16 @000c
+00c3: move-object v1, v2
+00c4: goto/16 @0041
+00c6: payload packed-switch-payload size=2 first_key=1 targets=[99, 108]
+
+## La;->a(Landroid/net/Uri;)Z access=0x8
+# code_off=0x165f4 registers=3 incoming_words=1 outgoing_words=1 code_units=24 tries=0
+0000: const/4 v0, 0
+0001: if-eqz v2, @0009
+0003: invoke-virtual {v2}, Landroid/net/Uri;->isHierarchical()Z
+0006: move-result v1
+0007: if-nez v1, @000a
+0009: return v0
+000a: invoke-static {v2}, La;->b(Landroid/net/Uri;)Z
+000d: move-result v1
+000e: if-nez v1, @0016
+0010: invoke-static {v2}, La;->c(Landroid/net/Uri;)Z
+0013: move-result v1
+0014: if-eqz v1, @0009
+0016: const/4 v0, 1
+0017: goto @0009
+
+## La;->b(Landroid/webkit/WebView;)V access=0x9
+# code_off=0x16634 registers=2 incoming_words=1 outgoing_words=2 code_units=11 tries=0
+0000: const-string v0, "Calling onhide."
+0002: invoke-static {v0}, Lt;->d(Ljava/lang/String;)V
+0005: const-string v0, "javascript:AFMA_ReceiveMessage('onhide');"
+0007: invoke-virtual {v1, v0}, Landroid/webkit/WebView;->loadUrl(Ljava/lang/String;)V
+000a: return-void
+
+## La;->b(Landroid/net/Uri;)Z access=0xa
+# code_off=0x1665c registers=4 incoming_words=1 outgoing_words=2 code_units=32 tries=0
+0000: const/4 v0, 0
+0001: invoke-virtual {v3}, Landroid/net/Uri;->getScheme()Ljava/lang/String;
+0004: move-result-object v1
+0005: if-eqz v1, @000f
+0007: const-string v2, "gmsg"
+0009: invoke-virtual {v1, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+000c: move-result v1
+000d: if-nez v1, @0010
+000f: return v0
+0010: invoke-virtual {v3}, Landroid/net/Uri;->getAuthority()Ljava/lang/String;
+0013: move-result-object v1
+0014: if-eqz v1, @000f
+0016: const-string v2, "mobileads.google.com"
+0018: invoke-virtual {v1, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+001b: move-result v1
+001c: if-eqz v1, @000f
+001e: const/4 v0, 1
+001f: goto @000f
+
+## La;->c(Landroid/net/Uri;)Z access=0xa
+# code_off=0x166ac registers=3 incoming_words=1 outgoing_words=2 code_units=18 tries=0
+0000: invoke-virtual {v2}, Landroid/net/Uri;->getScheme()Ljava/lang/String;
+0003: move-result-object v0
+0004: if-eqz v0, @000e
+0006: const-string v1, "admob"
+0008: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+000b: move-result v0
+000c: if-nez v0, @0010
+000e: const/4 v0, 0
+000f: return v0
+0010: const/4 v0, 1
+0011: goto @000f

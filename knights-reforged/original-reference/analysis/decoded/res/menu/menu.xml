@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:icon="@drawable/home" android:id="@id/home" android:title="Home" />
+  <item android:icon="@drawable/missions" android:id="@id/missions" android:title="Quests" />
+  <item android:icon="@drawable/attack" android:id="@id/battle" android:title="Battle" />
+  <item android:icon="@drawable/equipment" android:id="@id/equipment" android:title="Armory" />
+  <item android:icon="@drawable/buildings" android:id="@id/investment" android:title="Land" />
+  <item android:icon="@drawable/recruit" android:id="@id/recruit" android:title="Recruit" />
+</menu>

@@ -1,0 +1,10 @@
+# class Lcom/storm8/kingdoms12/BuildConfig; extends Ljava/lang/Object;
+# interfaces 
+# source BuildConfig.java
+# fields
+# Lcom/storm8/kingdoms12/BuildConfig;->DEBUG:Z access=0x19
+
+## Lcom/storm8/kingdoms12/BuildConfig;-><init>()V access=0x10001
+# code_off=0x246f8 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void

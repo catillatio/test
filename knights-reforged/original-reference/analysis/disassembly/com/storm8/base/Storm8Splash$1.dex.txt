@@ -1,0 +1,41 @@
+# class Lcom/storm8/base/Storm8Splash$1; extends Ljava/lang/Thread;
+# interfaces 
+# source Storm8Splash.java
+# fields
+# Lcom/storm8/base/Storm8Splash$1;->this$0:Lcom/storm8/base/Storm8Splash; access=0x1010
+
+## Lcom/storm8/base/Storm8Splash$1;-><init>(Lcom/storm8/base/Storm8Splash;)V access=0x10000
+# code_off=0x1febc registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8Splash$1;->this$0:Lcom/storm8/base/Storm8Splash;"
+0002: invoke-direct {v0}, Ljava/lang/Thread;-><init>()V
+0005: return-void
+
+## Lcom/storm8/base/Storm8Splash$1;->run()V access=0x1
+# code_off=0x1fed8 registers=4 incoming_words=1 outgoing_words=2 code_units=55 tries=1
+0000: const-wide/16 v0, 5000
+0002: invoke-static {v0, v1}, Lcom/storm8/base/Storm8Splash$1;->sleep(J)V
+0005: iget-object v0, v3, "Lcom/storm8/base/Storm8Splash$1;->this$0:Lcom/storm8/base/Storm8Splash;"
+0007: new-instance v1, "Lcom/storm8/base/Storm8Splash$1$1;"
+0009: invoke-direct {v1, v3}, Lcom/storm8/base/Storm8Splash$1$1;-><init>(Lcom/storm8/base/Storm8Splash$1;)V
+000c: invoke-virtual {v0, v1}, Lcom/storm8/base/Storm8Splash;->runOnUiThread(Ljava/lang/Runnable;)V
+000f: iget-object v0, v3, "Lcom/storm8/base/Storm8Splash$1;->this$0:Lcom/storm8/base/Storm8Splash;"
+0011: invoke-virtual {v0}, Lcom/storm8/base/Storm8Splash;->finish()V
+0014: return-void
+0015: move-exception v0
+0016: iget-object v0, v3, "Lcom/storm8/base/Storm8Splash$1;->this$0:Lcom/storm8/base/Storm8Splash;"
+0018: new-instance v1, "Lcom/storm8/base/Storm8Splash$1$1;"
+001a: invoke-direct {v1, v3}, Lcom/storm8/base/Storm8Splash$1$1;-><init>(Lcom/storm8/base/Storm8Splash$1;)V
+001d: invoke-virtual {v0, v1}, Lcom/storm8/base/Storm8Splash;->runOnUiThread(Ljava/lang/Runnable;)V
+0020: iget-object v0, v3, "Lcom/storm8/base/Storm8Splash$1;->this$0:Lcom/storm8/base/Storm8Splash;"
+0022: invoke-virtual {v0}, Lcom/storm8/base/Storm8Splash;->finish()V
+0025: goto @0014
+0026: move-exception v0
+0027: iget-object v1, v3, "Lcom/storm8/base/Storm8Splash$1;->this$0:Lcom/storm8/base/Storm8Splash;"
+0029: new-instance v2, "Lcom/storm8/base/Storm8Splash$1$1;"
+002b: invoke-direct {v2, v3}, Lcom/storm8/base/Storm8Splash$1$1;-><init>(Lcom/storm8/base/Storm8Splash$1;)V
+002e: invoke-virtual {v1, v2}, Lcom/storm8/base/Storm8Splash;->runOnUiThread(Ljava/lang/Runnable;)V
+0031: iget-object v1, v3, "Lcom/storm8/base/Storm8Splash$1;->this$0:Lcom/storm8/base/Storm8Splash;"
+0033: invoke-virtual {v1}, Lcom/storm8/base/Storm8Splash;->finish()V
+0036: throw v0
+# try @0002..@0005 handler_offset=1
+# handler_offset=1: Ljava/lang/InterruptedException; -> @0015, catchall -> @0026

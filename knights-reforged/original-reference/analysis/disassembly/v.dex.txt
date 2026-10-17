@@ -1,0 +1,81 @@
+# class Lv; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lv;->a:Z access=0x1018
+
+## Lv;-><clinit>()V access=0x10008
+# code_off=0x27b70 registers=1 incoming_words=0 outgoing_words=1 code_units=14 tries=0
+0000: const-class v0, "Lv;"
+0002: invoke-virtual {v0}, Ljava/lang/Class;->desiredAssertionStatus()Z
+0005: move-result v0
+0006: if-nez v0, @000c
+0008: const/4 v0, 1
+0009: sput-boolean v0, "Lv;->a:Z"
+000b: return-void
+000c: const/4 v0, 0
+000d: goto @0009
+
+## Lv;-><init>()V access=0x10002
+# code_off=0x27b9c registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lv;->a([B)Ljava/lang/String; access=0x9
+# code_off=0x27bb4 registers=7 incoming_words=1 outgoing_words=3 code_units=104 tries=2
+0000: new-instance v2, "Ljava/lang/String;"
+0002: array-length v3, v6
+0003: new-instance v4, "Lv$b;"
+0005: invoke-direct {v4}, Lv$b;-><init>()V
+0008: div-int/lit8 v0, v3, 3
+000a: mul-int/lit8 v1, v0, 4
+000c: iget-boolean v0, v4, "Lv$b;->d:Z"
+000e: if-eqz v0, @0045
+0010: rem-int/lit8 v0, v3, 3
+0012: if-lez v0, @0016
+0014: add-int/lit8 v1, v1, 4
+0016: iget-boolean v0, v4, "Lv$b;->e:Z"
+0018: if-eqz v0, @005b
+001a: if-lez v3, @005b
+001c: add-int/lit8 v0, v3, -1
+001e: div-int/lit8 v0, v0, 57
+0020: add-int/lit8 v5, v0, 1
+0022: iget-boolean v0, v4, "Lv$b;->f:Z"
+0024: if-eqz v0, @0051
+0026: const/4 v0, 2
+0027: mul-int/2addr v0, v5
+0028: add-int/2addr v0, v1
+0029: new-array v1, v0, "[B"
+002b: iput-object v1, v4, "Lv$b;->a:[B"
+002d: invoke-virtual {v4, v6, v3}, Lv$b;->a([BI)Z
+0030: sget-boolean v1, "Lv;->a:Z"
+0032: if-nez v1, @0053
+0034: iget v1, v4, "Lv$b;->b:I"
+0036: if-eq v1, v0, @0053
+0038: new-instance v0, "Ljava/lang/AssertionError;"
+003a: invoke-direct {v0}, Ljava/lang/AssertionError;-><init>()V
+003d: throw v0
+003e: move-exception v0
+003f: new-instance v1, "Ljava/lang/AssertionError;"
+0041: invoke-direct {v1, v0}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
+0044: throw v1
+0045: rem-int/lit8 v0, v3, 3
+0047: packed-switch v0, @005e
+004a: goto @0016
+004b: add-int/lit8 v1, v1, 2
+004d: goto @0016
+004e: add-int/lit8 v1, v1, 3
+0050: goto @0016
+0051: const/4 v0, 1
+0052: goto @0027
+0053: iget-object v0, v4, "Lv$b;->a:[B"
+0055: const-string v1, "US-ASCII"
+0057: invoke-direct {v2, v0, v1}, Ljava/lang/String;-><init>([BLjava/lang/String;)V
+005a: return-object v2
+005b: move v0, v1
+005c: goto @0029
+005d: nop
+005e: payload packed-switch-payload size=3 first_key=0 targets=[-49, 4, 7]
+# try @0000..@003e handler_offset=1
+# try @0045..@005a handler_offset=1
+# handler_offset=1: Ljava/io/UnsupportedEncodingException; -> @003e

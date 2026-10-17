@@ -1,0 +1,125 @@
+{
+  "scope": "Offline APK/reference validation; not prototype gameplay or Android runtime tests",
+  "checks_passed": 9,
+  "checks_failed": 0,
+  "checks": [
+    {
+      "check": "prototype_preservation",
+      "passed": true
+    },
+    {
+      "check": "apk_and_extraction_integrity",
+      "passed": true
+    },
+    {
+      "check": "dex_integrity_and_control_flow_structure",
+      "passed": true
+    },
+    {
+      "check": "decoded_xml_and_resource_table",
+      "passed": true
+    },
+    {
+      "check": "navigation_and_reachability_caveats",
+      "passed": true
+    },
+    {
+      "check": "original_assets_and_background_mapping",
+      "passed": true
+    },
+    {
+      "check": "gallery_is_local_only",
+      "passed": true
+    },
+    {
+      "check": "analysis_python_syntax",
+      "passed": true
+    },
+    {
+      "check": "specification_evidence_links",
+      "passed": true
+    }
+  ],
+  "details": {
+    "prototype_preservation": {
+      "files_checked": 63,
+      "changed": 0,
+      "missing": 0
+    },
+    "apk_and_extraction_integrity": {
+      "unchanged_extracted_entries": 60,
+      "apk_sha256": "671e7650511e2c2dbfbd010dd85813e9ec6bf1d77c7c4ca8f459b6d141a1b5e0"
+    },
+    "dex_integrity_and_control_flow_structure": {
+      "classes": 273,
+      "coded_methods": 1515,
+      "switch_case_destinations_checked": 375,
+      "scope": "Integrity and structural disassembly, not an Android runtime verifier"
+    },
+    "decoded_xml_and_resource_table": {
+      "decoded_xml_files": 13,
+      "resource_table_rows": 72
+    },
+    "navigation_and_reachability_caveats": {
+      "native_tabs": [
+        {
+          "label": "Home",
+          "route": "/home.php"
+        },
+        {
+          "label": "Quests",
+          "route": "/missions.php"
+        },
+        {
+          "label": "Battle",
+          "route": "/fight.php"
+        },
+        {
+          "label": "Armory",
+          "route": "/equipment.php"
+        },
+        {
+          "label": "Recruit",
+          "route": "/group.php"
+        }
+      ],
+      "declared_menu_labels": [
+        "Home",
+        "Quests",
+        "Battle",
+        "Armory",
+        "Land",
+        "Recruit"
+      ],
+      "native_menu_callback_returns_false": true,
+      "identified_calls_to_loadPageWithHash": 0
+    },
+    "original_assets_and_background_mapping": {
+      "unchanged_images": 30,
+      "background_resource_mappings": {
+        "getBankBg": "drawable/bg_bank",
+        "getHospitalBg": "drawable/bg_hospital",
+        "getDefaultBg": "drawable/bg_default",
+        "getMissionsBg": "drawable/bg_missions",
+        "getFightBg": "drawable/bg_attack",
+        "getEquipmentBg": "drawable/bg_equipment"
+      },
+      "original_audio_files": 11
+    },
+    "gallery_is_local_only": {
+      "local_links_checked": 72,
+      "scripts": 0,
+      "remote_links": 0
+    },
+    "analysis_python_syntax": {
+      "python_scripts_parsed": 5
+    },
+    "specification_evidence_links": {
+      "local_document_links_checked": 33
+    }
+  },
+  "application_code_modified": false,
+  "gameplay_tests_run_this_analysis": false,
+  "apk_executed": false,
+  "historical_server_contacted": false
+}

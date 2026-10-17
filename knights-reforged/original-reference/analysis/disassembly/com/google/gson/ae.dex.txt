@@ -1,0 +1,153 @@
+# class Lcom/google/gson/ae; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/ae;->a:Lcom/google/gson/u; access=0x12
+# Lcom/google/gson/ae;->b:Z access=0x12
+
+## Lcom/google/gson/ae;-><init>(Lcom/google/gson/u;Z)V access=0x10000
+# code_off=0x1aa18 registers=3 incoming_words=3 outgoing_words=1 code_units=8 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+0005: iput-boolean v2, v0, "Lcom/google/gson/ae;->b:Z"
+0007: return-void
+
+## Lcom/google/gson/ae;->a(Lcom/google/gson/JsonElement;)V access=0x11
+# code_off=0x1aa38 registers=9 incoming_words=2 outgoing_words=4 code_units=270 tries=0
+0000: const/4 v2, 1
+0001: const/4 v3, 0
+0002: invoke-virtual {v8}, Lcom/google/gson/JsonElement;->isJsonNull()Z
+0005: move-result v0
+0006: if-eqz v0, @000e
+0008: iget-object v0, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+000a: invoke-interface {v0}, Lcom/google/gson/u;->a()V
+000d: return-void
+000e: invoke-virtual {v8}, Lcom/google/gson/JsonElement;->isJsonArray()Z
+0011: move-result v0
+0012: if-eqz v0, @0077
+0014: invoke-virtual {v8}, Lcom/google/gson/JsonElement;->getAsJsonArray()Lcom/google/gson/JsonArray;
+0017: move-result-object v0
+0018: iget-object v1, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+001a: invoke-interface {v1}, Lcom/google/gson/u;->b()V
+001d: invoke-virtual {v0}, Lcom/google/gson/JsonArray;->iterator()Ljava/util/Iterator;
+0020: move-result-object v4
+0021: move v1, v2
+0022: invoke-interface {v4}, Ljava/util/Iterator;->hasNext()Z
+0025: move-result v0
+0026: if-eqz v0, @0071
+0028: invoke-interface {v4}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+002b: move-result-object v0
+002c: check-cast v0, "Lcom/google/gson/JsonElement;"
+002e: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->isJsonNull()Z
+0031: move-result v2
+0032: if-eqz v2, @0041
+0034: iget-object v2, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+0036: invoke-interface {v2, v1}, Lcom/google/gson/u;->c(Z)V
+0039: invoke-virtual {v7, v0}, Lcom/google/gson/ae;->a(Lcom/google/gson/JsonElement;)V
+003c: if-eqz v1, @010b
+003e: move v0, v3
+003f: move v1, v0
+0040: goto @0022
+0041: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->isJsonArray()Z
+0044: move-result v2
+0045: if-eqz v2, @0054
+0047: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonArray()Lcom/google/gson/JsonArray;
+004a: move-result-object v0
+004b: iget-object v2, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+004d: invoke-interface {v2, v1}, Lcom/google/gson/u;->a(Z)V
+0050: invoke-virtual {v7, v0}, Lcom/google/gson/ae;->a(Lcom/google/gson/JsonElement;)V
+0053: goto @003c
+0054: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->isJsonObject()Z
+0057: move-result v2
+0058: if-eqz v2, @0067
+005a: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonObject()Lcom/google/gson/JsonObject;
+005d: move-result-object v0
+005e: iget-object v2, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+0060: invoke-interface {v2, v1}, Lcom/google/gson/u;->b(Z)V
+0063: invoke-virtual {v7, v0}, Lcom/google/gson/ae;->a(Lcom/google/gson/JsonElement;)V
+0066: goto @003c
+0067: iget-object v2, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+0069: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonPrimitive()Lcom/google/gson/JsonPrimitive;
+006c: move-result-object v0
+006d: invoke-interface {v2, v0, v1}, Lcom/google/gson/u;->a(Lcom/google/gson/JsonPrimitive;Z)V
+0070: goto @003c
+0071: iget-object v0, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+0073: invoke-interface {v0}, Lcom/google/gson/u;->c()V
+0076: goto @000d
+0077: invoke-virtual {v8}, Lcom/google/gson/JsonElement;->isJsonObject()Z
+007a: move-result v0
+007b: if-eqz v0, @00fe
+007d: invoke-virtual {v8}, Lcom/google/gson/JsonElement;->getAsJsonObject()Lcom/google/gson/JsonObject;
+0080: move-result-object v0
+0081: iget-object v1, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+0083: invoke-interface {v1}, Lcom/google/gson/u;->d()V
+0086: invoke-virtual {v0}, Lcom/google/gson/JsonObject;->entrySet()Ljava/util/Set;
+0089: move-result-object v0
+008a: invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+008d: move-result-object v5
+008e: move v4, v2
+008f: invoke-interface {v5}, Ljava/util/Iterator;->hasNext()Z
+0092: move-result v0
+0093: if-eqz v0, @00f7
+0095: invoke-interface {v5}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+0098: move-result-object v0
+0099: check-cast v0, "Ljava/util/Map$Entry;"
+009b: invoke-interface {v0}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
+009e: move-result-object v1
+009f: check-cast v1, "Ljava/lang/String;"
+00a1: invoke-interface {v0}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
+00a4: move-result-object v0
+00a5: check-cast v0, "Lcom/google/gson/JsonElement;"
+00a7: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->isJsonNull()Z
+00aa: move-result v6
+00ab: if-eqz v6, @00c7
+00ad: iget-boolean v6, v7, "Lcom/google/gson/ae;->b:Z"
+00af: if-eqz v6, @00c5
+00b1: iget-object v6, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+00b3: invoke-interface {v6, v1, v4}, Lcom/google/gson/u;->c(Ljava/lang/String;Z)V
+00b6: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonNull()Lcom/google/gson/JsonNull;
+00b9: move-result-object v0
+00ba: invoke-virtual {v7, v0}, Lcom/google/gson/ae;->a(Lcom/google/gson/JsonElement;)V
+00bd: move v0, v2
+00be: if-eqz v0, @0109
+00c0: if-eqz v4, @0109
+00c2: move v0, v3
+00c3: move v4, v0
+00c4: goto @008f
+00c5: move v0, v3
+00c6: goto @00be
+00c7: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->isJsonArray()Z
+00ca: move-result v6
+00cb: if-eqz v6, @00da
+00cd: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonArray()Lcom/google/gson/JsonArray;
+00d0: move-result-object v0
+00d1: iget-object v6, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+00d3: invoke-interface {v6, v1, v4}, Lcom/google/gson/u;->a(Ljava/lang/String;Z)V
+00d6: invoke-virtual {v7, v0}, Lcom/google/gson/ae;->a(Lcom/google/gson/JsonElement;)V
+00d9: goto @00bd
+00da: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->isJsonObject()Z
+00dd: move-result v6
+00de: if-eqz v6, @00ed
+00e0: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonObject()Lcom/google/gson/JsonObject;
+00e3: move-result-object v0
+00e4: iget-object v6, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+00e6: invoke-interface {v6, v1, v4}, Lcom/google/gson/u;->b(Ljava/lang/String;Z)V
+00e9: invoke-virtual {v7, v0}, Lcom/google/gson/ae;->a(Lcom/google/gson/JsonElement;)V
+00ec: goto @00bd
+00ed: iget-object v6, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+00ef: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonPrimitive()Lcom/google/gson/JsonPrimitive;
+00f2: move-result-object v0
+00f3: invoke-interface {v6, v1, v0, v4}, Lcom/google/gson/u;->a(Ljava/lang/String;Lcom/google/gson/JsonPrimitive;Z)V
+00f6: goto @00bd
+00f7: iget-object v0, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+00f9: invoke-interface {v0}, Lcom/google/gson/u;->e()V
+00fc: goto/16 @000d
+00fe: iget-object v0, v7, "Lcom/google/gson/ae;->a:Lcom/google/gson/u;"
+0100: invoke-virtual {v8}, Lcom/google/gson/JsonElement;->getAsJsonPrimitive()Lcom/google/gson/JsonPrimitive;
+0103: move-result-object v1
+0104: invoke-interface {v0, v1}, Lcom/google/gson/u;->a(Lcom/google/gson/JsonPrimitive;)V
+0107: goto/16 @000d
+0109: move v0, v4
+010a: goto @00c3
+010b: move v0, v1
+010c: goto/16 @003f

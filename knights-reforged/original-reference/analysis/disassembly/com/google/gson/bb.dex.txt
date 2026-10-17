@@ -1,0 +1,41 @@
+# class Lcom/google/gson/bb; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/bb;->a:Ljava/lang/reflect/Type; access=0x14
+# Lcom/google/gson/bb;->b:Ljava/lang/Class; access=0x14
+
+## Lcom/google/gson/bb;-><init>(Ljava/lang/reflect/Type;)V access=0x10000
+# code_off=0x1c944 registers=3 incoming_words=2 outgoing_words=1 code_units=12 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: iput-object v2, v1, "Lcom/google/gson/bb;->a:Ljava/lang/reflect/Type;"
+0005: invoke-static {v2}, Lcom/google/gson/bg;->b(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+0008: move-result-object v0
+0009: iput-object v0, v1, "Lcom/google/gson/bb;->b:Ljava/lang/Class;"
+000b: return-void
+
+## Lcom/google/gson/bb;->a()Ljava/lang/reflect/Type; access=0x11
+# code_off=0x1c96c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/bb;->a:Ljava/lang/reflect/Type;"
+0002: return-object v0
+
+## Lcom/google/gson/bb;->b()Ljava/lang/Class; access=0x11
+# code_off=0x1c984 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/bb;->b:Ljava/lang/Class;"
+0002: return-object v0
+
+## Lcom/google/gson/bb;->c()Z access=0x11
+# code_off=0x1c99c registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/bb;->b:Ljava/lang/Class;"
+0002: invoke-static {v0}, Lcom/google/gson/bg;->a(Ljava/lang/reflect/Type;)Z
+0005: move-result v0
+0006: return v0
+
+## Lcom/google/gson/bb;->d()Z access=0x11
+# code_off=0x1c9bc registers=2 incoming_words=1 outgoing_words=1 code_units=11 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/bb;->b:Ljava/lang/Class;"
+0002: invoke-static {v0}, Lcom/google/gson/au;->b(Ljava/lang/Class;)Ljava/lang/Class;
+0005: move-result-object v0
+0006: invoke-static {v0}, Lcom/google/gson/au;->a(Ljava/lang/Class;)Z
+0009: move-result v0
+000a: return v0

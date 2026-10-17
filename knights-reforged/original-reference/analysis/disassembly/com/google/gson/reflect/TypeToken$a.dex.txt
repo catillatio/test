@@ -1,0 +1,9 @@
+# class Lcom/google/gson/reflect/TypeToken$a; extends Lcom/google/gson/reflect/TypeToken;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/reflect/TypeToken$a;-><init>(Ljava/lang/reflect/Type;)V access=0x10001
+# code_off=0x2ee0c registers=2 incoming_words=2 outgoing_words=2 code_units=4 tries=0
+0000: invoke-direct {v0, v1}, Lcom/google/gson/reflect/TypeToken;-><init>(Ljava/lang/reflect/Type;)V
+0003: return-void

@@ -1,0 +1,342 @@
+# class Lv$b; extends Lv$a;
+# interfaces 
+# source None
+# fields
+# Lv$b;->g:Z access=0x1018
+# Lv$b;->h:[B access=0x1a
+# Lv$b;->i:[B access=0x1a
+# Lv$b;->c:I access=0x1
+# Lv$b;->d:Z access=0x11
+# Lv$b;->e:Z access=0x11
+# Lv$b;->f:Z access=0x11
+# Lv$b;->j:[B access=0x12
+# Lv$b;->k:I access=0x2
+# Lv$b;->l:[B access=0x12
+
+## Lv$b;-><clinit>()V access=0x10008
+# code_off=0x30fb4 registers=2 incoming_words=0 outgoing_words=1 code_units=102 tries=0
+0000: const/16 v1, 64
+0002: const-class v0, "Lv;"
+0004: invoke-virtual {v0}, Ljava/lang/Class;->desiredAssertionStatus()Z
+0007: move-result v0
+0008: if-nez v0, @001c
+000a: const/4 v0, 1
+000b: sput-boolean v0, "Lv$b;->g:Z"
+000d: new-array v0, v1, "[B"
+000f: fill-array-data v0, @001e
+0012: sput-object v0, "Lv$b;->h:[B"
+0014: new-array v0, v1, "[B"
+0016: fill-array-data v0, @0042
+0019: sput-object v0, "Lv$b;->i:[B"
+001b: return-void
+001c: const/4 v0, 0
+001d: goto @000b
+001e: payload fill-array-data-payload element_width=1 count=64 bytes=4142434445464748494a4b4c4d4e4f505152535455565758595a6162636465666768696a6b6c6d6e6f707172737475767778797a303132333435363738392b2f
+0042: payload fill-array-data-payload element_width=1 count=64 bytes=4142434445464748494a4b4c4d4e4f505152535455565758595a6162636465666768696a6b6c6d6e6f707172737475767778797a303132333435363738392d5f
+
+## Lv$b;-><init>()V access=0x10001
+# code_off=0x31090 registers=3 incoming_words=1 outgoing_words=1 code_units=35 tries=0
+0000: const/4 v1, 0
+0001: invoke-direct {v2}, Lv$a;-><init>()V
+0004: const/4 v0, 0
+0005: iput-object v0, v2, "Lv$b;->a:[B"
+0007: iput-boolean v1, v2, "Lv$b;->d:Z"
+0009: iput-boolean v1, v2, "Lv$b;->e:Z"
+000b: iput-boolean v1, v2, "Lv$b;->f:Z"
+000d: sget-object v0, "Lv$b;->i:[B"
+000f: iput-object v0, v2, "Lv$b;->l:[B"
+0011: const/4 v0, 2
+0012: new-array v0, v0, "[B"
+0014: iput-object v0, v2, "Lv$b;->j:[B"
+0016: iput v1, v2, "Lv$b;->c:I"
+0018: iget-boolean v0, v2, "Lv$b;->e:Z"
+001a: if-eqz v0, @0021
+001c: const/16 v0, 19
+001e: iput v0, v2, "Lv$b;->k:I"
+0020: return-void
+0021: const/4 v0, -1
+0022: goto @001e
+
+## Lv$b;->a([BI)Z access=0x11
+# code_off=0x310e8 registers=16 incoming_words=3 outgoing_words=1 code_units=510 tries=0
+0000: const/4 v6, 2
+0001: const/16 v12, 13
+0003: const/16 v11, 10
+0005: const/4 v3, 1
+0006: const/4 v4, 0
+0007: iget-object v7, v13, "Lv$b;->l:[B"
+0009: iget-object v8, v13, "Lv$b;->a:[B"
+000b: iget v2, v13, "Lv$b;->k:I"
+000d: add-int/lit8 v9, v15, 0
+000f: const/4 v0, -1
+0010: iget v1, v13, "Lv$b;->c:I"
+0012: packed-switch v1, @01f4
+0015: move v5, v0
+0016: move v1, v4
+0017: const/4 v0, -1
+0018: if-eq v5, v0, @01ef
+001a: shr-int/lit8 v0, v5, 18
+001c: and-int/lit8 v0, v0, 63
+001e: aget-byte v0, v7, v0
+0020: aput-byte v0, v8, v4
+0022: shr-int/lit8 v0, v5, 12
+0024: and-int/lit8 v0, v0, 63
+0026: aget-byte v0, v7, v0
+0028: aput-byte v0, v8, v3
+002a: shr-int/lit8 v0, v5, 6
+002c: and-int/lit8 v0, v0, 63
+002e: aget-byte v0, v7, v0
+0030: aput-byte v0, v8, v6
+0032: const/4 v6, 3
+0033: const/4 v0, 4
+0034: and-int/lit8 v5, v5, 63
+0036: aget-byte v5, v7, v5
+0038: aput-byte v5, v8, v6
+003a: add-int/lit8 v2, v2, -1
+003c: if-nez v2, @01eb
+003e: iget-boolean v2, v13, "Lv$b;->f:Z"
+0040: if-eqz v2, @0046
+0042: const/4 v2, 4
+0043: const/4 v0, 5
+0044: aput-byte v12, v8, v2
+0046: add-int/lit8 v5, v0, 1
+0048: aput-byte v11, v8, v0
+004a: const/16 v0, 19
+004c: move v6, v0
+004d: add-int/lit8 v0, v1, 3
+004f: if-gt v0, v9, @00e2
+0051: aget-byte v0, v14, v1
+0053: and-int/lit16 v0, v0, 255
+0055: shl-int/lit8 v0, v0, 16
+0057: add-int/lit8 v2, v1, 1
+0059: aget-byte v2, v14, v2
+005b: and-int/lit16 v2, v2, 255
+005d: shl-int/lit8 v2, v2, 8
+005f: or-int/2addr v0, v2
+0060: add-int/lit8 v2, v1, 2
+0062: aget-byte v2, v14, v2
+0064: and-int/lit16 v2, v2, 255
+0066: or-int/2addr v0, v2
+0067: shr-int/lit8 v2, v0, 18
+0069: and-int/lit8 v2, v2, 63
+006b: aget-byte v2, v7, v2
+006d: aput-byte v2, v8, v5
+006f: add-int/lit8 v2, v5, 1
+0071: shr-int/lit8 v10, v0, 12
+0073: and-int/lit8 v10, v10, 63
+0075: aget-byte v10, v7, v10
+0077: aput-byte v10, v8, v2
+0079: add-int/lit8 v2, v5, 2
+007b: shr-int/lit8 v10, v0, 6
+007d: and-int/lit8 v10, v10, 63
+007f: aget-byte v10, v7, v10
+0081: aput-byte v10, v8, v2
+0083: add-int/lit8 v2, v5, 3
+0085: and-int/lit8 v0, v0, 63
+0087: aget-byte v0, v7, v0
+0089: aput-byte v0, v8, v2
+008b: add-int/lit8 v2, v1, 3
+008d: add-int/lit8 v1, v5, 4
+008f: add-int/lit8 v0, v6, -1
+0091: if-nez v0, @01e6
+0093: iget-boolean v0, v13, "Lv$b;->f:Z"
+0095: if-eqz v0, @01e3
+0097: add-int/lit8 v0, v1, 1
+0099: aput-byte v12, v8, v1
+009b: add-int/lit8 v5, v0, 1
+009d: aput-byte v11, v8, v0
+009f: const/16 v0, 19
+00a1: move v1, v2
+00a2: move v6, v0
+00a3: goto @004d
+00a4: move v5, v0
+00a5: move v1, v4
+00a6: goto/16 @0017
+00a8: if-gt v6, v9, @0015
+00aa: iget-object v0, v13, "Lv$b;->j:[B"
+00ac: aget-byte v0, v0, v4
+00ae: and-int/lit16 v0, v0, 255
+00b0: shl-int/lit8 v0, v0, 16
+00b2: aget-byte v1, v14, v4
+00b4: and-int/lit16 v1, v1, 255
+00b6: shl-int/lit8 v1, v1, 8
+00b8: or-int/2addr v0, v1
+00b9: aget-byte v1, v14, v3
+00bb: and-int/lit16 v1, v1, 255
+00bd: or-int/2addr v0, v1
+00be: iput v4, v13, "Lv$b;->c:I"
+00c0: move v5, v0
+00c1: move v1, v6
+00c2: goto/16 @0017
+00c4: if-lez v9, @0015
+00c6: iget-object v0, v13, "Lv$b;->j:[B"
+00c8: aget-byte v0, v0, v4
+00ca: and-int/lit16 v0, v0, 255
+00cc: shl-int/lit8 v0, v0, 16
+00ce: iget-object v1, v13, "Lv$b;->j:[B"
+00d0: aget-byte v1, v1, v3
+00d2: and-int/lit16 v1, v1, 255
+00d4: shl-int/lit8 v1, v1, 8
+00d6: or-int/2addr v0, v1
+00d7: aget-byte v1, v14, v4
+00d9: and-int/lit16 v1, v1, 255
+00db: or-int/2addr v0, v1
+00dc: iput v4, v13, "Lv$b;->c:I"
+00de: move v5, v0
+00df: move v1, v3
+00e0: goto/16 @0017
+00e2: iget v0, v13, "Lv$b;->c:I"
+00e4: sub-int v0, v1, v0
+00e6: add-int/lit8 v2, v9, -1
+00e8: if-ne v0, v2, @0146
+00ea: iget v0, v13, "Lv$b;->c:I"
+00ec: if-lez v0, @013f
+00ee: iget-object v0, v13, "Lv$b;->j:[B"
+00f0: aget-byte v0, v0, v4
+00f2: move v2, v3
+00f3: and-int/lit16 v0, v0, 255
+00f5: shl-int/lit8 v4, v0, 4
+00f7: iget v0, v13, "Lv$b;->c:I"
+00f9: sub-int/2addr v0, v2
+00fa: iput v0, v13, "Lv$b;->c:I"
+00fc: add-int/lit8 v2, v5, 1
+00fe: shr-int/lit8 v0, v4, 6
+0100: and-int/lit8 v0, v0, 63
+0102: aget-byte v0, v7, v0
+0104: aput-byte v0, v8, v5
+0106: add-int/lit8 v0, v2, 1
+0108: and-int/lit8 v4, v4, 63
+010a: aget-byte v4, v7, v4
+010c: aput-byte v4, v8, v2
+010e: iget-boolean v2, v13, "Lv$b;->d:Z"
+0110: if-eqz v2, @011e
+0112: add-int/lit8 v2, v0, 1
+0114: const/16 v4, 61
+0116: aput-byte v4, v8, v0
+0118: add-int/lit8 v0, v2, 1
+011a: const/16 v4, 61
+011c: aput-byte v4, v8, v2
+011e: iget-boolean v2, v13, "Lv$b;->e:Z"
+0120: if-eqz v2, @0130
+0122: iget-boolean v2, v13, "Lv$b;->f:Z"
+0124: if-eqz v2, @012b
+0126: add-int/lit8 v2, v0, 1
+0128: aput-byte v12, v8, v0
+012a: move v0, v2
+012b: add-int/lit8 v2, v0, 1
+012d: aput-byte v11, v8, v0
+012f: move v0, v2
+0130: move v5, v0
+0131: sget-boolean v0, "Lv$b;->g:Z"
+0133: if-nez v0, @01ce
+0135: iget v0, v13, "Lv$b;->c:I"
+0137: if-eqz v0, @01ce
+0139: new-instance v0, "Ljava/lang/AssertionError;"
+013b: invoke-direct {v0}, Ljava/lang/AssertionError;-><init>()V
+013e: throw v0
+013f: add-int/lit8 v2, v1, 1
+0141: aget-byte v0, v14, v1
+0143: move v1, v2
+0144: move v2, v4
+0145: goto @00f3
+0146: iget v0, v13, "Lv$b;->c:I"
+0148: sub-int v0, v1, v0
+014a: add-int/lit8 v2, v9, -2
+014c: if-ne v0, v2, @01b6
+014e: iget v0, v13, "Lv$b;->c:I"
+0150: if-le v0, v3, @01aa
+0152: iget-object v0, v13, "Lv$b;->j:[B"
+0154: aget-byte v0, v0, v4
+0156: move v4, v3
+0157: and-int/lit16 v0, v0, 255
+0159: shl-int/lit8 v10, v0, 10
+015b: iget v0, v13, "Lv$b;->c:I"
+015d: if-lez v0, @01b0
+015f: iget-object v0, v13, "Lv$b;->j:[B"
+0161: add-int/lit8 v2, v4, 1
+0163: aget-byte v0, v0, v4
+0165: move v4, v2
+0166: and-int/lit16 v0, v0, 255
+0168: shl-int/lit8 v0, v0, 2
+016a: or-int/2addr v0, v10
+016b: iget v2, v13, "Lv$b;->c:I"
+016d: sub-int/2addr v2, v4
+016e: iput v2, v13, "Lv$b;->c:I"
+0170: add-int/lit8 v2, v5, 1
+0172: shr-int/lit8 v4, v0, 12
+0174: and-int/lit8 v4, v4, 63
+0176: aget-byte v4, v7, v4
+0178: aput-byte v4, v8, v5
+017a: add-int/lit8 v4, v2, 1
+017c: shr-int/lit8 v5, v0, 6
+017e: and-int/lit8 v5, v5, 63
+0180: aget-byte v5, v7, v5
+0182: aput-byte v5, v8, v2
+0184: add-int/lit8 v2, v4, 1
+0186: and-int/lit8 v0, v0, 63
+0188: aget-byte v0, v7, v0
+018a: aput-byte v0, v8, v4
+018c: iget-boolean v0, v13, "Lv$b;->d:Z"
+018e: if-eqz v0, @01e1
+0190: add-int/lit8 v0, v2, 1
+0192: const/16 v4, 61
+0194: aput-byte v4, v8, v2
+0196: iget-boolean v2, v13, "Lv$b;->e:Z"
+0198: if-eqz v2, @01a8
+019a: iget-boolean v2, v13, "Lv$b;->f:Z"
+019c: if-eqz v2, @01a3
+019e: add-int/lit8 v2, v0, 1
+01a0: aput-byte v12, v8, v0
+01a2: move v0, v2
+01a3: add-int/lit8 v2, v0, 1
+01a5: aput-byte v11, v8, v0
+01a7: move v0, v2
+01a8: move v5, v0
+01a9: goto @0131
+01aa: add-int/lit8 v2, v1, 1
+01ac: aget-byte v0, v14, v1
+01ae: move v1, v2
+01af: goto @0157
+01b0: add-int/lit8 v2, v1, 1
+01b2: aget-byte v0, v14, v1
+01b4: move v1, v2
+01b5: goto @0166
+01b6: iget-boolean v0, v13, "Lv$b;->e:Z"
+01b8: if-eqz v0, @0131
+01ba: if-lez v5, @0131
+01bc: const/16 v0, 19
+01be: if-eq v6, v0, @0131
+01c0: iget-boolean v0, v13, "Lv$b;->f:Z"
+01c2: if-eqz v0, @01df
+01c4: add-int/lit8 v0, v5, 1
+01c6: aput-byte v12, v8, v5
+01c8: add-int/lit8 v5, v0, 1
+01ca: aput-byte v11, v8, v0
+01cc: goto/16 @0131
+01ce: sget-boolean v0, "Lv$b;->g:Z"
+01d0: if-nez v0, @01da
+01d2: if-eq v1, v9, @01da
+01d4: new-instance v0, "Ljava/lang/AssertionError;"
+01d6: invoke-direct {v0}, Ljava/lang/AssertionError;-><init>()V
+01d9: throw v0
+01da: iput v5, v13, "Lv$b;->b:I"
+01dc: iput v6, v13, "Lv$b;->k:I"
+01de: return v3
+01df: move v0, v5
+01e0: goto @01c8
+01e1: move v0, v2
+01e2: goto @0196
+01e3: move v0, v1
+01e4: goto/16 @009b
+01e6: move v6, v0
+01e7: move v5, v1
+01e8: move v1, v2
+01e9: goto/16 @004d
+01eb: move v6, v2
+01ec: move v5, v0
+01ed: goto/16 @004d
+01ef: move v6, v2
+01f0: move v5, v4
+01f1: goto/16 @004d
+01f3: nop
+01f4: payload packed-switch-payload size=3 first_key=0 targets=[146, 150, 178]

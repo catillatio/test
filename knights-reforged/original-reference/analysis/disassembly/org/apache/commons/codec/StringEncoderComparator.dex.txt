@@ -1,0 +1,38 @@
+# class Lorg/apache/commons/codec/StringEncoderComparator; extends Ljava/lang/Object;
+# interfaces Ljava/util/Comparator;
+# source StringEncoderComparator.java
+# fields
+# Lorg/apache/commons/codec/StringEncoderComparator;->stringEncoder:Lorg/apache/commons/codec/StringEncoder; access=0x12
+
+## Lorg/apache/commons/codec/StringEncoderComparator;-><init>()V access=0x10001
+# code_off=0x25ccc registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: const/4 v0, 0
+0004: iput-object v0, v1, "Lorg/apache/commons/codec/StringEncoderComparator;->stringEncoder:Lorg/apache/commons/codec/StringEncoder;"
+0006: return-void
+
+## Lorg/apache/commons/codec/StringEncoderComparator;-><init>(Lorg/apache/commons/codec/StringEncoder;)V access=0x10001
+# code_off=0x25cec registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lorg/apache/commons/codec/StringEncoderComparator;->stringEncoder:Lorg/apache/commons/codec/StringEncoder;"
+0005: return-void
+
+## Lorg/apache/commons/codec/StringEncoderComparator;->compare(Ljava/lang/Object;Ljava/lang/Object;)I access=0x1
+# code_off=0x25d08 registers=8 incoming_words=3 outgoing_words=2 code_units=25 tries=1
+0000: const/4 v0, 0
+0001: iget-object v4, v5, "Lorg/apache/commons/codec/StringEncoderComparator;->stringEncoder:Lorg/apache/commons/codec/StringEncoder;"
+0003: invoke-interface {v4, v6}, Lorg/apache/commons/codec/StringEncoder;->encode(Ljava/lang/Object;)Ljava/lang/Object;
+0006: move-result-object v2
+0007: check-cast v2, "Ljava/lang/Comparable;"
+0009: iget-object v4, v5, "Lorg/apache/commons/codec/StringEncoderComparator;->stringEncoder:Lorg/apache/commons/codec/StringEncoder;"
+000b: invoke-interface {v4, v7}, Lorg/apache/commons/codec/StringEncoder;->encode(Ljava/lang/Object;)Ljava/lang/Object;
+000e: move-result-object v3
+000f: check-cast v3, "Ljava/lang/Comparable;"
+0011: invoke-interface {v2, v3}, Ljava/lang/Comparable;->compareTo(Ljava/lang/Object;)I
+0014: move-result v0
+0015: return v0
+0016: move-exception v1
+0017: const/4 v0, 0
+0018: goto @0015
+# try @0001..@0014 handler_offset=1
+# handler_offset=1: Lorg/apache/commons/codec/EncoderException; -> @0016

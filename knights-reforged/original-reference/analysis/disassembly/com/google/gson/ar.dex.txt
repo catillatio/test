@@ -1,0 +1,93 @@
+# class Lcom/google/gson/ar; extends Ljava/lang/Object;
+# interfaces Ljava/lang/reflect/ParameterizedType;
+# source None
+# fields
+# Lcom/google/gson/ar;->a:Ljava/lang/reflect/Type; access=0x12
+# Lcom/google/gson/ar;->b:[Ljava/lang/reflect/Type; access=0x12
+# Lcom/google/gson/ar;->c:Ljava/lang/reflect/Type; access=0x12
+
+## Lcom/google/gson/ar;-><init>(Ljava/lang/reflect/Type;[Ljava/lang/reflect/Type;Ljava/lang/reflect/Type;)V access=0x10001
+# code_off=0x1b7c4 registers=4 incoming_words=4 outgoing_words=1 code_units=10 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lcom/google/gson/ar;->a:Ljava/lang/reflect/Type;"
+0005: iput-object v2, v0, "Lcom/google/gson/ar;->b:[Ljava/lang/reflect/Type;"
+0007: iput-object v3, v0, "Lcom/google/gson/ar;->c:Ljava/lang/reflect/Type;"
+0009: return-void
+
+## Lcom/google/gson/ar;->equals(Ljava/lang/Object;)Z access=0x11
+# code_off=0x1b7e8 registers=7 incoming_words=2 outgoing_words=2 code_units=65 tries=0
+0000: const/4 v1, 1
+0001: const/4 v0, 0
+0002: instance-of v2, v6, "Ljava/lang/reflect/ParameterizedType;"
+0004: if-nez v2, @0007
+0006: return v0
+0007: check-cast v6, "Ljava/lang/reflect/ParameterizedType;"
+0009: if-ne v5, v6, @000d
+000b: move v0, v1
+000c: goto @0006
+000d: invoke-interface {v6}, Ljava/lang/reflect/ParameterizedType;->getOwnerType()Ljava/lang/reflect/Type;
+0010: move-result-object v2
+0011: invoke-interface {v6}, Ljava/lang/reflect/ParameterizedType;->getRawType()Ljava/lang/reflect/Type;
+0014: move-result-object v3
+0015: iget-object v4, v5, "Lcom/google/gson/ar;->c:Ljava/lang/reflect/Type;"
+0017: if-nez v4, @002f
+0019: if-nez v2, @0006
+001b: iget-object v2, v5, "Lcom/google/gson/ar;->a:Ljava/lang/reflect/Type;"
+001d: if-nez v2, @0038
+001f: if-nez v3, @0006
+0021: iget-object v2, v5, "Lcom/google/gson/ar;->b:[Ljava/lang/reflect/Type;"
+0023: invoke-interface {v6}, Ljava/lang/reflect/ParameterizedType;->getActualTypeArguments()[Ljava/lang/reflect/Type;
+0026: move-result-object v3
+0027: invoke-static {v2, v3}, Ljava/util/Arrays;->equals([Ljava/lang/Object;[Ljava/lang/Object;)Z
+002a: move-result v2
+002b: if-eqz v2, @0006
+002d: move v0, v1
+002e: goto @0006
+002f: iget-object v4, v5, "Lcom/google/gson/ar;->c:Ljava/lang/reflect/Type;"
+0031: invoke-virtual {v4, v2}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+0034: move-result v2
+0035: if-eqz v2, @0006
+0037: goto @001b
+0038: iget-object v2, v5, "Lcom/google/gson/ar;->a:Ljava/lang/reflect/Type;"
+003a: invoke-virtual {v2, v3}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+003d: move-result v2
+003e: if-eqz v2, @0006
+0040: goto @0021
+
+## Lcom/google/gson/ar;->getActualTypeArguments()[Ljava/lang/reflect/Type; access=0x11
+# code_off=0x1b87c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/ar;->b:[Ljava/lang/reflect/Type;"
+0002: return-object v0
+
+## Lcom/google/gson/ar;->getOwnerType()Ljava/lang/reflect/Type; access=0x11
+# code_off=0x1b894 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/ar;->c:Ljava/lang/reflect/Type;"
+0002: return-object v0
+
+## Lcom/google/gson/ar;->getRawType()Ljava/lang/reflect/Type; access=0x11
+# code_off=0x1b8ac registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/ar;->a:Ljava/lang/reflect/Type;"
+0002: return-object v0
+
+## Lcom/google/gson/ar;->hashCode()I access=0x11
+# code_off=0x1b8c4 registers=4 incoming_words=1 outgoing_words=1 code_units=33 tries=0
+0000: const/4 v1, 0
+0001: iget-object v0, v3, "Lcom/google/gson/ar;->b:[Ljava/lang/reflect/Type;"
+0003: invoke-static {v0}, Ljava/util/Arrays;->hashCode([Ljava/lang/Object;)I
+0006: move-result v2
+0007: iget-object v0, v3, "Lcom/google/gson/ar;->c:Ljava/lang/reflect/Type;"
+0009: if-nez v0, @0013
+000b: move v0, v1
+000c: xor-int/2addr v0, v2
+000d: iget-object v2, v3, "Lcom/google/gson/ar;->a:Ljava/lang/reflect/Type;"
+000f: if-nez v2, @001a
+0011: xor-int/2addr v0, v1
+0012: return v0
+0013: iget-object v0, v3, "Lcom/google/gson/ar;->c:Ljava/lang/reflect/Type;"
+0015: invoke-virtual {v0}, Ljava/lang/Object;->hashCode()I
+0018: move-result v0
+0019: goto @000c
+001a: iget-object v1, v3, "Lcom/google/gson/ar;->a:Ljava/lang/reflect/Type;"
+001c: invoke-virtual {v1}, Ljava/lang/Object;->hashCode()I
+001f: move-result v1
+0020: goto @0011

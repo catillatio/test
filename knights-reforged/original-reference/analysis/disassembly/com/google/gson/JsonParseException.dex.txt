@@ -1,0 +1,19 @@
+# class Lcom/google/gson/JsonParseException; extends Ljava/lang/RuntimeException;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;)V access=0x10001
+# code_off=0x19fbc registers=2 incoming_words=2 outgoing_words=2 code_units=4 tries=0
+0000: invoke-direct {v0, v1}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
+0003: return-void
+
+## Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V access=0x10001
+# code_off=0x19fd4 registers=3 incoming_words=3 outgoing_words=3 code_units=4 tries=0
+0000: invoke-direct {v0, v1, v2}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0003: return-void
+
+## Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/Throwable;)V access=0x10001
+# code_off=0x19fec registers=2 incoming_words=2 outgoing_words=2 code_units=4 tries=0
+0000: invoke-direct {v0, v1}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/Throwable;)V
+0003: return-void

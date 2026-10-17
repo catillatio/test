@@ -1,0 +1,26 @@
+# class Lcom/storm8/base/Storm8WebViewClient$1; extends Ljava/util/TimerTask;
+# interfaces 
+# source Storm8WebViewClient.java
+# fields
+# Lcom/storm8/base/Storm8WebViewClient$1;->this$0:Lcom/storm8/base/Storm8WebViewClient; access=0x1010
+
+## Lcom/storm8/base/Storm8WebViewClient$1;-><init>(Lcom/storm8/base/Storm8WebViewClient;)V access=0x10000
+# code_off=0x20190 registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8WebViewClient$1;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+0002: invoke-direct {v0}, Ljava/util/TimerTask;-><init>()V
+0005: return-void
+
+## Lcom/storm8/base/Storm8WebViewClient$1;->access$0(Lcom/storm8/base/Storm8WebViewClient$1;)Lcom/storm8/base/Storm8WebViewClient; access=0x1008
+# code_off=0x201ac registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/Storm8WebViewClient$1;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+0002: return-object v0
+
+## Lcom/storm8/base/Storm8WebViewClient$1;->run()V access=0x1
+# code_off=0x201c4 registers=3 incoming_words=1 outgoing_words=2 code_units=15 tries=0
+0000: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$1;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+0002: invoke-static {v0}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+0005: move-result-object v0
+0006: new-instance v1, "Lcom/storm8/base/Storm8WebViewClient$1$1;"
+0008: invoke-direct {v1, v2}, Lcom/storm8/base/Storm8WebViewClient$1$1;-><init>(Lcom/storm8/base/Storm8WebViewClient$1;)V
+000b: invoke-virtual {v0, v1}, Lcom/storm8/base/Storm8MainActivity;->runOnUiThread(Ljava/lang/Runnable;)V
+000e: return-void

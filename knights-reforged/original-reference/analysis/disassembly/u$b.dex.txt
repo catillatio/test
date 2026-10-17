@@ -1,0 +1,36 @@
+# class Lu$b; extends Landroid/content/BroadcastReceiver;
+# interfaces 
+# source None
+# fields
+
+## Lu$b;-><init>()V access=0x11000
+# code_off=0x271a4 registers=2 incoming_words=1 outgoing_words=2 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v0}, Lu$b;-><init>(B)V
+0004: return-void
+
+## Lu$b;-><init>(B)V access=0x10002
+# code_off=0x271c0 registers=2 incoming_words=2 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Landroid/content/BroadcastReceiver;-><init>()V
+0003: return-void
+
+## Lu$b;->onReceive(Landroid/content/Context;Landroid/content/Intent;)V access=0x11
+# code_off=0x271d8 registers=5 incoming_words=3 outgoing_words=2 code_units=34 tries=0
+0000: invoke-virtual {v4}, Landroid/content/Intent;->getAction()Ljava/lang/String;
+0003: move-result-object v0
+0004: const-string v1, "android.intent.action.USER_PRESENT"
+0006: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0009: move-result v0
+000a: if-eqz v0, @0011
+000c: const/4 v0, 1
+000d: invoke-static {v0}, Lu;->a(Z)V
+0010: return-void
+0011: invoke-virtual {v4}, Landroid/content/Intent;->getAction()Ljava/lang/String;
+0014: move-result-object v0
+0015: const-string v1, "android.intent.action.SCREEN_OFF"
+0017: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+001a: move-result v0
+001b: if-eqz v0, @0010
+001d: const/4 v0, 0
+001e: invoke-static {v0}, Lu;->a(Z)V
+0021: goto @0010

@@ -1,0 +1,18 @@
+# class Lcom/storm8/base/Storm8MainActivity$9; extends Ljava/lang/Object;
+# interfaces Landroid/content/DialogInterface$OnKeyListener;
+# source Storm8MainActivity.java
+# fields
+# Lcom/storm8/base/Storm8MainActivity$9;->this$0:Lcom/storm8/base/Storm8MainActivity; access=0x1010
+
+## Lcom/storm8/base/Storm8MainActivity$9;-><init>(Lcom/storm8/base/Storm8MainActivity;)V access=0x10000
+# code_off=0x1eb5c registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8MainActivity$9;->this$0:Lcom/storm8/base/Storm8MainActivity;"
+0002: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0005: return-void
+
+## Lcom/storm8/base/Storm8MainActivity$9;->onKey(Landroid/content/DialogInterface;ILandroid/view/KeyEvent;)Z access=0x1
+# code_off=0x1eb78 registers=5 incoming_words=4 outgoing_words=1 code_units=7 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/Storm8MainActivity$9;->this$0:Lcom/storm8/base/Storm8MainActivity;"
+0002: invoke-virtual {v0}, Lcom/storm8/base/Storm8MainActivity;->checkPlayerlogin()V
+0005: const/4 v0, 0
+0006: return v0

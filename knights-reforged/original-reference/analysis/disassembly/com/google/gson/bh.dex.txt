@@ -1,0 +1,20 @@
+# class Lcom/google/gson/bh; extends Lcom/google/gson/e;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/bh;-><init>(Ljava/lang/String;)V access=0x10001
+# code_off=0x3762c registers=6 incoming_words=2 outgoing_words=2 code_units=25 tries=0
+0000: const/4 v0, 2
+0001: new-array v0, v0, "[Lcom/google/gson/av;"
+0003: const/4 v1, 0
+0004: new-instance v2, "Lcom/google/gson/c;"
+0006: invoke-direct {v2, v5}, Lcom/google/gson/c;-><init>(Ljava/lang/String;)V
+0009: aput-object v2, v0, v1
+000b: const/4 v1, 1
+000c: new-instance v2, "Lcom/google/gson/ModifyFirstLetterNamingPolicy;"
+000e: sget-object v3, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->UPPER:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0010: invoke-direct {v2, v3}, Lcom/google/gson/ModifyFirstLetterNamingPolicy;-><init>(Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;)V
+0013: aput-object v2, v0, v1
+0015: invoke-direct {v4, v0}, Lcom/google/gson/e;-><init>([Lcom/google/gson/av;)V
+0018: return-void

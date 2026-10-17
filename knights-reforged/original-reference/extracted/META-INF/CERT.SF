@@ -1,0 +1,175 @@
+Signature-Version: 1.0
+Created-By: 1.0 (Android)
+SHA1-Digest-Manifest: px+cVWnq/C6qRAfJKpGDY45IAN8=
+
+Name: assembly-descriptor.xml
+SHA1-Digest: vF9az3uKEKFWjnpVCjnk0vznyF4=
+
+Name: res/drawable/bg_equipment.jpg
+SHA1-Digest: Ufy3k6NxBUZrn1WmjzZmIkrpxZk=
+
+Name: res/raw/powerup1.3gp
+SHA1-Digest: F6nmQiCfKMbjXEuTWNE6tTM5Jp8=
+
+Name: res/drawable-ldpi/icon.png
+SHA1-Digest: nbTfWKeqVTqmxL5sW0Zk2orW7Fw=
+
+Name: res/drawable/tab_button_recruit.xml
+SHA1-Digest: i5JBClHOMhUWkSG845G7GYmBeyQ=
+
+Name: res/drawable-mdpi/icon.png
+SHA1-Digest: YM38tlRboHAJfwDPcgxzwdahDnQ=
+
+Name: res/drawable/bg_default.jpg
+SHA1-Digest: k/DIDS069cQZf4TaTyn46GLy7QY=
+
+Name: res/drawable/bg_attack.jpg
+SHA1-Digest: oKpyK/aV6bHSAMnEgoxyXzr+EQE=
+
+Name: res/layout/splash.xml
+SHA1-Digest: cWspytgmlw45GW8Bsjimc6n1RrU=
+
+Name: res/raw/powerup2.3gp
+SHA1-Digest: NcrUNVStPeAtyMLAVbz/yAYDE1g=
+
+Name: res/drawable/equipment_w.png
+SHA1-Digest: 2XH2NbGnNXErHA/S56oajcVDIOY=
+
+Name: res/raw/fireball3.3gp
+SHA1-Digest: mFL1feCzAKS8HQC8UuI2Yr7MO2Q=
+
+Name: res/raw/wood1.3gp
+SHA1-Digest: Y1SPsDotNVjcvG3NlNUp9u9sMiM=
+
+Name: res/drawable/recruit.png
+SHA1-Digest: eJOi8PFMUEPVQgG4wwmN/qJlSFk=
+
+Name: res/raw/music1.3gp
+SHA1-Digest: rH42z+2+z944y9Gzb4gFGH5gvYk=
+
+Name: res/drawable/equipment.png
+SHA1-Digest: RI1gV8ZFVej8NafLavs0073wPmw=
+
+Name: res/drawable/bg_missions.jpg
+SHA1-Digest: IHrMTQbNl2tAtLe2IIMTHMdESoU=
+
+Name: res/drawable-tvdpi/icon.png
+SHA1-Digest: qBf+Rzi2h/zmcl0oYxmbZ3VSu5Q=
+
+Name: res/drawable/home_selected.png
+SHA1-Digest: A1cnFZtv4HxeHu/obkYWaid8/QI=
+
+Name: res/layout/main.xml
+SHA1-Digest: AqOxjce0hnmRX8q6cmzJG6k5rWg=
+
+Name: res/drawable/missions_w.png
+SHA1-Digest: 4m79ipiFsSuQjHqgAZysPiNS8mM=
+
+Name: res/drawable/missions.png
+SHA1-Digest: VC6amieSX7xN1t9FOllrVviNsOM=
+
+Name: res/raw/angel1.3gp
+SHA1-Digest: vrEFJvh5hIisurJFQrmi3nHQ58k=
+
+Name: res/raw/sword1.3gp
+SHA1-Digest: B9J99MMoEJSMTu3b382tpRoMCBk=
+
+Name: res/drawable/recruit_selected.png
+SHA1-Digest: loamVq/KTzX7mtv2eeGqm6BiMoY=
+
+Name: res/raw/fireball.3gp
+SHA1-Digest: WWCxtEZr1G1Tb7mZCtFMzNGQgBw=
+
+Name: res/drawable/bg_bank.jpg
+SHA1-Digest: CxHiawYuVfUPYJJ3ufnGZJxzE6I=
+
+Name: resources.arsc
+SHA1-Digest: ZXQrromSgPOEESmPEhmp98IsFBY=
+
+Name: res/layout/notification_toast.xml
+SHA1-Digest: rSjhv0UB44/Fy58yZj1Ytogk6Mo=
+
+Name: res/drawable/attack.png
+SHA1-Digest: fRlGpgYRH0T7dCbBYXCXSqE3C7U=
+
+Name: res/drawable/attack_selected.png
+SHA1-Digest: H1xdfdk8uo+IcnwVvYnRdnr1YDk=
+
+Name: res/drawable/tab_button_bg.xml
+SHA1-Digest: NZ8gd4tO6U9TjZIfnf99+joYkaM=
+
+Name: res/drawable/tab_button_home.xml
+SHA1-Digest: DnfV9yVFrIFqXikN99x0/PwdVdY=
+
+Name: AndroidManifest.xml
+SHA1-Digest: TveQ9+TpTWBrAiiKJeHljMa66sM=
+
+Name: res/drawable/default_bg.png
+SHA1-Digest: bQQSWDxg6ZM3KCVgR0KL8d7G5zY=
+
+Name: res/drawable/tab_button_missions.xml
+SHA1-Digest: qZSAiHnBSesRmfPcsYuqbWTb9zs=
+
+Name: res/drawable-xxhdpi/icon.png
+SHA1-Digest: N5bk6VDCmAoAID8wVHbvP2poIbI=
+
+Name: res/drawable/home_w.png
+SHA1-Digest: udNeb8OqNoMgBLLS3xzj5N1jwkI=
+
+Name: res/drawable/buildings.png
+SHA1-Digest: P94MOkDqxH9AqGKFb5CvUB5STyM=
+
+Name: res/raw/soldiers1.3gp
+SHA1-Digest: NmOXjaU1ZYuL8ccIstIzHOiptAE=
+
+Name: res/drawable/missions_selected.png
+SHA1-Digest: UmACVMzyn4sKlgIpD3MpfyAnv3M=
+
+Name: res/drawable-xhdpi/icon.png
+SHA1-Digest: s2/39xMgGG95RiadUYIW3qYBwVg=
+
+Name: res/drawable/tab_button_attack.xml
+SHA1-Digest: tlKa1/GR11re46/OnrMO/abbz/0=
+
+Name: res/menu/menu.xml
+SHA1-Digest: eES7yU2kgFHMO12ffjdlU8g8ycM=
+
+Name: res/drawable/recruit_w.png
+SHA1-Digest: LghwtiNQUmDzsTXgesfkx/JyibE=
+
+Name: res/drawable/attack_w.png
+SHA1-Digest: Se1zNEj7roPDHbcRgXc8mGATvVg=
+
+Name: classes.dex
+SHA1-Digest: RRhJD1/TJO7EpJxAs6WGVwQIMDk=
+
+Name: res/layout/tab_button.xml
+SHA1-Digest: 3Yca7kjtXEZO0htw7Dqdbc0nByU=
+
+Name: res/raw/fireball2.3gp
+SHA1-Digest: 8IcYXmJOvzD49CGtV6ArXZAJTRQ=
+
+Name: res/drawable/tab_button_equipment.xml
+SHA1-Digest: cJHzv+0Kic/5UJ+hunzCU4I8ts0=
+
+Name: res/drawable/icon.png
+SHA1-Digest: zQ/ZEA89KLLLQTdNc4b+EEDkceY=
+
+Name: res/raw/tap.3gp
+SHA1-Digest: dmF94RGL1aneDJg5WCT0mU4xo8c=
+
+Name: res/drawable/bg_hospital.jpg
+SHA1-Digest: kf+Xy4G++pynI643gW4bKjk2EKc=
+
+Name: res/drawable/home.png
+SHA1-Digest: Z/Fe7B5LrdE4Tes6M4+znZNGKbc=
+
+Name: res/drawable/tab_bg.xml
+SHA1-Digest: QKg1wyxYjxbIqEoVO9CPNG2DpDg=
+
+Name: res/drawable/equipment_selected.png
+SHA1-Digest: unHTNUuE9jWw5x47G5GzpKgxgEQ=
+
+Name: res/drawable-hdpi/icon.png
+SHA1-Digest: CyHRr8DEt44NMWQU6gyFpZ44daY=
+

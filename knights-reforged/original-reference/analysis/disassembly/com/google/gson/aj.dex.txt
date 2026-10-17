@@ -1,0 +1,60 @@
+# class Lcom/google/gson/aj; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/aj;->a:Ljava/util/Stack; access=0x12
+
+## Lcom/google/gson/aj;-><init>()V access=0x10000
+# code_off=0x1ac64 registers=2 incoming_words=1 outgoing_words=1 code_units=11 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: new-instance v0, "Ljava/util/Stack;"
+0005: invoke-direct {v0}, Ljava/util/Stack;-><init>()V
+0008: iput-object v0, v1, "Lcom/google/gson/aj;->a:Ljava/util/Stack;"
+000a: return-void
+
+## Lcom/google/gson/aj;->a()Lcom/google/gson/ao; access=0x11
+# code_off=0x1ac8c registers=2 incoming_words=1 outgoing_words=1 code_units=9 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/aj;->a:Ljava/util/Stack;"
+0002: invoke-virtual {v0}, Ljava/util/Stack;->pop()Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Lcom/google/gson/ao;"
+0008: return-object v0
+
+## Lcom/google/gson/aj;->a(Lcom/google/gson/ao;)Lcom/google/gson/ao; access=0x11
+# code_off=0x1acb0 registers=3 incoming_words=2 outgoing_words=2 code_units=12 tries=0
+0000: invoke-static {v2}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0003: iget-object v0, v1, "Lcom/google/gson/aj;->a:Ljava/util/Stack;"
+0005: invoke-virtual {v0, v2}, Ljava/util/Stack;->push(Ljava/lang/Object;)Ljava/lang/Object;
+0008: move-result-object v0
+0009: check-cast v0, "Lcom/google/gson/ao;"
+000b: return-object v0
+
+## Lcom/google/gson/aj;->b(Lcom/google/gson/ao;)Z access=0x11
+# code_off=0x1acd8 registers=7 incoming_words=2 outgoing_words=2 code_units=47 tries=0
+0000: const/4 v1, 0
+0001: if-nez v6, @0005
+0003: move v0, v1
+0004: return v0
+0005: iget-object v0, v5, "Lcom/google/gson/aj;->a:Ljava/util/Stack;"
+0007: invoke-virtual {v0}, Ljava/util/Stack;->iterator()Ljava/util/Iterator;
+000a: move-result-object v2
+000b: invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
+000e: move-result v0
+000f: if-eqz v0, @002d
+0011: invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+0014: move-result-object v0
+0015: check-cast v0, "Lcom/google/gson/ao;"
+0017: invoke-virtual {v0}, Lcom/google/gson/ao;->a()Ljava/lang/Object;
+001a: move-result-object v3
+001b: invoke-virtual {v6}, Lcom/google/gson/ao;->a()Ljava/lang/Object;
+001e: move-result-object v4
+001f: if-ne v3, v4, @000b
+0021: iget-object v0, v0, "Lcom/google/gson/ao;->a:Ljava/lang/reflect/Type;"
+0023: iget-object v3, v6, "Lcom/google/gson/ao;->a:Ljava/lang/reflect/Type;"
+0025: invoke-virtual {v0, v3}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+0028: move-result v0
+0029: if-eqz v0, @000b
+002b: const/4 v0, 1
+002c: goto @0004
+002d: move v0, v1
+002e: goto @0004

@@ -1,0 +1,82 @@
+# class Lu$a; extends Ljava/lang/Enum;
+# interfaces 
+# source None
+# fields
+# Lu$a;->a:Lu$a; access=0x4019
+# Lu$a;->b:Lu$a; access=0x4019
+# Lu$a;->c:Lu$a; access=0x4019
+# Lu$a;->d:Lu$a; access=0x4019
+# Lu$a;->e:Lu$a; access=0x4019
+# Lu$a;->f:Lu$a; access=0x4019
+# Lu$a;->g:[Lu$a; access=0x101a
+
+## Lu$a;-><clinit>()V access=0x10008
+# code_off=0x2707c registers=8 incoming_words=0 outgoing_words=3 code_units=91 tries=0
+0000: const/4 v7, 4
+0001: const/4 v6, 3
+0002: const/4 v5, 2
+0003: const/4 v4, 1
+0004: const/4 v3, 0
+0005: new-instance v0, "Lu$a;"
+0007: const-string v1, "INVALID"
+0009: invoke-direct {v0, v1, v3}, Lu$a;-><init>(Ljava/lang/String;I)V
+000c: sput-object v0, "Lu$a;->a:Lu$a;"
+000e: new-instance v0, "Lu$a;"
+0010: const-string v1, "SPEAKER"
+0012: invoke-direct {v0, v1, v4}, Lu$a;-><init>(Ljava/lang/String;I)V
+0015: sput-object v0, "Lu$a;->b:Lu$a;"
+0017: new-instance v0, "Lu$a;"
+0019: const-string v1, "HEADPHONES"
+001b: invoke-direct {v0, v1, v5}, Lu$a;-><init>(Ljava/lang/String;I)V
+001e: sput-object v0, "Lu$a;->c:Lu$a;"
+0020: new-instance v0, "Lu$a;"
+0022: const-string v1, "VIBRATE"
+0024: invoke-direct {v0, v1, v6}, Lu$a;-><init>(Ljava/lang/String;I)V
+0027: sput-object v0, "Lu$a;->d:Lu$a;"
+0029: new-instance v0, "Lu$a;"
+002b: const-string v1, "EMULATOR"
+002d: invoke-direct {v0, v1, v7}, Lu$a;-><init>(Ljava/lang/String;I)V
+0030: sput-object v0, "Lu$a;->e:Lu$a;"
+0032: new-instance v0, "Lu$a;"
+0034: const-string v1, "OTHER"
+0036: const/4 v2, 5
+0037: invoke-direct {v0, v1, v2}, Lu$a;-><init>(Ljava/lang/String;I)V
+003a: sput-object v0, "Lu$a;->f:Lu$a;"
+003c: const/4 v0, 6
+003d: new-array v0, v0, "[Lu$a;"
+003f: sget-object v1, "Lu$a;->a:Lu$a;"
+0041: aput-object v1, v0, v3
+0043: sget-object v1, "Lu$a;->b:Lu$a;"
+0045: aput-object v1, v0, v4
+0047: sget-object v1, "Lu$a;->c:Lu$a;"
+0049: aput-object v1, v0, v5
+004b: sget-object v1, "Lu$a;->d:Lu$a;"
+004d: aput-object v1, v0, v6
+004f: sget-object v1, "Lu$a;->e:Lu$a;"
+0051: aput-object v1, v0, v7
+0053: const/4 v1, 5
+0054: sget-object v2, "Lu$a;->f:Lu$a;"
+0056: aput-object v2, v0, v1
+0058: sput-object v0, "Lu$a;->g:[Lu$a;"
+005a: return-void
+
+## Lu$a;-><init>(Ljava/lang/String;I)V access=0x10002
+# code_off=0x27144 registers=3 incoming_words=3 outgoing_words=3 code_units=4 tries=0
+0000: invoke-direct {v0, v1, v2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
+0003: return-void
+
+## Lu$a;->valueOf(Ljava/lang/String;)Lu$a; access=0x9
+# code_off=0x2715c registers=2 incoming_words=1 outgoing_words=2 code_units=9 tries=0
+0000: const-class v0, "Lu$a;"
+0002: invoke-static {v0, v1}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
+0005: move-result-object v0
+0006: check-cast v0, "Lu$a;"
+0008: return-object v0
+
+## Lu$a;->values()[Lu$a; access=0x9
+# code_off=0x27180 registers=1 incoming_words=0 outgoing_words=1 code_units=9 tries=0
+0000: sget-object v0, "Lu$a;->g:[Lu$a;"
+0002: invoke-virtual {v0}, [Lu$a;->clone()Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "[Lu$a;"
+0008: return-object v0

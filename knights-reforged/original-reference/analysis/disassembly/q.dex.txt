@@ -1,0 +1,37 @@
+# class Lq; extends Ljava/lang/Object;
+# interfaces Li;
+# source None
+# fields
+
+## Lq;-><init>()V access=0x10001
+# code_off=0x30cf8 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lq;->a(Ld;Ljava/util/HashMap;Landroid/webkit/WebView;)V access=0x11
+# code_off=0x30d10 registers=8 incoming_words=4 outgoing_words=2 code_units=44 tries=1
+0000: const-string v0, "applicationTimeout"
+0002: invoke-virtual {v6, v0}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Ljava/lang/String;"
+0008: invoke-static {v0}, Ljava/lang/Float;->parseFloat(Ljava/lang/String;)F
+000b: move-result v1
+000c: const/high16 v2, 0x447a0000
+000e: mul-float/2addr v1, v2
+000f: float-to-long v1, v1
+0010: invoke-static {v1, v2}, Lc;->a(J)V
+0013: return-void
+0014: move-exception v1
+0015: new-instance v2, "Ljava/lang/StringBuilder;"
+0017: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+001a: const-string v3, "Trying to set applicationTimeout to invalid value: "
+001c: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001f: move-result-object v2
+0020: invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0023: move-result-object v0
+0024: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0027: move-result-object v0
+0028: invoke-static {v0, v1}, Lt;->b(Ljava/lang/String;Ljava/lang/Throwable;)V
+002b: goto @0013
+# try @0008..@0013 handler_offset=1
+# handler_offset=1: Ljava/lang/NumberFormatException; -> @0014

@@ -1,0 +1,112 @@
+# class Lcom/google/gson/f$v; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/InstanceCreator;, Lcom/google/gson/JsonDeserializer;, Lcom/google/gson/JsonSerializer;
+# source None
+# fields
+
+## Lcom/google/gson/f$v;-><init>()V access=0x10000
+# code_off=0x2e320 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/f$v;->createInstance(Ljava/lang/reflect/Type;)Ljava/lang/Object; access=0x1001
+# code_off=0x2e338 registers=3 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: new-instance v0, "Ljava/util/LinkedHashMap;"
+0002: invoke-direct {v0}, Ljava/util/LinkedHashMap;-><init>()V
+0005: return-object v0
+
+## Lcom/google/gson/f$v;->deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Ljava/lang/Object; access=0x1001
+# code_off=0x2e354 registers=10 incoming_words=4 outgoing_words=3 code_units=81 tries=0
+0000: move-object v0, v9
+0001: check-cast v0, "Lcom/google/gson/r;"
+0003: invoke-virtual {v0}, Lcom/google/gson/r;->a()Lcom/google/gson/am;
+0006: move-result-object v0
+0007: invoke-interface {v0, v8}, Lcom/google/gson/am;->a(Ljava/lang/reflect/Type;)Ljava/lang/Object;
+000a: move-result-object v0
+000b: check-cast v0, "Ljava/util/Map;"
+000d: new-instance v3, "Lcom/google/gson/bf;"
+000f: invoke-direct {v3, v8}, Lcom/google/gson/bf;-><init>(Ljava/lang/reflect/Type;)V
+0012: invoke-virtual {v7}, Lcom/google/gson/JsonElement;->getAsJsonObject()Lcom/google/gson/JsonObject;
+0015: move-result-object v1
+0016: invoke-virtual {v1}, Lcom/google/gson/JsonObject;->entrySet()Ljava/util/Set;
+0019: move-result-object v1
+001a: invoke-interface {v1}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+001d: move-result-object v4
+001e: invoke-interface {v4}, Ljava/util/Iterator;->hasNext()Z
+0021: move-result v1
+0022: if-eqz v1, @0050
+0024: invoke-interface {v4}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+0027: move-result-object v1
+0028: move-object v2, v1
+0029: check-cast v2, "Ljava/util/Map$Entry;"
+002b: new-instance v5, "Lcom/google/gson/JsonPrimitive;"
+002d: invoke-interface {v2}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
+0030: move-result-object v1
+0031: check-cast v1, "Ljava/lang/String;"
+0033: invoke-direct {v5, v1}, Lcom/google/gson/JsonPrimitive;-><init>(Ljava/lang/String;)V
+0036: invoke-virtual {v3}, Lcom/google/gson/bf;->a()Ljava/lang/reflect/Type;
+0039: move-result-object v1
+003a: invoke-interface {v9, v5, v1}, Lcom/google/gson/JsonDeserializationContext;->deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;)Ljava/lang/Object;
+003d: move-result-object v5
+003e: invoke-interface {v2}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
+0041: move-result-object v1
+0042: check-cast v1, "Lcom/google/gson/JsonElement;"
+0044: invoke-virtual {v3}, Lcom/google/gson/bf;->b()Ljava/lang/reflect/Type;
+0047: move-result-object v2
+0048: invoke-interface {v9, v1, v2}, Lcom/google/gson/JsonDeserializationContext;->deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;)Ljava/lang/Object;
+004b: move-result-object v1
+004c: invoke-interface {v0, v5, v1}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+004f: goto @001e
+0050: return-object v0
+
+## Lcom/google/gson/f$v;->serialize(Ljava/lang/Object;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement; access=0x1001
+# code_off=0x2e408 registers=10 incoming_words=4 outgoing_words=3 code_units=80 tries=0
+0000: check-cast v7, "Ljava/util/Map;"
+0002: new-instance v3, "Lcom/google/gson/JsonObject;"
+0004: invoke-direct {v3}, Lcom/google/gson/JsonObject;-><init>()V
+0007: const/4 v0, 0
+0008: instance-of v1, v8, "Ljava/lang/reflect/ParameterizedType;"
+000a: if-eqz v1, @004e
+000c: new-instance v0, "Lcom/google/gson/bf;"
+000e: invoke-direct {v0, v8}, Lcom/google/gson/bf;-><init>(Ljava/lang/reflect/Type;)V
+0011: invoke-virtual {v0}, Lcom/google/gson/bf;->b()Ljava/lang/reflect/Type;
+0014: move-result-object v0
+0015: move-object v1, v0
+0016: invoke-interface {v7}, Ljava/util/Map;->entrySet()Ljava/util/Set;
+0019: move-result-object v0
+001a: invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+001d: move-result-object v4
+001e: invoke-interface {v4}, Ljava/util/Iterator;->hasNext()Z
+0021: move-result v0
+0022: if-eqz v0, @004d
+0024: invoke-interface {v4}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+0027: move-result-object v0
+0028: check-cast v0, "Ljava/util/Map$Entry;"
+002a: invoke-interface {v0}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
+002d: move-result-object v5
+002e: if-nez v5, @0040
+0030: invoke-static {}, Lcom/google/gson/JsonNull;->b()Lcom/google/gson/JsonNull;
+0033: move-result-object v2
+0034: invoke-interface {v0}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
+0037: move-result-object v0
+0038: invoke-static {v0}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
+003b: move-result-object v0
+003c: invoke-virtual {v3, v0, v2}, Lcom/google/gson/JsonObject;->add(Ljava/lang/String;Lcom/google/gson/JsonElement;)V
+003f: goto @001e
+0040: if-nez v1, @004b
+0042: invoke-virtual {v5}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+0045: move-result-object v2
+0046: invoke-interface {v9, v5, v2}, Lcom/google/gson/JsonSerializationContext;->serialize(Ljava/lang/Object;Ljava/lang/reflect/Type;)Lcom/google/gson/JsonElement;
+0049: move-result-object v2
+004a: goto @0034
+004b: move-object v2, v1
+004c: goto @0046
+004d: return-object v3
+004e: move-object v1, v0
+004f: goto @0016
+
+## Lcom/google/gson/f$v;->toString()Ljava/lang/String; access=0x1
+# code_off=0x2e4b8 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: const-class v0, "Lcom/google/gson/f$v;"
+0002: invoke-virtual {v0}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0

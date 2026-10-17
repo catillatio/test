@@ -1,0 +1,21 @@
+# class Lcom/google/gson/f$x; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/InstanceCreator;
+# source None
+# fields
+
+## Lcom/google/gson/f$x;-><init>()V access=0x11000
+# code_off=0x2e568 registers=2 incoming_words=1 outgoing_words=2 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v0}, Lcom/google/gson/f$x;-><init>(B)V
+0004: return-void
+
+## Lcom/google/gson/f$x;-><init>(B)V access=0x10002
+# code_off=0x2e584 registers=2 incoming_words=2 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/f$x;->createInstance(Ljava/lang/reflect/Type;)Ljava/lang/Object; access=0x1011
+# code_off=0x2e59c registers=3 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: new-instance v0, "Ljava/util/Properties;"
+0002: invoke-direct {v0}, Ljava/util/Properties;-><init>()V
+0005: return-object v0

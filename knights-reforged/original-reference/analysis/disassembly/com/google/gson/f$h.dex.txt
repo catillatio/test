@@ -1,0 +1,78 @@
+# class Lcom/google/gson/f$h; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/JsonDeserializer;, Lcom/google/gson/JsonSerializer;
+# source None
+# fields
+# Lcom/google/gson/f$h;->a:Ljava/text/DateFormat; access=0x12
+
+## Lcom/google/gson/f$h;-><init>()V access=0x10000
+# code_off=0x2d898 registers=3 incoming_words=1 outgoing_words=2 code_units=13 tries=0
+0000: invoke-direct {v2}, Ljava/lang/Object;-><init>()V
+0003: new-instance v0, "Ljava/text/SimpleDateFormat;"
+0005: const-string v1, "MMM d, yyyy"
+0007: invoke-direct {v0, v1}, Ljava/text/SimpleDateFormat;-><init>(Ljava/lang/String;)V
+000a: iput-object v0, v2, "Lcom/google/gson/f$h;->a:Ljava/text/DateFormat;"
+000c: return-void
+
+## Lcom/google/gson/f$h;->a(Ljava/sql/Date;)Lcom/google/gson/JsonElement; access=0x2
+# code_off=0x2d8c4 registers=5 incoming_words=2 outgoing_words=2 code_units=19 tries=1
+0000: iget-object v1, v3, "Lcom/google/gson/f$h;->a:Ljava/text/DateFormat;"
+0002: monitor-enter v1
+0003: iget-object v0, v3, "Lcom/google/gson/f$h;->a:Ljava/text/DateFormat;"
+0005: invoke-virtual {v0, v4}, Ljava/text/DateFormat;->format(Ljava/util/Date;)Ljava/lang/String;
+0008: move-result-object v0
+0009: new-instance v2, "Lcom/google/gson/JsonPrimitive;"
+000b: invoke-direct {v2, v0}, Lcom/google/gson/JsonPrimitive;-><init>(Ljava/lang/String;)V
+000e: monitor-exit v1
+000f: return-object v2
+0010: move-exception v0
+0011: monitor-exit v1
+0012: throw v0
+# try @0003..@000f handler_offset=1
+# handler_offset=1: catchall -> @0010
+
+## Lcom/google/gson/f$h;->a(Lcom/google/gson/JsonElement;)Ljava/sql/Date; access=0x2
+# code_off=0x2d908 registers=7 incoming_words=2 outgoing_words=3 code_units=46 tries=3
+0000: instance-of v0, v6, "Lcom/google/gson/JsonPrimitive;"
+0002: if-nez v0, @000c
+0004: new-instance v0, "Lcom/google/gson/JsonParseException;"
+0006: const-string v1, "The date should be a string value"
+0008: invoke-direct {v0, v1}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;)V
+000b: throw v0
+000c: iget-object v1, v5, "Lcom/google/gson/f$h;->a:Ljava/text/DateFormat;"
+000e: monitor-enter v1
+000f: iget-object v0, v5, "Lcom/google/gson/f$h;->a:Ljava/text/DateFormat;"
+0011: invoke-virtual {v6}, Lcom/google/gson/JsonElement;->getAsString()Ljava/lang/String;
+0014: move-result-object v2
+0015: invoke-virtual {v0, v2}, Ljava/text/DateFormat;->parse(Ljava/lang/String;)Ljava/util/Date;
+0018: move-result-object v0
+0019: new-instance v2, "Ljava/sql/Date;"
+001b: invoke-virtual {v0}, Ljava/util/Date;->getTime()J
+001e: move-result-wide v3
+001f: invoke-direct {v2, v3, v4}, Ljava/sql/Date;-><init>(J)V
+0022: monitor-exit v1
+0023: return-object v2
+0024: move-exception v0
+0025: monitor-exit v1
+0026: throw v0
+0027: move-exception v0
+0028: new-instance v1, "Lcom/google/gson/JsonParseException;"
+002a: invoke-direct {v1, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/Throwable;)V
+002d: throw v1
+# try @000c..@000f handler_offset=3
+# try @000f..@0023 handler_offset=1
+# try @0025..@0027 handler_offset=3
+# handler_offset=1: catchall -> @0024
+# handler_offset=3: Ljava/text/ParseException; -> @0027
+
+## Lcom/google/gson/f$h;->deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Ljava/lang/Object; access=0x1011
+# code_off=0x2d994 registers=5 incoming_words=4 outgoing_words=2 code_units=5 tries=0
+0000: invoke-direct {v1, v2}, Lcom/google/gson/f$h;->a(Lcom/google/gson/JsonElement;)Ljava/sql/Date;
+0003: move-result-object v0
+0004: return-object v0
+
+## Lcom/google/gson/f$h;->serialize(Ljava/lang/Object;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement; access=0x1011
+# code_off=0x2d9b0 registers=5 incoming_words=4 outgoing_words=2 code_units=7 tries=0
+0000: check-cast v2, "Ljava/sql/Date;"
+0002: invoke-direct {v1, v2}, Lcom/google/gson/f$h;->a(Ljava/sql/Date;)Lcom/google/gson/JsonElement;
+0005: move-result-object v0
+0006: return-object v0

@@ -1,0 +1,116 @@
+# class Lcom/google/gson/JsonStreamParser; extends Ljava/lang/Object;
+# interfaces Ljava/util/Iterator;
+# source None
+# fields
+# Lcom/google/gson/JsonStreamParser;->a:Lcom/google/gson/y; access=0x12
+# Lcom/google/gson/JsonStreamParser;->b:Ljava/lang/Object; access=0x12
+# Lcom/google/gson/JsonStreamParser;->c:Lcom/google/gson/JsonElement; access=0x2
+
+## Lcom/google/gson/JsonStreamParser;-><init>(Ljava/io/Reader;)V access=0x10001
+# code_off=0x1a1a0 registers=3 incoming_words=2 outgoing_words=2 code_units=21 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: new-instance v0, "Lcom/google/gson/y;"
+0005: invoke-direct {v0, v2}, Lcom/google/gson/y;-><init>(Ljava/io/Reader;)V
+0008: iput-object v0, v1, "Lcom/google/gson/JsonStreamParser;->a:Lcom/google/gson/y;"
+000a: new-instance v0, "Ljava/lang/Object;"
+000c: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+000f: iput-object v0, v1, "Lcom/google/gson/JsonStreamParser;->b:Ljava/lang/Object;"
+0011: const/4 v0, 0
+0012: iput-object v0, v1, "Lcom/google/gson/JsonStreamParser;->c:Lcom/google/gson/JsonElement;"
+0014: return-void
+
+## Lcom/google/gson/JsonStreamParser;-><init>(Ljava/lang/String;)V access=0x10001
+# code_off=0x1a1dc registers=3 incoming_words=2 outgoing_words=2 code_units=9 tries=0
+0000: new-instance v0, "Ljava/io/StringReader;"
+0002: invoke-direct {v0, v2}, Ljava/io/StringReader;-><init>(Ljava/lang/String;)V
+0005: invoke-direct {v1, v0}, Lcom/google/gson/JsonStreamParser;-><init>(Ljava/io/Reader;)V
+0008: return-void
+
+## Lcom/google/gson/JsonStreamParser;->hasNext()Z access=0x11
+# code_off=0x1a200 registers=3 incoming_words=1 outgoing_words=1 code_units=22 tries=2
+0000: iget-object v1, v2, "Lcom/google/gson/JsonStreamParser;->b:Ljava/lang/Object;"
+0002: monitor-enter v1
+0003: invoke-virtual {v2}, Lcom/google/gson/JsonStreamParser;->next()Lcom/google/gson/JsonElement;
+0006: move-result-object v0
+0007: iput-object v0, v2, "Lcom/google/gson/JsonStreamParser;->c:Lcom/google/gson/JsonElement;"
+0009: const/4 v0, 1
+000a: monitor-exit v1
+000b: return v0
+000c: move-exception v0
+000d: const/4 v0, 0
+000e: iput-object v0, v2, "Lcom/google/gson/JsonStreamParser;->c:Lcom/google/gson/JsonElement;"
+0010: const/4 v0, 0
+0011: monitor-exit v1
+0012: goto @000b
+0013: move-exception v0
+0014: monitor-exit v1
+0015: throw v0
+# try @0003..@0009 handler_offset=1
+# try @000a..@0012 handler_offset=6
+# handler_offset=1: Ljava/util/NoSuchElementException; -> @000c, catchall -> @0013
+# handler_offset=6: catchall -> @0013
+
+## Lcom/google/gson/JsonStreamParser;->next()Lcom/google/gson/JsonElement; access=0x11
+# code_off=0x1a254 registers=4 incoming_words=1 outgoing_words=3 code_units=77 tries=2
+0000: iget-object v1, v3, "Lcom/google/gson/JsonStreamParser;->b:Ljava/lang/Object;"
+0002: monitor-enter v1
+0003: iget-object v0, v3, "Lcom/google/gson/JsonStreamParser;->c:Lcom/google/gson/JsonElement;"
+0005: if-eqz v0, @000e
+0007: iget-object v0, v3, "Lcom/google/gson/JsonStreamParser;->c:Lcom/google/gson/JsonElement;"
+0009: const/4 v2, 0
+000a: iput-object v2, v3, "Lcom/google/gson/JsonStreamParser;->c:Lcom/google/gson/JsonElement;"
+000c: monitor-exit v1
+000d: return-object v0
+000e: monitor-exit v1
+000f: iget-object v0, v3, "Lcom/google/gson/JsonStreamParser;->a:Lcom/google/gson/y;"
+0011: invoke-virtual {v0}, Lcom/google/gson/y;->a()Lcom/google/gson/JsonElement;
+0014: move-result-object v0
+0015: goto @000d
+0016: move-exception v0
+0017: monitor-exit v1
+0018: throw v0
+0019: move-exception v0
+001a: new-instance v1, "Lcom/google/gson/JsonParseException;"
+001c: const-string v2, "Failed parsing JSON source to Json"
+001e: invoke-direct {v1, v2, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0021: throw v1
+0022: move-exception v0
+0023: new-instance v1, "Lcom/google/gson/JsonParseException;"
+0025: const-string v2, "Failed parsing JSON source to Json"
+0027: invoke-direct {v1, v2, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+002a: throw v1
+002b: move-exception v0
+002c: new-instance v1, "Lcom/google/gson/JsonParseException;"
+002e: const-string v2, "Failed parsing JSON source to Json"
+0030: invoke-direct {v1, v2, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0033: throw v1
+0034: move-exception v0
+0035: new-instance v1, "Lcom/google/gson/JsonParseException;"
+0037: const-string v2, "Failed parsing JSON source to Json"
+0039: invoke-direct {v1, v2, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+003c: throw v1
+003d: move-exception v0
+003e: invoke-virtual {v0}, Lcom/google/gson/JsonParseException;->getCause()Ljava/lang/Throwable;
+0041: move-result-object v1
+0042: instance-of v1, v1, "Ljava/io/EOFException;"
+0044: if-eqz v1, @004c
+0046: new-instance v0, "Ljava/util/NoSuchElementException;"
+0048: invoke-direct {v0}, Ljava/util/NoSuchElementException;-><init>()V
+004b: throw v0
+004c: throw v0
+# try @0003..@000d handler_offset=1
+# try @000f..@0014 handler_offset=3
+# handler_offset=1: catchall -> @0016
+# handler_offset=3: Lcom/google/gson/ba; -> @0019, Lcom/google/gson/as; -> @0022, Ljava/lang/StackOverflowError; -> @002b, Ljava/lang/OutOfMemoryError; -> @0034, Lcom/google/gson/JsonParseException; -> @003d
+
+## Lcom/google/gson/JsonStreamParser;->next()Ljava/lang/Object; access=0x1051
+# code_off=0x1a324 registers=2 incoming_words=1 outgoing_words=1 code_units=5 tries=0
+0000: invoke-virtual {v1}, Lcom/google/gson/JsonStreamParser;->next()Lcom/google/gson/JsonElement;
+0003: move-result-object v0
+0004: return-object v0
+
+## Lcom/google/gson/JsonStreamParser;->remove()V access=0x11
+# code_off=0x1a340 registers=2 incoming_words=1 outgoing_words=1 code_units=6 tries=0
+0000: new-instance v0, "Ljava/lang/UnsupportedOperationException;"
+0002: invoke-direct {v0}, Ljava/lang/UnsupportedOperationException;-><init>()V
+0005: throw v0

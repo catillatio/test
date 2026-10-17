@@ -1,0 +1,15 @@
+# class Lcom/storm8/base/Storm8MainActivity$TabButtonInfo; extends Ljava/lang/Object;
+# interfaces 
+# source Storm8MainActivity.java
+# fields
+# Lcom/storm8/base/Storm8MainActivity$TabButtonInfo;->imageId:I access=0x0
+# Lcom/storm8/base/Storm8MainActivity$TabButtonInfo;->label:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/Storm8MainActivity$TabButtonInfo;->pageUrl:Ljava/lang/String; access=0x0
+
+## Lcom/storm8/base/Storm8MainActivity$TabButtonInfo;-><init>(ILjava/lang/String;Ljava/lang/String;)V access=0x10001
+# code_off=0x1eb98 registers=4 incoming_words=4 outgoing_words=1 code_units=10 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput v1, v0, "Lcom/storm8/base/Storm8MainActivity$TabButtonInfo;->imageId:I"
+0005: iput-object v2, v0, "Lcom/storm8/base/Storm8MainActivity$TabButtonInfo;->label:Ljava/lang/String;"
+0007: iput-object v3, v0, "Lcom/storm8/base/Storm8MainActivity$TabButtonInfo;->pageUrl:Ljava/lang/String;"
+0009: return-void

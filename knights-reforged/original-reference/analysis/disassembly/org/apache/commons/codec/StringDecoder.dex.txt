@@ -1,0 +1,6 @@
+# class Lorg/apache/commons/codec/StringDecoder; extends Ljava/lang/Object;
+# interfaces Lorg/apache/commons/codec/Decoder;
+# source StringDecoder.java
+# fields
+
+## Lorg/apache/commons/codec/StringDecoder;->decode(Ljava/lang/String;)Ljava/lang/String; access=0x401

@@ -1,0 +1,20 @@
+# class Lj; extends Ljava/lang/Object;
+# interfaces Li;
+# source None
+# fields
+
+## Lj;-><init>()V access=0x10001
+# code_off=0x30980 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lj;->a(Ld;Ljava/util/HashMap;Landroid/webkit/WebView;)V access=0x11
+# code_off=0x30998 registers=5 incoming_words=4 outgoing_words=1 code_units=16 tries=0
+0000: instance-of v0, v4, "Lg;"
+0002: if-eqz v0, @000a
+0004: check-cast v4, "Lg;"
+0006: invoke-virtual {v4}, Lg;->a()V
+0009: return-void
+000a: const-string v0, "Trying to close WebView that isn't an AdWebView"
+000c: invoke-static {v0}, Lt;->b(Ljava/lang/String;)V
+000f: goto @0009

@@ -1,0 +1,162 @@
+# class Lcom/google/gson/ai; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/am;
+# source None
+# fields
+# Lcom/google/gson/ai;->a:Ljava/util/logging/Logger; access=0x1a
+# Lcom/google/gson/ai;->b:Lcom/google/gson/aq; access=0x12
+
+## Lcom/google/gson/ai;-><clinit>()V access=0x10008
+# code_off=0x2c920 registers=1 incoming_words=0 outgoing_words=1 code_units=13 tries=0
+0000: const-class v0, "Lcom/google/gson/ai;"
+0002: invoke-virtual {v0}, Ljava/lang/Class;->getName()Ljava/lang/String;
+0005: move-result-object v0
+0006: invoke-static {v0}, Ljava/util/logging/Logger;->getLogger(Ljava/lang/String;)Ljava/util/logging/Logger;
+0009: move-result-object v0
+000a: sput-object v0, "Lcom/google/gson/ai;->a:Ljava/util/logging/Logger;"
+000c: return-void
+
+## Lcom/google/gson/ai;-><init>(Lcom/google/gson/aq;)V access=0x10001
+# code_off=0x2c94c registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lcom/google/gson/ai;->b:Lcom/google/gson/aq;"
+0005: return-void
+
+## Lcom/google/gson/ai;->b(Ljava/lang/reflect/Type;)Ljava/lang/Object; access=0xa
+# code_off=0x2c968 registers=6 incoming_words=1 outgoing_words=3 code_units=201 tries=2
+0000: const/4 v1, 0
+0001: new-instance v0, "Lcom/google/gson/bb;"
+0003: invoke-direct {v0, v5}, Lcom/google/gson/bb;-><init>(Ljava/lang/reflect/Type;)V
+0006: invoke-virtual {v0}, Lcom/google/gson/bb;->b()Ljava/lang/Class;
+0009: move-result-object v0
+000a: invoke-virtual {v0}, Ljava/lang/Class;->getDeclaredConstructors()[Ljava/lang/reflect/Constructor;
+000d: move-result-object v0
+000e: check-cast v0, "[Ljava/lang/reflect/Constructor;"
+0010: const/4 v2, 1
+0011: invoke-static {v0, v2}, Ljava/lang/reflect/AccessibleObject;->setAccessible([Ljava/lang/reflect/AccessibleObject;Z)V
+0014: array-length v3, v0
+0015: move v2, v1
+0016: if-ge v2, v3, @0073
+0018: aget-object v1, v0, v2
+001a: invoke-virtual {v1}, Ljava/lang/reflect/Constructor;->getParameterTypes()[Ljava/lang/Class;
+001d: move-result-object v4
+001e: array-length v4, v4
+001f: if-nez v4, @006f
+0021: move-object v0, v1
+0022: if-nez v0, @0075
+0024: new-instance v0, "Ljava/lang/RuntimeException;"
+0026: new-instance v1, "Ljava/lang/StringBuilder;"
+0028: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+002b: const-string v2, "No-args constructor for "
+002d: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0030: move-result-object v1
+0031: invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+0034: move-result-object v1
+0035: const-string v2, " does not exist. "
+0037: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+003a: move-result-object v1
+003b: const-string v2, "Register an InstanceCreator with Gson for this type to fix this problem."
+003d: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0040: move-result-object v1
+0041: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0044: move-result-object v1
+0045: invoke-direct {v0, v1}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
+0048: throw v0
+0049: move-exception v0
+004a: new-instance v1, "Ljava/lang/RuntimeException;"
+004c: new-instance v2, "Ljava/lang/StringBuilder;"
+004e: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+0051: const-string v3, "Unable to invoke no-args constructor for "
+0053: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0056: move-result-object v2
+0057: invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+005a: move-result-object v2
+005b: const-string v3, ". "
+005d: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0060: move-result-object v2
+0061: const-string v3, "Register an InstanceCreator with Gson for this type may fix this problem."
+0063: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0066: move-result-object v2
+0067: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+006a: move-result-object v2
+006b: invoke-direct {v1, v2, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+006e: throw v1
+006f: add-int/lit8 v1, v2, 1
+0071: move v2, v1
+0072: goto @0016
+0073: const/4 v0, 0
+0074: goto @0022
+0075: const/4 v1, 0
+0076: new-array v1, v1, "[Ljava/lang/Object;"
+0078: invoke-virtual {v0, v1}, Ljava/lang/reflect/Constructor;->newInstance([Ljava/lang/Object;)Ljava/lang/Object;
+007b: move-result-object v0
+007c: return-object v0
+007d: move-exception v0
+007e: new-instance v1, "Ljava/lang/RuntimeException;"
+0080: new-instance v2, "Ljava/lang/StringBuilder;"
+0082: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+0085: const-string v3, "Unable to invoke no-args constructor for "
+0087: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+008a: move-result-object v2
+008b: invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+008e: move-result-object v2
+008f: const-string v3, ". "
+0091: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0094: move-result-object v2
+0095: const-string v3, "Register an InstanceCreator with Gson for this type may fix this problem."
+0097: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+009a: move-result-object v2
+009b: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+009e: move-result-object v2
+009f: invoke-direct {v1, v2, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+00a2: throw v1
+00a3: move-exception v0
+00a4: new-instance v1, "Ljava/lang/RuntimeException;"
+00a6: new-instance v2, "Ljava/lang/StringBuilder;"
+00a8: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+00ab: const-string v3, "Unable to invoke no-args constructor for "
+00ad: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00b0: move-result-object v2
+00b1: invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+00b4: move-result-object v2
+00b5: const-string v3, ". "
+00b7: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00ba: move-result-object v2
+00bb: const-string v3, "Register an InstanceCreator with Gson for this type may fix this problem."
+00bd: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00c0: move-result-object v2
+00c1: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00c4: move-result-object v2
+00c5: invoke-direct {v1, v2, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+00c8: throw v1
+# try @0001..@0049 handler_offset=1
+# try @0076..@007b handler_offset=1
+# handler_offset=1: Ljava/lang/InstantiationException; -> @0049, Ljava/lang/IllegalAccessException; -> @007d, Ljava/lang/reflect/InvocationTargetException; -> @00a3
+
+## Lcom/google/gson/ai;->a(Ljava/lang/reflect/Type;)Ljava/lang/Object; access=0x11
+# code_off=0x2cb28 registers=3 incoming_words=2 outgoing_words=2 code_units=20 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/ai;->b:Lcom/google/gson/aq;"
+0002: invoke-virtual {v0, v2}, Lcom/google/gson/aq;->a(Ljava/lang/reflect/Type;)Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Lcom/google/gson/InstanceCreator;"
+0008: if-eqz v0, @000f
+000a: invoke-interface {v0, v2}, Lcom/google/gson/InstanceCreator;->createInstance(Ljava/lang/reflect/Type;)Ljava/lang/Object;
+000d: move-result-object v0
+000e: return-object v0
+000f: invoke-static {v2}, Lcom/google/gson/ai;->b(Ljava/lang/reflect/Type;)Ljava/lang/Object;
+0012: move-result-object v0
+0013: goto @000e
+
+## Lcom/google/gson/ai;->a(Ljava/lang/reflect/Type;I)Ljava/lang/Object; access=0x11
+# code_off=0x2cb60 registers=4 incoming_words=3 outgoing_words=2 code_units=9 tries=0
+0000: invoke-static {v2}, Lcom/google/gson/bg;->b(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+0003: move-result-object v0
+0004: invoke-static {v0, v3}, Ljava/lang/reflect/Array;->newInstance(Ljava/lang/Class;I)Ljava/lang/Object;
+0007: move-result-object v0
+0008: return-object v0
+
+## Lcom/google/gson/ai;->toString()Ljava/lang/String; access=0x11
+# code_off=0x2cb84 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/ai;->b:Lcom/google/gson/aq;"
+0002: invoke-virtual {v0}, Lcom/google/gson/aq;->toString()Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0

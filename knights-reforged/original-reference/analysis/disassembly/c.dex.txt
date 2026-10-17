@@ -1,0 +1,650 @@
+# class Lc; extends Landroid/os/AsyncTask;
+# interfaces 
+# source None
+# fields
+# Lc;->a:Ljava/lang/String; access=0x1a
+# Lc;->b:Ljava/lang/String; access=0x1a
+# Lc;->c:Ljava/lang/Object; access=0x1a
+# Lc;->d:J access=0xa
+# Lc;->e:Ljava/lang/String; access=0x2
+# Lc;->f:Ljava/lang/String; access=0x2
+# Lc;->g:Lb; access=0x2
+# Lc;->h:Ld; access=0x2
+# Lc;->i:Landroid/webkit/WebView; access=0x2
+# Lc;->j:Ljava/lang/String; access=0x2
+# Lc;->k:Lcom/google/ads/AdRequest$ErrorCode; access=0x2
+# Lc;->l:Z access=0x2
+# Lc;->m:Z access=0x2
+
+## Lc;-><clinit>()V access=0x10008
+# code_off=0x16acc registers=4 incoming_words=0 outgoing_words=2 code_units=86 tries=0
+0000: const-string v0, "4.0.4"
+0002: const-string v1, "\\."
+0004: invoke-virtual {v0, v1}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
+0007: move-result-object v0
+0008: const/4 v1, 0
+0009: aget-object v1, v0, v1
+000b: const/4 v2, 1
+000c: aget-object v0, v0, v2
+000e: new-instance v2, "Ljava/lang/StringBuilder;"
+0010: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+0013: const-string v3, "http://www.gstatic.com/afma/sdk-core-v"
+0015: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0018: move-result-object v2
+0019: invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001c: move-result-object v1
+001d: invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0020: move-result-object v0
+0021: const-string v1, ".js"
+0023: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0026: move-result-object v0
+0027: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+002a: move-result-object v0
+002b: sput-object v0, "Lc;->a:Ljava/lang/String;"
+002d: new-instance v0, "Ljava/lang/StringBuilder;"
+002f: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+0032: const-string v1, "<html><head><script src=\""
+0034: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0037: move-result-object v0
+0038: sget-object v1, "Lc;->a:Ljava/lang/String;"
+003a: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+003d: move-result-object v0
+003e: const-string v1, "\"></script><script>"
+0040: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0043: move-result-object v0
+0044: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0047: move-result-object v0
+0048: sput-object v0, "Lc;->b:Ljava/lang/String;"
+004a: new-instance v0, "Ljava/lang/Object;"
+004c: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+004f: sput-object v0, "Lc;->c:Ljava/lang/Object;"
+0051: const-wide/16 v0, 5000
+0053: sput-wide v0, "Lc;->d:J"
+0055: return-void
+
+## Lc;-><init>(Ld;)V access=0x10000
+# code_off=0x16b88 registers=6 incoming_words=2 outgoing_words=4 code_units=80 tries=0
+0000: const/4 v3, 0
+0001: const/4 v1, 0
+0002: invoke-direct {v4}, Landroid/os/AsyncTask;-><init>()V
+0005: iput-object v5, v4, "Lc;->h:Ld;"
+0007: iput-object v1, v4, "Lc;->j:Ljava/lang/String;"
+0009: iput-object v1, v4, "Lc;->f:Ljava/lang/String;"
+000b: iput-object v1, v4, "Lc;->k:Lcom/google/ads/AdRequest$ErrorCode;"
+000d: iput-boolean v3, v4, "Lc;->l:Z"
+000f: iput-boolean v3, v4, "Lc;->m:Z"
+0011: invoke-virtual {v5}, Ld;->c()Landroid/app/Activity;
+0014: move-result-object v0
+0015: if-eqz v0, @0046
+0017: new-instance v1, "Landroid/webkit/WebView;"
+0019: invoke-virtual {v0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
+001c: move-result-object v0
+001d: invoke-direct {v1, v0}, Landroid/webkit/WebView;-><init>(Landroid/content/Context;)V
+0020: iput-object v1, v4, "Lc;->i:Landroid/webkit/WebView;"
+0022: iget-object v0, v4, "Lc;->i:Landroid/webkit/WebView;"
+0024: invoke-virtual {v0}, Landroid/webkit/WebView;->getSettings()Landroid/webkit/WebSettings;
+0027: move-result-object v0
+0028: const/4 v1, 1
+0029: invoke-virtual {v0, v1}, Landroid/webkit/WebSettings;->setJavaScriptEnabled(Z)V
+002c: iget-object v0, v4, "Lc;->i:Landroid/webkit/WebView;"
+002e: new-instance v1, "Lh;"
+0030: sget-object v2, "La$a;->a:La$a;"
+0032: invoke-direct {v1, v5, v2, v3}, Lh;-><init>(Ld;La$a;Z)V
+0035: invoke-virtual {v0, v1}, Landroid/webkit/WebView;->setWebViewClient(Landroid/webkit/WebViewClient;)V
+0038: new-instance v0, "Lb;"
+003a: iget-object v1, v4, "Lc;->i:Landroid/webkit/WebView;"
+003c: invoke-static {v1}, Lu;->a(Landroid/webkit/WebView;)Ljava/lang/String;
+003f: move-result-object v1
+0040: invoke-direct {v0, v4, v5, v1}, Lb;-><init>(Lc;Ld;Ljava/lang/String;)V
+0043: iput-object v0, v4, "Lc;->g:Lb;"
+0045: return-void
+0046: iput-object v1, v4, "Lc;->i:Landroid/webkit/WebView;"
+0048: iput-object v1, v4, "Lc;->g:Lb;"
+004a: const-string v0, "activity was null while trying to create an AdLoader."
+004c: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+004f: goto @0045
+
+## Lc;->a([Lcom/google/ads/AdRequest;)Lcom/google/ads/AdRequest$ErrorCode; access=0x82
+# code_off=0x16c38 registers=15 incoming_words=2 outgoing_words=6 code_units=780 tries=11
+0000: const/4 v6, 0
+0001: const-wide/16 v11, 0
+0003: monitor-enter v13
+0004: iget-object v0, v13, "Lc;->i:Landroid/webkit/WebView;"
+0006: if-eqz v0, @000c
+0008: iget-object v0, v13, "Lc;->g:Lb;"
+000a: if-nez v0, @0015
+000c: const-string v0, "adRequestWebView was null while trying to load an ad."
+000e: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+0011: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->INTERNAL_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+0013: monitor-exit v13
+0014: return-object v0
+0015: const/4 v0, 0
+0016: aget-object v0, v14, v0
+0018: iget-object v1, v13, "Lc;->h:Ld;"
+001a: invoke-virtual {v1}, Ld;->c()Landroid/app/Activity;
+001d: move-result-object v1
+001e: if-nez v1, @002c
+0020: const-string v0, "activity was null while forming an ad request."
+0022: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+0025: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->INTERNAL_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+0027: monitor-exit v13
+0028: goto @0014
+0029: move-exception v0
+002a: monitor-exit v13
+002b: throw v0
+002c: invoke-virtual {v1}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
+002f: move-result-object v2
+0030: invoke-virtual {v0}, Lcom/google/ads/AdRequest;->getRequestMap()Ljava/util/Map;
+0033: move-result-object v0
+0034: iget-object v3, v13, "Lc;->h:Ld;"
+0036: invoke-virtual {v3}, Ld;->j()Lf;
+0039: move-result-object v3
+003a: invoke-virtual {v3}, Lf;->h()J
+003d: move-result-wide v4
+003e: cmp-long v7, v4, v11
+0040: if-lez v7, @004b
+0042: const-string v7, "prl"
+0044: invoke-static {v4, v5}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+0047: move-result-object v4
+0048: invoke-interface {v0, v7, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+004b: invoke-virtual {v3}, Lf;->g()Ljava/lang/String;
+004e: move-result-object v4
+004f: if-eqz v4, @0056
+0051: const-string v5, "ppcl"
+0053: invoke-interface {v0, v5, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0056: invoke-virtual {v3}, Lf;->f()Ljava/lang/String;
+0059: move-result-object v4
+005a: if-eqz v4, @0061
+005c: const-string v5, "pcl"
+005e: invoke-interface {v0, v5, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0061: invoke-virtual {v3}, Lf;->e()J
+0064: move-result-wide v4
+0065: cmp-long v7, v4, v11
+0067: if-lez v7, @0072
+0069: const-string v7, "pcc"
+006b: invoke-static {v4, v5}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+006e: move-result-object v4
+006f: invoke-interface {v0, v7, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0072: const-string v4, "preqs"
+0074: invoke-static {}, Lf;->i()J
+0077: move-result-wide v7
+0078: invoke-static {v7, v8}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+007b: move-result-object v5
+007c: invoke-interface {v0, v4, v5}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+007f: invoke-virtual {v3}, Lf;->j()Ljava/lang/String;
+0082: move-result-object v4
+0083: if-eqz v4, @008a
+0085: const-string v5, "pai"
+0087: invoke-interface {v0, v5, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+008a: invoke-virtual {v3}, Lf;->k()Z
+008d: move-result v4
+008e: if-eqz v4, @0097
+0090: const-string v4, "aoi_timeout"
+0092: const-string v5, "true"
+0094: invoke-interface {v0, v4, v5}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0097: invoke-virtual {v3}, Lf;->m()Z
+009a: move-result v4
+009b: if-eqz v4, @00a4
+009d: const-string v4, "aoi_nofill"
+009f: const-string v5, "true"
+00a1: invoke-interface {v0, v4, v5}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+00a4: invoke-virtual {v3}, Lf;->p()Ljava/lang/String;
+00a7: move-result-object v4
+00a8: if-eqz v4, @00af
+00aa: const-string v5, "pit"
+00ac: invoke-interface {v0, v5, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+00af: invoke-virtual {v3}, Lf;->a()V
+00b2: invoke-virtual {v3}, Lf;->d()V
+00b5: iget-object v3, v13, "Lc;->h:Ld;"
+00b7: invoke-virtual {v3}, Ld;->d()Lcom/google/ads/Ad;
+00ba: move-result-object v3
+00bb: instance-of v3, v3, "Lcom/google/ads/InterstitialAd;"
+00bd: if-eqz v3, @011f
+00bf: const-string v3, "format"
+00c1: const-string v4, "interstitial_mb"
+00c3: invoke-interface {v0, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+00c6: const-string v3, "slotname"
+00c8: iget-object v4, v13, "Lc;->h:Ld;"
+00ca: invoke-virtual {v4}, Ld;->f()Ljava/lang/String;
+00cd: move-result-object v4
+00ce: invoke-interface {v0, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+00d1: const-string v3, "js"
+00d3: const-string v4, "afma-sdk-a-v4.0.4"
+00d5: invoke-interface {v0, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+00d8: const-string v3, "msid"
+00da: invoke-virtual {v2}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+00dd: move-result-object v4
+00de: invoke-interface {v0, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+00e1: const-string v3, "app_name"
+00e3: new-instance v4, "Ljava/lang/StringBuilder;"
+00e5: invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+00e8: const-string v5, "4.0.4.android."
+00ea: invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00ed: move-result-object v4
+00ee: invoke-virtual {v2}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+00f1: move-result-object v5
+00f2: invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00f5: move-result-object v4
+00f6: invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00f9: move-result-object v4
+00fa: invoke-interface {v0, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+00fd: const-string v3, "isu"
+00ff: invoke-static {v2}, Lu;->a(Landroid/content/Context;)Ljava/lang/String;
+0102: move-result-object v4
+0103: invoke-interface {v0, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0106: invoke-static {v2}, Lu;->c(Landroid/content/Context;)Ljava/lang/String;
+0109: move-result-object v3
+010a: if-nez v3, @0157
+010c: new-instance v0, "Lc$a;"
+010e: const-string v1, "NETWORK_ERROR"
+0110: invoke-direct {v0, v13, v1}, Lc$a;-><init>(Lc;Ljava/lang/String;)V
+0113: throw v0
+0114: move-exception v0
+0115: const-string v0, "Unable to connect to network."
+0117: invoke-static {v0}, Lt;->c(Ljava/lang/String;)V
+011a: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->NETWORK_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+011c: monitor-exit v13
+011d: goto/16 @0014
+011f: iget-object v3, v13, "Lc;->h:Ld;"
+0121: invoke-virtual {v3}, Ld;->i()Lcom/google/ads/AdSize;
+0124: move-result-object v3
+0125: invoke-virtual {v3}, Lcom/google/ads/AdSize;->toString()Ljava/lang/String;
+0128: move-result-object v4
+0129: if-eqz v4, @0131
+012b: const-string v3, "format"
+012d: invoke-interface {v0, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0130: goto @00c6
+0131: new-instance v4, "Ljava/util/HashMap;"
+0133: invoke-direct {v4}, Ljava/util/HashMap;-><init>()V
+0136: const-string v5, "w"
+0138: invoke-virtual {v3}, Lcom/google/ads/AdSize;->getWidth()I
+013b: move-result v7
+013c: invoke-static {v7}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+013f: move-result-object v7
+0140: invoke-interface {v4, v5, v7}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0143: const-string v5, "h"
+0145: invoke-virtual {v3}, Lcom/google/ads/AdSize;->getHeight()I
+0148: move-result v3
+0149: invoke-static {v3}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+014c: move-result-object v3
+014d: invoke-interface {v4, v5, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0150: const-string v3, "ad_frame"
+0152: invoke-interface {v0, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0155: goto/16 @00c6
+0157: const-string v4, "net"
+0159: invoke-interface {v0, v4, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+015c: invoke-static {v2}, Lu;->d(Landroid/content/Context;)Ljava/lang/String;
+015f: move-result-object v3
+0160: if-eqz v3, @016d
+0162: invoke-virtual {v3}, Ljava/lang/String;->length()I
+0165: move-result v4
+0166: if-eqz v4, @016d
+0168: const-string v4, "cap"
+016a: invoke-interface {v0, v4, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+016d: const-string v3, "u_audio"
+016f: invoke-static {v2}, Lu;->e(Landroid/content/Context;)Lu$a;
+0172: move-result-object v4
+0173: invoke-virtual {v4}, Lu$a;->ordinal()I
+0176: move-result v4
+0177: invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+017a: move-result-object v4
+017b: invoke-interface {v0, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+017e: const-string v3, "u_so"
+0180: invoke-static {v2}, Lu;->f(Landroid/content/Context;)Ljava/lang/String;
+0183: move-result-object v2
+0184: invoke-interface {v0, v3, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0187: invoke-static {v1}, Lu;->a(Landroid/app/Activity;)Landroid/util/DisplayMetrics;
+018a: move-result-object v1
+018b: const-string v2, "u_sd"
+018d: iget v3, v1, "Landroid/util/DisplayMetrics;->density:F"
+018f: invoke-static {v3}, Ljava/lang/Float;->valueOf(F)Ljava/lang/Float;
+0192: move-result-object v3
+0193: invoke-interface {v0, v2, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0196: const-string v2, "u_h"
+0198: iget v3, v1, "Landroid/util/DisplayMetrics;->heightPixels:I"
+019a: invoke-static {v3}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+019d: move-result-object v3
+019e: invoke-interface {v0, v2, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+01a1: const-string v2, "u_w"
+01a3: iget v1, v1, "Landroid/util/DisplayMetrics;->widthPixels:I"
+01a5: invoke-static {v1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+01a8: move-result-object v1
+01a9: invoke-interface {v0, v2, v1}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+01ac: const-string v1, "hl"
+01ae: invoke-static {}, Ljava/util/Locale;->getDefault()Ljava/util/Locale;
+01b1: move-result-object v2
+01b2: invoke-virtual {v2}, Ljava/util/Locale;->getLanguage()Ljava/lang/String;
+01b5: move-result-object v2
+01b6: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+01b9: invoke-static {}, Lu;->a()Z
+01bc: move-result v1
+01bd: if-eqz v1, @01c9
+01bf: const-string v1, "simulator"
+01c1: const/4 v2, 1
+01c2: invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+01c5: move-result-object v2
+01c6: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+01c9: new-instance v1, "Lcom/google/gson/Gson;"
+01cb: invoke-direct {v1}, Lcom/google/gson/Gson;-><init>()V
+01ce: invoke-virtual {v1, v0}, Lcom/google/gson/Gson;->toJson(Ljava/lang/Object;)Ljava/lang/String;
+01d1: move-result-object v0
+01d2: new-instance v1, "Ljava/lang/StringBuilder;"
+01d4: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+01d7: sget-object v2, "Lc;->b:Ljava/lang/String;"
+01d9: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+01dc: move-result-object v1
+01dd: const-string v2, "AFMA_buildAdURL"
+01df: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+01e2: move-result-object v1
+01e3: const-string v2, "("
+01e5: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+01e8: move-result-object v1
+01e9: invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+01ec: move-result-object v0
+01ed: const-string v1, ");"
+01ef: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+01f2: move-result-object v0
+01f3: const-string v1, "</script></head><body></body></html>"
+01f5: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+01f8: move-result-object v0
+01f9: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+01fc: move-result-object v2
+01fd: new-instance v0, "Ljava/lang/StringBuilder;"
+01ff: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+0202: const-string v1, "adRequestUrlHtml: "
+0204: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0207: move-result-object v0
+0208: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+020b: move-result-object v0
+020c: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+020f: move-result-object v0
+0210: invoke-static {v0}, Lt;->c(Ljava/lang/String;)V
+0213: iget-object v0, v13, "Lc;->i:Landroid/webkit/WebView;"
+0215: const/4 v1, 0
+0216: const-string v3, "text/html"
+0218: const-string v4, "utf-8"
+021a: const/4 v5, 0
+021b: invoke-virtual/range {v0, v1, v2, v3, v4, v5}, Landroid/webkit/WebView;->loadDataWithBaseURL(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+021e: invoke-direct {v13}, Lc;->b()J
+0221: move-result-wide v7
+0222: invoke-static {}, Landroid/os/SystemClock;->elapsedRealtime()J
+0225: move-result-wide v9
+0226: cmp-long v0, v7, v11
+0228: if-lez v0, @022d
+022a: invoke-virtual {v13, v7, v8}, Ljava/lang/Object;->wait(J)V
+022d: iget-object v0, v13, "Lc;->k:Lcom/google/ads/AdRequest$ErrorCode;"
+022f: if-eqz v0, @0252
+0231: iget-object v0, v13, "Lc;->k:Lcom/google/ads/AdRequest$ErrorCode;"
+0233: monitor-exit v13
+0234: goto/16 @0014
+0236: move-exception v0
+0237: new-instance v1, "Ljava/lang/StringBuilder;"
+0239: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+023c: const-string v2, "AdLoader InterruptedException while getting the URL: "
+023e: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0241: move-result-object v1
+0242: invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+0245: move-result-object v0
+0246: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0249: move-result-object v0
+024a: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+024d: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->INTERNAL_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+024f: monitor-exit v13
+0250: goto/16 @0014
+0252: iget-object v0, v13, "Lc;->j:Ljava/lang/String;"
+0254: if-nez v0, @0260
+0256: const-string v0, "AdLoader timed out while getting the URL."
+0258: invoke-static {v0}, Lt;->c(Ljava/lang/String;)V
+025b: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->NETWORK_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+025d: monitor-exit v13
+025e: goto/16 @0014
+0260: const/4 v0, 1
+0261: new-array v0, v0, "[Ljava/lang/String;"
+0263: const/4 v1, 0
+0264: iget-object v2, v13, "Lc;->j:Ljava/lang/String;"
+0266: aput-object v2, v0, v1
+0268: invoke-virtual {v13, v0}, Lc;->publishProgress([Ljava/lang/Object;)V
+026b: invoke-static {}, Landroid/os/SystemClock;->elapsedRealtime()J
+026e: move-result-wide v0
+026f: sub-long/2addr v0, v9
+0270: sub-long v0, v7, v0
+0272: cmp-long v2, v0, v11
+0274: if-lez v2, @0279
+0276: invoke-virtual {v13, v0, v1}, Ljava/lang/Object;->wait(J)V
+0279: iget-object v0, v13, "Lc;->k:Lcom/google/ads/AdRequest$ErrorCode;"
+027b: if-eqz v0, @029e
+027d: iget-object v0, v13, "Lc;->k:Lcom/google/ads/AdRequest$ErrorCode;"
+027f: monitor-exit v13
+0280: goto/16 @0014
+0282: move-exception v0
+0283: new-instance v1, "Ljava/lang/StringBuilder;"
+0285: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+0288: const-string v2, "AdLoader InterruptedException while getting the HTML: "
+028a: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+028d: move-result-object v1
+028e: invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+0291: move-result-object v0
+0292: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0295: move-result-object v0
+0296: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+0299: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->INTERNAL_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+029b: monitor-exit v13
+029c: goto/16 @0014
+029e: iget-object v0, v13, "Lc;->f:Ljava/lang/String;"
+02a0: if-nez v0, @02ac
+02a2: const-string v0, "AdLoader timed out while getting the HTML."
+02a4: invoke-static {v0}, Lt;->c(Ljava/lang/String;)V
+02a7: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->NETWORK_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+02a9: monitor-exit v13
+02aa: goto/16 @0014
+02ac: iget-object v0, v13, "Lc;->h:Ld;"
+02ae: invoke-virtual {v0}, Ld;->g()Lg;
+02b1: move-result-object v0
+02b2: iget-object v1, v13, "Lc;->h:Ld;"
+02b4: invoke-virtual {v1}, Ld;->h()Lh;
+02b7: move-result-object v1
+02b8: invoke-virtual {v1}, Lh;->a()V
+02bb: iget-object v1, v13, "Lc;->e:Ljava/lang/String;"
+02bd: iget-object v2, v13, "Lc;->f:Ljava/lang/String;"
+02bf: const-string v3, "text/html"
+02c1: const-string v4, "utf-8"
+02c3: const/4 v5, 0
+02c4: invoke-virtual/range {v0, v1, v2, v3, v4, v5}, Lg;->loadDataWithBaseURL(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+02c7: invoke-static {}, Landroid/os/SystemClock;->elapsedRealtime()J
+02ca: move-result-wide v1
+02cb: sub-long/2addr v1, v9
+02cc: sub-long v1, v7, v1
+02ce: cmp-long v3, v1, v11
+02d0: if-lez v3, @02d5
+02d2: invoke-virtual {v13, v1, v2}, Ljava/lang/Object;->wait(J)V
+02d5: iget-boolean v1, v13, "Lc;->m:Z"
+02d7: if-eqz v1, @02fc
+02d9: monitor-exit v13
+02da: move-object v0, v6
+02db: goto/16 @0014
+02dd: move-exception v1
+02de: new-instance v2, "Ljava/lang/StringBuilder;"
+02e0: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+02e3: const-string v3, "AdLoader InterruptedException while loading the HTML: "
+02e5: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+02e8: move-result-object v2
+02e9: invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+02ec: move-result-object v1
+02ed: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+02f0: move-result-object v1
+02f1: invoke-static {v1}, Lt;->e(Ljava/lang/String;)V
+02f4: invoke-virtual {v0}, Lg;->stopLoading()V
+02f7: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->INTERNAL_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+02f9: monitor-exit v13
+02fa: goto/16 @0014
+02fc: invoke-virtual {v0}, Lg;->stopLoading()V
+02ff: const/4 v0, 1
+0300: iput-boolean v0, v13, "Lc;->l:Z"
+0302: const-string v0, "AdLoader timed out while loading the HTML."
+0304: invoke-static {v0}, Lt;->c(Ljava/lang/String;)V
+0307: sget-object v0, "Lcom/google/ads/AdRequest$ErrorCode;->NETWORK_ERROR:Lcom/google/ads/AdRequest$ErrorCode;"
+0309: monitor-exit v13
+030a: goto/16 @0014
+# try @0004..@0028 handler_offset=1
+# try @002c..@0114 handler_offset=3
+# try @0115..@011d handler_offset=1
+# try @011f..@0213 handler_offset=3
+# try @0213..@0225 handler_offset=1
+# try @022a..@022d handler_offset=8
+# try @022d..@026e handler_offset=1
+# try @0276..@0279 handler_offset=14
+# try @0279..@02ca handler_offset=1
+# try @02d2..@02d5 handler_offset=20
+# try @02d5..@030a handler_offset=1
+# handler_offset=1: catchall -> @0029
+# handler_offset=3: Lc$a; -> @0114, catchall -> @0029
+# handler_offset=8: Ljava/lang/InterruptedException; -> @0236, catchall -> @0029
+# handler_offset=14: Ljava/lang/InterruptedException; -> @0282, catchall -> @0029
+# handler_offset=20: Ljava/lang/InterruptedException; -> @02dd, catchall -> @0029
+
+## Lc;->a(J)V access=0x9
+# code_off=0x172d4 registers=4 incoming_words=2 outgoing_words=0 code_units=10 tries=1
+0000: sget-object v1, "Lc;->c:Ljava/lang/Object;"
+0002: monitor-enter v1
+0003: sput-wide v2, "Lc;->d:J"
+0005: monitor-exit v1
+0006: return-void
+0007: move-exception v0
+0008: monitor-exit v1
+0009: throw v0
+# try @0003..@0006 handler_offset=1
+# handler_offset=1: catchall -> @0007
+
+## Lc;->b()J access=0x2
+# code_off=0x17304 registers=4 incoming_words=1 outgoing_words=1 code_units=24 tries=1
+0000: iget-object v0, v3, "Lc;->h:Ld;"
+0002: invoke-virtual {v0}, Ld;->d()Lcom/google/ads/Ad;
+0005: move-result-object v0
+0006: instance-of v0, v0, "Lcom/google/ads/InterstitialAd;"
+0008: if-eqz v0, @0014
+000a: sget-object v2, "Lc;->c:Ljava/lang/Object;"
+000c: monitor-enter v2
+000d: sget-wide v0, "Lc;->d:J"
+000f: monitor-exit v2
+0010: return-wide v0
+0011: move-exception v0
+0012: monitor-exit v2
+0013: throw v0
+0014: const-wide/32 v0, 60000 (0x0000ea60)
+0017: goto @0010
+# try @000d..@0010 handler_offset=1
+# handler_offset=1: catchall -> @0011
+
+## Lc;->a()V access=0x20010
+# code_off=0x17350 registers=2 incoming_words=1 outgoing_words=1 code_units=12 tries=1
+0000: monitor-enter v1
+0001: const/4 v0, 1
+0002: iput-boolean v0, v1, "Lc;->m:Z"
+0004: invoke-virtual {v1}, Ljava/lang/Object;->notify()V
+0007: monitor-exit v1
+0008: return-void
+0009: move-exception v0
+000a: monitor-exit v1
+000b: throw v0
+# try @0002..@0007 handler_offset=1
+# handler_offset=1: catchall -> @0009
+
+## Lc;->a(Lcom/google/ads/AdRequest$ErrorCode;)V access=0x20011
+# code_off=0x17384 registers=3 incoming_words=2 outgoing_words=1 code_units=11 tries=1
+0000: monitor-enter v1
+0001: iput-object v2, v1, "Lc;->k:Lcom/google/ads/AdRequest$ErrorCode;"
+0003: invoke-virtual {v1}, Ljava/lang/Object;->notify()V
+0006: monitor-exit v1
+0007: return-void
+0008: move-exception v0
+0009: monitor-exit v1
+000a: throw v0
+# try @0001..@0006 handler_offset=1
+# handler_offset=1: catchall -> @0008
+
+## Lc;->a(Ljava/lang/String;)V access=0x20011
+# code_off=0x173b8 registers=3 incoming_words=2 outgoing_words=1 code_units=11 tries=1
+0000: monitor-enter v1
+0001: iput-object v2, v1, "Lc;->j:Ljava/lang/String;"
+0003: invoke-virtual {v1}, Ljava/lang/Object;->notify()V
+0006: monitor-exit v1
+0007: return-void
+0008: move-exception v0
+0009: monitor-exit v1
+000a: throw v0
+# try @0001..@0006 handler_offset=1
+# handler_offset=1: catchall -> @0008
+
+## Lc;->a(Ljava/lang/String;Ljava/lang/String;)V access=0x20010
+# code_off=0x173ec registers=4 incoming_words=3 outgoing_words=1 code_units=13 tries=1
+0000: monitor-enter v1
+0001: iput-object v3, v1, "Lc;->e:Ljava/lang/String;"
+0003: iput-object v2, v1, "Lc;->f:Ljava/lang/String;"
+0005: invoke-virtual {v1}, Ljava/lang/Object;->notify()V
+0008: monitor-exit v1
+0009: return-void
+000a: move-exception v0
+000b: monitor-exit v1
+000c: throw v0
+# try @0001..@0008 handler_offset=1
+# handler_offset=1: catchall -> @000a
+
+## Lc;->doInBackground([Ljava/lang/Object;)Ljava/lang/Object; access=0x1014
+# code_off=0x17424 registers=3 incoming_words=2 outgoing_words=2 code_units=7 tries=0
+0000: check-cast v2, "[Lcom/google/ads/AdRequest;"
+0002: invoke-direct {v1, v2}, Lc;->a([Lcom/google/ads/AdRequest;)Lcom/google/ads/AdRequest$ErrorCode;
+0005: move-result-object v0
+0006: return-object v0
+
+## Lc;->onCancelled()V access=0x14
+# code_off=0x17444 registers=3 incoming_words=1 outgoing_words=2 code_units=17 tries=0
+0000: const-string v0, "AdLoader cancelled."
+0002: invoke-static {v0}, Lt;->a(Ljava/lang/String;)V
+0005: iget-object v0, v2, "Lc;->i:Landroid/webkit/WebView;"
+0007: invoke-virtual {v0}, Landroid/webkit/WebView;->stopLoading()V
+000a: iget-object v0, v2, "Lc;->g:Lb;"
+000c: const/4 v1, 0
+000d: invoke-virtual {v0, v1}, Lb;->cancel(Z)Z
+0010: return-void
+
+## Lc;->onPostExecute(Ljava/lang/Object;)V access=0x1014
+# code_off=0x17478 registers=4 incoming_words=2 outgoing_words=2 code_units=47 tries=1
+0000: check-cast v3, "Lcom/google/ads/AdRequest$ErrorCode;"
+0002: monitor-enter v2
+0003: if-nez v3, @000c
+0005: iget-object v0, v2, "Lc;->h:Ld;"
+0007: invoke-virtual {v0}, Ld;->n()V
+000a: monitor-exit v2
+000b: return-void
+000c: iget-object v0, v2, "Lc;->i:Landroid/webkit/WebView;"
+000e: invoke-virtual {v0}, Landroid/webkit/WebView;->stopLoading()V
+0011: iget-object v0, v2, "Lc;->g:Lb;"
+0013: const/4 v1, 0
+0014: invoke-virtual {v0, v1}, Lb;->cancel(Z)Z
+0017: iget-boolean v0, v2, "Lc;->l:Z"
+0019: if-eqz v0, @0026
+001b: iget-object v0, v2, "Lc;->h:Ld;"
+001d: invoke-virtual {v0}, Ld;->g()Lg;
+0020: move-result-object v0
+0021: const/16 v1, 8
+0023: invoke-virtual {v0, v1}, Lg;->setVisibility(I)V
+0026: iget-object v0, v2, "Lc;->h:Ld;"
+0028: invoke-virtual {v0, v3}, Ld;->a(Lcom/google/ads/AdRequest$ErrorCode;)V
+002b: goto @000a
+002c: move-exception v0
+002d: monitor-exit v2
+002e: throw v0
+# try @0005..@002b handler_offset=1
+# handler_offset=1: catchall -> @002c
+
+## Lc;->onProgressUpdate([Ljava/lang/Object;)V access=0x1014
+# code_off=0x174f4 registers=6 incoming_words=2 outgoing_words=2 code_units=16 tries=0
+0000: const/4 v3, 0
+0001: check-cast v5, "[Ljava/lang/String;"
+0003: iget-object v0, v4, "Lc;->g:Lb;"
+0005: const/4 v1, 1
+0006: new-array v1, v1, "[Ljava/lang/String;"
+0008: aget-object v2, v5, v3
+000a: aput-object v2, v1, v3
+000c: invoke-virtual {v0, v1}, Lb;->execute([Ljava/lang/Object;)Landroid/os/AsyncTask;
+000f: return-void

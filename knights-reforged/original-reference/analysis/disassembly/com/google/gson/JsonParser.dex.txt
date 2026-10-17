@@ -1,0 +1,100 @@
+# class Lcom/google/gson/JsonParser; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/JsonParser;-><init>()V access=0x10001
+# code_off=0x1a004 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/JsonParser;->parse(Ljava/io/Reader;)Lcom/google/gson/JsonElement; access=0x11
+# code_off=0x1a01c registers=6 incoming_words=2 outgoing_words=3 code_units=154 tries=1
+0000: new-instance v0, "Lcom/google/gson/y;"
+0002: invoke-direct {v0, v5}, Lcom/google/gson/y;-><init>(Ljava/io/Reader;)V
+0005: invoke-virtual {v0}, Lcom/google/gson/y;->a()Lcom/google/gson/JsonElement;
+0008: move-result-object v0
+0009: return-object v0
+000a: move-exception v0
+000b: new-instance v1, "Lcom/google/gson/JsonParseException;"
+000d: new-instance v2, "Ljava/lang/StringBuilder;"
+000f: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+0012: const-string v3, "Failed parsing JSON source: "
+0014: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0017: move-result-object v2
+0018: invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+001b: move-result-object v2
+001c: const-string v3, " to Json"
+001e: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0021: move-result-object v2
+0022: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0025: move-result-object v2
+0026: invoke-direct {v1, v2, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0029: throw v1
+002a: move-exception v0
+002b: new-instance v1, "Lcom/google/gson/JsonParseException;"
+002d: new-instance v2, "Ljava/lang/StringBuilder;"
+002f: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+0032: const-string v3, "Failed parsing JSON source: "
+0034: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0037: move-result-object v2
+0038: invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+003b: move-result-object v2
+003c: const-string v3, " to Json"
+003e: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0041: move-result-object v2
+0042: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0045: move-result-object v2
+0046: invoke-direct {v1, v2, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0049: throw v1
+004a: move-exception v0
+004b: new-instance v1, "Lcom/google/gson/JsonParseException;"
+004d: new-instance v2, "Ljava/lang/StringBuilder;"
+004f: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+0052: const-string v3, "Failed parsing JSON source: "
+0054: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0057: move-result-object v2
+0058: invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+005b: move-result-object v2
+005c: const-string v3, " to Json"
+005e: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0061: move-result-object v2
+0062: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0065: move-result-object v2
+0066: invoke-direct {v1, v2, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0069: throw v1
+006a: move-exception v0
+006b: new-instance v1, "Lcom/google/gson/JsonParseException;"
+006d: new-instance v2, "Ljava/lang/StringBuilder;"
+006f: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+0072: const-string v3, "Failed parsing JSON source: "
+0074: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0077: move-result-object v2
+0078: invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+007b: move-result-object v2
+007c: const-string v3, " to Json"
+007e: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0081: move-result-object v2
+0082: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0085: move-result-object v2
+0086: invoke-direct {v1, v2, v0}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0089: throw v1
+008a: move-exception v0
+008b: invoke-virtual {v0}, Lcom/google/gson/JsonParseException;->getCause()Ljava/lang/Throwable;
+008e: move-result-object v1
+008f: instance-of v1, v1, "Ljava/io/EOFException;"
+0091: if-eqz v1, @0099
+0093: invoke-static {}, Lcom/google/gson/JsonNull;->b()Lcom/google/gson/JsonNull;
+0096: move-result-object v0
+0097: goto/16 @0009
+0099: throw v0
+# try @0000..@0008 handler_offset=1
+# handler_offset=1: Lcom/google/gson/ba; -> @000a, Lcom/google/gson/as; -> @002a, Ljava/lang/StackOverflowError; -> @004a, Ljava/lang/OutOfMemoryError; -> @006a, Lcom/google/gson/JsonParseException; -> @008a
+
+## Lcom/google/gson/JsonParser;->parse(Ljava/lang/String;)Lcom/google/gson/JsonElement; access=0x11
+# code_off=0x1a17c registers=3 incoming_words=2 outgoing_words=2 code_units=10 tries=0
+0000: new-instance v0, "Ljava/io/StringReader;"
+0002: invoke-direct {v0, v2}, Ljava/io/StringReader;-><init>(Ljava/lang/String;)V
+0005: invoke-virtual {v1, v0}, Lcom/google/gson/JsonParser;->parse(Ljava/io/Reader;)Lcom/google/gson/JsonElement;
+0008: move-result-object v0
+0009: return-object v0

@@ -1,0 +1,46 @@
+# class Lcom/google/gson/ah; extends Ljava/util/LinkedHashMap;
+# interfaces Lcom/google/gson/b;
+# source None
+# fields
+# Lcom/google/gson/ah;->a:I access=0x12
+
+## Lcom/google/gson/ah;-><init>(I)V access=0x10000
+# code_off=0x2c86c registers=4 incoming_words=2 outgoing_words=4 code_units=10 tries=0
+0000: const v0, 1060320051 (0x3f333333)
+0003: const/4 v1, 1
+0004: invoke-direct {v2, v3, v0, v1}, Ljava/util/LinkedHashMap;-><init>(IFZ)V
+0007: iput v3, v2, "Lcom/google/gson/ah;->a:I"
+0009: return-void
+
+## Lcom/google/gson/ah;->a(Ljava/lang/Object;)Ljava/lang/Object; access=0x11
+# code_off=0x2c890 registers=3 incoming_words=2 outgoing_words=2 code_units=5 tries=0
+0000: invoke-virtual {v1, v2}, Lcom/google/gson/ah;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0003: move-result-object v0
+0004: return-object v0
+
+## Lcom/google/gson/ah;->a(Ljava/lang/Object;Ljava/lang/Object;)V access=0x11
+# code_off=0x2c8ac registers=3 incoming_words=3 outgoing_words=3 code_units=4 tries=0
+0000: invoke-virtual {v0, v1, v2}, Lcom/google/gson/ah;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0003: return-void
+
+## Lcom/google/gson/ah;->clear()V access=0x11
+# code_off=0x2c8c4 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-super {v0}, Ljava/util/LinkedHashMap;->clear()V
+0003: return-void
+
+## Lcom/google/gson/ah;->removeEldestEntry(Ljava/util/Map$Entry;)Z access=0x14
+# code_off=0x2c8dc registers=4 incoming_words=2 outgoing_words=1 code_units=12 tries=0
+0000: invoke-virtual {v2}, Lcom/google/gson/ah;->size()I
+0003: move-result v0
+0004: iget v1, v2, "Lcom/google/gson/ah;->a:I"
+0006: if-le v0, v1, @000a
+0008: const/4 v0, 1
+0009: return v0
+000a: const/4 v0, 0
+000b: goto @0009
+
+## Lcom/google/gson/ah;->size()I access=0x11
+# code_off=0x2c904 registers=2 incoming_words=1 outgoing_words=1 code_units=5 tries=0
+0000: invoke-super {v1}, Ljava/util/LinkedHashMap;->size()I
+0003: move-result v0
+0004: return v0

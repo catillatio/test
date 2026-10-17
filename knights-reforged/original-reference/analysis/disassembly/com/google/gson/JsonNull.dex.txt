@@ -1,0 +1,40 @@
+# class Lcom/google/gson/JsonNull; extends Lcom/google/gson/JsonElement;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/JsonNull;->a:Lcom/google/gson/JsonNull; access=0x1a
+
+## Lcom/google/gson/JsonNull;-><clinit>()V access=0x10008
+# code_off=0x28d34 registers=1 incoming_words=0 outgoing_words=1 code_units=8 tries=0
+0000: new-instance v0, "Lcom/google/gson/JsonNull;"
+0002: invoke-direct {v0}, Lcom/google/gson/JsonNull;-><init>()V
+0005: sput-object v0, "Lcom/google/gson/JsonNull;->a:Lcom/google/gson/JsonNull;"
+0007: return-void
+
+## Lcom/google/gson/JsonNull;-><init>()V access=0x10001
+# code_off=0x28d54 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Lcom/google/gson/JsonElement;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/JsonNull;->b()Lcom/google/gson/JsonNull; access=0x8
+# code_off=0x28d6c registers=1 incoming_words=0 outgoing_words=0 code_units=3 tries=0
+0000: sget-object v0, "Lcom/google/gson/JsonNull;->a:Lcom/google/gson/JsonNull;"
+0002: return-object v0
+
+## Lcom/google/gson/JsonNull;->a(Ljava/lang/Appendable;Lcom/google/gson/h;)V access=0x14
+# code_off=0x28d84 registers=4 incoming_words=3 outgoing_words=2 code_units=6 tries=0
+0000: const-string v0, "null"
+0002: invoke-interface {v2, v0}, Ljava/lang/Appendable;->append(Ljava/lang/CharSequence;)Ljava/lang/Appendable;
+0005: return-void
+
+## Lcom/google/gson/JsonNull;->equals(Ljava/lang/Object;)Z access=0x11
+# code_off=0x28da0 registers=3 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: instance-of v0, v2, "Lcom/google/gson/JsonNull;"
+0002: return v0
+
+## Lcom/google/gson/JsonNull;->hashCode()I access=0x11
+# code_off=0x28db8 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: const-class v0, "Lcom/google/gson/JsonNull;"
+0002: invoke-virtual {v0}, Ljava/lang/Object;->hashCode()I
+0005: move-result v0
+0006: return v0

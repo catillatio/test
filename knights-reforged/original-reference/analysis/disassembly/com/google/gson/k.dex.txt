@@ -1,0 +1,6 @@
+# class Lcom/google/gson/k; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/k;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/String; access=0x401

@@ -1,0 +1,593 @@
+# class Lu; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lu;->a:Ljava/lang/Boolean; access=0xa
+# Lu;->b:Ljava/lang/String; access=0xa
+# Lu;->c:Ljava/lang/String; access=0xa
+# Lu;->d:Landroid/media/AudioManager; access=0xa
+# Lu;->e:Landroid/util/DisplayMetrics; access=0xa
+# Lu;->f:Z access=0xa
+# Lu;->g:Z access=0xa
+# Lu;->h:Ljava/lang/String; access=0xa
+
+## Lu;-><clinit>()V access=0x10008
+# code_off=0x2722c registers=2 incoming_words=0 outgoing_words=0 code_units=14 tries=0
+0000: const/4 v1, 0
+0001: sput-object v1, "Lu;->a:Ljava/lang/Boolean;"
+0003: sput-object v1, "Lu;->b:Ljava/lang/String;"
+0005: const/4 v0, 1
+0006: sput-boolean v0, "Lu;->f:Z"
+0008: const/4 v0, 0
+0009: sput-boolean v0, "Lu;->g:Z"
+000b: sput-object v1, "Lu;->h:Ljava/lang/String;"
+000d: return-void
+
+## Lu;-><init>()V access=0x10002
+# code_off=0x27258 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lu;->a(Landroid/app/Activity;)Landroid/util/DisplayMetrics; access=0x9
+# code_off=0x27270 registers=3 incoming_words=1 outgoing_words=2 code_units=27 tries=0
+0000: sget-object v0, "Lu;->e:Landroid/util/DisplayMetrics;"
+0002: if-nez v0, @0018
+0004: new-instance v0, "Landroid/util/DisplayMetrics;"
+0006: invoke-direct {v0}, Landroid/util/DisplayMetrics;-><init>()V
+0009: sput-object v0, "Lu;->e:Landroid/util/DisplayMetrics;"
+000b: invoke-virtual {v2}, Landroid/app/Activity;->getWindowManager()Landroid/view/WindowManager;
+000e: move-result-object v0
+000f: invoke-interface {v0}, Landroid/view/WindowManager;->getDefaultDisplay()Landroid/view/Display;
+0012: move-result-object v0
+0013: sget-object v1, "Lu;->e:Landroid/util/DisplayMetrics;"
+0015: invoke-virtual {v0, v1}, Landroid/view/Display;->getMetrics(Landroid/util/DisplayMetrics;)V
+0018: sget-object v0, "Lu;->e:Landroid/util/DisplayMetrics;"
+001a: return-object v0
+
+## Lu;->a(Landroid/content/Context;)Ljava/lang/String; access=0x9
+# code_off=0x272b8 registers=3 incoming_words=1 outgoing_words=2 code_units=46 tries=0
+0000: sget-object v0, "Lu;->b:Ljava/lang/String;"
+0002: if-nez v0, @002b
+0004: invoke-virtual {v2}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
+0007: move-result-object v0
+0008: const-string v1, "android_id"
+000a: invoke-static {v0, v1}, Landroid/provider/Settings$Secure;->getString(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;
+000d: move-result-object v0
+000e: if-eqz v0, @0016
+0010: invoke-static {}, Lu;->a()Z
+0013: move-result v1
+0014: if-eqz v1, @0020
+0016: const-string v0, "emulator"
+0018: invoke-static {v0}, Lu;->a(Ljava/lang/String;)Ljava/lang/String;
+001b: move-result-object v0
+001c: if-nez v0, @0025
+001e: const/4 v0, 0
+001f: return-object v0
+0020: invoke-static {v0}, Lu;->a(Ljava/lang/String;)Ljava/lang/String;
+0023: move-result-object v0
+0024: goto @001c
+0025: invoke-virtual {v0}, Ljava/lang/String;->toUpperCase()Ljava/lang/String;
+0028: move-result-object v0
+0029: sput-object v0, "Lu;->b:Ljava/lang/String;"
+002b: sget-object v0, "Lu;->b:Ljava/lang/String;"
+002d: goto @001f
+
+## Lu;->a(Landroid/location/Location;)Ljava/lang/String; access=0x9
+# code_off=0x27324 registers=10 incoming_words=1 outgoing_words=2 code_units=97 tries=0
+0000: const-wide v7, 4711630319722168320
+0005: if-nez v9, @0009
+0007: const/4 v0, 0
+0008: return-object v0
+0009: const-string v0, "role: 6 producer: 24 historical_role: 1 historical_producer: 12 timestamp: %d latlng < latitude_e7: %d longitude_e7: %d> radius: %d"
+000b: const/4 v1, 4
+000c: new-array v1, v1, "[Ljava/lang/Object;"
+000e: const/4 v2, 0
+000f: invoke-virtual {v9}, Landroid/location/Location;->getTime()J
+0012: move-result-wide v3
+0013: const-wide/16 v5, 1000
+0015: mul-long/2addr v3, v5
+0016: invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+0019: move-result-object v3
+001a: aput-object v3, v1, v2
+001c: const/4 v2, 1
+001d: invoke-virtual {v9}, Landroid/location/Location;->getLatitude()D
+0020: move-result-wide v3
+0021: mul-double/2addr v3, v7
+0022: double-to-long v3, v3
+0023: invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+0026: move-result-object v3
+0027: aput-object v3, v1, v2
+0029: const/4 v2, 2
+002a: invoke-virtual {v9}, Landroid/location/Location;->getLongitude()D
+002d: move-result-wide v3
+002e: mul-double/2addr v3, v7
+002f: double-to-long v3, v3
+0030: invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+0033: move-result-object v3
+0034: aput-object v3, v1, v2
+0036: const/4 v2, 3
+0037: invoke-virtual {v9}, Landroid/location/Location;->getAccuracy()F
+003a: move-result v3
+003b: const/high16 v4, 0x447a0000
+003d: mul-float/2addr v3, v4
+003e: float-to-long v3, v3
+003f: invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+0042: move-result-object v3
+0043: aput-object v3, v1, v2
+0045: invoke-static {v0, v1}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+0048: move-result-object v0
+0049: invoke-static {v0}, Lu;->b(Ljava/lang/String;)Ljava/lang/String;
+004c: move-result-object v0
+004d: new-instance v1, "Ljava/lang/StringBuilder;"
+004f: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+0052: const-string v2, "e1+"
+0054: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0057: move-result-object v1
+0058: invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+005b: move-result-object v0
+005c: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+005f: move-result-object v0
+0060: goto @0008
+
+## Lu;->a(Landroid/webkit/WebView;)Ljava/lang/String; access=0x9
+# code_off=0x273f8 registers=5 incoming_words=1 outgoing_words=2 code_units=163 tries=0
+0000: sget-object v0, "Lu;->h:Ljava/lang/String;"
+0002: if-nez v0, @00a0
+0004: invoke-virtual {v4}, Landroid/webkit/WebView;->getSettings()Landroid/webkit/WebSettings;
+0007: move-result-object v0
+0008: invoke-virtual {v0}, Landroid/webkit/WebSettings;->getUserAgentString()Ljava/lang/String;
+000b: move-result-object v0
+000c: if-eqz v0, @0016
+000e: const-string v1, "Java0"
+0010: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0013: move-result v1
+0014: if-eqz v1, @0079
+0016: const-string v0, "java.vm.name"
+0018: const-string v1, "Dalvik"
+001a: invoke-static {v0, v1}, Ljava/lang/System;->getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+001d: move-result-object v0
+001e: const-string v1, "java.vm.version"
+0020: const-string v2, "1.1.0"
+0022: invoke-static {v1, v2}, Ljava/lang/System;->getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+0025: move-result-object v1
+0026: const-string v2, "os.name"
+0028: const-string v3, "Linux"
+002a: invoke-static {v2, v3}, Ljava/lang/System;->getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+002d: move-result-object v2
+002e: new-instance v3, "Ljava/lang/StringBuilder;"
+0030: invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+0033: invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0036: move-result-object v0
+0037: const-string v3, "/"
+0039: invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+003c: move-result-object v0
+003d: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0040: move-result-object v0
+0041: const-string v1, " ("
+0043: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0046: move-result-object v0
+0047: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+004a: move-result-object v0
+004b: const-string v1, "; U; Android "
+004d: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0050: move-result-object v0
+0051: sget-object v1, "Landroid/os/Build$VERSION;->RELEASE:Ljava/lang/String;"
+0053: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0056: move-result-object v0
+0057: const-string v1, "; "
+0059: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+005c: move-result-object v0
+005d: sget-object v1, "Landroid/os/Build;->MODEL:Ljava/lang/String;"
+005f: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0062: move-result-object v0
+0063: const-string v1, " Build/"
+0065: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0068: move-result-object v0
+0069: sget-object v1, "Landroid/os/Build;->ID:Ljava/lang/String;"
+006b: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+006e: move-result-object v0
+006f: const-string v1, ")"
+0071: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0074: move-result-object v0
+0075: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0078: move-result-object v0
+0079: new-instance v1, "Ljava/lang/StringBuilder;"
+007b: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+007e: invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0081: move-result-object v0
+0082: const-string v1, " (Mobile; "
+0084: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0087: move-result-object v0
+0088: const-string v1, "afma-sdk-a-v"
+008a: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+008d: move-result-object v0
+008e: const-string v1, "4.0.4"
+0090: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0093: move-result-object v0
+0094: const-string v1, ")"
+0096: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0099: move-result-object v0
+009a: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+009d: move-result-object v0
+009e: sput-object v0, "Lu;->h:Ljava/lang/String;"
+00a0: sget-object v0, "Lu;->h:Ljava/lang/String;"
+00a2: return-object v0
+
+## Lu;->a(Ljava/lang/String;)Ljava/lang/String; access=0xa
+# code_off=0x27550 registers=8 incoming_words=1 outgoing_words=4 code_units=59 tries=1
+0000: const/4 v6, 0
+0001: const/4 v0, 0
+0002: if-eqz v7, @0032
+0004: invoke-virtual {v7}, Ljava/lang/String;->length()I
+0007: move-result v1
+0008: if-lez v1, @0032
+000a: const-string v0, "MD5"
+000c: invoke-static {v0}, Ljava/security/MessageDigest;->getInstance(Ljava/lang/String;)Ljava/security/MessageDigest;
+000f: move-result-object v0
+0010: invoke-virtual {v7}, Ljava/lang/String;->getBytes()[B
+0013: move-result-object v1
+0014: const/4 v2, 0
+0015: invoke-virtual {v7}, Ljava/lang/String;->length()I
+0018: move-result v3
+0019: invoke-virtual {v0, v1, v2, v3}, Ljava/security/MessageDigest;->update([BII)V
+001c: const-string v1, "%032X"
+001e: const/4 v2, 1
+001f: new-array v2, v2, "[Ljava/lang/Object;"
+0021: const/4 v3, 0
+0022: new-instance v4, "Ljava/math/BigInteger;"
+0024: const/4 v5, 1
+0025: invoke-virtual {v0}, Ljava/security/MessageDigest;->digest()[B
+0028: move-result-object v0
+0029: invoke-direct {v4, v5, v0}, Ljava/math/BigInteger;-><init>(I[B)V
+002c: aput-object v4, v2, v3
+002e: invoke-static {v1, v2}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+0031: move-result-object v0
+0032: return-object v0
+0033: move-exception v0
+0034: const/16 v0, 32
+0036: invoke-virtual {v7, v6, v0}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+0039: move-result-object v0
+003a: goto @0032
+# try @000a..@0031 handler_offset=1
+# handler_offset=1: Ljava/security/NoSuchAlgorithmException; -> @0033
+
+## Lu;->a(Landroid/net/Uri;)Ljava/util/HashMap; access=0x9
+# code_off=0x275e8 registers=10 incoming_words=1 outgoing_words=3 code_units=65 tries=0
+0000: const/4 v0, 0
+0001: const/4 v3, 0
+0002: if-nez v9, @0005
+0004: return-object v0
+0005: new-instance v1, "Ljava/util/HashMap;"
+0007: invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
+000a: invoke-virtual {v9}, Landroid/net/Uri;->getEncodedQuery()Ljava/lang/String;
+000d: move-result-object v2
+000e: if-nez v2, @0012
+0010: move-object v0, v1
+0011: goto @0004
+0012: const-string v4, "&"
+0014: invoke-virtual {v2, v4}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
+0017: move-result-object v4
+0018: array-length v5, v4
+0019: move v2, v3
+001a: if-ge v2, v5, @003f
+001c: aget-object v6, v4, v2
+001e: const/16 v7, 61
+0020: invoke-virtual {v6, v7}, Ljava/lang/String;->indexOf(I)I
+0023: move-result v7
+0024: const/4 v8, -1
+0025: if-eq v7, v8, @0004
+0027: invoke-virtual {v6, v3, v7}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+002a: move-result-object v8
+002b: add-int/lit8 v7, v7, 1
+002d: invoke-virtual {v6, v7}, Ljava/lang/String;->substring(I)Ljava/lang/String;
+0030: move-result-object v6
+0031: invoke-static {v8}, Ljava/net/URLDecoder;->decode(Ljava/lang/String;)Ljava/lang/String;
+0034: move-result-object v7
+0035: invoke-static {v6}, Ljava/net/URLDecoder;->decode(Ljava/lang/String;)Ljava/lang/String;
+0038: move-result-object v6
+0039: invoke-virtual {v1, v7, v6}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+003c: add-int/lit8 v2, v2, 1
+003e: goto @001a
+003f: move-object v0, v1
+0040: goto @0004
+
+## Lu;->a(Z)V access=0x9
+# code_off=0x2767c registers=1 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: sput-boolean v0, "Lu;->f:Z"
+0002: return-void
+
+## Lu;->a()Z access=0x9
+# code_off=0x27694 registers=2 incoming_words=0 outgoing_words=2 code_units=34 tries=0
+0000: const-string v0, "unknown"
+0002: sget-object v1, "Landroid/os/Build;->BOARD:Ljava/lang/String;"
+0004: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0007: move-result v0
+0008: if-eqz v0, @0020
+000a: const-string v0, "generic"
+000c: sget-object v1, "Landroid/os/Build;->DEVICE:Ljava/lang/String;"
+000e: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0011: move-result v0
+0012: if-eqz v0, @0020
+0014: const-string v0, "generic"
+0016: sget-object v1, "Landroid/os/Build;->BRAND:Ljava/lang/String;"
+0018: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+001b: move-result v0
+001c: if-eqz v0, @0020
+001e: const/4 v0, 1
+001f: return v0
+0020: const/4 v0, 0
+0021: goto @001f
+
+## Lu;->b(Ljava/lang/String;)Ljava/lang/String; access=0xa
+# code_off=0x276e8 registers=7 incoming_words=1 outgoing_words=5 code_units=74 tries=1
+0000: const-string v0, "AES/CBC/PKCS5Padding"
+0002: invoke-static {v0}, Ljavax/crypto/Cipher;->getInstance(Ljava/lang/String;)Ljavax/crypto/Cipher;
+0005: move-result-object v0
+0006: const/4 v1, 1
+0007: new-instance v2, "Ljavax/crypto/spec/SecretKeySpec;"
+0009: const/16 v3, 16
+000b: new-array v3, v3, "[B"
+000d: fill-array-data v3, @003e
+0010: const-string v4, "AES"
+0012: invoke-direct {v2, v3, v4}, Ljavax/crypto/spec/SecretKeySpec;-><init>([BLjava/lang/String;)V
+0015: invoke-virtual {v0, v1, v2}, Ljavax/crypto/Cipher;->init(ILjava/security/Key;)V
+0018: invoke-virtual {v0}, Ljavax/crypto/Cipher;->getIV()[B
+001b: move-result-object v1
+001c: invoke-virtual {v6}, Ljava/lang/String;->getBytes()[B
+001f: move-result-object v2
+0020: invoke-virtual {v0, v2}, Ljavax/crypto/Cipher;->doFinal([B)[B
+0023: move-result-object v0
+0024: array-length v2, v1
+0025: array-length v3, v0
+0026: add-int/2addr v2, v3
+0027: new-array v2, v2, "[B"
+0029: const/4 v3, 0
+002a: const/4 v4, 0
+002b: array-length v5, v1
+002c: invoke-static {v1, v3, v2, v4, v5}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+002f: const/4 v3, 0
+0030: array-length v1, v1
+0031: array-length v4, v0
+0032: invoke-static {v0, v3, v2, v1, v4}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+0035: invoke-static {v2}, Lv;->a([B)Ljava/lang/String;
+0038: move-result-object v0
+0039: return-object v0
+003a: move-exception v0
+003b: const/4 v0, 0
+003c: goto @0039
+003d: nop
+003e: payload fill-array-data-payload element_width=1 count=16 bytes=0a3790d1fa070b4bf987794550c30f05
+# try @0000..@0038 handler_offset=1
+# handler_offset=1: Ljava/security/GeneralSecurityException; -> @003a
+
+## Lu;->b(Landroid/webkit/WebView;)V access=0x9
+# code_off=0x2779c registers=3 incoming_words=1 outgoing_words=2 code_units=12 tries=0
+0000: invoke-virtual {v2}, Landroid/webkit/WebView;->getSettings()Landroid/webkit/WebSettings;
+0003: move-result-object v0
+0004: invoke-static {v2}, Lu;->a(Landroid/webkit/WebView;)Ljava/lang/String;
+0007: move-result-object v1
+0008: invoke-virtual {v0, v1}, Landroid/webkit/WebSettings;->setUserAgentString(Ljava/lang/String;)V
+000b: return-void
+
+## Lu;->b()Z access=0x9
+# code_off=0x277c4 registers=1 incoming_words=0 outgoing_words=0 code_units=3 tries=0
+0000: sget-boolean v0, "Lu;->f:Z"
+0002: return v0
+
+## Lu;->b(Landroid/content/Context;)Z access=0x9
+# code_off=0x277dc registers=5 incoming_words=1 outgoing_words=3 code_units=92 tries=0
+0000: const/4 v1, 0
+0001: sget-object v0, "Lu;->a:Ljava/lang/Boolean;"
+0003: if-eqz v0, @000c
+0005: sget-object v0, "Lu;->a:Ljava/lang/Boolean;"
+0007: invoke-virtual {v0}, Ljava/lang/Boolean;->booleanValue()Z
+000a: move-result v1
+000b: return v1
+000c: invoke-virtual {v4}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
+000f: move-result-object v0
+0010: new-instance v2, "Landroid/content/Intent;"
+0012: const-class v3, "Lcom/google/ads/AdActivity;"
+0014: invoke-direct {v2, v4, v3}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+0017: const/high16 v3, 0x10000
+0019: invoke-virtual {v0, v2, v3}, Landroid/content/pm/PackageManager;->resolveActivity(Landroid/content/Intent;I)Landroid/content/pm/ResolveInfo;
+001c: move-result-object v2
+001d: const/4 v0, 1
+001e: if-eqz v2, @0024
+0020: iget-object v3, v2, "Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;"
+0022: if-nez v3, @0030
+0024: const-string v0, "Could not find com.google.ads.AdActivity, please make sure it is registered in AndroidManifest.xml."
+0026: invoke-static {v0}, Lt;->b(Ljava/lang/String;)V
+0029: invoke-static {v1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+002c: move-result-object v0
+002d: sput-object v0, "Lu;->a:Ljava/lang/Boolean;"
+002f: goto @000b
+0030: iget-object v3, v2, "Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;"
+0032: iget v3, v3, "Landroid/content/pm/ActivityInfo;->configChanges:I"
+0034: and-int/lit8 v3, v3, 16
+0036: if-nez v3, @003e
+0038: const-string v0, "The android:configChanges value of the com.google.ads.internal.AdActivity must include keyboard."
+003a: invoke-static {v0}, Lt;->b(Ljava/lang/String;)V
+003d: move v0, v1
+003e: iget-object v3, v2, "Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;"
+0040: iget v3, v3, "Landroid/content/pm/ActivityInfo;->configChanges:I"
+0042: and-int/lit8 v3, v3, 32
+0044: if-nez v3, @004c
+0046: const-string v0, "The android:configChanges value of the com.google.ads.internal.AdMobActivity must include keyboardHidden."
+0048: invoke-static {v0}, Lt;->b(Ljava/lang/String;)V
+004b: move v0, v1
+004c: iget-object v2, v2, "Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;"
+004e: iget v2, v2, "Landroid/content/pm/ActivityInfo;->configChanges:I"
+0050: and-int/lit16 v2, v2, 128
+0052: if-nez v2, @005a
+0054: const-string v0, "The android:configChanges value of the com.google.ads.internal.AdActivity must include orientation."
+0056: invoke-static {v0}, Lt;->b(Ljava/lang/String;)V
+0059: goto @0029
+005a: move v1, v0
+005b: goto @0029
+
+## Lu;->c(Landroid/content/Context;)Ljava/lang/String; access=0x9
+# code_off=0x278a4 registers=2 incoming_words=1 outgoing_words=2 code_units=40 tries=0
+0000: const-string v0, "connectivity"
+0002: invoke-virtual {v1, v0}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Landroid/net/ConnectivityManager;"
+0008: invoke-virtual {v0}, Landroid/net/ConnectivityManager;->getActiveNetworkInfo()Landroid/net/NetworkInfo;
+000b: move-result-object v0
+000c: if-nez v0, @0010
+000e: const/4 v0, 0
+000f: return-object v0
+0010: invoke-virtual {v0}, Landroid/net/NetworkInfo;->getType()I
+0013: move-result v0
+0014: packed-switch v0, @0020
+0017: const-string v0, "unknown"
+0019: goto @000f
+001a: const-string v0, "ed"
+001c: goto @000f
+001d: const-string v0, "wi"
+001f: goto @000f
+0020: payload packed-switch-payload size=2 first_key=0 targets=[6, 9]
+
+## Lu;->d(Landroid/content/Context;)Ljava/lang/String; access=0x9
+# code_off=0x27904 registers=7 incoming_words=1 outgoing_words=3 code_units=136 tries=0
+0000: const/high16 v5, 0x10000
+0002: sget-object v0, "Lu;->c:Ljava/lang/String;"
+0004: if-nez v0, @0085
+0006: new-instance v0, "Ljava/lang/StringBuilder;"
+0008: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+000b: invoke-virtual {v6}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
+000e: move-result-object v1
+000f: new-instance v2, "Landroid/content/Intent;"
+0011: const-string v3, "android.intent.action.VIEW"
+0013: const-string v4, "geo:0,0?q=donuts"
+0015: invoke-static {v4}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
+0018: move-result-object v4
+0019: invoke-direct {v2, v3, v4}, Landroid/content/Intent;-><init>(Ljava/lang/String;Landroid/net/Uri;)V
+001c: invoke-virtual {v1, v2, v5}, Landroid/content/pm/PackageManager;->queryIntentActivities(Landroid/content/Intent;I)Ljava/util/List;
+001f: move-result-object v2
+0020: if-eqz v2, @0028
+0022: invoke-interface {v2}, Ljava/util/List;->size()I
+0025: move-result v2
+0026: if-nez v2, @002d
+0028: const-string v2, "m"
+002a: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+002d: new-instance v2, "Landroid/content/Intent;"
+002f: const-string v3, "android.intent.action.VIEW"
+0031: const-string v4, "market://search?q=pname:com.admob"
+0033: invoke-static {v4}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
+0036: move-result-object v4
+0037: invoke-direct {v2, v3, v4}, Landroid/content/Intent;-><init>(Ljava/lang/String;Landroid/net/Uri;)V
+003a: invoke-virtual {v1, v2, v5}, Landroid/content/pm/PackageManager;->queryIntentActivities(Landroid/content/Intent;I)Ljava/util/List;
+003d: move-result-object v2
+003e: if-eqz v2, @0046
+0040: invoke-interface {v2}, Ljava/util/List;->size()I
+0043: move-result v2
+0044: if-nez v2, @0056
+0046: invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
+0049: move-result v2
+004a: if-lez v2, @0051
+004c: const-string v2, ","
+004e: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0051: const-string v2, "a"
+0053: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0056: new-instance v2, "Landroid/content/Intent;"
+0058: const-string v3, "android.intent.action.VIEW"
+005a: const-string v4, "tel://6509313940"
+005c: invoke-static {v4}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
+005f: move-result-object v4
+0060: invoke-direct {v2, v3, v4}, Landroid/content/Intent;-><init>(Ljava/lang/String;Landroid/net/Uri;)V
+0063: invoke-virtual {v1, v2, v5}, Landroid/content/pm/PackageManager;->queryIntentActivities(Landroid/content/Intent;I)Ljava/util/List;
+0066: move-result-object v1
+0067: if-eqz v1, @006f
+0069: invoke-interface {v1}, Ljava/util/List;->size()I
+006c: move-result v1
+006d: if-nez v1, @007f
+006f: invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
+0072: move-result v1
+0073: if-lez v1, @007a
+0075: const-string v1, ","
+0077: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+007a: const-string v1, "t"
+007c: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+007f: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0082: move-result-object v0
+0083: sput-object v0, "Lu;->c:Ljava/lang/String;"
+0085: sget-object v0, "Lu;->c:Ljava/lang/String;"
+0087: return-object v0
+
+## Lu;->e(Landroid/content/Context;)Lu$a; access=0x9
+# code_off=0x27a24 registers=4 incoming_words=1 outgoing_words=2 code_units=72 tries=0
+0000: const/4 v2, 1
+0001: sget-object v0, "Lu;->d:Landroid/media/AudioManager;"
+0003: if-nez v0, @000f
+0005: const-string v0, "audio"
+0007: invoke-virtual {v3, v0}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+000a: move-result-object v0
+000b: check-cast v0, "Landroid/media/AudioManager;"
+000d: sput-object v0, "Lu;->d:Landroid/media/AudioManager;"
+000f: sget-object v0, "Lu$a;->f:Lu$a;"
+0011: sget-object v0, "Lu;->d:Landroid/media/AudioManager;"
+0013: invoke-virtual {v0}, Landroid/media/AudioManager;->getMode()I
+0016: move-result v0
+0017: invoke-static {}, Lu;->a()Z
+001a: move-result v1
+001b: if-eqz v1, @0020
+001d: sget-object v0, "Lu$a;->e:Lu$a;"
+001f: return-object v0
+0020: sget-object v1, "Lu;->d:Landroid/media/AudioManager;"
+0022: invoke-virtual {v1}, Landroid/media/AudioManager;->isMusicActive()Z
+0025: move-result v1
+0026: if-nez v1, @0035
+0028: sget-object v1, "Lu;->d:Landroid/media/AudioManager;"
+002a: invoke-virtual {v1}, Landroid/media/AudioManager;->isSpeakerphoneOn()Z
+002d: move-result v1
+002e: if-nez v1, @0035
+0030: const/4 v1, 2
+0031: if-eq v0, v1, @0035
+0033: if-ne v0, v2, @0038
+0035: sget-object v0, "Lu$a;->d:Lu$a;"
+0037: goto @001f
+0038: sget-object v0, "Lu;->d:Landroid/media/AudioManager;"
+003a: invoke-virtual {v0}, Landroid/media/AudioManager;->getRingerMode()I
+003d: move-result v0
+003e: if-eqz v0, @0042
+0040: if-ne v0, v2, @0045
+0042: sget-object v0, "Lu$a;->d:Lu$a;"
+0044: goto @001f
+0045: sget-object v0, "Lu$a;->b:Lu$a;"
+0047: goto @001f
+
+## Lu;->f(Landroid/content/Context;)Ljava/lang/String; access=0x9
+# code_off=0x27ac4 registers=4 incoming_words=1 outgoing_words=2 code_units=26 tries=0
+0000: const-string v1, "p"
+0002: const-string v0, "window"
+0004: invoke-virtual {v3, v0}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+0007: move-result-object v0
+0008: check-cast v0, "Landroid/view/WindowManager;"
+000a: invoke-interface {v0}, Landroid/view/WindowManager;->getDefaultDisplay()Landroid/view/Display;
+000d: move-result-object v0
+000e: invoke-virtual {v0}, Landroid/view/Display;->getOrientation()I
+0011: move-result v0
+0012: const/4 v2, 1
+0013: if-ne v0, v2, @0018
+0015: const-string v0, "l"
+0017: return-object v0
+0018: move-object v0, v1
+0019: goto @0017
+
+## Lu;->g(Landroid/content/Context;)V access=0x9
+# code_off=0x27b08 registers=3 incoming_words=1 outgoing_words=3 code_units=32 tries=0
+0000: sget-boolean v0, "Lu;->g:Z"
+0002: if-eqz v0, @0005
+0004: return-void
+0005: new-instance v0, "Landroid/content/IntentFilter;"
+0007: invoke-direct {v0}, Landroid/content/IntentFilter;-><init>()V
+000a: const-string v1, "android.intent.action.USER_PRESENT"
+000c: invoke-virtual {v0, v1}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
+000f: const-string v1, "android.intent.action.SCREEN_OFF"
+0011: invoke-virtual {v0, v1}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
+0014: new-instance v1, "Lu$b;"
+0016: invoke-direct {v1}, Lu$b;-><init>()V
+0019: invoke-virtual {v2, v1, v0}, Landroid/content/Context;->registerReceiver(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;
+001c: const/4 v0, 1
+001d: sput-boolean v0, "Lu;->g:Z"
+001f: goto @0004

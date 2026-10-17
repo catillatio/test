@@ -1,0 +1,80 @@
+# class Lcom/google/gson/ap; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/ap;->a:Ljava/lang/Object; access=0x10
+# Lcom/google/gson/ap;->b:Ljava/lang/Object; access=0x10
+
+## Lcom/google/gson/ap;-><init>(Ljava/lang/Object;Ljava/lang/Object;)V access=0x10000
+# code_off=0x1afb0 registers=3 incoming_words=3 outgoing_words=1 code_units=8 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0005: iput-object v2, v0, "Lcom/google/gson/ap;->b:Ljava/lang/Object;"
+0007: return-void
+
+## Lcom/google/gson/ap;->a(Ljava/lang/Object;Ljava/lang/Object;)Z access=0xa
+# code_off=0x1afd0 registers=3 incoming_words=2 outgoing_words=2 code_units=14 tries=0
+0000: if-eq v1, v2, @000a
+0002: if-eqz v1, @000c
+0004: invoke-virtual {v1, v2}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+0007: move-result v0
+0008: if-eqz v0, @000c
+000a: const/4 v0, 1
+000b: return v0
+000c: const/4 v0, 0
+000d: goto @000b
+
+## Lcom/google/gson/ap;->equals(Ljava/lang/Object;)Z access=0x11
+# code_off=0x1affc registers=5 incoming_words=2 outgoing_words=2 code_units=30 tries=0
+0000: const/4 v0, 0
+0001: instance-of v1, v4, "Lcom/google/gson/ap;"
+0003: if-nez v1, @0006
+0005: return v0
+0006: check-cast v4, "Lcom/google/gson/ap;"
+0008: iget-object v1, v3, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+000a: iget-object v2, v4, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+000c: invoke-static {v1, v2}, Lcom/google/gson/ap;->a(Ljava/lang/Object;Ljava/lang/Object;)Z
+000f: move-result v1
+0010: if-eqz v1, @0005
+0012: iget-object v1, v3, "Lcom/google/gson/ap;->b:Ljava/lang/Object;"
+0014: iget-object v2, v4, "Lcom/google/gson/ap;->b:Ljava/lang/Object;"
+0016: invoke-static {v1, v2}, Lcom/google/gson/ap;->a(Ljava/lang/Object;Ljava/lang/Object;)Z
+0019: move-result v1
+001a: if-eqz v1, @0005
+001c: const/4 v0, 1
+001d: goto @0005
+
+## Lcom/google/gson/ap;->hashCode()I access=0x11
+# code_off=0x1b048 registers=4 incoming_words=1 outgoing_words=1 code_units=29 tries=0
+0000: const/4 v1, 0
+0001: iget-object v0, v3, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0003: if-eqz v0, @001b
+0005: iget-object v0, v3, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0007: invoke-virtual {v0}, Ljava/lang/Object;->hashCode()I
+000a: move-result v0
+000b: mul-int/lit8 v0, v0, 17
+000d: iget-object v2, v3, "Lcom/google/gson/ap;->b:Ljava/lang/Object;"
+000f: if-eqz v2, @0017
+0011: iget-object v1, v3, "Lcom/google/gson/ap;->b:Ljava/lang/Object;"
+0013: invoke-virtual {v1}, Ljava/lang/Object;->hashCode()I
+0016: move-result v1
+0017: mul-int/lit8 v1, v1, 17
+0019: add-int/2addr v0, v1
+001a: return v0
+001b: move v0, v1
+001c: goto @000b
+
+## Lcom/google/gson/ap;->toString()Ljava/lang/String; access=0x11
+# code_off=0x1b094 registers=5 incoming_words=1 outgoing_words=2 code_units=20 tries=0
+0000: const-string v0, "{%s,%s}"
+0002: const/4 v1, 2
+0003: new-array v1, v1, "[Ljava/lang/Object;"
+0005: const/4 v2, 0
+0006: iget-object v3, v4, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0008: aput-object v3, v1, v2
+000a: const/4 v2, 1
+000b: iget-object v3, v4, "Lcom/google/gson/ap;->b:Ljava/lang/Object;"
+000d: aput-object v3, v1, v2
+000f: invoke-static {v0, v1}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+0012: move-result-object v0
+0013: return-object v0

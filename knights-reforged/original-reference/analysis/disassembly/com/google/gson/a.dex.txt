@@ -1,0 +1,36 @@
+# class Lcom/google/gson/a; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/ExclusionStrategy;
+# source None
+# fields
+
+## Lcom/google/gson/a;-><init>()V access=0x10000
+# code_off=0x29990 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/a;->a(Ljava/lang/Class;)Z access=0xa
+# code_off=0x299a8 registers=2 incoming_words=1 outgoing_words=1 code_units=16 tries=0
+0000: invoke-virtual {v1}, Ljava/lang/Class;->isAnonymousClass()Z
+0003: move-result v0
+0004: if-nez v0, @000c
+0006: invoke-virtual {v1}, Ljava/lang/Class;->isLocalClass()Z
+0009: move-result v0
+000a: if-eqz v0, @000e
+000c: const/4 v0, 1
+000d: return v0
+000e: const/4 v0, 0
+000f: goto @000d
+
+## Lcom/google/gson/a;->shouldSkipClass(Ljava/lang/Class;)Z access=0x11
+# code_off=0x299d8 registers=3 incoming_words=2 outgoing_words=1 code_units=5 tries=0
+0000: invoke-static {v2}, Lcom/google/gson/a;->a(Ljava/lang/Class;)Z
+0003: move-result v0
+0004: return v0
+
+## Lcom/google/gson/a;->shouldSkipField(Lcom/google/gson/FieldAttributes;)Z access=0x11
+# code_off=0x299f4 registers=3 incoming_words=2 outgoing_words=1 code_units=9 tries=0
+0000: invoke-virtual {v2}, Lcom/google/gson/FieldAttributes;->getDeclaredClass()Ljava/lang/Class;
+0003: move-result-object v0
+0004: invoke-static {v0}, Lcom/google/gson/a;->a(Ljava/lang/Class;)Z
+0007: move-result v0
+0008: return v0

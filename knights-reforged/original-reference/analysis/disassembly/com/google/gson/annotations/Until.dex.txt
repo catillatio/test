@@ -1,0 +1,6 @@
+# class Lcom/google/gson/annotations/Until; extends Ljava/lang/Object;
+# interfaces Ljava/lang/annotation/Annotation;
+# source None
+# fields
+
+## Lcom/google/gson/annotations/Until;->value()D access=0x401

@@ -1,0 +1,117 @@
+# class Lcom/storm8/base/util/iap/Inventory; extends Ljava/lang/Object;
+# interfaces 
+# source Inventory.java
+# fields
+# Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map; access=0x0
+# Lcom/storm8/base/util/iap/Inventory;->mSkuMap:Ljava/util/Map; access=0x0
+
+## Lcom/storm8/base/util/iap/Inventory;-><init>()V access=0x10000
+# code_off=0x24018 registers=2 incoming_words=1 outgoing_words=1 code_units=18 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: new-instance v0, "Ljava/util/HashMap;"
+0005: invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
+0008: iput-object v0, v1, "Lcom/storm8/base/util/iap/Inventory;->mSkuMap:Ljava/util/Map;"
+000a: new-instance v0, "Ljava/util/HashMap;"
+000c: invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
+000f: iput-object v0, v1, "Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map;"
+0011: return-void
+
+## Lcom/storm8/base/util/iap/Inventory;->addPurchase(Lcom/storm8/base/util/iap/Purchase;)V access=0x1
+# code_off=0x2404c registers=4 incoming_words=2 outgoing_words=3 code_units=10 tries=0
+0000: iget-object v0, v2, "Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map;"
+0002: invoke-virtual {v3}, Lcom/storm8/base/util/iap/Purchase;->getSku()Ljava/lang/String;
+0005: move-result-object v1
+0006: invoke-interface {v0, v1, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0009: return-void
+
+## Lcom/storm8/base/util/iap/Inventory;->addSkuDetails(Lcom/storm8/base/util/iap/SkuDetails;)V access=0x0
+# code_off=0x24070 registers=4 incoming_words=2 outgoing_words=3 code_units=10 tries=0
+0000: iget-object v0, v2, "Lcom/storm8/base/util/iap/Inventory;->mSkuMap:Ljava/util/Map;"
+0002: invoke-virtual {v3}, Lcom/storm8/base/util/iap/SkuDetails;->getSku()Ljava/lang/String;
+0005: move-result-object v1
+0006: invoke-interface {v0, v1, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0009: return-void
+
+## Lcom/storm8/base/util/iap/Inventory;->erasePurchase(Ljava/lang/String;)V access=0x1
+# code_off=0x24094 registers=3 incoming_words=2 outgoing_words=2 code_units=14 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map;"
+0002: invoke-interface {v0, v2}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+0005: move-result v0
+0006: if-eqz v0, @000d
+0008: iget-object v0, v1, "Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map;"
+000a: invoke-interface {v0, v2}, Ljava/util/Map;->remove(Ljava/lang/Object;)Ljava/lang/Object;
+000d: return-void
+
+## Lcom/storm8/base/util/iap/Inventory;->getAllOwnedSkus()Ljava/util/List; access=0x0
+# code_off=0x240c0 registers=3 incoming_words=1 outgoing_words=2 code_units=12 tries=0
+0000: new-instance v0, "Ljava/util/ArrayList;"
+0002: iget-object v1, v2, "Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map;"
+0004: invoke-interface {v1}, Ljava/util/Map;->keySet()Ljava/util/Set;
+0007: move-result-object v1
+0008: invoke-direct {v0, v1}, Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
+000b: return-object v0
+
+## Lcom/storm8/base/util/iap/Inventory;->getAllOwnedSkus(Ljava/lang/String;)Ljava/util/List; access=0x0
+# code_off=0x240e8 registers=6 incoming_words=2 outgoing_words=2 code_units=46 tries=0
+0000: new-instance v1, "Ljava/util/ArrayList;"
+0002: invoke-direct {v1}, Ljava/util/ArrayList;-><init>()V
+0005: iget-object v2, v4, "Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map;"
+0007: invoke-interface {v2}, Ljava/util/Map;->values()Ljava/util/Collection;
+000a: move-result-object v2
+000b: invoke-interface {v2}, Ljava/util/Collection;->iterator()Ljava/util/Iterator;
+000e: move-result-object v2
+000f: invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
+0012: move-result v3
+0013: if-nez v3, @0016
+0015: return-object v1
+0016: invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+0019: move-result-object v0
+001a: check-cast v0, "Lcom/storm8/base/util/iap/Purchase;"
+001c: invoke-virtual {v0}, Lcom/storm8/base/util/iap/Purchase;->getItemType()Ljava/lang/String;
+001f: move-result-object v3
+0020: invoke-virtual {v3, v5}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0023: move-result v3
+0024: if-eqz v3, @000f
+0026: invoke-virtual {v0}, Lcom/storm8/base/util/iap/Purchase;->getSku()Ljava/lang/String;
+0029: move-result-object v3
+002a: invoke-interface {v1, v3}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+002d: goto @000f
+
+## Lcom/storm8/base/util/iap/Inventory;->getAllPurchases()Ljava/util/List; access=0x1
+# code_off=0x24154 registers=3 incoming_words=1 outgoing_words=2 code_units=12 tries=0
+0000: new-instance v0, "Ljava/util/ArrayList;"
+0002: iget-object v1, v2, "Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map;"
+0004: invoke-interface {v1}, Ljava/util/Map;->values()Ljava/util/Collection;
+0007: move-result-object v1
+0008: invoke-direct {v0, v1}, Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
+000b: return-object v0
+
+## Lcom/storm8/base/util/iap/Inventory;->getPurchase(Ljava/lang/String;)Lcom/storm8/base/util/iap/Purchase; access=0x1
+# code_off=0x2417c registers=3 incoming_words=2 outgoing_words=2 code_units=9 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map;"
+0002: invoke-interface {v0, v2}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Lcom/storm8/base/util/iap/Purchase;"
+0008: return-object v0
+
+## Lcom/storm8/base/util/iap/Inventory;->getSkuDetails(Ljava/lang/String;)Lcom/storm8/base/util/iap/SkuDetails; access=0x1
+# code_off=0x241a0 registers=3 incoming_words=2 outgoing_words=2 code_units=9 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Inventory;->mSkuMap:Ljava/util/Map;"
+0002: invoke-interface {v0, v2}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Lcom/storm8/base/util/iap/SkuDetails;"
+0008: return-object v0
+
+## Lcom/storm8/base/util/iap/Inventory;->hasDetails(Ljava/lang/String;)Z access=0x1
+# code_off=0x241c4 registers=3 incoming_words=2 outgoing_words=2 code_units=7 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Inventory;->mSkuMap:Ljava/util/Map;"
+0002: invoke-interface {v0, v2}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+0005: move-result v0
+0006: return v0
+
+## Lcom/storm8/base/util/iap/Inventory;->hasPurchase(Ljava/lang/String;)Z access=0x1
+# code_off=0x241e4 registers=3 incoming_words=2 outgoing_words=2 code_units=7 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Inventory;->mPurchaseMap:Ljava/util/Map;"
+0002: invoke-interface {v0, v2}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+0005: move-result v0
+0006: return v0

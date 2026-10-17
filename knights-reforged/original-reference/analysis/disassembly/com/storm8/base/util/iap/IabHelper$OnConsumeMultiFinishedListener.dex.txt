@@ -1,0 +1,6 @@
+# class Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener; extends Ljava/lang/Object;
+# interfaces 
+# source IabHelper.java
+# fields
+
+## Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;->onConsumeMultiFinished(Ljava/util/List;Ljava/util/List;)V access=0x401

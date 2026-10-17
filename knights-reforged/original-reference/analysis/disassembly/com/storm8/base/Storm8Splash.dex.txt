@@ -1,0 +1,22 @@
+# class Lcom/storm8/base/Storm8Splash; extends Landroid/app/Activity;
+# interfaces 
+# source Storm8Splash.java
+# fields
+
+## Lcom/storm8/base/Storm8Splash;-><init>()V access=0x10001
+# code_off=0x1ff68 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Landroid/app/Activity;-><init>()V
+0003: return-void
+
+## Lcom/storm8/base/Storm8Splash;->getSplashLayoutId()I access=0x401
+
+## Lcom/storm8/base/Storm8Splash;->onCreate(Landroid/os/Bundle;)V access=0x1
+# code_off=0x1ff80 registers=4 incoming_words=2 outgoing_words=2 code_units=19 tries=0
+0000: invoke-super {v2, v3}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V
+0003: invoke-virtual {v2}, Lcom/storm8/base/Storm8Splash;->getSplashLayoutId()I
+0006: move-result v1
+0007: invoke-virtual {v2, v1}, Lcom/storm8/base/Storm8Splash;->setContentView(I)V
+000a: new-instance v0, "Lcom/storm8/base/Storm8Splash$1;"
+000c: invoke-direct {v0, v2}, Lcom/storm8/base/Storm8Splash$1;-><init>(Lcom/storm8/base/Storm8Splash;)V
+000f: invoke-virtual {v0}, Ljava/lang/Thread;->start()V
+0012: return-void

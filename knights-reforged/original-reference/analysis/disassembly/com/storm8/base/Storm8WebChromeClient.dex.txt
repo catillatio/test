@@ -1,0 +1,42 @@
+# class Lcom/storm8/base/Storm8WebChromeClient; extends Landroid/webkit/WebChromeClient;
+# interfaces 
+# source Storm8WebChromeClient.java
+# fields
+# Lcom/storm8/base/Storm8WebChromeClient;->mainActivity:Lcom/storm8/base/Storm8MainActivity; access=0x2
+
+## Lcom/storm8/base/Storm8WebChromeClient;-><init>(Lcom/storm8/base/Storm8MainActivity;)V access=0x10001
+# code_off=0x20030 registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: invoke-direct {v0}, Landroid/webkit/WebChromeClient;-><init>()V
+0003: iput-object v1, v0, "Lcom/storm8/base/Storm8WebChromeClient;->mainActivity:Lcom/storm8/base/Storm8MainActivity;"
+0005: return-void
+
+## Lcom/storm8/base/Storm8WebChromeClient;->onJsConfirm(Landroid/webkit/WebView;Ljava/lang/String;Ljava/lang/String;Landroid/webkit/JsResult;)Z access=0x1
+# code_off=0x2004c registers=8 incoming_words=5 outgoing_words=3 code_units=58 tries=0
+0000: new-instance v0, "Landroid/app/AlertDialog$Builder;"
+0002: iget-object v1, v3, "Lcom/storm8/base/Storm8WebChromeClient;->mainActivity:Lcom/storm8/base/Storm8MainActivity;"
+0004: invoke-direct {v0, v1}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
+0007: iget-object v1, v3, "Lcom/storm8/base/Storm8WebChromeClient;->mainActivity:Lcom/storm8/base/Storm8MainActivity;"
+0009: invoke-virtual {v1}, Lcom/storm8/base/Storm8MainActivity;->getAppName()Ljava/lang/String;
+000c: move-result-object v1
+000d: invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+0010: move-result-object v0
+0011: invoke-virtual {v0, v6}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+0014: move-result-object v0
+0015: const v1, 17039370 (0x0104000a)
+0018: new-instance v2, "Lcom/storm8/base/Storm8WebChromeClient$1;"
+001a: invoke-direct {v2, v3, v7}, Lcom/storm8/base/Storm8WebChromeClient$1;-><init>(Lcom/storm8/base/Storm8WebChromeClient;Landroid/webkit/JsResult;)V
+001d: invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(ILandroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+0020: move-result-object v0
+0021: const/high16 v1, 0x1040000
+0023: new-instance v2, "Lcom/storm8/base/Storm8WebChromeClient$2;"
+0025: invoke-direct {v2, v3, v7}, Lcom/storm8/base/Storm8WebChromeClient$2;-><init>(Lcom/storm8/base/Storm8WebChromeClient;Landroid/webkit/JsResult;)V
+0028: invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setNegativeButton(ILandroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+002b: move-result-object v0
+002c: const/4 v1, 0
+002d: invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
+0030: move-result-object v0
+0031: invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->create()Landroid/app/AlertDialog;
+0034: move-result-object v0
+0035: invoke-virtual {v0}, Landroid/app/AlertDialog;->show()V
+0038: const/4 v0, 1
+0039: return v0

@@ -1,0 +1,19 @@
+# class Lcom/storm8/base/Storm8WebChromeClient$1; extends Ljava/lang/Object;
+# interfaces Landroid/content/DialogInterface$OnClickListener;
+# source Storm8WebChromeClient.java
+# fields
+# Lcom/storm8/base/Storm8WebChromeClient$1;->this$0:Lcom/storm8/base/Storm8WebChromeClient; access=0x1010
+# Lcom/storm8/base/Storm8WebChromeClient$1;->val$result:Landroid/webkit/JsResult; access=0x1012
+
+## Lcom/storm8/base/Storm8WebChromeClient$1;-><init>(Lcom/storm8/base/Storm8WebChromeClient;Landroid/webkit/JsResult;)V access=0x10000
+# code_off=0x1ffb8 registers=3 incoming_words=3 outgoing_words=1 code_units=8 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8WebChromeClient$1;->this$0:Lcom/storm8/base/Storm8WebChromeClient;"
+0002: iput-object v2, v0, "Lcom/storm8/base/Storm8WebChromeClient$1;->val$result:Landroid/webkit/JsResult;"
+0004: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0007: return-void
+
+## Lcom/storm8/base/Storm8WebChromeClient$1;->onClick(Landroid/content/DialogInterface;I)V access=0x1
+# code_off=0x1ffd8 registers=4 incoming_words=3 outgoing_words=1 code_units=6 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/Storm8WebChromeClient$1;->val$result:Landroid/webkit/JsResult;"
+0002: invoke-virtual {v0}, Landroid/webkit/JsResult;->confirm()V
+0005: return-void

@@ -1,0 +1,116 @@
+# class Lg; extends Landroid/webkit/WebView;
+# interfaces 
+# source None
+# fields
+# Lg;->a:Lcom/google/ads/AdActivity; access=0x2
+# Lg;->b:Lcom/google/ads/AdSize; access=0x2
+
+## Lg;-><init>(Landroid/content/Context;Lcom/google/ads/AdSize;)V access=0x10001
+# code_off=0x255e8 registers=5 incoming_words=3 outgoing_words=2 code_units=18 tries=0
+0000: invoke-direct {v2, v3}, Landroid/webkit/WebView;-><init>(Landroid/content/Context;)V
+0003: iput-object v4, v2, "Lg;->b:Lcom/google/ads/AdSize;"
+0005: invoke-virtual {v2}, Lg;->getSettings()Landroid/webkit/WebSettings;
+0008: move-result-object v0
+0009: const/4 v1, 1
+000a: invoke-virtual {v0, v1}, Landroid/webkit/WebSettings;->setJavaScriptEnabled(Z)V
+000d: const/4 v0, 0
+000e: invoke-virtual {v2, v0}, Lg;->setScrollBarStyle(I)V
+0011: return-void
+
+## Lg;->a()V access=0x11
+# code_off=0x2561c registers=2 incoming_words=1 outgoing_words=1 code_units=10 tries=0
+0000: iget-object v0, v1, "Lg;->a:Lcom/google/ads/AdActivity;"
+0002: if-eqz v0, @0009
+0004: iget-object v0, v1, "Lg;->a:Lcom/google/ads/AdActivity;"
+0006: invoke-virtual {v0}, Lcom/google/ads/AdActivity;->finish()V
+0009: return-void
+
+## Lg;->a(Lcom/google/ads/AdActivity;)V access=0x11
+# code_off=0x25640 registers=2 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: iput-object v1, v0, "Lg;->a:Lcom/google/ads/AdActivity;"
+0002: return-void
+
+## Lg;->b()Lcom/google/ads/AdActivity; access=0x11
+# code_off=0x25658 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lg;->a:Lcom/google/ads/AdActivity;"
+0002: return-object v0
+
+## Lg;->onMeasure(II)V access=0x14
+# code_off=0x25670 registers=11 incoming_words=3 outgoing_words=3 code_units=152 tries=0
+0000: const/4 v7, 0
+0001: invoke-virtual {v8}, Lg;->isInEditMode()Z
+0004: move-result v0
+0005: if-eqz v0, @000b
+0007: invoke-super {v8, v9, v10}, Landroid/webkit/WebView;->onMeasure(II)V
+000a: return-void
+000b: iget-object v0, v8, "Lg;->b:Lcom/google/ads/AdSize;"
+000d: if-nez v0, @0013
+000f: invoke-super {v8, v9, v10}, Landroid/webkit/WebView;->onMeasure(II)V
+0012: goto @000a
+0013: invoke-static {v9}, Landroid/view/View$MeasureSpec;->getMode(I)I
+0016: move-result v0
+0017: invoke-static {v9}, Landroid/view/View$MeasureSpec;->getSize(I)I
+001a: move-result v1
+001b: invoke-static {v10}, Landroid/view/View$MeasureSpec;->getMode(I)I
+001e: move-result v2
+001f: invoke-static {v10}, Landroid/view/View$MeasureSpec;->getSize(I)I
+0022: move-result v3
+0023: invoke-virtual {v8}, Lg;->getContext()Landroid/content/Context;
+0026: move-result-object v4
+0027: invoke-virtual {v4}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
+002a: move-result-object v4
+002b: invoke-virtual {v4}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
+002e: move-result-object v4
+002f: iget v4, v4, "Landroid/util/DisplayMetrics;->density:F"
+0031: iget-object v5, v8, "Lg;->b:Lcom/google/ads/AdSize;"
+0033: invoke-virtual {v5}, Lcom/google/ads/AdSize;->getWidth()I
+0036: move-result v5
+0037: int-to-float v5, v5
+0038: mul-float/2addr v5, v4
+0039: float-to-int v5, v5
+003a: iget-object v6, v8, "Lg;->b:Lcom/google/ads/AdSize;"
+003c: invoke-virtual {v6}, Lcom/google/ads/AdSize;->getHeight()I
+003f: move-result v6
+0040: int-to-float v6, v6
+0041: mul-float/2addr v4, v6
+0042: float-to-int v4, v4
+0043: if-eqz v0, @0047
+0045: if-nez v2, @004b
+0047: invoke-super {v8, v9, v10}, Landroid/webkit/WebView;->onMeasure(II)V
+004a: goto @000a
+004b: if-gt v5, v1, @004f
+004d: if-le v4, v3, @0093
+004f: new-instance v0, "Ljava/lang/StringBuilder;"
+0051: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+0054: const-string v2, "Not enough space to show ad! Wants: <"
+0056: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0059: move-result-object v0
+005a: invoke-virtual {v0, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+005d: move-result-object v0
+005e: const-string v2, ", "
+0060: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0063: move-result-object v0
+0064: invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0067: move-result-object v0
+0068: const-string v2, ">, Has: <"
+006a: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+006d: move-result-object v0
+006e: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0071: move-result-object v0
+0072: const-string v1, ", "
+0074: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0077: move-result-object v0
+0078: invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+007b: move-result-object v0
+007c: const-string v1, ">"
+007e: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0081: move-result-object v0
+0082: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0085: move-result-object v0
+0086: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+0089: const/16 v0, 8
+008b: invoke-virtual {v8, v0}, Lg;->setVisibility(I)V
+008e: invoke-virtual {v8, v7, v7}, Lg;->setMeasuredDimension(II)V
+0091: goto/16 @000a
+0093: invoke-super {v8, v9, v10}, Landroid/webkit/WebView;->onMeasure(II)V
+0096: goto/16 @000a
