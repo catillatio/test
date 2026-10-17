@@ -1,0 +1,51 @@
+{
+  "id": "recreation-0.1",
+  "provenance": "Provisional recreation rules. No original server gameplay formulas were recovered.",
+  "startingGold": 60,
+  "maxHealth": 100,
+  "maxEnergy": 10,
+  "energyRegenSeconds": 30,
+  "healthRegenSeconds": 30,
+  "healthRegenAmount": 2,
+  "xpPerLevel": 50,
+  "baseAttack": 5,
+  "baseDefense": 5,
+  "attackPerLevel": 2,
+  "defensePerLevel": 1,
+  "armyCapacity": 20,
+  "quest": {
+    "id": "border-patrol",
+    "name": "Patrol the border",
+    "description": "Keep the old road safe. Return with coin, experience, and a story worth telling.",
+    "energyCost": 1,
+    "goldReward": 25,
+    "xpReward": 10
+  },
+  "unit": {
+    "id": "militia",
+    "name": "Militia",
+    "description": "Local volunteers, ready to stand beneath your banner.",
+    "goldCost": 12,
+    "attack": 3,
+    "defense": 2
+  },
+  "weapon": {
+    "id": "iron-sword",
+    "name": "Iron sword",
+    "description": "A dependable blade from the village forge.",
+    "goldCost": 40,
+    "attack": 8,
+    "defense": 1,
+    "slot": "weapon"
+  },
+  "combat": {
+    "energyCost": 2,
+    "cooldownSeconds": 10,
+    "maxRoll": 6,
+    "winnerDamageMin": 3,
+    "loserDamageMin": 12,
+    "loserDamageMax": 30,
+    "maxLoot": 10,
+    "attackerXp": 5
+  }
+}

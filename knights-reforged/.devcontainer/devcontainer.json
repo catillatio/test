@@ -1,0 +1,16 @@
+{
+  "name": "Knights Reforged — private development realm",
+  "dockerComposeFile": "compose.yml",
+  "service": "workspace",
+  "workspaceFolder": "/workspaces/knights-reforged",
+  "remoteUser": "node",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Knights Reforged — keep PRIVATE",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    }
+  },
+  "postCreateCommand": "node deployment/setup-development.mjs"
+}

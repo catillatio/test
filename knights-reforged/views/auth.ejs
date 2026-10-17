@@ -1,0 +1,12 @@
+<div class="auth-grid">
+  <section class="auth-story"><p class="eyebrow">A NEW CHAPTER IN AN OLD KINGDOM</p><h1>Your legend<br>begins again.</h1><p>Walk the border. Rally your company. Challenge another banner.</p><div class="auth-art"><img src="/assets/art/home.png" alt="Recovered Knights Reforged kingdom artwork" width="256" height="455"><span>KNIGHTS REFORGED</span></div></section>
+  <section class="panel auth-card" aria-labelledby="auth-title"><p class="eyebrow"><%= authMode === 'register' ? 'JOIN THE REALM' : 'WELCOME BACK' %></p><h2 id="auth-title"><%= authMode === 'register' ? 'Raise your banner' : 'Enter the realm' %></h2><p class="description"><%= authMode === 'register' ? 'Create an account and a warrior to begin your journey.' : 'Your company is waiting for you.' %></p>
+    <form method="post" action="/<%= authMode %>" class="auth-form"><input type="hidden" name="csrf" value="<%= csrf %>">
+      <div class="field"><label for="username">Account name</label><input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]{3,24}" value="<%= formValues.username %>" required aria-describedby="username-hint"><p class="field-hint" id="username-hint">3–24 letters, numbers, or underscores. Used to sign in.</p></div>
+      <% if (authMode === 'register') { %><div class="field"><label for="warrior-name">Warrior name</label><input id="warrior-name" name="name" type="text" autocomplete="nickname" minlength="2" maxlength="28" value="<%= formValues.name %>" required aria-describedby="warrior-hint"><p class="field-hint" id="warrior-hint">The name other players will see in the realm.</p></div><% } %>
+      <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="<%= authMode === 'register' ? 'new-password' : 'current-password' %>" minlength="12" maxlength="128" required aria-describedby="password-hint"><p class="field-hint" id="password-hint">Use at least 12 characters.</p></div>
+      <button class="button button-gold full-width" type="submit"><%= authMode === 'register' ? 'Create your warrior' : 'Sign in' %> <span aria-hidden="true">→</span></button>
+    </form>
+    <p class="auth-switch"><% if (authMode === 'register') { %>Already have a banner? <a href="/login">Sign in</a><% } else { %>New to the realm? <a href="/register">Create an account</a><% } %></p>
+  </section>
+</div>

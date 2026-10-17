@@ -1,0 +1,22 @@
+<section class="hero hero-home">
+  <img class="hero-art" src="/assets/art/home.png" alt="" width="256" height="455">
+  <div class="hero-copy"><p class="eyebrow">WELCOME TO THE REALM</p><h2>Your banner rises,<br><%= state.name %>.</h2><p>The border needs a guardian. Your army needs a leader. A new chapter begins with the next step.</p><a class="button button-gold" href="/game/quests">Take a quest <span aria-hidden="true">→</span></a></div>
+  <span class="hero-caption">THE ROAD AHEAD IS YOURS</span>
+</section>
+<div class="content-grid home-grid">
+  <section class="panel" aria-labelledby="company-title">
+    <div class="section-heading"><div><p class="eyebrow">BENEATH YOUR BANNER</p><h2 id="company-title">Your company</h2></div><img class="section-icon" src="/assets/art/tab-army.png" width="48" height="48" alt=""></div>
+    <dl class="summary-list"><div><dt>Militia</dt><dd><%= state.units %><span class="muted"> / <%= rules.armyCapacity %></span></dd></div><div><dt>Attack strength</dt><dd><%= state.attack %></dd></div><div><dt>Defense strength</dt><dd><%= state.defense %></dd></div><div><dt>Weapon</dt><dd><%= state.equipped ? rules.weapon.name : 'Unequipped' %></dd></div></dl>
+    <a class="button button-outline full-width" href="/game/army">Gather your army</a>
+  </section>
+  <section class="panel" aria-labelledby="journey-title">
+    <div class="section-heading"><div><p class="eyebrow">A WARRIOR'S FIRST STEPS</p><h2 id="journey-title">Make your mark</h2></div></div>
+    <ol class="journey-list">
+      <li><span class="step-mark<%= state.questsCompleted ? ' is-done' : '' %>" aria-hidden="true"><%= state.questsCompleted ? '✓' : '1' %></span><a href="/game/quests"><strong>Walk the border</strong><span>Earn coin and experience on a quest.</span></a></li>
+      <li><span class="step-mark<%= state.units ? ' is-done' : '' %>" aria-hidden="true"><%= state.units ? '✓' : '2' %></span><a href="/game/army"><strong>Rally your company</strong><span>Recruit militia to strengthen your army.</span></a></li>
+      <li><span class="step-mark<%= state.equipped ? ' is-done' : '' %>" aria-hidden="true"><%= state.equipped ? '✓' : '3' %></span><a href="/game/armory"><strong>Visit the forge</strong><span>Buy a sword and equip it for battle.</span></a></li>
+      <li><span class="step-mark<%= battles.length ? ' is-done' : '' %>" aria-hidden="true"><%= battles.length ? '✓' : '4' %></span><a href="/game/battle"><strong>Answer a challenge</strong><span>Test your company against another player.</span></a></li>
+    </ol>
+  </section>
+</div>
+<%- include('partials/history') %>

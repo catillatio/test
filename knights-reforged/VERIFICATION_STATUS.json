@@ -1,0 +1,23 @@
+{
+  "status": "blocked_pending_dependency_access",
+  "original_project_files_preserved": 53,
+  "dependencies_installed": false,
+  "package_lock_created": false,
+  "typescript_compilation_ran": false,
+  "unit_tests_executed": false,
+  "postgresql_migrations_executed": false,
+  "postgresql_integration_tests_executed": false,
+  "browser_smoke_test_executed": false,
+  "offline_source_checks": {
+    "passed": 34,
+    "failed": 0,
+    "template_fixture_cases": 27,
+    "scope": "Syntax parsing, source references, template-tag-subset fixture rendering, HTML form/link contracts, asset hashes, and responsive CSS source checks. Not TypeScript type resolution or runtime testing."
+  },
+  "dependency_blocker": "npm registry request failed with connect EPERM to the configured proxy 172.31.0.221:8080. Prior additional-network permission requests were interrupted without returning a grant or install result.",
+  "private_preview_created": false,
+  "public_deployment_created": false,
+  "hosting_resources_provisioned": false,
+  "deployment_helpers_executed": false,
+  "historical_server_contacted": false
+}

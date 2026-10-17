@@ -1,0 +1,16 @@
+<section class="panel history-panel" aria-labelledby="history-title">
+  <div class="section-heading"><div><p class="eyebrow">TALES FROM THE FIELD</p><h2 id="history-title">Recent battles</h2></div><span class="muted"><%= battles.length %> recent</span></div>
+  <% if (battles.length === 0) { %>
+    <div class="empty-state"><span class="empty-symbol" aria-hidden="true">⚔</span><h3>Your story is still unwritten.</h3><p>Challenge another warrior to leave your first mark on the realm.</p><% if (screen !== 'battle') { %><a class="text-link" href="/game/battle">Find an opponent <span aria-hidden="true">→</span></a><% } %></div>
+  <% } else { %>
+    <ul class="battle-history">
+      <% for (const entry of battles) { const b = entry.result; const won = b.winnerId === state.id; %>
+        <li><a href="/game/battles/<%= entry.id %>" class="history-row">
+          <span class="result-badge<%= won ? ' result-win' : ' result-loss' %>"><%= won ? 'Victory' : 'Defeat' %></span>
+          <span class="history-description"><strong><%= b.attackerName %> <span class="muted">vs</span> <%= b.defenderName %></strong><small><time datetime="<%= new Date(entry.created_at).toISOString() %>"><%= new Date(entry.created_at).toLocaleString('en-GB', {timeZone: 'UTC', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'}) %> UTC</time></small></span>
+          <span class="history-arrow" aria-hidden="true">↗</span>
+        </a></li>
+      <% } %>
+    </ul>
+  <% } %>
+</section>

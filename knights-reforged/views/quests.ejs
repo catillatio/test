@@ -1,0 +1,12 @@
+<section class="hero hero-quests compact-hero"><img class="hero-art" src="/assets/art/quests.png" alt="" width="256" height="455"><div class="hero-copy"><p class="eyebrow">BEYOND THE GATES</p><h2>A little courage.<br>A road worth taking.</h2><p>Complete a patrol to earn gold and experience. Every journey strengthens your place in the realm.</p></div></section>
+<div class="content-grid detail-grid">
+  <section class="panel feature-card" aria-labelledby="quest-title">
+    <div class="section-heading"><span class="category-label">REPEATABLE QUEST</span><span class="small-tag">Level 1+</span></div>
+    <h2 id="quest-title"><%= rules.quest.name %></h2><p class="description"><%= rules.quest.description %></p>
+    <dl class="reward-grid"><div><dt>Reward</dt><dd class="gold">+<%= rules.quest.goldReward %> gold</dd></div><div><dt>Experience</dt><dd>+<%= rules.quest.xpReward %> XP</dd></div><div><dt>Cost</dt><dd><%= rules.quest.energyCost %> energy</dd></div></dl>
+    <form method="post" action="/game/quests/<%= rules.quest.id %>/run"><%- include('partials/command-fields') %><button class="button button-gold full-width" type="submit"<% if (state.energy < rules.quest.energyCost || state.health <= 0) { %> disabled<% } %>>Begin patrol <span aria-hidden="true">→</span></button></form>
+    <% if (state.health <= 0) { %><p class="field-hint">You are recovering. Health returns automatically; refresh this page in a moment.</p><% } else if (state.energy < rules.quest.energyCost) { %><p class="field-hint">Your energy is spent. One energy returns every <%= rules.energyRegenSeconds %> seconds.</p><% } %>
+  </section>
+  <aside class="panel" aria-labelledby="quest-progress-title"><p class="eyebrow">THE LONG ROAD</p><h2 id="quest-progress-title">Your progress</h2><dl class="summary-list"><div><dt>Patrols completed</dt><dd><%= state.questsCompleted %></dd></div><div><dt>Total experience</dt><dd><%= state.xp %> XP</dd></div><div><dt>Current level</dt><dd><%= state.level %></dd></div></dl><p class="field-hint">A new level arrives every <%= rules.xpPerLevel %> XP. Your attack and defense grow with it.</p><a class="text-link" href="/game/army">Put your coin to work <span aria-hidden="true">→</span></a></aside>
+</div>
+<div class="quiet-note"><span aria-hidden="true">✦</span><p>Energy returns every <%= rules.energyRegenSeconds %> seconds, up to <%= rules.maxEnergy %>. Health returns by <%= rules.healthRegenAmount %> every <%= rules.healthRegenSeconds %> seconds. Refresh to see your latest resources.</p></div>

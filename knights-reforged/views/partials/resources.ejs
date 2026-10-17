@@ -1,0 +1,6 @@
+<section class="resource-strip" aria-label="Your character's resources">
+  <div class="resource"><span class="resource-label">Gold</span><strong class="gold"><%= state.gold.toLocaleString('en') %> <small>G</small></strong></div>
+  <div class="resource"><span class="resource-label">Level</span><strong><%= state.level %></strong><span class="resource-detail"><%= state.xp %> XP</span></div>
+  <div class="resource resource-meter"><span class="resource-label">Health</span><strong><%= state.health %><small> / <%= rules.maxHealth %></small></strong><meter class="health-meter" min="0" max="<%= rules.maxHealth %>" value="<%= state.health %>" aria-label="Health"><%= state.health %> of <%= rules.maxHealth %></meter></div>
+  <div class="resource resource-meter"><span class="resource-label">Energy</span><strong><%= state.energy %><small> / <%= rules.maxEnergy %></small></strong><meter class="energy-meter" min="0" max="<%= rules.maxEnergy %>" value="<%= state.energy %>" aria-label="Energy"><%= state.energy %> of <%= rules.maxEnergy %></meter></div>
+</section>

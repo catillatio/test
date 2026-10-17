@@ -1,0 +1,60 @@
+{
+  "source": "Supplied Knights Reforged 6.0.4 analysis package",
+  "assets": [
+    {
+      "asset": "crest.png",
+      "source": "res/mipmap-xxxhdpi-v4/ic_launcher.png",
+      "sha256": "044e4985c8b025a617e300d25af630c4ff6b122b8d5f22391f38b9f286246570"
+    },
+    {
+      "asset": "home.png",
+      "source": "res/drawable-ldpi-v4/hf033768d7bcef04477d2ae89ea49e4ba.png",
+      "sha256": "1991cc6394420bd4b5ad155e74b500889bf5cd0c14feb01194f6886e664d9285"
+    },
+    {
+      "asset": "quests.png",
+      "source": "res/drawable-ldpi-v4/q0879b527da2ad5d90915df8713ae380c.png",
+      "sha256": "ebae40c09b3a481aa8cc9ba406ce5140c926f43e5fdb2caf3fa93002791d18e2"
+    },
+    {
+      "asset": "battle.png",
+      "source": "res/drawable-ldpi-v4/f033768d7bcef04477d2ae89ea49e4ba.png",
+      "sha256": "3a712ab9f54d9cdb19d28f8fc30e46b255ce113f314daf1e9adcc6aff54bcfed"
+    },
+    {
+      "asset": "armory.png",
+      "source": "res/drawable-ldpi-v4/d309d12f98e4b0f29097dec4176369bb.png",
+      "sha256": "af551e3d884ff81a3ed727a8824797c9f01969feec35f2637b4cec94798c6888"
+    },
+    {
+      "asset": "army.png",
+      "source": "res/drawable-ldpi-v4/t5b7fad066168b6e956a9458f1dfa4482.png",
+      "sha256": "0e64126f9c013428eb284bd84d378e01935adfe30832301016eb01bcd0da3fed"
+    },
+    {
+      "asset": "tab-home.png",
+      "source": "res/drawable/a6c241b8797f52e1e77317b96a201.png",
+      "sha256": "5e2bdb30fe53e4b143dca211ebd8f97b53777a4249f4c92779972dc7543ff76a"
+    },
+    {
+      "asset": "tab-quests.png",
+      "source": "res/drawable/a81159df9163879c80b772e3de1d50fc4.png",
+      "sha256": "cb6c093514f0d78215bb18db587786e9df667008d1b5c6175cd9f500415bc5fd"
+    },
+    {
+      "asset": "tab-battle.png",
+      "source": "res/drawable/a5101e70e5a075abab1c08c7a6c39612.png",
+      "sha256": "ea105e2834482a212f52de453f096c0bfce20222e100e193fad684ed00f503e6"
+    },
+    {
+      "asset": "tab-armory.png",
+      "source": "res/drawable/f1c6e216a8f8d4f22c99e8c323a3de65.png",
+      "sha256": "a37c54f48966140cf981a6103e87b5267e14af644d07394ba552948ce9a6d24c"
+    },
+    {
+      "asset": "tab-army.png",
+      "source": "res/drawable/e7b95b49658278100801c88833a52522.png",
+      "sha256": "f0d5acc7938b6ec813043e9948c92f55a5257e2aaf09d2d009531d671bf139bc"
+    }
+  ]
+}

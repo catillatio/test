@@ -1,0 +1,325 @@
+{
+  "original_files_preserved_unchanged": 53,
+  "files": [
+    {
+      "path": ".devcontainer/compose.yml",
+      "size": 1117,
+      "sha256": "deae939aea24b25ebebe1a30ccd5306c7e075ebb96eae82df99c2bffef975305"
+    },
+    {
+      "path": ".devcontainer/devcontainer.json",
+      "size": 452,
+      "sha256": "833cfb26ac446436308ccef9edbdb610425d8a82a831e29f56f4b4eff5e4d0b4"
+    },
+    {
+      "path": ".dockerignore",
+      "size": 93,
+      "sha256": "5b99dbf5ab9711aa8c8684cd3ed56dcdd6cd3f9ccd183d74ea9e52f5eb83a1d3"
+    },
+    {
+      "path": ".env.example",
+      "size": 288,
+      "sha256": "b384f7d443122830433979fb9cfc90fd4094431c2557ffd192b967b7c9def942"
+    },
+    {
+      "path": ".gitignore",
+      "size": 113,
+      "sha256": "2da11438e4cde19a88d630d3c9528d2a8559704077fe4950c6a93bb582547547"
+    },
+    {
+      "path": "DEPLOYMENT.md",
+      "size": 6115,
+      "sha256": "7ad1b8371f8ba5e54efc3e5b37d1447892587c64a66d0746cdf1fbb45a0ecdf4"
+    },
+    {
+      "path": "Dockerfile",
+      "size": 1599,
+      "sha256": "d65ef91383112ec5de2976f6da7742ba34d464192806a3b35c1de278b67ed490"
+    },
+    {
+      "path": "PROJECT_FILES.md",
+      "size": 2742,
+      "sha256": "4866ac3936f4261e091196709a38b0404ed3bf739ac1374e51be9bc3cfdf6006"
+    },
+    {
+      "path": "README.md",
+      "size": 9519,
+      "sha256": "d3f67071c5175541fac7ce739753651601120f2393485d4df49d06f9152de949"
+    },
+    {
+      "path": "VERIFICATION_STATUS.json",
+      "size": 1103,
+      "sha256": "8e7e614436bbc2496c6c8b171dfa2f93b8d560ee733b5848bd573d1ff509e475"
+    },
+    {
+      "path": "deployment/migrate.mjs",
+      "size": 411,
+      "sha256": "a7d3a383c8436d673ea24de7e779a07707644d03f6b4974ede3484e50f8dffee"
+    },
+    {
+      "path": "deployment/preview.mjs",
+      "size": 1448,
+      "sha256": "fd2a664501daef9eabfd05902bbff7421a0b1cfca187afa524e5286f72ce3963"
+    },
+    {
+      "path": "deployment/setup-development.mjs",
+      "size": 1052,
+      "sha256": "e73a1659a18ba4e414ac2c73fad4e212abcb69f2a8bb8f658b15f6b1aff2e333"
+    },
+    {
+      "path": "deployment/start.mjs",
+      "size": 253,
+      "sha256": "3cec988437980281218f7bb8c6ebb6efb200c7610fe39b4e3cd66e3d2503f33b"
+    },
+    {
+      "path": "docker-compose.yml",
+      "size": 414,
+      "sha256": "802df38e6c4a280026863da90a11720750277d7733e2b16334791d7b603dffc3"
+    },
+    {
+      "path": "migrations/001_initial.sql",
+      "size": 4703,
+      "sha256": "40096563bb35db354736d73c0cb93cc4f5ca0aa5595171d3df99241adeaba1fb"
+    },
+    {
+      "path": "package.json",
+      "size": 1372,
+      "sha256": "d7b8ed2d68efba058586c1188f59eb0e89754fe23fcb97c582efa25a1756fc09"
+    },
+    {
+      "path": "public/art/armory.png",
+      "size": 111483,
+      "sha256": "af551e3d884ff81a3ed727a8824797c9f01969feec35f2637b4cec94798c6888"
+    },
+    {
+      "path": "public/art/army.png",
+      "size": 148074,
+      "sha256": "0e64126f9c013428eb284bd84d378e01935adfe30832301016eb01bcd0da3fed"
+    },
+    {
+      "path": "public/art/battle.png",
+      "size": 180787,
+      "sha256": "3a712ab9f54d9cdb19d28f8fc30e46b255ce113f314daf1e9adcc6aff54bcfed"
+    },
+    {
+      "path": "public/art/crest.png",
+      "size": 56039,
+      "sha256": "044e4985c8b025a617e300d25af630c4ff6b122b8d5f22391f38b9f286246570"
+    },
+    {
+      "path": "public/art/home.png",
+      "size": 134482,
+      "sha256": "1991cc6394420bd4b5ad155e74b500889bf5cd0c14feb01194f6886e664d9285"
+    },
+    {
+      "path": "public/art/provenance.json",
+      "size": 2259,
+      "sha256": "8e2867d093e46e9d4e3725f2e8362dc7f0a8c3fafce1471c0f6c1f1bda8d36b7"
+    },
+    {
+      "path": "public/art/quests.png",
+      "size": 119744,
+      "sha256": "ebae40c09b3a481aa8cc9ba406ce5140c926f43e5fdb2caf3fa93002791d18e2"
+    },
+    {
+      "path": "public/art/tab-armory.png",
+      "size": 4061,
+      "sha256": "a37c54f48966140cf981a6103e87b5267e14af644d07394ba552948ce9a6d24c"
+    },
+    {
+      "path": "public/art/tab-army.png",
+      "size": 2839,
+      "sha256": "f0d5acc7938b6ec813043e9948c92f55a5257e2aaf09d2d009531d671bf139bc"
+    },
+    {
+      "path": "public/art/tab-battle.png",
+      "size": 2100,
+      "sha256": "ea105e2834482a212f52de453f096c0bfce20222e100e193fad684ed00f503e6"
+    },
+    {
+      "path": "public/art/tab-home.png",
+      "size": 2577,
+      "sha256": "5e2bdb30fe53e4b143dca211ebd8f97b53777a4249f4c92779972dc7543ff76a"
+    },
+    {
+      "path": "public/art/tab-quests.png",
+      "size": 2579,
+      "sha256": "cb6c093514f0d78215bb18db587786e9df667008d1b5c6175cd9f500415bc5fd"
+    },
+    {
+      "path": "public/styles.css",
+      "size": 23962,
+      "sha256": "774d71f4c845f1079c809cf48ae5d9c99cd1fcad7e985b2ae68dbd7d150aa7f8"
+    },
+    {
+      "path": "rulesets/recreation-0.1/rules.json",
+      "size": 1248,
+      "sha256": "835b4ff9f8344981aee94e3c5fed7d38c67e1099319457a8d02cb13695dc99bb"
+    },
+    {
+      "path": "scripts/browser-test.ts",
+      "size": 5311,
+      "sha256": "bf3c9c82cf355e6a5e8a6f9d43c6eba57ebffa8cffc32b8401bfbae02fee33ed"
+    },
+    {
+      "path": "scripts/check-project.mjs",
+      "size": 14221,
+      "sha256": "1f80e457b943a6f4bca6665e9870b62e393308e52dd06c588dad6064f00fd326"
+    },
+    {
+      "path": "scripts/migrate.ts",
+      "size": 318,
+      "sha256": "3600df31eef65284e36f341fe7325a002c0318c270e93016469ac7af988906f6"
+    },
+    {
+      "path": "scripts/seed.ts",
+      "size": 1778,
+      "sha256": "2559278de77803a030b36f4f6fbbfec5d0641dc00e05880e31015860561c9ba4"
+    },
+    {
+      "path": "src/app.ts",
+      "size": 11792,
+      "sha256": "a8feef9c0abfbf2b423054a44ba4238d1e796b2394b2873b185498c5e3d7be53"
+    },
+    {
+      "path": "src/auth.ts",
+      "size": 4773,
+      "sha256": "0fe7b301b58092027605c9e79f3317f4912527f6ca62c4f42da9967d1b30c550"
+    },
+    {
+      "path": "src/commands.ts",
+      "size": 10069,
+      "sha256": "908da39315e00fb9f4b03c291072f6df584f9683b52951a14d76349a5bbefebf"
+    },
+    {
+      "path": "src/config.ts",
+      "size": 1438,
+      "sha256": "3b14101da152eaccb890218d0363c63464994e9ba1dce86a2fb2dbb544cc378f"
+    },
+    {
+      "path": "src/db.ts",
+      "size": 1321,
+      "sha256": "ddc632669f1de5218509c5fad2f99bec575643d945e5fc00f1a030a9966a99be"
+    },
+    {
+      "path": "src/errors.ts",
+      "size": 134,
+      "sha256": "27c93c0d0982ea1ae9b039d3de1d5841fbf526d61a23d49d99622d45c2d6a655"
+    },
+    {
+      "path": "src/game.ts",
+      "size": 5716,
+      "sha256": "13a8c4b69078e4b0e4132ecd9ddfe3697dcccde3ba178c3709f2fbbb436387f0"
+    },
+    {
+      "path": "src/http-contracts.ts",
+      "size": 1015,
+      "sha256": "f073b87c87e58d25e51a28b4018000ed9feabff542dfd35b67f4f54ebcd4b0b7"
+    },
+    {
+      "path": "src/migrate.ts",
+      "size": 1715,
+      "sha256": "7d4d8e760f405e3230753c4a478d205e7ec0ce2c1d0b7fecb615ca5a4641e880"
+    },
+    {
+      "path": "src/rules.ts",
+      "size": 3370,
+      "sha256": "84c01015064d1329be17aca7f09c49c34d2d0e02b628740ec681cd75abfbf486"
+    },
+    {
+      "path": "src/server.ts",
+      "size": 870,
+      "sha256": "6debec3f4dcd07a3fca689bd12702a4209f4fb4384be57e5219b4eb2ab327952"
+    },
+    {
+      "path": "test-results/static-checks.json",
+      "size": 3991,
+      "sha256": "47d4a138ea46753db26833f0b6468634ba0f11a008c4f7a0b64c175cf9bf400e"
+    },
+    {
+      "path": "tests/integration.test.ts",
+      "size": 11727,
+      "sha256": "9cbc9036ee15d6e656350e99150a84358759b3acf0e57e40e77e33e7222e8e73"
+    },
+    {
+      "path": "tests/rules.test.ts",
+      "size": 3027,
+      "sha256": "ab3f14a071339cd7e8ebfbe755cc4ece21cc0afc38009fc02698460649fdba62"
+    },
+    {
+      "path": "tsconfig.check.json",
+      "size": 168,
+      "sha256": "c08b3f1280d234a1859f88f032779ec53aa60b67dbde3c3d557d22fc7c80b1cd"
+    },
+    {
+      "path": "tsconfig.json",
+      "size": 303,
+      "sha256": "678d08e4b724eb97a592fe9a6ef9a1e48781b71485c24c2ed420cf1d7cc3b33f"
+    },
+    {
+      "path": "views/armory.ejs",
+      "size": 3015,
+      "sha256": "49e532b91412ffff0c50b9d12ef6a223bb4027063955a086ea31b18bb886c5b3"
+    },
+    {
+      "path": "views/army.ejs",
+      "size": 2778,
+      "sha256": "07b6ddb05c7402aeca299df040f4ee15c1cdeaeb79cf6ea8c2fe40733b388ebd"
+    },
+    {
+      "path": "views/auth.ejs",
+      "size": 2484,
+      "sha256": "6a18b948388ae0c7544bfe7980c92af65e0116c306ce6386a7963a6b5ee40c38"
+    },
+    {
+      "path": "views/battle.ejs",
+      "size": 3086,
+      "sha256": "27434ef28b56e7e3b95c7c28cd6ec34c464587b86cc7c597b745d00de2026bd6"
+    },
+    {
+      "path": "views/error.ejs",
+      "size": 607,
+      "sha256": "335679cfd77398bdc44b33d009d9974200c8e679c9e4a6a9ff4302dce79c5a1e"
+    },
+    {
+      "path": "views/home.ejs",
+      "size": 2599,
+      "sha256": "b67aa966516c20b495cdf66332506bb75217f312e0e96d43690710093e6e6106"
+    },
+    {
+      "path": "views/layout.ejs",
+      "size": 3775,
+      "sha256": "ae692c166557320d65e3c5ab33c019b1b152818290a6e63c92626dee8b6f5898"
+    },
+    {
+      "path": "views/partials/command-fields.ejs",
+      "size": 120,
+      "sha256": "e1dc29c717874241cbdded7ab3033273c7aa723f857765a99bef1a9dedd85ec5"
+    },
+    {
+      "path": "views/partials/history.ejs",
+      "size": 1488,
+      "sha256": "2d424054c2f43b789f8eb2f833ef6258e5e7ffa2f413448c52b1e0471b772f72"
+    },
+    {
+      "path": "views/partials/resources.ejs",
+      "size": 1062,
+      "sha256": "f5b2e43ef011b6c9e6473048435ce311dbc36c688a613aa59913288a29278725"
+    },
+    {
+      "path": "views/quests.ejs",
+      "size": 2529,
+      "sha256": "e77079fa365d4c513cf3dfab27102d4a353b3c03dc2b457777a002db30a09fb9"
+    },
+    {
+      "path": "views/report.ejs",
+      "size": 2073,
+      "sha256": "fcd26f46d5ac1903265740fe23804cbf59ef1cf1f6ef669deec40f92582e688a"
+    },
+    {
+      "path": "views/rules.ejs",
+      "size": 2751,
+      "sha256": "6e849bebde33b07704036d1f2507bf030602131e1e4440c04883e5dc9ff564f6"
+    }
+  ]
+}
