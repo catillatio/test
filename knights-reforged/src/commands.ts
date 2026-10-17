@@ -13,8 +13,9 @@ import { buyEstate,sellEstate } from './estate.js';
 import {strategy,botCatalog} from './strategy-rules.js';
 import {prepareBot} from './development.js';
 import {community} from './community-rules.js';
+import {refinements} from './refinement-rules.js';
 import {postMessage,reportMessage,removeMessage,armyEvent,validateInvitation} from './community.js';
-import {lockBountyEscrow,expireBounties,placeBounty,cancelBounty,claimBounty} from './bounties.js';
+import {lockBountyEscrow,settleExpiredBounties,placeBounty,cancelBounty,claimBounty} from './bounties.js';
 
 const uuid=z.string().uuid().transform(value=>value.toLowerCase());
 const id=z.string().min(1).max(64).regex(/^[a-z0-9-]+$/);
@@ -41,7 +42,7 @@ const intents={
   social_report:z.object({messageId:uuid,reason:z.enum(['spam','abuse','other'])}),
   social_remove:z.object({messageId:uuid}),
   profile:z.object({className:z.enum(['Freeblade','Warden','Spellward'])}),
-  bounty_place:z.object({targetCharacterId:uuid,amount:quantity(strategy.bounties.maximum)}),
+  bounty_place:z.object({targetCharacterId:uuid,amount:quantity(refinements.bounties.maximum),quotedRulesetId:z.literal(refinements.id).optional()}),
   bounty_cancel:z.object({bountyId:uuid}),
 };
 export type CommandKind=keyof typeof intents;
@@ -64,7 +65,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       if (!old.result) throw new GameError('COMMAND_PENDING','The action is still processing.',409);
       return old.result as CommandResult;
     }
-    const actorId=(await sql.query('SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.account_id=$1 AND NOT a.login_disabled',[accountId])).rows[0]?.id as string|undefined;
+    const actorId=(await sql.query('SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.account_id=$1 AND NOT a.login_disabled AND NOT EXISTS(SELECT 1 FROM development_bots b WHERE b.character_id=c.id)',[accountId])).rows[0]?.id as string|undefined;
     if (!actorId) throw new GameError('CHARACTER_NOT_FOUND','Your character was not found.',404);
     const membership=kind==='invite'||kind==='invite_code'||kind==='accept'||kind==='reject'||kind==='remove';
     let targetId=(kind==='attack'||kind==='bounty_place'||(membership&&kind!=='invite_code'))?intent.targetCharacterId as string:kind==='comment'?intent.profileId as string:null;
@@ -76,7 +77,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     if(kind==='attack'||kind==='bounty_place'||kind==='bounty_cancel')await lockBountyEscrow(sql);
     const now=await clock(sql);
     if(kind==='attack'||kind==='bounty_place'||kind==='bounty_cancel'){
-      await expireBounties(sql,now);
+      await settleExpiredBounties(sql,now,targetId);
     }
     const locked=await lockCharacters(sql,targetId?[actorId,targetId]:[actorId]);
     let actor=locked.find(row=>row.id===actorId)!;
@@ -215,7 +216,6 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       if(actor.health<alpha.combat.minimumHealth)throw new GameError('NEEDS_RECOVERY','You need at least '+alpha.combat.minimumHealth+' Health to attack.',409);
       if(target.health<community.combat.defenderMinimumHealth)throw new GameError('OPPONENT_DEFEATED','This opponent has been defeated (0 Health). They must recover before another attack.',409);
       if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Spirit to recover before attacking.',409);
-      if (+new Date(actor.attack_ready_at)>+now) throw new GameError('ATTACK_COOLDOWN','Catch your breath before attacking again.',409);
       const targetState=await stateFrom(sql,target,now);
       const count=(await sql.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND created_at>$3',[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
       let rewarded=count<alpha.combat.rewardedPerTarget;
@@ -233,7 +233,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       }
       await sql.query(`UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,
         spirit=spirit-$4,spirit_updated_at=CASE WHEN spirit=max_spirit THEN $3 ELSE spirit_updated_at END,attack_ready_at=$5 WHERE id=$1`,
-        [actorId,combat.attackerHealthAfter,now,alpha.combat.spiritCost,new Date(+now+alpha.combat.cooldownSeconds*1000)]);
+        [actorId,combat.attackerHealthAfter,now,alpha.combat.spiritCost,now]);
       await sql.query('UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,state_version=state_version+1 WHERE id=$1',[target.id,combat.defenderHealthAfter,now]);
       const progression=await grantExperience(sql,actorId,combat.attackerXp,now);
       const after=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[actorId])).rows[0]!;
@@ -244,10 +244,10 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        strategyRulesetId:strategy.id,communityRulesetId:community.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?botCatalog.id:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?botCatalog.id:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
-      if(combat.outcome==='attacker_win'&&!targetIsBot){
+      if(combat.defenderHealthAfter===0&&!targetIsBot){
         battle.bountyClaim=await claimBounty(sql,actorId,target.id,result.battleId,key,now);
         if(battle.bountyClaim)await sql.query('UPDATE battles SET result=$2 WHERE id=$1',[result.battleId,battle]);
       }

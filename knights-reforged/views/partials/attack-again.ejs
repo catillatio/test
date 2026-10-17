@@ -6,6 +6,6 @@
   <form method="post" action="/game/battle/attack" data-combat-form><%- include('command-fields') %><input type="hidden" name="targetCharacterId" value="<%= target.targetId %>">
     <button class="button button-gold attack-again" type="submit" data-attack-ready="<%= target.eligible?'true':'false' %>"<% if(!target.allowed) { %> disabled<% } %>><%= screen==='report'?'Attack Again':'Attack' %></button>
   </form>
-  <p class="compact-help combat-restriction" role="status" data-combat-restriction><%= target.reason??'Ready. Each attack costs 1 Spirit and starts the existing 10-second cooldown.' %></p>
+  <p class="compact-help combat-restriction" role="status" data-combat-restriction><%= target.reason??'Ready. Each attack costs 1 Spirit. Attack again immediately after the result.' %></p>
   <p class="field-hint">Fresh attack, fresh report. Reward limits remain in effect. No extra repeat-attack limit.</p>
 </section><% } %>

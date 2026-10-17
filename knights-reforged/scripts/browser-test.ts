@@ -37,7 +37,8 @@ async function screens(page:Page,label:string){
   const primary=()=>page.getByRole('navigation',{name:'Primary navigation'});
   assert.deepEqual((await primary().getByRole('link').allTextContents()).map(text=>text.trim()),labels);
   for(const screen of [...labels,'Land']){
-    await page.getByRole('navigation',{name:screen==='Land'?'Secondary navigation':'Primary navigation'}).getByRole('link',{name:screen,exact:true}).click();
+    if(screen==='Land'){await primary().getByRole('link',{name:'Home',exact:true}).click();await page.locator('.home-menu').getByRole('link',{name:/Land/}).click();}
+    else await primary().getByRole('link',{name:screen,exact:true}).click();
     await page.getByRole('heading',{name:screen,exact:true}).waitFor();await page.waitForLoadState('load');
     assert.equal(await primary().getByRole('link').count(),5);
     assert.equal(await primary().locator('[aria-current="page"]').count(),screen==='Land'?0:1);
@@ -58,7 +59,7 @@ async function screens(page:Page,label:string){
   await page.getByRole('navigation',{name:'Character sections'}).getByRole('link',{name:/Skills/}).click();await page.getByRole('heading',{name:'Spend skill points',exact:true}).waitFor();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.screenshot({path:join(out,label+'-profile.png'),fullPage:true});
-  await page.getByRole('navigation',{name:'Character sections'}).getByRole('link',{name:'Battles',exact:true}).click();await page.getByRole('heading',{name:'Battle record',exact:true}).waitFor();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await page.getByRole('navigation',{name:'Character sections'}).getByRole('link',{name:'Battles',exact:true}).click();await page.getByRole('heading',{name:'Tales From the Field',exact:true}).waitFor();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
 }
 try{
   const desktop=await browser.newContext({viewport:{width:1366,height:900}});

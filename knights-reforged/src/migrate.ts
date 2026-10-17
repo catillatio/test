@@ -7,8 +7,10 @@ import { landRules } from './land-rules.js';
 import { alpha,alphaCatalogs } from './alpha-rules.js';
 import {strategy,botCatalog,previousStrategy,previousBotCatalog} from './strategy-rules.js';
 import {community} from './community-rules.js';
+import {refinements} from './refinement-rules.js';
+import {phase4BotCatalog} from './strategy-rules.js';
 
-const definitions=[rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,strategy,botCatalog,community];
+const definitions=[rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,botCatalog,community,refinements];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 

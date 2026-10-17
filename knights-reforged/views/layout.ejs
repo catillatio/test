@@ -13,8 +13,9 @@
   <link rel="stylesheet" href="/assets/refinements.css?v=<%= alpha.id %>">
   <link rel="stylesheet" href="/assets/strategy.css?v=strategy-0.2">
   <link rel="stylesheet" href="/assets/community.css?v=community-0.1">
+  <link rel="stylesheet" href="/assets/phase41.css?v=<%= refinements.id %>">
 </head>
-<body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties'].includes(screen) ? 'battle' : screen %>">
+<body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="app-shell">
     <div class="page-backdrop" aria-hidden="true"></div>
@@ -37,6 +38,6 @@
     </div>
     <% if (state) { %><%- include('partials/primary-nav') %><% } %>
   </div>
-  <% if (state) { %><script type="module" src="/assets/community.js?v=community-0.1"></script><script type="module" src="/assets/realm.js?v=<%= alpha.id %>"></script><% } %>
+  <% if (state) { %><script type="module" src="/assets/community.js?v=<%= refinements.id %>"></script><script type="module" src="/assets/realm.js?v=<%= refinements.id %>"></script><% } %>
 </body>
 </html>

@@ -18,6 +18,7 @@ function browser(fetch, nextPayment = '2026-10-17T13:00:00.000Z') {
   let elapsed = 0;
   const intervals = [];
   const listeners = new Map();
+  const windowListeners = new Map();
   const selectors = new Map(['countdown', 'status', 'gross', 'upkeep', 'net', 'payment-time', 'pending', 'pending-gold']
     .map(name => ['[data-land-' + name + ']', element()]));
   const owned = element();
@@ -37,13 +38,13 @@ function browser(fetch, nextPayment = '2026-10-17T13:00:00.000Z') {
     querySelectorAll: selector => selector === '[data-wallet-gold]' ? [wallet] : [],
     addEventListener: (name, callback) => listeners.set(name, callback) };
   const requests = [];
-  runInNewContext(source, { document, performance: { now: () => elapsed }, AbortController,
+  runInNewContext(source, { document, window:{addEventListener:(name,fn)=>windowListeners.set(name,fn)}, performance: { now: () => elapsed }, AbortController,
     fetch: async (url, options) => { requests.push({ url, options }); return fetch(url, options); },
     setInterval: (callback, delay) => intervals.push({ callback, delay }),
     setTimeout: () => 1, clearTimeout: () => {} });
-  return { selectors, document, listeners, requests, wallet, input, button, holding,
+  return { selectors, document, listeners, windowListeners, requests, wallet, input, button, holding,
     tick(milliseconds) { elapsed += milliseconds; intervals.find(timer => timer.delay === 1000).callback(); },
-    poll() { intervals.find(timer => timer.delay === 30000).callback(); } };
+    poll() { intervals.find(timer => timer.delay === 60000).callback(); } };
 }
 
 test('countdown uses the server timestamp and monotonic elapsed time, not the device wall clock', () => {
@@ -91,7 +92,7 @@ test('offline fetch failures preserve displayed gold and retry on reconnect', as
   page.poll();
   await flush();
   assert.equal(page.wallet.textContent, '15');
-  assert.match(page.selectors.get('[data-land-status]').textContent, /unavailable/);
+  assert.match(page.selectors.get('[data-land-status]').textContent, /reconnecting automatically/);
   online = true;
   page.tick(16000);
   page.listeners.get('visibilitychange')();
@@ -119,4 +120,9 @@ test('a wealthy character cannot enable a level-locked Land purchase through pol
   const page = browser(async () => response({ properties: [{ id:'smallholding', owned:0, remaining:100, maxAffordable:10, unlocked:false, level:7 }] }));
   page.poll();await flush();
   assert.equal(page.button.disabled,true);assert.equal(page.input.disabled,true);
+});
+
+test('Land reconnects after back-forward navigation and network recovery without a refresh button',async()=>{
+  const page=browser(async()=>response());page.windowListeners.get('pageshow')({persisted:true});await flush();assert.equal(page.wallet.textContent,'22');
+  page.tick(6000);page.windowListeners.get('online')();await flush();assert.equal(page.requests.length,2);
 });

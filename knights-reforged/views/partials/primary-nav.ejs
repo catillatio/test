@@ -1,6 +1,6 @@
 <% const tabIcons = { home: 'home', quests: 'missions', battle: 'attack', armory: 'equipment', army: 'recruit' }; %>
 <nav class="primary-nav" aria-label="Primary navigation">
-  <% for (const item of nav.filter(item => Object.hasOwn(tabIcons, item.id))) { const current = item.id === screen || (['report','bounties'].includes(screen) && item.id === 'battle') || (['profile','settings'].includes(screen) && item.id === 'home'); %>
+  <% for (const item of nav.filter(item => Object.hasOwn(tabIcons, item.id))) { const current = item.id === screen || (['report','bounties','bounty-confirm'].includes(screen) && item.id === 'battle') || (['profile','settings'].includes(screen) && item.id === 'home'); %>
     <a href="/game/<%= item.id %>" class="nav-link<%= current ? ' is-current' : '' %>"<% if (current) { %> aria-current="page"<% } %>>
       <img src="/assets/art/kingdoms-live/<%= tabIcons[item.id] %><%= current ? '_selected' : '' %>.png" width="30" height="30" alt="">
       <span><%= item.label %></span>

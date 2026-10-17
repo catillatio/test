@@ -71,7 +71,7 @@ if (root) {
       if (state.state && typeof document.dispatchEvent === 'function') document.dispatchEvent(new CustomEvent('realm-state', { detail: state.state }));
     } catch {
       retryAt = performance.now() + 15000;
-      status.textContent = 'Income refresh is unavailable. Your income remains on the server; use Refresh income to reconnect.';
+      status.textContent = 'Connection interrupted. Your income stays on the server; reconnecting automatically.';
     } finally {
       clearTimeout(timeout);
       inFlight = false;
@@ -84,7 +84,7 @@ if (root) {
     if (!nextPayment) { countdown.textContent = 'No property owned'; return; }
     const now = serverTime + performance.now() - syncedAt;
     const seconds = Math.max(0, Math.ceil((Date.parse(nextPayment) - now) / 1000));
-    if (!Number.isFinite(seconds)) { countdown.textContent = 'Refresh income'; return; }
+    if (!Number.isFinite(seconds)) { countdown.textContent = 'Checking income…'; void refresh(); return; }
     countdown.textContent = seconds === 0 ? 'Payment due — checking…' :
       [Math.floor(seconds / 3600), Math.floor(seconds % 3600 / 60), seconds % 60].map(value => String(value).padStart(2, '0')).join(':');
     if (!seconds) void refresh();
@@ -92,6 +92,8 @@ if (root) {
   showTime(root.querySelector('[data-land-payment-time]'), nextPayment);
   tick();
   setInterval(tick, 1000);
-  setInterval(() => { void refresh(); }, 30000);
+  setInterval(() => { void refresh(); }, 60000);
+  document.addEventListener('land-refresh', () => { void refresh(); });
+  if(typeof window!=='undefined'){window.addEventListener('online',()=>void refresh());window.addEventListener('pageshow',event=>{if(event.persisted)void refresh();});}
   document.addEventListener('visibilitychange', () => { if (!document.hidden) void refresh(); });
 }

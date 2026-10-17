@@ -235,7 +235,8 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     const state=await r.me(a);assert.equal(state.mana,original.mana);assert.equal(state.spirit,2);
     assert.equal((await r.app.inject({method:'GET',url:'/api/v1/battles/'+last,headers:{cookie:c.cookie}})).statusCode,404);
     assert.equal((await r.db.query("SELECT count(*)::int AS n FROM progression_awards WHERE character_id=$1 AND award_id='first-victory'",[a.id])).rows[0]!.n,1);
-    assert.equal((await r.command(a,'/api/v1/battles',{targetCharacterId:b.id})).statusCode,409);
+    const immediate=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id});
+    assert.equal(immediate.state.spirit,1);
   });
 
   test('rival pagination has no repeats, includes class/army/Health and server rejects out-of-range direct attacks',async()=>{

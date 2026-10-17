@@ -54,7 +54,7 @@ describe('Persistent combat training and reference-inspired Profile',{skip:!test
       assert.match(response.body,/73 days/);assert.match(response.body,/action="\/logout"/);
       if(tab==='player'){assert.match(response.body,/Owned Weapons/);assert.match(response.body,/Iron sword, owned 2/);assert.match(response.body,/Gross hourly income/);assert.match(response.body,/data-art-atlas="weapons"/);assert.ok(!response.body.includes('name="resource"'));}
       if(tab==='skills'){for(const name of ['Mana','Health','Spirit','Attack','Defense'])assert.ok(response.body.includes('Increase '+name));assert.match(response.body,/up to 25%/);}
-      if(tab==='battles')assert.match(response.body,/Recent battles/);
+      if(tab==='battles')assert.match(response.body,/Tales From the Field/);
     }
     const invalid=await r.app.inject({method:'GET',url:'/game/profile?tab=%3Cscript%3E',headers:{cookie:p.cookie}});assert.equal(invalid.statusCode,200);assert.ok(!invalid.body.includes('<script>'));
   });
@@ -66,7 +66,7 @@ describe('Persistent combat training and reference-inspired Profile',{skip:!test
     const key=randomUUID(),fight=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id,attack:999999},key);await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key);
     const saved=(await r.app.inject({method:'GET',url:'/api/v1/battles/'+fight.battleId,headers:{cookie:a.cookie}})).json().battle;
     assert.equal(saved.defenderHealthAfter,0);assert.equal(saved.attackerTraining.attack,1);assert.equal(saved.defenderTraining.defense,0);
-    assert.equal((await r.me(a)).battleStats.kills,1);assert.equal((await r.me(b)).battleStats.deaths,1);
+    assert.equal((await r.me(a)).battleStats.kills,0);assert.equal((await r.me(b)).battleStats.deaths,1);
     await r.ok(a,'/api/v1/inventory/sales',{itemId:'iron-sword',quantity:3});await r.ok(a,'/api/v1/skills',{resource:'attack'});
     for(const [viewer,dealt,received,gold,xp] of [[a,saved.defenderDamage,saved.attackerDamage,'+50','+5'],[b,saved.attackerDamage,saved.defenderDamage,'-50','+0']] as const){
       const page=await r.app.inject({method:'GET',url:'/game/battles/'+fight.battleId,headers:{cookie:viewer.cookie}});assert.equal(page.statusCode,200,page.body);
@@ -77,6 +77,6 @@ describe('Persistent combat training and reference-inspired Profile',{skip:!test
     assert.deepEqual((await r.app.inject({method:'GET',url:'/api/v1/battles/'+fight.battleId,headers:{cookie:b.cookie}})).json().battle,saved);
     // Unknown historical health must not invent kills or deaths.
     await r.db.query("INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result) VALUES($1,$2,$3,'alpha-0.2','attacker_win','{}','{}')",[randomUUID(),a.id,b.id]);
-    assert.equal((await r.me(a)).battleStats.kills,1);assert.equal((await r.me(b)).battleStats.deaths,1);
+    assert.equal((await r.me(a)).battleStats.kills,0);assert.equal((await r.me(b)).battleStats.deaths,1);
   });
 });

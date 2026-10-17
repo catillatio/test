@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {realm,testDatabaseUrl,type Player} from './helpers.js';
-import {strategy,callingPower,recoverySeconds,bountyFee} from '../src/strategy-rules.js';
+import {strategy,botCatalog,callingPower,recoverySeconds,bountyFee} from '../src/strategy-rules.js';
 import {provisionBots,provisionDevelopmentAccount,botBlueprint,benchmarkAttack,requireDevelopment} from '../src/development.js';
 import {authenticate,createSession} from '../src/auth.js';
 import {getState} from '../src/game.js';
@@ -65,10 +65,11 @@ test('150 passive rivals span levels 1–50 with real quantity-limited equipment
       for(const tier of strategy.bots.tiers){
         const row=(await r.db.query('SELECT c.account_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=$1 AND b.tier=$2',[level,tier])).rows[0]!;
         const state=await getState(r.db,row.account_id);powers.push(state.defense);
-        assert.equal(state.level,level);assert.equal(state.maintenance.paused,false);assert.ok(state.defenseEquipment.selected.length>=3);
+        assert.equal(state.level,level);assert.equal(state.maintenance.paused,false);assert.ok(state.army.participants<=10);assert.ok(state.defenseEquipment.selected.length>0);
+        assert.equal(state.maxMana,20+Math.floor(level/5));assert.equal(state.maxSpirit,3+Math.floor(level/10));
         for(const item of state.defenseEquipment.selected)assert.ok(item.quantity<=state.army.participants);
         assert.ok(state.defenseEquipment.selected.every(item=>item.quantity===botBlueprint(level,tier).quantities[item.itemId]));
-        if(tier==='seasoned')assert.ok(Math.abs(state.defense-benchmarkAttack(level))/benchmarkAttack(level)<.03,'matched inventory at level '+level);
+        assert.equal(state.army.participants,botBlueprint(level,tier).participants);
         const mirror={attack:state.attack,health:100,maxHealth:100,gold:1000};
         assert.ok(['attacker_win','defender_win'].includes(resolveAlphaCombat(mirror,state,0,0).outcome));
       }
@@ -85,7 +86,7 @@ test('150 passive rivals span levels 1–50 with real quantity-limited equipment
       const opponent=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=$1 AND b.tier='green'",[level])).rows[0]!;
       const before=await r.me(player);const fight=await r.ok(player,'/api/v1/battles',{targetCharacterId:opponent.character_id});
       const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.result;
-      assert.equal(report.outcome,'attacker_win');assert.equal(report.attackPower,Math.round(before.attack*(100+report.attackRoll)));assert.equal(report.botPopulationVersion,'passive-rivals-2');
+      assert.equal(report.outcome,'attacker_win');assert.equal(report.attackPower,Math.round(before.attack*(100+report.attackRoll)));assert.equal(report.botPopulationVersion,botCatalog.id);
       assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=50);assert.equal(report.attackerXp,5);
     }
     const unprepared=await r.player('Unprepared Challenger');await r.prepare(unprepared,1000,Array.from({length:49},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0));

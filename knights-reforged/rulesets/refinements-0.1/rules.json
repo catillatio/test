@@ -1,0 +1,33 @@
+{
+  "id": "refinements-0.1",
+  "provenance": "Finalized user-approved Kingdom Come Phase 4.1 policies; reconstructed content, not recovered Storm8 formulas.",
+  "combat": {
+    "cooldownSeconds": 0,
+    "defenderMinimumHealth": 1
+  },
+  "bounties": {
+    "minimum": 1,
+    "maximum": 10000,
+    "feePercent": 10,
+    "minimumFee": 1,
+    "minimumLevel": 3,
+    "minimumQuests": 5,
+    "durationSeconds": 86400,
+    "cancelAfterSeconds": 3600,
+    "targetDailyLimit": 50,
+    "claimRequiresFinishingAttack": true,
+    "populationBotsExcluded": true
+  },
+  "bots": {
+    "populationVersion": "passive-rivals-3",
+    "armyCap": 10,
+    "naturalHealthRecovery": true,
+    "walletBase": 100,
+    "walletPerLevel": 150,
+    "walletPerLevelSquared": 20
+  },
+  "ui": {
+    "pollSeconds": 60,
+    "publicTalesPageSize": 20
+  }
+}

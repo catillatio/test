@@ -8,8 +8,8 @@ const db = createDatabase(config.databaseUrl);
 const app = await createApp({ db, config, logger: true });
 try {
   await assertInstalledRulesets(db);
-  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='011_community.sql'");
-  if (!schema.rows.length) throw new Error('Phase 4 migrations are incomplete. Run npm run db:migrate.');
+  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='012_refinements.sql'");
+  if (!schema.rows.length) throw new Error('Phase 4.1 migrations are incomplete. Run npm run db:migrate.');
   await app.listen({ host: config.host, port: config.port });
   app.log.info({event:'realm_origin_configuration',origin:config.origin,originSource:config.originSource,
     codespacesOrigin:config.codespacesOrigin,port:config.port,secureCookies:config.secureCookies},'Resolved realm origin');

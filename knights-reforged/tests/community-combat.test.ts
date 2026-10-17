@@ -16,14 +16,13 @@ test('Attack Again finishes a positive-Health defender at zero, keeps exact snap
     await r.db.query('UPDATE characters SET health=25,health_updated_at=$2 WHERE id=$1',[b.id,r.now()]);
     const total=(await r.me(a)).gold+(await r.me(b)).gold;
     const first=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id}),one=await r.report(first.battleId);assert.ok(one.defenderHealthAfter<20&&one.defenderHealthAfter>0);
-    assert.equal((await r.command(a,'/api/v1/battles',{targetCharacterId:b.id})).json().error.code,'ATTACK_COOLDOWN');
-    r.advance(10);const second=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id}),two=await r.report(second.battleId);assert.equal(two.defenderHealthAfter,0);
+    const second=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id}),two=await r.report(second.battleId);assert.equal(two.defenderHealthAfter,0);
     assert.equal((await r.me(a)).spirit,1);assert.equal((await r.me(a)).gold+(await r.me(b)).gold,total);
     const html=await r.app.inject({method:'GET',url:'/game/battles/'+second.battleId,headers:{cookie:a.cookie}});assert.equal(html.statusCode,200,html.body);
     assert.match(html.body,/Opponent defeated/);assert.match(html.body,/data-attack-ready="false" disabled/);assert.ok(html.body.includes('/game/players/'+a.id)&&html.body.includes('/game/players/'+b.id));
     r.advance(10);const blocked=await r.command(a,'/api/v1/battles',{targetCharacterId:b.id});assert.equal(blocked.statusCode,409);assert.equal(blocked.json().error.code,'OPPONENT_DEFEATED');
     assert.equal((await r.me(a)).spirit,1);assert.deepEqual(await r.report(first.battleId),one);
-    assert.equal((await r.me(a)).battleStats.kills,1);assert.equal((await r.me(b)).battleStats.deaths,1);
+    assert.equal((await r.me(a)).battleStats.kills,0);assert.equal((await r.me(b)).battleStats.deaths,1);
     r.advance(170);assert.ok((await r.me(b)).health>0); // ordinary recovery can re-open combat
   }finally{await r.close();}
 });

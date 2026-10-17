@@ -1,15 +1,34 @@
 import {type Sql} from './db.js';
 import {GameError} from './errors.js';
 import {community} from './community-rules.js';
+import {refinements} from './refinement-rules.js';
 export type FeedCategory='all'|'battles'|'comments'|'broadcasts';
 export const feedCategories=['all','battles','comments','broadcasts'] as const;
 export function feedCategory(value:unknown):FeedCategory{return typeof value==='string'&&feedCategories.includes(value as FeedCategory)?value as FeedCategory:'all';}
-function cursorParts(value:unknown):[string|null,string|null]{
+export function cursorParts(value:unknown):[string|null,string|null]{
   if(value===undefined)return [null,null];
   if(typeof value!=='string')throw new GameError('INVALID_CURSOR','Invalid activity page.');
   const [at,id,...extra]=value.split('~');
   if(extra.length||!at||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/.test(at)||!Number.isFinite(Date.parse(at))||!id||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id))throw new GameError('INVALID_CURSOR','Invalid activity page.');
   return [at,id];
+}
+/** Public, deliberately limited history. Private snapshots remain combatant-only. */
+export async function battleTales(sql:Sql,subjectId:string,viewerId:string,cursor?:unknown){
+  const [after,afterId]=cursorParts(cursor);
+  const rows=(await sql.query(`SELECT b.id,b.created_at,b.attacker_id,b.defender_id,b.outcome,
+    COALESCE(b.result->>'attackerName',a.name) AS attacker_name,COALESCE(b.result->>'defenderName',d.name) AS defender_name,
+    b.result->'loot' AS loot,b.result->'attackerXp' AS xp,b.result->'attackerDamage' AS attacker_damage,
+    b.result->'defenderDamage' AS defender_damage,b.result->'bountyClaim'->'reward' AS bounty_reward,
+    to_char(b.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_at
+    FROM battles b JOIN characters a ON a.id=b.attacker_id JOIN characters d ON d.id=b.defender_id
+    WHERE (b.attacker_id=$1 OR b.defender_id=$1) AND ($2::timestamptz IS NULL OR (b.created_at,b.id)<($2::timestamptz,$3::uuid))
+    ORDER BY b.created_at DESC,b.id DESC LIMIT ${refinements.ui.publicTalesPageSize+1}`,[subjectId,after,afterId])).rows;
+  const entries=rows.slice(0,refinements.ui.publicTalesPageSize).map(row=>({id:row.id,createdAt:new Date(row.created_at).toISOString(),
+    attackerId:row.attacker_id,defenderId:row.defender_id,attackerName:row.attacker_name,defenderName:row.defender_name,
+    won:(row.outcome==='attacker_win'?row.attacker_id:row.defender_id)===subjectId,
+    loot:row.loot??null,attackerXp:row.xp??null,attackerDamage:row.attacker_damage??null,defenderDamage:row.defender_damage??null,
+    bountyReward:row.bounty_reward??0,canViewReport:[row.attacker_id,row.defender_id].includes(viewerId),cursor:row.cursor_at+'~'+row.id}));
+  return {entries,nextCursor:rows.length>refinements.ui.publicTalesPageSize?entries.at(-1)!.cursor:null};
 }
 export interface FeedEntry {id:string;kind:'battle'|'comment'|'broadcast'|'bounty'|'army';createdAt:string;cursor:string;data:Record<string,any>;}
 export async function activityFeed(sql:Sql,viewerId:string,category:FeedCategory,cursor?:unknown,profileId?:string){

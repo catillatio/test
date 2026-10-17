@@ -1,7 +1,7 @@
 // Shared by the HTTP controllers and the dependency-free project inspection.
 // These are replacement routes; they do not address the historical server.
-// Keep every implemented screen here. The shared view puts Land in secondary
-// navigation without removing its HTTP routes.
+// Keep every implemented screen here. Land is linked only from Home; its HTTP
+// routes remain directly accessible and are not part of the five-tab bar.
 export const navigation = [
   { id: 'home', label: 'Home', icon: 'home' },
   { id: 'quests', label: 'Quests', icon: 'quests' },
@@ -11,7 +11,7 @@ export const navigation = [
   { id: 'land', label: 'Land', icon: 'land' },
 ] as const;
 
-export const templateScreens = ['home', 'quests', 'battle', 'bounties', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
+export const templateScreens = ['home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
 
 export const commandRoutes = [
   { kind: 'quest', html: '/game/quests/:id/run', api: '/api/v1/quests/:id/runs' },

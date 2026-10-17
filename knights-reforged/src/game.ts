@@ -6,6 +6,8 @@ import { settleLand } from './land.js';
 import { estateState,type EstateState } from './estate.js';
 import { readInventory } from './inventory.js';
 import { settleMaintenance,maintenanceAccount } from './maintenance.js';
+import {lockBountyEscrow,settleExpiredBounties} from './bounties.js';
+import {refinements} from './refinement-rules.js';
 import {invitationCode} from './community.js';
 import {strategy,callingFor,callingPower,recoverySeconds} from './strategy-rules.js';
 
@@ -27,7 +29,7 @@ export interface CharacterState {
   attackReadyAt:string;serverTime:string;energyNextAt:string|null;manaNextAt:string|null;spiritNextAt:string|null;healthNextAt:string|null;
   land:EstateState;rulesetId:string;
   economy:{grossHourlyIncome:number;propertyUpkeep:number;equipmentUpkeep:number;scheduledEquipmentUpkeep:number;otherUpkeep:number;totalUpkeep:number;netHourlyIncome:number;maintenancePaused:boolean};
-  battleStats:{wins:number;losses:number;total:number;kills:number;deaths:number};
+  battleStats:{wins:number;losses:number;total:number;kills:number;deaths:number;legacyKnockouts:number};
   accountCreatedAt:string;accountAgeDays:number;
   training:{attack:number;defense:number;attackBonusPercent:number;defenseBonusPercent:number;untrainedAttack:number;untrainedDefense:number};
   calling:{rulesetId:string;attackPercent:number;defensePercent:number;description:string;healthSeconds:number;manaSeconds:number;spiritSeconds:number;changeReadyAt:string|null;changeCost:number};
@@ -63,7 +65,10 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
   const wallet=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[row.id])).rows[0]!;
   const units=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM army_stacks WHERE character_id=$1',[row.id])).rows[0]!.quantity as number;
   const links=await armyLinks(sql,row.id);const allies=links.filter(link=>link.status==='accepted').length;
-  const army={...activeArmy(row.attained_level,units,allies,row.legacy_army_floor),allies,mercenaries:units,links};
+  const isBot=!!(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[row.id])).rows.length;
+  const projection=activeArmy(row.attained_level,isBot?Math.min(units,refinements.bots.armyCap-1):units,isBot?0:allies,isBot?Math.min(row.legacy_army_floor,refinements.bots.armyCap):row.legacy_army_floor);
+  if(isBot){projection.participants=Math.min(refinements.bots.armyCap,projection.participants);projection.capacity=Math.min(refinements.bots.armyCap,projection.capacity);projection.total=Math.min(refinements.bots.armyCap,projection.total);}
+  const army={...projection,allies,mercenaries:units,links};
   const inventory=await readInventory(sql,row.id);const upkeep=await maintenanceAccount(sql,row.id,now);
   const attackEquipment=selectEquipment(inventory,army.participants,'attack',!upkeep.paused);
   const defenseEquipment=selectEquipment(inventory,army.participants,'defense',!upkeep.paused);
@@ -90,8 +95,8 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
   const battleStats=(await sql.query(`SELECT count(*)::int AS total,
     count(*) FILTER(WHERE (attacker_id=$1 AND outcome='attacker_win') OR (defender_id=$1 AND outcome='defender_win'))::int AS wins,
     count(*) FILTER(WHERE (attacker_id=$1 AND outcome='defender_win') OR (defender_id=$1 AND outcome='attacker_win'))::int AS losses,
-    count(*) FILTER(WHERE (attacker_id=$1 AND result->'defenderHealthAfter'='0'::jsonb) OR
-      (defender_id=$1 AND COALESCE(result->'attackerHealthAfterDamage',result->'attackerHealthAfter')='0'::jsonb))::int AS kills,
+    (SELECT count(*)::int FROM bounty_kills WHERE claimant_id=$1) AS kills,
+    COALESCE((SELECT health_knockouts FROM legacy_field_statistics WHERE character_id=$1),0)::int AS "legacyKnockouts",
     count(*) FILTER(WHERE (defender_id=$1 AND result->'defenderHealthAfter'='0'::jsonb) OR
       (attacker_id=$1 AND COALESCE(result->'attackerHealthAfterDamage',result->'attackerHealthAfter')='0'::jsonb))::int AS deaths
     FROM battles WHERE attacker_id=$1 OR defender_id=$1`,[row.id])).rows[0] as CharacterState['battleStats'];
@@ -103,7 +108,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
     gold:wallet.balance,units,attack:callingPower(trainedPower(untrainedAttack,row.attack_training),calling.attackPercent),defense:callingPower(trainedPower(untrainedDefense,row.defense_training),calling.defensePercent),
     equipped:Boolean(sword),inventoryId:sword?.inventoryId??null,inventory,questsCompleted:progress.reduce((n,p)=>n+p.completions,0),quests,loot,awards,
     stateVersion:row.state_version,skillPoints:row.skill_points,className:row.profile_class,
-    attackReadyAt:new Date(row.attack_ready_at).toISOString(),serverTime:now.toISOString(),energyNextAt:manaNextAt,manaNextAt,
+    attackReadyAt:now.toISOString(),serverTime:now.toISOString(),energyNextAt:manaNextAt,manaNextAt,
     spiritNextAt:next(row.spirit,row.max_spirit,row.spirit_updated_at,spiritSeconds),
     healthNextAt:next(row.health,row.max_health,row.health_updated_at,healthSeconds),
     calling:{rulesetId:strategy.id,description:calling.description,attackPercent:calling.attackPercent,defensePercent:calling.defensePercent,healthSeconds,manaSeconds,spiritSeconds,
@@ -116,6 +121,9 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
 }
 export async function getState(db:Database,accountId:string):Promise<CharacterState> {
   return transaction(db,async client=>{
+    const requestedAt=await clock(client);
+    const overdue=(await client.query("SELECT sponsor_id FROM bounties WHERE sponsor_id=(SELECT id FROM characters WHERE account_id=$1) AND status='active' AND expires_at<=$2 LIMIT 1",[accountId,requestedAt])).rows[0];
+    if(overdue){await lockBountyEscrow(client);await settleExpiredBounties(client,await clock(client),null,overdue.sponsor_id);}
     const row=(await client.query<CharacterRow>('SELECT * FROM characters WHERE account_id=$1 FOR UPDATE',[accountId])).rows[0];
     if (!row) throw new GameError('CHARACTER_NOT_FOUND','Your character could not be found.',404);
     const now=await clock(client);return stateFrom(client,await materialize(client,row,now),now);
@@ -140,8 +148,8 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
   const eligible=rows.filter(row=>areRivals(actor.attained_level,row.attained_level));const more=eligible.length>20;
   const now=await clock(db);
   const opponents=eligible.slice(0,20).map(row=>({id:row.id as string,name:row.name as string,level:row.attained_level as number,className:row.profile_class as string,
-    units:row.units as number,armySize:activeArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor).participants,maxHealth:row.max_health as number,
-    health:row.bot_tier&&+now-+new Date(row.bot_recovered_at)>=strategy.bots.recoverySeconds*1000?row.max_health:regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value,
+    units:row.units as number,armySize:Math.min(row.bot_tier?refinements.bots.armyCap:Number.MAX_SAFE_INTEGER,activeArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor).participants),maxHealth:row.max_health as number,
+    health:regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value,
     botTier:row.bot_tier as string|null,
     cursor:row.cursor_at+'~'+row.id}));
   return {opponents,nextCursor:more?opponents.at(-1)!.cursor:null};

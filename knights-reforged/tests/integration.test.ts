@@ -84,12 +84,13 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
       assert.ok(!primary.includes('/game/land'));
       const secondary = /<nav\b[^>]*aria-label="Secondary navigation"[^>]*>([\s\S]*?)<\/nav>/.exec(response.body)?.[1];
       assert.ok(secondary);
-      assert.ok(secondary?.includes('href="/game/land"'), 'Land remains reachable on every screen');
+      assert.ok(!secondary?.includes('href="/game/land"'), 'Land is not a secondary shortcut');
+      assert.equal(response.body.includes('href="/game/land"'),screen==='home');
       const activeCount = [...primary.matchAll(/aria-current="page"/g)].length;
       assert.equal(activeCount, screen === 'land' ? 0 : 1);
       if (screen === 'army') assert.match(response.body, /<h1>Recruit<\/h1>/);
       if (screen === 'land') {
-        assert.match(secondary, /aria-current="page"/);
+        assert.match(secondary, /Home menu/);
         assert.match(response.body, /data-land-countdown/);
         assert.match(response.body, /data-wallet-gold/);
       }
@@ -177,12 +178,13 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     assert.equal(total, state.gold);
   });
 
-  test('concurrent attacks obey the actor cooldown and self-attacks are rejected', async () => {
+  test('concurrent attacks serialize Spirit costs without a cooldown and self-attacks are rejected', async () => {
     const actor = await player(); const target1 = await player(); const target2 = await player();
     assert.equal((await command(actor, '/api/v1/battles', { targetCharacterId: actor.id })).statusCode, 422);
     const results = await Promise.all([command(actor, '/api/v1/battles', { targetCharacterId: target1.id }), command(actor, '/api/v1/battles', { targetCharacterId: target2.id })]);
-    assert.deepEqual(results.map(r => r.statusCode).sort(), [200, 409]);
-    assert.equal((await db.query('SELECT count(*)::integer AS n FROM battles WHERE attacker_id=$1', [actor.id])).rows[0]!.n, 1);
+    assert.deepEqual(results.map(r => r.statusCode).sort(), [200, 200]);
+    assert.equal((await me(actor)).spirit,1);
+    assert.equal((await db.query('SELECT count(*)::integer AS n FROM battles WHERE attacker_id=$1', [actor.id])).rows[0]!.n, 2);
   });
 
   test('recreating the application preserves sessions, character progress, and inventory', async () => {
@@ -239,7 +241,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     assert.equal(response.statusCode, 200, response.body);
     assert.match(response.body, /Reconstructed alpha economy/);
     assert.match(response.body, /data-land-countdown/);
-    assert.match(response.body, /aria-current="page"/);
+    assert.ok(!response.body.includes('Refresh income'));
     assert.equal((await me(other)).land.holdings.length, 0);
     const api = await app.inject({ method: 'GET', url: '/api/v1/land?characterId=' + owner.id, headers: { cookie: other.cookie } });
     assert.equal(api.statusCode, 200);

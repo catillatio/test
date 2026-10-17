@@ -23,7 +23,7 @@ export async function publicProfile(db:Database,characterId:string){
     // inventory entry IDs, upkeep reserves, receipts, treasury or private reports.
     return {id:state.id,name:state.name,level:state.level,className:state.className,xp:state.xp,levelXp:state.levelXp,
       xpToNext:state.xpToNext,levelRequirement:state.levelRequirement,health:state.health,maxHealth:state.maxHealth,
-      attack:state.attack,defense:state.defense,questsCompleted:state.questsCompleted,accountAgeDays:state.accountAgeDays,
+      questsCompleted:state.questsCompleted,accountAgeDays:state.accountAgeDays,
       battleStats:state.battleStats,economy:state.economy,army:{participants:state.army.participants,capacity:state.army.capacity,total:state.army.total,allies:state.army.allies,mercenaries:state.army.mercenaries},
       inventory:state.inventory.filter(item=>item.quantity>0).map(({inventoryId,...item})=>item),
       properties:ownedProperties(state),temporaryRival:!!bot,botTier:bot?.tier??null,botActive:!!bot?.active,
@@ -35,7 +35,7 @@ export function attackAvailability(actor:CharacterState,target:PublicProfile,dev
   const reason=actor.id===target.id?'You cannot attack yourself.':target.temporaryRival&&(!developmentBotsEnabled||!target.botActive)?'This temporary rival is unavailable.':
     !areRivals(actor.level,target.level)?'Choose an opponent nearer your level.':target.health<community.combat.defenderMinimumHealth?'Opponent defeated — 0 Health. They must recover before another attack.':
     actor.health<alpha.combat.minimumHealth?'You need at least '+alpha.combat.minimumHealth+' Health to attack.':actor.spirit<alpha.combat.spiritCost?'Wait for Spirit to recover.':
-    Date.parse(actor.attackReadyAt)>Date.parse(actor.serverTime)?'Catch your breath. Your attack cooldown is counting down.':null;
+    null;
   return {targetId:target.id,name:target.name,health:target.health,maxHealth:target.maxHealth,allowed:!reason,reason,
     eligible:actor.id!==target.id&&areRivals(actor.level,target.level)&&target.health>=community.combat.defenderMinimumHealth&&(!target.temporaryRival||(developmentBotsEnabled&&target.botActive))};
 }

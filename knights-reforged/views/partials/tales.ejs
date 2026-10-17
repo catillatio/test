@@ -1,0 +1,8 @@
+<section class="panel tales-panel" aria-labelledby="tales-title"><h2 class="profile-section-heading" id="tales-title">Tales From the Field</h2>
+<p class="compact-help">Public encounters of <%= character.name %>. Detailed saved reports are private to their combatants.</p>
+<% if(!tales.entries.length) { %><p class="feed-empty">No recorded battles on this page.</p><% } %>
+<% for(const entry of tales.entries) { const attacking=entry.attackerId===character.id; %><article class="tale-row">
+<h3><%- include('outcome',{won:entry.won}) %></h3><p><a class="player-link" href="/game/players/<%= entry.attackerId %>"><%= entry.attackerName %></a> <span class="muted">attacked</span> <a class="player-link" href="/game/players/<%= entry.defenderId %>"><%= entry.defenderName %></a></p>
+<p class="compact-help"><span class="gold"><%= entry.loot===null?'Gold not recorded':(entry.won?'+':'−')+entry.loot+' gold' %></span> · <%= entry.attackerXp===null?'XP not recorded':'+'+(attacking?entry.attackerXp:0)+' XP' %> · <%= (attacking?entry.defenderDamage:entry.attackerDamage)??'Not recorded' %> damage dealt · <%= (attacking?entry.attackerDamage:entry.defenderDamage)??'Not recorded' %> received<% if(entry.bountyReward) { %> · <span class="gold"><%= entry.bountyReward %> bounty gold to finishing attacker</span><% } %></p>
+<% if(entry.canViewReport) { %><a class="text-link" href="/game/battles/<%= entry.id %>">View Battle ›</a><% } %><time class="relative-time" datetime="<%= entry.createdAt %>"><%= relativeTime(entry.createdAt,state.serverTime) %></time></article><% } %>
+<% if(tales.nextCursor) { %><a class="button button-outline older-activity" href="<%= profileBase %>?tab=battles&after=<%= encodeURIComponent(tales.nextCursor) %>">Older battles</a><% } %></section>

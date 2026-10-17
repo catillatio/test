@@ -21,9 +21,10 @@ import { landRules } from './land-rules.js';
 import { alpha } from './alpha-rules.js';
 import {strategy} from './strategy-rules.js';
 import {community} from './community-rules.js';
+import {refinements,bountyRules} from './refinement-rules.js';
 import {publicProfile,ownedProperties,attackAvailability} from './profiles.js';
-import {activityFeed,armyDashboard,feedCategory,relativeTime} from './feeds.js';
-import {bountyBoard as loadBountyBoard} from './bounties.js';
+import {activityFeed,armyDashboard,feedCategory,relativeTime,battleTales} from './feeds.js';
+import {bountyBoard as loadBountyBoard,bountyQuote} from './bounties.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
 
 declare module 'fastify' { interface FastifyRequest { realmSession: Session | null; } }
@@ -112,12 +113,12 @@ export async function createApp(options: { db: Database; config: Config; logger?
       actionResult = receipt?.result ?? null;
     }
     return reply.viewAsync('layout.ejs', {
-      screen, state, nav, rules, landRules, alpha, strategy, community, relativeTime, developmentBotsEnabled:config.developmentBotsEnabled, actionResult,
+      screen, state, nav, rules, landRules, alpha, strategy, community, refinements, bountyRules, relativeTime, developmentBotsEnabled:config.developmentBotsEnabled, actionResult,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       questArea: query.area==='all'||alpha.content?.areas.some(area=>area.id===query.area) ? query.area : 'nearby',
       profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
-      publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,
+      publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,
       feedTab:feedCategory((request.query as {feed?:string}).feed),feed:{entries:[],nextCursor:null},
       armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],
       csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
@@ -170,7 +171,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   }
   app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!);
-    return render(request,reply,'profile',{title:'Character',state,battles:await recentBattles(db,state.id),
+    return render(request,reply,'profile',{title:'Character',state,tales:await battleTales(db,state.id,state.id,(request.query as {after?:string}).after),
       feed:await activityFeed(db,state.id,'comments',(request.query as {after?:string}).after,state.id)});
   });
   app.get('/game/players/:id',{preHandler:requireAccount},async(request,reply)=>{
@@ -179,10 +180,18 @@ export async function createApp(options: { db: Database; config: Config; logger?
     if(id===state.id)return reply.redirect('/game/profile?tab='+(['skills','battles','comments'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player')+(uuid.safeParse((request.query as {command?:string}).command).success?'&command='+(request.query as {command:string}).command:''));
     const character=await publicProfile(db,id);
     return render(request,reply,'profile',{title:character.name,state,publicCharacter:character,profileProperties:character.properties,profileTab:['comments','battles'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player',
-      combatTarget:attackAvailability(state,character,config.developmentBotsEnabled),battles:[],
+      combatTarget:attackAvailability(state,character,config.developmentBotsEnabled),tales:await battleTales(db,id,state.id,(request.query as {after?:string}).after),
       feed:await activityFeed(db,state.id,'comments',(request.query as {after?:string}).after,id)});
   });
   app.get('/game/settings',{preHandler:requireAccount},async(request,reply)=>render(request,reply,'settings',{title:'Settings'}));
+  app.post('/game/bounties/preview',{preHandler:requireAccount},async(request,reply)=>{
+    const parsed=z.object({targetCharacterId:uuid,amount:z.coerce.number().int().min(bountyRules.minimum).max(bountyRules.maximum)}).safeParse(asBody(request));
+    if(!parsed.success)throw new GameError('INVALID_COMMAND','Choose a whole bounty amount between 1 and 10,000 gold.');
+    const state=await getState(db,request.realmSession!.account_id!);
+    const now=(await db.query('SELECT clock_timestamp() AS now')).rows[0]!.now;
+    const quote=await bountyQuote(db,state.id,parsed.data.targetCharacterId,parsed.data.amount,new Date(now));
+    return render(request,reply,'bounty-confirm',{title:'Confirm bounty',state,bountyQuote:quote});
+  });
   app.get('/game/bounties',{preHandler:requireAccount},async(request,reply)=>{
     const accountId=request.realmSession!.account_id!;
     const character=(await db.query('SELECT id FROM characters WHERE account_id=$1',[accountId])).rows[0];
@@ -239,6 +248,12 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const id=(request.params as {id:string}).id;if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);
     const state=await getState(db,request.realmSession!.account_id!);
     return {combatTarget:attackAvailability(state,await publicProfile(db,id),config.developmentBotsEnabled),state};
+  });
+  app.get('/api/v1/players/:id/tales',{preHandler:requireAccount},async request=>{
+    const id=(request.params as {id:string}).id;if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);
+    const state=await getState(db,request.realmSession!.account_id!);
+    await publicProfile(db,id);
+    return battleTales(db,id,state.id,(request.query as {after?:string}).after);
   });
   app.get('/api/v1/feed',{preHandler:requireAccount},async request=>{
     const state=await getState(db,request.realmSession!.account_id!);const query=request.query as {feed?:string;after?:string};
