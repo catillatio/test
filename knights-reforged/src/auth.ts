@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { type Database, transaction, type Sql } from './db.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
+import { alpha } from './alpha-rules.js';
 
 export const registration = z.object({
   username: z.string().trim().toLowerCase().regex(/^[a-z0-9_]{3,24}$/, 'Use 3–24 lowercase letters, numbers, or underscores.'),
@@ -25,12 +26,12 @@ export async function registerAccount(db: Database, input: unknown) {
     await transaction(db, async client => {
       await client.query('INSERT INTO accounts(id,username,password_hash) VALUES($1,$2,$3)', [accountId, username, passwordHash]);
       await client.query('INSERT INTO characters(id,account_id,name) VALUES($1,$2,$3)', [characterId, accountId, name]);
-      await client.query('INSERT INTO wallets(character_id,balance) VALUES($1,$2)', [characterId, rules.startingGold]);
+      await client.query('INSERT INTO wallets(character_id,balance) VALUES($1,$2)', [characterId, alpha.startingGold]);
       await client.query('INSERT INTO army_stacks(character_id,unit_definition_id,quantity) VALUES($1,$2,0)', [characterId, rules.unit.id]);
       const ledgerId = randomUUID();
-      await client.query('INSERT INTO economy_transactions(id,reason,ruleset_id) VALUES($1,$2,$3)', [ledgerId, 'starting_grant', rules.id]);
+      await client.query('INSERT INTO economy_transactions(id,reason,ruleset_id) VALUES($1,$2,$3)', [ledgerId, 'starting_grant', alpha.id]);
       await client.query('INSERT INTO economy_entries(id,transaction_id,character_id,amount,balance_after) VALUES($1,$2,$3,$4,$4)',
-        [randomUUID(), ledgerId, characterId, rules.startingGold]);
+        [randomUUID(), ledgerId, characterId, alpha.startingGold]);
     });
   } catch (error) {
     if ((error as {code?: string}).code === '23505') throw new GameError('USERNAME_TAKEN', 'That account name is already in use.', 409);

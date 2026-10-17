@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { type Sql } from './db.js';
 import { GameError } from './errors.js';
-import { ledger } from './economy.js';
+import { ledger, recordRetained } from './economy.js';
 import { landRules, calculateLandAccrual, landCreditAmount, type LandProperty } from './land-rules.js';
 
 export interface HoldingRow {
@@ -19,15 +19,14 @@ export interface LandState {
 }
 
 async function holdings(sql: Sql, characterId: string, lock = false) {
-  return (await sql.query<HoldingRow>(`SELECT * FROM land_holdings WHERE character_id=$1
+  return (await sql.query<HoldingRow>(`SELECT * FROM land_holdings WHERE character_id=$1 AND quantity>0
     ORDER BY acquired_at,id${lock ? ' FOR UPDATE' : ''}`, [characterId])).rows;
 }
 
 // Must be called after locking the character row. Both state reads and every
 // gameplay command use this path, including settlement of an offline defender.
-export async function settleLand(sql: Sql, characterId: string, now: Date): Promise<boolean> {
+export async function settleLand(sql: Sql, characterId: string, now: Date, rulesetId = landRules.id): Promise<boolean> {
   const batches = await holdings(sql, characterId, true);
-  if (!batches.length) return false;
   await sql.query('INSERT INTO land_accounts(character_id) VALUES($1) ON CONFLICT DO NOTHING', [characterId]);
   let generated = 0n;
   let settled = false;
@@ -47,11 +46,13 @@ export async function settleLand(sql: Sql, characterId: string, now: Date): Prom
   }
   const account = (await sql.query(`UPDATE land_accounts SET pending_gold=pending_gold+$2::numeric
     WHERE character_id=$1 RETURNING pending_gold`, [characterId, generated.toString()])).rows[0]!;
+  if (generated) await recordRetained(sql,characterId,generated,'land_income');
   const wallet = (await sql.query('SELECT balance FROM wallets WHERE character_id=$1', [characterId])).rows[0]!;
   const credited = landCreditAmount(wallet.balance, BigInt(account.pending_gold));
   if (credited) {
-    await ledger(sql, null, 'land_income', [{ characterId, amount: credited }], landRules.id);
+    await ledger(sql, null, 'land_income', [{ characterId, amount: credited }], rulesetId);
     await sql.query('UPDATE land_accounts SET pending_gold=pending_gold-$2::numeric WHERE character_id=$1', [characterId, credited]);
+    await recordRetained(sql,characterId,-BigInt(credited),'treasury_release');
   }
   return settled || credited > 0;
 }

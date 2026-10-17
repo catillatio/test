@@ -9,6 +9,7 @@
   <link rel="icon" type="image/png" href="/assets/art/kingdoms-live/icon.png">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/kingdoms-live.css">
+  <link rel="stylesheet" href="/assets/alpha.css">
 </head>
 <body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= screen === 'report' ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -19,18 +20,20 @@
       <main id="main-content" class="main-content" tabindex="-1">
         <% if (state) { %>
           <header class="character-header">
-            <div class="page-heading"><h1><%= title %></h1><span class="warrior-label"><%= state.name %></span></div>
             <%- include('partials/resources') %>
+            <div class="page-heading"><h1><%= title %></h1><a class="warrior-label" href="/game/profile"><%= state.name %> ›</a></div>
           </header>
           <%- include('partials/secondary-nav') %>
         <% } %>
-        <% if (notice) { %><div class="notice notice-success" role="status"><span aria-hidden="true">✦</span> <%= notice %></div><% } %>
+        <% if (notice && !(screen==='quests'&&actionResult?.kind==='quest')) { %><div class="notice notice-success" role="status"><span aria-hidden="true">✦</span> <%= notice %></div><% } %>
         <% if (error) { %><div class="notice notice-error" role="alert"><%= error %></div><% } %>
         <%- include(screen) %>
-        <footer class="page-footer"><span>Knights Reforged · The First Realm</span><a href="/rules">Provisional realm rules</a></footer>
+        <p class="connection-status" data-connection-status role="status"></p>
+        <footer class="page-footer"><span>Knights Reforged · Multiplayer alpha</span><a href="/rules">Alpha rules</a></footer>
       </main>
     </div>
     <% if (state) { %><%- include('partials/primary-nav') %><% } %>
   </div>
+  <% if (state) { %><script type="module" src="/assets/realm.js"></script><% } %>
 </body>
 </html>

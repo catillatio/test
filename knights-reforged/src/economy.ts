@@ -19,3 +19,26 @@ export async function ledger(sql: Sql, commandId: string | null, reason: string,
       [randomUUID(), transactionId, change.characterId, change.amount, row.balance]);
   }
 }
+
+export async function recordRetained(sql: Sql, characterId: string, amount: bigint, reason: string, commandId: string | null = null) {
+  if (!amount) return;
+  const account = (await sql.query('SELECT pending_gold FROM land_accounts WHERE character_id=$1',[characterId])).rows[0]!;
+  await sql.query('INSERT INTO treasury_retained_events(id,character_id,amount,balance_after,reason,command_id) VALUES($1,$2,$3,$4,$5,$6)',
+    [randomUUID(),characterId,amount.toString(),account.pending_gold,reason,commandId]);
+}
+
+// All callers hold the character lock. Positive credits never overflow or get
+// discarded, including sales at a full treasury. The existing ledger continues
+// to reconcile the spendable wallet; retained movements have their own journal.
+export async function creditGold(sql: Sql,characterId:string,amount:bigint,commandId:string|null,reason:string,rulesetId:string) {
+  if (amount<0n) throw new RangeError('A credit must be nonnegative.');
+  const wallet=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[characterId])).rows[0]!;
+  const room=BigInt(2147483647-wallet.balance);
+  const credited=amount<room?amount:room;
+  if (credited) await ledger(sql,commandId,reason,[{characterId,amount:Number(credited)}],rulesetId);
+  const retained=amount-credited;
+  if (retained) {
+    await sql.query('INSERT INTO land_accounts(character_id,pending_gold) VALUES($1,$2) ON CONFLICT(character_id) DO UPDATE SET pending_gold=land_accounts.pending_gold+EXCLUDED.pending_gold',[characterId,retained.toString()]);
+    await recordRetained(sql,characterId,retained,reason,commandId);
+  }
+}

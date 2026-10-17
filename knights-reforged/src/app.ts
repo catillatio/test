@@ -17,12 +17,13 @@ import { executeCommand, type CommandKind } from './commands.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
 import { landRules } from './land-rules.js';
+import { alpha } from './alpha-rules.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
 
 declare module 'fastify' { interface FastifyRequest { realmSession: Session | null; } }
 const uuid = z.string().uuid();
 const allowedScreens = new Set<string>(templateScreens);
-const destination: Record<CommandKind, string> = { quest: 'quests', recruit: 'army', buy: 'armory', equip: 'armory', attack: 'battle', land_buy: 'land' };
+const destination: Record<CommandKind, string> = { quest:'quests',quest_buy:'quests',recruit:'army',buy:'armory',sell:'armory',equip:'armory',attack:'battle',land_buy:'land',land_sell:'land',skill:'profile',profile:'profile',maintain:'armory',invite:'army',accept:'army',remove:'army' };
 const asBody = (request: FastifyRequest) => (request.body && typeof request.body === 'object' ? request.body : {}) as Record<string, unknown>;
 const wantsJson = (request: FastifyRequest) => request.url.startsWith('/api/') || (request.headers.accept ?? '').includes('application/json');
 
@@ -78,19 +79,23 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const session = request.realmSession;
     const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id) : null);
     let notice: string | null = null;
-    const query = request.query as { command?: string };
+    let actionResult: Record<string,unknown> | null = null;
+    const query = request.query as { command?: string; category?: string };
     if (session?.account_id && uuid.safeParse(query?.command).success) {
       const receipt = (await db.query('SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2', [session.account_id, query.command])).rows[0];
       notice = receipt?.result?.message ?? null;
+      actionResult = receipt?.result ?? null;
     }
     return reply.viewAsync('layout.ejs', {
-      screen, state, nav, rules, landRules, csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
-      commandId: randomUUID, notice, error: null, opponents: [], battles: [], battle: null,
+      screen, state, nav, rules, landRules, alpha, actionResult,
+      category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
+      csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
+      commandId: randomUUID, notice, error: null, opponents: [], nextOpponentCursor:null, battles: [], battle: null,
       title: 'Knights Reforged', authMode: 'login', formValues: { username: '', name: '' }, ...data,
     });
   }
 
-  app.get('/healthz', async () => { await db.query('SELECT 1'); return { status: 'ready', ruleset: rules.id }; });
+  app.get('/healthz', async () => { await db.query('SELECT 1'); return { status: 'ready', ruleset: alpha.id }; });
   app.get('/', async (request, reply) => reply.redirect(request.realmSession?.account_id ? '/game/home' : '/login'));
   for (const mode of ['login', 'register'] as const) {
     app.get('/' + mode, async (request, reply) => request.realmSession?.account_id ? reply.redirect('/game/home') :
@@ -122,10 +127,15 @@ export async function createApp(options: { db: Database; config: Config; logger?
       const state = await getState(db, request.realmSession!.account_id!);
       return render(request, reply, screen, { title, state,
         ...(screen === 'home' || screen === 'battle' ? { battles: await recentBattles(db, state.id) } : {}),
-        ...(screen === 'battle' ? { opponents: await listOpponents(db, state.id) } : {}),
+        ...(screen === 'battle' ? await (async () => {
+          const query=request.query as {after?:string};
+          const page=await listOpponents(db,state.id,query.after);
+          return {opponents:page.opponents,nextOpponentCursor:page.nextCursor};
+        })() : {}),
       });
     });
   }
+  app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>render(request,reply,'profile',{title:'Character'}));
   app.get('/game/battles/:id', { preHandler: requireAccount }, async (request, reply) => {
     const id = (request.params as {id:string}).id;
     if (!uuid.safeParse(id).success) throw new GameError('BATTLE_NOT_FOUND', 'That battle was not found.', 404);
@@ -137,24 +147,25 @@ export async function createApp(options: { db: Database; config: Config; logger?
     for (const url of [route.html, route.api]) {
       app.post(url, { preHandler: requireAccount, config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 90, timeWindow: '1 minute' } } }, async (request, reply) => {
         const body = asBody(request);
-        const input = route.kind === 'quest' ? { ...body, questId: (request.params as {id:string}).id } : body;
+        const input = route.kind === 'quest' || route.kind === 'quest_buy' ? { ...body, questId: (request.params as {id:string}).id } : body;
         const result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input);
         if (wantsJson(request)) return { ...result, state: await getState(db, request.realmSession!.account_id!) };
         return reply.redirect(result.battleId ? '/game/battles/' + result.battleId :
-          '/game/' + destination[route.kind] + '?command=' + result.commandId, 303);
+          '/game/' + destination[route.kind] + '?command=' + result.commandId +
+          (destination[route.kind]==='armory' && ['weapon','armor','spell'].includes(String(result.data?.category)) ? '&category='+result.data!.category : ''), 303);
       });
     }
   }
   app.get('/api/v1/me', { preHandler: requireAccount }, async request => ({
-    state: await getState(db, request.realmSession!.account_id!), csrfToken: request.realmSession!.csrf_token, rulesetId: rules.id,
+    state: await getState(db, request.realmSession!.account_id!), csrfToken: request.realmSession!.csrf_token, rulesetId: alpha.id,
   }));
   app.get('/api/v1/opponents', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!);
-    return { opponents: await listOpponents(db, state.id) };
+    return listOpponents(db,state.id,(request.query as {after?:string}).after);
   });
   app.get('/api/v1/land', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!);
-    return { land: state.land, gold: state.gold, serverTime: state.serverTime };
+    return { land: state.land, gold: state.gold, serverTime: state.serverTime, state };
   });
   app.get('/api/v1/battles/:id', { preHandler: requireAccount }, async request => {
     const id = (request.params as {id:string}).id;

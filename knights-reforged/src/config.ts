@@ -14,7 +14,7 @@ export interface Config {
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const origin = new URL(env.APP_ORIGIN ?? 'http://localhost:3000');
   if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password ||
-      origin.hostname === 'bluepawgames.com' || origin.hostname.endsWith('.bluepawgames.com')) {
+      ['bluepawgames.com','storm8.com'].some(host => origin.hostname === host || origin.hostname.endsWith('.' + host))) {
     throw new Error('APP_ORIGIN must be a replacement HTTP(S) origin, never the historical host.');
   }
   if (origin.pathname !== '/' || origin.search || origin.hash) throw new Error('APP_ORIGIN must not contain a path or query.');

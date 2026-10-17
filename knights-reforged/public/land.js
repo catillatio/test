@@ -33,6 +33,7 @@ if (root) {
       nextPayment = state.land.nextPaymentAt;
       setText('[data-land-gross]', number(state.land.hourlyIncome));
       setText('[data-land-upkeep]', number(state.land.hourlyUpkeep));
+      setText('[data-equipment-upkeep]', number(state.land.equipmentUpkeep || 0));
       setText('[data-land-net]', number(state.land.netHourlyIncome));
       document.querySelectorAll('[data-wallet-gold]').forEach(element => { element.textContent = number(state.gold); });
       showTime(root.querySelector('[data-land-payment-time]'), nextPayment);
@@ -46,8 +47,17 @@ if (root) {
         const input = card.querySelector('input[name="quantity"]');
         const button = card.querySelector('button[type="submit"]');
         input.max = String(Math.max(1, property.maxAffordable));
-        input.disabled = button.disabled = property.maxAffordable === 0;
+        input.disabled = button.disabled = property.maxAffordable === 0 || property.unlocked === false;
+        const price = card.querySelector('[data-land-unit-price]');
+        if (price) price.textContent = number(property.price);
+        if (property.priceSteps) card.dataset.priceSteps = JSON.stringify(property.priceSteps);
+        const sell = card.querySelector('[data-land-sell]');
+        if (sell) {
+          sell.querySelector('input[name="quantity"]').max = String(Math.max(1, Math.min(25, property.owned)));
+          sell.querySelector('button').disabled = property.owned === 0;
+        }
         card.querySelector('[data-land-buy-hint]').textContent = property.remaining === 0 ? 'Ownership limit reached.' :
+          property.unlocked === false ? 'Unlocks at level ' + property.level + '.' :
           property.maxAffordable === 0 ? 'Earn more gold to buy this property.' : 'Your first payment arrives one full hour after purchase.';
       }
       for (const holding of state.land.holdings) {
@@ -55,6 +65,7 @@ if (root) {
         showTime(time, holding.nextPaymentAt);
       }
       status.textContent = 'Income is up to date. Completed offline hours are included.';
+      if (state.state && typeof document.dispatchEvent === 'function') document.dispatchEvent(new CustomEvent('realm-state', { detail: state.state }));
     } catch {
       retryAt = performance.now() + 15000;
       status.textContent = 'Income refresh is unavailable. Your income remains on the server; use Refresh income to reconnect.';

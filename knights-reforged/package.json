@@ -16,7 +16,7 @@
     "test": "tsx --test --test-concurrency=1 tests/*.test.ts tests/*.test.mjs",
     "test:land:offline": "node --experimental-transform-types --import ./scripts/register-typescript.mjs tests/land-rules.test.ts",
     "test:land:client": "node tests/land-client.test.mjs",
-    "test:postgres": "TEST_ENGINE=postgres tsx --test --test-concurrency=1 tests/integration.test.ts",
+    "test:postgres": "TEST_ENGINE=postgres tsx --test --test-concurrency=1 tests/integration.test.ts tests/alpha-integration.test.ts tests/migration.test.ts",
     "test:browser": "tsx scripts/browser-test.ts",
     "verify": "npm run typecheck && npm test && npm run build"
   },

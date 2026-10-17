@@ -34,7 +34,7 @@ test('populated legacy migration preserves records, identity, holding clocks and
     await db.query("INSERT INTO command_receipts(account_id,command_id,kind,intent_hash,result) VALUES($1,$2,'quest',$3,$4)",[accountA,receipt,'a'.repeat(64),oldResult]);
     const oldBattle={id:battle,attackerName:'Old Warrior',defenderName:'Old Rival',winnerId:a,loot:10};
     await db.query("INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result) VALUES($1,$2,$3,'recreation-0.1','attacker_win',$4,$5)",[battle,a,b,{old:true},oldBattle]);
-    const before=(await db.query('SELECT * FROM land_holdings WHERE id=$1',[holding])).rows[0];
+    const before=(await db.query('SELECT * FROM land_holdings WHERE id=$1',[holding])).rows[0]!;
     await migrate(db);await migrate(db);
     const character=(await db.query('SELECT * FROM characters WHERE id=$1',[a])).rows[0]!;
     assert.equal(character.xp,275);assert.equal(character.attained_level,6);assert.equal(character.level_xp,40);

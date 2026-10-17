@@ -6,6 +6,7 @@ import { createDatabase, transaction, type Database } from '../src/db.js';
 import { loadConfig } from '../src/config.js';
 import { migrate } from '../src/migrate.js';
 import { rules } from '../src/rules.js';
+import { alpha, propertyPrice } from '../src/alpha-rules.js';
 import { landRules } from '../src/land-rules.js';
 import { settleLand } from '../src/land.js';
 import { lockCharacters, clock } from '../src/game.js';
@@ -125,8 +126,10 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     const actor = await player(); const target = await player(); const outsider = await player();
     const quest = await command(actor, `/api/v1/quests/${rules.quest.id}/runs`, { goldReward: 9999999, xp: 9999999 });
     assert.equal(quest.statusCode, 200, quest.body);
-    assert.equal(quest.json().state.gold, rules.startingGold + rules.quest.goldReward);
-    assert.equal(quest.json().state.xp, rules.quest.xpReward);
+    const reward = quest.json().data.gold;
+    assert.ok(reward >= 8 && reward <= 12);
+    assert.equal(quest.json().state.gold, rules.startingGold + reward);
+    assert.equal(quest.json().state.xp, 4);
     assert.equal((await command(actor, '/api/v1/army/recruitments', { unitId: rules.unit.id, quantity: 2, price: 0 })).statusCode, 200);
     const buy = await command(actor, '/api/v1/inventory/purchases', { itemId: rules.weapon.id, price: 0 });
     assert.equal(buy.statusCode, 200, buy.body);
@@ -154,7 +157,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     const responses = await Promise.all([command(actor, `/api/v1/quests/${rules.quest.id}/runs`, {}, id), command(actor, `/api/v1/quests/${rules.quest.id}/runs`, {}, id)]);
     for (const response of responses) assert.equal(response.statusCode, 200, response.body);
     assert.equal(responses[0]!.json().commandId, responses[1]!.json().commandId);
-    assert.equal((await me(actor)).gold, rules.startingGold + rules.quest.goldReward);
+    assert.equal((await me(actor)).gold, rules.startingGold + responses[0]!.json().data.gold);
     assert.equal((await db.query('SELECT count(*)::integer AS n FROM quest_runs WHERE character_id=$1', [actor.id])).rows[0]!.n, 1);
     const conflict = await command(actor, '/api/v1/army/recruitments', { unitId: rules.unit.id, quantity: 1 }, id);
     assert.equal(conflict.statusCode, 409);
@@ -233,7 +236,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     assert.equal((await buyLand(owner)).statusCode, 200);
     const response = await app.inject({ method: 'GET', url: '/game/land', headers: { cookie: owner.cookie } });
     assert.equal(response.statusCode, 200, response.body);
-    assert.match(response.body, /Provisional Land rules/);
+    assert.match(response.body, /Reconstructed alpha economy/);
     assert.match(response.body, /data-land-countdown/);
     assert.match(response.body, /aria-current="page"/);
     assert.equal((await me(other)).land.holdings.length, 0);
@@ -259,7 +262,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     assert.equal(batch.character_id, actor.id);
     assert.equal(batch.unit_price, property.price);
     assert.equal(batch.hourly_income, property.hourlyIncome);
-    assert.equal(batch.ruleset_id, landRules.id);
+    assert.equal(batch.ruleset_id, alpha.id);
     assert.equal(new Date(state.land.nextPaymentAt).getTime() - new Date(batch.acquired_at).getTime(), 3600000);
     assert.equal(state.gold, await ledgerBalance(actor));
   });
@@ -339,13 +342,14 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
 
   test('a later purchase does not receive retroactive income from an older property', async () => {
     const actor = await player();
-    await command(actor, `/api/v1/quests/${rules.quest.id}/runs`, {});
+    let rewards = 0;
+    for (let i=0;i<3;i++) rewards += (await command(actor, `/api/v1/quests/${rules.quest.id}/runs`, {})).json().data.gold;
     assert.equal((await buyLand(actor)).statusCode, 200);
     await ageHoldings(actor, 3 * 3600 + 20);
     const second = await buyLand(actor);
     assert.equal(second.statusCode, 200, second.body);
     const state = second.json().state;
-    assert.equal(state.gold, rules.startingGold + rules.quest.goldReward - 2 * property.price + 3 * netPerProperty);
+    assert.equal(state.gold, rules.startingGold + rewards - property.price - propertyPrice(property.price,1) + 3 * netPerProperty);
     assert.equal(state.land.holdings.length, 2);
     assert.equal(state.land.properties[0].owned, 2);
     assert.equal((await db.query('SELECT count(*)::integer AS n FROM land_income_settlements WHERE holding_id=$1', [second.json().holdingId])).rows[0]!.n, 0);
@@ -412,6 +416,6 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     const purchase = await buyLand(actor);
     assert.equal(purchase.statusCode, 200, purchase.body);
     assert.equal(purchase.json().state.land.pendingGold, '0');
-    assert.equal(purchase.json().state.gold, 2147483647 - property.price + 3 * netPerProperty);
+    assert.equal(purchase.json().state.gold, 2147483647 - propertyPrice(property.price,1) + 3 * netPerProperty);
   });
 });

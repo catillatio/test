@@ -1,0 +1,5 @@
+<section class="maintenance-panel panel" aria-label="Equipment upkeep">
+  <div class="summary-inline"><strong>Army upkeep <span class="gold"><%= state.maintenance.hourlyRate %></span> / hour</strong><span>Reserve <%= state.maintenance.reserveGold %> gold</span></div>
+  <% if (state.maintenance.paused) { %><p class="warning">Upkeep paused. Equipment with upkeep cannot join battles; your free equipment still works. Arrears: <%= state.maintenance.arrearsGold %> gold. Further charges have stopped.</p><form method="post" action="/game/armory/maintain"><%- include('partials/command-fields') %><button class="button button-gold" type="submit"<% if (state.gold<state.maintenance.resumeCost) { %> disabled<% } %>>Resume upkeep · <%= state.maintenance.resumeCost %> gold</button></form>
+  <% } else { %><p class="field-hint">Your best equipment is selected automatically. Upkeep uses the reserve, then carried gold. All owned upkeep copies count, including spares.</p><% } %>
+</section>

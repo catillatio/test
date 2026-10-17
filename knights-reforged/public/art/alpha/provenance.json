@@ -1,0 +1,77 @@
+{
+  "provenance": "Original Knights Reforged alpha placeholder illustrations authored as SVG on 2026-10-17. Not recovered Storm8 artwork.",
+  "assets": [
+    {
+      "asset": "axe.svg",
+      "sha256": "caf9559cd49225c56e665e23848089c8db6b555cf27bd4585cf34193f26e15f7"
+    },
+    {
+      "asset": "blade.svg",
+      "sha256": "8ce94f4c1d2389fd555dac3648f6e3005f5f7f1b964b9621386cecc759d53531"
+    },
+    {
+      "asset": "buckler.svg",
+      "sha256": "fa4e6f72cc70e89ca2d1220e125450a6a18a68619982652964afeb3a349bf564"
+    },
+    {
+      "asset": "coat.svg",
+      "sha256": "75fe33590d3b51d80eef1f4b31fdd7eee35dc19bd32da1a4c813c948287d8615"
+    },
+    {
+      "asset": "ember.svg",
+      "sha256": "f9f3993c21b98e3349d356350c8eb59c118a8cb4184467dfecc5e2a003481f2a"
+    },
+    {
+      "asset": "fields.svg",
+      "sha256": "81b19fc6f4d2238e9cc265ecf6ae9923280c274d031dbf7af10d281c437d4f1a"
+    },
+    {
+      "asset": "glaive.svg",
+      "sha256": "fa13496be86a02929c31ba51d2443cce07b4ceb9c0caeecd99c187f48cd00025"
+    },
+    {
+      "asset": "harbour.svg",
+      "sha256": "fecd1e912f2263a3bc134089487171fd5aefae4922b894529e09d8e7e98898b9"
+    },
+    {
+      "asset": "helm.svg",
+      "sha256": "d306a922bdc8d803d040e1aae3af2a6f63ad3cf790943ca14c7bd88bd0dcb534"
+    },
+    {
+      "asset": "mail.svg",
+      "sha256": "12c8446b1ee5a4dcbcb518a280bddfa3157d62bf3d12c7d5e68c7e7c904e8922"
+    },
+    {
+      "asset": "mill.svg",
+      "sha256": "d07093bfef21d6985adb945d32273c8a78095f3a4b4a3fa8283f177aa52ee97a"
+    },
+    {
+      "asset": "spear.svg",
+      "sha256": "8c19ac0aca1bf1604ccea0aaeb25925c756a6fa58a41d432dee157c0ba046d68"
+    },
+    {
+      "asset": "storm.svg",
+      "sha256": "f6fa291721d209781528e1f14ff93d7a890aba72ed5cb158bb3d61a8e37027f0"
+    },
+    {
+      "asset": "sword.svg",
+      "sha256": "159ab836af585fefe69edb9f815cffac1c7c7db9c3c488d17218f6e1a0d104fc"
+    },
+    {
+      "asset": "thorn.svg",
+      "sha256": "9d35a2c3c29b645b1d0b554333e81f42c68f982d0e25fa0353da033838ee77fb"
+    },
+    {
+      "asset": "tower.svg",
+      "sha256": "a45c3b3710accb4febd8b91c4d9187a5492bd37c95e24b82009452e1354db0f1"
+    },
+    {
+      "asset": "ward.svg",
+      "sha256": "76399ae7acca0703e17746f6d8ccb6a32331c27d65b07787e1cf39ac4b8eae0b"
+    },
+    {
+      "asset": "woodland.svg",
+      "sha256": "a76f61f03ac0ccb295ead939d63b53a1ca57080e908c560a842901bf1d820656"
+    }
+  ]
+}

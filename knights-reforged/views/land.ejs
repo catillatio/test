@@ -1,53 +1,20 @@
-<div data-land-screen data-server-time="<%= state.serverTime %>" data-next-payment="<%= state.land.nextPaymentAt ?? '' %>">
-  <section class="hero compact-hero hero-land">
-    <img class="hero-art" src="/assets/art/land.jpg" alt="" width="320" height="480">
-    <div class="hero-copy"><p class="eyebrow">LAND &amp; INCOME</p><h2>A foothold.<br>A lasting income.</h2><p>Invest in property and earn gold every 60 minutes, including while you are away.</p></div>
-  </section>
-  <div class="notice notice-info" role="note"><strong>Provisional Land rules.</strong> Property names, prices, income and upkeep are recreation values. Original Kingdoms Live values have not been verified.</div>
-
-  <section class="panel land-income-panel" aria-labelledby="land-income-title">
-    <div><p class="eyebrow">YOUR ESTATE</p><h2 id="land-income-title">Hourly income</h2></div>
-    <dl class="land-income-grid">
-      <div><dt>Gross income</dt><dd><span data-land-gross><%= state.land.hourlyIncome.toLocaleString('en') %></span> <small>gold / hour</small></dd></div>
-      <div><dt>Property upkeep</dt><dd><span data-land-upkeep><%= state.land.hourlyUpkeep.toLocaleString('en') %></span> <small>gold / hour</small></dd></div>
-      <div><dt>Net income</dt><dd class="gold"><span data-land-net><%= state.land.netHourlyIncome.toLocaleString('en') %></span> <small>gold / hour</small></dd></div>
-    </dl>
-    <div class="land-payment-row">
-      <div><span class="muted">Next income payment</span><strong class="land-countdown" role="timer" data-land-countdown><%= state.land.nextPaymentAt ? 'Calculating…' : 'No property owned' %></strong>
-        <time data-land-payment-time datetime="<%= state.land.nextPaymentAt ?? '' %>"><%= state.land.nextPaymentAt ? state.land.nextPaymentAt.replace('T', ' ').replace('.000Z', ' UTC') : 'Buy a property to start earning.' %></time>
-      </div>
-      <a href="/game/land" class="button button-outline">Refresh income</a>
-    </div>
-    <p class="field-hint" data-land-status role="status">Each purchase starts its own 60-minute cycle. Completed offline hours are paid automatically when you return.</p>
-    <p class="field-hint" data-land-pending<% if (state.land.pendingGold === '0') { %> hidden<% } %>><strong>Unclaimed income:</strong> <span data-land-pending-gold><%= BigInt(state.land.pendingGold).toLocaleString('en') %></span> gold. Your treasury is full; earned gold is retained and collected as you make room.</p>
-    <noscript><p class="field-hint">The UTC payment time above works without JavaScript. Refresh after that time to collect income and see the next payment.</p></noscript>
-  </section>
-
-  <section aria-labelledby="land-catalog-title">
-    <div class="section-heading land-catalog-heading"><div><p class="eyebrow">PROVISIONAL PROPERTIES</p><h2 id="land-catalog-title">Expand your estate</h2></div><span class="muted">Limit <%= landRules.maxOwnedPerProperty %> of each</span></div>
-    <div class="land-properties">
-      <% for (const property of state.land.properties) { const available = property.maxAffordable; %>
-        <article class="panel land-property" data-land-property="<%= property.id %>">
-          <div class="section-heading"><h3><%= property.name %></h3><span class="small-tag">Owned <span data-land-owned><%= property.owned %></span></span></div>
-          <p class="description"><%= property.description %></p>
-          <dl class="summary-list"><div><dt>Purchase price, each</dt><dd class="gold"><%= property.price.toLocaleString('en') %> gold</dd></div><div><dt>Hourly income, each</dt><dd><%= property.hourlyIncome %> gold</dd></div><div><dt>Hourly upkeep, each</dt><dd><%= property.hourlyUpkeep %> gold</dd></div><div><dt>Hourly net, each</dt><dd><%= property.hourlyIncome - property.hourlyUpkeep %> gold</dd></div></dl>
-          <form method="post" action="/game/land/buy" class="land-buy-form">
-            <%- include('partials/command-fields') %>
-            <input type="hidden" name="propertyId" value="<%= property.id %>">
-            <div class="field"><label for="land-quantity-<%= property.id %>">Quantity</label><input id="land-quantity-<%= property.id %>" name="quantity" type="number" inputmode="numeric" min="1" max="<%= Math.max(1, available) %>" value="1" required<% if (!available) { %> disabled<% } %>></div>
-            <button type="submit" class="button button-gold"<% if (!available) { %> disabled<% } %>>Buy <%= property.name.toLowerCase() %></button>
-          </form>
-          <p class="field-hint" data-land-buy-hint><%= property.remaining === 0 ? 'Ownership limit reached.' : !available ? 'Earn more gold to buy this property.' : 'Your first payment arrives one full hour after purchase.' %></p>
-        </article>
-      <% } %>
-    </div>
-  </section>
-
-  <section class="panel land-holdings-panel" aria-labelledby="land-holdings-title"><p class="eyebrow">PERSISTENT OWNERSHIP</p><h2 id="land-holdings-title">Your holdings</h2>
-    <% if (!state.land.holdings.length) { %><p>You do not own any property yet. Buy a property above to start earning.</p><% } else { %>
-      <ul class="land-holdings"><% for (const holding of state.land.holdings) { %><li><div><strong><%= holding.name %> × <%= holding.quantity %></strong><span class="muted">Net <%= holding.hourlyIncome - holding.hourlyUpkeep %> gold / hour</span></div><div class="land-holding-payment"><span class="muted">Next payment</span><time datetime="<%= holding.nextPaymentAt %>" data-holding-payment="<%= holding.id %>"><%= holding.nextPaymentAt.replace('T', ' ').replace('.000Z', ' UTC') %></time></div></li><% } %></ul>
-    <% } %>
-    <p class="field-hint">Upkeep is deducted from each property's income. Existing militia and equipment have no additional upkeep in this provisional Land ruleset. Partial hours are retained; purchases do not earn income retroactively.</p>
-  </section>
-</div>
-<script type="module" src="/assets/land.js"></script>
+<div data-land-screen data-server-time="<%= state.serverTime %>" data-next-payment="<%= state.land.nextPaymentAt??'' %>">
+<section class="panel land-income-panel" aria-labelledby="land-income-title"><h2 class="strip-title" id="land-income-title">Gold flow</h2>
+<dl class="flow-grid"><div><dt>Property income</dt><dd class="gold"><span data-land-gross><%= state.land.hourlyIncome %></span> / hour</dd></div><div><dt>Property upkeep</dt><dd><span data-land-upkeep><%= state.land.hourlyUpkeep %></span> / hour</dd></div><div><dt>Equipment upkeep</dt><dd><span data-equipment-upkeep><%= state.land.equipmentUpkeep %></span> / hour</dd></div><div><dt>Net hourly income</dt><dd class="gold"><span data-land-net><%= state.land.netHourlyIncome %></span> / hour</dd></div></dl>
+<div class="land-payment-row"><div><span class="muted">Next income payment</span><strong class="land-countdown" role="timer" data-land-countdown><%= state.land.nextPaymentAt?'Calculating…':'No property owned' %></strong><time data-land-payment-time datetime="<%= state.land.nextPaymentAt??'' %>"><%= state.land.nextPaymentAt??'Buy a property to start earning.' %></time></div><a class="button button-outline" href="/game/land">Refresh income</a></div>
+<p class="field-hint" data-land-status role="status">Each purchase earns after one full hour, including completed offline hours.</p><p class="field-hint" data-land-pending<% if (state.land.pendingGold==='0') { %> hidden<% } %>>Treasury full: <span data-land-pending-gold><%= BigInt(state.land.pendingGold).toLocaleString('en') %></span> retained gold will be released as you make room.</p><noscript><p>Refresh after the UTC payment time to collect income.</p></noscript>
+</section>
+<p class="compact-help"><strong>Reconstructed alpha economy.</strong> Each additional property of the same type costs 10% more. Bulk purchases use successive prices. Sell returns half each recorded cost; sold units forfeit their unfinished hour.</p>
+<div class="catalog land-properties">
+<% for (const property of state.land.properties) { const unlocked=state.level>=property.level;const available=property.maxAffordable; %>
+<article class="catalog-row land-property" data-land-property="<%= property.id %>" data-price-steps="<%= JSON.stringify(property.priceSteps) %>">
+<img class="catalog-art" src="/assets/art/alpha/<%= property.art %>.svg" width="76" height="76" alt="<%= property.name %> illustration">
+<div class="catalog-description"><h2><%= property.name %></h2><span>Income: <strong class="gold"><%= property.hourlyIncome %></strong> / hour</span><span>Upkeep: <%= property.hourlyUpkeep %> / hour</span><% if (!unlocked) { %><span class="warning">Level <%= property.level %> required</span><% } %></div>
+<div class="catalog-trade"><div class="price-owned"><strong class="gold">● <span data-land-unit-price><%= property.price.toLocaleString('en') %></span></strong><span>Owned: <strong data-land-owned><%= property.owned %></strong></span></div>
+<div class="trade-actions">
+<form method="post" action="/game/land/buy" class="land-buy-form"><%- include('partials/command-fields') %><input type="hidden" name="propertyId" value="<%= property.id %>"><label class="sr-only" for="land-quantity-<%= property.id %>">Buy quantity for <%= property.name %></label><input class="quantity" id="land-quantity-<%= property.id %>" name="quantity" type="number" inputmode="numeric" min="1" max="<%= Math.max(1,available) %>" value="1" required<% if (!available||!unlocked) { %> disabled<% } %>><button class="button button-gold" type="submit" aria-label="Buy <%= property.name %>"<% if (!available||!unlocked) { %> disabled<% } %>>Buy</button></form>
+<form method="post" action="/game/land/sell" data-land-sell><%- include('partials/command-fields') %><input type="hidden" name="propertyId" value="<%= property.id %>"><label class="sr-only" for="land-sell-<%= property.id %>">Sell quantity for <%= property.name %></label><input class="quantity" id="land-sell-<%= property.id %>" name="quantity" type="number" inputmode="numeric" min="1" max="<%= Math.max(1,Math.min(25,property.owned)) %>" value="1" required><button class="button button-outline" type="submit" aria-label="Sell <%= property.name %>"<% if (!property.owned) { %> disabled<% } %>>Sell</button></form>
+</div></div><p class="land-row-hint field-hint" data-land-buy-hint><%= !unlocked?'Unlock at level '+property.level:property.remaining===0?'Ownership limit reached.':!available?'Earn more gold to buy.':'First payment after a full hour.' %></p>
+</article><% } %></div>
+<details class="panel land-holdings-panel"><summary>Your holdings and payment times</summary><ul class="plain-list"><% for (const holding of state.land.holdings) { %><li><strong><%= holding.name %> ×<%= holding.quantity %></strong> · <%= holding.hourlyIncome-holding.hourlyUpkeep %> gold/hour<time datetime="<%= holding.nextPaymentAt %>" data-holding-payment="<%= holding.id %>"><%= holding.nextPaymentAt %></time></li><% } %><% if (!state.land.holdings.length) { %><li>No property owned.</li><% } %></ul></details>
+</div><script type="module" src="/assets/land.js"></script>

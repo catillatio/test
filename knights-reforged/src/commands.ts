@@ -1,118 +1,194 @@
-import { createHash, randomInt, randomUUID } from 'node:crypto';
+import { createHash,randomInt,randomUUID } from 'node:crypto';
 import { z } from 'zod';
-import { type Database, transaction } from './db.js';
+import { type Database,transaction } from './db.js';
 import { GameError } from './errors.js';
-import { rules, resolveCombat } from './rules.js';
-import { clock, lockCharacters, materialize, stateFrom, type CharacterRow } from './game.js';
-import { ledger } from './economy.js';
-import { landRules } from './land-rules.js';
-import { purchaseLand } from './land.js';
+import { rules } from './rules.js';
+import { alpha,itemById,questById,areRivals,resolveAlphaCombat } from './alpha-rules.js';
+import { clock,lockCharacters,materialize,stateFrom,type CharacterRow } from './game.js';
+import { ledger,creditGold } from './economy.js';
+import { purchaseItems,sellItem,readInventory } from './inventory.js';
+import { grantExperience,awardMilestones,allocateSkill } from './progression.js';
+import { refreshMaintenance,fundMaintenance } from './maintenance.js';
+import { buyEstate,sellEstate } from './estate.js';
 
-const uuid = z.string().uuid();
-const intents = {
-  quest: z.object({ questId: z.literal(rules.quest.id) }),
-  recruit: z.object({ unitId: z.literal(rules.unit.id), quantity: z.coerce.number().int().min(1).max(rules.armyCapacity) }),
-  buy: z.object({ itemId: z.literal(rules.weapon.id) }),
-  equip: z.object({ inventoryEntryId: uuid }),
-  attack: z.object({ targetCharacterId: uuid }),
-  land_buy: z.object({ propertyId: z.string().min(1).max(64), quantity: z.union([
-    z.number().int().min(1).max(landRules.maxPurchaseQuantity),
-    z.string().max(16).regex(/^[1-9][0-9]*$/).transform(Number).pipe(z.number().int().min(1).max(landRules.maxPurchaseQuantity)),
-  ]) }),
+const uuid=z.string().uuid().transform(value=>value.toLowerCase());
+const id=z.string().min(1).max(64).regex(/^[a-z0-9-]+$/);
+const quantity=(max:number)=>z.union([z.number().int().min(1).max(max),z.string().max(16).regex(/^[1-9][0-9]*$/).transform(Number).pipe(z.number().int().min(1).max(max))]);
+const intents={
+  quest:z.object({questId:id}),
+  recruit:z.object({unitId:z.literal(rules.unit.id),quantity:quantity(alpha.limits.mercenaries)}),
+  buy:z.object({itemId:id,quantity:quantity(alpha.limits.transaction).default(1)}),
+  equip:z.object({inventoryEntryId:uuid}),
+  attack:z.object({targetCharacterId:uuid}),
+  land_buy:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction)}),
+  sell:z.object({itemId:id,quantity:quantity(alpha.limits.transaction).default(1)}),
+  land_sell:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction)}),
+  skill:z.object({resource:z.enum(['health','mana','spirit'])}),
+  maintain:z.object({}),
+  quest_buy:z.object({questId:id}),
+  invite:z.object({targetCharacterId:uuid}),
+  accept:z.object({targetCharacterId:uuid}),
+  remove:z.object({targetCharacterId:uuid}),
+  profile:z.object({className:z.enum(['Freeblade','Warden','Spellward'])}),
 };
-export type CommandKind = keyof typeof intents;
-export interface CommandResult { commandId: string; kind: CommandKind; message: string; battleId?: string; inventoryEntryId?: string; holdingId?: string; }
+export type CommandKind=keyof typeof intents;
+export interface CommandResult { commandId:string;kind:CommandKind;message:string;battleId?:string;inventoryEntryId?:string;holdingId?:string;data?:Record<string,unknown>; }
+const fingerprint=(kind:string,intent:unknown)=>createHash('sha256').update(JSON.stringify({kind,intent})).digest('hex');
 
-export async function executeCommand(db: Database, accountId: string, commandId: unknown, kind: CommandKind, raw: unknown): Promise<CommandResult> {
-  if (!uuid.safeParse(commandId).success) throw new GameError('INVALID_COMMAND_ID', 'Reload the page and try again with a new command ID.');
-  const parsed = intents[kind].safeParse(raw);
-  if (!parsed.success) throw new GameError('INVALID_INTENT', parsed.error.issues[0]?.message ?? 'Invalid action.');
-  // Only normalized intent fields affect the fingerprint. Extra client prices,
-  // rewards, actor IDs, damage, balances, and XP are never read.
-  const intent = parsed.data as Record<string, unknown>;
-  const fingerprint = createHash('sha256').update(JSON.stringify({ kind, intent })).digest('hex');
-  const id = commandId as string;
-  return transaction(db, async client => {
-    const inserted = await client.query(`INSERT INTO command_receipts(account_id,command_id,kind,intent_hash)
-      VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING RETURNING command_id`, [accountId, id, kind, fingerprint]);
+export async function executeCommand(db:Database,accountId:string,commandId:unknown,kind:CommandKind,raw:unknown):Promise<CommandResult> {
+  const command=uuid.safeParse(commandId);if (!command.success) throw new GameError('INVALID_COMMAND_ID','Reload for a fresh action ID.');
+  const parsed=intents[kind].safeParse(raw);
+  if (!parsed.success) throw new GameError('INVALID_INTENT',parsed.error.issues[0]?.message??'Invalid action.');
+  const intent=parsed.data as Record<string,unknown>,hash=fingerprint(kind,intent),key=command.data;
+  return transaction(db,async sql=>{
+    const inserted=await sql.query('INSERT INTO command_receipts(account_id,command_id,kind,intent_hash) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING RETURNING command_id',[accountId,key,kind,hash]);
     if (!inserted.rows.length) {
-      const receipt = (await client.query('SELECT intent_hash,result FROM command_receipts WHERE account_id=$1 AND command_id=$2', [accountId, id])).rows[0]!;
-      if (receipt.intent_hash !== fingerprint) throw new GameError('COMMAND_CONFLICT', 'That command ID already belongs to a different action.', 409);
-      if (!receipt.result) throw new GameError('COMMAND_PENDING', 'That action is still being processed. Try again.', 409);
-      return receipt.result as CommandResult;
+      const old=(await sql.query('SELECT intent_hash,result FROM command_receipts WHERE account_id=$1 AND command_id=$2',[accountId,key])).rows[0]!;
+      // Pre-alpha buy receipts omitted quantity. Accept only the identical
+      // one-copy intent, never a changed item or a larger replayed purchase.
+      const legacy=kind==='buy'&&intent.quantity===1?fingerprint(kind,{itemId:intent.itemId}):hash;
+      if (old.intent_hash!==hash&&old.intent_hash!==legacy) throw new GameError('COMMAND_CONFLICT','This action ID belongs to a different intent.',409);
+      if (!old.result) throw new GameError('COMMAND_PENDING','The action is still processing.',409);
+      return old.result as CommandResult;
     }
-    const actorId = (await client.query('SELECT id FROM characters WHERE account_id=$1', [accountId])).rows[0]?.id as string | undefined;
-    if (!actorId) throw new GameError('CHARACTER_NOT_FOUND', 'Your warrior could not be found.', 404);
-    if (kind === 'attack' && intent.targetCharacterId === actorId) throw new GameError('SELF_ATTACK', 'Choose another warrior to challenge.');
-    const ids = kind === 'attack' ? [actorId, intent.targetCharacterId as string] : [actorId];
-    const locked = await lockCharacters(client, ids);
-    const now = await clock(client);
-    const rows: CharacterRow[] = [];
-    for (const row of locked) rows.push(await materialize(client, row, now));
-    const actor = rows.find(row => row.id === actorId)!;
-    const state = await stateFrom(client, actor, now);
-    const result: CommandResult = { commandId: id, kind, message: '' };
+    const actorId=(await sql.query('SELECT id FROM characters WHERE account_id=$1',[accountId])).rows[0]?.id as string|undefined;
+    if (!actorId) throw new GameError('CHARACTER_NOT_FOUND','Your character was not found.',404);
+    const membership=kind==='invite'||kind==='accept'||kind==='remove';
+    const targetId=(kind==='attack'||membership)?intent.targetCharacterId as string:null;
+    if (targetId===actorId) throw new GameError(kind==='attack'?'SELF_ATTACK':'SELF_INVITE','Choose another warrior.');
+    const locked=await lockCharacters(sql,targetId?[actorId,targetId]:[actorId]);
+    const now=await clock(sql);
+    let actor=locked.find(row=>row.id===actorId)!;
+    actor=await materialize(sql,actor,now);
+    let target=targetId?locked.find(row=>row.id===targetId)!:null;
+    if (target&&kind==='attack') target=await materialize(sql,target,now);
+    const state=await stateFrom(sql,actor,now);
+    const result:CommandResult={commandId:key,kind,message:''};
 
-    if (kind === 'quest') {
-      if (actor.health <= 0) throw new GameError('NEEDS_RECOVERY', 'Rest until you have recovered some health before questing.', 409);
-      if (actor.energy < rules.quest.energyCost) throw new GameError('INSUFFICIENT_ENERGY', 'You need more energy. It returns automatically every 30 seconds.', 409);
-      await client.query(`UPDATE characters SET energy=energy-$2,xp=xp+$3,
-        energy_updated_at=CASE WHEN energy=$4 THEN $5 ELSE energy_updated_at END WHERE id=$1`,
-        [actorId, rules.quest.energyCost, rules.quest.xpReward, rules.maxEnergy, now]);
-      await ledger(client, id, 'quest_reward', [{ characterId: actorId, amount: rules.quest.goldReward }]);
-      await client.query('INSERT INTO quest_runs(id,character_id,quest_id,ruleset_id,energy_spent,gold_reward,xp_reward) VALUES($1,$2,$3,$4,$5,$6,$7)',
-        [randomUUID(), actorId, rules.quest.id, rules.id, rules.quest.energyCost, rules.quest.goldReward, rules.quest.xpReward]);
-      await client.query(`INSERT INTO character_quest_progress(character_id,quest_id,completions) VALUES($1,$2,1)
-        ON CONFLICT(character_id,quest_id) DO UPDATE SET completions=character_quest_progress.completions+1`, [actorId, rules.quest.id]);
-      result.message = `Patrol complete. You earned ${rules.quest.goldReward} gold and ${rules.quest.xpReward} experience.`;
-    } else if (kind === 'recruit') {
-      const quantity = intent.quantity as number;
-      if (state.units + quantity > rules.armyCapacity) throw new GameError('ARMY_FULL', `Your army can hold ${rules.armyCapacity} militia.`, 409);
-      await ledger(client, id, 'recruitment', [{ characterId: actorId, amount: -quantity * rules.unit.goldCost }]);
-      await client.query('UPDATE army_stacks SET quantity=quantity+$3 WHERE character_id=$1 AND unit_definition_id=$2', [actorId, rules.unit.id, quantity]);
-      result.message = `${quantity} ${quantity === 1 ? 'soldier has' : 'soldiers have'} joined your banner.`;
-    } else if (kind === 'buy') {
-      if (state.inventoryId) throw new GameError('ALREADY_OWNED', 'You already own this sword. Equip it below.', 409);
-      await ledger(client, id, 'equipment_purchase', [{ characterId: actorId, amount: -rules.weapon.goldCost }]);
-      result.inventoryEntryId = randomUUID();
-      await client.query('INSERT INTO inventory_entries(id,character_id,item_definition_id,ruleset_id) VALUES($1,$2,$3,$4)',
-        [result.inventoryEntryId, actorId, rules.weapon.id, rules.id]);
-      result.message = 'The iron sword is yours. Equip it to gain its bonuses.';
-    } else if (kind === 'equip') {
-      if (state.inventoryId !== intent.inventoryEntryId) throw new GameError('ITEM_NOT_OWNED', 'You can only equip your own item.', 403);
-      await client.query(`INSERT INTO equipment_slots(character_id,slot,inventory_entry_id) VALUES($1,'weapon',$2)
-        ON CONFLICT(character_id,slot) DO UPDATE SET inventory_entry_id=EXCLUDED.inventory_entry_id`, [actorId, intent.inventoryEntryId]);
-      result.message = 'Iron sword equipped. Your battle strength has increased.';
-    } else if (kind === 'land_buy') {
-      result.holdingId = await purchaseLand(client, actorId, id, intent.propertyId as string, intent.quantity as number, now);
-      result.message = `${intent.quantity} ${intent.quantity === 1 ? 'property purchased' : 'properties purchased'}. Each batch begins earning after a full hour.`;
-    } else {
-      const defender = rows.find(row => row.id !== actorId)!;
-      if (actor.health <= 0 || defender.health <= 0) throw new GameError('NEEDS_RECOVERY', 'Both warriors need some health before a challenge.', 409);
-      if (actor.energy < rules.combat.energyCost) throw new GameError('INSUFFICIENT_ENERGY', 'You need two energy to challenge another warrior.', 409);
-      if (new Date(actor.attack_ready_at).getTime() > now.getTime()) throw new GameError('ATTACK_COOLDOWN', 'Catch your breath. You can attack once every ten seconds.', 409);
-      const target = await stateFrom(client, defender, now);
-      const combat = resolveCombat(state, target, randomInt(rules.combat.maxRoll + 1), randomInt(rules.combat.maxRoll + 1));
-      result.battleId = randomUUID();
-      const winnerId = combat.outcome === 'attacker_win' ? actorId : defender.id;
-      const loserId = combat.outcome === 'attacker_win' ? defender.id : actorId;
-      await ledger(client, id, 'battle_loot', [{ characterId: loserId, amount: -combat.loot }, { characterId: winnerId, amount: combat.loot }]);
-      await client.query(`UPDATE characters SET health=$2,health_updated_at=$3,energy=energy-$4,
-        energy_updated_at=CASE WHEN energy=$5 THEN $3 ELSE energy_updated_at END,
-        xp=xp+$6,attack_ready_at=$7 WHERE id=$1`,
-        [actorId, combat.attackerHealthAfter, now, rules.combat.energyCost, rules.maxEnergy, rules.combat.attackerXp,
-          new Date(now.getTime() + rules.combat.cooldownSeconds * 1000)]);
-      await client.query('UPDATE characters SET health=$2,health_updated_at=$3,state_version=state_version+1 WHERE id=$1', [defender.id, combat.defenderHealthAfter, now]);
-      const battle = { ...combat, id: result.battleId, rulesetId: rules.id, attackerId: actorId, defenderId: defender.id,
-        attackerName: actor.name, defenderName: defender.name, attackerHealthBefore: actor.health, defenderHealthBefore: defender.health,
-        winnerId, winnerName: winnerId === actorId ? actor.name : defender.name, attackerXp: rules.combat.attackerXp,
-        createdAt: now.toISOString() };
-      await client.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result) VALUES($1,$2,$3,$4,$5,$6,$7)',
-        [result.battleId, actorId, defender.id, rules.id, combat.outcome, { attacker: state, defender: target }, battle]);
-      result.message = `${battle.winnerName} won the challenge.`;
+    if (kind==='quest'||kind==='quest_buy') {
+      const quest=questById.get(intent.questId as string);
+      if (!quest) throw new GameError('QUEST_NOT_FOUND','That quest is not available.',404);
+      if (actor.attained_level<quest.level) throw new GameError('LEVEL_REQUIRED','Reach level '+quest.level+' first.',409);
+      const projected=state.quests.find(entry=>entry.id===quest.id)!;
+      if (kind==='quest_buy') {
+        const purchase=await purchaseItems(sql,actorId,actor.attained_level,projected.missing,key,now);
+        await refreshMaintenance(sql,actorId,key,now);
+        result.message='Required equipment purchased for '+purchase.cost+' gold. Run the quest separately when all requirements are met.';
+        result.data={goldSpent:purchase.cost,items:projected.missing,questId:quest.id};
+      } else {
+        if (Object.keys(projected.missing).length) throw new GameError('MISSING_EQUIPMENT','Buy the required equipment before attempting this quest.',409);
+        if (quest.requiresLoot&&!state.loot.some(loot=>loot.id===quest.requiresLoot)) throw new GameError('LOOT_REQUIRED','Find the Watchtower Map at the Fallen Abbey.',409);
+        if (state.army.participants<quest.army) throw new GameError('ARMY_REQUIRED','This quest needs '+quest.army+' participating army members.',409);
+        if (actor.mana<quest.mana) throw new GameError('INSUFFICIENT_MANA','Wait for Mana to recover or complete a cheaper quest.',409);
+        const gold=randomInt(quest.goldMin,quest.goldMax+1);
+        await sql.query('UPDATE characters SET mana=mana-$2,mana_updated_at=CASE WHEN mana=max_mana THEN $3 ELSE mana_updated_at END WHERE id=$1',[actorId,quest.mana,now]);
+        await creditGold(sql,actorId,BigInt(gold),key,'quest_reward',alpha.id);
+        const progression=await grantExperience(sql,actorId,quest.xp,now);
+        let lootName:string|null=null;
+        if (quest.loot&&!state.loot.some(loot=>loot.id===quest.loot!.id)&&((quest.loot.firstGuaranteed&&projected.completions===0)||randomInt(100)<quest.loot.chance)) {
+          const insertedLoot=await sql.query('INSERT INTO character_loot(character_id,loot_id,name,source_quest,ruleset_id,acquired_at) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING RETURNING loot_id',
+            [actorId,quest.loot.id,quest.loot.name,quest.id,alpha.id,now]);
+          if (insertedLoot.rows.length) lootName=quest.loot.name;
+        }
+        const details={gold,xp:progression.xpAwarded,mana:quest.mana,levelGained:progression.gained,loot:lootName,questId:quest.id,questName:quest.name};
+        await sql.query('INSERT INTO quest_runs(id,character_id,quest_id,ruleset_id,energy_spent,gold_reward,xp_reward,reward_details,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
+          [randomUUID(),actorId,quest.id,alpha.id,quest.mana,gold,progression.xpAwarded,details,now]);
+        await sql.query('INSERT INTO character_quest_progress(character_id,quest_id,completions) VALUES($1,$2,1) ON CONFLICT(character_id,quest_id) DO UPDATE SET completions=character_quest_progress.completions+1',[actorId,quest.id]);
+        const milestones=await awardMilestones(sql,actorId);
+        result.data={...details,milestones};result.message='Quest complete: '+gold+' gold, '+progression.xpAwarded+' XP; '+quest.mana+' Mana used.'+(progression.gained?' Level '+progression.level+' reached!':'')+(lootName?' Loot: '+lootName+'.':'');
+      }
+    } else if (kind==='recruit') {
+      const n=intent.quantity as number;
+      if (state.units+n>alpha.limits.mercenaries) throw new GameError('ARMY_FULL','You can retain at most '+alpha.limits.mercenaries+' militia.',409);
+      await ledger(sql,key,'recruitment',[{characterId:actorId,amount:-n*rules.unit.goldCost}],alpha.id);
+      await sql.query('UPDATE army_stacks SET quantity=quantity+$3 WHERE character_id=$1 AND unit_definition_id=$2',[actorId,rules.unit.id,n]);
+      result.message=n+' militia joined. Allies and mercenaries share your active army limit.';
+    } else if (kind==='buy') {
+      const purchase=await purchaseItems(sql,actorId,actor.attained_level,{[intent.itemId as string]:intent.quantity as number},key,now);
+      result.inventoryEntryId=purchase.acquired[intent.itemId as string];await refreshMaintenance(sql,actorId,key,now);
+      result.message='Purchased '+intent.quantity+' '+itemById.get(intent.itemId as string)!.name+' for '+purchase.cost+' gold. Your army selects its best equipment automatically.';
+      result.data={goldSpent:purchase.cost,quantity:intent.quantity,itemId:intent.itemId,category:itemById.get(intent.itemId as string)!.category};
+    } else if (kind==='sell') {
+      const refund=await sellItem(sql,actorId,intent.itemId as string,intent.quantity as number,key);
+      await refreshMaintenance(sql,actorId,key,now);
+      result.message='Sold '+intent.quantity+' copies for '+refund+' gold.';result.data={goldReceived:refund,category:itemById.get(intent.itemId as string)!.category};
+    } else if (kind==='equip') {
+      const item=(await readInventory(sql,actorId)).find(entry=>entry.inventoryId===intent.inventoryEntryId&&entry.quantity>0);
+      if (!item) throw new GameError('ITEM_NOT_OWNED','You can only use your own equipment.',403);
+      if (item.category==='weapon') await sql.query("INSERT INTO equipment_slots(character_id,slot,inventory_entry_id) VALUES($1,'weapon',$2) ON CONFLICT(character_id,slot) DO UPDATE SET inventory_entry_id=EXCLUDED.inventory_entry_id",[actorId,item.inventoryId]);
+      result.message='Equipment available to your army. Best attack and defense equipment are selected automatically.';
+    } else if (kind==='land_buy') {
+      const purchase=await buyEstate(sql,actorId,actor.attained_level,intent.propertyId as string,intent.quantity as number,key,now);
+      result.holdingId=purchase.holdingId;result.message=intent.quantity+' properties purchased for '+purchase.cost+' gold. First income arrives after a full hour.';
+      result.data={goldSpent:purchase.cost};
+    } else if (kind==='land_sell') {
+      const refund=await sellEstate(sql,actorId,intent.propertyId as string,intent.quantity as number,key,now);
+      result.message='Sold '+intent.quantity+' properties for '+refund+' gold. Earned full hours were settled first.';result.data={goldReceived:refund};
+    } else if (kind==='skill') {
+      const allocation=await allocateSkill(sql,actorId,intent.resource as 'health'|'mana'|'spirit',key,now);
+      result.message='Maximum '+intent.resource+' increased by '+allocation.delta+'.';result.data=allocation;
+    } else if (kind==='maintain') {
+      await fundMaintenance(sql,actorId,key,now);
+      result.message='Upkeep is funded. Maintained equipment is available to your army.';
+    } else if (kind==='profile') {
+      await sql.query('UPDATE characters SET profile_class=$2 WHERE id=$1',[actorId,intent.className]);
+      result.message='Your calling is now '+intent.className+'. Callings are identities; skills and equipment determine strength.';
+    } else if (membership&&target) {
+      const pair=[actorId,target.id].sort();
+      const link=(await sql.query('SELECT * FROM army_links WHERE low_id=$1 AND high_id=$2',pair)).rows[0];
+      if (kind==='invite') {
+        if (link&&link.status!=='declined') throw new GameError('INVITATION_EXISTS','You already have an invitation or army link with that player.',409);
+        for (const member of pair) {
+          const count=(await sql.query("SELECT count(*)::int AS n FROM army_links WHERE $1 IN (low_id,high_id) AND status<>'declined'",[member])).rows[0]!.n;
+          if (count>=100) throw new GameError('ROSTER_LIMIT','That army roster is full.',409);
+        }
+        await sql.query("INSERT INTO army_links(low_id,high_id,inviter_id,status) VALUES($1,$2,$3,'pending') ON CONFLICT(low_id,high_id) DO UPDATE SET inviter_id=EXCLUDED.inviter_id,status='pending',updated_at=$4",
+          [pair[0],pair[1],actorId,now]);
+        result.message='Invitation sent to '+target.name+'.';
+      } else if (kind==='accept') {
+        if (!link||link.status!=='pending'||link.inviter_id===actorId) throw new GameError('INVITATION_UNAVAILABLE','Only the invited player can accept a pending invitation.',403);
+        await sql.query("UPDATE army_links SET status='accepted',updated_at=$3 WHERE low_id=$1 AND high_id=$2",[pair[0],pair[1],now]);
+        result.message=target.name+' is now an ally. Each leader equips their own participating army.';
+      } else {
+        if (!link||link.status==='declined') throw new GameError('INVITATION_UNAVAILABLE','That army link is unavailable.',404);
+        await sql.query("UPDATE army_links SET status='declined',updated_at=$3 WHERE low_id=$1 AND high_id=$2",[pair[0],pair[1],now]);
+        result.message='Army link removed.';
+      }
+      await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[target.id]);
+    } else if (kind==='attack'&&target) {
+      if (!areRivals(actor.attained_level,target.attained_level)) throw new GameError('RIVAL_LEVEL_RANGE','Choose an opponent nearer your level.',409);
+      if (actor.health<alpha.combat.minimumHealth||target.health<alpha.combat.minimumHealth) throw new GameError('NEEDS_RECOVERY','Both warriors need at least '+alpha.combat.minimumHealth+' Health.',409);
+      if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Spirit to recover before attacking.',409);
+      if (+new Date(actor.attack_ready_at)>+now) throw new GameError('ATTACK_COOLDOWN','Catch your breath before attacking again.',409);
+      const targetState=await stateFrom(sql,target,now);
+      const count=(await sql.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND created_at>$3',[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
+      const rewarded=count<alpha.combat.rewardedPerTarget;
+      const variation=alpha.combat.variation;
+      const combat=resolveAlphaCombat(state,targetState,randomInt(-variation,variation+1),randomInt(-variation,variation+1),rewarded);
+      const winnerId=combat.outcome==='attacker_win'?actorId:target.id;const loserId=winnerId===actorId?target.id:actorId;
+      if (combat.loot) {
+        await ledger(sql,key,'battle_loot',[{characterId:loserId,amount:-combat.loot}],alpha.id);
+        await creditGold(sql,winnerId,BigInt(combat.loot),key,'battle_loot',alpha.id);
+      }
+      await sql.query(`UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,
+        spirit=spirit-$4,spirit_updated_at=CASE WHEN spirit=max_spirit THEN $3 ELSE spirit_updated_at END,attack_ready_at=$5 WHERE id=$1`,
+        [actorId,combat.attackerHealthAfter,now,alpha.combat.spiritCost,new Date(+now+alpha.combat.cooldownSeconds*1000)]);
+      await sql.query('UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,state_version=state_version+1 WHERE id=$1',[target.id,combat.defenderHealthAfter,now]);
+      const progression=await grantExperience(sql,actorId,combat.attackerXp,now);
+      const after=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[actorId])).rows[0]!;
+      result.battleId=randomUUID();
+      const battle={...combat,id:result.battleId,rulesetId:alpha.id,attackerId:actorId,defenderId:target.id,attackerName:actor.name,defenderName:target.name,
+        winnerId,winnerName:winnerId===actorId?actor.name:target.name,attackerHealthBefore:actor.health,defenderHealthBefore:target.health,
+        attackerHealthAfterDamage:combat.attackerHealthAfter,attackerHealthAfter:after.health,attackerMaxHealth:actor.max_health,defenderMaxHealth:target.max_health,
+        attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
+        attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,createdAt:now.toISOString()};
+      await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
+        [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
+      await awardMilestones(sql,actorId);
+      result.message=battle.winnerName+' won the battle.'+(!rewarded?' This repeat encounter awards no gold or XP.':'');
     }
-    await client.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1', [actorId]);
-    await client.query('UPDATE command_receipts SET result=$3 WHERE account_id=$1 AND command_id=$2', [accountId, id, result]);
+    await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);
+    await sql.query('UPDATE command_receipts SET result=$3 WHERE account_id=$1 AND command_id=$2',[accountId,key,result]);
     return result;
   });
 }

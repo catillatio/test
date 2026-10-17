@@ -1,6 +1,12 @@
-<section class="resource-strip" aria-label="Your character's resources">
-  <div class="resource"><span class="resource-label">Gold</span><strong class="gold"><span data-wallet-gold><%= state.gold.toLocaleString('en') %></span> <small>G</small></strong></div>
-  <div class="resource"><span class="resource-label">Level</span><strong><%= state.level %></strong><span class="resource-detail"><%= state.xp %> XP</span></div>
-  <div class="resource resource-meter"><span class="resource-label">Health</span><strong><%= state.health %><small> / <%= rules.maxHealth %></small></strong><meter class="health-meter" min="0" max="<%= rules.maxHealth %>" value="<%= state.health %>" aria-label="Health"><%= state.health %> of <%= rules.maxHealth %></meter></div>
-  <div class="resource resource-meter"><span class="resource-label">Energy</span><strong><%= state.energy %><small> / <%= rules.maxEnergy %></small></strong><meter class="energy-meter" min="0" max="<%= rules.maxEnergy %>" value="<%= state.energy %>" aria-label="Energy"><%= state.energy %> of <%= rules.maxEnergy %></meter></div>
+<section class="realm-resources" aria-label="Your character's resources" data-realm-state data-server-time="<%= state.serverTime %>" data-state-version="<%= state.stateVersion %>" data-attack-ready="<%= state.attackReadyAt %>">
+  <div class="resource-upper">
+    <div><span class="gold">● <strong data-wallet-gold><%= state.gold.toLocaleString('en') %></strong></span><small>Gold</small></div>
+    <div class="xp-resource"><progress data-xp-meter max="<%= state.levelRequirement %>" value="<%= state.levelXp %>" aria-label="Experience toward next level"></progress><small>XP <span data-level-xp><%= state.levelXp %></span> / <span data-level-required><%= state.levelRequirement %></span></small></div>
+    <a href="/game/profile"><strong data-level><%= state.level %></strong><small>Level<% if (state.skillPoints) { %> · <%= state.skillPoints %> points<% } %></small></a>
+  </div>
+  <div class="resource-lower">
+    <% for (const r of [{id:'health',name:'Health',icon:'♥',value:state.health,max:state.maxHealth,next:state.healthNextAt},{id:'mana',name:'Mana',icon:'●',value:state.mana,max:state.maxMana,next:state.manaNextAt},{id:'spirit',name:'Spirit',icon:'♨',value:state.spirit,max:state.maxSpirit,next:state.spiritNextAt}]) { %>
+      <div class="realm-resource <%= r.id %>"><span class="stat-icon" aria-hidden="true"><%= r.icon %></span><div><strong><span data-resource-value="<%= r.id %>"><%= r.value %></span> / <span data-resource-max="<%= r.id %>"><%= r.max %></span></strong><small><%= r.name %> <time data-recovery="<%= r.id %>" data-next="<%= r.next ?? '' %>"><%= r.next ? '…' : 'Full' %></time></small><meter min="0" max="<%= r.max %>" value="<%= r.value %>" data-resource-meter="<%= r.id %>" aria-label="<%= r.name %>"><%= r.value %></meter></div></div>
+    <% } %>
+  </div>
 </section>
