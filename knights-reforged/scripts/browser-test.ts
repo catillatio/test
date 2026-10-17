@@ -52,7 +52,7 @@ async function screens(page: Page, label: string) {
     const imageName = screen === 'Quests' ? 'missions' : screen === 'Battle' ? 'attack' : screen === 'Armory' ? 'equipment' : 'default';
     assert.ok((await page.locator('.page-backdrop').evaluate(element => getComputedStyle(element).backgroundImage)).includes('bg_' + imageName + '.jpg'));
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, label + ': horizontal overflow on ' + screen);
-    const broken = await page.locator('img').evaluateAll(images => images.filter(img => !img.complete || img.naturalWidth === 0).length);
+    const broken = await page.locator('img').evaluateAll(images => images.filter(img => img instanceof HTMLImageElement && (!img.complete || img.naturalWidth === 0)).length);
     assert.equal(broken, 0, label + ': missing image');
     await page.screenshot({ path: join(out, label + '-' + screen.toLowerCase() + '.png'), fullPage: true });
   }

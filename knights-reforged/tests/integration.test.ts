@@ -81,6 +81,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
       assert.match(primary, /<span>Recruit<\/span>/);
       assert.ok(!primary.includes('/game/land'));
       const secondary = /<nav\b[^>]*aria-label="Secondary navigation"[^>]*>([\s\S]*?)<\/nav>/.exec(response.body)?.[1];
+      assert.ok(secondary);
       assert.ok(secondary?.includes('href="/game/land"'), 'Land remains reachable on every screen');
       const activeCount = [...primary.matchAll(/aria-current="page"/g)].length;
       assert.equal(activeCount, screen === 'land' ? 0 : 1);
