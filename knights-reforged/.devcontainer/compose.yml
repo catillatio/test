@@ -4,9 +4,9 @@ services:
   workspace:
     image: mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm
     command: sleep infinity
-    working_dir: /workspaces/knights-reforged
+    working_dir: /workspaces/test/knights-reforged
     volumes:
-      - ..:/workspaces/knights-reforged:cached
+      - ../..:/workspaces/test:cached
     environment:
       NODE_ENV: development
       HOST: 0.0.0.0

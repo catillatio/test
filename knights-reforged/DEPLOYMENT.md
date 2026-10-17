@@ -1,66 +1,63 @@
-# Deploying or privately previewing from a phone
+# Private Codespaces launch and deployment preparation
 
-This package is prepared for an environment with working npm access and PostgreSQL. **Neither a deployment image nor a cloud development environment has been built or launched here.** Local dependency installation is blocked by the sandbox proxy connection. See `VERIFICATION_STATUS.json` for the exact current verification status.
+Phase 3 dependency installation, TypeScript/build, PostgreSQL and browser tests have run successfully in the development workspace. See [PHASE_3_VERIFICATION.json](PHASE_3_VERIFICATION.json) for the executed gates and limitations. The historical network blockers in older verification files do not describe this phase.
 
-All 53 original project files are retained. New deployment helpers are additive. The separate pre-verification ZIP preserves the original 53 files byte for byte.
+No hosting resources, Codespace, public preview, deployment or merge are created by this work. The supplied container/devcontainer recipes are configuration files; Docker/container builds and provider access policies have not been verified here.
 
-## Private browser preview without running a PC
+## Existing Codespace and player database
 
-An owner-authenticated cloud development environment with private port forwarding, such as GitHub Codespaces, can run this project. The included `.devcontainer/` configuration runs Node and an internal PostgreSQL service. It publishes no PostgreSQL port.
+Follow the [README launch steps](README.md#launch-in-an-existing-codespace) from `/workspaces/test/knights-reforged`. Retain the current database URL and secrets. Preserve uncommitted work, stop the old server and back up its PostgreSQL database before migration. Apply the additive migrations using `npm run db:migrate`; no reset, reseed, player deletion or manual SQL edits are required.
 
-No Codespace or hosting service has been created. Cloud providers can charge for compute/storage or usage beyond an allowance. Creating one requires your approval and checking the account's billing settings first; a free allowance must not be assumed.
+The preview helper runs the application and derives its HTTPS origin from Codespaces forwarding variables. An explicitly exported `APP_ORIGIN` wins; update it if it refers to a different origin. Keep port 3000 **Private** in the provider Ports interface and open the authenticated HTTPS browser address from Chrome on Android.
 
-After approving the provider/usage, these steps can be performed in a phone browser:
+Register a fresh game account and use another browser profile/device for the second player. The provider owner-access boundary is independent of the game's login screen. No demo accounts are created by preview, migration or devcontainer setup.
 
-1. Extract this ZIP using a phone file manager. Put the project contents at the root of a **private** repository through the provider's browser interface. Include the hidden `.devcontainer` directory. If the phone's upload interface cannot include hidden folders, use the provider's web editor to create the two supplied `.devcontainer` files. No PC-hosted server is needed.
-2. Open that repository in a cloud development environment that supports the supplied devcontainer. The setup script installs dependencies, creates a disposable `knights_test` database, runs migrations, and runs the typecheck/tests/build. If any check fails, stop and fix its reported error; this package is not pre-certified to pass those checks.
-3. In the browser terminal, run `node deployment/preview.mjs`.
-4. In the provider's **Ports** interface, confirm port 3000 is **Private / owner-only**, then use its authenticated Open in Browser action. Do not change visibility to public or organization-wide. The devcontainer requests forwarding but cannot enforce or verify the provider's access policy.
-5. Sign in to the provider on Android when prompted. Register a fresh game account with a private password. The setup does not create demo players. Use a second authorized device/browser session to test multiplayer.
-6. Stop/delete the cloud environment when finished according to the provider's billing/storage policy.
+## New Codespace configuration
 
-The preview helper derives `APP_ORIGIN` from Codespaces forwarding variables when available, so the game's Origin and secure-cookie checks match the HTTPS preview address. For another provider, set `APP_ORIGIN` to its exact private HTTPS origin. A browser tab in a private Codespace is not an installed Android WebView wrapper.
+The repository-root `.devcontainer/devcontainer.json` points to the application's Compose services. The full Git checkout is mounted at `/workspaces/test`; application commands run in `knights-reforged/`. The PostgreSQL service publishes no host database port and stores its data in a named development volume.
 
-## Container hosting
+The setup helper uses the lockfile, creates the disposable test database if absent, migrates and runs verification. It does not start a public server or create players. A newly created database is separate from an existing realm: restoring/importing your own backup is necessary if moving player data. Do not remove a volume containing the working realm.
 
-The root Dockerfile builds the existing Fastify/PostgreSQL application without converting its architecture. It performs a TypeScript check, unit tests, and build, then uses a non-root runtime with only production dependencies. SQL integration tests need a separate PostgreSQL-backed verification stage; they cannot be claimed from the image's unit-test step alone.
+The existing application-local `.devcontainer` entrypoint points at the same checkout/service layout. Existing Codespaces can use their current environment without rebuilding. Creating/rebuilding a cloud environment remains the owner's action; inspect the provider's usage/billing settings first.
 
-Build in an approved environment with working npm access:
+## Prepared container hosting
+
+The Dockerfile retains the Fastify/PostgreSQL architecture, builds on Node 24, uses the package lock and runs TypeScript/unit/build gates. The final runtime is non-root and includes compiled code, views, public assets, all immutable catalogs, migrations and deployment helpers.
 
 ```bash
-docker build -t knights-reforged:0.1 .
+cd knights-reforged
+docker build -t knights-reforged:phase-3-alpha .
 ```
 
-A managed build that requires its session CA can pass `--secret id=proxy_ca,src=/path/to/approved/ca.pem`. TLS verification is not disabled. If a package lock is present, the image uses `npm ci`; otherwise it uses `npm install`. A lockfile is not currently available because dependency resolution has not completed. Generate and retain it after the first successful install.
+No image build has been executed in this workspace. Database tests are not established by the image's unit-only build step. Run the PostgreSQL gates on a designated disposable database before using the image with player data.
 
-Configure these values through the hosting dashboard's secret/environment settings, not in source control:
+Configure secrets/environment through the selected provider:
 
-| Variable | Value |
+| Variable | Configuration |
 | --- | --- |
 | `NODE_ENV` | `production` |
-| `DATABASE_URL` | Private PostgreSQL connection URL; use the provider's verified TLS configuration |
-| `APP_ORIGIN` | Exact owner-protected HTTPS application origin |
-| `HOST` | `0.0.0.0` |
-| `PORT` | Provider-assigned port, or `3000` |
-| `RUN_MIGRATIONS` | `1` for startup migrations, or omit after running a separate migration job |
+| `DATABASE_URL` | Existing private PostgreSQL connection, with the provider's verified TLS requirements |
+| `APP_ORIGIN` | Exact private HTTPS browser origin |
+| `HOST` | `0.0.0.0` inside the container |
+| `PORT` | Provider-assigned port or `3000` |
+| `RUN_MIGRATIONS` | Optional `1` for an explicitly chosen startup migration; otherwise run a separate schema job |
 
-The runtime starts with `node deployment/start.mjs`. A separate schema job can run `node deployment/migrate.mjs`. Startup migrations use the existing advisory lock and migration ledger; the database role must have the required schema privileges. The health endpoint is `/healthz`.
+The runtime command is `node deployment/start.mjs`. A separate migration job runs `node deployment/migrate.mjs`. The migration runner uses its advisory lock and immutable-ruleset checks. Startup verifies catalog definitions and schema migration head before listening. Health is `/healthz`.
 
-**The application login/registration screen is not an owner-only hosting boundary.** Before exposing a container endpoint, configure the provider's private ingress, owner-authenticated port forwarding, or an identity-aware access proxy that allows only your approved identity. If the provider cannot enforce that, do not expose the service. No public deployment or access proxy has been configured by this work.
+Use an owner-authenticated forwarding/access boundary if providing a private alpha. The application registration page alone does not make an endpoint private. Deployment and paid/public hosting require a separate owner decision; no such actions are performed here.
 
-Do not run the old demo seed commands in an accessible preview. The original seed files are preserved as requested, but the deployment helpers never invoke them. No demo credentials should be posted, embedded in a URL, or shared to authenticate a preview. Create fresh accounts behind the provider access boundary.
-
-## Required verification in the working environment
+## Target-environment checks
 
 ```bash
-npm install
-npm run typecheck
-npm run build
+npm ci
 npm run db:migrate
-npm test
-TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:postgres
+TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run verify
+npm run check:static
+TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:restart
+# With the disposable development server running and Chromium available:
+npm run test:browser
 ```
 
-Use a disposable database ending in `_test`. For a designated non-loopback test host, set `ALLOWED_TEST_DATABASE_HOST`. Do not point integration tests at production data. Run the supplied browser smoke test only against an approved disposable development realm, with an existing Chromium executable.
+Test URLs must name disposable `*_test` databases; non-loopback test hosts need `ALLOWED_TEST_DATABASE_HOST`. Do not substitute the working player database. The browser script refuses production mode, restricts requests to its designated application origin and generates its own test accounts.
 
-The compile, database tests, browser gameplay, and private phone access must all be checked on the target environment. Preparing these files does not establish that any of those runtime checks have passed. No resources were provisioned and no hosting costs were incurred here.
+Actual Android device/WebView behavior, provider HTTPS/private access, container builds and PostgreSQL versions beyond the tested development version remain target-environment checks. A Codespaces browser tab is a responsive client, not an Android APK.

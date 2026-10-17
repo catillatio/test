@@ -1,124 +1,127 @@
-# Knights Reforged — local multiplayer prototype
+# Knights Reforged — Phase 3 multiplayer alpha
 
-A TypeScript/Fastify modular backend, PostgreSQL schema, and responsive server-rendered interface for a small Knights Reforged recreation. The original server's gameplay formulas were not recovered. All costs, progression, damage, regeneration, and rewards here belong to the documented provisional `recreation-0.1` ruleset.
+A server-rendered medieval multiplayer RPG inspired by Storm8 Kingdoms Live. Five original-style tabs connect repeatable quests, Mana, quantity equipment, automatically equipped armies, Spirit-based PvP, Land income and character progression. All gameplay calculations run on the server.
 
-## Provisional Kingdoms Live Land feature
+**Active rules: `alpha-0.1`.** The content, economic policy and combat formulas are reconstructed Knights Reforged rules. No original Storm8 server formulas are claimed as recovered.
 
-Land adds persistent property purchases and 60-minute passive income, including full offline hours, with a visible countdown, property upkeep and net income. It uses a separate `land-provisional-0.1` configuration; the existing gameplay ruleset is unchanged. Apply the additive `002_land.sql` migration using `npm run db:migrate` before starting this version. No demo reset or reseeding is required.
+Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdoms-live-phase-3-alpha`. No branches are merged and nothing is deployed automatically.
 
-See [LAND_SYSTEM.md](LAND_SYSTEM.md) for the provisional policy, configuration, routes, migration instructions and exact testing limitations. The feature's verification is recorded separately in [LAND_VERIFICATION_STATUS.json](LAND_VERIFICATION_STATUS.json). Calculation and countdown tests can run without npm dependencies on Node 24 using `npm run test:land:offline` and `npm run test:land:client`.
+## What works
 
-## Current verification status
+- Persistent accounts and sessions; registration/login/logout, Argon2id, CSRF and strict Origin checks.
+- Health, Mana and Spirit with independent offline recovery, levels, skill points, capacity upgrades and milestones.
+- 13 equipment entries across Weapons, Armor and Spells; quantity Buy/Sell, FIFO acquisition-cost resale and automatic attack/defense selection.
+- Eight repeatable quests with level/equipment/army requirements, separate requirement purchases and persistent story loot.
+- Five property types, increasing purchase prices, FIFO selling, 60-minute offline income and separate equipment upkeep.
+- Paid militia and consenting player allies, capped participation, nearby-level rivals, Spirit-funded PvP and private persistent reports.
+- Compact illustrated phone/PC screens, original recovered navigation/backgrounds, server-synchronized resource and income countdowns, and working forms without JavaScript.
 
-The source for accounts, cookie sessions, persistent characters, all six screens, quests, recruitment, weapon purchase/equip, and two-player battles is written. The templates reuse 11 Knights Reforged artwork files plus two separately recorded Kingdoms Live Land assets. A battle report is authorized for its two participants and persists in the database.
+See [PHASE_3_ALPHA.md](PHASE_3_ALPHA.md) for formulas, maintenance policy, compatibility, fidelity and limitations. Current execution results are in [PHASE_3_VERIFICATION.json](PHASE_3_VERIFICATION.json). The older Land/visual audit and verification files describe earlier stages.
 
-**This project has not yet been started against PostgreSQL or exercised in a browser.** Dependency installation and Docker work were deferred at the user's request. The checks completed so far are offline syntax/reference checks, template-tag-subset rendering with fixtures, HTML form/link/asset checks, and artwork hashes. These checks do not establish TypeScript type correctness, production EJS rendering, SQL correctness, concurrency behavior, or actual browser layout. See [test-results/static-checks.json](test-results/static-checks.json) for the latest local inspection output.
+Representative tested phone screens are in [the alpha preview gallery](docs/phase-3-preview/README.md).
 
-The Fastify/PostgreSQL integration tests and browser smoke script below are implemented but unrun. An Android WebView wrapper has not yet been implemented; the current client is responsive HTML intended for PC and Android browsers. This is not yet a verified completion of the full first milestone.
+## Launch in an existing Codespace
 
-## Code and endpoints
+Use Node 22 or newer; Node 24 is recommended. PostgreSQL must already exist and be reachable. Keep the existing game's `DATABASE_URL` and player database. Stop the old application and take a database backup before migration; do not run demo reset or recreate the database.
 
-| Component | Files / behavior |
-| --- | --- |
-| Application and routes | [src/app.ts](src/app.ts), [src/http-contracts.ts](src/http-contracts.ts) |
-| Accounts | [src/auth.ts](src/auth.ts): Argon2id hashes, rotated opaque session cookies, hashed session tokens, CSRF |
-| Persistent character reads | [src/game.ts](src/game.ts): health/energy regeneration, owned equipment, army, opponents, authorized reports |
-| Gameplay | [src/commands.ts](src/commands.ts): database transactions, idempotency keys, sorted character locks, economy entries |
-| PostgreSQL | [migrations/001_initial.sql](migrations/001_initial.sql), [src/migrate.ts](src/migrate.ts) |
-| Provisional rules | [rulesets/recreation-0.1/rules.json](rulesets/recreation-0.1/rules.json); also rendered at `/rules` |
-| Interface | [views/layout.ejs](views/layout.ejs), six primary view files and supporting views, [public/styles.css](public/styles.css) |
-| Artwork | `public/art/`; [source paths and hashes](public/art/provenance.json) |
-
-HTML pages: `/login`, `/register`, `/rules`, `/game/home`, `/game/quests`, `/game/battle`, `/game/armory`, `/game/army`, `/game/land`, and `/game/battles/:id`.
-
-HTML commands: `POST /register`, `/login`, `/logout`, `/game/quests/:id/run`, `/game/army/recruit`, `/game/armory/buy`, `/game/armory/equip`, and `/game/battle/attack`. Successful commands redirect with HTTP 303. All changing forms require CSRF; gameplay forms additionally contain a unique command ID. Every gameplay outcome is calculated on the server.
-
-JSON reads: `GET /api/v1/me`, `/api/v1/opponents`, `/api/v1/battles/:id`. JSON commands: `POST /api/v1/quests/:id/runs`, `/api/v1/army/recruitments`, `/api/v1/inventory/purchases`, `/api/v1/equipment`, `/api/v1/battles`. Authenticate with the same session cookie, and send `X-CSRF-Token` from `/api/v1/me` and a UUID `Idempotency-Key`. A replay returns the stored command result with a current character projection. Prices, rewards, actor identity, and damage supplied by the client are ignored.
-
-## Run locally when dependencies and PostgreSQL are available
-
-Requirements: Node 22 or newer (Node 24 is used for the offline syntax checker), npm, and PostgreSQL. The provided Compose file offers PostgreSQL 17 on loopback port 54329; an existing PostgreSQL instance also works. The following are setup instructions, not commands verified during the source-only development pass.
+From the Codespaces terminal:
 
 ```bash
+cd /workspaces/test
+git fetch origin feature/kingdoms-live-phase-3-alpha
+git switch feature/kingdoms-live-phase-3-alpha
+cd knights-reforged
+npm ci
+npm run db:migrate
+npm run verify
+node deployment/preview.mjs
+```
+
+If the branch is not yet local, Git normally creates it from the fetched remote branch. If you have uncommitted work, preserve it before switching; do not force the switch.
+
+The preview helper derives the HTTPS application origin from Codespaces variables. An exported `APP_ORIGIN` takes precedence: set it to the exact forwarded HTTPS address if it points to an old local address. In **Ports**, keep **3000 Private**, then choose **Open in Browser**. Sign into GitHub in Chrome on Android to use the private forwarded address. This work does not create a Codespace, hosting service or public URL.
+
+Register your own game accounts. Two browser profiles/devices need separate game sessions; the provider's private access still applies. No demo seed is needed.
+
+For a new Codespace, the repository-root `.devcontainer/devcontainer.json` selects Node plus an internal PostgreSQL service and preserves the full Git checkout at `/workspaces/test`. Its setup installs dependencies, migrates and verifies; it creates no players. A new development database does not automatically contain accounts from an existing realm: retain or restore your own database when transferring it. The container recipe has not been built in this workspace.
+
+## Local launch
+
+Use the existing PostgreSQL connection, or the optional development Compose service:
+
+```bash
+cd knights-reforged
+npm ci
+# Only for a new local installation:
 cp .env.example .env
-npm install
+# Optional when you want the supplied PostgreSQL container:
 docker compose up -d db
 npm run db:migrate
-npm run db:seed
 npm run dev
 ```
 
-Open **http://localhost:3000**. Alternatively, set `DATABASE_URL` in `.env` to your existing database, omit the Compose command, then run migration/seed/start. The database must exist and the role must have permission to create its tables. Migrations are explicit; server startup does not mutate the schema automatically.
+Do not copy `.env.example` over an existing configuration. Default local origin: `http://localhost:3000`. `APP_ORIGIN` must match the browser origin exactly. HTTPS enables Secure cookies. Historical Blue Paw and Storm8 hosts are rejected.
 
-To compile and start the production-form entrypoint locally:
+Compiled entrypoint:
 
 ```bash
-npm run typecheck
 npm run build
 npm start
 ```
 
-`APP_ORIGIN` must match the origin used in the browser because POST Origin validation is enforced. For a physical Android phone on your LAN, set it to `http://YOUR_LAN_IP:3000`, keep `HOST=0.0.0.0`, and open that same address from PC and phone. For an Android emulator browser, use a host-access address appropriate to the emulator and set `APP_ORIGIN` accordingly. Local HTTP disables the cookie's Secure flag; production configuration requires HTTPS. The historical production hostname is never a default and is rejected as an application origin.
+Startup checks the installed alpha rules and migration head. Migrations are explicit and do not run automatically during ordinary startup.
 
-## Play with two accounts
-
-The optional seed command creates two **normal persisted player accounts**:
-
-| Account | Password |
-| --- | --- |
-| `arthur` | `DemoKnights!2026` |
-| `morgan` | `DemoKnights!2026` |
-
-Use separate browser profiles, a private window, or two devices. Signing into a second account in the same cookie jar replaces that session. You can also register your own account. Other players appear on the Battle screen; refresh the page after they join.
-
-Play the loop: complete a border patrol, recruit militia, purchase the iron sword, equip it, then challenge another character. Both accounts can open the saved report from recent battles. Resources regenerate on server reads/actions; refresh to see updated values. No continuously running client simulation is used.
-
-For development resets:
+## Test the alpha
 
 ```bash
-npm run db:reset-demo
+npm run verify
+npm run check:static
+npm run balance:report
 ```
 
-This deletes/recreates only the two named demo accounts and their dependent records, including their battle records. It is a development CLI command, not a public endpoint, and is disabled when `NODE_ENV=production`. It does not reset other players. Seeding without `--reset-demo` keeps existing demo accounts unchanged.
-
-## Checks and tests
-
-The offline inspector requires only Node built-ins:
+Without `TEST_DATABASE_URL`, database suites explicitly skip. For the complete automated suite, supply a **disposable database ending in `_test`**:
 
 ```bash
-node scripts/check-project.mjs
+TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run verify
+TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:postgres
+TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:restart
 ```
 
-It parses TypeScript syntax without resolving packages, checks local imports and declared dependency names, verifies package entrypoints, compiles/renders the EJS tag subset used by the templates with 32 UI fixture cases, checks form/link/asset contracts, and validates recovered-art hashes. It deliberately identifies runtime/database/browser checks as unverified. It does not install anything or open a network connection.
+Create that test database separately. Never use the player database for tests. A designated non-loopback test host also needs `ALLOWED_TEST_DATABASE_HOST`; the included devcontainer sets it to its internal database hostname. Tests create uniquely named accounts, and migration tests create/drop their own temporary schemas. No existing player database is reset.
 
-After dependencies are installed:
-
-```bash
-npm run typecheck
-npm test
-```
-
-`tests/rules.test.ts` covers progression thresholds, regeneration fractional time/caps, deterministic combat outcomes for fixed rolls, loot/health limits, and origin configuration. PostgreSQL integration tests skip explicitly when `TEST_DATABASE_URL` is missing; a passing unit-only run does not establish database correctness.
-
-For integration tests, first create a **disposable** database whose name ends in `_test`. For the provided Compose database, for example:
-
-```bash
-docker compose exec db createdb -U knights knights_test
-TEST_DATABASE_URL=postgres://knights:knights_local@127.0.0.1:54329/knights_test npm run test:postgres
-```
-
-These tests apply the real SQL migrations and exercise Fastify injection, actual EJS rendering, account/session security, all six pages, the full gameplay loop, tampered input, report ownership, simultaneous command retries, concurrent wallet spending, concurrent attack cooldowns, ledger consistency, and state surviving application recreation. They create uniquely named test accounts and leave test data in the disposable test database. `test:postgres` fails if the test URL is omitted. A non-loopback test database requires an explicit `ALLOWED_TEST_DATABASE_HOST` setting. These tests have **not** yet been run in this environment.
-
-The browser smoke script requires an already running disposable development realm and an existing Chromium executable:
+With a disposable development server running and a local Chromium executable:
 
 ```bash
 BROWSER_EXECUTABLE=/path/to/chromium npm run test:browser
 ```
 
-It creates two accounts, visits all six screens at PC and phone widths, checks image loading/horizontal overflow, plays the form-driven quest/recruit/purchase/equip/battle loop, and compares the two players' stored report. It restricts requests to `APP_ORIGIN`. It writes screenshots under `test-results/browser/`. It does not download a browser, and a phone viewport does not verify an Android WebView wrapper or physical device. This script has **not** yet been run.
+The browser script creates fresh players and exercises real forms on desktop and 390px/360px phone viewports. Requests are confined to `APP_ORIGIN`. Screenshots and machine-readable summaries go into ignored `test-results/`. `CHROMIUM_NO_SANDBOX=1` is available for an isolated test container that cannot start Chromium's sandbox; it is not needed for normal application launch.
 
-## Scope still requiring verification or implementation
+Try this manual loop in two game sessions:
 
-Dependency resolution and a package lock, a full TypeScript check/build, live PostgreSQL migration and concurrency tests, Fastify startup, production EJS rendering, browser interaction/layout, and real process/database restart behavior remain unverified. The Android wrapper and on-device WebView checks remain to be implemented. Hospital, Vault, account recovery, premium purchases, and additional content are later milestones.
+1. Run three border patrols; spend the level-up point on Mana.
+2. Buy the Clear the Old Road requirements, then repeat that quest. Visit all three Armory categories.
+3. Recruit militia, buy extra equipment copies and inspect attack/defense loadouts.
+4. Invite the other character using their Recruit army code; accept in the second session.
+5. Attack a nearby rival and open the same report from both participants.
+6. Buy Land, inspect the countdown, sell an item/property, return after a full hour, and verify income.
+7. At level 3, search the Fallen Abbey for the Watchtower Map; work toward later army-gated quests.
 
-No historical server requests are needed to run or test this project. The original PHP implementation, database, delivered game pages, native signer, and combat rules are not being claimed as recovered.
+The 10–20 minute human-session target remains a playtesting goal. Automated runs establish that progression and the interconnected loop are reachable without administrative grants; they do not establish long-term balance.
+
+## Project map
+
+| Area | Main files |
+| --- | --- |
+| HTTP and authentication | `src/app.ts`, `src/auth.ts`, `src/http-contracts.ts` |
+| Authoritative commands and projection | `src/commands.ts`, `src/game.ts` |
+| Equipment and progression | `src/inventory.ts`, `src/progression.ts`, `src/alpha-rules.ts` |
+| Economy and Land | `src/economy.ts`, `src/land.ts`, `src/estate.ts`, `src/maintenance.ts` |
+| Immutable catalogs | `rulesets/alpha-0.1/`; both earlier catalogs retained |
+| Additive SQL | `migrations/003_alpha.sql` through `005_maintenance_audit.sql` |
+| Interface and art | `views/`, `public/alpha.css`, `public/realm.js`, `public/art/` |
+| Fidelity and evidence | `ORIGINAL_GAME_SPEC.md`, `VISUAL_OVERHAUL.md`, `PHASE_3_ALPHA.md` |
+
+All earlier HTTP gameplay endpoints remain available, including manual equip as a compatibility action. New skill, sale, maintenance, prerequisite-purchase and membership routes are listed in `src/http-contracts.ts`. JSON commands use the session cookie, `X-CSRF-Token` from `/api/v1/me`, and a UUID `Idempotency-Key`.
+
+This alpha is for private playtesting. Bank/Hospital, Bounties, premium systems, account recovery and a native Android wrapper are outside this phase. Responsive browser play is implemented; physical Android testing, multi-day economy balance, hostile-load testing and cloud/container deployment remain separate verification tasks.

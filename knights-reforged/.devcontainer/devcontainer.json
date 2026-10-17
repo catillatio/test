@@ -2,7 +2,7 @@
   "name": "Knights Reforged — private development realm",
   "dockerComposeFile": "compose.yml",
   "service": "workspace",
-  "workspaceFolder": "/workspaces/knights-reforged",
+  "workspaceFolder": "/workspaces/test",
   "remoteUser": "node",
   "forwardPorts": [3000],
   "portsAttributes": {
@@ -12,5 +12,5 @@
       "protocol": "http"
     }
   },
-  "postCreateCommand": "node deployment/setup-development.mjs"
+  "postCreateCommand": "cd knights-reforged && node deployment/setup-development.mjs"
 }

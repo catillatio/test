@@ -1,0 +1,168 @@
+{
+  "phase": "3",
+  "status": "implemented_and_verified_locally_for_private_alpha_playtesting",
+  "date_utc": "2026-10-17",
+  "repository": "catillatio/test",
+  "application": "knights-reforged",
+  "branch": "feature/kingdoms-live-phase-3-alpha",
+  "base_commit": "c121cc13e6ff66b2803a8fe4658dd35fcb51fb75",
+  "verified_gameplay_source_commit": "c110f06a35e3c752bfd4c2a83e923fedf04c1c30",
+  "active_ruleset": "alpha-0.1",
+  "original_server_formulas_recovered": false,
+  "environment": {
+    "node": "v24.19.0",
+    "typescript": "5.9.3",
+    "fastify": "5.12.7",
+    "pg_client": "8.23.1",
+    "postgresql": "18.4 x86_64 Linux",
+    "chromium": "154.0.8037.57",
+    "dependencies_installed": true,
+    "package_lock_present": true,
+    "postgresql_setup": "Isolated loopback development PostgreSQL; no Docker needed for executed tests."
+  },
+  "verification": {
+    "typescript_typecheck": {
+      "executed": true,
+      "passed": true
+    },
+    "production_build": {
+      "executed": true,
+      "passed": true
+    },
+    "complete_suite": {
+      "command": "TEST_DATABASE_URL=<disposable *_test database> npm run verify",
+      "passed": 80,
+      "failed": 0,
+      "skipped": 0,
+      "executed_on_initially_empty_database": true
+    },
+    "postgres_subset": {
+      "command": "TEST_DATABASE_URL=<disposable *_test database> npm run test:postgres",
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "included_in_complete_suite": true,
+      "groups": {
+        "original_regressions": 22,
+        "alpha_integration": 18,
+        "populated_migration_fixtures": 3
+      }
+    },
+    "calculation_and_client_tests": {
+      "passed": 37,
+      "included_in_complete_suite": true
+    },
+    "production_ejs_and_asset_checks": {
+      "command": "npm run check:static",
+      "passed": 42,
+      "failed": 0,
+      "production_ejs_fixtures": 30
+    },
+    "compiled_process_restart": {
+      "command": "TEST_DATABASE_URL=<disposable *_test database> npm run test:restart",
+      "passed": true,
+      "verified": [
+        "Persisted session cookies",
+        "Character IDs, XP, levels, Health, Mana and Spirit",
+        "Inventory quantities",
+        "Land holdings, balances and payment phase",
+        "Private reports for both battle participants"
+      ]
+    },
+    "browser": {
+      "command": "APP_ORIGIN=<local test realm> CHROMIUM_NO_SANDBOX=1 npm run test:browser",
+      "passed": true,
+      "viewports": [
+        "1366x900 desktop",
+        "390x844 phone",
+        "360x800 phone"
+      ],
+      "page_passes": 5,
+      "screens_per_pass": 7,
+      "javascript_errors": 0,
+      "checks": [
+        "Original five tabs and selected icons",
+        "Original screen backgrounds and 50px tab content",
+        "No horizontal overflow or missing images",
+        "Quest repetition, requirement purchases and story loot",
+        "Levels and skill allocation",
+        "Militia recruitment and accepted player invitation",
+        "Quantity Buy/Sell across Armory categories",
+        "Land Buy/Sell and live countdown",
+        "Real two-player persistent report",
+        "Working quest form with JavaScript disabled"
+      ],
+      "physical_android_tested": false
+    },
+    "balance_arithmetic": {
+      "command": "npm run balance:report",
+      "executed": true,
+      "human_session_duration_verified": false,
+      "multi_day_balance_verified": false
+    }
+  },
+  "migrations": {
+    "applied_on_clean_database": [
+      "001_initial.sql",
+      "002_land.sql",
+      "003_alpha.sql",
+      "004_retained_treasury.sql",
+      "005_maintenance_audit.sql"
+    ],
+    "additive_phase3": [
+      "003_alpha.sql",
+      "004_retained_treasury.sql",
+      "005_maintenance_audit.sql"
+    ],
+    "populated_compatibility_tests_passed": 3,
+    "preserved": [
+      "Accounts and character identity",
+      "Lifetime XP, attained level and proportional in-level progress",
+      "Legacy sword entry IDs, slots and one-copy acquisition costs",
+      "Legacy army participation",
+      "Quest and battle history and command receipts",
+      "Property rates, quantity history, payment clocks and settlement history",
+      "Retained gold and economy ledger history"
+    ],
+    "unsupported_legacy_item_mapping": "Migration aborts atomically; data and old schema remain intact.",
+    "reseed_or_reset_required": false,
+    "production_player_database_touched": false
+  },
+  "maintenance_policy": {
+    "income_purchase_gate": false,
+    "all_owned_upkeep_copies_count": true,
+    "carried_gold_and_reserve_funding": true,
+    "arrears_cap": "One hourly bill",
+    "shortfall": "Pause upkeep gear and further charges; retain assets and usable free gear",
+    "offline_excess": "Waived rather than compounded",
+    "explicit_rate_and_ruleset_audit": true
+  },
+  "preservation": {
+    "base_tracked_application_files": 472,
+    "base_files_deleted": 0,
+    "legacy_catalogs_and_migrations_unchanged": true,
+    "recovered_art_hashes_unchanged": true
+  },
+  "protected_remote_branches_before_push": {
+    "main": "8a51e6f65b4a6a0af2a80ab21926dc5fdc7bbb12",
+    "feature/kingdoms-live-land": "54073b95f0a63d7e95b6ff844412e2e8bffbd5f8",
+    "feature/kingdoms-live-visual-overhaul": "c121cc13e6ff66b2803a8fe4658dd35fcb51fb75"
+  },
+  "known_limitations": [
+    "Physical Android Chrome and native WebView/APK not tested; responsive browser client verified in headless Chromium.",
+    "Codespaces HTTPS/private forwarding and Docker/devcontainer images not launched or built here; PostgreSQL 18.4 was tested, supplied PostgreSQL 17 container recipe was not.",
+    "13-item, eight-quest, five-property catalog and placeholder SVG art; cosmetic classes.",
+    "Human 10–20 minute pacing, long-term economy, hostile load and alternate-account abuse need playtesting.",
+    "Bank/Hospital, Bounties, premium systems, password recovery, comments and leaderboards are deferred."
+  ],
+  "historical_servers_contacted": false,
+  "merged": false,
+  "public_deployment_created": false,
+  "hosting_resources_provisioned": false,
+  "evidence": {
+    "phone_captures": "docs/phase-3-preview/",
+    "local_ignored_logs_and_screenshots": "test-results/",
+    "compatibility_and_fidelity": "PHASE_3_ALPHA.md",
+    "launch": "README.md"
+  }
+}

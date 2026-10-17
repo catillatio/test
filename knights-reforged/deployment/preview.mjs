@@ -9,7 +9,7 @@ const forwardingDomain = process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN;
 const origin = process.env.APP_ORIGIN ?? (codespace && forwardingDomain
   ? `https://${codespace}-${port}.${forwardingDomain}` : `http://localhost:${port}`);
 const parsed = new URL(origin);
-if (parsed.hostname === 'bluepawgames.com' || parsed.hostname.endsWith('.bluepawgames.com')) {
+if (['bluepawgames.com','storm8.com'].some(host => parsed.hostname === host || parsed.hostname.endsWith('.' + host))) {
   throw new Error('A replacement origin is required.');
 }
 console.log('Starting the realm. Keep port visibility PRIVATE in the hosting UI.');

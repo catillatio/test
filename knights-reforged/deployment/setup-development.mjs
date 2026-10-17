@@ -1,13 +1,14 @@
 // Optional setup for an approved cloud devcontainer with working npm/PostgreSQL.
-// Not executed in this workspace. Does not create paid infrastructure.
+// Does not create hosting resources or players. Run only in a chosen Codespace.
 import { spawnSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 
 function run(args) {
   const result = spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', args, { stdio: 'inherit', env: process.env });
   if (result.error) throw result.error;
   if (result.status !== 0) throw new Error(`npm ${args.join(' ')} failed with exit ${result.status}.`);
 }
-run(['install', '--no-audit', '--no-fund']);
+run([existsSync('package-lock.json') ? 'ci' : 'install', '--no-audit', '--no-fund']);
 const { default: pg } = await import('pg');
 const db = new pg.Pool({ connectionString: process.env.DATABASE_URL, connectionTimeoutMillis: 5000 });
 try {
