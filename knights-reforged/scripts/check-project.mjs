@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { stripTypeScriptTypes } from 'node:module';
 import { randomUUID, createHash } from 'node:crypto';
+import { formContracts, navigationLinks } from './html-contracts.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const read = path => readFileSync(join(root, path), 'utf8');
@@ -166,6 +167,8 @@ const cases = [
   { name: 'error-public', data: fixture('error', { state: null, error: 'Unavailable.' }) },
   { name: 'error-authenticated', data: fixture('error', { error: 'Unavailable.' }) },
   { name: 'escaped-warrior-name', data: fixture('home', { state: { ...baseState, name: '<img src=x onerror=1>' } }) },
+  { name: 'large-resource-values', data: fixture('home', { state: { ...baseState,
+    name: 'MMMMMMMMMMMMMMMMMMMMMMMMMMMM', gold: 2147483647, xp: 2147483647, level: 214748365 } }) },
 ];
 const rendered = new Map();
 for (const example of cases) {
@@ -226,6 +229,79 @@ check('Original Kingdoms Live Land artwork has separate provenance and correct h
   assert.equal(art.assets.length, 2);
   for (const item of art.assets) {
     assert.equal(createHash('sha256').update(readFileSync(join(root, 'public/art', item.asset))).digest('hex'), item.sha256, item.asset);
+  }
+});
+check('Shared navigation preserves the five original labels/order and keeps all six routes', () => {
+  const expected = [
+    ['/game/home', 'Home'], ['/game/quests', 'Quests'], ['/game/battle', 'Battle'],
+    ['/game/armory', 'Armory'], ['/game/army', 'Recruit'],
+  ];
+  assert.deepEqual(navigation.map(item => item.id), ['home', 'quests', 'battle', 'armory', 'army', 'land']);
+  for (const example of cases) {
+    const primary = navigationLinks(rendered.get(example.name), 'Primary navigation');
+    assert.deepEqual(primary.map(link => [link.href, link.label]), example.data.state ? expected : [], example.name);
+  }
+});
+check('Original selected icons follow the current screen; reports select Battle; Land stays secondary', () => {
+  const icons = { home: 'home', quests: 'missions', battle: 'attack', armory: 'equipment', army: 'recruit' };
+  for (const example of cases.filter(item => item.data.state)) {
+    const screen = example.data.screen === 'report' ? 'battle' : example.data.screen;
+    const primary = navigationLinks(rendered.get(example.name), 'Primary navigation');
+    assert.equal(primary.filter(link => link.current).length, Object.hasOwn(icons, screen) ? 1 : 0, example.name);
+    for (const link of primary) {
+      const id = link.href.split('/').pop();
+      assert.equal(link.current, id === screen, example.name + ': current page');
+      assert.equal(link.image, '/assets/art/kingdoms-live/' + icons[id] + (id === screen ? '_selected' : '') + '.png', example.name);
+    }
+    const land = navigationLinks(rendered.get(example.name), 'Secondary navigation').find(link => link.href === '/game/land');
+    assert.ok(land, example.name + ': Land must stay visible in secondary navigation');
+    assert.equal(land.label, 'Land');
+    assert.equal(land.current, example.data.screen === 'land');
+  }
+});
+check('All pre-existing authentication and gameplay form contracts match the Land baseline', () => {
+  const baseline = JSON.parse(read('tests/fixtures/land-form-contracts.json'));
+  for (const [name, forms] of Object.entries(baseline.fixtures)) {
+    assert.ok(rendered.has(name), 'Missing baseline fixture: ' + name);
+    assert.deepEqual(formContracts(rendered.get(name)), forms, name + ': changed POST form/field contract');
+  }
+});
+check('Original shared artwork matches the separate provenance manifest', () => {
+  const art = JSON.parse(read('public/art/kingdoms-live/provenance.json'));
+  assert.equal(art.assets.length, 16);
+  assert.equal(art.apkSha256, '671e7650511e2c2dbfbd010dd85813e9ec6bf1d77c7c4ca8f459b6d141a1b5e0');
+  for (const item of art.assets) {
+    const bytes = readFileSync(join(root, 'public/art/kingdoms-live', item.asset));
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), item.sha256, item.asset);
+    // Research files are optional in a deployment/Codespace. The manifest hash
+    // remains mandatory; compare source bytes as well when they are available.
+    const original = join(root, 'original-reference/extracted', item.source);
+    if (existsSync(original)) assert.deepEqual(bytes, readFileSync(original), item.asset + ': original changed');
+  }
+});
+check('Shared CSS backgrounds resolve locally and native tab gradients/safe areas are preserved', () => {
+  const css = read('public/kingdoms-live.css');
+  for (const match of css.matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)) {
+    assert.ok(!/^(?:https?:|\/\/)/.test(match[1]), 'External visual asset');
+    assert.ok(existsSync(resolve(root, 'public', match[1])), 'Missing CSS image ' + match[1]);
+  }
+  for (const literal of ['--tab-content-height: 50px', 'repeat(5, minmax(0, 1fr))', 'safe-area-inset-bottom',
+    'linear-gradient(to top, #000000, #404040)', 'linear-gradient(to top, #404040e1, #7f7f7fe1)',
+    'linear-gradient(to top, #647f00e1, #64b400e1)', '.nav-link:focus-visible']) assert.ok(css.includes(literal), literal);
+  for (const [screen, image] of [['quests', 'missions'], ['battle', 'attack'], ['armory', 'equipment']]) {
+    assert.ok(css.includes('.screen-' + screen + ' .page-backdrop { background-image: url(\'./art/kingdoms-live/bg_' + image + '.jpg\'); }'));
+  }
+  assert.ok(read('views/layout.ejs').includes('/assets/kingdoms-live.css'));
+});
+check('Land rendering keeps its live countdown, refresh, pending income and wallet hooks', () => {
+  const required = ['data-land-screen', 'data-server-time', 'data-next-payment', 'data-land-countdown', 'data-land-status',
+    'data-land-payment-time', 'data-land-gross', 'data-land-upkeep', 'data-land-net', 'data-land-pending',
+    'data-land-pending-gold', 'data-land-property', 'data-land-owned', 'data-land-buy-hint', 'data-wallet-gold'];
+  for (const name of ['land', 'land-empty', 'land-no-gold', 'land-limit', 'land-unclaimed-income']) {
+    const html = rendered.get(name);
+    for (const hook of required) assert.ok(html.includes(hook), name + ': missing ' + hook);
+    assert.ok(html.includes('<noscript>') && html.includes('/assets/land.js'), name + ': no-JS or refresh lost');
+    assert.ok(html.includes('Provisional Land rules.'), name + ': rules disclosure lost');
   }
 });
 check('Responsive CSS has phone/tablet breakpoints and keyboard focus treatment', () => {

@@ -1,0 +1,2272 @@
+{
+  "source": "Pre-Phase-2 Land template fixtures",
+  "localLandCommit": "0fa4b902fefbcf64d999564acbe4a7cbabcd9b55",
+  "notes": "Only presentation class/style attributes and generated CSRF/command ID values are normalized. Input names, values, IDs, constraints, flags, methods and actions must remain unchanged.",
+  "fixtures": {
+    "armory-equipped": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "armory-owned": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/armory/equip",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "inventoryEntryId",
+              "value": "33333333-3333-4333-8333-333333333333"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "armory": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/armory/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "itemId",
+              "value": "iron-sword"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "army-full": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/army/recruit",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "unitId",
+              "value": "militia"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "recruit-quantity",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1",
+              "aria-describedby": "recruit-hint"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "army-no-gold": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/army/recruit",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "unitId",
+              "value": "militia"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "recruit-quantity",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1",
+              "aria-describedby": "recruit-hint"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "army": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/army/recruit",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "unitId",
+              "value": "militia"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "recruit-quantity",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "7",
+              "value": "1",
+              "aria-describedby": "recruit-hint"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "auth-error": [
+      {
+        "method": "post",
+        "action": "/login",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "username",
+              "name": "username",
+              "type": "text",
+              "autocomplete": "username",
+              "autocapitalize": "none",
+              "spellcheck": "false",
+              "minlength": "3",
+              "maxlength": "24",
+              "pattern": "[A-Za-z0-9_]{3,24}",
+              "value": "a&#34;&lt;script&gt;x&lt;/script&gt;",
+              "aria-describedby": "username-hint"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "password",
+              "name": "password",
+              "type": "password",
+              "autocomplete": "current-password",
+              "minlength": "12",
+              "maxlength": "128",
+              "aria-describedby": "password-hint"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "battle-cooldown": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/battle/attack",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "targetCharacterId",
+              "value": "22222222-2222-4222-8222-222222222222"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit",
+              "aria-label": "Challenge Morgan Ironwood"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "battle-defeated-opponent": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/battle/attack",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "targetCharacterId",
+              "value": "22222222-2222-4222-8222-222222222222"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit",
+              "aria-label": "Challenge Morgan Ironwood"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "battle-empty": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "battle-no-energy": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/battle/attack",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "targetCharacterId",
+              "value": "22222222-2222-4222-8222-222222222222"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit",
+              "aria-label": "Challenge Morgan Ironwood"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "battle-recovering": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/battle/attack",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "targetCharacterId",
+              "value": "22222222-2222-4222-8222-222222222222"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit",
+              "aria-label": "Challenge Morgan Ironwood"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "battle": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/battle/attack",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "targetCharacterId",
+              "value": "22222222-2222-4222-8222-222222222222"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit",
+              "aria-label": "Challenge Morgan Ironwood"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "error-authenticated": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "error-public": [],
+    "escaped-warrior-name": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "home-history": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "home": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "land-empty": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "smallholding"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-smallholding",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "woodland"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-woodland",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "watchtower"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-watchtower",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "land-limit": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "smallholding"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-smallholding",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "woodland"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-woodland",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "watchtower"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-watchtower",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "land-no-gold": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "smallholding"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-smallholding",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "woodland"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-woodland",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "watchtower"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-watchtower",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "land-unclaimed-income": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "smallholding"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-smallholding",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "woodland"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-woodland",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "watchtower"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-watchtower",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "land": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "smallholding"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-smallholding",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "woodland"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-woodland",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/land/buy",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "propertyId",
+              "value": "watchtower"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "land-quantity-watchtower",
+              "name": "quantity",
+              "type": "number",
+              "inputmode": "numeric",
+              "min": "1",
+              "max": "1",
+              "value": "1"
+            },
+            "flags": [
+              "disabled",
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "login": [
+      {
+        "method": "post",
+        "action": "/login",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "username",
+              "name": "username",
+              "type": "text",
+              "autocomplete": "username",
+              "autocapitalize": "none",
+              "spellcheck": "false",
+              "minlength": "3",
+              "maxlength": "24",
+              "pattern": "[A-Za-z0-9_]{3,24}",
+              "value": "",
+              "aria-describedby": "username-hint"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "password",
+              "name": "password",
+              "type": "password",
+              "autocomplete": "current-password",
+              "minlength": "12",
+              "maxlength": "128",
+              "aria-describedby": "password-hint"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "quest-no-energy": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/quests/border-patrol/run",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "quest-recovering": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/quests/border-patrol/run",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": [
+              "disabled"
+            ]
+          }
+        ]
+      }
+    ],
+    "quests": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      },
+      {
+        "method": "post",
+        "action": "/game/quests/border-patrol/run",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "commandId",
+              "value": "<generated-command-id>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "register": [
+      {
+        "method": "post",
+        "action": "/register",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "username",
+              "name": "username",
+              "type": "text",
+              "autocomplete": "username",
+              "autocapitalize": "none",
+              "spellcheck": "false",
+              "minlength": "3",
+              "maxlength": "24",
+              "pattern": "[A-Za-z0-9_]{3,24}",
+              "value": "",
+              "aria-describedby": "username-hint"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "warrior-name",
+              "name": "name",
+              "type": "text",
+              "autocomplete": "nickname",
+              "minlength": "2",
+              "maxlength": "28",
+              "value": "",
+              "aria-describedby": "warrior-hint"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "id": "password",
+              "name": "password",
+              "type": "password",
+              "autocomplete": "new-password",
+              "minlength": "12",
+              "maxlength": "128",
+              "aria-describedby": "password-hint"
+            },
+            "flags": [
+              "required"
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "report-defeat": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "report-victory": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "rules-authenticated": [
+      {
+        "method": "post",
+        "action": "/logout",
+        "fields": [
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "name": "csrf",
+              "value": "<csrf-token>"
+            },
+            "flags": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "type": "submit"
+            },
+            "flags": []
+          }
+        ]
+      }
+    ],
+    "rules-public": []
+  }
+}

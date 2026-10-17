@@ -74,6 +74,22 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
       assert.equal(response.statusCode, 200, response.body);
       assert.match(String(response.headers['content-type'] ?? ''), /text\/html/);
       assert.match(response.body, /aria-label="Primary navigation"/);
+      const primary = /<nav\b[^>]*aria-label="Primary navigation"[^>]*>([\s\S]*?)<\/nav>/.exec(response.body)?.[1];
+      assert.ok(primary);
+      assert.deepEqual([...primary.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(match => match[1]),
+        ['/game/home', '/game/quests', '/game/battle', '/game/armory', '/game/army']);
+      assert.match(primary, /<span>Recruit<\/span>/);
+      assert.ok(!primary.includes('/game/land'));
+      const secondary = /<nav\b[^>]*aria-label="Secondary navigation"[^>]*>([\s\S]*?)<\/nav>/.exec(response.body)?.[1];
+      assert.ok(secondary?.includes('href="/game/land"'), 'Land remains reachable on every screen');
+      const activeCount = [...primary.matchAll(/aria-current="page"/g)].length;
+      assert.equal(activeCount, screen === 'land' ? 0 : 1);
+      if (screen === 'army') assert.match(response.body, /<h1>Recruit<\/h1>/);
+      if (screen === 'land') {
+        assert.match(secondary, /aria-current="page"/);
+        assert.match(response.body, /data-land-countdown/);
+        assert.match(response.body, /data-wallet-gold/);
+      }
       assert.ok(!response.body.includes('<%'));
     }
     const stored = (await db.query(`SELECT a.password_hash,s.token_hash FROM accounts a JOIN sessions s ON s.account_id=a.id

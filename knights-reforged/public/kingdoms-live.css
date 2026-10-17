@@ -1,0 +1,137 @@
+/* Shared presentation only. Native tab states/gradients follow the APK XML.
+ * Resource header, content controls, fonts, secondary Land entry and responsive
+ * frame are reconstructions: original server HTML/CSS was not recovered.
+ * The original images are byte-for-byte copies. Gameplay templates stay intact.
+ */
+:root {
+  --bg: #151310;
+  --panel: #191714eb;
+  --panel-soft: #29251f;
+  --line: #615746;
+  --text: #f1eadc;
+  --muted: #c2b9a9;
+  --gold: #d6bb7a;
+  --gold-bright: #f0d99e;
+  --game-width: 560px;
+  --tab-content-height: 50px;
+}
+.kingdoms-ui { background: #0b0b0a; font-size: 14px; line-height: 1.5; }
+.kingdoms-ui .app-shell {
+  position: relative; isolation: isolate; display: block; width: 100%;
+  max-width: var(--game-width); min-height: 100dvh; margin: 0 auto;
+  border-inline: 1px solid #494034; background: #141310;
+}
+.page-backdrop {
+  position: fixed; z-index: -1; top: 0; bottom: 0; left: 50%;
+  width: min(100%, var(--game-width)); transform: translateX(-50%); pointer-events: none;
+  background: #141310 url('./art/kingdoms-live/bg_default.jpg') center top / cover no-repeat;
+}
+.screen-quests .page-backdrop { background-image: url('./art/kingdoms-live/bg_missions.jpg'); }
+.screen-battle .page-backdrop { background-image: url('./art/kingdoms-live/bg_attack.jpg'); }
+.screen-armory .page-backdrop { background-image: url('./art/kingdoms-live/bg_equipment.jpg'); }
+.kingdoms-ui .topbar {
+  min-height: 52px; gap: 8px; border-bottom: 1px solid #6c5d40;
+  padding: calc(6px + env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 6px max(12px, env(safe-area-inset-left));
+  background: linear-gradient(#302b22f5, #11110ff5);
+}
+.realm-brand { display: flex; align-items: center; gap: 8px; min-width: 0; color: var(--gold-bright); }
+.realm-brand img { flex: 0 0 32px; border-radius: 4px; }
+.realm-brand > span { font: 17px/1.15 var(--serif); }
+.realm-brand small { display: block; margin-top: 3px; color: var(--muted); font: 10px/1.2 var(--sans); }
+.kingdoms-ui .account-menu { gap: 8px; }
+.kingdoms-ui .account-name { display: none; }
+.kingdoms-ui .button-quiet { min-height: 44px; padding: 8px 4px; color: #e1d4ba; }
+.kingdoms-ui .main-content {
+  max-width: none;
+  padding: 10px max(12px, env(safe-area-inset-right)) calc(var(--tab-content-height) + env(safe-area-inset-bottom) + 24px) max(12px, env(safe-area-inset-left));
+}
+.kingdoms-ui.signed-out .main-content { padding-bottom: max(20px, env(safe-area-inset-bottom)); }
+.character-header { border: 1px solid var(--line); background: #100f0de8; }
+.kingdoms-ui .page-heading { align-items: center; margin: 0; padding: 9px 10px; gap: 10px; border-bottom: 1px solid #494135; }
+.kingdoms-ui .page-heading h1 { font-size: 23px; }
+.kingdoms-ui .warrior-label { max-width: 55%; padding: 0; color: #ddd2bd; font-size: 12px; overflow-wrap: anywhere; }
+.kingdoms-ui .resource-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; border: 0; border-radius: 0; background: transparent; }
+.kingdoms-ui .resource { min-height: 59px; padding: 7px 8px; border-color: #494135; }
+.kingdoms-ui .resource-label { font-size: 10px; letter-spacing: .3px; margin-bottom: 3px; }
+.kingdoms-ui .resource > strong { display: block; font-size: 16px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.kingdoms-ui .resource strong small { color: #c6baa4; font-size: 10px; }
+.kingdoms-ui .resource-detail { display: block; margin: 2px 0 0; color: #c6baa4; font-size: 10px; white-space: normal; overflow-wrap: anywhere; }
+.kingdoms-ui meter { margin-top: 4px; }
+.secondary-nav { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 12px; margin: 6px 0 12px; }
+.secondary-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 6px 10px; border: 1px solid #736348; border-radius: 3px; background: #211d16ed; color: var(--gold-bright); font-size: 12px; }
+.secondary-link:hover { background: #3a3021; }
+.secondary-link.is-current { background: linear-gradient(#505050, #262626); border-color: #b4a382; }
+.land-link img { flex-shrink: 0; padding: 2px; background: #e1d4b5; border-radius: 2px; }
+.secondary-nav-detail { color: #d0c5ae; font-size: 11px; }
+/* Native reference: 50 dp, adapted to 50 CSS px plus device safe area.
+ * XML angle=90 runs bottom -> top; CSS uses the same direction. */
+.kingdoms-ui .primary-nav {
+  position: fixed; z-index: 30; left: 50%; right: auto; bottom: 0;
+  transform: translateX(-50%); display: grid; width: min(100%, var(--game-width));
+  grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0;
+  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  border-top: 1px solid #777; background: linear-gradient(to top, #000000, #404040); backdrop-filter: none;
+}
+.kingdoms-ui .nav-link {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: var(--tab-content-height); min-height: var(--tab-content-height); min-width: 0;
+  gap: 1px; padding: 2px 1px; border: 0; border-radius: 5px;
+  background: transparent; color: #fff; font-size: 11px; line-height: 13px;
+}
+.kingdoms-ui .nav-link img { width: 30px; height: 30px; flex: 0 0 30px; object-fit: contain; opacity: 1; }
+.kingdoms-ui .nav-link:hover { color: #fff; background: #ffffff14; }
+.kingdoms-ui .nav-link.is-current { color: #fff; background: linear-gradient(to top, #404040e1, #7f7f7fe1); }
+.kingdoms-ui .nav-link:active { color: #fff; background: linear-gradient(to top, #647f00e1, #64b400e1); }
+.kingdoms-ui .nav-link:focus-visible { outline-offset: -3px; }
+/* Keep all existing intro text/actions, using a compact common presentation.
+ * Original page art is now supplied by the shared background layer. */
+.kingdoms-ui .hero { min-height: 0; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 3px; background: #16130fdb; }
+.kingdoms-ui .hero::after, .kingdoms-ui .hero-art, .kingdoms-ui .hero-caption, .kingdoms-ui .hero-copy > .eyebrow { display: none; }
+.kingdoms-ui .hero-copy { max-width: none; padding: 12px; }
+.kingdoms-ui .hero-copy h2 { margin-bottom: 7px; font-size: 21px; }
+.kingdoms-ui .hero-copy > p:not(.eyebrow) { max-width: none; margin-bottom: 10px; color: #d0c6b3; font-size: 13px; line-height: 1.5; }
+.kingdoms-ui .content-grid, .kingdoms-ui .detail-grid, .kingdoms-ui .home-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-bottom: 12px; }
+.kingdoms-ui .panel { padding: 15px 12px; border-color: var(--line); border-radius: 3px; background: var(--panel); }
+.kingdoms-ui h2 { font-size: 22px; }
+.kingdoms-ui .feature-card > h2 { margin-top: 16px; font-size: 25px; }
+.kingdoms-ui .section-heading { gap: 10px; margin-bottom: 12px; }
+.kingdoms-ui .section-heading .muted { white-space: normal; }
+.kingdoms-ui .summary-list { margin-bottom: 16px; }
+.kingdoms-ui .summary-list > div { padding: 8px 0; border-color: #524737; }
+.kingdoms-ui .description, .kingdoms-ui .field-hint, .kingdoms-ui .muted { color: var(--muted); }
+.kingdoms-ui .button { min-height: 44px; padding: 10px 14px; border-radius: 3px; font-size: 13px; }
+.kingdoms-ui .button-gold { color: #fff1cc; border-color: #a38a54; background: linear-gradient(#68502a, #382b19); text-shadow: 0 1px #000; }
+.kingdoms-ui .button-gold:hover:not(:disabled) { color: #fff9e7; border-color: #d6bb7a; background: linear-gradient(#806438, #48351c); }
+.kingdoms-ui .button-outline { color: #eadcc2; border-color: #8d7956; background: linear-gradient(#37322a, #1d1b17); }
+.kingdoms-ui .button-outline:hover:not(:disabled) { color: #fff1cc; background: #453c2c; }
+.kingdoms-ui .button:active:not(:disabled) { transform: translateY(1px); }
+.kingdoms-ui .button:disabled { opacity: .6; }
+.kingdoms-ui .field input { min-height: 46px; border-radius: 3px; border-color: #8c7959; background: #11100e; font-size: 16px; }
+.kingdoms-ui .field label { color: #eee3ce; }
+.kingdoms-ui .notice { padding: 12px; margin-bottom: 12px; border-radius: 3px; }
+.kingdoms-ui .notice-info { background: #20211de8; border-color: #82704e; color: #e1d7c2; }
+.kingdoms-ui .reward-grid { padding: 14px 0; margin: 16px 0; border-color: #64543b; }
+.kingdoms-ui .recruit-form { display: grid; gap: 12px; }
+.kingdoms-ui .land-income-panel { margin-bottom: 12px; }
+.kingdoms-ui .land-income-grid { gap: 10px; padding: 6px 0 16px; }
+.kingdoms-ui .land-income-grid dd { font-size: 22px; overflow-wrap: anywhere; }
+.kingdoms-ui .land-properties { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-bottom: 12px; }
+.kingdoms-ui .land-payment-row { align-items: flex-start; flex-direction: column; gap: 12px; padding-top: 12px; }
+.kingdoms-ui .land-payment-row .button { width: 100%; }
+.kingdoms-ui .auth-grid { grid-template-columns: minmax(0, 1fr); max-width: none; gap: 12px; padding: 8px 0; }
+.kingdoms-ui .auth-story { padding: 0; }
+.kingdoms-ui .auth-story > h1 { font-size: 30px; }
+.kingdoms-ui .auth-story > p:not(.eyebrow) { max-width: none; }
+.kingdoms-ui .auth-art { display: none; }
+.kingdoms-ui .auth-card { margin-top: 0; }
+.kingdoms-ui .page-footer { margin-top: 20px; padding-top: 12px; color: #c2b9a9; border-color: #6c5d40; font-size: 10px; }
+.kingdoms-ui .skip-link { z-index: 40; }
+@media (max-width: 380px) {
+  .kingdoms-ui .resource-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kingdoms-ui .resource { min-height: 52px; }
+  .kingdoms-ui .resource:nth-child(2) { border-right: 0; }
+  .kingdoms-ui .resource:nth-child(-n+2) { border-bottom: 1px solid #494135; }
+  .kingdoms-ui .land-income-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .kingdoms-ui .land-income-grid > div { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .kingdoms-ui .land-income-grid small { font-size: 10px; }
+}

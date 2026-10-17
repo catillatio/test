@@ -34,10 +34,23 @@ async function register(context: BrowserContext, suffix: string) {
   return { page, name };
 }
 async function screens(page: Page, label: string) {
-  for (const screen of ['Home', 'Quests', 'Battle', 'Armory', 'Army', 'Land']) {
-    await page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: screen, exact: true }).click();
+  const labels = ['Home', 'Quests', 'Battle', 'Armory', 'Recruit'];
+  const primary = () => page.getByRole('navigation', { name: 'Primary navigation' });
+  assert.deepEqual((await primary().getByRole('link').allTextContents()).map(text => text.trim()), labels);
+  for (const screen of [...labels, 'Land']) {
+    const navigation = page.getByRole('navigation', { name: screen === 'Land' ? 'Secondary navigation' : 'Primary navigation' });
+    await navigation.getByRole('link', { name: screen, exact: true }).click();
     await page.getByRole('heading', { name: screen, exact: true }).waitFor();
     await page.waitForLoadState('load');
+    assert.equal(await primary().getByRole('link').count(), 5);
+    await page.getByRole('navigation', { name: 'Secondary navigation' }).getByRole('link', { name: 'Land', exact: true }).waitFor({ state: 'visible' });
+    const current = primary().locator('[aria-current="page"]');
+    assert.equal(await current.count(), screen === 'Land' ? 0 : 1);
+    if (screen !== 'Land') assert.equal((await current.textContent())?.trim(), screen);
+    const tabHeight = await primary().getByRole('link').first().evaluate(element => element.getBoundingClientRect().height);
+    assert.equal(tabHeight, 50, label + ': 50 px tab content plus a separate safe-area inset');
+    const imageName = screen === 'Quests' ? 'missions' : screen === 'Battle' ? 'attack' : screen === 'Armory' ? 'equipment' : 'default';
+    assert.ok((await page.locator('.page-backdrop').evaluate(element => getComputedStyle(element).backgroundImage)).includes('bg_' + imageName + '.jpg'));
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, label + ': horizontal overflow on ' + screen);
     const broken = await page.locator('img').evaluateAll(images => images.filter(img => !img.complete || img.naturalWidth === 0).length);
     assert.equal(broken, 0, label + ': missing image');
@@ -82,6 +95,6 @@ try {
   await a.screenshot({ path: join(out, 'desktop-battle-report.png'), fullPage: true });
   await b.screenshot({ path: join(out, 'phone-battle-report.png'), fullPage: true });
   assert.deepEqual(errors, []);
-  console.log('Six screens on PC/phone viewports, Land purchase/countdown and the two-player gameplay loop passed. Screenshots: test-results/browser/');
+  console.log('Five original tabs plus secondary Land on PC/phone, original backgrounds, 50 px tab content, Land purchase/countdown and the two-player gameplay loop passed. Screenshots: test-results/browser/');
   console.log('Phone viewport checks are not an Android WebView/device test.');
 } finally { await browser.close(); }

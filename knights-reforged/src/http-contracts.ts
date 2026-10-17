@@ -1,11 +1,13 @@
 // Shared by the HTTP controllers and the dependency-free project inspection.
 // These are replacement routes; they do not address the historical server.
+// Keep every implemented screen here. The shared view puts Land in secondary
+// navigation without removing its HTTP routes.
 export const navigation = [
   { id: 'home', label: 'Home', icon: 'home' },
   { id: 'quests', label: 'Quests', icon: 'quests' },
   { id: 'battle', label: 'Battle', icon: 'battle' },
   { id: 'armory', label: 'Armory', icon: 'armory' },
-  { id: 'army', label: 'Army', icon: 'army' },
+  { id: 'army', label: 'Recruit', icon: 'army' },
   { id: 'land', label: 'Land', icon: 'land' },
 ] as const;
 
