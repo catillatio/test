@@ -1,0 +1,150 @@
+# class Lcom/google/gson/q$a; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/u;
+# source None
+# fields
+# Lcom/google/gson/q$a;->a:Ljava/lang/Appendable; access=0x12
+# Lcom/google/gson/q$a;->b:Lcom/google/gson/h; access=0x12
+# Lcom/google/gson/q$a;->c:Z access=0x12
+
+## Lcom/google/gson/q$a;-><init>(Ljava/lang/Appendable;Lcom/google/gson/h;Z)V access=0x10000
+# code_off=0x2e950 registers=4 incoming_words=4 outgoing_words=1 code_units=10 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0005: iput-object v2, v0, "Lcom/google/gson/q$a;->b:Lcom/google/gson/h;"
+0007: iput-boolean v3, v0, "Lcom/google/gson/q$a;->c:Z"
+0009: return-void
+
+## Lcom/google/gson/q$a;->a()V access=0x11
+# code_off=0x2e974 registers=3 incoming_words=1 outgoing_words=2 code_units=8 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0002: const-string v1, "null"
+0004: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(Ljava/lang/CharSequence;)Ljava/lang/Appendable;
+0007: return-void
+
+## Lcom/google/gson/q$a;->a(Lcom/google/gson/JsonPrimitive;)V access=0x11
+# code_off=0x2e994 registers=4 incoming_words=2 outgoing_words=3 code_units=8 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0002: iget-object v1, v2, "Lcom/google/gson/q$a;->b:Lcom/google/gson/h;"
+0004: invoke-virtual {v3, v0, v1}, Lcom/google/gson/JsonPrimitive;->a(Ljava/lang/Appendable;Lcom/google/gson/h;)V
+0007: return-void
+
+## Lcom/google/gson/q$a;->a(Lcom/google/gson/JsonPrimitive;Z)V access=0x11
+# code_off=0x2e9b4 registers=5 incoming_words=3 outgoing_words=3 code_units=17 tries=0
+0000: if-nez v4, @0009
+0002: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0004: const/16 v1, 44
+0006: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0009: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+000b: iget-object v1, v2, "Lcom/google/gson/q$a;->b:Lcom/google/gson/h;"
+000d: invoke-virtual {v3, v0, v1}, Lcom/google/gson/JsonPrimitive;->a(Ljava/lang/Appendable;Lcom/google/gson/h;)V
+0010: return-void
+
+## Lcom/google/gson/q$a;->a(Ljava/lang/String;Lcom/google/gson/JsonPrimitive;Z)V access=0x11
+# code_off=0x2e9e8 registers=6 incoming_words=4 outgoing_words=3 code_units=36 tries=0
+0000: if-nez v5, @0009
+0002: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0004: const/16 v1, 44
+0006: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0009: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+000b: const/16 v1, 34
+000d: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0010: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0012: invoke-interface {v0, v3}, Ljava/lang/Appendable;->append(Ljava/lang/CharSequence;)Ljava/lang/Appendable;
+0015: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0017: const-string v1, "\":"
+0019: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(Ljava/lang/CharSequence;)Ljava/lang/Appendable;
+001c: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+001e: iget-object v1, v2, "Lcom/google/gson/q$a;->b:Lcom/google/gson/h;"
+0020: invoke-virtual {v4, v0, v1}, Lcom/google/gson/JsonPrimitive;->a(Ljava/lang/Appendable;Lcom/google/gson/h;)V
+0023: return-void
+
+## Lcom/google/gson/q$a;->a(Ljava/lang/String;Z)V access=0x11
+# code_off=0x2ea40 registers=5 incoming_words=3 outgoing_words=2 code_units=29 tries=0
+0000: if-nez v4, @0009
+0002: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0004: const/16 v1, 44
+0006: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0009: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+000b: const/16 v1, 34
+000d: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0010: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0012: invoke-interface {v0, v3}, Ljava/lang/Appendable;->append(Ljava/lang/CharSequence;)Ljava/lang/Appendable;
+0015: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0017: const-string v1, "\":"
+0019: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(Ljava/lang/CharSequence;)Ljava/lang/Appendable;
+001c: return-void
+
+## Lcom/google/gson/q$a;->a(Z)V access=0x11
+# code_off=0x2ea8c registers=4 incoming_words=2 outgoing_words=2 code_units=10 tries=0
+0000: if-nez v3, @0009
+0002: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0004: const/16 v1, 44
+0006: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0009: return-void
+
+## Lcom/google/gson/q$a;->b()V access=0x11
+# code_off=0x2eab0 registers=3 incoming_words=1 outgoing_words=2 code_units=8 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0002: const/16 v1, 91
+0004: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0007: return-void
+
+## Lcom/google/gson/q$a;->b(Ljava/lang/String;Z)V access=0x11
+# code_off=0x2ead0 registers=5 incoming_words=3 outgoing_words=2 code_units=29 tries=0
+0000: if-nez v4, @0009
+0002: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0004: const/16 v1, 44
+0006: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0009: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+000b: const/16 v1, 34
+000d: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0010: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0012: invoke-interface {v0, v3}, Ljava/lang/Appendable;->append(Ljava/lang/CharSequence;)Ljava/lang/Appendable;
+0015: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0017: const-string v1, "\":"
+0019: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(Ljava/lang/CharSequence;)Ljava/lang/Appendable;
+001c: return-void
+
+## Lcom/google/gson/q$a;->b(Z)V access=0x11
+# code_off=0x2eb1c registers=4 incoming_words=2 outgoing_words=2 code_units=10 tries=0
+0000: if-nez v3, @0009
+0002: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0004: const/16 v1, 44
+0006: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0009: return-void
+
+## Lcom/google/gson/q$a;->c()V access=0x11
+# code_off=0x2eb40 registers=3 incoming_words=1 outgoing_words=2 code_units=8 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0002: const/16 v1, 93
+0004: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0007: return-void
+
+## Lcom/google/gson/q$a;->c(Ljava/lang/String;Z)V access=0x11
+# code_off=0x2eb60 registers=4 incoming_words=3 outgoing_words=3 code_units=8 tries=0
+0000: iget-boolean v0, v1, "Lcom/google/gson/q$a;->c:Z"
+0002: if-eqz v0, @0007
+0004: invoke-virtual {v1, v2, v3}, Lcom/google/gson/q$a;->b(Ljava/lang/String;Z)V
+0007: return-void
+
+## Lcom/google/gson/q$a;->c(Z)V access=0x11
+# code_off=0x2eb80 registers=4 incoming_words=2 outgoing_words=2 code_units=10 tries=0
+0000: if-nez v3, @0009
+0002: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0004: const/16 v1, 44
+0006: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0009: return-void
+
+## Lcom/google/gson/q$a;->d()V access=0x11
+# code_off=0x2eba4 registers=3 incoming_words=1 outgoing_words=2 code_units=8 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0002: const/16 v1, 123
+0004: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0007: return-void
+
+## Lcom/google/gson/q$a;->e()V access=0x11
+# code_off=0x2ebc4 registers=3 incoming_words=1 outgoing_words=2 code_units=8 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/q$a;->a:Ljava/lang/Appendable;"
+0002: const/16 v1, 125
+0004: invoke-interface {v0, v1}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0007: return-void

@@ -1,0 +1,6 @@
+# class Lcom/google/gson/annotations/SerializedName; extends Ljava/lang/Object;
+# interfaces Ljava/lang/annotation/Annotation;
+# source None
+# fields
+
+## Lcom/google/gson/annotations/SerializedName;->value()Ljava/lang/String; access=0x401

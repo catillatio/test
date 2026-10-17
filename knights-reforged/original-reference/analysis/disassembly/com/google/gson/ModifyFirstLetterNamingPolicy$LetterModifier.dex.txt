@@ -1,0 +1,49 @@
+# class Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier; extends Ljava/lang/Enum;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->LOWER:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier; access=0x4019
+# Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->UPPER:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier; access=0x4019
+# Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->a:[Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier; access=0x101a
+
+## Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;-><clinit>()V access=0x10008
+# code_off=0x1a448 registers=4 incoming_words=0 outgoing_words=3 code_units=34 tries=0
+0000: const/4 v3, 1
+0001: const/4 v2, 0
+0002: new-instance v0, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0004: const-string v1, "UPPER"
+0006: invoke-direct {v0, v1, v2}, Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;-><init>(Ljava/lang/String;I)V
+0009: sput-object v0, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->UPPER:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+000b: new-instance v0, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+000d: const-string v1, "LOWER"
+000f: invoke-direct {v0, v1, v3}, Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;-><init>(Ljava/lang/String;I)V
+0012: sput-object v0, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->LOWER:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0014: const/4 v0, 2
+0015: new-array v0, v0, "[Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0017: sget-object v1, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->UPPER:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0019: aput-object v1, v0, v2
+001b: sget-object v1, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->LOWER:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+001d: aput-object v1, v0, v3
+001f: sput-object v0, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->a:[Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0021: return-void
+
+## Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;-><init>(Ljava/lang/String;I)V access=0x10002
+# code_off=0x1a49c registers=3 incoming_words=3 outgoing_words=3 code_units=4 tries=0
+0000: invoke-direct {v0, v1, v2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
+0003: return-void
+
+## Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->valueOf(Ljava/lang/String;)Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier; access=0x9
+# code_off=0x1a4b4 registers=2 incoming_words=1 outgoing_words=2 code_units=9 tries=0
+0000: const-class v0, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0002: invoke-static {v0, v1}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
+0005: move-result-object v0
+0006: check-cast v0, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0008: return-object v0
+
+## Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->values()[Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier; access=0x9
+# code_off=0x1a4d8 registers=1 incoming_words=0 outgoing_words=1 code_units=9 tries=0
+0000: sget-object v0, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->a:[Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0002: invoke-virtual {v0}, [Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->clone()Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "[Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+0008: return-object v0

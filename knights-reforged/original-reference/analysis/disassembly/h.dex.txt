@@ -1,0 +1,99 @@
+# class Lh; extends Landroid/webkit/WebViewClient;
+# interfaces 
+# source None
+# fields
+# Lh;->a:Ld; access=0x2
+# Lh;->b:La$a; access=0x2
+# Lh;->c:Z access=0x2
+# Lh;->d:Z access=0x2
+# Lh;->e:Z access=0x2
+
+## Lh;-><init>(Ld;La$a;Z)V access=0x10001
+# code_off=0x25a7c registers=5 incoming_words=4 outgoing_words=1 code_units=15 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1}, Landroid/webkit/WebViewClient;-><init>()V
+0004: iput-object v2, v1, "Lh;->a:Ld;"
+0006: iput-object v3, v1, "Lh;->b:La$a;"
+0008: iput-boolean v4, v1, "Lh;->c:Z"
+000a: iput-boolean v0, v1, "Lh;->d:Z"
+000c: iput-boolean v0, v1, "Lh;->e:Z"
+000e: return-void
+
+## Lh;->a()V access=0x10
+# code_off=0x25aac registers=2 incoming_words=1 outgoing_words=0 code_units=4 tries=0
+0000: const/4 v0, 1
+0001: iput-boolean v0, v1, "Lh;->d:Z"
+0003: return-void
+
+## Lh;->b()V access=0x11
+# code_off=0x25ac4 registers=2 incoming_words=1 outgoing_words=0 code_units=4 tries=0
+0000: const/4 v0, 1
+0001: iput-boolean v0, v1, "Lh;->e:Z"
+0003: return-void
+
+## Lh;->onPageFinished(Landroid/webkit/WebView;Ljava/lang/String;)V access=0x11
+# code_off=0x25adc registers=5 incoming_words=3 outgoing_words=1 code_units=34 tries=0
+0000: const/4 v1, 0
+0001: iget-boolean v0, v2, "Lh;->d:Z"
+0003: if-eqz v0, @0012
+0005: iget-object v0, v2, "Lh;->a:Ld;"
+0007: invoke-virtual {v0}, Ld;->e()Lc;
+000a: move-result-object v0
+000b: if-eqz v0, @001c
+000d: invoke-virtual {v0}, Lc;->a()V
+0010: iput-boolean v1, v2, "Lh;->d:Z"
+0012: iget-boolean v0, v2, "Lh;->e:Z"
+0014: if-eqz v0, @001b
+0016: invoke-static {v3}, La;->a(Landroid/webkit/WebView;)V
+0019: iput-boolean v1, v2, "Lh;->e:Z"
+001b: return-void
+001c: const-string v0, "adLoader was null while trying to setFinishedLoadingHtml()."
+001e: invoke-static {v0}, Lt;->a(Ljava/lang/String;)V
+0021: goto @0010
+
+## Lh;->shouldOverrideUrlLoading(Landroid/webkit/WebView;Ljava/lang/String;)Z access=0x11
+# code_off=0x25b30 registers=7 incoming_words=3 outgoing_words=4 code_units=90 tries=0
+0000: const/4 v3, 1
+0001: new-instance v0, "Ljava/lang/StringBuilder;"
+0003: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+0006: const-string v1, "shouldOverrideUrlLoading(\""
+0008: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000b: move-result-object v0
+000c: invoke-virtual {v0, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000f: move-result-object v0
+0010: const-string v1, "\")"
+0012: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0015: move-result-object v0
+0016: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0019: move-result-object v0
+001a: invoke-static {v0}, Lt;->a(Ljava/lang/String;)V
+001d: invoke-static {v6}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
+0020: move-result-object v0
+0021: invoke-static {v0}, La;->a(Landroid/net/Uri;)Z
+0024: move-result v1
+0025: if-eqz v1, @002f
+0027: iget-object v1, v4, "Lh;->a:Ld;"
+0029: iget-object v2, v4, "Lh;->b:La$a;"
+002b: invoke-static {v1, v2, v0, v5}, La;->a(Ld;La$a;Landroid/net/Uri;Landroid/webkit/WebView;)V
+002e: return v3
+002f: iget-boolean v0, v4, "Lh;->c:Z"
+0031: if-eqz v0, @0043
+0033: new-instance v0, "Lh$a;"
+0035: iget-object v1, v4, "Lh;->a:Ld;"
+0037: invoke-direct {v0, v1}, Lh$a;-><init>(Ld;)V
+003a: new-array v1, v3, "[Ljava/lang/String;"
+003c: const/4 v2, 0
+003d: aput-object v6, v1, v2
+003f: invoke-virtual {v0, v1}, Lh$a;->execute([Ljava/lang/Object;)Landroid/os/AsyncTask;
+0042: goto @002e
+0043: new-instance v0, "Ljava/lang/StringBuilder;"
+0045: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+0048: const-string v1, "URL is not a GMSG and shouldn't launch intents: "
+004a: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+004d: move-result-object v0
+004e: invoke-virtual {v0, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0051: move-result-object v0
+0052: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0055: move-result-object v0
+0056: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+0059: goto @002e

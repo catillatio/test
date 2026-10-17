@@ -1,0 +1,251 @@
+# class Lcom/google/ads/InstallReceiver; extends Landroid/content/BroadcastReceiver;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/ads/InstallReceiver;-><init>()V access=0x10001
+# code_off=0x18238 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Landroid/content/BroadcastReceiver;-><init>()V
+0003: return-void
+
+## Lcom/google/ads/InstallReceiver;->a(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String; access=0xa
+# code_off=0x18250 registers=10 incoming_words=3 outgoing_words=2 code_units=178 tries=2
+0000: const/4 v1, 0
+0001: const/4 v0, 0
+0002: if-eqz v7, @0060
+0004: const-string v2, "&"
+0006: invoke-virtual {v7, v2}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
+0009: move-result-object v3
+000a: move v2, v0
+000b: move-object v0, v1
+000c: array-length v4, v3
+000d: if-ge v2, v4, @0062
+000f: aget-object v4, v3, v2
+0011: const-string v5, "admob_"
+0013: invoke-virtual {v4, v5}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+0016: move-result v5
+0017: if-eqz v5, @0051
+0019: const-string v5, "admob_"
+001b: invoke-virtual {v5}, Ljava/lang/String;->length()I
+001e: move-result v5
+001f: invoke-virtual {v4, v5}, Ljava/lang/String;->substring(I)Ljava/lang/String;
+0022: move-result-object v4
+0023: const-string v5, "="
+0025: invoke-virtual {v4, v5}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
+0028: move-result-object v4
+0029: const/4 v5, 0
+002a: aget-object v5, v4, v5
+002c: const-string v6, "UTF-8"
+002e: invoke-static {v5, v6}, Ljava/net/URLEncoder;->encode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+0031: move-result-object v5
+0032: const/4 v6, 1
+0033: aget-object v4, v4, v6
+0035: const-string v6, "UTF-8"
+0037: invoke-static {v4, v6}, Ljava/net/URLEncoder;->encode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+003a: move-result-object v4
+003b: if-nez v0, @0054
+003d: new-instance v0, "Ljava/lang/StringBuilder;"
+003f: const/16 v6, 128
+0041: invoke-direct {v0, v6}, Ljava/lang/StringBuilder;-><init>(I)V
+0044: invoke-virtual {v0, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0047: move-result-object v5
+0048: const-string v6, "="
+004a: invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+004d: move-result-object v5
+004e: invoke-virtual {v5, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0051: add-int/lit8 v2, v2, 1
+0053: goto @000c
+0054: const-string v6, "&"
+0056: invoke-virtual {v0, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0059: goto @0044
+005a: move-exception v0
+005b: const-string v2, "Could not create install URL.  Install not tracked."
+005d: invoke-static {v2, v0}, Lt;->a(Ljava/lang/String;Ljava/lang/Throwable;)V
+0060: move-object v0, v1
+0061: return-object v0
+0062: if-eqz v0, @0060
+0064: const-string v2, "UTF-8"
+0066: invoke-static {v8, v2}, Ljava/net/URLEncoder;->encode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+0069: move-result-object v2
+006a: const-string v3, "&"
+006c: invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+006f: move-result-object v3
+0070: const-string v4, "isu"
+0072: invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0075: move-result-object v3
+0076: const-string v4, "="
+0078: invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+007b: move-result-object v3
+007c: invoke-virtual {v3, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+007f: const-string v2, "UTF-8"
+0081: invoke-static {v9, v2}, Ljava/net/URLEncoder;->encode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+0084: move-result-object v2
+0085: const-string v3, "&"
+0087: invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+008a: move-result-object v3
+008b: const-string v4, "app_id"
+008d: invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0090: move-result-object v3
+0091: const-string v4, "="
+0093: invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0096: move-result-object v3
+0097: invoke-virtual {v3, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+009a: new-instance v2, "Ljava/lang/StringBuilder;"
+009c: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+009f: const-string v3, "http://a.admob.com/f0?"
+00a1: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00a4: move-result-object v2
+00a5: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00a8: move-result-object v0
+00a9: invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00ac: move-result-object v0
+00ad: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00b0: move-result-object v0
+00b1: goto @0061
+# try @0004..@0059 handler_offset=1
+# try @0064..@00b0 handler_offset=1
+# handler_offset=1: Ljava/io/UnsupportedEncodingException; -> @005a
+
+## Lcom/google/ads/InstallReceiver;->a(Landroid/content/Context;Landroid/content/Intent;)V access=0xa
+# code_off=0x183dc registers=8 incoming_words=2 outgoing_words=3 code_units=166 tries=5
+0000: invoke-virtual {v6}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
+0003: move-result-object v0
+0004: if-eqz v0, @0083
+0006: new-instance v1, "Landroid/content/ComponentName;"
+0008: const-class v2, "Lcom/google/ads/InstallReceiver;"
+000a: invoke-direct {v1, v6, v2}, Landroid/content/ComponentName;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+000d: const/16 v2, 128
+000f: invoke-virtual {v0, v1, v2}, Landroid/content/pm/PackageManager;->getReceiverInfo(Landroid/content/ComponentName;I)Landroid/content/pm/ActivityInfo;
+0012: move-result-object v2
+0013: if-eqz v2, @0083
+0015: iget-object v0, v2, "Landroid/content/pm/PackageItemInfo;->metaData:Landroid/os/Bundle;"
+0017: if-eqz v0, @0083
+0019: iget-object v0, v2, "Landroid/content/pm/PackageItemInfo;->metaData:Landroid/os/Bundle;"
+001b: invoke-virtual {v0}, Landroid/os/Bundle;->keySet()Ljava/util/Set;
+001e: move-result-object v0
+001f: if-eqz v0, @0083
+0021: invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+0024: move-result-object v3
+0025: invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
+0028: move-result v0
+0029: if-eqz v0, @0083
+002b: invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+002e: move-result-object v0
+002f: check-cast v0, "Ljava/lang/String;"
+0031: const/4 v1, 0
+0032: iget-object v4, v2, "Landroid/content/pm/PackageItemInfo;->metaData:Landroid/os/Bundle;"
+0034: invoke-virtual {v4, v0}, Landroid/os/Bundle;->getString(Ljava/lang/String;)Ljava/lang/String;
+0037: move-result-object v1
+0038: const-string v0, "com.google.android.apps.analytics.AnalyticsReceiver"
+003a: invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+003d: move-result v0
+003e: if-nez v0, @0025
+0040: invoke-static {v1}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
+0043: move-result-object v0
+0044: invoke-virtual {v0}, Ljava/lang/Class;->newInstance()Ljava/lang/Object;
+0047: move-result-object v0
+0048: check-cast v0, "Landroid/content/BroadcastReceiver;"
+004a: invoke-virtual {v0, v6, v7}, Landroid/content/BroadcastReceiver;->onReceive(Landroid/content/Context;Landroid/content/Intent;)V
+004d: new-instance v0, "Ljava/lang/StringBuilder;"
+004f: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+0052: const-string v4, "Successfully forwarded install notification to "
+0054: invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0057: move-result-object v0
+0058: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+005b: move-result-object v0
+005c: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+005f: move-result-object v0
+0060: invoke-static {v0}, Lt;->a(Ljava/lang/String;)V
+0063: goto @0025
+0064: move-exception v0
+0065: new-instance v4, "Ljava/lang/StringBuilder;"
+0067: invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+006a: const-string v5, "Could not forward Market's INSTALL_REFERRER intent to "
+006c: invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+006f: move-result-object v4
+0070: invoke-virtual {v4, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0073: move-result-object v1
+0074: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0077: move-result-object v1
+0078: invoke-static {v1, v0}, Lt;->b(Ljava/lang/String;Ljava/lang/Throwable;)V
+007b: goto @0025
+007c: move-exception v0
+007d: const-string v1, "Unhandled exception while forwarding install intents. Possibly lost some install information."
+007f: invoke-static {v1, v0}, Lt;->b(Ljava/lang/String;Ljava/lang/Throwable;)V
+0082: return-void
+0083: const-string v0, "com.google.android.apps.analytics.AnalyticsReceiver"
+0085: invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
+0088: move-result-object v0
+0089: invoke-virtual {v0}, Ljava/lang/Class;->newInstance()Ljava/lang/Object;
+008c: move-result-object v0
+008d: check-cast v0, "Landroid/content/BroadcastReceiver;"
+008f: invoke-virtual {v0, v6, v7}, Landroid/content/BroadcastReceiver;->onReceive(Landroid/content/Context;Landroid/content/Intent;)V
+0092: const-string v0, "Successfully forwarded install notification to com.google.android.apps.analytics.AnalyticsReceiver"
+0094: invoke-static {v0}, Lt;->a(Ljava/lang/String;)V
+0097: goto @0082
+0098: move-exception v0
+0099: const-string v0, "Google Analytics not installed."
+009b: invoke-static {v0}, Lt;->d(Ljava/lang/String;)V
+009e: goto @0082
+009f: move-exception v0
+00a0: const-string v1, "Exception from the Google Analytics install receiver."
+00a2: invoke-static {v1, v0}, Lt;->b(Ljava/lang/String;Ljava/lang/Throwable;)V
+00a5: goto @0082
+# try @0000..@0031 handler_offset=5
+# try @0032..@0063 handler_offset=1
+# try @0065..@007b handler_offset=5
+# try @0083..@0097 handler_offset=9
+# try @0099..@00a5 handler_offset=5
+# handler_offset=1: Ljava/lang/Exception; -> @0064
+# handler_offset=5: Ljava/lang/Exception; -> @007c
+# handler_offset=9: Ljava/lang/ClassNotFoundException; -> @0098, Ljava/lang/Exception; -> @009f
+
+## Lcom/google/ads/InstallReceiver;->onReceive(Landroid/content/Context;Landroid/content/Intent;)V access=0x1
+# code_off=0x18574 registers=7 incoming_words=3 outgoing_words=3 code_units=96 tries=1
+0000: const-string v0, "referrer"
+0002: invoke-virtual {v6, v0}, Landroid/content/Intent;->getStringExtra(Ljava/lang/String;)Ljava/lang/String;
+0005: move-result-object v0
+0006: invoke-static {v5}, Lu;->a(Landroid/content/Context;)Ljava/lang/String;
+0009: move-result-object v1
+000a: invoke-virtual {v5}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+000d: move-result-object v2
+000e: invoke-static {v0, v1, v2}, Lcom/google/ads/InstallReceiver;->a(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+0011: move-result-object v0
+0012: if-eqz v0, @0030
+0014: new-instance v2, "Ljava/lang/StringBuilder;"
+0016: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+0019: const-string v3, "Processing install from an AdMob ad ("
+001b: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001e: move-result-object v2
+001f: invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0022: move-result-object v2
+0023: const-string v3, ")."
+0025: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0028: move-result-object v2
+0029: invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+002c: move-result-object v2
+002d: invoke-static {v2}, Lt;->d(Ljava/lang/String;)V
+0030: new-instance v2, "Landroid/webkit/WebView;"
+0032: invoke-direct {v2, v5}, Landroid/webkit/WebView;-><init>(Landroid/content/Context;)V
+0035: invoke-virtual {v2}, Landroid/webkit/WebView;->getSettings()Landroid/webkit/WebSettings;
+0038: move-result-object v2
+0039: invoke-virtual {v2}, Landroid/webkit/WebSettings;->getUserAgentString()Ljava/lang/String;
+003c: move-result-object v2
+003d: new-instance v3, "Ljava/net/URL;"
+003f: invoke-direct {v3, v0}, Ljava/net/URL;-><init>(Ljava/lang/String;)V
+0042: invoke-virtual {v3}, Ljava/net/URL;->openConnection()Ljava/net/URLConnection;
+0045: move-result-object v0
+0046: check-cast v0, "Ljava/net/HttpURLConnection;"
+0048: const-string v3, "User-Agent"
+004a: invoke-virtual {v0, v3, v2}, Ljava/net/HttpURLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
+004d: const-string v2, "X-Admob-Isu"
+004f: invoke-virtual {v0, v2, v1}, Ljava/net/HttpURLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
+0052: invoke-virtual {v0}, Ljava/net/HttpURLConnection;->getResponseCode()I
+0055: invoke-static {v5, v6}, Lcom/google/ads/InstallReceiver;->a(Landroid/content/Context;Landroid/content/Intent;)V
+0058: return-void
+0059: move-exception v0
+005a: const-string v1, "Unhandled exception processing Market install."
+005c: invoke-static {v1, v0}, Lt;->a(Ljava/lang/String;Ljava/lang/Throwable;)V
+005f: goto @0058
+# try @0000..@0058 handler_offset=1
+# handler_offset=1: Ljava/lang/Exception; -> @0059

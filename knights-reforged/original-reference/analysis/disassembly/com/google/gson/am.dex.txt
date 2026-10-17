@@ -1,0 +1,8 @@
+# class Lcom/google/gson/am; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/am;->a(Ljava/lang/reflect/Type;)Ljava/lang/Object; access=0x401
+
+## Lcom/google/gson/am;->a(Ljava/lang/reflect/Type;I)Ljava/lang/Object; access=0x401

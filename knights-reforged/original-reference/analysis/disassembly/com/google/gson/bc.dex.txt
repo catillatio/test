@@ -1,0 +1,40 @@
+# class Lcom/google/gson/bc; extends Lcom/google/gson/bb;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/bc;->c:Ljava/lang/Class; access=0x12
+# Lcom/google/gson/bc;->d:Ljava/lang/reflect/Type; access=0x12
+
+## Lcom/google/gson/bc;-><init>(Ljava/lang/reflect/Type;)V access=0x10000
+# code_off=0x2cdd4 registers=5 incoming_words=2 outgoing_words=2 code_units=40 tries=0
+0000: invoke-direct {v3, v4}, Lcom/google/gson/bb;-><init>(Ljava/lang/reflect/Type;)V
+0003: iget-object v0, v3, "Lcom/google/gson/bc;->b:Ljava/lang/Class;"
+0005: invoke-virtual {v0}, Ljava/lang/Class;->isArray()Z
+0008: move-result v1
+0009: if-eqz v1, @0010
+000b: invoke-virtual {v0}, Ljava/lang/Class;->getComponentType()Ljava/lang/Class;
+000e: move-result-object v0
+000f: goto @0005
+0010: iput-object v0, v3, "Lcom/google/gson/bc;->c:Ljava/lang/Class;"
+0012: iget-object v0, v3, "Lcom/google/gson/bc;->a:Ljava/lang/reflect/Type;"
+0014: iget-object v1, v3, "Lcom/google/gson/bc;->b:Ljava/lang/Class;"
+0016: instance-of v2, v0, "Ljava/lang/reflect/GenericArrayType;"
+0018: if-eqz v2, @0023
+001a: check-cast v0, "Ljava/lang/reflect/GenericArrayType;"
+001c: invoke-interface {v0}, Ljava/lang/reflect/GenericArrayType;->getGenericComponentType()Ljava/lang/reflect/Type;
+001f: move-result-object v0
+0020: iput-object v0, v3, "Lcom/google/gson/bc;->d:Ljava/lang/reflect/Type;"
+0022: return-void
+0023: invoke-virtual {v1}, Ljava/lang/Class;->getComponentType()Ljava/lang/Class;
+0026: move-result-object v0
+0027: goto @0020
+
+## Lcom/google/gson/bc;->e()Ljava/lang/reflect/Type; access=0x11
+# code_off=0x2ce34 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/bc;->d:Ljava/lang/reflect/Type;"
+0002: return-object v0
+
+## Lcom/google/gson/bc;->f()Ljava/lang/Class; access=0x11
+# code_off=0x2ce4c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/bc;->c:Ljava/lang/Class;"
+0002: return-object v0

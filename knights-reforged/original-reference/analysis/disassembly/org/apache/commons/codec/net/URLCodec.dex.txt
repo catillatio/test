@@ -1,0 +1,319 @@
+# class Lorg/apache/commons/codec/net/URLCodec; extends Ljava/lang/Object;
+# interfaces Lorg/apache/commons/codec/BinaryEncoder;, Lorg/apache/commons/codec/BinaryDecoder;, Lorg/apache/commons/codec/StringEncoder;, Lorg/apache/commons/codec/StringDecoder;
+# source URLCodec.java
+# fields
+# Lorg/apache/commons/codec/net/URLCodec;->ESCAPE_CHAR:B access=0xc
+# Lorg/apache/commons/codec/net/URLCodec;->RADIX:I access=0x18
+# Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet; access=0x1c
+# Lorg/apache/commons/codec/net/URLCodec;->charset:Ljava/lang/String; access=0x4
+
+## Lorg/apache/commons/codec/net/URLCodec;-><clinit>()V access=0x10008
+# code_off=0x370e0 registers=3 incoming_words=0 outgoing_words=2 code_units=91 tries=0
+0000: const/16 v1, 37
+0002: sput-byte v1, "Lorg/apache/commons/codec/net/URLCodec;->ESCAPE_CHAR:B"
+0004: new-instance v1, "Ljava/util/BitSet;"
+0006: const/16 v2, 256
+0008: invoke-direct {v1, v2}, Ljava/util/BitSet;-><init>(I)V
+000b: sput-object v1, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+000d: const/16 v0, 97
+000f: const/16 v1, 122
+0011: if-gt v0, v1, @001b
+0013: sget-object v1, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+0015: invoke-virtual {v1, v0}, Ljava/util/BitSet;->set(I)V
+0018: add-int/lit8 v0, v0, 1
+001a: goto @000f
+001b: const/16 v0, 65
+001d: const/16 v1, 90
+001f: if-gt v0, v1, @0029
+0021: sget-object v1, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+0023: invoke-virtual {v1, v0}, Ljava/util/BitSet;->set(I)V
+0026: add-int/lit8 v0, v0, 1
+0028: goto @001d
+0029: const/16 v0, 48
+002b: const/16 v1, 57
+002d: if-gt v0, v1, @0037
+002f: sget-object v1, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+0031: invoke-virtual {v1, v0}, Ljava/util/BitSet;->set(I)V
+0034: add-int/lit8 v0, v0, 1
+0036: goto @002b
+0037: sget-object v1, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+0039: const/16 v2, 45
+003b: invoke-virtual {v1, v2}, Ljava/util/BitSet;->set(I)V
+003e: sget-object v1, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+0040: const/16 v2, 95
+0042: invoke-virtual {v1, v2}, Ljava/util/BitSet;->set(I)V
+0045: sget-object v1, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+0047: const/16 v2, 46
+0049: invoke-virtual {v1, v2}, Ljava/util/BitSet;->set(I)V
+004c: sget-object v1, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+004e: const/16 v2, 42
+0050: invoke-virtual {v1, v2}, Ljava/util/BitSet;->set(I)V
+0053: sget-object v1, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+0055: const/16 v2, 32
+0057: invoke-virtual {v1, v2}, Ljava/util/BitSet;->set(I)V
+005a: return-void
+
+## Lorg/apache/commons/codec/net/URLCodec;-><init>()V access=0x10001
+# code_off=0x371a8 registers=2 incoming_words=1 outgoing_words=2 code_units=6 tries=0
+0000: const-string v0, "UTF-8"
+0002: invoke-direct {v1, v0}, Lorg/apache/commons/codec/net/URLCodec;-><init>(Ljava/lang/String;)V
+0005: return-void
+
+## Lorg/apache/commons/codec/net/URLCodec;-><init>(Ljava/lang/String;)V access=0x10001
+# code_off=0x371c4 registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lorg/apache/commons/codec/net/URLCodec;->charset:Ljava/lang/String;"
+0005: return-void
+
+## Lorg/apache/commons/codec/net/URLCodec;->decodeUrl([B)[B access=0x19
+# code_off=0x371e0 registers=9 incoming_words=1 outgoing_words=3 code_units=73 tries=1
+0000: if-nez v8, @0004
+0002: const/4 v6, 0
+0003: return-object v6
+0004: new-instance v1, "Ljava/io/ByteArrayOutputStream;"
+0006: invoke-direct {v1}, Ljava/io/ByteArrayOutputStream;-><init>()V
+0009: const/4 v3, 0
+000a: array-length v6, v8
+000b: if-ge v3, v6, @0044
+000d: aget-byte v0, v8, v3
+000f: const/16 v6, 43
+0011: if-ne v0, v6, @001b
+0013: const/16 v6, 32
+0015: invoke-virtual {v1, v6}, Ljava/io/ByteArrayOutputStream;->write(I)V
+0018: add-int/lit8 v3, v3, 1
+001a: goto @000a
+001b: sget-byte v6, "Lorg/apache/commons/codec/net/URLCodec;->ESCAPE_CHAR:B"
+001d: if-ne v0, v6, @0040
+001f: add-int/lit8 v3, v3, 1
+0021: aget-byte v6, v8, v3
+0023: invoke-static {v6}, Lorg/apache/commons/codec/net/Utils;->digit16(B)I
+0026: move-result v5
+0027: add-int/lit8 v3, v3, 1
+0029: aget-byte v6, v8, v3
+002b: invoke-static {v6}, Lorg/apache/commons/codec/net/Utils;->digit16(B)I
+002e: move-result v4
+002f: shl-int/lit8 v6, v5, 4
+0031: add-int/2addr v6, v4
+0032: int-to-char v6, v6
+0033: invoke-virtual {v1, v6}, Ljava/io/ByteArrayOutputStream;->write(I)V
+0036: goto @0018
+0037: move-exception v2
+0038: new-instance v6, "Lorg/apache/commons/codec/DecoderException;"
+003a: const-string v7, "Invalid URL encoding: "
+003c: invoke-direct {v6, v7, v2}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+003f: throw v6
+0040: invoke-virtual {v1, v0}, Ljava/io/ByteArrayOutputStream;->write(I)V
+0043: goto @0018
+0044: invoke-virtual {v1}, Ljava/io/ByteArrayOutputStream;->toByteArray()[B
+0047: move-result-object v6
+0048: goto @0003
+# try @0021..@0036 handler_offset=1
+# handler_offset=1: Ljava/lang/ArrayIndexOutOfBoundsException; -> @0037
+
+## Lorg/apache/commons/codec/net/URLCodec;->encodeUrl(Ljava/util/BitSet;[B)[B access=0x19
+# code_off=0x37294 registers=9 incoming_words=2 outgoing_words=2 code_units=82 tries=0
+0000: const/16 v6, 16
+0002: if-nez v8, @0006
+0004: const/4 v5, 0
+0005: return-object v5
+0006: if-nez v7, @000a
+0008: sget-object v7, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+000a: new-instance v1, "Ljava/io/ByteArrayOutputStream;"
+000c: invoke-direct {v1}, Ljava/io/ByteArrayOutputStream;-><init>()V
+000f: const/4 v4, 0
+0010: array-length v5, v8
+0011: if-ge v4, v5, @004d
+0013: aget-byte v0, v8, v4
+0015: if-gez v0, @0019
+0017: add-int/lit16 v0, v0, 256
+0019: invoke-virtual {v7, v0}, Ljava/util/BitSet;->get(I)Z
+001c: move-result v5
+001d: if-eqz v5, @002b
+001f: const/16 v5, 32
+0021: if-ne v0, v5, @0025
+0023: const/16 v0, 43
+0025: invoke-virtual {v1, v0}, Ljava/io/ByteArrayOutputStream;->write(I)V
+0028: add-int/lit8 v4, v4, 1
+002a: goto @0010
+002b: sget-byte v5, "Lorg/apache/commons/codec/net/URLCodec;->ESCAPE_CHAR:B"
+002d: invoke-virtual {v1, v5}, Ljava/io/ByteArrayOutputStream;->write(I)V
+0030: shr-int/lit8 v5, v0, 4
+0032: and-int/lit8 v5, v5, 15
+0034: invoke-static {v5, v6}, Ljava/lang/Character;->forDigit(II)C
+0037: move-result v5
+0038: invoke-static {v5}, Ljava/lang/Character;->toUpperCase(C)C
+003b: move-result v2
+003c: and-int/lit8 v5, v0, 15
+003e: invoke-static {v5, v6}, Ljava/lang/Character;->forDigit(II)C
+0041: move-result v5
+0042: invoke-static {v5}, Ljava/lang/Character;->toUpperCase(C)C
+0045: move-result v3
+0046: invoke-virtual {v1, v2}, Ljava/io/ByteArrayOutputStream;->write(I)V
+0049: invoke-virtual {v1, v3}, Ljava/io/ByteArrayOutputStream;->write(I)V
+004c: goto @0028
+004d: invoke-virtual {v1}, Ljava/io/ByteArrayOutputStream;->toByteArray()[B
+0050: move-result-object v5
+0051: goto @0005
+
+## Lorg/apache/commons/codec/net/URLCodec;->decode(Ljava/lang/Object;)Ljava/lang/Object; access=0x1
+# code_off=0x37348 registers=5 incoming_words=2 outgoing_words=2 code_units=67 tries=0
+0000: if-nez v4, @0004
+0002: const/4 v0, 0
+0003: return-object v0
+0004: instance-of v0, v4, "[B"
+0006: if-eqz v0, @0011
+0008: check-cast v4, "[B"
+000a: check-cast v4, "[B"
+000c: invoke-virtual {v3, v4}, Lorg/apache/commons/codec/net/URLCodec;->decode([B)[B
+000f: move-result-object v0
+0010: goto @0003
+0011: instance-of v0, v4, "Ljava/lang/String;"
+0013: if-eqz v0, @001c
+0015: check-cast v4, "Ljava/lang/String;"
+0017: invoke-virtual {v3, v4}, Lorg/apache/commons/codec/net/URLCodec;->decode(Ljava/lang/String;)Ljava/lang/String;
+001a: move-result-object v0
+001b: goto @0003
+001c: new-instance v0, "Lorg/apache/commons/codec/DecoderException;"
+001e: new-instance v1, "Ljava/lang/StringBuffer;"
+0020: invoke-direct {v1}, Ljava/lang/StringBuffer;-><init>()V
+0023: const-string v2, "Objects of type "
+0025: invoke-virtual {v1, v2}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0028: move-result-object v1
+0029: invoke-virtual {v4}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+002c: move-result-object v2
+002d: invoke-virtual {v2}, Ljava/lang/Class;->getName()Ljava/lang/String;
+0030: move-result-object v2
+0031: invoke-virtual {v1, v2}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0034: move-result-object v1
+0035: const-string v2, " cannot be URL decoded"
+0037: invoke-virtual {v1, v2}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+003a: move-result-object v1
+003b: invoke-virtual {v1}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+003e: move-result-object v1
+003f: invoke-direct {v0, v1}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;)V
+0042: throw v0
+
+## Lorg/apache/commons/codec/net/URLCodec;->decode(Ljava/lang/String;)Ljava/lang/String; access=0x1
+# code_off=0x373e0 registers=5 incoming_words=2 outgoing_words=3 code_units=24 tries=1
+0000: if-nez v4, @0004
+0002: const/4 v1, 0
+0003: return-object v1
+0004: invoke-virtual {v3}, Lorg/apache/commons/codec/net/URLCodec;->getDefaultCharset()Ljava/lang/String;
+0007: move-result-object v1
+0008: invoke-virtual {v3, v4, v1}, Lorg/apache/commons/codec/net/URLCodec;->decode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+000b: move-result-object v1
+000c: goto @0003
+000d: move-exception v0
+000e: new-instance v1, "Lorg/apache/commons/codec/DecoderException;"
+0010: invoke-virtual {v0}, Ljava/io/UnsupportedEncodingException;->getMessage()Ljava/lang/String;
+0013: move-result-object v2
+0014: invoke-direct {v1, v2, v0}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0017: throw v1
+# try @0004..@000b handler_offset=1
+# handler_offset=1: Ljava/io/UnsupportedEncodingException; -> @000d
+
+## Lorg/apache/commons/codec/net/URLCodec;->decode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String; access=0x1
+# code_off=0x37430 registers=5 incoming_words=3 outgoing_words=3 code_units=18 tries=0
+0000: if-nez v3, @0004
+0002: const/4 v0, 0
+0003: return-object v0
+0004: new-instance v0, "Ljava/lang/String;"
+0006: invoke-static {v3}, Lorg/apache/commons/codec/binary/StringUtils;->getBytesUsAscii(Ljava/lang/String;)[B
+0009: move-result-object v1
+000a: invoke-virtual {v2, v1}, Lorg/apache/commons/codec/net/URLCodec;->decode([B)[B
+000d: move-result-object v1
+000e: invoke-direct {v0, v1, v4}, Ljava/lang/String;-><init>([BLjava/lang/String;)V
+0011: goto @0003
+
+## Lorg/apache/commons/codec/net/URLCodec;->decode([B)[B access=0x1
+# code_off=0x37464 registers=3 incoming_words=2 outgoing_words=1 code_units=5 tries=0
+0000: invoke-static {v2}, Lorg/apache/commons/codec/net/URLCodec;->decodeUrl([B)[B
+0003: move-result-object v0
+0004: return-object v0
+
+## Lorg/apache/commons/codec/net/URLCodec;->encode(Ljava/lang/Object;)Ljava/lang/Object; access=0x1
+# code_off=0x37480 registers=5 incoming_words=2 outgoing_words=2 code_units=67 tries=0
+0000: if-nez v4, @0004
+0002: const/4 v0, 0
+0003: return-object v0
+0004: instance-of v0, v4, "[B"
+0006: if-eqz v0, @0011
+0008: check-cast v4, "[B"
+000a: check-cast v4, "[B"
+000c: invoke-virtual {v3, v4}, Lorg/apache/commons/codec/net/URLCodec;->encode([B)[B
+000f: move-result-object v0
+0010: goto @0003
+0011: instance-of v0, v4, "Ljava/lang/String;"
+0013: if-eqz v0, @001c
+0015: check-cast v4, "Ljava/lang/String;"
+0017: invoke-virtual {v3, v4}, Lorg/apache/commons/codec/net/URLCodec;->encode(Ljava/lang/String;)Ljava/lang/String;
+001a: move-result-object v0
+001b: goto @0003
+001c: new-instance v0, "Lorg/apache/commons/codec/EncoderException;"
+001e: new-instance v1, "Ljava/lang/StringBuffer;"
+0020: invoke-direct {v1}, Ljava/lang/StringBuffer;-><init>()V
+0023: const-string v2, "Objects of type "
+0025: invoke-virtual {v1, v2}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0028: move-result-object v1
+0029: invoke-virtual {v4}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+002c: move-result-object v2
+002d: invoke-virtual {v2}, Ljava/lang/Class;->getName()Ljava/lang/String;
+0030: move-result-object v2
+0031: invoke-virtual {v1, v2}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0034: move-result-object v1
+0035: const-string v2, " cannot be URL encoded"
+0037: invoke-virtual {v1, v2}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+003a: move-result-object v1
+003b: invoke-virtual {v1}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+003e: move-result-object v1
+003f: invoke-direct {v0, v1}, Lorg/apache/commons/codec/EncoderException;-><init>(Ljava/lang/String;)V
+0042: throw v0
+
+## Lorg/apache/commons/codec/net/URLCodec;->encode(Ljava/lang/String;)Ljava/lang/String; access=0x1
+# code_off=0x37518 registers=5 incoming_words=2 outgoing_words=3 code_units=24 tries=1
+0000: if-nez v4, @0004
+0002: const/4 v1, 0
+0003: return-object v1
+0004: invoke-virtual {v3}, Lorg/apache/commons/codec/net/URLCodec;->getDefaultCharset()Ljava/lang/String;
+0007: move-result-object v1
+0008: invoke-virtual {v3, v4, v1}, Lorg/apache/commons/codec/net/URLCodec;->encode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+000b: move-result-object v1
+000c: goto @0003
+000d: move-exception v0
+000e: new-instance v1, "Lorg/apache/commons/codec/EncoderException;"
+0010: invoke-virtual {v0}, Ljava/io/UnsupportedEncodingException;->getMessage()Ljava/lang/String;
+0013: move-result-object v2
+0014: invoke-direct {v1, v2, v0}, Lorg/apache/commons/codec/EncoderException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0017: throw v1
+# try @0004..@000b handler_offset=1
+# handler_offset=1: Ljava/io/UnsupportedEncodingException; -> @000d
+
+## Lorg/apache/commons/codec/net/URLCodec;->encode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String; access=0x1
+# code_off=0x37568 registers=4 incoming_words=3 outgoing_words=2 code_units=17 tries=0
+0000: if-nez v2, @0004
+0002: const/4 v0, 0
+0003: return-object v0
+0004: invoke-virtual {v2, v3}, Ljava/lang/String;->getBytes(Ljava/lang/String;)[B
+0007: move-result-object v0
+0008: invoke-virtual {v1, v0}, Lorg/apache/commons/codec/net/URLCodec;->encode([B)[B
+000b: move-result-object v0
+000c: invoke-static {v0}, Lorg/apache/commons/codec/binary/StringUtils;->newStringUsAscii([B)Ljava/lang/String;
+000f: move-result-object v0
+0010: goto @0003
+
+## Lorg/apache/commons/codec/net/URLCodec;->encode([B)[B access=0x1
+# code_off=0x3759c registers=3 incoming_words=2 outgoing_words=2 code_units=7 tries=0
+0000: sget-object v0, "Lorg/apache/commons/codec/net/URLCodec;->WWW_FORM_URL:Ljava/util/BitSet;"
+0002: invoke-static {v0, v2}, Lorg/apache/commons/codec/net/URLCodec;->encodeUrl(Ljava/util/BitSet;[B)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/net/URLCodec;->getDefaultCharset()Ljava/lang/String; access=0x1
+# code_off=0x375bc registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lorg/apache/commons/codec/net/URLCodec;->charset:Ljava/lang/String;"
+0002: return-object v0
+
+## Lorg/apache/commons/codec/net/URLCodec;->getEncoding()Ljava/lang/String; access=0x1
+# code_off=0x375d4 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lorg/apache/commons/codec/net/URLCodec;->charset:Ljava/lang/String;"
+0002: return-object v0

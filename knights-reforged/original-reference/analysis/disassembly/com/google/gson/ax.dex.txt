@@ -1,0 +1,394 @@
+# class Lcom/google/gson/ax; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/ax;->a:I access=0x0
+# Lcom/google/gson/ax;->b:I access=0x0
+# Lcom/google/gson/ax;->c:I access=0x0
+# Lcom/google/gson/ax;->d:I access=0x1
+# Lcom/google/gson/ax;->e:[I access=0x4
+# Lcom/google/gson/ax;->f:[I access=0x4
+# Lcom/google/gson/ax;->g:I access=0x4
+# Lcom/google/gson/ax;->h:I access=0x4
+# Lcom/google/gson/ax;->i:Z access=0x4
+# Lcom/google/gson/ax;->j:Z access=0x4
+# Lcom/google/gson/ax;->k:Ljava/io/Reader; access=0x4
+# Lcom/google/gson/ax;->l:[C access=0x4
+# Lcom/google/gson/ax;->m:I access=0x4
+# Lcom/google/gson/ax;->n:I access=0x4
+# Lcom/google/gson/ax;->o:I access=0x4
+
+## Lcom/google/gson/ax;-><init>(Ljava/io/Reader;)V access=0x10001
+# code_off=0x1c014 registers=3 incoming_words=2 outgoing_words=3 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v2, v0}, Lcom/google/gson/ax;-><init>(Ljava/io/Reader;B)V
+0004: return-void
+
+## Lcom/google/gson/ax;-><init>(Ljava/io/Reader;B)V access=0x10002
+# code_off=0x1c030 registers=7 incoming_words=3 outgoing_words=1 code_units=49 tries=0
+0000: const/4 v3, 1
+0001: const/16 v2, 4096
+0003: const/4 v1, 0
+0004: invoke-direct {v4}, Ljava/lang/Object;-><init>()V
+0007: const/4 v0, -1
+0008: iput v0, v4, "Lcom/google/gson/ax;->d:I"
+000a: iput v1, v4, "Lcom/google/gson/ax;->g:I"
+000c: iput v3, v4, "Lcom/google/gson/ax;->h:I"
+000e: iput-boolean v1, v4, "Lcom/google/gson/ax;->i:Z"
+0010: iput-boolean v1, v4, "Lcom/google/gson/ax;->j:Z"
+0012: iput v1, v4, "Lcom/google/gson/ax;->m:I"
+0014: iput v1, v4, "Lcom/google/gson/ax;->n:I"
+0016: const/16 v0, 8
+0018: iput v0, v4, "Lcom/google/gson/ax;->o:I"
+001a: iput-object v5, v4, "Lcom/google/gson/ax;->k:Ljava/io/Reader;"
+001c: iput v3, v4, "Lcom/google/gson/ax;->h:I"
+001e: iput v1, v4, "Lcom/google/gson/ax;->g:I"
+0020: iput v2, v4, "Lcom/google/gson/ax;->a:I"
+0022: iput v2, v4, "Lcom/google/gson/ax;->b:I"
+0024: new-array v0, v2, "[C"
+0026: iput-object v0, v4, "Lcom/google/gson/ax;->l:[C"
+0028: new-array v0, v2, "[I"
+002a: iput-object v0, v4, "Lcom/google/gson/ax;->e:[I"
+002c: new-array v0, v2, "[I"
+002e: iput-object v0, v4, "Lcom/google/gson/ax;->f:[I"
+0030: return-void
+
+## Lcom/google/gson/ax;->a(Z)V access=0x2
+# code_off=0x1c0a4 registers=11 incoming_words=2 outgoing_words=5 code_units=196 tries=2
+0000: const/4 v8, 0
+0001: iget v0, v9, "Lcom/google/gson/ax;->a:I"
+0003: add-int/lit16 v0, v0, 2048
+0005: new-array v0, v0, "[C"
+0007: iget v1, v9, "Lcom/google/gson/ax;->a:I"
+0009: add-int/lit16 v1, v1, 2048
+000b: new-array v1, v1, "[I"
+000d: iget v2, v9, "Lcom/google/gson/ax;->a:I"
+000f: add-int/lit16 v2, v2, 2048
+0011: new-array v2, v2, "[I"
+0013: if-eqz v10, @0082
+0015: iget-object v3, v9, "Lcom/google/gson/ax;->l:[C"
+0017: iget v4, v9, "Lcom/google/gson/ax;->c:I"
+0019: const/4 v5, 0
+001a: iget v6, v9, "Lcom/google/gson/ax;->a:I"
+001c: iget v7, v9, "Lcom/google/gson/ax;->c:I"
+001e: sub-int/2addr v6, v7
+001f: invoke-static {v3, v4, v0, v5, v6}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+0022: iget-object v3, v9, "Lcom/google/gson/ax;->l:[C"
+0024: const/4 v4, 0
+0025: iget v5, v9, "Lcom/google/gson/ax;->a:I"
+0027: iget v6, v9, "Lcom/google/gson/ax;->c:I"
+0029: sub-int/2addr v5, v6
+002a: iget v6, v9, "Lcom/google/gson/ax;->d:I"
+002c: invoke-static {v3, v4, v0, v5, v6}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+002f: iput-object v0, v9, "Lcom/google/gson/ax;->l:[C"
+0031: iget-object v0, v9, "Lcom/google/gson/ax;->e:[I"
+0033: iget v3, v9, "Lcom/google/gson/ax;->c:I"
+0035: const/4 v4, 0
+0036: iget v5, v9, "Lcom/google/gson/ax;->a:I"
+0038: iget v6, v9, "Lcom/google/gson/ax;->c:I"
+003a: sub-int/2addr v5, v6
+003b: invoke-static {v0, v3, v1, v4, v5}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+003e: iget-object v0, v9, "Lcom/google/gson/ax;->e:[I"
+0040: const/4 v3, 0
+0041: iget v4, v9, "Lcom/google/gson/ax;->a:I"
+0043: iget v5, v9, "Lcom/google/gson/ax;->c:I"
+0045: sub-int/2addr v4, v5
+0046: iget v5, v9, "Lcom/google/gson/ax;->d:I"
+0048: invoke-static {v0, v3, v1, v4, v5}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+004b: iput-object v1, v9, "Lcom/google/gson/ax;->e:[I"
+004d: iget-object v0, v9, "Lcom/google/gson/ax;->f:[I"
+004f: iget v1, v9, "Lcom/google/gson/ax;->c:I"
+0051: const/4 v3, 0
+0052: iget v4, v9, "Lcom/google/gson/ax;->a:I"
+0054: iget v5, v9, "Lcom/google/gson/ax;->c:I"
+0056: sub-int/2addr v4, v5
+0057: invoke-static {v0, v1, v2, v3, v4}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+005a: iget-object v0, v9, "Lcom/google/gson/ax;->f:[I"
+005c: const/4 v1, 0
+005d: iget v3, v9, "Lcom/google/gson/ax;->a:I"
+005f: iget v4, v9, "Lcom/google/gson/ax;->c:I"
+0061: sub-int/2addr v3, v4
+0062: iget v4, v9, "Lcom/google/gson/ax;->d:I"
+0064: invoke-static {v0, v1, v2, v3, v4}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+0067: iput-object v2, v9, "Lcom/google/gson/ax;->f:[I"
+0069: iget v0, v9, "Lcom/google/gson/ax;->d:I"
+006b: iget v1, v9, "Lcom/google/gson/ax;->a:I"
+006d: iget v2, v9, "Lcom/google/gson/ax;->c:I"
+006f: sub-int/2addr v1, v2
+0070: add-int/2addr v0, v1
+0071: iput v0, v9, "Lcom/google/gson/ax;->d:I"
+0073: iput v0, v9, "Lcom/google/gson/ax;->m:I"
+0075: iget v0, v9, "Lcom/google/gson/ax;->a:I"
+0077: add-int/lit16 v0, v0, 2048
+0079: iput v0, v9, "Lcom/google/gson/ax;->a:I"
+007b: iget v0, v9, "Lcom/google/gson/ax;->a:I"
+007d: iput v0, v9, "Lcom/google/gson/ax;->b:I"
+007f: iput v8, v9, "Lcom/google/gson/ax;->c:I"
+0081: return-void
+0082: iget-object v3, v9, "Lcom/google/gson/ax;->l:[C"
+0084: iget v4, v9, "Lcom/google/gson/ax;->c:I"
+0086: const/4 v5, 0
+0087: iget v6, v9, "Lcom/google/gson/ax;->a:I"
+0089: iget v7, v9, "Lcom/google/gson/ax;->c:I"
+008b: sub-int/2addr v6, v7
+008c: invoke-static {v3, v4, v0, v5, v6}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+008f: iput-object v0, v9, "Lcom/google/gson/ax;->l:[C"
+0091: iget-object v0, v9, "Lcom/google/gson/ax;->e:[I"
+0093: iget v3, v9, "Lcom/google/gson/ax;->c:I"
+0095: const/4 v4, 0
+0096: iget v5, v9, "Lcom/google/gson/ax;->a:I"
+0098: iget v6, v9, "Lcom/google/gson/ax;->c:I"
+009a: sub-int/2addr v5, v6
+009b: invoke-static {v0, v3, v1, v4, v5}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+009e: iput-object v1, v9, "Lcom/google/gson/ax;->e:[I"
+00a0: iget-object v0, v9, "Lcom/google/gson/ax;->f:[I"
+00a2: iget v1, v9, "Lcom/google/gson/ax;->c:I"
+00a4: const/4 v3, 0
+00a5: iget v4, v9, "Lcom/google/gson/ax;->a:I"
+00a7: iget v5, v9, "Lcom/google/gson/ax;->c:I"
+00a9: sub-int/2addr v4, v5
+00aa: invoke-static {v0, v1, v2, v3, v4}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+00ad: iput-object v2, v9, "Lcom/google/gson/ax;->f:[I"
+00af: iget v0, v9, "Lcom/google/gson/ax;->d:I"
+00b1: iget v1, v9, "Lcom/google/gson/ax;->c:I"
+00b3: sub-int/2addr v0, v1
+00b4: iput v0, v9, "Lcom/google/gson/ax;->d:I"
+00b6: iput v0, v9, "Lcom/google/gson/ax;->m:I"
+00b8: goto @0075
+00b9: move-exception v0
+00ba: new-instance v1, "Ljava/lang/Error;"
+00bc: invoke-virtual {v0}, Ljava/lang/Throwable;->getMessage()Ljava/lang/String;
+00bf: move-result-object v0
+00c0: invoke-direct {v1, v0}, Ljava/lang/Error;-><init>(Ljava/lang/String;)V
+00c3: throw v1
+# try @0015..@0075 handler_offset=1
+# try @0082..@00b8 handler_offset=1
+# handler_offset=1: Ljava/lang/Throwable; -> @00b9
+
+## Lcom/google/gson/ax;->a()C access=0x11
+# code_off=0x1c254 registers=3 incoming_words=1 outgoing_words=1 code_units=12 tries=0
+0000: const/4 v0, -1
+0001: iput v0, v2, "Lcom/google/gson/ax;->c:I"
+0003: invoke-virtual {v2}, Lcom/google/gson/ax;->b()C
+0006: move-result v0
+0007: iget v1, v2, "Lcom/google/gson/ax;->d:I"
+0009: iput v1, v2, "Lcom/google/gson/ax;->c:I"
+000b: return v0
+
+## Lcom/google/gson/ax;->a(I)V access=0x11
+# code_off=0x1c27c registers=4 incoming_words=2 outgoing_words=0 code_units=20 tries=0
+0000: iget v0, v2, "Lcom/google/gson/ax;->n:I"
+0002: add-int/2addr v0, v3
+0003: iput v0, v2, "Lcom/google/gson/ax;->n:I"
+0005: iget v0, v2, "Lcom/google/gson/ax;->d:I"
+0007: sub-int/2addr v0, v3
+0008: iput v0, v2, "Lcom/google/gson/ax;->d:I"
+000a: if-gez v0, @0013
+000c: iget v0, v2, "Lcom/google/gson/ax;->d:I"
+000e: iget v1, v2, "Lcom/google/gson/ax;->a:I"
+0010: add-int/2addr v0, v1
+0011: iput v0, v2, "Lcom/google/gson/ax;->d:I"
+0013: return-void
+
+## Lcom/google/gson/ax;->b()C access=0x11
+# code_off=0x1c2b4 registers=9 incoming_words=1 outgoing_words=4 code_units=260 tries=2
+0000: const/16 v2, 2048
+0002: const/4 v7, -1
+0003: const/4 v6, 1
+0004: const/4 v5, 0
+0005: iget v0, v8, "Lcom/google/gson/ax;->n:I"
+0007: if-lez v0, @0022
+0009: iget v0, v8, "Lcom/google/gson/ax;->n:I"
+000b: add-int/lit8 v0, v0, -1
+000d: iput v0, v8, "Lcom/google/gson/ax;->n:I"
+000f: iget v0, v8, "Lcom/google/gson/ax;->d:I"
+0011: add-int/lit8 v0, v0, 1
+0013: iput v0, v8, "Lcom/google/gson/ax;->d:I"
+0015: iget v1, v8, "Lcom/google/gson/ax;->a:I"
+0017: if-ne v0, v1, @001b
+0019: iput v5, v8, "Lcom/google/gson/ax;->d:I"
+001b: iget-object v0, v8, "Lcom/google/gson/ax;->l:[C"
+001d: iget v1, v8, "Lcom/google/gson/ax;->d:I"
+001f: aget-char v0, v0, v1
+0021: return v0
+0022: iget v0, v8, "Lcom/google/gson/ax;->d:I"
+0024: add-int/lit8 v0, v0, 1
+0026: iput v0, v8, "Lcom/google/gson/ax;->d:I"
+0028: iget v1, v8, "Lcom/google/gson/ax;->m:I"
+002a: if-lt v0, v1, @00a0
+002c: iget v0, v8, "Lcom/google/gson/ax;->m:I"
+002e: iget v1, v8, "Lcom/google/gson/ax;->b:I"
+0030: if-ne v0, v1, @0044
+0032: iget v0, v8, "Lcom/google/gson/ax;->b:I"
+0034: iget v1, v8, "Lcom/google/gson/ax;->a:I"
+0036: if-ne v0, v1, @0080
+0038: iget v0, v8, "Lcom/google/gson/ax;->c:I"
+003a: if-le v0, v2, @0073
+003c: iput v5, v8, "Lcom/google/gson/ax;->m:I"
+003e: iput v5, v8, "Lcom/google/gson/ax;->d:I"
+0040: iget v0, v8, "Lcom/google/gson/ax;->c:I"
+0042: iput v0, v8, "Lcom/google/gson/ax;->b:I"
+0044: iget-object v0, v8, "Lcom/google/gson/ax;->k:Ljava/io/Reader;"
+0046: iget-object v1, v8, "Lcom/google/gson/ax;->l:[C"
+0048: iget v2, v8, "Lcom/google/gson/ax;->m:I"
+004a: iget v3, v8, "Lcom/google/gson/ax;->b:I"
+004c: iget v4, v8, "Lcom/google/gson/ax;->m:I"
+004e: sub-int/2addr v3, v4
+004f: invoke-virtual {v0, v1, v2, v3}, Ljava/io/Reader;->read([CII)I
+0052: move-result v0
+0053: if-ne v0, v7, @009b
+0055: iget-object v0, v8, "Lcom/google/gson/ax;->k:Ljava/io/Reader;"
+0057: invoke-virtual {v0}, Ljava/io/Reader;->close()V
+005a: new-instance v0, "Ljava/io/IOException;"
+005c: invoke-direct {v0}, Ljava/io/IOException;-><init>()V
+005f: throw v0
+0060: move-exception v0
+0061: iget v1, v8, "Lcom/google/gson/ax;->d:I"
+0063: add-int/lit8 v1, v1, -1
+0065: iput v1, v8, "Lcom/google/gson/ax;->d:I"
+0067: invoke-virtual {v8, v5}, Lcom/google/gson/ax;->a(I)V
+006a: iget v1, v8, "Lcom/google/gson/ax;->c:I"
+006c: if-ne v1, v7, @0072
+006e: iget v1, v8, "Lcom/google/gson/ax;->d:I"
+0070: iput v1, v8, "Lcom/google/gson/ax;->c:I"
+0072: throw v0
+0073: iget v0, v8, "Lcom/google/gson/ax;->c:I"
+0075: if-gez v0, @007c
+0077: iput v5, v8, "Lcom/google/gson/ax;->m:I"
+0079: iput v5, v8, "Lcom/google/gson/ax;->d:I"
+007b: goto @0044
+007c: invoke-direct {v8, v5}, Lcom/google/gson/ax;->a(Z)V
+007f: goto @0044
+0080: iget v0, v8, "Lcom/google/gson/ax;->b:I"
+0082: iget v1, v8, "Lcom/google/gson/ax;->c:I"
+0084: if-le v0, v1, @008b
+0086: iget v0, v8, "Lcom/google/gson/ax;->a:I"
+0088: iput v0, v8, "Lcom/google/gson/ax;->b:I"
+008a: goto @0044
+008b: iget v0, v8, "Lcom/google/gson/ax;->c:I"
+008d: iget v1, v8, "Lcom/google/gson/ax;->b:I"
+008f: sub-int/2addr v0, v1
+0090: if-ge v0, v2, @0096
+0092: invoke-direct {v8, v6}, Lcom/google/gson/ax;->a(Z)V
+0095: goto @0044
+0096: iget v0, v8, "Lcom/google/gson/ax;->c:I"
+0098: iput v0, v8, "Lcom/google/gson/ax;->b:I"
+009a: goto @0044
+009b: iget v1, v8, "Lcom/google/gson/ax;->m:I"
+009d: add-int/2addr v0, v1
+009e: iput v0, v8, "Lcom/google/gson/ax;->m:I"
+00a0: iget-object v0, v8, "Lcom/google/gson/ax;->l:[C"
+00a2: iget v1, v8, "Lcom/google/gson/ax;->d:I"
+00a4: aget-char v0, v0, v1
+00a6: iget v1, v8, "Lcom/google/gson/ax;->g:I"
+00a8: add-int/lit8 v1, v1, 1
+00aa: iput v1, v8, "Lcom/google/gson/ax;->g:I"
+00ac: iget-boolean v1, v8, "Lcom/google/gson/ax;->j:Z"
+00ae: if-eqz v1, @00cf
+00b0: iput-boolean v5, v8, "Lcom/google/gson/ax;->j:Z"
+00b2: iget v1, v8, "Lcom/google/gson/ax;->h:I"
+00b4: iput v6, v8, "Lcom/google/gson/ax;->g:I"
+00b6: add-int/lit8 v1, v1, 1
+00b8: iput v1, v8, "Lcom/google/gson/ax;->h:I"
+00ba: packed-switch v0, @00f6
+00bd: iget-object v1, v8, "Lcom/google/gson/ax;->e:[I"
+00bf: iget v2, v8, "Lcom/google/gson/ax;->d:I"
+00c1: iget v3, v8, "Lcom/google/gson/ax;->h:I"
+00c3: aput v3, v1, v2
+00c5: iget-object v1, v8, "Lcom/google/gson/ax;->f:[I"
+00c7: iget v2, v8, "Lcom/google/gson/ax;->d:I"
+00c9: iget v3, v8, "Lcom/google/gson/ax;->g:I"
+00cb: aput v3, v1, v2
+00cd: goto/16 @0021
+00cf: iget-boolean v1, v8, "Lcom/google/gson/ax;->i:Z"
+00d1: if-eqz v1, @00ba
+00d3: iput-boolean v5, v8, "Lcom/google/gson/ax;->i:Z"
+00d5: const/16 v1, 10
+00d7: if-ne v0, v1, @00b2
+00d9: iput-boolean v6, v8, "Lcom/google/gson/ax;->j:Z"
+00db: goto @00ba
+00dc: iput-boolean v6, v8, "Lcom/google/gson/ax;->i:Z"
+00de: goto @00bd
+00df: iput-boolean v6, v8, "Lcom/google/gson/ax;->j:Z"
+00e1: goto @00bd
+00e2: iget v1, v8, "Lcom/google/gson/ax;->g:I"
+00e4: add-int/lit8 v1, v1, -1
+00e6: iput v1, v8, "Lcom/google/gson/ax;->g:I"
+00e8: iget v1, v8, "Lcom/google/gson/ax;->g:I"
+00ea: iget v2, v8, "Lcom/google/gson/ax;->o:I"
+00ec: iget v3, v8, "Lcom/google/gson/ax;->g:I"
+00ee: iget v4, v8, "Lcom/google/gson/ax;->o:I"
+00f0: rem-int/2addr v3, v4
+00f1: sub-int/2addr v2, v3
+00f2: add-int/2addr v1, v2
+00f3: iput v1, v8, "Lcom/google/gson/ax;->g:I"
+00f5: goto @00bd
+00f6: payload packed-switch-payload size=5 first_key=9 targets=[40, 37, 3, 3, 34]
+# try @0044..@0060 handler_offset=1
+# try @009b..@00a0 handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0060
+
+## Lcom/google/gson/ax;->c()I access=0x11
+# code_off=0x1c4e4 registers=3 incoming_words=1 outgoing_words=0 code_units=7 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/ax;->f:[I"
+0002: iget v1, v2, "Lcom/google/gson/ax;->d:I"
+0004: aget v0, v0, v1
+0006: return v0
+
+## Lcom/google/gson/ax;->d()I access=0x11
+# code_off=0x1c504 registers=3 incoming_words=1 outgoing_words=0 code_units=7 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/ax;->e:[I"
+0002: iget v1, v2, "Lcom/google/gson/ax;->d:I"
+0004: aget v0, v0, v1
+0006: return v0
+
+## Lcom/google/gson/ax;->e()I access=0x11
+# code_off=0x1c524 registers=3 incoming_words=1 outgoing_words=0 code_units=7 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/ax;->f:[I"
+0002: iget v1, v2, "Lcom/google/gson/ax;->c:I"
+0004: aget v0, v0, v1
+0006: return v0
+
+## Lcom/google/gson/ax;->f()I access=0x11
+# code_off=0x1c544 registers=3 incoming_words=1 outgoing_words=0 code_units=7 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/ax;->e:[I"
+0002: iget v1, v2, "Lcom/google/gson/ax;->c:I"
+0004: aget v0, v0, v1
+0006: return v0
+
+## Lcom/google/gson/ax;->g()Ljava/lang/String; access=0x11
+# code_off=0x1c564 registers=7 incoming_words=1 outgoing_words=4 code_units=67 tries=0
+0000: iget v0, v6, "Lcom/google/gson/ax;->d:I"
+0002: iget v1, v6, "Lcom/google/gson/ax;->c:I"
+0004: if-lt v0, v1, @0017
+0006: new-instance v0, "Ljava/lang/String;"
+0008: iget-object v1, v6, "Lcom/google/gson/ax;->l:[C"
+000a: iget v2, v6, "Lcom/google/gson/ax;->c:I"
+000c: iget v3, v6, "Lcom/google/gson/ax;->d:I"
+000e: iget v4, v6, "Lcom/google/gson/ax;->c:I"
+0010: sub-int/2addr v3, v4
+0011: add-int/lit8 v3, v3, 1
+0013: invoke-direct {v0, v1, v2, v3}, Ljava/lang/String;-><init>([CII)V
+0016: return-object v0
+0017: new-instance v0, "Ljava/lang/StringBuilder;"
+0019: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+001c: new-instance v1, "Ljava/lang/String;"
+001e: iget-object v2, v6, "Lcom/google/gson/ax;->l:[C"
+0020: iget v3, v6, "Lcom/google/gson/ax;->c:I"
+0022: iget v4, v6, "Lcom/google/gson/ax;->a:I"
+0024: iget v5, v6, "Lcom/google/gson/ax;->c:I"
+0026: sub-int/2addr v4, v5
+0027: invoke-direct {v1, v2, v3, v4}, Ljava/lang/String;-><init>([CII)V
+002a: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+002d: move-result-object v0
+002e: new-instance v1, "Ljava/lang/String;"
+0030: iget-object v2, v6, "Lcom/google/gson/ax;->l:[C"
+0032: const/4 v3, 0
+0033: iget v4, v6, "Lcom/google/gson/ax;->d:I"
+0035: add-int/lit8 v4, v4, 1
+0037: invoke-direct {v1, v2, v3, v4}, Ljava/lang/String;-><init>([CII)V
+003a: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+003d: move-result-object v0
+003e: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0041: move-result-object v0
+0042: goto @0016

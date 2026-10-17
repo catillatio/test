@@ -1,0 +1,15 @@
+# class Lcom/storm8/base/Storm8Splash$1$1; extends Ljava/lang/Object;
+# interfaces Ljava/lang/Runnable;
+# source Storm8Splash.java
+# fields
+# Lcom/storm8/base/Storm8Splash$1$1;->this$1:Lcom/storm8/base/Storm8Splash$1; access=0x1010
+
+## Lcom/storm8/base/Storm8Splash$1$1;-><init>(Lcom/storm8/base/Storm8Splash$1;)V access=0x10000
+# code_off=0x1fe8c registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8Splash$1$1;->this$1:Lcom/storm8/base/Storm8Splash$1;"
+0002: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0005: return-void
+
+## Lcom/storm8/base/Storm8Splash$1$1;->run()V access=0x1
+# code_off=0x1fea8 registers=1 incoming_words=1 outgoing_words=0 code_units=1 tries=0
+0000: return-void

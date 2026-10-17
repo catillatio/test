@@ -1,0 +1,8 @@
+# class Lcom/google/gson/annotations/Expose; extends Ljava/lang/Object;
+# interfaces Ljava/lang/annotation/Annotation;
+# source None
+# fields
+
+## Lcom/google/gson/annotations/Expose;->deserialize()Z access=0x401
+
+## Lcom/google/gson/annotations/Expose;->serialize()Z access=0x401

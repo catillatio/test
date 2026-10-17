@@ -1,0 +1,55 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="21" android:versionName="1.6.3" package="com.storm8.kingdoms12">
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <permission android:name="com.storm8.kingdoms12.permission.C2D_MESSAGE" android:protectionLevel="2" />
+  <uses-permission android:name="com.storm8.kingdoms12.permission.C2D_MESSAGE" />
+  <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+  <uses-permission android:name="com.android.vending.BILLING" />
+  <application android:theme="@style/Theme_NoBackground" android:label="@string/app_name" android:icon="@drawable/icon">
+    <meta-data android:name="point_package_value" android:value="12" />
+    <meta-data android:name="market_source" android:value="androidmarket" />
+    <meta-data android:name="enable_iap" android:value="true" />
+    <meta-data android:name="enable_admob" android:value="false" />
+    <activity android:label="@string/app_name" android:name=".Main" android:screenOrientation="1" android:configChanges="0x000000a0">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity android:label="@string/app_name" android:name=".Splash" android:screenOrientation="1" android:configChanges="0x000000a0">
+      <intent-filter>
+        <action android:name="com.storm8.kingdoms12.SPLASH" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+    </activity>
+    <activity android:name="com.google.ads.AdActivity" android:configChanges="0x000000b0" />
+    <service android:name=".C2DMReceiver" />
+    <receiver android:name="com.google.android.c2dm.C2DMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        <category android:name="com.storm8.kingdoms12" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+        <category android:name="com.storm8.kingdoms12" />
+      </intent-filter>
+    </receiver>
+    <service android:name="com.storm8.base.IAPService" />
+    <receiver android:name="com.storm8.base.IAPReceiver">
+      <intent-filter>
+        <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
+        <action android:name="com.android.vending.billing.RESPONSE_CODE" />
+        <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
+      </intent-filter>
+    </receiver>
+    <receiver android:name="com.amazon.inapp.purchasing.ResponseReceiver">
+      <intent-filter>
+        <action android:name="com.amazon.inapp.purchasing.NOTIFY" android:permission="com.amazon.inapp.purchasing.Permission.NOTIFY" />
+      </intent-filter>
+    </receiver>
+  </application>
+  <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="5" />
+</manifest>

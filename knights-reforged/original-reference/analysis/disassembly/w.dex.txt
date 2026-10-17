@@ -1,0 +1,46 @@
+# class Lw; extends Landroid/os/AsyncTask;
+# interfaces 
+# source None
+# fields
+
+## Lw;-><init>()V access=0x10001
+# code_off=0x27cac registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Landroid/os/AsyncTask;-><init>()V
+0003: return-void
+
+## Lw;->a([Ljava/lang/String;)Ljava/lang/Void; access=0x8a
+# code_off=0x27cc4 registers=5 incoming_words=1 outgoing_words=2 code_units=45 tries=1
+0000: const/4 v1, 0
+0001: const/4 v0, 0
+0002: aget-object v0, v4, v0
+0004: if-eqz v0, @002c
+0006: new-instance v2, "Ljava/net/URL;"
+0008: invoke-direct {v2, v0}, Ljava/net/URL;-><init>(Ljava/lang/String;)V
+000b: invoke-virtual {v2}, Ljava/net/URL;->openConnection()Ljava/net/URLConnection;
+000e: move-result-object v0
+000f: check-cast v0, "Ljava/net/HttpURLConnection;"
+0011: const/4 v2, 1
+0012: invoke-virtual {v0, v2}, Ljava/net/HttpURLConnection;->setInstanceFollowRedirects(Z)V
+0015: invoke-virtual {v0}, Ljava/net/HttpURLConnection;->getResponseCode()I
+0018: move-result v2
+0019: const/16 v3, 302
+001b: if-ne v2, v3, @0024
+001d: const-string v2, "Location"
+001f: invoke-virtual {v0, v2}, Ljava/net/HttpURLConnection;->getHeaderField(Ljava/lang/String;)Ljava/lang/String;
+0022: move-result-object v0
+0023: goto @0004
+0024: move-object v0, v1
+0025: goto @0004
+0026: move-exception v0
+0027: const-string v2, "Unable to check for redirect."
+0029: invoke-static {v2, v0}, Lt;->b(Ljava/lang/String;Ljava/lang/Throwable;)V
+002c: return-object v1
+# try @0006..@0022 handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0026
+
+## Lw;->doInBackground([Ljava/lang/Object;)Ljava/lang/Object; access=0x1014
+# code_off=0x27d40 registers=3 incoming_words=2 outgoing_words=1 code_units=7 tries=0
+0000: check-cast v2, "[Ljava/lang/String;"
+0002: invoke-static {v2}, Lw;->a([Ljava/lang/String;)Ljava/lang/Void;
+0005: move-result-object v0
+0006: return-object v0

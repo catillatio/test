@@ -1,0 +1,14 @@
+# class Lcom/android/vending/billing/IInAppBillingService; extends Ljava/lang/Object;
+# interfaces Landroid/os/IInterface;
+# source IInAppBillingService.java
+# fields
+
+## Lcom/android/vending/billing/IInAppBillingService;->consumePurchase(ILjava/lang/String;Ljava/lang/String;)I access=0x401
+
+## Lcom/android/vending/billing/IInAppBillingService;->getBuyIntent(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Landroid/os/Bundle; access=0x401
+
+## Lcom/android/vending/billing/IInAppBillingService;->getPurchases(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Landroid/os/Bundle; access=0x401
+
+## Lcom/android/vending/billing/IInAppBillingService;->getSkuDetails(ILjava/lang/String;Ljava/lang/String;Landroid/os/Bundle;)Landroid/os/Bundle; access=0x401
+
+## Lcom/android/vending/billing/IInAppBillingService;->isBillingSupported(ILjava/lang/String;Ljava/lang/String;)I access=0x401

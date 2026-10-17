@@ -1,0 +1,220 @@
+# class Lcom/google/ads/AdView; extends Landroid/widget/RelativeLayout;
+# interfaces Lcom/google/ads/Ad;
+# source None
+# fields
+# Lcom/google/ads/AdView;->a:Ld; access=0x2
+
+## Lcom/google/ads/AdView;-><init>(Landroid/app/Activity;Lcom/google/ads/AdSize;Ljava/lang/String;)V access=0x10001
+# code_off=0x28398 registers=5 incoming_words=4 outgoing_words=4 code_units=11 tries=0
+0000: invoke-virtual {v2}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
+0003: move-result-object v0
+0004: invoke-direct {v1, v0}, Landroid/widget/RelativeLayout;-><init>(Landroid/content/Context;)V
+0007: invoke-direct {v1, v2, v3, v4}, Lcom/google/ads/AdView;->a(Landroid/app/Activity;Lcom/google/ads/AdSize;Ljava/lang/String;)V
+000a: return-void
+
+## Lcom/google/ads/AdView;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;)V access=0x10001
+# code_off=0x283c0 registers=9 incoming_words=3 outgoing_words=4 code_units=184 tries=0
+0000: const/16 v5, 17
+0002: const/4 v4, 1
+0003: invoke-direct {v6, v7, v8}, Landroid/widget/RelativeLayout;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;)V
+0006: new-instance v0, "Ljava/lang/StringBuilder;"
+0008: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+000b: const-string v1, "http://schemas.android.com/apk/res/"
+000d: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0010: move-result-object v0
+0011: invoke-virtual {v7}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+0014: move-result-object v1
+0015: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0018: move-result-object v0
+0019: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+001c: move-result-object v1
+001d: const-string v0, "adSize"
+001f: const/4 v2, -1
+0020: invoke-interface {v8, v1, v0, v2}, Landroid/util/AttributeSet;->getAttributeIntValue(Ljava/lang/String;Ljava/lang/String;I)I
+0023: move-result v0
+0024: packed-switch v0, @00ac
+0027: new-instance v2, "Ljava/lang/StringBuilder;"
+0029: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+002c: const-string v3, "Invalid adSize parameter in XML layout: "
+002e: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0031: move-result-object v2
+0032: invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0035: move-result-object v0
+0036: const-string v2, ". Defaulting to BANNER."
+0038: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+003b: move-result-object v0
+003c: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+003f: move-result-object v0
+0040: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+0043: sget-object v0, "Lcom/google/ads/AdSize;->BANNER:Lcom/google/ads/AdSize;"
+0045: const-string v2, "adUnitId"
+0047: invoke-interface {v8, v1, v2}, Landroid/util/AttributeSet;->getAttributeValue(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+004a: move-result-object v1
+004b: if-nez v1, @0052
+004d: const-string v2, "AdView missing required XML attribute adUnitId."
+004f: invoke-static {v2}, Lt;->b(Ljava/lang/String;)V
+0052: invoke-virtual {v6}, Lcom/google/ads/AdView;->isInEditMode()Z
+0055: move-result v2
+0056: if-eqz v2, @009c
+0058: new-instance v1, "Landroid/widget/TextView;"
+005a: invoke-direct {v1, v7, v8}, Landroid/widget/TextView;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;)V
+005d: invoke-virtual {v1, v5}, Landroid/widget/TextView;->setGravity(I)V
+0060: const-string v2, "Ads by Google"
+0062: invoke-virtual {v1, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+0065: invoke-virtual {v6, v5}, Lcom/google/ads/AdView;->setGravity(I)V
+0068: invoke-virtual {v0}, Lcom/google/ads/AdSize;->getWidth()I
+006b: move-result v2
+006c: int-to-float v2, v2
+006d: invoke-virtual {v7}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
+0070: move-result-object v3
+0071: invoke-virtual {v3}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
+0074: move-result-object v3
+0075: invoke-static {v4, v2, v3}, Landroid/util/TypedValue;->applyDimension(IFLandroid/util/DisplayMetrics;)F
+0078: move-result v2
+0079: float-to-int v2, v2
+007a: invoke-virtual {v0}, Lcom/google/ads/AdSize;->getHeight()I
+007d: move-result v0
+007e: int-to-float v0, v0
+007f: invoke-virtual {v7}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
+0082: move-result-object v3
+0083: invoke-virtual {v3}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
+0086: move-result-object v3
+0087: invoke-static {v4, v0, v3}, Landroid/util/TypedValue;->applyDimension(IFLandroid/util/DisplayMetrics;)F
+008a: move-result v0
+008b: float-to-int v0, v0
+008c: invoke-virtual {v6, v1, v2, v0}, Lcom/google/ads/AdView;->addView(Landroid/view/View;II)V
+008f: return-void
+0090: sget-object v0, "Lcom/google/ads/AdSize;->BANNER:Lcom/google/ads/AdSize;"
+0092: goto @0045
+0093: sget-object v0, "Lcom/google/ads/AdSize;->IAB_MRECT:Lcom/google/ads/AdSize;"
+0095: goto @0045
+0096: sget-object v0, "Lcom/google/ads/AdSize;->IAB_BANNER:Lcom/google/ads/AdSize;"
+0098: goto @0045
+0099: sget-object v0, "Lcom/google/ads/AdSize;->IAB_LEADERBOARD:Lcom/google/ads/AdSize;"
+009b: goto @0045
+009c: instance-of v2, v7, "Landroid/app/Activity;"
+009e: if-eqz v2, @00a6
+00a0: check-cast v7, "Landroid/app/Activity;"
+00a2: invoke-direct {v6, v7, v0, v1}, Lcom/google/ads/AdView;->a(Landroid/app/Activity;Lcom/google/ads/AdSize;Ljava/lang/String;)V
+00a5: goto @008f
+00a6: const-string v0, "AdView was initialized with a Context that wasn't an Activity."
+00a8: invoke-static {v0}, Lt;->b(Ljava/lang/String;)V
+00ab: goto @008f
+00ac: payload packed-switch-payload size=4 first_key=1 targets=[108, 111, 114, 117]
+
+## Lcom/google/ads/AdView;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;I)V access=0x10001
+# code_off=0x28540 registers=4 incoming_words=4 outgoing_words=3 code_units=4 tries=0
+0000: invoke-direct {v0, v1, v2}, Lcom/google/ads/AdView;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;)V
+0003: return-void
+
+## Lcom/google/ads/AdView;->a(Landroid/app/Activity;Lcom/google/ads/AdSize;Ljava/lang/String;)V access=0x2
+# code_off=0x28558 registers=8 incoming_words=4 outgoing_words=5 code_units=68 tries=0
+0000: const/4 v3, 1
+0001: const/4 v1, -2
+0002: new-instance v0, "Ld;"
+0004: invoke-direct {v0, v5, v4, v6, v7}, Ld;-><init>(Landroid/app/Activity;Lcom/google/ads/Ad;Lcom/google/ads/AdSize;Ljava/lang/String;)V
+0007: iput-object v0, v4, "Lcom/google/ads/AdView;->a:Ld;"
+0009: const/16 v0, 17
+000b: invoke-virtual {v4, v0}, Lcom/google/ads/AdView;->setGravity(I)V
+000e: new-instance v0, "Landroid/widget/RelativeLayout$LayoutParams;"
+0010: invoke-direct {v0, v1, v1}, Landroid/widget/RelativeLayout$LayoutParams;-><init>(II)V
+0013: invoke-virtual {v4, v0}, Lcom/google/ads/AdView;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
+0016: invoke-virtual {v6}, Lcom/google/ads/AdSize;->getWidth()I
+0019: move-result v0
+001a: int-to-float v0, v0
+001b: invoke-virtual {v5}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
+001e: move-result-object v1
+001f: invoke-virtual {v1}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
+0022: move-result-object v1
+0023: invoke-static {v3, v0, v1}, Landroid/util/TypedValue;->applyDimension(IFLandroid/util/DisplayMetrics;)F
+0026: move-result v0
+0027: float-to-int v0, v0
+0028: invoke-virtual {v6}, Lcom/google/ads/AdSize;->getHeight()I
+002b: move-result v1
+002c: int-to-float v1, v1
+002d: invoke-virtual {v5}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
+0030: move-result-object v2
+0031: invoke-virtual {v2}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
+0034: move-result-object v2
+0035: invoke-static {v3, v1, v2}, Landroid/util/TypedValue;->applyDimension(IFLandroid/util/DisplayMetrics;)F
+0038: move-result v1
+0039: float-to-int v1, v1
+003a: iget-object v2, v4, "Lcom/google/ads/AdView;->a:Ld;"
+003c: invoke-virtual {v2}, Ld;->g()Lg;
+003f: move-result-object v2
+0040: invoke-virtual {v4, v2, v0, v1}, Lcom/google/ads/AdView;->addView(Landroid/view/View;II)V
+0043: return-void
+
+## Lcom/google/ads/AdView;->isReady()Z access=0x1
+# code_off=0x285f0 registers=2 incoming_words=1 outgoing_words=1 code_units=13 tries=0
+0000: iget-object v0, v1, "Lcom/google/ads/AdView;->a:Ld;"
+0002: if-nez v0, @0006
+0004: const/4 v0, 0
+0005: return v0
+0006: iget-object v0, v1, "Lcom/google/ads/AdView;->a:Ld;"
+0008: invoke-virtual {v0}, Ld;->l()Z
+000b: move-result v0
+000c: goto @0005
+
+## Lcom/google/ads/AdView;->isRefreshing()Z access=0x1
+# code_off=0x2861c registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: iget-object v0, v1, "Lcom/google/ads/AdView;->a:Ld;"
+0002: invoke-virtual {v0}, Ld;->m()Z
+0005: move-result v0
+0006: return v0
+
+## Lcom/google/ads/AdView;->loadAd(Lcom/google/ads/AdRequest;)V access=0x1
+# code_off=0x2863c registers=8 incoming_words=2 outgoing_words=3 code_units=87 tries=0
+0000: const/16 v5, 17
+0002: const/4 v4, -1
+0003: iget-object v0, v6, "Lcom/google/ads/AdView;->a:Ld;"
+0005: invoke-virtual {v0}, Ld;->c()Landroid/app/Activity;
+0008: move-result-object v0
+0009: if-nez v0, @0011
+000b: const-string v0, "activity was null while checking permissions."
+000d: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+0010: return-void
+0011: invoke-virtual {v0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
+0014: move-result-object v0
+0015: invoke-virtual {v0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
+0018: move-result-object v1
+0019: invoke-virtual {v0}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+001c: move-result-object v2
+001d: const-string v3, "android.permission.INTERNET"
+001f: invoke-virtual {v1, v3, v2}, Landroid/content/pm/PackageManager;->checkPermission(Ljava/lang/String;Ljava/lang/String;)I
+0022: move-result v3
+0023: if-eq v3, v4, @002d
+0025: const-string v3, "android.permission.ACCESS_NETWORK_STATE"
+0027: invoke-virtual {v1, v3, v2}, Landroid/content/pm/PackageManager;->checkPermission(Ljava/lang/String;Ljava/lang/String;)I
+002a: move-result v1
+002b: if-ne v1, v4, @0046
+002d: new-instance v1, "Landroid/widget/TextView;"
+002f: invoke-direct {v1, v0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
+0032: invoke-virtual {v1, v5}, Landroid/widget/TextView;->setGravity(I)V
+0035: const-string v0, "You must have INTERNET and ACCESS_NETWORK_STATE permissions to serve ads."
+0037: invoke-virtual {v1, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+003a: const/high16 v0, 0xffff0000
+003c: invoke-virtual {v1, v0}, Landroid/widget/TextView;->setTextColor(I)V
+003f: invoke-virtual {v6, v5}, Lcom/google/ads/AdView;->setGravity(I)V
+0042: invoke-virtual {v6, v1}, Lcom/google/ads/AdView;->addView(Landroid/view/View;)V
+0045: goto @0010
+0046: invoke-virtual {v6}, Lcom/google/ads/AdView;->isRefreshing()Z
+0049: move-result v0
+004a: if-eqz v0, @0051
+004c: iget-object v0, v6, "Lcom/google/ads/AdView;->a:Ld;"
+004e: invoke-virtual {v0}, Ld;->a()V
+0051: iget-object v0, v6, "Lcom/google/ads/AdView;->a:Ld;"
+0053: invoke-virtual {v0, v7}, Ld;->a(Lcom/google/ads/AdRequest;)V
+0056: goto @0010
+
+## Lcom/google/ads/AdView;->setAdListener(Lcom/google/ads/AdListener;)V access=0x1
+# code_off=0x286fc registers=3 incoming_words=2 outgoing_words=2 code_units=6 tries=0
+0000: iget-object v0, v1, "Lcom/google/ads/AdView;->a:Ld;"
+0002: invoke-virtual {v0, v2}, Ld;->a(Lcom/google/ads/AdListener;)V
+0005: return-void
+
+## Lcom/google/ads/AdView;->stopLoading()V access=0x1
+# code_off=0x28718 registers=2 incoming_words=1 outgoing_words=1 code_units=6 tries=0
+0000: iget-object v0, v1, "Lcom/google/ads/AdView;->a:Ld;"
+0002: invoke-virtual {v0}, Ld;->t()V
+0005: return-void

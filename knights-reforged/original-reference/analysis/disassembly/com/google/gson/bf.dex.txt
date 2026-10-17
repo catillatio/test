@@ -1,0 +1,59 @@
+# class Lcom/google/gson/bf; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/bf;->a:Ljava/lang/reflect/Type; access=0x12
+# Lcom/google/gson/bf;->b:Ljava/lang/reflect/Type; access=0x12
+
+## Lcom/google/gson/bf;-><init>(Ljava/lang/reflect/Type;)V access=0x10001
+# code_off=0x1ccac registers=4 incoming_words=2 outgoing_words=2 code_units=78 tries=0
+0000: invoke-direct {v2}, Ljava/lang/Object;-><init>()V
+0003: instance-of v0, v3, "Ljava/lang/Class;"
+0005: if-eqz v0, @001b
+0007: const-class v1, "Ljava/util/Properties;"
+0009: move-object v0, v3
+000a: check-cast v0, "Ljava/lang/Class;"
+000c: invoke-virtual {v1, v0}, Ljava/lang/Class;->isAssignableFrom(Ljava/lang/Class;)Z
+000f: move-result v0
+0010: if-eqz v0, @001b
+0012: const-class v0, "Ljava/lang/String;"
+0014: iput-object v0, v2, "Lcom/google/gson/bf;->a:Ljava/lang/reflect/Type;"
+0016: const-class v0, "Ljava/lang/String;"
+0018: iput-object v0, v2, "Lcom/google/gson/bf;->b:Ljava/lang/reflect/Type;"
+001a: return-void
+001b: instance-of v0, v3, "Ljava/lang/reflect/ParameterizedType;"
+001d: if-eqz v0, @0046
+001f: new-instance v0, "Lcom/google/gson/bb;"
+0021: invoke-direct {v0, v3}, Lcom/google/gson/bb;-><init>(Ljava/lang/reflect/Type;)V
+0024: const-class v1, "Ljava/util/Map;"
+0026: invoke-virtual {v0}, Lcom/google/gson/bb;->b()Ljava/lang/Class;
+0029: move-result-object v0
+002a: invoke-virtual {v1, v0}, Ljava/lang/Class;->isAssignableFrom(Ljava/lang/Class;)Z
+002d: move-result v0
+002e: invoke-static {v0}, Lcom/google/gson/at;->a(Z)V
+0031: check-cast v3, "Ljava/lang/reflect/ParameterizedType;"
+0033: invoke-interface {v3}, Ljava/lang/reflect/ParameterizedType;->getActualTypeArguments()[Ljava/lang/reflect/Type;
+0036: move-result-object v0
+0037: const/4 v1, 0
+0038: aget-object v0, v0, v1
+003a: iput-object v0, v2, "Lcom/google/gson/bf;->a:Ljava/lang/reflect/Type;"
+003c: invoke-interface {v3}, Ljava/lang/reflect/ParameterizedType;->getActualTypeArguments()[Ljava/lang/reflect/Type;
+003f: move-result-object v0
+0040: const/4 v1, 1
+0041: aget-object v0, v0, v1
+0043: iput-object v0, v2, "Lcom/google/gson/bf;->b:Ljava/lang/reflect/Type;"
+0045: goto @001a
+0046: new-instance v0, "Ljava/lang/IllegalArgumentException;"
+0048: const-string v1, "Map objects need to be parameterized unless you use a custom serializer. Use the com.google.gson.reflect.TypeToken to extract the ParameterizedType."
+004a: invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+004d: throw v0
+
+## Lcom/google/gson/bf;->a()Ljava/lang/reflect/Type; access=0x11
+# code_off=0x1cd58 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/bf;->a:Ljava/lang/reflect/Type;"
+0002: return-object v0
+
+## Lcom/google/gson/bf;->b()Ljava/lang/reflect/Type; access=0x11
+# code_off=0x1cd70 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/bf;->b:Ljava/lang/reflect/Type;"
+0002: return-object v0

@@ -1,0 +1,119 @@
+# class Lcom/google/ads/AdRequest; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/ads/AdRequest;->LOGTAG:Ljava/lang/String; access=0x19
+# Lcom/google/ads/AdRequest;->VERSION:Ljava/lang/String; access=0x19
+# Lcom/google/ads/AdRequest;->a:Lcom/google/ads/AdRequest$Gender; access=0x2
+# Lcom/google/ads/AdRequest;->b:Ljava/lang/String; access=0x2
+# Lcom/google/ads/AdRequest;->c:Ljava/util/Set; access=0x2
+# Lcom/google/ads/AdRequest;->d:Ljava/util/Map; access=0x2
+# Lcom/google/ads/AdRequest;->e:Landroid/location/Location; access=0x2
+# Lcom/google/ads/AdRequest;->f:Z access=0x2
+
+## Lcom/google/ads/AdRequest;-><init>()V access=0x10001
+# code_off=0x17f50 registers=2 incoming_words=1 outgoing_words=1 code_units=18 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0004: iput-object v0, v1, "Lcom/google/ads/AdRequest;->a:Lcom/google/ads/AdRequest$Gender;"
+0006: iput-object v0, v1, "Lcom/google/ads/AdRequest;->b:Ljava/lang/String;"
+0008: iput-object v0, v1, "Lcom/google/ads/AdRequest;->c:Ljava/util/Set;"
+000a: iput-object v0, v1, "Lcom/google/ads/AdRequest;->d:Ljava/util/Map;"
+000c: iput-object v0, v1, "Lcom/google/ads/AdRequest;->e:Landroid/location/Location;"
+000e: const/4 v0, 0
+000f: iput-boolean v0, v1, "Lcom/google/ads/AdRequest;->f:Z"
+0011: return-void
+
+## Lcom/google/ads/AdRequest;->addExtra(Ljava/lang/String;Ljava/lang/Object;)V access=0x1
+# code_off=0x17f84 registers=4 incoming_words=3 outgoing_words=3 code_units=17 tries=0
+0000: iget-object v0, v1, "Lcom/google/ads/AdRequest;->d:Ljava/util/Map;"
+0002: if-nez v0, @000b
+0004: new-instance v0, "Ljava/util/HashMap;"
+0006: invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
+0009: iput-object v0, v1, "Lcom/google/ads/AdRequest;->d:Ljava/util/Map;"
+000b: iget-object v0, v1, "Lcom/google/ads/AdRequest;->d:Ljava/util/Map;"
+000d: invoke-interface {v0, v2, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0010: return-void
+
+## Lcom/google/ads/AdRequest;->addKeyword(Ljava/lang/String;)V access=0x1
+# code_off=0x17fb8 registers=3 incoming_words=2 outgoing_words=2 code_units=17 tries=0
+0000: iget-object v0, v1, "Lcom/google/ads/AdRequest;->c:Ljava/util/Set;"
+0002: if-nez v0, @000b
+0004: new-instance v0, "Ljava/util/HashSet;"
+0006: invoke-direct {v0}, Ljava/util/HashSet;-><init>()V
+0009: iput-object v0, v1, "Lcom/google/ads/AdRequest;->c:Ljava/util/Set;"
+000b: iget-object v0, v1, "Lcom/google/ads/AdRequest;->c:Ljava/util/Set;"
+000d: invoke-interface {v0, v2}, Ljava/util/Set;->add(Ljava/lang/Object;)Z
+0010: return-void
+
+## Lcom/google/ads/AdRequest;->getRequestMap()Ljava/util/Map; access=0x1
+# code_off=0x17fec registers=4 incoming_words=1 outgoing_words=3 code_units=83 tries=0
+0000: new-instance v0, "Ljava/util/HashMap;"
+0002: invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
+0005: iget-object v1, v3, "Lcom/google/ads/AdRequest;->c:Ljava/util/Set;"
+0007: if-eqz v1, @0010
+0009: const-string v1, "kw"
+000b: iget-object v2, v3, "Lcom/google/ads/AdRequest;->c:Ljava/util/Set;"
+000d: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0010: iget-object v1, v3, "Lcom/google/ads/AdRequest;->a:Lcom/google/ads/AdRequest$Gender;"
+0012: if-eqz v1, @001f
+0014: const-string v1, "cust_gender"
+0016: iget-object v2, v3, "Lcom/google/ads/AdRequest;->a:Lcom/google/ads/AdRequest$Gender;"
+0018: invoke-virtual {v2}, Lcom/google/ads/AdRequest$Gender;->toString()Ljava/lang/String;
+001b: move-result-object v2
+001c: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+001f: iget-object v1, v3, "Lcom/google/ads/AdRequest;->b:Ljava/lang/String;"
+0021: if-eqz v1, @002a
+0023: const-string v1, "cust_age"
+0025: iget-object v2, v3, "Lcom/google/ads/AdRequest;->b:Ljava/lang/String;"
+0027: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+002a: iget-object v1, v3, "Lcom/google/ads/AdRequest;->e:Landroid/location/Location;"
+002c: if-eqz v1, @0039
+002e: const-string v1, "uule"
+0030: iget-object v2, v3, "Lcom/google/ads/AdRequest;->e:Landroid/location/Location;"
+0032: invoke-static {v2}, Lu;->a(Landroid/location/Location;)Ljava/lang/String;
+0035: move-result-object v2
+0036: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0039: iget-boolean v1, v3, "Lcom/google/ads/AdRequest;->f:Z"
+003b: if-eqz v1, @0047
+003d: const-string v1, "testing"
+003f: const/4 v2, 1
+0040: invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+0043: move-result-object v2
+0044: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0047: iget-object v1, v3, "Lcom/google/ads/AdRequest;->d:Ljava/util/Map;"
+0049: if-eqz v1, @0052
+004b: const-string v1, "extras"
+004d: iget-object v2, v3, "Lcom/google/ads/AdRequest;->d:Ljava/util/Map;"
+004f: invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0052: return-object v0
+
+## Lcom/google/ads/AdRequest;->setBirthday(Ljava/lang/String;)V access=0x1
+# code_off=0x180a4 registers=2 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: iput-object v1, v0, "Lcom/google/ads/AdRequest;->b:Ljava/lang/String;"
+0002: return-void
+
+## Lcom/google/ads/AdRequest;->setExtras(Ljava/util/Map;)V access=0x1
+# code_off=0x180bc registers=2 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: iput-object v1, v0, "Lcom/google/ads/AdRequest;->d:Ljava/util/Map;"
+0002: return-void
+
+## Lcom/google/ads/AdRequest;->setGender(Lcom/google/ads/AdRequest$Gender;)V access=0x1
+# code_off=0x180d4 registers=2 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: iput-object v1, v0, "Lcom/google/ads/AdRequest;->a:Lcom/google/ads/AdRequest$Gender;"
+0002: return-void
+
+## Lcom/google/ads/AdRequest;->setKeywords(Ljava/util/Set;)V access=0x1
+# code_off=0x180ec registers=2 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: iput-object v1, v0, "Lcom/google/ads/AdRequest;->c:Ljava/util/Set;"
+0002: return-void
+
+## Lcom/google/ads/AdRequest;->setLocation(Landroid/location/Location;)V access=0x1
+# code_off=0x18104 registers=2 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: iput-object v1, v0, "Lcom/google/ads/AdRequest;->e:Landroid/location/Location;"
+0002: return-void
+
+## Lcom/google/ads/AdRequest;->setTesting(Z)V access=0x1
+# code_off=0x1811c registers=2 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: iput-boolean v1, v0, "Lcom/google/ads/AdRequest;->f:Z"
+0002: return-void

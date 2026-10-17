@@ -1,0 +1,324 @@
+# class Lcom/google/gson/JsonArray; extends Lcom/google/gson/JsonElement;
+# interfaces Ljava/lang/Iterable;
+# source None
+# fields
+# Lcom/google/gson/JsonArray;->a:Ljava/util/List; access=0x12
+
+## Lcom/google/gson/JsonArray;-><init>()V access=0x10001
+# code_off=0x2881c registers=2 incoming_words=1 outgoing_words=1 code_units=11 tries=0
+0000: invoke-direct {v1}, Lcom/google/gson/JsonElement;-><init>()V
+0003: new-instance v0, "Ljava/util/ArrayList;"
+0005: invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
+0008: iput-object v0, v1, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000a: return-void
+
+## Lcom/google/gson/JsonArray;->a()Ljava/lang/Object; access=0x10
+# code_off=0x28844 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->a()Ljava/lang/Object;
+0015: move-result-object v0
+0016: return-object v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->a(Ljava/lang/Appendable;Lcom/google/gson/h;)V access=0x14
+# code_off=0x28890 registers=7 incoming_words=3 outgoing_words=3 code_units=44 tries=0
+0000: const/16 v0, 91
+0002: invoke-interface {v5, v0}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0005: const/4 v0, 1
+0006: iget-object v1, v4, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0008: invoke-interface {v1}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+000b: move-result-object v2
+000c: move v1, v0
+000d: invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
+0010: move-result v0
+0011: if-eqz v0, @0026
+0013: invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+0016: move-result-object v0
+0017: check-cast v0, "Lcom/google/gson/JsonElement;"
+0019: if-eqz v1, @0020
+001b: const/4 v1, 0
+001c: invoke-virtual {v0, v5, v6}, Lcom/google/gson/JsonElement;->a(Ljava/lang/Appendable;Lcom/google/gson/h;)V
+001f: goto @000d
+0020: const/16 v3, 44
+0022: invoke-interface {v5, v3}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+0025: goto @001c
+0026: const/16 v0, 93
+0028: invoke-interface {v5, v0}, Ljava/lang/Appendable;->append(C)Ljava/lang/Appendable;
+002b: return-void
+
+## Lcom/google/gson/JsonArray;->add(Lcom/google/gson/JsonElement;)V access=0x11
+# code_off=0x288f8 registers=3 incoming_words=2 outgoing_words=2 code_units=12 tries=0
+0000: if-nez v2, @0006
+0002: invoke-static {}, Lcom/google/gson/JsonNull;->b()Lcom/google/gson/JsonNull;
+0005: move-result-object v2
+0006: iget-object v0, v1, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0008: invoke-interface {v0, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+000b: return-void
+
+## Lcom/google/gson/JsonArray;->addAll(Lcom/google/gson/JsonArray;)V access=0x11
+# code_off=0x28920 registers=4 incoming_words=2 outgoing_words=2 code_units=8 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: iget-object v1, v3, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0004: invoke-interface {v0, v1}, Ljava/util/List;->addAll(Ljava/util/Collection;)Z
+0007: return-void
+
+## Lcom/google/gson/JsonArray;->get(I)Lcom/google/gson/JsonElement; access=0x11
+# code_off=0x28940 registers=3 incoming_words=2 outgoing_words=2 code_units=9 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0, v2}, Ljava/util/List;->get(I)Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Lcom/google/gson/JsonElement;"
+0008: return-object v0
+
+## Lcom/google/gson/JsonArray;->getAsBigDecimal()Ljava/math/BigDecimal; access=0x11
+# code_off=0x28964 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsBigDecimal()Ljava/math/BigDecimal;
+0015: move-result-object v0
+0016: return-object v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsBigInteger()Ljava/math/BigInteger; access=0x11
+# code_off=0x289b0 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsBigInteger()Ljava/math/BigInteger;
+0015: move-result-object v0
+0016: return-object v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsBoolean()Z access=0x11
+# code_off=0x289fc registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsBoolean()Z
+0015: move-result v0
+0016: return v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsByte()B access=0x11
+# code_off=0x28a48 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsByte()B
+0015: move-result v0
+0016: return v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsCharacter()C access=0x11
+# code_off=0x28a94 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsCharacter()C
+0015: move-result v0
+0016: return v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsDouble()D access=0x11
+# code_off=0x28ae0 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsDouble()D
+0015: move-result-wide v0
+0016: return-wide v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsFloat()F access=0x11
+# code_off=0x28b2c registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsFloat()F
+0015: move-result v0
+0016: return v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsInt()I access=0x11
+# code_off=0x28b78 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsInt()I
+0015: move-result v0
+0016: return v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsLong()J access=0x11
+# code_off=0x28bc4 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsLong()J
+0015: move-result-wide v0
+0016: return-wide v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsNumber()Ljava/lang/Number; access=0x11
+# code_off=0x28c10 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsNumber()Ljava/lang/Number;
+0015: move-result-object v0
+0016: return-object v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsShort()S access=0x11
+# code_off=0x28c5c registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsShort()S
+0015: move-result v0
+0016: return v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->getAsString()Ljava/lang/String; access=0x11
+# code_off=0x28ca8 registers=3 incoming_words=1 outgoing_words=2 code_units=29 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: const/4 v1, 1
+0007: if-ne v0, v1, @0017
+0009: iget-object v0, v2, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+000b: const/4 v1, 0
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/JsonElement;"
+0012: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsString()Ljava/lang/String;
+0015: move-result-object v0
+0016: return-object v0
+0017: new-instance v0, "Ljava/lang/IllegalStateException;"
+0019: invoke-direct {v0}, Ljava/lang/IllegalStateException;-><init>()V
+001c: throw v0
+
+## Lcom/google/gson/JsonArray;->iterator()Ljava/util/Iterator; access=0x11
+# code_off=0x28cf4 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+0005: move-result-object v0
+0006: return-object v0
+
+## Lcom/google/gson/JsonArray;->size()I access=0x11
+# code_off=0x28d14 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/JsonArray;->a:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: return v0

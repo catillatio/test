@@ -1,0 +1,12 @@
+# class Lcom/google/ads/Ad; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/ads/Ad;->isReady()Z access=0x401
+
+## Lcom/google/ads/Ad;->loadAd(Lcom/google/ads/AdRequest;)V access=0x401
+
+## Lcom/google/ads/Ad;->setAdListener(Lcom/google/ads/AdListener;)V access=0x401
+
+## Lcom/google/ads/Ad;->stopLoading()V access=0x401

@@ -1,0 +1,25 @@
+# class Lcom/storm8/base/util/iap/IabHelper$3$2; extends Ljava/lang/Object;
+# interfaces Ljava/lang/Runnable;
+# source IabHelper.java
+# fields
+# Lcom/storm8/base/util/iap/IabHelper$3$2;->this$1:Lcom/storm8/base/util/iap/IabHelper$3; access=0x1010
+# Lcom/storm8/base/util/iap/IabHelper$3$2;->val$multiListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener; access=0x1012
+# Lcom/storm8/base/util/iap/IabHelper$3$2;->val$purchases:Ljava/util/List; access=0x1012
+# Lcom/storm8/base/util/iap/IabHelper$3$2;->val$results:Ljava/util/List; access=0x1012
+
+## Lcom/storm8/base/util/iap/IabHelper$3$2;-><init>(Lcom/storm8/base/util/iap/IabHelper$3;Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;Ljava/util/List;Ljava/util/List;)V access=0x10000
+# code_off=0x22700 registers=5 incoming_words=5 outgoing_words=1 code_units=12 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/util/iap/IabHelper$3$2;->this$1:Lcom/storm8/base/util/iap/IabHelper$3;"
+0002: iput-object v2, v0, "Lcom/storm8/base/util/iap/IabHelper$3$2;->val$multiListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;"
+0004: iput-object v3, v0, "Lcom/storm8/base/util/iap/IabHelper$3$2;->val$purchases:Ljava/util/List;"
+0006: iput-object v4, v0, "Lcom/storm8/base/util/iap/IabHelper$3$2;->val$results:Ljava/util/List;"
+0008: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+000b: return-void
+
+## Lcom/storm8/base/util/iap/IabHelper$3$2;->run()V access=0x1
+# code_off=0x22728 registers=4 incoming_words=1 outgoing_words=3 code_units=10 tries=0
+0000: iget-object v0, v3, "Lcom/storm8/base/util/iap/IabHelper$3$2;->val$multiListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;"
+0002: iget-object v1, v3, "Lcom/storm8/base/util/iap/IabHelper$3$2;->val$purchases:Ljava/util/List;"
+0004: iget-object v2, v3, "Lcom/storm8/base/util/iap/IabHelper$3$2;->val$results:Ljava/util/List;"
+0006: invoke-interface {v0, v1, v2}, Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;->onConsumeMultiFinished(Ljava/util/List;Ljava/util/List;)V
+0009: return-void

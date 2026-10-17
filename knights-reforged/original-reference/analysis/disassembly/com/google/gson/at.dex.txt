@@ -1,0 +1,35 @@
+# class Lcom/google/gson/at; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/at;-><init>()V access=0x10000
+# code_off=0x1be14 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/at;->a(Ljava/lang/Object;)V access=0x9
+# code_off=0x1be2c registers=2 incoming_words=1 outgoing_words=1 code_units=9 tries=0
+0000: if-eqz v1, @0007
+0002: const/4 v0, 1
+0003: invoke-static {v0}, Lcom/google/gson/at;->a(Z)V
+0006: return-void
+0007: const/4 v0, 0
+0008: goto @0003
+
+## Lcom/google/gson/at;->a(Z)V access=0x9
+# code_off=0x1be50 registers=4 incoming_words=1 outgoing_words=2 code_units=28 tries=0
+0000: if-nez v3, @001b
+0002: new-instance v0, "Ljava/lang/IllegalArgumentException;"
+0004: new-instance v1, "Ljava/lang/StringBuilder;"
+0006: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+0009: const-string v2, "condition failed: "
+000b: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000e: move-result-object v1
+000f: invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
+0012: move-result-object v1
+0013: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0016: move-result-object v1
+0017: invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+001a: throw v0
+001b: return-void

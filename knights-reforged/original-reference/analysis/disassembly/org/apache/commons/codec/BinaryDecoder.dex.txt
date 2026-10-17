@@ -1,0 +1,6 @@
+# class Lorg/apache/commons/codec/BinaryDecoder; extends Ljava/lang/Object;
+# interfaces Lorg/apache/commons/codec/Decoder;
+# source BinaryDecoder.java
+# fields
+
+## Lorg/apache/commons/codec/BinaryDecoder;->decode([B)[B access=0x401

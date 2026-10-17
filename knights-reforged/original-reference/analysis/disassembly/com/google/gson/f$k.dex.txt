@@ -1,0 +1,30 @@
+# class Lcom/google/gson/f$k; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/JsonDeserializer;
+# source None
+# fields
+
+## Lcom/google/gson/f$k;-><init>()V access=0x11000
+# code_off=0x2db54 registers=2 incoming_words=1 outgoing_words=2 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v0}, Lcom/google/gson/f$k;-><init>(B)V
+0004: return-void
+
+## Lcom/google/gson/f$k;-><init>(B)V access=0x10002
+# code_off=0x2db70 registers=2 incoming_words=2 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/f$k;->deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Ljava/lang/Object; access=0x1001
+# code_off=0x2db88 registers=6 incoming_words=4 outgoing_words=2 code_units=9 tries=0
+0000: invoke-virtual {v3}, Lcom/google/gson/JsonElement;->getAsDouble()D
+0003: move-result-wide v0
+0004: invoke-static {v0, v1}, Ljava/lang/Double;->valueOf(D)Ljava/lang/Double;
+0007: move-result-object v0
+0008: return-object v0
+
+## Lcom/google/gson/f$k;->toString()Ljava/lang/String; access=0x1
+# code_off=0x2dbac registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: const-class v0, "Lcom/google/gson/f$k;"
+0002: invoke-virtual {v0}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0

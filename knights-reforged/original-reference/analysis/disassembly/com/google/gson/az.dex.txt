@@ -1,0 +1,34 @@
+# class Lcom/google/gson/az; extends Ljava/lang/Object;
+# interfaces Ljava/io/Serializable;
+# source None
+# fields
+# Lcom/google/gson/az;->a:I access=0x1
+# Lcom/google/gson/az;->b:I access=0x1
+# Lcom/google/gson/az;->c:I access=0x1
+# Lcom/google/gson/az;->d:I access=0x1
+# Lcom/google/gson/az;->e:I access=0x1
+# Lcom/google/gson/az;->f:Ljava/lang/String; access=0x1
+# Lcom/google/gson/az;->g:Lcom/google/gson/az; access=0x1
+
+## Lcom/google/gson/az;-><init>()V access=0x10001
+# code_off=0x1c5fc registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/az;-><init>(ILjava/lang/String;)V access=0x10002
+# code_off=0x1c614 registers=3 incoming_words=3 outgoing_words=1 code_units=8 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput v1, v0, "Lcom/google/gson/az;->a:I"
+0005: iput-object v2, v0, "Lcom/google/gson/az;->f:Ljava/lang/String;"
+0007: return-void
+
+## Lcom/google/gson/az;->a(ILjava/lang/String;)Lcom/google/gson/az; access=0x9
+# code_off=0x1c634 registers=3 incoming_words=2 outgoing_words=3 code_units=6 tries=0
+0000: new-instance v0, "Lcom/google/gson/az;"
+0002: invoke-direct {v0, v1, v2}, Lcom/google/gson/az;-><init>(ILjava/lang/String;)V
+0005: return-object v0
+
+## Lcom/google/gson/az;->toString()Ljava/lang/String; access=0x11
+# code_off=0x1c650 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/az;->f:Ljava/lang/String;"
+0002: return-object v0

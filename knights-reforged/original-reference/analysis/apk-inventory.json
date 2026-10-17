@@ -1,0 +1,302 @@
+[
+  {
+    "path": "res/drawable/attack.png",
+    "bytes": 1251,
+    "sha256": "2126450ca665a4e623f2835de2d03cd210d1a763b652341c6e3cf420e176b39c"
+  },
+  {
+    "path": "res/drawable/attack_selected.png",
+    "bytes": 1284,
+    "sha256": "3746951cb534476af1f8fdf37fb51accb005da4a7eaec86ced1adc8b92245d40"
+  },
+  {
+    "path": "res/drawable/attack_w.png",
+    "bytes": 929,
+    "sha256": "6e612b20cbc82a86f6b84c70d6248070160ce6285d18c34b3578398669b73a9b"
+  },
+  {
+    "path": "res/drawable/bg_attack.jpg",
+    "bytes": 103719,
+    "sha256": "2f57dda89eb2612507e22de8c1309c662d7fe95b8bd5b0f288c34f182f61b63e"
+  },
+  {
+    "path": "res/drawable/bg_bank.jpg",
+    "bytes": 86327,
+    "sha256": "20b53e4c5ec789e5e63901a47c67e6b837d341836464aa6e6ba2333b3e10b644"
+  },
+  {
+    "path": "res/drawable/bg_default.jpg",
+    "bytes": 84243,
+    "sha256": "489917cdfe0efd36ce3ba04b7d1bc4126da28517b756182e2d05ec6dc78a9ca6"
+  },
+  {
+    "path": "res/drawable/bg_equipment.jpg",
+    "bytes": 59895,
+    "sha256": "8d0d7b4d7a2b690db7465bf9d228007b588c393ca47ad947c246835f97615190"
+  },
+  {
+    "path": "res/drawable/bg_hospital.jpg",
+    "bytes": 86174,
+    "sha256": "a355ef6a58d4251bbaea85a911741390a8c6763e81723f19b7000fc54d5ec984"
+  },
+  {
+    "path": "res/drawable/bg_missions.jpg",
+    "bytes": 58262,
+    "sha256": "d87426b9927e1195045afa70954f3f677ca7d7c19c38d4f4860c3e40726974d4"
+  },
+  {
+    "path": "res/drawable/buildings.png",
+    "bytes": 654,
+    "sha256": "9502bb83389a1f0e722b659ee61f9f2e488d934795650df8a948f9d963c06378"
+  },
+  {
+    "path": "res/drawable/default_bg.png",
+    "bytes": 281544,
+    "sha256": "1ecc268f6ea0f21094e73c9b348f8098a232d7c0760aead45f3d99a05606006a"
+  },
+  {
+    "path": "res/drawable/equipment.png",
+    "bytes": 1201,
+    "sha256": "8a0637bb07b4f59923ce0ca79768669ea7faf8b1a008244d9ce533d223c21480"
+  },
+  {
+    "path": "res/drawable/equipment_selected.png",
+    "bytes": 1230,
+    "sha256": "91453f84db9561520476d93666f66ab34491777fa99187e55274e5cea66064aa"
+  },
+  {
+    "path": "res/drawable/equipment_w.png",
+    "bytes": 1012,
+    "sha256": "40a2bab2a9ff37c2b067b4711b38dbcbb60917bbfcf45ff98e010e1d16298c5e"
+  },
+  {
+    "path": "res/drawable/home.png",
+    "bytes": 1127,
+    "sha256": "8566454c50114624bbcc4e978af18f93fd26e883b1281fc3b47dc04f65a589cd"
+  },
+  {
+    "path": "res/drawable/home_selected.png",
+    "bytes": 1197,
+    "sha256": "c7e1e11984ba41bd5565109766cd43df137182c590e55783a1245ffc286ce088"
+  },
+  {
+    "path": "res/drawable/home_w.png",
+    "bytes": 958,
+    "sha256": "9768724e1594edc9f78acffaef7d0c71c5a8785fcdd41a86635550f7b9d4b131"
+  },
+  {
+    "path": "res/drawable/icon.png",
+    "bytes": 57603,
+    "sha256": "b914037ad86f2304367010875991d1eea95b4b091e1414bd4d544710bc61f8d4"
+  },
+  {
+    "path": "res/drawable/missions.png",
+    "bytes": 1088,
+    "sha256": "dec853765fe4aa40f20d8aee3953e844fe4a11a3c9ebc3b78f304b3f98bf88a5"
+  },
+  {
+    "path": "res/drawable/missions_selected.png",
+    "bytes": 1128,
+    "sha256": "701f4c6ff8c6fcd7ca43c05eb9c1d208d5685e2aa961eed150e3407c272d4dc6"
+  },
+  {
+    "path": "res/drawable/missions_w.png",
+    "bytes": 851,
+    "sha256": "4abf613a7661706ccfee0185104046b3be30747ce675c3cca98e8d0336712955"
+  },
+  {
+    "path": "res/drawable/recruit.png",
+    "bytes": 1133,
+    "sha256": "d023062ccf6b93e6c84be0b16e152bc751ce5dba1bba7defb9cf326e1021e22a"
+  },
+  {
+    "path": "res/drawable/recruit_selected.png",
+    "bytes": 1159,
+    "sha256": "41a3e0b98a8bc7a2ff6463068227822f03d109ba33429c62b413ffe1b29a1c48"
+  },
+  {
+    "path": "res/drawable/recruit_w.png",
+    "bytes": 1010,
+    "sha256": "22340ed3660d2cd55281c459ded71caf0255ad46aef15616cbb3e2a50d1b5204"
+  },
+  {
+    "path": "res/drawable/tab_bg.xml",
+    "bytes": 544,
+    "sha256": "da3481b4d8acad85433dd1db97db95c50d710b1984e4d7877f15590f6bc45d98"
+  },
+  {
+    "path": "res/drawable/tab_button_attack.xml",
+    "bytes": 564,
+    "sha256": "a748332daad005befbdb0b0521b7b48bcb9fc5acf37fa0d93f97243da675ba5e"
+  },
+  {
+    "path": "res/drawable/tab_button_bg.xml",
+    "bytes": 1708,
+    "sha256": "f4d3103de65189fad0c76a63f8bd870359a94256cd0cbca76f7c47ce91675759"
+  },
+  {
+    "path": "res/drawable/tab_button_equipment.xml",
+    "bytes": 564,
+    "sha256": "b616ff408402c4f6cfe0dac503ed54b31b3dd4764d4bc273ebb39d1ac5cd992a"
+  },
+  {
+    "path": "res/drawable/tab_button_home.xml",
+    "bytes": 564,
+    "sha256": "fddd2c903ca31b21c843ad4fdb63be12a9746446d9a45876eade42d9aefcb13c"
+  },
+  {
+    "path": "res/drawable/tab_button_missions.xml",
+    "bytes": 564,
+    "sha256": "14a251b98c2292f5240bb684765339fe0684f72b67acb24d2cd35152cdb24710"
+  },
+  {
+    "path": "res/drawable/tab_button_recruit.xml",
+    "bytes": 564,
+    "sha256": "f7eeb89e831b77ea9e0df45370239ff658aec182e4c837b4d70d27c4b1652a36"
+  },
+  {
+    "path": "res/layout/main.xml",
+    "bytes": 996,
+    "sha256": "e148ff888800c6aa33b7d99f77d3e4538e200611584a64226f4d6fb5b2ce3f00"
+  },
+  {
+    "path": "res/layout/notification_toast.xml",
+    "bytes": 1400,
+    "sha256": "007b2da5c79b73555cbb14cb08c9c1c8076db96b507a21342ef3c1f23d630603"
+  },
+  {
+    "path": "res/layout/splash.xml",
+    "bytes": 736,
+    "sha256": "62a7da6207c584fd291b1e823ecb2f5083874ac33f8b7785beab0cb6dd0d8edb"
+  },
+  {
+    "path": "res/layout/tab_button.xml",
+    "bytes": 1552,
+    "sha256": "23ee86553997439b98db508cc46bf43ff75a5a8f158de50edd005ad8c74ca3b4"
+  },
+  {
+    "path": "res/menu/menu.xml",
+    "bytes": 1200,
+    "sha256": "2bd2a7705ad12cdec2a26f07b927f172626fe60abc33ed3fd30f34d530867509"
+  },
+  {
+    "path": "res/raw/angel1.3gp",
+    "bytes": 7958,
+    "sha256": "c7a0b9abe2cf542812fcf49d26101706c2d2557af9396fbacd802e8fd78a74de"
+  },
+  {
+    "path": "res/raw/fireball.3gp",
+    "bytes": 6112,
+    "sha256": "36fe73dfe174fa78403c0174918cbbddb813dc02550f47ea1ddd9a2b1b8d5886"
+  },
+  {
+    "path": "res/raw/fireball2.3gp",
+    "bytes": 6816,
+    "sha256": "680781b480d445fd8dfbb01be418b05026906b50d8993fa6afcea1f7767c4f2c"
+  },
+  {
+    "path": "res/raw/fireball3.3gp",
+    "bytes": 3700,
+    "sha256": "5ace9f7b2640d9950957fb5ed6eb980cf65b3a5bbc78c66b35351e16c08b8333"
+  },
+  {
+    "path": "res/raw/music1.3gp",
+    "bytes": 38604,
+    "sha256": "b43fa66f1e335647ec99d765dcea551f71bcf461aa36e249933727056bbf5d09"
+  },
+  {
+    "path": "res/raw/powerup1.3gp",
+    "bytes": 5311,
+    "sha256": "452d9dd83e9540893a01396cc8c310f29a199f45615d8e32ed2c4c629c4e430e"
+  },
+  {
+    "path": "res/raw/powerup2.3gp",
+    "bytes": 13855,
+    "sha256": "8a961b9e6add19852027ce8c353bde535fea610e91c4b15cbd4e3a1aad08e51b"
+  },
+  {
+    "path": "res/raw/soldiers1.3gp",
+    "bytes": 3702,
+    "sha256": "6d130e668a9befdf1d3d6281866eb291724b2677bcf26b5c3f0c75778159dd0e"
+  },
+  {
+    "path": "res/raw/sword1.3gp",
+    "bytes": 4406,
+    "sha256": "063546c7e742e1600af0caea5900672940e44f52d80224d404c9282b19ab7811"
+  },
+  {
+    "path": "res/raw/tap.3gp",
+    "bytes": 891,
+    "sha256": "b8841624eb9512ea5e4ebaa377a915d7ba0a63a16231615f94e1d90b9ed43837"
+  },
+  {
+    "path": "res/raw/wood1.3gp",
+    "bytes": 7404,
+    "sha256": "29e583d42b9f8ea44466dbb94ed0cc63d6ddd7b72d50645ee020a82df80bf762"
+  },
+  {
+    "path": "AndroidManifest.xml",
+    "bytes": 6844,
+    "sha256": "0e0ae7fe76f6a7bb9ed52e963c023d465e3046ddc571f6956c7cc6aef9d433bb"
+  },
+  {
+    "path": "resources.arsc",
+    "bytes": 8740,
+    "sha256": "dfc4a3e4733344b810b385da6163c1667a16badf3a6d0d4fbdef283e9c847474"
+  },
+  {
+    "path": "res/drawable-hdpi/icon.png",
+    "bytes": 11558,
+    "sha256": "2a4dcf7ed30f79ec4af951e9845b12e999bed7b381d1526a4fb89dc4d26f76e9"
+  },
+  {
+    "path": "res/drawable-ldpi/icon.png",
+    "bytes": 3414,
+    "sha256": "fd40150e8670c80fcb96c8ea73efe42dcb30d252e52f0aa53111585fbc302ca5"
+  },
+  {
+    "path": "res/drawable-mdpi/icon.png",
+    "bytes": 5687,
+    "sha256": "c217534aab5f7c37a7c85742d679564450ada352ff9882dbff86785e100dddb3"
+  },
+  {
+    "path": "res/drawable-tvdpi/icon.png",
+    "bytes": 9427,
+    "sha256": "11e861a22e4e60dae8fc7bb7ea8d926f6e7f7e6dfa1dbe7fc17a33fa611e9ede"
+  },
+  {
+    "path": "res/drawable-xhdpi/icon.png",
+    "bytes": 19300,
+    "sha256": "611bb11b341582edcc09945a16e6f23b57f9ee92bf417fb1b4a74224d872f9df"
+  },
+  {
+    "path": "res/drawable-xxhdpi/icon.png",
+    "bytes": 40050,
+    "sha256": "b65df0d47e10a0078d861bf39d279c3c1f362e88b681d3ea302f9c56cd1f2c8d"
+  },
+  {
+    "path": "classes.dex",
+    "bytes": 540152,
+    "sha256": "1588e71b984f3f36d5b810488a04996aa8ac779f8a059ed996a5db8dd9f2ba86"
+  },
+  {
+    "path": "assembly-descriptor.xml",
+    "bytes": 453,
+    "sha256": "f2cdfe456f645fa91409bad862a7b786d30a9843ce5378ab3c83610a6b9895e9"
+  },
+  {
+    "path": "META-INF/MANIFEST.MF",
+    "bytes": 4499,
+    "sha256": "0bc6db53092964d0892e3b083b233c316d3256088e46a6069e74c57f90fb25a7"
+  },
+  {
+    "path": "META-INF/CERT.SF",
+    "bytes": 4552,
+    "sha256": "4582937df1759857180b1dc2bd0abb4dd039ef40ac0202f67f2ab35dd04bc6ff"
+  },
+  {
+    "path": "META-INF/CERT.RSA",
+    "bytes": 975,
+    "sha256": "6c0c3645310668acd31460271b898e4d208d32b70bbaf61001f08362dc32ecdb"
+  }
+]

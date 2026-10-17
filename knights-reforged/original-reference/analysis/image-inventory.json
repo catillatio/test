@@ -1,0 +1,242 @@
+[
+  {
+    "path": "res/drawable/attack.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1251,
+    "sha256": "2126450ca665a4e623f2835de2d03cd210d1a763b652341c6e3cf420e176b39c"
+  },
+  {
+    "path": "res/drawable/attack_selected.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1284,
+    "sha256": "3746951cb534476af1f8fdf37fb51accb005da4a7eaec86ced1adc8b92245d40"
+  },
+  {
+    "path": "res/drawable/attack_w.png",
+    "width": 30,
+    "height": 30,
+    "mode": "P",
+    "bytes": 929,
+    "sha256": "6e612b20cbc82a86f6b84c70d6248070160ce6285d18c34b3578398669b73a9b"
+  },
+  {
+    "path": "res/drawable/bg_attack.jpg",
+    "width": 320,
+    "height": 480,
+    "mode": "RGB",
+    "bytes": 103719,
+    "sha256": "2f57dda89eb2612507e22de8c1309c662d7fe95b8bd5b0f288c34f182f61b63e"
+  },
+  {
+    "path": "res/drawable/bg_bank.jpg",
+    "width": 320,
+    "height": 480,
+    "mode": "RGB",
+    "bytes": 86327,
+    "sha256": "20b53e4c5ec789e5e63901a47c67e6b837d341836464aa6e6ba2333b3e10b644"
+  },
+  {
+    "path": "res/drawable/bg_default.jpg",
+    "width": 320,
+    "height": 480,
+    "mode": "RGB",
+    "bytes": 84243,
+    "sha256": "489917cdfe0efd36ce3ba04b7d1bc4126da28517b756182e2d05ec6dc78a9ca6"
+  },
+  {
+    "path": "res/drawable/bg_equipment.jpg",
+    "width": 320,
+    "height": 480,
+    "mode": "RGB",
+    "bytes": 59895,
+    "sha256": "8d0d7b4d7a2b690db7465bf9d228007b588c393ca47ad947c246835f97615190"
+  },
+  {
+    "path": "res/drawable/bg_hospital.jpg",
+    "width": 320,
+    "height": 480,
+    "mode": "RGB",
+    "bytes": 86174,
+    "sha256": "a355ef6a58d4251bbaea85a911741390a8c6763e81723f19b7000fc54d5ec984"
+  },
+  {
+    "path": "res/drawable/bg_missions.jpg",
+    "width": 320,
+    "height": 480,
+    "mode": "RGB",
+    "bytes": 58262,
+    "sha256": "d87426b9927e1195045afa70954f3f677ca7d7c19c38d4f4860c3e40726974d4"
+  },
+  {
+    "path": "res/drawable/buildings.png",
+    "width": 30,
+    "height": 30,
+    "mode": "P",
+    "bytes": 654,
+    "sha256": "9502bb83389a1f0e722b659ee61f9f2e488d934795650df8a948f9d963c06378"
+  },
+  {
+    "path": "res/drawable/default_bg.png",
+    "width": 320,
+    "height": 480,
+    "mode": "RGB",
+    "bytes": 281544,
+    "sha256": "1ecc268f6ea0f21094e73c9b348f8098a232d7c0760aead45f3d99a05606006a"
+  },
+  {
+    "path": "res/drawable/equipment.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1201,
+    "sha256": "8a0637bb07b4f59923ce0ca79768669ea7faf8b1a008244d9ce533d223c21480"
+  },
+  {
+    "path": "res/drawable/equipment_selected.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1230,
+    "sha256": "91453f84db9561520476d93666f66ab34491777fa99187e55274e5cea66064aa"
+  },
+  {
+    "path": "res/drawable/equipment_w.png",
+    "width": 30,
+    "height": 30,
+    "mode": "P",
+    "bytes": 1012,
+    "sha256": "40a2bab2a9ff37c2b067b4711b38dbcbb60917bbfcf45ff98e010e1d16298c5e"
+  },
+  {
+    "path": "res/drawable/home.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1127,
+    "sha256": "8566454c50114624bbcc4e978af18f93fd26e883b1281fc3b47dc04f65a589cd"
+  },
+  {
+    "path": "res/drawable/home_selected.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1197,
+    "sha256": "c7e1e11984ba41bd5565109766cd43df137182c590e55783a1245ffc286ce088"
+  },
+  {
+    "path": "res/drawable/home_w.png",
+    "width": 30,
+    "height": 30,
+    "mode": "P",
+    "bytes": 958,
+    "sha256": "9768724e1594edc9f78acffaef7d0c71c5a8785fcdd41a86635550f7b9d4b131"
+  },
+  {
+    "path": "res/drawable/icon.png",
+    "width": 160,
+    "height": 160,
+    "mode": "RGBA",
+    "bytes": 57603,
+    "sha256": "b914037ad86f2304367010875991d1eea95b4b091e1414bd4d544710bc61f8d4"
+  },
+  {
+    "path": "res/drawable/missions.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1088,
+    "sha256": "dec853765fe4aa40f20d8aee3953e844fe4a11a3c9ebc3b78f304b3f98bf88a5"
+  },
+  {
+    "path": "res/drawable/missions_selected.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1128,
+    "sha256": "701f4c6ff8c6fcd7ca43c05eb9c1d208d5685e2aa961eed150e3407c272d4dc6"
+  },
+  {
+    "path": "res/drawable/missions_w.png",
+    "width": 30,
+    "height": 30,
+    "mode": "P",
+    "bytes": 851,
+    "sha256": "4abf613a7661706ccfee0185104046b3be30747ce675c3cca98e8d0336712955"
+  },
+  {
+    "path": "res/drawable/recruit.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1133,
+    "sha256": "d023062ccf6b93e6c84be0b16e152bc751ce5dba1bba7defb9cf326e1021e22a"
+  },
+  {
+    "path": "res/drawable/recruit_selected.png",
+    "width": 30,
+    "height": 30,
+    "mode": "RGBA",
+    "bytes": 1159,
+    "sha256": "41a3e0b98a8bc7a2ff6463068227822f03d109ba33429c62b413ffe1b29a1c48"
+  },
+  {
+    "path": "res/drawable/recruit_w.png",
+    "width": 30,
+    "height": 30,
+    "mode": "P",
+    "bytes": 1010,
+    "sha256": "22340ed3660d2cd55281c459ded71caf0255ad46aef15616cbb3e2a50d1b5204"
+  },
+  {
+    "path": "res/drawable-hdpi/icon.png",
+    "width": 72,
+    "height": 72,
+    "mode": "RGBA",
+    "bytes": 11558,
+    "sha256": "2a4dcf7ed30f79ec4af951e9845b12e999bed7b381d1526a4fb89dc4d26f76e9"
+  },
+  {
+    "path": "res/drawable-ldpi/icon.png",
+    "width": 36,
+    "height": 36,
+    "mode": "RGBA",
+    "bytes": 3414,
+    "sha256": "fd40150e8670c80fcb96c8ea73efe42dcb30d252e52f0aa53111585fbc302ca5"
+  },
+  {
+    "path": "res/drawable-mdpi/icon.png",
+    "width": 48,
+    "height": 48,
+    "mode": "RGBA",
+    "bytes": 5687,
+    "sha256": "c217534aab5f7c37a7c85742d679564450ada352ff9882dbff86785e100dddb3"
+  },
+  {
+    "path": "res/drawable-tvdpi/icon.png",
+    "width": 64,
+    "height": 64,
+    "mode": "RGBA",
+    "bytes": 9427,
+    "sha256": "11e861a22e4e60dae8fc7bb7ea8d926f6e7f7e6dfa1dbe7fc17a33fa611e9ede"
+  },
+  {
+    "path": "res/drawable-xhdpi/icon.png",
+    "width": 96,
+    "height": 96,
+    "mode": "RGBA",
+    "bytes": 19300,
+    "sha256": "611bb11b341582edcc09945a16e6f23b57f9ee92bf417fb1b4a74224d872f9df"
+  },
+  {
+    "path": "res/drawable-xxhdpi/icon.png",
+    "width": 144,
+    "height": 144,
+    "mode": "RGBA",
+    "bytes": 40050,
+    "sha256": "b65df0d47e10a0078d861bf39d279c3c1f362e88b681d3ea302f9c56cd1f2c8d"
+  }
+]

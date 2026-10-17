@@ -1,0 +1,5 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:background="@drawable/tab_button_bg" android:layout_width="49dp" android:layout_height="46dp">
+  <ImageView android:id="@id/button_bg" android:background="@0x00000000" android:layout_width="-1" android:layout_height="-1" android:src="@drawable/tab_button_bg" />
+  <ImageView android:id="@id/button_image" android:background="@0x00000000" android:layout_width="-2" android:layout_height="-2" android:layout_marginTop="2dp" android:src="@drawable/home_w" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" />
+  <TextView android:textSize="9dp" android:textColor="#ffffffff" android:id="@id/button_label" android:layout_width="-2" android:layout_height="-2" android:layout_marginTop="0dp" android:text="Equipment" android:layout_below="@id/button_image" android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
+</RelativeLayout>

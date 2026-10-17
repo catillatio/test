@@ -1,0 +1,15 @@
+# class Lcom/google/gson/y$b; extends Ljava/lang/Error;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/y$b;-><init>()V access=0x11000
+# code_off=0x1e238 registers=2 incoming_words=1 outgoing_words=2 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v0}, Lcom/google/gson/y$b;-><init>(B)V
+0004: return-void
+
+## Lcom/google/gson/y$b;-><init>(B)V access=0x10002
+# code_off=0x1e254 registers=2 incoming_words=2 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Error;-><init>()V
+0003: return-void

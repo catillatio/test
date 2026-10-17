@@ -1,0 +1,81 @@
+# class Lcom/storm8/base/util/iap/IabHelper$3; extends Ljava/lang/Object;
+# interfaces Ljava/lang/Runnable;
+# source IabHelper.java
+# fields
+# Lcom/storm8/base/util/iap/IabHelper$3;->this$0:Lcom/storm8/base/util/iap/IabHelper; access=0x1010
+# Lcom/storm8/base/util/iap/IabHelper$3;->val$handler:Landroid/os/Handler; access=0x1012
+# Lcom/storm8/base/util/iap/IabHelper$3;->val$multiListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener; access=0x1012
+# Lcom/storm8/base/util/iap/IabHelper$3;->val$purchases:Ljava/util/List; access=0x1012
+# Lcom/storm8/base/util/iap/IabHelper$3;->val$singleListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeFinishedListener; access=0x1012
+
+## Lcom/storm8/base/util/iap/IabHelper$3;-><init>(Lcom/storm8/base/util/iap/IabHelper;Ljava/util/List;Lcom/storm8/base/util/iap/IabHelper$OnConsumeFinishedListener;Landroid/os/Handler;Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;)V access=0x10000
+# code_off=0x2274c registers=6 incoming_words=6 outgoing_words=1 code_units=14 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/util/iap/IabHelper$3;->this$0:Lcom/storm8/base/util/iap/IabHelper;"
+0002: iput-object v2, v0, "Lcom/storm8/base/util/iap/IabHelper$3;->val$purchases:Ljava/util/List;"
+0004: iput-object v3, v0, "Lcom/storm8/base/util/iap/IabHelper$3;->val$singleListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeFinishedListener;"
+0006: iput-object v4, v0, "Lcom/storm8/base/util/iap/IabHelper$3;->val$handler:Landroid/os/Handler;"
+0008: iput-object v5, v0, "Lcom/storm8/base/util/iap/IabHelper$3;->val$multiListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;"
+000a: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+000d: return-void
+
+## Lcom/storm8/base/util/iap/IabHelper$3;->run()V access=0x1
+# code_off=0x22778 registers=9 incoming_words=1 outgoing_words=5 code_units=120 tries=1
+0000: new-instance v2, "Ljava/util/ArrayList;"
+0002: invoke-direct {v2}, Ljava/util/ArrayList;-><init>()V
+0005: iget-object v3, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->val$purchases:Ljava/util/List;"
+0007: invoke-interface {v3}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+000a: move-result-object v3
+000b: invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
+000e: move-result v4
+000f: if-nez v4, @0047
+0011: iget-object v3, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->this$0:Lcom/storm8/base/util/iap/IabHelper;"
+0013: invoke-virtual {v3}, Lcom/storm8/base/util/iap/IabHelper;->flagEndAsync()V
+0016: iget-object v3, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->this$0:Lcom/storm8/base/util/iap/IabHelper;"
+0018: iget-boolean v3, v3, "Lcom/storm8/base/util/iap/IabHelper;->mDisposed:Z"
+001a: if-nez v3, @002e
+001c: iget-object v3, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->val$singleListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeFinishedListener;"
+001e: if-eqz v3, @002e
+0020: iget-object v3, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->val$handler:Landroid/os/Handler;"
+0022: new-instance v4, "Lcom/storm8/base/util/iap/IabHelper$3$1;"
+0024: iget-object v5, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->val$singleListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeFinishedListener;"
+0026: iget-object v6, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->val$purchases:Ljava/util/List;"
+0028: invoke-direct {v4, v8, v5, v6, v2}, Lcom/storm8/base/util/iap/IabHelper$3$1;-><init>(Lcom/storm8/base/util/iap/IabHelper$3;Lcom/storm8/base/util/iap/IabHelper$OnConsumeFinishedListener;Ljava/util/List;Ljava/util/List;)V
+002b: invoke-virtual {v3, v4}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+002e: iget-object v3, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->this$0:Lcom/storm8/base/util/iap/IabHelper;"
+0030: iget-boolean v3, v3, "Lcom/storm8/base/util/iap/IabHelper;->mDisposed:Z"
+0032: if-nez v3, @0046
+0034: iget-object v3, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->val$multiListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;"
+0036: if-eqz v3, @0046
+0038: iget-object v3, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->val$handler:Landroid/os/Handler;"
+003a: new-instance v4, "Lcom/storm8/base/util/iap/IabHelper$3$2;"
+003c: iget-object v5, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->val$multiListener:Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;"
+003e: iget-object v6, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->val$purchases:Ljava/util/List;"
+0040: invoke-direct {v4, v8, v5, v6, v2}, Lcom/storm8/base/util/iap/IabHelper$3$2;-><init>(Lcom/storm8/base/util/iap/IabHelper$3;Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;Ljava/util/List;Ljava/util/List;)V
+0043: invoke-virtual {v3, v4}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+0046: return-void
+0047: invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+004a: move-result-object v1
+004b: check-cast v1, "Lcom/storm8/base/util/iap/Purchase;"
+004d: iget-object v4, v8, "Lcom/storm8/base/util/iap/IabHelper$3;->this$0:Lcom/storm8/base/util/iap/IabHelper;"
+004f: invoke-virtual {v4, v1}, Lcom/storm8/base/util/iap/IabHelper;->consume(Lcom/storm8/base/util/iap/Purchase;)V
+0052: new-instance v4, "Lcom/storm8/base/util/iap/IabResult;"
+0054: const/4 v5, 0
+0055: new-instance v6, "Ljava/lang/StringBuilder;"
+0057: const-string v7, "Successful consume of sku "
+0059: invoke-direct {v6, v7}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+005c: invoke-virtual {v1}, Lcom/storm8/base/util/iap/Purchase;->getSku()Ljava/lang/String;
+005f: move-result-object v7
+0060: invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0063: move-result-object v6
+0064: invoke-virtual {v6}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0067: move-result-object v6
+0068: invoke-direct {v4, v5, v6}, Lcom/storm8/base/util/iap/IabResult;-><init>(ILjava/lang/String;)V
+006b: invoke-interface {v2, v4}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+006e: goto @000b
+006f: move-exception v0
+0070: invoke-virtual {v0}, Lcom/storm8/base/util/iap/IabException;->getResult()Lcom/storm8/base/util/iap/IabResult;
+0073: move-result-object v4
+0074: invoke-interface {v2, v4}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+0077: goto @000b
+# try @004d..@006e handler_offset=1
+# handler_offset=1: Lcom/storm8/base/util/iap/IabException; -> @006f

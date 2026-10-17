@@ -1,0 +1,418 @@
+# class Lcom/google/gson/reflect/TypeToken; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/reflect/TypeToken;->a:Ljava/lang/Class; access=0x10
+# Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type; access=0x10
+
+## Lcom/google/gson/reflect/TypeToken;-><init>()V access=0x10004
+# code_off=0x1db18 registers=3 incoming_words=1 outgoing_words=2 code_units=43 tries=0
+0000: invoke-direct {v2}, Ljava/lang/Object;-><init>()V
+0003: invoke-virtual {v2}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+0006: move-result-object v0
+0007: invoke-virtual {v0}, Ljava/lang/Class;->getGenericSuperclass()Ljava/lang/reflect/Type;
+000a: move-result-object v0
+000b: instance-of v1, v0, "Ljava/lang/Class;"
+000d: if-eqz v1, @0017
+000f: new-instance v0, "Ljava/lang/RuntimeException;"
+0011: const-string v1, "Missing type parameter."
+0013: invoke-direct {v0, v1}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
+0016: throw v0
+0017: check-cast v0, "Ljava/lang/reflect/ParameterizedType;"
+0019: invoke-interface {v0}, Ljava/lang/reflect/ParameterizedType;->getActualTypeArguments()[Ljava/lang/reflect/Type;
+001c: move-result-object v0
+001d: const/4 v1, 0
+001e: aget-object v0, v0, v1
+0020: iput-object v0, v2, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0022: iget-object v0, v2, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0024: invoke-static {v0}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+0027: move-result-object v0
+0028: iput-object v0, v2, "Lcom/google/gson/reflect/TypeToken;->a:Ljava/lang/Class;"
+002a: return-void
+
+## Lcom/google/gson/reflect/TypeToken;-><init>(Ljava/lang/reflect/Type;)V access=0x11000
+# code_off=0x1db80 registers=3 incoming_words=2 outgoing_words=3 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v2, v0}, Lcom/google/gson/reflect/TypeToken;-><init>(Ljava/lang/reflect/Type;B)V
+0004: return-void
+
+## Lcom/google/gson/reflect/TypeToken;-><init>(Ljava/lang/reflect/Type;B)V access=0x10002
+# code_off=0x1db9c registers=5 incoming_words=3 outgoing_words=2 code_units=25 tries=0
+0000: invoke-direct {v2}, Ljava/lang/Object;-><init>()V
+0003: const-string v0, "type"
+0005: if-nez v3, @000d
+0007: new-instance v1, "Ljava/lang/NullPointerException;"
+0009: invoke-direct {v1, v0}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
+000c: throw v1
+000d: move-object v0, v3
+000e: check-cast v0, "Ljava/lang/reflect/Type;"
+0010: invoke-static {v0}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+0013: move-result-object v0
+0014: iput-object v0, v2, "Lcom/google/gson/reflect/TypeToken;->a:Ljava/lang/Class;"
+0016: iput-object v3, v2, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0018: return-void
+
+## Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;[Ljava/lang/Class;)Ljava/lang/AssertionError; access=0x8a
+# code_off=0x1dbe0 registers=7 incoming_words=2 outgoing_words=2 code_units=76 tries=0
+0000: new-instance v1, "Ljava/lang/StringBuilder;"
+0002: const-string v0, "Unexpected type. Expected one of: "
+0004: invoke-direct {v1, v0}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0007: array-length v2, v6
+0008: const/4 v0, 0
+0009: if-ge v0, v2, @001d
+000b: aget-object v3, v6, v0
+000d: invoke-virtual {v3}, Ljava/lang/Class;->getName()Ljava/lang/String;
+0010: move-result-object v3
+0011: invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0014: move-result-object v3
+0015: const-string v4, ", "
+0017: invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001a: add-int/lit8 v0, v0, 1
+001c: goto @0009
+001d: const-string v0, "but got: "
+001f: invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0022: move-result-object v0
+0023: invoke-virtual {v5}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+0026: move-result-object v2
+0027: invoke-virtual {v2}, Ljava/lang/Class;->getName()Ljava/lang/String;
+002a: move-result-object v2
+002b: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+002e: move-result-object v0
+002f: const-string v2, ", for type token: "
+0031: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0034: move-result-object v0
+0035: invoke-virtual {v5}, Ljava/lang/Object;->toString()Ljava/lang/String;
+0038: move-result-object v2
+0039: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+003c: move-result-object v0
+003d: const/16 v2, 46
+003f: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+0042: new-instance v0, "Ljava/lang/AssertionError;"
+0044: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0047: move-result-object v1
+0048: invoke-direct {v0, v1}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
+004b: return-object v0
+
+## Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;)Ljava/lang/Class; access=0xa
+# code_off=0x1dc88 registers=5 incoming_words=1 outgoing_words=2 code_units=77 tries=0
+0000: const/4 v2, 1
+0001: const/4 v3, 0
+0002: instance-of v0, v4, "Ljava/lang/Class;"
+0004: if-eqz v0, @0009
+0006: check-cast v4, "Ljava/lang/Class;"
+0008: return-object v4
+0009: instance-of v0, v4, "Ljava/lang/reflect/ParameterizedType;"
+000b: if-eqz v0, @0026
+000d: check-cast v4, "Ljava/lang/reflect/ParameterizedType;"
+000f: invoke-interface {v4}, Ljava/lang/reflect/ParameterizedType;->getRawType()Ljava/lang/reflect/Type;
+0012: move-result-object v0
+0013: instance-of v1, v0, "Ljava/lang/Class;"
+0015: if-eqz v1, @001b
+0017: check-cast v0, "Ljava/lang/Class;"
+0019: move-object v4, v0
+001a: goto @0008
+001b: new-array v1, v2, "[Ljava/lang/Class;"
+001d: const-class v2, "Ljava/lang/Class;"
+001f: aput-object v2, v1, v3
+0021: invoke-static {v0, v1}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;[Ljava/lang/Class;)Ljava/lang/AssertionError;
+0024: move-result-object v0
+0025: throw v0
+0026: instance-of v0, v4, "Ljava/lang/reflect/GenericArrayType;"
+0028: if-eqz v0, @003d
+002a: check-cast v4, "Ljava/lang/reflect/GenericArrayType;"
+002c: invoke-interface {v4}, Ljava/lang/reflect/GenericArrayType;->getGenericComponentType()Ljava/lang/reflect/Type;
+002f: move-result-object v0
+0030: invoke-static {v0}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+0033: move-result-object v0
+0034: invoke-static {v0, v3}, Ljava/lang/reflect/Array;->newInstance(Ljava/lang/Class;I)Ljava/lang/Object;
+0037: move-result-object v0
+0038: invoke-virtual {v0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+003b: move-result-object v4
+003c: goto @0008
+003d: const/4 v0, 2
+003e: new-array v0, v0, "[Ljava/lang/Class;"
+0040: const-class v1, "Ljava/lang/reflect/ParameterizedType;"
+0042: aput-object v1, v0, v3
+0044: const-class v1, "Ljava/lang/reflect/GenericArrayType;"
+0046: aput-object v1, v0, v2
+0048: invoke-static {v4, v0}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;[Ljava/lang/Class;)Ljava/lang/AssertionError;
+004b: move-result-object v0
+004c: throw v0
+
+## Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;Ljava/lang/reflect/GenericArrayType;)Z access=0xa
+# code_off=0x1dd34 registers=4 incoming_words=2 outgoing_words=3 code_units=49 tries=0
+0000: invoke-interface {v3}, Ljava/lang/reflect/GenericArrayType;->getGenericComponentType()Ljava/lang/reflect/Type;
+0003: move-result-object v0
+0004: instance-of v1, v0, "Ljava/lang/reflect/ParameterizedType;"
+0006: if-eqz v1, @002f
+0008: instance-of v1, v2, "Ljava/lang/reflect/GenericArrayType;"
+000a: if-eqz v1, @001e
+000c: check-cast v2, "Ljava/lang/reflect/GenericArrayType;"
+000e: invoke-interface {v2}, Ljava/lang/reflect/GenericArrayType;->getGenericComponentType()Ljava/lang/reflect/Type;
+0011: move-result-object v2
+0012: check-cast v0, "Ljava/lang/reflect/ParameterizedType;"
+0014: new-instance v1, "Ljava/util/HashMap;"
+0016: invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
+0019: invoke-static {v2, v0, v1}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;Ljava/lang/reflect/ParameterizedType;Ljava/util/Map;)Z
+001c: move-result v0
+001d: return v0
+001e: instance-of v1, v2, "Ljava/lang/Class;"
+0020: if-eqz v1, @0012
+0022: check-cast v2, "Ljava/lang/Class;"
+0024: invoke-virtual {v2}, Ljava/lang/Class;->isArray()Z
+0027: move-result v1
+0028: if-eqz v1, @0012
+002a: invoke-virtual {v2}, Ljava/lang/Class;->getComponentType()Ljava/lang/Class;
+002d: move-result-object v2
+002e: goto @0024
+002f: const/4 v0, 1
+0030: goto @001d
+
+## Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;Ljava/lang/reflect/ParameterizedType;Ljava/util/Map;)Z access=0xa
+# code_off=0x1dda8 registers=12 incoming_words=3 outgoing_words=3 code_units=190 tries=0
+0000: const/4 v3, 1
+0001: const/4 v2, 0
+0002: if-nez v9, @0005
+0004: return v2
+0005: invoke-virtual {v10, v9}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+0008: move-result v0
+0009: if-eqz v0, @000d
+000b: move v2, v3
+000c: goto @0004
+000d: invoke-static {v9}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+0010: move-result-object v4
+0011: const/4 v0, 0
+0012: instance-of v1, v9, "Ljava/lang/reflect/ParameterizedType;"
+0014: if-eqz v1, @00bb
+0016: check-cast v9, "Ljava/lang/reflect/ParameterizedType;"
+0018: if-eqz v9, @008e
+001a: invoke-interface {v9}, Ljava/lang/reflect/ParameterizedType;->getActualTypeArguments()[Ljava/lang/reflect/Type;
+001d: move-result-object v5
+001e: invoke-virtual {v4}, Ljava/lang/Class;->getTypeParameters()[Ljava/lang/reflect/TypeVariable;
+0021: move-result-object v6
+0022: move v1, v2
+0023: array-length v0, v5
+0024: if-ge v1, v0, @0046
+0026: aget-object v0, v5, v1
+0028: aget-object v7, v6, v1
+002a: instance-of v8, v0, "Ljava/lang/reflect/TypeVariable;"
+002c: if-eqz v8, @003b
+002e: check-cast v0, "Ljava/lang/reflect/TypeVariable;"
+0030: invoke-interface {v0}, Ljava/lang/reflect/TypeVariable;->getName()Ljava/lang/String;
+0033: move-result-object v0
+0034: invoke-interface {v11, v0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0037: move-result-object v0
+0038: check-cast v0, "Ljava/lang/reflect/Type;"
+003a: goto @002a
+003b: invoke-interface {v7}, Ljava/lang/reflect/TypeVariable;->getName()Ljava/lang/String;
+003e: move-result-object v7
+003f: invoke-interface {v11, v7, v0}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0042: add-int/lit8 v0, v1, 1
+0044: move v1, v0
+0045: goto @0023
+0046: invoke-interface {v9}, Ljava/lang/reflect/ParameterizedType;->getRawType()Ljava/lang/reflect/Type;
+0049: move-result-object v0
+004a: invoke-interface {v10}, Ljava/lang/reflect/ParameterizedType;->getRawType()Ljava/lang/reflect/Type;
+004d: move-result-object v1
+004e: invoke-virtual {v0, v1}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+0051: move-result v0
+0052: if-eqz v0, @008c
+0054: invoke-interface {v9}, Ljava/lang/reflect/ParameterizedType;->getActualTypeArguments()[Ljava/lang/reflect/Type;
+0057: move-result-object v5
+0058: invoke-interface {v10}, Ljava/lang/reflect/ParameterizedType;->getActualTypeArguments()[Ljava/lang/reflect/Type;
+005b: move-result-object v6
+005c: move v1, v2
+005d: array-length v0, v5
+005e: if-ge v1, v0, @0086
+0060: aget-object v0, v5, v1
+0062: aget-object v7, v6, v1
+0064: invoke-virtual {v7, v0}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+0067: move-result v8
+0068: if-eqz v8, @0071
+006a: move v0, v3
+006b: if-eqz v0, @008c
+006d: add-int/lit8 v0, v1, 1
+006f: move v1, v0
+0070: goto @005d
+0071: instance-of v8, v0, "Ljava/lang/reflect/TypeVariable;"
+0073: if-eqz v8, @0084
+0075: check-cast v0, "Ljava/lang/reflect/TypeVariable;"
+0077: invoke-interface {v0}, Ljava/lang/reflect/TypeVariable;->getName()Ljava/lang/String;
+007a: move-result-object v0
+007b: invoke-interface {v11, v0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+007e: move-result-object v0
+007f: invoke-virtual {v7, v0}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+0082: move-result v0
+0083: goto @006b
+0084: move v0, v2
+0085: goto @006b
+0086: move v0, v3
+0087: if-eqz v0, @008e
+0089: move v2, v3
+008a: goto/16 @0004
+008c: move v0, v2
+008d: goto @0087
+008e: invoke-virtual {v4}, Ljava/lang/Class;->getGenericInterfaces()[Ljava/lang/reflect/Type;
+0091: move-result-object v1
+0092: array-length v5, v1
+0093: move v0, v2
+0094: if-ge v0, v5, @00a9
+0096: aget-object v6, v1, v0
+0098: new-instance v7, "Ljava/util/HashMap;"
+009a: invoke-direct {v7, v11}, Ljava/util/HashMap;-><init>(Ljava/util/Map;)V
+009d: invoke-static {v6, v10, v7}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;Ljava/lang/reflect/ParameterizedType;Ljava/util/Map;)Z
+00a0: move-result v6
+00a1: if-eqz v6, @00a6
+00a3: move v2, v3
+00a4: goto/16 @0004
+00a6: add-int/lit8 v0, v0, 1
+00a8: goto @0094
+00a9: invoke-virtual {v4}, Ljava/lang/Class;->getGenericSuperclass()Ljava/lang/reflect/Type;
+00ac: move-result-object v0
+00ad: new-instance v1, "Ljava/util/HashMap;"
+00af: invoke-direct {v1, v11}, Ljava/util/HashMap;-><init>(Ljava/util/Map;)V
+00b2: invoke-static {v0, v10, v1}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;Ljava/lang/reflect/ParameterizedType;Ljava/util/Map;)Z
+00b5: move-result v0
+00b6: if-eqz v0, @0004
+00b8: move v2, v3
+00b9: goto/16 @0004
+00bb: move-object v9, v0
+00bc: goto/16 @0018
+
+## Lcom/google/gson/reflect/TypeToken;->get(Ljava/lang/Class;)Lcom/google/gson/reflect/TypeToken; access=0x9
+# code_off=0x1df34 registers=2 incoming_words=1 outgoing_words=2 code_units=6 tries=0
+0000: new-instance v0, "Lcom/google/gson/reflect/TypeToken$a;"
+0002: invoke-direct {v0, v1}, Lcom/google/gson/reflect/TypeToken$a;-><init>(Ljava/lang/reflect/Type;)V
+0005: return-object v0
+
+## Lcom/google/gson/reflect/TypeToken;->get(Ljava/lang/reflect/Type;)Lcom/google/gson/reflect/TypeToken; access=0x9
+# code_off=0x1df50 registers=2 incoming_words=1 outgoing_words=2 code_units=6 tries=0
+0000: new-instance v0, "Lcom/google/gson/reflect/TypeToken$a;"
+0002: invoke-direct {v0, v1}, Lcom/google/gson/reflect/TypeToken$a;-><init>(Ljava/lang/reflect/Type;)V
+0005: return-object v0
+
+## Lcom/google/gson/reflect/TypeToken;->equals(Ljava/lang/Object;)Z access=0x1
+# code_off=0x1df6c registers=4 incoming_words=2 outgoing_words=2 code_units=21 tries=0
+0000: if-ne v3, v2, @0004
+0002: const/4 v0, 1
+0003: return v0
+0004: instance-of v0, v3, "Lcom/google/gson/reflect/TypeToken;"
+0006: if-nez v0, @000a
+0008: const/4 v0, 0
+0009: goto @0003
+000a: check-cast v3, "Lcom/google/gson/reflect/TypeToken;"
+000c: iget-object v0, v2, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+000e: iget-object v1, v3, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0010: invoke-virtual {v0, v1}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+0013: move-result v0
+0014: goto @0003
+
+## Lcom/google/gson/reflect/TypeToken;->getRawType()Ljava/lang/Class; access=0x1
+# code_off=0x1dfa8 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/reflect/TypeToken;->a:Ljava/lang/Class;"
+0002: return-object v0
+
+## Lcom/google/gson/reflect/TypeToken;->getType()Ljava/lang/reflect/Type; access=0x1
+# code_off=0x1dfc0 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0002: return-object v0
+
+## Lcom/google/gson/reflect/TypeToken;->hashCode()I access=0x1
+# code_off=0x1dfd8 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0002: invoke-virtual {v0}, Ljava/lang/Object;->hashCode()I
+0005: move-result v0
+0006: return v0
+
+## Lcom/google/gson/reflect/TypeToken;->isAssignableFrom(Lcom/google/gson/reflect/TypeToken;)Z access=0x1
+# code_off=0x1dff8 registers=3 incoming_words=2 outgoing_words=2 code_units=9 tries=0
+0000: invoke-virtual {v2}, Lcom/google/gson/reflect/TypeToken;->getType()Ljava/lang/reflect/Type;
+0003: move-result-object v0
+0004: invoke-virtual {v1, v0}, Lcom/google/gson/reflect/TypeToken;->isAssignableFrom(Ljava/lang/reflect/Type;)Z
+0007: move-result v0
+0008: return v0
+
+## Lcom/google/gson/reflect/TypeToken;->isAssignableFrom(Ljava/lang/Class;)Z access=0x1
+# code_off=0x1e01c registers=3 incoming_words=2 outgoing_words=2 code_units=5 tries=0
+0000: invoke-virtual {v1, v2}, Lcom/google/gson/reflect/TypeToken;->isAssignableFrom(Ljava/lang/reflect/Type;)Z
+0003: move-result v0
+0004: return v0
+
+## Lcom/google/gson/reflect/TypeToken;->isAssignableFrom(Ljava/lang/reflect/Type;)Z access=0x1
+# code_off=0x1e038 registers=7 incoming_words=2 outgoing_words=3 code_units=108 tries=0
+0000: const/4 v2, 1
+0001: const/4 v1, 0
+0002: if-nez v6, @0006
+0004: move v0, v1
+0005: return v0
+0006: iget-object v0, v5, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0008: invoke-virtual {v0, v6}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+000b: move-result v0
+000c: if-eqz v0, @0010
+000e: move v0, v2
+000f: goto @0005
+0010: iget-object v0, v5, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0012: instance-of v0, v0, "Ljava/lang/Class;"
+0014: if-eqz v0, @0021
+0016: iget-object v0, v5, "Lcom/google/gson/reflect/TypeToken;->a:Ljava/lang/Class;"
+0018: invoke-static {v6}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+001b: move-result-object v1
+001c: invoke-virtual {v0, v1}, Ljava/lang/Class;->isAssignableFrom(Ljava/lang/Class;)Z
+001f: move-result v0
+0020: goto @0005
+0021: iget-object v0, v5, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0023: instance-of v0, v0, "Ljava/lang/reflect/ParameterizedType;"
+0025: if-eqz v0, @0035
+0027: iget-object v0, v5, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0029: check-cast v0, "Ljava/lang/reflect/ParameterizedType;"
+002b: new-instance v1, "Ljava/util/HashMap;"
+002d: invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
+0030: invoke-static {v6, v0, v1}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;Ljava/lang/reflect/ParameterizedType;Ljava/util/Map;)Z
+0033: move-result v0
+0034: goto @0005
+0035: iget-object v0, v5, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0037: instance-of v0, v0, "Ljava/lang/reflect/GenericArrayType;"
+0039: if-eqz v0, @0055
+003b: iget-object v0, v5, "Lcom/google/gson/reflect/TypeToken;->a:Ljava/lang/Class;"
+003d: invoke-static {v6}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+0040: move-result-object v3
+0041: invoke-virtual {v0, v3}, Ljava/lang/Class;->isAssignableFrom(Ljava/lang/Class;)Z
+0044: move-result v0
+0045: if-eqz v0, @0053
+0047: iget-object v0, v5, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0049: check-cast v0, "Ljava/lang/reflect/GenericArrayType;"
+004b: invoke-static {v6, v0}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;Ljava/lang/reflect/GenericArrayType;)Z
+004e: move-result v0
+004f: if-eqz v0, @0053
+0051: move v0, v2
+0052: goto @0005
+0053: move v0, v1
+0054: goto @0005
+0055: iget-object v0, v5, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0057: const/4 v3, 3
+0058: new-array v3, v3, "[Ljava/lang/Class;"
+005a: const-class v4, "Ljava/lang/Class;"
+005c: aput-object v4, v3, v1
+005e: const-class v1, "Ljava/lang/reflect/ParameterizedType;"
+0060: aput-object v1, v3, v2
+0062: const/4 v1, 2
+0063: const-class v2, "Ljava/lang/reflect/GenericArrayType;"
+0065: aput-object v2, v3, v1
+0067: invoke-static {v0, v3}, Lcom/google/gson/reflect/TypeToken;->a(Ljava/lang/reflect/Type;[Ljava/lang/Class;)Ljava/lang/AssertionError;
+006a: move-result-object v0
+006b: throw v0
+
+## Lcom/google/gson/reflect/TypeToken;->toString()Ljava/lang/String; access=0x1
+# code_off=0x1e120 registers=2 incoming_words=1 outgoing_words=1 code_units=22 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0002: instance-of v0, v0, "Ljava/lang/Class;"
+0004: if-eqz v0, @000f
+0006: iget-object v0, v1, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0008: check-cast v0, "Ljava/lang/Class;"
+000a: invoke-virtual {v0}, Ljava/lang/Class;->getName()Ljava/lang/String;
+000d: move-result-object v0
+000e: return-object v0
+000f: iget-object v0, v1, "Lcom/google/gson/reflect/TypeToken;->b:Ljava/lang/reflect/Type;"
+0011: invoke-virtual {v0}, Ljava/lang/Object;->toString()Ljava/lang/String;
+0014: move-result-object v0
+0015: goto @000e

@@ -1,0 +1,475 @@
+# class Lorg/apache/commons/codec/language/Metaphone; extends Ljava/lang/Object;
+# interfaces Lorg/apache/commons/codec/StringEncoder;
+# source Metaphone.java
+# fields
+# Lorg/apache/commons/codec/language/Metaphone;->FRONTV:Ljava/lang/String; access=0x1a
+# Lorg/apache/commons/codec/language/Metaphone;->VARSON:Ljava/lang/String; access=0x1a
+# Lorg/apache/commons/codec/language/Metaphone;->VOWELS:Ljava/lang/String; access=0x1a
+# Lorg/apache/commons/codec/language/Metaphone;->maxCodeLen:I access=0x2
+
+## Lorg/apache/commons/codec/language/Metaphone;-><init>()V access=0x10001
+# code_off=0x357c8 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: const/4 v0, 4
+0004: iput v0, v1, "Lorg/apache/commons/codec/language/Metaphone;->maxCodeLen:I"
+0006: return-void
+
+## Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z access=0x2
+# code_off=0x357e8 registers=4 incoming_words=3 outgoing_words=0 code_units=8 tries=0
+0000: add-int/lit8 v0, v3, 1
+0002: if-ne v0, v2, @0006
+0004: const/4 v0, 1
+0005: return v0
+0006: const/4 v0, 0
+0007: goto @0005
+
+## Lorg/apache/commons/codec/language/Metaphone;->isNextChar(Ljava/lang/StringBuffer;IC)Z access=0x2
+# code_off=0x35808 registers=6 incoming_words=4 outgoing_words=2 code_units=23 tries=0
+0000: const/4 v0, 0
+0001: if-ltz v4, @0014
+0003: invoke-virtual {v3}, Ljava/lang/StringBuffer;->length()I
+0006: move-result v1
+0007: add-int/lit8 v1, v1, -1
+0009: if-ge v4, v1, @0014
+000b: add-int/lit8 v1, v4, 1
+000d: invoke-virtual {v3, v1}, Ljava/lang/StringBuffer;->charAt(I)C
+0010: move-result v1
+0011: if-ne v1, v5, @0015
+0013: const/4 v0, 1
+0014: return v0
+0015: const/4 v0, 0
+0016: goto @0014
+
+## Lorg/apache/commons/codec/language/Metaphone;->isPreviousChar(Ljava/lang/StringBuffer;IC)Z access=0x2
+# code_off=0x35848 registers=6 incoming_words=4 outgoing_words=2 code_units=21 tries=0
+0000: const/4 v0, 0
+0001: if-lez v4, @0012
+0003: invoke-virtual {v3}, Ljava/lang/StringBuffer;->length()I
+0006: move-result v1
+0007: if-ge v4, v1, @0012
+0009: add-int/lit8 v1, v4, -1
+000b: invoke-virtual {v3, v1}, Ljava/lang/StringBuffer;->charAt(I)C
+000e: move-result v1
+000f: if-ne v1, v5, @0013
+0011: const/4 v0, 1
+0012: return v0
+0013: const/4 v0, 0
+0014: goto @0012
+
+## Lorg/apache/commons/codec/language/Metaphone;->isVowel(Ljava/lang/StringBuffer;I)Z access=0x2
+# code_off=0x35884 registers=5 incoming_words=3 outgoing_words=2 code_units=16 tries=0
+0000: const-string v0, "AEIOU"
+0002: invoke-virtual {v3, v4}, Ljava/lang/StringBuffer;->charAt(I)C
+0005: move-result v1
+0006: invoke-virtual {v0, v1}, Ljava/lang/String;->indexOf(I)I
+0009: move-result v0
+000a: if-ltz v0, @000e
+000c: const/4 v0, 1
+000d: return v0
+000e: const/4 v0, 0
+000f: goto @000d
+
+## Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z access=0x2
+# code_off=0x358b4 registers=8 incoming_words=4 outgoing_words=3 code_units=30 tries=0
+0000: const/4 v0, 0
+0001: if-ltz v6, @001d
+0003: invoke-virtual {v7}, Ljava/lang/String;->length()I
+0006: move-result v2
+0007: add-int/2addr v2, v6
+0008: add-int/lit8 v2, v2, -1
+000a: invoke-virtual {v5}, Ljava/lang/StringBuffer;->length()I
+000d: move-result v3
+000e: if-ge v2, v3, @001d
+0010: invoke-virtual {v7}, Ljava/lang/String;->length()I
+0013: move-result v2
+0014: add-int/2addr v2, v6
+0015: invoke-virtual {v5, v6, v2}, Ljava/lang/StringBuffer;->substring(II)Ljava/lang/String;
+0018: move-result-object v1
+0019: invoke-virtual {v1, v7}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+001c: move-result v0
+001d: return v0
+
+## Lorg/apache/commons/codec/language/Metaphone;->encode(Ljava/lang/Object;)Ljava/lang/Object; access=0x1
+# code_off=0x35900 registers=4 incoming_words=2 outgoing_words=2 code_units=19 tries=0
+0000: instance-of v0, v3, "Ljava/lang/String;"
+0002: if-nez v0, @000c
+0004: new-instance v0, "Lorg/apache/commons/codec/EncoderException;"
+0006: const-string v1, "Parameter supplied to Metaphone encode is not of type java.lang.String"
+0008: invoke-direct {v0, v1}, Lorg/apache/commons/codec/EncoderException;-><init>(Ljava/lang/String;)V
+000b: throw v0
+000c: check-cast v3, "Ljava/lang/String;"
+000e: invoke-virtual {v2, v3}, Lorg/apache/commons/codec/language/Metaphone;->metaphone(Ljava/lang/String;)Ljava/lang/String;
+0011: move-result-object v0
+0012: return-object v0
+
+## Lorg/apache/commons/codec/language/Metaphone;->encode(Ljava/lang/String;)Ljava/lang/String; access=0x1
+# code_off=0x35938 registers=3 incoming_words=2 outgoing_words=2 code_units=5 tries=0
+0000: invoke-virtual {v1, v2}, Lorg/apache/commons/codec/language/Metaphone;->metaphone(Ljava/lang/String;)Ljava/lang/String;
+0003: move-result-object v0
+0004: return-object v0
+
+## Lorg/apache/commons/codec/language/Metaphone;->getMaxCodeLen()I access=0x1
+# code_off=0x35954 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget v0, v1, "Lorg/apache/commons/codec/language/Metaphone;->maxCodeLen:I"
+0002: return v0
+
+## Lorg/apache/commons/codec/language/Metaphone;->isMetaphoneEqual(Ljava/lang/String;Ljava/lang/String;)Z access=0x1
+# code_off=0x3596c registers=5 incoming_words=3 outgoing_words=2 code_units=13 tries=0
+0000: invoke-virtual {v2, v3}, Lorg/apache/commons/codec/language/Metaphone;->metaphone(Ljava/lang/String;)Ljava/lang/String;
+0003: move-result-object v0
+0004: invoke-virtual {v2, v4}, Lorg/apache/commons/codec/language/Metaphone;->metaphone(Ljava/lang/String;)Ljava/lang/String;
+0007: move-result-object v1
+0008: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+000b: move-result v0
+000c: return v0
+
+## Lorg/apache/commons/codec/language/Metaphone;->metaphone(Ljava/lang/String;)Ljava/lang/String; access=0x1
+# code_off=0x35998 registers=16 incoming_words=2 outgoing_words=4 code_units=774 tries=0
+0000: const/16 v13, 88
+0002: const/16 v12, 75
+0004: const/16 v11, 83
+0006: const/16 v10, 72
+0008: const/4 v9, 1
+0009: const/4 v1, 0
+000a: if-eqz v15, @0012
+000c: invoke-virtual {v15}, Ljava/lang/String;->length()I
+000f: move-result v7
+0010: if-nez v7, @0015
+0012: const-string v7, ""
+0014: return-object v7
+0015: invoke-virtual {v15}, Ljava/lang/String;->length()I
+0018: move-result v7
+0019: if-ne v7, v9, @0022
+001b: sget-object v7, "Ljava/util/Locale;->ENGLISH:Ljava/util/Locale;"
+001d: invoke-virtual {v15, v7}, Ljava/lang/String;->toUpperCase(Ljava/util/Locale;)Ljava/lang/String;
+0020: move-result-object v7
+0021: goto @0014
+0022: sget-object v7, "Ljava/util/Locale;->ENGLISH:Ljava/util/Locale;"
+0024: invoke-virtual {v15, v7}, Ljava/lang/String;->toUpperCase(Ljava/util/Locale;)Ljava/lang/String;
+0027: move-result-object v7
+0028: invoke-virtual {v7}, Ljava/lang/String;->toCharArray()[C
+002b: move-result-object v2
+002c: new-instance v3, "Ljava/lang/StringBuffer;"
+002e: const/16 v7, 40
+0030: invoke-direct {v3, v7}, Ljava/lang/StringBuffer;-><init>(I)V
+0033: new-instance v0, "Ljava/lang/StringBuffer;"
+0035: const/16 v7, 10
+0037: invoke-direct {v0, v7}, Ljava/lang/StringBuffer;-><init>(I)V
+003a: const/4 v7, 0
+003b: aget-char v7, v2, v7
+003d: sparse-switch v7, @02b4
+0040: invoke-virtual {v3, v2}, Ljava/lang/StringBuffer;->append([C)Ljava/lang/StringBuffer;
+0043: invoke-virtual {v3}, Ljava/lang/StringBuffer;->length()I
+0046: move-result v6
+0047: const/4 v4, 0
+0048: invoke-virtual {v0}, Ljava/lang/StringBuffer;->length()I
+004b: move-result v7
+004c: invoke-virtual {v14}, Lorg/apache/commons/codec/language/Metaphone;->getMaxCodeLen()I
+004f: move-result v8
+0050: if-ge v7, v8, @02ad
+0052: if-ge v4, v6, @02ad
+0054: invoke-virtual {v3, v4}, Ljava/lang/StringBuffer;->charAt(I)C
+0057: move-result v5
+0058: const/16 v7, 67
+005a: if-eq v5, v7, @00c1
+005c: invoke-direct {v14, v3, v4, v5}, Lorg/apache/commons/codec/language/Metaphone;->isPreviousChar(Ljava/lang/StringBuffer;IC)Z
+005f: move-result v7
+0060: if-eqz v7, @00c1
+0062: add-int/lit8 v4, v4, 1
+0064: invoke-virtual {v0}, Ljava/lang/StringBuffer;->length()I
+0067: move-result v7
+0068: invoke-virtual {v14}, Lorg/apache/commons/codec/language/Metaphone;->getMaxCodeLen()I
+006b: move-result v8
+006c: if-le v7, v8, @0048
+006e: invoke-virtual {v14}, Lorg/apache/commons/codec/language/Metaphone;->getMaxCodeLen()I
+0071: move-result v7
+0072: invoke-virtual {v0, v7}, Ljava/lang/StringBuffer;->setLength(I)V
+0075: goto @0048
+0076: aget-char v7, v2, v9
+0078: const/16 v8, 78
+007a: if-ne v7, v8, @0083
+007c: array-length v7, v2
+007d: add-int/lit8 v7, v7, -1
+007f: invoke-virtual {v3, v2, v9, v7}, Ljava/lang/StringBuffer;->append([CII)Ljava/lang/StringBuffer;
+0082: goto @0043
+0083: invoke-virtual {v3, v2}, Ljava/lang/StringBuffer;->append([C)Ljava/lang/StringBuffer;
+0086: goto @0043
+0087: aget-char v7, v2, v9
+0089: const/16 v8, 69
+008b: if-ne v7, v8, @0094
+008d: array-length v7, v2
+008e: add-int/lit8 v7, v7, -1
+0090: invoke-virtual {v3, v2, v9, v7}, Ljava/lang/StringBuffer;->append([CII)Ljava/lang/StringBuffer;
+0093: goto @0043
+0094: invoke-virtual {v3, v2}, Ljava/lang/StringBuffer;->append([C)Ljava/lang/StringBuffer;
+0097: goto @0043
+0098: aget-char v7, v2, v9
+009a: const/16 v8, 82
+009c: if-ne v7, v8, @00a5
+009e: array-length v7, v2
+009f: add-int/lit8 v7, v7, -1
+00a1: invoke-virtual {v3, v2, v9, v7}, Ljava/lang/StringBuffer;->append([CII)Ljava/lang/StringBuffer;
+00a4: goto @0043
+00a5: aget-char v7, v2, v9
+00a7: if-ne v7, v10, @00b6
+00a9: array-length v7, v2
+00aa: add-int/lit8 v7, v7, -1
+00ac: invoke-virtual {v3, v2, v9, v7}, Ljava/lang/StringBuffer;->append([CII)Ljava/lang/StringBuffer;
+00af: const/4 v7, 0
+00b0: const/16 v8, 87
+00b2: invoke-virtual {v3, v7, v8}, Ljava/lang/StringBuffer;->setCharAt(IC)V
+00b5: goto @0043
+00b6: invoke-virtual {v3, v2}, Ljava/lang/StringBuffer;->append([C)Ljava/lang/StringBuffer;
+00b9: goto @0043
+00ba: const/4 v7, 0
+00bb: aput-char v11, v2, v7
+00bd: invoke-virtual {v3, v2}, Ljava/lang/StringBuffer;->append([C)Ljava/lang/StringBuffer;
+00c0: goto @0043
+00c1: packed-switch v5, @02ce
+00c4: add-int/lit8 v4, v4, 1
+00c6: goto @0064
+00c7: if-nez v4, @00c4
+00c9: invoke-virtual {v0, v5}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+00cc: goto @00c4
+00cd: const/16 v7, 77
+00cf: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->isPreviousChar(Ljava/lang/StringBuffer;IC)Z
+00d2: move-result v7
+00d3: if-eqz v7, @00db
+00d5: invoke-direct {v14, v6, v4}, Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z
+00d8: move-result v7
+00d9: if-nez v7, @00c4
+00db: invoke-virtual {v0, v5}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+00de: goto @00c4
+00df: invoke-direct {v14, v3, v4, v11}, Lorg/apache/commons/codec/language/Metaphone;->isPreviousChar(Ljava/lang/StringBuffer;IC)Z
+00e2: move-result v7
+00e3: if-eqz v7, @00f9
+00e5: invoke-direct {v14, v6, v4}, Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z
+00e8: move-result v7
+00e9: if-nez v7, @00f9
+00eb: const-string v7, "EIY"
+00ed: add-int/lit8 v8, v4, 1
+00ef: invoke-virtual {v3, v8}, Ljava/lang/StringBuffer;->charAt(I)C
+00f2: move-result v8
+00f3: invoke-virtual {v7, v8}, Ljava/lang/String;->indexOf(I)I
+00f6: move-result v7
+00f7: if-gez v7, @00c4
+00f9: const-string v7, "CIA"
+00fb: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+00fe: move-result v7
+00ff: if-eqz v7, @0105
+0101: invoke-virtual {v0, v13}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0104: goto @00c4
+0105: invoke-direct {v14, v6, v4}, Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z
+0108: move-result v7
+0109: if-nez v7, @011d
+010b: const-string v7, "EIY"
+010d: add-int/lit8 v8, v4, 1
+010f: invoke-virtual {v3, v8}, Ljava/lang/StringBuffer;->charAt(I)C
+0112: move-result v8
+0113: invoke-virtual {v7, v8}, Ljava/lang/String;->indexOf(I)I
+0116: move-result v7
+0117: if-ltz v7, @011d
+0119: invoke-virtual {v0, v11}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+011c: goto @00c4
+011d: invoke-direct {v14, v3, v4, v11}, Lorg/apache/commons/codec/language/Metaphone;->isPreviousChar(Ljava/lang/StringBuffer;IC)Z
+0120: move-result v7
+0121: if-eqz v7, @012d
+0123: invoke-direct {v14, v3, v4, v10}, Lorg/apache/commons/codec/language/Metaphone;->isNextChar(Ljava/lang/StringBuffer;IC)Z
+0126: move-result v7
+0127: if-eqz v7, @012d
+0129: invoke-virtual {v0, v12}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+012c: goto @00c4
+012d: invoke-direct {v14, v3, v4, v10}, Lorg/apache/commons/codec/language/Metaphone;->isNextChar(Ljava/lang/StringBuffer;IC)Z
+0130: move-result v7
+0131: if-eqz v7, @0148
+0133: if-nez v4, @0143
+0135: const/4 v7, 3
+0136: if-lt v6, v7, @0143
+0138: const/4 v7, 2
+0139: invoke-direct {v14, v3, v7}, Lorg/apache/commons/codec/language/Metaphone;->isVowel(Ljava/lang/StringBuffer;I)Z
+013c: move-result v7
+013d: if-eqz v7, @0143
+013f: invoke-virtual {v0, v12}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0142: goto @00c4
+0143: invoke-virtual {v0, v13}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0146: goto/16 @00c4
+0148: invoke-virtual {v0, v12}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+014b: goto/16 @00c4
+014d: add-int/lit8 v7, v4, 1
+014f: invoke-direct {v14, v6, v7}, Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z
+0152: move-result v7
+0153: if-nez v7, @0174
+0155: const/16 v7, 71
+0157: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->isNextChar(Ljava/lang/StringBuffer;IC)Z
+015a: move-result v7
+015b: if-eqz v7, @0174
+015d: const-string v7, "EIY"
+015f: add-int/lit8 v8, v4, 2
+0161: invoke-virtual {v3, v8}, Ljava/lang/StringBuffer;->charAt(I)C
+0164: move-result v8
+0165: invoke-virtual {v7, v8}, Ljava/lang/String;->indexOf(I)I
+0168: move-result v7
+0169: if-ltz v7, @0174
+016b: const/16 v7, 74
+016d: invoke-virtual {v0, v7}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0170: add-int/lit8 v4, v4, 2
+0172: goto/16 @00c4
+0174: const/16 v7, 84
+0176: invoke-virtual {v0, v7}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0179: goto/16 @00c4
+017b: add-int/lit8 v7, v4, 1
+017d: invoke-direct {v14, v6, v7}, Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z
+0180: move-result v7
+0181: if-eqz v7, @0189
+0183: invoke-direct {v14, v3, v4, v10}, Lorg/apache/commons/codec/language/Metaphone;->isNextChar(Ljava/lang/StringBuffer;IC)Z
+0186: move-result v7
+0187: if-nez v7, @00c4
+0189: add-int/lit8 v7, v4, 1
+018b: invoke-direct {v14, v6, v7}, Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z
+018e: move-result v7
+018f: if-nez v7, @019f
+0191: invoke-direct {v14, v3, v4, v10}, Lorg/apache/commons/codec/language/Metaphone;->isNextChar(Ljava/lang/StringBuffer;IC)Z
+0194: move-result v7
+0195: if-eqz v7, @019f
+0197: add-int/lit8 v7, v4, 2
+0199: invoke-direct {v14, v3, v7}, Lorg/apache/commons/codec/language/Metaphone;->isVowel(Ljava/lang/StringBuffer;I)Z
+019c: move-result v7
+019d: if-eqz v7, @00c4
+019f: if-lez v4, @01b1
+01a1: const-string v7, "GN"
+01a3: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+01a6: move-result v7
+01a7: if-nez v7, @00c4
+01a9: const-string v7, "GNED"
+01ab: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+01ae: move-result v7
+01af: if-nez v7, @00c4
+01b1: const/16 v7, 71
+01b3: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->isPreviousChar(Ljava/lang/StringBuffer;IC)Z
+01b6: move-result v7
+01b7: if-eqz v7, @01d7
+01b9: const/4 v1, 1
+01ba: invoke-direct {v14, v6, v4}, Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z
+01bd: move-result v7
+01be: if-nez v7, @01d9
+01c0: const-string v7, "EIY"
+01c2: add-int/lit8 v8, v4, 1
+01c4: invoke-virtual {v3, v8}, Ljava/lang/StringBuffer;->charAt(I)C
+01c7: move-result v8
+01c8: invoke-virtual {v7, v8}, Ljava/lang/String;->indexOf(I)I
+01cb: move-result v7
+01cc: if-ltz v7, @01d9
+01ce: if-nez v1, @01d9
+01d0: const/16 v7, 74
+01d2: invoke-virtual {v0, v7}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+01d5: goto/16 @00c4
+01d7: const/4 v1, 0
+01d8: goto @01ba
+01d9: invoke-virtual {v0, v12}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+01dc: goto/16 @00c4
+01de: invoke-direct {v14, v6, v4}, Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z
+01e1: move-result v7
+01e2: if-nez v7, @00c4
+01e4: if-lez v4, @01f4
+01e6: const-string v7, "CSPTG"
+01e8: add-int/lit8 v8, v4, -1
+01ea: invoke-virtual {v3, v8}, Ljava/lang/StringBuffer;->charAt(I)C
+01ed: move-result v8
+01ee: invoke-virtual {v7, v8}, Ljava/lang/String;->indexOf(I)I
+01f1: move-result v7
+01f2: if-gez v7, @00c4
+01f4: add-int/lit8 v7, v4, 1
+01f6: invoke-direct {v14, v3, v7}, Lorg/apache/commons/codec/language/Metaphone;->isVowel(Ljava/lang/StringBuffer;I)Z
+01f9: move-result v7
+01fa: if-eqz v7, @00c4
+01fc: invoke-virtual {v0, v10}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+01ff: goto/16 @00c4
+0201: invoke-virtual {v0, v5}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0204: goto/16 @00c4
+0206: if-lez v4, @0215
+0208: const/16 v7, 67
+020a: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->isPreviousChar(Ljava/lang/StringBuffer;IC)Z
+020d: move-result v7
+020e: if-nez v7, @00c4
+0210: invoke-virtual {v0, v5}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0213: goto/16 @00c4
+0215: invoke-virtual {v0, v5}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0218: goto/16 @00c4
+021a: invoke-direct {v14, v3, v4, v10}, Lorg/apache/commons/codec/language/Metaphone;->isNextChar(Ljava/lang/StringBuffer;IC)Z
+021d: move-result v7
+021e: if-eqz v7, @0227
+0220: const/16 v7, 70
+0222: invoke-virtual {v0, v7}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0225: goto/16 @00c4
+0227: invoke-virtual {v0, v5}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+022a: goto/16 @00c4
+022c: invoke-virtual {v0, v12}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+022f: goto/16 @00c4
+0231: const-string v7, "SH"
+0233: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+0236: move-result v7
+0237: if-nez v7, @0249
+0239: const-string v7, "SIO"
+023b: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+023e: move-result v7
+023f: if-nez v7, @0249
+0241: const-string v7, "SIA"
+0243: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+0246: move-result v7
+0247: if-eqz v7, @024e
+0249: invoke-virtual {v0, v13}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+024c: goto/16 @00c4
+024e: invoke-virtual {v0, v11}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0251: goto/16 @00c4
+0253: const-string v7, "TIA"
+0255: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+0258: move-result v7
+0259: if-nez v7, @0263
+025b: const-string v7, "TIO"
+025d: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+0260: move-result v7
+0261: if-eqz v7, @0268
+0263: invoke-virtual {v0, v13}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0266: goto/16 @00c4
+0268: const-string v7, "TCH"
+026a: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+026d: move-result v7
+026e: if-nez v7, @00c4
+0270: const-string v7, "TH"
+0272: invoke-direct {v14, v3, v4, v7}, Lorg/apache/commons/codec/language/Metaphone;->regionMatch(Ljava/lang/StringBuffer;ILjava/lang/String;)Z
+0275: move-result v7
+0276: if-eqz v7, @027f
+0278: const/16 v7, 48
+027a: invoke-virtual {v0, v7}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+027d: goto/16 @00c4
+027f: const/16 v7, 84
+0281: invoke-virtual {v0, v7}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0284: goto/16 @00c4
+0286: const/16 v7, 70
+0288: invoke-virtual {v0, v7}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+028b: goto/16 @00c4
+028d: invoke-direct {v14, v6, v4}, Lorg/apache/commons/codec/language/Metaphone;->isLastChar(II)Z
+0290: move-result v7
+0291: if-nez v7, @00c4
+0293: add-int/lit8 v7, v4, 1
+0295: invoke-direct {v14, v3, v7}, Lorg/apache/commons/codec/language/Metaphone;->isVowel(Ljava/lang/StringBuffer;I)Z
+0298: move-result v7
+0299: if-eqz v7, @00c4
+029b: invoke-virtual {v0, v5}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+029e: goto/16 @00c4
+02a0: invoke-virtual {v0, v12}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+02a3: invoke-virtual {v0, v11}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+02a6: goto/16 @00c4
+02a8: invoke-virtual {v0, v11}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+02ab: goto/16 @00c4
+02ad: invoke-virtual {v0}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+02b0: move-result-object v7
+02b1: goto/16 @0014
+02b3: nop
+02b4: payload sparse-switch-payload size=6 keys=[65, 71, 75, 80, 87, 88] targets=[74, 57, 57, 57, 91, 125]
+02ce: payload packed-switch-payload size=26 first_key=65 targets=[6, 12, 30, 140, 6, 320, 186, 285, 6, 320, 325, 320, 320, 320, 6, 345, 363, 320, 368, 402, 6, 453, 460, 479, 460, 487]
+
+## Lorg/apache/commons/codec/language/Metaphone;->setMaxCodeLen(I)V access=0x1
+# code_off=0x35fb4 registers=2 incoming_words=2 outgoing_words=0 code_units=3 tries=0
+0000: iput v1, v0, "Lorg/apache/commons/codec/language/Metaphone;->maxCodeLen:I"
+0002: return-void

@@ -1,0 +1,84 @@
+# class Lcom/google/gson/FieldNamingPolicy; extends Ljava/lang/Enum;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/FieldNamingPolicy;->LOWER_CASE_WITH_DASHES:Lcom/google/gson/FieldNamingPolicy; access=0x4019
+# Lcom/google/gson/FieldNamingPolicy;->LOWER_CASE_WITH_UNDERSCORES:Lcom/google/gson/FieldNamingPolicy; access=0x4019
+# Lcom/google/gson/FieldNamingPolicy;->UPPER_CAMEL_CASE:Lcom/google/gson/FieldNamingPolicy; access=0x4019
+# Lcom/google/gson/FieldNamingPolicy;->UPPER_CAMEL_CASE_WITH_SPACES:Lcom/google/gson/FieldNamingPolicy; access=0x4019
+# Lcom/google/gson/FieldNamingPolicy;->b:[Lcom/google/gson/FieldNamingPolicy; access=0x101a
+# Lcom/google/gson/FieldNamingPolicy;->a:Lcom/google/gson/k; access=0x12
+
+## Lcom/google/gson/FieldNamingPolicy;-><clinit>()V access=0x10008
+# code_off=0x19114 registers=8 incoming_words=0 outgoing_words=4 code_units=90 tries=0
+0000: const/4 v7, 3
+0001: const/4 v6, 2
+0002: const/4 v5, 1
+0003: const/4 v4, 0
+0004: new-instance v0, "Lcom/google/gson/FieldNamingPolicy;"
+0006: const-string v1, "UPPER_CAMEL_CASE"
+0008: new-instance v2, "Lcom/google/gson/ModifyFirstLetterNamingPolicy;"
+000a: sget-object v3, "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;->UPPER:Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;"
+000c: invoke-direct {v2, v3}, Lcom/google/gson/ModifyFirstLetterNamingPolicy;-><init>(Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;)V
+000f: invoke-direct {v0, v1, v4, v2}, Lcom/google/gson/FieldNamingPolicy;-><init>(Ljava/lang/String;ILcom/google/gson/k;)V
+0012: sput-object v0, "Lcom/google/gson/FieldNamingPolicy;->UPPER_CAMEL_CASE:Lcom/google/gson/FieldNamingPolicy;"
+0014: new-instance v0, "Lcom/google/gson/FieldNamingPolicy;"
+0016: const-string v1, "UPPER_CAMEL_CASE_WITH_SPACES"
+0018: new-instance v2, "Lcom/google/gson/bh;"
+001a: const-string v3, " "
+001c: invoke-direct {v2, v3}, Lcom/google/gson/bh;-><init>(Ljava/lang/String;)V
+001f: invoke-direct {v0, v1, v5, v2}, Lcom/google/gson/FieldNamingPolicy;-><init>(Ljava/lang/String;ILcom/google/gson/k;)V
+0022: sput-object v0, "Lcom/google/gson/FieldNamingPolicy;->UPPER_CAMEL_CASE_WITH_SPACES:Lcom/google/gson/FieldNamingPolicy;"
+0024: new-instance v0, "Lcom/google/gson/FieldNamingPolicy;"
+0026: const-string v1, "LOWER_CASE_WITH_UNDERSCORES"
+0028: new-instance v2, "Lcom/google/gson/af;"
+002a: const-string v3, "_"
+002c: invoke-direct {v2, v3}, Lcom/google/gson/af;-><init>(Ljava/lang/String;)V
+002f: invoke-direct {v0, v1, v6, v2}, Lcom/google/gson/FieldNamingPolicy;-><init>(Ljava/lang/String;ILcom/google/gson/k;)V
+0032: sput-object v0, "Lcom/google/gson/FieldNamingPolicy;->LOWER_CASE_WITH_UNDERSCORES:Lcom/google/gson/FieldNamingPolicy;"
+0034: new-instance v0, "Lcom/google/gson/FieldNamingPolicy;"
+0036: const-string v1, "LOWER_CASE_WITH_DASHES"
+0038: new-instance v2, "Lcom/google/gson/af;"
+003a: const-string v3, "-"
+003c: invoke-direct {v2, v3}, Lcom/google/gson/af;-><init>(Ljava/lang/String;)V
+003f: invoke-direct {v0, v1, v7, v2}, Lcom/google/gson/FieldNamingPolicy;-><init>(Ljava/lang/String;ILcom/google/gson/k;)V
+0042: sput-object v0, "Lcom/google/gson/FieldNamingPolicy;->LOWER_CASE_WITH_DASHES:Lcom/google/gson/FieldNamingPolicy;"
+0044: const/4 v0, 4
+0045: new-array v0, v0, "[Lcom/google/gson/FieldNamingPolicy;"
+0047: sget-object v1, "Lcom/google/gson/FieldNamingPolicy;->UPPER_CAMEL_CASE:Lcom/google/gson/FieldNamingPolicy;"
+0049: aput-object v1, v0, v4
+004b: sget-object v1, "Lcom/google/gson/FieldNamingPolicy;->UPPER_CAMEL_CASE_WITH_SPACES:Lcom/google/gson/FieldNamingPolicy;"
+004d: aput-object v1, v0, v5
+004f: sget-object v1, "Lcom/google/gson/FieldNamingPolicy;->LOWER_CASE_WITH_UNDERSCORES:Lcom/google/gson/FieldNamingPolicy;"
+0051: aput-object v1, v0, v6
+0053: sget-object v1, "Lcom/google/gson/FieldNamingPolicy;->LOWER_CASE_WITH_DASHES:Lcom/google/gson/FieldNamingPolicy;"
+0055: aput-object v1, v0, v7
+0057: sput-object v0, "Lcom/google/gson/FieldNamingPolicy;->b:[Lcom/google/gson/FieldNamingPolicy;"
+0059: return-void
+
+## Lcom/google/gson/FieldNamingPolicy;-><init>(Ljava/lang/String;ILcom/google/gson/k;)V access=0x10002
+# code_off=0x191d8 registers=4 incoming_words=4 outgoing_words=3 code_units=6 tries=0
+0000: invoke-direct {v0, v1, v2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
+0003: iput-object v3, v0, "Lcom/google/gson/FieldNamingPolicy;->a:Lcom/google/gson/k;"
+0005: return-void
+
+## Lcom/google/gson/FieldNamingPolicy;->valueOf(Ljava/lang/String;)Lcom/google/gson/FieldNamingPolicy; access=0x9
+# code_off=0x191f4 registers=2 incoming_words=1 outgoing_words=2 code_units=9 tries=0
+0000: const-class v0, "Lcom/google/gson/FieldNamingPolicy;"
+0002: invoke-static {v0, v1}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
+0005: move-result-object v0
+0006: check-cast v0, "Lcom/google/gson/FieldNamingPolicy;"
+0008: return-object v0
+
+## Lcom/google/gson/FieldNamingPolicy;->values()[Lcom/google/gson/FieldNamingPolicy; access=0x9
+# code_off=0x19218 registers=1 incoming_words=0 outgoing_words=1 code_units=9 tries=0
+0000: sget-object v0, "Lcom/google/gson/FieldNamingPolicy;->b:[Lcom/google/gson/FieldNamingPolicy;"
+0002: invoke-virtual {v0}, [Lcom/google/gson/FieldNamingPolicy;->clone()Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "[Lcom/google/gson/FieldNamingPolicy;"
+0008: return-object v0
+
+## Lcom/google/gson/FieldNamingPolicy;->a()Lcom/google/gson/k; access=0x10
+# code_off=0x1923c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/FieldNamingPolicy;->a:Lcom/google/gson/k;"
+0002: return-object v0

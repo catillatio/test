@@ -1,0 +1,40 @@
+# class Lcom/storm8/kingdoms12/R$drawable; extends Ljava/lang/Object;
+# interfaces 
+# source R.java
+# fields
+# Lcom/storm8/kingdoms12/R$drawable;->attack:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->attack_selected:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->attack_w:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->bg_attack:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->bg_bank:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->bg_default:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->bg_equipment:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->bg_hospital:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->bg_missions:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->buildings:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->default_bg:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->equipment:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->equipment_selected:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->equipment_w:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->home:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->home_selected:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->home_w:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->icon:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->missions:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->missions_selected:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->missions_w:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->recruit:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->recruit_selected:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->recruit_w:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->tab_bg:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->tab_button_attack:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->tab_button_bg:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->tab_button_equipment:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->tab_button_home:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->tab_button_missions:I access=0x19
+# Lcom/storm8/kingdoms12/R$drawable;->tab_button_recruit:I access=0x19
+
+## Lcom/storm8/kingdoms12/R$drawable;-><init>()V access=0x10001
+# code_off=0x24758 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void

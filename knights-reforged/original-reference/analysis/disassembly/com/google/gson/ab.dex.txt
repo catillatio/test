@@ -1,0 +1,64 @@
+# class Lcom/google/gson/ab; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/w;
+# source None
+# fields
+# Lcom/google/gson/ab;->a:I access=0x12
+# Lcom/google/gson/ab;->b:I access=0x12
+# Lcom/google/gson/ab;->c:I access=0x12
+# Lcom/google/gson/ab;->d:Z access=0x12
+
+## Lcom/google/gson/ab;-><init>()V access=0x10000
+# code_off=0x2c14c registers=3 incoming_words=1 outgoing_words=3 code_units=6 tries=0
+0000: const/4 v0, 1
+0001: const/4 v1, 0
+0002: invoke-direct {v2, v0, v1}, Lcom/google/gson/ab;-><init>(ZB)V
+0005: return-void
+
+## Lcom/google/gson/ab;-><init>(Z)V access=0x10002
+# code_off=0x2c168 registers=3 incoming_words=2 outgoing_words=1 code_units=16 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: const/16 v0, 80
+0005: iput v0, v1, "Lcom/google/gson/ab;->a:I"
+0007: const/4 v0, 2
+0008: iput v0, v1, "Lcom/google/gson/ab;->b:I"
+000a: const/4 v0, 4
+000b: iput v0, v1, "Lcom/google/gson/ab;->c:I"
+000d: iput-boolean v2, v1, "Lcom/google/gson/ab;->d:Z"
+000f: return-void
+
+## Lcom/google/gson/ab;-><init>(ZB)V access=0x10000
+# code_off=0x2c198 registers=3 incoming_words=3 outgoing_words=2 code_units=4 tries=0
+0000: invoke-direct {v0, v1}, Lcom/google/gson/ab;-><init>(Z)V
+0003: return-void
+
+## Lcom/google/gson/ab;->a(Lcom/google/gson/ab;)I access=0x1008
+# code_off=0x2c1b0 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget v0, v1, "Lcom/google/gson/ab;->a:I"
+0002: return v0
+
+## Lcom/google/gson/ab;->b(Lcom/google/gson/ab;)I access=0x1008
+# code_off=0x2c1c8 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget v0, v1, "Lcom/google/gson/ab;->c:I"
+0002: return v0
+
+## Lcom/google/gson/ab;->c(Lcom/google/gson/ab;)I access=0x1008
+# code_off=0x2c1e0 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget v0, v1, "Lcom/google/gson/ab;->b:I"
+0002: return v0
+
+## Lcom/google/gson/ab;->a(Lcom/google/gson/JsonElement;Ljava/lang/Appendable;Z)V access=0x11
+# code_off=0x2c1f8 registers=8 incoming_words=4 outgoing_words=5 code_units=32 tries=0
+0000: if-nez v5, @0003
+0002: return-void
+0003: new-instance v0, "Lcom/google/gson/ab$a;"
+0005: invoke-direct {v0, v4, v6}, Lcom/google/gson/ab$a;-><init>(Lcom/google/gson/ab;Ljava/lang/Appendable;)V
+0008: new-instance v1, "Lcom/google/gson/ab$b;"
+000a: new-instance v2, "Lcom/google/gson/h;"
+000c: iget-boolean v3, v4, "Lcom/google/gson/ab;->d:Z"
+000e: invoke-direct {v2, v3}, Lcom/google/gson/h;-><init>(Z)V
+0011: invoke-direct {v1, v4, v0, v2, v7}, Lcom/google/gson/ab$b;-><init>(Lcom/google/gson/ab;Lcom/google/gson/ab$a;Lcom/google/gson/h;Z)V
+0014: new-instance v2, "Lcom/google/gson/ae;"
+0016: invoke-direct {v2, v1, v7}, Lcom/google/gson/ae;-><init>(Lcom/google/gson/u;Z)V
+0019: invoke-virtual {v2, v5}, Lcom/google/gson/ae;->a(Lcom/google/gson/JsonElement;)V
+001c: invoke-static {v0}, Lcom/google/gson/ab$a;->a(Lcom/google/gson/ab$a;)V
+001f: goto @0002

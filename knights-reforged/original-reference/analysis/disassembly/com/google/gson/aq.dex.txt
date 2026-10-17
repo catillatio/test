@@ -1,0 +1,456 @@
+# class Lcom/google/gson/aq; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/aq;->a:Ljava/util/logging/Logger; access=0x1a
+# Lcom/google/gson/aq;->b:Ljava/util/Map; access=0x12
+# Lcom/google/gson/aq;->c:Ljava/util/List; access=0x12
+# Lcom/google/gson/aq;->d:Z access=0x2
+
+## Lcom/google/gson/aq;-><clinit>()V access=0x10008
+# code_off=0x1b0cc registers=1 incoming_words=0 outgoing_words=1 code_units=13 tries=0
+0000: const-class v0, "Lcom/google/gson/aq;"
+0002: invoke-virtual {v0}, Ljava/lang/Class;->getName()Ljava/lang/String;
+0005: move-result-object v0
+0006: invoke-static {v0}, Ljava/util/logging/Logger;->getLogger(Ljava/lang/String;)Ljava/util/logging/Logger;
+0009: move-result-object v0
+000a: sput-object v0, "Lcom/google/gson/aq;->a:Ljava/util/logging/Logger;"
+000c: return-void
+
+## Lcom/google/gson/aq;-><init>()V access=0x10000
+# code_off=0x1b0f8 registers=2 incoming_words=1 outgoing_words=1 code_units=21 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: new-instance v0, "Ljava/util/HashMap;"
+0005: invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
+0008: iput-object v0, v1, "Lcom/google/gson/aq;->b:Ljava/util/Map;"
+000a: new-instance v0, "Ljava/util/ArrayList;"
+000c: invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
+000f: iput-object v0, v1, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+0011: const/4 v0, 1
+0012: iput-boolean v0, v1, "Lcom/google/gson/aq;->d:Z"
+0014: return-void
+
+## Lcom/google/gson/aq;->a(Ljava/lang/Class;)I access=0x2
+# code_off=0x1b134 registers=4 incoming_words=2 outgoing_words=2 code_units=35 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+0002: invoke-interface {v0}, Ljava/util/List;->size()I
+0005: move-result v0
+0006: add-int/lit8 v1, v0, -1
+0008: if-ltz v1, @0021
+000a: iget-object v0, v2, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+000c: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+000f: move-result-object v0
+0010: check-cast v0, "Lcom/google/gson/ap;"
+0012: iget-object v0, v0, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0014: check-cast v0, "Ljava/lang/Class;"
+0016: invoke-virtual {v3, v0}, Ljava/lang/Class;->isAssignableFrom(Ljava/lang/Class;)Z
+0019: move-result v0
+001a: if-eqz v0, @001e
+001c: move v0, v1
+001d: return v0
+001e: add-int/lit8 v1, v1, -1
+0020: goto @0008
+0021: const/4 v0, -1
+0022: goto @001d
+
+## Lcom/google/gson/aq;->a(Lcom/google/gson/ap;)V access=0x20002
+# code_off=0x1b18c registers=7 incoming_words=2 outgoing_words=4 code_units=113 tries=2
+0000: monitor-enter v5
+0001: iget-boolean v0, v5, "Lcom/google/gson/aq;->d:Z"
+0003: if-nez v0, @0010
+0005: new-instance v0, "Ljava/lang/IllegalStateException;"
+0007: const-string v1, "Attempted to modify an unmodifiable map."
+0009: invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+000c: throw v0
+000d: move-exception v0
+000e: monitor-exit v5
+000f: throw v0
+0010: iget-object v0, v6, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0012: check-cast v0, "Ljava/lang/Class;"
+0014: invoke-direct {v5, v0}, Lcom/google/gson/aq;->b(Ljava/lang/Class;)I
+0017: move-result v0
+0018: if-ltz v0, @002a
+001a: sget-object v1, "Lcom/google/gson/aq;->a:Ljava/util/logging/Logger;"
+001c: sget-object v2, "Ljava/util/logging/Level;->WARNING:Ljava/util/logging/Level;"
+001e: const-string v3, "Overriding the existing type handler for {0}"
+0020: iget-object v4, v6, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0022: invoke-virtual {v1, v2, v3, v4}, Ljava/util/logging/Logger;->log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Object;)V
+0025: iget-object v1, v5, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+0027: invoke-interface {v1, v0}, Ljava/util/List;->remove(I)Ljava/lang/Object;
+002a: iget-object v0, v6, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+002c: check-cast v0, "Ljava/lang/Class;"
+002e: invoke-direct {v5, v0}, Lcom/google/gson/aq;->a(Ljava/lang/Class;)I
+0031: move-result v0
+0032: if-ltz v0, @0069
+0034: new-instance v1, "Ljava/lang/IllegalArgumentException;"
+0036: new-instance v2, "Ljava/lang/StringBuilder;"
+0038: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+003b: const-string v3, "The specified type handler for type "
+003d: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0040: move-result-object v2
+0041: iget-object v3, v6, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0043: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+0046: move-result-object v2
+0047: const-string v3, " hides the previously registered type hierarchy handler for "
+0049: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+004c: move-result-object v2
+004d: iget-object v3, v5, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+004f: invoke-interface {v3, v0}, Ljava/util/List;->get(I)Ljava/lang/Object;
+0052: move-result-object v0
+0053: check-cast v0, "Lcom/google/gson/ap;"
+0055: iget-object v0, v0, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0057: invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+005a: move-result-object v0
+005b: const-string v2, ". Gson does not allow this."
+005d: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0060: move-result-object v0
+0061: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0064: move-result-object v0
+0065: invoke-direct {v1, v0}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+0068: throw v1
+0069: iget-object v0, v5, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+006b: const/4 v1, 0
+006c: invoke-interface {v0, v1, v6}, Ljava/util/List;->add(ILjava/lang/Object;)V
+006f: monitor-exit v5
+0070: return-void
+# try @0001..@000d handler_offset=1
+# try @0010..@006f handler_offset=1
+# handler_offset=1: catchall -> @000d
+
+## Lcom/google/gson/aq;->b(Ljava/lang/Class;)I access=0x20002
+# code_off=0x1b294 registers=4 incoming_words=2 outgoing_words=2 code_units=38 tries=1
+0000: monitor-enter v2
+0001: iget-object v0, v2, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+0003: invoke-interface {v0}, Ljava/util/List;->size()I
+0006: move-result v0
+0007: add-int/lit8 v1, v0, -1
+0009: if-ltz v1, @0021
+000b: iget-object v0, v2, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+000d: invoke-interface {v0, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+0010: move-result-object v0
+0011: check-cast v0, "Lcom/google/gson/ap;"
+0013: iget-object v0, v0, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0015: invoke-virtual {v3, v0}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+0018: move-result v0
+0019: if-eqz v0, @001e
+001b: move v0, v1
+001c: monitor-exit v2
+001d: return v0
+001e: add-int/lit8 v1, v1, -1
+0020: goto @0009
+0021: const/4 v0, -1
+0022: goto @001c
+0023: move-exception v0
+0024: monitor-exit v2
+0025: throw v0
+# try @0001..@0018 handler_offset=1
+# handler_offset=1: catchall -> @0023
+
+## Lcom/google/gson/aq;->a(Ljava/lang/reflect/Type;)Ljava/lang/Object; access=0x20011
+# code_off=0x1b2fc registers=7 incoming_words=2 outgoing_words=2 code_units=60 tries=1
+0000: monitor-enter v5
+0001: iget-object v1, v5, "Lcom/google/gson/aq;->b:Ljava/util/Map;"
+0003: invoke-interface {v1, v6}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0006: move-result-object v1
+0007: if-nez v1, @0035
+0009: invoke-static {v6}, Lcom/google/gson/bg;->b(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+000c: move-result-object v3
+000d: if-eq v3, v6, @0013
+000f: invoke-virtual {v5, v3}, Lcom/google/gson/aq;->a(Ljava/lang/reflect/Type;)Ljava/lang/Object;
+0012: move-result-object v1
+0013: if-nez v1, @0035
+0015: iget-object v1, v5, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+0017: invoke-interface {v1}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+001a: move-result-object v4
+001b: invoke-interface {v4}, Ljava/util/Iterator;->hasNext()Z
+001e: move-result v1
+001f: if-eqz v1, @0037
+0021: invoke-interface {v4}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+0024: move-result-object v1
+0025: move-object v0, v1
+0026: check-cast v0, "Lcom/google/gson/ap;"
+0028: move-object v2, v0
+0029: iget-object v1, v2, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+002b: check-cast v1, "Ljava/lang/Class;"
+002d: invoke-virtual {v1, v3}, Ljava/lang/Class;->isAssignableFrom(Ljava/lang/Class;)Z
+0030: move-result v1
+0031: if-eqz v1, @001b
+0033: iget-object v1, v2, "Lcom/google/gson/ap;->b:Ljava/lang/Object;"
+0035: monitor-exit v5
+0036: return-object v1
+0037: const/4 v1, 0
+0038: goto @0035
+0039: move-exception v1
+003a: monitor-exit v5
+003b: throw v1
+# try @0001..@0035 handler_offset=1
+# handler_offset=1: catchall -> @0039
+
+## Lcom/google/gson/aq;->a()V access=0x20011
+# code_off=0x1b390 registers=2 incoming_words=1 outgoing_words=0 code_units=9 tries=1
+0000: monitor-enter v1
+0001: const/4 v0, 0
+0002: iput-boolean v0, v1, "Lcom/google/gson/aq;->d:Z"
+0004: monitor-exit v1
+0005: return-void
+0006: move-exception v0
+0007: monitor-exit v1
+0008: throw v0
+# try @0002..@0004 handler_offset=1
+# handler_offset=1: catchall -> @0006
+
+## Lcom/google/gson/aq;->a(Lcom/google/gson/aq;)V access=0x20011
+# code_off=0x1b3c0 registers=6 incoming_words=2 outgoing_words=3 code_units=102 tries=2
+0000: monitor-enter v4
+0001: iget-boolean v0, v4, "Lcom/google/gson/aq;->d:Z"
+0003: if-nez v0, @0010
+0005: new-instance v0, "Ljava/lang/IllegalStateException;"
+0007: const-string v1, "Attempted to modify an unmodifiable map."
+0009: invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+000c: throw v0
+000d: move-exception v0
+000e: monitor-exit v4
+000f: throw v0
+0010: iget-object v0, v5, "Lcom/google/gson/aq;->b:Ljava/util/Map;"
+0012: invoke-interface {v0}, Ljava/util/Map;->entrySet()Ljava/util/Set;
+0015: move-result-object v0
+0016: invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+0019: move-result-object v2
+001a: invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
+001d: move-result v0
+001e: if-eqz v0, @0040
+0020: invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+0023: move-result-object v0
+0024: check-cast v0, "Ljava/util/Map$Entry;"
+0026: iget-object v1, v4, "Lcom/google/gson/aq;->b:Ljava/util/Map;"
+0028: invoke-interface {v0}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
+002b: move-result-object v3
+002c: invoke-interface {v1, v3}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+002f: move-result v1
+0030: if-nez v1, @001a
+0032: invoke-interface {v0}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
+0035: move-result-object v1
+0036: check-cast v1, "Ljava/lang/reflect/Type;"
+0038: invoke-interface {v0}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
+003b: move-result-object v0
+003c: invoke-virtual {v4, v1, v0}, Lcom/google/gson/aq;->a(Ljava/lang/reflect/Type;Ljava/lang/Object;)V
+003f: goto @001a
+0040: iget-object v0, v5, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+0042: invoke-interface {v0}, Ljava/util/List;->size()I
+0045: move-result v0
+0046: add-int/lit8 v0, v0, -1
+0048: move v2, v0
+0049: if-ltz v2, @0064
+004b: iget-object v0, v5, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+004d: invoke-interface {v0, v2}, Ljava/util/List;->get(I)Ljava/lang/Object;
+0050: move-result-object v0
+0051: check-cast v0, "Lcom/google/gson/ap;"
+0053: iget-object v1, v0, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0055: check-cast v1, "Ljava/lang/Class;"
+0057: invoke-direct {v4, v1}, Lcom/google/gson/aq;->b(Ljava/lang/Class;)I
+005a: move-result v1
+005b: if-gez v1, @0060
+005d: invoke-direct {v4, v0}, Lcom/google/gson/aq;->a(Lcom/google/gson/ap;)V
+0060: add-int/lit8 v0, v2, -1
+0062: move v2, v0
+0063: goto @0049
+0064: monitor-exit v4
+0065: return-void
+# try @0001..@000d handler_offset=1
+# try @0010..@0060 handler_offset=1
+# handler_offset=1: catchall -> @000d
+
+## Lcom/google/gson/aq;->a(Ljava/lang/Class;Ljava/lang/Object;)V access=0x20011
+# code_off=0x1b4b0 registers=4 incoming_words=3 outgoing_words=3 code_units=14 tries=1
+0000: monitor-enter v1
+0001: new-instance v0, "Lcom/google/gson/ap;"
+0003: invoke-direct {v0, v2, v3}, Lcom/google/gson/ap;-><init>(Ljava/lang/Object;Ljava/lang/Object;)V
+0006: invoke-direct {v1, v0}, Lcom/google/gson/aq;->a(Lcom/google/gson/ap;)V
+0009: monitor-exit v1
+000a: return-void
+000b: move-exception v0
+000c: monitor-exit v1
+000d: throw v0
+# try @0001..@0009 handler_offset=1
+# handler_offset=1: catchall -> @000b
+
+## Lcom/google/gson/aq;->a(Ljava/lang/reflect/Type;Ljava/lang/Object;)V access=0x20011
+# code_off=0x1b4e8 registers=6 incoming_words=3 outgoing_words=4 code_units=38 tries=2
+0000: monitor-enter v3
+0001: iget-boolean v0, v3, "Lcom/google/gson/aq;->d:Z"
+0003: if-nez v0, @0010
+0005: new-instance v0, "Ljava/lang/IllegalStateException;"
+0007: const-string v1, "Attempted to modify an unmodifiable map."
+0009: invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+000c: throw v0
+000d: move-exception v0
+000e: monitor-exit v3
+000f: throw v0
+0010: invoke-virtual {v3, v4}, Lcom/google/gson/aq;->b(Ljava/lang/reflect/Type;)Z
+0013: move-result v0
+0014: if-eqz v0, @001f
+0016: sget-object v0, "Lcom/google/gson/aq;->a:Ljava/util/logging/Logger;"
+0018: sget-object v1, "Ljava/util/logging/Level;->WARNING:Ljava/util/logging/Level;"
+001a: const-string v2, "Overriding the existing type handler for {0}"
+001c: invoke-virtual {v0, v1, v2, v4}, Ljava/util/logging/Logger;->log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Object;)V
+001f: iget-object v0, v3, "Lcom/google/gson/aq;->b:Ljava/util/Map;"
+0021: invoke-interface {v0, v4, v5}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+0024: monitor-exit v3
+0025: return-void
+# try @0001..@000d handler_offset=1
+# try @0010..@0024 handler_offset=1
+# handler_offset=1: catchall -> @000d
+
+## Lcom/google/gson/aq;->b()Lcom/google/gson/aq; access=0x20011
+# code_off=0x1b558 registers=5 incoming_words=1 outgoing_words=3 code_units=69 tries=2
+0000: monitor-enter v4
+0001: new-instance v2, "Lcom/google/gson/aq;"
+0003: invoke-direct {v2}, Lcom/google/gson/aq;-><init>()V
+0006: iget-object v0, v4, "Lcom/google/gson/aq;->b:Ljava/util/Map;"
+0008: invoke-interface {v0}, Ljava/util/Map;->entrySet()Ljava/util/Set;
+000b: move-result-object v0
+000c: invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+000f: move-result-object v3
+0010: invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
+0013: move-result v0
+0014: if-eqz v0, @002d
+0016: invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+0019: move-result-object v0
+001a: check-cast v0, "Ljava/util/Map$Entry;"
+001c: invoke-interface {v0}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
+001f: move-result-object v1
+0020: check-cast v1, "Ljava/lang/reflect/Type;"
+0022: invoke-interface {v0}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
+0025: move-result-object v0
+0026: invoke-virtual {v2, v1, v0}, Lcom/google/gson/aq;->a(Ljava/lang/reflect/Type;Ljava/lang/Object;)V
+0029: goto @0010
+002a: move-exception v0
+002b: monitor-exit v4
+002c: throw v0
+002d: iget-object v0, v4, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+002f: invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+0032: move-result-object v1
+0033: invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+0036: move-result v0
+0037: if-eqz v0, @0043
+0039: invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+003c: move-result-object v0
+003d: check-cast v0, "Lcom/google/gson/ap;"
+003f: invoke-direct {v2, v0}, Lcom/google/gson/aq;->a(Lcom/google/gson/ap;)V
+0042: goto @0033
+0043: monitor-exit v4
+0044: return-object v2
+# try @0001..@0029 handler_offset=1
+# try @002d..@0042 handler_offset=1
+# handler_offset=1: catchall -> @002a
+
+## Lcom/google/gson/aq;->b(Ljava/lang/reflect/Type;Ljava/lang/Object;)V access=0x20011
+# code_off=0x1b608 registers=5 incoming_words=3 outgoing_words=3 code_units=29 tries=2
+0000: monitor-enter v2
+0001: iget-boolean v0, v2, "Lcom/google/gson/aq;->d:Z"
+0003: if-nez v0, @0010
+0005: new-instance v0, "Ljava/lang/IllegalStateException;"
+0007: const-string v1, "Attempted to modify an unmodifiable map."
+0009: invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+000c: throw v0
+000d: move-exception v0
+000e: monitor-exit v2
+000f: throw v0
+0010: iget-object v0, v2, "Lcom/google/gson/aq;->b:Ljava/util/Map;"
+0012: invoke-interface {v0, v3}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+0015: move-result v0
+0016: if-nez v0, @001b
+0018: invoke-virtual {v2, v3, v4}, Lcom/google/gson/aq;->a(Ljava/lang/reflect/Type;Ljava/lang/Object;)V
+001b: monitor-exit v2
+001c: return-void
+# try @0001..@000d handler_offset=1
+# try @0010..@001b handler_offset=1
+# handler_offset=1: catchall -> @000d
+
+## Lcom/google/gson/aq;->b(Ljava/lang/reflect/Type;)Z access=0x20011
+# code_off=0x1b668 registers=3 incoming_words=2 outgoing_words=2 code_units=12 tries=1
+0000: monitor-enter v1
+0001: iget-object v0, v1, "Lcom/google/gson/aq;->b:Ljava/util/Map;"
+0003: invoke-interface {v0, v2}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+0006: move-result v0
+0007: monitor-exit v1
+0008: return v0
+0009: move-exception v0
+000a: monitor-exit v1
+000b: throw v0
+# try @0001..@0006 handler_offset=1
+# handler_offset=1: catchall -> @0009
+
+## Lcom/google/gson/aq;->toString()Ljava/lang/String; access=0x11
+# code_off=0x1b69c registers=10 incoming_words=1 outgoing_words=2 code_units=139 tries=0
+0000: const/16 v8, 58
+0002: const/16 v7, 44
+0004: const/4 v2, 1
+0005: const/4 v4, 0
+0006: new-instance v5, "Ljava/lang/StringBuilder;"
+0008: const-string v0, "{mapForTypeHierarchy:{"
+000a: invoke-direct {v5, v0}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+000d: iget-object v0, v9, "Lcom/google/gson/aq;->c:Ljava/util/List;"
+000f: invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+0012: move-result-object v6
+0013: move v1, v2
+0014: invoke-interface {v6}, Ljava/util/Iterator;->hasNext()Z
+0017: move-result v0
+0018: if-eqz v0, @0042
+001a: invoke-interface {v6}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+001d: move-result-object v0
+001e: check-cast v0, "Lcom/google/gson/ap;"
+0020: if-eqz v1, @003d
+0022: move v3, v4
+0023: iget-object v1, v0, "Lcom/google/gson/ap;->a:Ljava/lang/Object;"
+0025: check-cast v1, "Ljava/lang/reflect/Type;"
+0027: invoke-static {v1}, Lcom/google/gson/bg;->b(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+002a: move-result-object v1
+002b: invoke-virtual {v1}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+002e: move-result-object v1
+002f: invoke-virtual {v5, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0032: move-result-object v1
+0033: invoke-virtual {v1, v8}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+0036: iget-object v0, v0, "Lcom/google/gson/ap;->b:Ljava/lang/Object;"
+0038: invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+003b: move v1, v3
+003c: goto @0014
+003d: invoke-virtual {v5, v7}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+0040: move v3, v1
+0041: goto @0023
+0042: const-string v0, "},map:{"
+0044: invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0047: iget-object v0, v9, "Lcom/google/gson/aq;->b:Ljava/util/Map;"
+0049: invoke-interface {v0}, Ljava/util/Map;->entrySet()Ljava/util/Set;
+004c: move-result-object v0
+004d: invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+0050: move-result-object v3
+0051: invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
+0054: move-result v0
+0055: if-eqz v0, @0081
+0057: invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+005a: move-result-object v0
+005b: check-cast v0, "Ljava/util/Map$Entry;"
+005d: if-eqz v2, @007d
+005f: move v2, v4
+0060: invoke-interface {v0}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
+0063: move-result-object v1
+0064: check-cast v1, "Ljava/lang/reflect/Type;"
+0066: invoke-static {v1}, Lcom/google/gson/bg;->b(Ljava/lang/reflect/Type;)Ljava/lang/Class;
+0069: move-result-object v1
+006a: invoke-virtual {v1}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+006d: move-result-object v1
+006e: invoke-virtual {v5, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0071: move-result-object v1
+0072: invoke-virtual {v1, v8}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+0075: invoke-interface {v0}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
+0078: move-result-object v0
+0079: invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+007c: goto @0051
+007d: invoke-virtual {v5, v7}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+0080: goto @0060
+0081: const-string v0, "}"
+0083: invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0086: invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0089: move-result-object v0
+008a: return-object v0

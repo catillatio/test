@@ -1,0 +1,13 @@
+# class Lcom/google/gson/y$a; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/y$a;->a:I access=0x0
+# Lcom/google/gson/y$a;->b:Lcom/google/gson/az; access=0x0
+# Lcom/google/gson/y$a;->c:I access=0x0
+# Lcom/google/gson/y$a;->d:Lcom/google/gson/y$a; access=0x0
+
+## Lcom/google/gson/y$a;-><init>()V access=0x10000
+# code_off=0x1e220 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void

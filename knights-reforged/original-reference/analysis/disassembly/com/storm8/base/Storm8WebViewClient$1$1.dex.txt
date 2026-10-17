@@ -1,0 +1,52 @@
+# class Lcom/storm8/base/Storm8WebViewClient$1$1; extends Ljava/lang/Object;
+# interfaces Ljava/lang/Runnable;
+# source Storm8WebViewClient.java
+# fields
+# Lcom/storm8/base/Storm8WebViewClient$1$1;->this$1:Lcom/storm8/base/Storm8WebViewClient$1; access=0x1010
+
+## Lcom/storm8/base/Storm8WebViewClient$1$1;-><init>(Lcom/storm8/base/Storm8WebViewClient$1;)V access=0x10000
+# code_off=0x200d0 registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8WebViewClient$1$1;->this$1:Lcom/storm8/base/Storm8WebViewClient$1;"
+0002: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0005: return-void
+
+## Lcom/storm8/base/Storm8WebViewClient$1$1;->run()V access=0x1
+# code_off=0x200ec registers=6 incoming_words=1 outgoing_words=4 code_units=74 tries=0
+0000: iget-object v0, v5, "Lcom/storm8/base/Storm8WebViewClient$1$1;->this$1:Lcom/storm8/base/Storm8WebViewClient$1;"
+0002: invoke-static {v0}, Lcom/storm8/base/Storm8WebViewClient$1;->access$0(Lcom/storm8/base/Storm8WebViewClient$1;)Lcom/storm8/base/Storm8WebViewClient;
+0005: move-result-object v0
+0006: invoke-static {v0}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+0009: move-result-object v0
+000a: iget-object v0, v0, "Lcom/storm8/base/Storm8MainActivity;->webView:Landroid/webkit/WebView;"
+000c: invoke-virtual {v0}, Landroid/webkit/WebView;->getProgress()I
+000f: move-result v0
+0010: const/16 v1, 100
+0012: if-ge v0, v1, @002d
+0014: iget-object v0, v5, "Lcom/storm8/base/Storm8WebViewClient$1$1;->this$1:Lcom/storm8/base/Storm8WebViewClient$1;"
+0016: invoke-static {v0}, Lcom/storm8/base/Storm8WebViewClient$1;->access$0(Lcom/storm8/base/Storm8WebViewClient$1;)Lcom/storm8/base/Storm8WebViewClient;
+0019: move-result-object v0
+001a: invoke-static {v0}, Lcom/storm8/base/Storm8WebViewClient;->access$1(Lcom/storm8/base/Storm8WebViewClient;)Landroid/app/ProgressDialog;
+001d: move-result-object v0
+001e: if-eqz v0, @002e
+0020: iget-object v0, v5, "Lcom/storm8/base/Storm8WebViewClient$1$1;->this$1:Lcom/storm8/base/Storm8WebViewClient$1;"
+0022: invoke-static {v0}, Lcom/storm8/base/Storm8WebViewClient$1;->access$0(Lcom/storm8/base/Storm8WebViewClient$1;)Lcom/storm8/base/Storm8WebViewClient;
+0025: move-result-object v0
+0026: invoke-static {v0}, Lcom/storm8/base/Storm8WebViewClient;->access$1(Lcom/storm8/base/Storm8WebViewClient;)Landroid/app/ProgressDialog;
+0029: move-result-object v0
+002a: invoke-virtual {v0}, Landroid/app/ProgressDialog;->show()V
+002d: return-void
+002e: iget-object v0, v5, "Lcom/storm8/base/Storm8WebViewClient$1$1;->this$1:Lcom/storm8/base/Storm8WebViewClient$1;"
+0030: invoke-static {v0}, Lcom/storm8/base/Storm8WebViewClient$1;->access$0(Lcom/storm8/base/Storm8WebViewClient$1;)Lcom/storm8/base/Storm8WebViewClient;
+0033: move-result-object v0
+0034: iget-object v1, v5, "Lcom/storm8/base/Storm8WebViewClient$1$1;->this$1:Lcom/storm8/base/Storm8WebViewClient$1;"
+0036: invoke-static {v1}, Lcom/storm8/base/Storm8WebViewClient$1;->access$0(Lcom/storm8/base/Storm8WebViewClient$1;)Lcom/storm8/base/Storm8WebViewClient;
+0039: move-result-object v1
+003a: invoke-static {v1}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+003d: move-result-object v1
+003e: const/4 v2, 0
+003f: const-string v3, "Loading..."
+0041: const/4 v4, 1
+0042: invoke-static {v1, v2, v3, v4}, Landroid/app/ProgressDialog;->show(Landroid/content/Context;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Z)Landroid/app/ProgressDialog;
+0045: move-result-object v1
+0046: invoke-static {v0, v1}, Lcom/storm8/base/Storm8WebViewClient;->access$2(Lcom/storm8/base/Storm8WebViewClient;Landroid/app/ProgressDialog;)V
+0049: goto @002d

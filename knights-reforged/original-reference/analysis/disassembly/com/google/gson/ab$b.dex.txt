@@ -1,0 +1,135 @@
+# class Lcom/google/gson/ab$b; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/u;
+# source None
+# fields
+# Lcom/google/gson/ab$b;->a:Lcom/google/gson/ab; access=0x1010
+# Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a; access=0x12
+# Lcom/google/gson/ab$b;->c:Lcom/google/gson/h; access=0x12
+# Lcom/google/gson/ab$b;->d:Z access=0x12
+
+## Lcom/google/gson/ab$b;-><init>(Lcom/google/gson/ab;Lcom/google/gson/ab$a;Lcom/google/gson/h;Z)V access=0x10000
+# code_off=0x2bef4 registers=5 incoming_words=5 outgoing_words=1 code_units=12 tries=0
+0000: iput-object v1, v0, "Lcom/google/gson/ab$b;->a:Lcom/google/gson/ab;"
+0002: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0005: iput-object v2, v0, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0007: iput-object v3, v0, "Lcom/google/gson/ab$b;->c:Lcom/google/gson/h;"
+0009: iput-boolean v4, v0, "Lcom/google/gson/ab$b;->d:Z"
+000b: return-void
+
+## Lcom/google/gson/ab$b;->b(Lcom/google/gson/JsonPrimitive;)Ljava/lang/String; access=0x2
+# code_off=0x2bf1c registers=4 incoming_words=2 outgoing_words=3 code_units=15 tries=0
+0000: new-instance v0, "Ljava/lang/StringBuilder;"
+0002: invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+0005: iget-object v1, v2, "Lcom/google/gson/ab$b;->c:Lcom/google/gson/h;"
+0007: invoke-virtual {v3, v0, v1}, Lcom/google/gson/JsonPrimitive;->a(Ljava/lang/Appendable;Lcom/google/gson/h;)V
+000a: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+000d: move-result-object v0
+000e: return-object v0
+
+## Lcom/google/gson/ab$b;->d(Z)V access=0x2
+# code_off=0x2bf4c registers=3 incoming_words=2 outgoing_words=1 code_units=8 tries=0
+0000: if-nez v2, @0007
+0002: iget-object v0, v1, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0004: invoke-virtual {v0}, Lcom/google/gson/ab$a;->b()V
+0007: return-void
+
+## Lcom/google/gson/ab$b;->a()V access=0x11
+# code_off=0x2bf6c registers=3 incoming_words=1 outgoing_words=2 code_units=8 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0002: const-string v1, "null"
+0004: invoke-virtual {v0, v1}, Lcom/google/gson/ab$a;->b(Ljava/lang/String;)V
+0007: return-void
+
+## Lcom/google/gson/ab$b;->a(Lcom/google/gson/JsonPrimitive;)V access=0x11
+# code_off=0x2bf8c registers=4 incoming_words=2 outgoing_words=2 code_units=10 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0002: invoke-direct {v2, v3}, Lcom/google/gson/ab$b;->b(Lcom/google/gson/JsonPrimitive;)Ljava/lang/String;
+0005: move-result-object v1
+0006: invoke-virtual {v0, v1}, Lcom/google/gson/ab$a;->b(Ljava/lang/String;)V
+0009: return-void
+
+## Lcom/google/gson/ab$b;->a(Lcom/google/gson/JsonPrimitive;Z)V access=0x11
+# code_off=0x2bfb0 registers=5 incoming_words=3 outgoing_words=2 code_units=13 tries=0
+0000: invoke-direct {v2, v4}, Lcom/google/gson/ab$b;->d(Z)V
+0003: iget-object v0, v2, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0005: invoke-direct {v2, v3}, Lcom/google/gson/ab$b;->b(Lcom/google/gson/JsonPrimitive;)Ljava/lang/String;
+0008: move-result-object v1
+0009: invoke-virtual {v0, v1}, Lcom/google/gson/ab$a;->b(Ljava/lang/String;)V
+000c: return-void
+
+## Lcom/google/gson/ab$b;->a(Ljava/lang/String;Lcom/google/gson/JsonPrimitive;Z)V access=0x11
+# code_off=0x2bfdc registers=6 incoming_words=4 outgoing_words=2 code_units=23 tries=0
+0000: invoke-direct {v2, v5}, Lcom/google/gson/ab$b;->d(Z)V
+0003: iget-object v0, v2, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0005: invoke-virtual {v0, v3}, Lcom/google/gson/ab$a;->a(Ljava/lang/String;)V
+0008: iget-object v0, v2, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+000a: invoke-virtual {v0}, Lcom/google/gson/ab$a;->a()V
+000d: iget-object v0, v2, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+000f: invoke-direct {v2, v4}, Lcom/google/gson/ab$b;->b(Lcom/google/gson/JsonPrimitive;)Ljava/lang/String;
+0012: move-result-object v1
+0013: invoke-virtual {v0, v1}, Lcom/google/gson/ab$a;->b(Ljava/lang/String;)V
+0016: return-void
+
+## Lcom/google/gson/ab$b;->a(Ljava/lang/String;Z)V access=0x11
+# code_off=0x2c01c registers=4 incoming_words=3 outgoing_words=2 code_units=14 tries=0
+0000: invoke-direct {v1, v3}, Lcom/google/gson/ab$b;->d(Z)V
+0003: iget-object v0, v1, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0005: invoke-virtual {v0, v2}, Lcom/google/gson/ab$a;->a(Ljava/lang/String;)V
+0008: iget-object v0, v1, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+000a: invoke-virtual {v0}, Lcom/google/gson/ab$a;->a()V
+000d: return-void
+
+## Lcom/google/gson/ab$b;->a(Z)V access=0x11
+# code_off=0x2c048 registers=2 incoming_words=2 outgoing_words=2 code_units=4 tries=0
+0000: invoke-direct {v0, v1}, Lcom/google/gson/ab$b;->d(Z)V
+0003: return-void
+
+## Lcom/google/gson/ab$b;->b()V access=0x11
+# code_off=0x2c060 registers=2 incoming_words=1 outgoing_words=1 code_units=6 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0002: invoke-virtual {v0}, Lcom/google/gson/ab$a;->e()V
+0005: return-void
+
+## Lcom/google/gson/ab$b;->b(Ljava/lang/String;Z)V access=0x11
+# code_off=0x2c07c registers=4 incoming_words=3 outgoing_words=2 code_units=14 tries=0
+0000: invoke-direct {v1, v3}, Lcom/google/gson/ab$b;->d(Z)V
+0003: iget-object v0, v1, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0005: invoke-virtual {v0, v2}, Lcom/google/gson/ab$a;->a(Ljava/lang/String;)V
+0008: iget-object v0, v1, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+000a: invoke-virtual {v0}, Lcom/google/gson/ab$a;->a()V
+000d: return-void
+
+## Lcom/google/gson/ab$b;->b(Z)V access=0x11
+# code_off=0x2c0a8 registers=2 incoming_words=2 outgoing_words=2 code_units=4 tries=0
+0000: invoke-direct {v0, v1}, Lcom/google/gson/ab$b;->d(Z)V
+0003: return-void
+
+## Lcom/google/gson/ab$b;->c()V access=0x11
+# code_off=0x2c0c0 registers=2 incoming_words=1 outgoing_words=1 code_units=6 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0002: invoke-virtual {v0}, Lcom/google/gson/ab$a;->f()V
+0005: return-void
+
+## Lcom/google/gson/ab$b;->c(Ljava/lang/String;Z)V access=0x11
+# code_off=0x2c0dc registers=4 incoming_words=3 outgoing_words=3 code_units=8 tries=0
+0000: iget-boolean v0, v1, "Lcom/google/gson/ab$b;->d:Z"
+0002: if-eqz v0, @0007
+0004: invoke-virtual {v1, v2, v3}, Lcom/google/gson/ab$b;->b(Ljava/lang/String;Z)V
+0007: return-void
+
+## Lcom/google/gson/ab$b;->c(Z)V access=0x11
+# code_off=0x2c0fc registers=2 incoming_words=2 outgoing_words=2 code_units=4 tries=0
+0000: invoke-direct {v0, v1}, Lcom/google/gson/ab$b;->d(Z)V
+0003: return-void
+
+## Lcom/google/gson/ab$b;->d()V access=0x11
+# code_off=0x2c114 registers=2 incoming_words=1 outgoing_words=1 code_units=6 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0002: invoke-virtual {v0}, Lcom/google/gson/ab$a;->c()V
+0005: return-void
+
+## Lcom/google/gson/ab$b;->e()V access=0x11
+# code_off=0x2c130 registers=2 incoming_words=1 outgoing_words=1 code_units=6 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/ab$b;->b:Lcom/google/gson/ab$a;"
+0002: invoke-virtual {v0}, Lcom/google/gson/ab$a;->d()V
+0005: return-void

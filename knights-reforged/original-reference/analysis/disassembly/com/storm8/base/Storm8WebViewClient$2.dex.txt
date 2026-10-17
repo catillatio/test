@@ -1,0 +1,104 @@
+# class Lcom/storm8/base/Storm8WebViewClient$2; extends Ljava/lang/Object;
+# interfaces Ljava/lang/Runnable;
+# source Storm8WebViewClient.java
+# fields
+# Lcom/storm8/base/Storm8WebViewClient$2;->this$0:Lcom/storm8/base/Storm8WebViewClient; access=0x1010
+# Lcom/storm8/base/Storm8WebViewClient$2;->val$url:Ljava/lang/String; access=0x1012
+# Lcom/storm8/base/Storm8WebViewClient$2;->val$webView:Landroid/webkit/WebView; access=0x1012
+
+## Lcom/storm8/base/Storm8WebViewClient$2;-><init>(Lcom/storm8/base/Storm8WebViewClient;Ljava/lang/String;Landroid/webkit/WebView;)V access=0x10000
+# code_off=0x201f4 registers=4 incoming_words=4 outgoing_words=1 code_units=10 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8WebViewClient$2;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+0002: iput-object v2, v0, "Lcom/storm8/base/Storm8WebViewClient$2;->val$url:Ljava/lang/String;"
+0004: iput-object v3, v0, "Lcom/storm8/base/Storm8WebViewClient$2;->val$webView:Landroid/webkit/WebView;"
+0006: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0009: return-void
+
+## Lcom/storm8/base/Storm8WebViewClient$2;->run()V access=0x1
+# code_off=0x20218 registers=3 incoming_words=1 outgoing_words=2 code_units=174 tries=0
+0000: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$url:Ljava/lang/String;"
+0002: const-string v1, "missions.php"
+0004: invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+0007: move-result v0
+0008: if-eqz v0, @001a
+000a: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$webView:Landroid/webkit/WebView;"
+000c: iget-object v1, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+000e: invoke-static {v1}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+0011: move-result-object v1
+0012: invoke-virtual {v1}, Lcom/storm8/base/Storm8MainActivity;->getMissionsBg()I
+0015: move-result v1
+0016: invoke-virtual {v0, v1}, Landroid/webkit/WebView;->setBackgroundResource(I)V
+0019: return-void
+001a: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$url:Ljava/lang/String;"
+001c: const-string v1, "fight.php"
+001e: invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+0021: move-result v0
+0022: if-eqz v0, @0034
+0024: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$webView:Landroid/webkit/WebView;"
+0026: iget-object v1, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+0028: invoke-static {v1}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+002b: move-result-object v1
+002c: invoke-virtual {v1}, Lcom/storm8/base/Storm8MainActivity;->getFightBg()I
+002f: move-result v1
+0030: invoke-virtual {v0, v1}, Landroid/webkit/WebView;->setBackgroundResource(I)V
+0033: goto @0019
+0034: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$url:Ljava/lang/String;"
+0036: const-string v1, "equipment.php"
+0038: invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+003b: move-result v0
+003c: if-eqz v0, @004e
+003e: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$webView:Landroid/webkit/WebView;"
+0040: iget-object v1, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+0042: invoke-static {v1}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+0045: move-result-object v1
+0046: invoke-virtual {v1}, Lcom/storm8/base/Storm8MainActivity;->getEquipmentBg()I
+0049: move-result v1
+004a: invoke-virtual {v0, v1}, Landroid/webkit/WebView;->setBackgroundResource(I)V
+004d: goto @0019
+004e: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$url:Ljava/lang/String;"
+0050: const-string v1, "bank.php"
+0052: invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+0055: move-result v0
+0056: if-eqz v0, @0068
+0058: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$webView:Landroid/webkit/WebView;"
+005a: iget-object v1, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+005c: invoke-static {v1}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+005f: move-result-object v1
+0060: invoke-virtual {v1}, Lcom/storm8/base/Storm8MainActivity;->getBankBg()I
+0063: move-result v1
+0064: invoke-virtual {v0, v1}, Landroid/webkit/WebView;->setBackgroundResource(I)V
+0067: goto @0019
+0068: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$url:Ljava/lang/String;"
+006a: const-string v1, "hospital.php"
+006c: invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+006f: move-result v0
+0070: if-eqz v0, @0082
+0072: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$webView:Landroid/webkit/WebView;"
+0074: iget-object v1, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+0076: invoke-static {v1}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+0079: move-result-object v1
+007a: invoke-virtual {v1}, Lcom/storm8/base/Storm8MainActivity;->getHospitalBg()I
+007d: move-result v1
+007e: invoke-virtual {v0, v1}, Landroid/webkit/WebView;->setBackgroundResource(I)V
+0081: goto @0019
+0082: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$url:Ljava/lang/String;"
+0084: const-string v1, "group.php"
+0086: invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+0089: move-result v0
+008a: if-eqz v0, @009d
+008c: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$webView:Landroid/webkit/WebView;"
+008e: iget-object v1, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+0090: invoke-static {v1}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+0093: move-result-object v1
+0094: invoke-virtual {v1}, Lcom/storm8/base/Storm8MainActivity;->getRecruitBg()I
+0097: move-result v1
+0098: invoke-virtual {v0, v1}, Landroid/webkit/WebView;->setBackgroundResource(I)V
+009b: goto/16 @0019
+009d: iget-object v0, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->val$webView:Landroid/webkit/WebView;"
+009f: iget-object v1, v2, "Lcom/storm8/base/Storm8WebViewClient$2;->this$0:Lcom/storm8/base/Storm8WebViewClient;"
+00a1: invoke-static {v1}, Lcom/storm8/base/Storm8WebViewClient;->access$0(Lcom/storm8/base/Storm8WebViewClient;)Lcom/storm8/base/Storm8MainActivity;
+00a4: move-result-object v1
+00a5: invoke-virtual {v1}, Lcom/storm8/base/Storm8MainActivity;->getDefaultBg()I
+00a8: move-result v1
+00a9: invoke-virtual {v0, v1}, Landroid/webkit/WebView;->setBackgroundResource(I)V
+00ac: goto/16 @0019

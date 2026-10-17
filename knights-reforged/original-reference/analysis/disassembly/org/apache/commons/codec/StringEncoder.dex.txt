@@ -1,0 +1,6 @@
+# class Lorg/apache/commons/codec/StringEncoder; extends Ljava/lang/Object;
+# interfaces Lorg/apache/commons/codec/Encoder;
+# source StringEncoder.java
+# fields
+
+## Lorg/apache/commons/codec/StringEncoder;->encode(Ljava/lang/String;)Ljava/lang/String; access=0x401

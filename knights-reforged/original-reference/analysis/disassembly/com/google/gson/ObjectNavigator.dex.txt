@@ -1,0 +1,145 @@
+# class Lcom/google/gson/ObjectNavigator; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/ObjectNavigator;->a:Lcom/google/gson/ExclusionStrategy; access=0x12
+# Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao; access=0x12
+
+## Lcom/google/gson/ObjectNavigator;-><init>(Lcom/google/gson/ao;Lcom/google/gson/ExclusionStrategy;)V access=0x10000
+# code_off=0x1a4fc registers=3 incoming_words=3 outgoing_words=1 code_units=11 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: invoke-static {v2}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0006: iput-object v1, v0, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+0008: iput-object v2, v0, "Lcom/google/gson/ObjectNavigator;->a:Lcom/google/gson/ExclusionStrategy;"
+000a: return-void
+
+## Lcom/google/gson/ObjectNavigator;->a(Lcom/google/gson/ObjectNavigator$Visitor;)V access=0x11
+# code_off=0x1a524 registers=12 incoming_words=2 outgoing_words=4 code_units=242 tries=3
+0000: const/4 v0, 1
+0001: const/4 v1, 0
+0002: new-instance v4, "Lcom/google/gson/bb;"
+0004: iget-object v2, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+0006: iget-object v2, v2, "Lcom/google/gson/ao;->a:Ljava/lang/reflect/Type;"
+0008: invoke-direct {v4, v2}, Lcom/google/gson/bb;-><init>(Ljava/lang/reflect/Type;)V
+000b: iget-object v2, v10, "Lcom/google/gson/ObjectNavigator;->a:Lcom/google/gson/ExclusionStrategy;"
+000d: invoke-virtual {v4}, Lcom/google/gson/bb;->b()Ljava/lang/Class;
+0010: move-result-object v3
+0011: invoke-interface {v2, v3}, Lcom/google/gson/ExclusionStrategy;->shouldSkipClass(Ljava/lang/Class;)Z
+0014: move-result v2
+0015: if-eqz v2, @0018
+0017: return-void
+0018: iget-object v2, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+001a: invoke-interface {v11, v2}, Lcom/google/gson/ObjectNavigator$Visitor;->visitUsingCustomHandler(Lcom/google/gson/ao;)Z
+001d: move-result v2
+001e: if-nez v2, @0017
+0020: iget-object v2, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+0022: invoke-virtual {v2}, Lcom/google/gson/ao;->a()Ljava/lang/Object;
+0025: move-result-object v2
+0026: if-nez v2, @004c
+0028: invoke-interface {v11}, Lcom/google/gson/ObjectNavigator$Visitor;->getTarget()Ljava/lang/Object;
+002b: move-result-object v2
+002c: move-object v3, v2
+002d: if-eqz v3, @0017
+002f: iget-object v2, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+0031: invoke-virtual {v2, v3}, Lcom/google/gson/ao;->a(Ljava/lang/Object;)V
+0034: iget-object v2, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+0036: invoke-interface {v11, v2}, Lcom/google/gson/ObjectNavigator$Visitor;->start(Lcom/google/gson/ao;)V
+0039: invoke-virtual {v4}, Lcom/google/gson/bb;->c()Z
+003c: move-result v2
+003d: if-eqz v2, @004e
+003f: iget-object v0, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+0041: iget-object v0, v0, "Lcom/google/gson/ao;->a:Ljava/lang/reflect/Type;"
+0043: invoke-interface {v11, v3, v0}, Lcom/google/gson/ObjectNavigator$Visitor;->visitArray(Ljava/lang/Object;Ljava/lang/reflect/Type;)V
+0046: iget-object v0, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+0048: invoke-interface {v11, v0}, Lcom/google/gson/ObjectNavigator$Visitor;->end(Lcom/google/gson/ao;)V
+004b: goto @0017
+004c: move-object v3, v2
+004d: goto @002d
+004e: invoke-virtual {v4}, Lcom/google/gson/bb;->a()Ljava/lang/reflect/Type;
+0051: move-result-object v2
+0052: const-class v4, "Ljava/lang/Object;"
+0054: if-ne v2, v4, @007e
+0056: invoke-virtual {v3}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+0059: move-result-object v2
+005a: const-class v4, "Ljava/lang/Object;"
+005c: if-eq v2, v4, @006c
+005e: const-class v4, "Ljava/lang/String;"
+0060: if-eq v2, v4, @006c
+0062: invoke-static {v2}, Lcom/google/gson/au;->c(Ljava/lang/Class;)Ljava/lang/Class;
+0065: move-result-object v2
+0066: invoke-virtual {v2}, Ljava/lang/Class;->isPrimitive()Z
+0069: move-result v2
+006a: if-eqz v2, @007c
+006c: if-eqz v0, @007e
+006e: invoke-interface {v11, v3}, Lcom/google/gson/ObjectNavigator$Visitor;->visitPrimitive(Ljava/lang/Object;)V
+0071: invoke-interface {v11}, Lcom/google/gson/ObjectNavigator$Visitor;->getTarget()Ljava/lang/Object;
+0074: goto @0046
+0075: move-exception v0
+0076: iget-object v1, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+0078: invoke-interface {v11, v1}, Lcom/google/gson/ObjectNavigator$Visitor;->end(Lcom/google/gson/ao;)V
+007b: throw v0
+007c: move v0, v1
+007d: goto @006c
+007e: invoke-interface {v11, v3}, Lcom/google/gson/ObjectNavigator$Visitor;->startVisitingObject(Ljava/lang/Object;)V
+0081: iget-object v0, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+0083: invoke-virtual {v0}, Lcom/google/gson/ao;->b()Lcom/google/gson/ao;
+0086: move-result-object v0
+0087: new-instance v2, "Lcom/google/gson/bb;"
+0089: iget-object v0, v0, "Lcom/google/gson/ao;->a:Ljava/lang/reflect/Type;"
+008b: invoke-direct {v2, v0}, Lcom/google/gson/bb;-><init>(Ljava/lang/reflect/Type;)V
+008e: invoke-virtual {v2}, Lcom/google/gson/bb;->b()Ljava/lang/Class;
+0091: move-result-object v0
+0092: move-object v2, v0
+0093: if-eqz v2, @0046
+0095: const-class v0, "Ljava/lang/Object;"
+0097: invoke-virtual {v2, v0}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+009a: move-result v0
+009b: if-nez v0, @0046
+009d: invoke-virtual {v2}, Ljava/lang/Class;->isSynthetic()Z
+00a0: move-result v0
+00a1: if-nez v0, @00ec
+00a3: invoke-virtual {v2}, Ljava/lang/Class;->getDeclaredFields()[Ljava/lang/reflect/Field;
+00a6: move-result-object v4
+00a7: const/4 v0, 1
+00a8: invoke-static {v4, v0}, Ljava/lang/reflect/AccessibleObject;->setAccessible([Ljava/lang/reflect/AccessibleObject;Z)V
+00ab: array-length v5, v4
+00ac: move v0, v1
+00ad: if-ge v0, v5, @00ec
+00af: aget-object v6, v4, v0
+00b1: new-instance v7, "Lcom/google/gson/FieldAttributes;"
+00b3: invoke-direct {v7, v2, v6}, Lcom/google/gson/FieldAttributes;-><init>(Ljava/lang/Class;Ljava/lang/reflect/Field;)V
+00b6: iget-object v8, v10, "Lcom/google/gson/ObjectNavigator;->a:Lcom/google/gson/ExclusionStrategy;"
+00b8: invoke-interface {v8, v7}, Lcom/google/gson/ExclusionStrategy;->shouldSkipField(Lcom/google/gson/FieldAttributes;)Z
+00bb: move-result v8
+00bc: if-nez v8, @00e5
+00be: iget-object v8, v10, "Lcom/google/gson/ObjectNavigator;->a:Lcom/google/gson/ExclusionStrategy;"
+00c0: invoke-virtual {v7}, Lcom/google/gson/FieldAttributes;->getDeclaredClass()Ljava/lang/Class;
+00c3: move-result-object v9
+00c4: invoke-interface {v8, v9}, Lcom/google/gson/ExclusionStrategy;->shouldSkipClass(Ljava/lang/Class;)Z
+00c7: move-result v8
+00c8: if-nez v8, @00e5
+00ca: iget-object v8, v10, "Lcom/google/gson/ObjectNavigator;->b:Lcom/google/gson/ao;"
+00cc: iget-object v8, v8, "Lcom/google/gson/ao;->a:Ljava/lang/reflect/Type;"
+00ce: invoke-static {v6, v8}, Lcom/google/gson/be;->a(Ljava/lang/reflect/Field;Ljava/lang/reflect/Type;)Lcom/google/gson/bb;
+00d1: move-result-object v6
+00d2: invoke-virtual {v6}, Lcom/google/gson/bb;->a()Ljava/lang/reflect/Type;
+00d5: move-result-object v8
+00d6: invoke-interface {v11, v7, v8, v3}, Lcom/google/gson/ObjectNavigator$Visitor;->visitFieldUsingCustomHandler(Lcom/google/gson/FieldAttributes;Ljava/lang/reflect/Type;Ljava/lang/Object;)Z
+00d9: move-result v9
+00da: if-nez v9, @00e5
+00dc: invoke-virtual {v6}, Lcom/google/gson/bb;->c()Z
+00df: move-result v6
+00e0: if-eqz v6, @00e8
+00e2: invoke-interface {v11, v7, v8, v3}, Lcom/google/gson/ObjectNavigator$Visitor;->visitArrayField(Lcom/google/gson/FieldAttributes;Ljava/lang/reflect/Type;Ljava/lang/Object;)V
+00e5: add-int/lit8 v0, v0, 1
+00e7: goto @00ad
+00e8: invoke-interface {v11, v7, v8, v3}, Lcom/google/gson/ObjectNavigator$Visitor;->visitObjectField(Lcom/google/gson/FieldAttributes;Ljava/lang/reflect/Type;Ljava/lang/Object;)V
+00eb: goto @00e5
+00ec: invoke-virtual {v2}, Ljava/lang/Class;->getSuperclass()Ljava/lang/Class;
+00ef: move-result-object v0
+00f0: move-object v2, v0
+00f1: goto @0093
+# try @0039..@0046 handler_offset=1
+# try @004e..@0074 handler_offset=1
+# try @007e..@00ef handler_offset=1
+# handler_offset=1: catchall -> @0075

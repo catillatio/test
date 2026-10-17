@@ -1,0 +1,109 @@
+# class Lcom/google/gson/f$p; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/JsonDeserializer;, Lcom/google/gson/JsonSerializer;
+# source None
+# fields
+
+## Lcom/google/gson/f$p;-><init>()V access=0x11000
+# code_off=0x2de40 registers=2 incoming_words=1 outgoing_words=2 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v0}, Lcom/google/gson/f$p;-><init>(B)V
+0004: return-void
+
+## Lcom/google/gson/f$p;-><init>(B)V access=0x10002
+# code_off=0x2de5c registers=2 incoming_words=2 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/f$p;->deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Ljava/lang/Object; access=0x1001
+# code_off=0x2de74 registers=11 incoming_words=4 outgoing_words=7 code_units=70 tries=0
+0000: invoke-virtual {v8}, Lcom/google/gson/JsonElement;->getAsJsonObject()Lcom/google/gson/JsonObject;
+0003: move-result-object v0
+0004: const-string v1, "year"
+0006: invoke-virtual {v0, v1}, Lcom/google/gson/JsonObject;->get(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+0009: move-result-object v1
+000a: invoke-virtual {v1}, Lcom/google/gson/JsonElement;->getAsInt()I
+000d: move-result v1
+000e: const-string v2, "month"
+0010: invoke-virtual {v0, v2}, Lcom/google/gson/JsonObject;->get(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+0013: move-result-object v2
+0014: invoke-virtual {v2}, Lcom/google/gson/JsonElement;->getAsInt()I
+0017: move-result v2
+0018: const-string v3, "dayOfMonth"
+001a: invoke-virtual {v0, v3}, Lcom/google/gson/JsonObject;->get(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+001d: move-result-object v3
+001e: invoke-virtual {v3}, Lcom/google/gson/JsonElement;->getAsInt()I
+0021: move-result v3
+0022: const-string v4, "hourOfDay"
+0024: invoke-virtual {v0, v4}, Lcom/google/gson/JsonObject;->get(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+0027: move-result-object v4
+0028: invoke-virtual {v4}, Lcom/google/gson/JsonElement;->getAsInt()I
+002b: move-result v4
+002c: const-string v5, "minute"
+002e: invoke-virtual {v0, v5}, Lcom/google/gson/JsonObject;->get(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+0031: move-result-object v5
+0032: invoke-virtual {v5}, Lcom/google/gson/JsonElement;->getAsInt()I
+0035: move-result v5
+0036: const-string v6, "second"
+0038: invoke-virtual {v0, v6}, Lcom/google/gson/JsonObject;->get(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+003b: move-result-object v0
+003c: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsInt()I
+003f: move-result v6
+0040: new-instance v0, "Ljava/util/GregorianCalendar;"
+0042: invoke-direct/range {v0, v1, v2, v3, v4, v5, v6}, Ljava/util/GregorianCalendar;-><init>(IIIIII)V
+0045: return-object v0
+
+## Lcom/google/gson/f$p;->serialize(Ljava/lang/Object;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement; access=0x1001
+# code_off=0x2df10 registers=7 incoming_words=4 outgoing_words=3 code_units=95 tries=0
+0000: check-cast v4, "Ljava/util/GregorianCalendar;"
+0002: new-instance v0, "Lcom/google/gson/JsonObject;"
+0004: invoke-direct {v0}, Lcom/google/gson/JsonObject;-><init>()V
+0007: const-string v1, "year"
+0009: const/4 v2, 1
+000a: invoke-virtual {v4, v2}, Ljava/util/GregorianCalendar;->get(I)I
+000d: move-result v2
+000e: invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+0011: move-result-object v2
+0012: invoke-virtual {v0, v1, v2}, Lcom/google/gson/JsonObject;->addProperty(Ljava/lang/String;Ljava/lang/Number;)V
+0015: const-string v1, "month"
+0017: const/4 v2, 2
+0018: invoke-virtual {v4, v2}, Ljava/util/GregorianCalendar;->get(I)I
+001b: move-result v2
+001c: invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+001f: move-result-object v2
+0020: invoke-virtual {v0, v1, v2}, Lcom/google/gson/JsonObject;->addProperty(Ljava/lang/String;Ljava/lang/Number;)V
+0023: const-string v1, "dayOfMonth"
+0025: const/4 v2, 5
+0026: invoke-virtual {v4, v2}, Ljava/util/GregorianCalendar;->get(I)I
+0029: move-result v2
+002a: invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+002d: move-result-object v2
+002e: invoke-virtual {v0, v1, v2}, Lcom/google/gson/JsonObject;->addProperty(Ljava/lang/String;Ljava/lang/Number;)V
+0031: const-string v1, "hourOfDay"
+0033: const/16 v2, 11
+0035: invoke-virtual {v4, v2}, Ljava/util/GregorianCalendar;->get(I)I
+0038: move-result v2
+0039: invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+003c: move-result-object v2
+003d: invoke-virtual {v0, v1, v2}, Lcom/google/gson/JsonObject;->addProperty(Ljava/lang/String;Ljava/lang/Number;)V
+0040: const-string v1, "minute"
+0042: const/16 v2, 12
+0044: invoke-virtual {v4, v2}, Ljava/util/GregorianCalendar;->get(I)I
+0047: move-result v2
+0048: invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+004b: move-result-object v2
+004c: invoke-virtual {v0, v1, v2}, Lcom/google/gson/JsonObject;->addProperty(Ljava/lang/String;Ljava/lang/Number;)V
+004f: const-string v1, "second"
+0051: const/16 v2, 13
+0053: invoke-virtual {v4, v2}, Ljava/util/GregorianCalendar;->get(I)I
+0056: move-result v2
+0057: invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+005a: move-result-object v2
+005b: invoke-virtual {v0, v1, v2}, Lcom/google/gson/JsonObject;->addProperty(Ljava/lang/String;Ljava/lang/Number;)V
+005e: return-object v0
+
+## Lcom/google/gson/f$p;->toString()Ljava/lang/String; access=0x1
+# code_off=0x2dfe0 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: const-class v0, "Lcom/google/gson/f$p;"
+0002: invoke-virtual {v0}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0

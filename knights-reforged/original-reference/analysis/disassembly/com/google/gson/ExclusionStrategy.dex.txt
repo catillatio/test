@@ -1,0 +1,8 @@
+# class Lcom/google/gson/ExclusionStrategy; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/ExclusionStrategy;->shouldSkipClass(Ljava/lang/Class;)Z access=0x401
+
+## Lcom/google/gson/ExclusionStrategy;->shouldSkipField(Lcom/google/gson/FieldAttributes;)Z access=0x401

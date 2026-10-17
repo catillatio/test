@@ -1,0 +1,6 @@
+# class Lorg/apache/commons/codec/BinaryEncoder; extends Ljava/lang/Object;
+# interfaces Lorg/apache/commons/codec/Encoder;
+# source BinaryEncoder.java
+# fields
+
+## Lorg/apache/commons/codec/BinaryEncoder;->encode([B)[B access=0x401

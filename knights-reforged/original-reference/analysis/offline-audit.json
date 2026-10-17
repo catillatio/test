@@ -1,0 +1,15 @@
+{
+  "apk_sha256": "671e7650511e2c2dbfbd010dd85813e9ec6bf1d77c7c4ca8f459b6d141a1b5e0",
+  "zip_crc_failure": null,
+  "class_definitions": 273,
+  "method_references": 2359,
+  "strings": 3444,
+  "coded_methods": 1515,
+  "decoded_instruction_records": 27186,
+  "decoded_xml_files": 13,
+  "decode_or_branch_failures": [],
+  "limitations": [
+    "Structural disassembly checks are not an Android runtime verifier.",
+    "No APK execution, server requests, or balance-formula recovery."
+  ]
+}

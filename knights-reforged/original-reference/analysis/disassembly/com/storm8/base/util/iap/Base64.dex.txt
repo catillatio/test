@@ -1,0 +1,1146 @@
+# class Lcom/storm8/base/util/iap/Base64; extends Ljava/lang/Object;
+# interfaces 
+# source Base64.java
+# fields
+# Lcom/storm8/base/util/iap/Base64;->$assertionsDisabled:Z access=0x1018
+# Lcom/storm8/base/util/iap/Base64;->ALPHABET:[B access=0x1a
+# Lcom/storm8/base/util/iap/Base64;->DECODABET:[B access=0x1a
+# Lcom/storm8/base/util/iap/Base64;->DECODE:Z access=0x19
+# Lcom/storm8/base/util/iap/Base64;->ENCODE:Z access=0x19
+# Lcom/storm8/base/util/iap/Base64;->EQUALS_SIGN:B access=0x1a
+# Lcom/storm8/base/util/iap/Base64;->EQUALS_SIGN_ENC:B access=0x1a
+# Lcom/storm8/base/util/iap/Base64;->NEW_LINE:B access=0x1a
+# Lcom/storm8/base/util/iap/Base64;->WEBSAFE_ALPHABET:[B access=0x1a
+# Lcom/storm8/base/util/iap/Base64;->WEBSAFE_DECODABET:[B access=0x1a
+# Lcom/storm8/base/util/iap/Base64;->WHITE_SPACE_ENC:B access=0x1a
+
+## Lcom/storm8/base/util/iap/Base64;-><clinit>()V access=0x10008
+# code_off=0x21124 registers=8 incoming_words=0 outgoing_words=1 code_units=1352 tries=0
+0000: const/4 v7, 3
+0001: const/4 v6, 2
+0002: const/4 v1, 1
+0003: const/4 v5, -5
+0004: const/16 v4, -9
+0006: const-class v0, "Lcom/storm8/base/util/iap/Base64;"
+0008: invoke-virtual {v0}, Ljava/lang/Class;->desiredAssertionStatus()Z
+000b: move-result v0
+000c: if-nez v0, @04fc
+000e: move v0, v1
+000f: sput-boolean v0, "Lcom/storm8/base/util/iap/Base64;->$assertionsDisabled:Z"
+0011: const/16 v0, 64
+0013: new-array v0, v0, "[B"
+0015: fill-array-data v0, @0500
+0018: sput-object v0, "Lcom/storm8/base/util/iap/Base64;->ALPHABET:[B"
+001a: const/16 v0, 64
+001c: new-array v0, v0, "[B"
+001e: fill-array-data v0, @0524
+0021: sput-object v0, "Lcom/storm8/base/util/iap/Base64;->WEBSAFE_ALPHABET:[B"
+0023: const/16 v0, 128
+0025: new-array v0, v0, "[B"
+0027: const/4 v2, 0
+0028: aput-byte v4, v0, v2
+002a: aput-byte v4, v0, v1
+002c: aput-byte v4, v0, v6
+002e: aput-byte v4, v0, v7
+0030: const/4 v2, 4
+0031: aput-byte v4, v0, v2
+0033: const/4 v2, 5
+0034: aput-byte v4, v0, v2
+0036: const/4 v2, 6
+0037: aput-byte v4, v0, v2
+0039: const/4 v2, 7
+003a: aput-byte v4, v0, v2
+003c: const/16 v2, 8
+003e: aput-byte v4, v0, v2
+0040: const/16 v2, 9
+0042: aput-byte v5, v0, v2
+0044: const/16 v2, 10
+0046: aput-byte v5, v0, v2
+0048: const/16 v2, 11
+004a: aput-byte v4, v0, v2
+004c: const/16 v2, 12
+004e: aput-byte v4, v0, v2
+0050: const/16 v2, 13
+0052: aput-byte v5, v0, v2
+0054: const/16 v2, 14
+0056: aput-byte v4, v0, v2
+0058: const/16 v2, 15
+005a: aput-byte v4, v0, v2
+005c: const/16 v2, 16
+005e: aput-byte v4, v0, v2
+0060: const/16 v2, 17
+0062: aput-byte v4, v0, v2
+0064: const/16 v2, 18
+0066: aput-byte v4, v0, v2
+0068: const/16 v2, 19
+006a: aput-byte v4, v0, v2
+006c: const/16 v2, 20
+006e: aput-byte v4, v0, v2
+0070: const/16 v2, 21
+0072: aput-byte v4, v0, v2
+0074: const/16 v2, 22
+0076: aput-byte v4, v0, v2
+0078: const/16 v2, 23
+007a: aput-byte v4, v0, v2
+007c: const/16 v2, 24
+007e: aput-byte v4, v0, v2
+0080: const/16 v2, 25
+0082: aput-byte v4, v0, v2
+0084: const/16 v2, 26
+0086: aput-byte v4, v0, v2
+0088: const/16 v2, 27
+008a: aput-byte v4, v0, v2
+008c: const/16 v2, 28
+008e: aput-byte v4, v0, v2
+0090: const/16 v2, 29
+0092: aput-byte v4, v0, v2
+0094: const/16 v2, 30
+0096: aput-byte v4, v0, v2
+0098: const/16 v2, 31
+009a: aput-byte v4, v0, v2
+009c: const/16 v2, 32
+009e: aput-byte v5, v0, v2
+00a0: const/16 v2, 33
+00a2: aput-byte v4, v0, v2
+00a4: const/16 v2, 34
+00a6: aput-byte v4, v0, v2
+00a8: const/16 v2, 35
+00aa: aput-byte v4, v0, v2
+00ac: const/16 v2, 36
+00ae: aput-byte v4, v0, v2
+00b0: const/16 v2, 37
+00b2: aput-byte v4, v0, v2
+00b4: const/16 v2, 38
+00b6: aput-byte v4, v0, v2
+00b8: const/16 v2, 39
+00ba: aput-byte v4, v0, v2
+00bc: const/16 v2, 40
+00be: aput-byte v4, v0, v2
+00c0: const/16 v2, 41
+00c2: aput-byte v4, v0, v2
+00c4: const/16 v2, 42
+00c6: aput-byte v4, v0, v2
+00c8: const/16 v2, 43
+00ca: const/16 v3, 62
+00cc: aput-byte v3, v0, v2
+00ce: const/16 v2, 44
+00d0: aput-byte v4, v0, v2
+00d2: const/16 v2, 45
+00d4: aput-byte v4, v0, v2
+00d6: const/16 v2, 46
+00d8: aput-byte v4, v0, v2
+00da: const/16 v2, 47
+00dc: const/16 v3, 63
+00de: aput-byte v3, v0, v2
+00e0: const/16 v2, 48
+00e2: const/16 v3, 52
+00e4: aput-byte v3, v0, v2
+00e6: const/16 v2, 49
+00e8: const/16 v3, 53
+00ea: aput-byte v3, v0, v2
+00ec: const/16 v2, 50
+00ee: const/16 v3, 54
+00f0: aput-byte v3, v0, v2
+00f2: const/16 v2, 51
+00f4: const/16 v3, 55
+00f6: aput-byte v3, v0, v2
+00f8: const/16 v2, 52
+00fa: const/16 v3, 56
+00fc: aput-byte v3, v0, v2
+00fe: const/16 v2, 53
+0100: const/16 v3, 57
+0102: aput-byte v3, v0, v2
+0104: const/16 v2, 54
+0106: const/16 v3, 58
+0108: aput-byte v3, v0, v2
+010a: const/16 v2, 55
+010c: const/16 v3, 59
+010e: aput-byte v3, v0, v2
+0110: const/16 v2, 56
+0112: const/16 v3, 60
+0114: aput-byte v3, v0, v2
+0116: const/16 v2, 57
+0118: const/16 v3, 61
+011a: aput-byte v3, v0, v2
+011c: const/16 v2, 58
+011e: aput-byte v4, v0, v2
+0120: const/16 v2, 59
+0122: aput-byte v4, v0, v2
+0124: const/16 v2, 60
+0126: aput-byte v4, v0, v2
+0128: const/16 v2, 61
+012a: const/4 v3, -1
+012b: aput-byte v3, v0, v2
+012d: const/16 v2, 62
+012f: aput-byte v4, v0, v2
+0131: const/16 v2, 63
+0133: aput-byte v4, v0, v2
+0135: const/16 v2, 64
+0137: aput-byte v4, v0, v2
+0139: const/16 v2, 66
+013b: aput-byte v1, v0, v2
+013d: const/16 v2, 67
+013f: aput-byte v6, v0, v2
+0141: const/16 v2, 68
+0143: aput-byte v7, v0, v2
+0145: const/16 v2, 69
+0147: const/4 v3, 4
+0148: aput-byte v3, v0, v2
+014a: const/16 v2, 70
+014c: const/4 v3, 5
+014d: aput-byte v3, v0, v2
+014f: const/16 v2, 71
+0151: const/4 v3, 6
+0152: aput-byte v3, v0, v2
+0154: const/16 v2, 72
+0156: const/4 v3, 7
+0157: aput-byte v3, v0, v2
+0159: const/16 v2, 73
+015b: const/16 v3, 8
+015d: aput-byte v3, v0, v2
+015f: const/16 v2, 74
+0161: const/16 v3, 9
+0163: aput-byte v3, v0, v2
+0165: const/16 v2, 75
+0167: const/16 v3, 10
+0169: aput-byte v3, v0, v2
+016b: const/16 v2, 76
+016d: const/16 v3, 11
+016f: aput-byte v3, v0, v2
+0171: const/16 v2, 77
+0173: const/16 v3, 12
+0175: aput-byte v3, v0, v2
+0177: const/16 v2, 78
+0179: const/16 v3, 13
+017b: aput-byte v3, v0, v2
+017d: const/16 v2, 79
+017f: const/16 v3, 14
+0181: aput-byte v3, v0, v2
+0183: const/16 v2, 80
+0185: const/16 v3, 15
+0187: aput-byte v3, v0, v2
+0189: const/16 v2, 81
+018b: const/16 v3, 16
+018d: aput-byte v3, v0, v2
+018f: const/16 v2, 82
+0191: const/16 v3, 17
+0193: aput-byte v3, v0, v2
+0195: const/16 v2, 83
+0197: const/16 v3, 18
+0199: aput-byte v3, v0, v2
+019b: const/16 v2, 84
+019d: const/16 v3, 19
+019f: aput-byte v3, v0, v2
+01a1: const/16 v2, 85
+01a3: const/16 v3, 20
+01a5: aput-byte v3, v0, v2
+01a7: const/16 v2, 86
+01a9: const/16 v3, 21
+01ab: aput-byte v3, v0, v2
+01ad: const/16 v2, 87
+01af: const/16 v3, 22
+01b1: aput-byte v3, v0, v2
+01b3: const/16 v2, 88
+01b5: const/16 v3, 23
+01b7: aput-byte v3, v0, v2
+01b9: const/16 v2, 89
+01bb: const/16 v3, 24
+01bd: aput-byte v3, v0, v2
+01bf: const/16 v2, 90
+01c1: const/16 v3, 25
+01c3: aput-byte v3, v0, v2
+01c5: const/16 v2, 91
+01c7: aput-byte v4, v0, v2
+01c9: const/16 v2, 92
+01cb: aput-byte v4, v0, v2
+01cd: const/16 v2, 93
+01cf: aput-byte v4, v0, v2
+01d1: const/16 v2, 94
+01d3: aput-byte v4, v0, v2
+01d5: const/16 v2, 95
+01d7: aput-byte v4, v0, v2
+01d9: const/16 v2, 96
+01db: aput-byte v4, v0, v2
+01dd: const/16 v2, 97
+01df: const/16 v3, 26
+01e1: aput-byte v3, v0, v2
+01e3: const/16 v2, 98
+01e5: const/16 v3, 27
+01e7: aput-byte v3, v0, v2
+01e9: const/16 v2, 99
+01eb: const/16 v3, 28
+01ed: aput-byte v3, v0, v2
+01ef: const/16 v2, 100
+01f1: const/16 v3, 29
+01f3: aput-byte v3, v0, v2
+01f5: const/16 v2, 101
+01f7: const/16 v3, 30
+01f9: aput-byte v3, v0, v2
+01fb: const/16 v2, 102
+01fd: const/16 v3, 31
+01ff: aput-byte v3, v0, v2
+0201: const/16 v2, 103
+0203: const/16 v3, 32
+0205: aput-byte v3, v0, v2
+0207: const/16 v2, 104
+0209: const/16 v3, 33
+020b: aput-byte v3, v0, v2
+020d: const/16 v2, 105
+020f: const/16 v3, 34
+0211: aput-byte v3, v0, v2
+0213: const/16 v2, 106
+0215: const/16 v3, 35
+0217: aput-byte v3, v0, v2
+0219: const/16 v2, 107
+021b: const/16 v3, 36
+021d: aput-byte v3, v0, v2
+021f: const/16 v2, 108
+0221: const/16 v3, 37
+0223: aput-byte v3, v0, v2
+0225: const/16 v2, 109
+0227: const/16 v3, 38
+0229: aput-byte v3, v0, v2
+022b: const/16 v2, 110
+022d: const/16 v3, 39
+022f: aput-byte v3, v0, v2
+0231: const/16 v2, 111
+0233: const/16 v3, 40
+0235: aput-byte v3, v0, v2
+0237: const/16 v2, 112
+0239: const/16 v3, 41
+023b: aput-byte v3, v0, v2
+023d: const/16 v2, 113
+023f: const/16 v3, 42
+0241: aput-byte v3, v0, v2
+0243: const/16 v2, 114
+0245: const/16 v3, 43
+0247: aput-byte v3, v0, v2
+0249: const/16 v2, 115
+024b: const/16 v3, 44
+024d: aput-byte v3, v0, v2
+024f: const/16 v2, 116
+0251: const/16 v3, 45
+0253: aput-byte v3, v0, v2
+0255: const/16 v2, 117
+0257: const/16 v3, 46
+0259: aput-byte v3, v0, v2
+025b: const/16 v2, 118
+025d: const/16 v3, 47
+025f: aput-byte v3, v0, v2
+0261: const/16 v2, 119
+0263: const/16 v3, 48
+0265: aput-byte v3, v0, v2
+0267: const/16 v2, 120
+0269: const/16 v3, 49
+026b: aput-byte v3, v0, v2
+026d: const/16 v2, 121
+026f: const/16 v3, 50
+0271: aput-byte v3, v0, v2
+0273: const/16 v2, 122
+0275: const/16 v3, 51
+0277: aput-byte v3, v0, v2
+0279: const/16 v2, 123
+027b: aput-byte v4, v0, v2
+027d: const/16 v2, 124
+027f: aput-byte v4, v0, v2
+0281: const/16 v2, 125
+0283: aput-byte v4, v0, v2
+0285: const/16 v2, 126
+0287: aput-byte v4, v0, v2
+0289: const/16 v2, 127
+028b: aput-byte v4, v0, v2
+028d: sput-object v0, "Lcom/storm8/base/util/iap/Base64;->DECODABET:[B"
+028f: const/16 v0, 128
+0291: new-array v0, v0, "[B"
+0293: const/4 v2, 0
+0294: aput-byte v4, v0, v2
+0296: aput-byte v4, v0, v1
+0298: aput-byte v4, v0, v6
+029a: aput-byte v4, v0, v7
+029c: const/4 v2, 4
+029d: aput-byte v4, v0, v2
+029f: const/4 v2, 5
+02a0: aput-byte v4, v0, v2
+02a2: const/4 v2, 6
+02a3: aput-byte v4, v0, v2
+02a5: const/4 v2, 7
+02a6: aput-byte v4, v0, v2
+02a8: const/16 v2, 8
+02aa: aput-byte v4, v0, v2
+02ac: const/16 v2, 9
+02ae: aput-byte v5, v0, v2
+02b0: const/16 v2, 10
+02b2: aput-byte v5, v0, v2
+02b4: const/16 v2, 11
+02b6: aput-byte v4, v0, v2
+02b8: const/16 v2, 12
+02ba: aput-byte v4, v0, v2
+02bc: const/16 v2, 13
+02be: aput-byte v5, v0, v2
+02c0: const/16 v2, 14
+02c2: aput-byte v4, v0, v2
+02c4: const/16 v2, 15
+02c6: aput-byte v4, v0, v2
+02c8: const/16 v2, 16
+02ca: aput-byte v4, v0, v2
+02cc: const/16 v2, 17
+02ce: aput-byte v4, v0, v2
+02d0: const/16 v2, 18
+02d2: aput-byte v4, v0, v2
+02d4: const/16 v2, 19
+02d6: aput-byte v4, v0, v2
+02d8: const/16 v2, 20
+02da: aput-byte v4, v0, v2
+02dc: const/16 v2, 21
+02de: aput-byte v4, v0, v2
+02e0: const/16 v2, 22
+02e2: aput-byte v4, v0, v2
+02e4: const/16 v2, 23
+02e6: aput-byte v4, v0, v2
+02e8: const/16 v2, 24
+02ea: aput-byte v4, v0, v2
+02ec: const/16 v2, 25
+02ee: aput-byte v4, v0, v2
+02f0: const/16 v2, 26
+02f2: aput-byte v4, v0, v2
+02f4: const/16 v2, 27
+02f6: aput-byte v4, v0, v2
+02f8: const/16 v2, 28
+02fa: aput-byte v4, v0, v2
+02fc: const/16 v2, 29
+02fe: aput-byte v4, v0, v2
+0300: const/16 v2, 30
+0302: aput-byte v4, v0, v2
+0304: const/16 v2, 31
+0306: aput-byte v4, v0, v2
+0308: const/16 v2, 32
+030a: aput-byte v5, v0, v2
+030c: const/16 v2, 33
+030e: aput-byte v4, v0, v2
+0310: const/16 v2, 34
+0312: aput-byte v4, v0, v2
+0314: const/16 v2, 35
+0316: aput-byte v4, v0, v2
+0318: const/16 v2, 36
+031a: aput-byte v4, v0, v2
+031c: const/16 v2, 37
+031e: aput-byte v4, v0, v2
+0320: const/16 v2, 38
+0322: aput-byte v4, v0, v2
+0324: const/16 v2, 39
+0326: aput-byte v4, v0, v2
+0328: const/16 v2, 40
+032a: aput-byte v4, v0, v2
+032c: const/16 v2, 41
+032e: aput-byte v4, v0, v2
+0330: const/16 v2, 42
+0332: aput-byte v4, v0, v2
+0334: const/16 v2, 43
+0336: aput-byte v4, v0, v2
+0338: const/16 v2, 44
+033a: aput-byte v4, v0, v2
+033c: const/16 v2, 45
+033e: const/16 v3, 62
+0340: aput-byte v3, v0, v2
+0342: const/16 v2, 46
+0344: aput-byte v4, v0, v2
+0346: const/16 v2, 47
+0348: aput-byte v4, v0, v2
+034a: const/16 v2, 48
+034c: const/16 v3, 52
+034e: aput-byte v3, v0, v2
+0350: const/16 v2, 49
+0352: const/16 v3, 53
+0354: aput-byte v3, v0, v2
+0356: const/16 v2, 50
+0358: const/16 v3, 54
+035a: aput-byte v3, v0, v2
+035c: const/16 v2, 51
+035e: const/16 v3, 55
+0360: aput-byte v3, v0, v2
+0362: const/16 v2, 52
+0364: const/16 v3, 56
+0366: aput-byte v3, v0, v2
+0368: const/16 v2, 53
+036a: const/16 v3, 57
+036c: aput-byte v3, v0, v2
+036e: const/16 v2, 54
+0370: const/16 v3, 58
+0372: aput-byte v3, v0, v2
+0374: const/16 v2, 55
+0376: const/16 v3, 59
+0378: aput-byte v3, v0, v2
+037a: const/16 v2, 56
+037c: const/16 v3, 60
+037e: aput-byte v3, v0, v2
+0380: const/16 v2, 57
+0382: const/16 v3, 61
+0384: aput-byte v3, v0, v2
+0386: const/16 v2, 58
+0388: aput-byte v4, v0, v2
+038a: const/16 v2, 59
+038c: aput-byte v4, v0, v2
+038e: const/16 v2, 60
+0390: aput-byte v4, v0, v2
+0392: const/16 v2, 61
+0394: const/4 v3, -1
+0395: aput-byte v3, v0, v2
+0397: const/16 v2, 62
+0399: aput-byte v4, v0, v2
+039b: const/16 v2, 63
+039d: aput-byte v4, v0, v2
+039f: const/16 v2, 64
+03a1: aput-byte v4, v0, v2
+03a3: const/16 v2, 66
+03a5: aput-byte v1, v0, v2
+03a7: const/16 v1, 67
+03a9: aput-byte v6, v0, v1
+03ab: const/16 v1, 68
+03ad: aput-byte v7, v0, v1
+03af: const/16 v1, 69
+03b1: const/4 v2, 4
+03b2: aput-byte v2, v0, v1
+03b4: const/16 v1, 70
+03b6: const/4 v2, 5
+03b7: aput-byte v2, v0, v1
+03b9: const/16 v1, 71
+03bb: const/4 v2, 6
+03bc: aput-byte v2, v0, v1
+03be: const/16 v1, 72
+03c0: const/4 v2, 7
+03c1: aput-byte v2, v0, v1
+03c3: const/16 v1, 73
+03c5: const/16 v2, 8
+03c7: aput-byte v2, v0, v1
+03c9: const/16 v1, 74
+03cb: const/16 v2, 9
+03cd: aput-byte v2, v0, v1
+03cf: const/16 v1, 75
+03d1: const/16 v2, 10
+03d3: aput-byte v2, v0, v1
+03d5: const/16 v1, 76
+03d7: const/16 v2, 11
+03d9: aput-byte v2, v0, v1
+03db: const/16 v1, 77
+03dd: const/16 v2, 12
+03df: aput-byte v2, v0, v1
+03e1: const/16 v1, 78
+03e3: const/16 v2, 13
+03e5: aput-byte v2, v0, v1
+03e7: const/16 v1, 79
+03e9: const/16 v2, 14
+03eb: aput-byte v2, v0, v1
+03ed: const/16 v1, 80
+03ef: const/16 v2, 15
+03f1: aput-byte v2, v0, v1
+03f3: const/16 v1, 81
+03f5: const/16 v2, 16
+03f7: aput-byte v2, v0, v1
+03f9: const/16 v1, 82
+03fb: const/16 v2, 17
+03fd: aput-byte v2, v0, v1
+03ff: const/16 v1, 83
+0401: const/16 v2, 18
+0403: aput-byte v2, v0, v1
+0405: const/16 v1, 84
+0407: const/16 v2, 19
+0409: aput-byte v2, v0, v1
+040b: const/16 v1, 85
+040d: const/16 v2, 20
+040f: aput-byte v2, v0, v1
+0411: const/16 v1, 86
+0413: const/16 v2, 21
+0415: aput-byte v2, v0, v1
+0417: const/16 v1, 87
+0419: const/16 v2, 22
+041b: aput-byte v2, v0, v1
+041d: const/16 v1, 88
+041f: const/16 v2, 23
+0421: aput-byte v2, v0, v1
+0423: const/16 v1, 89
+0425: const/16 v2, 24
+0427: aput-byte v2, v0, v1
+0429: const/16 v1, 90
+042b: const/16 v2, 25
+042d: aput-byte v2, v0, v1
+042f: const/16 v1, 91
+0431: aput-byte v4, v0, v1
+0433: const/16 v1, 92
+0435: aput-byte v4, v0, v1
+0437: const/16 v1, 93
+0439: aput-byte v4, v0, v1
+043b: const/16 v1, 94
+043d: aput-byte v4, v0, v1
+043f: const/16 v1, 95
+0441: const/16 v2, 63
+0443: aput-byte v2, v0, v1
+0445: const/16 v1, 96
+0447: aput-byte v4, v0, v1
+0449: const/16 v1, 97
+044b: const/16 v2, 26
+044d: aput-byte v2, v0, v1
+044f: const/16 v1, 98
+0451: const/16 v2, 27
+0453: aput-byte v2, v0, v1
+0455: const/16 v1, 99
+0457: const/16 v2, 28
+0459: aput-byte v2, v0, v1
+045b: const/16 v1, 100
+045d: const/16 v2, 29
+045f: aput-byte v2, v0, v1
+0461: const/16 v1, 101
+0463: const/16 v2, 30
+0465: aput-byte v2, v0, v1
+0467: const/16 v1, 102
+0469: const/16 v2, 31
+046b: aput-byte v2, v0, v1
+046d: const/16 v1, 103
+046f: const/16 v2, 32
+0471: aput-byte v2, v0, v1
+0473: const/16 v1, 104
+0475: const/16 v2, 33
+0477: aput-byte v2, v0, v1
+0479: const/16 v1, 105
+047b: const/16 v2, 34
+047d: aput-byte v2, v0, v1
+047f: const/16 v1, 106
+0481: const/16 v2, 35
+0483: aput-byte v2, v0, v1
+0485: const/16 v1, 107
+0487: const/16 v2, 36
+0489: aput-byte v2, v0, v1
+048b: const/16 v1, 108
+048d: const/16 v2, 37
+048f: aput-byte v2, v0, v1
+0491: const/16 v1, 109
+0493: const/16 v2, 38
+0495: aput-byte v2, v0, v1
+0497: const/16 v1, 110
+0499: const/16 v2, 39
+049b: aput-byte v2, v0, v1
+049d: const/16 v1, 111
+049f: const/16 v2, 40
+04a1: aput-byte v2, v0, v1
+04a3: const/16 v1, 112
+04a5: const/16 v2, 41
+04a7: aput-byte v2, v0, v1
+04a9: const/16 v1, 113
+04ab: const/16 v2, 42
+04ad: aput-byte v2, v0, v1
+04af: const/16 v1, 114
+04b1: const/16 v2, 43
+04b3: aput-byte v2, v0, v1
+04b5: const/16 v1, 115
+04b7: const/16 v2, 44
+04b9: aput-byte v2, v0, v1
+04bb: const/16 v1, 116
+04bd: const/16 v2, 45
+04bf: aput-byte v2, v0, v1
+04c1: const/16 v1, 117
+04c3: const/16 v2, 46
+04c5: aput-byte v2, v0, v1
+04c7: const/16 v1, 118
+04c9: const/16 v2, 47
+04cb: aput-byte v2, v0, v1
+04cd: const/16 v1, 119
+04cf: const/16 v2, 48
+04d1: aput-byte v2, v0, v1
+04d3: const/16 v1, 120
+04d5: const/16 v2, 49
+04d7: aput-byte v2, v0, v1
+04d9: const/16 v1, 121
+04db: const/16 v2, 50
+04dd: aput-byte v2, v0, v1
+04df: const/16 v1, 122
+04e1: const/16 v2, 51
+04e3: aput-byte v2, v0, v1
+04e5: const/16 v1, 123
+04e7: aput-byte v4, v0, v1
+04e9: const/16 v1, 124
+04eb: aput-byte v4, v0, v1
+04ed: const/16 v1, 125
+04ef: aput-byte v4, v0, v1
+04f1: const/16 v1, 126
+04f3: aput-byte v4, v0, v1
+04f5: const/16 v1, 127
+04f7: aput-byte v4, v0, v1
+04f9: sput-object v0, "Lcom/storm8/base/util/iap/Base64;->WEBSAFE_DECODABET:[B"
+04fb: return-void
+04fc: const/4 v0, 0
+04fd: goto/16 @000f
+04ff: nop
+0500: payload fill-array-data-payload element_width=1 count=64 bytes=4142434445464748494a4b4c4d4e4f505152535455565758595a6162636465666768696a6b6c6d6e6f707172737475767778797a303132333435363738392b2f
+0524: payload fill-array-data-payload element_width=1 count=64 bytes=4142434445464748494a4b4c4d4e4f505152535455565758595a6162636465666768696a6b6c6d6e6f707172737475767778797a303132333435363738392d5f
+
+## Lcom/storm8/base/util/iap/Base64;-><init>()V access=0x10002
+# code_off=0x21bc4 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/storm8/base/util/iap/Base64;->decode(Ljava/lang/String;)[B access=0x9
+# code_off=0x21bdc registers=4 incoming_words=1 outgoing_words=3 code_units=11 tries=0
+0000: invoke-virtual {v3}, Ljava/lang/String;->getBytes()[B
+0003: move-result-object v0
+0004: const/4 v1, 0
+0005: array-length v2, v0
+0006: invoke-static {v0, v1, v2}, Lcom/storm8/base/util/iap/Base64;->decode([BII)[B
+0009: move-result-object v1
+000a: return-object v1
+
+## Lcom/storm8/base/util/iap/Base64;->decode([B)[B access=0x9
+# code_off=0x21c04 registers=3 incoming_words=1 outgoing_words=3 code_units=7 tries=0
+0000: const/4 v0, 0
+0001: array-length v1, v2
+0002: invoke-static {v2, v0, v1}, Lcom/storm8/base/util/iap/Base64;->decode([BII)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lcom/storm8/base/util/iap/Base64;->decode([BII)[B access=0x9
+# code_off=0x21c24 registers=4 incoming_words=3 outgoing_words=4 code_units=7 tries=0
+0000: sget-object v0, "Lcom/storm8/base/util/iap/Base64;->DECODABET:[B"
+0002: invoke-static {v1, v2, v3, v0}, Lcom/storm8/base/util/iap/Base64;->decode([BII[B)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lcom/storm8/base/util/iap/Base64;->decode([BII[B)[B access=0x9
+# code_off=0x21c44 registers=20 incoming_words=4 outgoing_words=5 code_units=243 tries=0
+0000: mul-int/lit8 v13, v18, 3
+0002: div-int/lit8 v7, v13, 4
+0004: add-int/lit8 v13, v7, 2
+0006: new-array v9, v13, "[B"
+0008: const/4 v10, 0
+0009: const/4 v13, 4
+000a: new-array v1, v13, "[B"
+000c: const/4 v2, 0
+000d: const/4 v5, 0
+000e: const/4 v11, 0
+000f: const/4 v12, 0
+0010: const/4 v5, 0
+0011: move v3, v2
+0012: move/from16 v0, v18
+0014: if-lt v5, v0, @0032
+0016: if-eqz v3, @00ef
+0018: const/4 v13, 1
+0019: if-ne v3, v13, @00d9
+001b: new-instance v13, "Lcom/storm8/base/util/iap/Base64DecoderException;"
+001d: new-instance v14, "Ljava/lang/StringBuilder;"
+001f: const-string v15, "single trailing character at offset "
+0021: invoke-direct {v14, v15}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0024: add-int/lit8 v15, v18, -1
+0026: invoke-virtual {v14, v15}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0029: move-result-object v14
+002a: invoke-virtual {v14}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+002d: move-result-object v14
+002e: invoke-direct {v13, v14}, Lcom/storm8/base/util/iap/Base64DecoderException;-><init>(Ljava/lang/String;)V
+0031: throw v13
+0032: add-int v13, v5, v17
+0034: aget-byte v13, v16, v13
+0036: and-int/lit8 v13, v13, 127
+0038: int-to-byte v11, v13
+0039: aget-byte v12, v19, v11
+003b: const/4 v13, -5
+003c: if-lt v12, v13, @00b0
+003e: const/4 v13, -1
+003f: if-lt v12, v13, @00f1
+0041: const/16 v13, 61
+0043: if-ne v11, v13, @009b
+0045: sub-int v4, v18, v5
+0047: add-int/lit8 v13, v18, -1
+0049: add-int v13, v13, v17
+004b: aget-byte v13, v16, v13
+004d: and-int/lit8 v13, v13, 127
+004f: int-to-byte v6, v13
+0050: if-eqz v3, @0055
+0052: const/4 v13, 1
+0053: if-ne v3, v13, @006a
+0055: new-instance v13, "Lcom/storm8/base/util/iap/Base64DecoderException;"
+0057: new-instance v14, "Ljava/lang/StringBuilder;"
+0059: const-string v15, "invalid padding byte '=' at byte offset "
+005b: invoke-direct {v14, v15}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+005e: invoke-virtual {v14, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0061: move-result-object v14
+0062: invoke-virtual {v14}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0065: move-result-object v14
+0066: invoke-direct {v13, v14}, Lcom/storm8/base/util/iap/Base64DecoderException;-><init>(Ljava/lang/String;)V
+0069: throw v13
+006a: const/4 v13, 3
+006b: if-ne v3, v13, @0070
+006d: const/4 v13, 2
+006e: if-gt v4, v13, @0076
+0070: const/4 v13, 4
+0071: if-ne v3, v13, @008b
+0073: const/4 v13, 1
+0074: if-le v4, v13, @008b
+0076: new-instance v13, "Lcom/storm8/base/util/iap/Base64DecoderException;"
+0078: new-instance v14, "Ljava/lang/StringBuilder;"
+007a: const-string v15, "padding byte '=' falsely signals end of encoded value at offset "
+007c: invoke-direct {v14, v15}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+007f: invoke-virtual {v14, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0082: move-result-object v14
+0083: invoke-virtual {v14}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0086: move-result-object v14
+0087: invoke-direct {v13, v14}, Lcom/storm8/base/util/iap/Base64DecoderException;-><init>(Ljava/lang/String;)V
+008a: throw v13
+008b: const/16 v13, 61
+008d: if-eq v6, v13, @0016
+008f: const/16 v13, 10
+0091: if-eq v6, v13, @0016
+0093: new-instance v13, "Lcom/storm8/base/util/iap/Base64DecoderException;"
+0095: const-string v14, "encoded value has invalid trailing byte"
+0097: invoke-direct {v13, v14}, Lcom/storm8/base/util/iap/Base64DecoderException;-><init>(Ljava/lang/String;)V
+009a: throw v13
+009b: add-int/lit8 v2, v3, 1
+009d: aput-byte v11, v1, v3
+009f: const/4 v13, 4
+00a0: if-ne v2, v13, @00ab
+00a2: const/4 v13, 0
+00a3: move-object/from16 v0, v19
+00a5: invoke-static {v1, v13, v9, v10, v0}, Lcom/storm8/base/util/iap/Base64;->decode4to3([BI[BI[B)I
+00a8: move-result v13
+00a9: add-int/2addr v10, v13
+00aa: const/4 v2, 0
+00ab: add-int/lit8 v5, v5, 1
+00ad: move v3, v2
+00ae: goto/16 @0012
+00b0: new-instance v13, "Lcom/storm8/base/util/iap/Base64DecoderException;"
+00b2: new-instance v14, "Ljava/lang/StringBuilder;"
+00b4: const-string v15, "Bad Base64 input character at "
+00b6: invoke-direct {v14, v15}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+00b9: invoke-virtual {v14, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+00bc: move-result-object v14
+00bd: const-string v15, ": "
+00bf: invoke-virtual {v14, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00c2: move-result-object v14
+00c3: add-int v15, v5, v17
+00c5: aget-byte v15, v16, v15
+00c7: invoke-virtual {v14, v15}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+00ca: move-result-object v14
+00cb: const-string v15, "(decimal)"
+00cd: invoke-virtual {v14, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00d0: move-result-object v14
+00d1: invoke-virtual {v14}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00d4: move-result-object v14
+00d5: invoke-direct {v13, v14}, Lcom/storm8/base/util/iap/Base64DecoderException;-><init>(Ljava/lang/String;)V
+00d8: throw v13
+00d9: add-int/lit8 v2, v3, 1
+00db: const/16 v13, 61
+00dd: aput-byte v13, v1, v3
+00df: const/4 v13, 0
+00e0: move-object/from16 v0, v19
+00e2: invoke-static {v1, v13, v9, v10, v0}, Lcom/storm8/base/util/iap/Base64;->decode4to3([BI[BI[B)I
+00e5: move-result v13
+00e6: add-int/2addr v10, v13
+00e7: new-array v8, v10, "[B"
+00e9: const/4 v13, 0
+00ea: const/4 v14, 0
+00eb: invoke-static {v9, v13, v8, v14, v10}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+00ee: return-object v8
+00ef: move v2, v3
+00f0: goto @00e7
+00f1: move v2, v3
+00f2: goto @00ab
+
+## Lcom/storm8/base/util/iap/Base64;->decode4to3([BI[BI[B)I access=0xa
+# code_off=0x21e3c registers=8 incoming_words=5 outgoing_words=0 code_units=147 tries=0
+0000: const/16 v2, 61
+0002: add-int/lit8 v1, v4, 2
+0004: aget-byte v1, v3, v1
+0006: if-ne v1, v2, @0023
+0008: aget-byte v1, v3, v4
+000a: aget-byte v1, v7, v1
+000c: shl-int/lit8 v1, v1, 24
+000e: ushr-int/lit8 v1, v1, 6
+0010: add-int/lit8 v2, v4, 1
+0012: aget-byte v2, v3, v2
+0014: aget-byte v2, v7, v2
+0016: shl-int/lit8 v2, v2, 24
+0018: ushr-int/lit8 v2, v2, 12
+001a: or-int v0, v1, v2
+001c: ushr-int/lit8 v1, v0, 16
+001e: int-to-byte v1, v1
+001f: aput-byte v1, v5, v6
+0021: const/4 v1, 1
+0022: return v1
+0023: add-int/lit8 v1, v4, 3
+0025: aget-byte v1, v3, v1
+0027: if-ne v1, v2, @0056
+0029: aget-byte v1, v3, v4
+002b: aget-byte v1, v7, v1
+002d: shl-int/lit8 v1, v1, 24
+002f: ushr-int/lit8 v1, v1, 6
+0031: add-int/lit8 v2, v4, 1
+0033: aget-byte v2, v3, v2
+0035: aget-byte v2, v7, v2
+0037: shl-int/lit8 v2, v2, 24
+0039: ushr-int/lit8 v2, v2, 12
+003b: or-int/2addr v1, v2
+003c: add-int/lit8 v2, v4, 2
+003e: aget-byte v2, v3, v2
+0040: aget-byte v2, v7, v2
+0042: shl-int/lit8 v2, v2, 24
+0044: ushr-int/lit8 v2, v2, 18
+0046: or-int v0, v1, v2
+0048: ushr-int/lit8 v1, v0, 16
+004a: int-to-byte v1, v1
+004b: aput-byte v1, v5, v6
+004d: add-int/lit8 v1, v6, 1
+004f: ushr-int/lit8 v2, v0, 8
+0051: int-to-byte v2, v2
+0052: aput-byte v2, v5, v1
+0054: const/4 v1, 2
+0055: goto @0022
+0056: aget-byte v1, v3, v4
+0058: aget-byte v1, v7, v1
+005a: shl-int/lit8 v1, v1, 24
+005c: ushr-int/lit8 v1, v1, 6
+005e: add-int/lit8 v2, v4, 1
+0060: aget-byte v2, v3, v2
+0062: aget-byte v2, v7, v2
+0064: shl-int/lit8 v2, v2, 24
+0066: ushr-int/lit8 v2, v2, 12
+0068: or-int/2addr v1, v2
+0069: add-int/lit8 v2, v4, 2
+006b: aget-byte v2, v3, v2
+006d: aget-byte v2, v7, v2
+006f: shl-int/lit8 v2, v2, 24
+0071: ushr-int/lit8 v2, v2, 18
+0073: or-int/2addr v1, v2
+0074: add-int/lit8 v2, v4, 3
+0076: aget-byte v2, v3, v2
+0078: aget-byte v2, v7, v2
+007a: shl-int/lit8 v2, v2, 24
+007c: ushr-int/lit8 v2, v2, 24
+007e: or-int v0, v1, v2
+0080: shr-int/lit8 v1, v0, 16
+0082: int-to-byte v1, v1
+0083: aput-byte v1, v5, v6
+0085: add-int/lit8 v1, v6, 1
+0087: shr-int/lit8 v2, v0, 8
+0089: int-to-byte v2, v2
+008a: aput-byte v2, v5, v1
+008c: add-int/lit8 v1, v6, 2
+008e: int-to-byte v2, v0
+008f: aput-byte v2, v5, v1
+0091: const/4 v1, 3
+0092: goto @0022
+
+## Lcom/storm8/base/util/iap/Base64;->decodeWebSafe(Ljava/lang/String;)[B access=0x9
+# code_off=0x21f74 registers=4 incoming_words=1 outgoing_words=3 code_units=11 tries=0
+0000: invoke-virtual {v3}, Ljava/lang/String;->getBytes()[B
+0003: move-result-object v0
+0004: const/4 v1, 0
+0005: array-length v2, v0
+0006: invoke-static {v0, v1, v2}, Lcom/storm8/base/util/iap/Base64;->decodeWebSafe([BII)[B
+0009: move-result-object v1
+000a: return-object v1
+
+## Lcom/storm8/base/util/iap/Base64;->decodeWebSafe([B)[B access=0x9
+# code_off=0x21f9c registers=3 incoming_words=1 outgoing_words=3 code_units=7 tries=0
+0000: const/4 v0, 0
+0001: array-length v1, v2
+0002: invoke-static {v2, v0, v1}, Lcom/storm8/base/util/iap/Base64;->decodeWebSafe([BII)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lcom/storm8/base/util/iap/Base64;->decodeWebSafe([BII)[B access=0x9
+# code_off=0x21fbc registers=4 incoming_words=3 outgoing_words=4 code_units=7 tries=0
+0000: sget-object v0, "Lcom/storm8/base/util/iap/Base64;->WEBSAFE_DECODABET:[B"
+0002: invoke-static {v1, v2, v3, v0}, Lcom/storm8/base/util/iap/Base64;->decode([BII[B)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lcom/storm8/base/util/iap/Base64;->encode([B)Ljava/lang/String; access=0x9
+# code_off=0x21fdc registers=5 incoming_words=1 outgoing_words=5 code_units=10 tries=0
+0000: const/4 v0, 0
+0001: array-length v1, v4
+0002: sget-object v2, "Lcom/storm8/base/util/iap/Base64;->ALPHABET:[B"
+0004: const/4 v3, 1
+0005: invoke-static {v4, v0, v1, v2, v3}, Lcom/storm8/base/util/iap/Base64;->encode([BII[BZ)Ljava/lang/String;
+0008: move-result-object v0
+0009: return-object v0
+
+## Lcom/storm8/base/util/iap/Base64;->encode([BII[BZ)Ljava/lang/String; access=0x9
+# code_off=0x22000 registers=9 incoming_words=5 outgoing_words=5 code_units=30 tries=0
+0000: const v2, 2147483647 (0x7fffffff)
+0003: invoke-static {v4, v5, v6, v7, v2}, Lcom/storm8/base/util/iap/Base64;->encode([BII[BI)[B
+0006: move-result-object v0
+0007: array-length v1, v0
+0008: if-nez v8, @000c
+000a: if-gtz v1, @0013
+000c: new-instance v2, "Ljava/lang/String;"
+000e: const/4 v3, 0
+000f: invoke-direct {v2, v0, v3, v1}, Ljava/lang/String;-><init>([BII)V
+0012: return-object v2
+0013: add-int/lit8 v2, v1, -1
+0015: aget-byte v2, v0, v2
+0017: const/16 v3, 61
+0019: if-ne v2, v3, @000c
+001b: add-int/lit8 v1, v1, -1
+001d: goto @0008
+
+## Lcom/storm8/base/util/iap/Base64;->encode([BII[BI)[B access=0x9
+# code_off=0x2204c registers=18 incoming_words=5 outgoing_words=6 code_units=143 tries=0
+0000: add-int/lit8 v1, v15, 2
+0002: div-int/lit8 v11, v1, 3
+0004: mul-int/lit8 v10, v11, 4
+0006: div-int v1, v10, v17
+0008: add-int/2addr v1, v10
+0009: new-array v4, v1, "[B"
+000b: const/4 v7, 0
+000c: const/4 v5, 0
+000d: add-int/lit8 v9, v15, -2
+000f: const/4 v12, 0
+0010: if-lt v7, v9, @003b
+0012: if-ge v7, v15, @002e
+0014: add-int v2, v7, v14
+0016: sub-int v3, v15, v7
+0018: move-object v1, v13
+0019: move-object/from16 v6, v16
+001b: invoke-static/range {v1, v2, v3, v4, v5, v6}, Lcom/storm8/base/util/iap/Base64;->encode3to4([BII[BI[B)[B
+001e: add-int/lit8 v12, v12, 4
+0020: move/from16 v0, v17
+0022: if-ne v12, v0, @002c
+0024: add-int/lit8 v1, v5, 4
+0026: const/16 v2, 10
+0028: aput-byte v2, v4, v1
+002a: add-int/lit8 v5, v5, 1
+002c: add-int/lit8 v5, v5, 4
+002e: sget-boolean v1, "Lcom/storm8/base/util/iap/Base64;->$assertionsDisabled:Z"
+0030: if-nez v1, @008e
+0032: array-length v1, v4
+0033: if-eq v5, v1, @008e
+0035: new-instance v1, "Ljava/lang/AssertionError;"
+0037: invoke-direct {v1}, Ljava/lang/AssertionError;-><init>()V
+003a: throw v1
+003b: add-int v1, v7, v14
+003d: aget-byte v1, v13, v1
+003f: shl-int/lit8 v1, v1, 24
+0041: ushr-int/lit8 v1, v1, 8
+0043: add-int/lit8 v2, v7, 1
+0045: add-int/2addr v2, v14
+0046: aget-byte v2, v13, v2
+0048: shl-int/lit8 v2, v2, 24
+004a: ushr-int/lit8 v2, v2, 16
+004c: or-int/2addr v1, v2
+004d: add-int/lit8 v2, v7, 2
+004f: add-int/2addr v2, v14
+0050: aget-byte v2, v13, v2
+0052: shl-int/lit8 v2, v2, 24
+0054: ushr-int/lit8 v2, v2, 24
+0056: or-int v8, v1, v2
+0058: ushr-int/lit8 v1, v8, 18
+005a: aget-byte v1, v16, v1
+005c: aput-byte v1, v4, v5
+005e: add-int/lit8 v1, v5, 1
+0060: ushr-int/lit8 v2, v8, 12
+0062: and-int/lit8 v2, v2, 63
+0064: aget-byte v2, v16, v2
+0066: aput-byte v2, v4, v1
+0068: add-int/lit8 v1, v5, 2
+006a: ushr-int/lit8 v2, v8, 6
+006c: and-int/lit8 v2, v2, 63
+006e: aget-byte v2, v16, v2
+0070: aput-byte v2, v4, v1
+0072: add-int/lit8 v1, v5, 3
+0074: and-int/lit8 v2, v8, 63
+0076: aget-byte v2, v16, v2
+0078: aput-byte v2, v4, v1
+007a: add-int/lit8 v12, v12, 4
+007c: move/from16 v0, v17
+007e: if-ne v12, v0, @0089
+0080: add-int/lit8 v1, v5, 4
+0082: const/16 v2, 10
+0084: aput-byte v2, v4, v1
+0086: add-int/lit8 v5, v5, 1
+0088: const/4 v12, 0
+0089: add-int/lit8 v7, v7, 3
+008b: add-int/lit8 v5, v5, 4
+008d: goto @0010
+008e: return-object v4
+
+## Lcom/storm8/base/util/iap/Base64;->encode3to4([BII[BI[B)[B access=0xa
+# code_off=0x2217c registers=11 incoming_words=6 outgoing_words=0 code_units=146 tries=0
+0000: const/16 v4, 61
+0002: const/4 v1, 0
+0003: if-lez v7, @0029
+0005: aget-byte v2, v5, v6
+0007: shl-int/lit8 v2, v2, 24
+0009: ushr-int/lit8 v2, v2, 8
+000b: move v3, v2
+000c: const/4 v2, 1
+000d: if-le v7, v2, @002b
+000f: add-int/lit8 v2, v6, 1
+0011: aget-byte v2, v5, v2
+0013: shl-int/lit8 v2, v2, 24
+0015: ushr-int/lit8 v2, v2, 16
+0017: or-int/2addr v2, v3
+0018: const/4 v3, 2
+0019: if-le v7, v3, @0023
+001b: add-int/lit8 v1, v6, 2
+001d: aget-byte v1, v5, v1
+001f: shl-int/lit8 v1, v1, 24
+0021: ushr-int/lit8 v1, v1, 24
+0023: or-int v0, v2, v1
+0025: packed-switch v7, @0088
+0028: return-object v8
+0029: move v3, v1
+002a: goto @000c
+002b: move v2, v1
+002c: goto @0017
+002d: ushr-int/lit8 v1, v0, 18
+002f: aget-byte v1, v10, v1
+0031: aput-byte v1, v8, v9
+0033: add-int/lit8 v1, v9, 1
+0035: ushr-int/lit8 v2, v0, 12
+0037: and-int/lit8 v2, v2, 63
+0039: aget-byte v2, v10, v2
+003b: aput-byte v2, v8, v1
+003d: add-int/lit8 v1, v9, 2
+003f: ushr-int/lit8 v2, v0, 6
+0041: and-int/lit8 v2, v2, 63
+0043: aget-byte v2, v10, v2
+0045: aput-byte v2, v8, v1
+0047: add-int/lit8 v1, v9, 3
+0049: and-int/lit8 v2, v0, 63
+004b: aget-byte v2, v10, v2
+004d: aput-byte v2, v8, v1
+004f: goto @0028
+0050: ushr-int/lit8 v1, v0, 18
+0052: aget-byte v1, v10, v1
+0054: aput-byte v1, v8, v9
+0056: add-int/lit8 v1, v9, 1
+0058: ushr-int/lit8 v2, v0, 12
+005a: and-int/lit8 v2, v2, 63
+005c: aget-byte v2, v10, v2
+005e: aput-byte v2, v8, v1
+0060: add-int/lit8 v1, v9, 2
+0062: ushr-int/lit8 v2, v0, 6
+0064: and-int/lit8 v2, v2, 63
+0066: aget-byte v2, v10, v2
+0068: aput-byte v2, v8, v1
+006a: add-int/lit8 v1, v9, 3
+006c: aput-byte v4, v8, v1
+006e: goto @0028
+006f: ushr-int/lit8 v1, v0, 18
+0071: aget-byte v1, v10, v1
+0073: aput-byte v1, v8, v9
+0075: add-int/lit8 v1, v9, 1
+0077: ushr-int/lit8 v2, v0, 12
+0079: and-int/lit8 v2, v2, 63
+007b: aget-byte v2, v10, v2
+007d: aput-byte v2, v8, v1
+007f: add-int/lit8 v1, v9, 2
+0081: aput-byte v4, v8, v1
+0083: add-int/lit8 v1, v9, 3
+0085: aput-byte v4, v8, v1
+0087: goto @0028
+0088: payload packed-switch-payload size=3 first_key=1 targets=[74, 43, 8]
+
+## Lcom/storm8/base/util/iap/Base64;->encodeWebSafe([BZ)Ljava/lang/String; access=0x9
+# code_off=0x222b0 registers=5 incoming_words=2 outgoing_words=5 code_units=9 tries=0
+0000: const/4 v0, 0
+0001: array-length v1, v3
+0002: sget-object v2, "Lcom/storm8/base/util/iap/Base64;->WEBSAFE_ALPHABET:[B"
+0004: invoke-static {v3, v0, v1, v2, v4}, Lcom/storm8/base/util/iap/Base64;->encode([BII[BZ)Ljava/lang/String;
+0007: move-result-object v0
+0008: return-object v0

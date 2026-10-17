@@ -1,0 +1,39 @@
+# class Lm; extends Ljava/lang/Object;
+# interfaces Li;
+# source None
+# fields
+
+## Lm;-><init>()V access=0x10001
+# code_off=0x30b10 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lm;->a(Ld;Ljava/util/HashMap;Landroid/webkit/WebView;)V access=0x11
+# code_off=0x30b28 registers=8 incoming_words=4 outgoing_words=2 code_units=55 tries=0
+0000: const-string v0, "string"
+0002: invoke-virtual {v6, v0}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Ljava/lang/String;"
+0008: const-string v1, "afma_notify_dt"
+000a: invoke-virtual {v6, v1}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+000d: move-result-object v1
+000e: check-cast v1, "Ljava/lang/String;"
+0010: new-instance v2, "Ljava/lang/StringBuilder;"
+0012: invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+0015: const-string v3, "Received log message: <\"string\": \""
+0017: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001a: move-result-object v2
+001b: invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001e: move-result-object v0
+001f: const-string v2, "\", \"afmaNotifyDt\": \""
+0021: invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0024: move-result-object v0
+0025: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0028: move-result-object v0
+0029: const-string v1, "\">"
+002b: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+002e: move-result-object v0
+002f: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0032: move-result-object v0
+0033: invoke-static {v0}, Lt;->c(Ljava/lang/String;)V
+0036: return-void

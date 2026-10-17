@@ -1,0 +1,126 @@
+# class Ls; extends Ljava/lang/Object;
+# interfaces Li;
+# source None
+# fields
+
+## Ls;-><init>()V access=0x10001
+# code_off=0x30db4 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Ls;->a(Ld;Ljava/util/HashMap;Landroid/webkit/WebView;)V access=0x11
+# code_off=0x30dcc registers=8 incoming_words=4 outgoing_words=2 code_units=235 tries=0
+0000: const/4 v3, 0
+0001: const-string v0, "action"
+0003: invoke-virtual {v6, v0}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+0006: move-result-object v0
+0007: check-cast v0, "Ljava/lang/String;"
+0009: instance-of v1, v7, "Lg;"
+000b: if-eqz v1, @001b
+000d: check-cast v7, "Lg;"
+000f: invoke-virtual {v7}, Lg;->b()Lcom/google/ads/AdActivity;
+0012: move-result-object v1
+0013: if-nez v1, @0021
+0015: const-string v0, "Could not get adActivity to create the video."
+0017: invoke-static {v0}, Lt;->a(Ljava/lang/String;)V
+001a: return-void
+001b: const-string v0, "Could not get adWebView to create the video."
+001d: invoke-static {v0}, Lt;->a(Ljava/lang/String;)V
+0020: goto @001a
+0021: const-string v2, "load"
+0023: invoke-virtual {v0, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0026: move-result v2
+0027: if-eqz v2, @004d
+0029: const-string v0, "url"
+002b: invoke-virtual {v6, v0}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+002e: move-result-object v0
+002f: check-cast v0, "Ljava/lang/String;"
+0031: invoke-virtual {v5}, Ld;->c()Landroid/app/Activity;
+0034: move-result-object v2
+0035: if-nez v2, @003d
+0037: const-string v0, "activity was null while loading a video."
+0039: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+003c: goto @001a
+003d: new-instance v3, "Landroid/widget/VideoView;"
+003f: invoke-virtual {v2}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
+0042: move-result-object v2
+0043: invoke-direct {v3, v2}, Landroid/widget/VideoView;-><init>(Landroid/content/Context;)V
+0046: invoke-virtual {v3, v0}, Landroid/widget/VideoView;->setVideoPath(Ljava/lang/String;)V
+0049: invoke-virtual {v1, v3}, Lcom/google/ads/AdActivity;->showVideo(Landroid/widget/VideoView;)V
+004c: goto @001a
+004d: invoke-virtual {v1}, Lcom/google/ads/AdActivity;->getVideoView()Landroid/widget/VideoView;
+0050: move-result-object v1
+0051: if-nez v1, @0059
+0053: const-string v0, "Could not get the VideoView for a video GMSG."
+0055: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+0058: goto @001a
+0059: const-string v2, "play"
+005b: invoke-virtual {v0, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+005e: move-result v2
+005f: if-eqz v2, @0068
+0061: invoke-virtual {v1, v3}, Landroid/widget/VideoView;->setVisibility(I)V
+0064: invoke-virtual {v1}, Landroid/widget/VideoView;->start()V
+0067: goto @001a
+0068: const-string v2, "pause"
+006a: invoke-virtual {v0, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+006d: move-result v2
+006e: if-eqz v2, @0074
+0070: invoke-virtual {v1}, Landroid/widget/VideoView;->pause()V
+0073: goto @001a
+0074: const-string v2, "stop"
+0076: invoke-virtual {v0, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0079: move-result v2
+007a: if-eqz v2, @0080
+007c: invoke-virtual {v1}, Landroid/widget/VideoView;->stopPlayback()V
+007f: goto @001a
+0080: const-string v2, "remove"
+0082: invoke-virtual {v0, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0085: move-result v2
+0086: if-eqz v2, @008e
+0088: const/16 v0, 8
+008a: invoke-virtual {v1, v0}, Landroid/widget/VideoView;->setVisibility(I)V
+008d: goto @001a
+008e: const-string v2, "replay"
+0090: invoke-virtual {v0, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+0093: move-result v2
+0094: if-eqz v2, @00a1
+0096: invoke-virtual {v1, v3}, Landroid/widget/VideoView;->setVisibility(I)V
+0099: invoke-virtual {v1, v3}, Landroid/widget/VideoView;->seekTo(I)V
+009c: invoke-virtual {v1}, Landroid/widget/VideoView;->start()V
+009f: goto/16 @001a
+00a1: const-string v2, "currentTime"
+00a3: invoke-virtual {v0, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+00a6: move-result v2
+00a7: if-eqz v2, @00cb
+00a9: const-string v0, "time"
+00ab: invoke-virtual {v6, v0}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+00ae: move-result-object v0
+00af: check-cast v0, "Ljava/lang/String;"
+00b1: if-nez v0, @00ba
+00b3: const-string v0, "No \"time\" parameter!"
+00b5: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+00b8: goto/16 @001a
+00ba: invoke-static {v0}, Ljava/lang/Float;->valueOf(Ljava/lang/String;)Ljava/lang/Float;
+00bd: move-result-object v0
+00be: invoke-virtual {v0}, Ljava/lang/Float;->floatValue()F
+00c1: move-result v0
+00c2: const/high16 v2, 0x447a0000
+00c4: mul-float/2addr v0, v2
+00c5: float-to-int v0, v0
+00c6: invoke-virtual {v1, v0}, Landroid/widget/VideoView;->seekTo(I)V
+00c9: goto/16 @001a
+00cb: const-string v1, "position"
+00cd: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+00d0: move-result v1
+00d1: if-nez v1, @001a
+00d3: new-instance v1, "Ljava/lang/StringBuilder;"
+00d5: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+00d8: const-string v2, "Unknown movie action: "
+00da: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00dd: move-result-object v1
+00de: invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00e1: move-result-object v0
+00e2: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00e5: move-result-object v0
+00e6: invoke-static {v0}, Lt;->e(Ljava/lang/String;)V
+00e9: goto/16 @001a

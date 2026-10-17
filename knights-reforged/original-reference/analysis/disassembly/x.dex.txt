@@ -1,0 +1,26 @@
+# class Lx; extends Ljava/lang/Object;
+# interfaces Ljava/lang/Runnable;
+# source None
+# fields
+# Lx;->a:Ljava/lang/ref/WeakReference; access=0x2
+
+## Lx;-><init>(Ld;)V access=0x10001
+# code_off=0x27d60 registers=3 incoming_words=2 outgoing_words=2 code_units=11 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: new-instance v0, "Ljava/lang/ref/WeakReference;"
+0005: invoke-direct {v0, v2}, Ljava/lang/ref/WeakReference;-><init>(Ljava/lang/Object;)V
+0008: iput-object v0, v1, "Lx;->a:Ljava/lang/ref/WeakReference;"
+000a: return-void
+
+## Lx;->run()V access=0x11
+# code_off=0x27d88 registers=2 incoming_words=1 outgoing_words=1 code_units=20 tries=0
+0000: iget-object v0, v1, "Lx;->a:Ljava/lang/ref/WeakReference;"
+0002: invoke-virtual {v0}, Ljava/lang/ref/WeakReference;->get()Ljava/lang/Object;
+0005: move-result-object v0
+0006: check-cast v0, "Ld;"
+0008: if-nez v0, @0010
+000a: const-string v0, "The ad must be gone, so cancelling the refresh timer."
+000c: invoke-static {v0}, Lt;->a(Ljava/lang/String;)V
+000f: return-void
+0010: invoke-virtual {v0}, Ld;->s()V
+0013: goto @000f

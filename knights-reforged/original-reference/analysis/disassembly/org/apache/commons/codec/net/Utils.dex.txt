@@ -1,0 +1,31 @@
+# class Lorg/apache/commons/codec/net/Utils; extends Ljava/lang/Object;
+# interfaces 
+# source Utils.java
+# fields
+
+## Lorg/apache/commons/codec/net/Utils;-><init>()V access=0x10000
+# code_off=0x26e70 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lorg/apache/commons/codec/net/Utils;->digit16(B)I access=0x8
+# code_off=0x26e88 registers=5 incoming_words=1 outgoing_words=2 code_units=36 tries=0
+0000: int-to-char v1, v4
+0001: const/16 v2, 16
+0003: invoke-static {v1, v2}, Ljava/lang/Character;->digit(CI)I
+0006: move-result v0
+0007: const/4 v1, -1
+0008: if-ne v0, v1, @0023
+000a: new-instance v1, "Lorg/apache/commons/codec/DecoderException;"
+000c: new-instance v2, "Ljava/lang/StringBuffer;"
+000e: invoke-direct {v2}, Ljava/lang/StringBuffer;-><init>()V
+0011: const-string v3, "Invalid URL encoding: not a valid digit (radix 16): "
+0013: invoke-virtual {v2, v3}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0016: move-result-object v2
+0017: invoke-virtual {v2, v4}, Ljava/lang/StringBuffer;->append(I)Ljava/lang/StringBuffer;
+001a: move-result-object v2
+001b: invoke-virtual {v2}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+001e: move-result-object v2
+001f: invoke-direct {v1, v2}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;)V
+0022: throw v1
+0023: return v0

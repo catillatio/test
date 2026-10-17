@@ -1,0 +1,1913 @@
+[
+  {
+    "class": "La$1;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/a$1.dex.txt"
+  },
+  {
+    "class": "La$a;",
+    "super": "Ljava/lang/Enum;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/a$a.dex.txt"
+  },
+  {
+    "class": "La;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 8,
+    "file": "disassembly/a.dex.txt"
+  },
+  {
+    "class": "Landroid/annotation/SuppressLint;",
+    "super": "Ljava/lang/Object;",
+    "source": "SuppressLint.java",
+    "method_count": 1,
+    "file": "disassembly/android/annotation/SuppressLint.dex.txt"
+  },
+  {
+    "class": "Landroid/annotation/TargetApi;",
+    "super": "Ljava/lang/Object;",
+    "source": "TargetApi.java",
+    "method_count": 1,
+    "file": "disassembly/android/annotation/TargetApi.dex.txt"
+  },
+  {
+    "class": "Lb;",
+    "super": "Landroid/os/AsyncTask;",
+    "source": null,
+    "method_count": 7,
+    "file": "disassembly/b.dex.txt"
+  },
+  {
+    "class": "Lc$a;",
+    "super": "Ljava/lang/Exception;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/c$a.dex.txt"
+  },
+  {
+    "class": "Lc;",
+    "super": "Landroid/os/AsyncTask;",
+    "source": null,
+    "method_count": 13,
+    "file": "disassembly/c.dex.txt"
+  },
+  {
+    "class": "Lcom/android/vending/billing/IInAppBillingService;",
+    "super": "Ljava/lang/Object;",
+    "source": "IInAppBillingService.java",
+    "method_count": 5,
+    "file": "disassembly/com/android/vending/billing/IInAppBillingService.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/Ad;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/ads/Ad.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/AdActivity;",
+    "super": "Landroid/app/Activity;",
+    "source": null,
+    "method_count": 13,
+    "file": "disassembly/com/google/ads/AdActivity.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/AdListener;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/ads/AdListener.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/AdRequest$ErrorCode;",
+    "super": "Ljava/lang/Enum;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/ads/AdRequest$ErrorCode.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/AdRequest$Gender;",
+    "super": "Ljava/lang/Enum;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/ads/AdRequest$Gender.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/AdRequest;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 10,
+    "file": "disassembly/com/google/ads/AdRequest.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/AdSize;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/ads/AdSize.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/InstallReceiver;",
+    "super": "Landroid/content/BroadcastReceiver;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/ads/InstallReceiver.dex.txt"
+  },
+  {
+    "class": "Lcom/google/android/c2dm/C2DMBaseReceiver$c2dmNotification;",
+    "super": "Ljava/lang/Object;",
+    "source": "C2DMBaseReceiver.java",
+    "method_count": 2,
+    "file": "disassembly/com/google/android/c2dm/C2DMBaseReceiver$c2dmNotification.dex.txt"
+  },
+  {
+    "class": "Lcom/google/android/c2dm/C2DMBaseReceiver;",
+    "super": "Landroid/app/IntentService;",
+    "source": "C2DMBaseReceiver.java",
+    "method_count": 13,
+    "file": "disassembly/com/google/android/c2dm/C2DMBaseReceiver.dex.txt"
+  },
+  {
+    "class": "Lcom/google/android/c2dm/C2DMBroadcastReceiver;",
+    "super": "Landroid/content/BroadcastReceiver;",
+    "source": "C2DMBroadcastReceiver.java",
+    "method_count": 2,
+    "file": "disassembly/com/google/android/c2dm/C2DMBroadcastReceiver.dex.txt"
+  },
+  {
+    "class": "Lcom/google/android/c2dm/C2DMessaging;",
+    "super": "Ljava/lang/Object;",
+    "source": "C2DMessaging.java",
+    "method_count": 9,
+    "file": "disassembly/com/google/android/c2dm/C2DMessaging.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ExclusionStrategy;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/ExclusionStrategy.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/FieldAttributes;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 13,
+    "file": "disassembly/com/google/gson/FieldAttributes.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/FieldNamingPolicy;",
+    "super": "Ljava/lang/Enum;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/FieldNamingPolicy.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/FieldNamingStrategy;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/FieldNamingStrategy.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/Gson;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 20,
+    "file": "disassembly/com/google/gson/Gson.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/GsonBuilder;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 21,
+    "file": "disassembly/com/google/gson/GsonBuilder.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/InstanceCreator;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/InstanceCreator.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonDeserializationContext;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/JsonDeserializationContext.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonDeserializer;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/JsonDeserializer.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonElement;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 25,
+    "file": "disassembly/com/google/gson/JsonElement.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonParseException;",
+    "super": "Ljava/lang/RuntimeException;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/JsonParseException.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonParser;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/JsonParser.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonSerializationContext;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/JsonSerializationContext.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonSerializer;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/JsonSerializer.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonStreamParser;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/gson/JsonStreamParser.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/LongSerializationPolicy$b;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/LongSerializationPolicy$b.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/LongSerializationPolicy;",
+    "super": "Ljava/lang/Enum;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/LongSerializationPolicy.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier;",
+    "super": "Ljava/lang/Enum;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/ModifyFirstLetterNamingPolicy$LetterModifier.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ObjectNavigator$Visitor;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 10,
+    "file": "disassembly/com/google/gson/ObjectNavigator$Visitor.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ObjectNavigator;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/ObjectNavigator.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ab$a;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 13,
+    "file": "disassembly/com/google/gson/ab$a.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ae;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/ae.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/aj;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/aj.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/am;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/am.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/an;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/an.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/annotations/Expose;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/annotations/Expose.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/annotations/SerializedName;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/annotations/SerializedName.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/annotations/Since;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/annotations/Since.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/annotations/Until;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/annotations/Until.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ao;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 7,
+    "file": "disassembly/com/google/gson/ao.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ap;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/ap.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/aq;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 14,
+    "file": "disassembly/com/google/gson/aq.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ar;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/gson/ar.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/as;",
+    "super": "Ljava/lang/Exception;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/as.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/at;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/at.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/au;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/gson/au.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ax;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 11,
+    "file": "disassembly/com/google/gson/ax.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/az;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/az.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/b;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/b.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ba;",
+    "super": "Ljava/lang/Error;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/ba.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/bb;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/bb.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/bd;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/bd.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/be;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/be.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/bf;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/bf.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/bg;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/bg.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/d;",
+    "super": "Ljava/lang/RuntimeException;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/d.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 7,
+    "file": "disassembly/com/google/gson/f.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/h;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/h.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/k;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/k.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/m;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/m.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/reflect/TypeToken;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 17,
+    "file": "disassembly/com/google/gson/reflect/TypeToken.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/u;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 14,
+    "file": "disassembly/com/google/gson/u.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/v;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/v.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/w;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/w.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/y$a;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/y$a.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/y$b;",
+    "super": "Ljava/lang/Error;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/y$b.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/z;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/z.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/AmazonStoreManager$AmazonPurchasingObserver;",
+    "super": "Lcom/amazon/inapp/purchasing/BasePurchasingObserver;",
+    "source": "AmazonStoreManager.java",
+    "method_count": 3,
+    "file": "disassembly/com/storm8/base/AmazonStoreManager$AmazonPurchasingObserver.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/AmazonStoreManager;",
+    "super": "Ljava/lang/Object;",
+    "source": "AmazonStoreManager.java",
+    "method_count": 12,
+    "file": "disassembly/com/storm8/base/AmazonStoreManager.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$10;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$10.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$12;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$12.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$13;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$13.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$3;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$3.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$4;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$4.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$5;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$5.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$6;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$6.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$7;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$7.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$8;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$8.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$9;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$9.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$TabButtonInfo;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$TabButtonInfo.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity;",
+    "super": "Landroid/app/Activity;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 66,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8Splash$1$1;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8Splash.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8Splash$1$1.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8Splash$1;",
+    "super": "Ljava/lang/Thread;",
+    "source": "Storm8Splash.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8Splash$1.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8Splash;",
+    "super": "Landroid/app/Activity;",
+    "source": "Storm8Splash.java",
+    "method_count": 3,
+    "file": "disassembly/com/storm8/base/Storm8Splash.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8WebChromeClient$1;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8WebChromeClient.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8WebChromeClient$1.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8WebChromeClient$2;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8WebChromeClient.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8WebChromeClient$2.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8WebChromeClient;",
+    "super": "Landroid/webkit/WebChromeClient;",
+    "source": "Storm8WebChromeClient.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8WebChromeClient.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8WebViewClient$1$1;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8WebViewClient.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8WebViewClient$1$1.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8WebViewClient$1;",
+    "super": "Ljava/util/TimerTask;",
+    "source": "Storm8WebViewClient.java",
+    "method_count": 3,
+    "file": "disassembly/com/storm8/base/Storm8WebViewClient$1.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8WebViewClient$2;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8WebViewClient.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8WebViewClient$2.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8WebViewClient$3;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8WebViewClient.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8WebViewClient$3.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8WebViewClient;",
+    "super": "Landroid/webkit/WebViewClient;",
+    "source": "Storm8WebViewClient.java",
+    "method_count": 13,
+    "file": "disassembly/com/storm8/base/Storm8WebViewClient.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/Base64;",
+    "super": "Ljava/lang/Object;",
+    "source": "Base64.java",
+    "method_count": 15,
+    "file": "disassembly/com/storm8/base/util/iap/Base64.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/Base64DecoderException;",
+    "super": "Ljava/lang/Exception;",
+    "source": "Base64DecoderException.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/util/iap/Base64DecoderException.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabException;",
+    "super": "Ljava/lang/Exception;",
+    "source": "IabException.java",
+    "method_count": 5,
+    "file": "disassembly/com/storm8/base/util/iap/IabException.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$1;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 3,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$1.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$2$1;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$2$1.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$2;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$2.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$3$1;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$3$1.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$3$2;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$3$2.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$3;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$3.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$OnConsumeFinishedListener;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$OnConsumeFinishedListener.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$OnConsumeMultiFinishedListener.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$OnIabPurchaseFinishedListener;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$OnIabPurchaseFinishedListener.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$OnIabSetupFinishedListener;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$OnIabSetupFinishedListener.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper$QueryInventoryFinishedListener;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper$QueryInventoryFinishedListener.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabHelper;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabHelper.java",
+    "method_count": 35,
+    "file": "disassembly/com/storm8/base/util/iap/IabHelper.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/IabResult;",
+    "super": "Ljava/lang/Object;",
+    "source": "IabResult.java",
+    "method_count": 6,
+    "file": "disassembly/com/storm8/base/util/iap/IabResult.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/Inventory;",
+    "super": "Ljava/lang/Object;",
+    "source": "Inventory.java",
+    "method_count": 11,
+    "file": "disassembly/com/storm8/base/util/iap/Inventory.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/Purchase;",
+    "super": "Ljava/lang/Object;",
+    "source": "Purchase.java",
+    "method_count": 12,
+    "file": "disassembly/com/storm8/base/util/iap/Purchase.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/Security;",
+    "super": "Ljava/lang/Object;",
+    "source": "Security.java",
+    "method_count": 4,
+    "file": "disassembly/com/storm8/base/util/iap/Security.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/util/iap/SkuDetails;",
+    "super": "Ljava/lang/Object;",
+    "source": "SkuDetails.java",
+    "method_count": 8,
+    "file": "disassembly/com/storm8/base/util/iap/SkuDetails.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/BuildConfig;",
+    "super": "Ljava/lang/Object;",
+    "source": "BuildConfig.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/BuildConfig.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/Manifest$permission;",
+    "super": "Ljava/lang/Object;",
+    "source": "Manifest.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/Manifest$permission.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/Manifest;",
+    "super": "Ljava/lang/Object;",
+    "source": "Manifest.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/Manifest.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/R$attr;",
+    "super": "Ljava/lang/Object;",
+    "source": "R.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/R$attr.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/R$drawable;",
+    "super": "Ljava/lang/Object;",
+    "source": "R.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/R$drawable.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/R$id;",
+    "super": "Ljava/lang/Object;",
+    "source": "R.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/R$id.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/R$layout;",
+    "super": "Ljava/lang/Object;",
+    "source": "R.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/R$layout.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/R$menu;",
+    "super": "Ljava/lang/Object;",
+    "source": "R.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/R$menu.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/R$raw;",
+    "super": "Ljava/lang/Object;",
+    "source": "R.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/R$raw.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/R$string;",
+    "super": "Ljava/lang/Object;",
+    "source": "R.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/R$string.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/R$style;",
+    "super": "Ljava/lang/Object;",
+    "source": "R.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/R$style.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/R;",
+    "super": "Ljava/lang/Object;",
+    "source": "R.java",
+    "method_count": 1,
+    "file": "disassembly/com/storm8/kingdoms12/R.dex.txt"
+  },
+  {
+    "class": "Ld;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 28,
+    "file": "disassembly/d.dex.txt"
+  },
+  {
+    "class": "Le;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/e.dex.txt"
+  },
+  {
+    "class": "Lf;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 20,
+    "file": "disassembly/f.dex.txt"
+  },
+  {
+    "class": "Lg;",
+    "super": "Landroid/webkit/WebView;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/g.dex.txt"
+  },
+  {
+    "class": "Lh$a;",
+    "super": "Landroid/os/AsyncTask;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/h$a.dex.txt"
+  },
+  {
+    "class": "Lh;",
+    "super": "Landroid/webkit/WebViewClient;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/h.dex.txt"
+  },
+  {
+    "class": "Li;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/i.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/CharEncoding;",
+    "super": "Ljava/lang/Object;",
+    "source": "CharEncoding.java",
+    "method_count": 1,
+    "file": "disassembly/org/apache/commons/codec/CharEncoding.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/Decoder;",
+    "super": "Ljava/lang/Object;",
+    "source": "Decoder.java",
+    "method_count": 1,
+    "file": "disassembly/org/apache/commons/codec/Decoder.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/DecoderException;",
+    "super": "Ljava/lang/Exception;",
+    "source": "DecoderException.java",
+    "method_count": 4,
+    "file": "disassembly/org/apache/commons/codec/DecoderException.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/Encoder;",
+    "super": "Ljava/lang/Object;",
+    "source": "Encoder.java",
+    "method_count": 1,
+    "file": "disassembly/org/apache/commons/codec/Encoder.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/EncoderException;",
+    "super": "Ljava/lang/Exception;",
+    "source": "EncoderException.java",
+    "method_count": 4,
+    "file": "disassembly/org/apache/commons/codec/EncoderException.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/StringEncoderComparator;",
+    "super": "Ljava/lang/Object;",
+    "source": "StringEncoderComparator.java",
+    "method_count": 3,
+    "file": "disassembly/org/apache/commons/codec/StringEncoderComparator.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/binary/Base64InputStream;",
+    "super": "Ljava/io/FilterInputStream;",
+    "source": "Base64InputStream.java",
+    "method_count": 6,
+    "file": "disassembly/org/apache/commons/codec/binary/Base64InputStream.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/binary/Base64OutputStream;",
+    "super": "Ljava/io/FilterOutputStream;",
+    "source": "Base64OutputStream.java",
+    "method_count": 8,
+    "file": "disassembly/org/apache/commons/codec/binary/Base64OutputStream.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/binary/StringUtils;",
+    "super": "Ljava/lang/Object;",
+    "source": "StringUtils.java",
+    "method_count": 16,
+    "file": "disassembly/org/apache/commons/codec/binary/StringUtils.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/digest/DigestUtils;",
+    "super": "Ljava/lang/Object;",
+    "source": "DigestUtils.java",
+    "method_count": 39,
+    "file": "disassembly/org/apache/commons/codec/digest/DigestUtils.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/language/DoubleMetaphone$DoubleMetaphoneResult;",
+    "super": "Ljava/lang/Object;",
+    "source": "DoubleMetaphone.java",
+    "method_count": 12,
+    "file": "disassembly/org/apache/commons/codec/language/DoubleMetaphone$DoubleMetaphoneResult.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/language/SoundexUtils;",
+    "super": "Ljava/lang/Object;",
+    "source": "SoundexUtils.java",
+    "method_count": 4,
+    "file": "disassembly/org/apache/commons/codec/language/SoundexUtils.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/net/RFC1522Codec;",
+    "super": "Ljava/lang/Object;",
+    "source": "RFC1522Codec.java",
+    "method_count": 6,
+    "file": "disassembly/org/apache/commons/codec/net/RFC1522Codec.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/net/Utils;",
+    "super": "Ljava/lang/Object;",
+    "source": "Utils.java",
+    "method_count": 2,
+    "file": "disassembly/org/apache/commons/codec/net/Utils.dex.txt"
+  },
+  {
+    "class": "Lt;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 9,
+    "file": "disassembly/t.dex.txt"
+  },
+  {
+    "class": "Lu$a;",
+    "super": "Ljava/lang/Enum;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/u$a.dex.txt"
+  },
+  {
+    "class": "Lu$b;",
+    "super": "Landroid/content/BroadcastReceiver;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/u$b.dex.txt"
+  },
+  {
+    "class": "Lu;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 19,
+    "file": "disassembly/u.dex.txt"
+  },
+  {
+    "class": "Lv$a;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/v$a.dex.txt"
+  },
+  {
+    "class": "Lv;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/v.dex.txt"
+  },
+  {
+    "class": "Lw;",
+    "super": "Landroid/os/AsyncTask;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/w.dex.txt"
+  },
+  {
+    "class": "Lx;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/x.dex.txt"
+  },
+  {
+    "class": "Lcom/android/vending/billing/IInAppBillingService$Stub$Proxy;",
+    "super": "Ljava/lang/Object;",
+    "source": "IInAppBillingService.java",
+    "method_count": 8,
+    "file": "disassembly/com/android/vending/billing/IInAppBillingService$Stub$Proxy.dex.txt"
+  },
+  {
+    "class": "Lcom/android/vending/billing/IInAppBillingService$Stub;",
+    "super": "Landroid/os/Binder;",
+    "source": "IInAppBillingService.java",
+    "method_count": 4,
+    "file": "disassembly/com/android/vending/billing/IInAppBillingService$Stub.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/AdView;",
+    "super": "Landroid/widget/RelativeLayout;",
+    "source": null,
+    "method_count": 9,
+    "file": "disassembly/com/google/ads/AdView.dex.txt"
+  },
+  {
+    "class": "Lcom/google/ads/InterstitialAd;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/ads/InterstitialAd.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonArray;",
+    "super": "Lcom/google/gson/JsonElement;",
+    "source": null,
+    "method_count": 20,
+    "file": "disassembly/com/google/gson/JsonArray.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonNull;",
+    "super": "Lcom/google/gson/JsonElement;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/gson/JsonNull.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonObject;",
+    "super": "Lcom/google/gson/JsonElement;",
+    "source": null,
+    "method_count": 15,
+    "file": "disassembly/com/google/gson/JsonObject.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/JsonPrimitive;",
+    "super": "Lcom/google/gson/JsonElement;",
+    "source": null,
+    "method_count": 28,
+    "file": "disassembly/com/google/gson/JsonPrimitive.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/LongSerializationPolicy$a;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/LongSerializationPolicy$a.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/LongSerializationPolicy$c;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/LongSerializationPolicy$c.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/a;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/a.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/aa;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 24,
+    "file": "disassembly/com/google/gson/aa.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ab$b;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 17,
+    "file": "disassembly/com/google/gson/ab$b.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ab;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 7,
+    "file": "disassembly/com/google/gson/ab.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ac;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/ac.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ad;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 19,
+    "file": "disassembly/com/google/gson/ad.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ah;",
+    "super": "Ljava/util/LinkedHashMap;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/gson/ah.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ai;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/gson/ai.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ak;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/ak.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/al;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/al.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/av;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/av.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/aw;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/aw.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ay;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/ay.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/bc;",
+    "super": "Lcom/google/gson/bb;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/bc.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/bi;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/bi.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$a;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$a.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$aa;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/f$aa.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$ab;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/gson/f$ab.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$ac;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 6,
+    "file": "disassembly/com/google/gson/f$ac.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$ad;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$ad.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$b;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$b.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$c;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$c.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$d;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$d.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$e;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$e.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$f;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$f.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$g;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 8,
+    "file": "disassembly/com/google/gson/f$g.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$h;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$h.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$i;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$i.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$j;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/f$j.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$k;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/f$k.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$l;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/f$l.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$m;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$m.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$n;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/f$n.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$o;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/f$o.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$p;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$p.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$q;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/f$q.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$r;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$r.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$s;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$s.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$t;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/f$t.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$u;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/f$u.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$v;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$v.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$w;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$w.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$x;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/f$x.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$y;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$y.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/f$z;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 5,
+    "file": "disassembly/com/google/gson/f$z.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/g;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/g.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/i;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/i.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/j;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/j.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/l;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/l.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/n;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 4,
+    "file": "disassembly/com/google/gson/n.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/q$a;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 15,
+    "file": "disassembly/com/google/gson/q$a.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/q;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/q.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/r;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/r.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/reflect/TypeToken$a;",
+    "super": "Lcom/google/gson/reflect/TypeToken;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/reflect/TypeToken$a.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/s;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 10,
+    "file": "disassembly/com/google/gson/s.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/t;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/t.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/y;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 18,
+    "file": "disassembly/com/google/gson/y.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$11;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$11.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$1;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$1.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/base/Storm8MainActivity$2;",
+    "super": "Ljava/lang/Object;",
+    "source": "Storm8MainActivity.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/base/Storm8MainActivity$2.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/C2DMReceiver;",
+    "super": "Lcom/google/android/c2dm/C2DMBaseReceiver;",
+    "source": "C2DMReceiver.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/kingdoms12/C2DMReceiver.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/Main;",
+    "super": "Lcom/storm8/base/Storm8MainActivity;",
+    "source": "Main.java",
+    "method_count": 27,
+    "file": "disassembly/com/storm8/kingdoms12/Main.dex.txt"
+  },
+  {
+    "class": "Lcom/storm8/kingdoms12/Splash;",
+    "super": "Lcom/storm8/base/Storm8Splash;",
+    "source": "Splash.java",
+    "method_count": 2,
+    "file": "disassembly/com/storm8/kingdoms12/Splash.dex.txt"
+  },
+  {
+    "class": "Lj;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/j.dex.txt"
+  },
+  {
+    "class": "Lk;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/k.dex.txt"
+  },
+  {
+    "class": "Ll;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/l.dex.txt"
+  },
+  {
+    "class": "Lm;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/m.dex.txt"
+  },
+  {
+    "class": "Ln;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/n.dex.txt"
+  },
+  {
+    "class": "Lo;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/o.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/BinaryDecoder;",
+    "super": "Ljava/lang/Object;",
+    "source": "BinaryDecoder.java",
+    "method_count": 1,
+    "file": "disassembly/org/apache/commons/codec/BinaryDecoder.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/BinaryEncoder;",
+    "super": "Ljava/lang/Object;",
+    "source": "BinaryEncoder.java",
+    "method_count": 1,
+    "file": "disassembly/org/apache/commons/codec/BinaryEncoder.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/StringDecoder;",
+    "super": "Ljava/lang/Object;",
+    "source": "StringDecoder.java",
+    "method_count": 1,
+    "file": "disassembly/org/apache/commons/codec/StringDecoder.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/StringEncoder;",
+    "super": "Ljava/lang/Object;",
+    "source": "StringEncoder.java",
+    "method_count": 1,
+    "file": "disassembly/org/apache/commons/codec/StringEncoder.dex.txt"
+  },
+  {
+    "class": "Lp;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/p.dex.txt"
+  },
+  {
+    "class": "Lq;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/q.dex.txt"
+  },
+  {
+    "class": "Lr;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/r.dex.txt"
+  },
+  {
+    "class": "Ls;",
+    "super": "Ljava/lang/Object;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/s.dex.txt"
+  },
+  {
+    "class": "Lv$b;",
+    "super": "Lv$a;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/v$b.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ModifyFirstLetterNamingPolicy;",
+    "super": "Lcom/google/gson/av;",
+    "source": null,
+    "method_count": 3,
+    "file": "disassembly/com/google/gson/ModifyFirstLetterNamingPolicy.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/ag;",
+    "super": "Lcom/google/gson/av;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/ag.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/c;",
+    "super": "Lcom/google/gson/av;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/c.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/e;",
+    "super": "Lcom/google/gson/av;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/e.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/o;",
+    "super": "Lcom/google/gson/av;",
+    "source": null,
+    "method_count": 2,
+    "file": "disassembly/com/google/gson/o.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/p;",
+    "super": "Lcom/google/gson/s;",
+    "source": null,
+    "method_count": 8,
+    "file": "disassembly/com/google/gson/p.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/x;",
+    "super": "Lcom/google/gson/s;",
+    "source": null,
+    "method_count": 9,
+    "file": "disassembly/com/google/gson/x.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/binary/Base64;",
+    "super": "Ljava/lang/Object;",
+    "source": "Base64.java",
+    "method_count": 40,
+    "file": "disassembly/org/apache/commons/codec/binary/Base64.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/binary/BinaryCodec;",
+    "super": "Ljava/lang/Object;",
+    "source": "BinaryCodec.java",
+    "method_count": 13,
+    "file": "disassembly/org/apache/commons/codec/binary/BinaryCodec.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/binary/Hex;",
+    "super": "Ljava/lang/Object;",
+    "source": "Hex.java",
+    "method_count": 15,
+    "file": "disassembly/org/apache/commons/codec/binary/Hex.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/language/Caverphone;",
+    "super": "Ljava/lang/Object;",
+    "source": "Caverphone.java",
+    "method_count": 5,
+    "file": "disassembly/org/apache/commons/codec/language/Caverphone.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/language/DoubleMetaphone;",
+    "super": "Ljava/lang/Object;",
+    "source": "DoubleMetaphone.java",
+    "method_count": 45,
+    "file": "disassembly/org/apache/commons/codec/language/DoubleMetaphone.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/language/Metaphone;",
+    "super": "Ljava/lang/Object;",
+    "source": "Metaphone.java",
+    "method_count": 12,
+    "file": "disassembly/org/apache/commons/codec/language/Metaphone.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/language/RefinedSoundex;",
+    "super": "Ljava/lang/Object;",
+    "source": "RefinedSoundex.java",
+    "method_count": 9,
+    "file": "disassembly/org/apache/commons/codec/language/RefinedSoundex.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/language/Soundex;",
+    "super": "Ljava/lang/Object;",
+    "source": "Soundex.java",
+    "method_count": 13,
+    "file": "disassembly/org/apache/commons/codec/language/Soundex.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/net/BCodec;",
+    "super": "Lorg/apache/commons/codec/net/RFC1522Codec;",
+    "source": "BCodec.java",
+    "method_count": 11,
+    "file": "disassembly/org/apache/commons/codec/net/BCodec.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/net/QCodec;",
+    "super": "Lorg/apache/commons/codec/net/RFC1522Codec;",
+    "source": "QCodec.java",
+    "method_count": 14,
+    "file": "disassembly/org/apache/commons/codec/net/QCodec.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/net/QuotedPrintableCodec;",
+    "super": "Ljava/lang/Object;",
+    "source": "QuotedPrintableCodec.java",
+    "method_count": 15,
+    "file": "disassembly/org/apache/commons/codec/net/QuotedPrintableCodec.dex.txt"
+  },
+  {
+    "class": "Lorg/apache/commons/codec/net/URLCodec;",
+    "super": "Ljava/lang/Object;",
+    "source": "URLCodec.java",
+    "method_count": 15,
+    "file": "disassembly/org/apache/commons/codec/net/URLCodec.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/af;",
+    "super": "Lcom/google/gson/e;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/af.dex.txt"
+  },
+  {
+    "class": "Lcom/google/gson/bh;",
+    "super": "Lcom/google/gson/e;",
+    "source": null,
+    "method_count": 1,
+    "file": "disassembly/com/google/gson/bh.dex.txt"
+  }
+]

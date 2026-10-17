@@ -1,0 +1,51 @@
+# class Lcom/google/gson/v; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/v;->a:Ljava/util/regex/Pattern; access=0x1a
+
+## Lcom/google/gson/v;-><clinit>()V access=0x10008
+# code_off=0x1e15c registers=1 incoming_words=0 outgoing_words=1 code_units=9 tries=0
+0000: const-string v0, "(^[a-zA-Z][a-zA-Z0-9\\ \\$_\\-]*$)|(^[\\$_][a-zA-Z][a-zA-Z0-9\\ \\$_\\-]*$)"
+0002: invoke-static {v0}, Ljava/util/regex/Pattern;->compile(Ljava/lang/String;)Ljava/util/regex/Pattern;
+0005: move-result-object v0
+0006: sput-object v0, "Lcom/google/gson/v;->a:Ljava/util/regex/Pattern;"
+0008: return-void
+
+## Lcom/google/gson/v;-><init>()V access=0x10000
+# code_off=0x1e180 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/v;->a(Ljava/lang/String;)Ljava/lang/String; access=0x9
+# code_off=0x1e198 registers=4 incoming_words=1 outgoing_words=2 code_units=59 tries=0
+0000: invoke-static {v3}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0003: const-string v0, ""
+0005: invoke-virtual {v3}, Ljava/lang/String;->trim()Ljava/lang/String;
+0008: move-result-object v1
+0009: invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+000c: move-result v0
+000d: if-nez v0, @0038
+000f: const/4 v0, 1
+0010: invoke-static {v0}, Lcom/google/gson/at;->a(Z)V
+0013: sget-object v0, "Lcom/google/gson/v;->a:Ljava/util/regex/Pattern;"
+0015: invoke-virtual {v0, v3}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+0018: move-result-object v0
+0019: invoke-virtual {v0}, Ljava/util/regex/Matcher;->matches()Z
+001c: move-result v0
+001d: if-nez v0, @003a
+001f: new-instance v0, "Ljava/lang/IllegalArgumentException;"
+0021: new-instance v1, "Ljava/lang/StringBuilder;"
+0023: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+0026: invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0029: move-result-object v1
+002a: const-string v2, " is not a valid JSON field name."
+002c: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+002f: move-result-object v1
+0030: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0033: move-result-object v1
+0034: invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+0037: throw v0
+0038: const/4 v0, 0
+0039: goto @0010
+003a: return-object v3

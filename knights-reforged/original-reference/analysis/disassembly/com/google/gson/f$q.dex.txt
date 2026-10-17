@@ -1,0 +1,28 @@
+# class Lcom/google/gson/f$q; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/InstanceCreator;
+# source None
+# fields
+
+## Lcom/google/gson/f$q;-><init>()V access=0x11000
+# code_off=0x2e000 registers=2 incoming_words=1 outgoing_words=2 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v0}, Lcom/google/gson/f$q;-><init>(B)V
+0004: return-void
+
+## Lcom/google/gson/f$q;-><init>(B)V access=0x10002
+# code_off=0x2e01c registers=2 incoming_words=2 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lcom/google/gson/f$q;->createInstance(Ljava/lang/reflect/Type;)Ljava/lang/Object; access=0x1001
+# code_off=0x2e034 registers=3 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: new-instance v0, "Ljava/util/HashSet;"
+0002: invoke-direct {v0}, Ljava/util/HashSet;-><init>()V
+0005: return-object v0
+
+## Lcom/google/gson/f$q;->toString()Ljava/lang/String; access=0x1
+# code_off=0x2e050 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: const-class v0, "Lcom/google/gson/f$q;"
+0002: invoke-virtual {v0}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0

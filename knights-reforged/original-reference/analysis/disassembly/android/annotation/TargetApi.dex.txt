@@ -1,0 +1,6 @@
+# class Landroid/annotation/TargetApi; extends Ljava/lang/Object;
+# interfaces Ljava/lang/annotation/Annotation;
+# source TargetApi.java
+# fields
+
+## Landroid/annotation/TargetApi;->value()I access=0x401

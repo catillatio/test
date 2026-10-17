@@ -1,0 +1,117 @@
+# class Lcom/google/gson/z; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/z;->e:[Ljava/lang/String; access=0x19
+
+## Lcom/google/gson/z;-><clinit>()V access=0x10008
+# code_off=0x1e26c registers=3 incoming_words=0 outgoing_words=0 code_units=209 tries=0
+0000: const/16 v0, 35
+0002: new-array v0, v0, "[Ljava/lang/String;"
+0004: const/4 v1, 0
+0005: const-string v2, "<EOF>"
+0007: aput-object v2, v0, v1
+0009: const/4 v1, 1
+000a: const-string v2, "\" \""
+000c: aput-object v2, v0, v1
+000e: const/4 v1, 2
+000f: const-string v2, "\"\\t\""
+0011: aput-object v2, v0, v1
+0013: const/4 v1, 3
+0014: const-string v2, "\"\\n\""
+0016: aput-object v2, v0, v1
+0018: const/4 v1, 4
+0019: const-string v2, "\"\\r\""
+001b: aput-object v2, v0, v1
+001d: const/4 v1, 5
+001e: const-string v2, "<EXPONENT>"
+0020: aput-object v2, v0, v1
+0022: const/4 v1, 6
+0023: const-string v2, "<DIGITS>"
+0025: aput-object v2, v0, v1
+0027: const/4 v1, 7
+0028: const-string v2, "\"null\""
+002a: aput-object v2, v0, v1
+002c: const/16 v1, 8
+002e: const-string v2, "\"NaN\""
+0030: aput-object v2, v0, v1
+0032: const/16 v1, 9
+0034: const-string v2, "\"Infinity\""
+0036: aput-object v2, v0, v1
+0038: const/16 v1, 10
+003a: const-string v2, "<BOOLEAN>"
+003c: aput-object v2, v0, v1
+003e: const/16 v1, 11
+0040: const-string v2, "<IDENTIFIER_SANS_EXPONENT>"
+0042: aput-object v2, v0, v1
+0044: const/16 v1, 12
+0046: const-string v2, "<IDENTIFIER_STARTS_WITH_EXPONENT>"
+0048: aput-object v2, v0, v1
+004a: const/16 v1, 13
+004c: const-string v2, "<HEX_CHAR>"
+004e: aput-object v2, v0, v1
+0050: const/16 v1, 14
+0052: const-string v2, "<UNICODE_CHAR>"
+0054: aput-object v2, v0, v1
+0056: const/16 v1, 15
+0058: const-string v2, "<ESCAPE_CHAR>"
+005a: aput-object v2, v0, v1
+005c: const/16 v1, 16
+005e: const-string v2, "<SINGLE_QUOTE_LITERAL>"
+0060: aput-object v2, v0, v1
+0062: const/16 v1, 17
+0064: const-string v2, "<DOUBLE_QUOTE_LITERAL>"
+0066: aput-object v2, v0, v1
+0068: const/16 v1, 18
+006a: const-string v2, "\"\\\"\""
+006c: aput-object v2, v0, v1
+006e: const/16 v1, 19
+0070: const-string v2, "\"\\\\\""
+0072: aput-object v2, v0, v1
+0074: const/16 v1, 20
+0076: const-string v2, "<ENDQUOTE>"
+0078: aput-object v2, v0, v1
+007a: const/16 v1, 21
+007c: const-string v2, "<CHAR>"
+007e: aput-object v2, v0, v1
+0080: const/16 v1, 22
+0082: const-string v2, "<CNTRL_ESC>"
+0084: aput-object v2, v0, v1
+0086: const/16 v1, 23
+0088: const-string v2, "\"u\""
+008a: aput-object v2, v0, v1
+008c: const/16 v1, 24
+008e: const-string v2, "<HEX>"
+0090: aput-object v2, v0, v1
+0092: const/16 v1, 25
+0094: const-string v2, "<HEX_ESC>"
+0096: aput-object v2, v0, v1
+0098: const/16 v1, 26
+009a: const-string v2, "\")]}\\'\\n\""
+009c: aput-object v2, v0, v1
+009e: const/16 v1, 27
+00a0: const-string v2, "\"{\""
+00a2: aput-object v2, v0, v1
+00a4: const/16 v1, 28
+00a6: const-string v2, "\",\""
+00a8: aput-object v2, v0, v1
+00aa: const/16 v1, 29
+00ac: const-string v2, "\"}\""
+00ae: aput-object v2, v0, v1
+00b0: const/16 v1, 30
+00b2: const-string v2, "\":\""
+00b4: aput-object v2, v0, v1
+00b6: const/16 v1, 31
+00b8: const-string v2, "\"[\""
+00ba: aput-object v2, v0, v1
+00bc: const/16 v1, 32
+00be: const-string v2, "\"]\""
+00c0: aput-object v2, v0, v1
+00c2: const/16 v1, 33
+00c4: const-string v2, "\"-\""
+00c6: aput-object v2, v0, v1
+00c8: const/16 v1, 34
+00ca: const-string v2, "\".\""
+00cc: aput-object v2, v0, v1
+00ce: sput-object v0, "Lcom/google/gson/z;->e:[Ljava/lang/String;"
+00d0: return-void

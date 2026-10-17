@@ -1,0 +1,966 @@
+# class Lorg/apache/commons/codec/binary/Base64; extends Ljava/lang/Object;
+# interfaces Lorg/apache/commons/codec/BinaryEncoder;, Lorg/apache/commons/codec/BinaryDecoder;
+# source Base64.java
+# fields
+# Lorg/apache/commons/codec/binary/Base64;->CHUNK_SEPARATOR:[B access=0x18
+# Lorg/apache/commons/codec/binary/Base64;->CHUNK_SIZE:I access=0x18
+# Lorg/apache/commons/codec/binary/Base64;->DECODE_TABLE:[B access=0x1a
+# Lorg/apache/commons/codec/binary/Base64;->DEFAULT_BUFFER_RESIZE_FACTOR:I access=0x1a
+# Lorg/apache/commons/codec/binary/Base64;->DEFAULT_BUFFER_SIZE:I access=0x1a
+# Lorg/apache/commons/codec/binary/Base64;->MASK_6BITS:I access=0x1a
+# Lorg/apache/commons/codec/binary/Base64;->MASK_8BITS:I access=0x1a
+# Lorg/apache/commons/codec/binary/Base64;->PAD:B access=0x1a
+# Lorg/apache/commons/codec/binary/Base64;->STANDARD_ENCODE_TABLE:[B access=0x1a
+# Lorg/apache/commons/codec/binary/Base64;->URL_SAFE_ENCODE_TABLE:[B access=0x1a
+# Lorg/apache/commons/codec/binary/Base64;->buffer:[B access=0x2
+# Lorg/apache/commons/codec/binary/Base64;->currentLinePos:I access=0x2
+# Lorg/apache/commons/codec/binary/Base64;->decodeSize:I access=0x12
+# Lorg/apache/commons/codec/binary/Base64;->encodeSize:I access=0x12
+# Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B access=0x12
+# Lorg/apache/commons/codec/binary/Base64;->eof:Z access=0x2
+# Lorg/apache/commons/codec/binary/Base64;->lineLength:I access=0x12
+# Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B access=0x12
+# Lorg/apache/commons/codec/binary/Base64;->modulus:I access=0x2
+# Lorg/apache/commons/codec/binary/Base64;->pos:I access=0x2
+# Lorg/apache/commons/codec/binary/Base64;->readPos:I access=0x2
+# Lorg/apache/commons/codec/binary/Base64;->x:I access=0x2
+
+## Lorg/apache/commons/codec/binary/Base64;-><clinit>()V access=0x10008
+# code_off=0x31ef8 registers=2 incoming_words=0 outgoing_words=0 code_units=178 tries=0
+0000: const/16 v1, 64
+0002: const/4 v0, 2
+0003: new-array v0, v0, "[B"
+0005: fill-array-data v0, @0022
+0008: sput-object v0, "Lorg/apache/commons/codec/binary/Base64;->CHUNK_SEPARATOR:[B"
+000a: new-array v0, v1, "[B"
+000c: fill-array-data v0, @0028
+000f: sput-object v0, "Lorg/apache/commons/codec/binary/Base64;->STANDARD_ENCODE_TABLE:[B"
+0011: new-array v0, v1, "[B"
+0013: fill-array-data v0, @004c
+0016: sput-object v0, "Lorg/apache/commons/codec/binary/Base64;->URL_SAFE_ENCODE_TABLE:[B"
+0018: const/16 v0, 123
+001a: new-array v0, v0, "[B"
+001c: fill-array-data v0, @0070
+001f: sput-object v0, "Lorg/apache/commons/codec/binary/Base64;->DECODE_TABLE:[B"
+0021: return-void
+0022: payload fill-array-data-payload element_width=1 count=2 bytes=0d0a
+0027: nop
+0028: payload fill-array-data-payload element_width=1 count=64 bytes=4142434445464748494a4b4c4d4e4f505152535455565758595a6162636465666768696a6b6c6d6e6f707172737475767778797a303132333435363738392b2f
+004c: payload fill-array-data-payload element_width=1 count=64 bytes=4142434445464748494a4b4c4d4e4f505152535455565758595a6162636465666768696a6b6c6d6e6f707172737475767778797a303132333435363738392d5f
+0070: payload fill-array-data-payload element_width=1 count=123 bytes=ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3eff3eff3f3435363738393a3b3c3dffffffffffffff000102030405060708090a0b0c0d0e0f10111213141516171819ffffffff3fff1a1b1c1d1e1f202122232425262728292a2b2c2d2e2f30313233
+
+## Lorg/apache/commons/codec/binary/Base64;-><init>()V access=0x10001
+# code_off=0x3206c registers=2 incoming_words=1 outgoing_words=2 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v0}, Lorg/apache/commons/codec/binary/Base64;-><init>(Z)V
+0004: return-void
+
+## Lorg/apache/commons/codec/binary/Base64;-><init>(I)V access=0x10001
+# code_off=0x32088 registers=3 incoming_words=2 outgoing_words=3 code_units=6 tries=0
+0000: sget-object v0, "Lorg/apache/commons/codec/binary/Base64;->CHUNK_SEPARATOR:[B"
+0002: invoke-direct {v1, v2, v0}, Lorg/apache/commons/codec/binary/Base64;-><init>(I[B)V
+0005: return-void
+
+## Lorg/apache/commons/codec/binary/Base64;-><init>(I[B)V access=0x10001
+# code_off=0x320a4 registers=4 incoming_words=3 outgoing_words=4 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v2, v3, v0}, Lorg/apache/commons/codec/binary/Base64;-><init>(I[BZ)V
+0004: return-void
+
+## Lorg/apache/commons/codec/binary/Base64;-><init>(I[BZ)V access=0x10001
+# code_off=0x320c0 registers=8 incoming_words=4 outgoing_words=5 code_units=98 tries=0
+0000: const/4 v2, 0
+0001: invoke-direct {v4}, Ljava/lang/Object;-><init>()V
+0004: if-nez v6, @0009
+0006: const/4 v5, 0
+0007: sget-object v6, "Lorg/apache/commons/codec/binary/Base64;->CHUNK_SEPARATOR:[B"
+0009: if-lez v5, @0052
+000b: div-int/lit8 v1, v5, 4
+000d: mul-int/lit8 v1, v1, 4
+000f: iput v1, v4, "Lorg/apache/commons/codec/binary/Base64;->lineLength:I"
+0011: array-length v1, v6
+0012: new-array v1, v1, "[B"
+0014: iput-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B"
+0016: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B"
+0018: array-length v3, v6
+0019: invoke-static {v6, v2, v1, v2, v3}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+001c: if-lez v5, @0054
+001e: array-length v1, v6
+001f: add-int/lit8 v1, v1, 4
+0021: iput v1, v4, "Lorg/apache/commons/codec/binary/Base64;->encodeSize:I"
+0023: iget v1, v4, "Lorg/apache/commons/codec/binary/Base64;->encodeSize:I"
+0025: add-int/lit8 v1, v1, -1
+0027: iput v1, v4, "Lorg/apache/commons/codec/binary/Base64;->decodeSize:I"
+0029: invoke-static {v6}, Lorg/apache/commons/codec/binary/Base64;->containsBase64Byte([B)Z
+002c: move-result v1
+002d: if-eqz v1, @0058
+002f: invoke-static {v6}, Lorg/apache/commons/codec/binary/StringUtils;->newStringUtf8([B)Ljava/lang/String;
+0032: move-result-object v0
+0033: new-instance v1, "Ljava/lang/IllegalArgumentException;"
+0035: new-instance v2, "Ljava/lang/StringBuffer;"
+0037: invoke-direct {v2}, Ljava/lang/StringBuffer;-><init>()V
+003a: const-string v3, "lineSeperator must not contain base64 characters: ["
+003c: invoke-virtual {v2, v3}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+003f: move-result-object v2
+0040: invoke-virtual {v2, v0}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0043: move-result-object v2
+0044: const-string v3, "]"
+0046: invoke-virtual {v2, v3}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0049: move-result-object v2
+004a: invoke-virtual {v2}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+004d: move-result-object v2
+004e: invoke-direct {v1, v2}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+0051: throw v1
+0052: move v1, v2
+0053: goto @000f
+0054: const/4 v1, 4
+0055: iput v1, v4, "Lorg/apache/commons/codec/binary/Base64;->encodeSize:I"
+0057: goto @0023
+0058: if-eqz v7, @005f
+005a: sget-object v1, "Lorg/apache/commons/codec/binary/Base64;->URL_SAFE_ENCODE_TABLE:[B"
+005c: iput-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+005e: return-void
+005f: sget-object v1, "Lorg/apache/commons/codec/binary/Base64;->STANDARD_ENCODE_TABLE:[B"
+0061: goto @005c
+
+## Lorg/apache/commons/codec/binary/Base64;-><init>(Z)V access=0x10001
+# code_off=0x32194 registers=4 incoming_words=2 outgoing_words=4 code_units=8 tries=0
+0000: const/16 v0, 76
+0002: sget-object v1, "Lorg/apache/commons/codec/binary/Base64;->CHUNK_SEPARATOR:[B"
+0004: invoke-direct {v2, v0, v1, v3}, Lorg/apache/commons/codec/binary/Base64;-><init>(I[BZ)V
+0007: return-void
+
+## Lorg/apache/commons/codec/binary/Base64;->containsBase64Byte([B)Z access=0xa
+# code_off=0x321b4 registers=3 incoming_words=1 outgoing_words=1 code_units=19 tries=0
+0000: const/4 v0, 0
+0001: array-length v1, v2
+0002: if-ge v0, v1, @0011
+0004: aget-byte v1, v2, v0
+0006: invoke-static {v1}, Lorg/apache/commons/codec/binary/Base64;->isBase64(B)Z
+0009: move-result v1
+000a: if-eqz v1, @000e
+000c: const/4 v1, 1
+000d: return v1
+000e: add-int/lit8 v0, v0, 1
+0010: goto @0001
+0011: const/4 v1, 0
+0012: goto @000d
+
+## Lorg/apache/commons/codec/binary/Base64;->decodeBase64(Ljava/lang/String;)[B access=0x9
+# code_off=0x321ec registers=2 incoming_words=1 outgoing_words=2 code_units=10 tries=0
+0000: new-instance v0, "Lorg/apache/commons/codec/binary/Base64;"
+0002: invoke-direct {v0}, Lorg/apache/commons/codec/binary/Base64;-><init>()V
+0005: invoke-virtual {v0, v1}, Lorg/apache/commons/codec/binary/Base64;->decode(Ljava/lang/String;)[B
+0008: move-result-object v0
+0009: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->decodeBase64([B)[B access=0x9
+# code_off=0x32210 registers=2 incoming_words=1 outgoing_words=2 code_units=10 tries=0
+0000: new-instance v0, "Lorg/apache/commons/codec/binary/Base64;"
+0002: invoke-direct {v0}, Lorg/apache/commons/codec/binary/Base64;-><init>()V
+0005: invoke-virtual {v0, v1}, Lorg/apache/commons/codec/binary/Base64;->decode([B)[B
+0008: move-result-object v0
+0009: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->decodeInteger([B)Ljava/math/BigInteger; access=0x9
+# code_off=0x32234 registers=4 incoming_words=1 outgoing_words=3 code_units=11 tries=0
+0000: new-instance v0, "Ljava/math/BigInteger;"
+0002: const/4 v1, 1
+0003: invoke-static {v3}, Lorg/apache/commons/codec/binary/Base64;->decodeBase64([B)[B
+0006: move-result-object v2
+0007: invoke-direct {v0, v1, v2}, Ljava/math/BigInteger;-><init>(I[B)V
+000a: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->discardWhitespace([B)[B access=0x8
+# code_off=0x3225c registers=8 incoming_words=1 outgoing_words=5 code_units=48 tries=0
+0000: const/4 v6, 0
+0001: array-length v5, v7
+0002: new-array v2, v5, "[B"
+0004: const/4 v0, 0
+0005: const/4 v3, 0
+0006: array-length v5, v7
+0007: if-ge v3, v5, @0018
+0009: aget-byte v5, v7, v3
+000b: sparse-switch v5, @001e
+000e: add-int/lit8 v1, v0, 1
+0010: aget-byte v5, v7, v3
+0012: aput-byte v5, v2, v0
+0014: move v0, v1
+0015: add-int/lit8 v3, v3, 1
+0017: goto @0006
+0018: new-array v4, v0, "[B"
+001a: invoke-static {v2, v6, v4, v6, v0}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+001d: return-object v4
+001e: payload sparse-switch-payload size=4 keys=[9, 10, 13, 32] targets=[10, 10, 10, 10]
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeBase64([B)[B access=0x9
+# code_off=0x322cc registers=2 incoming_words=1 outgoing_words=2 code_units=6 tries=0
+0000: const/4 v0, 0
+0001: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZ)[B
+0004: move-result-object v0
+0005: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZ)[B access=0x9
+# code_off=0x322e8 registers=3 incoming_words=2 outgoing_words=3 code_units=6 tries=0
+0000: const/4 v0, 0
+0001: invoke-static {v1, v2, v0}, Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZZ)[B
+0004: move-result-object v0
+0005: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZZ)[B access=0x9
+# code_off=0x32304 registers=4 incoming_words=3 outgoing_words=4 code_units=8 tries=0
+0000: const v0, 2147483647 (0x7fffffff)
+0003: invoke-static {v1, v2, v3, v0}, Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZZI)[B
+0006: move-result-object v0
+0007: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZZI)[B access=0x9
+# code_off=0x32324 registers=10 incoming_words=4 outgoing_words=4 code_units=75 tries=0
+0000: if-eqz v6, @0005
+0002: array-length v3, v6
+0003: if-nez v3, @0006
+0005: return-object v6
+0006: const/16 v3, 76
+0008: sget-object v4, "Lorg/apache/commons/codec/binary/Base64;->CHUNK_SEPARATOR:[B"
+000a: invoke-static {v6, v3, v4}, Lorg/apache/commons/codec/binary/Base64;->getEncodeLength([BI[B)J
+000d: move-result-wide v1
+000e: int-to-long v3, v9
+000f: cmp-long v3, v1, v3
+0011: if-lez v3, @0036
+0013: new-instance v3, "Ljava/lang/IllegalArgumentException;"
+0015: new-instance v4, "Ljava/lang/StringBuffer;"
+0017: invoke-direct {v4}, Ljava/lang/StringBuffer;-><init>()V
+001a: const-string v5, "Input array too big, the output array would be bigger ("
+001c: invoke-virtual {v4, v5}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+001f: move-result-object v4
+0020: invoke-virtual {v4, v1, v2}, Ljava/lang/StringBuffer;->append(J)Ljava/lang/StringBuffer;
+0023: move-result-object v4
+0024: const-string v5, ") than the specified maxium size of "
+0026: invoke-virtual {v4, v5}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0029: move-result-object v4
+002a: invoke-virtual {v4, v9}, Ljava/lang/StringBuffer;->append(I)Ljava/lang/StringBuffer;
+002d: move-result-object v4
+002e: invoke-virtual {v4}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+0031: move-result-object v4
+0032: invoke-direct {v3, v4}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+0035: throw v3
+0036: if-eqz v7, @0042
+0038: new-instance v0, "Lorg/apache/commons/codec/binary/Base64;"
+003a: invoke-direct {v0, v8}, Lorg/apache/commons/codec/binary/Base64;-><init>(Z)V
+003d: invoke-virtual {v0, v6}, Lorg/apache/commons/codec/binary/Base64;->encode([B)[B
+0040: move-result-object v6
+0041: goto @0005
+0042: new-instance v0, "Lorg/apache/commons/codec/binary/Base64;"
+0044: const/4 v3, 0
+0045: sget-object v4, "Lorg/apache/commons/codec/binary/Base64;->CHUNK_SEPARATOR:[B"
+0047: invoke-direct {v0, v3, v4, v8}, Lorg/apache/commons/codec/binary/Base64;-><init>(I[BZ)V
+004a: goto @003d
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeBase64Chunked([B)[B access=0x9
+# code_off=0x323cc registers=2 incoming_words=1 outgoing_words=2 code_units=6 tries=0
+0000: const/4 v0, 1
+0001: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZ)[B
+0004: move-result-object v0
+0005: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeBase64String([B)Ljava/lang/String; access=0x9
+# code_off=0x323e8 registers=2 incoming_words=1 outgoing_words=2 code_units=10 tries=0
+0000: const/4 v0, 1
+0001: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZ)[B
+0004: move-result-object v0
+0005: invoke-static {v0}, Lorg/apache/commons/codec/binary/StringUtils;->newStringUtf8([B)Ljava/lang/String;
+0008: move-result-object v0
+0009: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeBase64URLSafe([B)[B access=0x9
+# code_off=0x3240c registers=3 incoming_words=1 outgoing_words=3 code_units=7 tries=0
+0000: const/4 v0, 0
+0001: const/4 v1, 1
+0002: invoke-static {v2, v0, v1}, Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZZ)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeBase64URLSafeString([B)Ljava/lang/String; access=0x9
+# code_off=0x3242c registers=3 incoming_words=1 outgoing_words=3 code_units=11 tries=0
+0000: const/4 v0, 0
+0001: const/4 v1, 1
+0002: invoke-static {v2, v0, v1}, Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZZ)[B
+0005: move-result-object v0
+0006: invoke-static {v0}, Lorg/apache/commons/codec/binary/StringUtils;->newStringUtf8([B)Ljava/lang/String;
+0009: move-result-object v0
+000a: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeInteger(Ljava/math/BigInteger;)[B access=0x9
+# code_off=0x32454 registers=3 incoming_words=1 outgoing_words=2 code_units=20 tries=0
+0000: if-nez v2, @000a
+0002: new-instance v0, "Ljava/lang/NullPointerException;"
+0004: const-string v1, "encodeInteger called with null parameter"
+0006: invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
+0009: throw v0
+000a: invoke-static {v2}, Lorg/apache/commons/codec/binary/Base64;->toIntegerBytes(Ljava/math/BigInteger;)[B
+000d: move-result-object v0
+000e: const/4 v1, 0
+000f: invoke-static {v0, v1}, Lorg/apache/commons/codec/binary/Base64;->encodeBase64([BZ)[B
+0012: move-result-object v0
+0013: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->getEncodeLength([BI[B)J access=0xa
+# code_off=0x3248c registers=14 incoming_words=3 outgoing_words=0 code_units=48 tries=0
+0000: const-wide/16 v9, 4
+0002: const-wide/16 v7, 0
+0004: div-int/lit8 v5, v12, 4
+0006: mul-int/lit8 v12, v5, 4
+0008: array-length v5, v11
+0009: mul-int/lit8 v5, v5, 4
+000b: div-int/lit8 v5, v5, 3
+000d: int-to-long v0, v5
+000e: rem-long v3, v0, v9
+0010: cmp-long v5, v3, v7
+0012: if-eqz v5, @0017
+0014: sub-long v5, v9, v3
+0016: add-long/2addr v0, v5
+0017: if-lez v12, @002d
+0019: int-to-long v5, v12
+001a: rem-long v5, v0, v5
+001c: cmp-long v5, v5, v7
+001e: if-nez v5, @002e
+0020: const/4 v2, 1
+0021: int-to-long v5, v12
+0022: div-long v5, v0, v5
+0024: array-length v7, v13
+0025: int-to-long v7, v7
+0026: mul-long/2addr v5, v7
+0027: add-long/2addr v0, v5
+0028: if-nez v2, @002d
+002a: array-length v5, v13
+002b: int-to-long v5, v5
+002c: add-long/2addr v0, v5
+002d: return-wide v0
+002e: const/4 v2, 0
+002f: goto @0021
+
+## Lorg/apache/commons/codec/binary/Base64;->isArrayByteBase64([B)Z access=0x9
+# code_off=0x324fc registers=3 incoming_words=1 outgoing_words=1 code_units=27 tries=0
+0000: const/4 v0, 0
+0001: array-length v1, v2
+0002: if-ge v0, v1, @0019
+0004: aget-byte v1, v2, v0
+0006: invoke-static {v1}, Lorg/apache/commons/codec/binary/Base64;->isBase64(B)Z
+0009: move-result v1
+000a: if-nez v1, @0016
+000c: aget-byte v1, v2, v0
+000e: invoke-static {v1}, Lorg/apache/commons/codec/binary/Base64;->isWhiteSpace(B)Z
+0011: move-result v1
+0012: if-nez v1, @0016
+0014: const/4 v1, 0
+0015: return v1
+0016: add-int/lit8 v0, v0, 1
+0018: goto @0001
+0019: const/4 v1, 1
+001a: goto @0015
+
+## Lorg/apache/commons/codec/binary/Base64;->isBase64(B)Z access=0x9
+# code_off=0x32544 registers=3 incoming_words=1 outgoing_words=0 code_units=22 tries=0
+0000: const/16 v0, 61
+0002: if-eq v2, v0, @0012
+0004: if-ltz v2, @0014
+0006: sget-object v0, "Lorg/apache/commons/codec/binary/Base64;->DECODE_TABLE:[B"
+0008: array-length v0, v0
+0009: if-ge v2, v0, @0014
+000b: sget-object v0, "Lorg/apache/commons/codec/binary/Base64;->DECODE_TABLE:[B"
+000d: aget-byte v0, v0, v2
+000f: const/4 v1, -1
+0010: if-eq v0, v1, @0014
+0012: const/4 v0, 1
+0013: return v0
+0014: const/4 v0, 0
+0015: goto @0013
+
+## Lorg/apache/commons/codec/binary/Base64;->isWhiteSpace(B)Z access=0xa
+# code_off=0x32580 registers=2 incoming_words=1 outgoing_words=0 code_units=26 tries=0
+0000: sparse-switch v1, @0008
+0003: const/4 v0, 0
+0004: return v0
+0005: const/4 v0, 1
+0006: goto @0004
+0007: nop
+0008: payload sparse-switch-payload size=4 keys=[9, 10, 13, 32] targets=[5, 5, 5, 5]
+
+## Lorg/apache/commons/codec/binary/Base64;->reset()V access=0x2
+# code_off=0x325c4 registers=3 incoming_words=1 outgoing_words=0 code_units=15 tries=0
+0000: const/4 v1, 0
+0001: const/4 v0, 0
+0002: iput-object v0, v2, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0004: iput v1, v2, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0006: iput v1, v2, "Lorg/apache/commons/codec/binary/Base64;->readPos:I"
+0008: iput v1, v2, "Lorg/apache/commons/codec/binary/Base64;->currentLinePos:I"
+000a: iput v1, v2, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+000c: iput-boolean v1, v2, "Lorg/apache/commons/codec/binary/Base64;->eof:Z"
+000e: return-void
+
+## Lorg/apache/commons/codec/binary/Base64;->resizeBuffer()V access=0x2
+# code_off=0x325f4 registers=5 incoming_words=1 outgoing_words=5 code_units=34 tries=0
+0000: const/4 v3, 0
+0001: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0003: if-nez v1, @0010
+0005: const/16 v1, 8192
+0007: new-array v1, v1, "[B"
+0009: iput-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+000b: iput v3, v4, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+000d: iput v3, v4, "Lorg/apache/commons/codec/binary/Base64;->readPos:I"
+000f: return-void
+0010: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0012: array-length v1, v1
+0013: mul-int/lit8 v1, v1, 2
+0015: new-array v0, v1, "[B"
+0017: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0019: iget-object v2, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+001b: array-length v2, v2
+001c: invoke-static {v1, v3, v0, v3, v2}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+001f: iput-object v0, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0021: goto @000f
+
+## Lorg/apache/commons/codec/binary/Base64;->toIntegerBytes(Ljava/math/BigInteger;)[B access=0x8
+# code_off=0x32648 registers=9 incoming_words=1 outgoing_words=5 code_units=61 tries=0
+0000: invoke-virtual {v8}, Ljava/math/BigInteger;->bitLength()I
+0003: move-result v1
+0004: add-int/lit8 v6, v1, 7
+0006: shr-int/lit8 v6, v6, 3
+0008: shl-int/lit8 v1, v6, 3
+000a: invoke-virtual {v8}, Ljava/math/BigInteger;->toByteArray()[B
+000d: move-result-object v0
+000e: invoke-virtual {v8}, Ljava/math/BigInteger;->bitLength()I
+0011: move-result v6
+0012: rem-int/lit8 v6, v6, 8
+0014: if-eqz v6, @0023
+0016: invoke-virtual {v8}, Ljava/math/BigInteger;->bitLength()I
+0019: move-result v6
+001a: div-int/lit8 v6, v6, 8
+001c: add-int/lit8 v6, v6, 1
+001e: div-int/lit8 v7, v1, 8
+0020: if-ne v6, v7, @0023
+0022: return-object v0
+0023: const/4 v5, 0
+0024: array-length v2, v0
+0025: invoke-virtual {v8}, Ljava/math/BigInteger;->bitLength()I
+0028: move-result v6
+0029: rem-int/lit8 v6, v6, 8
+002b: if-nez v6, @0030
+002d: const/4 v5, 1
+002e: add-int/lit8 v2, v2, -1
+0030: div-int/lit8 v6, v1, 8
+0032: sub-int v4, v6, v2
+0034: div-int/lit8 v6, v1, 8
+0036: new-array v3, v6, "[B"
+0038: invoke-static {v0, v5, v3, v4, v2}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+003b: move-object v0, v3
+003c: goto @0022
+
+## Lorg/apache/commons/codec/binary/Base64;->avail()I access=0x0
+# code_off=0x326d4 registers=3 incoming_words=1 outgoing_words=0 code_units=12 tries=0
+0000: iget-object v0, v2, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0002: if-eqz v0, @000a
+0004: iget v0, v2, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0006: iget v1, v2, "Lorg/apache/commons/codec/binary/Base64;->readPos:I"
+0008: sub-int/2addr v0, v1
+0009: return v0
+000a: const/4 v0, 0
+000b: goto @0009
+
+## Lorg/apache/commons/codec/binary/Base64;->decode(Ljava/lang/Object;)Ljava/lang/Object; access=0x1
+# code_off=0x326fc registers=4 incoming_words=2 outgoing_words=2 code_units=32 tries=0
+0000: instance-of v0, v3, "[B"
+0002: if-eqz v0, @000d
+0004: check-cast v3, "[B"
+0006: check-cast v3, "[B"
+0008: invoke-virtual {v2, v3}, Lorg/apache/commons/codec/binary/Base64;->decode([B)[B
+000b: move-result-object v0
+000c: return-object v0
+000d: instance-of v0, v3, "Ljava/lang/String;"
+000f: if-eqz v0, @0018
+0011: check-cast v3, "Ljava/lang/String;"
+0013: invoke-virtual {v2, v3}, Lorg/apache/commons/codec/binary/Base64;->decode(Ljava/lang/String;)[B
+0016: move-result-object v0
+0017: goto @000c
+0018: new-instance v0, "Lorg/apache/commons/codec/DecoderException;"
+001a: const-string v1, "Parameter supplied to Base64 decode is not a byte[] or a String"
+001c: invoke-direct {v0, v1}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;)V
+001f: throw v0
+
+## Lorg/apache/commons/codec/binary/Base64;->decode([BII)V access=0x0
+# code_off=0x3274c registers=12 incoming_words=4 outgoing_words=1 code_units=220 tries=0
+0000: const/4 v7, 1
+0001: iget-boolean v4, v8, "Lorg/apache/commons/codec/binary/Base64;->eof:Z"
+0003: if-eqz v4, @0006
+0005: return-void
+0006: if-gez v11, @000a
+0008: iput-boolean v7, v8, "Lorg/apache/commons/codec/binary/Base64;->eof:Z"
+000a: const/4 v1, 0
+000b: move v2, v10
+000c: if-ge v1, v11, @00d1
+000e: iget-object v4, v8, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0010: if-eqz v4, @001c
+0012: iget-object v4, v8, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0014: array-length v4, v4
+0015: iget v5, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0017: sub-int/2addr v4, v5
+0018: iget v5, v8, "Lorg/apache/commons/codec/binary/Base64;->decodeSize:I"
+001a: if-ge v4, v5, @001f
+001c: invoke-direct {v8}, Lorg/apache/commons/codec/binary/Base64;->resizeBuffer()V
+001f: add-int/lit8 v10, v2, 1
+0021: aget-byte v0, v9, v2
+0023: const/16 v4, 61
+0025: if-ne v0, v4, @0055
+0027: iput-boolean v7, v8, "Lorg/apache/commons/codec/binary/Base64;->eof:Z"
+0029: iget-boolean v4, v8, "Lorg/apache/commons/codec/binary/Base64;->eof:Z"
+002b: if-eqz v4, @0005
+002d: iget v4, v8, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+002f: if-eqz v4, @0005
+0031: iget v4, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+0033: shl-int/lit8 v4, v4, 6
+0035: iput v4, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+0037: iget v4, v8, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+0039: packed-switch v4, @00d4
+003c: goto @0005
+003d: iget v4, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+003f: shl-int/lit8 v4, v4, 6
+0041: iput v4, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+0043: iget-object v4, v8, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0045: iget v5, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0047: add-int/lit8 v6, v5, 1
+0049: iput v6, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+004b: iget v6, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+004d: shr-int/lit8 v6, v6, 16
+004f: and-int/lit16 v6, v6, 255
+0051: int-to-byte v6, v6
+0052: aput-byte v6, v4, v5
+0054: goto @0005
+0055: if-ltz v0, @00a8
+0057: sget-object v4, "Lorg/apache/commons/codec/binary/Base64;->DECODE_TABLE:[B"
+0059: array-length v4, v4
+005a: if-ge v0, v4, @00a8
+005c: sget-object v4, "Lorg/apache/commons/codec/binary/Base64;->DECODE_TABLE:[B"
+005e: aget-byte v3, v4, v0
+0060: if-ltz v3, @00a8
+0062: iget v4, v8, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+0064: add-int/lit8 v4, v4, 1
+0066: iput v4, v8, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+0068: rem-int/lit8 v4, v4, 4
+006a: iput v4, v8, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+006c: iget v4, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+006e: shl-int/lit8 v4, v4, 6
+0070: add-int/2addr v4, v3
+0071: iput v4, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+0073: iget v4, v8, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+0075: if-nez v4, @00a8
+0077: iget-object v4, v8, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0079: iget v5, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+007b: add-int/lit8 v6, v5, 1
+007d: iput v6, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+007f: iget v6, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+0081: shr-int/lit8 v6, v6, 16
+0083: and-int/lit16 v6, v6, 255
+0085: int-to-byte v6, v6
+0086: aput-byte v6, v4, v5
+0088: iget-object v4, v8, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+008a: iget v5, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+008c: add-int/lit8 v6, v5, 1
+008e: iput v6, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0090: iget v6, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+0092: shr-int/lit8 v6, v6, 8
+0094: and-int/lit16 v6, v6, 255
+0096: int-to-byte v6, v6
+0097: aput-byte v6, v4, v5
+0099: iget-object v4, v8, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+009b: iget v5, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+009d: add-int/lit8 v6, v5, 1
+009f: iput v6, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00a1: iget v6, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+00a3: and-int/lit16 v6, v6, 255
+00a5: int-to-byte v6, v6
+00a6: aput-byte v6, v4, v5
+00a8: add-int/lit8 v1, v1, 1
+00aa: move v2, v10
+00ab: goto/16 @000c
+00ad: iget-object v4, v8, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+00af: iget v5, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00b1: add-int/lit8 v6, v5, 1
+00b3: iput v6, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00b5: iget v6, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+00b7: shr-int/lit8 v6, v6, 16
+00b9: and-int/lit16 v6, v6, 255
+00bb: int-to-byte v6, v6
+00bc: aput-byte v6, v4, v5
+00be: iget-object v4, v8, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+00c0: iget v5, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00c2: add-int/lit8 v6, v5, 1
+00c4: iput v6, v8, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00c6: iget v6, v8, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+00c8: shr-int/lit8 v6, v6, 8
+00ca: and-int/lit16 v6, v6, 255
+00cc: int-to-byte v6, v6
+00cd: aput-byte v6, v4, v5
+00cf: goto/16 @0005
+00d1: move v10, v2
+00d2: goto/16 @0029
+00d4: payload packed-switch-payload size=2 first_key=2 targets=[4, 116]
+
+## Lorg/apache/commons/codec/binary/Base64;->decode(Ljava/lang/String;)[B access=0x1
+# code_off=0x32914 registers=3 incoming_words=2 outgoing_words=2 code_units=9 tries=0
+0000: invoke-static {v2}, Lorg/apache/commons/codec/binary/StringUtils;->getBytesUtf8(Ljava/lang/String;)[B
+0003: move-result-object v0
+0004: invoke-virtual {v1, v0}, Lorg/apache/commons/codec/binary/Base64;->decode([B)[B
+0007: move-result-object v0
+0008: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->decode([B)[B access=0x1
+# code_off=0x32938 registers=8 incoming_words=2 outgoing_words=4 code_units=41 tries=0
+0000: const/4 v5, 0
+0001: invoke-direct {v6}, Lorg/apache/commons/codec/binary/Base64;->reset()V
+0004: if-eqz v7, @0009
+0006: array-length v4, v7
+0007: if-nez v4, @000b
+0009: move-object v3, v7
+000a: return-object v3
+000b: array-length v4, v7
+000c: mul-int/lit8 v4, v4, 3
+000e: div-int/lit8 v4, v4, 4
+0010: int-to-long v1, v4
+0011: long-to-int v4, v1
+0012: new-array v0, v4, "[B"
+0014: array-length v4, v0
+0015: invoke-virtual {v6, v0, v5, v4}, Lorg/apache/commons/codec/binary/Base64;->setInitialBuffer([BII)V
+0018: array-length v4, v7
+0019: invoke-virtual {v6, v7, v5, v4}, Lorg/apache/commons/codec/binary/Base64;->decode([BII)V
+001c: const/4 v4, -1
+001d: invoke-virtual {v6, v7, v5, v4}, Lorg/apache/commons/codec/binary/Base64;->decode([BII)V
+0020: iget v4, v6, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0022: new-array v3, v4, "[B"
+0024: array-length v4, v3
+0025: invoke-virtual {v6, v3, v5, v4}, Lorg/apache/commons/codec/binary/Base64;->readResults([BII)I
+0028: goto @000a
+
+## Lorg/apache/commons/codec/binary/Base64;->encode(Ljava/lang/Object;)Ljava/lang/Object; access=0x1
+# code_off=0x3299c registers=4 incoming_words=2 outgoing_words=2 code_units=21 tries=0
+0000: instance-of v0, v3, "[B"
+0002: if-nez v0, @000c
+0004: new-instance v0, "Lorg/apache/commons/codec/EncoderException;"
+0006: const-string v1, "Parameter supplied to Base64 encode is not a byte[]"
+0008: invoke-direct {v0, v1}, Lorg/apache/commons/codec/EncoderException;-><init>(Ljava/lang/String;)V
+000b: throw v0
+000c: check-cast v3, "[B"
+000e: check-cast v3, "[B"
+0010: invoke-virtual {v2, v3}, Lorg/apache/commons/codec/binary/Base64;->encode([B)[B
+0013: move-result-object v0
+0014: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->encode([BII)V access=0x0
+# code_off=0x329d8 registers=13 incoming_words=4 outgoing_words=5 code_units=392 tries=0
+0000: const/16 v8, 61
+0002: const/4 v7, 0
+0003: iget-boolean v3, v9, "Lorg/apache/commons/codec/binary/Base64;->eof:Z"
+0005: if-eqz v3, @0008
+0007: return-void
+0008: if-gez v12, @00d1
+000a: const/4 v3, 1
+000b: iput-boolean v3, v9, "Lorg/apache/commons/codec/binary/Base64;->eof:Z"
+000d: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+000f: if-eqz v3, @001b
+0011: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0013: array-length v3, v3
+0014: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0016: sub-int/2addr v3, v4
+0017: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeSize:I"
+0019: if-ge v3, v4, @001e
+001b: invoke-direct {v9}, Lorg/apache/commons/codec/binary/Base64;->resizeBuffer()V
+001e: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+0020: packed-switch v3, @0180
+0023: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->lineLength:I"
+0025: if-lez v3, @0007
+0027: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0029: if-lez v3, @0007
+002b: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B"
+002d: iget-object v4, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+002f: iget v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0031: iget-object v6, v9, "Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B"
+0033: array-length v6, v6
+0034: invoke-static {v3, v7, v4, v5, v6}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+0037: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0039: iget-object v4, v9, "Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B"
+003b: array-length v4, v4
+003c: add-int/2addr v3, v4
+003d: iput v3, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+003f: goto @0007
+0040: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0042: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0044: add-int/lit8 v5, v4, 1
+0046: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0048: iget-object v5, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+004a: iget v6, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+004c: shr-int/lit8 v6, v6, 2
+004e: and-int/lit8 v6, v6, 63
+0050: aget-byte v5, v5, v6
+0052: aput-byte v5, v3, v4
+0054: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0056: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0058: add-int/lit8 v5, v4, 1
+005a: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+005c: iget-object v5, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+005e: iget v6, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+0060: shl-int/lit8 v6, v6, 4
+0062: and-int/lit8 v6, v6, 63
+0064: aget-byte v5, v5, v6
+0066: aput-byte v5, v3, v4
+0068: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+006a: sget-object v4, "Lorg/apache/commons/codec/binary/Base64;->STANDARD_ENCODE_TABLE:[B"
+006c: if-ne v3, v4, @0023
+006e: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0070: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0072: add-int/lit8 v5, v4, 1
+0074: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0076: aput-byte v8, v3, v4
+0078: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+007a: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+007c: add-int/lit8 v5, v4, 1
+007e: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0080: aput-byte v8, v3, v4
+0082: goto @0023
+0083: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0085: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0087: add-int/lit8 v5, v4, 1
+0089: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+008b: iget-object v5, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+008d: iget v6, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+008f: shr-int/lit8 v6, v6, 10
+0091: and-int/lit8 v6, v6, 63
+0093: aget-byte v5, v5, v6
+0095: aput-byte v5, v3, v4
+0097: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0099: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+009b: add-int/lit8 v5, v4, 1
+009d: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+009f: iget-object v5, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+00a1: iget v6, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+00a3: shr-int/lit8 v6, v6, 4
+00a5: and-int/lit8 v6, v6, 63
+00a7: aget-byte v5, v5, v6
+00a9: aput-byte v5, v3, v4
+00ab: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+00ad: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00af: add-int/lit8 v5, v4, 1
+00b1: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00b3: iget-object v5, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+00b5: iget v6, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+00b7: shl-int/lit8 v6, v6, 2
+00b9: and-int/lit8 v6, v6, 63
+00bb: aget-byte v5, v5, v6
+00bd: aput-byte v5, v3, v4
+00bf: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+00c1: sget-object v4, "Lorg/apache/commons/codec/binary/Base64;->STANDARD_ENCODE_TABLE:[B"
+00c3: if-ne v3, v4, @0023
+00c5: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+00c7: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00c9: add-int/lit8 v5, v4, 1
+00cb: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00cd: aput-byte v8, v3, v4
+00cf: goto/16 @0023
+00d1: const/4 v1, 0
+00d2: move v2, v11
+00d3: if-ge v1, v12, @017c
+00d5: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+00d7: if-eqz v3, @00e3
+00d9: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+00db: array-length v3, v3
+00dc: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+00de: sub-int/2addr v3, v4
+00df: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeSize:I"
+00e1: if-ge v3, v4, @00e6
+00e3: invoke-direct {v9}, Lorg/apache/commons/codec/binary/Base64;->resizeBuffer()V
+00e6: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+00e8: add-int/lit8 v3, v3, 1
+00ea: iput v3, v9, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+00ec: rem-int/lit8 v3, v3, 3
+00ee: iput v3, v9, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+00f0: add-int/lit8 v11, v2, 1
+00f2: aget-byte v0, v10, v2
+00f4: if-gez v0, @00f8
+00f6: add-int/lit16 v0, v0, 256
+00f8: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+00fa: shl-int/lit8 v3, v3, 8
+00fc: add-int/2addr v3, v0
+00fd: iput v3, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+00ff: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->modulus:I"
+0101: if-nez v3, @0177
+0103: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0105: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0107: add-int/lit8 v5, v4, 1
+0109: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+010b: iget-object v5, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+010d: iget v6, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+010f: shr-int/lit8 v6, v6, 18
+0111: and-int/lit8 v6, v6, 63
+0113: aget-byte v5, v5, v6
+0115: aput-byte v5, v3, v4
+0117: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0119: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+011b: add-int/lit8 v5, v4, 1
+011d: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+011f: iget-object v5, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+0121: iget v6, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+0123: shr-int/lit8 v6, v6, 12
+0125: and-int/lit8 v6, v6, 63
+0127: aget-byte v5, v5, v6
+0129: aput-byte v5, v3, v4
+012b: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+012d: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+012f: add-int/lit8 v5, v4, 1
+0131: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0133: iget-object v5, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+0135: iget v6, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+0137: shr-int/lit8 v6, v6, 6
+0139: and-int/lit8 v6, v6, 63
+013b: aget-byte v5, v5, v6
+013d: aput-byte v5, v3, v4
+013f: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0141: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0143: add-int/lit8 v5, v4, 1
+0145: iput v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0147: iget-object v5, v9, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+0149: iget v6, v9, "Lorg/apache/commons/codec/binary/Base64;->x:I"
+014b: and-int/lit8 v6, v6, 63
+014d: aget-byte v5, v5, v6
+014f: aput-byte v5, v3, v4
+0151: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->currentLinePos:I"
+0153: add-int/lit8 v3, v3, 4
+0155: iput v3, v9, "Lorg/apache/commons/codec/binary/Base64;->currentLinePos:I"
+0157: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->lineLength:I"
+0159: if-lez v3, @0177
+015b: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->lineLength:I"
+015d: iget v4, v9, "Lorg/apache/commons/codec/binary/Base64;->currentLinePos:I"
+015f: if-gt v3, v4, @0177
+0161: iget-object v3, v9, "Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B"
+0163: iget-object v4, v9, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0165: iget v5, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0167: iget-object v6, v9, "Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B"
+0169: array-length v6, v6
+016a: invoke-static {v3, v7, v4, v5, v6}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+016d: iget v3, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+016f: iget-object v4, v9, "Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B"
+0171: array-length v4, v4
+0172: add-int/2addr v3, v4
+0173: iput v3, v9, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0175: iput v7, v9, "Lorg/apache/commons/codec/binary/Base64;->currentLinePos:I"
+0177: add-int/lit8 v1, v1, 1
+0179: move v2, v11
+017a: goto/16 @00d3
+017c: move v11, v2
+017d: goto/16 @0007
+017f: nop
+0180: payload packed-switch-payload size=2 first_key=1 targets=[32, 99]
+
+## Lorg/apache/commons/codec/binary/Base64;->encode([B)[B access=0x1
+# code_off=0x32cf8 registers=9 incoming_words=2 outgoing_words=5 code_units=64 tries=0
+0000: const/4 v6, 0
+0001: invoke-direct {v7}, Lorg/apache/commons/codec/binary/Base64;->reset()V
+0004: if-eqz v8, @0009
+0006: array-length v4, v8
+0007: if-nez v4, @000b
+0009: move-object v0, v8
+000a: return-object v0
+000b: iget v4, v7, "Lorg/apache/commons/codec/binary/Base64;->lineLength:I"
+000d: iget-object v5, v7, "Lorg/apache/commons/codec/binary/Base64;->lineSeparator:[B"
+000f: invoke-static {v8, v4, v5}, Lorg/apache/commons/codec/binary/Base64;->getEncodeLength([BI[B)J
+0012: move-result-wide v1
+0013: long-to-int v4, v1
+0014: new-array v0, v4, "[B"
+0016: array-length v4, v0
+0017: invoke-virtual {v7, v0, v6, v4}, Lorg/apache/commons/codec/binary/Base64;->setInitialBuffer([BII)V
+001a: array-length v4, v8
+001b: invoke-virtual {v7, v8, v6, v4}, Lorg/apache/commons/codec/binary/Base64;->encode([BII)V
+001e: const/4 v4, -1
+001f: invoke-virtual {v7, v8, v6, v4}, Lorg/apache/commons/codec/binary/Base64;->encode([BII)V
+0022: iget-object v4, v7, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0024: if-eq v4, v0, @002a
+0026: array-length v4, v0
+0027: invoke-virtual {v7, v0, v6, v4}, Lorg/apache/commons/codec/binary/Base64;->readResults([BII)I
+002a: invoke-virtual {v7}, Lorg/apache/commons/codec/binary/Base64;->isUrlSafe()Z
+002d: move-result v4
+002e: if-eqz v4, @000a
+0030: iget v4, v7, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0032: array-length v5, v0
+0033: if-ge v4, v5, @000a
+0035: iget v4, v7, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0037: new-array v3, v4, "[B"
+0039: iget v4, v7, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+003b: invoke-static {v0, v6, v3, v6, v4}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+003e: move-object v0, v3
+003f: goto @000a
+
+## Lorg/apache/commons/codec/binary/Base64;->encodeToString([B)Ljava/lang/String; access=0x1
+# code_off=0x32d88 registers=3 incoming_words=2 outgoing_words=2 code_units=9 tries=0
+0000: invoke-virtual {v1, v2}, Lorg/apache/commons/codec/binary/Base64;->encode([B)[B
+0003: move-result-object v0
+0004: invoke-static {v0}, Lorg/apache/commons/codec/binary/StringUtils;->newStringUtf8([B)Ljava/lang/String;
+0007: move-result-object v0
+0008: return-object v0
+
+## Lorg/apache/commons/codec/binary/Base64;->hasData()Z access=0x0
+# code_off=0x32dac registers=2 incoming_words=1 outgoing_words=0 code_units=8 tries=0
+0000: iget-object v0, v1, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0002: if-eqz v0, @0006
+0004: const/4 v0, 1
+0005: return v0
+0006: const/4 v0, 0
+0007: goto @0005
+
+## Lorg/apache/commons/codec/binary/Base64;->isUrlSafe()Z access=0x1
+# code_off=0x32dcc registers=3 incoming_words=1 outgoing_words=0 code_units=10 tries=0
+0000: iget-object v0, v2, "Lorg/apache/commons/codec/binary/Base64;->encodeTable:[B"
+0002: sget-object v1, "Lorg/apache/commons/codec/binary/Base64;->URL_SAFE_ENCODE_TABLE:[B"
+0004: if-ne v0, v1, @0008
+0006: const/4 v0, 1
+0007: return v0
+0008: const/4 v0, 0
+0009: goto @0007
+
+## Lorg/apache/commons/codec/binary/Base64;->readResults([BII)I access=0x0
+# code_off=0x32df0 registers=8 incoming_words=4 outgoing_words=5 code_units=50 tries=0
+0000: const/4 v3, 0
+0001: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0003: if-eqz v1, @0029
+0005: invoke-virtual {v4}, Lorg/apache/commons/codec/binary/Base64;->avail()I
+0008: move-result v1
+0009: invoke-static {v1, v7}, Ljava/lang/Math;->min(II)I
+000c: move-result v0
+000d: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+000f: if-eq v1, v5, @0026
+0011: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0013: iget v2, v4, "Lorg/apache/commons/codec/binary/Base64;->readPos:I"
+0015: invoke-static {v1, v2, v5, v6, v0}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+0018: iget v1, v4, "Lorg/apache/commons/codec/binary/Base64;->readPos:I"
+001a: add-int/2addr v1, v0
+001b: iput v1, v4, "Lorg/apache/commons/codec/binary/Base64;->readPos:I"
+001d: iget v1, v4, "Lorg/apache/commons/codec/binary/Base64;->readPos:I"
+001f: iget v2, v4, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0021: if-lt v1, v2, @0025
+0023: iput-object v3, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0025: return v0
+0026: iput-object v3, v4, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0028: goto @0025
+0029: iget-boolean v1, v4, "Lorg/apache/commons/codec/binary/Base64;->eof:Z"
+002b: if-eqz v1, @0030
+002d: const/4 v1, -1
+002e: move v0, v1
+002f: goto @0025
+0030: const/4 v1, 0
+0031: goto @002e
+
+## Lorg/apache/commons/codec/binary/Base64;->setInitialBuffer([BII)V access=0x0
+# code_off=0x32e64 registers=5 incoming_words=4 outgoing_words=0 code_units=12 tries=0
+0000: if-eqz v2, @000b
+0002: array-length v0, v2
+0003: if-ne v0, v4, @000b
+0005: iput-object v2, v1, "Lorg/apache/commons/codec/binary/Base64;->buffer:[B"
+0007: iput v3, v1, "Lorg/apache/commons/codec/binary/Base64;->pos:I"
+0009: iput v3, v1, "Lorg/apache/commons/codec/binary/Base64;->readPos:I"
+000b: return-void

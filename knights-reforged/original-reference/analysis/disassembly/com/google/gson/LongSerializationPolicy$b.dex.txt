@@ -1,0 +1,6 @@
+# class Lcom/google/gson/LongSerializationPolicy$b; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/LongSerializationPolicy$b;->a(Ljava/lang/Long;)Lcom/google/gson/JsonElement; access=0x401

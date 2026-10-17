@@ -1,0 +1,251 @@
+# class Lorg/apache/commons/codec/binary/Hex; extends Ljava/lang/Object;
+# interfaces Lorg/apache/commons/codec/BinaryEncoder;, Lorg/apache/commons/codec/BinaryDecoder;
+# source Hex.java
+# fields
+# Lorg/apache/commons/codec/binary/Hex;->DEFAULT_CHARSET_NAME:Ljava/lang/String; access=0x19
+# Lorg/apache/commons/codec/binary/Hex;->DIGITS_LOWER:[C access=0x1a
+# Lorg/apache/commons/codec/binary/Hex;->DIGITS_UPPER:[C access=0x1a
+# Lorg/apache/commons/codec/binary/Hex;->charsetName:Ljava/lang/String; access=0x12
+
+## Lorg/apache/commons/codec/binary/Hex;-><clinit>()V access=0x10008
+# code_off=0x33264 registers=2 incoming_words=0 outgoing_words=0 code_units=58 tries=0
+0000: const/16 v1, 16
+0002: new-array v0, v1, "[C"
+0004: fill-array-data v0, @0012
+0007: sput-object v0, "Lorg/apache/commons/codec/binary/Hex;->DIGITS_LOWER:[C"
+0009: new-array v0, v1, "[C"
+000b: fill-array-data v0, @0026
+000e: sput-object v0, "Lorg/apache/commons/codec/binary/Hex;->DIGITS_UPPER:[C"
+0010: return-void
+0011: nop
+0012: payload fill-array-data-payload element_width=2 count=16 bytes=3000310032003300340035003600370038003900610062006300640065006600
+0026: payload fill-array-data-payload element_width=2 count=16 bytes=3000310032003300340035003600370038003900410042004300440045004600
+
+## Lorg/apache/commons/codec/binary/Hex;-><init>()V access=0x10001
+# code_off=0x332e8 registers=2 incoming_words=1 outgoing_words=1 code_units=8 tries=0
+0000: invoke-direct {v1}, Ljava/lang/Object;-><init>()V
+0003: const-string v0, "UTF-8"
+0005: iput-object v0, v1, "Lorg/apache/commons/codec/binary/Hex;->charsetName:Ljava/lang/String;"
+0007: return-void
+
+## Lorg/apache/commons/codec/binary/Hex;-><init>(Ljava/lang/String;)V access=0x10001
+# code_off=0x33308 registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lorg/apache/commons/codec/binary/Hex;->charsetName:Ljava/lang/String;"
+0005: return-void
+
+## Lorg/apache/commons/codec/binary/Hex;->decodeHex([C)[B access=0x9
+# code_off=0x33324 registers=8 incoming_words=1 outgoing_words=2 code_units=49 tries=0
+0000: array-length v3, v7
+0001: and-int/lit8 v5, v3, 1
+0003: if-eqz v5, @000d
+0005: new-instance v5, "Lorg/apache/commons/codec/DecoderException;"
+0007: const-string v6, "Odd number of characters."
+0009: invoke-direct {v5, v6}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;)V
+000c: throw v5
+000d: shr-int/lit8 v5, v3, 1
+000f: new-array v4, v5, "[B"
+0011: const/4 v1, 0
+0012: const/4 v2, 0
+0013: if-ge v2, v3, @0030
+0015: aget-char v5, v7, v2
+0017: invoke-static {v5, v2}, Lorg/apache/commons/codec/binary/Hex;->toDigit(CI)I
+001a: move-result v5
+001b: shl-int/lit8 v0, v5, 4
+001d: add-int/lit8 v2, v2, 1
+001f: aget-char v5, v7, v2
+0021: invoke-static {v5, v2}, Lorg/apache/commons/codec/binary/Hex;->toDigit(CI)I
+0024: move-result v5
+0025: or-int/2addr v0, v5
+0026: add-int/lit8 v2, v2, 1
+0028: and-int/lit16 v5, v0, 255
+002a: int-to-byte v5, v5
+002b: aput-byte v5, v4, v1
+002d: add-int/lit8 v1, v1, 1
+002f: goto @0013
+0030: return-object v4
+
+## Lorg/apache/commons/codec/binary/Hex;->encodeHex([B)[C access=0x9
+# code_off=0x33398 registers=2 incoming_words=1 outgoing_words=2 code_units=6 tries=0
+0000: const/4 v0, 1
+0001: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/Hex;->encodeHex([BZ)[C
+0004: move-result-object v0
+0005: return-object v0
+
+## Lorg/apache/commons/codec/binary/Hex;->encodeHex([BZ)[C access=0x9
+# code_off=0x333b4 registers=3 incoming_words=2 outgoing_words=2 code_units=12 tries=0
+0000: if-eqz v2, @0009
+0002: sget-object v0, "Lorg/apache/commons/codec/binary/Hex;->DIGITS_LOWER:[C"
+0004: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/Hex;->encodeHex([B[C)[C
+0007: move-result-object v0
+0008: return-object v0
+0009: sget-object v0, "Lorg/apache/commons/codec/binary/Hex;->DIGITS_UPPER:[C"
+000b: goto @0004
+
+## Lorg/apache/commons/codec/binary/Hex;->encodeHex([B[C)[C access=0xc
+# code_off=0x333dc registers=8 incoming_words=2 outgoing_words=0 code_units=36 tries=0
+0000: array-length v3, v6
+0001: shl-int/lit8 v5, v3, 1
+0003: new-array v4, v5, "[C"
+0005: const/4 v0, 0
+0006: const/4 v1, 0
+0007: move v2, v1
+0008: if-ge v0, v3, @0023
+000a: add-int/lit8 v1, v2, 1
+000c: aget-byte v5, v6, v0
+000e: and-int/lit16 v5, v5, 240
+0010: ushr-int/lit8 v5, v5, 4
+0012: aget-char v5, v7, v5
+0014: aput-char v5, v4, v2
+0016: add-int/lit8 v2, v1, 1
+0018: aget-byte v5, v6, v0
+001a: and-int/lit8 v5, v5, 15
+001c: aget-char v5, v7, v5
+001e: aput-char v5, v4, v1
+0020: add-int/lit8 v0, v0, 1
+0022: goto @0008
+0023: return-object v4
+
+## Lorg/apache/commons/codec/binary/Hex;->encodeHexString([B)Ljava/lang/String; access=0x9
+# code_off=0x33434 registers=3 incoming_words=1 outgoing_words=2 code_units=10 tries=0
+0000: new-instance v0, "Ljava/lang/String;"
+0002: invoke-static {v2}, Lorg/apache/commons/codec/binary/Hex;->encodeHex([B)[C
+0005: move-result-object v1
+0006: invoke-direct {v0, v1}, Ljava/lang/String;-><init>([C)V
+0009: return-object v0
+
+## Lorg/apache/commons/codec/binary/Hex;->toDigit(CI)I access=0xc
+# code_off=0x33458 registers=6 incoming_words=2 outgoing_words=2 code_units=45 tries=0
+0000: const/16 v1, 16
+0002: invoke-static {v4, v1}, Ljava/lang/Character;->digit(CI)I
+0005: move-result v0
+0006: const/4 v1, -1
+0007: if-ne v0, v1, @002c
+0009: new-instance v1, "Lorg/apache/commons/codec/DecoderException;"
+000b: new-instance v2, "Ljava/lang/StringBuffer;"
+000d: invoke-direct {v2}, Ljava/lang/StringBuffer;-><init>()V
+0010: const-string v3, "Illegal hexadecimal charcter "
+0012: invoke-virtual {v2, v3}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0015: move-result-object v2
+0016: invoke-virtual {v2, v4}, Ljava/lang/StringBuffer;->append(C)Ljava/lang/StringBuffer;
+0019: move-result-object v2
+001a: const-string v3, " at index "
+001c: invoke-virtual {v2, v3}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+001f: move-result-object v2
+0020: invoke-virtual {v2, v5}, Ljava/lang/StringBuffer;->append(I)Ljava/lang/StringBuffer;
+0023: move-result-object v2
+0024: invoke-virtual {v2}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+0027: move-result-object v2
+0028: invoke-direct {v1, v2}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;)V
+002b: throw v1
+002c: return v0
+
+## Lorg/apache/commons/codec/binary/Hex;->decode(Ljava/lang/Object;)Ljava/lang/Object; access=0x1
+# code_off=0x334c4 registers=6 incoming_words=2 outgoing_words=3 code_units=32 tries=1
+0000: instance-of v2, v5, "Ljava/lang/String;"
+0002: if-eqz v2, @000f
+0004: check-cast v5, "Ljava/lang/String;"
+0006: invoke-virtual {v5}, Ljava/lang/String;->toCharArray()[C
+0009: move-result-object v0
+000a: invoke-static {v0}, Lorg/apache/commons/codec/binary/Hex;->decodeHex([C)[B
+000d: move-result-object v2
+000e: return-object v2
+000f: check-cast v5, "[C"
+0011: check-cast v5, "[C"
+0013: move-object v0, v5
+0014: goto @000a
+0015: move-exception v1
+0016: new-instance v2, "Lorg/apache/commons/codec/DecoderException;"
+0018: invoke-virtual {v1}, Ljava/lang/ClassCastException;->getMessage()Ljava/lang/String;
+001b: move-result-object v3
+001c: invoke-direct {v2, v3, v1}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+001f: throw v2
+# try @0000..@0013 handler_offset=1
+# handler_offset=1: Ljava/lang/ClassCastException; -> @0015
+
+## Lorg/apache/commons/codec/binary/Hex;->decode([B)[B access=0x1
+# code_off=0x33524 registers=5 incoming_words=2 outgoing_words=3 code_units=29 tries=1
+0000: new-instance v1, "Ljava/lang/String;"
+0002: invoke-virtual {v3}, Lorg/apache/commons/codec/binary/Hex;->getCharsetName()Ljava/lang/String;
+0005: move-result-object v2
+0006: invoke-direct {v1, v4, v2}, Ljava/lang/String;-><init>([BLjava/lang/String;)V
+0009: invoke-virtual {v1}, Ljava/lang/String;->toCharArray()[C
+000c: move-result-object v1
+000d: invoke-static {v1}, Lorg/apache/commons/codec/binary/Hex;->decodeHex([C)[B
+0010: move-result-object v1
+0011: return-object v1
+0012: move-exception v0
+0013: new-instance v1, "Lorg/apache/commons/codec/DecoderException;"
+0015: invoke-virtual {v0}, Ljava/io/UnsupportedEncodingException;->getMessage()Ljava/lang/String;
+0018: move-result-object v2
+0019: invoke-direct {v1, v2, v0}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+001c: throw v1
+# try @0000..@0010 handler_offset=1
+# handler_offset=1: Ljava/io/UnsupportedEncodingException; -> @0012
+
+## Lorg/apache/commons/codec/binary/Hex;->encode(Ljava/lang/Object;)Ljava/lang/Object; access=0x1
+# code_off=0x33580 registers=6 incoming_words=2 outgoing_words=3 code_units=47 tries=1
+0000: instance-of v2, v5, "Ljava/lang/String;"
+0002: if-eqz v2, @0013
+0004: check-cast v5, "Ljava/lang/String;"
+0006: invoke-virtual {v4}, Lorg/apache/commons/codec/binary/Hex;->getCharsetName()Ljava/lang/String;
+0009: move-result-object v2
+000a: invoke-virtual {v5, v2}, Ljava/lang/String;->getBytes(Ljava/lang/String;)[B
+000d: move-result-object v0
+000e: invoke-static {v0}, Lorg/apache/commons/codec/binary/Hex;->encodeHex([B)[C
+0011: move-result-object v2
+0012: return-object v2
+0013: check-cast v5, "[B"
+0015: check-cast v5, "[B"
+0017: move-object v0, v5
+0018: goto @000e
+0019: move-exception v1
+001a: new-instance v2, "Lorg/apache/commons/codec/EncoderException;"
+001c: invoke-virtual {v1}, Ljava/lang/ClassCastException;->getMessage()Ljava/lang/String;
+001f: move-result-object v3
+0020: invoke-direct {v2, v3, v1}, Lorg/apache/commons/codec/EncoderException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+0023: throw v2
+0024: move-exception v1
+0025: new-instance v2, "Lorg/apache/commons/codec/EncoderException;"
+0027: invoke-virtual {v1}, Ljava/io/UnsupportedEncodingException;->getMessage()Ljava/lang/String;
+002a: move-result-object v3
+002b: invoke-direct {v2, v3, v1}, Lorg/apache/commons/codec/EncoderException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+002e: throw v2
+# try @0000..@0017 handler_offset=1
+# handler_offset=1: Ljava/lang/ClassCastException; -> @0019, Ljava/io/UnsupportedEncodingException; -> @0024
+
+## Lorg/apache/commons/codec/binary/Hex;->encode([B)[B access=0x1
+# code_off=0x33600 registers=4 incoming_words=2 outgoing_words=2 code_units=13 tries=0
+0000: invoke-static {v3}, Lorg/apache/commons/codec/binary/Hex;->encodeHexString([B)Ljava/lang/String;
+0003: move-result-object v0
+0004: invoke-virtual {v2}, Lorg/apache/commons/codec/binary/Hex;->getCharsetName()Ljava/lang/String;
+0007: move-result-object v1
+0008: invoke-static {v0, v1}, Lorg/apache/commons/codec/binary/StringUtils;->getBytesUnchecked(Ljava/lang/String;Ljava/lang/String;)[B
+000b: move-result-object v0
+000c: return-object v0
+
+## Lorg/apache/commons/codec/binary/Hex;->getCharsetName()Ljava/lang/String; access=0x1
+# code_off=0x3362c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lorg/apache/commons/codec/binary/Hex;->charsetName:Ljava/lang/String;"
+0002: return-object v0
+
+## Lorg/apache/commons/codec/binary/Hex;->toString()Ljava/lang/String; access=0x1
+# code_off=0x33644 registers=3 incoming_words=1 outgoing_words=2 code_units=36 tries=0
+0000: new-instance v0, "Ljava/lang/StringBuffer;"
+0002: invoke-direct {v0}, Ljava/lang/StringBuffer;-><init>()V
+0005: invoke-super {v2}, Ljava/lang/Object;->toString()Ljava/lang/String;
+0008: move-result-object v1
+0009: invoke-virtual {v0, v1}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+000c: move-result-object v0
+000d: const-string v1, "[charsetName="
+000f: invoke-virtual {v0, v1}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0012: move-result-object v0
+0013: iget-object v1, v2, "Lorg/apache/commons/codec/binary/Hex;->charsetName:Ljava/lang/String;"
+0015: invoke-virtual {v0, v1}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0018: move-result-object v0
+0019: const-string v1, "]"
+001b: invoke-virtual {v0, v1}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+001e: move-result-object v0
+001f: invoke-virtual {v0}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+0022: move-result-object v0
+0023: return-object v0

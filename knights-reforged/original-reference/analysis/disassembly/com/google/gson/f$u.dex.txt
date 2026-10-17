@@ -1,0 +1,32 @@
+# class Lcom/google/gson/f$u; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/JsonSerializer;
+# source None
+# fields
+# Lcom/google/gson/f$u;->a:Lcom/google/gson/LongSerializationPolicy; access=0x12
+
+## Lcom/google/gson/f$u;-><init>(Lcom/google/gson/LongSerializationPolicy;)V access=0x11000
+# code_off=0x2e2a4 registers=3 incoming_words=2 outgoing_words=3 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v2, v0}, Lcom/google/gson/f$u;-><init>(Lcom/google/gson/LongSerializationPolicy;B)V
+0004: return-void
+
+## Lcom/google/gson/f$u;-><init>(Lcom/google/gson/LongSerializationPolicy;B)V access=0x10002
+# code_off=0x2e2c0 registers=3 incoming_words=3 outgoing_words=1 code_units=6 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lcom/google/gson/f$u;->a:Lcom/google/gson/LongSerializationPolicy;"
+0005: return-void
+
+## Lcom/google/gson/f$u;->serialize(Ljava/lang/Object;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement; access=0x1041
+# code_off=0x2e2dc registers=5 incoming_words=4 outgoing_words=2 code_units=9 tries=0
+0000: check-cast v2, "Ljava/lang/Long;"
+0002: iget-object v0, v1, "Lcom/google/gson/f$u;->a:Lcom/google/gson/LongSerializationPolicy;"
+0004: invoke-virtual {v0, v2}, Lcom/google/gson/LongSerializationPolicy;->serialize(Ljava/lang/Long;)Lcom/google/gson/JsonElement;
+0007: move-result-object v0
+0008: return-object v0
+
+## Lcom/google/gson/f$u;->toString()Ljava/lang/String; access=0x1
+# code_off=0x2e300 registers=2 incoming_words=1 outgoing_words=1 code_units=7 tries=0
+0000: const-class v0, "Lcom/google/gson/f$u;"
+0002: invoke-virtual {v0}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0

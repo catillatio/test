@@ -1,0 +1,224 @@
+# class Lcom/google/gson/x; extends Lcom/google/gson/s;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/x;-><init>(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/an;Lcom/google/gson/am;Lcom/google/gson/aq;Lcom/google/gson/JsonDeserializationContext;)V access=0x10000
+# code_off=0x31b48 registers=7 incoming_words=7 outgoing_words=7 code_units=4 tries=0
+0000: invoke-direct/range {v0, v1, v2, v3, v4, v5, v6}, Lcom/google/gson/s;-><init>(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/an;Lcom/google/gson/am;Lcom/google/gson/aq;Lcom/google/gson/JsonDeserializationContext;)V
+0003: return-void
+
+## Lcom/google/gson/x;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/String; access=0x2
+# code_off=0x31b60 registers=3 incoming_words=2 outgoing_words=2 code_units=11 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/x;->a:Lcom/google/gson/an;"
+0002: invoke-virtual {v0}, Lcom/google/gson/an;->a()Lcom/google/gson/k;
+0005: move-result-object v0
+0006: invoke-interface {v0, v2}, Lcom/google/gson/k;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/String;
+0009: move-result-object v0
+000a: return-object v0
+
+## Lcom/google/gson/x;->a()Ljava/lang/Object; access=0x14
+# code_off=0x31b88 registers=3 incoming_words=1 outgoing_words=2 code_units=9 tries=0
+0000: iget-object v0, v2, "Lcom/google/gson/x;->b:Lcom/google/gson/am;"
+0002: iget-object v1, v2, "Lcom/google/gson/x;->f:Ljava/lang/reflect/Type;"
+0004: invoke-interface {v0, v1}, Lcom/google/gson/am;->a(Ljava/lang/reflect/Type;)Ljava/lang/Object;
+0007: move-result-object v0
+0008: return-object v0
+
+## Lcom/google/gson/x;->startVisitingObject(Ljava/lang/Object;)V access=0x11
+# code_off=0x31bac registers=2 incoming_words=2 outgoing_words=0 code_units=1 tries=0
+0000: return-void
+
+## Lcom/google/gson/x;->visitArray(Ljava/lang/Object;Ljava/lang/reflect/Type;)V access=0x11
+# code_off=0x31bc0 registers=6 incoming_words=3 outgoing_words=2 code_units=25 tries=0
+0000: new-instance v0, "Lcom/google/gson/JsonParseException;"
+0002: new-instance v1, "Ljava/lang/StringBuilder;"
+0004: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+0007: const-string v2, "Expecting object but found array: "
+0009: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000c: move-result-object v1
+000d: invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+0010: move-result-object v1
+0011: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0014: move-result-object v1
+0015: invoke-direct {v0, v1}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;)V
+0018: throw v0
+
+## Lcom/google/gson/x;->visitArrayField(Lcom/google/gson/FieldAttributes;Ljava/lang/reflect/Type;Ljava/lang/Object;)V access=0x11
+# code_off=0x31c04 registers=7 incoming_words=4 outgoing_words=3 code_units=73 tries=2
+0000: iget-object v0, v3, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+0002: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->isJsonObject()Z
+0005: move-result v0
+0006: if-nez v0, @002a
+0008: new-instance v0, "Lcom/google/gson/JsonParseException;"
+000a: new-instance v1, "Ljava/lang/StringBuilder;"
+000c: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+000f: const-string v2, "Expecting object found: "
+0011: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0014: move-result-object v1
+0015: iget-object v2, v3, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+0017: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+001a: move-result-object v1
+001b: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+001e: move-result-object v1
+001f: invoke-direct {v0, v1}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;)V
+0022: throw v0
+0023: move-exception v0
+0024: new-instance v1, "Ljava/lang/RuntimeException;"
+0026: invoke-direct {v1, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/Throwable;)V
+0029: throw v1
+002a: iget-object v0, v3, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+002c: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonObject()Lcom/google/gson/JsonObject;
+002f: move-result-object v0
+0030: invoke-direct {v3, v4}, Lcom/google/gson/x;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/String;
+0033: move-result-object v1
+0034: invoke-virtual {v0, v1}, Lcom/google/gson/JsonObject;->get(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+0037: move-result-object v0
+0038: check-cast v0, "Lcom/google/gson/JsonArray;"
+003a: if-eqz v0, @0044
+003c: invoke-virtual {v3, v5, v0}, Lcom/google/gson/x;->a(Ljava/lang/reflect/Type;Lcom/google/gson/JsonArray;)Ljava/lang/Object;
+003f: move-result-object v0
+0040: invoke-virtual {v4, v6, v0}, Lcom/google/gson/FieldAttributes;->a(Ljava/lang/Object;Ljava/lang/Object;)V
+0043: return-void
+0044: const/4 v0, 0
+0045: invoke-virtual {v4, v6, v0}, Lcom/google/gson/FieldAttributes;->a(Ljava/lang/Object;Ljava/lang/Object;)V
+0048: goto @0043
+# try @0000..@0023 handler_offset=1
+# try @002a..@0048 handler_offset=1
+# handler_offset=1: Ljava/lang/IllegalAccessException; -> @0023
+
+## Lcom/google/gson/x;->visitFieldUsingCustomHandler(Lcom/google/gson/FieldAttributes;Ljava/lang/reflect/Type;Ljava/lang/Object;)Z access=0x11
+# code_off=0x31cc0 registers=11 incoming_words=4 outgoing_words=4 code_units=116 tries=2
+0000: const/4 v1, 0
+0001: const/4 v0, 1
+0002: invoke-direct {v7, v8}, Lcom/google/gson/x;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/String;
+0005: move-result-object v2
+0006: iget-object v3, v7, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+0008: invoke-virtual {v3}, Lcom/google/gson/JsonElement;->isJsonObject()Z
+000b: move-result v3
+000c: if-nez v3, @0030
+000e: new-instance v0, "Lcom/google/gson/JsonParseException;"
+0010: new-instance v1, "Ljava/lang/StringBuilder;"
+0012: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+0015: const-string v2, "Expecting object found: "
+0017: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001a: move-result-object v1
+001b: iget-object v2, v7, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+001d: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+0020: move-result-object v1
+0021: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0024: move-result-object v1
+0025: invoke-direct {v0, v1}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;)V
+0028: throw v0
+0029: move-exception v0
+002a: new-instance v0, "Ljava/lang/RuntimeException;"
+002c: invoke-direct {v0}, Ljava/lang/RuntimeException;-><init>()V
+002f: throw v0
+0030: iget-object v3, v7, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+0032: invoke-virtual {v3}, Lcom/google/gson/JsonElement;->getAsJsonObject()Lcom/google/gson/JsonObject;
+0035: move-result-object v3
+0036: invoke-virtual {v3, v2}, Lcom/google/gson/JsonObject;->get(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+0039: move-result-object v2
+003a: new-instance v3, "Lcom/google/gson/bb;"
+003c: invoke-direct {v3, v9}, Lcom/google/gson/bb;-><init>(Ljava/lang/reflect/Type;)V
+003f: if-nez v2, @0042
+0041: return v0
+0042: invoke-virtual {v2}, Lcom/google/gson/JsonElement;->isJsonNull()Z
+0045: move-result v4
+0046: if-eqz v4, @0053
+0048: invoke-virtual {v3}, Lcom/google/gson/bb;->d()Z
+004b: move-result v1
+004c: if-nez v1, @0041
+004e: const/4 v1, 0
+004f: invoke-virtual {v8, v10, v1}, Lcom/google/gson/FieldAttributes;->a(Ljava/lang/Object;Ljava/lang/Object;)V
+0052: goto @0041
+0053: new-instance v4, "Lcom/google/gson/ao;"
+0055: const/4 v5, 0
+0056: const/4 v6, 0
+0057: invoke-direct {v4, v5, v9, v6}, Lcom/google/gson/ao;-><init>(Ljava/lang/Object;Ljava/lang/reflect/Type;Z)V
+005a: iget-object v5, v7, "Lcom/google/gson/x;->c:Lcom/google/gson/aq;"
+005c: invoke-virtual {v4, v5}, Lcom/google/gson/ao;->a(Lcom/google/gson/aq;)Lcom/google/gson/ap;
+005f: move-result-object v4
+0060: if-nez v4, @0064
+0062: move v0, v1
+0063: goto @0041
+0064: invoke-virtual {v7, v2, v4}, Lcom/google/gson/x;->a(Lcom/google/gson/JsonElement;Lcom/google/gson/ap;)Ljava/lang/Object;
+0067: move-result-object v1
+0068: if-nez v1, @0070
+006a: invoke-virtual {v3}, Lcom/google/gson/bb;->d()Z
+006d: move-result v2
+006e: if-nez v2, @0041
+0070: invoke-virtual {v8, v10, v1}, Lcom/google/gson/FieldAttributes;->a(Ljava/lang/Object;Ljava/lang/Object;)V
+0073: goto @0041
+# try @0002..@0029 handler_offset=1
+# try @0030..@0073 handler_offset=1
+# handler_offset=1: Ljava/lang/IllegalAccessException; -> @0029
+
+## Lcom/google/gson/x;->visitObjectField(Lcom/google/gson/FieldAttributes;Ljava/lang/reflect/Type;Ljava/lang/Object;)V access=0x11
+# code_off=0x31dd0 registers=7 incoming_words=4 outgoing_words=3 code_units=71 tries=2
+0000: iget-object v0, v3, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+0002: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->isJsonObject()Z
+0005: move-result v0
+0006: if-nez v0, @002a
+0008: new-instance v0, "Lcom/google/gson/JsonParseException;"
+000a: new-instance v1, "Ljava/lang/StringBuilder;"
+000c: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+000f: const-string v2, "Expecting object found: "
+0011: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0014: move-result-object v1
+0015: iget-object v2, v3, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+0017: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+001a: move-result-object v1
+001b: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+001e: move-result-object v1
+001f: invoke-direct {v0, v1}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;)V
+0022: throw v0
+0023: move-exception v0
+0024: new-instance v1, "Ljava/lang/RuntimeException;"
+0026: invoke-direct {v1, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/Throwable;)V
+0029: throw v1
+002a: iget-object v0, v3, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+002c: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonObject()Lcom/google/gson/JsonObject;
+002f: move-result-object v0
+0030: invoke-direct {v3, v4}, Lcom/google/gson/x;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/String;
+0033: move-result-object v1
+0034: invoke-virtual {v0, v1}, Lcom/google/gson/JsonObject;->get(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+0037: move-result-object v0
+0038: if-eqz v0, @0042
+003a: invoke-virtual {v3, v5, v0}, Lcom/google/gson/x;->a(Ljava/lang/reflect/Type;Lcom/google/gson/JsonElement;)Ljava/lang/Object;
+003d: move-result-object v0
+003e: invoke-virtual {v4, v6, v0}, Lcom/google/gson/FieldAttributes;->a(Ljava/lang/Object;Ljava/lang/Object;)V
+0041: return-void
+0042: const/4 v0, 0
+0043: invoke-virtual {v4, v6, v0}, Lcom/google/gson/FieldAttributes;->a(Ljava/lang/Object;Ljava/lang/Object;)V
+0046: goto @0041
+# try @0000..@0023 handler_offset=1
+# try @002a..@0046 handler_offset=1
+# handler_offset=1: Ljava/lang/IllegalAccessException; -> @0023
+
+## Lcom/google/gson/x;->visitPrimitive(Ljava/lang/Object;)V access=0x11
+# code_off=0x31e88 registers=5 incoming_words=2 outgoing_words=2 code_units=48 tries=0
+0000: iget-object v0, v3, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+0002: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->isJsonPrimitive()Z
+0005: move-result v0
+0006: if-nez v0, @0023
+0008: new-instance v0, "Lcom/google/gson/JsonParseException;"
+000a: new-instance v1, "Ljava/lang/StringBuilder;"
+000c: invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+000f: const-string v2, "Type information is unavailable, and the target object is not a primitive: "
+0011: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0014: move-result-object v1
+0015: iget-object v2, v3, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+0017: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+001a: move-result-object v1
+001b: invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+001e: move-result-object v1
+001f: invoke-direct {v0, v1}, Lcom/google/gson/JsonParseException;-><init>(Ljava/lang/String;)V
+0022: throw v0
+0023: iget-object v0, v3, "Lcom/google/gson/x;->e:Lcom/google/gson/JsonElement;"
+0025: invoke-virtual {v0}, Lcom/google/gson/JsonElement;->getAsJsonPrimitive()Lcom/google/gson/JsonPrimitive;
+0028: move-result-object v0
+0029: invoke-virtual {v0}, Lcom/google/gson/JsonPrimitive;->a()Ljava/lang/Object;
+002c: move-result-object v0
+002d: iput-object v0, v3, "Lcom/google/gson/x;->d:Ljava/lang/Object;"
+002f: return-void

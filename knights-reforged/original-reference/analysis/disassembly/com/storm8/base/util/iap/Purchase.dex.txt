@@ -1,0 +1,124 @@
+# class Lcom/storm8/base/util/iap/Purchase; extends Ljava/lang/Object;
+# interfaces 
+# source Purchase.java
+# fields
+# Lcom/storm8/base/util/iap/Purchase;->mDeveloperPayload:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/Purchase;->mItemType:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/Purchase;->mOrderId:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/Purchase;->mOriginalJson:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/Purchase;->mPackageName:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/Purchase;->mPurchaseState:I access=0x0
+# Lcom/storm8/base/util/iap/Purchase;->mPurchaseTime:J access=0x0
+# Lcom/storm8/base/util/iap/Purchase;->mSignature:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/Purchase;->mSku:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/Purchase;->mToken:Ljava/lang/String; access=0x0
+
+## Lcom/storm8/base/util/iap/Purchase;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V access=0x10001
+# code_off=0x24204 registers=7 incoming_words=4 outgoing_words=3 code_units=79 tries=0
+0000: invoke-direct {v3}, Ljava/lang/Object;-><init>()V
+0003: iput-object v4, v3, "Lcom/storm8/base/util/iap/Purchase;->mItemType:Ljava/lang/String;"
+0005: iput-object v5, v3, "Lcom/storm8/base/util/iap/Purchase;->mOriginalJson:Ljava/lang/String;"
+0007: new-instance v0, "Lorg/json/JSONObject;"
+0009: iget-object v1, v3, "Lcom/storm8/base/util/iap/Purchase;->mOriginalJson:Ljava/lang/String;"
+000b: invoke-direct {v0, v1}, Lorg/json/JSONObject;-><init>(Ljava/lang/String;)V
+000e: const-string v1, "orderId"
+0010: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+0013: move-result-object v1
+0014: iput-object v1, v3, "Lcom/storm8/base/util/iap/Purchase;->mOrderId:Ljava/lang/String;"
+0016: const-string v1, "packageName"
+0018: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+001b: move-result-object v1
+001c: iput-object v1, v3, "Lcom/storm8/base/util/iap/Purchase;->mPackageName:Ljava/lang/String;"
+001e: const-string v1, "productId"
+0020: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+0023: move-result-object v1
+0024: iput-object v1, v3, "Lcom/storm8/base/util/iap/Purchase;->mSku:Ljava/lang/String;"
+0026: const-string v1, "purchaseTime"
+0028: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optLong(Ljava/lang/String;)J
+002b: move-result-wide v1
+002c: iput-wide v1, v3, "Lcom/storm8/base/util/iap/Purchase;->mPurchaseTime:J"
+002e: const-string v1, "purchaseState"
+0030: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optInt(Ljava/lang/String;)I
+0033: move-result v1
+0034: iput v1, v3, "Lcom/storm8/base/util/iap/Purchase;->mPurchaseState:I"
+0036: const-string v1, "developerPayload"
+0038: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+003b: move-result-object v1
+003c: iput-object v1, v3, "Lcom/storm8/base/util/iap/Purchase;->mDeveloperPayload:Ljava/lang/String;"
+003e: const-string v1, "token"
+0040: const-string v2, "purchaseToken"
+0042: invoke-virtual {v0, v2}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+0045: move-result-object v2
+0046: invoke-virtual {v0, v1, v2}, Lorg/json/JSONObject;->optString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+0049: move-result-object v1
+004a: iput-object v1, v3, "Lcom/storm8/base/util/iap/Purchase;->mToken:Ljava/lang/String;"
+004c: iput-object v6, v3, "Lcom/storm8/base/util/iap/Purchase;->mSignature:Ljava/lang/String;"
+004e: return-void
+
+## Lcom/storm8/base/util/iap/Purchase;->getDeveloperPayload()Ljava/lang/String; access=0x1
+# code_off=0x242b4 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Purchase;->mDeveloperPayload:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/Purchase;->getItemType()Ljava/lang/String; access=0x1
+# code_off=0x242cc registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Purchase;->mItemType:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/Purchase;->getOrderId()Ljava/lang/String; access=0x1
+# code_off=0x242e4 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Purchase;->mOrderId:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/Purchase;->getOriginalJson()Ljava/lang/String; access=0x1
+# code_off=0x242fc registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Purchase;->mOriginalJson:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/Purchase;->getPackageName()Ljava/lang/String; access=0x1
+# code_off=0x24314 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Purchase;->mPackageName:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/Purchase;->getPurchaseState()I access=0x1
+# code_off=0x2432c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget v0, v1, "Lcom/storm8/base/util/iap/Purchase;->mPurchaseState:I"
+0002: return v0
+
+## Lcom/storm8/base/util/iap/Purchase;->getPurchaseTime()J access=0x1
+# code_off=0x24344 registers=3 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-wide v0, v2, "Lcom/storm8/base/util/iap/Purchase;->mPurchaseTime:J"
+0002: return-wide v0
+
+## Lcom/storm8/base/util/iap/Purchase;->getSignature()Ljava/lang/String; access=0x1
+# code_off=0x2435c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Purchase;->mSignature:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/Purchase;->getSku()Ljava/lang/String; access=0x1
+# code_off=0x24374 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Purchase;->mSku:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/Purchase;->getToken()Ljava/lang/String; access=0x1
+# code_off=0x2438c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/Purchase;->mToken:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/Purchase;->toString()Ljava/lang/String; access=0x1
+# code_off=0x243a4 registers=3 incoming_words=1 outgoing_words=2 code_units=30 tries=0
+0000: new-instance v0, "Ljava/lang/StringBuilder;"
+0002: const-string v1, "PurchaseInfo(type:"
+0004: invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0007: iget-object v1, v2, "Lcom/storm8/base/util/iap/Purchase;->mItemType:Ljava/lang/String;"
+0009: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000c: move-result-object v0
+000d: const-string v1, "):"
+000f: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0012: move-result-object v0
+0013: iget-object v1, v2, "Lcom/storm8/base/util/iap/Purchase;->mOriginalJson:Ljava/lang/String;"
+0015: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0018: move-result-object v0
+0019: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+001c: move-result-object v0
+001d: return-object v0

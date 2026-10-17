@@ -1,0 +1,140 @@
+# class Lorg/apache/commons/codec/binary/StringUtils; extends Ljava/lang/Object;
+# interfaces 
+# source StringUtils.java
+# fields
+
+## Lorg/apache/commons/codec/binary/StringUtils;-><init>()V access=0x10001
+# code_off=0x26104 registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lorg/apache/commons/codec/binary/StringUtils;->getBytesIso8859_1(Ljava/lang/String;)[B access=0x9
+# code_off=0x2611c registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "ISO-8859-1"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->getBytesUnchecked(Ljava/lang/String;Ljava/lang/String;)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->getBytesUnchecked(Ljava/lang/String;Ljava/lang/String;)[B access=0x9
+# code_off=0x2613c registers=4 incoming_words=2 outgoing_words=2 code_units=15 tries=1
+0000: if-nez v2, @0004
+0002: const/4 v1, 0
+0003: return-object v1
+0004: invoke-virtual {v2, v3}, Ljava/lang/String;->getBytes(Ljava/lang/String;)[B
+0007: move-result-object v1
+0008: goto @0003
+0009: move-exception v0
+000a: invoke-static {v3, v0}, Lorg/apache/commons/codec/binary/StringUtils;->newIllegalStateException(Ljava/lang/String;Ljava/io/UnsupportedEncodingException;)Ljava/lang/IllegalStateException;
+000d: move-result-object v1
+000e: throw v1
+# try @0004..@0007 handler_offset=1
+# handler_offset=1: Ljava/io/UnsupportedEncodingException; -> @0009
+
+## Lorg/apache/commons/codec/binary/StringUtils;->getBytesUsAscii(Ljava/lang/String;)[B access=0x9
+# code_off=0x2617c registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "US-ASCII"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->getBytesUnchecked(Ljava/lang/String;Ljava/lang/String;)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->getBytesUtf16(Ljava/lang/String;)[B access=0x9
+# code_off=0x2619c registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "UTF-16"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->getBytesUnchecked(Ljava/lang/String;Ljava/lang/String;)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->getBytesUtf16Be(Ljava/lang/String;)[B access=0x9
+# code_off=0x261bc registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "UTF-16BE"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->getBytesUnchecked(Ljava/lang/String;Ljava/lang/String;)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->getBytesUtf16Le(Ljava/lang/String;)[B access=0x9
+# code_off=0x261dc registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "UTF-16LE"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->getBytesUnchecked(Ljava/lang/String;Ljava/lang/String;)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->getBytesUtf8(Ljava/lang/String;)[B access=0x9
+# code_off=0x261fc registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "UTF-8"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->getBytesUnchecked(Ljava/lang/String;Ljava/lang/String;)[B
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->newIllegalStateException(Ljava/lang/String;Ljava/io/UnsupportedEncodingException;)Ljava/lang/IllegalStateException; access=0xa
+# code_off=0x2621c registers=5 incoming_words=2 outgoing_words=2 code_units=29 tries=0
+0000: new-instance v0, "Ljava/lang/IllegalStateException;"
+0002: new-instance v1, "Ljava/lang/StringBuffer;"
+0004: invoke-direct {v1}, Ljava/lang/StringBuffer;-><init>()V
+0007: invoke-virtual {v1, v3}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+000a: move-result-object v1
+000b: const-string v2, ": "
+000d: invoke-virtual {v1, v2}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+0010: move-result-object v1
+0011: invoke-virtual {v1, v4}, Ljava/lang/StringBuffer;->append(Ljava/lang/Object;)Ljava/lang/StringBuffer;
+0014: move-result-object v1
+0015: invoke-virtual {v1}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+0018: move-result-object v1
+0019: invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+001c: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->newString([BLjava/lang/String;)Ljava/lang/String; access=0x9
+# code_off=0x26268 registers=4 incoming_words=2 outgoing_words=3 code_units=16 tries=1
+0000: if-nez v2, @0004
+0002: const/4 v1, 0
+0003: return-object v1
+0004: new-instance v1, "Ljava/lang/String;"
+0006: invoke-direct {v1, v2, v3}, Ljava/lang/String;-><init>([BLjava/lang/String;)V
+0009: goto @0003
+000a: move-exception v0
+000b: invoke-static {v3, v0}, Lorg/apache/commons/codec/binary/StringUtils;->newIllegalStateException(Ljava/lang/String;Ljava/io/UnsupportedEncodingException;)Ljava/lang/IllegalStateException;
+000e: move-result-object v1
+000f: throw v1
+# try @0004..@0009 handler_offset=1
+# handler_offset=1: Ljava/io/UnsupportedEncodingException; -> @000a
+
+## Lorg/apache/commons/codec/binary/StringUtils;->newStringIso8859_1([B)Ljava/lang/String; access=0x9
+# code_off=0x262a8 registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "ISO-8859-1"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->newString([BLjava/lang/String;)Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->newStringUsAscii([B)Ljava/lang/String; access=0x9
+# code_off=0x262c8 registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "US-ASCII"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->newString([BLjava/lang/String;)Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->newStringUtf16([B)Ljava/lang/String; access=0x9
+# code_off=0x262e8 registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "UTF-16"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->newString([BLjava/lang/String;)Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->newStringUtf16Be([B)Ljava/lang/String; access=0x9
+# code_off=0x26308 registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "UTF-16BE"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->newString([BLjava/lang/String;)Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->newStringUtf16Le([B)Ljava/lang/String; access=0x9
+# code_off=0x26328 registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "UTF-16LE"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->newString([BLjava/lang/String;)Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0
+
+## Lorg/apache/commons/codec/binary/StringUtils;->newStringUtf8([B)Ljava/lang/String; access=0x9
+# code_off=0x26348 registers=2 incoming_words=1 outgoing_words=2 code_units=7 tries=0
+0000: const-string v0, "UTF-8"
+0002: invoke-static {v1, v0}, Lorg/apache/commons/codec/binary/StringUtils;->newString([BLjava/lang/String;)Ljava/lang/String;
+0005: move-result-object v0
+0006: return-object v0

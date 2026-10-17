@@ -1,0 +1,29 @@
+# class Lcom/google/gson/an; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+# Lcom/google/gson/an;->a:Lcom/google/gson/ExclusionStrategy; access=0x12
+# Lcom/google/gson/an;->b:Lcom/google/gson/k; access=0x12
+
+## Lcom/google/gson/an;-><init>(Lcom/google/gson/ExclusionStrategy;Lcom/google/gson/k;)V access=0x10001
+# code_off=0x1ad48 registers=3 incoming_words=3 outgoing_words=1 code_units=18 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: invoke-static {v2}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0006: if-nez v1, @000d
+0008: new-instance v1, "Lcom/google/gson/al;"
+000a: invoke-direct {v1}, Lcom/google/gson/al;-><init>()V
+000d: iput-object v1, v0, "Lcom/google/gson/an;->a:Lcom/google/gson/ExclusionStrategy;"
+000f: iput-object v2, v0, "Lcom/google/gson/an;->b:Lcom/google/gson/k;"
+0011: return-void
+
+## Lcom/google/gson/an;->a(Lcom/google/gson/ao;)Lcom/google/gson/ObjectNavigator; access=0x11
+# code_off=0x1ad7c registers=4 incoming_words=2 outgoing_words=3 code_units=8 tries=0
+0000: new-instance v0, "Lcom/google/gson/ObjectNavigator;"
+0002: iget-object v1, v2, "Lcom/google/gson/an;->a:Lcom/google/gson/ExclusionStrategy;"
+0004: invoke-direct {v0, v3, v1}, Lcom/google/gson/ObjectNavigator;-><init>(Lcom/google/gson/ao;Lcom/google/gson/ExclusionStrategy;)V
+0007: return-object v0
+
+## Lcom/google/gson/an;->a()Lcom/google/gson/k; access=0x10
+# code_off=0x1ad9c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/google/gson/an;->b:Lcom/google/gson/k;"
+0002: return-object v0

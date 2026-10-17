@@ -1,0 +1,20 @@
+# class Lcom/storm8/base/Storm8MainActivity$2; extends Ljava/lang/Object;
+# interfaces Lcom/storm8/base/util/iap/IabHelper$OnIabPurchaseFinishedListener;
+# source Storm8MainActivity.java
+# fields
+# Lcom/storm8/base/Storm8MainActivity$2;->this$0:Lcom/storm8/base/Storm8MainActivity; access=0x1010
+
+## Lcom/storm8/base/Storm8MainActivity$2;-><init>(Lcom/storm8/base/Storm8MainActivity;)V access=0x10000
+# code_off=0x30460 registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8MainActivity$2;->this$0:Lcom/storm8/base/Storm8MainActivity;"
+0002: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0005: return-void
+
+## Lcom/storm8/base/Storm8MainActivity$2;->onIabPurchaseFinished(Lcom/storm8/base/util/iap/IabResult;Lcom/storm8/base/util/iap/Purchase;)V access=0x1
+# code_off=0x3047c registers=4 incoming_words=3 outgoing_words=2 code_units=12 tries=0
+0000: invoke-virtual {v2}, Lcom/storm8/base/util/iap/IabResult;->isFailure()Z
+0003: move-result v0
+0004: if-nez v0, @000b
+0006: iget-object v0, v1, "Lcom/storm8/base/Storm8MainActivity$2;->this$0:Lcom/storm8/base/Storm8MainActivity;"
+0008: invoke-virtual {v0, v3}, Lcom/storm8/base/Storm8MainActivity;->sendProcessTransactionRequest(Lcom/storm8/base/util/iap/Purchase;)V
+000b: return-void

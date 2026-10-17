@@ -1,0 +1,81 @@
+# class Lcom/storm8/base/util/iap/IabResult; extends Ljava/lang/Object;
+# interfaces 
+# source IabResult.java
+# fields
+# Lcom/storm8/base/util/iap/IabResult;->mMessage:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/IabResult;->mResponse:I access=0x0
+
+## Lcom/storm8/base/util/iap/IabResult;-><init>(ILjava/lang/String;)V access=0x10001
+# code_off=0x23ee4 registers=5 incoming_words=3 outgoing_words=2 code_units=60 tries=0
+0000: invoke-direct {v2}, Ljava/lang/Object;-><init>()V
+0003: iput v3, v2, "Lcom/storm8/base/util/iap/IabResult;->mResponse:I"
+0005: if-eqz v4, @0011
+0007: invoke-virtual {v4}, Ljava/lang/String;->trim()Ljava/lang/String;
+000a: move-result-object v0
+000b: invoke-virtual {v0}, Ljava/lang/String;->length()I
+000e: move-result v0
+000f: if-nez v0, @0018
+0011: invoke-static {v3}, Lcom/storm8/base/util/iap/IabHelper;->getResponseDesc(I)Ljava/lang/String;
+0014: move-result-object v0
+0015: iput-object v0, v2, "Lcom/storm8/base/util/iap/IabResult;->mMessage:Ljava/lang/String;"
+0017: return-void
+0018: new-instance v0, "Ljava/lang/StringBuilder;"
+001a: invoke-static {v4}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
+001d: move-result-object v1
+001e: invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0021: const-string v1, " (response: "
+0023: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0026: move-result-object v0
+0027: invoke-static {v3}, Lcom/storm8/base/util/iap/IabHelper;->getResponseDesc(I)Ljava/lang/String;
+002a: move-result-object v1
+002b: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+002e: move-result-object v0
+002f: const-string v1, ")"
+0031: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0034: move-result-object v0
+0035: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0038: move-result-object v0
+0039: iput-object v0, v2, "Lcom/storm8/base/util/iap/IabResult;->mMessage:Ljava/lang/String;"
+003b: goto @0017
+
+## Lcom/storm8/base/util/iap/IabResult;->getMessage()Ljava/lang/String; access=0x1
+# code_off=0x23f6c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/IabResult;->mMessage:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/IabResult;->getResponse()I access=0x1
+# code_off=0x23f84 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget v0, v1, "Lcom/storm8/base/util/iap/IabResult;->mResponse:I"
+0002: return v0
+
+## Lcom/storm8/base/util/iap/IabResult;->isFailure()Z access=0x1
+# code_off=0x23f9c registers=2 incoming_words=1 outgoing_words=1 code_units=10 tries=0
+0000: invoke-virtual {v1}, Lcom/storm8/base/util/iap/IabResult;->isSuccess()Z
+0003: move-result v0
+0004: if-eqz v0, @0008
+0006: const/4 v0, 0
+0007: return v0
+0008: const/4 v0, 1
+0009: goto @0007
+
+## Lcom/storm8/base/util/iap/IabResult;->isSuccess()Z access=0x1
+# code_off=0x23fc0 registers=2 incoming_words=1 outgoing_words=0 code_units=8 tries=0
+0000: iget v0, v1, "Lcom/storm8/base/util/iap/IabResult;->mResponse:I"
+0002: if-nez v0, @0006
+0004: const/4 v0, 1
+0005: return v0
+0006: const/4 v0, 0
+0007: goto @0005
+
+## Lcom/storm8/base/util/iap/IabResult;->toString()Ljava/lang/String; access=0x1
+# code_off=0x23fe0 registers=3 incoming_words=1 outgoing_words=2 code_units=20 tries=0
+0000: new-instance v0, "Ljava/lang/StringBuilder;"
+0002: const-string v1, "IabResult: "
+0004: invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0007: invoke-virtual {v2}, Lcom/storm8/base/util/iap/IabResult;->getMessage()Ljava/lang/String;
+000a: move-result-object v1
+000b: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000e: move-result-object v0
+000f: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0012: move-result-object v0
+0013: return-object v0

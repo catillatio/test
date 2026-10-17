@@ -1,0 +1,21 @@
+# class Lcom/storm8/base/Storm8MainActivity$12; extends Ljava/lang/Object;
+# interfaces Ljava/lang/Runnable;
+# source Storm8MainActivity.java
+# fields
+# Lcom/storm8/base/Storm8MainActivity$12;->this$0:Lcom/storm8/base/Storm8MainActivity; access=0x1010
+# Lcom/storm8/base/Storm8MainActivity$12;->val$productId:Ljava/lang/String; access=0x1012
+
+## Lcom/storm8/base/Storm8MainActivity$12;-><init>(Lcom/storm8/base/Storm8MainActivity;Ljava/lang/String;)V access=0x10000
+# code_off=0x1e914 registers=3 incoming_words=3 outgoing_words=1 code_units=8 tries=0
+0000: iput-object v1, v0, "Lcom/storm8/base/Storm8MainActivity$12;->this$0:Lcom/storm8/base/Storm8MainActivity;"
+0002: iput-object v2, v0, "Lcom/storm8/base/Storm8MainActivity$12;->val$productId:Ljava/lang/String;"
+0004: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0007: return-void
+
+## Lcom/storm8/base/Storm8MainActivity$12;->run()V access=0x1
+# code_off=0x1e934 registers=4 incoming_words=1 outgoing_words=3 code_units=9 tries=0
+0000: iget-object v0, v3, "Lcom/storm8/base/Storm8MainActivity$12;->this$0:Lcom/storm8/base/Storm8MainActivity;"
+0002: iget-object v1, v3, "Lcom/storm8/base/Storm8MainActivity$12;->val$productId:Ljava/lang/String;"
+0004: const/4 v2, 1
+0005: invoke-virtual {v0, v1, v2}, Lcom/storm8/base/Storm8MainActivity;->buyItem(Ljava/lang/String;I)Z
+0008: return-void

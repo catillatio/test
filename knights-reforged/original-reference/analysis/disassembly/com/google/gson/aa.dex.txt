@@ -1,0 +1,2169 @@
+# class Lcom/google/gson/aa; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/z;
+# source None
+# fields
+# Lcom/google/gson/aa;->b:[J access=0x18
+# Lcom/google/gson/aa;->c:[J access=0x18
+# Lcom/google/gson/aa;->d:[I access=0x18
+# Lcom/google/gson/aa;->f:[Ljava/lang/String; access=0x19
+# Lcom/google/gson/aa;->g:[Ljava/lang/String; access=0x19
+# Lcom/google/gson/aa;->h:[I access=0x19
+# Lcom/google/gson/aa;->i:[J access=0x18
+# Lcom/google/gson/aa;->j:[J access=0x18
+# Lcom/google/gson/aa;->k:[J access=0x18
+# Lcom/google/gson/aa;->a:Ljava/io/PrintStream; access=0x1
+# Lcom/google/gson/aa;->l:Lcom/google/gson/ax; access=0x4
+# Lcom/google/gson/aa;->m:C access=0x4
+# Lcom/google/gson/aa;->n:I access=0x0
+# Lcom/google/gson/aa;->o:I access=0x0
+# Lcom/google/gson/aa;->p:I access=0x0
+# Lcom/google/gson/aa;->q:I access=0x0
+# Lcom/google/gson/aa;->r:I access=0x0
+# Lcom/google/gson/aa;->s:I access=0x0
+# Lcom/google/gson/aa;->t:[I access=0x12
+# Lcom/google/gson/aa;->u:[I access=0x12
+
+## Lcom/google/gson/aa;-><clinit>()V access=0x10008
+# code_off=0x29a18 registers=8 incoming_words=0 outgoing_words=0 code_units=384 tries=0
+0000: const/4 v7, 2
+0001: const/4 v6, 4
+0002: const/4 v5, 1
+0003: const/4 v4, 0
+0004: const/4 v3, 0
+0005: new-array v0, v6, "[J"
+0007: fill-array-data v0, @00fa
+000a: sput-object v0, "Lcom/google/gson/aa;->b:[J"
+000c: new-array v0, v6, "[J"
+000e: fill-array-data v0, @010e
+0011: sput-object v0, "Lcom/google/gson/aa;->c:[J"
+0013: const/16 v0, 8
+0015: new-array v0, v0, "[I"
+0017: fill-array-data v0, @0122
+001a: sput-object v0, "Lcom/google/gson/aa;->d:[I"
+001c: const/16 v0, 35
+001e: new-array v0, v0, "[Ljava/lang/String;"
+0020: const-string v1, ""
+0022: aput-object v1, v0, v4
+0024: aput-object v3, v0, v5
+0026: aput-object v3, v0, v7
+0028: const/4 v1, 3
+0029: aput-object v3, v0, v1
+002b: aput-object v3, v0, v6
+002d: const/4 v1, 5
+002e: aput-object v3, v0, v1
+0030: const/4 v1, 6
+0031: aput-object v3, v0, v1
+0033: const/4 v1, 7
+0034: const-string v2, "null"
+0036: aput-object v2, v0, v1
+0038: const/16 v1, 8
+003a: const-string v2, "NaN"
+003c: aput-object v2, v0, v1
+003e: const/16 v1, 9
+0040: const-string v2, "Infinity"
+0042: aput-object v2, v0, v1
+0044: const/16 v1, 10
+0046: aput-object v3, v0, v1
+0048: const/16 v1, 11
+004a: aput-object v3, v0, v1
+004c: const/16 v1, 12
+004e: aput-object v3, v0, v1
+0050: const/16 v1, 13
+0052: aput-object v3, v0, v1
+0054: const/16 v1, 14
+0056: aput-object v3, v0, v1
+0058: const/16 v1, 15
+005a: aput-object v3, v0, v1
+005c: const/16 v1, 16
+005e: aput-object v3, v0, v1
+0060: const/16 v1, 17
+0062: aput-object v3, v0, v1
+0064: const/16 v1, 18
+0066: const-string v2, "\""
+0068: aput-object v2, v0, v1
+006a: const/16 v1, 19
+006c: aput-object v3, v0, v1
+006e: const/16 v1, 20
+0070: aput-object v3, v0, v1
+0072: const/16 v1, 21
+0074: aput-object v3, v0, v1
+0076: const/16 v1, 22
+0078: aput-object v3, v0, v1
+007a: const/16 v1, 23
+007c: aput-object v3, v0, v1
+007e: const/16 v1, 24
+0080: aput-object v3, v0, v1
+0082: const/16 v1, 25
+0084: aput-object v3, v0, v1
+0086: const/16 v1, 26
+0088: const-string v2, ")]}'\n"
+008a: aput-object v2, v0, v1
+008c: const/16 v1, 27
+008e: const-string v2, "{"
+0090: aput-object v2, v0, v1
+0092: const/16 v1, 28
+0094: const-string v2, ","
+0096: aput-object v2, v0, v1
+0098: const/16 v1, 29
+009a: const-string v2, "}"
+009c: aput-object v2, v0, v1
+009e: const/16 v1, 30
+00a0: const-string v2, ":"
+00a2: aput-object v2, v0, v1
+00a4: const/16 v1, 31
+00a6: const-string v2, "["
+00a8: aput-object v2, v0, v1
+00aa: const/16 v1, 32
+00ac: const-string v2, "]"
+00ae: aput-object v2, v0, v1
+00b0: const/16 v1, 33
+00b2: const-string v2, "-"
+00b4: aput-object v2, v0, v1
+00b6: const/16 v1, 34
+00b8: const-string v2, "."
+00ba: aput-object v2, v0, v1
+00bc: sput-object v0, "Lcom/google/gson/aa;->f:[Ljava/lang/String;"
+00be: new-array v0, v6, "[Ljava/lang/String;"
+00c0: const-string v1, "DEFAULT"
+00c2: aput-object v1, v0, v4
+00c4: const-string v1, "STRING_STATE"
+00c6: aput-object v1, v0, v5
+00c8: const-string v1, "ESC_STATE"
+00ca: aput-object v1, v0, v7
+00cc: const/4 v1, 3
+00cd: const-string v2, "HEX_STATE"
+00cf: aput-object v2, v0, v1
+00d1: sput-object v0, "Lcom/google/gson/aa;->g:[Ljava/lang/String;"
+00d3: const/16 v0, 35
+00d5: new-array v0, v0, "[I"
+00d7: fill-array-data v0, @0136
+00da: sput-object v0, "Lcom/google/gson/aa;->h:[I"
+00dc: new-array v0, v5, "[J"
+00de: const-wide v1, 34334007265
+00e3: aput-wide v1, v0, v4
+00e5: sput-object v0, "Lcom/google/gson/aa;->i:[J"
+00e7: new-array v0, v5, "[J"
+00e9: const-wide/16 v1, 30
+00eb: aput-wide v1, v0, v4
+00ed: sput-object v0, "Lcom/google/gson/aa;->j:[J"
+00ef: new-array v0, v5, "[J"
+00f1: const-wide/32 v1, 8912896 (0x00880000)
+00f4: aput-wide v1, v0, v4
+00f6: sput-object v0, "Lcom/google/gson/aa;->k:[J"
+00f8: return-void
+00f9: nop
+00fa: payload fill-array-data-payload element_width=8 count=4 bytes=feffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+010e: payload fill-array-data-payload element_width=8 count=4 bytes=00000000000000000000000000000000ffffffffffffffffffffffffffffffff
+0122: payload fill-array-data-payload element_width=4 count=8 bytes=1d0000001e000000250000002600000012000000130000001a0000001b000000
+0136: payload fill-array-data-payload element_width=4 count=35 bytes=ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff010000000200000000000000ffffffff0100000003000000ffffffff01000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+## Lcom/google/gson/aa;-><init>(Lcom/google/gson/ax;)V access=0x10001
+# code_off=0x29d28 registers=4 incoming_words=2 outgoing_words=1 code_units=27 tries=0
+0000: const/4 v1, 0
+0001: invoke-direct {v2}, Ljava/lang/Object;-><init>()V
+0004: sget-object v0, "Ljava/lang/System;->out:Ljava/io/PrintStream;"
+0006: iput-object v0, v2, "Lcom/google/gson/aa;->a:Ljava/io/PrintStream;"
+0008: const/16 v0, 43
+000a: new-array v0, v0, "[I"
+000c: iput-object v0, v2, "Lcom/google/gson/aa;->t:[I"
+000e: const/16 v0, 86
+0010: new-array v0, v0, "[I"
+0012: iput-object v0, v2, "Lcom/google/gson/aa;->u:[I"
+0014: iput v1, v2, "Lcom/google/gson/aa;->n:I"
+0016: iput v1, v2, "Lcom/google/gson/aa;->o:I"
+0018: iput-object v3, v2, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+001a: return-void
+
+## Lcom/google/gson/aa;->a(I)I access=0x2
+# code_off=0x29d70 registers=11 incoming_words=2 outgoing_words=1 code_units=320 tries=1
+0000: const/4 v2, 0
+0001: const/4 v0, 4
+0002: iput v0, v9, "Lcom/google/gson/aa;->p:I"
+0004: const/4 v1, 1
+0005: iget-object v0, v9, "Lcom/google/gson/aa;->u:[I"
+0007: const/4 v3, 0
+0008: const/4 v4, 0
+0009: aput v4, v0, v3
+000b: const v0, 2147483647 (0x7fffffff)
+000e: iget v3, v9, "Lcom/google/gson/aa;->q:I"
+0010: add-int/lit8 v3, v3, 1
+0012: iput v3, v9, "Lcom/google/gson/aa;->q:I"
+0014: const v4, 2147483647 (0x7fffffff)
+0017: if-ne v3, v4, @001c
+0019: invoke-direct {v9}, Lcom/google/gson/aa;->b()V
+001c: iget-char v3, v9, "Lcom/google/gson/aa;->m:C"
+001e: const/16 v4, 64
+0020: if-ge v3, v4, @0098
+0022: const-wide/16 v3, 1
+0024: iget-char v5, v9, "Lcom/google/gson/aa;->m:C"
+0026: shl-long/2addr v3, v5
+0027: iget-object v5, v9, "Lcom/google/gson/aa;->u:[I"
+0029: add-int/lit8 v1, v1, -1
+002b: aget v5, v5, v1
+002d: packed-switch v5, @0128
+0030: if-ne v1, v2, @0027
+0032: const v1, 2147483647 (0x7fffffff)
+0035: if-eq v0, v1, @003e
+0037: iput v0, v9, "Lcom/google/gson/aa;->s:I"
+0039: iput v10, v9, "Lcom/google/gson/aa;->r:I"
+003b: const v0, 2147483647 (0x7fffffff)
+003e: add-int/lit8 v10, v10, 1
+0040: iget v1, v9, "Lcom/google/gson/aa;->p:I"
+0042: iput v2, v9, "Lcom/google/gson/aa;->p:I"
+0044: rsub-int/lit8 v2, v2, 4
+0046: if-ne v1, v2, @011a
+0048: return v10
+0049: const-wide/high16 v5, 0x3ff000000000000
+004b: and-long/2addr v5, v3
+004c: const-wide/16 v7, 0
+004e: cmp-long v5, v5, v7
+0050: if-eqz v5, @0030
+0052: iget-object v5, v9, "Lcom/google/gson/aa;->u:[I"
+0054: iget v6, v9, "Lcom/google/gson/aa;->p:I"
+0056: add-int/lit8 v7, v6, 1
+0058: iput v7, v9, "Lcom/google/gson/aa;->p:I"
+005a: const/4 v7, 1
+005b: aput v7, v5, v6
+005d: goto @0030
+005e: const-wide/high16 v5, 0x3ff000000000000
+0060: and-long/2addr v5, v3
+0061: const-wide/16 v7, 0
+0063: cmp-long v5, v5, v7
+0065: if-eqz v5, @0030
+0067: iget-object v5, v9, "Lcom/google/gson/aa;->u:[I"
+0069: iget v6, v9, "Lcom/google/gson/aa;->p:I"
+006b: add-int/lit8 v7, v6, 1
+006d: iput v7, v9, "Lcom/google/gson/aa;->p:I"
+006f: const/4 v7, 2
+0070: aput v7, v5, v6
+0072: goto @0030
+0073: const-wide/high16 v5, 0x3ff000000000000
+0075: and-long/2addr v5, v3
+0076: const-wide/16 v7, 0
+0078: cmp-long v5, v5, v7
+007a: if-eqz v5, @0030
+007c: iget-object v5, v9, "Lcom/google/gson/aa;->u:[I"
+007e: iget v6, v9, "Lcom/google/gson/aa;->p:I"
+0080: add-int/lit8 v7, v6, 1
+0082: iput v7, v9, "Lcom/google/gson/aa;->p:I"
+0084: const/4 v7, 3
+0085: aput v7, v5, v6
+0087: goto @0030
+0088: const-wide/high16 v5, 0x3ff000000000000
+008a: and-long/2addr v5, v3
+008b: const-wide/16 v7, 0
+008d: cmp-long v5, v5, v7
+008f: if-eqz v5, @0030
+0091: const/16 v5, 25
+0093: if-le v0, v5, @0030
+0095: const/16 v0, 25
+0097: goto @0030
+0098: iget-char v3, v9, "Lcom/google/gson/aa;->m:C"
+009a: const/16 v4, 128
+009c: if-ge v3, v4, @010c
+009e: const-wide/16 v3, 1
+00a0: iget-char v5, v9, "Lcom/google/gson/aa;->m:C"
+00a2: and-int/lit8 v5, v5, 63
+00a4: shl-long/2addr v3, v5
+00a5: iget-object v5, v9, "Lcom/google/gson/aa;->u:[I"
+00a7: add-int/lit8 v1, v1, -1
+00a9: aget v5, v5, v1
+00ab: packed-switch v5, @0134
+00ae: if-ne v1, v2, @00a5
+00b0: goto @0032
+00b1: const-wide v5, 541165879422
+00b6: and-long/2addr v5, v3
+00b7: const-wide/16 v7, 0
+00b9: cmp-long v5, v5, v7
+00bb: if-eqz v5, @00ae
+00bd: iget-object v5, v9, "Lcom/google/gson/aa;->u:[I"
+00bf: iget v6, v9, "Lcom/google/gson/aa;->p:I"
+00c1: add-int/lit8 v7, v6, 1
+00c3: iput v7, v9, "Lcom/google/gson/aa;->p:I"
+00c5: const/4 v7, 1
+00c6: aput v7, v5, v6
+00c8: goto @00ae
+00c9: const-wide v5, 541165879422
+00ce: and-long/2addr v5, v3
+00cf: const-wide/16 v7, 0
+00d1: cmp-long v5, v5, v7
+00d3: if-eqz v5, @00ae
+00d5: iget-object v5, v9, "Lcom/google/gson/aa;->u:[I"
+00d7: iget v6, v9, "Lcom/google/gson/aa;->p:I"
+00d9: add-int/lit8 v7, v6, 1
+00db: iput v7, v9, "Lcom/google/gson/aa;->p:I"
+00dd: const/4 v7, 2
+00de: aput v7, v5, v6
+00e0: goto @00ae
+00e1: const-wide v5, 541165879422
+00e6: and-long/2addr v5, v3
+00e7: const-wide/16 v7, 0
+00e9: cmp-long v5, v5, v7
+00eb: if-eqz v5, @00ae
+00ed: iget-object v5, v9, "Lcom/google/gson/aa;->u:[I"
+00ef: iget v6, v9, "Lcom/google/gson/aa;->p:I"
+00f1: add-int/lit8 v7, v6, 1
+00f3: iput v7, v9, "Lcom/google/gson/aa;->p:I"
+00f5: const/4 v7, 3
+00f6: aput v7, v5, v6
+00f8: goto @00ae
+00f9: const-wide v5, 541165879422
+00fe: and-long/2addr v5, v3
+00ff: const-wide/16 v7, 0
+0101: cmp-long v5, v5, v7
+0103: if-eqz v5, @00ae
+0105: const/16 v5, 25
+0107: if-le v0, v5, @00ae
+0109: const/16 v0, 25
+010b: goto @00ae
+010c: iget-char v3, v9, "Lcom/google/gson/aa;->m:C"
+010e: iget-char v3, v9, "Lcom/google/gson/aa;->m:C"
+0110: iget-char v3, v9, "Lcom/google/gson/aa;->m:C"
+0112: iget-object v3, v9, "Lcom/google/gson/aa;->u:[I"
+0114: add-int/lit8 v1, v1, -1
+0116: if-ne v1, v2, @0112
+0118: goto/16 @0032
+011a: iget-object v3, v9, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+011c: invoke-virtual {v3}, Lcom/google/gson/ax;->b()C
+011f: move-result v3
+0120: iput-char v3, v9, "Lcom/google/gson/aa;->m:C"
+0122: goto/16 @000e
+0124: move-exception v0
+0125: goto/16 @0048
+0127: nop
+0128: payload packed-switch-payload size=4 first_key=0 targets=[28, 49, 70, 91]
+0134: payload packed-switch-payload size=4 first_key=0 targets=[6, 30, 54, 78]
+# try @011a..@0122 handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0124
+
+## Lcom/google/gson/aa;->a(II)I access=0x2
+# code_off=0x2a010 registers=4 incoming_words=3 outgoing_words=0 code_units=7 tries=0
+0000: iput v3, v1, "Lcom/google/gson/aa;->s:I"
+0002: iput v2, v1, "Lcom/google/gson/aa;->r:I"
+0004: add-int/lit8 v0, v2, 1
+0006: return v0
+
+## Lcom/google/gson/aa;->a(III)I access=0x2
+# code_off=0x2a030 registers=5 incoming_words=4 outgoing_words=3 code_units=23 tries=1
+0000: iput v3, v1, "Lcom/google/gson/aa;->s:I"
+0002: iput v2, v1, "Lcom/google/gson/aa;->r:I"
+0004: iget-object v0, v1, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0006: invoke-virtual {v0}, Lcom/google/gson/ax;->b()C
+0009: move-result v0
+000a: iput-char v0, v1, "Lcom/google/gson/aa;->m:C"
+000c: add-int/lit8 v0, v2, 1
+000e: invoke-direct {v1, v4, v0}, Lcom/google/gson/aa;->b(II)I
+0011: move-result v0
+0012: return v0
+0013: move-exception v0
+0014: add-int/lit8 v0, v2, 1
+0016: goto @0012
+# try @0004..@000c handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0013
+
+## Lcom/google/gson/aa;->a(IJ)I access=0x12
+# code_off=0x2a080 registers=13 incoming_words=4 outgoing_words=0 code_units=156 tries=0
+0000: const-wide/16 v7, 512
+0002: const/16 v6, 11
+0004: const/4 v1, -1
+0005: const/16 v0, 10
+0007: const-wide/16 v4, 0
+0009: packed-switch v10, @008a
+000c: move v0, v1
+000d: return v0
+000e: const-wide/16 v2, 896
+0010: and-long/2addr v2, v11
+0011: cmp-long v2, v2, v4
+0013: if-eqz v2, @0018
+0015: iput v6, v9, "Lcom/google/gson/aa;->s:I"
+0017: goto @000d
+0018: const-wide/32 v2, 262144 (0x00040000)
+001b: and-long/2addr v2, v11
+001c: cmp-long v0, v2, v4
+001e: if-eqz v0, @0023
+0020: const/16 v0, 43
+0022: goto @000d
+0023: move v0, v1
+0024: goto @000d
+0025: const-wide/16 v2, 896
+0027: and-long/2addr v2, v11
+0028: cmp-long v2, v2, v4
+002a: if-eqz v2, @0032
+002c: iput v6, v9, "Lcom/google/gson/aa;->s:I"
+002e: const/4 v1, 1
+002f: iput v1, v9, "Lcom/google/gson/aa;->r:I"
+0031: goto @000d
+0032: move v0, v1
+0033: goto @000d
+0034: const-wide/16 v2, 256
+0036: and-long/2addr v2, v11
+0037: cmp-long v2, v2, v4
+0039: if-nez v2, @000d
+003b: const-wide/16 v2, 640
+003d: and-long/2addr v2, v11
+003e: cmp-long v2, v2, v4
+0040: if-eqz v2, @0048
+0042: iput v6, v9, "Lcom/google/gson/aa;->s:I"
+0044: const/4 v1, 2
+0045: iput v1, v9, "Lcom/google/gson/aa;->r:I"
+0047: goto @000d
+0048: move v0, v1
+0049: goto @000d
+004a: const-wide/16 v2, 128
+004c: and-long/2addr v2, v11
+004d: cmp-long v2, v2, v4
+004f: if-nez v2, @000d
+0051: and-long v2, v11, v7
+0053: cmp-long v2, v2, v4
+0055: if-eqz v2, @005d
+0057: iput v6, v9, "Lcom/google/gson/aa;->s:I"
+0059: const/4 v1, 3
+005a: iput v1, v9, "Lcom/google/gson/aa;->r:I"
+005c: goto @000d
+005d: move v0, v1
+005e: goto @000d
+005f: and-long v2, v11, v7
+0061: cmp-long v2, v2, v4
+0063: if-eqz v2, @006b
+0065: iput v6, v9, "Lcom/google/gson/aa;->s:I"
+0067: const/4 v1, 4
+0068: iput v1, v9, "Lcom/google/gson/aa;->r:I"
+006a: goto @000d
+006b: move v0, v1
+006c: goto @000d
+006d: and-long v2, v11, v7
+006f: cmp-long v2, v2, v4
+0071: if-eqz v2, @0079
+0073: iput v6, v9, "Lcom/google/gson/aa;->s:I"
+0075: const/4 v1, 5
+0076: iput v1, v9, "Lcom/google/gson/aa;->r:I"
+0078: goto @000d
+0079: move v0, v1
+007a: goto @000d
+007b: and-long v2, v11, v7
+007d: cmp-long v2, v2, v4
+007f: if-eqz v2, @0087
+0081: iput v6, v9, "Lcom/google/gson/aa;->s:I"
+0083: const/4 v1, 6
+0084: iput v1, v9, "Lcom/google/gson/aa;->r:I"
+0086: goto @000d
+0087: move v0, v1
+0088: goto @000d
+0089: nop
+008a: payload packed-switch-payload size=7 first_key=0 targets=[5, 28, 43, 65, 86, 100, 114]
+
+## Lcom/google/gson/aa;->a(J)I access=0x2
+# code_off=0x2a1c8 registers=5 incoming_words=3 outgoing_words=5 code_units=72 tries=1
+0000: const/4 v1, 0
+0001: iget-object v0, v2, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0003: invoke-virtual {v0}, Lcom/google/gson/ax;->b()C
+0006: move-result v0
+0007: iput-char v0, v2, "Lcom/google/gson/aa;->m:C"
+0009: iget-char v0, v2, "Lcom/google/gson/aa;->m:C"
+000b: sparse-switch v0, @0036
+000e: invoke-direct {v2, v1, v3, v4}, Lcom/google/gson/aa;->b(IJ)I
+0011: move-result v0
+0012: return v0
+0013: move-exception v0
+0014: invoke-direct {v2, v1, v3, v4}, Lcom/google/gson/aa;->a(IJ)I
+0017: const/4 v0, 1
+0018: goto @0012
+0019: const-wide/32 v0, 67108864 (0x04000000)
+001c: invoke-direct {v2, v3, v4, v0, v1}, Lcom/google/gson/aa;->a(JJ)I
+001f: move-result v0
+0020: goto @0012
+0021: const-wide/16 v0, 256
+0023: invoke-direct {v2, v3, v4, v0, v1}, Lcom/google/gson/aa;->a(JJ)I
+0026: move-result v0
+0027: goto @0012
+0028: const-wide/16 v0, 512
+002a: invoke-direct {v2, v3, v4, v0, v1}, Lcom/google/gson/aa;->a(JJ)I
+002d: move-result v0
+002e: goto @0012
+002f: const-wide/16 v0, 128
+0031: invoke-direct {v2, v3, v4, v0, v1}, Lcom/google/gson/aa;->a(JJ)I
+0034: move-result v0
+0035: goto @0012
+0036: payload sparse-switch-payload size=4 keys=[93, 97, 110, 117] targets=[14, 22, 29, 36]
+# try @0001..@0009 handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0013
+
+## Lcom/google/gson/aa;->a(JJ)I access=0x2
+# code_off=0x2a278 registers=13 incoming_words=5 outgoing_words=5 code_units=96 tries=1
+0000: const-wide/16 v6, 0
+0002: const/4 v0, 2
+0003: const/4 v5, 1
+0004: and-long v1, v11, v9
+0006: cmp-long v3, v1, v6
+0008: if-nez v3, @0010
+000a: const/4 v0, 0
+000b: invoke-direct {v8, v0, v9, v10}, Lcom/google/gson/aa;->b(IJ)I
+000e: move-result v0
+000f: return v0
+0010: iget-object v3, v8, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0012: invoke-virtual {v3}, Lcom/google/gson/ax;->b()C
+0015: move-result v3
+0016: iput-char v3, v8, "Lcom/google/gson/aa;->m:C"
+0018: iget-char v3, v8, "Lcom/google/gson/aa;->m:C"
+001a: sparse-switch v3, @004e
+001d: invoke-direct {v8, v5, v1, v2}, Lcom/google/gson/aa;->b(IJ)I
+0020: move-result v0
+0021: goto @000f
+0022: move-exception v3
+0023: invoke-direct {v8, v5, v1, v2}, Lcom/google/gson/aa;->a(IJ)I
+0026: goto @000f
+0027: const-wide/16 v3, 256
+0029: and-long/2addr v3, v1
+002a: cmp-long v3, v3, v6
+002c: if-eqz v3, @001d
+002e: const/16 v1, 8
+0030: const/16 v2, 10
+0032: invoke-direct {v8, v0, v1, v2}, Lcom/google/gson/aa;->a(III)I
+0035: move-result v0
+0036: goto @000f
+0037: const-wide/16 v3, 512
+0039: invoke-direct {v8, v1, v2, v3, v4}, Lcom/google/gson/aa;->b(JJ)I
+003c: move-result v0
+003d: goto @000f
+003e: const-wide/16 v3, 128
+0040: invoke-direct {v8, v1, v2, v3, v4}, Lcom/google/gson/aa;->b(JJ)I
+0043: move-result v0
+0044: goto @000f
+0045: const-wide/32 v3, 67108864 (0x04000000)
+0048: invoke-direct {v8, v1, v2, v3, v4}, Lcom/google/gson/aa;->b(JJ)I
+004b: move-result v0
+004c: goto @000f
+004d: nop
+004e: payload sparse-switch-payload size=4 keys=[78, 102, 108, 125] targets=[13, 29, 36, 43]
+# try @0010..@0018 handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0022
+
+## Lcom/google/gson/aa;->a(IIIJJ)Z access=0x1a
+# code_off=0x2a358 registers=13 incoming_words=7 outgoing_words=0 code_units=36 tries=0
+0000: const-wide/16 v4, 0
+0002: const/4 v0, 1
+0003: const/4 v1, 0
+0004: packed-switch v6, @001e
+0007: sget-object v2, "Lcom/google/gson/aa;->b:[J"
+0009: aget-wide v2, v2, v7
+000b: and-long/2addr v2, v9
+000c: cmp-long v2, v2, v4
+000e: if-eqz v2, @001c
+0010: return v0
+0011: sget-object v2, "Lcom/google/gson/aa;->c:[J"
+0013: aget-wide v2, v2, v8
+0015: and-long/2addr v2, v11
+0016: cmp-long v2, v2, v4
+0018: if-nez v2, @0010
+001a: move v0, v1
+001b: goto @0010
+001c: move v0, v1
+001d: goto @0010
+001e: payload packed-switch-payload size=1 first_key=0 targets=[13]
+
+## Lcom/google/gson/aa;->b(I)I access=0x2
+# code_off=0x2a3b0 registers=13 incoming_words=2 outgoing_words=1 code_units=154 tries=1
+0000: const-wide/16 v9, 0
+0002: const/16 v4, 22
+0004: const/4 v0, 1
+0005: const/4 v2, 0
+0006: const v1, 2147483647 (0x7fffffff)
+0009: iput v0, v11, "Lcom/google/gson/aa;->p:I"
+000b: iget-object v3, v11, "Lcom/google/gson/aa;->u:[I"
+000d: aput v2, v3, v2
+000f: move v3, v2
+0010: move v2, v0
+0011: move v0, v1
+0012: iget v5, v11, "Lcom/google/gson/aa;->q:I"
+0014: add-int/lit8 v5, v5, 1
+0016: iput v5, v11, "Lcom/google/gson/aa;->q:I"
+0018: if-ne v5, v1, @001d
+001a: invoke-direct {v11}, Lcom/google/gson/aa;->b()V
+001d: iget-char v5, v11, "Lcom/google/gson/aa;->m:C"
+001f: const/16 v6, 64
+0021: if-ge v5, v6, @0051
+0023: const-wide/16 v5, 1
+0025: iget-char v7, v11, "Lcom/google/gson/aa;->m:C"
+0027: shl-long/2addr v5, v7
+0028: iget-object v7, v11, "Lcom/google/gson/aa;->u:[I"
+002a: add-int/lit8 v2, v2, -1
+002c: aget v7, v7, v2
+002e: packed-switch v7, @008e
+0031: if-ne v2, v3, @0028
+0033: if-eq v0, v1, @003a
+0035: iput v0, v11, "Lcom/google/gson/aa;->s:I"
+0037: iput v12, v11, "Lcom/google/gson/aa;->r:I"
+0039: move v0, v1
+003a: add-int/lit8 v12, v12, 1
+003c: iget v2, v11, "Lcom/google/gson/aa;->p:I"
+003e: iput v3, v11, "Lcom/google/gson/aa;->p:I"
+0040: rsub-int/lit8 v3, v3, 1
+0042: if-ne v2, v3, @0083
+0044: return v12
+0045: const-wide v7, 140754668224512
+004a: and-long/2addr v7, v5
+004b: cmp-long v7, v7, v9
+004d: if-eqz v7, @0031
+004f: move v0, v4
+0050: goto @0031
+0051: iget-char v5, v11, "Lcom/google/gson/aa;->m:C"
+0053: const/16 v6, 128
+0055: if-ge v5, v6, @0076
+0057: const-wide/16 v5, 1
+0059: iget-char v7, v11, "Lcom/google/gson/aa;->m:C"
+005b: and-int/lit8 v7, v7, 63
+005d: shl-long/2addr v5, v7
+005e: iget-object v7, v11, "Lcom/google/gson/aa;->u:[I"
+0060: add-int/lit8 v2, v2, -1
+0062: aget v7, v7, v2
+0064: packed-switch v7, @0094
+0067: if-ne v2, v3, @005e
+0069: goto @0033
+006a: const-wide v7, 5700160604602368
+006f: and-long/2addr v7, v5
+0070: cmp-long v7, v7, v9
+0072: if-eqz v7, @0067
+0074: move v0, v4
+0075: goto @0067
+0076: iget-char v5, v11, "Lcom/google/gson/aa;->m:C"
+0078: iget-char v5, v11, "Lcom/google/gson/aa;->m:C"
+007a: iget-char v5, v11, "Lcom/google/gson/aa;->m:C"
+007c: iget-object v5, v11, "Lcom/google/gson/aa;->u:[I"
+007e: add-int/lit8 v2, v2, -1
+0080: if-ne v2, v3, @007c
+0082: goto @0033
+0083: iget-object v5, v11, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0085: invoke-virtual {v5}, Lcom/google/gson/ax;->b()C
+0088: move-result v5
+0089: iput-char v5, v11, "Lcom/google/gson/aa;->m:C"
+008b: goto @0012
+008c: move-exception v0
+008d: goto @0044
+008e: payload packed-switch-payload size=1 first_key=0 targets=[23]
+0094: payload packed-switch-payload size=1 first_key=0 targets=[6]
+# try @0083..@008b handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @008c
+
+## Lcom/google/gson/aa;->b(II)I access=0x2
+# code_off=0x2a504 registers=18 incoming_words=3 outgoing_words=7 code_units=1866 tries=1
+0000: const/4 v2, 0
+0001: const/16 v1, 43
+0003: iput v1, v15, "Lcom/google/gson/aa;->p:I"
+0005: const/4 v1, 1
+0006: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0008: const/4 v4, 0
+0009: aput v16, v3, v4
+000b: const v3, 2147483647 (0x7fffffff)
+000e: move v8, v1
+000f: move v9, v2
+0010: move v10, v3
+0011: iget v1, v15, "Lcom/google/gson/aa;->q:I"
+0013: add-int/lit8 v1, v1, 1
+0015: iput v1, v15, "Lcom/google/gson/aa;->q:I"
+0017: const v2, 2147483647 (0x7fffffff)
+001a: if-ne v1, v2, @001f
+001c: invoke-direct {v15}, Lcom/google/gson/aa;->b()V
+001f: iget-char v1, v15, "Lcom/google/gson/aa;->m:C"
+0021: const/16 v2, 64
+0023: if-ge v1, v2, @0291
+0025: const-wide/16 v1, 1
+0027: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0029: shl-long/2addr v1, v3
+002a: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+002c: add-int/lit8 v8, v8, -1
+002e: aget v3, v3, v8
+0030: packed-switch v3, @0686
+0033: if-ne v8, v9, @002a
+0035: move v3, v10
+0036: const v1, 2147483647 (0x7fffffff)
+0039: if-eq v3, v1, @0044
+003b: iput v3, v15, "Lcom/google/gson/aa;->s:I"
+003d: move/from16 v0, v17
+003f: iput v0, v15, "Lcom/google/gson/aa;->r:I"
+0041: const v3, 2147483647 (0x7fffffff)
+0044: add-int/lit8 v17, v17, 1
+0046: iget v1, v15, "Lcom/google/gson/aa;->p:I"
+0048: iput v9, v15, "Lcom/google/gson/aa;->p:I"
+004a: rsub-int/lit8 v2, v9, 43
+004c: if-ne v1, v2, @0675
+004e: return v17
+004f: const-wide v3, -17179878401
+0054: and-long/2addr v3, v1
+0055: const-wide/16 v5, 0
+0057: cmp-long v3, v3, v5
+0059: if-eqz v3, @0061
+005b: const/4 v3, 0
+005c: const/4 v4, 3
+005d: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+0060: goto @0033
+0061: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0063: const/16 v4, 34
+0065: if-ne v3, v4, @0033
+0067: const/16 v3, 17
+0069: if-le v10, v3, @0033
+006b: const/16 v10, 17
+006d: goto @0033
+006e: const-wide/high16 v3, 0x3ff000000000000
+0070: and-long/2addr v3, v1
+0071: const-wide/16 v5, 0
+0073: cmp-long v3, v3, v5
+0075: if-eqz v3, @0080
+0077: const/4 v3, 6
+0078: if-le v10, v3, @007b
+007a: const/4 v10, 6
+007b: const/4 v3, 0
+007c: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+007f: goto @0033
+0080: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0082: const/16 v4, 34
+0084: if-ne v3, v4, @008c
+0086: const/4 v3, 0
+0087: const/4 v4, 3
+0088: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+008b: goto @0033
+008c: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+008e: const/16 v4, 39
+0090: if-ne v3, v4, @0033
+0092: const/4 v3, 4
+0093: const/4 v4, 7
+0094: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+0097: goto @0033
+0098: const-wide/high16 v3, 0x3ff000000000000
+009a: and-long/2addr v3, v1
+009b: const-wide/16 v5, 0
+009d: cmp-long v3, v3, v5
+009f: if-eqz v3, @0033
+00a1: const/4 v3, 6
+00a2: if-le v10, v3, @00a5
+00a4: const/4 v10, 6
+00a5: const/4 v3, 0
+00a6: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+00a9: goto @0033
+00aa: const-wide/high16 v3, 0x3ff000000000000
+00ac: and-long/2addr v3, v1
+00ad: const-wide/16 v5, 0
+00af: cmp-long v3, v3, v5
+00b1: if-eqz v3, @0033
+00b3: const/16 v3, 11
+00b5: if-le v10, v3, @00b9
+00b7: const/16 v10, 11
+00b9: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+00bb: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+00bd: add-int/lit8 v5, v4, 1
+00bf: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+00c1: const/16 v5, 10
+00c3: aput v5, v3, v4
+00c5: goto/16 @0033
+00c7: const-wide/high16 v3, 0x3ff000000000000
+00c9: and-long/2addr v3, v1
+00ca: const-wide/16 v5, 0
+00cc: cmp-long v3, v3, v5
+00ce: if-eqz v3, @0033
+00d0: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+00d2: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+00d4: add-int/lit8 v5, v4, 1
+00d6: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+00d8: const/16 v5, 13
+00da: aput v5, v3, v4
+00dc: goto/16 @0033
+00de: const-wide/high16 v3, 0x3ff000000000000
+00e0: and-long/2addr v3, v1
+00e1: const-wide/16 v5, 0
+00e3: cmp-long v3, v3, v5
+00e5: if-eqz v3, @0033
+00e7: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+00e9: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+00eb: add-int/lit8 v5, v4, 1
+00ed: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+00ef: const/16 v5, 14
+00f1: aput v5, v3, v4
+00f3: goto/16 @0033
+00f5: const-wide/high16 v3, 0x3ff000000000000
+00f7: and-long/2addr v3, v1
+00f8: const-wide/16 v5, 0
+00fa: cmp-long v3, v3, v5
+00fc: if-eqz v3, @0033
+00fe: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0100: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0102: add-int/lit8 v5, v4, 1
+0104: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0106: const/16 v5, 15
+0108: aput v5, v3, v4
+010a: goto/16 @0033
+010c: const-wide/high16 v3, 0x3ff000000000000
+010e: and-long/2addr v3, v1
+010f: const-wide/16 v5, 0
+0111: cmp-long v3, v3, v5
+0113: if-eqz v3, @0033
+0115: const/16 v3, 14
+0117: if-le v10, v3, @0033
+0119: const/16 v10, 14
+011b: goto/16 @0033
+011d: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+011f: const/16 v4, 39
+0121: if-ne v3, v4, @0033
+0123: const/4 v3, 4
+0124: const/4 v4, 7
+0125: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+0128: goto/16 @0033
+012a: const-wide v3, -549755823105
+012f: and-long/2addr v3, v1
+0130: const-wide/16 v5, 0
+0132: cmp-long v3, v3, v5
+0134: if-eqz v3, @0033
+0136: const/4 v3, 4
+0137: const/4 v4, 7
+0138: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+013b: goto/16 @0033
+013d: const-wide v3, 141304424038400
+0142: and-long/2addr v3, v1
+0143: const-wide/16 v5, 0
+0145: cmp-long v3, v3, v5
+0147: if-eqz v3, @0033
+0149: const/4 v3, 4
+014a: const/4 v4, 7
+014b: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+014e: goto/16 @0033
+0150: const-wide/high16 v3, 0x3ff000000000000
+0152: and-long/2addr v3, v1
+0153: const-wide/16 v5, 0
+0155: cmp-long v3, v3, v5
+0157: if-eqz v3, @0033
+0159: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+015b: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+015d: add-int/lit8 v5, v4, 1
+015f: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0161: const/16 v5, 23
+0163: aput v5, v3, v4
+0165: goto/16 @0033
+0167: const-wide/high16 v3, 0x3ff000000000000
+0169: and-long/2addr v3, v1
+016a: const-wide/16 v5, 0
+016c: cmp-long v3, v3, v5
+016e: if-eqz v3, @0033
+0170: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0172: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0174: add-int/lit8 v5, v4, 1
+0176: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0178: const/16 v5, 24
+017a: aput v5, v3, v4
+017c: goto/16 @0033
+017e: const-wide/high16 v3, 0x3ff000000000000
+0180: and-long/2addr v3, v1
+0181: const-wide/16 v5, 0
+0183: cmp-long v3, v3, v5
+0185: if-eqz v3, @0033
+0187: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0189: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+018b: add-int/lit8 v5, v4, 1
+018d: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+018f: const/16 v5, 25
+0191: aput v5, v3, v4
+0193: goto/16 @0033
+0195: const-wide/high16 v3, 0x3ff000000000000
+0197: and-long/2addr v3, v1
+0198: const-wide/16 v5, 0
+019a: cmp-long v3, v3, v5
+019c: if-eqz v3, @0033
+019e: const/4 v3, 4
+019f: const/4 v4, 7
+01a0: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+01a3: goto/16 @0033
+01a5: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+01a7: const/16 v4, 39
+01a9: if-ne v3, v4, @0033
+01ab: const/16 v3, 16
+01ad: if-le v10, v3, @0033
+01af: const/16 v10, 16
+01b1: goto/16 @0033
+01b3: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+01b5: const/16 v4, 34
+01b7: if-ne v3, v4, @0033
+01b9: const/4 v3, 0
+01ba: const/4 v4, 3
+01bb: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+01be: goto/16 @0033
+01c0: const-wide v3, -17179878401
+01c5: and-long/2addr v3, v1
+01c6: const-wide/16 v5, 0
+01c8: cmp-long v3, v3, v5
+01ca: if-eqz v3, @0033
+01cc: const/4 v3, 0
+01cd: const/4 v4, 3
+01ce: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+01d1: goto/16 @0033
+01d3: const-wide v3, 141304424038400
+01d8: and-long/2addr v3, v1
+01d9: const-wide/16 v5, 0
+01db: cmp-long v3, v3, v5
+01dd: if-eqz v3, @0033
+01df: const/4 v3, 0
+01e0: const/4 v4, 3
+01e1: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+01e4: goto/16 @0033
+01e6: const-wide/high16 v3, 0x3ff000000000000
+01e8: and-long/2addr v3, v1
+01e9: const-wide/16 v5, 0
+01eb: cmp-long v3, v3, v5
+01ed: if-eqz v3, @0033
+01ef: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+01f1: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+01f3: add-int/lit8 v5, v4, 1
+01f5: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+01f7: const/16 v5, 34
+01f9: aput v5, v3, v4
+01fb: goto/16 @0033
+01fd: const-wide/high16 v3, 0x3ff000000000000
+01ff: and-long/2addr v3, v1
+0200: const-wide/16 v5, 0
+0202: cmp-long v3, v3, v5
+0204: if-eqz v3, @0033
+0206: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0208: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+020a: add-int/lit8 v5, v4, 1
+020c: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+020e: const/16 v5, 35
+0210: aput v5, v3, v4
+0212: goto/16 @0033
+0214: const-wide/high16 v3, 0x3ff000000000000
+0216: and-long/2addr v3, v1
+0217: const-wide/16 v5, 0
+0219: cmp-long v3, v3, v5
+021b: if-eqz v3, @0033
+021d: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+021f: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0221: add-int/lit8 v5, v4, 1
+0223: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0225: const/16 v5, 36
+0227: aput v5, v3, v4
+0229: goto/16 @0033
+022b: const-wide/high16 v3, 0x3ff000000000000
+022d: and-long/2addr v3, v1
+022e: const-wide/16 v5, 0
+0230: cmp-long v3, v3, v5
+0232: if-eqz v3, @0033
+0234: const/4 v3, 0
+0235: const/4 v4, 3
+0236: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+0239: goto/16 @0033
+023b: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+023d: const/16 v4, 34
+023f: if-ne v3, v4, @0033
+0241: const/16 v3, 17
+0243: if-le v10, v3, @0033
+0245: const/16 v10, 17
+0247: goto/16 @0033
+0249: const-wide v3, 287992881640112128
+024e: and-long/2addr v3, v1
+024f: const-wide/16 v5, 0
+0251: cmp-long v3, v3, v5
+0253: if-eqz v3, @0033
+0255: const/4 v3, 5
+0256: if-le v10, v3, @0259
+0258: const/4 v10, 5
+0259: const/16 v3, 41
+025b: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+025e: goto/16 @0033
+0260: const-wide/high16 v3, 0x3ff000000000000
+0262: and-long/2addr v3, v1
+0263: const-wide/16 v5, 0
+0265: cmp-long v3, v3, v5
+0267: if-eqz v3, @0033
+0269: const/4 v3, 5
+026a: if-le v10, v3, @026d
+026c: const/4 v10, 5
+026d: const/16 v3, 41
+026f: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+0272: goto/16 @0033
+0274: const-wide/high16 v3, 0x3ff000000000000
+0276: and-long/2addr v3, v1
+0277: const-wide/16 v5, 0
+0279: cmp-long v3, v3, v5
+027b: if-eqz v3, @0033
+027d: const/16 v3, 12
+027f: if-le v10, v3, @0283
+0281: const/16 v10, 12
+0283: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0285: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0287: add-int/lit8 v5, v4, 1
+0289: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+028b: const/16 v5, 42
+028d: aput v5, v3, v4
+028f: goto/16 @0033
+0291: iget-char v1, v15, "Lcom/google/gson/aa;->m:C"
+0293: const/16 v2, 128
+0295: if-ge v1, v2, @0626
+0297: const-wide/16 v1, 1
+0299: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+029b: and-int/lit8 v3, v3, 63
+029d: shl-long/2addr v1, v3
+029e: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+02a0: add-int/lit8 v8, v8, -1
+02a2: aget v3, v3, v8
+02a4: packed-switch v3, @06e2
+02a7: if-ne v8, v9, @029e
+02a9: move v3, v10
+02aa: goto/16 @0036
+02ac: const-wide/32 v3, -268435457 (0xefffffff)
+02af: and-long/2addr v3, v1
+02b0: const-wide/16 v5, 0
+02b2: cmp-long v3, v3, v5
+02b4: if-eqz v3, @02ce
+02b6: const/4 v3, 0
+02b7: const/4 v4, 3
+02b8: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+02bb: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+02bd: const/16 v4, 92
+02bf: if-ne v3, v4, @02a7
+02c1: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+02c3: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+02c5: add-int/lit8 v5, v4, 1
+02c7: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+02c9: const/16 v5, 31
+02cb: aput v5, v3, v4
+02cd: goto @02a7
+02ce: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+02d0: const/16 v4, 92
+02d2: if-ne v3, v4, @02bb
+02d4: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+02d6: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+02d8: add-int/lit8 v5, v4, 1
+02da: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+02dc: const/16 v5, 32
+02de: aput v5, v3, v4
+02e0: goto @02bb
+02e1: const-wide v3, 576460608556236766
+02e6: and-long/2addr v3, v1
+02e7: const-wide/16 v5, 0
+02e9: cmp-long v3, v3, v5
+02eb: if-eqz v3, @030a
+02ed: const/16 v3, 11
+02ef: if-le v10, v3, @02f3
+02f1: const/16 v10, 11
+02f3: const/16 v3, 10
+02f5: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+02f8: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+02fa: const/16 v4, 102
+02fc: if-ne v3, v4, @0333
+02fe: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0300: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0302: add-int/lit8 v5, v4, 1
+0304: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0306: const/4 v5, 7
+0307: aput v5, v3, v4
+0309: goto @02a7
+030a: const-wide v3, 137438953504
+030f: and-long/2addr v3, v1
+0310: const-wide/16 v5, 0
+0312: cmp-long v3, v3, v5
+0314: if-eqz v3, @0320
+0316: const/16 v3, 12
+0318: if-le v10, v3, @031c
+031a: const/16 v10, 12
+031c: invoke-direct {v15}, Lcom/google/gson/aa;->d()V
+031f: goto @02f8
+0320: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0322: const/16 v4, 92
+0324: if-ne v3, v4, @02f8
+0326: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0328: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+032a: add-int/lit8 v5, v4, 1
+032c: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+032e: const/16 v5, 11
+0330: aput v5, v3, v4
+0332: goto @02f8
+0333: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0335: const/16 v4, 116
+0337: if-ne v3, v4, @02a7
+0339: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+033b: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+033d: add-int/lit8 v5, v4, 1
+033f: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0341: const/4 v5, 3
+0342: aput v5, v3, v4
+0344: goto/16 @02a7
+0346: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0348: const/16 v4, 101
+034a: if-ne v3, v4, @02a7
+034c: const/16 v3, 10
+034e: if-le v10, v3, @02a7
+0350: const/16 v10, 10
+0352: goto/16 @02a7
+0354: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0356: const/16 v4, 117
+0358: if-ne v3, v4, @02a7
+035a: const/4 v3, 1
+035b: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+035e: goto/16 @02a7
+0360: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0362: const/16 v4, 114
+0364: if-ne v3, v4, @02a7
+0366: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0368: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+036a: add-int/lit8 v5, v4, 1
+036c: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+036e: const/4 v5, 2
+036f: aput v5, v3, v4
+0371: goto/16 @02a7
+0373: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0375: const/16 v4, 115
+0377: if-ne v3, v4, @02a7
+0379: const/4 v3, 1
+037a: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+037d: goto/16 @02a7
+037f: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0381: const/16 v4, 108
+0383: if-ne v3, v4, @02a7
+0385: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0387: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0389: add-int/lit8 v5, v4, 1
+038b: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+038d: const/4 v5, 5
+038e: aput v5, v3, v4
+0390: goto/16 @02a7
+0392: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0394: const/16 v4, 97
+0396: if-ne v3, v4, @02a7
+0398: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+039a: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+039c: add-int/lit8 v5, v4, 1
+039e: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+03a0: const/4 v5, 6
+03a1: aput v5, v3, v4
+03a3: goto/16 @02a7
+03a5: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+03a7: const/16 v4, 102
+03a9: if-ne v3, v4, @02a7
+03ab: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+03ad: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+03af: add-int/lit8 v5, v4, 1
+03b1: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+03b3: const/4 v5, 7
+03b4: aput v5, v3, v4
+03b6: goto/16 @02a7
+03b8: const-wide v3, 576460608556236766
+03bd: and-long/2addr v3, v1
+03be: const-wide/16 v5, 0
+03c0: cmp-long v3, v3, v5
+03c2: if-eqz v3, @02a7
+03c4: const/16 v3, 11
+03c6: if-le v10, v3, @03ca
+03c8: const/16 v10, 11
+03ca: const/16 v3, 10
+03cc: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+03cf: goto/16 @02a7
+03d1: const-wide v3, 576460745995190270
+03d6: and-long/2addr v3, v1
+03d7: const-wide/16 v5, 0
+03d9: cmp-long v3, v3, v5
+03db: if-eqz v3, @02a7
+03dd: const/16 v3, 11
+03df: if-le v10, v3, @03e3
+03e1: const/16 v10, 11
+03e3: const/16 v3, 10
+03e5: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+03e8: goto/16 @02a7
+03ea: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+03ec: const/16 v4, 117
+03ee: if-ne v3, v4, @02a7
+03f0: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+03f2: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+03f4: add-int/lit8 v5, v4, 1
+03f6: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+03f8: const/16 v5, 12
+03fa: aput v5, v3, v4
+03fc: goto/16 @02a7
+03fe: const-wide v3, 541165879422
+0403: and-long/2addr v3, v1
+0404: const-wide/16 v5, 0
+0406: cmp-long v3, v3, v5
+0408: if-eqz v3, @02a7
+040a: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+040c: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+040e: add-int/lit8 v5, v4, 1
+0410: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0412: const/16 v5, 13
+0414: aput v5, v3, v4
+0416: goto/16 @02a7
+0418: const-wide v3, 541165879422
+041d: and-long/2addr v3, v1
+041e: const-wide/16 v5, 0
+0420: cmp-long v3, v3, v5
+0422: if-eqz v3, @02a7
+0424: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0426: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0428: add-int/lit8 v5, v4, 1
+042a: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+042c: const/16 v5, 14
+042e: aput v5, v3, v4
+0430: goto/16 @02a7
+0432: const-wide v3, 541165879422
+0437: and-long/2addr v3, v1
+0438: const-wide/16 v5, 0
+043a: cmp-long v3, v3, v5
+043c: if-eqz v3, @02a7
+043e: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0440: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0442: add-int/lit8 v5, v4, 1
+0444: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0446: const/16 v5, 15
+0448: aput v5, v3, v4
+044a: goto/16 @02a7
+044c: const-wide v3, 541165879422
+0451: and-long/2addr v3, v1
+0452: const-wide/16 v5, 0
+0454: cmp-long v3, v3, v5
+0456: if-eqz v3, @02a7
+0458: const/16 v3, 14
+045a: if-le v10, v3, @02a7
+045c: const/16 v10, 14
+045e: goto/16 @02a7
+0460: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0462: const/16 v4, 92
+0464: if-ne v3, v4, @02a7
+0466: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0468: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+046a: add-int/lit8 v5, v4, 1
+046c: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+046e: const/16 v5, 11
+0470: aput v5, v3, v4
+0472: goto/16 @02a7
+0474: const-wide/32 v3, -268435457 (0xefffffff)
+0477: and-long/2addr v3, v1
+0478: const-wide/16 v5, 0
+047a: cmp-long v3, v3, v5
+047c: if-eqz v3, @02a7
+047e: const/4 v3, 4
+047f: const/4 v4, 7
+0480: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+0483: goto/16 @02a7
+0485: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0487: const/16 v4, 92
+0489: if-ne v3, v4, @02a7
+048b: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+048d: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+048f: add-int/lit8 v5, v4, 1
+0491: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0493: const/16 v5, 20
+0495: aput v5, v3, v4
+0497: goto/16 @02a7
+0499: const-wide v3, 5700160604602368
+049e: and-long/2addr v3, v1
+049f: const-wide/16 v5, 0
+04a1: cmp-long v3, v3, v5
+04a3: if-eqz v3, @02a7
+04a5: const/4 v3, 4
+04a6: const/4 v4, 7
+04a7: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+04aa: goto/16 @02a7
+04ac: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+04ae: const/16 v4, 117
+04b0: if-ne v3, v4, @02a7
+04b2: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+04b4: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+04b6: add-int/lit8 v5, v4, 1
+04b8: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+04ba: const/16 v5, 22
+04bc: aput v5, v3, v4
+04be: goto/16 @02a7
+04c0: const-wide v3, 541165879422
+04c5: and-long/2addr v3, v1
+04c6: const-wide/16 v5, 0
+04c8: cmp-long v3, v3, v5
+04ca: if-eqz v3, @02a7
+04cc: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+04ce: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+04d0: add-int/lit8 v5, v4, 1
+04d2: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+04d4: const/16 v5, 23
+04d6: aput v5, v3, v4
+04d8: goto/16 @02a7
+04da: const-wide v3, 541165879422
+04df: and-long/2addr v3, v1
+04e0: const-wide/16 v5, 0
+04e2: cmp-long v3, v3, v5
+04e4: if-eqz v3, @02a7
+04e6: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+04e8: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+04ea: add-int/lit8 v5, v4, 1
+04ec: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+04ee: const/16 v5, 24
+04f0: aput v5, v3, v4
+04f2: goto/16 @02a7
+04f4: const-wide v3, 541165879422
+04f9: and-long/2addr v3, v1
+04fa: const-wide/16 v5, 0
+04fc: cmp-long v3, v3, v5
+04fe: if-eqz v3, @02a7
+0500: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0502: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0504: add-int/lit8 v5, v4, 1
+0506: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0508: const/16 v5, 25
+050a: aput v5, v3, v4
+050c: goto/16 @02a7
+050e: const-wide v3, 541165879422
+0513: and-long/2addr v3, v1
+0514: const-wide/16 v5, 0
+0516: cmp-long v3, v3, v5
+0518: if-eqz v3, @02a7
+051a: const/4 v3, 4
+051b: const/4 v4, 7
+051c: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+051f: goto/16 @02a7
+0521: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0523: const/16 v4, 92
+0525: if-ne v3, v4, @02a7
+0527: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0529: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+052b: add-int/lit8 v5, v4, 1
+052d: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+052f: const/16 v5, 21
+0531: aput v5, v3, v4
+0533: goto/16 @02a7
+0535: const-wide/32 v3, -268435457 (0xefffffff)
+0538: and-long/2addr v3, v1
+0539: const-wide/16 v5, 0
+053b: cmp-long v3, v3, v5
+053d: if-eqz v3, @02a7
+053f: const/4 v3, 0
+0540: const/4 v4, 3
+0541: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+0544: goto/16 @02a7
+0546: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0548: const/16 v4, 92
+054a: if-ne v3, v4, @02a7
+054c: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+054e: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0550: add-int/lit8 v5, v4, 1
+0552: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0554: const/16 v5, 31
+0556: aput v5, v3, v4
+0558: goto/16 @02a7
+055a: const-wide v3, 5700160604602368
+055f: and-long/2addr v3, v1
+0560: const-wide/16 v5, 0
+0562: cmp-long v3, v3, v5
+0564: if-eqz v3, @02a7
+0566: const/4 v3, 0
+0567: const/4 v4, 3
+0568: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+056b: goto/16 @02a7
+056d: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+056f: const/16 v4, 117
+0571: if-ne v3, v4, @02a7
+0573: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+0575: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0577: add-int/lit8 v5, v4, 1
+0579: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+057b: const/16 v5, 33
+057d: aput v5, v3, v4
+057f: goto/16 @02a7
+0581: const-wide v3, 541165879422
+0586: and-long/2addr v3, v1
+0587: const-wide/16 v5, 0
+0589: cmp-long v3, v3, v5
+058b: if-eqz v3, @02a7
+058d: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+058f: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+0591: add-int/lit8 v5, v4, 1
+0593: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+0595: const/16 v5, 34
+0597: aput v5, v3, v4
+0599: goto/16 @02a7
+059b: const-wide v3, 541165879422
+05a0: and-long/2addr v3, v1
+05a1: const-wide/16 v5, 0
+05a3: cmp-long v3, v3, v5
+05a5: if-eqz v3, @02a7
+05a7: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+05a9: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+05ab: add-int/lit8 v5, v4, 1
+05ad: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+05af: const/16 v5, 35
+05b1: aput v5, v3, v4
+05b3: goto/16 @02a7
+05b5: const-wide v3, 541165879422
+05ba: and-long/2addr v3, v1
+05bb: const-wide/16 v5, 0
+05bd: cmp-long v3, v3, v5
+05bf: if-eqz v3, @02a7
+05c1: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+05c3: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+05c5: add-int/lit8 v5, v4, 1
+05c7: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+05c9: const/16 v5, 36
+05cb: aput v5, v3, v4
+05cd: goto/16 @02a7
+05cf: const-wide v3, 541165879422
+05d4: and-long/2addr v3, v1
+05d5: const-wide/16 v5, 0
+05d7: cmp-long v3, v3, v5
+05d9: if-eqz v3, @02a7
+05db: const/4 v3, 0
+05dc: const/4 v4, 3
+05dd: invoke-direct {v15, v3, v4}, Lcom/google/gson/aa;->c(II)V
+05e0: goto/16 @02a7
+05e2: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+05e4: const/16 v4, 92
+05e6: if-ne v3, v4, @02a7
+05e8: iget-object v3, v15, "Lcom/google/gson/aa;->u:[I"
+05ea: iget v4, v15, "Lcom/google/gson/aa;->p:I"
+05ec: add-int/lit8 v5, v4, 1
+05ee: iput v5, v15, "Lcom/google/gson/aa;->p:I"
+05f0: const/16 v5, 32
+05f2: aput v5, v3, v4
+05f4: goto/16 @02a7
+05f6: const-wide v3, 137438953504
+05fb: and-long/2addr v3, v1
+05fc: const-wide/16 v5, 0
+05fe: cmp-long v3, v3, v5
+0600: if-eqz v3, @02a7
+0602: const/16 v3, 12
+0604: if-le v10, v3, @0608
+0606: const/16 v10, 12
+0608: invoke-direct {v15}, Lcom/google/gson/aa;->d()V
+060b: goto/16 @02a7
+060d: const-wide v3, 576460745995190270
+0612: and-long/2addr v3, v1
+0613: const-wide/16 v5, 0
+0615: cmp-long v3, v3, v5
+0617: if-eqz v3, @02a7
+0619: const/16 v3, 12
+061b: if-le v10, v3, @061f
+061d: const/16 v10, 12
+061f: const/16 v3, 42
+0621: invoke-direct {v15, v3}, Lcom/google/gson/aa;->d(I)V
+0624: goto/16 @02a7
+0626: iget-char v1, v15, "Lcom/google/gson/aa;->m:C"
+0628: shr-int/lit8 v1, v1, 8
+062a: shr-int/lit8 v2, v1, 6
+062c: const-wide/16 v3, 1
+062e: and-int/lit8 v5, v1, 63
+0630: shl-long v4, v3, v5
+0632: iget-char v3, v15, "Lcom/google/gson/aa;->m:C"
+0634: and-int/lit16 v3, v3, 255
+0636: shr-int/lit8 v3, v3, 6
+0638: const-wide/16 v6, 1
+063a: iget-char v11, v15, "Lcom/google/gson/aa;->m:C"
+063c: and-int/lit8 v11, v11, 63
+063e: shl-long/2addr v6, v11
+063f: iget-object v11, v15, "Lcom/google/gson/aa;->u:[I"
+0641: add-int/lit8 v8, v8, -1
+0643: aget v11, v11, v8
+0645: sparse-switch v11, @073c
+0648: if-ne v8, v9, @063f
+064a: move v3, v10
+064b: goto/16 @0036
+064d: invoke-static/range {v1, v2, v3, v4, v5, v6, v7}, Lcom/google/gson/aa;->a(IIIJJ)Z
+0650: move-result v11
+0651: if-eqz v11, @0648
+0653: const/4 v11, 0
+0654: const/4 v12, 3
+0655: invoke-direct {v15, v11, v12}, Lcom/google/gson/aa;->c(II)V
+0658: goto @0648
+0659: invoke-static/range {v1, v2, v3, v4, v5, v6, v7}, Lcom/google/gson/aa;->a(IIIJJ)Z
+065c: move-result v11
+065d: if-eqz v11, @0648
+065f: const/4 v11, 4
+0660: iget-object v12, v15, "Lcom/google/gson/aa;->u:[I"
+0662: iget v13, v15, "Lcom/google/gson/aa;->p:I"
+0664: add-int/lit8 v14, v13, 1
+0666: iput v14, v15, "Lcom/google/gson/aa;->p:I"
+0668: sget-object v14, "Lcom/google/gson/aa;->d:[I"
+066a: aget v14, v14, v11
+066c: aput v14, v12, v13
+066e: add-int/lit8 v12, v11, 1
+0670: const/4 v13, 7
+0671: if-eq v11, v13, @0648
+0673: move v11, v12
+0674: goto @0660
+0675: iget-object v4, v15, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0677: invoke-virtual {v4}, Lcom/google/gson/ax;->b()C
+067a: move-result v4
+067b: iput-char v4, v15, "Lcom/google/gson/aa;->m:C"
+067d: move v8, v1
+067e: move v9, v2
+067f: move v10, v3
+0680: goto/16 @0011
+0682: move-exception v1
+0683: goto/16 @004e
+0685: nop
+0686: payload packed-switch-payload size=44 first_key=0 targets=[104, 3, 3, 3, 62, 3, 3, 3, 3, 3, 122, 3, 151, 174, 197, 220, 3, 237, 250, 3, 269, 3, 288, 311, 334, 357, 3, 373, 387, 400, 3, 419, 3, 438, 461, 484, 507, 3, 523, 3, 537, 560, 580, 31]
+06e2: payload packed-switch-payload size=43 first_key=1 targets=[162, 176, 188, 61, 207, 219, 238, 257, 276, 301, 326, 346, 372, 398, 424, 444, 3, 464, 481, 501, 520, 540, 566, 592, 618, 637, 3, 3, 657, 674, 694, 713, 733, 759, 785, 811, 830, 3, 850, 3, 3, 873, 8]
+073c: payload sparse-switch-payload size=3 keys=[18, 29, 43] targets=[20, 8, 8]
+# try @0675..@067d handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0682
+
+## Lcom/google/gson/aa;->b(IJ)I access=0x12
+# code_off=0x2b3b8 registers=6 incoming_words=4 outgoing_words=4 code_units=11 tries=0
+0000: invoke-direct {v2, v3, v4, v5}, Lcom/google/gson/aa;->a(IJ)I
+0003: move-result v0
+0004: add-int/lit8 v1, v3, 1
+0006: invoke-direct {v2, v0, v1}, Lcom/google/gson/aa;->b(II)I
+0009: move-result v0
+000a: return v0
+
+## Lcom/google/gson/aa;->b(J)I access=0x2
+# code_off=0x2b3e0 registers=8 incoming_words=3 outgoing_words=4 code_units=52 tries=1
+0000: const/4 v4, 4
+0001: const-wide/16 v0, 512
+0003: and-long/2addr v0, v6
+0004: const-wide/16 v2, 0
+0006: cmp-long v2, v0, v2
+0008: if-nez v2, @0010
+000a: const/4 v0, 3
+000b: invoke-direct {v5, v0, v6, v7}, Lcom/google/gson/aa;->b(IJ)I
+000e: move-result v0
+000f: return v0
+0010: iget-object v2, v5, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0012: invoke-virtual {v2}, Lcom/google/gson/ax;->b()C
+0015: move-result v2
+0016: iput-char v2, v5, "Lcom/google/gson/aa;->m:C"
+0018: iget-char v2, v5, "Lcom/google/gson/aa;->m:C"
+001a: packed-switch v2, @002e
+001d: invoke-direct {v5, v4, v0, v1}, Lcom/google/gson/aa;->b(IJ)I
+0020: move-result v0
+0021: goto @000f
+0022: move-exception v2
+0023: invoke-direct {v5, v4, v0, v1}, Lcom/google/gson/aa;->a(IJ)I
+0026: const/4 v0, 5
+0027: goto @000f
+0028: invoke-direct {v5, v0, v1}, Lcom/google/gson/aa;->c(J)I
+002b: move-result v0
+002c: goto @000f
+002d: nop
+002e: payload packed-switch-payload size=1 first_key=105 targets=[14]
+# try @0010..@0018 handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0022
+
+## Lcom/google/gson/aa;->b(JJ)I access=0x2
+# code_off=0x2b468 registers=13 incoming_words=5 outgoing_words=5 code_units=84 tries=1
+0000: const-wide/16 v6, 0
+0002: const/4 v0, 3
+0003: const/4 v5, 2
+0004: and-long v1, v11, v9
+0006: cmp-long v3, v1, v6
+0008: if-nez v3, @0010
+000a: const/4 v0, 1
+000b: invoke-direct {v8, v0, v9, v10}, Lcom/google/gson/aa;->b(IJ)I
+000e: move-result v0
+000f: return v0
+0010: iget-object v3, v8, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0012: invoke-virtual {v3}, Lcom/google/gson/ax;->b()C
+0015: move-result v3
+0016: iput-char v3, v8, "Lcom/google/gson/aa;->m:C"
+0018: iget-char v3, v8, "Lcom/google/gson/aa;->m:C"
+001a: sparse-switch v3, @0046
+001d: invoke-direct {v8, v5, v1, v2}, Lcom/google/gson/aa;->b(IJ)I
+0020: move-result v0
+0021: goto @000f
+0022: move-exception v3
+0023: invoke-direct {v8, v5, v1, v2}, Lcom/google/gson/aa;->a(IJ)I
+0026: goto @000f
+0027: const-wide/32 v3, 67108864 (0x04000000)
+002a: invoke-direct {v8, v1, v2, v3, v4}, Lcom/google/gson/aa;->c(JJ)I
+002d: move-result v0
+002e: goto @000f
+002f: const-wide/16 v3, 512
+0031: invoke-direct {v8, v1, v2, v3, v4}, Lcom/google/gson/aa;->c(JJ)I
+0034: move-result v0
+0035: goto @000f
+0036: const-wide/16 v3, 128
+0038: and-long/2addr v3, v1
+0039: cmp-long v3, v3, v6
+003b: if-eqz v3, @001d
+003d: const/4 v1, 7
+003e: const/16 v2, 10
+0040: invoke-direct {v8, v0, v1, v2}, Lcom/google/gson/aa;->a(III)I
+0043: move-result v0
+0044: goto @000f
+0045: nop
+0046: payload sparse-switch-payload size=3 keys=[39, 105, 108] targets=[13, 21, 28]
+# try @0010..@0018 handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0022
+
+## Lcom/google/gson/aa;->b()V access=0x2
+# code_off=0x2b530 registers=4 incoming_words=1 outgoing_words=0 code_units=20 tries=0
+0000: const v0, -2147483647 (0x80000001)
+0003: iput v0, v3, "Lcom/google/gson/aa;->q:I"
+0005: const/16 v0, 43
+0007: add-int/lit8 v1, v0, -1
+0009: if-lez v0, @0013
+000b: iget-object v0, v3, "Lcom/google/gson/aa;->t:[I"
+000d: const/high16 v2, 0x80000000
+000f: aput v2, v0, v1
+0011: move v0, v1
+0012: goto @0007
+0013: return-void
+
+## Lcom/google/gson/aa;->c(I)I access=0x2
+# code_off=0x2b568 registers=13 incoming_words=2 outgoing_words=7 code_units=252 tries=1
+0000: const/4 v2, 0
+0001: const/4 v0, 2
+0002: iput v0, v11, "Lcom/google/gson/aa;->p:I"
+0004: const/4 v1, 1
+0005: iget-object v0, v11, "Lcom/google/gson/aa;->u:[I"
+0007: const/4 v3, 0
+0008: const/4 v4, 0
+0009: aput v4, v0, v3
+000b: const v0, 2147483647 (0x7fffffff)
+000e: move v7, v0
+000f: move v8, v1
+0010: move v9, v2
+0011: iget v0, v11, "Lcom/google/gson/aa;->q:I"
+0013: add-int/lit8 v0, v0, 1
+0015: iput v0, v11, "Lcom/google/gson/aa;->q:I"
+0017: const v1, 2147483647 (0x7fffffff)
+001a: if-ne v0, v1, @001f
+001c: invoke-direct {v11}, Lcom/google/gson/aa;->b()V
+001f: iget-char v0, v11, "Lcom/google/gson/aa;->m:C"
+0021: const/16 v1, 64
+0023: if-ge v0, v1, @007c
+0025: const-wide/16 v0, 1
+0027: iget-char v2, v11, "Lcom/google/gson/aa;->m:C"
+0029: shl-long/2addr v0, v2
+002a: iget-object v2, v11, "Lcom/google/gson/aa;->u:[I"
+002c: add-int/lit8 v8, v8, -1
+002e: aget v2, v2, v8
+0030: packed-switch v2, @00e8
+0033: if-ne v8, v9, @002a
+0035: move v0, v7
+0036: const v1, 2147483647 (0x7fffffff)
+0039: if-eq v0, v1, @0042
+003b: iput v0, v11, "Lcom/google/gson/aa;->s:I"
+003d: iput v12, v11, "Lcom/google/gson/aa;->r:I"
+003f: const v0, 2147483647 (0x7fffffff)
+0042: add-int/lit8 v12, v12, 1
+0044: iget v1, v11, "Lcom/google/gson/aa;->p:I"
+0046: iput v9, v11, "Lcom/google/gson/aa;->p:I"
+0048: rsub-int/lit8 v2, v9, 2
+004a: if-ne v1, v2, @00d7
+004c: return v12
+004d: const-wide v2, -17179869185
+0052: and-long/2addr v2, v0
+0053: const-wide/16 v4, 0
+0055: cmp-long v2, v2, v4
+0057: if-eqz v2, @0060
+0059: const/16 v2, 21
+005b: if-le v7, v2, @0033
+005d: const/16 v7, 21
+005f: goto @0033
+0060: iget-char v2, v11, "Lcom/google/gson/aa;->m:C"
+0062: const/16 v3, 34
+0064: if-ne v2, v3, @0033
+0066: const/16 v2, 20
+0068: if-le v7, v2, @0033
+006a: const/16 v7, 20
+006c: goto @0033
+006d: const-wide v2, -17179869185
+0072: and-long/2addr v2, v0
+0073: const-wide/16 v4, 0
+0075: cmp-long v2, v2, v4
+0077: if-eqz v2, @0033
+0079: const/16 v7, 21
+007b: goto @0033
+007c: iget-char v0, v11, "Lcom/google/gson/aa;->m:C"
+007e: const/16 v1, 128
+0080: if-ge v0, v1, @00a3
+0082: const-wide/16 v0, 1
+0084: iget-char v2, v11, "Lcom/google/gson/aa;->m:C"
+0086: and-int/lit8 v2, v2, 63
+0088: shl-long/2addr v0, v2
+0089: iget-object v2, v11, "Lcom/google/gson/aa;->u:[I"
+008b: add-int/lit8 v8, v8, -1
+008d: aget v2, v2, v8
+008f: packed-switch v2, @00f0
+0092: if-ne v8, v9, @0089
+0094: move v0, v7
+0095: goto @0036
+0096: const-wide/32 v2, -268435457 (0xefffffff)
+0099: and-long/2addr v2, v0
+009a: const-wide/16 v4, 0
+009c: cmp-long v2, v2, v4
+009e: if-eqz v2, @0092
+00a0: const/16 v7, 21
+00a2: goto @0092
+00a3: iget-char v0, v11, "Lcom/google/gson/aa;->m:C"
+00a5: shr-int/lit8 v0, v0, 8
+00a7: shr-int/lit8 v1, v0, 6
+00a9: const-wide/16 v2, 1
+00ab: and-int/lit8 v4, v0, 63
+00ad: shl-long v3, v2, v4
+00af: iget-char v2, v11, "Lcom/google/gson/aa;->m:C"
+00b1: and-int/lit16 v2, v2, 255
+00b3: shr-int/lit8 v2, v2, 6
+00b5: const-wide/16 v5, 1
+00b7: iget-char v10, v11, "Lcom/google/gson/aa;->m:C"
+00b9: and-int/lit8 v10, v10, 63
+00bb: shl-long/2addr v5, v10
+00bc: iget-object v10, v11, "Lcom/google/gson/aa;->u:[I"
+00be: add-int/lit8 v8, v8, -1
+00c0: aget v10, v10, v8
+00c2: packed-switch v10, @00f6
+00c5: if-ne v8, v9, @00bc
+00c7: move v0, v7
+00c8: goto/16 @0036
+00ca: invoke-static/range {v0, v1, v2, v3, v4, v5, v6}, Lcom/google/gson/aa;->a(IIIJJ)Z
+00cd: move-result v10
+00ce: if-eqz v10, @00c5
+00d0: const/16 v10, 21
+00d2: if-le v7, v10, @00c5
+00d4: const/16 v7, 21
+00d6: goto @00c5
+00d7: iget-object v3, v11, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+00d9: invoke-virtual {v3}, Lcom/google/gson/ax;->b()C
+00dc: move-result v3
+00dd: iput-char v3, v11, "Lcom/google/gson/aa;->m:C"
+00df: move v7, v0
+00e0: move v8, v1
+00e1: move v9, v2
+00e2: goto/16 @0011
+00e4: move-exception v0
+00e5: goto/16 @004c
+00e7: nop
+00e8: payload packed-switch-payload size=2 first_key=0 targets=[29, 61]
+00f0: payload packed-switch-payload size=1 first_key=0 targets=[7]
+00f6: payload packed-switch-payload size=1 first_key=0 targets=[8]
+# try @00d7..@00df handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @00e4
+
+## Lcom/google/gson/aa;->c(J)I access=0x2
+# code_off=0x2b780 registers=8 incoming_words=3 outgoing_words=4 code_units=52 tries=1
+0000: const/4 v4, 5
+0001: const-wide/16 v0, 512
+0003: and-long/2addr v0, v6
+0004: const-wide/16 v2, 0
+0006: cmp-long v2, v0, v2
+0008: if-nez v2, @0010
+000a: const/4 v0, 4
+000b: invoke-direct {v5, v0, v6, v7}, Lcom/google/gson/aa;->b(IJ)I
+000e: move-result v0
+000f: return v0
+0010: iget-object v2, v5, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0012: invoke-virtual {v2}, Lcom/google/gson/ax;->b()C
+0015: move-result v2
+0016: iput-char v2, v5, "Lcom/google/gson/aa;->m:C"
+0018: iget-char v2, v5, "Lcom/google/gson/aa;->m:C"
+001a: packed-switch v2, @002e
+001d: invoke-direct {v5, v4, v0, v1}, Lcom/google/gson/aa;->b(IJ)I
+0020: move-result v0
+0021: goto @000f
+0022: move-exception v2
+0023: invoke-direct {v5, v4, v0, v1}, Lcom/google/gson/aa;->a(IJ)I
+0026: const/4 v0, 6
+0027: goto @000f
+0028: invoke-direct {v5, v0, v1}, Lcom/google/gson/aa;->d(J)I
+002b: move-result v0
+002c: goto @000f
+002d: nop
+002e: payload packed-switch-payload size=1 first_key=116 targets=[14]
+# try @0010..@0018 handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0022
+
+## Lcom/google/gson/aa;->c(JJ)I access=0x2
+# code_off=0x2b808 registers=13 incoming_words=5 outgoing_words=4 code_units=70 tries=1
+0000: const-wide/16 v6, 0
+0002: const/4 v0, 4
+0003: const/4 v5, 3
+0004: and-long v1, v11, v9
+0006: cmp-long v3, v1, v6
+0008: if-nez v3, @0010
+000a: const/4 v0, 2
+000b: invoke-direct {v8, v0, v9, v10}, Lcom/google/gson/aa;->b(IJ)I
+000e: move-result v0
+000f: return v0
+0010: iget-object v3, v8, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0012: invoke-virtual {v3}, Lcom/google/gson/ax;->b()C
+0015: move-result v3
+0016: iput-char v3, v8, "Lcom/google/gson/aa;->m:C"
+0018: iget-char v3, v8, "Lcom/google/gson/aa;->m:C"
+001a: sparse-switch v3, @003c
+001d: invoke-direct {v8, v5, v1, v2}, Lcom/google/gson/aa;->b(IJ)I
+0020: move-result v0
+0021: goto @000f
+0022: move-exception v3
+0023: invoke-direct {v8, v5, v1, v2}, Lcom/google/gson/aa;->a(IJ)I
+0026: goto @000f
+0027: const-wide/32 v3, 67108864 (0x04000000)
+002a: and-long/2addr v3, v1
+002b: cmp-long v3, v3, v6
+002d: if-eqz v3, @001d
+002f: const/16 v1, 26
+0031: invoke-direct {v8, v0, v1}, Lcom/google/gson/aa;->a(II)I
+0034: move-result v0
+0035: goto @000f
+0036: invoke-direct {v8, v1, v2}, Lcom/google/gson/aa;->b(J)I
+0039: move-result v0
+003a: goto @000f
+003b: nop
+003c: payload sparse-switch-payload size=2 keys=[10, 110] targets=[13, 28]
+# try @0010..@0018 handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0022
+
+## Lcom/google/gson/aa;->c()Lcom/google/gson/az; access=0x2
+# code_off=0x2b8b4 registers=7 incoming_words=1 outgoing_words=2 code_units=53 tries=0
+0000: sget-object v0, "Lcom/google/gson/aa;->f:[Ljava/lang/String;"
+0002: iget v1, v6, "Lcom/google/gson/aa;->s:I"
+0004: aget-object v0, v0, v1
+0006: if-nez v0, @000e
+0008: iget-object v0, v6, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+000a: invoke-virtual {v0}, Lcom/google/gson/ax;->g()Ljava/lang/String;
+000d: move-result-object v0
+000e: iget-object v1, v6, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0010: invoke-virtual {v1}, Lcom/google/gson/ax;->f()I
+0013: move-result v1
+0014: iget-object v2, v6, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0016: invoke-virtual {v2}, Lcom/google/gson/ax;->e()I
+0019: move-result v2
+001a: iget-object v3, v6, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+001c: invoke-virtual {v3}, Lcom/google/gson/ax;->d()I
+001f: move-result v3
+0020: iget-object v4, v6, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0022: invoke-virtual {v4}, Lcom/google/gson/ax;->c()I
+0025: move-result v4
+0026: iget v5, v6, "Lcom/google/gson/aa;->s:I"
+0028: invoke-static {v5, v0}, Lcom/google/gson/az;->a(ILjava/lang/String;)Lcom/google/gson/az;
+002b: move-result-object v0
+002c: iput v1, v0, "Lcom/google/gson/az;->b:I"
+002e: iput v3, v0, "Lcom/google/gson/az;->d:I"
+0030: iput v2, v0, "Lcom/google/gson/az;->c:I"
+0032: iput v4, v0, "Lcom/google/gson/az;->e:I"
+0034: return-object v0
+
+## Lcom/google/gson/aa;->c(II)V access=0x2
+# code_off=0x2b930 registers=4 incoming_words=3 outgoing_words=2 code_units=14 tries=0
+0000: sget-object v0, "Lcom/google/gson/aa;->d:[I"
+0002: aget v0, v0, v2
+0004: invoke-direct {v1, v0}, Lcom/google/gson/aa;->d(I)V
+0007: add-int/lit8 v0, v2, 1
+0009: if-ne v2, v3, @000c
+000b: return-void
+000c: move v2, v0
+000d: goto @0000
+
+## Lcom/google/gson/aa;->d(J)I access=0x2
+# code_off=0x2b95c registers=13 incoming_words=3 outgoing_words=4 code_units=62 tries=1
+0000: const-wide/16 v8, 512
+0002: const-wide/16 v6, 0
+0004: const/4 v0, 7
+0005: const/4 v5, 6
+0006: and-long v1, v8, v11
+0008: cmp-long v3, v1, v6
+000a: if-nez v3, @0012
+000c: const/4 v0, 5
+000d: invoke-direct {v10, v0, v11, v12}, Lcom/google/gson/aa;->b(IJ)I
+0010: move-result v0
+0011: return v0
+0012: iget-object v3, v10, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0014: invoke-virtual {v3}, Lcom/google/gson/ax;->b()C
+0017: move-result v3
+0018: iput-char v3, v10, "Lcom/google/gson/aa;->m:C"
+001a: iget-char v3, v10, "Lcom/google/gson/aa;->m:C"
+001c: packed-switch v3, @0038
+001f: invoke-direct {v10, v5, v1, v2}, Lcom/google/gson/aa;->b(IJ)I
+0022: move-result v0
+0023: goto @0011
+0024: move-exception v3
+0025: invoke-direct {v10, v5, v1, v2}, Lcom/google/gson/aa;->a(IJ)I
+0028: goto @0011
+0029: and-long v3, v1, v8
+002b: cmp-long v3, v3, v6
+002d: if-eqz v3, @001f
+002f: const/16 v1, 9
+0031: const/16 v2, 10
+0033: invoke-direct {v10, v0, v1, v2}, Lcom/google/gson/aa;->a(III)I
+0036: move-result v0
+0037: goto @0011
+0038: payload packed-switch-payload size=1 first_key=121 targets=[13]
+# try @0012..@001a handler_offset=1
+# handler_offset=1: Ljava/io/IOException; -> @0024
+
+## Lcom/google/gson/aa;->d()V access=0x2
+# code_off=0x2b9f8 registers=2 incoming_words=1 outgoing_words=2 code_units=11 tries=0
+0000: const/16 v0, 40
+0002: invoke-direct {v1, v0}, Lcom/google/gson/aa;->d(I)V
+0005: const/16 v0, 42
+0007: invoke-direct {v1, v0}, Lcom/google/gson/aa;->d(I)V
+000a: return-void
+
+## Lcom/google/gson/aa;->d(I)V access=0x2
+# code_off=0x2ba20 registers=5 incoming_words=2 outgoing_words=0 code_units=25 tries=0
+0000: iget-object v0, v3, "Lcom/google/gson/aa;->t:[I"
+0002: aget v0, v0, v4
+0004: iget v1, v3, "Lcom/google/gson/aa;->q:I"
+0006: if-eq v0, v1, @0018
+0008: iget-object v0, v3, "Lcom/google/gson/aa;->u:[I"
+000a: iget v1, v3, "Lcom/google/gson/aa;->p:I"
+000c: add-int/lit8 v2, v1, 1
+000e: iput v2, v3, "Lcom/google/gson/aa;->p:I"
+0010: aput v4, v0, v1
+0012: iget-object v0, v3, "Lcom/google/gson/aa;->t:[I"
+0014: iget v1, v3, "Lcom/google/gson/aa;->q:I"
+0016: aput v1, v0, v4
+0018: return-void
+
+## Lcom/google/gson/aa;->a()Lcom/google/gson/az; access=0x11
+# code_off=0x2ba64 registers=14 incoming_words=1 outgoing_words=6 code_units=550 tries=4
+0000: const-wide/16 v10, 0
+0002: const/4 v9, -1
+0003: const/4 v5, 1
+0004: const v8, 2147483647 (0x7fffffff)
+0007: const/4 v1, 0
+0008: move v0, v1
+0009: iget-object v2, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+000b: invoke-virtual {v2}, Lcom/google/gson/ax;->a()C
+000e: move-result v2
+000f: iput-char v2, v13, "Lcom/google/gson/aa;->m:C"
+0011: iget v2, v13, "Lcom/google/gson/aa;->n:I"
+0013: packed-switch v2, @01d8
+0016: iget v2, v13, "Lcom/google/gson/aa;->s:I"
+0018: if-eq v2, v8, @0179
+001a: iget v2, v13, "Lcom/google/gson/aa;->r:I"
+001c: add-int/lit8 v2, v2, 1
+001e: if-ge v2, v0, @002b
+0020: iget-object v2, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0022: iget v3, v13, "Lcom/google/gson/aa;->r:I"
+0024: sub-int v3, v0, v3
+0026: add-int/lit8 v3, v3, -1
+0028: invoke-virtual {v2, v3}, Lcom/google/gson/ax;->a(I)V
+002b: sget-object v2, "Lcom/google/gson/aa;->i:[J"
+002d: iget v3, v13, "Lcom/google/gson/aa;->s:I"
+002f: shr-int/lit8 v3, v3, 6
+0031: aget-wide v2, v2, v3
+0033: const-wide/16 v6, 1
+0035: iget v4, v13, "Lcom/google/gson/aa;->s:I"
+0037: and-int/lit8 v4, v4, 63
+0039: shl-long/2addr v6, v4
+003a: and-long/2addr v2, v6
+003b: cmp-long v2, v2, v10
+003d: if-eqz v2, @0134
+003f: invoke-direct {v13}, Lcom/google/gson/aa;->c()Lcom/google/gson/az;
+0042: move-result-object v0
+0043: sget-object v1, "Lcom/google/gson/aa;->h:[I"
+0045: iget v2, v13, "Lcom/google/gson/aa;->s:I"
+0047: aget v1, v1, v2
+0049: if-eq v1, v9, @0053
+004b: sget-object v1, "Lcom/google/gson/aa;->h:[I"
+004d: iget v2, v13, "Lcom/google/gson/aa;->s:I"
+004f: aget v1, v1, v2
+0051: iput v1, v13, "Lcom/google/gson/aa;->n:I"
+0053: return-object v0
+0054: move-exception v0
+0055: iput v1, v13, "Lcom/google/gson/aa;->s:I"
+0057: invoke-direct {v13}, Lcom/google/gson/aa;->c()Lcom/google/gson/az;
+005a: move-result-object v0
+005b: goto @0053
+005c: iget-object v2, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+005e: const/4 v3, 0
+005f: invoke-virtual {v2, v3}, Lcom/google/gson/ax;->a(I)V
+0062: iget-char v2, v13, "Lcom/google/gson/aa;->m:C"
+0064: const/16 v3, 32
+0066: if-gt v2, v3, @0082
+0068: const-wide v2, 4294977024
+006d: const-wide/16 v6, 1
+006f: iget-char v4, v13, "Lcom/google/gson/aa;->m:C"
+0071: shl-long/2addr v6, v4
+0072: and-long/2addr v2, v6
+0073: cmp-long v2, v2, v10
+0075: if-eqz v2, @0082
+0077: iget-object v2, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0079: invoke-virtual {v2}, Lcom/google/gson/ax;->a()C
+007c: move-result v2
+007d: iput-char v2, v13, "Lcom/google/gson/aa;->m:C"
+007f: goto @0062
+0080: move-exception v2
+0081: goto @0009
+0082: iput v8, v13, "Lcom/google/gson/aa;->s:I"
+0084: iput v1, v13, "Lcom/google/gson/aa;->r:I"
+0086: iget-char v0, v13, "Lcom/google/gson/aa;->m:C"
+0088: sparse-switch v0, @01e4
+008b: const/4 v0, 4
+008c: invoke-direct {v13, v0, v1}, Lcom/google/gson/aa;->b(II)I
+008f: move-result v0
+0090: goto @0016
+0091: const/16 v0, 18
+0093: const/16 v2, 43
+0095: invoke-direct {v13, v1, v0, v2}, Lcom/google/gson/aa;->a(III)I
+0098: move-result v0
+0099: goto/16 @0016
+009b: const-wide/32 v2, 67108864 (0x04000000)
+009e: invoke-direct {v13, v2, v3}, Lcom/google/gson/aa;->a(J)I
+00a1: move-result v0
+00a2: goto/16 @0016
+00a4: const/16 v0, 28
+00a6: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+00a9: move-result v0
+00aa: goto/16 @0016
+00ac: const/16 v0, 33
+00ae: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+00b1: move-result v0
+00b2: goto/16 @0016
+00b4: const/16 v0, 34
+00b6: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+00b9: move-result v0
+00ba: goto/16 @0016
+00bc: const/16 v0, 30
+00be: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+00c1: move-result v0
+00c2: goto/16 @0016
+00c4: const-wide/16 v2, 512
+00c6: invoke-direct {v13, v2, v3}, Lcom/google/gson/aa;->a(J)I
+00c9: move-result v0
+00ca: goto/16 @0016
+00cc: const-wide/16 v2, 256
+00ce: invoke-direct {v13, v2, v3}, Lcom/google/gson/aa;->a(J)I
+00d1: move-result v0
+00d2: goto/16 @0016
+00d4: const/16 v0, 31
+00d6: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+00d9: move-result v0
+00da: goto/16 @0016
+00dc: const/16 v0, 32
+00de: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+00e1: move-result v0
+00e2: goto/16 @0016
+00e4: const-wide/16 v2, 128
+00e6: invoke-direct {v13, v2, v3}, Lcom/google/gson/aa;->a(J)I
+00e9: move-result v0
+00ea: goto/16 @0016
+00ec: const/16 v0, 27
+00ee: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+00f1: move-result v0
+00f2: goto/16 @0016
+00f4: const/16 v0, 29
+00f6: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+00f9: move-result v0
+00fa: goto/16 @0016
+00fc: iput v8, v13, "Lcom/google/gson/aa;->s:I"
+00fe: iput v1, v13, "Lcom/google/gson/aa;->r:I"
+0100: iget-char v0, v13, "Lcom/google/gson/aa;->m:C"
+0102: packed-switch v0, @021a
+0105: invoke-direct {v13, v1}, Lcom/google/gson/aa;->c(I)I
+0108: move-result v0
+0109: goto/16 @0016
+010b: const/16 v0, 19
+010d: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+0110: move-result v0
+0111: goto/16 @0016
+0113: iput v8, v13, "Lcom/google/gson/aa;->s:I"
+0115: iput v1, v13, "Lcom/google/gson/aa;->r:I"
+0117: iget-char v0, v13, "Lcom/google/gson/aa;->m:C"
+0119: packed-switch v0, @0220
+011c: invoke-direct {v13, v1}, Lcom/google/gson/aa;->b(I)I
+011f: move-result v0
+0120: goto/16 @0016
+0122: const/16 v0, 23
+0124: invoke-direct {v13, v1, v0}, Lcom/google/gson/aa;->a(II)I
+0127: move-result v0
+0128: goto/16 @0016
+012a: iput v8, v13, "Lcom/google/gson/aa;->s:I"
+012c: iput v1, v13, "Lcom/google/gson/aa;->r:I"
+012e: invoke-direct {v13, v1}, Lcom/google/gson/aa;->a(I)I
+0131: move-result v0
+0132: goto/16 @0016
+0134: sget-object v2, "Lcom/google/gson/aa;->j:[J"
+0136: iget v3, v13, "Lcom/google/gson/aa;->s:I"
+0138: shr-int/lit8 v3, v3, 6
+013a: aget-wide v2, v2, v3
+013c: const-wide/16 v6, 1
+013e: iget v4, v13, "Lcom/google/gson/aa;->s:I"
+0140: and-int/lit8 v4, v4, 63
+0142: shl-long/2addr v6, v4
+0143: and-long/2addr v2, v6
+0144: cmp-long v2, v2, v10
+0146: if-eqz v2, @015a
+0148: sget-object v2, "Lcom/google/gson/aa;->h:[I"
+014a: iget v3, v13, "Lcom/google/gson/aa;->s:I"
+014c: aget v2, v2, v3
+014e: if-eq v2, v9, @0009
+0150: sget-object v2, "Lcom/google/gson/aa;->h:[I"
+0152: iget v3, v13, "Lcom/google/gson/aa;->s:I"
+0154: aget v2, v2, v3
+0156: iput v2, v13, "Lcom/google/gson/aa;->n:I"
+0158: goto/16 @0009
+015a: sget-object v0, "Lcom/google/gson/aa;->h:[I"
+015c: iget v2, v13, "Lcom/google/gson/aa;->s:I"
+015e: aget v0, v0, v2
+0160: if-eq v0, v9, @016a
+0162: sget-object v0, "Lcom/google/gson/aa;->h:[I"
+0164: iget v2, v13, "Lcom/google/gson/aa;->s:I"
+0166: aget v0, v0, v2
+0168: iput v0, v13, "Lcom/google/gson/aa;->n:I"
+016a: iput v8, v13, "Lcom/google/gson/aa;->s:I"
+016c: iget-object v0, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+016e: invoke-virtual {v0}, Lcom/google/gson/ax;->b()C
+0171: move-result v0
+0172: iput-char v0, v13, "Lcom/google/gson/aa;->m:C"
+0174: move v0, v1
+0175: goto/16 @0011
+0177: move-exception v0
+0178: move v0, v1
+0179: iget-object v2, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+017b: invoke-virtual {v2}, Lcom/google/gson/ax;->d()I
+017e: move-result v4
+017f: iget-object v2, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0181: invoke-virtual {v2}, Lcom/google/gson/ax;->c()I
+0184: move-result v3
+0185: const/4 v2, 0
+0186: iget-object v6, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0188: invoke-virtual {v6}, Lcom/google/gson/ax;->b()C
+018b: iget-object v6, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+018d: const/4 v7, 1
+018e: invoke-virtual {v6, v7}, Lcom/google/gson/ax;->a(I)V
+0191: move-object v12, v2
+0192: move v2, v4
+0193: move-object v4, v12
+0194: if-nez v1, @01a0
+0196: iget-object v4, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+0198: invoke-virtual {v4, v5}, Lcom/google/gson/ax;->a(I)V
+019b: if-gt v0, v5, @01d0
+019d: const-string v0, ""
+019f: move-object v4, v0
+01a0: new-instance v0, "Lcom/google/gson/ba;"
+01a2: iget v5, v13, "Lcom/google/gson/aa;->n:I"
+01a4: iget-char v5, v13, "Lcom/google/gson/aa;->m:C"
+01a6: invoke-direct/range {v0, v1, v2, v3, v4, v5}, Lcom/google/gson/ba;-><init>(ZIILjava/lang/String;C)V
+01a9: throw v0
+01aa: move-exception v2
+01ab: if-gt v0, v5, @01c2
+01ad: const-string v2, ""
+01af: iget-char v6, v13, "Lcom/google/gson/aa;->m:C"
+01b1: const/16 v7, 10
+01b3: if-eq v6, v7, @01bb
+01b5: iget-char v6, v13, "Lcom/google/gson/aa;->m:C"
+01b7: const/16 v7, 13
+01b9: if-ne v6, v7, @01c9
+01bb: add-int/lit8 v3, v4, 1
+01bd: move-object v4, v2
+01be: move v2, v3
+01bf: move v3, v1
+01c0: move v1, v5
+01c1: goto @0194
+01c2: iget-object v2, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+01c4: invoke-virtual {v2}, Lcom/google/gson/ax;->g()Ljava/lang/String;
+01c7: move-result-object v2
+01c8: goto @01af
+01c9: add-int/lit8 v3, v3, 1
+01cb: move v1, v5
+01cc: move-object v12, v2
+01cd: move v2, v4
+01ce: move-object v4, v12
+01cf: goto @0194
+01d0: iget-object v0, v13, "Lcom/google/gson/aa;->l:Lcom/google/gson/ax;"
+01d2: invoke-virtual {v0}, Lcom/google/gson/ax;->g()Ljava/lang/String;
+01d5: move-result-object v0
+01d6: goto @019f
+01d7: nop
+01d8: payload packed-switch-payload size=4 first_key=0 targets=[73, 233, 256, 279]
+01e4: payload sparse-switch-payload size=13 keys=[34, 41, 44, 45, 46, 58, 73, 78, 91, 93, 110, 123, 125] targets=[9, 19, 28, 36, 44, 52, 60, 68, 76, 84, 92, 100, 108]
+021a: payload packed-switch-payload size=1 first_key=92 targets=[9]
+0220: payload packed-switch-payload size=1 first_key=117 targets=[9]
+# try @0009..@0011 handler_offset=1
+# try @005c..@007f handler_offset=5
+# try @016c..@0174 handler_offset=10
+# try @0186..@0191 handler_offset=15
+# handler_offset=1: Ljava/io/IOException; -> @0054
+# handler_offset=5: Ljava/io/IOException; -> @0080
+# handler_offset=10: Ljava/io/IOException; -> @0177
+# handler_offset=15: Ljava/io/IOException; -> @01aa

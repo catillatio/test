@@ -1,0 +1,266 @@
+# class Lorg/apache/commons/codec/binary/BinaryCodec; extends Ljava/lang/Object;
+# interfaces Lorg/apache/commons/codec/BinaryDecoder;, Lorg/apache/commons/codec/BinaryEncoder;
+# source BinaryCodec.java
+# fields
+# Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->BIT_0:I access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->BIT_1:I access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->BIT_2:I access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->BIT_3:I access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->BIT_4:I access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->BIT_5:I access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->BIT_6:I access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->BIT_7:I access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_BYTE_ARRAY:[B access=0x1a
+# Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_CHAR_ARRAY:[C access=0x1a
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;-><clinit>()V access=0x10008
+# code_off=0x32e8c registers=2 incoming_words=0 outgoing_words=0 code_units=40 tries=0
+0000: const/4 v1, 0
+0001: new-array v0, v1, "[C"
+0003: sput-object v0, "Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_CHAR_ARRAY:[C"
+0005: new-array v0, v1, "[B"
+0007: sput-object v0, "Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_BYTE_ARRAY:[B"
+0009: const/16 v0, 8
+000b: new-array v0, v0, "[I"
+000d: fill-array-data v0, @0014
+0010: sput-object v0, "Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I"
+0012: return-void
+0013: nop
+0014: payload fill-array-data-payload element_width=4 count=8 bytes=0100000002000000040000000800000010000000200000004000000080000000
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;-><init>()V access=0x10001
+# code_off=0x32eec registers=1 incoming_words=1 outgoing_words=1 code_units=4 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: return-void
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->fromAscii([B)[B access=0x9
+# code_off=0x32f04 registers=7 incoming_words=1 outgoing_words=1 code_units=53 tries=0
+0000: invoke-static {v6}, Lorg/apache/commons/codec/binary/BinaryCodec;->isEmpty([B)Z
+0003: move-result v4
+0004: if-eqz v4, @0009
+0006: sget-object v3, "Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_BYTE_ARRAY:[B"
+0008: return-object v3
+0009: array-length v4, v6
+000a: shr-int/lit8 v4, v4, 3
+000c: new-array v3, v4, "[B"
+000e: const/4 v1, 0
+000f: array-length v4, v6
+0010: add-int/lit8 v2, v4, -1
+0012: array-length v4, v3
+0013: if-ge v1, v4, @0008
+0015: const/4 v0, 0
+0016: sget-object v4, "Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I"
+0018: array-length v4, v4
+0019: if-ge v0, v4, @0030
+001b: sub-int v4, v2, v0
+001d: aget-byte v4, v6, v4
+001f: const/16 v5, 49
+0021: if-ne v4, v5, @002d
+0023: aget-byte v4, v3, v1
+0025: sget-object v5, "Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I"
+0027: aget v5, v5, v0
+0029: or-int/2addr v4, v5
+002a: int-to-byte v4, v4
+002b: aput-byte v4, v3, v1
+002d: add-int/lit8 v0, v0, 1
+002f: goto @0016
+0030: add-int/lit8 v1, v1, 1
+0032: add-int/lit8 v2, v2, -8
+0034: goto @0012
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->fromAscii([C)[B access=0x9
+# code_off=0x32f80 registers=7 incoming_words=1 outgoing_words=0 code_units=52 tries=0
+0000: if-eqz v6, @0005
+0002: array-length v4, v6
+0003: if-nez v4, @0008
+0005: sget-object v3, "Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_BYTE_ARRAY:[B"
+0007: return-object v3
+0008: array-length v4, v6
+0009: shr-int/lit8 v4, v4, 3
+000b: new-array v3, v4, "[B"
+000d: const/4 v1, 0
+000e: array-length v4, v6
+000f: add-int/lit8 v2, v4, -1
+0011: array-length v4, v3
+0012: if-ge v1, v4, @0007
+0014: const/4 v0, 0
+0015: sget-object v4, "Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I"
+0017: array-length v4, v4
+0018: if-ge v0, v4, @002f
+001a: sub-int v4, v2, v0
+001c: aget-char v4, v6, v4
+001e: const/16 v5, 49
+0020: if-ne v4, v5, @002c
+0022: aget-byte v4, v3, v1
+0024: sget-object v5, "Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I"
+0026: aget v5, v5, v0
+0028: or-int/2addr v4, v5
+0029: int-to-byte v4, v4
+002a: aput-byte v4, v3, v1
+002c: add-int/lit8 v0, v0, 1
+002e: goto @0015
+002f: add-int/lit8 v1, v1, 1
+0031: add-int/lit8 v2, v2, -8
+0033: goto @0011
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->isEmpty([B)Z access=0xa
+# code_off=0x32ff8 registers=2 incoming_words=1 outgoing_words=0 code_units=9 tries=0
+0000: if-eqz v1, @0005
+0002: array-length v0, v1
+0003: if-nez v0, @0007
+0005: const/4 v0, 1
+0006: return v0
+0007: const/4 v0, 0
+0008: goto @0006
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->toAsciiBytes([B)[B access=0x9
+# code_off=0x3301c registers=7 incoming_words=1 outgoing_words=1 code_units=57 tries=0
+0000: invoke-static {v6}, Lorg/apache/commons/codec/binary/BinaryCodec;->isEmpty([B)Z
+0003: move-result v4
+0004: if-eqz v4, @0009
+0006: sget-object v3, "Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_BYTE_ARRAY:[B"
+0008: return-object v3
+0009: array-length v4, v6
+000a: shl-int/lit8 v4, v4, 3
+000c: new-array v3, v4, "[B"
+000e: const/4 v1, 0
+000f: array-length v4, v3
+0010: add-int/lit8 v2, v4, -1
+0012: array-length v4, v6
+0013: if-ge v1, v4, @0008
+0015: const/4 v0, 0
+0016: sget-object v4, "Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I"
+0018: array-length v4, v4
+0019: if-ge v0, v4, @0034
+001b: aget-byte v4, v6, v1
+001d: sget-object v5, "Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I"
+001f: aget v5, v5, v0
+0021: and-int/2addr v4, v5
+0022: if-nez v4, @002d
+0024: sub-int v4, v2, v0
+0026: const/16 v5, 48
+0028: aput-byte v5, v3, v4
+002a: add-int/lit8 v0, v0, 1
+002c: goto @0016
+002d: sub-int v4, v2, v0
+002f: const/16 v5, 49
+0031: aput-byte v5, v3, v4
+0033: goto @002a
+0034: add-int/lit8 v1, v1, 1
+0036: add-int/lit8 v2, v2, -8
+0038: goto @0012
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->toAsciiChars([B)[C access=0x9
+# code_off=0x330a0 registers=7 incoming_words=1 outgoing_words=1 code_units=57 tries=0
+0000: invoke-static {v6}, Lorg/apache/commons/codec/binary/BinaryCodec;->isEmpty([B)Z
+0003: move-result v4
+0004: if-eqz v4, @0009
+0006: sget-object v3, "Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_CHAR_ARRAY:[C"
+0008: return-object v3
+0009: array-length v4, v6
+000a: shl-int/lit8 v4, v4, 3
+000c: new-array v3, v4, "[C"
+000e: const/4 v1, 0
+000f: array-length v4, v3
+0010: add-int/lit8 v2, v4, -1
+0012: array-length v4, v6
+0013: if-ge v1, v4, @0008
+0015: const/4 v0, 0
+0016: sget-object v4, "Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I"
+0018: array-length v4, v4
+0019: if-ge v0, v4, @0034
+001b: aget-byte v4, v6, v1
+001d: sget-object v5, "Lorg/apache/commons/codec/binary/BinaryCodec;->BITS:[I"
+001f: aget v5, v5, v0
+0021: and-int/2addr v4, v5
+0022: if-nez v4, @002d
+0024: sub-int v4, v2, v0
+0026: const/16 v5, 48
+0028: aput-char v5, v3, v4
+002a: add-int/lit8 v0, v0, 1
+002c: goto @0016
+002d: sub-int v4, v2, v0
+002f: const/16 v5, 49
+0031: aput-char v5, v3, v4
+0033: goto @002a
+0034: add-int/lit8 v1, v1, 1
+0036: add-int/lit8 v2, v2, -8
+0038: goto @0012
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->toAsciiString([B)Ljava/lang/String; access=0x9
+# code_off=0x33124 registers=3 incoming_words=1 outgoing_words=2 code_units=10 tries=0
+0000: new-instance v0, "Ljava/lang/String;"
+0002: invoke-static {v2}, Lorg/apache/commons/codec/binary/BinaryCodec;->toAsciiChars([B)[C
+0005: move-result-object v1
+0006: invoke-direct {v0, v1}, Ljava/lang/String;-><init>([C)V
+0009: return-object v0
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->decode(Ljava/lang/Object;)Ljava/lang/Object; access=0x1
+# code_off=0x33148 registers=4 incoming_words=2 outgoing_words=2 code_units=54 tries=0
+0000: if-nez v3, @0005
+0002: sget-object v0, "Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_BYTE_ARRAY:[B"
+0004: return-object v0
+0005: instance-of v0, v3, "[B"
+0007: if-eqz v0, @0012
+0009: check-cast v3, "[B"
+000b: check-cast v3, "[B"
+000d: invoke-static {v3}, Lorg/apache/commons/codec/binary/BinaryCodec;->fromAscii([B)[B
+0010: move-result-object v0
+0011: goto @0004
+0012: instance-of v0, v3, "[C"
+0014: if-eqz v0, @001f
+0016: check-cast v3, "[C"
+0018: check-cast v3, "[C"
+001a: invoke-static {v3}, Lorg/apache/commons/codec/binary/BinaryCodec;->fromAscii([C)[B
+001d: move-result-object v0
+001e: goto @0004
+001f: instance-of v0, v3, "Ljava/lang/String;"
+0021: if-eqz v0, @002e
+0023: check-cast v3, "Ljava/lang/String;"
+0025: invoke-virtual {v3}, Ljava/lang/String;->toCharArray()[C
+0028: move-result-object v0
+0029: invoke-static {v0}, Lorg/apache/commons/codec/binary/BinaryCodec;->fromAscii([C)[B
+002c: move-result-object v0
+002d: goto @0004
+002e: new-instance v0, "Lorg/apache/commons/codec/DecoderException;"
+0030: const-string v1, "argument not a byte array"
+0032: invoke-direct {v0, v1}, Lorg/apache/commons/codec/DecoderException;-><init>(Ljava/lang/String;)V
+0035: throw v0
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->decode([B)[B access=0x1
+# code_off=0x331c4 registers=3 incoming_words=2 outgoing_words=1 code_units=5 tries=0
+0000: invoke-static {v2}, Lorg/apache/commons/codec/binary/BinaryCodec;->fromAscii([B)[B
+0003: move-result-object v0
+0004: return-object v0
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->encode(Ljava/lang/Object;)Ljava/lang/Object; access=0x1
+# code_off=0x331e0 registers=4 incoming_words=2 outgoing_words=2 code_units=21 tries=0
+0000: instance-of v0, v3, "[B"
+0002: if-nez v0, @000c
+0004: new-instance v0, "Lorg/apache/commons/codec/EncoderException;"
+0006: const-string v1, "argument not a byte array"
+0008: invoke-direct {v0, v1}, Lorg/apache/commons/codec/EncoderException;-><init>(Ljava/lang/String;)V
+000b: throw v0
+000c: check-cast v3, "[B"
+000e: check-cast v3, "[B"
+0010: invoke-static {v3}, Lorg/apache/commons/codec/binary/BinaryCodec;->toAsciiChars([B)[C
+0013: move-result-object v0
+0014: return-object v0
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->encode([B)[B access=0x1
+# code_off=0x3321c registers=3 incoming_words=2 outgoing_words=1 code_units=5 tries=0
+0000: invoke-static {v2}, Lorg/apache/commons/codec/binary/BinaryCodec;->toAsciiBytes([B)[B
+0003: move-result-object v0
+0004: return-object v0
+
+## Lorg/apache/commons/codec/binary/BinaryCodec;->toByteArray(Ljava/lang/String;)[B access=0x1
+# code_off=0x33238 registers=3 incoming_words=2 outgoing_words=1 code_units=14 tries=0
+0000: if-nez v2, @0005
+0002: sget-object v0, "Lorg/apache/commons/codec/binary/BinaryCodec;->EMPTY_BYTE_ARRAY:[B"
+0004: return-object v0
+0005: invoke-virtual {v2}, Ljava/lang/String;->toCharArray()[C
+0008: move-result-object v0
+0009: invoke-static {v0}, Lorg/apache/commons/codec/binary/BinaryCodec;->fromAscii([C)[B
+000c: move-result-object v0
+000d: goto @0004

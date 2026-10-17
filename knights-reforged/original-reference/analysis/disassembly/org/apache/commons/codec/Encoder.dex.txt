@@ -1,0 +1,6 @@
+# class Lorg/apache/commons/codec/Encoder; extends Ljava/lang/Object;
+# interfaces 
+# source Encoder.java
+# fields
+
+## Lorg/apache/commons/codec/Encoder;->encode(Ljava/lang/Object;)Ljava/lang/Object; access=0x401

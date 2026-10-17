@@ -1,0 +1,19 @@
+# class Lcom/google/gson/af; extends Lcom/google/gson/e;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/af;-><init>(Ljava/lang/String;)V access=0x10001
+# code_off=0x375ec registers=5 incoming_words=2 outgoing_words=2 code_units=23 tries=0
+0000: const/4 v0, 2
+0001: new-array v0, v0, "[Lcom/google/gson/av;"
+0003: const/4 v1, 0
+0004: new-instance v2, "Lcom/google/gson/c;"
+0006: invoke-direct {v2, v4}, Lcom/google/gson/c;-><init>(Ljava/lang/String;)V
+0009: aput-object v2, v0, v1
+000b: const/4 v1, 1
+000c: new-instance v2, "Lcom/google/gson/ag;"
+000e: invoke-direct {v2}, Lcom/google/gson/ag;-><init>()V
+0011: aput-object v2, v0, v1
+0013: invoke-direct {v3, v0}, Lcom/google/gson/e;-><init>([Lcom/google/gson/av;)V
+0016: return-void

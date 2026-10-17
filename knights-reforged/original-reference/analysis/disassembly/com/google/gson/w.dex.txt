@@ -1,0 +1,6 @@
+# class Lcom/google/gson/w; extends Ljava/lang/Object;
+# interfaces 
+# source None
+# fields
+
+## Lcom/google/gson/w;->a(Lcom/google/gson/JsonElement;Ljava/lang/Appendable;Z)V access=0x401

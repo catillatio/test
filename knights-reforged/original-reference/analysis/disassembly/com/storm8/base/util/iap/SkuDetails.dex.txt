@@ -1,0 +1,84 @@
+# class Lcom/storm8/base/util/iap/SkuDetails; extends Ljava/lang/Object;
+# interfaces 
+# source SkuDetails.java
+# fields
+# Lcom/storm8/base/util/iap/SkuDetails;->mDescription:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/SkuDetails;->mItemType:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/SkuDetails;->mJson:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/SkuDetails;->mPrice:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/SkuDetails;->mSku:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/SkuDetails;->mTitle:Ljava/lang/String; access=0x0
+# Lcom/storm8/base/util/iap/SkuDetails;->mType:Ljava/lang/String; access=0x0
+
+## Lcom/storm8/base/util/iap/SkuDetails;-><init>(Ljava/lang/String;)V access=0x10001
+# code_off=0x245b0 registers=3 incoming_words=2 outgoing_words=3 code_units=6 tries=0
+0000: const-string v0, "inapp"
+0002: invoke-direct {v1, v0, v2}, Lcom/storm8/base/util/iap/SkuDetails;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+0005: return-void
+
+## Lcom/storm8/base/util/iap/SkuDetails;-><init>(Ljava/lang/String;Ljava/lang/String;)V access=0x10001
+# code_off=0x245cc registers=5 incoming_words=3 outgoing_words=2 code_units=55 tries=0
+0000: invoke-direct {v2}, Ljava/lang/Object;-><init>()V
+0003: iput-object v3, v2, "Lcom/storm8/base/util/iap/SkuDetails;->mItemType:Ljava/lang/String;"
+0005: iput-object v4, v2, "Lcom/storm8/base/util/iap/SkuDetails;->mJson:Ljava/lang/String;"
+0007: new-instance v0, "Lorg/json/JSONObject;"
+0009: iget-object v1, v2, "Lcom/storm8/base/util/iap/SkuDetails;->mJson:Ljava/lang/String;"
+000b: invoke-direct {v0, v1}, Lorg/json/JSONObject;-><init>(Ljava/lang/String;)V
+000e: const-string v1, "productId"
+0010: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+0013: move-result-object v1
+0014: iput-object v1, v2, "Lcom/storm8/base/util/iap/SkuDetails;->mSku:Ljava/lang/String;"
+0016: const-string v1, "type"
+0018: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+001b: move-result-object v1
+001c: iput-object v1, v2, "Lcom/storm8/base/util/iap/SkuDetails;->mType:Ljava/lang/String;"
+001e: const-string v1, "price"
+0020: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+0023: move-result-object v1
+0024: iput-object v1, v2, "Lcom/storm8/base/util/iap/SkuDetails;->mPrice:Ljava/lang/String;"
+0026: const-string v1, "title"
+0028: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+002b: move-result-object v1
+002c: iput-object v1, v2, "Lcom/storm8/base/util/iap/SkuDetails;->mTitle:Ljava/lang/String;"
+002e: const-string v1, "description"
+0030: invoke-virtual {v0, v1}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+0033: move-result-object v1
+0034: iput-object v1, v2, "Lcom/storm8/base/util/iap/SkuDetails;->mDescription:Ljava/lang/String;"
+0036: return-void
+
+## Lcom/storm8/base/util/iap/SkuDetails;->getDescription()Ljava/lang/String; access=0x1
+# code_off=0x2464c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/SkuDetails;->mDescription:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/SkuDetails;->getPrice()Ljava/lang/String; access=0x1
+# code_off=0x24664 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/SkuDetails;->mPrice:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/SkuDetails;->getSku()Ljava/lang/String; access=0x1
+# code_off=0x2467c registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/SkuDetails;->mSku:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/SkuDetails;->getTitle()Ljava/lang/String; access=0x1
+# code_off=0x24694 registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/SkuDetails;->mTitle:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/SkuDetails;->getType()Ljava/lang/String; access=0x1
+# code_off=0x246ac registers=2 incoming_words=1 outgoing_words=0 code_units=3 tries=0
+0000: iget-object v0, v1, "Lcom/storm8/base/util/iap/SkuDetails;->mType:Ljava/lang/String;"
+0002: return-object v0
+
+## Lcom/storm8/base/util/iap/SkuDetails;->toString()Ljava/lang/String; access=0x1
+# code_off=0x246c4 registers=3 incoming_words=1 outgoing_words=2 code_units=18 tries=0
+0000: new-instance v0, "Ljava/lang/StringBuilder;"
+0002: const-string v1, "SkuDetails:"
+0004: invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0007: iget-object v1, v2, "Lcom/storm8/base/util/iap/SkuDetails;->mJson:Ljava/lang/String;"
+0009: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000c: move-result-object v0
+000d: invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0010: move-result-object v0
+0011: return-object v0

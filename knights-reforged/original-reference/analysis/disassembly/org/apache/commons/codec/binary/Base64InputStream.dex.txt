@@ -1,0 +1,121 @@
+# class Lorg/apache/commons/codec/binary/Base64InputStream; extends Ljava/io/FilterInputStream;
+# interfaces 
+# source Base64InputStream.java
+# fields
+# Lorg/apache/commons/codec/binary/Base64InputStream;->base64:Lorg/apache/commons/codec/binary/Base64; access=0x12
+# Lorg/apache/commons/codec/binary/Base64InputStream;->doEncode:Z access=0x12
+# Lorg/apache/commons/codec/binary/Base64InputStream;->singleByte:[B access=0x12
+
+## Lorg/apache/commons/codec/binary/Base64InputStream;-><init>(Ljava/io/InputStream;)V access=0x10001
+# code_off=0x25d5c registers=3 incoming_words=2 outgoing_words=3 code_units=5 tries=0
+0000: const/4 v0, 0
+0001: invoke-direct {v1, v2, v0}, Lorg/apache/commons/codec/binary/Base64InputStream;-><init>(Ljava/io/InputStream;Z)V
+0004: return-void
+
+## Lorg/apache/commons/codec/binary/Base64InputStream;-><init>(Ljava/io/InputStream;Z)V access=0x10001
+# code_off=0x25d78 registers=4 incoming_words=3 outgoing_words=2 code_units=18 tries=0
+0000: invoke-direct {v1, v2}, Ljava/io/FilterInputStream;-><init>(Ljava/io/InputStream;)V
+0003: const/4 v0, 1
+0004: new-array v0, v0, "[B"
+0006: iput-object v0, v1, "Lorg/apache/commons/codec/binary/Base64InputStream;->singleByte:[B"
+0008: iput-boolean v3, v1, "Lorg/apache/commons/codec/binary/Base64InputStream;->doEncode:Z"
+000a: new-instance v0, "Lorg/apache/commons/codec/binary/Base64;"
+000c: invoke-direct {v0}, Lorg/apache/commons/codec/binary/Base64;-><init>()V
+000f: iput-object v0, v1, "Lorg/apache/commons/codec/binary/Base64InputStream;->base64:Lorg/apache/commons/codec/binary/Base64;"
+0011: return-void
+
+## Lorg/apache/commons/codec/binary/Base64InputStream;-><init>(Ljava/io/InputStream;ZI[B)V access=0x10001
+# code_off=0x25dac registers=6 incoming_words=5 outgoing_words=3 code_units=18 tries=0
+0000: invoke-direct {v1, v2}, Ljava/io/FilterInputStream;-><init>(Ljava/io/InputStream;)V
+0003: const/4 v0, 1
+0004: new-array v0, v0, "[B"
+0006: iput-object v0, v1, "Lorg/apache/commons/codec/binary/Base64InputStream;->singleByte:[B"
+0008: iput-boolean v3, v1, "Lorg/apache/commons/codec/binary/Base64InputStream;->doEncode:Z"
+000a: new-instance v0, "Lorg/apache/commons/codec/binary/Base64;"
+000c: invoke-direct {v0, v4, v5}, Lorg/apache/commons/codec/binary/Base64;-><init>(I[B)V
+000f: iput-object v0, v1, "Lorg/apache/commons/codec/binary/Base64InputStream;->base64:Lorg/apache/commons/codec/binary/Base64;"
+0011: return-void
+
+## Lorg/apache/commons/codec/binary/Base64InputStream;->markSupported()Z access=0x1
+# code_off=0x25de0 registers=2 incoming_words=1 outgoing_words=0 code_units=2 tries=0
+0000: const/4 v0, 0
+0001: return v0
+
+## Lorg/apache/commons/codec/binary/Base64InputStream;->read()I access=0x1
+# code_off=0x25df4 registers=5 incoming_words=1 outgoing_words=4 code_units=39 tries=0
+0000: const/4 v3, 1
+0001: const/4 v2, 0
+0002: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64InputStream;->singleByte:[B"
+0004: invoke-virtual {v4, v1, v2, v3}, Lorg/apache/commons/codec/binary/Base64InputStream;->read([BII)I
+0007: move-result v0
+0008: if-nez v0, @0011
+000a: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64InputStream;->singleByte:[B"
+000c: invoke-virtual {v4, v1, v2, v3}, Lorg/apache/commons/codec/binary/Base64InputStream;->read([BII)I
+000f: move-result v0
+0010: goto @0008
+0011: if-lez v0, @0025
+0013: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64InputStream;->singleByte:[B"
+0015: aget-byte v1, v1, v2
+0017: if-gez v1, @0020
+0019: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64InputStream;->singleByte:[B"
+001b: aget-byte v1, v1, v2
+001d: add-int/lit16 v1, v1, 256
+001f: return v1
+0020: iget-object v1, v4, "Lorg/apache/commons/codec/binary/Base64InputStream;->singleByte:[B"
+0022: aget-byte v1, v1, v2
+0024: goto @001f
+0025: const/4 v1, -1
+0026: goto @001f
+
+## Lorg/apache/commons/codec/binary/Base64InputStream;->read([BII)I access=0x1
+# code_off=0x25e54 registers=9 incoming_words=4 outgoing_words=4 code_units=94 tries=0
+0000: const/4 v3, 0
+0001: if-nez v6, @0009
+0003: new-instance v2, "Ljava/lang/NullPointerException;"
+0005: invoke-direct {v2}, Ljava/lang/NullPointerException;-><init>()V
+0008: throw v2
+0009: if-ltz v7, @000d
+000b: if-gez v8, @0013
+000d: new-instance v2, "Ljava/lang/IndexOutOfBoundsException;"
+000f: invoke-direct {v2}, Ljava/lang/IndexOutOfBoundsException;-><init>()V
+0012: throw v2
+0013: array-length v2, v6
+0014: if-gt v7, v2, @001b
+0016: add-int v2, v7, v8
+0018: array-length v4, v6
+0019: if-le v2, v4, @0021
+001b: new-instance v2, "Ljava/lang/IndexOutOfBoundsException;"
+001d: invoke-direct {v2}, Ljava/lang/IndexOutOfBoundsException;-><init>()V
+0020: throw v2
+0021: if-nez v8, @0025
+0023: move v2, v3
+0024: return v2
+0025: iget-object v2, v5, "Lorg/apache/commons/codec/binary/Base64InputStream;->base64:Lorg/apache/commons/codec/binary/Base64;"
+0027: invoke-virtual {v2}, Lorg/apache/commons/codec/binary/Base64;->hasData()Z
+002a: move-result v2
+002b: if-nez v2, @004e
+002d: iget-boolean v2, v5, "Lorg/apache/commons/codec/binary/Base64InputStream;->doEncode:Z"
+002f: if-eqz v2, @0055
+0031: const/16 v2, 4096
+0033: new-array v0, v2, "[B"
+0035: iget-object v2, v5, "Lorg/apache/commons/codec/binary/Base64InputStream;->in:Ljava/io/InputStream;"
+0037: invoke-virtual {v2, v0}, Ljava/io/InputStream;->read([B)I
+003a: move-result v1
+003b: if-lez v1, @0045
+003d: array-length v2, v6
+003e: if-ne v2, v8, @0045
+0040: iget-object v2, v5, "Lorg/apache/commons/codec/binary/Base64InputStream;->base64:Lorg/apache/commons/codec/binary/Base64;"
+0042: invoke-virtual {v2, v6, v7, v8}, Lorg/apache/commons/codec/binary/Base64;->setInitialBuffer([BII)V
+0045: iget-boolean v2, v5, "Lorg/apache/commons/codec/binary/Base64InputStream;->doEncode:Z"
+0047: if-eqz v2, @0058
+0049: iget-object v2, v5, "Lorg/apache/commons/codec/binary/Base64InputStream;->base64:Lorg/apache/commons/codec/binary/Base64;"
+004b: invoke-virtual {v2, v0, v3, v1}, Lorg/apache/commons/codec/binary/Base64;->encode([BII)V
+004e: iget-object v2, v5, "Lorg/apache/commons/codec/binary/Base64InputStream;->base64:Lorg/apache/commons/codec/binary/Base64;"
+0050: invoke-virtual {v2, v6, v7, v8}, Lorg/apache/commons/codec/binary/Base64;->readResults([BII)I
+0053: move-result v2
+0054: goto @0024
+0055: const/16 v2, 8192
+0057: goto @0033
+0058: iget-object v2, v5, "Lorg/apache/commons/codec/binary/Base64InputStream;->base64:Lorg/apache/commons/codec/binary/Base64;"
+005a: invoke-virtual {v2, v0, v3, v1}, Lorg/apache/commons/codec/binary/Base64;->decode([BII)V
+005d: goto @004e

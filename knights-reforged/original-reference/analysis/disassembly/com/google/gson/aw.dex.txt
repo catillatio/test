@@ -1,0 +1,38 @@
+# class Lcom/google/gson/aw; extends Ljava/lang/Object;
+# interfaces Lcom/google/gson/k;
+# source None
+# fields
+# Lcom/google/gson/aw;->a:Lcom/google/gson/v; access=0x1a
+# Lcom/google/gson/aw;->b:Lcom/google/gson/k; access=0x12
+
+## Lcom/google/gson/aw;-><clinit>()V access=0x10008
+# code_off=0x2cce8 registers=1 incoming_words=0 outgoing_words=1 code_units=8 tries=0
+0000: new-instance v0, "Lcom/google/gson/v;"
+0002: invoke-direct {v0}, Lcom/google/gson/v;-><init>()V
+0005: sput-object v0, "Lcom/google/gson/aw;->a:Lcom/google/gson/v;"
+0007: return-void
+
+## Lcom/google/gson/aw;-><init>(Lcom/google/gson/k;)V access=0x10001
+# code_off=0x2cd08 registers=2 incoming_words=2 outgoing_words=1 code_units=6 tries=0
+0000: invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+0003: iput-object v1, v0, "Lcom/google/gson/aw;->b:Lcom/google/gson/k;"
+0005: return-void
+
+## Lcom/google/gson/aw;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/String; access=0x11
+# code_off=0x2cd24 registers=4 incoming_words=2 outgoing_words=2 code_units=31 tries=0
+0000: invoke-static {v3}, Lcom/google/gson/at;->a(Ljava/lang/Object;)V
+0003: const-class v0, "Lcom/google/gson/annotations/SerializedName;"
+0005: invoke-virtual {v3, v0}, Lcom/google/gson/FieldAttributes;->getAnnotation(Ljava/lang/Class;)Ljava/lang/annotation/Annotation;
+0008: move-result-object v0
+0009: check-cast v0, "Lcom/google/gson/annotations/SerializedName;"
+000b: if-eqz v0, @0018
+000d: sget-object v1, "Lcom/google/gson/aw;->a:Lcom/google/gson/v;"
+000f: invoke-interface {v0}, Lcom/google/gson/annotations/SerializedName;->value()Ljava/lang/String;
+0012: move-result-object v0
+0013: invoke-static {v0}, Lcom/google/gson/v;->a(Ljava/lang/String;)Ljava/lang/String;
+0016: move-result-object v0
+0017: return-object v0
+0018: iget-object v0, v2, "Lcom/google/gson/aw;->b:Lcom/google/gson/k;"
+001a: invoke-interface {v0, v3}, Lcom/google/gson/k;->a(Lcom/google/gson/FieldAttributes;)Ljava/lang/String;
+001d: move-result-object v0
+001e: goto @0017
