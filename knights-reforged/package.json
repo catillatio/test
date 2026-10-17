@@ -18,6 +18,8 @@
     "test:land:client": "node tests/land-client.test.mjs",
     "test:postgres": "TEST_ENGINE=postgres tsx --test --test-concurrency=1 tests/integration.test.ts tests/alpha-integration.test.ts tests/migration.test.ts",
     "test:browser": "tsx scripts/browser-test.ts",
+    "test:restart": "tsx scripts/test-restart.ts",
+    "balance:report": "tsx scripts/balance-report.ts",
     "verify": "npm run typecheck && npm test && npm run build"
   },
   "dependencies": {

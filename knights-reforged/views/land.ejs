@@ -5,6 +5,7 @@
 <p class="field-hint" data-land-status role="status">Each purchase earns after one full hour, including completed offline hours.</p><p class="field-hint" data-land-pending<% if (state.land.pendingGold==='0') { %> hidden<% } %>>Treasury full: <span data-land-pending-gold><%= BigInt(state.land.pendingGold).toLocaleString('en') %></span> retained gold will be released as you make room.</p><noscript><p>Refresh after the UTC payment time to collect income.</p></noscript>
 </section>
 <p class="compact-help"><strong>Reconstructed alpha economy.</strong> Each additional property of the same type costs 10% more. Bulk purchases use successive prices. Sell returns half each recorded cost; sold units forfeit their unfinished hour.</p>
+<% if (state.maintenance.paused) { %><p class="compact-help warning">Equipment upkeep is paused. The listed net assumes all owned gear is maintained; further equipment charges have stopped. <a href="/game/armory">Resume in Armory ›</a></p><% } %>
 <div class="catalog land-properties">
 <% for (const property of state.land.properties) { const unlocked=state.level>=property.level;const available=property.maxAffordable; %>
 <article class="catalog-row land-property" data-land-property="<%= property.id %>" data-price-steps="<%= JSON.stringify(property.priceSteps) %>">

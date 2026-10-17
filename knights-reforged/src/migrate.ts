@@ -1,10 +1,24 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { type Database, transaction } from './db.js';
+import { type Database, type Sql, transaction } from './db.js';
 import { projectRoot } from './config.js';
 import { rules } from './rules.js';
 import { landRules } from './land-rules.js';
 import { alpha } from './alpha-rules.js';
+
+const definitions=[rules,landRules,alpha];
+const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
+  value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
+
+// Read-only validation at both migration and runtime startup. Skipping migration
+// must not let edited JSON silently redefine an already installed ruleset ID.
+export async function assertInstalledRulesets(sql:Sql) {
+  for(const definition of definitions) {
+    const stored=(await sql.query('SELECT definition FROM rulesets WHERE id=$1',[definition.id])).rows[0]?.definition;
+    if(!stored)throw new Error('Ruleset '+definition.id+' is not installed. Run npm run db:migrate.');
+    if(JSON.stringify(normalize(stored))!==JSON.stringify(normalize(definition)))throw new Error('An existing ruleset version is immutable. Create a new ruleset ID for changed rules.');
+  }
+}
 
 export async function migrate(db: Database, options: { through?: string } = {}) {
   await transaction(db, async client => {
@@ -17,15 +31,9 @@ export async function migrate(db: Database, options: { through?: string } = {}) 
       await client.query(await readFile(join(projectRoot, 'migrations', name), 'utf8'));
       await client.query('INSERT INTO schema_migrations(name) VALUES($1)', [name]);
     }
-    // PostgreSQL jsonb key order differs from JSON source: compare recursively below.
-    const normalize = (value: unknown): unknown => Array.isArray(value) ? value.map(normalize) :
-      value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).sort().map(([k,v]) => [k,normalize(v)])) : value;
-    for (const definition of [rules, landRules, alpha]) {
+    for (const definition of definitions) {
       await client.query('INSERT INTO rulesets(id,definition) VALUES($1,$2) ON CONFLICT DO NOTHING', [definition.id, definition]);
-      const stored = (await client.query('SELECT definition FROM rulesets WHERE id=$1', [definition.id])).rows[0]?.definition;
-      if (JSON.stringify(normalize(stored)) !== JSON.stringify(normalize(definition))) {
-        throw new Error('An existing ruleset version is immutable. Create a new ruleset ID for changed rules.');
-      }
     }
+    await assertInstalledRulesets(client);
   });
 }

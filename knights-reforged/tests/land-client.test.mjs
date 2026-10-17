@@ -114,3 +114,9 @@ test('unclaimed amounts are displayed exactly even beyond safe JavaScript number
   assert.equal(page.selectors.get('[data-land-pending]').hidden, false);
   assert.equal(page.selectors.get('[data-land-pending-gold]').textContent, '99,999,900,000,000,000');
 });
+
+test('a wealthy character cannot enable a level-locked Land purchase through polling', async () => {
+  const page = browser(async () => response({ properties: [{ id:'smallholding', owned:0, remaining:100, maxAffordable:10, unlocked:false, level:7 }] }));
+  page.poll();await flush();
+  assert.equal(page.button.disabled,true);assert.equal(page.input.disabled,true);
+});

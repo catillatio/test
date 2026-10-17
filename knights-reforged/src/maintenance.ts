@@ -20,8 +20,8 @@ export async function settleMaintenance(sql:Sql,characterId:string,now:Date) {
   if (bill.fromWallet) await ledger(sql,null,'equipment_upkeep',[{characterId,amount:-bill.fromWallet}],alpha.id);
   await sql.query(`UPDATE maintenance_accounts SET reserve_gold=$2,arrears_gold=$3,remainder=$4,paused=$5,settled_at=$6 WHERE character_id=$1`,
     [characterId,bill.credit.toString(),bill.arrears.toString(),bill.remainder.toString(),bill.paused,bill.throughAt]);
-  if (bill.due) await sql.query(`INSERT INTO maintenance_events(id,character_id,reason,period_start_at,period_end_at,charged_gold,waived_gold,reserve_after,arrears_after)
-    VALUES($1,$2,'accrual',$3,$4,$5,$6,$7,$8)`,[randomUUID(),characterId,row.settled_at,bill.throughAt,bill.paid.toString(),(bill.due-bill.paid-bill.arrears).toString(),bill.credit.toString(),bill.arrears.toString()]);
+  if (bill.due) await sql.query(`INSERT INTO maintenance_events(id,character_id,reason,period_start_at,period_end_at,charged_gold,waived_gold,reserve_after,arrears_after,hourly_rate,ruleset_id)
+    VALUES($1,$2,'accrual',$3,$4,$5,$6,$7,$8,$9,$10)`,[randomUUID(),characterId,row.settled_at,bill.throughAt,bill.paid.toString(),(bill.due-bill.paid-bill.arrears).toString(),bill.credit.toString(),bill.arrears.toString(),row.hourly_rate,alpha.id]);
   return bill.due>0n;
 }
 
@@ -36,8 +36,8 @@ export async function fundMaintenance(sql:Sql,characterId:string,commandId:strin
   }
   if (cost) await ledger(sql,commandId,'maintenance_funding',[{characterId,amount:-Number(cost)}],alpha.id);
   await sql.query('UPDATE maintenance_accounts SET reserve_gold=reserve_gold+$2,arrears_gold=0,paused=false,settled_at=$3 WHERE character_id=$1',[characterId,topup.toString(),now]);
-  if (cost) await sql.query(`INSERT INTO maintenance_events(id,character_id,reason,period_start_at,period_end_at,charged_gold,reserve_after,arrears_after,command_id)
-    VALUES($1,$2,'fund',$3,$3,$4,$5,0,$6)`,[randomUUID(),characterId,now,arrears.toString(),(credit+topup).toString(),commandId]);
+  if (cost) await sql.query(`INSERT INTO maintenance_events(id,character_id,reason,period_start_at,period_end_at,charged_gold,reserve_after,arrears_after,command_id,hourly_rate,ruleset_id)
+    VALUES($1,$2,'fund',$3,$3,$4,$5,0,$6,$7,$8)`,[randomUUID(),characterId,now,arrears.toString(),(credit+topup).toString(),commandId,row.hourly_rate,alpha.id]);
   return true;
 }
 
@@ -55,5 +55,10 @@ export async function refreshMaintenance(sql:Sql,characterId:string,commandId:st
     await sql.query('UPDATE maintenance_accounts SET paused=(arrears_gold>0),settled_at=$2 WHERE character_id=$1',[characterId,now]);
   } else if (!old.paused) {
     await fundMaintenance(sql,characterId,commandId,now,true);
+  }
+  if (rate!==old.hourly_rate) {
+    const after=await maintenanceAccount(sql,characterId,now);
+    await sql.query(`INSERT INTO maintenance_rate_events(id,character_id,previous_rate,hourly_rate,paused_after,reserve_after,ruleset_id,command_id,created_at)
+      VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,[randomUUID(),characterId,old.hourly_rate,rate,after.paused,after.reserve_gold,alpha.id,commandId,now]);
   }
 }

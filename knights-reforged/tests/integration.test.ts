@@ -38,6 +38,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     const username = `${prefix}_${counter++}`;
     const form = await app.inject({ method: 'GET', url: '/register' });
     assert.equal(form.statusCode, 200);
+    assert.equal(form.headers['referrer-policy'],'same-origin');
     const csrf = /name="csrf" value="([a-f0-9]{64})"/.exec(form.body)?.[1];
     assert.ok(csrf);
     const response = await app.inject({ method: 'POST', url: '/register', headers: {

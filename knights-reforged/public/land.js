@@ -7,6 +7,7 @@ if (root) {
   let nextPayment = root.dataset.nextPayment || null;
   let inFlight = false;
   let retryAt = 0;
+  let version = Number(document.querySelector('[data-realm-state]')?.dataset.stateVersion || 0);
   const countdown = root.querySelector('[data-land-countdown]');
   const status = root.querySelector('[data-land-status]');
   const number = value => Number(value).toLocaleString('en');
@@ -28,6 +29,8 @@ if (root) {
       if (!response.ok) throw new Error('Income refresh unavailable');
       const state = await response.json();
       if (!state.land || !Number.isFinite(Date.parse(state.serverTime))) throw new Error('Invalid server state');
+      if (state.state && state.state.stateVersion < version) return;
+      if (state.state) version = state.state.stateVersion;
       serverTime = Date.parse(state.serverTime);
       syncedAt = performance.now();
       nextPayment = state.land.nextPaymentAt;

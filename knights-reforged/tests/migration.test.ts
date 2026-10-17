@@ -2,9 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { createDatabase } from '../src/db.js';
-import { migrate } from '../src/migrate.js';
+import { migrate,assertInstalledRulesets } from '../src/migrate.js';
+import { getState } from '../src/game.js';
+import { executeCommand } from '../src/commands.js';
+import { testDatabaseUrl } from './helpers.js';
 
-const url = process.env.TEST_DATABASE_URL;
+const url = testDatabaseUrl;
 if (url && !new URL(url).pathname.endsWith('_test')) throw new Error('Migration fixtures require a disposable *_test database.');
 
 test('populated legacy migration preserves records, identity, holding clocks and attained progression', { skip:!url }, async () => {
@@ -53,6 +56,54 @@ test('populated legacy migration preserves records, identity, holding clocks and
     assert.deepEqual((await db.query('SELECT result FROM battles WHERE id=$1',[battle])).rows[0]!.result,oldBattle);
     assert.equal((await db.query('SELECT gold_reward FROM quest_runs WHERE id=$1',[quest])).rows[0]!.gold_reward,25);
     await db.query("UPDATE rulesets SET definition=jsonb_set(definition,'{startingGold}','61') WHERE id='alpha-0.1'");
+    await assert.rejects(assertInstalledRulesets(db),/immutable/);
     await assert.rejects(migrate(db),/immutable/);
   } finally { await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end(); }
+});
+
+test('legacy boundaries, unequipped inventory and mixed-phase rate snapshots remain playable after cutover', {skip:!url}, async()=>{
+  const admin=createDatabase(url!),schema='migration_'+randomUUID().replaceAll('-','');await admin.query(`CREATE SCHEMA ${schema}`);
+  const scoped=new URL(url!);scoped.searchParams.set('options','-c search_path='+schema);const db=createDatabase(scoped.href);
+  try{
+    await migrate(db,{through:'002_land.sql'});
+    const account=randomUUID(),owner=randomUUID(),near=randomUUID(),high=randomUUID(),oldItem=randomUUID(),first=randomUUID(),second=randomUUID();
+    await db.query('INSERT INTO accounts(id,username,password_hash) VALUES($1,$2,$3),($4,$5,$3),($6,$7,$3)',[account,'old_main','fixture_hash',randomUUID(),'old_near',randomUUID(),'old_high']);
+    const accounts=(await db.query('SELECT id,username FROM accounts ORDER BY username')).rows;
+    await db.query(`INSERT INTO characters(id,account_id,name,xp,energy,health) VALUES($1,$2,'Boundary Main',50,10,100),($3,$4,'Boundary Near',49,0,0),($5,$6,'Boundary High',2147483647,10,100)`,
+      [owner,account,near,accounts.find(a=>a.username==='old_near')!.id,high,accounts.find(a=>a.username==='old_high')!.id]);
+    await db.query('INSERT INTO wallets(character_id,balance) SELECT id,60 FROM characters');
+    await db.query("INSERT INTO army_stacks(character_id,unit_definition_id,quantity) SELECT id,'militia',0 FROM characters");
+    await db.query("INSERT INTO inventory_entries(id,character_id,item_definition_id,ruleset_id) VALUES($1,$2,'iron-sword','recreation-0.1')",[oldItem,owner]);
+    await db.query(`INSERT INTO land_holdings(id,character_id,property_id,property_name,ruleset_id,quantity,unit_price,hourly_income,hourly_upkeep,interval_seconds,acquired_at,accrued_through)
+      VALUES($1,$2,'smallholding','Legacy Fields','land-provisional-0.1',2,45,8,1,3600,clock_timestamp()-interval '3 hours 20 minutes',clock_timestamp()-interval '3 hours 20 minutes'),
+      ($3,$2,'woodland','Legacy Grove','land-provisional-0.1',1,90,30,2,3600,clock_timestamp()-interval '30 minutes',clock_timestamp()-interval '30 minutes')`,[first,owner,second]);
+    await migrate(db);
+    const boundary=(await db.query('SELECT * FROM characters WHERE id=$1',[near])).rows[0]!;assert.equal(boundary.attained_level,1);assert.equal(boundary.level_xp,11);
+    const extreme=(await db.query('SELECT * FROM characters WHERE id=$1',[high])).rows[0]!;assert.equal(extreme.xp,2147483647);assert.equal(extreme.attained_level,42949673);
+    const initial=await getState(db,account);assert.equal(initial.level,2);assert.equal(initial.levelXp,0);assert.equal(initial.gold,102);
+    assert.equal(initial.inventoryId,oldItem);assert.equal(initial.attackEquipment.selected[0]!.itemId,'iron-sword');
+    assert.equal(initial.land.hourlyIncome,46);assert.equal(initial.land.hourlyUpkeep,4);
+    assert.equal((await getState(db,account)).gold,102);
+    await executeCommand(db,account,randomUUID(),'land_sell',{propertyId:'smallholding',quantity:1});
+    const after=await getState(db,account);assert.equal(after.gold,124);assert.equal(after.land.hourlyIncome,38);assert.equal(after.land.hourlyUpkeep,3);
+    assert.equal(after.land.holdings.find(h=>h.id===first)!.nextPaymentAt,initial.land.holdings.find(h=>h.id===first)!.nextPaymentAt);
+    assert.equal((await db.query('SELECT quantity,original_quantity FROM land_holdings WHERE id=$1',[first])).rows[0]!.original_quantity,2);
+    assert.equal((await db.query('SELECT count(*)::int AS n FROM equipment_slots')).rows[0]!.n,0);
+  }finally{await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end();}
+});
+
+test('unsupported legacy inventory stops migration atomically without changing original data', {skip:!url}, async()=>{
+  const admin=createDatabase(url!),schema='migration_'+randomUUID().replaceAll('-','');await admin.query(`CREATE SCHEMA ${schema}`);
+  const scoped=new URL(url!);scoped.searchParams.set('options','-c search_path='+schema);const db=createDatabase(scoped.href);
+  try{
+    await migrate(db,{through:'002_land.sql'});const account=randomUUID(),owner=randomUUID(),item=randomUUID();
+    await db.query("INSERT INTO accounts(id,username,password_hash) VALUES($1,'unsupported','fixture_hash')",[account]);
+    await db.query("INSERT INTO characters(id,account_id,name,xp) VALUES($1,$2,'Preserved Warrior',49)",[owner,account]);
+    await db.query("INSERT INTO inventory_entries(id,character_id,item_definition_id,ruleset_id) VALUES($1,$2,'unknown-legacy-item','recreation-0.1')",[item,owner]);
+    await assert.rejects(migrate(db),/verified acquisition-price mapping/);
+    assert.equal((await db.query("SELECT count(*)::int AS n FROM information_schema.columns WHERE table_schema=$1 AND table_name='characters' AND column_name='mana'",[schema])).rows[0]!.n,0);
+    assert.equal((await db.query('SELECT xp FROM characters WHERE id=$1',[owner])).rows[0]!.xp,49);
+    assert.equal((await db.query('SELECT item_definition_id FROM inventory_entries WHERE id=$1',[item])).rows[0]!.item_definition_id,'unknown-legacy-item');
+    assert.equal((await db.query("SELECT count(*)::int AS n FROM schema_migrations WHERE name='003_alpha.sql'")).rows[0]!.n,0);
+  }finally{await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end();}
 });

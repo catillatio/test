@@ -1,14 +1,15 @@
 import { loadConfig } from './config.js';
 import { createDatabase } from './db.js';
 import { createApp } from './app.js';
-import { alpha } from './alpha-rules.js';
+import { assertInstalledRulesets } from './migrate.js';
 
 const config = loadConfig();
 const db = createDatabase(config.databaseUrl);
 const app = await createApp({ db, config, logger: true });
 try {
-  const installed = await db.query('SELECT id FROM rulesets WHERE id=$1', [alpha.id]);
-  if (!installed.rows.length) throw new Error('The ruleset is not installed. Run npm run db:migrate.');
+  await assertInstalledRulesets(db);
+  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='005_maintenance_audit.sql'");
+  if (!schema.rows.length) throw new Error('Phase 3 migrations are incomplete. Run npm run db:migrate.');
   await app.listen({ host: config.host, port: config.port });
   console.log(`Knights Reforged is ready at ${config.origin}`);
 } catch (error) {

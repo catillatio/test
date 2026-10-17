@@ -6,7 +6,7 @@ if(root){
   let attackReady=Date.parse(root.dataset.attackReady||root.dataset.serverTime);
   const text=(selector,value)=>document.querySelectorAll(selector).forEach(element=>{element.textContent=String(value);});
   function apply(state){
-    if(!state||state.stateVersion<version||!Number.isFinite(Date.parse(state.serverTime)))return;
+    if(!state||!Number.isSafeInteger(state.stateVersion)||state.stateVersion<version||!Number.isFinite(Date.parse(state.serverTime)))return;
     version=state.stateVersion;serverTime=Date.parse(state.serverTime);synced=performance.now();attackReady=Date.parse(state.attackReadyAt);
     text('[data-wallet-gold]',Number(state.gold).toLocaleString('en'));text('[data-level]',state.level);text('[data-level-xp]',state.levelXp);text('[data-level-required]',state.levelRequirement);
     const xp=document.querySelector('[data-xp-meter]');if(xp){xp.max=state.levelRequirement;xp.value=state.levelXp;}

@@ -33,7 +33,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
     bodyLimit: 16384, trustProxy: false });
   await app.register(cookie);
   await app.register(formbody);
-  await app.register(helmet, { contentSecurityPolicy: { directives: { defaultSrc: ["'self'"],
+  // Chromium submits Origin: null for HTML POST forms under no-referrer.
+  // Keep same-origin form origins available for the strict CSRF check while
+  // withholding referrers on requests to other sites.
+  await app.register(helmet, { referrerPolicy:{policy:'same-origin'}, contentSecurityPolicy: { directives: { defaultSrc: ["'self'"],
     scriptSrc: ["'self'"], styleSrc: ["'self'"], imgSrc: ["'self'"], fontSrc: ["'self'"],
     objectSrc: ["'none'"], frameAncestors: ["'none'"], formAction: ["'self'"], upgradeInsecureRequests: config.secureCookies ? [] : null } } });
   await app.register(rateLimit, { global: false });

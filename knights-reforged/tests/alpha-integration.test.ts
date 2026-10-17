@@ -74,6 +74,14 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     const total=(await r.db.query('SELECT sum(amount)::int AS n FROM economy_entries WHERE character_id=$1',[p.id])).rows[0]!.n;assert.equal(total,57);
   });
 
+  test('inventory ownership limits remain authoritative across quantity purchases',async()=>{
+    const p=await r.player();await r.prepare(p,5000);
+    for(let i=0;i<10;i++)await r.ok(p,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:100});
+    const before=await r.me(p);assert.equal(before.inventory[0]!.quantity,1000);assert.equal(before.attackEquipment.selected[0]!.quantity,1);
+    const rejected=await r.command(p,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});assert.equal(rejected.statusCode,409);assert.equal(rejected.json().error.code,'INVENTORY_LIMIT');
+    assert.equal((await r.me(p)).gold,before.gold);
+  });
+
   test('equipment can be purchased with no income or funding; maintenance safely pauses expensive gear and keeps free gear usable',async()=>{
     const p=await r.player();await r.prepare(p,20,30);
     await r.ok(p,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});
@@ -81,6 +89,8 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     assert.equal(bought.state.gold,0);assert.equal(bought.state.land.hourlyIncome,0);assert.equal(bought.state.maintenance.paused,true);
     assert.equal(bought.state.inventory.find((item:{id:string})=>item.id==='ransackers-axe').quantity,1);
     assert.deepEqual(bought.state.attackEquipment.selected.map((item:{itemId:string})=>item.itemId),['squires-blade']);
+    const armory=await r.app.inject({method:'GET',url:'/game/armory',headers:{cookie:p.cookie}});
+    assert.equal(armory.statusCode,200,armory.body);assert.match(armory.body,/Resume upkeep/);
     assert.equal((await r.command(p,'/api/v1/maintenance')).statusCode,409);
     await r.prepare(p,1);const resumed=await r.ok(p,'/api/v1/maintenance');
     assert.equal(resumed.state.maintenance.paused,false);assert.equal(resumed.state.maintenance.reserveGold,'1');
@@ -106,6 +116,22 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     assert.equal((await r.ok(p,'/api/v1/maintenance',{},key)).state.maintenance.reserveGold,'3');
     const sale=await r.ok(p,'/api/v1/inventory/sales',{itemId:'ransackers-axe',quantity:3});
     assert.equal(sale.state.gold,3*37+3);assert.equal(sale.state.maintenance.hourlyRate,0);
+    const rates=(await r.db.query('SELECT previous_rate,hourly_rate,ruleset_id FROM maintenance_rate_events WHERE character_id=$1 ORDER BY created_at,id',[p.id])).rows;
+    assert.deepEqual(rates.map(row=>[row.previous_rate,row.hourly_rate,row.ruleset_id]),[[0,3,alpha.id],[3,0,alpha.id]]);
+    const accruals=(await r.db.query("SELECT hourly_rate,ruleset_id FROM maintenance_events WHERE character_id=$1 AND reason='accrual'",[p.id])).rows;
+    accruals.forEach(row=>{assert.equal(row.hourly_rate,3);assert.equal(row.ruleset_id,alpha.id);});
+  });
+
+  test('negative passive income does not block purchases or property sales, and equipment upkeep is charged separately once',async()=>{
+    const p=await r.player();await r.prepare(p,2000,30);
+    await r.ok(p,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
+    await r.ok(p,'/api/v1/inventory/purchases',{itemId:'ransackers-axe',quantity:8});
+    const before=await r.me(p);assert.equal(before.land.netHourlyIncome,-1);assert.equal(before.maintenance.reserveGold,'8');
+    await r.db.query("UPDATE land_holdings SET acquired_at=clock_timestamp()-interval '1 hour',accrued_through=clock_timestamp()-interval '1 hour' WHERE character_id=$1",[p.id]);
+    await r.db.query("UPDATE maintenance_accounts SET settled_at=clock_timestamp()-interval '1 hour',remainder=0 WHERE character_id=$1",[p.id]);
+    const after=await r.me(p);assert.equal(after.gold,before.gold+7);assert.equal(after.maintenance.reserveGold,'0');
+    const sold=await r.ok(p,'/api/v1/land/sales',{propertyId:'smallholding',quantity:1});
+    assert.equal(sold.state.land.netHourlyIncome,-8);assert.equal(sold.state.maintenance.paused,false);
   });
 
   test('quest requirements buy separately, persist across runs and cannot be bypassed by client rewards or prerequisites',async()=>{
@@ -180,6 +206,15 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     assert.equal((await r.me(a)).army.participants,3);assert.equal((await r.me(a)).army.total,5);
     await r.ok(a,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:2});assert.equal((await r.me(b)).inventory.length,0);
     await r.ok(b,'/api/v1/army/removals',{targetCharacterId:a.id});assert.equal((await r.me(a)).army.allies,0);assert.equal((await r.me(b)).army.participants,1);
+  });
+
+  test('concurrent reversed attacks serialize without deadlock and conserve both wallets',async()=>{
+    const a=await r.player(),b=await r.player();const beforeA=await r.me(a),beforeB=await r.me(b);
+    const responses=await Promise.all([r.command(a,'/api/v1/battles',{targetCharacterId:b.id}),r.command(b,'/api/v1/battles',{targetCharacterId:a.id})]);
+    responses.forEach(response=>assert.equal(response.statusCode,200,response.body));
+    const afterA=await r.me(a),afterB=await r.me(b);assert.equal(afterA.gold+afterB.gold,beforeA.gold+beforeB.gold);
+    assert.equal(afterA.spirit,2);assert.equal(afterB.spirit,2);
+    assert.equal((await r.db.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=ANY($1::uuid[])',[[a.id,b.id]])).rows[0]!.n,2);
   });
 
   test('combat spends Spirit, snapshots selected quantities, prevents repeated-reward farming and keeps reports private',async()=>{
