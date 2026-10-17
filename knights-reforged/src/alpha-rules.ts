@@ -1,0 +1,99 @@
+import { readFileSync } from 'node:fs';
+
+export type Category = 'weapon' | 'armor' | 'spell';
+export interface ItemDefinition { id: string; name: string; category: Category; description: string; price: number; attack: number; defense: number; upkeep: number; level: number; art: string; }
+export interface QuestDefinition { id: string; name: string; area: string; description: string; level: number; mana: number; goldMin: number; goldMax: number; xp: number; army: number; items: Record<string, number>; requiresLoot?: string; loot?: { id: string; name: string; chance: number; firstGuaranteed: boolean }; }
+export interface PropertyDefinition { id: string; name: string; description: string; price: number; hourlyIncome: number; hourlyUpkeep: number; level: number; art: string; }
+export interface AlphaRules {
+  id: string; provenance: string; startingGold: number;
+  resources: { health: number; mana: number; spirit: number; healthSeconds: number; healthAmount: number; manaSeconds: number; spiritSeconds: number; maxHealth: number; maxMana: number; maxSpirit: number };
+  progression: { thresholds: number[]; laterBase: number; laterStep: number; pointsPerLevel: number };
+  limits: { inventory: number; transaction: number; property: number; landTransaction: number; mercenaries: number; participants: number };
+  combat: { spiritCost: number; minimumHealth: number; cooldownSeconds: number; variation: number; winnerDamage: number; loserDamageMin: number; loserDamageMax: number; lootPercent: number; lootCap: number; xp: number; rewardedPerTarget: number; rewardWindowSeconds: number };
+  maintenance: { policy: string; hourMilliseconds: number };
+  items: ItemDefinition[]; quests: QuestDefinition[]; properties: PropertyDefinition[];
+}
+export const alpha = JSON.parse(readFileSync(new URL('../rulesets/alpha-0.1/rules.json', import.meta.url), 'utf8')) as AlphaRules;
+export const itemById = new Map(alpha.items.map(item => [item.id, item]));
+export const questById = new Map(alpha.quests.map(quest => [quest.id, quest]));
+export const propertyById = new Map(alpha.properties.map(property => [property.id, property]));
+const safe = (value: number, min = 0, max = 2147483647) => Number.isSafeInteger(value) && value >= min && value <= max;
+if (alpha.id !== 'alpha-0.1' || !alpha.provenance || alpha.items.length !== itemById.size || alpha.quests.length !== questById.size || alpha.properties.length !== propertyById.size) throw new Error('Invalid alpha catalog identity.');
+for (const item of alpha.items) {
+  if (!/^[a-z0-9-]+$/.test(item.id) || !['weapon','armor','spell'].includes(item.category) || !safe(item.price,1) || !safe(item.attack) || !safe(item.defense) || !safe(item.upkeep) || !safe(item.level,1)) throw new Error('Invalid alpha item.');
+}
+for (const quest of alpha.quests) {
+  if (!safe(quest.level,1) || !safe(quest.mana,1) || !safe(quest.xp,1) || !safe(quest.goldMin) || !safe(quest.goldMax,quest.goldMin) || Object.entries(quest.items).some(([id,n]) => !itemById.has(id) || !safe(n,1))) throw new Error('Invalid alpha quest.');
+}
+
+export function levelRequirement(level: number): number {
+  if (!safe(level,1,42949673)) throw new RangeError('Invalid level.');
+  return level < alpha.progression.thresholds.length ? alpha.progression.thresholds[level]! - alpha.progression.thresholds[level-1]! : alpha.progression.laterBase + (level-alpha.progression.thresholds.length)*alpha.progression.laterStep;
+}
+export function advanceLevel(level: number, progress: number, award: number) {
+  if (!safe(progress) || !safe(award,0,1000000) || progress >= levelRequirement(level)) throw new RangeError('Invalid progression.');
+  let remaining = progress + award; const before = level;
+  while (remaining >= levelRequirement(level)) { remaining -= levelRequirement(level); level++; }
+  return { level, progress: remaining, points: (level-before)*alpha.progression.pointsPerLevel, gained: level-before };
+}
+export interface OwnedItem extends ItemDefinition { inventoryId: string; quantity: number; }
+export interface SelectedItem { itemId: string; name: string; category: Category; quantity: number; attack: number; defense: number; }
+export function selectEquipment(inventory: OwnedItem[], participants: number, mode: 'attack' | 'defense', maintained = true) {
+  if (!safe(participants,1,alpha.limits.participants)) throw new RangeError('Invalid army participation.');
+  const secondary = mode === 'attack' ? 'defense' : 'attack';
+  const selected: SelectedItem[] = [];
+  for (const category of ['weapon','armor','spell'] as const) {
+    let left = participants;
+    const candidates = inventory.filter(item => item.category === category && item.quantity > 0 && (maintained || item.upkeep === 0))
+      .sort((a,b) => b[mode]-a[mode] || b[secondary]-a[secondary] || a.upkeep-b.upkeep || a.id.localeCompare(b.id));
+    for (const item of candidates) {
+      const quantity = Math.min(left,item.quantity); if (!quantity) break;
+      selected.push({ itemId:item.id,name:item.name,category,quantity,attack:item.attack,defense:item.defense }); left -= quantity;
+    }
+  }
+  return { selected, attack: selected.reduce((n,item) => n+item.attack*item.quantity,0), defense: selected.reduce((n,item) => n+item.defense*item.quantity,0) };
+}
+export function activeArmy(level: number, militia: number, allies: number, legacyFloor = 1) {
+  const capacity = Math.min(alpha.limits.participants,Math.max(1+2*level,legacyFloor));
+  return { capacity, participants: Math.min(capacity,1+militia+allies), total: 1+militia+allies };
+}
+export function rivalRange(level: number) { return Math.max(2,Math.ceil(level*0.2)); }
+export function areRivals(a: number,b: number) { return Math.abs(a-b) <= Math.min(rivalRange(a),rivalRange(b)); }
+export function propertyPrice(base: number, owned: number): number {
+  if (!safe(base,1) || !safe(owned,0,alpha.limits.property)) throw new RangeError('Invalid property quote.');
+  const denominator = 10n**BigInt(owned);
+  const price = (BigInt(base)*11n**BigInt(owned)+denominator-1n)/denominator;
+  if (price > 2147483647n) throw new RangeError('Property price exceeds treasury bounds.');
+  return Number(price);
+}
+export function propertyQuote(base: number,owned: number,quantity: number) {
+  if (!safe(quantity,1,alpha.limits.landTransaction) || owned+quantity > alpha.limits.property) throw new RangeError('Invalid property quantity.');
+  return Array.from({length:quantity},(_,index) => propertyPrice(base,owned+index));
+}
+export function maintenanceBill(rate: number,from: Date,now: Date,remainder: bigint,credit: bigint,wallet: number) {
+  if (!safe(rate) || !safe(wallet) || credit < 0n || remainder < 0n || remainder >= 3600000n || !Number.isFinite(from.getTime()) || !Number.isFinite(now.getTime())) throw new RangeError('Invalid maintenance state.');
+  const elapsed = BigInt(Math.max(0,now.getTime()-from.getTime()));
+  const numerator = elapsed*BigInt(rate)+remainder;
+  const due = numerator/3600000n;
+  const available = credit+BigInt(wallet);
+  const paid = due < available ? due : available;
+  const fromCredit = paid < credit ? paid : credit;
+  const missing = due-paid;
+  return { due, paid, fromCredit, fromWallet: Number(paid-fromCredit), credit:credit-fromCredit,
+    arrears: missing > BigInt(rate) ? BigInt(rate) : missing, paused:missing>0n,
+    remainder:missing>0n ? 0n : numerator%3600000n, throughAt:now < from ? from : now };
+}
+
+export function resolveAlphaCombat(attacker: { attack:number; health:number; maxHealth:number; gold:number },defender: { defense:number; health:number; maxHealth:number; gold:number },attackRoll:number,defenseRoll:number,rewarded=true) {
+  const c = alpha.combat;
+  if (![attackRoll,defenseRoll].every(n => Number.isInteger(n) && n >= -c.variation && n <= c.variation)) throw new RangeError('Invalid combat roll.');
+  const attackPower = attacker.attack*(100+attackRoll); const defensePower = defender.defense*(100+defenseRoll);
+  const win = attackPower > defensePower;
+  const gap = Math.abs(attackPower-defensePower)/100;
+  const damage = Math.min(c.loserDamageMax,c.loserDamageMin+Math.floor(gap/2));
+  const attackerDamage = win ? c.winnerDamage : damage; const defenderDamage = win ? damage : c.winnerDamage;
+  const loserGold = win ? defender.gold : attacker.gold;
+  return { outcome:win ? 'attacker_win' as const : 'defender_win' as const, attackRoll,defenseRoll,attackPower,defensePower,
+    attackerDamage,defenderDamage,attackerHealthAfter:Math.max(0,attacker.health-attackerDamage),defenderHealthAfter:Math.max(0,defender.health-defenderDamage),
+    loot:rewarded ? Math.min(c.lootCap,Math.floor(loserGold*c.lootPercent/100)) : 0, attackerXp:rewarded && win ? c.xp : 0 };
+}

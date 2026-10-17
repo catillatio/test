@@ -1,0 +1,42 @@
+{
+  "id": "alpha-0.1",
+  "provenance": "Original Knights Reforged alpha content and reconstructed balance. Kingdoms Live inspired the resource roles, repeatable equipment-gated quests, automatic one-item-per-category army use, and compact interface. No original server formulas are claimed.",
+  "startingGold": 60,
+  "resources": { "health": 100, "mana": 20, "spirit": 3, "healthSeconds": 180, "healthAmount": 10, "manaSeconds": 300, "spiritSeconds": 120, "maxHealth": 5000, "maxMana": 500, "maxSpirit": 100 },
+  "progression": { "thresholds": [0, 12, 30, 60, 105, 165, 245, 350, 485, 650], "laterBase": 200, "laterStep": 45, "pointsPerLevel": 1 },
+  "limits": { "inventory": 1000, "transaction": 100, "property": 100, "landTransaction": 25, "mercenaries": 20, "participants": 101 },
+  "combat": { "spiritCost": 1, "minimumHealth": 20, "cooldownSeconds": 10, "variation": 10, "winnerDamage": 3, "loserDamageMin": 12, "loserDamageMax": 30, "lootPercent": 5, "lootCap": 50, "xp": 5, "rewardedPerTarget": 3, "rewardWindowSeconds": 86400 },
+  "maintenance": { "policy": "Purchases never require passive income. All owned upkeep copies accrue proportionally to server time while maintained. Reserve and carried gold fund charges after due Land income. A funding shortfall pauses upkeep gear, caps arrears at one hourly bill, and stops further charges. Zero-upkeep gear remains usable. Resume pays arrears and funds one hourly reserve. No forced sales or compounding debt.", "hourMilliseconds": 3600000 },
+  "items": [
+    { "id": "squires-blade", "name": "Squire's Blade", "category": "weapon", "description": "A short blade for the realm's first roads.", "price": 5, "attack": 1, "defense": 0, "upkeep": 0, "level": 1, "art": "blade" },
+    { "id": "ash-spear", "name": "Ash Spear", "category": "weapon", "description": "A long reach and a steady grip.", "price": 12, "attack": 3, "defense": 1, "upkeep": 0, "level": 1, "art": "spear" },
+    { "id": "iron-sword", "name": "Iron sword", "category": "weapon", "description": "The original prototype blade, retained for every owner.", "price": 40, "attack": 8, "defense": 1, "upkeep": 0, "level": 1, "art": "sword" },
+    { "id": "ransackers-axe", "name": "Ransacker's Axe", "category": "weapon", "description": "A heavy head that demands regular sharpening.", "price": 75, "attack": 12, "defense": 2, "upkeep": 1, "level": 3, "art": "axe" },
+    { "id": "sunsteel-glaive", "name": "Sunsteel Glaive", "category": "weapon", "description": "A captain's weapon, bright above the shield wall.", "price": 150, "attack": 18, "defense": 5, "upkeep": 3, "level": 6, "art": "glaive" },
+    { "id": "wicker-buckler", "name": "Wicker Buckler", "category": "armor", "description": "Light enough for the long march.", "price": 6, "attack": 0, "defense": 2, "upkeep": 0, "level": 1, "art": "buckler" },
+    { "id": "padded-coat", "name": "Padded Coat", "category": "armor", "description": "Quilted layers turn aside an uncertain blow.", "price": 18, "attack": 1, "defense": 4, "upkeep": 0, "level": 1, "art": "coat" },
+    { "id": "warden-mail", "name": "Warden Mail", "category": "armor", "description": "Linked iron for the watch on the frontier.", "price": 65, "attack": 3, "defense": 11, "upkeep": 1, "level": 3, "art": "mail" },
+    { "id": "castellan-helm", "name": "Castellan Helm", "category": "armor", "description": "A crested helm built to hold the gate.", "price": 140, "attack": 6, "defense": 17, "upkeep": 3, "level": 6, "art": "helm" },
+    { "id": "ember-word", "name": "Ember Word", "category": "spell", "description": "A spark carried on a single breath.", "price": 8, "attack": 2, "defense": 0, "upkeep": 0, "level": 1, "art": "ember" },
+    { "id": "hearth-ward", "name": "Hearth Ward", "category": "spell", "description": "The patient warmth that guards a home.", "price": 15, "attack": 0, "defense": 4, "upkeep": 0, "level": 1, "art": "ward" },
+    { "id": "thorn-hex", "name": "Thorn Hex", "category": "spell", "description": "A living snare renewed with rare herbs.", "price": 55, "attack": 8, "defense": 5, "upkeep": 1, "level": 3, "art": "thorn" },
+    { "id": "storm-sigil", "name": "Storm Sigil", "category": "spell", "description": "A bound tempest that hungers for silver ink.", "price": 130, "attack": 15, "defense": 9, "upkeep": 3, "level": 6, "art": "storm" }
+  ],
+  "quests": [
+    { "id": "border-patrol", "name": "Patrol the border", "area": "The Vale", "description": "Keep the old road safe and learn the realm's ways.", "level": 1, "mana": 2, "goldMin": 8, "goldMax": 12, "xp": 4, "army": 1, "items": {} },
+    { "id": "gather-timber", "name": "Gather the Winter Timber", "area": "The Vale", "description": "Clear deadwood for the village stores.", "level": 1, "mana": 3, "goldMin": 12, "goldMax": 18, "xp": 6, "army": 1, "items": { "squires-blade": 1 } },
+    { "id": "clear-old-road", "name": "Clear the Old Road", "area": "The Vale", "description": "Drive raiders from the broken mileposts.", "level": 2, "mana": 4, "goldMin": 18, "goldMax": 28, "xp": 10, "army": 1, "items": { "ash-spear": 1, "wicker-buckler": 1 } },
+    { "id": "train-watch", "name": "Train the Village Watch", "area": "The Vale", "description": "Teach the watch to stand against fire and steel.", "level": 3, "mana": 4, "goldMin": 20, "goldMax": 30, "xp": 10, "army": 1, "items": { "padded-coat": 1, "ember-word": 1 } },
+    { "id": "search-ruins", "name": "Search the Fallen Abbey", "area": "The Marches", "description": "Find the old watchtower route among the ashes.", "level": 3, "mana": 4, "goldMin": 23, "goldMax": 35, "xp": 12, "army": 1, "items": { "hearth-ward": 1 }, "loot": { "id": "watchtower-map", "name": "Watchtower Map", "chance": 20, "firstGuaranteed": true } },
+    { "id": "take-watchtower", "name": "Take the Silent Tower", "area": "The Marches", "description": "Lead a small company along the hidden route.", "level": 4, "mana": 5, "goldMin": 30, "goldMax": 45, "xp": 14, "army": 2, "items": { "iron-sword": 1, "padded-coat": 1 }, "requiresLoot": "watchtower-map" },
+    { "id": "break-siege", "name": "Break the Coinwind Siege", "area": "The Marches", "description": "Rally your company and shatter the siege line.", "level": 5, "mana": 5, "goldMin": 35, "goldMax": 55, "xp": 16, "army": 3, "items": { "ransackers-axe": 1, "warden-mail": 1, "thorn-hex": 1 } },
+    { "id": "ward-frontier", "name": "Ward the Northern Frontier", "area": "The Marches", "description": "Carry the realm's banner into the storm.", "level": 8, "mana": 6, "goldMin": 50, "goldMax": 75, "xp": 22, "army": 5, "items": { "sunsteel-glaive": 1, "castellan-helm": 1, "storm-sigil": 1 } }
+  ],
+  "properties": [
+    { "id": "smallholding", "name": "Smallholding", "description": "Tenant fields beside the old road.", "price": 45, "hourlyIncome": 8, "hourlyUpkeep": 1, "level": 1, "art": "fields" },
+    { "id": "woodland", "name": "Woodland", "description": "Managed groves supply the realm with timber.", "price": 90, "hourlyIncome": 18, "hourlyUpkeep": 3, "level": 2, "art": "woodland" },
+    { "id": "watchtower", "name": "Watchtower", "description": "A guarded crossing brings steady tolls.", "price": 180, "hourlyIncome": 38, "hourlyUpkeep": 8, "level": 3, "art": "tower" },
+    { "id": "river-mill", "name": "River Mill", "description": "Water turns the stones throughout the year.", "price": 350, "hourlyIncome": 55, "hourlyUpkeep": 0, "level": 4, "art": "mill" },
+    { "id": "crown-harbour", "name": "Crown Harbour", "description": "Merchant sails fill a sheltered royal harbour.", "price": 900, "hourlyIncome": 120, "hourlyUpkeep": 0, "level": 7, "art": "harbour" }
+  ]
+}
