@@ -65,9 +65,11 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const csrf = request.headers['x-csrf-token'] ?? asBody(request).csrf;
     const origin = request.headers.origin;
     if (!session || typeof csrf !== 'string' || !/^[a-f0-9]{64}$/.test(csrf) ||
-        !timingSafeEqual(Buffer.from(csrf), Buffer.from(session.csrf_token)) ||
-        (origin !== undefined && origin !== config.origin)) {
+        !timingSafeEqual(Buffer.from(csrf), Buffer.from(session.csrf_token))) {
       throw new GameError('CSRF_REJECTED', 'Your session changed or the form expired. Reload the page and try again.', 403);
+    }
+    if (origin !== undefined && origin !== config.origin) {
+      throw new GameError('ORIGIN_REJECTED','This form was opened from a different realm address. Open the current realm address and reload the page.',403);
     }
   });
 
@@ -120,7 +122,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.post('/logout', async (request, reply) => {
     if (request.realmSession) await db.query('DELETE FROM sessions WHERE token_hash=$1', [request.realmSession.token_hash]);
-    reply.clearCookie('kr_session', { path: '/' });
+    reply.clearCookie('kr_session', { path: '/',httpOnly:true,secure:config.secureCookies,sameSite:'lax' });
     return reply.redirect('/login', 303);
   });
 

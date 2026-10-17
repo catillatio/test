@@ -19,6 +19,7 @@
     "test:postgres": "TEST_ENGINE=postgres tsx --test --test-concurrency=1 tests/integration.test.ts tests/alpha-integration.test.ts tests/migration.test.ts",
     "test:browser": "tsx scripts/browser-test.ts",
     "test:restart": "tsx scripts/test-restart.ts",
+    "test:codespaces": "tsx scripts/test-codespaces.ts",
     "balance:report": "tsx scripts/balance-report.ts",
     "verify": "npm run typecheck && npm test && npm run build"
   },
