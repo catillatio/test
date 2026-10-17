@@ -1,15 +1,21 @@
-# Kingdom Come — Phase 3.5 fantasy multiplayer alpha
+# Kingdom Come — Calling and Bounties multiplayer alpha
 
 Previously Knights Reforged. The application directory, database identifiers and historical research names are retained for compatibility.
 
 A server-rendered medieval multiplayer RPG inspired by Storm8 Kingdoms Live. Five original-style tabs connect repeatable quests, Mana, quantity equipment, automatically equipped armies, Spirit-based PvP, Land income and character progression. All gameplay calculations run on the server.
 
-**Active rules: `alpha-0.3`.** The content, economic policy and combat formulas are reconstructed Kingdom Come rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
+**Active rules: `alpha-0.3` content, `strategy-0.2` specializations/rewards and `passive-rivals-2` development population.** The content, economic policy and combat formulas are reconstructed Kingdom Come rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
 
-Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdoms-live-phase-3-5-alpha`, based on the Phase 3 alpha branch. No branches are merged and nothing is deployed automatically.
+Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdom-come-strategy-and-bounties`, based on the working `fix/codespaces-origin-validation` branch. No branches are merged and nothing is deployed automatically.
+
+See [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) for current Calling bonuses, temporary rivals, development-account provisioning, funded bounties, verification and the port-3001 Codespace update. [Mobile screenshots](docs/strategy-preview/README.md) show the new interfaces.
 
 ## What works
 
+- Three persistent Calling specializations, modest combat/recovery tradeoffs and guarded 24-hour switching.
+- A funded Bounty List with fees, eligibility/cooldown limits, atomic claims, cancellation and expiry refunds.
+- 150 optional passive development rivals across levels 1–50, normal combat/inventory and bounded daily rewards.
+- A guarded, repeatable `dev` account initializer; credentials are entered through a hidden prompt or workspace secret.
 - Persistent accounts and sessions; registration/login/logout, Argon2id, CSRF and strict Origin checks.
 - Health, Mana and Spirit with independent offline recovery, levels, skill points, capacity upgrades and milestones.
 - 60 equipment entries: 20 Weapons, 20 Armor and 20 Spells through level 50; quantity Buy/Sell, FIFO acquisition-cost resale and automatic attack/defense selection.
@@ -32,16 +38,19 @@ From the Codespaces terminal:
 
 ```bash
 cd /workspaces/test
-git fetch origin feature/kingdoms-live-phase-3-5-alpha
-git switch feature/kingdoms-live-phase-3-5-alpha
+git fetch origin feature/kingdom-come-strategy-and-bounties
+git switch -c feature/kingdom-come-strategy-and-bounties FETCH_HEAD
 cd knights-reforged
-npm ci
 npm run db:migrate
-npm run verify
-node deployment/preview.mjs
+NODE_ENV=development ALLOW_DEV_PROVISIONING=1 npm run dev:bots
+NODE_ENV=development ALLOW_DEV_PROVISIONING=1 npm run dev:account
+npm run build
+export NODE_ENV=development HOST=0.0.0.0 PORT=3001 ENABLE_DEV_BOTS=1
+export APP_ORIGIN=https://super-winner-4r7ppp6g7p4hq4rv-3001.app.github.dev
+npm start
 ```
 
-If the branch is not yet local, Git normally creates it from the fetched remote branch. If you have uncommitted work, preserve it before switching; do not force the switch.
+These commands use the existing installed dependencies and PostgreSQL connection; no dependency versions changed. If this feature branch already exists locally, switch to it and pull with `git pull --ff-only origin feature/kingdom-come-strategy-and-bounties`. Preserve uncommitted work before switching. The account command prompts for the supplied password without echoing it. It creates only the managed dev account, or leaves its current progress unchanged on an idempotent run; use `-- --reset` for the controlled testing baseline. See the milestone report for details.
 
 Without an explicit public `APP_ORIGIN`, launch methods derive the HTTPS origin from `CODESPACE_NAME`, `PORT` and `GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN` (default `app.github.dev`); copied loopback defaults use that address too. An explicit public origin takes precedence, including a Codespaces URL. Update a copied old preview URL explicitly. The preview helper loads `.env` before choosing its port; exported environment variables take precedence over `.env`. Restart the application after updating it; existing accounts and sessions are retained. In **Ports**, keep the running port (normally **3000**, or **3001** when configured) **Private**, then choose **Open in Browser**. Sign into GitHub in Chrome on Android to use the private forwarded address. This work does not create a Codespace, hosting service or public URL.
 

@@ -41,6 +41,16 @@
       ],
       "bytes": 2035970,
       "sha256": "ee44ff1d119d4f05cb020e75baf9db6512552aa3ade8b24c79c2ceacfed50334"
+    },
+    {
+      "file": "5-bounty-limit.png",
+      "original_upload": "1-1000030968.png",
+      "dimensions": [
+        750,
+        1334
+      ],
+      "bytes": 2045026,
+      "sha256": "88d21967e7f7f18770e8eeb2ad3fbf1cec88216527b24efc350aa3d27c733a2b"
     }
   ]
 }

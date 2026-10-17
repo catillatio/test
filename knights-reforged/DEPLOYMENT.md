@@ -63,3 +63,9 @@ npm run test:browser
 Test URLs must name disposable `*_test` databases; non-loopback test hosts need `ALLOWED_TEST_DATABASE_HOST`. Do not substitute the working player database. The browser script refuses production mode, restricts requests to its designated application origin and generates its own test accounts.
 
 The HTTPS regression reproduces TLS termination on a port-3001 Codespaces-shaped public hostname, native browser Secure cookies, actual browser form Origins, the provider's localhost Origin rewrite, preserved Referer/Fetch Metadata, forwarded HTTPS headers and an HTTP backend on loopback. It checks native registration, returning accounts and pre-fix cookies, quests, purchases, Land trades, PvP, logout/login and forged Origins/CSRF. HTTP-localhost, HTTPS-localhost and unmodified Origin modes are covered. It does not log into an actual user Codespace. Actual Android device/WebView behavior, provider private-access policies, container builds and PostgreSQL versions beyond the tested development version remain target-environment checks. A Codespaces browser tab is a responsive client, not an Android APK.
+
+## Calling and Bounties milestone
+
+Use [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) for the current branch, additive migration 010 and exact super-winner port-3001 update commands. Existing installed dependencies and database volumes are reused. New immutable rulesets are installed by migration.
+
+Temporary rivals require an explicit development-only provision command and `ENABLE_DEV_BOTS=1` at runtime. Production always disables their discovery/attacks. Provisioning the managed `dev` account requires `NODE_ENV=development`, `ALLOW_DEV_PROVISIONING=1` and its private credential through a hidden prompt or `KINGDOM_DEV_PASSWORD`. Neither provisioning operation is an HTTP endpoint or an automatic startup grant.

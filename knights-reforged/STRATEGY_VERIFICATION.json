@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-17T11:26:36.603Z",
+  "runtimeCommit": "5913a7ca9bd34c672463cf3c35d1fa5cd23f818a",
+  "baseCommit": "22285c8e109656d4c2dccbd85b2e7eb9fe210ef1",
+  "branch": "feature/kingdom-come-strategy-and-bounties",
+  "rulesets": {
+    "content": "alpha-0.3",
+    "strategy": "strategy-0.2",
+    "bots": "passive-rivals-2",
+    "art": "land-simple-0.1"
+  },
+  "gates": {
+    "typescript": true,
+    "productionBuild": true,
+    "automated": {
+      "passed": 142,
+      "failed": 0,
+      "skipped": 0
+    },
+    "postgres": {
+      "passed": 83,
+      "failed": 0,
+      "skipped": 0,
+      "overlapsFullSuite": true
+    },
+    "static": {
+      "passed": 52,
+      "ejsFixtures": 36
+    },
+    "compiledRestart": true,
+    "lateGameBrowser": true
+  },
+  "https": {
+    "passed": true,
+    "liveProviderContacted": false,
+    "nativeRegistration": true,
+    "secureCookies": true,
+    "publicOrigin": "https://knights-session-fixture-3001.app.github.dev",
+    "observedNativePosts": 18,
+    "observedUpstreamOrigins": [
+      "http://localhost:3001",
+      "https://localhost:3001",
+      "https://knights-session-fixture-3001.app.github.dev"
+    ],
+    "callingChange": true,
+    "bountyPlacementAndClaim": true,
+    "privateReport": true,
+    "botBattle": true,
+    "widths": [
+      330,
+      360,
+      390,
+      1366
+    ],
+    "browserErrors": 0,
+    "simplifiedLandArt": true
+  },
+  "migration": {
+    "new": "010_strategy_and_bounties.sql",
+    "allExistingBusinessTablesPreserved": true,
+    "tables": 27,
+    "accountsBeforeDevelopmentPopulation": 15
+  },
+  "population": {
+    "count": 150,
+    "minLevel": 1,
+    "maxLevel": 50,
+    "tiers": [
+      "green",
+      "seasoned",
+      "elite"
+    ],
+    "allLevelMatchedBenchmark": true,
+    "middleTierWinPercentRange": [
+      47.6,
+      52.4
+    ],
+    "rewardCeilings": {
+      "rewardedBotEncountersPerDay": 6,
+      "rewardedPerBotPerDay": 1,
+      "goldPerDay": 300,
+      "xpPerDay": 30,
+      "questAndLandBonuses": 0
+    }
+  },
+  "devAccount": {
+    "provisionedLocally": true,
+    "username": "dev",
+    "gold": 50000,
+    "startingParticipants": 10,
+    "credentialSource": "User-supplied, entered through hidden terminal input; Argon2id stored only in the development database.",
+    "idempotentInitializationVerified": true,
+    "userCodespaceProvisioned": false
+  },
+  "limitations": [
+    "Emulated phone viewports, not a physical Android device",
+    "User private Codespace was not accessed",
+    "Balance sweep is arithmetic for one reference build; human competitive balance/pacing remain unverified",
+    "Coordinated unlinked alternate accounts are limited but not perfectly identified",
+    "Global escrow lock and a 100-listing board are small-alpha scale choices"
+  ]
+}
