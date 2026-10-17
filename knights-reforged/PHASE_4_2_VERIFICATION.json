@@ -1,0 +1,199 @@
+{
+  "phase": "Kingdom Come 4.2",
+  "branch": "feature/kingdom-come-phase-4-2-pvp-economy",
+  "base_commit": "e12b3d2ea972e840d371ef97f6d45c639e8ca9d7",
+  "implementation_commit": "e64ed5b3d9c6c5c19f9100ccec1f3fe2464d9f04",
+  "verified_at_utc": "2026-10-17T21:26:17.950418+00:00",
+  "typescript": {
+    "command": "npm run typecheck",
+    "passed": true
+  },
+  "production_build": {
+    "command": "npm run build",
+    "passed": true
+  },
+  "full_suite": {
+    "command": "TEST_DATABASE_URL=<disposable local *_test> npm run verify",
+    "tests": 194,
+    "pass": 194,
+    "fail": 0,
+    "skipped": 0,
+    "uses_real_postgresql": true
+  },
+  "postgres_suite": {
+    "command": "TEST_DATABASE_URL=<disposable local *_test> npm run test:postgres",
+    "tests": 129,
+    "pass": 129,
+    "fail": 0,
+    "skipped": 0,
+    "platform": "PostgreSQL 18.4"
+  },
+  "static_templates": {
+    "command": "npm run check:static",
+    "passed": 75,
+    "failed": 0,
+    "production_ejs_fixtures": 57
+  },
+  "compiled_restart": {
+    "command": "npm run test:restart with disposable TEST_DATABASE_URL",
+    "passed": true,
+    "includes": [
+      "sessions",
+      "Vault",
+      "PvP sequence",
+      "progression",
+      "inventory",
+      "Land",
+      "Calling",
+      "bounty escrow",
+      "social feeds",
+      "invitations",
+      "private battle reports"
+    ]
+  },
+  "codespaces_https": {
+    "command": "npm run test:codespaces with disposable TEST_DATABASE_URL and local Chromium",
+    "passed": true,
+    "native_posts": 33,
+    "screen_visits": 126,
+    "screens_per_viewport": 21,
+    "widths": [
+      320,
+      360,
+      390,
+      412,
+      430,
+      1366
+    ],
+    "browser_errors": 0,
+    "scope": "Local TLS-terminating proxy reproducing Codespaces HTTPS port-3001 forwarding, with native browser forms",
+    "live_provider_contacted": false,
+    "checks": [
+      "registration, login, rotation and logout",
+      "Secure/HttpOnly/Lax cookies",
+      "canonical and localhost-rewritten Origins",
+      "forged Origin/CSRF/forwarding rejection",
+      "prominent human/bot profile actions",
+      "server fee quotes and reviewed funding",
+      "human/bot finishing claims, zero Health and capped ordinary bot rewards",
+      "native Vault deposit and withdrawal",
+      "immediate Attack Again and public Tales",
+      "Home-only Land and automatic income settlement",
+      "comments, broadcasts, invitations and moderation",
+      "labels, named controls, keyboard skip, five tabs, no overflow or broken images"
+    ]
+  },
+  "ordinary_browser": {
+    "passed": true,
+    "origin": "http://127.0.0.1:3025",
+    "viewports": [
+      "1366x900",
+      "390x844",
+      "360x800"
+    ],
+    "screensPerPass": 7,
+    "passes": 5,
+    "checks": [
+      "Five original tabs and backgrounds",
+      "No horizontal overflow or missing images",
+      "Quest repeat, gates and loot",
+      "Level and Mana skill allocation",
+      "Army recruitment and accepted player ally",
+      "Quantity spell Buy/Sell and category preservation",
+      "Property Buy/Sell and live countdown",
+      "Two-player private persistent report",
+      "JavaScript-disabled quest forms"
+    ],
+    "limitations": [
+      "Headless Chromium viewports, not physical Android/WebView",
+      "Offline hours and concurrency verified separately in PostgreSQL tests"
+    ]
+  },
+  "fantasy_browser": {
+    "passed": true,
+    "viewports": [
+      "330x740",
+      "360x800",
+      "390x844",
+      "1366x900"
+    ],
+    "ruleset": "alpha-0.3",
+    "fixture": "Qualified late-game players in disposable PostgreSQL; early-game no-grant playthrough verified separately",
+    "checks": [
+      "All 81 unique painted cells load",
+      "No horizontal overflow",
+      "Original five tabs",
+      "Three-category quantity purchases and resale",
+      "Level-50 property Buy/Sell and net header",
+      "Level-55 gate",
+      "Profile skills and logout",
+      "Discovery-gated level-50 finale",
+      "Two-player fantasy battle and private report",
+      "Maximum wallet at 330px"
+    ],
+    "browserErrors": 0,
+    "limitations": [
+      "Headless Chromium phone viewports; not a physical Android device",
+      "Loopback HTTP; real TLS reverse proxy covered by test:codespaces"
+    ]
+  },
+  "balance_enumeration": {
+    "command": "npm run balance:strategy",
+    "passed": true,
+    "levels": 50,
+    "roll_pairs_per_matchup": 441,
+    "bot_tiers": 3,
+    "scope": "Arithmetic for one documented comparison company, not human balance testing"
+  },
+  "data_preservation": {
+    "passed": true,
+    "source_was_read_only": true,
+    "method": "Disposable PostgreSQL database cloned from preserved local Phase 4.1 development database; no writes to the source",
+    "source_business_tables": 42,
+    "source_accounts": 166,
+    "human_accounts": 16,
+    "registered_bots": 150,
+    "battles_preserved": 5,
+    "bounties_preserved": 0,
+    "migration_changed_old_tables": [],
+    "bot_upgrade": {
+      "created": 0,
+      "upgraded": 150,
+      "active": 150
+    },
+    "bot_army_cap": 10,
+    "human_business_rows_unchanged": true,
+    "historical_rows_retained": true,
+    "bot_ids_unchanged": true
+  },
+  "migration": "013_pvp_economy.sql",
+  "new_immutable_definitions": [
+    "pvp-economy-0.1",
+    "passive-rivals-4"
+  ],
+  "new_tables": [
+    "pvp_loot_sequences",
+    "vault_accounts",
+    "vault_entries",
+    "development_bot_estates"
+  ],
+  "resolved_test_findings": [
+    "Passed character explicitly to new nested profile actions template.",
+    "Updated legacy combat ledger assertion to treat no transfer entries as zero on a legitimate zero-loot defeat.",
+    "Initialized existing milestone entitlements in the populated pre-upgrade fixture; retained that existing migration-runner behavior.",
+    "Rival savings and older defense-oriented wards are tested against their actual versioned policies, not invented bounds."
+  ],
+  "remaining_test_failures": [],
+  "limitations": [
+    "The live super-winner Codespace was not accessible for direct validation.",
+    "Headless Chromium viewport tests do not verify physical Android, Android WebView, APK installation or signing.",
+    "Multi-day human economy and coordinated-account abuse testing remain.",
+    "Sponsors cannot claim their own funded bounty; use a different existing player identity to test a claim.",
+    "Permanent hosting, backups/operations and Android packaging remain the next milestone."
+  ],
+  "public_deployment": false,
+  "merged_branches": false,
+  "dependency_versions_changed": false,
+  "artwork": "Existing recovered navigation and fantasy/Land illustrations reused unchanged; no artwork generated in Phase 4.2.",
+  "screenshots": "docs/phase-4-2-preview/README.md"
+}
