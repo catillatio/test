@@ -265,6 +265,17 @@ try{
       if(width===390&&['profile','battle'].includes(screen))await legendPage.screenshot({path:join(screenOut,'390-'+screen+'.png'),fullPage:screen==='profile'});
     }
   }
+  await legendPage.goto(config.origin+'/game/home');await legendPage.keyboard.press('Tab');
+  assert.equal(await legendPage.getByRole('link',{name:'Skip to content',exact:true}).evaluate(element=>element===document.activeElement),true);
+  await legendPage.keyboard.press('Enter');assert.equal(await legendPage.locator('#main-content').evaluate(element=>element===document.activeElement),true);
+  // The same server-rendered social and invitation forms also work without JS.
+  const noScript=await browser.newContext({ignoreHTTPSErrors:true,javaScriptEnabled:false,viewport:{width:360,height:800}});
+  await noScript.route('**/*',route=>new URL(route.request().url()).origin===config.origin?route.continue():route.abort());
+  await noScript.addCookies([{name:'kr_session',value:target.token,url:config.origin,httpOnly:true,secure:true,sameSite:'Lax'}]);
+  const noScriptPage=await noScript.newPage();await noScriptPage.goto(config.origin+'/game/players/'+sponsor.characterId+'?tab=comments');
+  await noScriptPage.getByLabel('Leave a profile comment',{exact:true}).fill('A handwritten note without scripts.');
+  await submit(noScriptPage,noScriptPage.getByRole('button',{name:'Post Comment',exact:true}));
+  assert.match(await noScriptPage.locator('body').innerText(),/handwritten note without scripts/);await noScript.close();
   assert.ok(observed.length>=16);
   observed.forEach(request=>{assert.equal(request.browserOrigin,config.origin);assert.equal(request.refererOrigin,config.origin);assert.equal(request.fetchSite,'same-origin');});
   for(const upstream of ['http://localhost:3001','https://localhost:3001',config.origin])assert.ok(observed.some(request=>request.upstreamOrigin===upstream),upstream);
@@ -274,11 +285,11 @@ try{
     configured_origin:config.origin,origin_source:config.originSource,secure_cookies:config.secureCookies,
     native_browser_registration:true,observed_post_headers:observed,
     calling_change:true,escrow_bounty_placement_and_claim:true,private_bounty_report:true,passive_bot_combat:true,
-    mobile_widths:widths,simplified_land_art:true,phase4:{native_comments:true,safe_text:true,native_reporting:true,native_broadcasts:true,native_code_invitation_and_acceptance:true,native_attack_again_to_zero:true,public_profile_links:true,viewports:widths,screensPerViewport:17,screenshots:'test-results/phase4-browser',accessibility:'Named controls, native form labels, five-tab navigation, overflow and image checks; manual keyboard flow separately tested'},
+    mobile_widths:widths,simplified_land_art:true,phase4:{native_comments:true,safe_text:true,native_reporting:true,native_broadcasts:true,native_code_invitation_and_acceptance:true,native_attack_again_to_zero:true,public_profile_links:true,viewports:widths,screensPerViewport:17,screenshots:'test-results/phase4-browser',accessibility:'Named controls, native form labels, five-tab navigation, overflow and image checks; keyboard skip-link and native comment form with JavaScript disabled also passed'},
     existing_accounts_preserved:true,pre_fix_non_secure_cookie_still_authenticates_over_https:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
     form_actions:['Registration','Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login','Attack skill allocation'],browser_errors:errors.length};
   await writeFile(join(out,'summary.json'),JSON.stringify(summary,null,2)+'\n');
-  console.log('PASS: Phase 4 comments, broadcasts, code invitations, finishing Attack Again and 85 responsive screen visits pass. Registration, existing-player gameplay, Calling, funded bounties, passive rivals and mobile layouts pass through a Codespaces port-3001 HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/strategy-browser/.');
+  console.log('PASS: Phase 4 comments, broadcasts, code invitations, finishing Attack Again and 85 responsive screen visits pass. Registration, existing-player gameplay, Calling, funded bounties, passive rivals and mobile layouts pass through a Codespaces port-3001 HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/phase4-browser/ and test-results/strategy-browser/.');
 }finally{
   await browser?.close();for(const socket of sockets)socket.destroy();
   if(tunnel)await new Promise<void>(resolve=>tunnel!.close(()=>resolve()));if(proxy)await new Promise<void>(resolve=>proxy!.close(()=>resolve()));

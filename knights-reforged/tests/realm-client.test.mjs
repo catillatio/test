@@ -71,3 +71,8 @@ test('hourly header formats only the authoritative net, including suspension upd
   page.apply(state({stateVersion:7,economy:{netHourlyIncome:-40}}));assert.equal(page.hourly.textContent,'-40 gold/hr');assert.equal(page.hourly.dataset.flow,'negative');
   page.apply(state({stateVersion:8,economy:{netHourlyIncome:0}}));assert.equal(page.hourly.textContent,'0 gold/hr');assert.equal(page.hourly.dataset.flow,'neutral');
 });
+
+test('resource recovery cannot enable a server-ineligible defeated opponent',()=>{
+  const page=browser(async()=>response(state()));page.attack.dataset.attackReady='false';
+  page.apply(state({health:100,spirit:3}));page.tick(20000);assert.equal(page.attack.disabled,true);
+});

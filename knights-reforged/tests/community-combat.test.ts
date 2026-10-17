@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {realm,testDatabaseUrl} from './helpers.js';
 import {provisionBots} from '../src/development.js';
+import {bountyBoard} from '../src/bounties.js';
 const skip=!testDatabaseUrl;
 async function setup(bots=false){
   let now=new Date('2036-01-01T00:00:00Z');const r=await realm({isolated:true,clock:()=>now,developmentBotsEnabled:bots,logger:process.env.TEST_LOGGER==='1'});
@@ -59,5 +60,19 @@ test('repeat bot attacks use the same engine and preserve the one-per-bot reward
     r.advance(600);const before=await r.me(a),second=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot}),report=await r.report(second.battleId);
     assert.equal(report.rewarded,false);assert.equal(report.loot,0);assert.equal(report.attackerXp,0);assert.equal(second.state.gold,before.gold);assert.equal(second.state.spirit,before.spirit-1);
     const profile=await r.app.inject({method:'GET',url:'/game/players/'+bot,headers:{cookie:a.cookie}});assert.equal(profile.statusCode,200,profile.body);assert.match(profile.body,/Temporary computer-controlled rival/);
+  }finally{await r.close();}
+});
+
+test('bounty boards disable a defeated target, recover accurately, and still pay a legitimate finishing victory',{skip},async()=>{
+  const r=await setup();try{
+    const sponsor=await r.player(),target=await r.player(),hunter=await r.player();
+    for(const player of [sponsor,target,hunter]){await r.prepare(player,10000,30);for(let i=0;i<5;i++)await r.ok(player,'/api/v1/quests/border-patrol/runs');}
+    await r.ok(hunter,'/api/v1/army/recruitments',{unitId:'militia',quantity:20});await r.ok(hunter,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:20});
+    const contract=await r.ok(sponsor,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1000});
+    await r.db.query('UPDATE characters SET health=0,health_updated_at=$2 WHERE id=$1',[target.id,r.now()]);
+    const board=await bountyBoard(r.db,hunter.id);assert.match(board.active[0]!.attackBlockedReason!,/Opponent defeated/);assert.equal(board.active[0]!.claimBlockedReason,null);
+    const page=await r.app.inject({method:'GET',url:'/game/bounties',headers:{cookie:hunter.cookie}});assert.equal(page.statusCode,200);assert.match(page.body,/data-attack-ready="false" disabled/);
+    r.advance(180);assert.equal((await bountyBoard(r.db,hunter.id)).active[0]!.attackBlockedReason,null);
+    const fight=await r.ok(hunter,'/api/v1/battles',{targetCharacterId:target.id}),report=await r.report(fight.battleId);assert.equal(report.defenderHealthAfter,0);assert.equal(report.bountyClaim.id,contract.data.bountyId);assert.equal(report.bountyClaim.reward,1000);
   }finally{await r.close();}
 });

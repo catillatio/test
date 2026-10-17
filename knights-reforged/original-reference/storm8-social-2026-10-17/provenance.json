@@ -1,0 +1,41 @@
+{
+  "references": [
+    {
+      "asset": "home-reference.jpg",
+      "source_name": "1-1000031113.jpg",
+      "source_sha256": "0029bf38be4e2acce77880ed2c67eb36be3d319c98b93599bb658e99c2d662e3",
+      "source_size": [
+        1280,
+        591
+      ],
+      "crop": [
+        425,
+        35,
+        755,
+        525
+      ],
+      "sha256": "26c6dc56f91881720aae3d7348fc8fd31d0aa075a5d8611d985ab618f22c88a5",
+      "classification": "User-supplied Zombies Live video screenshot; related Storm8 title, not direct Kingdoms Live mechanical proof",
+      "use": "Functional layout reference only; artwork and branding not used in the game"
+    },
+    {
+      "asset": "recruit-reference.jpg",
+      "source_name": "1-1000031117.jpg",
+      "source_sha256": "8bdf78e1a9064148c7c9418f17d16b2bae6907eeb91634f6134e2c1a79d15b08",
+      "source_size": [
+        591,
+        1280
+      ],
+      "crop": [
+        170,
+        58,
+        385,
+        370
+      ],
+      "sha256": "c5d5503f33043451539f5b24ba4cd7a98f556f5fd5c4652641bfb7cdd5e0a79e",
+      "classification": "User-supplied Zombies Live video screenshot; related Storm8 title, not direct Kingdoms Live mechanical proof",
+      "use": "Functional layout reference only; artwork and branding not used in the game"
+    }
+  ],
+  "notes": "Two reference screenshots were available during this implementation. Only the game region is retained, excluding unrelated browser/video recommendations."
+}

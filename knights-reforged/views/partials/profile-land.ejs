@@ -1,5 +1,5 @@
 <section class="panel profile-estate"><h2 class="profile-section-heading">Kingdom Holdings</h2>
 <% if(!profileProperties.length) { %><p class="compact-help">No properties owned yet.<% if(ownsProfile) { %> <a href="/game/land">Invest in Land ›</a><% } %></p><% } %>
-<% for(const property of profileProperties) { %><article class="owned-property"><%- include('catalog-art',{entry:property,small:true}) %><div><h3><%= property.name %></h3><p>Owned <strong>×<%= property.quantity %></strong></p><small><span class="gold"><%= property.grossIncome.toLocaleString('en') %> gold/hr</span> gross · <%= property.upkeep.toLocaleString('en') %> upkeep</small></div></article><% } %>
+<% for(const property of profileProperties) { %><article class="owned-property"><%- include('catalog-art',{entry:property,small:false}) %><div><h3><%= property.name %></h3><p>Owned <strong>×<%= property.quantity %></strong></p><small><span class="gold"><%= property.grossIncome.toLocaleString('en') %> gold/hr</span> gross · <%= property.upkeep.toLocaleString('en') %> upkeep</small></div></article><% } %>
 <p class="compact-help">Contributions use the saved rates of actual holdings. Totals include active equipment upkeep in the Income section.</p>
 </section>

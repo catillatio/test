@@ -99,6 +99,11 @@ const emptyLand={...land,hourlyIncome:0,hourlyUpkeep:0,totalUpkeep:0,netHourlyIn
 const contract={id:randomUUID(),sponsor_id:playerId,target_id:targetId,name:'Morgan',target_name:'Morgan',sponsor_name:'Arthur',level:3,profile_class:'Freeblade',army_size:3,armySize:3,amount:1000,fee:100,status:'active',claimant_id:null,created_at:new Date(Date.parse(now)-7200000).toISOString(),expires_at:next,claimBlockedReason:'Sponsors cannot claim their own contracts.'};
 const comment={id:randomUUID(),kind:'comment',createdAt:now,data:{authorId:targetId,authorName:'Morgan',profileId:playerId,profileName:'Arthur',body:'Welcome to the realm <script>!',reported:false}};
 const cases=[
+ {name:'profile-no-land',data:fixture('profile',{profileProperties:[]})},
+ {name:'profile-bot-no-land',data:fixture('profile',{publicCharacter:{...state,id:targetId,name:'Practice Rival',temporaryRival:true},profileProperties:[]})},
+ {name:'report-defeated',data:fixture('report',{combatTarget:{targetId,name:'Morgan',health:0,maxHealth:100,allowed:false,eligible:false,reason:'Opponent defeated — 0 Health. Wait for recovery.'}})},
+ {name:'bounty-defeated',data:fixture('bounties',{bountyBoard:{eligible:true,active:[{...contract,sponsor_id:randomUUID(),health:0,claimBlockedReason:null,attackBlockedReason:'Opponent defeated — 0 Health.'}],history:[]}})},
+ {name:'home-mixed-activity',data:fixture('home',{feed:{entries:[{id:battleId,kind:'battle',createdAt:now,data:newBattle},{id:randomUUID(),kind:'army',createdAt:now,data:{event:'accepted',actorId:playerId,actorName:'Arthur',targetId,targetName:'Morgan'}},{id:randomUUID(),kind:'bounty',createdAt:now,data:{event:'claimed',amount:1000,targetId,targetName:'Morgan',sponsorId:playerId,sponsorName:'Arthur',battleId}}],nextCursor:null}})},
  {name:'settings',data:fixture('settings')},
  {name:'profile-comments',data:fixture('profile',{profileTab:'comments',feed:{entries:[comment],nextCursor:null}})},
  {name:'profile-public',data:fixture('profile',{publicCharacter:{...state,id:targetId,name:'Morgan',temporaryRival:false},combatTarget:{targetId:targetId,name:'Morgan',health:10,maxHealth:100,allowed:true,eligible:true,reason:null}})},

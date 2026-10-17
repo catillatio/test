@@ -7,6 +7,7 @@ import {createDatabase} from '../src/db.js';
 import {migrate} from '../src/migrate.js';
 import {testDatabaseUrl} from './helpers.js';
 import {registerAccount,createSession} from '../src/auth.js';
+import {realm} from './helpers.js';
 
 const origin='https://super-winner-4r7ppp6g7p4hq4rv-3001.app.github.dev';
 const environment={NODE_ENV:'test',PORT:'3001',APP_ORIGIN:origin,CODESPACES:'true',
@@ -19,6 +20,33 @@ const cookie=(response:{headers:Record<string,unknown>})=>{
   assert.ok(line);assert.match(line,/; Secure/);assert.match(line,/; HttpOnly/);assert.match(line,/; SameSite=Lax/);
   return line.split(';')[0]!;
 };
+
+test('Phase 4 social and invitation POST routes keep Codespaces Origin, CSRF and authentication boundaries',{skip:!testDatabaseUrl},async()=>{
+  const r=await realm({isolated:true}),a=await r.player(),b=await r.player();
+  const app=await createApp({db:r.db,config:loadConfig(environment)});
+  try{
+    const routes:[string,Record<string,unknown>][]=[
+      ['/api/v1/comments',{profileId:b.id,body:'A safe forwarded message'}],
+      ['/api/v1/broadcasts',{body:'A safe realm message'}],
+      ['/api/v1/army/code-invitations',{code:(await r.me(b)).invitationCode}],
+      ['/api/v1/social/reports',{messageId:randomUUID(),reason:'spam'}],
+      ['/api/v1/social/removals',{messageId:randomUUID()}],
+    ];
+    for(const [url,payload] of routes){
+      for(const patch of [{origin:'https://foreign.app.github.dev'},{origin:'null'},{'x-csrf-token':'0'.repeat(64)}]){
+        const response=await app.inject({method:'POST',url,payload,headers:{...forwarded,cookie:a.cookie,'x-csrf-token':a.csrf,'idempotency-key':randomUUID(),...patch}});
+        assert.equal(response.statusCode,403,response.body);
+      }
+      const anonymous=await app.inject({method:'POST',url,payload,headers:{...forwarded,'x-csrf-token':a.csrf}});assert.equal(anonymous.statusCode,403);
+    }
+    assert.equal((await r.db.query('SELECT count(*)::int AS n FROM realm_messages')).rows[0]!.n,0);
+    assert.equal((await r.db.query('SELECT count(*)::int AS n FROM army_events')).rows[0]!.n,0);
+    const posted=await app.inject({method:'POST',url:'/api/v1/comments',payload:routes[0]![1],headers:{...forwarded,cookie:a.cookie,'x-csrf-token':a.csrf,'idempotency-key':randomUUID()}});
+    assert.equal(posted.statusCode,200,posted.body);
+    const invitation=await app.inject({method:'POST',url:'/api/v1/army/code-invitations',payload:routes[2]![1],headers:{...forwarded,cookie:a.cookie,'x-csrf-token':a.csrf,'idempotency-key':randomUUID()}});
+    assert.equal(invitation.statusCode,200,invitation.body);
+  }finally{await app.close();await r.close();}
+});
 
 test('Codespaces port 3001 registration and authenticated POSTs survive Origin rewriting',
   {skip:!testDatabaseUrl?'Set TEST_DATABASE_URL to a disposable *_test database.':false},async()=>{
