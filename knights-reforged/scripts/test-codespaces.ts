@@ -162,6 +162,7 @@ try{
   }
   async function submit(player:Page,button:Locator){const prior=player.url();await Promise.all([player.waitForURL(url=>url.href!==prior),button.click()]);assert.equal(await player.getByRole('alert').count(),0,await player.locator('body').innerText());}
   const sponsor=await fixture('Ash Steward'),target=await fixture('Briar Outlaw'),hunter=await fixture('Crown Hunter');
+  await executeCommand(db,hunter.accountId,randomUUID(),'skill',{resource:'spirit'});
   await executeCommand(db,hunter.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
   await executeCommand(db,hunter.accountId,randomUUID(),'buy',{itemId:'iron-sword',quantity:20});
   const sponsorPage=await playerPage(sponsor.token);await sponsorPage.goto(config.origin+'/game/battle');
@@ -187,17 +188,75 @@ try{
   await submit(hunterPage,hunterPage.getByRole('button',{name:'Attack '+bot.name,exact:true}));
   const botReport=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+hunterPage.url().split('/').at(-1)).then(r=>r.json())).battle;
   assert.equal(botReport.temporaryRival,true);assert.equal(botReport.bountyClaim,null);
+  // Phase 4: real native mobile POSTs, using the very same HTTPS rewrite.
+  const phase4Out=join(projectRoot,'test-results/phase4-browser');await mkdir(phase4Out,{recursive:true});
+  await hunterPage.goto(config.origin+'/game/home');await hunterPage.screenshot({path:join(phase4Out,'390-home.png'),fullPage:true});
+  await hunterPage.goto(config.origin+'/game/home?feed=battles');assert.ok((await hunterPage.locator('.activity-battle').count())>=2);
+  await hunterPage.screenshot({path:join(phase4Out,'390-battles.png'),fullPage:true});
+  await hunterPage.goto(config.origin+'/game/players/'+target.characterId+'?tab=comments');
+  const socialPayload='<img src=x onerror=alert(1)> Honor to your banner.';
+  await hunterPage.getByLabel('Leave a profile comment',{exact:true}).fill(socialPayload);
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Post Comment',exact:true}));
+  assert.ok((await hunterPage.locator('.message-text').allTextContents()).includes(socialPayload));
+  assert.equal(await hunterPage.locator('.message-text img').count(),0);
+  assert.equal(await hunterPage.locator('.message-text').evaluateAll(nodes=>nodes.some(node=>node.innerHTML.includes('<img'))),false);
+  await hunterPage.screenshot({path:join(phase4Out,'390-comments.png'),fullPage:true});
+  const targetPage=await playerPage(target.token);await targetPage.goto(config.origin+'/game/home?feed=comments');
+  assert.ok((await targetPage.locator('.message-text').allTextContents()).includes(socialPayload));
+  await targetPage.locator('.report-message summary').first().click();
+  await submit(targetPage,targetPage.getByRole('button',{name:'Send report',exact:true}));
+  assert.match(await targetPage.locator('body').innerText(),/Reported for review/);
+  await hunterPage.goto(config.origin+'/game/home?feed=broadcasts');
+  await hunterPage.getByLabel('Speak to the realm',{exact:true}).fill('The Crown welcomes allies. Keep your blades ready.');
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Broadcast',exact:true}));
+  await hunterPage.screenshot({path:join(phase4Out,'390-broadcasts.png'),fullPage:true});
+  await targetPage.goto(config.origin+'/game/home?feed=broadcasts');assert.match(await targetPage.locator('body').innerText(),/Crown welcomes allies/);
+  const targetState=(await targetPage.request.get(config.origin+'/api/v1/me').then(response=>response.json())).state;
+  await hunterPage.goto(config.origin+'/game/army');
+  await hunterPage.getByLabel('Invite using their code',{exact:true}).fill(targetState.invitationCode.toLowerCase());
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Invite Ally',exact:true}));
+  await targetPage.goto(config.origin+'/game/army?tab=dashboard');
+  await submit(targetPage,targetPage.getByRole('button',{name:'Accept '+hunter.name,exact:true}));
+  assert.equal((await targetPage.request.get(config.origin+'/api/v1/me').then(response=>response.json())).state.army.allies,1);
+  await hunterPage.goto(config.origin+'/game/army');await hunterPage.screenshot({path:join(phase4Out,'390-recruit.png'),fullPage:true});
+  await hunterPage.goto(config.origin+'/game/army?tab=dashboard');await hunterPage.screenshot({path:join(phase4Out,'390-army-dashboard.png'),fullPage:true});
+  // A separate low-Health target permits a real native repeat/finish, without
+  // resetting the hunter, bypassing the cooldown, or exhausting a whole army.
+  const finishing=await fixture('Wounded Raider');
+  await db.query('UPDATE characters SET health=35,health_updated_at=clock_timestamp() WHERE id=$1',[finishing.characterId]);
+  await hunterPage.goto(config.origin+'/game/players/'+finishing.characterId);
+  await hunterPage.getByRole('button',{name:'Attack',exact:true}).waitFor({state:'visible'});
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Attack',exact:true}));
+  const firstId=hunterPage.url().split('/').at(-1)!;
+  const first=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+firstId).then(response=>response.json())).battle;
+  assert.ok(first.defenderHealthAfter>0&&first.defenderHealthAfter<20);
+  assert.ok((await hunterPage.locator('a[href="/game/players/'+hunter.characterId+'"]').count())>=1);
+  assert.ok((await hunterPage.locator('a[href="/game/players/'+finishing.characterId+'"]').count())>=1);
+  assert.equal(await hunterPage.getByRole('button',{name:'Attack Again',exact:true}).isDisabled(),true);
+  await hunterPage.waitForFunction(()=>!(document.querySelector('.attack-again') as HTMLButtonElement)?.disabled,{},{timeout:20000});
+  await submit(hunterPage,hunterPage.getByRole('button',{name:'Attack Again',exact:true}));
+  const secondId=hunterPage.url().split('/').at(-1)!;assert.notEqual(firstId,secondId);
+  const second=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+secondId).then(response=>response.json())).battle;
+  assert.equal(second.defenderHealthAfter,0);assert.equal(await hunterPage.getByRole('button',{name:'Attack Again',exact:true}).isDisabled(),true);
+  assert.match(await hunterPage.locator('[data-combat-restriction]').innerText(),/Opponent defeated/);
+  await hunterPage.screenshot({path:join(phase4Out,'390-battle-report.png'),fullPage:true});
   const legend=await fixture('Fable Keeper',50);await executeCommand(db,legend.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
   for(const itemId of ['eclipse-greatsword','eclipse-citadel-plate','eclipse-invocation'])await executeCommand(db,legend.accountId,randomUUID(),'buy',{itemId,quantity:5});
   await executeCommand(db,legend.accountId,randomUUID(),'land_buy',{propertyId:'eclipse-citadel',quantity:1});
-  const legendPage=await playerPage(legend.token),widths=[330,360,390,1366];
+  const legendPage=await playerPage(legend.token),widths=[320,360,390,412,1366];
   for(const width of widths){
     await legendPage.setViewportSize({width,height:width===1366?900:844});
-    for(const screen of ['profile','profile?tab=skills','land','battle','bounties']){
+    for(const screen of ['home','home?feed=battles','home?feed=comments','home?feed=broadcasts','profile','profile?tab=skills','profile?tab=comments','profile?tab=battles','players/'+target.characterId,'players/'+target.characterId+'?tab=comments','army','army?tab=army','army?tab=dashboard','settings','land','battle','bounties']){
       await legendPage.goto(config.origin+'/game/'+screen);
       assert.equal(await legendPage.getByRole('alert').count(),0,screen);
       assert.equal(await legendPage.locator('nav[aria-label="Primary navigation"] a').count(),5);
       assert.equal(await legendPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,width+' '+screen+' horizontal overflow');
+      // Native accessibility contracts: each interactive control has a name,
+      // headings and form labels remain visible, and status text is announced.
+      assert.equal(await legendPage.locator('button').evaluateAll(buttons=>buttons.some(button=>!button.textContent?.trim()&&!button.getAttribute('aria-label'))),false);
+      assert.equal(await legendPage.locator('input:not([type="hidden"]), textarea, select').evaluateAll(elements=>elements.some(element=>!element.getAttribute('aria-label')&&!(element as HTMLInputElement).labels?.length)),false);
+      assert.equal(await legendPage.locator('img').evaluateAll(images=>images.some(image=>image instanceof HTMLImageElement&&(!image.complete||image.naturalWidth===0))),false);
+      if(width===390&&screen==='profile')await legendPage.screenshot({path:join(phase4Out,'390-profile.png'),fullPage:true});
       if(screen==='land'){
         assert.equal(await legendPage.locator('[data-land-property]').count(),21);
         const art=await legendPage.locator('.atlas-properties').first().evaluate(element=>getComputedStyle(element).backgroundImage);assert.ok(art.includes('land-simple-0.1'));
@@ -215,11 +274,11 @@ try{
     configured_origin:config.origin,origin_source:config.originSource,secure_cookies:config.secureCookies,
     native_browser_registration:true,observed_post_headers:observed,
     calling_change:true,escrow_bounty_placement_and_claim:true,private_bounty_report:true,passive_bot_combat:true,
-    mobile_widths:widths,simplified_land_art:true,
+    mobile_widths:widths,simplified_land_art:true,phase4:{native_comments:true,safe_text:true,native_reporting:true,native_broadcasts:true,native_code_invitation_and_acceptance:true,native_attack_again_to_zero:true,public_profile_links:true,viewports:widths,screensPerViewport:17,screenshots:'test-results/phase4-browser',accessibility:'Named controls, native form labels, five-tab navigation, overflow and image checks; manual keyboard flow separately tested'},
     existing_accounts_preserved:true,pre_fix_non_secure_cookie_still_authenticates_over_https:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
     form_actions:['Registration','Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login','Attack skill allocation'],browser_errors:errors.length};
   await writeFile(join(out,'summary.json'),JSON.stringify(summary,null,2)+'\n');
-  console.log('PASS: registration, existing-player gameplay, Calling, funded bounties, passive rivals and mobile layouts pass through a Codespaces port-3001 HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/strategy-browser/.');
+  console.log('PASS: Phase 4 comments, broadcasts, code invitations, finishing Attack Again and 85 responsive screen visits pass. Registration, existing-player gameplay, Calling, funded bounties, passive rivals and mobile layouts pass through a Codespaces port-3001 HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/strategy-browser/.');
 }finally{
   await browser?.close();for(const socket of sockets)socket.destroy();
   if(tunnel)await new Promise<void>(resolve=>tunnel!.close(()=>resolve()));if(proxy)await new Promise<void>(resolve=>proxy!.close(()=>resolve()));

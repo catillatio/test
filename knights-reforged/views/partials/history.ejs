@@ -9,7 +9,7 @@
           <span class="result-badge<%= won ? ' result-win' : ' result-loss' %>"><%= won ? 'Victory' : 'Defeat' %></span>
           <span class="history-description"><strong><%= b.attackerName %> <span class="muted">vs</span> <%= b.defenderName %></strong><small><time datetime="<%= new Date(entry.created_at).toISOString() %>"><%= new Date(entry.created_at).toLocaleString('en-GB', {timeZone: 'UTC', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'}) %> UTC</time></small></span>
           <span class="history-arrow" aria-hidden="true">↗</span>
-        </a></li>
+        </a><small class="history-player-links"><a class="player-link" href="/game/players/<%= b.attackerId %>"><%= b.attackerName %></a> · <a class="player-link" href="/game/players/<%= b.defenderId %>"><%= b.defenderName %></a></small></li>
       <% } %>
     </ul>
   <% } %>

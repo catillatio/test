@@ -1,0 +1,7 @@
+{
+  "id": "community-0.1",
+  "provenance": "Reconstructed Kingdom Come alpha policies. Storm8 screenshots evidence navigation and social presentation, not these numerical rules.",
+  "combat": { "defenderMinimumHealth": 1 },
+  "social": { "commentCharacters": 500, "broadcastCharacters": 280, "commentCooldownSeconds": 30, "broadcastCooldownSeconds": 120, "commentsPerDay": 40, "broadcastsPerDay": 12, "reportsPerDay": 20, "broadcastMinimumLevel": 2, "broadcastMinimumQuests": 3, "pageSize": 20 },
+  "army": { "codeCharacters": 12, "invitationCooldownSeconds": 30, "invitationsPerDay": 20, "reinviteCooldownSeconds": 86400 }
+}

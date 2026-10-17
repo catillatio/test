@@ -1,16 +1,15 @@
-<section class="panel profile-banner"><p class="eyebrow">THE FIRST REALM</p><a href="/game/profile"><h2><%= state.name %></h2><span>Level <%= state.level %> <%= state.className %> · View profile &amp; skills ›</span></a></section>
+<section class="panel profile-banner"><p class="eyebrow">THE FIRST REALM</p><a href="/game/profile"><h2><%= state.name %></h2><span>Level <%= state.level %> <%= state.className %> · View Profile ›</span></a></section>
 <section class="home-menu" aria-label="Main menu">
-  <a class="button button-outline" href="/game/land">Land <small><%= state.land.netHourlyIncome %> gold/hour net</small></a>
-  <a class="button button-outline" href="/game/army">My Army (<%= state.army.participants %>)<small><%= state.army.total %> total participants</small></a>
-  <a class="button button-outline" href="/game/quests">Quests<small><%= state.questsCompleted %> completed</small></a>
-  <a class="button button-outline" href="/game/profile?tab=skills#skills">Skills<small><%= state.skillPoints %> points available</small></a>
-  <a class="button button-outline" href="/game/armory">Armory<small><%= state.inventory.reduce((n,i)=>n+i.quantity,0) %> equipment owned</small></a>
-  <a class="button button-outline" href="/game/battle">Attack Rivals<small>Spend Spirit, earn renown</small></a>
+<a class="button button-outline" href="/game/land"><span><span class="menu-icon" aria-hidden="true">♜</span>Land</span><small><%= state.economy.netHourlyIncome %> net gold/hr</small></a>
+<a class="button button-outline" href="/game/army?tab=army"><span><span class="menu-icon" aria-hidden="true">⚔</span>My Army (<%= state.army.participants %>)</span><small><%= state.army.allies %> player allies</small></a>
+<a class="button button-outline" href="/game/profile"><span><span class="menu-icon" aria-hidden="true">♙</span>My Profile</span><small>Skills, holdings &amp; history</small></a>
+<a class="button button-outline" href="/game/bounties"><span><span class="menu-icon" aria-hidden="true">⚑</span>Bounty List</span><small>Contracts &amp; rewards</small></a>
+<a class="button button-outline" href="/rules"><span><span class="menu-icon" aria-hidden="true">▤</span>Realm Rules / Help</span><small>Recovery, economy &amp; combat</small></a>
+<a class="button button-outline" href="/game/settings"><span><span class="menu-icon" aria-hidden="true">⚙</span>Settings</span><small>Calling &amp; Sign Out</small></a>
 </section>
-<section class="panel next-goal"><h2 class="strip-title">Your next steps</h2><p>Quest for gold and experience. Equip your army, fight rivals, and invest in Land for your next return.</p>
-  <% const next = state.quests.find(q=>q.level>state.level); %>
-  <p><%= next ? 'Next quest tier unlocks at level '+next.level+'.' : 'The frontier is open. Improve your army and estate.' %> <strong><%= state.xpToNext %> XP</strong> to your next level.</p>
-  <% if (state.skillPoints) { %><a class="button button-gold" href="/game/profile?tab=skills#skills">Spend skill points</a><% } %>
-  <% if (state.maintenance.paused) { %><p class="warning">Equipment upkeep is paused. Free equipment remains usable.</p><a href="/game/armory" class="text-link">Manage upkeep ›</a><% } %>
-</section>
-<%- include('partials/history') %>
+<% if(state.skillPoints) { %><p class="compact-help"><a class="text-link" href="/game/profile?tab=skills#skills"><%= state.skillPoints %> skill points available ›</a> · <%= state.xpToNext %> XP until your next level.</p><% } %>
+<% if(state.maintenance.paused) { %><p class="compact-help warning">Equipment upkeep is paused. <a href="/game/armory">Manage upkeep ›</a></p><% } %>
+<section aria-labelledby="activity-title"><h2 id="activity-title" class="profile-section-heading">Realm Activity</h2>
+<nav class="category-tabs feed-tabs" aria-label="Activity categories"><% for(const tab of [{id:'all',name:'All'},{id:'battles',name:'Battles'},{id:'comments',name:'Comments'},{id:'broadcasts',name:'Broadcasts'}]) { %><a href="/game/home?feed=<%= tab.id %>"<% if(feedTab===tab.id) { %> aria-current="page"<% } %>><%= tab.name %></a><% } %></nav>
+<% if(feedTab==='broadcasts') { %><%- include('partials/message-form',{channel:'broadcast',profileId:null}) %><p class="compact-help">Public realm messages. Level 2 and three quests required; 12 posts per rolling day. Temporary rivals never post.</p><% } else if(feedTab==='comments') { %><%- include('partials/message-form',{channel:'comment',profileId:state.id}) %><p class="compact-help">Comments on your profile and comments you leave for others. Visit another player's Profile to leave them a message.</p><% } %>
+<%- include('partials/activity-feed',{pageBase:'/game/home?feed='+feedTab}) %><a class="feed-refresh text-link" href="/game/home?feed=<%= feedTab %>">Refresh activity ↻</a></section>

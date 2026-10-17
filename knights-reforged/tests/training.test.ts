@@ -43,14 +43,14 @@ describe('Persistent combat training and reference-inspired Profile',{skip:!test
     assert.equal((await r.command(p,'/api/v1/skills',{resource:'skill_points'})).statusCode,422);
     assert.equal((await r.db.query("SELECT count(*)::int AS n FROM skill_allocations WHERE character_id=$1 AND ruleset_id=$2",[p.id,alpha.id])).rows[0]!.n,25);
   });
-  test('three compact Profile tabs show account age, illustrated owned quantities, income and private battle history',async()=>{
+  test('four compact Profile tabs preserve account age, illustrated owned quantities, income and private battle history',async()=>{
     const p=await r.player();await r.prepare(p,500,30);await r.ok(p,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:2});
     await r.db.query("UPDATE accounts SET created_at=clock_timestamp()-interval '73 days 1 hour' WHERE id=$1",[p.accountId]);
     const state=await r.me(p);assert.equal(state.accountAgeDays,73);
     for(const tab of ['player','skills','battles']){
       const response=await r.app.inject({method:'GET',url:'/game/profile?tab='+tab,headers:{cookie:p.cookie}});assert.equal(response.statusCode,200,response.body);
       assert.match(response.body,/Kingdom Come/);assert.ok(!response.body.includes('Knights Reforged'));assert.ok(!response.body.includes('Post Comment'));
-      assert.equal((/aria-label="Character sections">([\s\S]*?)<\/nav>/.exec(response.body)![1]!.match(/<a /g)??[]).length,3);
+      assert.equal((/aria-label="Character sections">([\s\S]*?)<\/nav>/.exec(response.body)![1]!.match(/<a /g)??[]).length,4);
       assert.match(response.body,/73 days/);assert.match(response.body,/action="\/logout"/);
       if(tab==='player'){assert.match(response.body,/Owned Weapons/);assert.match(response.body,/Iron sword, owned 2/);assert.match(response.body,/Gross hourly income/);assert.match(response.body,/data-art-atlas="weapons"/);assert.ok(!response.body.includes('name="resource"'));}
       if(tab==='skills'){for(const name of ['Mana','Health','Spirit','Attack','Defense'])assert.ok(response.body.includes('Increase '+name));assert.match(response.body,/up to 25%/);}

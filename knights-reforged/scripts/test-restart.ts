@@ -62,17 +62,24 @@ try{
   }
   await command('/api/v1/profile',{className:'Warden'});
   const bounty=await command('/api/v1/bounties/placements',{targetCharacterId:b.id,amount:100});
+  const comment=await command('/api/v1/comments',{profileId:b.id,body:'Our banners hold across restarts.'});
+  const broadcast=await command('/api/v1/broadcasts',{body:'A new alliance seeks the dawn.'});
+  const rivalState=(await fetch(origin+'/api/v1/me',{headers:{cookie:b.cookie}}).then(r=>r.json())).state;
+  await command('/api/v1/army/code-invitations',{code:rivalState.invitationCode});
   const before=(await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}}).then(r=>r.json())).state;
   await stop();await start();
   const restored=await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}});assert.equal(restored.status,200);
   const after=(await restored.json()).state;
-  for(const key of ['id','gold','xp','level','mana','spirit','health','inventory','questsCompleted','land','training','skillPoints','maxMana','className','calling'])assert.deepEqual(after[key],before[key],key);
+  for(const key of ['id','gold','xp','level','mana','spirit','health','inventory','questsCompleted','land','training','skillPoints','maxMana','className','calling','invitationCode','army'])assert.deepEqual(after[key],before[key],key);
   const contracts=await fetch(origin+'/api/v1/bounties',{headers:{cookie:a.cookie}}).then(response=>response.json());
   assert.equal(contracts.history.find((record:{id:string})=>record.id===bounty.data.bountyId).status,'active');
   for(const owner of [a,b]){
     const report=await fetch(origin+'/api/v1/battles/'+battle.battleId,{headers:{cookie:owner.cookie}});assert.equal(report.status,200);
     assert.equal((await report.json()).battle.id,battle.battleId);
   }
+  const social=await fetch(origin+'/api/v1/feed?feed=all',{headers:{cookie:a.cookie}}).then(r=>r.json());
+  assert.ok(social.entries.some((entry:{id:string})=>entry.id===comment.data.messageId));
+  assert.ok(social.entries.some((entry:{id:string})=>entry.id===broadcast.data.messageId));
   assert.equal((await fetch(origin+'/game/profile',{headers:{cookie:a.cookie}})).status,200);
-  console.log('PASS: compiled server restarted; sessions, progression, inventory, Land, Calling, funded bounty and both players’ private battle access survived.');
+  console.log('PASS: compiled server restarted; sessions, progression, inventory, Land, Calling, funded bounty, comments, broadcasts, invitation codes, pending allies and both players’ private battle access survived.');
 }finally{await stop();}

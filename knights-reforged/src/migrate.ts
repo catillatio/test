@@ -6,8 +6,9 @@ import { rules } from './rules.js';
 import { landRules } from './land-rules.js';
 import { alpha,alphaCatalogs } from './alpha-rules.js';
 import {strategy,botCatalog,previousStrategy,previousBotCatalog} from './strategy-rules.js';
+import {community} from './community-rules.js';
 
-const definitions=[rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,strategy,botCatalog];
+const definitions=[rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,strategy,botCatalog,community];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 

@@ -6,6 +6,7 @@ import { settleLand } from './land.js';
 import { estateState,type EstateState } from './estate.js';
 import { readInventory } from './inventory.js';
 import { settleMaintenance,maintenanceAccount } from './maintenance.js';
+import {invitationCode} from './community.js';
 import {strategy,callingFor,callingPower,recoverySeconds} from './strategy-rules.js';
 
 export interface CharacterRow {
@@ -19,7 +20,7 @@ export interface CharacterRow {
 }
 export interface ArmyLink { characterId:string;name:string;level:number;className:string;status:string;incoming:boolean; }
 export interface CharacterState {
-  id:string;name:string;xp:number;level:number;levelXp:number;levelRequirement:number;xpToNext:number;
+  invitationCode:string;id:string;name:string;xp:number;level:number;levelXp:number;levelRequirement:number;xpToNext:number;
   health:number;maxHealth:number;mana:number;maxMana:number;spirit:number;maxSpirit:number;energy:number;
   gold:number;units:number;attack:number;defense:number;equipped:boolean;inventoryId:string|null;
   inventory:OwnedItem[];questsCompleted:number;stateVersion:number;skillPoints:number;className:string;
@@ -89,15 +90,15 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
   const battleStats=(await sql.query(`SELECT count(*)::int AS total,
     count(*) FILTER(WHERE (attacker_id=$1 AND outcome='attacker_win') OR (defender_id=$1 AND outcome='defender_win'))::int AS wins,
     count(*) FILTER(WHERE (attacker_id=$1 AND outcome='defender_win') OR (defender_id=$1 AND outcome='attacker_win'))::int AS losses,
-    count(*) FILTER(WHERE (attacker_id=$1 AND outcome='attacker_win' AND result->'defenderHealthAfter'='0'::jsonb) OR
-      (defender_id=$1 AND outcome='defender_win' AND COALESCE(result->'attackerHealthAfterDamage',result->'attackerHealthAfter')='0'::jsonb))::int AS kills,
-    count(*) FILTER(WHERE (defender_id=$1 AND outcome='attacker_win' AND result->'defenderHealthAfter'='0'::jsonb) OR
-      (attacker_id=$1 AND outcome='defender_win' AND COALESCE(result->'attackerHealthAfterDamage',result->'attackerHealthAfter')='0'::jsonb))::int AS deaths
+    count(*) FILTER(WHERE (attacker_id=$1 AND result->'defenderHealthAfter'='0'::jsonb) OR
+      (defender_id=$1 AND COALESCE(result->'attackerHealthAfterDamage',result->'attackerHealthAfter')='0'::jsonb))::int AS kills,
+    count(*) FILTER(WHERE (defender_id=$1 AND result->'defenderHealthAfter'='0'::jsonb) OR
+      (attacker_id=$1 AND COALESCE(result->'attackerHealthAfterDamage',result->'attackerHealthAfter')='0'::jsonb))::int AS deaths
     FROM battles WHERE attacker_id=$1 OR defender_id=$1`,[row.id])).rows[0] as CharacterState['battleStats'];
   const accountCreated=new Date((await sql.query('SELECT created_at FROM accounts WHERE id=$1',[row.account_id])).rows[0]!.created_at);
   const untrainedAttack=rules.baseAttack+(row.attained_level-1)*rules.attackPerLevel+(army.participants-1)*rules.unit.attack+attackEquipment.attack;
   const untrainedDefense=rules.baseDefense+(row.attained_level-1)*rules.defensePerLevel+(army.participants-1)*rules.unit.defense+defenseEquipment.defense;
-  return {id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:levelRequirement(row.attained_level),xpToNext:levelRequirement(row.attained_level)-row.level_xp,
+  return {invitationCode:await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:levelRequirement(row.attained_level),xpToNext:levelRequirement(row.attained_level)-row.level_xp,
     health:row.health,maxHealth:row.max_health,mana:row.mana,maxMana:row.max_mana,spirit:row.spirit,maxSpirit:row.max_spirit,energy:row.mana,
     gold:wallet.balance,units,attack:callingPower(trainedPower(untrainedAttack,row.attack_training),calling.attackPercent),defense:callingPower(trainedPower(untrainedDefense,row.defense_training),calling.defensePercent),
     equipped:Boolean(sword),inventoryId:sword?.inventoryId??null,inventory,questsCompleted:progress.reduce((n,p)=>n+p.completions,0),quests,loot,awards,
@@ -146,7 +147,7 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
   return {opponents,nextCursor:more?opponents.at(-1)!.cursor:null};
 }
 export async function recentBattles(db:Database,characterId:string) {
-  return (await db.query('SELECT id,result,created_at FROM battles WHERE attacker_id=$1 OR defender_id=$1 ORDER BY created_at DESC,id DESC LIMIT 10',[characterId])).rows;
+  return (await db.query(`SELECT id,result||jsonb_build_object('attackerId',attacker_id,'defenderId',defender_id,'winnerId',CASE WHEN outcome='attacker_win' THEN attacker_id ELSE defender_id END) AS result,created_at FROM battles WHERE attacker_id=$1 OR defender_id=$1 ORDER BY created_at DESC,id DESC LIMIT 10`,[characterId])).rows;
 }
 export async function getBattle(db:Database,accountId:string,battleId:string) {
   const row=(await db.query(`SELECT b.id,b.result,b.ruleset_id,b.created_at,b.attacker_id,b.defender_id,b.outcome FROM battles b JOIN characters c ON c.account_id=$1

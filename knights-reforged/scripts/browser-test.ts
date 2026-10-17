@@ -89,9 +89,9 @@ try{
   await a.goto(config.origin+'/game/army');await a.getByLabel('Number of recruits').fill('2');
   await action(a,a.getByRole('button',{name:'Recruit militia',exact:true}));
   const defender=await state(b);
-  await a.getByLabel('Their army code').fill(defender.id);
-  await action(a,a.getByRole('button',{name:'Invite ally',exact:true}));
-  await b.goto(config.origin+'/game/army');await action(b,b.getByRole('button',{name:'Accept '+attackerName,exact:true}));
+  await a.getByLabel('Invite using their code').fill(defender.invitationCode);
+  await action(a,a.getByRole('button',{name:'Invite Ally',exact:true}));
+  await b.goto(config.origin+'/game/army?tab=dashboard');await action(b,b.getByRole('button',{name:'Accept '+attackerName,exact:true}));
   assert.equal((await state(a)).army.allies,1);assert.equal((await state(b)).army.allies,1);
   await a.goto(config.origin+'/game/profile?tab=skills');await action(a,a.getByRole('button',{name:'Increase Defense',exact:true}));assert.equal((await state(a)).training.defense,1);
 

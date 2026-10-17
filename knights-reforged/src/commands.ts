@@ -12,6 +12,8 @@ import { refreshMaintenance,fundMaintenance } from './maintenance.js';
 import { buyEstate,sellEstate } from './estate.js';
 import {strategy,botCatalog} from './strategy-rules.js';
 import {prepareBot} from './development.js';
+import {community} from './community-rules.js';
+import {postMessage,reportMessage,removeMessage,armyEvent,validateInvitation} from './community.js';
 import {lockBountyEscrow,expireBounties,placeBounty,cancelBounty,claimBounty} from './bounties.js';
 
 const uuid=z.string().uuid().transform(value=>value.toLowerCase());
@@ -32,6 +34,12 @@ const intents={
   invite:z.object({targetCharacterId:uuid}),
   accept:z.object({targetCharacterId:uuid}),
   remove:z.object({targetCharacterId:uuid}),
+  reject:z.object({targetCharacterId:uuid}),
+  invite_code:z.object({code:z.string().trim().toUpperCase().regex(/^[A-F0-9]{12}$/, 'Enter the 12-character invitation code.')}),
+  comment:z.object({profileId:uuid,body:z.string().min(1).max(1000)}),
+  broadcast:z.object({body:z.string().min(1).max(1000)}),
+  social_report:z.object({messageId:uuid,reason:z.enum(['spam','abuse','other'])}),
+  social_remove:z.object({messageId:uuid}),
   profile:z.object({className:z.enum(['Freeblade','Warden','Spellward'])}),
   bounty_place:z.object({targetCharacterId:uuid,amount:quantity(strategy.bounties.maximum)}),
   bounty_cancel:z.object({bountyId:uuid}),
@@ -58,9 +66,13 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     }
     const actorId=(await sql.query('SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.account_id=$1 AND NOT a.login_disabled',[accountId])).rows[0]?.id as string|undefined;
     if (!actorId) throw new GameError('CHARACTER_NOT_FOUND','Your character was not found.',404);
-    const membership=kind==='invite'||kind==='accept'||kind==='remove';
-    const targetId=(kind==='attack'||kind==='bounty_place'||membership)?intent.targetCharacterId as string:null;
-    if (targetId===actorId) throw new GameError(kind==='attack'?'SELF_ATTACK':kind==='bounty_place'?'SELF_BOUNTY':'SELF_INVITE','Choose another warrior.');
+    const membership=kind==='invite'||kind==='invite_code'||kind==='accept'||kind==='reject'||kind==='remove';
+    let targetId=(kind==='attack'||kind==='bounty_place'||(membership&&kind!=='invite_code'))?intent.targetCharacterId as string:kind==='comment'?intent.profileId as string:null;
+    if(kind==='invite_code'){
+      targetId=(await sql.query('SELECT character_id FROM army_invitation_codes WHERE code=$1',[intent.code])).rows[0]?.character_id??null;
+      if(!targetId)throw new GameError('INVITATION_CODE_NOT_FOUND','No warrior has that invitation code.',404);
+    }
+    if (targetId===actorId&&kind!=='comment') throw new GameError(kind==='attack'?'SELF_ATTACK':kind==='bounty_place'?'SELF_BOUNTY':'SELF_INVITE','Choose another warrior.');
     if(kind==='attack'||kind==='bounty_place'||kind==='bounty_cancel')await lockBountyEscrow(sql);
     const now=await clock(sql);
     if(kind==='attack'||kind==='bounty_place'||kind==='bounty_cancel'){
@@ -81,7 +93,14 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     const state=await stateFrom(sql,actor,now);
     const result:CommandResult={commandId:key,kind,message:''};
 
-    if (kind==='quest'||kind==='quest_buy') {
+    if(kind==='comment'||kind==='broadcast'){
+      const posted=await postMessage(sql,actorId,kind==='comment'?targetId:null,intent.body as string,key,now,actor.attained_level,state.questsCompleted);
+      result.data=posted;result.message=kind==='comment'?'Comment posted.':'Broadcast sent to the realm.';
+    }else if(kind==='social_report'){
+      result.data=await reportMessage(sql,actorId,intent.messageId as string,intent.reason as string,now);result.message='Report received. Realm moderators can review it.';
+    }else if(kind==='social_remove'){
+      result.data=await removeMessage(sql,actorId,intent.messageId as string,now);result.message='Message removed from public feeds.';
+    }else if (kind==='quest'||kind==='quest_buy') {
       const quest=questById.get(intent.questId as string);
       if (!quest) throw new GameError('QUEST_NOT_FOUND','That quest is not available.',404);
       if (actor.attained_level<quest.level) throw new GameError('LEVEL_REQUIRED','Reach level '+quest.level+' first.',409);
@@ -167,28 +186,34 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     } else if (membership&&target) {
       const pair=[actorId,target.id].sort();
       const link=(await sql.query('SELECT * FROM army_links WHERE low_id=$1 AND high_id=$2',pair)).rows[0];
-      if (kind==='invite') {
+      let eventKind:string;
+      if (kind==='invite'||kind==='invite_code') {
         if (link&&link.status!=='declined') throw new GameError('INVITATION_EXISTS','You already have an invitation or army link with that player.',409);
+        await validateInvitation(sql,actorId,target.id,now);
         for (const member of pair) {
           const count=(await sql.query("SELECT count(*)::int AS n FROM army_links WHERE $1 IN (low_id,high_id) AND status<>'declined'",[member])).rows[0]!.n;
           if (count>=100) throw new GameError('ROSTER_LIMIT','That army roster is full.',409);
         }
         await sql.query("INSERT INTO army_links(low_id,high_id,inviter_id,status) VALUES($1,$2,$3,'pending') ON CONFLICT(low_id,high_id) DO UPDATE SET inviter_id=EXCLUDED.inviter_id,status='pending',updated_at=$4",
           [pair[0],pair[1],actorId,now]);
-        result.message='Invitation sent to '+target.name+'.';
+        result.message='Invitation sent to '+target.name+'. Waiting for their acceptance.';eventKind='invited';
       } else if (kind==='accept') {
         if (!link||link.status!=='pending'||link.inviter_id===actorId) throw new GameError('INVITATION_UNAVAILABLE','Only the invited player can accept a pending invitation.',403);
         await sql.query("UPDATE army_links SET status='accepted',updated_at=$3 WHERE low_id=$1 AND high_id=$2",[pair[0],pair[1],now]);
-        result.message=target.name+' is now an ally. Each leader equips their own participating army.';
+        result.message=target.name+' is now an ally. Each leader equips their own participating army.';eventKind='accepted';
       } else {
+        if(kind==='reject'&&(!link||link.status!=='pending'||link.inviter_id===actorId))throw new GameError('INVITATION_UNAVAILABLE','Only the invited player can reject a pending invitation.',403);
         if (!link||link.status==='declined') throw new GameError('INVITATION_UNAVAILABLE','That army link is unavailable.',404);
         await sql.query("UPDATE army_links SET status='declined',updated_at=$3 WHERE low_id=$1 AND high_id=$2",[pair[0],pair[1],now]);
-        result.message='Army link removed.';
+        eventKind=link.status==='accepted'?'removed':link.inviter_id===actorId?'canceled':'rejected';
+        result.message=eventKind==='rejected'?'Invitation rejected.':eventKind==='canceled'?'Invitation canceled.':'Army link removed.';
       }
+      await armyEvent(sql,actorId,target.id,eventKind,key,now);
       await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[target.id]);
     } else if (kind==='attack'&&target) {
       if (!areRivals(actor.attained_level,target.attained_level)) throw new GameError('RIVAL_LEVEL_RANGE','Choose an opponent nearer your level.',409);
-      if (actor.health<alpha.combat.minimumHealth||target.health<alpha.combat.minimumHealth) throw new GameError('NEEDS_RECOVERY','Both warriors need at least '+alpha.combat.minimumHealth+' Health.',409);
+      if(actor.health<alpha.combat.minimumHealth)throw new GameError('NEEDS_RECOVERY','You need at least '+alpha.combat.minimumHealth+' Health to attack.',409);
+      if(target.health<community.combat.defenderMinimumHealth)throw new GameError('OPPONENT_DEFEATED','This opponent has been defeated (0 Health). They must recover before another attack.',409);
       if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Spirit to recover before attacking.',409);
       if (+new Date(actor.attack_ready_at)>+now) throw new GameError('ATTACK_COOLDOWN','Catch your breath before attacking again.',409);
       const targetState=await stateFrom(sql,target,now);
@@ -219,7 +244,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        strategyRulesetId:strategy.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?botCatalog.id:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        strategyRulesetId:strategy.id,communityRulesetId:community.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?botCatalog.id:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       if(combat.outcome==='attacker_win'&&!targetIsBot){

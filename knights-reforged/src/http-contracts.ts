@@ -11,7 +11,7 @@ export const navigation = [
   { id: 'land', label: 'Land', icon: 'land' },
 ] as const;
 
-export const templateScreens = ['home', 'quests', 'battle', 'bounties', 'armory', 'army', 'land', 'profile', 'auth', 'report', 'rules', 'error'] as const;
+export const templateScreens = ['home', 'quests', 'battle', 'bounties', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
 
 export const commandRoutes = [
   { kind: 'quest', html: '/game/quests/:id/run', api: '/api/v1/quests/:id/runs' },
@@ -28,6 +28,12 @@ export const commandRoutes = [
   { kind: 'bounty_cancel', html: '/game/bounties/cancel', api: '/api/v1/bounties/cancellations' },
   { kind: 'maintain', html: '/game/armory/maintain', api: '/api/v1/maintenance' },
   { kind: 'quest_buy', html: '/game/quests/:id/equipment', api: '/api/v1/quests/:id/equipment' },
+  { kind:'invite_code',html:'/game/army/invite-code',api:'/api/v1/army/code-invitations' },
+  { kind:'reject',html:'/game/army/reject',api:'/api/v1/army/rejections' },
+  { kind:'comment',html:'/game/social/comment',api:'/api/v1/comments' },
+  { kind:'broadcast',html:'/game/social/broadcast',api:'/api/v1/broadcasts' },
+  { kind:'social_report',html:'/game/social/report',api:'/api/v1/social/reports' },
+  { kind:'social_remove',html:'/game/social/remove',api:'/api/v1/social/removals' },
   { kind: 'invite', html: '/game/army/invite', api: '/api/v1/army/invitations' },
   { kind: 'accept', html: '/game/army/accept', api: '/api/v1/army/acceptances' },
   { kind: 'remove', html: '/game/army/remove', api: '/api/v1/army/removals' },
