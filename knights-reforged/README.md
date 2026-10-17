@@ -1,24 +1,26 @@
-# Knights Reforged — Phase 3 multiplayer alpha
+# Knights Reforged — Phase 3.5 fantasy multiplayer alpha
 
 A server-rendered medieval multiplayer RPG inspired by Storm8 Kingdoms Live. Five original-style tabs connect repeatable quests, Mana, quantity equipment, automatically equipped armies, Spirit-based PvP, Land income and character progression. All gameplay calculations run on the server.
 
-**Active rules: `alpha-0.1`.** The content, economic policy and combat formulas are reconstructed Knights Reforged rules. No original Storm8 server formulas are claimed as recovered.
+**Active rules: `alpha-0.2`.** The content, economic policy and combat formulas are reconstructed Knights Reforged rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
 
-Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdoms-live-phase-3-alpha`. No branches are merged and nothing is deployed automatically.
+Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdoms-live-phase-3-5-alpha`, based on the Phase 3 alpha branch. No branches are merged and nothing is deployed automatically.
 
 ## What works
 
 - Persistent accounts and sessions; registration/login/logout, Argon2id, CSRF and strict Origin checks.
 - Health, Mana and Spirit with independent offline recovery, levels, skill points, capacity upgrades and milestones.
-- 13 equipment entries across Weapons, Armor and Spells; quantity Buy/Sell, FIFO acquisition-cost resale and automatic attack/defense selection.
-- Eight repeatable quests with level/equipment/army requirements, separate requirement purchases and persistent story loot.
-- Five property types, increasing purchase prices, FIFO selling, 60-minute offline income and separate equipment upkeep.
+- 60 equipment entries: 20 Weapons, 20 Armor and 20 Spells through level 50; quantity Buy/Sell, FIFO acquisition-cost resale and automatic attack/defense selection.
+- 40 repeatable quests across 11 regions, through level 50, with level/equipment/quantity/army requirements, separate requirement purchases and 12 persistent discoveries.
+- 21 properties through level 55, increasing purchase prices, FIFO selling, 60-minute offline income and separate equipment upkeep.
 - Paid militia and consenting player allies, capped participation, nearby-level rivals, Spirit-funded PvP and private persistent reports.
-- Compact illustrated phone/PC screens, original recovered navigation/backgrounds, server-synchronized resource and income countdowns, and working forms without JavaScript.
+- Profile with character statistics, skills, army/loadouts, Gold Flow and account/logout controls; the resource header displays actual active net gold per hour.
+- 81 distinct AI-generated fantasy paintings in four efficient WebP sheets; recovered navigation/backgrounds, compact phone/PC screens, server-synchronized countdowns and working forms without JavaScript.
+- Shared Codespaces HTTPS origin handling for ordinary development, compiled startup and the preview helper; Secure cookies, CSRF and strict Origin checks remain enforced.
 
-See [PHASE_3_ALPHA.md](PHASE_3_ALPHA.md) for formulas, maintenance policy, compatibility, fidelity and limitations. Current execution results are in [PHASE_3_VERIFICATION.json](PHASE_3_VERIFICATION.json). The older Land/visual audit and verification files describe earlier stages.
+See [PHASE_3_5.md](PHASE_3_5.md) for the session fix, new content, balancing, artwork, migration compatibility and verification limits. Current results are in [PHASE_3_5_VERIFICATION.json](PHASE_3_5_VERIFICATION.json). [PHASE_3_ALPHA.md](PHASE_3_ALPHA.md) preserves the earlier formulas and implementation record; its catalog counts and nominal-net display description are superseded by Phase 3.5.
 
-Representative tested phone screens are in [the alpha preview gallery](docs/phase-3-preview/README.md).
+Representative tested phone screens are in [the Phase 3.5 preview gallery](docs/phase-3-5-preview/README.md). The earlier gallery remains intact.
 
 ## Launch in an existing Codespace
 
@@ -28,8 +30,8 @@ From the Codespaces terminal:
 
 ```bash
 cd /workspaces/test
-git fetch origin feature/kingdoms-live-phase-3-alpha
-git switch feature/kingdoms-live-phase-3-alpha
+git fetch origin feature/kingdoms-live-phase-3-5-alpha
+git switch feature/kingdoms-live-phase-3-5-alpha
 cd knights-reforged
 npm ci
 npm run db:migrate
@@ -39,7 +41,7 @@ node deployment/preview.mjs
 
 If the branch is not yet local, Git normally creates it from the fetched remote branch. If you have uncommitted work, preserve it before switching; do not force the switch.
 
-The preview helper derives the HTTPS application origin from Codespaces variables. An exported `APP_ORIGIN` takes precedence: set it to the exact forwarded HTTPS address if it points to an old local address. In **Ports**, keep **3000 Private**, then choose **Open in Browser**. Sign into GitHub in Chrome on Android to use the private forwarded address. This work does not create a Codespace, hosting service or public URL.
+All launch methods now derive the HTTPS origin from `CODESPACE_NAME`, `PORT` and `GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN` (default `app.github.dev`). A copied localhost `.env` or an old Codespace URL is replaced with the current preview URL. An explicit custom realm domain remains an override. Restart the application after updating it; existing accounts and sessions are retained. In **Ports**, keep **3000 Private**, then choose **Open in Browser**. Sign into GitHub in Chrome on Android to use the private forwarded address. This work does not create a Codespace, hosting service or public URL.
 
 Register your own game accounts. Two browser profiles/devices need separate game sessions; the provider's private access still applies. No demo seed is needed.
 
@@ -85,6 +87,8 @@ Without `TEST_DATABASE_URL`, database suites explicitly skip. For the complete a
 TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run verify
 TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:postgres
 TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:restart
+TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:codespaces
+TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:browser:fantasy
 ```
 
 Create that test database separately. Never use the player database for tests. A designated non-loopback test host also needs `ALLOWED_TEST_DATABASE_HOST`; the included devcontainer sets it to its internal database hostname. Tests create uniquely named accounts, and migration tests create/drop their own temporary schemas. No existing player database is reset.
@@ -95,7 +99,7 @@ With a disposable development server running and a local Chromium executable:
 BROWSER_EXECUTABLE=/path/to/chromium npm run test:browser
 ```
 
-The browser script creates fresh players and exercises real forms on desktop and 390px/360px phone viewports. Requests are confined to `APP_ORIGIN`. Screenshots and machine-readable summaries go into ignored `test-results/`. `CHROMIUM_NO_SANDBOX=1` is available for an isolated test container that cannot start Chromium's sandbox; it is not needed for normal application launch.
+The ordinary browser script creates fresh players and exercises real forms on desktop and 390px/360px phone viewports. Requests are confined to `APP_ORIGIN`. `test:browser:fantasy` starts its own loopback test realm and qualified late-game fixtures in the designated test database; it checks all paintings and the late-game loop at 330, 360, 390 and 1366px. `test:codespaces` uses a real local TLS proxy, a self-signed test certificate and a Codespaces-shaped hostname mapped exclusively to loopback; it contacts no provider. These scripts require local Chromium; the HTTPS fixture also requires OpenSSL. Screenshots and summaries go into ignored `test-results/`. `CHROMIUM_NO_SANDBOX=1` is available for an isolated test container that cannot start Chromium's sandbox; normal application launch does not need it.
 
 Try this manual loop in two game sessions:
 
@@ -117,10 +121,10 @@ The 10–20 minute human-session target remains a playtesting goal. Automated ru
 | Authoritative commands and projection | `src/commands.ts`, `src/game.ts` |
 | Equipment and progression | `src/inventory.ts`, `src/progression.ts`, `src/alpha-rules.ts` |
 | Economy and Land | `src/economy.ts`, `src/land.ts`, `src/estate.ts`, `src/maintenance.ts` |
-| Immutable catalogs | `rulesets/alpha-0.1/`; both earlier catalogs retained |
-| Additive SQL | `migrations/003_alpha.sql` through `005_maintenance_audit.sql` |
-| Interface and art | `views/`, `public/alpha.css`, `public/realm.js`, `public/art/` |
-| Fidelity and evidence | `ORIGINAL_GAME_SPEC.md`, `VISUAL_OVERHAUL.md`, `PHASE_3_ALPHA.md` |
+| Immutable catalogs | `rulesets/alpha-0.2/`; all three earlier catalogs retained |
+| Compatible SQL | `migrations/006_fantasy_progression.sql` through `008_land_purchase_order.sql`; earlier migrations unchanged |
+| Interface and art | `views/`, `public/alpha.css`, `public/refinements.css`, `public/realm.js`, `public/art/` |
+| Fidelity and evidence | `ORIGINAL_GAME_SPEC.md`, `VISUAL_OVERHAUL.md`, `PHASE_3_ALPHA.md`, `PHASE_3_5.md` |
 
 All earlier HTTP gameplay endpoints remain available, including manual equip as a compatibility action. New skill, sale, maintenance, prerequisite-purchase and membership routes are listed in `src/http-contracts.ts`. JSON commands use the session cookie, `X-CSRF-Token` from `/api/v1/me`, and a UUID `Idempotency-Key`.
 

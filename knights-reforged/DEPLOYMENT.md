@@ -1,6 +1,6 @@
 # Private Codespaces launch and deployment preparation
 
-Phase 3 dependency installation, TypeScript/build, PostgreSQL and browser tests have run successfully in the development workspace. See [PHASE_3_VERIFICATION.json](PHASE_3_VERIFICATION.json) for the executed gates and limitations. The historical network blockers in older verification files do not describe this phase.
+Phase 3.5 TypeScript/build, PostgreSQL migration/regression, real TLS reverse-proxy, restart and browser checks have run in the development workspace. See [PHASE_3_5_VERIFICATION.json](PHASE_3_5_VERIFICATION.json) for the executed gates and limitations. The historical network blockers in older verification files do not describe this phase.
 
 No hosting resources, Codespace, public preview, deployment or merge are created by this work. The supplied container/devcontainer recipes are configuration files; Docker/container builds and provider access policies have not been verified here.
 
@@ -8,7 +8,7 @@ No hosting resources, Codespace, public preview, deployment or merge are created
 
 Follow the [README launch steps](README.md#launch-in-an-existing-codespace) from `/workspaces/test/knights-reforged`. Retain the current database URL and secrets. Preserve uncommitted work, stop the old server and back up its PostgreSQL database before migration. Apply the additive migrations using `npm run db:migrate`; no reset, reseed, player deletion or manual SQL edits are required.
 
-The preview helper runs the application and derives its HTTPS origin from Codespaces forwarding variables. An explicitly exported `APP_ORIGIN` wins; update it if it refers to a different origin. Keep port 3000 **Private** in the provider Ports interface and open the authenticated HTTPS browser address from Chrome on Android.
+The shared server configuration derives its HTTPS origin from Codespaces forwarding variables for `npm run dev`, `npm start` and the preview helper. Copied loopback origins and old Codespace URLs automatically use the current forwarded HTTPS address. An explicit custom HTTPS realm domain is preserved; update it if it is stale. Request headers never choose the allowed origin. Keep port 3000 **Private** in the provider Ports interface and open the authenticated HTTPS browser address from Chrome on Android.
 
 Register a fresh game account and use another browser profile/device for the second player. The provider owner-access boundary is independent of the game's login screen. No demo accounts are created by preview, migration or devcontainer setup.
 
@@ -26,7 +26,7 @@ The Dockerfile retains the Fastify/PostgreSQL architecture, builds on Node 24, u
 
 ```bash
 cd knights-reforged
-docker build -t knights-reforged:phase-3-alpha .
+docker build -t knights-reforged:phase-3-5-alpha .
 ```
 
 No image build has been executed in this workspace. Database tests are not established by the image's unit-only build step. Run the PostgreSQL gates on a designated disposable database before using the image with player data.
@@ -54,10 +54,12 @@ npm run db:migrate
 TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run verify
 npm run check:static
 TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:restart
+TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:codespaces
+TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:browser:fantasy
 # With the disposable development server running and Chromium available:
 npm run test:browser
 ```
 
 Test URLs must name disposable `*_test` databases; non-loopback test hosts need `ALLOWED_TEST_DATABASE_HOST`. Do not substitute the working player database. The browser script refuses production mode, restricts requests to its designated application origin and generates its own test accounts.
 
-Actual Android device/WebView behavior, provider HTTPS/private access, container builds and PostgreSQL versions beyond the tested development version remain target-environment checks. A Codespaces browser tab is a responsive client, not an Android APK.
+The HTTPS regression reproduces TLS termination, native browser Secure cookies, real form Origins, forwarded HTTPS headers and an HTTP backend on loopback. It checks returning accounts and pre-fix cookies, quests, purchases, Land trades, PvP, logout/login and forged Origins/CSRF. It does not log into an actual user Codespace. Actual Android device/WebView behavior, provider private-access policies, container builds and PostgreSQL versions beyond the tested development version remain target-environment checks. A Codespaces browser tab is a responsive client, not an Android APK.
