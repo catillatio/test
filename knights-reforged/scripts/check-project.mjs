@@ -155,6 +155,13 @@ check('Legacy HTML command routes are preserved through the alpha expansion',()=
  const baseline=json('tests/fixtures/land-form-contracts.json');
  for(const forms of Object.values(baseline.fixtures))for(const form of forms)assert.ok(posts.some(p=>p.test(form.action)),form.action);
 });
+check('Upgraded pages bypass cached pre-expansion income clients',()=>{
+  for(const example of cases){
+    const html=rendered.get(example.name);assert.ok(html.includes('/assets/refinements.css?v='+alpha.id));
+    if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id));
+    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id));
+  }
+});
 check('Land retains countdown, offline payment, sale, retained-gold and no-script hooks',()=>{
  for(const example of cases.filter(e=>e.data.screen==='land')){
   const html=rendered.get(example.name);

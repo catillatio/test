@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/kingdoms-live.css">
   <link rel="stylesheet" href="/assets/alpha.css">
-  <link rel="stylesheet" href="/assets/refinements.css">
+  <link rel="stylesheet" href="/assets/refinements.css?v=<%= alpha.id %>">
 </head>
 <body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= screen === 'report' ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -35,6 +35,6 @@
     </div>
     <% if (state) { %><%- include('partials/primary-nav') %><% } %>
   </div>
-  <% if (state) { %><script type="module" src="/assets/realm.js"></script><% } %>
+  <% if (state) { %><script type="module" src="/assets/realm.js?v=<%= alpha.id %>"></script><% } %>
 </body>
 </html>

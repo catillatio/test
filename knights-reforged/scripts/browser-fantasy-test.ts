@@ -101,6 +101,7 @@ try{
   await act(page.getByRole('button',{name:'Attack '+rivalName,exact:true}));const reportId=page.url().split('/').at(-1)!;
   const opponentReport=await app.inject({method:'GET',url:'/api/v1/battles/'+reportId,headers:{cookie:'kr_session='+rival.token}});assert.equal(opponentReport.statusCode,200);
   assert.equal(opponentReport.json().battle.rulesetId,alpha.id);await page.screenshot({path:join(out,'390-fantasy-battle-report.png'),fullPage:true});
+  await page.goto(origin+'/game/profile');await page.screenshot({path:join(out,'390-profile-progress.png'),fullPage:true});
   // Also verify the maximum persisted wallet remains readable at phone widths.
   await transaction(db,async sql=>{await lockCharacters(sql,[knight.characterId]);const gold=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[knight.characterId])).rows[0]!.balance;await ledger(sql,null,'test_fixture',[{characterId:knight.characterId,amount:2147483647-gold}],alpha.id);});
   await page.setViewportSize({width:330,height:740});await page.goto(origin+'/game/profile');await layout('330 max-wallet');
