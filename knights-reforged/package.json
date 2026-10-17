@@ -18,7 +18,7 @@
     "test": "tsx --test --test-concurrency=1 tests/*.test.ts tests/*.test.mjs",
     "test:land:offline": "node --experimental-transform-types --import ./scripts/register-typescript.mjs tests/land-rules.test.ts",
     "test:land:client": "node tests/land-client.test.mjs",
-    "test:postgres": "TEST_ENGINE=postgres tsx --test --test-concurrency=1 tests/integration.test.ts tests/alpha-integration.test.ts tests/migration.test.ts tests/profile-economy.test.ts tests/fantasy-integration.test.ts tests/phase35-migration.test.ts tests/level50-playthrough.test.ts tests/training.test.ts tests/training-migration.test.ts tests/codespaces-origin.test.ts tests/strategy.test.ts tests/bounties.test.ts tests/strategy-migration.test.ts tests/community-combat.test.ts tests/community-social.test.ts tests/community-army-profile.test.ts tests/community-migration.test.ts tests/refinements.test.ts tests/refinements-migration.test.ts",
+    "test:postgres": "TEST_ENGINE=postgres tsx --test --test-concurrency=1 tests/integration.test.ts tests/alpha-integration.test.ts tests/migration.test.ts tests/profile-economy.test.ts tests/fantasy-integration.test.ts tests/phase35-migration.test.ts tests/level50-playthrough.test.ts tests/training.test.ts tests/training-migration.test.ts tests/codespaces-origin.test.ts tests/strategy.test.ts tests/bounties.test.ts tests/strategy-migration.test.ts tests/community-combat.test.ts tests/community-social.test.ts tests/community-army-profile.test.ts tests/community-migration.test.ts tests/refinements.test.ts tests/refinements-migration.test.ts tests/rendering.test.ts",
     "test:browser": "tsx scripts/browser-test.ts",
     "test:browser:fantasy": "tsx scripts/browser-fantasy-test.ts",
     "realm:moderate": "tsx scripts/moderate.ts",

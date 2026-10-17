@@ -48,7 +48,9 @@ export async function createApp(options: { db: Database; config: Config; logger?
     objectSrc: ["'none'"], frameAncestors: ["'none'"], formAction: ["'self'"], upgradeInsecureRequests: config.secureCookies ? [] : null } } });
   await app.register(rateLimit, { global: false });
   await app.register(fastifyStatic, { root: join(projectRoot, 'public'), prefix: '/assets/', maxAge: '1h' });
-  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views') });
+  // Rules used by shared/nested views are application constants, not optional
+  // page locals. This also covers direct views and error rendering contexts.
+  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { refinements, bountyRules } });
   app.decorateRequest('realmSession', null);
 
   const setSessionCookie = (reply: FastifyReply, token: string, authenticated: boolean) => reply.setCookie('kr_session', token, {
@@ -113,7 +115,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       actionResult = receipt?.result ?? null;
     }
     return reply.viewAsync('layout.ejs', {
-      screen, state, nav, rules, landRules, alpha, strategy, community, refinements, bountyRules, relativeTime, developmentBotsEnabled:config.developmentBotsEnabled, actionResult,
+      screen, state, nav, rules, landRules, alpha, strategy, community, relativeTime, developmentBotsEnabled:config.developmentBotsEnabled, actionResult,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       questArea: query.area==='all'||alpha.content?.areas.some(area=>area.id===query.area) ? query.area : 'nearby',

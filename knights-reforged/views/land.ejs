@@ -18,4 +18,4 @@
 </div></div><p class="land-row-hint field-hint" data-land-buy-hint><%= !unlocked?'Unlock at level '+property.level:property.remaining===0?'Ownership limit reached.':!available?'Earn more gold to buy.':'First payment after a full hour.' %></p>
 </article><% } %></div>
 <details class="panel land-holdings-panel"><summary>Your holdings and payment times</summary><ul class="plain-list"><% for (const holding of state.land.holdings) { %><li><strong><%= holding.name %> ×<%= holding.quantity %></strong> · <%= holding.hourlyIncome-holding.hourlyUpkeep %> gold/hour<time datetime="<%= holding.nextPaymentAt %>" data-holding-payment="<%= holding.id %>"><%= holding.nextPaymentAt %></time></li><% } %><% if (!state.land.holdings.length) { %><li>No property owned.</li><% } %></ul></details>
-</div><script type="module" src="/assets/land.js?v=<%= refinements.id %>"></script>
+</div><script type="module" src="/assets/land.js?v=<%= alpha.id %>-phase41-render1"></script>

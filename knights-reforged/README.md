@@ -8,6 +8,8 @@ A server-rendered medieval multiplayer RPG inspired by Storm8 Kingdoms Live. Fiv
 
 Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdom-come-phase-4-1-refinements`, based on the completed `feature/kingdom-come-phase-4-social` branch, retaining the Codespaces Origin fix. No branches are merged and nothing is deployed automatically.
 
+For the `refinements is not defined` rendering hotfix, use [RENDERING_FIX.md](RENDERING_FIX.md). It requires a fresh build and server restart, with no migration, reset or account/bot provisioning commands.
+
 See [PHASE_4_1.md](PHASE_4_1.md) for finalized bounty rules, immediate repeat combat, public Tales, migration details, verification and exact Codespace commands. [Current screenshots](docs/phase-4-1-preview/README.md) and the [Android packaging assessment](APK_READINESS.md) accompany the milestone. No Android compatibility is claimed from browser tests.
 
 Earlier [PHASE_4.md](PHASE_4.md) and [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) preserve their historical implementation records. Current rules supersede their former combat/bounty limits. The strategy report also covers Calling bonuses, temporary rivals, development-account provisioning, funded bounties, verification and the port-3001 Codespace update. [Earlier milestone screenshots](docs/strategy-preview/README.md) remain available.

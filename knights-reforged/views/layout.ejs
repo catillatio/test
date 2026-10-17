@@ -13,7 +13,8 @@
   <link rel="stylesheet" href="/assets/refinements.css?v=<%= alpha.id %>">
   <link rel="stylesheet" href="/assets/strategy.css?v=strategy-0.2">
   <link rel="stylesheet" href="/assets/community.css?v=community-0.1">
-  <link rel="stylesheet" href="/assets/phase41.css?v=<%= refinements.id %>">
+  <!-- Use the established layout context and a UI revision, not page-specific rules locals. -->
+  <link rel="stylesheet" href="/assets/phase41.css?v=<%= alpha.id %>-phase41-render1">
 </head>
 <body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -38,6 +39,6 @@
     </div>
     <% if (state) { %><%- include('partials/primary-nav') %><% } %>
   </div>
-  <% if (state) { %><script type="module" src="/assets/community.js?v=<%= refinements.id %>"></script><script type="module" src="/assets/realm.js?v=<%= refinements.id %>"></script><% } %>
+  <% if (state) { %><script type="module" src="/assets/community.js?v=<%= alpha.id %>-phase41-render1"></script><script type="module" src="/assets/realm.js?v=<%= alpha.id %>-phase41-render1"></script><% } %>
 </body>
 </html>

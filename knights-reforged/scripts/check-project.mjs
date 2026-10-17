@@ -205,9 +205,9 @@ check('Active branding and package lock use Kingdom Come',()=>{
 check('Upgraded pages bypass cached pre-expansion income clients',()=>{
   for(const example of cases){
     const html=rendered.get(example.name);assert.ok(html.includes('/assets/refinements.css?v='+alpha.id));
-    assert.ok(html.includes('/assets/phase41.css?v='+refinements.id));
-    if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+refinements.id));
-    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+refinements.id));
+    assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1'));
+    if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase41-render1'));
+    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase41-render1'));
   }
 });
 check('Land retains countdown, offline payment, sale, retained-gold and no-script hooks',()=>{
