@@ -1,8 +1,10 @@
-# Knights Reforged — Phase 3.5 fantasy multiplayer alpha
+# Kingdom Come — Phase 3.5 fantasy multiplayer alpha
+
+Previously Knights Reforged. The application directory, database identifiers and historical research names are retained for compatibility.
 
 A server-rendered medieval multiplayer RPG inspired by Storm8 Kingdoms Live. Five original-style tabs connect repeatable quests, Mana, quantity equipment, automatically equipped armies, Spirit-based PvP, Land income and character progression. All gameplay calculations run on the server.
 
-**Active rules: `alpha-0.2`.** The content, economic policy and combat formulas are reconstructed Knights Reforged rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
+**Active rules: `alpha-0.3`.** The content, economic policy and combat formulas are reconstructed Kingdom Come rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
 
 Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdoms-live-phase-3-5-alpha`, based on the Phase 3 alpha branch. No branches are merged and nothing is deployed automatically.
 
@@ -14,11 +16,11 @@ Application: `knights-reforged/` in `catillatio/test`. Development branch: `feat
 - 40 repeatable quests across 11 regions, through level 50, with level/equipment/quantity/army requirements, separate requirement purchases and 12 persistent discoveries.
 - 21 properties through level 55, increasing purchase prices, FIFO selling, 60-minute offline income and separate equipment upkeep.
 - Paid militia and consenting player allies, capped participation, nearby-level rivals, Spirit-funded PvP and private persistent reports.
-- Profile with character statistics, skills, army/loadouts, Gold Flow and account/logout controls; the resource header displays actual active net gold per hour.
+- Three-tab Profile with account age, saved kills/deaths, illustrated quantity inventories, persistent Attack/Defense training, resource skills, private battles, Gold Flow and account/logout controls; the resource header displays actual active net gold per hour.
 - 81 distinct AI-generated fantasy paintings in four efficient WebP sheets; recovered navigation/backgrounds, compact phone/PC screens, server-synchronized countdowns and working forms without JavaScript.
 - Shared Codespaces HTTPS origin handling for ordinary development, compiled startup and the preview helper; Secure cookies, CSRF and strict Origin checks remain enforced.
 
-See [PHASE_3_5.md](PHASE_3_5.md) for the session fix, new content, balancing, artwork, migration compatibility and verification limits. Current results are in [PHASE_3_5_VERIFICATION.json](PHASE_3_5_VERIFICATION.json). [PHASE_3_ALPHA.md](PHASE_3_ALPHA.md) preserves the earlier formulas and implementation record; its catalog counts and nominal-net display description are superseded by Phase 3.5.
+See [KINGDOM_COME_REFINEMENTS.md](KINGDOM_COME_REFINEMENTS.md) for the rename, new remake evidence, Player/Skills/Battles tabs, bounded Attack/Defense allocation and preservation guarantees. See [PHASE_3_5.md](PHASE_3_5.md) for the session fix, new content, balancing, artwork, migration compatibility and verification limits. Current results are in [KINGDOM_COME_PHASE_3_5_VERIFICATION.json](KINGDOM_COME_PHASE_3_5_VERIFICATION.json). [PHASE_3_ALPHA.md](PHASE_3_ALPHA.md) preserves the earlier formulas and implementation record; its catalog counts and nominal-net display description are superseded by Phase 3.5.
 
 Representative tested phone screens are in [the Phase 3.5 preview gallery](docs/phase-3-5-preview/README.md). The earlier gallery remains intact.
 
@@ -121,8 +123,8 @@ The 10–20 minute human-session target remains a playtesting goal. Automated ru
 | Authoritative commands and projection | `src/commands.ts`, `src/game.ts` |
 | Equipment and progression | `src/inventory.ts`, `src/progression.ts`, `src/alpha-rules.ts` |
 | Economy and Land | `src/economy.ts`, `src/land.ts`, `src/estate.ts`, `src/maintenance.ts` |
-| Immutable catalogs | `rulesets/alpha-0.2/`; all three earlier catalogs retained |
-| Compatible SQL | `migrations/006_fantasy_progression.sql` through `008_land_purchase_order.sql`; earlier migrations unchanged |
+| Immutable catalogs | `rulesets/alpha-0.3/`; all four earlier catalogs retained |
+| Compatible SQL | `migrations/006_fantasy_progression.sql` through `009_combat_training.sql`; earlier migrations unchanged |
 | Interface and art | `views/`, `public/alpha.css`, `public/refinements.css`, `public/realm.js`, `public/art/` |
 | Fidelity and evidence | `ORIGINAL_GAME_SPEC.md`, `VISUAL_OVERHAUL.md`, `PHASE_3_ALPHA.md`, `PHASE_3_5.md` |
 

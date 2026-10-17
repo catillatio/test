@@ -1,4 +1,6 @@
-# Phase 3.5 — stabilization, fantasy progression and shared-interface refinement
+# Kingdom Come — Phase 3.5 foundation
+
+Current refinement: active rules are now `alpha-0.3`, with Player/Skills/Battles, persistent Attack/Defense allocations and the new name. See [the refinement report](KINGDOM_COME_REFINEMENTS.md) and [current verification](KINGDOM_COME_PHASE_3_5_VERIFICATION.json). The foundation narrative below records the earlier level-50 expansion; its catalog-version and Profile-tab descriptions are historical.
 
 Development branch: `feature/kingdoms-live-phase-3-5-alpha`. Base: `feature/kingdoms-live-phase-3-alpha` at `d17def53469630d6756659da4bed36f639cd82f9`. Main, Land, visual-overhaul and Phase 3 branches are not merged or rewritten.
 
@@ -100,7 +102,7 @@ For compatibility, the older `state.land.netHourlyIncome` and `state.land.equipm
 
 The original recovered five-tab icons/selected states, 50px tab content, safe-area padding, navigation gradients and dark screen backgrounds are preserved byte for byte. Armory and Land retain compact illustrated rows, ownership counts, quantity inputs, classic buttons and their original form actions/CSRF/command fields.
 
-Four original Knights Reforged illustration sheets were actually generated with `image_gen.imagegen`: Weapons, Armor, Spells and Properties. They provide 81 assigned, distinct paintings plus three spare property vignettes. Grounded iron/leather develops into runic, elemental, dragon, astral and eclipse imagery in a coherent painted medieval style. These are new illustrations, not recovered Storm8 artwork.
+Four original Kingdom Come illustration sheets were actually generated with `image_gen.imagegen`: Weapons, Armor, Spells and Properties. They provide 81 assigned, distinct paintings plus three spare property vignettes. Grounded iron/leather develops into runic, elemental, dragon, astral and eclipse imagery in a coherent painted medieval style. These are new illustrations, not recovered Storm8 artwork.
 
 Runtime assets in `public/art/fantasy-0.2/`:
 

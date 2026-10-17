@@ -1,0 +1,46 @@
+{
+  "source": "User-supplied later-remake screenshots; remake build and capture date not independently verified. Not original Storm8 evidence.",
+  "received": "2026-10-17",
+  "assets": [
+    {
+      "file": "skills.png",
+      "original_upload": "1-IMG_0938.png",
+      "dimensions": [
+        750,
+        1334
+      ],
+      "bytes": 2178439,
+      "sha256": "f4fcdbfe146a6e889e6becbf190af3b291c76af1f7d74a39ec9beb8cbea98c82"
+    },
+    {
+      "file": "battle-bounty.png",
+      "original_upload": "1-1000030973.png",
+      "dimensions": [
+        750,
+        1334
+      ],
+      "bytes": 1710503,
+      "sha256": "b379a905a9d9dcd6e6a4cdb305c28f39b991128c2f74a95135c6d869c755f8c9"
+    },
+    {
+      "file": "comments.png",
+      "original_upload": "1-1000030972.png",
+      "dimensions": [
+        750,
+        1334
+      ],
+      "bytes": 1646967,
+      "sha256": "f931441afc43a22b6a8886effac4466dbbeae3f71f817eefd413d9d871deeefd"
+    },
+    {
+      "file": "player-income.png",
+      "original_upload": "1-1000030971.png",
+      "dimensions": [
+        750,
+        1334
+      ],
+      "bytes": 2035970,
+      "sha256": "ee44ff1d119d4f05cb020e75baf9db6512552aa3ade8b24c79c2ceacfed50334"
+    }
+  ]
+}

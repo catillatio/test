@@ -1,0 +1,707 @@
+{
+  "game": "Kingdom Come",
+  "phase": "3.5 refinement",
+  "verified_at": "2026-10-17T08:49:09.951Z",
+  "repository": "catillatio/test",
+  "branch": "feature/kingdoms-live-phase-3-5-alpha",
+  "previous_implementation": "b19528d48b4b4749b9adcd508fd875c346aab62a",
+  "implementation_commit": "258a4bcab53be6f6885a300799981857565ad56c",
+  "active_catalog": "alpha-0.3",
+  "environment": {
+    "node": "v24.19.0",
+    "typescript": "5.9.3",
+    "postgresql": "18.4",
+    "fastify": "5.12.7",
+    "chromium": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+  },
+  "gates": [
+    {
+      "command": "TEST_DATABASE_URL=<disposable *_test database> npm run verify",
+      "passed": true,
+      "typecheck": true,
+      "production_build": true,
+      "tests": 113,
+      "passed_tests": 113,
+      "failed_tests": 0,
+      "skipped_tests": 0
+    },
+    {
+      "command": "tsx --test tests/training.test.ts",
+      "passed": true,
+      "tests": 7,
+      "scope": "Additional targeted pass after final presentation polish"
+    },
+    {
+      "command": "npm run check:static",
+      "passed": true,
+      "checks": 48,
+      "ejs_fixtures": 33
+    },
+    {
+      "command": "npm run test:codespaces",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "fixture": "Real local TLS reverse proxy, standard Codespaces-shaped HTTPS origin and HTTP backend",
+        "live_provider_contacted": false,
+        "existing_accounts_preserved": true,
+        "pre_fix_non_secure_cookie_still_authenticates_over_https": true,
+        "secure_http_only_cookie": true,
+        "session_rotation_and_logout": true,
+        "forged_origin_and_forwarded_headers_rejected": true,
+        "invalid_csrf_rejected": true,
+        "form_actions": [
+          "Quest",
+          "Equipment purchase",
+          "Land purchase",
+          "Land sale",
+          "PvP",
+          "Sign out",
+          "Sign in",
+          "Quest after rotated login",
+          "Attack skill allocation"
+        ],
+        "browser_errors": 0
+      }
+    },
+    {
+      "command": "npm run test:restart",
+      "passed": true,
+      "training_survives_compiled_process_restart": true
+    },
+    {
+      "command": "npm run test:browser",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "origin": "http://127.0.0.1:3000",
+        "viewports": [
+          "1366x900",
+          "390x844",
+          "360x800"
+        ],
+        "screensPerPass": 7,
+        "passes": 5,
+        "checks": [
+          "Five original tabs and backgrounds",
+          "No horizontal overflow or missing images",
+          "Quest repeat, gates and loot",
+          "Level and Mana skill allocation",
+          "Army recruitment and accepted player ally",
+          "Quantity spell Buy/Sell and category preservation",
+          "Property Buy/Sell and live countdown",
+          "Two-player private persistent report",
+          "JavaScript-disabled quest forms"
+        ],
+        "limitations": [
+          "Headless Chromium viewports, not physical Android/WebView",
+          "Offline hours and concurrency verified separately in PostgreSQL tests"
+        ]
+      },
+      "additional_checks": [
+        "Player/Skills/Battles navigation",
+        "Defense allocation through a normal first-session form"
+      ]
+    },
+    {
+      "command": "npm run test:browser:fantasy",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "viewports": [
+          "330x740",
+          "360x800",
+          "390x844",
+          "1366x900"
+        ],
+        "ruleset": "alpha-0.3",
+        "fixture": "Qualified late-game players in disposable PostgreSQL; early-game no-grant playthrough verified separately",
+        "checks": [
+          "All 81 unique painted cells load",
+          "No horizontal overflow",
+          "Original five tabs",
+          "Three-category quantity purchases and resale",
+          "Level-50 property Buy/Sell and net header",
+          "Level-55 gate",
+          "Profile skills and logout",
+          "Discovery-gated level-50 finale",
+          "Two-player fantasy battle and private report",
+          "Maximum wallet at 330px"
+        ],
+        "browserErrors": 0,
+        "limitations": [
+          "Headless Chromium phone viewports; not a physical Android device",
+          "Loopback HTTP; real TLS reverse proxy covered by test:codespaces"
+        ]
+      },
+      "additional_checks": [
+        "All three Profile tabs at every viewport width",
+        "Persistent Attack and Defense form allocations",
+        "Illustrated ownership and both private battle armies"
+      ]
+    },
+    {
+      "command": "npm run balance:report",
+      "passed": true,
+      "scope": "Arithmetic; no human balance claim"
+    }
+  ],
+  "migration": {
+    "applied": [
+      "001_initial.sql",
+      "002_land.sql",
+      "003_alpha.sql",
+      "004_retained_treasury.sql",
+      "005_maintenance_audit.sql",
+      "006_fantasy_progression.sql",
+      "007_maintenance_event_identity.sql",
+      "008_land_purchase_order.sql",
+      "009_combat_training.sql"
+    ],
+    "latest": "009_combat_training.sql",
+    "real_postgresql": true,
+    "populated_upgrade_fixtures": [
+      "Original prototype/Land through 002 to current",
+      "Phase 3 through 005 to current",
+      "Existing Phase 3.5 through 008 to current"
+    ],
+    "old_resource_allocations_capacities_points_and_session_preserved": true,
+    "all_old_catalogs_and_art_unchanged": true,
+    "training_defaults_to_zero": true,
+    "new_allocations_record_immutable_version": true,
+    "production_player_database_accessed": false,
+    "data_reset": false
+  },
+  "training": {
+    "pointsPerRating": 1,
+    "percentPerRating": 1,
+    "maxRating": 25,
+    "powerPrecision": 100,
+    "applies_to": "Existing character + participating army + quantity-selected equipment power, separately for Attack and Defense",
+    "unallocated_legacy_effect": "None; all zero-rating combat powers/results stay unchanged",
+    "verified": [
+      "Concurrent allocations cannot overspend",
+      "25-rating cap enforced by transaction and schema",
+      "Identical retries spend once; changed intent conflicts",
+      "Client-provided bonus values cannot alter rules",
+      "No existing skill allocation reassigned or refunded",
+      "Persisted battle training unchanged by later skill changes"
+    ]
+  },
+  "presentation": {
+    "tabs": [
+      "Player",
+      "Skills",
+      "Battles"
+    ],
+    "profile_fields": [
+      "Name",
+      "Level",
+      "Calling",
+      "Joined date/account age",
+      "Quest completions",
+      "Kills/deaths from saved zero-Health outcomes",
+      "Wins/losses",
+      "Illustrated quantity inventories",
+      "Gross/property/equipment/total upkeep/net hourly income",
+      "Sign Out"
+    ],
+    "combat_report": [
+      "Authenticated viewer perspective",
+      "Both recorded participating armies",
+      "Illustrated recorded equipment quantities",
+      "Saved training",
+      "Damage dealt/received",
+      "Signed gold and XP",
+      "Victory/defeat",
+      "Private immutable records after later sales/allocations"
+    ],
+    "brand": "Player-facing branding, active documentation, package metadata, dev labels and server banner updated",
+    "compatibility_identifiers_retained": [
+      "knights-reforged application directory",
+      "Existing cookie/database/user/volume identifiers",
+      "Earlier immutable rulesets, provenance and research names"
+    ]
+  },
+  "preserved_level50_content": {
+    "weapons": 20,
+    "armor": 20,
+    "spells": 20,
+    "properties": 21,
+    "max_property_level": 55,
+    "quests": 40,
+    "regions": 11,
+    "max_quest_level": 50,
+    "all_alpha_02_gameplay_fields_identical": true
+  },
+  "level50_http_playthrough": {
+    "ruleset": "alpha-0.3",
+    "passed": true,
+    "clock": "Simulated elapsed resource/income time via a test-only SQL clock adapter; every HTTP action and settlement uses real PostgreSQL.",
+    "administrative_gold_xp_or_item_grants": 0,
+    "actions": 590,
+    "questRuns": 421,
+    "returnSessions": 42,
+    "simulatedElapsedHours": 168.845,
+    "finalLevel": 50,
+    "lifetimeXp": 44187,
+    "regionsVisited": [
+      "The Vale",
+      "The Marches",
+      "The Runewood",
+      "The Cinder Peaks",
+      "The Moonlit Coast",
+      "The Oathlands",
+      "The Pale March",
+      "Dawnspire",
+      "The Dragon Reach",
+      "The Astral Reach",
+      "The Eclipse Crown"
+    ],
+    "ownedProperties": [
+      {
+        "id": "smallholding",
+        "quantity": 3
+      },
+      {
+        "id": "woodland",
+        "quantity": 3
+      },
+      {
+        "id": "copper-workshop",
+        "quantity": 3
+      },
+      {
+        "id": "watchtower",
+        "quantity": 3
+      },
+      {
+        "id": "river-mill",
+        "quantity": 3
+      },
+      {
+        "id": "hearthstead-hamlet",
+        "quantity": 3
+      },
+      {
+        "id": "crown-harbour",
+        "quantity": 3
+      },
+      {
+        "id": "granite-quarry",
+        "quantity": 3
+      },
+      {
+        "id": "bannerhold-manor",
+        "quantity": 3
+      },
+      {
+        "id": "silver-vein-mine",
+        "quantity": 3
+      },
+      {
+        "id": "moonwell-sanctuary",
+        "quantity": 3
+      },
+      {
+        "id": "ironwood-fort",
+        "quantity": 3
+      },
+      {
+        "id": "tempest-port",
+        "quantity": 3
+      },
+      {
+        "id": "runekeeper-academy",
+        "quantity": 3
+      },
+      {
+        "id": "oathbound-citadel",
+        "quantity": 3
+      },
+      {
+        "id": "dawnspire-cathedral",
+        "quantity": 3
+      },
+      {
+        "id": "wyrmcrest-keep",
+        "quantity": 3
+      },
+      {
+        "id": "astral-observatory",
+        "quantity": 3
+      },
+      {
+        "id": "throne-of-ash",
+        "quantity": 3
+      },
+      {
+        "id": "eclipse-citadel",
+        "quantity": 1
+      }
+    ],
+    "hourlyNet": 33174,
+    "levelCheckpoints": [
+      {
+        "level": 2,
+        "gold": 83,
+        "quests": 2,
+        "elapsedHours": 0,
+        "hourlyNet": 0
+      },
+      {
+        "level": 3,
+        "gold": 116,
+        "quests": 4,
+        "elapsedHours": 0,
+        "hourlyNet": 0
+      },
+      {
+        "level": 4,
+        "gold": 186,
+        "quests": 7,
+        "elapsedHours": 0,
+        "hourlyNet": 0
+      },
+      {
+        "level": 5,
+        "gold": 185,
+        "quests": 10,
+        "elapsedHours": 0,
+        "hourlyNet": 7
+      },
+      {
+        "level": 6,
+        "gold": 154,
+        "quests": 14,
+        "elapsedHours": 0,
+        "hourlyNet": 4
+      },
+      {
+        "level": 7,
+        "gold": 320,
+        "quests": 19,
+        "elapsedHours": 0,
+        "hourlyNet": 11
+      },
+      {
+        "level": 8,
+        "gold": 474,
+        "quests": 24,
+        "elapsedHours": 0,
+        "hourlyNet": 26
+      },
+      {
+        "level": 9,
+        "gold": 419,
+        "quests": 30,
+        "elapsedHours": 2.0836111111111113,
+        "hourlyNet": 67
+      },
+      {
+        "level": 10,
+        "gold": 496,
+        "quests": 36,
+        "elapsedHours": 2.0836111111111113,
+        "hourlyNet": 93
+      },
+      {
+        "level": 11,
+        "gold": 614,
+        "quests": 43,
+        "elapsedHours": 4.333888888888889,
+        "hourlyNet": 83
+      },
+      {
+        "level": 12,
+        "gold": 952,
+        "quests": 51,
+        "elapsedHours": 6.8341666666666665,
+        "hourlyNet": 156
+      },
+      {
+        "level": 13,
+        "gold": 1238,
+        "quests": 59,
+        "elapsedHours": 9.334444444444445,
+        "hourlyNet": 157
+      },
+      {
+        "level": 14,
+        "gold": 1837,
+        "quests": 68,
+        "elapsedHours": 11.834722222222222,
+        "hourlyNet": 282
+      },
+      {
+        "level": 15,
+        "gold": 2271,
+        "quests": 77,
+        "elapsedHours": 14.835,
+        "hourlyNet": 368
+      },
+      {
+        "level": 16,
+        "gold": 2314,
+        "quests": 87,
+        "elapsedHours": 17.751944444444444,
+        "hourlyNet": 525
+      },
+      {
+        "level": 17,
+        "gold": 2876,
+        "quests": 96,
+        "elapsedHours": 20.66888888888889,
+        "hourlyNet": 649
+      },
+      {
+        "level": 18,
+        "gold": 4383,
+        "quests": 106,
+        "elapsedHours": 23.585833333333333,
+        "hourlyNet": 919
+      },
+      {
+        "level": 19,
+        "gold": 5041,
+        "quests": 116,
+        "elapsedHours": 26.502777777777776,
+        "hourlyNet": 1115
+      },
+      {
+        "level": 20,
+        "gold": 7455,
+        "quests": 126,
+        "elapsedHours": 29.419722222222223,
+        "hourlyNet": 1324
+      },
+      {
+        "level": 21,
+        "gold": 9642,
+        "quests": 136,
+        "elapsedHours": 32.92,
+        "hourlyNet": 1799
+      },
+      {
+        "level": 22,
+        "gold": 10203,
+        "quests": 146,
+        "elapsedHours": 36.25361111111111,
+        "hourlyNet": 2194
+      },
+      {
+        "level": 23,
+        "gold": 11734,
+        "quests": 156,
+        "elapsedHours": 39.58722222222222,
+        "hourlyNet": 2639
+      },
+      {
+        "level": 24,
+        "gold": 26630,
+        "quests": 167,
+        "elapsedHours": 46.254444444444445,
+        "hourlyNet": 3116
+      },
+      {
+        "level": 25,
+        "gold": 22852,
+        "quests": 177,
+        "elapsedHours": 49.588055555555556,
+        "hourlyNet": 3894
+      },
+      {
+        "level": 26,
+        "gold": 25776,
+        "quests": 187,
+        "elapsedHours": 53.58833333333333,
+        "hourlyNet": 4840
+      },
+      {
+        "level": 27,
+        "gold": 33021,
+        "quests": 198,
+        "elapsedHours": 57.58861111111111,
+        "hourlyNet": 5805
+      },
+      {
+        "level": 28,
+        "gold": 38673,
+        "quests": 209,
+        "elapsedHours": 61.58888888888889,
+        "hourlyNet": 7035
+      },
+      {
+        "level": 29,
+        "gold": 46017,
+        "quests": 219,
+        "elapsedHours": 65.33916666666667,
+        "hourlyNet": 7747
+      },
+      {
+        "level": 30,
+        "gold": 44559,
+        "quests": 229,
+        "elapsedHours": 69.08944444444444,
+        "hourlyNet": 9249
+      },
+      {
+        "level": 31,
+        "gold": 91584,
+        "quests": 239,
+        "elapsedHours": 73.58972222222222,
+        "hourlyNet": 9218
+      },
+      {
+        "level": 32,
+        "gold": 73221,
+        "quests": 250,
+        "elapsedHours": 78.09,
+        "hourlyNet": 12128
+      },
+      {
+        "level": 33,
+        "gold": 122102,
+        "quests": 259,
+        "elapsedHours": 82.25694444444444,
+        "hourlyNet": 12068
+      },
+      {
+        "level": 34,
+        "gold": 108421,
+        "quests": 269,
+        "elapsedHours": 86.42388888888888,
+        "hourlyNet": 14408
+      },
+      {
+        "level": 35,
+        "gold": 157761,
+        "quests": 279,
+        "elapsedHours": 90.59083333333334,
+        "hourlyNet": 15358
+      },
+      {
+        "level": 36,
+        "gold": 223292,
+        "quests": 288,
+        "elapsedHours": 94.75777777777778,
+        "hourlyNet": 15326
+      },
+      {
+        "level": 37,
+        "gold": 218732,
+        "quests": 298,
+        "elapsedHours": 99.75805555555556,
+        "hourlyNet": 18194
+      },
+      {
+        "level": 38,
+        "gold": 274520,
+        "quests": 308,
+        "elapsedHours": 104.75833333333334,
+        "hourlyNet": 19664
+      },
+      {
+        "level": 39,
+        "gold": 358924,
+        "quests": 317,
+        "elapsedHours": 109.34194444444445,
+        "hourlyNet": 19583
+      },
+      {
+        "level": 40,
+        "gold": 460956,
+        "quests": 327,
+        "elapsedHours": 113.92555555555556,
+        "hourlyNet": 19583
+      },
+      {
+        "level": 41,
+        "gold": 446402,
+        "quests": 336,
+        "elapsedHours": 119.42583333333333,
+        "hourlyNet": 23017
+      },
+      {
+        "level": 42,
+        "gold": 518497,
+        "quests": 346,
+        "elapsedHours": 124.92611111111111,
+        "hourlyNet": 24755
+      },
+      {
+        "level": 43,
+        "gold": 663032,
+        "quests": 355,
+        "elapsedHours": 130.42638888888888,
+        "hourlyNet": 24755
+      },
+      {
+        "level": 44,
+        "gold": 792353,
+        "quests": 365,
+        "elapsedHours": 135.42666666666668,
+        "hourlyNet": 24713
+      },
+      {
+        "level": 45,
+        "gold": 913814,
+        "quests": 374,
+        "elapsedHours": 140.42694444444444,
+        "hourlyNet": 24615
+      },
+      {
+        "level": 46,
+        "gold": 877178,
+        "quests": 383,
+        "elapsedHours": 145.4272222222222,
+        "hourlyNet": 28816
+      },
+      {
+        "level": 47,
+        "gold": 978031,
+        "quests": 392,
+        "elapsedHours": 151.4275,
+        "hourlyNet": 30966
+      },
+      {
+        "level": 48,
+        "gold": 1161181,
+        "quests": 401,
+        "elapsedHours": 157.42777777777778,
+        "hourlyNet": 30858
+      },
+      {
+        "level": 49,
+        "gold": 1360773,
+        "quests": 411,
+        "elapsedHours": 163.42805555555555,
+        "hourlyNet": 30858
+      },
+      {
+        "level": 50,
+        "gold": 1404400,
+        "quests": 420,
+        "elapsedHours": 168.845,
+        "hourlyNet": 33354
+      }
+    ],
+    "limitation": "A Mana-focused automated build and accelerated waits do not establish human session durations or multiplayer balance."
+  },
+  "remake_references": "original-reference/remake-2026-10-17/provenance.json",
+  "reference_classification": "User-supplied later-remake screenshots; build/capture date unverified; not proof of original Storm8 formulas.",
+  "artwork": "Reused all 81 existing fantasy paintings and original navigation/backgrounds. Textured headers are CSS. No additional generated paintings claimed.",
+  "screenshots": "docs/phase-3-5-preview/README.md",
+  "limitations": [
+    "Live user Codespaces ingress/provider authentication and physical Android devices not accessed; local real TLS fixture and Chromium phone viewports passed.",
+    "Human pacing, multi-day economy/competitive balance and hostile-load/alternate-account abuse need playtests.",
+    "1%/25% training and zero-Health kill/death rules are provisional reconstructions, not recovered Storm8 formulas.",
+    "Unknown historical Health/equipment are not invented.",
+    "Comments, blocking/reporting and bounties are deferred.",
+    "No native Android build, container hosting build or public deployment performed."
+  ],
+  "hosting_created": false,
+  "legacy_servers_contacted": false,
+  "main_or_other_feature_branches_modified": false,
+  "merge_performed": false
+}

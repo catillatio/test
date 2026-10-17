@@ -1,6 +1,6 @@
 # Private Codespaces launch and deployment preparation
 
-Phase 3.5 TypeScript/build, PostgreSQL migration/regression, real TLS reverse-proxy, restart and browser checks have run in the development workspace. See [PHASE_3_5_VERIFICATION.json](PHASE_3_5_VERIFICATION.json) for the executed gates and limitations. The historical network blockers in older verification files do not describe this phase.
+Phase 3.5 TypeScript/build, PostgreSQL migration/regression, real TLS reverse-proxy, restart and browser checks have run in the development workspace. See [KINGDOM_COME_PHASE_3_5_VERIFICATION.json](KINGDOM_COME_PHASE_3_5_VERIFICATION.json) for the executed gates and limitations. The historical network blockers in older verification files do not describe this phase.
 
 No hosting resources, Codespace, public preview, deployment or merge are created by this work. The supplied container/devcontainer recipes are configuration files; Docker/container builds and provider access policies have not been verified here.
 
@@ -26,7 +26,7 @@ The Dockerfile retains the Fastify/PostgreSQL architecture, builds on Node 24, u
 
 ```bash
 cd knights-reforged
-docker build -t knights-reforged:phase-3-5-alpha .
+docker build -t kingdom-come:phase-3-5-alpha .
 ```
 
 No image build has been executed in this workspace. Database tests are not established by the image's unit-only build step. Run the PostgreSQL gates on a designated disposable database before using the image with player data.
