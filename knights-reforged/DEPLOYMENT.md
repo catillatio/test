@@ -69,3 +69,9 @@ The HTTPS regression reproduces TLS termination on a port-3001 Codespaces-shaped
 Use [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) for the current branch, additive migration 010 and exact super-winner port-3001 update commands. Existing installed dependencies and database volumes are reused. New immutable rulesets are installed by migration.
 
 Temporary rivals require an explicit development-only provision command and `ENABLE_DEV_BOTS=1` at runtime. Production always disables their discovery/attacks. Provisioning the managed `dev` account requires `NODE_ENV=development`, `ALLOW_DEV_PROVISIONING=1` and its private credential through a hidden prompt or `KINGDOM_DEV_PASSWORD`. Neither provisioning operation is an HTTP endpoint or an automatic startup grant.
+
+## Phase 4 update
+
+Use [PHASE_4.md](PHASE_4.md) for the current `feature/kingdom-come-phase-4-social` branch and exact port-3001 Codespace commands. Run additive migration `011_community.sql` before the new compiled server starts. Existing accounts, sessions, inventory, Land, bounties and histories are retained; do not reset the dev account or database to update. Dependencies/lockfile are unchanged.
+
+New community posting limits are immutable `community-0.1` policies. Start operational moderation through the documented terminal CLI; no web administrator endpoint or fake bot conversations are introduced. [APK_READINESS.md](APK_READINESS.md) evaluates a future hosted-HTTPS WebView shell; this milestone neither deploys hosting nor produces an Android APK. Browser viewport tests are not device compatibility verification.

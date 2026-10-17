@@ -1,0 +1,197 @@
+{
+  "date_utc": "2026-10-17T18:25:39.117424+00:00",
+  "branch": "feature/kingdom-come-phase-4-social",
+  "base_commit": "4d1332fdbdbb14b685688b12965b2639e4390ff7",
+  "tested_core_implementation_commit": "36f9882a6407997f70873dc60bcef1aac9d56844",
+  "delivery_followups": "Final help copy, documentation, screenshot capture/index and verification metadata; no gameplay/security/database changes after the tested core commit.",
+  "environment": {
+    "node": "v24.19.0",
+    "postgresql": "18.4",
+    "chromium": "154.0.8037.57",
+    "scope": "Preserved local development DB and guarded disposable test DBs; no live Codespace or legacy-server requests"
+  },
+  "gates": {
+    "typescript": "passed",
+    "production_build": "passed",
+    "full_automated_suite": {
+      "tests": 159,
+      "pass": 159,
+      "fail": 0,
+      "skipped": 0
+    },
+    "explicit_postgresql_suite": {
+      "tests": 99,
+      "pass": 99,
+      "fail": 0,
+      "skipped": 0
+    },
+    "finishing_combat_and_bounties": {
+      "tests": 14,
+      "pass": 14,
+      "fail": 0,
+      "skipped": 0
+    },
+    "static_checks": {
+      "passed": 65,
+      "failed": 0,
+      "production_ejs_fixtures": 49
+    },
+    "real_tls_codespaces_fixture": {
+      "passed": true,
+      "origin": "https://knights-session-fixture-3001.app.github.dev",
+      "native_browser_posts": 26,
+      "upstream_origins": [
+        "http://localhost:3001",
+        "https://knights-session-fixture-3001.app.github.dev",
+        "https://localhost:3001"
+      ],
+      "unique_form_paths": [
+        "/game/armory/buy",
+        "/game/army/accept",
+        "/game/army/invite-code",
+        "/game/battle/attack",
+        "/game/bounties/place",
+        "/game/land/buy",
+        "/game/land/sell",
+        "/game/profile/calling",
+        "/game/profile/skills",
+        "/game/quests/border-patrol/run",
+        "/game/social/broadcast",
+        "/game/social/comment",
+        "/game/social/report",
+        "/login",
+        "/logout",
+        "/register"
+      ],
+      "browser_errors": 0,
+      "phase4": {
+        "native_comments": true,
+        "safe_text": true,
+        "native_reporting": true,
+        "native_broadcasts": true,
+        "native_code_invitation_and_acceptance": true,
+        "native_attack_again_to_zero": true,
+        "public_profile_links": true,
+        "viewports": [
+          320,
+          360,
+          390,
+          412,
+          1366
+        ],
+        "screensPerViewport": 17,
+        "screenshots": "test-results/phase4-browser",
+        "accessibility": "Named controls, native form labels, five-tab navigation, overflow and image checks; keyboard skip-link and native comment form with JavaScript disabled also passed"
+      },
+      "secure_cookies": true,
+      "csrf_and_foreign_origin_negatives": true
+    },
+    "ordinary_multiplayer_browser": {
+      "passed": true,
+      "origin": "http://127.0.0.1:3021",
+      "viewports": [
+        "1366x900",
+        "390x844",
+        "360x800"
+      ],
+      "screensPerPass": 7,
+      "passes": 5,
+      "checks": [
+        "Five original tabs and backgrounds",
+        "No horizontal overflow or missing images",
+        "Quest repeat, gates and loot",
+        "Level and Mana skill allocation",
+        "Army recruitment and accepted player ally",
+        "Quantity spell Buy/Sell and category preservation",
+        "Property Buy/Sell and live countdown",
+        "Two-player private persistent report",
+        "JavaScript-disabled quest forms"
+      ],
+      "limitations": [
+        "Headless Chromium viewports, not physical Android/WebView",
+        "Offline hours and concurrency verified separately in PostgreSQL tests"
+      ]
+    },
+    "level50_catalog_browser": {
+      "passed": true,
+      "viewports": [
+        "330x740",
+        "360x800",
+        "390x844",
+        "1366x900"
+      ],
+      "ruleset": "alpha-0.3",
+      "fixture": "Qualified late-game players in disposable PostgreSQL; early-game no-grant playthrough verified separately",
+      "checks": [
+        "All 81 unique painted cells load",
+        "No horizontal overflow",
+        "Original five tabs",
+        "Three-category quantity purchases and resale",
+        "Level-50 property Buy/Sell and net header",
+        "Level-55 gate",
+        "Profile skills and logout",
+        "Discovery-gated level-50 finale",
+        "Two-player fantasy battle and private report",
+        "Maximum wallet at 330px"
+      ],
+      "browserErrors": 0,
+      "limitations": [
+        "Headless Chromium phone viewports; not a physical Android device",
+        "Loopback HTTP; real TLS reverse proxy covered by test:codespaces"
+      ]
+    },
+    "compiled_restart": {
+      "passed": true,
+      "preserved": [
+        "sessions",
+        "progression",
+        "inventory",
+        "Land clocks",
+        "Calling",
+        "funded bounty",
+        "private battle access",
+        "comments",
+        "broadcasts",
+        "invitation codes",
+        "pending ally consent"
+      ]
+    },
+    "moderation_cli": {
+      "guard_refusal_passed": true,
+      "authorized_queue_passed": true,
+      "hide_restore_mute_unmute": "passed in PostgreSQL social integration test"
+    }
+  },
+  "populated_upgrade": {
+    "migration": "011_community.sql",
+    "runs": 2,
+    "existing_tables": 34,
+    "existing_accounts": 166,
+    "changed_existing_tables": [],
+    "existing_catalogs_unchanged": true,
+    "codes": {
+      "total": 166,
+      "unique_codes": 166
+    },
+    "preserved": true
+  },
+  "gameplay_compatibility": {
+    "content_ruleset": "alpha-0.3",
+    "strategy_ruleset": "strategy-0.2",
+    "npc_population": "passive-rivals-2",
+    "new_policy": "community-0.1",
+    "no_prices_or_progression_replaced": true,
+    "no_player_reset": true,
+    "original_formulas_claimed": false
+  },
+  "screenshots": "docs/phase-4-preview/README.md",
+  "generated_art_this_phase": false,
+  "remaining_limits": [
+    "Actual private super-winner Codespace was not accessible; HTTPS forwarding reproduced locally.",
+    "No Android SDK build, emulator, physical Android/WebView, signing or APK installation performed.",
+    "Automated named-control/label/overflow checks and keyboard flow are not a full TalkBack or contrast audit.",
+    "Human pacing, multi-day balance, public-scale load and staffed moderation need further testing.",
+    "Stable HTTPS hosting, operational database backups and native cookie/lifecycle/device verification remain the next milestone."
+  ],
+  "merge_or_public_deployment": false
+}

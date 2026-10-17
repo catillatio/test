@@ -1,0 +1,77 @@
+{
+  "capture": "Chromium 154, server-rendered real HTTPS proxy fixture, 390 CSS px touch/mobile emulation. Full-page images, not APK/device screenshots.",
+  "files": [
+    {
+      "file": "390-home.png",
+      "bytes": 239200,
+      "dimensions": [
+        390,
+        1364
+      ],
+      "sha256": "19c2f4c9af4df466e3ed6f164857d51720a1d3dc3ce5b454c649cd33e1ad4881"
+    },
+    {
+      "file": "390-battles.png",
+      "bytes": 216540,
+      "dimensions": [
+        390,
+        1098
+      ],
+      "sha256": "c839f394ccc2faca236d29559ca880c40649fd073e33df3445f144f0d023a74f"
+    },
+    {
+      "file": "390-battle-report.png",
+      "bytes": 249755,
+      "dimensions": [
+        390,
+        1443
+      ],
+      "sha256": "6baa776a67c6117b364ad2c0fbc9221956602efad0a9e05390f46e5b407228b3"
+    },
+    {
+      "file": "390-profile.png",
+      "bytes": 404841,
+      "dimensions": [
+        390,
+        2443
+      ],
+      "sha256": "e450e8d3babce9c42e369a12c38782f9ab99c36764dc17e96e107fc96d6315e9"
+    },
+    {
+      "file": "390-comments.png",
+      "bytes": 203857,
+      "dimensions": [
+        390,
+        1041
+      ],
+      "sha256": "698ad1c52b7afec507000433eca015a54d20bad188fcf58e1c134b0a415ea3fc"
+    },
+    {
+      "file": "390-broadcasts.png",
+      "bytes": 221801,
+      "dimensions": [
+        390,
+        1241
+      ],
+      "sha256": "66717d996253df06c9b7940f889f235b9bd622d6a31773d5dde9c5f3a6d5a9bb"
+    },
+    {
+      "file": "390-recruit.png",
+      "bytes": 170748,
+      "dimensions": [
+        390,
+        943
+      ],
+      "sha256": "79ed67b785c371550befa1602804d6193146325cd8e38dda51bbc0b3dfcd198a"
+    },
+    {
+      "file": "390-army-dashboard.png",
+      "bytes": 182567,
+      "dimensions": [
+        390,
+        913
+      ],
+      "sha256": "66235151a8ef90bf1dbd551a9a9508f15067fd1ba51afc26596061f9e09409b0"
+    }
+  ]
+}

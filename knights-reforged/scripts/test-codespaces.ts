@@ -269,13 +269,14 @@ try{
   assert.equal(await legendPage.getByRole('link',{name:'Skip to content',exact:true}).evaluate(element=>element===document.activeElement),true);
   await legendPage.keyboard.press('Enter');assert.equal(await legendPage.locator('#main-content').evaluate(element=>element===document.activeElement),true);
   // The same server-rendered social and invitation forms also work without JS.
-  const noScript=await browser.newContext({ignoreHTTPSErrors:true,javaScriptEnabled:false,viewport:{width:360,height:800}});
+  const noScript=await browser.newContext({ignoreHTTPSErrors:true,javaScriptEnabled:false,viewport:{width:390,height:844}});
   await noScript.route('**/*',route=>new URL(route.request().url()).origin===config.origin?route.continue():route.abort());
   await noScript.addCookies([{name:'kr_session',value:target.token,url:config.origin,httpOnly:true,secure:true,sameSite:'Lax'}]);
   const noScriptPage=await noScript.newPage();await noScriptPage.goto(config.origin+'/game/players/'+sponsor.characterId+'?tab=comments');
   await noScriptPage.getByLabel('Leave a profile comment',{exact:true}).fill('A handwritten note without scripts.');
   await submit(noScriptPage,noScriptPage.getByRole('button',{name:'Post Comment',exact:true}));
-  assert.match(await noScriptPage.locator('body').innerText(),/handwritten note without scripts/);await noScript.close();
+  assert.match(await noScriptPage.locator('body').innerText(),/handwritten note without scripts/);
+  await noScriptPage.screenshot({path:join(phase4Out,'390-comments.png'),fullPage:true});await noScript.close();
   assert.ok(observed.length>=16);
   observed.forEach(request=>{assert.equal(request.browserOrigin,config.origin);assert.equal(request.refererOrigin,config.origin);assert.equal(request.fetchSite,'same-origin');});
   for(const upstream of ['http://localhost:3001','https://localhost:3001',config.origin])assert.ok(observed.some(request=>request.upstreamOrigin===upstream),upstream);
