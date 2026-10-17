@@ -9,6 +9,7 @@ export interface Config {
   port: number;
   origin: string;
   originSource: 'explicit' | 'codespaces' | 'local-default';
+  codespacesOrigin: string | null;
   databaseUrl: string;
   secureCookies: boolean;
 }
@@ -28,11 +29,11 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   }
   // These deployment variables are controlled by the server environment. Never
   // derive the allowed Origin from request Host/Forwarded/Origin headers.
-  // A copied localhost .env or a previous Codespace URL is not an override of
-  // the current HTTPS preview. Explicit custom realm domains remain supported.
+  // A copied localhost .env can use the current HTTPS preview. An explicit
+  // public origin always wins, including *.app.github.dev: never silently
+  // substitute another public address or port for an operator's override.
   const local = configured && ['localhost','127.0.0.1','[::1]','0.0.0.0'].includes(configured.hostname);
-  const oldPreview = configured?.hostname.endsWith('.'+forwardingDomain);
-  const automatic = codespaceOrigin && (!configured || local || oldPreview);
+  const automatic = codespaceOrigin && (!configured || local);
   const origin = new URL(automatic ? codespaceOrigin! : configured?.href ?? 'http://localhost:'+port);
   if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password ||
       ['bluepawgames.com','storm8.com'].some(host => origin.hostname === host || origin.hostname.endsWith('.' + host))) {
@@ -44,6 +45,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   return {
     nodeEnv, host: env.HOST ?? '0.0.0.0', port, origin: origin.origin,
     originSource:automatic?'codespaces':configured?'explicit':'local-default',
+    codespacesOrigin:codespaceOrigin,
     databaseUrl: env.DATABASE_URL ?? 'postgres://knights:knights_local@127.0.0.1:54329/knights',
     secureCookies: origin.protocol === 'https:',
   };

@@ -17,16 +17,18 @@ import {createDatabase} from '../src/db.js';
 import {migrate} from '../src/migrate.js';
 import {loadConfig,projectRoot} from '../src/config.js';
 import {createApp} from '../src/app.js';
+import {urlOrigin} from '../src/request-origin.js';
 import {registerAccount,createSession} from '../src/auth.js';
 import {testDatabaseUrl} from '../tests/helpers.js';
 
 if(!testDatabaseUrl)throw new Error('Use TEST_DATABASE_URL for a disposable *_test database.');
-const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',PORT:'3000',CODESPACES:'true',CODESPACE_NAME:'knights-session-fixture',GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:'app.github.dev'});
-assert.equal(config.origin,'https://knights-session-fixture-3000.app.github.dev');assert.equal(config.secureCookies,true);
+const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'https://knights-session-fixture-3001.app.github.dev',PORT:'3001',CODESPACES:'true',CODESPACE_NAME:'knights-session-fixture',GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:'app.github.dev'});
+assert.equal(config.origin,'https://knights-session-fixture-3001.app.github.dev');assert.equal(config.originSource,'explicit');assert.equal(config.secureCookies,true);
 const host=new URL(config.origin).hostname,db=createDatabase(testDatabaseUrl),temp=await mkdtemp(join(tmpdir(),'kr-https-'));
 await migrate(db);const app=await createApp({db,config});
 let browser:Browser|undefined,proxy:ReturnType<typeof tlsServer>|undefined,tunnel:Server|undefined;
-const sockets=new Set<Socket>(),observed:{origin:string|undefined;forwardedProto:string;path:string}[]=[];
+let originMode:'http'|'https'|'preserve'='http';
+const sockets=new Set<Socket>(),observed:{browserOrigin:string|undefined;upstreamOrigin:string|undefined;refererOrigin:string|null;fetchSite:string|undefined;forwardedProto:string;path:string}[]=[];
 const track=(server:Server)=>server.on('connection',socket=>{sockets.add(socket);socket.on('close',()=>sockets.delete(socket));});
 const listen=async(server:Server)=>{server.listen(0,'127.0.0.1');await once(server,'listening');return (server.address() as {port:number}).port;};
 try{
@@ -34,8 +36,11 @@ try{
   const key=join(temp,'key.pem'),cert=join(temp,'cert.pem');
   execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-keyout',key,'-out',cert,'-days','1','-subj','/CN='+host,'-addext','subjectAltName=DNS:'+host],{stdio:'ignore'});
   proxy=tlsServer({key:await readFile(key),cert:await readFile(cert)},(request,response)=>{
-    const headers={...request.headers,host:'127.0.0.1:'+backend,'x-forwarded-host':host,'x-forwarded-proto':'https','x-forwarded-for':'203.0.113.41'};
-    if(request.method==='POST')observed.push({origin:request.headers.origin,forwardedProto:'https',path:request.url!});
+    // Dev Tunnels rewrites the SAME-ORIGIN source to localhost. Reproduce the
+    // source seen at each side of TLS termination; preserve foreign Origins.
+    const upstreamOrigin=request.headers.origin===config.origin&&originMode!=='preserve'?originMode+'://localhost:'+config.port:request.headers.origin;
+    const headers={...request.headers,...(upstreamOrigin===undefined?{}:{origin:upstreamOrigin}),host:'localhost:'+config.port,'x-forwarded-host':host,'x-forwarded-proto':'https','x-forwarded-for':'203.0.113.41'};
+    if(request.method==='POST')observed.push({browserOrigin:request.headers.origin,upstreamOrigin,refererOrigin:urlOrigin(request.headers.referer),fetchSite:String(request.headers['sec-fetch-site']),forwardedProto:'https',path:request.url!});
     const upstream=httpRequest({hostname:'127.0.0.1',port:backend,path:request.url,method:request.method,headers},reply=>{response.writeHead(reply.statusCode!,reply.headers);reply.pipe(response);});
     upstream.on('error',()=>{response.writeHead(502);response.end();});request.pipe(upstream);
   });
@@ -52,8 +57,28 @@ try{
   const context=await browser.newContext({ignoreHTTPSErrors:true,viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   await context.route('**/*',route=>new URL(route.request().url()).origin===config.origin?route.continue():route.abort());
   const suffix=randomUUID().replaceAll('-','').slice(0,8),password=randomUUID()+'!aA1',username='https_'+suffix;
-  // Persisted accounts/sessions exist before the browser/proxy is used. This
-  // specifically checks the returning-player case, without resetting the DB.
+  const errors:string[]=[];
+  // Registration must use real browser cookies, CSRF and a native form POST;
+  // seeding accounts directly cannot catch a broken registration boundary.
+  const newcomer=await context.newPage();
+  newcomer.on('pageerror',error=>errors.push(error.message));
+  await newcomer.goto(config.origin+'/register');
+  const anonymousCookie=(await context.cookies()).find(cookie=>cookie.name==='kr_session')!;
+  assert.equal(anonymousCookie.secure,true);assert.equal(anonymousCookie.httpOnly,true);
+  await newcomer.getByLabel('Account name',{exact:true}).fill('new_https_'+suffix);
+  await newcomer.getByLabel('Warrior name',{exact:true}).fill('New HTTPS Knight '+suffix);
+  await newcomer.getByLabel('Password',{exact:true}).fill(randomUUID()+'Aa1!');
+  await Promise.all([newcomer.waitForURL(config.origin+'/game/home'),newcomer.getByRole('button',{name:'Create your warrior',exact:false}).click()]);
+  const registeredCookie=(await context.cookies()).find(cookie=>cookie.name==='kr_session')!;
+  assert.equal(registeredCookie.secure,true);assert.equal(registeredCookie.httpOnly,true);assert.equal(registeredCookie.sameSite,'Lax');
+  assert.notEqual(registeredCookie.value,anonymousCookie.value);
+  const newlyRegistered=await newcomer.request.get(config.origin+'/api/v1/me');assert.equal(newlyRegistered.status(),200);
+  assert.equal((await newlyRegistered.json()).state.name,'New HTTPS Knight '+suffix);
+  await newcomer.goto(config.origin+'/game/profile');
+  await Promise.all([newcomer.waitForURL(config.origin+'/login'),newcomer.getByRole('button',{name:'Sign out',exact:true}).click()]);
+  await newcomer.close();
+  // Create this returning player's persisted account/session outside the
+  // browser, before that player first uses the proxy; never reset the DB.
   const account=await registerAccount(db,{username,name:'Proxy Knight '+suffix,password});
   const rival=await registerAccount(db,{username:'rival_'+suffix,name:'Proxy Rival '+suffix,password:randomUUID()});
   const session=await createSession(db,account.accountId);
@@ -61,7 +86,7 @@ try{
   // marked Secure. It must still authenticate over HTTPS after the upgrade.
   const oldRivalSession=await createSession(db,rival.accountId);
   await context.addCookies([{name:'kr_session',value:session.token,url:config.origin,httpOnly:true,secure:true,sameSite:'Lax'}]);
-  const page=await context.newPage(),errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+  const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
   const state=async()=>{const response=await page.request.get(config.origin+'/api/v1/me');assert.equal(response.status(),200);return (await response.json()).state;};
   const action=async(button:Locator)=>{const prior=page.url();await Promise.all([page.waitForURL(url=>url.href!==prior),button.click()]);assert.equal(await page.getByRole('alert').count(),0,await page.locator('body').innerText());};
   await page.goto(config.origin+'/game/quests');
@@ -87,24 +112,33 @@ try{
   const restored=await state();for(const field of ['id','gold','xp','inventory','questsCompleted'])assert.deepEqual(restored[field],saved[field]);
   const newCookie=(await context.cookies()).find(cookie=>cookie.name==='kr_session')!;assert.notEqual(newCookie.value,cookie.value);assert.equal(newCookie.secure,true);
   assert.equal((await app.inject({method:'GET',url:'/api/v1/me',headers:{cookie:'kr_session='+cookie.value}})).statusCode,401);
+  originMode='https';
   await page.goto(config.origin+'/game/quests');await action(page.getByRole('button',{name:'Do quest Patrol the border',exact:true}));assert.equal((await state()).questsCompleted,2);
+  originMode='preserve';
   await action(page.getByRole('button',{name:'Do quest Patrol the border',exact:true}));
   await page.goto(config.origin+'/game/profile?tab=skills');await action(page.getByRole('button',{name:'Increase Attack',exact:true}));assert.equal((await state()).training.attack,1);
+  originMode='http';
   const returning=await browser.newContext({ignoreHTTPSErrors:true});
   await returning.route('**/*',route=>new URL(route.request().url()).origin===config.origin?route.continue():route.abort());
   await returning.addCookies([{name:'kr_session',value:oldRivalSession.token,url:config.origin,httpOnly:true,secure:false,sameSite:'Lax'}]);
-  const oldPage=await returning.newPage();await oldPage.goto(config.origin+'/game/quests');
+  const oldPage=await returning.newPage();oldPage.on('pageerror',error=>errors.push(error.message));
+  await oldPage.goto(config.origin+'/game/quests');
   await Promise.all([oldPage.waitForURL(url=>url.searchParams.has('command')),oldPage.getByRole('button',{name:'Do quest Patrol the border',exact:true}).click()]);
   assert.equal(await oldPage.getByRole('alert').count(),0);assert.equal((await oldPage.request.get(config.origin+'/api/v1/me').then(r=>r.json())).state.id,rival.characterId);
   await oldPage.goto(config.origin+'/game/profile');await Promise.all([oldPage.waitForURL(config.origin+'/login'),oldPage.getByRole('button',{name:'Sign out',exact:true}).click()]);
   assert.equal((await oldPage.request.get(config.origin+'/api/v1/me')).status(),401);await returning.close();
-  assert.ok(observed.length>=8);observed.forEach(request=>assert.equal(request.origin,config.origin));assert.deepEqual(errors,[]);
+  assert.ok(observed.length>=12);
+  observed.forEach(request=>{assert.equal(request.browserOrigin,config.origin);assert.equal(request.refererOrigin,config.origin);assert.equal(request.fetchSite,'same-origin');});
+  for(const upstream of ['http://localhost:3001','https://localhost:3001',config.origin])assert.ok(observed.some(request=>request.upstreamOrigin===upstream),upstream);
+  assert.ok(observed.some(request=>request.path==='/register'&&request.upstreamOrigin==='http://localhost:3001'));assert.deepEqual(errors,[]);
   const out=join(projectRoot,'test-results/codespaces-https');await mkdir(out,{recursive:true});await page.screenshot({path:join(out,'phone-quest-success.png'),fullPage:true});
-  const summary={passed:true,fixture:'Real local TLS reverse proxy, standard Codespaces-shaped HTTPS origin and HTTP backend',live_provider_contacted:false,
+  const summary={passed:true,fixture:'Real local TLS reverse proxy, Codespaces port 3001 origin rewriting and HTTP backend',live_provider_contacted:false,
+    configured_origin:config.origin,origin_source:config.originSource,secure_cookies:config.secureCookies,
+    native_browser_registration:true,observed_post_headers:observed,
     existing_accounts_preserved:true,pre_fix_non_secure_cookie_still_authenticates_over_https:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
-    form_actions:['Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login','Attack skill allocation'],browser_errors:errors.length};
+    form_actions:['Registration','Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login','Attack skill allocation'],browser_errors:errors.length};
   await writeFile(join(out,'summary.json'),JSON.stringify(summary,null,2)+'\n');
-  console.log('PASS: existing accounts can quest, buy, manage Land, battle, log out and log back in through a Codespaces HTTPS reverse-proxy fixture. Secure cookies, CSRF and Origin/forwarded-header forgery regressions pass.');
+  console.log('PASS: native registration and existing accounts can quest, buy, manage Land, battle, log out and log back in through a Codespaces port-3001 HTTPS fixture with rewritten and preserved Origins. Secure cookies, CSRF and Origin/forwarded-header forgery regressions pass.');
 }finally{
   await browser?.close();for(const socket of sockets)socket.destroy();
   if(tunnel)await new Promise<void>(resolve=>tunnel!.close(()=>resolve()));if(proxy)await new Promise<void>(resolve=>proxy!.close(()=>resolve()));

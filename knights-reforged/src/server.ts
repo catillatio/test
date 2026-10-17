@@ -11,6 +11,8 @@ try {
   const schema = await db.query("SELECT name FROM schema_migrations WHERE name='009_combat_training.sql'");
   if (!schema.rows.length) throw new Error('Phase 3.5 migrations are incomplete. Run npm run db:migrate.');
   await app.listen({ host: config.host, port: config.port });
+  app.log.info({event:'realm_origin_configuration',origin:config.origin,originSource:config.originSource,
+    codespacesOrigin:config.codespacesOrigin,port:config.port,secureCookies:config.secureCookies},'Resolved realm origin');
   console.log(`Kingdom Come is ready at ${config.origin}`);
 } catch (error) {
   app.log.error(error, 'Startup failed. Run npm run db:migrate before starting.');

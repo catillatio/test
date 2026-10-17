@@ -1,6 +1,7 @@
 // Start inside an existing, approved cloud development environment.
 // This script does not create a service, tunnel, Codespace, or public URL.
 import { spawn } from 'node:child_process';
+import 'dotenv/config';
 
 const port = Number(process.env.PORT ?? 3000);
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid PORT.');

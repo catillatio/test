@@ -43,7 +43,9 @@ node deployment/preview.mjs
 
 If the branch is not yet local, Git normally creates it from the fetched remote branch. If you have uncommitted work, preserve it before switching; do not force the switch.
 
-All launch methods now derive the HTTPS origin from `CODESPACE_NAME`, `PORT` and `GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN` (default `app.github.dev`). A copied localhost `.env` or an old Codespace URL is replaced with the current preview URL. An explicit custom realm domain remains an override. Restart the application after updating it; existing accounts and sessions are retained. In **Ports**, keep **3000 Private**, then choose **Open in Browser**. Sign into GitHub in Chrome on Android to use the private forwarded address. This work does not create a Codespace, hosting service or public URL.
+Without an explicit public `APP_ORIGIN`, launch methods derive the HTTPS origin from `CODESPACE_NAME`, `PORT` and `GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN` (default `app.github.dev`); copied loopback defaults use that address too. An explicit public origin takes precedence, including a Codespaces URL. Update a copied old preview URL explicitly. The preview helper loads `.env` before choosing its port; exported environment variables take precedence over `.env`. Restart the application after updating it; existing accounts and sessions are retained. In **Ports**, keep the running port (normally **3000**, or **3001** when configured) **Private**, then choose **Open in Browser**. Sign into GitHub in Chrome on Android to use the private forwarded address. This work does not create a Codespace, hosting service or public URL.
+
+For the port-3001 `ORIGIN_REJECTED` fix and exact update commands, see [ORIGIN_FIX.md](ORIGIN_FIX.md). Codespaces can rewrite a browser's public Origin to localhost. The server handles that specific rewrite only with a matching canonical HTTPS Referer, same-origin browser metadata and the existing valid session-bound CSRF token; foreign Origins remain rejected.
 
 Register your own game accounts. Two browser profiles/devices need separate game sessions; the provider's private access still applies. No demo seed is needed.
 

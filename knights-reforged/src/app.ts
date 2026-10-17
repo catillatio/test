@@ -10,6 +10,7 @@ import { randomUUID, timingSafeEqual } from 'node:crypto';
 import { join } from 'node:path';
 import { z } from 'zod';
 import { type Config, projectRoot } from './config.js';
+import {requestOriginAllowed,urlOrigin} from './request-origin.js';
 import { type Database } from './db.js';
 import { authenticate, registerAccount, createSession, findSession, type Session } from './auth.js';
 import { getState, getBattle, recentBattles, listOpponents, type CharacterState } from './game.js';
@@ -68,7 +69,21 @@ export async function createApp(options: { db: Database; config: Config; logger?
         !timingSafeEqual(Buffer.from(csrf), Buffer.from(session.csrf_token))) {
       throw new GameError('CSRF_REJECTED', 'Your session changed or the form expired. Reload the page and try again.', 403);
     }
-    if (origin !== undefined && origin !== config.origin) {
+    const allowedOrigin=requestOriginAllowed(config,request.headers);
+    if (!allowedOrigin || (origin!==undefined&&origin!==config.origin)) {
+      // Server-only diagnostics: no cookies, tokens, passwords, request bodies,
+      // URL paths or Referer queries. Forwarding headers are evidence, not trust.
+      const details={event:allowedOrigin?'codespaces_origin_rewrite':'origin_rejected',
+        configuredOrigin:config.origin,originSource:config.originSource,port:config.port,
+        receivedOrigin:origin==='null'?'null':urlOrigin(origin),refererOrigin:urlOrigin(request.headers.referer),
+        hostOrigin:urlOrigin('https://'+request.headers.host),
+        forwardedHostOrigin:urlOrigin('https://'+request.headers['x-forwarded-host']),
+        forwardedProto:['http','https'].includes(String(request.headers['x-forwarded-proto']))?request.headers['x-forwarded-proto']:null,
+        fetchSite:['same-origin','same-site','cross-site','none'].includes(String(request.headers['sec-fetch-site']))?request.headers['sec-fetch-site']:null};
+      if(allowedOrigin)request.log.info(details,'Validated Codespaces-rewritten Origin against the canonical Referer');
+      else request.log.warn(details,'Rejected request Origin');
+    }
+    if (!allowedOrigin) {
       throw new GameError('ORIGIN_REJECTED','This form was opened from a different realm address. Open the current realm address and reload the page.',403);
     }
   });
