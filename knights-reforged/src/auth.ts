@@ -12,6 +12,7 @@ export const registration = z.object({
   password: z.string().min(12, 'Use at least 12 characters.').max(128),
 });
 const passwordOptions = { algorithm: Algorithm.Argon2id, memoryCost: 19456, timeCost: 2, parallelism: 1 };
+export const hashPassword=(password:string)=>hash(password,passwordOptions);
 export const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
 export interface Session { token_hash: string; csrf_token: string; account_id: string | null; username?: string; }
 
@@ -19,7 +20,7 @@ export async function registerAccount(db: Database, input: unknown) {
   const parsed = registration.safeParse(input);
   if (!parsed.success) throw new GameError('INVALID_ACCOUNT', parsed.error.issues[0]?.message ?? 'Invalid account.');
   const { username, name, password } = parsed.data;
-  const passwordHash = await hash(password, passwordOptions);
+  const passwordHash = await hashPassword(password);
   const accountId = randomUUID();
   const characterId = randomUUID();
   try {
@@ -45,10 +46,10 @@ export async function authenticate(db: Database, username: unknown, password: un
   if (typeof username !== 'string' || typeof password !== 'string' || password.length > 128) {
     throw new GameError('INVALID_CREDENTIALS', 'Account name or password is incorrect.', 401);
   }
-  const account = (await db.query('SELECT id,username,password_hash FROM accounts WHERE username=$1', [username.trim().toLowerCase()])).rows[0];
+  const account = (await db.query('SELECT * FROM accounts WHERE username=$1', [username.trim().toLowerCase()])).rows[0];
   dummyHash ??= hash(randomBytes(32).toString('hex'), passwordOptions);
   const valid = await verify(account?.password_hash ?? await dummyHash, password).catch(() => false);
-  if (!account || !valid) throw new GameError('INVALID_CREDENTIALS', 'Account name or password is incorrect.', 401);
+  if (!account || !valid || account.login_disabled) throw new GameError('INVALID_CREDENTIALS', 'Account name or password is incorrect.', 401);
   return { accountId: account.id as string, username: account.username as string };
 }
 
@@ -69,7 +70,7 @@ export async function findSession(sql: Sql, token: string | undefined): Promise<
   const row = (await sql.query<Session>(`SELECT s.token_hash,s.account_id,s.csrf_token,a.username FROM sessions s
     LEFT JOIN accounts a ON a.id=s.account_id
     WHERE s.token_hash=$1 AND s.expires_at>now()
-      AND (s.account_id IS NULL OR s.last_seen_at>now()-interval '7 days')`, [tokenHash(token)])).rows[0];
+      AND (s.account_id IS NULL OR (NOT a.login_disabled AND s.last_seen_at>now()-interval '7 days'))`, [tokenHash(token)])).rows[0];
   if (!row) return null;
   await sql.query("UPDATE sessions SET last_seen_at=now() WHERE token_hash=$1 AND last_seen_at<now()-interval '5 minutes'", [row.token_hash]);
   return row;

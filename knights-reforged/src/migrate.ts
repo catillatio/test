@@ -5,8 +5,9 @@ import { projectRoot } from './config.js';
 import { rules } from './rules.js';
 import { landRules } from './land-rules.js';
 import { alpha,alphaCatalogs } from './alpha-rules.js';
+import {strategy} from './strategy-rules.js';
 
-const definitions=[rules,landRules,...alphaCatalogs];
+const definitions=[rules,landRules,...alphaCatalogs,strategy];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 

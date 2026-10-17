@@ -70,6 +70,8 @@ test('populated Phase 3 upgrade preserves accounts, progression, inventory, Land
     for(const row of after.land_holdings){assert.ok(BigInt(row.purchase_order)>0n);delete row.purchase_order;}
     for(const row of after.characters){assert.equal(row.attack_training,0);assert.equal(row.defense_training,0);delete row.attack_training;delete row.defense_training;}
     for(const row of after.skill_allocations){assert.equal(row.ruleset_id,null);delete row.ruleset_id;}
+    for(const row of after.accounts){assert.equal(row.login_disabled,false);delete row.login_disabled;}
+    for(const row of after.characters){assert.equal(row.calling_changed_at,null);delete row.calling_changed_at;}
     assert.deepEqual(after,before);
     assert.deepEqual((await db.query("SELECT * FROM rulesets WHERE id='alpha-0.1'")).rows,oldCatalog);
     assert.equal((await db.query("SELECT count(*)::int AS n FROM schema_migrations WHERE name IN ('006_fantasy_progression.sql','007_maintenance_event_identity.sql','008_land_purchase_order.sql')")).rows[0]!.n,3);

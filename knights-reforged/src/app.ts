@@ -19,12 +19,14 @@ import { GameError } from './errors.js';
 import { rules } from './rules.js';
 import { landRules } from './land-rules.js';
 import { alpha } from './alpha-rules.js';
+import {strategy} from './strategy-rules.js';
+import {bountyBoard as loadBountyBoard} from './bounties.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
 
 declare module 'fastify' { interface FastifyRequest { realmSession: Session | null; } }
 const uuid = z.string().uuid();
 const allowedScreens = new Set<string>(templateScreens);
-const destination: Record<CommandKind, string> = { quest:'quests',quest_buy:'quests',recruit:'army',buy:'armory',sell:'armory',equip:'armory',attack:'battle',land_buy:'land',land_sell:'land',skill:'profile',profile:'profile',maintain:'armory',invite:'army',accept:'army',remove:'army' };
+const destination: Record<CommandKind, string> = { quest:'quests',quest_buy:'quests',recruit:'army',buy:'armory',sell:'armory',equip:'armory',attack:'battle',land_buy:'land',land_sell:'land',skill:'profile',profile:'profile',maintain:'armory',invite:'army',accept:'army',remove:'army',bounty_place:'bounties',bounty_cancel:'bounties' };
 const asBody = (request: FastifyRequest) => (request.body && typeof request.body === 'object' ? request.body : {}) as Record<string, unknown>;
 const wantsJson = (request: FastifyRequest) => request.url.startsWith('/api/') || (request.headers.accept ?? '').includes('application/json');
 
@@ -107,7 +109,8 @@ export async function createApp(options: { db: Database; config: Config; logger?
       actionResult = receipt?.result ?? null;
     }
     return reply.viewAsync('layout.ejs', {
-      screen, state, nav, rules, landRules, alpha, actionResult,
+      screen, state, nav, rules, landRules, alpha, strategy, developmentBotsEnabled:config.developmentBotsEnabled, actionResult,
+      bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       questArea: query.area==='all'||alpha.content?.areas.some(area=>area.id===query.area) ? query.area : 'nearby',
       profileTab:query.tab==='skills'||query.tab==='battles'?query.tab:'player',
@@ -151,7 +154,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
         ...(screen === 'home' || screen === 'battle' ? { battles: await recentBattles(db, state.id) } : {}),
         ...(screen === 'battle' ? await (async () => {
           const query=request.query as {after?:string};
-          const page=await listOpponents(db,state.id,query.after);
+          const page=await listOpponents(db,state.id,query.after,config.developmentBotsEnabled);
           return {opponents:page.opponents,nextOpponentCursor:page.nextCursor};
         })() : {}),
       });
@@ -160,6 +163,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!);
     return render(request,reply,'profile',{title:'Character',state,battles:await recentBattles(db,state.id)});
+  });
+  app.get('/game/bounties',{preHandler:requireAccount},async(request,reply)=>{
+    const state=await getState(db,request.realmSession!.account_id!);
+    return render(request,reply,'bounties',{title:'Bounty List',state,bountyBoard:await loadBountyBoard(db,state.id)});
   });
   app.get('/game/battles/:id', { preHandler: requireAccount }, async (request, reply) => {
     const id = (request.params as {id:string}).id;
@@ -173,7 +180,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       app.post(url, { preHandler: requireAccount, config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 90, timeWindow: '1 minute' } } }, async (request, reply) => {
         const body = asBody(request);
         const input = route.kind === 'quest' || route.kind === 'quest_buy' ? { ...body, questId: (request.params as {id:string}).id } : body;
-        const result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input);
+        const result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input,{developmentBotsEnabled:config.developmentBotsEnabled});
         if (wantsJson(request)) return { ...result, state: await getState(db, request.realmSession!.account_id!) };
         return reply.redirect(result.battleId ? '/game/battles/' + result.battleId :
           '/game/' + destination[route.kind] + '?command=' + result.commandId +
@@ -187,7 +194,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
   }));
   app.get('/api/v1/opponents', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!);
-    return listOpponents(db,state.id,(request.query as {after?:string}).after);
+    return listOpponents(db,state.id,(request.query as {after?:string}).after,config.developmentBotsEnabled);
+  });
+  app.get('/api/v1/bounties',{preHandler:requireAccount},async request=>{
+    const state=await getState(db,request.realmSession!.account_id!);return loadBountyBoard(db,state.id);
   });
   app.get('/api/v1/land', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!);

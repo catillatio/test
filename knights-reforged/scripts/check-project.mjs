@@ -59,8 +59,15 @@ check('Fantasy illustration sheets and all catalog cell assignments are intact',
   }
   assert.equal(cells.size,81);
 });
+check('Simplified Land sheet preserves 21 property identities with verified image bytes and row bounds',()=>{
+ const art=json('public/art/land-simple-0.1/provenance.json');const bytes=readFileSync(join(root,'public/art/land-simple-0.1',art.asset));
+ assert.equal(bytes.length,art.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),art.sha256);assert.equal(art.assignments.length,21);
+ assert.equal(art.observed_row_bounds.length,7);assert.equal(art.observed_row_bounds.at(-1),art.height);
+ for(const property of alpha.properties){const mapping=art.assignments.find(a=>a.id===property.id);assert.deepEqual({atlas:mapping.atlas,row:mapping.row,column:mapping.column},property.illustration);}
+ assert.ok(read('public/strategy.css').includes('land-simple-0.1/properties.webp'));
+});
 check('CSS uses local assets; original tab gradients and safe areas remain',()=>{
-  for(const file of ['public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css']){
+  for(const file of ['public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css']){
     for(const match of read(file).matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)){
       assert.ok(!/^(?:https?:|\/\/)/.test(match[1]));assert.ok(existsSync(resolve(root,dirname(file),match[1])),match[1]);
     }
@@ -71,11 +78,12 @@ check('CSS uses local assets; original tab gradients and safe areas remain',()=>
 const playerId='11111111-1111-4111-8111-111111111111',targetId='22222222-2222-4222-8222-222222222222',battleId=randomUUID(),holdingId=randomUUID();
 const now='2026-10-17T12:00:00.000Z',next='2026-10-17T13:00:00.000Z';
 const inventory=alpha.items.slice(0,3).map(item=>({...item,inventoryId:randomUUID(),quantity:2}));
+const strategy=json('rulesets/strategy-0.1/rules.json');
 const properties=alpha.properties.map((p,i)=>({...p,basePrice:p.price,owned:i===0?1:0,remaining:99,maxPurchase:25,maxAffordable:1,priceSteps:[p.price],unlocked:true}));
 const land={rulesetId:alpha.id,provisional:true,paymentIntervalSeconds:3600,hourlyIncome:8,hourlyUpkeep:1,equipmentUpkeep:0,totalUpkeep:1,netHourlyIncome:7,nextPaymentAt:next,pendingGold:'0',properties,
  holdings:[{id:holdingId,propertyId:'smallholding',name:'Smallholding',quantity:1,hourlyIncome:8,hourlyUpkeep:1,nextPaymentAt:next,rulesetId:landRules.id}]};
 const state={id:playerId,name:'Arthur of the Vale',xp:60,level:4,levelXp:0,levelRequirement:45,xpToNext:45,health:85,maxHealth:110,mana:16,maxMana:21,spirit:2,maxSpirit:3,energy:16,gold:150,units:2,
- attack:20,defense:18,equipped:true,inventoryId:inventory[0].inventoryId,inventory,questsCompleted:10,stateVersion:4,skillPoints:3,className:'Warden',attackReadyAt:now,serverTime:now,
+ attack:20,defense:18,equipped:true,inventoryId:inventory[0].inventoryId,inventory,questsCompleted:10,stateVersion:4,skillPoints:3,className:'Warden',calling:{description:strategy.callings.Warden.description,attackPercent:-2,defensePercent:4,healthSeconds:162,manaSeconds:300,spiritSeconds:120,changeReadyAt:null,changeCost:0},attackReadyAt:now,serverTime:now,
  energyNextAt:next,manaNextAt:next,spiritNextAt:next,healthNextAt:next,land,rulesetId:alpha.id,
  maintenance:{hourlyRate:0,reserveGold:'0',arrearsGold:'0',paused:false,resumeCost:0},
  economy:{grossHourlyIncome:8,propertyUpkeep:1,equipmentUpkeep:0,scheduledEquipmentUpkeep:0,otherUpkeep:0,totalUpkeep:1,netHourlyIncome:7,maintenancePaused:false},battleStats:{wins:2,losses:1,total:3,kills:1,deaths:0},accountCreatedAt:now,accountAgeDays:0,training:{attack:0,defense:0,attackBonusPercent:0,defenseBonusPercent:0,untrainedAttack:20,untrainedDefense:18},
@@ -85,11 +93,12 @@ const state={id:playerId,name:'Arthur of the Vale',xp:60,level:4,levelXp:0,level
 const legacyBattle={id:battleId,attackerId:playerId,defenderId:targetId,attackerName:'Arthur',defenderName:'Morgan',winnerName:'Arthur',winnerId:playerId,loot:3,attackPower:20,defensePower:10,attackRoll:2,defenseRoll:1,attackerDamage:3,defenderDamage:12,attackerHealthAfter:82,defenderHealthAfter:88,attackerXp:5,createdAt:now};
 const newBattle={...legacyBattle,rulesetId:alpha.id,attackPower:2000,defensePower:1000,attackerArmy:4,defenderArmy:2,attackerMaxHealth:110,defenderMaxHealth:100,spiritSpent:1,rewarded:true,attackEquipment:[],defenseEquipment:[]};
 const opponent={id:targetId,name:'Morgan',level:3,units:2,armySize:3,className:'Freeblade',health:100,maxHealth:100};
-const fixture=(screen,extra={})=>({screen,state,nav:navigation,rules,landRules,alpha,csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:null,
+const fixture=(screen,extra={})=>({screen,state,nav:navigation,rules,landRules,alpha,strategy,developmentBotsEnabled:false,bountyBoard:{active:[],history:[],eligible:true},csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:null,
  opponents:[opponent],nextOpponentCursor:null,battles:[],battle:newBattle,title:navigation.find(n=>n.id===screen)?.label??'The Realm',authMode:'login',formValues:{username:'',name:''},category:'weapon',questArea:'all',profileTab:'player',...extra});
 const emptyLand={...land,hourlyIncome:0,hourlyUpkeep:0,totalUpkeep:0,netHourlyIncome:0,nextPaymentAt:null,holdings:[],properties:properties.map(p=>({...p,owned:0}))};
+const contract={id:randomUUID(),sponsor_id:playerId,target_id:targetId,name:'Morgan',target_name:'Morgan',sponsor_name:'Arthur',level:3,profile_class:'Freeblade',army_size:3,amount:1000,fee:100,status:'active',claimant_id:null,created_at:new Date(Date.parse(now)-7200000).toISOString(),expires_at:next,claimBlockedReason:'Sponsors cannot claim their own contracts.'};
 const cases=[
- ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'profile',data:fixture('profile')},{name:'profile-skills',data:fixture('profile',{profileTab:'skills'})},{name:'profile-battles',data:fixture('profile',{profileTab:'battles',battles:[{id:battleId,result:newBattle,created_at:now}]})},
+ ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'bounties-empty',data:fixture('bounties')},{name:'bounties-own',data:fixture('bounties',{bountyBoard:{eligible:true,active:[contract],history:[contract,...['claimed','expired','canceled'].map(status=>({...contract,id:randomUUID(),status}))]}})},{name:'bounties-hunt',data:fixture('bounties',{bountyBoard:{eligible:true,active:[{...contract,sponsor_id:randomUUID(),claimBlockedReason:null}],history:[]}})},{name:'profile',data:fixture('profile')},{name:'profile-skills',data:fixture('profile',{profileTab:'skills'})},{name:'profile-battles',data:fixture('profile',{profileTab:'battles',battles:[{id:battleId,result:newBattle,created_at:now}]})},
  {name:'armory-armor',data:fixture('armory',{category:'armor'})},{name:'armory-spells',data:fixture('armory',{category:'spell'})},
  {name:'armory-paused',data:fixture('armory',{state:{...state,maintenance:{hourlyRate:3,reserveGold:'0',arrearsGold:'3',paused:true,resumeCost:6}}})},
  {name:'quests-missing',data:fixture('quests',{state:{...state,quests:state.quests.map(q=>({...q,missing:{'squires-blade':1},missingCost:5,ready:false,lockReason:'Equipment required'}))}})},
@@ -113,7 +122,7 @@ for(const example of cases)check('Production EJS render: '+example.name,()=>{
  rendered.set(example.name,html);
 });
 const routeRegex=route=>new RegExp('^'+route.split('/').map(s=>s.startsWith(':')?'[^/]+':s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('/')+'$');
-const gets=['/','/login','/register','/rules','/game/profile',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
+const gets=['/','/login','/register','/rules','/game/profile','/game/bounties',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
 const posts=['/login','/register','/logout',...commandRoutes.map(r=>r.html)].map(routeRegex),covered=new Set();
 check('Rendered links, asset references, unique IDs, labels, CSRF and command contracts',()=>{
  for(const [name,html] of rendered){
@@ -146,7 +155,7 @@ check('Original five tabs, selected artwork, secondary Land and profile Home sel
  for(const example of cases){
   const links=navigationLinks(rendered.get(example.name),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
   if(!example.data.state)continue;
-  const selected=example.data.screen==='report'?'battle':example.data.screen==='profile'?'home':example.data.screen;
+  const selected=['report','bounties'].includes(example.data.screen)?'battle':example.data.screen==='profile'?'home':example.data.screen;
   for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,'/assets/art/kingdoms-live/'+icons[id]+(id===selected?'_selected':'')+'.png');}
   assert.ok(navigationLinks(rendered.get(example.name),'Secondary navigation').some(l=>l.href==='/game/land'));
  }

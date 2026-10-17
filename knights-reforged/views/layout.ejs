@@ -11,8 +11,9 @@
   <link rel="stylesheet" href="/assets/kingdoms-live.css">
   <link rel="stylesheet" href="/assets/alpha.css">
   <link rel="stylesheet" href="/assets/refinements.css?v=<%= alpha.id %>">
+  <link rel="stylesheet" href="/assets/strategy.css?v=strategy-0.1">
 </head>
-<body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= screen === 'report' ? 'battle' : screen %>">
+<body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="app-shell">
     <div class="page-backdrop" aria-hidden="true"></div>

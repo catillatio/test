@@ -4,6 +4,7 @@ import {randomUUID} from 'node:crypto';
 import {realm,testDatabaseUrl,type Player} from './helpers.js';
 import {alpha,levelRequirement} from '../src/alpha-rules.js';
 import {rules} from '../src/rules.js';
+import {callingPower} from '../src/strategy-rules.js';
 
 const xpFor=(level:number)=>Array.from({length:level-1},(_,index)=>levelRequirement(index+1)).reduce((n,xp)=>n+xp,0);
 describe('Fantasy tiers, transactions and persistent progression',{skip:!testDatabaseUrl},()=>{
@@ -15,8 +16,8 @@ describe('Fantasy tiers, transactions and persistent progression',{skip:!testDat
       const chosen=['weapon','armor','spell'].map(category=>alpha.items.filter(item=>item.category===category&&item.level<=level).sort((a,b)=>b.level-a.level||b.price-a.price)[0]!);
       for(const item of chosen)await r.ok(p,'/api/v1/inventory/purchases',{itemId:item.id,quantity:3});
       const before=await r.me(p);assert.equal(before.level,level);assert.equal(before.army.participants,3);
-      assert.equal(before.attack,rules.baseAttack+(level-1)*rules.attackPerLevel+2*rules.unit.attack+chosen.reduce((n,item)=>n+3*item.attack,0));
-      assert.equal(before.defense,rules.baseDefense+(level-1)*rules.defensePerLevel+2*rules.unit.defense+chosen.reduce((n,item)=>n+3*item.defense,0));
+      assert.equal(before.attack,callingPower(rules.baseAttack+(level-1)*rules.attackPerLevel+2*rules.unit.attack+chosen.reduce((n,item)=>n+3*item.attack,0),before.calling.attackPercent));
+      assert.equal(before.defense,callingPower(rules.baseDefense+(level-1)*rules.defensePerLevel+2*rules.unit.defense+chosen.reduce((n,item)=>n+3*item.defense,0),before.calling.defensePercent));
       for(const item of chosen){const sale=await r.ok(p,'/api/v1/inventory/sales',{itemId:item.id,quantity:1});assert.equal(sale.data.goldReceived,Math.floor(item.price/2));assert.equal(sale.state.inventory.find((owned:{id:string})=>owned.id===item.id).quantity,2);}
       const property=alpha.properties.filter(p=>p.level<=level).at(-1)!;
       await r.ok(p,'/api/v1/land/purchases',{propertyId:property.id,quantity:2});

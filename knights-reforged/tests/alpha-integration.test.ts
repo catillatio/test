@@ -16,7 +16,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
       spirit_updated_at=clock_timestamp()-interval '140 seconds' WHERE id=$1`,[p.id]);
     const recovered=await r.me(p);
     assert.deepEqual([recovered.health,recovered.mana,recovered.spirit],[60,11,1]);
-    for(const [timer,seconds] of [[recovered.healthNextAt,160],[recovered.manaNextAt,280],[recovered.spiritNextAt,100]] as const){
+    for(const [timer,seconds] of [[recovered.healthNextAt,160],[recovered.manaNextAt,280],[recovered.spiritNextAt,76]] as const){
       const remaining=Date.parse(timer!)-Date.parse(recovered.serverTime);assert.ok(remaining>seconds*1000-2000&&remaining<=seconds*1000);
     }
     const repeated=await Promise.all([r.me(p),r.me(p),r.me(p)]);

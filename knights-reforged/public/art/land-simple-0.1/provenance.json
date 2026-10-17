@@ -1,0 +1,150 @@
+{
+  "version": "land-simple-0.1",
+  "method": "AI image-generation edit of the preserved fantasy-0.2 property sheet, simplified silhouettes and compositions. WebP encoding only; no post-generation repainting.",
+  "source_sha256": "d30a9eb9b8146412954a2d2d11d6d2fa73671ab54cd346f343528298fd6bbbb7",
+  "reference": "../fantasy-0.2/properties.webp",
+  "asset": "properties.webp",
+  "sha256": "343c5c7e128b27a98e12102b4d4b7ba0354d5e109491ecf0e97040f098682ea2",
+  "bytes": 495452,
+  "width": 1024,
+  "height": 1536,
+  "columns": 4,
+  "rows": 6,
+  "observed_row_bounds": [
+    0,
+    257,
+    484,
+    716,
+    950,
+    1211,
+    1536
+  ],
+  "assignments": [
+    {
+      "id": "smallholding",
+      "atlas": "properties",
+      "column": 0,
+      "row": 0
+    },
+    {
+      "id": "woodland",
+      "atlas": "properties",
+      "column": 1,
+      "row": 0
+    },
+    {
+      "id": "copper-workshop",
+      "atlas": "properties",
+      "column": 2,
+      "row": 0
+    },
+    {
+      "id": "watchtower",
+      "atlas": "properties",
+      "column": 3,
+      "row": 0
+    },
+    {
+      "id": "river-mill",
+      "atlas": "properties",
+      "column": 0,
+      "row": 1
+    },
+    {
+      "id": "hearthstead-hamlet",
+      "atlas": "properties",
+      "column": 1,
+      "row": 1
+    },
+    {
+      "id": "crown-harbour",
+      "atlas": "properties",
+      "column": 2,
+      "row": 1
+    },
+    {
+      "id": "granite-quarry",
+      "atlas": "properties",
+      "column": 3,
+      "row": 1
+    },
+    {
+      "id": "bannerhold-manor",
+      "atlas": "properties",
+      "column": 0,
+      "row": 2
+    },
+    {
+      "id": "silver-vein-mine",
+      "atlas": "properties",
+      "column": 1,
+      "row": 2
+    },
+    {
+      "id": "moonwell-sanctuary",
+      "atlas": "properties",
+      "column": 2,
+      "row": 2
+    },
+    {
+      "id": "ironwood-fort",
+      "atlas": "properties",
+      "column": 3,
+      "row": 2
+    },
+    {
+      "id": "tempest-port",
+      "atlas": "properties",
+      "column": 0,
+      "row": 3
+    },
+    {
+      "id": "runekeeper-academy",
+      "atlas": "properties",
+      "column": 1,
+      "row": 3
+    },
+    {
+      "id": "oathbound-citadel",
+      "atlas": "properties",
+      "column": 2,
+      "row": 3
+    },
+    {
+      "id": "dawnspire-cathedral",
+      "atlas": "properties",
+      "column": 3,
+      "row": 3
+    },
+    {
+      "id": "wyrmcrest-keep",
+      "atlas": "properties",
+      "column": 0,
+      "row": 4
+    },
+    {
+      "id": "astral-observatory",
+      "atlas": "properties",
+      "column": 1,
+      "row": 4
+    },
+    {
+      "id": "throne-of-ash",
+      "atlas": "properties",
+      "column": 2,
+      "row": 4
+    },
+    {
+      "id": "eclipse-citadel",
+      "atlas": "properties",
+      "column": 3,
+      "row": 4
+    },
+    {
+      "id": "worldroot-bastion",
+      "atlas": "properties",
+      "column": 0,
+      "row": 5
+    }
+  ]
+}

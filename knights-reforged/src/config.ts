@@ -12,6 +12,7 @@ export interface Config {
   codespacesOrigin: string | null;
   databaseUrl: string;
   secureCookies: boolean;
+  developmentBotsEnabled:boolean;
 }
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const port = Number(env.PORT ?? 3000);
@@ -48,5 +49,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     codespacesOrigin:codespaceOrigin,
     databaseUrl: env.DATABASE_URL ?? 'postgres://knights:knights_local@127.0.0.1:54329/knights',
     secureCookies: origin.protocol === 'https:',
+    developmentBotsEnabled:nodeEnv!=='production'&&env.ENABLE_DEV_BOTS==='1',
   };
 }

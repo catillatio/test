@@ -8,7 +8,7 @@ const db = createDatabase(config.databaseUrl);
 const app = await createApp({ db, config, logger: true });
 try {
   await assertInstalledRulesets(db);
-  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='009_combat_training.sql'");
+  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='010_strategy_and_bounties.sql'");
   if (!schema.rows.length) throw new Error('Phase 3.5 migrations are incomplete. Run npm run db:migrate.');
   await app.listen({ host: config.host, port: config.port });
   app.log.info({event:'realm_origin_configuration',origin:config.origin,originSource:config.originSource,

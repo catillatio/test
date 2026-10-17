@@ -10,6 +10,9 @@ import { purchaseItems,sellItem,readInventory } from './inventory.js';
 import { grantExperience,awardMilestones,allocateSkill } from './progression.js';
 import { refreshMaintenance,fundMaintenance } from './maintenance.js';
 import { buyEstate,sellEstate } from './estate.js';
+import {strategy} from './strategy-rules.js';
+import {prepareBot} from './development.js';
+import {lockBountyEscrow,expireBounties,placeBounty,cancelBounty,claimBounty} from './bounties.js';
 
 const uuid=z.string().uuid().transform(value=>value.toLowerCase());
 const id=z.string().min(1).max(64).regex(/^[a-z0-9-]+$/);
@@ -30,12 +33,14 @@ const intents={
   accept:z.object({targetCharacterId:uuid}),
   remove:z.object({targetCharacterId:uuid}),
   profile:z.object({className:z.enum(['Freeblade','Warden','Spellward'])}),
+  bounty_place:z.object({targetCharacterId:uuid,amount:quantity(strategy.bounties.maximum)}),
+  bounty_cancel:z.object({bountyId:uuid}),
 };
 export type CommandKind=keyof typeof intents;
 export interface CommandResult { commandId:string;kind:CommandKind;message:string;battleId?:string;inventoryEntryId?:string;holdingId?:string;data?:Record<string,unknown>; }
 const fingerprint=(kind:string,intent:unknown)=>createHash('sha256').update(JSON.stringify({kind,intent})).digest('hex');
 
-export async function executeCommand(db:Database,accountId:string,commandId:unknown,kind:CommandKind,raw:unknown):Promise<CommandResult> {
+export async function executeCommand(db:Database,accountId:string,commandId:unknown,kind:CommandKind,raw:unknown,runtime:{developmentBotsEnabled?:boolean}={}):Promise<CommandResult> {
   const command=uuid.safeParse(commandId);if (!command.success) throw new GameError('INVALID_COMMAND_ID','Reload for a fresh action ID.');
   const parsed=intents[kind].safeParse(raw);
   if (!parsed.success) throw new GameError('INVALID_INTENT',parsed.error.issues[0]?.message??'Invalid action.');
@@ -51,16 +56,27 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       if (!old.result) throw new GameError('COMMAND_PENDING','The action is still processing.',409);
       return old.result as CommandResult;
     }
-    const actorId=(await sql.query('SELECT id FROM characters WHERE account_id=$1',[accountId])).rows[0]?.id as string|undefined;
+    const actorId=(await sql.query('SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.account_id=$1 AND NOT a.login_disabled',[accountId])).rows[0]?.id as string|undefined;
     if (!actorId) throw new GameError('CHARACTER_NOT_FOUND','Your character was not found.',404);
     const membership=kind==='invite'||kind==='accept'||kind==='remove';
-    const targetId=(kind==='attack'||membership)?intent.targetCharacterId as string:null;
-    if (targetId===actorId) throw new GameError(kind==='attack'?'SELF_ATTACK':'SELF_INVITE','Choose another warrior.');
-    const locked=await lockCharacters(sql,targetId?[actorId,targetId]:[actorId]);
+    const targetId=(kind==='attack'||kind==='bounty_place'||membership)?intent.targetCharacterId as string:null;
+    if (targetId===actorId) throw new GameError(kind==='attack'?'SELF_ATTACK':kind==='bounty_place'?'SELF_BOUNTY':'SELF_INVITE','Choose another warrior.');
+    if(kind==='attack'||kind==='bounty_place'||kind==='bounty_cancel')await lockBountyEscrow(sql);
     const now=await clock(sql);
+    if(kind==='attack'||kind==='bounty_place'||kind==='bounty_cancel'){
+      await expireBounties(sql,now);
+    }
+    const locked=await lockCharacters(sql,targetId?[actorId,targetId]:[actorId]);
     let actor=locked.find(row=>row.id===actorId)!;
     actor=await materialize(sql,actor,now);
     let target=targetId?locked.find(row=>row.id===targetId)!:null;
+    let targetIsBot=false;
+    if(target&&kind==='attack'){
+      targetIsBot=await prepareBot(sql,target.id,now,!!runtime.developmentBotsEnabled);
+      if(targetIsBot)target=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[target.id])).rows[0]!;
+    }
+    if(target&&membership&&(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[target.id])).rows.length)
+      throw new GameError('BOT_ARMY_LINK','Temporary rivals cannot join player armies.',409);
     if (target&&kind==='attack') target=await materialize(sql,target,now);
     const state=await stateFrom(sql,actor,now);
     const result:CommandResult={commandId:key,kind,message:''};
@@ -131,8 +147,23 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       await fundMaintenance(sql,actorId,key,now);
       result.message='Upkeep is funded. Maintained equipment is available to your army.';
     } else if (kind==='profile') {
-      await sql.query('UPDATE characters SET profile_class=$2 WHERE id=$1',[actorId,intent.className]);
-      result.message='Your calling is now '+intent.className+'. Callings are identities; skills and equipment determine strength.';
+      if(actor.profile_class===intent.className){result.message='You already follow the '+intent.className+' Calling.';}
+      else{
+        if(actor.calling_changed_at&&+now<+new Date(actor.calling_changed_at)+strategy.callingChange.cooldownSeconds*1000)
+          throw new GameError('CALLING_COOLDOWN','You may change your Calling once every 24 hours.',409);
+        const cost=actor.calling_changed_at?strategy.callingChange.laterCost:0;
+        if(cost)await ledger(sql,key,'calling_change',[{characterId:actorId,amount:-cost}],strategy.id);
+        await sql.query('UPDATE characters SET profile_class=$2,calling_changed_at=$3,health_updated_at=$3,mana_updated_at=$3,spirit_updated_at=$3 WHERE id=$1',[actorId,intent.className,now]);
+        await sql.query('INSERT INTO calling_changes(id,character_id,old_calling,new_calling,gold_cost,command_id,ruleset_id,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)',[randomUUID(),actorId,actor.profile_class,intent.className,cost,key,strategy.id,now]);
+        result.message='Your Calling is now '+intent.className+'. Recovery starts a fresh interval; your skill allocations are preserved.';
+      }
+    } else if(kind==='bounty_place'&&target){
+      if(!areRivals(actor.attained_level,target.attained_level))throw new GameError('RIVAL_LEVEL_RANGE','Place a bounty on a rival near your own level.',409);
+      const placed=await placeBounty(sql,actorId,target.id,intent.amount as number,key,now);
+      result.data=placed;result.message='Bounty placed: '+placed.amount+' gold held in escrow; '+placed.fee+' gold placement fee.';
+    } else if(kind==='bounty_cancel'){
+      const canceled=await cancelBounty(sql,actorId,intent.bountyId as string,key,now);
+      result.data=canceled;result.message='Bounty canceled. '+canceled.refund+' escrowed gold returned; the placement fee is retained.';
     } else if (membership&&target) {
       const pair=[actorId,target.id].sort();
       const link=(await sql.query('SELECT * FROM army_links WHERE low_id=$1 AND high_id=$2',pair)).rows[0];
@@ -162,7 +193,12 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       if (+new Date(actor.attack_ready_at)>+now) throw new GameError('ATTACK_COOLDOWN','Catch your breath before attacking again.',409);
       const targetState=await stateFrom(sql,target,now);
       const count=(await sql.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND created_at>$3',[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
-      const rewarded=count<alpha.combat.rewardedPerTarget;
+      let rewarded=count<alpha.combat.rewardedPerTarget;
+      if(targetIsBot){
+        const total=(await sql.query(`SELECT count(*)::int AS n FROM battles b JOIN development_bots d ON d.character_id=b.defender_id
+          WHERE b.attacker_id=$1 AND b.rewarded AND b.created_at>$2`,[actorId,new Date(+now-strategy.bots.rewardWindowSeconds*1000)])).rows[0]!.n;
+        rewarded=count<strategy.bots.perTargetRewardedBattles&&total<strategy.bots.dailyRewardedBattles;
+      }
       const variation=alpha.combat.variation;
       const combat=resolveAlphaCombat(state,targetState,randomInt(-variation,variation+1),randomInt(-variation,variation+1),rewarded);
       const winnerId=combat.outcome==='attacker_win'?actorId:target.id;const loserId=winnerId===actorId?target.id:actorId;
@@ -182,11 +218,16 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         attackerHealthAfterDamage:combat.attackerHealthAfter,attackerHealthAfter:after.health,attackerMaxHealth:actor.max_health,defenderMaxHealth:target.max_health,
         attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
-        attackerTraining:{...state.training},defenderTraining:{...targetState.training},createdAt:now.toISOString()};
+        attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
+        strategyRulesetId:strategy.id,temporaryRival:targetIsBot,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
+      if(combat.outcome==='attacker_win'&&!targetIsBot){
+        battle.bountyClaim=await claimBounty(sql,actorId,target.id,result.battleId,key,now);
+        if(battle.bountyClaim)await sql.query('UPDATE battles SET result=$2 WHERE id=$1',[result.battleId,battle]);
+      }
       await awardMilestones(sql,actorId);
-      result.message=battle.winnerName+' won the battle.'+(!rewarded?' This repeat encounter awards no gold or XP.':'');
+      result.message=battle.winnerName+' won the battle.'+(!rewarded?' This repeat encounter awards no gold or XP.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
     }
     await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);
     await sql.query('UPDATE command_receipts SET result=$3 WHERE account_id=$1 AND command_id=$2',[accountId,key,result]);

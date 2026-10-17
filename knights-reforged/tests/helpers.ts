@@ -18,7 +18,7 @@ if (testDatabaseUrl) {
   }
 }
 export interface Player { id:string; cookie:string; csrf:string; accountId:string; }
-export async function realm(options:{clock?:()=>Date;logger?:boolean}={}) {
+export async function realm(options:{clock?:()=>Date;logger?:boolean;developmentBotsEnabled?:boolean}={}) {
   const pool=createDatabase(testDatabaseUrl!);await migrate(pool);
   // Test-only clock adapter. All gameplay SQL/transactions are real PostgreSQL;
   // only the server's explicit clock read is replaced. No production endpoint,
@@ -26,7 +26,7 @@ export async function realm(options:{clock?:()=>Date;logger?:boolean}={}) {
   const wrap=(sql:Sql):Sql=>({query:<T extends QueryResultRow>(statement:string,values?:unknown[])=>
     statement==='SELECT clock_timestamp() AS now'?sql.query<T>('SELECT $1::timestamptz AS now',[options.clock!().toISOString()]):sql.query<T>(statement,values)});
   const db:Database=options.clock?{...wrap(pool),connect:async()=>{const client=await pool.connect();return {...wrap(client),release:()=>client.release()};},end:()=>pool.end()}:pool;
-  const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',DATABASE_URL:testDatabaseUrl});
+  const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',DATABASE_URL:testDatabaseUrl,ENABLE_DEV_BOTS:options.developmentBotsEnabled?'1':'0'});
   const app=await createApp({db,config,logger:options.logger});
   const session=(response:{headers:Record<string,unknown>}) => {
     const value=response.headers['set-cookie'];

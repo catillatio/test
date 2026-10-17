@@ -13,6 +13,8 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
     "db:reset-demo": "tsx scripts/seed.ts --reset-demo",
+    "dev:bots": "tsx scripts/development.ts bots",
+    "dev:account": "tsx scripts/development.ts account",
     "test": "tsx --test --test-concurrency=1 tests/*.test.ts tests/*.test.mjs",
     "test:land:offline": "node --experimental-transform-types --import ./scripts/register-typescript.mjs tests/land-rules.test.ts",
     "test:land:client": "node tests/land-client.test.mjs",

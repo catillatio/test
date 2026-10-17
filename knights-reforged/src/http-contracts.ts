@@ -11,7 +11,7 @@ export const navigation = [
   { id: 'land', label: 'Land', icon: 'land' },
 ] as const;
 
-export const templateScreens = ['home', 'quests', 'battle', 'armory', 'army', 'land', 'profile', 'auth', 'report', 'rules', 'error'] as const;
+export const templateScreens = ['home', 'quests', 'battle', 'bounties', 'armory', 'army', 'land', 'profile', 'auth', 'report', 'rules', 'error'] as const;
 
 export const commandRoutes = [
   { kind: 'quest', html: '/game/quests/:id/run', api: '/api/v1/quests/:id/runs' },
@@ -24,6 +24,8 @@ export const commandRoutes = [
   { kind: 'land_sell', html: '/game/land/sell', api: '/api/v1/land/sales' },
   { kind: 'skill', html: '/game/profile/skills', api: '/api/v1/skills' },
   { kind: 'profile', html: '/game/profile/calling', api: '/api/v1/profile' },
+  { kind: 'bounty_place', html: '/game/bounties/place', api: '/api/v1/bounties/placements' },
+  { kind: 'bounty_cancel', html: '/game/bounties/cancel', api: '/api/v1/bounties/cancellations' },
   { kind: 'maintain', html: '/game/armory/maintain', api: '/api/v1/maintenance' },
   { kind: 'quest_buy', html: '/game/quests/:id/equipment', api: '/api/v1/quests/:id/equipment' },
   { kind: 'invite', html: '/game/army/invite', api: '/api/v1/army/invitations' },

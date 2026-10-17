@@ -1,0 +1,13 @@
+{
+  "id": "strategy-0.1",
+  "provenance": "Original Kingdom Come alpha reconstruction. Callings, passive development rivals and bounty balance are not recovered Storm8 formulas. Catalog alpha-0.3 remains unchanged.",
+  "callings": {
+    "Freeblade": {"description":"A daring commander who strikes hard and returns to the fray quickly.","attackPercent":4,"defensePercent":-2,"healthRecoveryPercent":100,"manaRecoveryPercent":100,"spiritRecoveryPercent":90},
+    "Warden": {"description":"A resilient protector whose company recovers quickly between battles.","attackPercent":-2,"defensePercent":4,"healthRecoveryPercent":90,"manaRecoveryPercent":100,"spiritRecoveryPercent":100},
+    "Spellward": {"description":"A patient seeker of arcane knowledge, trading martial power for more frequent quests.","attackPercent":-2,"defensePercent":-2,"healthRecoveryPercent":100,"manaRecoveryPercent":90,"spiritRecoveryPercent":100}
+  },
+  "callingChange": {"cooldownSeconds":86400,"laterCost":100},
+  "bots": {"populationVersion":"passive-rivals-1","minLevel":1,"maxLevel":50,"tiers":["green","seasoned","elite"],"dailyRewardedBattles":6,"perTargetRewardedBattles":1,"rewardWindowSeconds":86400,"recoverySeconds":600,"walletBase":100,"walletPerLevel":30,"maintenanceHours":48},
+  "bounties": {"minimum":100,"maximum":10000,"feePercent":10,"minimumFee":10,"minimumLevel":3,"minimumQuests":5,"durationSeconds":86400,"cancelAfterSeconds":3600,"sponsorActiveLimit":3,"sponsorDailyLimit":5,"targetDailyLimit":3,"sponsorTargetCooldownSeconds":86400,"claimantDailyLimit":3,"claimantDailyGoldLimit":20000,"pairClaimCooldownSeconds":86400,"sponsorClaimantCooldownSeconds":604800},
+  "developmentAccount": {"username":"dev","gold":50000,"armyParticipants":10}
+}

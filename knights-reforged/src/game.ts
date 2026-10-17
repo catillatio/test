@@ -6,6 +6,7 @@ import { settleLand } from './land.js';
 import { estateState,type EstateState } from './estate.js';
 import { readInventory } from './inventory.js';
 import { settleMaintenance,maintenanceAccount } from './maintenance.js';
+import {strategy,callingFor,callingPower,recoverySeconds} from './strategy-rules.js';
 
 export interface CharacterRow {
   id:string;account_id:string;name:string;xp:number;health:number;energy:number;
@@ -14,6 +15,7 @@ export interface CharacterRow {
   mana_updated_at:Date;spirit_updated_at:Date;attained_level:number;level_xp:number;
   skill_points:number;legacy_army_floor:number;profile_class:string;
   attack_training:number;defense_training:number;
+  calling_changed_at:Date|null;
 }
 export interface ArmyLink { characterId:string;name:string;level:number;className:string;status:string;incoming:boolean; }
 export interface CharacterState {
@@ -27,6 +29,7 @@ export interface CharacterState {
   battleStats:{wins:number;losses:number;total:number;kills:number;deaths:number};
   accountCreatedAt:string;accountAgeDays:number;
   training:{attack:number;defense:number;attackBonusPercent:number;defenseBonusPercent:number;untrainedAttack:number;untrainedDefense:number};
+  calling:{rulesetId:string;attackPercent:number;defensePercent:number;description:string;healthSeconds:number;manaSeconds:number;spiritSeconds:number;changeReadyAt:string|null;changeCost:number};
   maintenance:{hourlyRate:number;reserveGold:string;arrearsGold:string;paused:boolean;resumeCost:number};
   army:ReturnType<typeof activeArmy>&{allies:number;mercenaries:number;links:ArmyLink[]};
   attackEquipment:ReturnType<typeof selectEquipment>;defenseEquipment:ReturnType<typeof selectEquipment>;
@@ -42,9 +45,9 @@ export async function lockCharacters(sql:Sql,ids:string[]) {
 export async function materialize(sql:Sql,row:CharacterRow,now:Date):Promise<CharacterRow> {
   const landChanged=await settleLand(sql,row.id,now,alpha.id);
   const upkeepChanged=await settleMaintenance(sql,row.id,now);
-  const hp=regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,alpha.resources.healthSeconds,alpha.resources.healthAmount);
-  const mana=regenerate(row.mana,row.max_mana,new Date(row.mana_updated_at),now,alpha.resources.manaSeconds);
-  const spirit=regenerate(row.spirit,row.max_spirit,new Date(row.spirit_updated_at),now,alpha.resources.spiritSeconds);
+  const hp=regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount);
+  const mana=regenerate(row.mana,row.max_mana,new Date(row.mana_updated_at),now,recoverySeconds(row.profile_class,'mana',alpha.resources.manaSeconds));
+  const spirit=regenerate(row.spirit,row.max_spirit,new Date(row.spirit_updated_at),now,recoverySeconds(row.profile_class,'spirit',alpha.resources.spiritSeconds));
   const changed=landChanged||upkeepChanged||hp.value!==row.health||mana.value!==row.mana||spirit.value!==row.spirit;
   return (await sql.query<CharacterRow>(`UPDATE characters SET health=$2,mana=$3,spirit=$4,health_updated_at=$5,mana_updated_at=$6,spirit_updated_at=$7,
     state_version=state_version+$8 WHERE id=$1 RETURNING *`,[row.id,hp.value,mana.value,spirit.value,hp.updated,mana.updated,spirit.updated,changed?1:0])).rows[0]!;
@@ -74,7 +77,9 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
     return {...quest,missing,missingCost,completions:progress.find(p=>p.quest_id===quest.id)?.completions??0,ready:!lockReason,lockReason,requiresLootName};
   });
   const next=(value:number,max:number,updated:Date,seconds:number)=>value<max?new Date(new Date(updated).getTime()+seconds*1000).toISOString():null;
-  const manaNextAt=next(row.mana,row.max_mana,row.mana_updated_at,alpha.resources.manaSeconds);
+  const calling=callingFor(row.profile_class);
+  const healthSeconds=recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),manaSeconds=recoverySeconds(row.profile_class,'mana',alpha.resources.manaSeconds),spiritSeconds=recoverySeconds(row.profile_class,'spirit',alpha.resources.spiritSeconds);
+  const manaNextAt=next(row.mana,row.max_mana,row.mana_updated_at,manaSeconds);
   const sword=inventory.find(i=>i.id===rules.weapon.id&&i.quantity>0);
   const land=await estateState(sql,row.id,wallet.balance,upkeep.hourly_rate,row.attained_level);
   const activeEquipmentUpkeep=upkeep.paused?0:upkeep.hourly_rate;
@@ -94,12 +99,14 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
   const untrainedDefense=rules.baseDefense+(row.attained_level-1)*rules.defensePerLevel+(army.participants-1)*rules.unit.defense+defenseEquipment.defense;
   return {id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:levelRequirement(row.attained_level),xpToNext:levelRequirement(row.attained_level)-row.level_xp,
     health:row.health,maxHealth:row.max_health,mana:row.mana,maxMana:row.max_mana,spirit:row.spirit,maxSpirit:row.max_spirit,energy:row.mana,
-    gold:wallet.balance,units,attack:trainedPower(untrainedAttack,row.attack_training),defense:trainedPower(untrainedDefense,row.defense_training),
+    gold:wallet.balance,units,attack:callingPower(trainedPower(untrainedAttack,row.attack_training),calling.attackPercent),defense:callingPower(trainedPower(untrainedDefense,row.defense_training),calling.defensePercent),
     equipped:Boolean(sword),inventoryId:sword?.inventoryId??null,inventory,questsCompleted:progress.reduce((n,p)=>n+p.completions,0),quests,loot,awards,
     stateVersion:row.state_version,skillPoints:row.skill_points,className:row.profile_class,
     attackReadyAt:new Date(row.attack_ready_at).toISOString(),serverTime:now.toISOString(),energyNextAt:manaNextAt,manaNextAt,
-    spiritNextAt:next(row.spirit,row.max_spirit,row.spirit_updated_at,alpha.resources.spiritSeconds),
-    healthNextAt:next(row.health,row.max_health,row.health_updated_at,alpha.resources.healthSeconds),
+    spiritNextAt:next(row.spirit,row.max_spirit,row.spirit_updated_at,spiritSeconds),
+    healthNextAt:next(row.health,row.max_health,row.health_updated_at,healthSeconds),
+    calling:{rulesetId:strategy.id,description:calling.description,attackPercent:calling.attackPercent,defensePercent:calling.defensePercent,healthSeconds,manaSeconds,spiritSeconds,
+      changeReadyAt:row.calling_changed_at?new Date(+new Date(row.calling_changed_at)+strategy.callingChange.cooldownSeconds*1000).toISOString():null,changeCost:row.calling_changed_at?strategy.callingChange.laterCost:0},
     land,economy,battleStats,rulesetId:alpha.id,army,attackEquipment,defenseEquipment,
     accountCreatedAt:accountCreated.toISOString(),accountAgeDays:Math.max(0,Math.floor((+now-+accountCreated)/86400000)),
     training:{attack:row.attack_training,defense:row.defense_training,attackBonusPercent:row.attack_training*alpha.combatSkills.percentPerRating,defenseBonusPercent:row.defense_training*alpha.combatSkills.percentPerRating,untrainedAttack,untrainedDefense},
@@ -113,7 +120,7 @@ export async function getState(db:Database,accountId:string):Promise<CharacterSt
     const now=await clock(client);return stateFrom(client,await materialize(client,row,now),now);
   });
 }
-export async function listOpponents(db:Database,characterId:string,cursor?:string) {
+export async function listOpponents(db:Database,characterId:string,cursor?:string,developmentBotsEnabled=false) {
   let after:string|null=null,afterId:string|null=null;
   if (cursor!==undefined) {
     if(typeof cursor!=='string') throw new GameError('INVALID_CURSOR','Invalid rival page.');
@@ -122,17 +129,19 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
   }
   const actor=(await db.query('SELECT attained_level FROM characters WHERE id=$1',[characterId])).rows[0]!;
   const range=Math.max(2,Math.ceil(actor.attained_level*0.2));
-  const rows=(await db.query(`SELECT c.*,to_char(c.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_at,
+  const rows=(await db.query(`SELECT c.*,b.tier AS bot_tier,b.recovered_at AS bot_recovered_at,to_char(c.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_at,
     (SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
     (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted') AS allies
-    FROM characters c WHERE c.id<>$1 AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
+    FROM characters c LEFT JOIN development_bots b ON b.character_id=c.id WHERE c.id<>$1 AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
+    AND (b.character_id IS NULL OR ($7 AND b.active))
     AND ($4::timestamptz IS NULL OR (c.created_at,c.id)<($4::timestamptz,$5::uuid))
-    ORDER BY c.created_at DESC,c.id DESC LIMIT 21`,[characterId,actor.attained_level-range,actor.attained_level+range,after,afterId,actor.attained_level])).rows;
+    ORDER BY c.created_at DESC,c.id DESC LIMIT 21`,[characterId,actor.attained_level-range,actor.attained_level+range,after,afterId,actor.attained_level,developmentBotsEnabled])).rows;
   const eligible=rows.filter(row=>areRivals(actor.attained_level,row.attained_level));const more=eligible.length>20;
   const now=await clock(db);
   const opponents=eligible.slice(0,20).map(row=>({id:row.id as string,name:row.name as string,level:row.attained_level as number,className:row.profile_class as string,
     units:row.units as number,armySize:activeArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor).participants,maxHealth:row.max_health as number,
-    health:regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,alpha.resources.healthSeconds,alpha.resources.healthAmount).value,
+    health:row.bot_tier&&+now-+new Date(row.bot_recovered_at)>=strategy.bots.recoverySeconds*1000?row.max_health:regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value,
+    botTier:row.bot_tier as string|null,
     cursor:row.cursor_at+'~'+row.id}));
   return {opponents,nextCursor:more?opponents.at(-1)!.cursor:null};
 }

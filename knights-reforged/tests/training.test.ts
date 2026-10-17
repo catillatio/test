@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {alpha,phase35Catalog,trainedPower,resolveAlphaCombat} from '../src/alpha-rules.js';
 import {realm,testDatabaseUrl} from './helpers.js';
+import {callingPower} from '../src/strategy-rules.js';
 
 test('renamed rules retain every level-50 contract and resource rule from alpha-0.2',()=>{
   assert.equal(alpha.id,'alpha-0.3');
@@ -37,7 +38,7 @@ describe('Persistent combat training and reference-inspired Profile',{skip:!test
   test('training stops at its documented cap and rejects invented attributes or client-supplied bonus values',async()=>{
     const p=await r.player();await r.prepare(p,0,12000);
     for(let i=0;i<25;i++)await r.ok(p,'/api/v1/skills',{resource:'defense',bonusPercent:999999});
-    const before=await r.me(p);assert.equal(before.training.defenseBonusPercent,25);assert.equal(before.defense,trainedPower(before.training.untrainedDefense,25));
+    const before=await r.me(p);assert.equal(before.training.defenseBonusPercent,25);assert.equal(before.defense,callingPower(trainedPower(before.training.untrainedDefense,25),before.calling.defensePercent));
     assert.equal((await r.command(p,'/api/v1/skills',{resource:'defense'})).statusCode,409);assert.equal((await r.me(p)).skillPoints,before.skillPoints);
     assert.equal((await r.command(p,'/api/v1/skills',{resource:'skill_points'})).statusCode,422);
     assert.equal((await r.db.query("SELECT count(*)::int AS n FROM skill_allocations WHERE character_id=$1 AND ruleset_id=$2",[p.id,alpha.id])).rows[0]!.n,25);

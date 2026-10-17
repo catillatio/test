@@ -1,0 +1,27 @@
+.calling-list { display:grid; gap:0; margin:.5rem 0; }
+.calling-row { display:grid; grid-template-columns:5.5rem minmax(0,1fr); align-items:center; gap:.5rem; padding:.5rem .3rem; border-bottom:1px solid #ffffff20; }
+.calling-row h3 { font-size:.9rem; margin:0; }.calling-row p { font-size:.78rem; line-height:1.45; margin:0; color:#c6c5bd; }
+.calling-row.is-current { background:#638c8620; border-left:2px solid #67b8a4; }
+.profile-logout { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+.bot-label { color:#a4c9c1; font-size:.72rem; }.bot-disclosure { border-left:2px solid #6b9690; padding-left:.6rem; }
+.bounty-placement { margin-top:.4rem; font-size:.76rem; }.bounty-placement summary { color:#d8b97d; cursor:pointer; }
+.bounty-placement form { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem; margin-top:.35rem; }.bounty-placement label { flex-basis:100%; }
+.bounty-placement input { min-width:0; width:5.5rem; min-height:36px; }.bounty-placement .button { padding:.4rem; font-size:.75rem; }
+.bounty-row,.bounty-history-row { display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.7rem .3rem; border-bottom:1px solid #ffffff22; }
+.bounty-row>div,.bounty-history-row>div { min-width:0; }.bounty-row h3 { margin:0; font-size:1rem; overflow-wrap:anywhere; }
+.bounty-row span,.bounty-row small,.bounty-row strong,.bounty-history-row small { display:block; line-height:1.5; }
+.bounty-row span,.bounty-history-row { font-size:.8rem; }.bounty-row small,.bounty-history-row small { font-size:.7rem; color:#b1b2ad; }
+.bounty-row form,.bounty-history-row form { flex-shrink:0; }.bounty-row .button,.bounty-history-row .button { min-width:60px; min-height:42px; padding:.5rem; }
+.bounty-row { flex-wrap:wrap; }.bounty-row>div { flex:1; }.bounty-row>.field-hint { flex-basis:100%; margin:0; }
+.bounty-status { display:inline-block; text-transform:capitalize; color:#9ccbbb; margin-left:.4rem; }
+.bounty-reward { border-color:#7ca474; }.bounty-rules summary { cursor:pointer; }
+@media(min-width:700px) { .calling-list { grid-template-columns:repeat(3,minmax(0,1fr)); }.calling-row { display:block; padding:.65rem; }.calling-row h3 { margin-bottom:.4rem; } }
+
+/* Simplified property paintings; original atlas remains preserved. */
+.fantasy-art.atlas-properties { background-image:url('./art/land-simple-0.1/properties.webp'); }
+.atlas-properties.art-row-0 { --art-y:0.000000%; background-size:400% 597.665370%; }
+.atlas-properties.art-row-1 { --art-y:19.633308%; background-size:400% 676.651982%; }
+.atlas-properties.art-row-2 { --art-y:37.116564%; background-size:400% 662.068966%; }
+.atlas-properties.art-row-3 { --art-y:54.992320%; background-size:400% 656.410256%; }
+.atlas-properties.art-row-4 { --art-y:74.509804%; background-size:400% 588.505747%; }
+.atlas-properties.art-row-5 { --art-y:100.000000%; background-size:400% 472.615385%; }
