@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "source_was_read_only": true,
+  "method": "Disposable PostgreSQL database cloned from preserved local preserved development database; no writes to the source",
+  "source_business_tables": 42,
+  "source_accounts": 166,
+  "human_accounts": 16,
+  "registered_bots": 150,
+  "battles_preserved": 5,
+  "bounties_preserved": 0,
+  "migration_changed_old_tables": [],
+  "bot_upgrade": {
+    "created": 300,
+    "upgraded": 150,
+    "active": 450
+  },
+  "bot_army_cap": 10,
+  "human_business_rows_unchanged": true,
+  "historical_rows_retained": true,
+  "original_bot_ids_preserved": true,
+  "active_population": 450
+}

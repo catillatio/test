@@ -1,0 +1,176 @@
+{
+  "passed": true,
+  "ruleset": "progression-economy-0.2",
+  "populationVersion": "passive-rivals-5",
+  "population": 450,
+  "perLevel": 9,
+  "progression": [
+    {
+      "level": 1,
+      "requirement": 12,
+      "weaker": 1,
+      "even": 1,
+      "stronger": 1,
+      "fullRewardVictoriesPerLevel": 12,
+      "diminishedVictoryXp": 1,
+      "secondsToRecoverSpiritForFullVictories": 1296,
+      "dailyFullBotXpAtEqualLevel": 6,
+      "relevantQuest": "Gather the Winter Timber",
+      "questXp": 6
+    },
+    {
+      "level": 10,
+      "requirement": 200,
+      "weaker": 6,
+      "even": 10,
+      "stronger": 14,
+      "fullRewardVictoriesPerLevel": 20,
+      "diminishedVictoryXp": 1,
+      "secondsToRecoverSpiritForFullVictories": 2160,
+      "dailyFullBotXpAtEqualLevel": 60,
+      "relevantQuest": "Cleanse the Silverroot",
+      "questXp": 30
+    },
+    {
+      "level": 25,
+      "requirement": 875,
+      "weaker": 11,
+      "even": 44,
+      "stronger": 88,
+      "fullRewardVictoriesPerLevel": 20,
+      "diminishedVictoryXp": 1,
+      "secondsToRecoverSpiritForFullVictories": 2160,
+      "dailyFullBotXpAtEqualLevel": 264,
+      "relevantQuest": "Break the Copper Oath",
+      "questXp": 86
+    },
+    {
+      "level": 40,
+      "requirement": 1550,
+      "weaker": 19,
+      "even": 78,
+      "stronger": 156,
+      "fullRewardVictoriesPerLevel": 20,
+      "diminishedVictoryXp": 1,
+      "secondsToRecoverSpiritForFullVictories": 2160,
+      "dailyFullBotXpAtEqualLevel": 468,
+      "relevantQuest": "Navigate the Astral Storm",
+      "questXp": 165
+    },
+    {
+      "level": 50,
+      "requirement": 2000,
+      "weaker": 25,
+      "even": 100,
+      "stronger": null,
+      "fullRewardVictoriesPerLevel": 20,
+      "diminishedVictoryXp": 1,
+      "secondsToRecoverSpiritForFullVictories": 2160,
+      "dailyFullBotXpAtEqualLevel": 600,
+      "relevantQuest": "Defy the Eclipsed Sovereign",
+      "questXp": 230
+    }
+  ],
+  "ranges": [
+    {
+      "level": 1,
+      "unbanked": [
+        2550,
+        4587
+      ],
+      "vault": [
+        427,
+        892
+      ],
+      "plots": [
+        3,
+        4
+      ],
+      "gross": [
+        24,
+        32
+      ]
+    },
+    {
+      "level": 10,
+      "unbanked": [
+        3169,
+        5680
+      ],
+      "vault": [
+        4373,
+        6323
+      ],
+      "plots": [
+        3,
+        3
+      ],
+      "gross": [
+        241,
+        241
+      ]
+    },
+    {
+      "level": 25,
+      "unbanked": [
+        10003,
+        45919
+      ],
+      "vault": [
+        49942,
+        234740
+      ],
+      "plots": [
+        4,
+        12
+      ],
+      "gross": [
+        2700,
+        8100
+      ]
+    },
+    {
+      "level": 40,
+      "unbanked": [
+        41520,
+        152323
+      ],
+      "vault": [
+        275217,
+        908220
+      ],
+      "plots": [
+        9,
+        19
+      ],
+      "gross": [
+        13970,
+        29070
+      ]
+    },
+    {
+      "level": 50,
+      "unbanked": [
+        60918,
+        232047
+      ],
+      "vault": [
+        437385,
+        1447760
+      ],
+      "plots": [
+        9,
+        19
+      ],
+      "gross": [
+        20790,
+        43330
+      ]
+    }
+  ],
+  "limitations": [
+    "Expected wins assume appropriate equipment and actual victory; rewards are not guaranteed.",
+    "Recovery estimates exclude starting Spirit, level-up refills, skill upgrades and Calling variation.",
+    "Existing level-50 content is supported; no new cap or XP curve is introduced."
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "phase": "4.3",
+  "verified_at_utc": "2026-10-17T22:35:53.935383+00:00",
+  "branch": "feature/kingdom-come-phase-4-3-economy-and-progression",
+  "base_commit": "fcbfd0283c98d5fe487181121948ca5663910050",
+  "implementation_commit": "13fb7ef5f7a8773fcf073900199c44e2b250df7c",
+  "initial_implementation_commit": "f9611d0",
+  "environment": {
+    "node": "24.19.0",
+    "typescript": "5.9.3",
+    "postgresql": "18.4",
+    "chromium": "154",
+    "database_safety": "Only explicitly designated local *_test databases, isolated schemas, and a disposable clone were mutated. Preserved source database was read only."
+  },
+  "results": [
+    {
+      "command": "TEST_DATABASE_URL=<disposable-local-test-db> npm run verify",
+      "exit_code": 0,
+      "typescript": "passed",
+      "automated": {
+        "tests": 204,
+        "pass": 204,
+        "fail": 0,
+        "skipped": 0
+      },
+      "production_build": "passed"
+    },
+    {
+      "command": "TEST_DATABASE_URL=<separate-disposable-local-test-db> npm run test:postgres",
+      "exit_code": 0,
+      "automated": {
+        "tests": 139,
+        "pass": 139,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "command": "npm run check:static",
+      "exit_code": 0,
+      "checks": 78,
+      "passed": 78,
+      "failed": 0,
+      "production_ejs_fixture_cases": 60
+    },
+    {
+      "command": "CHROMIUM_NO_SANDBOX=1 TEST_DATABASE_URL=<disposable-local-test-db> npm run test:codespaces",
+      "exit_code": 0,
+      "fixture": "Real loopback TLS proxy with Codespaces-shaped HTTPS hostname, native forms, Secure cookies and localhost-rewritten upstream Origin",
+      "native_browser_posts": 44,
+      "responsive_screen_visits": 150,
+      "additional_private_purchase_receipt_layouts": 5,
+      "widths": [
+        320,
+        360,
+        390,
+        412,
+        430,
+        1366
+      ],
+      "browser_errors": 0,
+      "phase43_checks": {
+        "quantity_steppers": true,
+        "keyboard_free": true,
+        "buy_more_equipment_and_land": true,
+        "private_persistent_receipts": true,
+        "profile_bot_recruitment": true,
+        "profile_real_player_recruitment_and_acceptance": true,
+        "shared_hourly_payment": true,
+        "next_timer_full_hour": true,
+        "region_selector": true,
+        "home_bounty_removed": true,
+        "purchase_receipt_viewports": [
+          320,
+          360,
+          390,
+          412,
+          1366
+        ]
+      },
+      "security": [
+        "Native registration and existing-account login/logout",
+        "Secure/HttpOnly/SameSite=Lax session cookies",
+        "Strict configured Origin and validated same-origin Codespaces rewrite",
+        "Foreign/spoofed forwarding Origins and invalid CSRF rejected",
+        "Old sessions and non-Secure historical cookie upgrade retained",
+        "No provider or legacy host contacted"
+      ]
+    },
+    {
+      "command": "CHROMIUM_NO_SANDBOX=1 APP_ORIGIN=<loopback-test-server> npm run test:browser",
+      "exit_code": 0,
+      "fresh_player_without_grants": true,
+      "screen_visits": 35,
+      "viewports": [
+        "1366x900",
+        "390x844",
+        "360x800"
+      ],
+      "checks": [
+        "Five original tabs and backgrounds",
+        "No horizontal overflow or missing images",
+        "Quest repeat, gates and loot",
+        "Level and Mana skill allocation",
+        "Army recruitment and accepted player ally",
+        "Quantity spell Buy/Sell and category preservation",
+        "Property Buy/Sell and live countdown",
+        "Two-player private persistent report",
+        "JavaScript-disabled quest forms"
+      ]
+    },
+    {
+      "command": "CHROMIUM_NO_SANDBOX=1 TEST_DATABASE_URL=<disposable-local-test-db> npm run test:browser:fantasy",
+      "exit_code": 0,
+      "viewports": [
+        "330x740",
+        "360x800",
+        "390x844",
+        "1366x900"
+      ],
+      "checks": [
+        "All 81 unique painted cells load",
+        "No horizontal overflow",
+        "Original five tabs",
+        "Three-category quantity purchases and resale",
+        "Level-50 property Buy/Sell and net header",
+        "Level-55 gate",
+        "Profile skills and logout",
+        "Discovery-gated level-50 finale",
+        "Two-player fantasy battle and private report",
+        "Maximum wallet at 330px"
+      ]
+    },
+    {
+      "command": "TEST_DATABASE_URL=<disposable-local-test-db> npm run test:restart",
+      "exit_code": 0,
+      "compiled_process_restarts": 2,
+      "human_offline_periods_paid_once": 3,
+      "bot_offline_periods_paid_once": 3,
+      "sessions_and_player_records_retained": true,
+      "bot_vault_unchanged": true
+    },
+    {
+      "command": "npx tsx scripts/phase43-balance.ts",
+      "exit_code": 0,
+      "population": 450,
+      "per_level": 9,
+      "levels": [
+        1,
+        50
+      ],
+      "ruleset": "progression-economy-0.2",
+      "details": "PHASE_4_3_BALANCE.json"
+    },
+    {
+      "command": "Preserved database read-only snapshot / disposable PostgreSQL clone migration and provisioning check",
+      "exit_code": 0,
+      "details": "PHASE_4_3_PRESERVATION.json",
+      "original_business_tables_preserved": 42,
+      "human_accounts_preserved": 16,
+      "old_bot_ids_preserved": 150,
+      "new_bots": 300
+    }
+  ],
+  "resolved_during_verification": [
+    "Variant equipment selection was clamped to the assigned NPC level; all 450 legal inventories verified.",
+    "Automatic acceptance records one versioned accepted event per command; it participates in existing invitation spam limits without duplicate event IDs.",
+    "Old fixtures that moved purchase cursors now move/adopt the shared cycle consistently; old-column preservation assertions allow only documented additive defaults.",
+    "A bot practice-XP test selected an unspecified variant and could legitimately lose. It now selects variant zero and equips a guaranteed winning baseline; focused regression and the full 139-case PostgreSQL rerun pass.",
+    "Pre-4.3 receipt retries missing item/quantity metadata retain their original catalog confirmation and never create broken receipt URLs or repeat purchases.",
+    "Browser fixtures use actual Spirit upgrades rather than depending on old incidental 5-XP level-up refills; an exactly one-hour next countdown is accepted alongside 59:59."
+  ],
+  "income_reproduction": {
+    "legacy_rate": 3591,
+    "legacy_first_cohort_payment": 1100,
+    "legacy_next_cohort_minutes": 3,
+    "first_shared_prorated_property_payment": 3466,
+    "subsequent_complete_hour": 3591,
+    "gross_upkeep_test": {
+      "gross": 4000,
+      "property_upkeep": 200,
+      "equipment_upkeep": 209,
+      "net": 3591
+    },
+    "live_user_ledger_inspected": false
+  },
+  "delivery": {
+    "required_sections_implemented": 16,
+    "acceptance_conditions_mapped": 26,
+    "screenshots": 16,
+    "screenshot_manifest": "docs/phase-4-3-preview/screenshots.json",
+    "main_merged": false,
+    "public_deployment": false,
+    "git_push_target": "Only feature/kingdom-come-phase-4-3-economy-and-progression"
+  },
+  "limitations": [
+    "Browser viewports are not physical Android or APK compatibility tests.",
+    "No request contacted the user live Codespace or historical game servers.",
+    "Balance estimates and the first-session pacing target require human playtesting; no recovered original server formulas are claimed.",
+    "Permanent HTTPS hosting, production operations/backups, load/abuse monitoring and native-device verification remain pre-release work."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "source": "Actual local Chromium HTTPS/Codespaces forwarding fixture, separate disposable PostgreSQL schema. No live Codespace or physical Android/APK claim.",
+  "unaltered_original_captures": true,
+  "assets": [
+    {
+      "file": "390-home.png",
+      "bytes": 207266,
+      "sha256": "1985b4e8e7226ca6aa0edc1685df1eecd8473ce2379064625a71b405d2067498"
+    },
+    {
+      "file": "320-home.png",
+      "bytes": 182642,
+      "sha256": "48a88b22e87dcf9afab733614f028ec7d9e6da831a0e4b25edb401823b84aaa5"
+    },
+    {
+      "file": "390-weapon-quantity.png",
+      "bytes": 187206,
+      "sha256": "91e987e4c30afce7b2e99358b1de91539d391d3a01f9ba5c0b726a67bb084df8"
+    },
+    {
+      "file": "390-armor-quantity.png",
+      "bytes": 193619,
+      "sha256": "3dc1a6ad5e45d51d0ce7b799bd6c41fd44a80e28dcd568f70fefe1561a3e1b21"
+    },
+    {
+      "file": "390-spell-quantity.png",
+      "bytes": 195633,
+      "sha256": "bd1be52dc5d6d94446e32901b06402024fc70a267cbc0bf5c1dc9c7a095f0413"
+    },
+    {
+      "file": "390-land-quantity.png",
+      "bytes": 239570,
+      "sha256": "f3482fd9f2207a36eefce94a421befd99cdf8cadf9124b749c920c46178430b4"
+    },
+    {
+      "file": "390-land-buy-more.png",
+      "bytes": 222521,
+      "sha256": "7e138f80be60a6465360ba30aa7fcfebc5c0771920015becb34ccf44d83d984d"
+    },
+    {
+      "file": "320-buy-more.png",
+      "bytes": 188028,
+      "sha256": "5f4f44d1c4763fde48dcab02de1ecc6245aa3d083e2138c143e32e62ab705eb6"
+    },
+    {
+      "file": "390-profile-invite.png",
+      "bytes": 228785,
+      "sha256": "a467e355fd2cb0304ec1ee93eebfd71bc70bc937fe9384d1485ad980bba02354"
+    },
+    {
+      "file": "390-real-profile-invite.png",
+      "bytes": 224617,
+      "sha256": "8f4a86834b3c6f91622058ebc937ef17a05f6fc38aa8f186cebe59ee30d2aa44"
+    },
+    {
+      "file": "390-recruit-auto-accepted.png",
+      "bytes": 177533,
+      "sha256": "54310f9ea02c2b49d8886654f60f3fecb287cb70eb21bd0c0b70622ddbb9a43a"
+    },
+    {
+      "file": "390-quest-regions.png",
+      "bytes": 132865,
+      "sha256": "01794eed438c8ed1dec504a5d11309b495ba4c7493f17f2c7fc7144a8a069c57"
+    },
+    {
+      "file": "390-quests.png",
+      "bytes": 173701,
+      "sha256": "3a3572f788f0082df59a767c2a7a798210391b17a0474547481172d884b2e094"
+    },
+    {
+      "file": "320-armory-category-weapon.png",
+      "bytes": 169008,
+      "sha256": "e458b502b0d52a2a2399577d53a59cc1d2b243417cee3a60de8c282ff58f8110"
+    },
+    {
+      "file": "1366-home.png",
+      "bytes": 286837,
+      "sha256": "758de152642f136e52163442c873feb83d3f500efe3a7a26db6ca6e0673e6c33"
+    },
+    {
+      "file": "390-level50-rival-profile.png",
+      "bytes": 436109,
+      "sha256": "687096ddcb9aaa21f1086e64cca0daf56a7838aa06e390daf1d5bf36ce5e0139"
+    }
+  ]
+}
