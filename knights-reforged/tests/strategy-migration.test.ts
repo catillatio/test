@@ -24,7 +24,7 @@ test('strategy migration preserves complete Phase 3.5 player records, sessions, 
     await db.query("INSERT INTO inventory_lots(id,inventory_entry_id,character_id,ruleset_id,acquired_quantity,remaining_quantity,unit_cost,acquired_at) VALUES($1,$2,$3,'alpha-0.2',3,3,40,now())",[randomUUID(),entry,owner.characterId]);
     await db.query("INSERT INTO land_holdings(id,character_id,property_id,property_name,ruleset_id,quantity,original_quantity,unit_price,hourly_income,hourly_upkeep,interval_seconds,acquired_at,accrued_through) VALUES($1,$2,'smallholding','Established Fields','alpha-0.2',2,2,45,8,1,3600,now()-interval '10 minutes',now()-interval '10 minutes')",[randomUUID(),owner.characterId]);
     const tables=(await db.query("SELECT table_name FROM information_schema.tables WHERE table_schema=$1 AND table_name NOT IN ('rulesets','schema_migrations') ORDER BY table_name",[schema])).rows.map(row=>String(row.table_name));
-    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async table=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows])));
+    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async table=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows.map(({income_remainder,upkeep_remainder,variant,...legacy})=>legacy)])));
     const before=await snapshot(),catalogs=(await db.query('SELECT * FROM rulesets ORDER BY id')).rows;
     await migrate(db);await migrate(db);const after=await snapshot();
     for(const account of after.accounts){assert.equal(account.login_disabled,false);delete account.login_disabled;}

@@ -61,7 +61,7 @@ test('populated Phase 3 upgrade preserves accounts, progression, inventory, Land
     const tables=['accounts','characters','sessions','wallets','army_stacks','inventory_entries','inventory_lots','equipment_slots','land_holdings','land_accounts','land_income_settlements','land_sales',
       'maintenance_accounts','maintenance_events','maintenance_rate_events','skill_allocations','character_loot','character_quest_progress','quest_runs','inventory_transactions',
       'economy_transactions','economy_entries','treasury_retained_events','army_links','command_receipts','battles'];
-    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async table=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows])));
+    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async table=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows.map(({income_remainder,upkeep_remainder,variant,...legacy})=>legacy)])));
     const before=await snapshot();const oldCatalog=(await db.query("SELECT * FROM rulesets WHERE id='alpha-0.1'")).rows;
     await migrate(db);await migrate(db);
     const after=await snapshot();

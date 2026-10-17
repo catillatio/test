@@ -1,0 +1,7 @@
+<div class="purchase-quantity" data-quantity-control data-purchase-type="<%= purchaseType %>" data-definition-id="<%= entry.id %>" data-level="<%= entry.level %>" data-unit-price="<%= entry.price %>" data-cost-steps="<%= JSON.stringify(costSteps) %>" data-max="<%= available %>">
+<div class="quantity-stepper" role="group" aria-label="Buy quantity for <%= entry.name %>">
+<button class="quantity-step" type="button" data-quantity-minus aria-label="Decrease quantity for <%= entry.name %>" disabled>−</button>
+<input class="quantity" id="<%= controlId %>" name="quantity" type="number" min="1" max="<%= Math.max(1,available) %>" value="1" readonly inputmode="none" aria-label="Buy quantity for <%= entry.name %>">
+<button class="quantity-step" type="button" data-quantity-plus aria-label="Increase quantity for <%= entry.name %>"<% if(available<2) { %> disabled<% } %>>+</button></div>
+<span class="quantity-total">Total: <strong class="gold" data-quantity-total><%= (costSteps[0]??entry.price).toLocaleString('en') %></strong> gold</span>
+</div>

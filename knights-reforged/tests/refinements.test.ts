@@ -118,7 +118,7 @@ test('bot catalog upgrade caps armies at ten, scales real loadouts and gold, and
       if([10,20,35,50].includes(level))assert.ok(bp.gold>botGoldAllowance(Math.max(1,level-10),tier));
       for(const item of bp.items)assert.ok(item.level<=level);
     }
-    assert.equal(botCatalog.id,'passive-rivals-4');
+    assert.equal(botCatalog.id,'passive-rivals-5');
     assert.equal((await r.db.query('SELECT max(quantity+1)::int AS n FROM army_stacks WHERE character_id IN(SELECT character_id FROM development_bots)')).rows[0]!.n,10);
     const hp=await r.app.inject({method:'GET',url:'/api/v1/players/'+old.character_id,headers:{cookie:human.cookie}});assert.equal(hp.json().character.health,0);r.advance(162);
     assert.equal((await r.app.inject({method:'GET',url:'/api/v1/players/'+old.character_id,headers:{cookie:human.cookie}})).json().character.health,10);

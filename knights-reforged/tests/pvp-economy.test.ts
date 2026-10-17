@@ -61,7 +61,7 @@ test('fixed-window victory sequence transfers exact gold through fifth+ hits, su
       assert.equal(report.outcome,'attacker_win');assert.equal(report.loot,expectedLoot);assert.equal(report.lootDetails.victory,i);
       assert.equal(report.lootDetails.windowStartedAt,'2041-01-01T23:00:00.000Z');
       assert.equal(report.lootDetails.resetsAt,'2041-01-02T23:00:00.000Z');
-      assert.equal(hit.state.spirit,before.spirit-1);if(i>3)assert.equal(report.attackerXp,0);
+      assert.equal(hit.state.spirit,before.spirit-1);if(i>3)assert.equal(report.attackerXp,1);
       const replay=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key);assert.equal(replay.battleId,hit.battleId);
       assert.equal((await r.me(a)).spirit,hit.state.spirit);expected-=expectedLoot;total+=expectedLoot;
       assert.equal((await r.me(b)).gold,expected);assert.equal((await r.me(b)).bankedGold,savedBank);
@@ -168,7 +168,7 @@ test('bot bounties use real escrow, eligible finishing attackers, one kill and u
     const claimed=(await r.db.query('SELECT * FROM bounties WHERE id=$1',[first.data.bountyId])).rows[0]!;
     assert.equal(claimed.status,'claimed');const report=await r.battle(claimed.battle_id);
     assert.equal(report.defenderHealthAfter,0);assert.equal(report.bountyClaim.reward,1000);assert.equal((await r.db.query('SELECT count(*)::int AS n FROM bounty_kills')).rows[0]!.n,1);
-    if(claimed.claimant_id===hunter.id){assert.equal(report.loot,0);assert.equal(report.attackerXp,0);assert.equal((await r.me(hunter)).gold,before+1000);}
+    if(claimed.claimant_id===hunter.id){assert.equal(report.loot,0);assert.equal(report.attackerXp,1);assert.equal((await r.me(hunter)).gold,before+1000);}
     assert.equal((await r.me(sponsor)).gold,sponsorBefore-1100);
     assert.equal((await r.db.query('SELECT health FROM characters WHERE id=$1',[bot.character_id])).rows[0]!.health,0);
     assert.equal((await r.command(hunter,'/api/v1/battles',{targetCharacterId:bot.character_id})).json().error.code,'OPPONENT_DEFEATED');
@@ -216,7 +216,7 @@ test('bot placement races, cancellation, expiry and fifty finishing claims obey 
       if(i===0)await r.db.query('UPDATE characters SET health=1,health_updated_at=$2 WHERE id=$1',[target,r.now()]);
       const report=await r.battle((await r.ok(hunter,'/api/v1/battles',{targetCharacterId:target})).battleId);
       assert.equal(report.defenderHealthAfter,0);assert.equal(report.bountyClaim.reward,1);ordinaryLoot+=report.loot;
-      if(i>0){assert.equal(report.loot,0);assert.equal(report.attackerXp,0);}
+      if(i>0){assert.equal(report.loot,0);assert.equal(report.attackerXp,1);}
       r.advance(180);
     }
     assert.ok(ordinaryLoot<=50);assert.equal((await r.me(hunter)).battleStats.kills,50);

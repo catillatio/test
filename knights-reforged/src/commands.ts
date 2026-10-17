@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { type Database,transaction } from './db.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
-import { alpha,itemById,questById,lootById,areRivals,resolveAlphaCombat } from './alpha-rules.js';
+import { alpha,propertyById,itemById,questById,lootById,areRivals,resolveAlphaCombat } from './alpha-rules.js';
 import { clock,lockCharacters,materialize,stateFrom,type CharacterRow } from './game.js';
 import { ledger,creditGold } from './economy.js';
 import { purchaseItems,sellItem,readInventory } from './inventory.js';
@@ -14,6 +14,7 @@ import {strategy} from './strategy-rules.js';
 import {prepareBot} from './development.js';
 import {community} from './community-rules.js';
 import {refinements} from './refinement-rules.js';
+import {victoryExperience,progressionEconomy} from './progression-economy-rules.js';
 import {pvp,victoryLoot} from './pvp-rules.js';
 import {recordVictory,vaultTransfer} from './pvp-economy.js';
 import {postMessage,reportMessage,removeMessage,armyEvent,validateInvitation} from './community.js';
@@ -53,7 +54,7 @@ export type CommandKind=keyof typeof intents;
 export interface CommandResult { commandId:string;kind:CommandKind;message:string;battleId?:string;inventoryEntryId?:string;holdingId?:string;data?:Record<string,unknown>; }
 const fingerprint=(kind:string,intent:unknown)=>createHash('sha256').update(JSON.stringify({kind,intent})).digest('hex');
 
-export async function executeCommand(db:Database,accountId:string,commandId:unknown,kind:CommandKind,raw:unknown,runtime:{developmentBotsEnabled?:boolean;developmentBotBountiesEnabled?:boolean}={}):Promise<CommandResult> {
+export async function executeCommand(db:Database,accountId:string,commandId:unknown,kind:CommandKind,raw:unknown,runtime:{developmentBotsEnabled?:boolean;developmentBotBountiesEnabled?:boolean;developmentBotRecruitmentEnabled?:boolean}={}):Promise<CommandResult> {
   const command=uuid.safeParse(commandId);if (!command.success) throw new GameError('INVALID_COMMAND_ID','Reload for a fresh action ID.');
   const parsed=intents[kind].safeParse(raw);
   if (!parsed.success) throw new GameError('INVALID_INTENT',parsed.error.issues[0]?.message??'Invalid action.');
@@ -92,10 +93,14 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       targetIsBot=await prepareBot(sql,target.id,now,!!runtime.developmentBotsEnabled);
       if(targetIsBot)target=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[target.id])).rows[0]!;
     }
-    if(target&&membership&&(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[target.id])).rows.length)
-      throw new GameError('BOT_ARMY_LINK','Temporary rivals cannot join player armies.',409);
+    if(target&&membership){
+      const bot=(await sql.query('SELECT active FROM development_bots WHERE character_id=$1',[target.id])).rows[0];
+      targetIsBot=!!bot;
+      if(bot&&(!bot.active||!runtime.developmentBotsEnabled||!runtime.developmentBotRecruitmentEnabled)&&kind!=='remove')
+        throw new GameError('BOT_ARMY_LINK','Temporary-rival recruitment is disabled.',409);
+    }
     if (target&&kind==='attack') target=await materialize(sql,target,now);
-    const state=await stateFrom(sql,actor,now);
+    const state=await stateFrom(sql,actor,now,runtime);
     const result:CommandResult={commandId:key,kind,message:''};
 
     if(kind==='vault_deposit'||kind==='vault_withdraw'){
@@ -162,11 +167,11 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       result.message='Equipment available to your army. Best attack and defense equipment are selected automatically.';
     } else if (kind==='land_buy') {
       const purchase=await buyEstate(sql,actorId,actor.attained_level,intent.propertyId as string,intent.quantity as number,key,now);
-      result.holdingId=purchase.holdingId;result.message=intent.quantity+' properties purchased for '+purchase.cost+' gold. First income arrives after a full hour.';
-      result.data={goldSpent:purchase.cost};
+      result.holdingId=purchase.holdingId;result.message=intent.quantity+' '+propertyById.get(intent.propertyId as string)!.name+' purchased for '+purchase.cost+' gold. Income joins your shared hourly cycle; the first partial period is prorated.';
+      result.data={goldSpent:purchase.cost,propertyId:intent.propertyId,quantity:intent.quantity,itemName:propertyById.get(intent.propertyId as string)!.name};
     } else if (kind==='land_sell') {
       const refund=await sellEstate(sql,actorId,intent.propertyId as string,intent.quantity as number,key,now);
-      result.message='Sold '+intent.quantity+' properties for '+refund+' gold. Earned full hours were settled first.';result.data={goldReceived:refund};
+      result.message='Sold '+intent.quantity+' properties for '+refund+' gold. Earned time was settled first; the shared payment clock is unchanged.';result.data={goldReceived:refund};
     } else if (kind==='skill') {
       const allocation=await allocateSkill(sql,actorId,intent.resource as 'health'|'mana'|'spirit'|'attack'|'defense',key,now);
       result.message=intent.resource==='attack'||intent.resource==='defense'?intent.resource+' training increased to '+allocation.capacity+' (+ '+allocation.capacity+'%).':'Maximum '+intent.resource+' increased by '+allocation.delta+'.';result.data=allocation;
@@ -198,13 +203,16 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       if (kind==='invite'||kind==='invite_code') {
         if (link&&link.status!=='declined') throw new GameError('INVITATION_EXISTS','You already have an invitation or army link with that player.',409);
         await validateInvitation(sql,actorId,target.id,now);
-        for (const member of pair) {
+        if(targetIsBot&&state.army.total>=state.army.capacity)throw new GameError('ARMY_FULL','Your active army is full. Increase your level or release a member first.',409);
+        for (const member of (targetIsBot?[actorId]:pair)) {
           const count=(await sql.query("SELECT count(*)::int AS n FROM army_links WHERE $1 IN (low_id,high_id) AND status<>'declined'",[member])).rows[0]!.n;
           if (count>=100) throw new GameError('ROSTER_LIMIT','That army roster is full.',409);
         }
         await sql.query("INSERT INTO army_links(low_id,high_id,inviter_id,status) VALUES($1,$2,$3,'pending') ON CONFLICT(low_id,high_id) DO UPDATE SET inviter_id=EXCLUDED.inviter_id,status='pending',updated_at=$4",
           [pair[0],pair[1],actorId,now]);
+        if(targetIsBot)await sql.query("UPDATE army_links SET status='accepted',updated_at=$3 WHERE low_id=$1 AND high_id=$2",[pair[0],pair[1],now]);
         result.message='Invitation sent to '+target.name+'. Waiting for their acceptance.';eventKind='invited';
+        if(targetIsBot){result.message=target.name+' immediately accepted and joined your army. Passive rivals never recruit or attack players.';eventKind='accepted';}
       } else if (kind==='accept') {
         if (!link||link.status!=='pending'||link.inviter_id===actorId) throw new GameError('INVITATION_UNAVAILABLE','Only the invited player can accept a pending invitation.',403);
         await sql.query("UPDATE army_links SET status='accepted',updated_at=$3 WHERE low_id=$1 AND high_id=$2",[pair[0],pair[1],now]);
@@ -216,14 +224,14 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         eventKind=link.status==='accepted'?'removed':link.inviter_id===actorId?'canceled':'rejected';
         result.message=eventKind==='rejected'?'Invitation rejected.':eventKind==='canceled'?'Invitation canceled.':'Army link removed.';
       }
-      await armyEvent(sql,actorId,target.id,eventKind,key,now);
+      await armyEvent(sql,actorId,target.id,eventKind,key,now,targetIsBot?progressionEconomy.id:undefined);
       await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[target.id]);
     } else if (kind==='attack'&&target) {
       if (!areRivals(actor.attained_level,target.attained_level)) throw new GameError('RIVAL_LEVEL_RANGE','Choose an opponent nearer your level.',409);
       if(actor.health<alpha.combat.minimumHealth)throw new GameError('NEEDS_RECOVERY','You need at least '+alpha.combat.minimumHealth+' Health to attack.',409);
       if(target.health<community.combat.defenderMinimumHealth)throw new GameError('OPPONENT_DEFEATED','This opponent has been defeated (0 Health). They must recover before another attack.',409);
       if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Spirit to recover before attacking.',409);
-      const targetState=await stateFrom(sql,target,now);
+      const targetState=await stateFrom(sql,target,now,runtime);
       const count=(await sql.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND created_at>$3',[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
       let rewarded=count<alpha.combat.rewardedPerTarget;
       if(targetIsBot){
@@ -239,6 +247,8 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       // gold; defensive wins never remove gold from the attacker. XP still
       // obeys the existing anti-farming budget independently of human loot.
       combat.loot=lootDetails?.amount??0;
+      const xpDetails=combat.outcome==='attacker_win'?victoryExperience(actor.attained_level,target.attained_level,rewarded):null;
+      combat.attackerXp=xpDetails?.amount??0;
       const winnerId=combat.outcome==='attacker_win'?actorId:target.id;
       if (combat.loot) {
         await ledger(sql,key,'battle_loot',[{characterId:target.id,amount:-combat.loot}],pvp.id);
@@ -257,7 +267,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        pvpRulesetId:pvp.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        progressionRulesetId:progressionEconomy.id,xpDetails,pvpRulesetId:pvp.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       if(combat.defenderHealthAfter===0){
@@ -265,7 +275,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         if(battle.bountyClaim)await sql.query('UPDATE battles SET result=$2 WHERE id=$1',[result.battleId,battle]);
       }
       await awardMilestones(sql,actorId);
-      result.message=battle.winnerName+' won the battle.'+(!rewarded?(targetIsBot?' Temporary-rival reward limit reached: no ordinary gold or XP.':' Repeat-encounter XP limit reached; ordinary victory loot still applies.'):'' )+(lootDetails&&lootDetails.multiplier<100?' Repeat victory: '+lootDetails.multiplier+'% ordinary loot.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
+      result.message=battle.winnerName+' won the battle.'+(!rewarded?(targetIsBot?' Temporary-rival gold/full-XP budget reached: victories still earn 1 XP; ordinary gold is capped at zero.':' Repeat-encounter XP is reduced to 1 per victory; ordinary victory loot still applies.'):'' )+(lootDetails&&lootDetails.multiplier<100?' Repeat victory: '+lootDetails.multiplier+'% ordinary loot.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
     }
     await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);
     await sql.query('UPDATE command_receipts SET result=$3 WHERE account_id=$1 AND command_id=$2',[accountId,key,result]);

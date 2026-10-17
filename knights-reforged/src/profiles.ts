@@ -1,5 +1,5 @@
 import {type Database,transaction} from './db.js';
-import {clock,lockCharacters,materialize,stateFrom,type CharacterState} from './game.js';
+import {clock,lockCharacters,materialize,stateFrom,type CharacterState,type GameRuntime} from './game.js';
 import {alpha,areRivals} from './alpha-rules.js';
 import {community} from './community-rules.js';
 
@@ -14,10 +14,10 @@ export function ownedProperties(state:CharacterState){
   }
   return [...groups.values()].sort((a,b)=>a.grossIncome-b.grossIncome||a.name.localeCompare(b.name));
 }
-export async function publicProfile(db:Database,characterId:string){
+export async function publicProfile(db:Database,characterId:string,runtime:GameRuntime={}){
   return transaction(db,async sql=>{
     const [row]=await lockCharacters(sql,[characterId]);const now=await clock(sql);
-    const state=await stateFrom(sql,await materialize(sql,row!,now),now);
+    const state=await stateFrom(sql,await materialize(sql,row!,now),now,runtime);
     const bot=(await sql.query('SELECT tier,active FROM development_bots WHERE character_id=$1',[characterId])).rows[0];
     // Explicit allowlist: no wallet, account ID/name, sessions, invitation code,
     // inventory entry IDs, upkeep reserves, receipts, treasury or private reports.
@@ -38,4 +38,13 @@ export function attackAvailability(actor:CharacterState,target:PublicProfile,dev
     null;
   return {targetId:target.id,name:target.name,health:target.health,maxHealth:target.maxHealth,allowed:!reason,reason,
     eligible:actor.id!==target.id&&areRivals(actor.level,target.level)&&target.health>=community.combat.defenderMinimumHealth&&(!target.temporaryRival||(developmentBotsEnabled&&target.botActive))};
+}
+
+export async function recruitmentAvailability(db:Database,actor:CharacterState,target:PublicProfile,botRecruitmentEnabled:boolean){
+ const pair=[actor.id,target.id].sort();
+ const link=(await db.query('SELECT status,inviter_id FROM army_links WHERE low_id=$1 AND high_id=$2',pair)).rows[0];
+ const reason=actor.id===target.id?'You cannot invite yourself.':link?.status==='accepted'?'Already in your army.':link?.status==='pending'?(link.inviter_id===actor.id?'Army request pending their acceptance.':'They invited you. Accept or reject in Recruit → My Army.'):
+  target.temporaryRival&&(!botRecruitmentEnabled||!target.botActive)?'Temporary-rival recruitment is disabled.':
+  target.temporaryRival&&actor.army.total>=actor.army.capacity?'Your active army is full. Increase your level or release a member first.':null;
+ return {allowed:!reason,reason,status:link?.status??'none',automatic:target.temporaryRival&&botRecruitmentEnabled};
 }

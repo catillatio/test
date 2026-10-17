@@ -212,6 +212,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     await db.query(`WITH stamp AS (SELECT clock_timestamp()-($2::integer * interval '1 second') AS at)
       UPDATE land_holdings SET acquired_at=stamp.at,accrued_through=stamp.at
       FROM stamp WHERE character_id=$1`, [actor.id, seconds]);
+    await db.query('DELETE FROM income_cycles WHERE character_id=$1',[actor.id]); // Explicit fixture: re-adopt the moved historical clock.
   }
   async function ledgerBalance(actor: Player) {
     return (await db.query('SELECT sum(amount)::integer AS balance FROM economy_entries WHERE character_id=$1', [actor.id])).rows[0]!.balance;
@@ -287,7 +288,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
       'content-type': 'application/x-www-form-urlencoded' }, payload: new URLSearchParams({ csrf: actor.csrf,
       commandId: randomUUID(), propertyId: property.id, quantity: '1' }).toString() });
     assert.equal(response.statusCode, 303, response.body);
-    assert.match(String(response.headers.location), /^\/game\/land\?command=/);
+    assert.match(String(response.headers.location), /^\/game\/purchases\//);
     assert.equal((await me(actor)).land.properties[0].owned, 1);
   });
 

@@ -25,19 +25,19 @@ test('013 is additive and repeatable; upgrading registered rivals preserves real
     // already grants unclaimed level-milestone entitlements on startup.
     await migrate(db,{through:'012_refinements.sql'});
     const tables=(await db.query("SELECT table_name FROM information_schema.tables WHERE table_schema=$1 AND table_name<>'schema_migrations' ORDER BY table_name",[schema])).rows.map(r=>r.table_name as string);
-    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async table=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows])));
+    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async table=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows.map(({income_remainder,upkeep_remainder,variant,...legacy})=>legacy)])));
     const before=await snapshot();await migrate(db);await migrate(db);assert.deepEqual(await snapshot(),before);
     assert.equal((await db.query('SELECT count(*)::int AS n FROM pvp_loot_sequences')).rows[0]!.n,0);
     assert.equal((await db.query('SELECT count(*)::int AS n FROM vault_accounts')).rows[0]!.n,0);
     const priorHuman=(await db.query('SELECT * FROM characters WHERE id=$1',[human.characterId])).rows;
     const oldBattles=(await db.query('SELECT * FROM battles ORDER BY id')).rows,oldBounties=(await db.query('SELECT * FROM bounties ORDER BY id')).rows;
-    const upgraded=await provisionBots(db,{nodeEnv:'test',allowProvisioning:true});assert.equal(upgraded.upgraded,1);assert.equal(upgraded.created,149);
+    const upgraded=await provisionBots(db,{nodeEnv:'test',allowProvisioning:true});assert.equal(upgraded.upgraded,1);assert.equal(upgraded.created,449);
     assert.deepEqual((await db.query('SELECT * FROM characters WHERE id=$1',[human.characterId])).rows,priorHuman);
     assert.deepEqual((await db.query('SELECT * FROM battles ORDER BY id')).rows,oldBattles);assert.deepEqual((await db.query('SELECT * FROM bounties ORDER BY id')).rows,oldBounties);
     const bot=(await db.query('SELECT * FROM characters WHERE id=$1',[rival.characterId])).rows[0]!;
     assert.equal(bot.account_id,rival.accountId);assert.equal(bot.health,0);assert.notEqual(bot.name,'Office Rival');
     assert.equal((await db.query('SELECT token_hash FROM sessions WHERE token_hash=$1',[session.session.token_hash])).rows.length,1);
-    assert.deepEqual((await db.query('SELECT * FROM land_holdings WHERE id=$1',[holding])).rows,before.land_holdings);
+    assert.deepEqual((await db.query('SELECT * FROM land_holdings WHERE id=$1',[holding])).rows.map(({income_remainder,upkeep_remainder,...legacy})=>legacy),before.land_holdings);
     await migrate(db);assert.deepEqual((await db.query('SELECT * FROM bounties ORDER BY id')).rows,oldBounties);
   }finally{await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end();}
 });

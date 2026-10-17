@@ -61,14 +61,14 @@ export async function removeMessage(sql:Sql,actorId:string,messageId:string,now:
   await sql.query('INSERT INTO social_moderation(id,message_id,actor_id,action,reason,created_at) VALUES($1,$2,$3,$4,$5,$6)',[randomUUID(),messageId,actorId,own?'author_delete':'profile_hide',own?'Removed by author':'Hidden by profile owner',now]);
   return {removed:true,channel:message.channel,profileId:message.profile_id};
 }
-export async function armyEvent(sql:Sql,actorId:string,targetId:string,kind:string,key:string,now:Date){
-  await sql.query('INSERT INTO army_events(id,actor_id,target_id,kind,command_id,ruleset_id,created_at) VALUES($1,$2,$3,$4,$5,$6,$7)',[randomUUID(),actorId,targetId,kind,key,community.id,now]);
+export async function armyEvent(sql:Sql,actorId:string,targetId:string,kind:string,key:string,now:Date,rulesetId=community.id){
+  await sql.query('INSERT INTO army_events(id,actor_id,target_id,kind,command_id,ruleset_id,created_at) VALUES($1,$2,$3,$4,$5,$6,$7)',[randomUUID(),actorId,targetId,kind,key,rulesetId,now]);
 }
 export async function validateInvitation(sql:Sql,actorId:string,targetId:string,now:Date){
-  const recent=(await sql.query("SELECT count(*)::int AS n,max(created_at) AS latest FROM army_events WHERE actor_id=$1 AND kind='invited' AND created_at>$2",[actorId,new Date(+now-86400000)])).rows[0]!;
+  const recent=(await sql.query("SELECT count(*)::int AS n,max(created_at) AS latest FROM army_events WHERE actor_id=$1 AND (kind='invited' OR (kind='accepted' AND ruleset_id='progression-economy-0.1')) AND created_at>$2",[actorId,new Date(+now-86400000)])).rows[0]!;
   if(recent.latest&&+now<+new Date(recent.latest)+community.army.invitationCooldownSeconds*1000)throw new GameError('INVITATION_COOLDOWN','Wait 30 seconds before another invitation.',429);
   if(recent.n>=community.army.invitationsPerDay)throw new GameError('INVITATION_LIMIT','Your rolling 24-hour invitation limit has been reached.',429);
-  const last=(await sql.query("SELECT 1 FROM army_events WHERE kind='invited' AND ((actor_id=$1 AND target_id=$2) OR (actor_id=$2 AND target_id=$1)) AND created_at>$3 LIMIT 1",[actorId,targetId,new Date(+now-community.army.reinviteCooldownSeconds*1000)])).rows.length;
+  const last=(await sql.query("SELECT 1 FROM army_events WHERE (kind='invited' OR (kind='accepted' AND ruleset_id='progression-economy-0.1')) AND ((actor_id=$1 AND target_id=$2) OR (actor_id=$2 AND target_id=$1)) AND created_at>$3 LIMIT 1",[actorId,targetId,new Date(+now-community.army.reinviteCooldownSeconds*1000)])).rows.length;
   if(last)throw new GameError('REINVITATION_COOLDOWN','Wait 24 hours before inviting the same player again.',409);
 }
 

@@ -15,6 +15,7 @@ test('Attack Again finishes a positive-Health defender at zero, keeps exact snap
     const a=await r.player('Finishing Knight'),b=await r.player('Wounded Rival');await r.prepare(a,1000);await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
     await r.db.query('UPDATE characters SET health=25,health_updated_at=$2 WHERE id=$1',[b.id,r.now()]);
     const total=(await r.me(a)).gold+(await r.me(b)).gold;
+    await r.ok(a,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});
     const first=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id}),one=await r.report(first.battleId);assert.ok(one.defenderHealthAfter<20&&one.defenderHealthAfter>0);
     const second=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id}),two=await r.report(second.battleId);assert.equal(two.defenderHealthAfter,0);
     assert.equal((await r.me(a)).spirit,1);assert.equal((await r.me(a)).gold+(await r.me(b)).gold,total);
@@ -22,7 +23,7 @@ test('Attack Again finishes a positive-Health defender at zero, keeps exact snap
     assert.match(html.body,/Opponent defeated/);assert.match(html.body,/data-attack-ready="false" disabled/);assert.ok(html.body.includes('/game/players/'+a.id)&&html.body.includes('/game/players/'+b.id));
     r.advance(10);const blocked=await r.command(a,'/api/v1/battles',{targetCharacterId:b.id});assert.equal(blocked.statusCode,409);assert.equal(blocked.json().error.code,'OPPONENT_DEFEATED');
     assert.equal((await r.me(a)).spirit,1);assert.deepEqual(await r.report(first.battleId),one);
-    assert.equal((await r.me(a)).battleStats.kills,0);assert.equal((await r.me(b)).battleStats.deaths,1);
+    assert.equal((await r.me(a)).battleStats.kills,0);assert.equal((await r.me(b)).battleStats.deaths,0);
     r.advance(170);assert.ok((await r.me(b)).health>0); // ordinary recovery can re-open combat
   }finally{await r.close();}
 });
@@ -31,7 +32,7 @@ test('concurrent finishing attacks produce one death and consume resources only 
     const a=await r.player(),b=await r.player(),target=await r.player();
     await r.db.query('UPDATE characters SET health=1,health_updated_at=$2 WHERE id=$1',[target.id,r.now()]);
     const responses=await Promise.all([r.command(a,'/api/v1/battles',{targetCharacterId:target.id}),r.command(b,'/api/v1/battles',{targetCharacterId:target.id})]);
-    assert.deepEqual(responses.map(x=>x.statusCode).sort(),[200,409]);assert.equal((await r.me(target)).battleStats.deaths,1);
+    assert.deepEqual(responses.map(x=>x.statusCode).sort(),[200,409]);assert.equal((await r.me(target)).battleStats.deaths,0);
     assert.equal((await r.me(a)).spirit+(await r.me(b)).spirit,5);
     r.advance(10);const other=await r.player(),key=randomUUID();
     const repeated=await Promise.all([r.ok(a,'/api/v1/battles',{targetCharacterId:other.id},key),r.ok(a,'/api/v1/battles',{targetCharacterId:other.id},key)]);assert.equal(repeated[0].battleId,repeated[1].battleId);
@@ -55,9 +56,10 @@ test('repeat bot attacks use the same engine and preserve the one-per-bot reward
   const r=await setup(true);try{
     await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});const a=await r.player();
     const bot=(await r.db.query("SELECT c.id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=1 AND b.tier='green'")).rows[0]!.id;
+    await r.ok(a,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});
     const first=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot});assert.equal((await r.report(first.battleId)).rewarded,true);
     r.advance(600);const before=await r.me(a),second=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot}),report=await r.report(second.battleId);
-    assert.equal(report.rewarded,false);assert.equal(report.loot,0);assert.equal(report.attackerXp,0);assert.equal(second.state.gold,before.gold);assert.equal(second.state.spirit,before.spirit-1);
+    assert.equal(report.rewarded,false);assert.equal(report.loot,0);assert.equal(report.attackerXp,1);assert.equal(second.state.gold,before.gold);assert.equal(second.state.spirit,before.spirit-1);
     const profile=await r.app.inject({method:'GET',url:'/game/players/'+bot,headers:{cookie:a.cookie}});assert.equal(profile.statusCode,200,profile.body);assert.match(profile.body,/Temporary computer-controlled rival/);
   }finally{await r.close();}
 });

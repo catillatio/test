@@ -11,6 +11,7 @@ import {migrate} from '../src/migrate.js';
 import {executeCommand} from '../src/commands.js';
 import {loadConfig} from '../src/config.js';
 import {createApp} from '../src/app.js';
+import {victoryExperience} from '../src/progression-economy-rules.js';
 import {alpha,levelRequirement} from '../src/alpha-rules.js';
 
 const enabled={nodeEnv:'test',allowProvisioning:true};
@@ -54,12 +55,12 @@ test('each Calling applies its own offline recovery interval and preserves fract
     assert.equal(Date.parse(state.manaNextAt!),start+(Math.floor(540/state.calling.manaSeconds)+1)*state.calling.manaSeconds*1000);
   }}finally{await r.close();}
 });
-test('150 passive rivals span levels 1–50 with real quantity-limited equipment and increasing difficulty',{skip},async()=>{
+test('450 passive rivals span levels 1–50 with real quantity-limited equipment and increasing difficulty',{skip},async()=>{
   const r=await realm({isolated:true,developmentBotsEnabled:true});
   try{
-    const seeded=await provisionBots(r.db,enabled);assert.equal(seeded.active,150);assert.equal((await provisionBots(r.db,enabled)).created,0);
+    const seeded=await provisionBots(r.db,enabled);assert.equal(seeded.active,450);assert.equal((await provisionBots(r.db,enabled)).created,0);
     const levels=(await r.db.query('SELECT c.attained_level,count(*)::int AS n FROM development_bots b JOIN characters c ON c.id=b.character_id GROUP BY c.attained_level ORDER BY c.attained_level')).rows;
-    assert.equal(levels.length,50);levels.forEach((row,index)=>{assert.equal(row.attained_level,index+1);assert.equal(row.n,3);});
+    assert.equal(levels.length,50);levels.forEach((row,index)=>{assert.equal(row.attained_level,index+1);assert.equal(row.n,9);});
     for(let level=1;level<=50;level++){
       const powers=[];
       for(const tier of strategy.bots.tiers){
@@ -87,7 +88,7 @@ test('150 passive rivals span levels 1–50 with real quantity-limited equipment
       const before=await r.me(player);const fight=await r.ok(player,'/api/v1/battles',{targetCharacterId:opponent.character_id});
       const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.result;
       assert.equal(report.outcome,'attacker_win');assert.equal(report.attackPower,Math.round(before.attack*(100+report.attackRoll)));assert.equal(report.botPopulationVersion,botCatalog.id);
-      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=50);assert.equal(report.attackerXp,5);
+      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=50);assert.equal(report.attackerXp,victoryExperience(level,level).amount);
     }
     const unprepared=await r.player('Unprepared Challenger');await r.prepare(unprepared,1000,Array.from({length:49},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0));
     const elite=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite'")).rows[0]!;
@@ -117,7 +118,7 @@ test('bot reward limits, disabled availability, replay and passive behavior use 
       const result=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[i]!.character_id},key);
       const replay=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[i]!.character_id},key);assert.equal(result.battleId,replay.battleId);
       const report=(await r.app.inject({method:'GET',url:'/api/v1/battles/'+result.battleId,headers:{cookie:p.cookie}})).json().battle;
-      assert.equal(report.temporaryRival,true);assert.equal(report.rewarded,i<6);if(i===6){assert.equal(report.loot,0);assert.equal(report.attackerXp,0);}
+      assert.equal(report.temporaryRival,true);assert.equal(report.rewarded,i<6);if(i===6){assert.equal(report.loot,0);assert.equal(report.attackerXp,1);}
       assert.equal(report.bountyClaim,null);assert.ok(report.attackEquipment.length>0);
       if(i===0){
         now=new Date(+now+130000);const same=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[i]!.character_id});

@@ -63,7 +63,7 @@ test('simultaneous finishing battles can claim escrow once; reports distinguish 
     assert.deepEqual(attempts.map(f=>f.statusCode).sort(),[200,409]);
     const winningIndex=attempts.findIndex(f=>f.statusCode===200),actor=winningIndex===0?a:b;
     const fight=attempts[winningIndex]!.json();const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.result;
-    assert.equal(report.bountyClaim.reward,1000);assert.equal((await r.me(actor)).battleStats.kills,1);assert.equal((await r.me(target)).health,0);
+    assert.equal(report.bountyClaim.reward,1000);assert.equal((await r.me(actor)).battleStats.kills,1);assert.equal((await r.me(target)).battleStats.deaths,1);assert.equal((await r.me(target)).health,0);
     const contract=(await r.db.query('SELECT * FROM bounties WHERE id=$1',[placed.data.bountyId])).rows[0]!;assert.equal(contract.status,'claimed');assert.ok([a.id,b.id].includes(contract.claimant_id));
     assert.equal((await r.db.query("SELECT count(*)::int AS n FROM bounty_events WHERE bounty_id=$1 AND kind='claimed'",[contract.id])).rows[0]!.n,1);
     assert.equal((await r.db.query("SELECT count(*)::int AS n FROM economy_entries e JOIN economy_transactions t ON t.id=e.transaction_id WHERE e.character_id=ANY($1::uuid[]) AND t.reason='bounty_reward'",[[a.id,b.id]])).rows[0]!.n,1);
@@ -133,7 +133,7 @@ test('only the finishing attacker receives the bounty; prior hits and ordinary k
     await r.ok(finisher,'/api/v1/battles',{targetCharacterId:target.id},key);
     const saved=(await r.db.query('SELECT result FROM battles WHERE id=$1',[final.battleId])).rows[0]!.result;
     assert.equal(saved.bountyClaim.id,contract.data.bountyId);assert.equal(saved.bountyClaim.reward,10000);
-    assert.equal((await r.me(finisher)).battleStats.kills,1);assert.equal((await r.me(earlier)).battleStats.kills,0);
+    assert.equal((await r.me(finisher)).battleStats.kills,1);assert.equal((await r.me(earlier)).battleStats.kills,0);assert.equal((await r.me(target)).battleStats.deaths,1);
     assert.equal((await r.db.query('SELECT count(*)::int AS n FROM bounty_kills')).rows[0]!.n,1);
     assert.equal((await r.me(target)).health,0);r.advance(179);assert.equal((await r.me(target)).health,0);r.advance(1);assert.equal((await r.me(target)).health,10);
     const ordinary=await r.ok(finisher,'/api/v1/battles',{targetCharacterId:target.id});assert.equal((await r.db.query('SELECT result FROM battles WHERE id=$1',[ordinary.battleId])).rows[0]!.result.bountyClaim,null);
@@ -156,7 +156,7 @@ test('ended placements share a 50-per-target rolling limit and relist immediatel
       assert.equal((await r.db.query('SELECT result FROM battles WHERE id=$1',[hit.battleId])).rows[0]!.result.bountyClaim.id,placed.data.bountyId);
       assert.equal((await r.me(target)).health,0);
     }
-    assert.equal((await r.me(hunter)).battleStats.kills,50);assert.equal(await r.total([...sponsors,target,hunter]),total-50n);
+    assert.equal((await r.me(hunter)).battleStats.kills,50);assert.equal((await r.me(target)).battleStats.deaths,50);assert.equal(await r.total([...sponsors,target,hunter]),total-50n);
     assert.equal((await r.db.query('SELECT count(*)::int AS n FROM bounties WHERE target_id=$1',[target.id])).rows[0]!.n,50);
     const before=(await r.me(sponsors[0]!)).gold;
     assert.equal((await r.command(sponsors[0]!,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1})).json().error.code,'BOUNTY_LIMIT');

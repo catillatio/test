@@ -7,28 +7,28 @@ import {getState} from '../src/game.js';
 import {alpha,levelRequirement} from '../src/alpha-rules.js';
 import {botCatalog} from '../src/strategy-rules.js';
 
-test('all 150 fantasy names are distinct, valid, deterministic and cover every level/tier without oversized armies',()=>{
+test('all 450 fantasy names are distinct, valid, deterministic and cover every level/tier without oversized armies',()=>{
   const names=new Set<string>();
-  for(let level=1;level<=50;level++)for(const tier of ['green','seasoned','elite']){
-    const bp=botBlueprint(level,tier);assert.ok(!names.has(bp.name),bp.name);names.add(bp.name);
-    assert.equal(registration.shape.name.parse(bp.name),bp.name);assert.equal(botBlueprint(level,tier).name,bp.name);
+  for(let level=1;level<=50;level++)for(const tier of ['green','seasoned','elite'])for(let variant=0;variant<3;variant++){
+    const bp=botBlueprint(level,tier,variant);assert.ok(!names.has(bp.name),bp.name);names.add(bp.name);
+    assert.equal(registration.shape.name.parse(bp.name),bp.name);assert.equal(botBlueprint(level,tier,variant).name,bp.name);
     assert.ok(bp.participants<=10);assert.ok(bp.participants>=1);
     assert.ok(Object.values(bp.quantities).every(q=>q>=0&&q<=bp.participants));
     assert.ok(bp.items.every(i=>i.level<=level));
     assert.ok(bp.properties.every(p=>alpha.properties.find(item=>item.id===p.id)!.level<=level));
     assert.ok(bp.gold<200000&&bp.bankedGold<2147483647);
     const economy=botCatalog.economy,percent=botCatalog.profiles[tier]!.goldPercent;
-    assert.equal(bp.gold,Math.floor((economy.walletBase+Math.max(0,bp.netIncome)*economy.walletIncomeHours+bp.equipmentInvestment*economy.walletEquipmentPercent/100)*percent/100));
+    assert.equal(bp.gold,Math.max(2500,Math.floor((economy.walletBase+Math.max(0,bp.netIncome)*economy.walletIncomeHours+bp.equipmentInvestment*economy.walletEquipmentPercent/100)*percent/100*(100+variant*7)/100)));
     assert.equal(bp.bankedGold,Math.floor((Math.max(0,bp.netIncome)*economy.vaultIncomeHours+bp.propertyInvestment*economy.vaultEstatePercent/100)*percent/100));
-    if(level===1)assert.equal(bp.properties.length,0);
+    assert.ok(bp.gold>=2500);assert.ok(bp.properties.reduce((n,p)=>n+p.quantity,0)>=3);
     if(level>=11)assert.ok(bp.properties.length>=2);
     if(level>=36)assert.equal(bp.properties.length,4);
     if(level===50)assert.ok(bp.items.every(i=>i.level>=(tier==='green'?30:40))); // Defensive specialists can keep an older, stronger ward.
   }
-  assert.equal(names.size,150);assert.equal(botCatalog.id,'passive-rivals-4');
+  assert.equal(names.size,450);assert.equal(botCatalog.id,'passive-rivals-5');
 });
 test('persistent rival estates, real saved costs, income and protected wealth survive provisioning and restart without touching humans',{skip:!testDatabaseUrl},async()=>{
-  const r=await realm({isolated:true,developmentBotsEnabled:true,developmentBotBountiesEnabled:true});try{
+  const r=await realm({isolated:true,clock:()=>new Date('2043-01-01T00:00:00Z'),developmentBotsEnabled:true,developmentBotBountiesEnabled:true});try{
     const human=await r.player('Human Landowner');await r.prepare(human,10000,30);
     await r.ok(human,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:2});
     await r.ok(human,'/api/v1/vault/deposits',{amount:500});
@@ -37,9 +37,9 @@ test('persistent rival estates, real saved costs, income and protected wealth su
       vault:(await r.db.query('SELECT * FROM vault_accounts WHERE character_id=$1',[human.id])).rows,
       holdings:(await r.db.query('SELECT * FROM land_holdings WHERE character_id=$1 ORDER BY id',[human.id])).rows});
     const before=await humanRows();await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});assert.deepEqual(await humanRows(),before);
-    const bots=(await r.db.query('SELECT b.character_id,c.account_id,c.attained_level,b.tier,c.name FROM development_bots b JOIN characters c ON c.id=b.character_id ORDER BY c.attained_level,b.tier')).rows;
+    const bots=(await r.db.query('SELECT b.character_id,c.account_id,c.attained_level,b.tier,b.variant,c.name FROM development_bots b JOIN characters c ON c.id=b.character_id ORDER BY c.attained_level,b.tier')).rows;
     for(const bot of bots){
-      const bp=botBlueprint(bot.attained_level,bot.tier),state=await getState(r.db,bot.account_id);
+      const bp=botBlueprint(bot.attained_level,bot.tier,bot.variant),state=await getState(r.db,bot.account_id);
       assert.equal(state.name,bp.name);assert.equal(state.bankedGold,bp.bankedGold);assert.equal(state.gold,bp.gold);
       assert.equal(state.economy.grossHourlyIncome,bp.grossIncome);assert.equal(state.economy.netHourlyIncome,bp.netIncome);
       assert.equal(state.land.holdings.reduce((sum,h)=>sum+h.quantity,0),bp.properties.reduce((sum,h)=>sum+h.quantity,0));

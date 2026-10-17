@@ -2,6 +2,7 @@ import { type Database, transaction, type Sql } from './db.js';
 import { GameError } from './errors.js';
 import { rules, regenerate } from './rules.js';
 import { alpha,levelRequirement,selectEquipment,activeArmy,areRivals,lootById,trainedPower,type QuestDefinition,type OwnedItem } from './alpha-rules.js';
+import {progressionEconomy} from './progression-economy-rules.js';
 import { settleLand } from './land.js';
 import { estateState,type EstateState } from './estate.js';
 import { readInventory } from './inventory.js';
@@ -20,6 +21,7 @@ export interface CharacterRow {
   attack_training:number;defense_training:number;
   calling_changed_at:Date|null;
 }
+export interface GameRuntime{developmentBotRecruitmentEnabled?:boolean;}
 export interface ArmyLink { characterId:string;name:string;level:number;className:string;status:string;incoming:boolean; }
 export interface CharacterState {
   invitationCode:string;id:string;name:string;xp:number;level:number;levelXp:number;levelRequirement:number;xpToNext:number;
@@ -46,7 +48,7 @@ export async function lockCharacters(sql:Sql,ids:string[]) {
   return rows;
 }
 export async function materialize(sql:Sql,row:CharacterRow,now:Date):Promise<CharacterRow> {
-  const landChanged=await settleLand(sql,row.id,now,alpha.id);
+  const landChanged=await settleLand(sql,row.id,now,progressionEconomy.id);
   const upkeepChanged=await settleMaintenance(sql,row.id,now);
   const hp=regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount);
   const mana=regenerate(row.mana,row.max_mana,new Date(row.mana_updated_at),now,recoverySeconds(row.profile_class,'mana',alpha.resources.manaSeconds));
@@ -55,16 +57,19 @@ export async function materialize(sql:Sql,row:CharacterRow,now:Date):Promise<Cha
   return (await sql.query<CharacterRow>(`UPDATE characters SET health=$2,mana=$3,spirit=$4,health_updated_at=$5,mana_updated_at=$6,spirit_updated_at=$7,
     state_version=state_version+$8 WHERE id=$1 RETURNING *`,[row.id,hp.value,mana.value,spirit.value,hp.updated,mana.updated,spirit.updated,changed?1:0])).rows[0]!;
 }
-export async function armyLinks(sql:Sql,characterId:string):Promise<ArmyLink[]> {
+export async function armyLinks(sql:Sql,characterId:string,runtime:GameRuntime={}):Promise<ArmyLink[]> {
   return (await sql.query(`SELECT c.id,c.name,c.attained_level,c.profile_class,l.status,l.inviter_id FROM army_links l
     JOIN characters c ON c.id=CASE WHEN l.low_id=$1 THEN l.high_id ELSE l.low_id END
-    WHERE $1 IN (l.low_id,l.high_id) AND l.status<>'declined' ORDER BY l.status,c.name,c.id`,[characterId])).rows
+    WHERE $1 IN (l.low_id,l.high_id) AND l.status<>'declined'
+    AND NOT EXISTS(SELECT 1 FROM development_bots self WHERE self.character_id=$1)
+    AND (NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=c.id) OR ($2 AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=c.id AND d.active)))
+    ORDER BY l.status,c.name,c.id`,[characterId,!!runtime.developmentBotRecruitmentEnabled])).rows
     .map(row=>({characterId:row.id,name:row.name,level:row.attained_level,className:row.profile_class,status:row.status,incoming:row.inviter_id!==characterId}));
 }
-export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<CharacterState> {
+export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRuntime={}):Promise<CharacterState> {
   const wallet=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[row.id])).rows[0]!;
   const units=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM army_stacks WHERE character_id=$1',[row.id])).rows[0]!.quantity as number;
-  const links=await armyLinks(sql,row.id);const allies=links.filter(link=>link.status==='accepted').length;
+  const links=await armyLinks(sql,row.id,runtime);const allies=links.filter(link=>link.status==='accepted').length;
   const isBot=!!(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[row.id])).rows.length;
   const projection=activeArmy(row.attained_level,isBot?Math.min(units,refinements.bots.armyCap-1):units,isBot?0:allies,isBot?Math.min(row.legacy_army_floor,refinements.bots.armyCap):row.legacy_army_floor);
   if(isBot){projection.participants=Math.min(refinements.bots.armyCap,projection.participants);projection.capacity=Math.min(refinements.bots.armyCap,projection.capacity);projection.total=Math.min(refinements.bots.armyCap,projection.total);}
@@ -97,8 +102,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
     count(*) FILTER(WHERE (attacker_id=$1 AND outcome='defender_win') OR (defender_id=$1 AND outcome='attacker_win'))::int AS losses,
     (SELECT count(*)::int FROM bounty_kills WHERE claimant_id=$1) AS kills,
     COALESCE((SELECT health_knockouts FROM legacy_field_statistics WHERE character_id=$1),0)::int AS "legacyKnockouts",
-    count(*) FILTER(WHERE (defender_id=$1 AND result->'defenderHealthAfter'='0'::jsonb) OR
-      (attacker_id=$1 AND COALESCE(result->'attackerHealthAfterDamage',result->'attackerHealthAfter')='0'::jsonb))::int AS deaths
+    (SELECT count(*)::int FROM bounty_kills WHERE target_id=$1) AS deaths
     FROM battles WHERE attacker_id=$1 OR defender_id=$1`,[row.id])).rows[0] as CharacterState['battleStats'];
   const accountCreated=new Date((await sql.query('SELECT created_at FROM accounts WHERE id=$1',[row.account_id])).rows[0]!.created_at);
   const untrainedAttack=rules.baseAttack+(row.attained_level-1)*rules.attackPerLevel+(army.participants-1)*rules.unit.attack+attackEquipment.attack;
@@ -119,17 +123,17 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date):Promise<Chara
     maintenance:{hourlyRate:upkeep.hourly_rate,reserveGold:upkeep.reserve_gold,arrearsGold:upkeep.arrears_gold,paused:upkeep.paused,
       resumeCost:Number(BigInt(upkeep.arrears_gold)+(BigInt(upkeep.reserve_gold)<BigInt(upkeep.hourly_rate)?BigInt(upkeep.hourly_rate)-BigInt(upkeep.reserve_gold):0n))}};
 }
-export async function getState(db:Database,accountId:string):Promise<CharacterState> {
+export async function getState(db:Database,accountId:string,runtime:GameRuntime={}):Promise<CharacterState> {
   return transaction(db,async client=>{
     const requestedAt=await clock(client);
     const overdue=(await client.query("SELECT sponsor_id FROM bounties WHERE sponsor_id=(SELECT id FROM characters WHERE account_id=$1) AND status='active' AND expires_at<=$2 LIMIT 1",[accountId,requestedAt])).rows[0];
     if(overdue){await lockBountyEscrow(client);await settleExpiredBounties(client,await clock(client),null,overdue.sponsor_id);}
     const row=(await client.query<CharacterRow>('SELECT * FROM characters WHERE account_id=$1 FOR UPDATE',[accountId])).rows[0];
     if (!row) throw new GameError('CHARACTER_NOT_FOUND','Your character could not be found.',404);
-    const now=await clock(client);return stateFrom(client,await materialize(client,row,now),now);
+    const now=await clock(client);return stateFrom(client,await materialize(client,row,now),now,runtime);
   });
 }
-export async function listOpponents(db:Database,characterId:string,cursor?:string,developmentBotsEnabled=false) {
+export async function listOpponents(db:Database,characterId:string,cursor?:string,developmentBotsEnabled=false,developmentBotRecruitmentEnabled=false) {
   let after:string|null=null,afterId:string|null=null;
   if (cursor!==undefined) {
     if(typeof cursor!=='string') throw new GameError('INVALID_CURSOR','Invalid rival page.');
@@ -140,11 +144,11 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
   const range=Math.max(2,Math.ceil(actor.attained_level*0.2));
   const rows=(await db.query(`SELECT c.*,b.tier AS bot_tier,b.recovered_at AS bot_recovered_at,to_char(c.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_at,
     (SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
-    (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted') AS allies
+    (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted' AND (NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END) OR ($8 AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END AND d.active)))) AS allies
     FROM characters c LEFT JOIN development_bots b ON b.character_id=c.id WHERE c.id<>$1 AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
     AND (b.character_id IS NULL OR ($7 AND b.active))
     AND ($4::timestamptz IS NULL OR (c.created_at,c.id)<($4::timestamptz,$5::uuid))
-    ORDER BY c.created_at DESC,c.id DESC LIMIT 21`,[characterId,actor.attained_level-range,actor.attained_level+range,after,afterId,actor.attained_level,developmentBotsEnabled])).rows;
+    ORDER BY c.created_at DESC,c.id DESC LIMIT 21`,[characterId,actor.attained_level-range,actor.attained_level+range,after,afterId,actor.attained_level,developmentBotsEnabled,developmentBotRecruitmentEnabled])).rows;
   const eligible=rows.filter(row=>areRivals(actor.attained_level,row.attained_level));const more=eligible.length>20;
   const now=await clock(db);
   const opponents=eligible.slice(0,20).map(row=>({id:row.id as string,name:row.name as string,level:row.attained_level as number,className:row.profile_class as string,

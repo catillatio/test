@@ -80,12 +80,12 @@ test('legacy boundaries, unequipped inventory and mixed-phase rate snapshots rem
     await migrate(db);
     const boundary=(await db.query('SELECT * FROM characters WHERE id=$1',[near])).rows[0]!;assert.equal(boundary.attained_level,1);assert.equal(boundary.level_xp,11);
     const extreme=(await db.query('SELECT * FROM characters WHERE id=$1',[high])).rows[0]!;assert.equal(extreme.xp,2147483647);assert.equal(extreme.attained_level,42949673);
-    const initial=await getState(db,account);assert.equal(initial.level,2);assert.equal(initial.levelXp,0);assert.equal(initial.gold,102);
+    const initial=await getState(db,account);assert.equal(initial.level,2);assert.equal(initial.levelXp,0);assert.equal(initial.gold,106);
     assert.equal(initial.inventoryId,oldItem);assert.equal(initial.attackEquipment.selected[0]!.itemId,'iron-sword');
     assert.equal(initial.land.hourlyIncome,46);assert.equal(initial.land.hourlyUpkeep,4);
-    assert.equal((await getState(db,account)).gold,102);
+    assert.equal((await getState(db,account)).gold,106);
     await executeCommand(db,account,randomUUID(),'land_sell',{propertyId:'smallholding',quantity:1});
-    const after=await getState(db,account);assert.equal(after.gold,124);assert.equal(after.land.hourlyIncome,38);assert.equal(after.land.hourlyUpkeep,3);
+    const after=await getState(db,account);assert.equal(after.gold,132);assert.equal(after.land.hourlyIncome,38);assert.equal(after.land.hourlyUpkeep,3);
     assert.equal(after.land.holdings.find(h=>h.id===first)!.nextPaymentAt,initial.land.holdings.find(h=>h.id===first)!.nextPaymentAt);
     assert.equal((await db.query('SELECT quantity,original_quantity FROM land_holdings WHERE id=$1',[first])).rows[0]!.original_quantity,2);
     assert.equal((await db.query('SELECT count(*)::int AS n FROM equipment_slots')).rows[0]!.n,0);

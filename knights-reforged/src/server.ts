@@ -8,7 +8,7 @@ const db = createDatabase(config.databaseUrl);
 const app = await createApp({ db, config, logger: true });
 try {
   await assertInstalledRulesets(db);
-  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='013_pvp_economy.sql'");
+  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='014_economy_and_progression.sql'");
   if (!schema.rows.length) throw new Error('Phase 4.1 migrations are incomplete. Run npm run db:migrate.');
   await app.listen({ host: config.host, port: config.port });
   app.log.info({event:'realm_origin_configuration',origin:config.origin,originSource:config.originSource,

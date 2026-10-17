@@ -14,6 +14,7 @@ export interface Config {
   secureCookies: boolean;
   developmentBotsEnabled:boolean;
   developmentBotBountiesEnabled:boolean;
+  developmentBotRecruitmentEnabled:boolean;
 }
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const port = Number(env.PORT ?? 3000);
@@ -51,6 +52,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     databaseUrl: env.DATABASE_URL ?? 'postgres://knights:knights_local@127.0.0.1:54329/knights',
     secureCookies: origin.protocol === 'https:',
     developmentBotsEnabled:nodeEnv!=='production'&&env.ENABLE_DEV_BOTS==='1',
+    developmentBotRecruitmentEnabled:['development','test'].includes(nodeEnv)&&env.ENABLE_DEV_BOTS==='1'&&env.ENABLE_DEV_BOT_RECRUITMENT==='1',
     developmentBotBountiesEnabled:['development','test'].includes(nodeEnv)&&env.ENABLE_DEV_BOTS==='1'&&env.ENABLE_DEV_BOT_BOUNTIES==='1',
   };
 }

@@ -22,7 +22,7 @@ test('Phase 4.1 migration preserves every Phase 4 business row and archives knoc
       VALUES($1,$2,$3,100,10,'claimed','strategy-0.2',$4,$5,$6,$5,$7,$8)`,[bounty,sponsor.characterId,b.characterId,randomUUID(),at,new Date(+at+86400000),a.characterId,claim]);
     await db.query("INSERT INTO land_holdings(id,character_id,property_id,property_name,ruleset_id,quantity,original_quantity,unit_price,hourly_income,hourly_upkeep,interval_seconds,acquired_at,accrued_through) VALUES($1,$2,'smallholding','Inherited Fields','alpha-0.2',2,2,45,9,1,3600,$3,$3)",[randomUUID(),a.characterId,at]);
     const tables=(await db.query("SELECT table_name FROM information_schema.tables WHERE table_schema=$1 AND table_name<>'schema_migrations' ORDER BY table_name",[schema])).rows.map(row=>row.table_name);
-    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async(table:string)=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows])));
+    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async(table:string)=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows.map(({income_remainder,upkeep_remainder,variant,...legacy})=>legacy)])));
     const before=await snapshot();await migrate(db);assert.deepEqual(await snapshot(),before);
     const archive=(await db.query('SELECT health_knockouts FROM legacy_field_statistics WHERE character_id=$1',[a.characterId])).rows[0]!;assert.equal(archive.health_knockouts,1);
     const kills=(await db.query('SELECT * FROM bounty_kills')).rows;assert.equal(kills.length,1);assert.equal(kills[0]!.source,'legacy_claim');assert.equal(kills[0]!.battle_id,claim);assert.equal(kills[0]!.ruleset_id,'strategy-0.2');

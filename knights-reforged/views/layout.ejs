@@ -16,6 +16,7 @@
   <!-- Use the established layout context and a UI revision, not page-specific rules locals. -->
   <link rel="stylesheet" href="/assets/phase41.css?v=<%= alpha.id %>-phase41-render1">
   <link rel="stylesheet" href="/assets/phase42.css?v=phase42-1">
+<link rel="stylesheet" href="/assets/phase43.css?v=phase43-1">
 </head>
 <body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -41,5 +42,6 @@
     <% if (state) { %><%- include('partials/primary-nav') %><% } %>
   </div>
   <% if (state) { %><script type="module" src="/assets/community.js?v=<%= alpha.id %>-phase41-render1"></script><script type="module" src="/assets/realm.js?v=<%= alpha.id %>-phase41-render1"></script><% } %>
+<% if(state) { %><script type="module" src="/assets/shopping.js?v=phase43-1"></script><% } %>
 </body>
 </html>

@@ -28,7 +28,7 @@ test('the rename/training migration preserves existing Phase 3.5 allocations, po
     for(const [resource,points,delta,capacity] of [['health',3,30,130],['mana',3,3,23],['spirit',2,1,4]])await db.query('INSERT INTO skill_allocations(id,character_id,command_id,resource,points,capacity_added,capacity_after) VALUES($1,$2,$3,$4,$5,$6,$7)',[randomUUID(),owner,randomUUID(),resource,points,delta,capacity]);
     const session=await createSession(db,account);
     const tables=['accounts','characters','wallets','sessions','skill_allocations','progression_awards','inventory_entries','inventory_lots','land_holdings'];
-    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async table=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows])));
+    const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async table=>[table,(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows.map(({income_remainder,upkeep_remainder,variant,...legacy})=>legacy)])));
     const before=await snapshot(),catalog=(await db.query("SELECT * FROM rulesets WHERE id='alpha-0.2'")).rows;
     await migrate(db);await migrate(db);const after=await snapshot();
     for(const row of after.characters){assert.equal(row.attack_training,0);assert.equal(row.defense_training,0);delete row.attack_training;delete row.defense_training;}

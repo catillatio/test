@@ -37,6 +37,8 @@ if (root) {
       setText('[data-land-gross]', number(state.land.hourlyIncome));
       setText('[data-land-upkeep]', number(state.land.hourlyUpkeep));
       setText('[data-equipment-upkeep]', number(state.economy?.equipmentUpkeep ?? state.land.equipmentUpkeep ?? 0));
+      setText('[data-next-property-payment]', number(state.land.nextPropertyPaymentGold ?? 0));
+      setText('[data-partial-payment]', state.land.partialNextPayment ? 'Includes a prorated first period.' : '');
       setText('[data-land-net]', number(state.economy?.netHourlyIncome ?? state.land.netHourlyIncome));
       document.querySelectorAll('[data-wallet-gold]').forEach(element => { element.textContent = number(state.gold); });
       showTime(root.querySelector('[data-land-payment-time]'), nextPayment);
@@ -61,7 +63,7 @@ if (root) {
         }
         card.querySelector('[data-land-buy-hint]').textContent = property.remaining === 0 ? 'Ownership limit reached.' :
           property.unlocked === false ? 'Unlocks at level ' + property.level + '.' :
-          property.maxAffordable === 0 ? 'Earn more gold to buy this property.' : 'Your first payment arrives one full hour after purchase.';
+          property.maxAffordable === 0 ? 'Earn more gold to buy this property.' : 'Joins the shared hourly cycle; first partial period is prorated.';
       }
       for (const holding of state.land.holdings) {
         const time = [...root.querySelectorAll('[data-holding-payment]')].find(element => element.dataset.holdingPayment === holding.id);

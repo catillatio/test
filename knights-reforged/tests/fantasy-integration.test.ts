@@ -24,6 +24,7 @@ describe('Fantasy tiers, transactions and persistent progression',{skip:!testDat
       const balance=await r.me(p);
       await r.db.query("UPDATE land_holdings SET acquired_at=statement_timestamp()-interval '1 hour',accrued_through=statement_timestamp()-interval '1 hour' WHERE character_id=$1",[p.id]);
       await r.db.query("UPDATE maintenance_accounts SET settled_at=clock_timestamp()-interval '1 hour',remainder=0 WHERE character_id=$1",[p.id]);
+      await r.db.query('DELETE FROM income_cycles WHERE character_id=$1',[p.id]); // Re-adopt the explicitly aged fixture clock.
       const paid=await r.me(p),wealth=(state:typeof paid)=>BigInt(state.gold)+BigInt(state.maintenance.reserveGold);
       assert.equal(wealth(paid)-wealth(balance),BigInt(2*(property.hourlyIncome-property.hourlyUpkeep)-balance.maintenance.hourlyRate));
       // Same-instant bulk contracts now preserve their actual purchase order.

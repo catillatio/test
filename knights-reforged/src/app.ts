@@ -23,7 +23,7 @@ import {strategy} from './strategy-rules.js';
 import {community} from './community-rules.js';
 import {refinements} from './refinement-rules.js';
 import {pvp,bountyRules} from './pvp-rules.js';
-import {publicProfile,ownedProperties,attackAvailability} from './profiles.js';
+import {publicProfile,ownedProperties,attackAvailability,recruitmentAvailability} from './profiles.js';
 import {activityFeed,armyDashboard,feedCategory,relativeTime,battleTales} from './feeds.js';
 import {bountyBoard as loadBountyBoard,bountyQuote,bountyPlacementAvailability} from './bounties.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
@@ -51,7 +51,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   await app.register(fastifyStatic, { root: join(projectRoot, 'public'), prefix: '/assets/', maxAge: '1h' });
   // Rules used by shared/nested views are application constants, not optional
   // page locals. This also covers direct views and error rendering contexts.
-  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
+  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
   app.decorateRequest('realmSession', null);
 
   const setSessionCookie = (reply: FastifyReply, token: string, authenticated: boolean) => reply.setCookie('kr_session', token, {
@@ -106,7 +106,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   async function render(request: FastifyRequest, reply: FastifyReply, screen: string, data: Record<string, unknown> = {}) {
     if (!allowedScreens.has(screen)) throw new Error('Unknown server-selected template.');
     const session = request.realmSession;
-    const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id) : null);
+    const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id,config) : null);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
     const query = request.query as { command?: string; category?: string;area?:string;tab?:string };
@@ -116,12 +116,12 @@ export async function createApp(options: { db: Database; config: Config; logger?
       actionResult = receipt?.result ?? null;
     }
     return reply.viewAsync('layout.ejs', {
-      screen, state, nav, rules, landRules, alpha, strategy, community, relativeTime, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,
+      screen, state, nav, rules, landRules, alpha, strategy, community, relativeTime, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       questArea: query.area==='all'||alpha.content?.areas.some(area=>area.id===query.area) ? query.area : 'nearby',
       profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
-      publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
+      recruitment:{allowed:false,reason:'Review this army request in Recruit.',status:'none',automatic:false},publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
       feedTab:feedCategory((request.query as {feed?:string}).feed),feed:{entries:[],nextCursor:null},
       armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],
       csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
@@ -159,50 +159,64 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/rules', async (request, reply) => render(request, reply, 'rules', { title: 'Rules of this realm' }));
   for (const { id: screen, label: title } of nav) {
     app.get('/game/' + screen, { preHandler: requireAccount }, async (request, reply) => {
-      const state = await getState(db, request.realmSession!.account_id!);
+      const state = await getState(db, request.realmSession!.account_id!,config);
       return render(request, reply, screen, { title, state,
         ...(screen === 'battle' ? { battles: await recentBattles(db, state.id) } : {}),
         ...(screen==='home'?{feed:await activityFeed(db,state.id,feedCategory((request.query as {feed?:string}).feed),(request.query as {after?:string}).after)}:{}),
         ...(screen==='army'?{armyEvents:await armyDashboard(db,state.id)}:{}),
         ...(screen === 'battle' ? await (async () => {
           const query=request.query as {after?:string};
-          const page=await listOpponents(db,state.id,query.after,config.developmentBotsEnabled);
+          const page=await listOpponents(db,state.id,query.after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled);
           return {opponents:page.opponents,nextOpponentCursor:page.nextCursor};
         })() : {}),
       });
     });
   }
+  app.get('/game/purchases/:id',{preHandler:requireAccount},async(request,reply)=>{
+    const id=(request.params as {id:string}).id;if(!uuid.safeParse(id).success)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
+    const accountId=request.realmSession!.account_id!;
+    const receipt=(await db.query("SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2 AND kind IN ('buy','land_buy')",[accountId,id])).rows[0]?.result;
+    if(!receipt?.data)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
+    const state=await getState(db,accountId,config),land=receipt.kind==='land_buy';
+    const entry=land?state.land.properties.find(p=>p.id===receipt.data.propertyId):alpha.items.find(i=>i.id===receipt.data.itemId);
+    if(!entry)throw new GameError('PURCHASE_NOT_FOUND','This historical purchase has no current catalog entry. Its saved transaction remains intact.',404);
+    const owned=land?(entry as CharacterState['land']['properties'][number]).owned:state.inventory.find(i=>i.id===entry.id)?.quantity??0;
+    const available=state.level<entry.level?0:land?(entry as CharacterState['land']['properties'][number]).maxAffordable:Math.min(alpha.limits.transaction,alpha.limits.inventory-owned,Math.floor(state.gold/entry.price));
+    const steps=land?(entry as CharacterState['land']['properties'][number]).priceSteps:Array.from({length:Math.max(1,available)},()=>entry.price);
+    const costSteps=steps.map((_,i)=>steps.slice(0,i+1).reduce((n,p)=>n+p,0));
+    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry,owned,available,costSteps}});
+  });
   app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
-    const state=await getState(db,request.realmSession!.account_id!);
+    const state=await getState(db,request.realmSession!.account_id!,config);
     return render(request,reply,'profile',{title:'Character',state,tales:await battleTales(db,state.id,state.id,(request.query as {after?:string}).after),
       feed:await activityFeed(db,state.id,'comments',(request.query as {after?:string}).after,state.id)});
   });
   app.get('/game/players/:id',{preHandler:requireAccount},async(request,reply)=>{
     const id=(request.params as {id:string}).id;if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);
-    const state=await getState(db,request.realmSession!.account_id!);
+    const state=await getState(db,request.realmSession!.account_id!,config);
     if(id===state.id)return reply.redirect('/game/profile?tab='+(['skills','battles','comments'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player')+(uuid.safeParse((request.query as {command?:string}).command).success?'&command='+(request.query as {command:string}).command:''));
-    const character=await publicProfile(db,id);
+    const character=await publicProfile(db,id,config);
     return render(request,reply,'profile',{title:character.name,state,publicCharacter:character,profileProperties:character.properties,profileTab:['comments','battles'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player',
-      bountyPlacement:await bountyPlacementAvailability(db,state.id,id,new Date(state.serverTime),config.developmentBotBountiesEnabled),combatTarget:attackAvailability(state,character,config.developmentBotsEnabled),tales:await battleTales(db,id,state.id,(request.query as {after?:string}).after),
+      recruitment:await recruitmentAvailability(db,state,character,config.developmentBotRecruitmentEnabled),bountyPlacement:await bountyPlacementAvailability(db,state.id,id,new Date(state.serverTime),config.developmentBotBountiesEnabled),combatTarget:attackAvailability(state,character,config.developmentBotsEnabled),tales:await battleTales(db,id,state.id,(request.query as {after?:string}).after),
       feed:await activityFeed(db,state.id,'comments',(request.query as {after?:string}).after,id)});
   });
   app.get('/game/settings',{preHandler:requireAccount},async(request,reply)=>render(request,reply,'settings',{title:'Settings'}));
   app.get('/game/vault',{preHandler:requireAccount},async(request,reply)=>{
-    const state=await getState(db,request.realmSession!.account_id!);
+    const state=await getState(db,request.realmSession!.account_id!,config);
     const vaultEntries=(await db.query('SELECT amount,reason,balance_after,created_at FROM vault_entries WHERE character_id=$1 ORDER BY created_at DESC,id DESC LIMIT 20',[state.id])).rows;
     return render(request,reply,'vault',{title:'Vault',state,vaultEntries});
   });
   app.get('/game/bounties/new',{preHandler:requireAccount},async(request,reply)=>{
     const id=(request.query as {target?:string}).target;
     if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','Choose a warrior from their profile.',404);
-    const state=await getState(db,request.realmSession!.account_id!),character=await publicProfile(db,id!);
+    const state=await getState(db,request.realmSession!.account_id!,config),character=await publicProfile(db,id!,config);
     const availability=await bountyPlacementAvailability(db,state.id,character.id,new Date(state.serverTime),config.developmentBotBountiesEnabled);
     return render(request,reply,'bounty-new',{title:'Add to Bounty List',state,bountyTarget:character,bountyPlacement:availability});
   });
   app.post('/game/bounties/preview',{preHandler:requireAccount},async(request,reply)=>{
     const parsed=z.object({targetCharacterId:uuid,amount:z.coerce.number().int().min(bountyRules.minimum).max(bountyRules.maximum)}).safeParse(asBody(request));
     if(!parsed.success)throw new GameError('INVALID_COMMAND','Choose a whole bounty amount between 1 and 10,000 gold.');
-    const state=await getState(db,request.realmSession!.account_id!);
+    const state=await getState(db,request.realmSession!.account_id!,config);
     const now=(await db.query('SELECT clock_timestamp() AS now')).rows[0]!.now;
     const quote=await bountyQuote(db,state.id,parsed.data.targetCharacterId,parsed.data.amount,new Date(now),config.developmentBotBountiesEnabled);
     return render(request,reply,'bounty-confirm',{title:'Confirm bounty',state,bountyQuote:quote});
@@ -212,16 +226,16 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const character=(await db.query('SELECT id FROM characters WHERE account_id=$1',[accountId])).rows[0];
     if(!character)throw new GameError('CHARACTER_NOT_FOUND','Your character was not found.',404);
     const board=await loadBountyBoard(db,character.id,config.developmentBotBountiesEnabled);
-    const state=await getState(db,accountId);
+    const state=await getState(db,accountId,config);
     return render(request,reply,'bounties',{title:'Bounty List',state,bountyBoard:board});
   });
   app.get('/game/battles/:id', { preHandler: requireAccount }, async (request, reply) => {
     const id = (request.params as {id:string}).id;
     if (!uuid.safeParse(id).success) throw new GameError('BATTLE_NOT_FOUND', 'That battle was not found.', 404);
     const battle = await getBattle(db, request.realmSession!.account_id!, id);
-    const state=await getState(db,request.realmSession!.account_id!);
+    const state=await getState(db,request.realmSession!.account_id!,config);
     const opponentId=battle.attacker_id===state.id?battle.defender_id:battle.attacker_id;
-    const combatTarget=attackAvailability(state,await publicProfile(db,opponentId),config.developmentBotsEnabled);
+    const combatTarget=attackAvailability(state,await publicProfile(db,opponentId,config),config.developmentBotsEnabled);
     return render(request, reply, 'report', { state,combatTarget,battle: {...battle.result,attackerId:battle.attacker_id,defenderId:battle.defender_id,winnerId:battle.outcome==='attacker_win'?battle.attacker_id:battle.defender_id}, title: 'Battle report' });
   });
 
@@ -230,8 +244,9 @@ export async function createApp(options: { db: Database; config: Config; logger?
       app.post(url, { preHandler: requireAccount, config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 90, timeWindow: '1 minute' } } }, async (request, reply) => {
         const body = asBody(request);
         const input = route.kind === 'quest' || route.kind === 'quest_buy' ? { ...body, questId: (request.params as {id:string}).id } : body;
-        const result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input,{developmentBotsEnabled:config.developmentBotsEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled});
-        if (wantsJson(request)) return { ...result, state: await getState(db, request.realmSession!.account_id!) };
+        const result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input,{developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled});
+        if (wantsJson(request)) return { ...result, state: await getState(db, request.realmSession!.account_id!,config) };
+        if(route.kind==='buy'||route.kind==='land_buy')return reply.redirect('/game/purchases/'+result.commandId,303);
         if(route.kind==='comment')return reply.redirect('/game/players/'+result.data!.profileId+'?tab=comments&command='+result.commandId,303);
         if(route.kind==='social_report'||route.kind==='social_remove'){
           const location=result.data?.channel==='comment'&&result.data.profileId?'/game/players/'+result.data.profileId+'?tab=comments':'/game/home?feed=broadcasts';
@@ -246,42 +261,42 @@ export async function createApp(options: { db: Database; config: Config; logger?
     }
   }
   app.get('/api/v1/me', { preHandler: requireAccount }, async request => ({
-    state: await getState(db, request.realmSession!.account_id!), csrfToken: request.realmSession!.csrf_token, rulesetId: alpha.id,
+    state: await getState(db, request.realmSession!.account_id!,config), csrfToken: request.realmSession!.csrf_token, rulesetId: alpha.id,
   }));
   app.get('/api/v1/opponents', { preHandler: requireAccount }, async request => {
-    const state = await getState(db, request.realmSession!.account_id!);
-    return listOpponents(db,state.id,(request.query as {after?:string}).after,config.developmentBotsEnabled);
+    const state = await getState(db, request.realmSession!.account_id!,config);
+    return listOpponents(db,state.id,(request.query as {after?:string}).after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled);
   });
   app.get('/api/v1/bounties/quote',{preHandler:requireAccount},async request=>{
     const query=z.object({targetCharacterId:uuid,amount:z.coerce.number().int().min(bountyRules.minimum).max(bountyRules.maximum)}).safeParse(request.query);
     if(!query.success)throw new GameError('INVALID_COMMAND','Choose a whole bounty amount between 1 and 10,000 gold.');
-    const state=await getState(db,request.realmSession!.account_id!);
+    const state=await getState(db,request.realmSession!.account_id!,config);
     return {quote:await bountyQuote(db,state.id,query.data.targetCharacterId,query.data.amount,new Date(state.serverTime),config.developmentBotBountiesEnabled)};
   });
   app.get('/api/v1/bounties',{preHandler:requireAccount},async request=>{
-    const state=await getState(db,request.realmSession!.account_id!);return loadBountyBoard(db,state.id,config.developmentBotBountiesEnabled);
+    const state=await getState(db,request.realmSession!.account_id!,config);return loadBountyBoard(db,state.id,config.developmentBotBountiesEnabled);
   });
   app.get('/api/v1/players/:id',{preHandler:requireAccount},async request=>{
     const id=(request.params as {id:string}).id;if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);
-    return {character:await publicProfile(db,id)};
+    return {character:await publicProfile(db,id,config)};
   });
   app.get('/api/v1/players/:id/combat',{preHandler:requireAccount},async request=>{
     const id=(request.params as {id:string}).id;if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);
-    const state=await getState(db,request.realmSession!.account_id!);
-    return {combatTarget:attackAvailability(state,await publicProfile(db,id),config.developmentBotsEnabled),state};
+    const state=await getState(db,request.realmSession!.account_id!,config);
+    return {combatTarget:attackAvailability(state,await publicProfile(db,id,config),config.developmentBotsEnabled),state};
   });
   app.get('/api/v1/players/:id/tales',{preHandler:requireAccount},async request=>{
     const id=(request.params as {id:string}).id;if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);
-    const state=await getState(db,request.realmSession!.account_id!);
-    await publicProfile(db,id);
+    const state=await getState(db,request.realmSession!.account_id!,config);
+    await publicProfile(db,id,config);
     return battleTales(db,id,state.id,(request.query as {after?:string}).after);
   });
   app.get('/api/v1/feed',{preHandler:requireAccount},async request=>{
-    const state=await getState(db,request.realmSession!.account_id!);const query=request.query as {feed?:string;after?:string};
+    const state=await getState(db,request.realmSession!.account_id!,config);const query=request.query as {feed?:string;after?:string};
     return activityFeed(db,state.id,feedCategory(query.feed),query.after);
   });
   app.get('/api/v1/land', { preHandler: requireAccount }, async request => {
-    const state = await getState(db, request.realmSession!.account_id!);
+    const state = await getState(db, request.realmSession!.account_id!,config);
     return { land: state.land, economy:state.economy, gold: state.gold, serverTime: state.serverTime, state };
   });
   app.get('/api/v1/battles/:id', { preHandler: requireAccount }, async request => {

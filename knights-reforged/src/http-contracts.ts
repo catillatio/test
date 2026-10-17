@@ -11,7 +11,7 @@ export const navigation = [
   { id: 'land', label: 'Land', icon: 'land' },
 ] as const;
 
-export const templateScreens = ['home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'bounty-new', 'vault', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
+export const templateScreens = ['purchase', 'home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'bounty-new', 'vault', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
 
 export const commandRoutes = [
   {kind:'vault_deposit',html:'/game/vault/deposit',api:'/api/v1/vault/deposits'},

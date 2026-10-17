@@ -128,6 +128,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     await r.ok(p,'/api/v1/inventory/purchases',{itemId:'ransackers-axe',quantity:8});
     const before=await r.me(p);assert.equal(before.land.netHourlyIncome,-1);assert.equal(before.maintenance.reserveGold,'8');
     await r.db.query("UPDATE land_holdings SET acquired_at=clock_timestamp()-interval '1 hour',accrued_through=clock_timestamp()-interval '1 hour' WHERE character_id=$1",[p.id]);
+    await r.db.query('DELETE FROM income_cycles WHERE character_id=$1',[p.id]);
     await r.db.query("UPDATE maintenance_accounts SET settled_at=clock_timestamp()-interval '1 hour',remainder=0 WHERE character_id=$1",[p.id]);
     const after=await r.me(p);assert.equal(after.gold,before.gold+7);assert.equal(after.maintenance.reserveGold,'0');
     const sold=await r.ok(p,'/api/v1/land/sales',{propertyId:'smallholding',quantity:1});
@@ -171,9 +172,10 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     const bought=await r.ok(p,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:2});
     assert.equal(bought.data.goldSpent,45+50);assert.equal(bought.state.land.properties[0].price,propertyPrice(45,2));
     await r.db.query("UPDATE land_holdings SET acquired_at=statement_timestamp()-interval '1 hour 30 minutes',accrued_through=statement_timestamp()-interval '1 hour 30 minutes' WHERE character_id=$1",[p.id]);
+    await r.db.query('DELETE FROM income_cycles WHERE character_id=$1',[p.id]);
     const before=await r.me(p);const key=randomUUID();
     const sold=await r.ok(p,'/api/v1/land/sales',{propertyId:'smallholding',quantity:1,refund:999999},key);
-    assert.equal(sold.data.goldReceived,22);assert.equal(sold.state.gold,before.gold+22);assert.equal(sold.state.land.properties[0].owned,1);
+    assert.equal(sold.data.goldReceived,22);assert.equal(sold.state.gold,before.gold+22+3);assert.equal(sold.state.land.properties[0].owned,1);
     assert.equal((await r.ok(p,'/api/v1/land/sales',{propertyId:'smallholding',quantity:1},key)).state.land.properties[0].owned,1);
     const final=await r.ok(p,'/api/v1/land/sales',{propertyId:'smallholding',quantity:1});assert.equal(final.data.goldReceived,25);
     assert.equal(final.state.land.holdings.length,0);assert.equal(final.state.land.nextPaymentAt,null);
@@ -229,7 +231,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
       const report=await r.app.inject({method:'GET',url:'/api/v1/battles/'+last,headers:{cookie:a.cookie}});const battle=report.json().battle;
       assert.equal(battle.winnerId,a.id);assert.equal(battle.spiritSpent,1);assert.equal(battle.attackerArmy,3);
       assert.equal(battle.attackEquipment.reduce((n:number,item:{category:string;quantity:number})=>n+(item.category==='weapon'?item.quantity:0),0),3);
-      assert.equal(battle.rewarded,i<3);assert.equal(battle.lootDetails.multiplier,[100,75,50,25][i]);if(i===3){assert.equal(battle.attackerXp,0);}
+      assert.equal(battle.rewarded,i<3);assert.equal(battle.lootDetails.multiplier,[100,75,50,25][i]);if(i===3){assert.equal(battle.attackerXp,1);}
       const html=await r.app.inject({method:'GET',url:'/game/battles/'+last,headers:{cookie:b.cookie}});assert.equal(html.statusCode,200,html.body);
     }
     const state=await r.me(a);assert.equal(state.mana,original.mana);assert.equal(state.spirit,2);
@@ -250,7 +252,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
       const response=await r.app.inject({method:'GET',url:'/api/v1/opponents'+(cursor?'?after='+encodeURIComponent(cursor):''),headers:{cookie:a.cookie}});
       assert.equal(response.statusCode,200,response.body);
       for(const opponent of response.json().opponents){assert.ok(!ids.has(opponent.id));assert.notEqual(opponent.id,a.id);ids.add(opponent.id);assert.equal(typeof opponent.armySize,'number');assert.ok(opponent.className);}
-      cursor=response.json().nextCursor;pages++;assert.ok(pages<100);
+      cursor=response.json().nextCursor;pages++;assert.ok(pages<Math.ceil(Number((await r.db.query('SELECT count(*)::int AS n FROM characters')).rows[0]!.n)/20)+2);
     }while(cursor);
     assert.ok(ids.size>20);
     added.forEach(id=>assert.ok(ids.has(id),'A tied timestamp rival was skipped.'));

@@ -1,0 +1,29 @@
+{
+  "id": "progression-economy-0.1",
+  "provenance": "Original Kingdom Come reconstruction, not recovered Storm8 formulas. Phase 4.3 shared hourly estate cycles, bounty-only casualty statistics, level-aware victory XP and development allies.",
+  "victoryXp": {
+    "requirementPercent": 5,
+    "minimum": 1,
+    "maximum": 100,
+    "relativeLevelPercent": 20,
+    "minimumDifficultyPercent": 25,
+    "maximumDifficultyPercent": 200,
+    "repeatedMinimum": 1,
+    "humanFullVictoriesPerTarget": 3,
+    "botFullVictoriesPerTarget": 1,
+    "botFullVictoriesPerDay": 6,
+    "windowSeconds": 86400
+  },
+  "income": {
+    "intervalMilliseconds": 3600000,
+    "policy": "One persistent character-wide hourly boundary. New purchases earn only their actual time to the next boundary. Sub-gold accrual is carried with integer numerators. Existing holding cursors and historical settlements are preserved. Equipment upkeep remains continuously accrued, using prepaid reserves before carried gold."
+  },
+  "recruitment": {
+    "rosterLimit": 100,
+    "botAcceptance": "Development-only immediate acceptance; one contribution to each human roster, never to the passive bot roster."
+  },
+  "statistics": {
+    "kills": "Completed bounty claims only",
+    "deaths": "Completed bounty claims against this character only"
+  }
+}

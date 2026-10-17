@@ -1,8 +1,9 @@
 import { randomUUID } from 'node:crypto';
+import {progressionEconomy} from './progression-economy-rules.js';
 import { type Sql } from './db.js';
 import { GameError } from './errors.js';
 import { alpha,propertyById,propertyPrice,propertyQuote } from './alpha-rules.js';
-import { getLandState,type LandState,type HoldingRow } from './land.js';
+import { getLandState,accrueHolding,type LandState,type HoldingRow } from './land.js';
 import { ledger,creditGold } from './economy.js';
 
 export type EstateState = Omit<LandState,'properties'> & {
@@ -33,6 +34,7 @@ export async function buyEstate(sql:Sql,characterId:string,level:number,property
   const prices=propertyQuote(property.price,owned,quantity);const cost=prices.reduce((n,price)=>n+price,0);
   if(!Number.isSafeInteger(cost)||cost>2147483647)throw new GameError('TRANSACTION_LIMIT','That batch exceeds the carried-gold transaction limit. Buy a smaller quantity.',409);
   await ledger(sql,commandId,'land_purchase',[{characterId,amount:-cost}],alpha.id);
+  await sql.query('INSERT INTO income_cycles(character_id,next_payment_at) VALUES($1,$2) ON CONFLICT DO NOTHING',[characterId,new Date(+now+3600000)]);
   let first='';
   // Each differently priced unit has a durable acquisition cost and the same
   // server purchase clock. Old multi-unit batches remain untouched.
@@ -47,14 +49,16 @@ export async function buyEstate(sql:Sql,characterId:string,level:number,property
 export async function sellEstate(sql:Sql,characterId:string,propertyId:string,quantity:number,commandId:string,now:Date) {
   const batches=(await sql.query<HoldingRow>('SELECT * FROM land_holdings WHERE character_id=$1 AND property_id=$2 AND quantity>0 ORDER BY acquired_at,purchase_order,id FOR UPDATE',[characterId,propertyId])).rows;
   if (batches.reduce((n,batch)=>n+batch.quantity,0)<quantity) throw new GameError('PROPERTY_NOT_OWNED','You do not own that many properties.',409);
-  let left=quantity;let refund=0;
+  let left=quantity;let refund=0;let earned=0n;
   for (const batch of batches) {
     const sold=Math.min(left,batch.quantity);if (!sold) break;
+    earned+=await accrueHolding(sql,batch,now,'sale');
     const unitRefund=Math.floor(batch.unit_price/2);refund+=unitRefund*sold;
     await sql.query('UPDATE land_holdings SET quantity=quantity-$2,closed_at=CASE WHEN quantity=$2 THEN $3 ELSE closed_at END WHERE id=$1',[batch.id,sold,now]);
     await sql.query('INSERT INTO land_sales(id,holding_id,character_id,quantity,unit_refund,ruleset_id,command_id,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)',
       [randomUUID(),batch.id,characterId,sold,unitRefund,alpha.id,commandId,now]);left-=sold;
   }
+  if(earned)await creditGold(sql,characterId,earned,commandId,'land_income',progressionEconomy.id);
   await creditGold(sql,characterId,BigInt(refund),commandId,'land_sale',alpha.id);
   return refund;
 }
