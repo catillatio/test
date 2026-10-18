@@ -17,6 +17,7 @@ if(process.env.KINGDOM_RESTORE_DATABASE_URL){
 }
 url.pathname='/'+target;
 const db=createDatabase(url.href);
+export let upgradeReport;
 async function snapshot(){
  const sql=await db.connect();
  try{
@@ -48,5 +49,6 @@ try{
   else assert.deepEqual(after[table],rows,table+' changed existing data');
  }
  const stable=JSON.stringify(after);await migrate(db);assert.equal(JSON.stringify(await snapshot()),stable,'Migration replay changed data.');
- console.log(JSON.stringify({passed:true,restoredDatabase:target,restoredHost:url.hostname,accounts:counts.accounts,bots:counts.bots,existingTablesVerified:Object.keys(before).length,sha256:createHash('sha256').update(stable).digest('hex'),migrationReplay:'unchanged',liveDatabaseConnected:false},null,2));
+ upgradeReport={passed:true,restoredDatabase:target,restoredHost:url.hostname,accounts:counts.accounts,bots:counts.bots,existingTablesVerified:Object.keys(before).length,sha256:createHash('sha256').update(stable).digest('hex'),migrationReplay:'unchanged',liveDatabaseConnected:false};
+ console.log(JSON.stringify(upgradeReport,null,2));
 }finally{await db.end();}

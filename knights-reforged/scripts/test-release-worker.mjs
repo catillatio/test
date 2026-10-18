@@ -86,6 +86,10 @@ try{
  // test-only launch shim, not through a production administrative endpoint.
  const approved=await envFile('approved.env',{...common,RAILWAY_SERVICE_ID:gameServiceId,KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_SHA:first.sha,KINGDOM_RESTORE_TEST_DATABASE:first.copy,KINGDOM_RELEASE_BACKUP_PROOF:signProof(approval,privateKey),TEST_PUBLIC_KEY:Buffer.from(publicPem).toString('base64')});
  const migrateCode="process.env.KINGDOM_RELEASE_VERIFY_KEY=Buffer.from(process.env.TEST_PUBLIC_KEY,'base64').toString();await import('./deployment/migrate.mjs');";
+ sql(restore,first.copy,"UPDATE realm_messages SET body='Altered restored copy' WHERE channel='broadcast'");
+ rejected=false;try{docker(['run','--rm','--network',network,'--env-file',approved,game,'node','--input-type=module','-e',migrateCode]);}catch{rejected=true;}assert.ok(rejected);assert.deepEqual(snapshot(),before);
+ check('a restored copy altered after signing is rejected before opening or migrating the source database');
+ sql(restore,first.copy,"UPDATE realm_messages SET body='Preserved fixture message' WHERE channel='broadcast'");
  docker(['run','--rm','--network',network,'--env-file',approved,game,'node','--input-type=module','-e',migrateCode]);
  const after=snapshot();for(const [table,rows]of Object.entries(before)){if(['schema_migrations','rulesets'].includes(table)){const values=new Set(after[table]);assert.ok(rows.every(row=>values.has(row)),table);}else assert.deepEqual(after[table],rows,table);}
  docker(['run','--rm','--network',network,'--env-file',approved,game,'node','--input-type=module','-e',migrateCode]);assert.deepEqual(snapshot(),after);

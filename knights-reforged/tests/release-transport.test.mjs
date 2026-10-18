@@ -114,5 +114,6 @@ test('workflow remains manual, serialized, environment-approved and independentl
  const runner=readFileSync(new URL('../deployment/release/run.mjs',import.meta.url),'utf8');
  assert.match(runner,/--skip-deploys/);assert.match(runner,/signProof/);assert.match(runner,/verified-backup/);assert.match(runner,/workerDeploymentId/);assert.doesNotMatch(workflow+runner,/RAILWAY_SSH_|StrictHostKeyChecking|ssh-keyscan|trust.on.first.use|['"]ssh['"]|db:seed|db:reset|dev:bots|grant-gray|initializePrivateAlpha/);
  const worker=readFileSync(new URL('../deployment/release/worker.mjs',import.meta.url),'utf8');assert.match(worker,/READ ONLY/);assert.match(worker,/default_transaction_read_only=on/);assert.doesNotMatch(worker,/dropdb|--clean|TRUNCATE|initializePrivateAlpha/);
+ const migration=readFileSync(new URL('../deployment/migrate.mjs',import.meta.url),'utf8');assert.match(migration,/upgradeReport\.sha256,approval\.preservationSha256/);assert.ok(migration.indexOf('approval.preservationSha256')<migration.indexOf('const db = createDatabase'));
  const image=readFileSync(new URL('../deployment/release/Dockerfile',import.meta.url),'utf8');assert.match(image,/ENTRYPOINT \[\]/);assert.match(image,/USER postgres/);
 });

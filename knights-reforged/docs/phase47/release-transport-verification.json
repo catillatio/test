@@ -1,8 +1,8 @@
 {
   "scope": "Phase 4.7 non-SSH release transport correction",
-  "verifiedAt": "2026-10-18T23:02:52.775Z",
+  "verifiedAt": "2026-10-18T23:16:47.993Z",
   "basedOn": "98ce3b23fbc08b2e35480446894bb6ec3340a2a2",
-  "candidateFingerprint": "ecff8c1add7bf7e6dbc18fdcf839d3c0a675fee28f86434f5654956abb65e071",
+  "candidateFingerprint": "cf24a288dc05c9fce353f8d4aa7fb5f0a7ee3a21b03b22aa57b86618ed3ec052",
   "liveRailwayAccess": false,
   "liveDatabaseModified": false,
   "deployed": false,
@@ -20,7 +20,8 @@
     "passed": 273,
     "failed": 0,
     "skipped": 0,
-    "releaseGuardTests": 13
+    "releaseGuardTests": 13,
+    "scope": "Full suite on the initial transport commit ab95caba681c61e307e0a5c6ff8e2f4647f56660; all 13 release-guard cases and 15 real release-worker checks rerun after enforcing the signed restored-copy digest. Exact-commit CI remains mandatory."
   },
   "gameContainer": {
     "checksPassed": 21,
@@ -43,6 +44,7 @@
       "an untrusted object-store TLS certificate is rejected without disabling verification",
       "a source/restore alias is rejected before any administrative database operation",
       "unwritable temporary storage fails promptly and closes the verification pool without modifying the source",
+      "a restored copy altered after signing is rejected before opening or migrating the source database",
       "signed exact-candidate pre-deploy verifies the isolated copy before additive source migrations and preserves all old rows on replay",
       "post-deployment aggregate verification is read-only and preserves sessions, balances and all 450 bots",
       "neither PostgreSQL cluster nor the verification job has a published port"
@@ -52,7 +54,7 @@
     "accounts": 452,
     "bots": 450,
     "existingTablesVerified": 64,
-    "recoverySha256": "ebe8ee5fb45cb940589a2f3892f504f931c65ae9ad2d1a2e5706f853547ec495"
+    "recoverySha256": "dea61524858b4c4ce781188c6688844069185c99ef180b9a63a9015ac7a151ed"
   },
   "audits": {
     "game": {
@@ -84,5 +86,6 @@
   "retainedArtifactRehearsal": {
     "passed": true,
     "check": "Backup-only rehearsal validates downloaded Actions ciphertext too; mutated bytes are rejected by the native validator."
-  }
+  },
+  "signedCopyTampering": "A modified restored copy is rejected before opening the source pool; restoring the original copy allows the signed additive migration and unchanged replay."
 }
