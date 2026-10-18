@@ -1,3 +1,7 @@
+# Phase 4.7 release automation
+
+The current candidate uses the same Dockerfile, root directory, private database, pre-deploy migration command, port 8080 and health check. See [owner setup and guarded release workflow](docs/phase47/OPERATIONS.md) for the dedicated production branch, one approval gate, encrypted backup, restored-copy verification, manual fallback and rollback. No live access or deployment is performed by preparing this branch. Preserve the original service/volume; do not run first-time initialization.
+
 # Railway deployment — Kingdom Come
 
 Current branch: `feature/kingdom-come-phase-4-6-rivalries-and-polish`.

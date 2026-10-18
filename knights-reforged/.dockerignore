@@ -25,3 +25,5 @@
 !deployment/grant-gray.mjs
 !deployment/check-upgrade.mjs
 !deployment/moderate.mjs
+
+!deployment/audit-bots.mjs

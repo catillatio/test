@@ -15,6 +15,7 @@ const json=path=>JSON.parse(read(path));
 const rules=json('rulesets/recreation-0.1/rules.json'),landRules=json('rulesets/land-provisional-0.1/rules.json'),alpha=json('rulesets/alpha-0.3/rules.json');
 const contractSource=stripTypeScriptTypes(read('src/http-contracts.ts'),{mode:'transform'});
 const {navigation,templateScreens,commandRoutes}=await import('data:text/javascript;base64,'+Buffer.from(contractSource).toString('base64'));
+const {callingName,callingDescription}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(read('src/calling-presentation.ts'))).toString('base64'));
 const results=[];
 function check(name,run){try{run();results.push({name,passed:true});}catch(error){results.push({name,passed:false,error:error.message});}}
 function files(dir){return readdirSync(join(root,dir),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?files(join(dir,entry.name)):[join(dir,entry.name)]);}
@@ -161,7 +162,7 @@ const cases=[
 ];
 const rendered=new Map();
 for(const example of cases)check('Production EJS render: '+example.name,()=>{
- const html=ejs.render(read('views/layout.ejs'),example.data,{filename:join(root,'views/layout.ejs')});
+ const html=ejs.render(read('views/layout.ejs'),{callingName,callingDescription,sound:{enabled:false,volume:55},soundEvent:null,...example.data},{filename:join(root,'views/layout.ejs')});
  assert.ok(html.startsWith('<!doctype html>')&&!html.includes('<%'));assert.ok(!html.includes('<img src=x'));
  rendered.set(example.name,html);
 });
@@ -232,8 +233,8 @@ check('Upgraded pages bypass cached pre-expansion income clients',()=>{
   for(const example of cases){
     const html=rendered.get(example.name);assert.ok(html.includes('/assets/refinements.css?v='+alpha.id));
     assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1'));
-    if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase45-1'));
-    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase43-1'));
+    if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
+    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase47-1'));
   }
 });
 check('Land retains countdown, offline payment, sale, retained-gold and no-script hooks',()=>{

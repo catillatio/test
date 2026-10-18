@@ -1,0 +1,196 @@
+{
+  "version": "phase47-1",
+  "origin": "Original deterministic synthesis, scripts/create-audio.py. No sampled recordings or copied game audio.",
+  "sounds": [
+    {
+      "id": "click",
+      "file": "click.m4a",
+      "seconds": 0.26,
+      "bytes": 3072,
+      "voice": "wood",
+      "peak": 0.165,
+      "rms": 0.035,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "navigate",
+      "file": "navigate.m4a",
+      "seconds": 0.36,
+      "bytes": 3829,
+      "voice": "pluck",
+      "peak": 0.286,
+      "rms": 0.06,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "coins",
+      "file": "coins.m4a",
+      "seconds": 0.68,
+      "bytes": 6157,
+      "voice": "bell",
+      "peak": 0.367,
+      "rms": 0.068,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "spend",
+      "file": "spend.m4a",
+      "seconds": 0.52,
+      "bytes": 5169,
+      "voice": "bell",
+      "peak": 0.292,
+      "rms": 0.051,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "equipment",
+      "file": "equipment.m4a",
+      "seconds": 0.72,
+      "bytes": 6793,
+      "voice": "bell",
+      "peak": 0.381,
+      "rms": 0.075,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "sale",
+      "file": "sale.m4a",
+      "seconds": 0.56,
+      "bytes": 5386,
+      "voice": "pluck",
+      "peak": 0.326,
+      "rms": 0.07,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "land",
+      "file": "land.m4a",
+      "seconds": 0.81,
+      "bytes": 7532,
+      "voice": "horn",
+      "peak": 0.449,
+      "rms": 0.092,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "income",
+      "file": "income.m4a",
+      "seconds": 0.81,
+      "bytes": 7573,
+      "voice": "bell",
+      "peak": 0.422,
+      "rms": 0.082,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "quest",
+      "file": "quest.m4a",
+      "seconds": 0.99,
+      "bytes": 8990,
+      "voice": "pluck",
+      "peak": 0.415,
+      "rms": 0.095,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "victory",
+      "file": "victory.m4a",
+      "seconds": 1.11,
+      "bytes": 9966,
+      "voice": "horn",
+      "peak": 0.496,
+      "rms": 0.103,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "decisive",
+      "file": "decisive.m4a",
+      "seconds": 1.24,
+      "bytes": 10942,
+      "voice": "horn",
+      "peak": 0.517,
+      "rms": 0.093,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "defeat",
+      "file": "defeat.m4a",
+      "seconds": 0.81,
+      "bytes": 7326,
+      "voice": "horn",
+      "peak": 0.272,
+      "rms": 0.055,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "level",
+      "file": "level.m4a",
+      "seconds": 1.51,
+      "bytes": 13193,
+      "voice": "horn",
+      "peak": 0.524,
+      "rms": 0.118,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "achievement",
+      "file": "achievement.m4a",
+      "seconds": 1.18,
+      "bytes": 10591,
+      "voice": "bell",
+      "peak": 0.456,
+      "rms": 0.079,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "healing",
+      "file": "healing.m4a",
+      "seconds": 0.96,
+      "bytes": 8871,
+      "voice": "air",
+      "peak": 0.338,
+      "rms": 0.061,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "bounty",
+      "file": "bounty.m4a",
+      "seconds": 1.28,
+      "bytes": 11254,
+      "voice": "horn",
+      "peak": 0.517,
+      "rms": 0.107,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "alliance",
+      "file": "alliance.m4a",
+      "seconds": 0.88,
+      "bytes": 8086,
+      "voice": "pluck",
+      "peak": 0.415,
+      "rms": 0.083,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "error",
+      "file": "error.m4a",
+      "seconds": 0.37,
+      "bytes": 3920,
+      "voice": "wood",
+      "peak": 0.16,
+      "rms": 0.033,
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "tutorial",
+      "file": "tutorial.m4a",
+      "seconds": 1.34,
+      "bytes": 11933,
+      "voice": "bell",
+      "peak": 0.483,
+      "rms": 0.085,
+      "license": "CC0-1.0"
+    }
+  ]
+}

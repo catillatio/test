@@ -12,10 +12,11 @@ import {pvp} from './pvp-rules.js';
 import {progressionEconomy,initialProgressionEconomy} from './progression-economy-rules.js';
 import {phase41BotCatalog} from './strategy-rules.js';
 import {gameplay} from './gameplay-rules.js';
+import {gameFeel} from './game-feel-rules.js';
 import {experienceRules} from './experience-rules.js';
 import {phase4BotCatalog} from './strategy-rules.js';
 
-const definitions=[gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
+const definitions=[gameFeel,gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 

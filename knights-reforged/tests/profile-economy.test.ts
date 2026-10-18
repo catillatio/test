@@ -27,7 +27,7 @@ describe('Profile and authoritative active hourly gold',{skip:!testDatabaseUrl},
     const home=await r.app.inject({method:'GET',url:'/game/home',headers:{cookie:a.cookie}}),topbar=/<header class="topbar">([\s\S]*?)<\/header>/.exec(home.body)![1]!;
     assert.match(topbar,/href="\/game\/profile"/);assert.ok(!topbar.includes('/logout'));
     const profile=await r.app.inject({method:'GET',url:'/game/profile',headers:{cookie:a.cookie}});assert.equal(profile.statusCode,200,profile.body);
-    for(const label of ['Stats','Gross hourly income','Battles won','Army and Equipment','Sign out'])assert.ok(profile.body.includes(label),label);
+    for(const label of ['Stats','Gross hourly income','Battles won','Army and Equipment','Sign Out'])assert.ok(profile.body.includes(label),label);
     assert.match(profile.body,/action="\/logout"[\s\S]*name="csrf"/);
     assert.equal((await r.app.inject({method:'POST',url:'/logout',headers:{cookie:a.cookie},payload:{}})).statusCode,403);
     assert.equal((await r.app.inject({method:'POST',url:'/logout',headers:{cookie:a.cookie},payload:{csrf:a.csrf}})).statusCode,303);

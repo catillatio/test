@@ -13,13 +13,14 @@ function browser(fetch,{land=false,incomeNext=''}={}){
   const values={health:node({textContent:'60'}),mana:node({textContent:'10'}),spirit:node({textContent:'0'})};
   const timers=Object.fromEntries(['health','mana','spirit'].map(name=>[name,node({dataset:{next:name==='mana'?'2026-10-17T12:00:05.000Z':''}})]));
   const meters=Object.fromEntries(['health','mana','spirit'].map(name=>[name,node()]));
-  const paymentTimer=node(),xp=node(),level=node(),hourly=node(),quest=node({dataset:{questRun:'border-patrol'},disabled:false}),attack=node({dataset:{attackReady:'true'},disabled:true}),status=node();
+  const quantityMenu=node({textContent:'Quantity controls',dataset:{level:'1'}}),paymentTimer=node(),xp=node(),level=node(),hourly=node(),quest=node({dataset:{questRun:'border-patrol'},disabled:false}),attack=node({dataset:{attackReady:'true'},disabled:true}),status=node();
   root.querySelector=selector=>{
     for(const name of ['health','mana','spirit']){
       if(selector==='[data-resource-value="'+name+'"]')return values[name];
       if(selector==='[data-resource-meter="'+name+'"]')return meters[name];
       if(selector==='[data-recovery="'+name+'"]')return timers[name];
     }
+    if(selector==='[data-level]')return level;
     if(selector==='[data-payment-countdown]')return paymentTimer;
     if(selector==='[data-payment-gold]')return hourly;
     return null;
@@ -27,7 +28,7 @@ function browser(fetch,{land=false,incomeNext=''}={}){
   root.querySelectorAll=selector=>selector==='[data-recovery]'?Object.values(timers):[];
   const document={hidden:false,querySelector:selector=>selector==='[data-realm-state]'?root:selector==='[data-land-screen]'&&land?{}:selector==='[data-xp-meter]'?xp:null,
     querySelectorAll:selector=>{
-      if(selector==='[data-wallet-gold]')return [wallet];if(selector==='[data-level]')return [level];
+      if(selector==='[data-wallet-gold]')return [wallet];if(selector==='[data-level]')return [level,quantityMenu];
       if(selector==='[data-payment-gold]')return [hourly];
       if(selector==='[data-quest-run]')return [quest];if(selector==='button[data-attack-ready]')return [attack];
       if(selector==='[data-connection-status]')return [status];
@@ -37,7 +38,7 @@ function browser(fetch,{land=false,incomeNext=''}={}){
   runInNewContext(source,{document,window:{addEventListener:(name,fn)=>windowListeners.set(name,fn)},CustomEvent:class{constructor(type,options={}){this.type=type;this.detail=options.detail;}},performance:{now:()=>elapsed},AbortController,
     fetch:async(url,options)=>{requests.push({url,options});return fetch();},
     setTimeout:()=>1,clearTimeout:()=>{},setInterval:(callback,delay)=>intervals.push({callback,delay})});
-  return {wallet,values,timers,meters,xp,level,hourly,paymentTimer,quest,attack,status,requests,document,listeners,windowListeners,
+  return {quantityMenu,wallet,values,timers,meters,xp,level,hourly,paymentTimer,quest,attack,status,requests,document,listeners,windowListeners,
     tick(ms){elapsed+=ms;intervals.find(t=>t.delay===1000).callback();},
     poll(){intervals.find(t=>t.delay===60000).callback();},
     apply(state){listeners.get('realm-state')({detail:state});}};
@@ -56,7 +57,7 @@ test('resource countdowns never mint resources; overlapping due ticks send one a
 });
 test('stale or malformed state cannot rewind the resource header or quest eligibility',()=>{
   const page=browser(async()=>response(state()));page.apply(state());page.apply(state({stateVersion:4,gold:0,mana:0}));page.apply(state({stateVersion:undefined,gold:0}));
-  assert.equal(page.wallet.textContent,'72');assert.equal(page.values.mana.textContent,'11');assert.equal(page.quest.disabled,false);
+  assert.equal(page.wallet.textContent,'72');assert.equal(page.values.mana.textContent,'11');assert.equal(page.quest.disabled,false);assert.equal(page.quantityMenu.textContent,'Quantity controls','Level refresh must not replace a legacy marketplace control.');assert.equal(page.level.textContent,'2');
   page.apply(state({stateVersion:7,mana:0,spirit:0,quests:[{id:'border-patrol',ready:false}]}));assert.equal(page.quest.disabled,true);assert.equal(page.attack.disabled,true);
 });
 test('offline fetch errors preserve state and reconnect uses a bounded retry',async()=>{

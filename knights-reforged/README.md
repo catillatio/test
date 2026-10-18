@@ -1,3 +1,7 @@
+# Phase 4.7 live-realm release candidate
+
+See [Phase 4.7 release notes](PHASE_4_7_RELEASE.md), [security findings](PHASE_4_7_SECURITY.md), [audio inventory](docs/phase47/AUDIO.md) and [owner approval / Railway operations](docs/phase47/OPERATIONS.md). This branch is not deployed automatically. Upgrade only after backup and restored-copy verification; never initialize or reseed the existing realm. Phase 4.6 features and historical records are preserved. The new game-feel ruleset versions equipment resale and the narrow XP adjustment separately from unchanged loot and Calling mechanics.
+
 # Phase 4.6 live-realm update
 
 Use [PHASE_4_6_RELEASE.md](PHASE_4_6_RELEASE.md) for Hall of Champions, rivalries, Revenge, tutorial polish, one-time reviewed broadcast moderation, backup/restored-copy verification and manual Railway deployment. Do not rerun old initialization or reset player data. Security: [PHASE_4_6_SECURITY.md](PHASE_4_6_SECURITY.md). Reward and income formulas remain those documented in [Phase 4.5](PHASE_4_5_RELEASE.md).
@@ -8,9 +12,9 @@ Previously Knights Reforged. The application directory, database identifiers and
 
 A server-rendered medieval multiplayer RPG inspired by Storm8 Kingdoms Live. Five original-style tabs connect repeatable quests, Mana, quantity equipment, automatically equipped armies, Spirit-based PvP, Land income and character progression. All gameplay calculations run on the server.
 
-**Active rules: `alpha-0.3` content, `strategy-0.2` specializations/rewards, `passive-rivals-5` development population, `community-0.1` social policy and `refinements-0.1`, `pvp-economy-0.1` and `progression-economy-0.2` combat/economic rules.** The content, economic policy and combat formulas are reconstructed Kingdom Come rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
+**Active rules: `game-feel-1` for equipment resale and the narrow XP refinement, `gameplay-refinement-1` for retained healing/loot policy, `alpha-0.3` content, `strategy-0.2` specializations/rewards, `passive-rivals-5` development population, `community-0.1` social policy and `refinements-0.1`, `pvp-economy-0.1` and `progression-economy-0.2` combat/economic rules.** The content, economic policy and combat formulas are reconstructed Kingdom Come rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
 
-Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdom-come-phase-4-4-player-experience`, based on the completed Phase 4.3 branch, retaining the Codespaces Origin fix. No branches are merged and nothing is deployed automatically.
+Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdom-come-phase-4-7-game-feel-and-polish`, based on deployed Phase 4.6, retaining the Codespaces Origin fix. No branches are merged and nothing is deployed automatically.
 
 For the `refinements is not defined` rendering hotfix, use [RENDERING_FIX.md](RENDERING_FIX.md). It requires a fresh build and server restart, with no migration, reset or account/bot provisioning commands.
 

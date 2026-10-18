@@ -8,7 +8,7 @@ if(root){
   function apply(state){
     if(!state||!Number.isSafeInteger(state.stateVersion)||state.stateVersion<version||!Number.isFinite(Date.parse(state.serverTime)))return;
     version=state.stateVersion;serverTime=Date.parse(state.serverTime);synced=performance.now();incomeNext=Date.parse((state.payment?state.payment.nextAt:state.land?.nextPaymentAt)||'');
-    text('[data-wallet-gold]',Number(state.gold).toLocaleString('en'));text('[data-level]',state.level);text('[data-level-xp]',state.levelXp);text('[data-level-required]',state.levelRequirement);
+    text('[data-wallet-gold]',Number(state.gold).toLocaleString('en'));const level=root.querySelector('[data-level]');if(level)level.textContent=String(state.level);text('[data-level-xp]',state.levelXp);text('[data-level-required]',state.levelRequirement);
     for(const element of document.querySelectorAll('[data-wallet-gold]'))element.dataset.goldDigits=String(state.gold).length;
     if(state.payment){
       const p=state.payment,element=root.querySelector('[data-payment-gold]');

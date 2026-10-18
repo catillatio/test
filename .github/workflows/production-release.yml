@@ -1,0 +1,103 @@
+name: Owner approved Railway release
+on:
+  workflow_dispatch:
+    inputs:
+      promote:
+        description: 'Deploy after all gates? Leave off for a backup/restore rehearsal.'
+        type: boolean
+        default: false
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: kingdom-come-production
+  cancel-in-progress: false
+jobs:
+  safety:
+    if: github.ref == 'refs/heads/release/production'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+      deployments: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - name: Verify protected branch, owner approval rule and successful exact-commit checks
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KINGDOM_RELEASE_ENABLED: ${{ vars.KINGDOM_RELEASE_ENABLED }}
+          KINGDOM_RAILWAY_AUTODEPLOY_DISABLED: ${{ vars.KINGDOM_RAILWAY_AUTODEPLOY_DISABLED }}
+          KINGDOM_RELEASE_OWNER: ${{ vars.KINGDOM_RELEASE_OWNER }}
+        run: node knights-reforged/deployment/release/preflight.mjs
+  release:
+    needs: safety
+    # Configure required reviewer = realm owner, and only release/production.
+    # No Railway/SSH secrets exist in the unapproved safety job.
+    environment: production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      KINGDOM_RELEASE_ENABLED: ${{ vars.KINGDOM_RELEASE_ENABLED }}
+      KINGDOM_RAILWAY_AUTODEPLOY_DISABLED: ${{ vars.KINGDOM_RAILWAY_AUTODEPLOY_DISABLED }}
+      RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+      RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+      RAILWAY_GAME_SERVICE_ID: ${{ vars.RAILWAY_GAME_SERVICE_ID }}
+      RAILWAY_PG_SERVICE_ID: ${{ vars.RAILWAY_PG_SERVICE_ID }}
+      KINGDOM_PRODUCTION_ORIGIN: ${{ vars.KINGDOM_PRODUCTION_ORIGIN }}
+      KINGDOM_BACKUP_RECIPIENT: ${{ vars.KINGDOM_BACKUP_RECIPIENT }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - name: Install locked game and pinned provider tooling before exposing secrets
+        run: |
+          mkdir -p "$RUNNER_TEMP/railway-cli"
+          curl --fail --silent --show-error --location --output "$RUNNER_TEMP/railway.tgz" https://github.com/railwayapp/cli/releases/download/v5.70.0/railway-v5.70.0-x86_64-unknown-linux-musl.tar.gz
+          printf '%s  %s\n' f518230646acc7a6a7a67365e7642618f659d5d8cdd7cf8c180336140d0504eb "$RUNNER_TEMP/railway.tgz" | sha256sum --check -
+          tar --extract --gzip --file "$RUNNER_TEMP/railway.tgz" --directory "$RUNNER_TEMP/railway-cli" railway
+          echo "$RUNNER_TEMP/railway-cli" >> "$GITHUB_PATH"
+          sudo apt-get update -qq
+          sudo apt-get install -y age
+      - name: Build exact candidate with locked compiler
+        run: |
+          npm ci --include=dev --no-audit --no-fund --prefix knights-reforged
+          npm run build --prefix knights-reforged
+          npm prune --omit=dev --no-audit --no-fund --prefix knights-reforged
+      - name: Export, checksum, encrypt, restore and migration-test a private copy
+        id: prepare
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SSH_PRIVATE_KEY: ${{ secrets.RAILWAY_SSH_PRIVATE_KEY }}
+          RAILWAY_SSH_KNOWN_HOSTS: ${{ secrets.RAILWAY_SSH_KNOWN_HOSTS }}
+        run: node knights-reforged/deployment/release/run.mjs prepare
+      - name: Retain encrypted recovery backup before any deployment
+        id: backup
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kingdom-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .release-artifacts/
+          retention-days: 90
+          if-no-files-found: error
+      - name: Independently download and verify retained recovery artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: kingdom-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/verified-backup
+      - name: Promote only after every backup gate; verify health and saved realm
+        if: inputs.promote
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SSH_PRIVATE_KEY: ${{ secrets.RAILWAY_SSH_PRIVATE_KEY }}
+          RAILWAY_SSH_KNOWN_HOSTS: ${{ secrets.RAILWAY_SSH_KNOWN_HOSTS }}
+        run: node knights-reforged/deployment/release/run.mjs promote
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: kingdom-release-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .release-artifacts/
+          retention-days: 90
+          if-no-files-found: warn

@@ -54,7 +54,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     // rather than today's catalog price, controls each copy's resale value.
     await r.db.query(`UPDATE inventory_lots SET unit_cost=15 WHERE inventory_entry_id=$1 AND remaining_quantity=2`,[id]);
     const key=randomUUID();const sale=await r.ok(p,'/api/v1/inventory/sales',{itemId:'ash-spear',quantity:3,refund:999999},key);
-    assert.equal(sale.data.goldReceived,2*7+6);
+    assert.equal(sale.data.goldReceived,2*10+8);
     assert.equal((await r.ok(p,'/api/v1/inventory/sales',{itemId:'ash-spear',quantity:3},key)).state.gold,sale.state.gold);
     assert.equal((await r.command(p,'/api/v1/inventory/sales',{itemId:'ash-spear',quantity:1})).statusCode,409);
     const boughtAgain=await r.ok(p,'/api/v1/inventory/purchases',{itemId:'ash-spear',quantity:1});assert.equal(boughtAgain.inventoryEntryId,id);
@@ -70,8 +70,8 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     await r.ok(p,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:1});
     const results=await Promise.all([r.command(p,'/api/v1/inventory/sales',{itemId:'squires-blade',quantity:1}),r.command(p,'/api/v1/inventory/sales',{itemId:'squires-blade',quantity:1})]);
     assert.deepEqual(results.map(result=>result.statusCode).sort(),[200,409]);
-    assert.equal((await r.me(p)).gold,57);
-    const total=(await r.db.query('SELECT sum(amount)::int AS n FROM economy_entries WHERE character_id=$1',[p.id])).rows[0]!.n;assert.equal(total,57);
+    assert.equal((await r.me(p)).gold,58);
+    const total=(await r.db.query('SELECT sum(amount)::int AS n FROM economy_entries WHERE character_id=$1',[p.id])).rows[0]!.n;assert.equal(total,58);
   });
 
   test('inventory ownership limits remain authoritative across quantity purchases',async()=>{
@@ -115,7 +115,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     assert.equal(resumed.state.gold,0);assert.equal(resumed.state.maintenance.arrearsGold,'0');assert.equal(resumed.state.maintenance.reserveGold,'3');
     assert.equal((await r.ok(p,'/api/v1/maintenance',{},key)).state.maintenance.reserveGold,'3');
     const sale=await r.ok(p,'/api/v1/inventory/sales',{itemId:'ransackers-axe',quantity:3});
-    assert.equal(sale.state.gold,3*37+3);assert.equal(sale.state.maintenance.hourlyRate,0);
+    assert.equal(sale.state.gold,3*50+3);assert.equal(sale.state.maintenance.hourlyRate,0);
     const rates=(await r.db.query('SELECT previous_rate,hourly_rate,ruleset_id FROM maintenance_rate_events WHERE character_id=$1 ORDER BY created_at,id',[p.id])).rows;
     assert.deepEqual(rates.map(row=>[row.previous_rate,row.hourly_rate,row.ruleset_id]),[[0,3,alpha.id],[3,0,alpha.id]]);
     const accruals=(await r.db.query("SELECT hourly_rate,ruleset_id FROM maintenance_events WHERE character_id=$1 AND reason='accrual'",[p.id])).rows;
@@ -189,11 +189,11 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     const p=await r.player();await r.ok(p,'/api/v1/inventory/purchases',{itemId:'iron-sword'});
     await r.prepare(p,2147483647-20);
     const sold=await r.ok(p,'/api/v1/inventory/sales',{itemId:'iron-sword'});
-    assert.equal(sold.state.gold,2147483647);assert.equal(sold.state.land.pendingGold,'20');
+    assert.equal(sold.state.gold,2147483647);assert.equal(sold.state.land.pendingGold,'26');
     const purchased=await r.ok(p,'/api/v1/inventory/purchases',{itemId:'squires-blade'});
-    assert.equal(purchased.state.gold,2147483647);assert.equal(purchased.state.land.pendingGold,'15');
+    assert.equal(purchased.state.gold,2147483647);assert.equal(purchased.state.land.pendingGold,'21');
     const journal=(await r.db.query('SELECT sum(amount)::text AS n FROM treasury_retained_events WHERE character_id=$1',[p.id])).rows[0]!.n;
-    assert.equal(journal,'15');
+    assert.equal(journal,'21');
   });
 
   test('army invitations require recipient consent, preserve separate inventories and change both active rosters',async()=>{

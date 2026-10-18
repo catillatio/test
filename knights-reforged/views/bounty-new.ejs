@@ -1,6 +1,6 @@
 <section class="panel bounty-new"><h2 class="profile-section-heading">Add to Bounty List</h2>
 <h3><a class="player-link" href="/game/players/<%= bountyTarget.id %>"><%= bountyTarget.name %></a></h3>
-<p>Level <%= bountyTarget.level %> <%= bountyTarget.className %> · <%= bountyTarget.health %> / <%= bountyTarget.maxHealth %> Health<%= bountyTarget.temporaryRival?' · Temporary rival':'' %></p>
+<p>Level <%= bountyTarget.level %> <%= callingName(bountyTarget.className) %> · <%= bountyTarget.health %> / <%= bountyTarget.maxHealth %> Health<%= bountyTarget.temporaryRival?' · Temporary rival':'' %></p>
 <p class="<%= bountyPlacement.allowed?'success':'warning' %>" role="status"><%= bountyPlacement.allowed?'Eligible for a new bounty.':bountyPlacement.reason %></p>
 <form method="post" action="/game/bounties/preview" data-bounty-quote="<%= bountyTarget.id %>"><%- include('partials/command-fields') %><input type="hidden" name="targetCharacterId" value="<%= bountyTarget.id %>">
 <label for="bounty-amount">Escrowed bounty (1–10,000 gold)</label><input id="bounty-amount" name="amount" type="number" inputmode="numeric" min="1" max="10000" value="1" required<% if(!bountyPlacement.allowed) { %> disabled<% } %>>

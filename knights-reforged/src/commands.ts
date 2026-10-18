@@ -2,7 +2,9 @@ import { createHash,randomInt,randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { type Database,transaction } from './db.js';
 import {restoreHealth} from './healing.js';
-import {gameplay,victoryExperience45,victoryLoot45} from './gameplay-rules.js';
+import {gameplay,victoryLoot45} from './gameplay-rules.js';
+import {callingName} from './calling-presentation.js';
+import {gameFeel,victoryExperience47} from './game-feel-rules.js';
 import {validateTradeQuote} from './trade.js';
 import {syncExperience,tutorialAction,levelCelebration} from './experience.js';
 import { GameError } from './errors.js';
@@ -28,6 +30,7 @@ const uuid=z.string().uuid().transform(value=>value.toLowerCase());
 const id=z.string().min(1).max(64).regex(/^[a-z0-9-]+$/);
 const quantity=(max:number)=>z.union([z.number().int().min(1).max(max),z.string().max(16).regex(/^[1-9][0-9]*$/).transform(Number).pipe(z.number().int().min(1).max(max))]);
 const intents={
+  sound:z.object({enabled:z.enum(['0','1']),volume:z.coerce.number().int().min(0).max(100)}),
   heal:z.object({maxCost:z.coerce.number().int().min(0).max(2147483647).optional()}),
   tutorial:z.object({action:z.enum(['start','resume','skip','next','back','finish','replay'])}),
   quest:z.object({questId:id}),
@@ -115,7 +118,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     await syncExperience(sql,actorId,now);
     const result:CommandResult={commandId:key,kind,message:''};
 
-    if(kind==='heal'){result.data=await restoreHealth(sql,actor,state.gold,key,now,intent.maxCost as number|undefined);result.message=result.data.missing?'Health restored to maximum for '+result.data.cost+' gold.':'Your Health is already full. No gold was charged.';}else if(kind==='tutorial'){await tutorialAction(sql,actorId,intent.action as string,now);result.message=intent.action==='skip'?'Tutorial paused. Resume in Help or Profile.':intent.action==='finish'?'Tutorial complete! You are ready to build your kingdom.':'Your tutorial is ready.';}else if(kind==='vault_deposit'||kind==='vault_withdraw'){
+    if(kind==='sound'){await sql.query('INSERT INTO sound_preferences(character_id,enabled,volume,updated_at) VALUES($1,$2,$3,$4) ON CONFLICT(character_id) DO UPDATE SET enabled=$2,volume=$3,updated_at=$4',[actorId,intent.enabled==='1',intent.volume,now]);result.message='Sound preferences saved.';}else if(kind==='heal'){result.data=await restoreHealth(sql,actor,state.gold,key,now,intent.maxCost as number|undefined);result.message=result.data.missing?'Health restored to maximum for '+result.data.cost+' gold.':'Your Health is already full. No gold was charged.';}else if(kind==='tutorial'){result.data={tutorialAction:intent.action};await tutorialAction(sql,actorId,intent.action as string,now);result.message=intent.action==='skip'?'Tutorial paused. Resume in Help or Profile.':intent.action==='finish'?'Tutorial complete! You are ready to build your kingdom.':'Your tutorial is ready.';}else if(kind==='vault_deposit'||kind==='vault_withdraw'){
       result.data=await vaultTransfer(sql,actorId,intent.amount as number,kind==='vault_deposit',key,now);
       result.message=String(intent.amount)+' gold '+(kind==='vault_deposit'?'deposited in your protected Vault.':'withdrawn into your unbanked purse.');
     }else if(kind==='comment'||kind==='broadcast'){
@@ -185,7 +188,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       await fundMaintenance(sql,actorId,key,now);
       result.message='Upkeep is funded. Maintained equipment is available to your army.';
     } else if (kind==='profile') {
-      if(actor.profile_class===intent.className){result.message='You already follow the '+intent.className+' Calling.';}
+      if(actor.profile_class===intent.className){result.message='You already follow the '+callingName(String(intent.className))+' Calling.';}
       else{
         if(actor.calling_changed_at&&+now<+new Date(actor.calling_changed_at)+strategy.callingChange.cooldownSeconds*1000)
           throw new GameError('CALLING_COOLDOWN','You may change your Calling once every 24 hours.',409);
@@ -193,7 +196,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         if(cost)await ledger(sql,key,'calling_change',[{characterId:actorId,amount:-cost}],strategy.id);
         await sql.query('UPDATE characters SET profile_class=$2,calling_changed_at=$3,health_updated_at=$3,mana_updated_at=$3,spirit_updated_at=$3 WHERE id=$1',[actorId,intent.className,now]);
         await sql.query('INSERT INTO calling_changes(id,character_id,old_calling,new_calling,gold_cost,command_id,ruleset_id,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)',[randomUUID(),actorId,actor.profile_class,intent.className,cost,key,strategy.id,now]);
-        result.message='Your Calling is now '+intent.className+'. Recovery starts a fresh interval; your skill allocations are preserved.';
+        result.message='Your Calling is now '+callingName(String(intent.className))+'. Recovery starts a fresh interval; your skill allocations are preserved.';
       }
     } else if(kind==='bounty_place'&&target){
       if(!areRivals(actor.attained_level,target.attained_level))throw new GameError('RIVAL_LEVEL_RANGE','Place a bounty on a rival near your own level.',409);
@@ -230,6 +233,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         eventKind=link.status==='accepted'?'removed':link.inviter_id===actorId?'canceled':'rejected';
         result.message=eventKind==='rejected'?'Invitation rejected.':eventKind==='canceled'?'Invitation canceled.':'Army link removed.';
       }
+      result.data={armyEvent:eventKind};
       await armyEvent(sql,actorId,target.id,eventKind,key,now,targetIsBot?progressionEconomy.id:undefined);
       await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[target.id]);
     } else if (kind==='attack'&&target) {
@@ -254,7 +258,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       // gold; defensive wins never remove gold from the attacker. XP still
       // obeys the existing anti-farming budget independently of human loot.
       combat.loot=lootDetails?.amount??0;
-      const xpDetails=combat.outcome==='attacker_win'?victoryExperience45(actor.attained_level,target.attained_level,rewarded,state.attack,targetState.defense):null;
+      const xpDetails=combat.outcome==='attacker_win'?victoryExperience47(actor.attained_level,target.attained_level,rewarded,state.attack,targetState.defense):null;
       combat.attackerXp=xpDetails?.amount??0;
       const winnerId=combat.outcome==='attacker_win'?actorId:target.id;
       if (combat.loot) {
@@ -266,12 +270,12 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         [actorId,combat.attackerHealthAfter,now,alpha.combat.spiritCost,now]);
       await sql.query('UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,state_version=state_version+1 WHERE id=$1',[target.id,combat.defenderHealthAfter,now]);
       const progression=await grantExperience(sql,actorId,combat.attackerXp,now);
-      let defenderXpDetails:ReturnType<typeof victoryExperience45>|null=null;
+      let defenderXpDetails:ReturnType<typeof victoryExperience47>|null=null;
       let defenderProgression:{xpAwarded:number;gained:number;level:number}|null=null;
       if(combat.outcome==='defender_win'&&!targetIsBot){
         const fullWins=(await sql.query(`SELECT count(*)::int AS n FROM battles WHERE defender_id=$1 AND attacker_id=$2
           AND outcome='defender_win' AND result->'defenderFullXp'='true'::jsonb AND created_at>$3`,[target.id,actorId,new Date(+now-86400000)])).rows[0]!.n;
-        defenderXpDetails=victoryExperience45(target.attained_level,actor.attained_level,fullWins<gameplay.victoryXp.humanFullVictoriesPerTarget,targetState.defense,state.attack);
+        defenderXpDetails=victoryExperience47(target.attained_level,actor.attained_level,fullWins<gameplay.victoryXp.humanFullVictoriesPerTarget,targetState.defense,state.attack);
         // Defense must never refill Health on a knockout or reset combat costs.
         defenderProgression=await grantExperience(sql,target.id,defenderXpDetails.amount,now,false);
       }
@@ -283,7 +287,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         defenderXp:defenderProgression?.xpAwarded??0,defenderXpDetails,defenderFullXp:defenderXpDetails?!defenderXpDetails.reduced:false,defenderLevelGained:defenderProgression?.gained??0,defenderLevelAfter:defenderProgression?.level??target.attained_level,attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        commandId:key,victoryStyle:combat.outcome==='attacker_win'?(combat.attackPower>=combat.defensePower*1.5?'decisive':'hard-fought'):'defeat',progressionRulesetId:gameplay.id,xpDetails,pvpRulesetId:gameplay.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        commandId:key,victoryStyle:combat.outcome==='attacker_win'?(combat.attackPower>=combat.defensePower*1.5?'decisive':'hard-fought'):'defeat',progressionRulesetId:gameFeel.id,xpDetails,pvpRulesetId:gameplay.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       if(combat.defenderHealthAfter===0){

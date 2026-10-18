@@ -12,8 +12,25 @@ if(!target||!/^[a-z][a-z0-9_]*_restore_test$/.test(target)||target===decodeURICo
 url.pathname='/'+target;
 const db=createDatabase(url.href);
 async function snapshot(){
- const tables=(await db.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE' ORDER BY table_name")).rows;
- const data={};for(const {table_name:table} of tables){assert.match(table,/^[a-z_]+$/);data[table]=(await db.query('SELECT row_to_json(t)::text AS row FROM "'+table+'" t')).rows.map(row=>row.row).sort();}return data;
+ const sql=await db.connect();
+ try{
+  await sql.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
+  const tables=(await sql.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE' ORDER BY table_name")).rows;
+  const data={};
+  for(const {table_name:table} of tables){
+   assert.match(table,/^[a-z_]+$/);
+   // Only the small append-only migration registries need their original rows.
+   // Business tables stream in batches; battle history never fills Node's heap.
+   const append=['schema_migrations','rulesets'].includes(table),rows=[],digest=createHash('sha256');let count=0;
+   await sql.query('DECLARE preservation_rows NO SCROLL CURSOR FOR SELECT row_to_json(t)::text AS row FROM "'+table+'" t ORDER BY row_to_json(t)::text');
+   for(;;){const batch=(await sql.query('FETCH FORWARD 500 FROM preservation_rows')).rows;if(!batch.length)break;
+    for(const {row} of batch){digest.update(String(Buffer.byteLength(row))+':'+row);count++;if(append)rows.push(row);}
+   }
+   await sql.query('CLOSE preservation_rows');
+   data[table]=append?rows:{count,sha256:digest.digest('hex')};
+  }
+  await sql.query('COMMIT');return data;
+ }catch(error){await sql.query('ROLLBACK').catch(()=>{});throw error;}finally{sql.release();}
 }
 try{
  const counts=(await db.query('SELECT (SELECT count(*) FROM accounts)::int AS accounts,(SELECT count(*) FROM development_bots)::int AS bots')).rows[0];

@@ -73,6 +73,7 @@ try{
   await command('/api/v1/army/code-invitations',{code:rivalState.invitationCode});
   await command('/api/v1/vault/deposits',{amount:1});
   await command('/api/v1/tutorial',{action:'start'});
+  await command('/api/v1/settings/sound',{enabled:'1',volume:42});
   const chosenArea=alpha.content!.areas[0]!.id;
   await fetch(origin+'/game/quests?area='+encodeURIComponent(chosenArea),{headers:{cookie:a.cookie}});
   const experienceBefore=await fetch(origin+'/api/v1/achievements',{headers:{cookie:a.cookie}}).then(r=>r.json());
@@ -82,10 +83,11 @@ try{
   assert.equal(experienceBefore.region,chosenArea);
   const championsBefore=await fetch(origin+'/api/v1/champions?category=victories',{headers:{cookie:a.cookie}}).then(r=>r.json());
   const rivalBefore=(await fetch(origin+'/game/players/'+b.id,{headers:{cookie:a.cookie}}).then(r=>r.text())).match(/<dl class="rivalry-stats">([\s\S]*?)<\/dl>/)?.[1];assert.ok(rivalBefore);
-  const before=(await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}}).then(r=>r.json())).state;
+  const beforePayload=await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}}).then(r=>r.json());
+  const before=beforePayload.state;
   await stop();await start();
   const restored=await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}});assert.equal(restored.status,200);
-  const after=(await restored.json()).state;
+  const afterPayload=await restored.json();const after=afterPayload.state;assert.deepEqual(afterPayload.sound,beforePayload.sound,'Mute and volume survive the actual server process restart.');
   for(const key of ['id','gold','bankedGold','xp','level','mana','spirit','health','inventory','questsCompleted','land','training','skillPoints','maxMana','className','calling','invitationCode','army'])assert.deepEqual(after[key],before[key],key);
   const experienceAfter=await fetch(origin+'/api/v1/achievements',{headers:{cookie:a.cookie}}).then(r=>r.json());
   assert.deepEqual(experienceAfter,experienceBefore,'Achievement earned dates, unlocked status, tutorial facts and region survive a process restart.');
@@ -112,7 +114,7 @@ try{
     await offlineDb.query('DELETE FROM income_cycles WHERE character_id=$1',[a.id]);
     await offlineDb.query(`WITH t AS (SELECT clock_timestamp()-interval '3 hours 20 minutes' AS at)
       UPDATE land_holdings SET acquired_at=t.at,accrued_through=t.at FROM t WHERE character_id=$1`,[restartBot]);
-    await offlineDb.query('DELETE FROM income_cycles WHERE character_id=$1',[restartBot]);
+    await offlineDb.query("UPDATE income_cycles SET next_payment_at=clock_timestamp()-interval '2 hours 20 minutes' WHERE character_id=$1",[restartBot]);
   }finally{await offlineDb.end();}
   await start();
   const offline=(await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}}).then(r=>r.json())).state;

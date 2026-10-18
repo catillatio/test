@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {randomUUID,createHash} from 'node:crypto';
-import {mkdtemp,writeFile,rm} from 'node:fs/promises';
+import {mkdtemp,writeFile,readFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 
@@ -73,37 +73,47 @@ try{
     check('hidden psql password rotation rejects old TCP credentials and accepts the synchronized private service URL');
   }
   if(alphaMode){
-    // Test-only Phase 4.5 fixture. The production pre-deploy/start entrypoints
+    // Test-only Phase 4.6 fixture. The production pre-deploy/start entrypoints
     // cannot run first-time initialization or accept its old credential.
     await writeFile(join(folder,'bootstrap.env'),[...gameEnvironment(),'KINGDOM_ALPHA_INITIALIZE=INITIALIZE_EMPTY_PRIVATE_ALPHA','KINGDOM_DEV_PASSWORD='+devPassword].join('\n')+'\n',{mode:0o600});
     docker(['run','--rm','--network',network,'--env-file',join(folder,'bootstrap.env'),image,'node','--input-type=module','-e',`
       import {createDatabase} from './dist/db.js';import {migrate} from './dist/migrate.js';import {initializePrivateAlpha} from './dist/development.js';
-      const db=createDatabase(process.env.DATABASE_URL);try{await migrate(db,{through:'018_gameplay_refinement.sql'});await initializePrivateAlpha(db,process.env);}finally{await db.end();}
+      const db=createDatabase(process.env.DATABASE_URL);try{await migrate(db,{through:'019_champions_and_rivalries.sql'});await db.query(\"DELETE FROM rulesets WHERE id='game-feel-1'\");await initializePrivateAlpha(db,process.env);}finally{await db.end();}
     `]);
     const original=data('railway_test');let missingCopyRejected=false;
-    let oldSchemaStartupRejected=false;try{docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image]);}catch(error){oldSchemaStartupRejected=true;assert.match(String(error.stdout),/Phase 4.6 migrations are incomplete/);}assert.ok(oldSchemaStartupRejected);assert.equal(data('railway_test'),original);check('Phase 4.6 startup refuses an unmigrated Phase 4.5 realm without touching data');
-    try{migrate();}catch(error){missingCopyRejected=true;assert.match(String(error.stderr),/First live Phase 4.6 upgrade requires a verified restored backup/);}
+    let oldSchemaStartupRejected=false;try{docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image]);}catch(error){oldSchemaStartupRejected=true;assert.match(String(error.stdout),/Phase 4.7 migrations are incomplete|Ruleset game-feel-1 is not installed/);}assert.ok(oldSchemaStartupRejected);assert.equal(data('railway_test'),original);check('Phase 4.7 startup refuses an unmigrated Phase 4.6 realm without touching data');
+    try{migrate();}catch(error){missingCopyRejected=true;assert.match(String(error.stderr),/First live Phase 4.7 upgrade requires a verified restored backup/);}
     assert.ok(missingCopyRejected);assert.equal(data('railway_test'),original);
     check('first initialized-realm upgrade refuses a missing restored-copy gate without applying a migration or changing existing data');
+    const releaseScript=await readFile('deployment/release/backup.sh','utf8'),releaseId='gh_'+Date.now()+'_1';
+    const releaseCommand=(operation)=>docker(['exec','-i','-e','PGUSER=postgres','-e','PGDATABASE=railway_test','-e','PGPASSWORD='+password,postgres,'sh','-s','--',operation,releaseId],{input:releaseScript});
+    const releaseBackup=JSON.parse(releaseCommand('backup'));
+    const exported=docker(['exec','-i','-e','PGUSER=postgres','-e','PGDATABASE=railway_test','-e','PGPASSWORD='+password,postgres,'sh','-s','--','export',releaseId],{input:releaseScript,encoding:null});
+    assert.equal(createHash('sha256').update(exported).digest('hex'),releaseBackup.sha256);assert.equal(exported.length,releaseBackup.bytes);
+    assert.equal(releaseBackup.bots,450);releaseCommand('restore');
+    const releaseVerified=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),'-e','KINGDOM_RESTORE_TEST_DATABASE='+releaseBackup.copy,image,'node','deployment/check-upgrade.mjs']));
+    assert.equal(releaseVerified.passed,true);assert.equal(releaseVerified.bots,450);assert.equal(releaseVerified.liveDatabaseConnected,false);assert.equal(data('railway_test'),original);
+    check('release automation exports a real PostgreSQL archive, verifies its checksum, restores a new copy and migration-tests all old business rows without changing the source');
+
     const prior=docker(['exec',postgres,'pg_dump','-U','postgres','-d','railway_test','--format=custom','--no-owner','--no-acl'],{encoding:null});
     docker(['exec',postgres,'createdb','-U','postgres','phase45_restore_test']);
     docker(['exec','-i',postgres,'pg_restore','-U','postgres','--dbname=phase45_restore_test','--single-transaction','--exit-on-error','--no-owner','--no-acl'],{input:prior});
     await writeFile(join(folder,'game.env'),[...gameEnvironment(),'KINGDOM_RESTORE_TEST_DATABASE=phase45_restore_test'].join('\n')+'\n',{mode:0o600});
     result.restoredUpgrade=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),'-e','KINGDOM_RESTORE_TEST_DATABASE=phase45_restore_test',image,'node','deployment/check-upgrade.mjs']));
     assert.equal(result.restoredUpgrade.passed,true);assert.equal(result.restoredUpgrade.bots,450);assert.equal(result.restoredUpgrade.liveDatabaseConnected,false);
-    assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'18');
-    check('native Phase 4.5 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals');
+    assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'19');
+    check('native Phase 4.6 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals');
   }
-  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'19');
-  check('separate compiled pre-deploy runner installs all 19 migrations without initialization');
+  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'20');
+  check('separate compiled pre-deploy runner installs all 20 migrations without initialization');
   if(alphaMode){
     assert.equal(sql('railway_test','SELECT count(*) FROM private_alpha_initializations'),'1');
     assert.equal(sql('railway_test','SELECT count(*) FROM accounts'),'451');
     assert.equal(sql('railway_test','SELECT count(*) FROM development_bots'),'450');
     assert.equal(sql('railway_test',"SELECT w.balance||':'||(s.quantity+1) FROM accounts a JOIN characters c ON c.account_id=a.id JOIN wallets w ON w.character_id=c.id JOIN army_stacks s ON s.character_id=c.id WHERE a.username='dev'"),'50000:10');
-    check('Phase 4.6 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.5 rivals');
+    check('Phase 4.7 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.6 rivals');
     const status=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/status.mjs']));
-    assert.equal(status.release,'phase4.6');assert.equal(status.schemaHead,'019_champions_and_rivalries.sql');assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
+    assert.equal(status.release,'phase4.7');assert.equal(status.schemaHead,'020_game_feel.sql');assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
     assert.equal(status.dev.username,'dev');assert.equal(status.dev.gold,50000);assert.equal(status.dev.recruited_army,10);
     assert.equal(status.maximum_bot_army,10);assert.equal(status.minimum_bot_plots,3);assert.equal(status.population.length,50);
     for(const level of status.population)assert.equal(level.rivals,9);

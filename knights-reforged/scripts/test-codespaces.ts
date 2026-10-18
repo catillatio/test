@@ -93,7 +93,7 @@ try{
   const newlyRegistered=await newcomer.request.get(config.origin+'/api/v1/me');assert.equal(newlyRegistered.status(),200);
   assert.equal((await newlyRegistered.json()).state.name,'New HTTPS Knight '+suffix);
   await newcomer.goto(config.origin+'/game/profile');
-  await Promise.all([newcomer.waitForURL(config.origin+'/login'),newcomer.getByRole('button',{name:'Sign out',exact:true}).click()]);
+  await Promise.all([newcomer.waitForURL(config.origin+'/login'),newcomer.getByRole('button',{name:'Sign Out',exact:true}).click()]);
   await newcomer.close();
   // Create this returning player's persisted account/session outside the
   // browser, before that player first uses the proxy; never reset the DB.
@@ -127,7 +127,7 @@ try{
   const foreign=await app.inject({method:'POST',url:'/api/v1/quests/border-patrol/runs',headers,payload:{}});assert.equal(foreign.statusCode,403);assert.equal(foreign.json().error.code,'ORIGIN_REJECTED');
   const bad=await app.inject({method:'POST',url:'/api/v1/quests/border-patrol/runs',headers:{...headers,origin:config.origin,'x-csrf-token':'0'.repeat(64)},payload:{}});assert.equal(bad.statusCode,403);assert.equal(bad.json().error.code,'CSRF_REJECTED');
   const saved=await state();await page.goto(config.origin+'/game/profile');
-  await Promise.all([page.waitForURL(config.origin+'/login'),page.getByRole('button',{name:'Sign out',exact:true}).click()]);
+  await Promise.all([page.waitForURL(config.origin+'/login'),page.getByRole('button',{name:'Sign Out',exact:true}).click()]);
   assert.equal((await page.request.get(config.origin+'/api/v1/me')).status(),401);
   await page.goto(config.origin+'/login');await page.getByLabel('Account name',{exact:true}).fill(username);await page.getByLabel('Password',{exact:true}).fill(password);
   await Promise.all([page.waitForURL(config.origin+'/game/home'),page.getByRole('button',{name:'Sign in',exact:true}).click()]);
@@ -147,7 +147,7 @@ try{
   await oldPage.goto(config.origin+'/game/quests');
   await Promise.all([oldPage.waitForURL(url=>url.searchParams.has('command')),oldPage.getByRole('button',{name:'Do quest Patrol the border',exact:true}).click()]);
   assert.equal(await oldPage.getByRole('alert').count(),0);assert.equal((await oldPage.request.get(config.origin+'/api/v1/me').then(r=>r.json())).state.id,rival.characterId);
-  await oldPage.goto(config.origin+'/game/profile');await Promise.all([oldPage.waitForURL(config.origin+'/login'),oldPage.getByRole('button',{name:'Sign out',exact:true}).click()]);
+  await oldPage.goto(config.origin+'/game/profile');await Promise.all([oldPage.waitForURL(config.origin+'/login'),oldPage.getByRole('button',{name:'Sign Out',exact:true}).click()]);
   assert.equal((await oldPage.request.get(config.origin+'/api/v1/me')).status(),401);await returning.close();
   // The new milestone must also cross the same rewritten-Origin boundary.
   originMode='http';

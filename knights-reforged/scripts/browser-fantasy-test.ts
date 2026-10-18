@@ -71,7 +71,7 @@ try{
     await page.goto(origin+'/game/land');await layout(width+' land');assert.equal(await page.locator('[data-land-property]').count(),21);
     await page.screenshot({path:join(out,width+'-land-early.png')});
     await page.locator('[data-land-property="eclipse-citadel"]').scrollIntoViewIfNeeded();await page.screenshot({path:join(out,width+'-land-late.png')});
-    await page.goto(origin+'/game/profile');await layout(width+' profile');assert.equal(await page.getByRole('button',{name:'Sign out',exact:true}).count(),1);
+    await page.goto(origin+'/game/profile');await layout(width+' profile');assert.equal(await page.getByRole('button',{name:'Sign Out',exact:true}).count(),1);
     await page.screenshot({path:join(out,width+'-profile.png'),fullPage:true});
     for(const tab of ['skills','battles']){await page.goto(origin+'/game/profile?tab='+tab);await layout(width+' profile '+tab);await page.screenshot({path:join(out,width+'-profile-'+tab+'.png'),fullPage:true});}
   }
@@ -117,7 +117,7 @@ try{
     const xp=element.querySelector('.xp-resource')!.getBoundingClientRect();
     return ['[data-wallet-gold]','[data-payment-gold]'].every(selector=>element.querySelector(selector)!.getBoundingClientRect().right<=xp.left+2);
   });assert.equal(headerFits,true,'maximum wallet and hourly flow must not cover the XP bar');
-  await Promise.all([page.waitForURL(origin+'/login'),page.getByRole('button',{name:'Sign out',exact:true}).click()]);assert.equal((await page.request.get(origin+'/api/v1/me')).status(),401);
+  await Promise.all([page.waitForURL(origin+'/login'),page.getByRole('button',{name:'Sign Out',exact:true}).click()]);assert.equal((await page.request.get(origin+'/api/v1/me')).status(),401);
   assert.deepEqual(errors,[]);assert.deepEqual(failedAssets,[]);
   await writeFile(join(out,'summary.json'),JSON.stringify({passed:true,viewports:['330x740','360x800','390x844','1366x900'],ruleset:alpha.id,
     fixture:'Qualified late-game players in disposable PostgreSQL; early-game no-grant playthrough verified separately',

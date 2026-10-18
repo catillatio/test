@@ -14,6 +14,7 @@ export const navigation = [
 export const templateScreens = ['champions','tutorial','achievements','quest-equipment','trade-confirm','purchase', 'home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'bounty-new', 'vault', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
 
 export const commandRoutes = [
+  {kind:'sound',html:'/game/settings/sound',api:'/api/v1/settings/sound'},
   {kind:'heal',html:'/game/health/restore',api:'/api/v1/health/restorations'},
   {kind:'tutorial',html:'/game/tutorial',api:'/api/v1/tutorial'},
   {kind:'vault_deposit',html:'/game/vault/deposit',api:'/api/v1/vault/deposits'},
