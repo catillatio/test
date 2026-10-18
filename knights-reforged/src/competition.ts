@@ -72,4 +72,4 @@ export async function recentHumanRivals(sql:Sql,actor:CharacterState){
    won:(row.outcome==='attacker_win'?row.attacker_id:row.defender_id)===actor.id,createdAt:new Date(row.last_at).toISOString(),battleId:row.last_battle_id as string,combat:attackAvailability(actor,target,false)};
  });
 }
-export function opponentUnavailable(id:string){return {targetId:id,name:'Unavailable warrior',health:0,maxHealth:100,allowed:false,eligible:false,reason:'This opponent is no longer available for battle.'};}
+export function opponentUnavailable(id:string){return {targetId:id,name:'Unavailable warrior',unavailable:true,health:0,maxHealth:100,allowed:false,eligible:false,reason:'This opponent is no longer available for battle.'};}
