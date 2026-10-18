@@ -31,11 +31,12 @@ jobs:
           KINGDOM_RELEASE_ENABLED: ${{ vars.KINGDOM_RELEASE_ENABLED }}
           KINGDOM_RAILWAY_AUTODEPLOY_DISABLED: ${{ vars.KINGDOM_RAILWAY_AUTODEPLOY_DISABLED }}
           KINGDOM_RELEASE_OWNER: ${{ vars.KINGDOM_RELEASE_OWNER }}
+          KINGDOM_RELEASE_TRANSPORT: ${{ vars.KINGDOM_RELEASE_TRANSPORT }}
         run: node knights-reforged/deployment/release/preflight.mjs
   release:
     needs: safety
     # Configure required reviewer = realm owner, and only release/production.
-    # No Railway/SSH secrets exist in the unapproved safety job.
+    # No Railway, bucket or signing secrets exist in the unapproved safety job.
     environment: production
     runs-on: ubuntu-24.04
     timeout-minutes: 40
@@ -48,6 +49,18 @@ jobs:
       RAILWAY_PG_SERVICE_ID: ${{ vars.RAILWAY_PG_SERVICE_ID }}
       KINGDOM_PRODUCTION_ORIGIN: ${{ vars.KINGDOM_PRODUCTION_ORIGIN }}
       KINGDOM_BACKUP_RECIPIENT: ${{ vars.KINGDOM_BACKUP_RECIPIENT }}
+      KINGDOM_RELEASE_TRANSPORT: ${{ vars.KINGDOM_RELEASE_TRANSPORT }}
+      RAILWAY_RELEASE_WORKER_SERVICE_ID: ${{ vars.RAILWAY_RELEASE_WORKER_SERVICE_ID }}
+      RAILWAY_VERIFY_PG_SERVICE_ID: ${{ vars.RAILWAY_VERIFY_PG_SERVICE_ID }}
+      KINGDOM_DATABASE_HOST: ${{ vars.KINGDOM_DATABASE_HOST }}
+      KINGDOM_DATABASE_NAME: ${{ vars.KINGDOM_DATABASE_NAME }}
+      KINGDOM_RESTORE_DATABASE_HOST: ${{ vars.KINGDOM_RESTORE_DATABASE_HOST }}
+      KINGDOM_RELEASE_VERIFY_KEY: ${{ vars.KINGDOM_RELEASE_VERIFY_KEY }}
+      KINGDOM_BACKUP_ENDPOINT: ${{ vars.KINGDOM_BACKUP_ENDPOINT }}
+      KINGDOM_BACKUP_BUCKET: ${{ vars.KINGDOM_BACKUP_BUCKET }}
+      KINGDOM_BACKUP_REGION: ${{ vars.KINGDOM_BACKUP_REGION }}
+      KINGDOM_BACKUP_PATH_STYLE: ${{ vars.KINGDOM_BACKUP_PATH_STYLE }}
+      KINGDOM_BACKUP_KEY_VERIFIED: ${{ vars.KINGDOM_BACKUP_KEY_VERIFIED }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with: {persist-credentials: false}
@@ -60,19 +73,19 @@ jobs:
           printf '%s  %s\n' f518230646acc7a6a7a67365e7642618f659d5d8cdd7cf8c180336140d0504eb "$RUNNER_TEMP/railway.tgz" | sha256sum --check -
           tar --extract --gzip --file "$RUNNER_TEMP/railway.tgz" --directory "$RUNNER_TEMP/railway-cli" railway
           echo "$RUNNER_TEMP/railway-cli" >> "$GITHUB_PATH"
-          sudo apt-get update -qq
-          sudo apt-get install -y age
       - name: Build exact candidate with locked compiler
         run: |
           npm ci --include=dev --no-audit --no-fund --prefix knights-reforged
           npm run build --prefix knights-reforged
           npm prune --omit=dev --no-audit --no-fund --prefix knights-reforged
-      - name: Export, checksum, encrypt, restore and migration-test a private copy
+          npm ci --ignore-scripts --no-audit --no-fund --prefix knights-reforged/deployment/release
+      - name: Run private backup and isolated restored-copy job; independently export encrypted recovery
         id: prepare
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_SSH_PRIVATE_KEY: ${{ secrets.RAILWAY_SSH_PRIVATE_KEY }}
-          RAILWAY_SSH_KNOWN_HOSTS: ${{ secrets.RAILWAY_SSH_KNOWN_HOSTS }}
+          KINGDOM_BACKUP_ACCESS_KEY_ID: ${{ secrets.KINGDOM_BACKUP_ACCESS_KEY_ID }}
+          KINGDOM_BACKUP_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_BACKUP_SECRET_ACCESS_KEY }}
+          KINGDOM_RELEASE_SIGNING_KEY: ${{ secrets.KINGDOM_RELEASE_SIGNING_KEY }}
         run: node knights-reforged/deployment/release/run.mjs prepare
       - name: Retain encrypted recovery backup before any deployment
         id: backup
@@ -87,12 +100,16 @@ jobs:
         with:
           name: kingdom-recovery-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/verified-backup
+      - name: Verify retained ciphertext even for a backup-only rehearsal
+        run: node knights-reforged/deployment/release/check-recovery.mjs
       - name: Promote only after every backup gate; verify health and saved realm
         if: inputs.promote
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_SSH_PRIVATE_KEY: ${{ secrets.RAILWAY_SSH_PRIVATE_KEY }}
-          RAILWAY_SSH_KNOWN_HOSTS: ${{ secrets.RAILWAY_SSH_KNOWN_HOSTS }}
+          KINGDOM_BACKUP_ACCESS_KEY_ID: ${{ secrets.KINGDOM_BACKUP_ACCESS_KEY_ID }}
+          KINGDOM_BACKUP_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_BACKUP_SECRET_ACCESS_KEY }}
+          KINGDOM_RELEASE_SIGNING_KEY: ${{ secrets.KINGDOM_RELEASE_SIGNING_KEY }}
+          KINGDOM_RECOVERY_ARTIFACT_ID: ${{ steps.backup.outputs.artifact-id }}
         run: node knights-reforged/deployment/release/run.mjs promote
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()

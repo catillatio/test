@@ -85,16 +85,6 @@ try{
     try{migrate();}catch(error){missingCopyRejected=true;assert.match(String(error.stderr),/First live Phase 4.7 upgrade requires a verified restored backup/);}
     assert.ok(missingCopyRejected);assert.equal(data('railway_test'),original);
     check('first initialized-realm upgrade refuses a missing restored-copy gate without applying a migration or changing existing data');
-    const releaseScript=await readFile('deployment/release/backup.sh','utf8'),releaseId='gh_'+Date.now()+'_1';
-    const releaseCommand=(operation)=>docker(['exec','-i','-e','PGUSER=postgres','-e','PGDATABASE=railway_test','-e','PGPASSWORD='+password,postgres,'sh','-s','--',operation,releaseId],{input:releaseScript});
-    const releaseBackup=JSON.parse(releaseCommand('backup'));
-    const exported=docker(['exec','-i','-e','PGUSER=postgres','-e','PGDATABASE=railway_test','-e','PGPASSWORD='+password,postgres,'sh','-s','--','export',releaseId],{input:releaseScript,encoding:null});
-    assert.equal(createHash('sha256').update(exported).digest('hex'),releaseBackup.sha256);assert.equal(exported.length,releaseBackup.bytes);
-    assert.equal(releaseBackup.bots,450);releaseCommand('restore');
-    const releaseVerified=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),'-e','KINGDOM_RESTORE_TEST_DATABASE='+releaseBackup.copy,image,'node','deployment/check-upgrade.mjs']));
-    assert.equal(releaseVerified.passed,true);assert.equal(releaseVerified.bots,450);assert.equal(releaseVerified.liveDatabaseConnected,false);assert.equal(data('railway_test'),original);
-    check('release automation exports a real PostgreSQL archive, verifies its checksum, restores a new copy and migration-tests all old business rows without changing the source');
-
     const prior=docker(['exec',postgres,'pg_dump','-U','postgres','-d','railway_test','--format=custom','--no-owner','--no-acl'],{encoding:null});
     docker(['exec',postgres,'createdb','-U','postgres','phase45_restore_test']);
     docker(['exec','-i',postgres,'pg_restore','-U','postgres','--dbname=phase45_restore_test','--single-transaction','--exit-on-error','--no-owner','--no-acl'],{input:prior});

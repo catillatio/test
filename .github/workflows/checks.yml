@@ -35,14 +35,19 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with: {node-version: '24.22.0'}
       - run: npm ci --no-audit --no-fund
+      - run: npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release
       - run: node scripts/check-browser-audio.mjs
       - run: npm run typecheck && npm run build && npm run check:static
       - run: npm test
       - run: npm audit --omit=dev --audit-level=high
+      - run: npm audit --omit=dev --audit-level=high --prefix deployment/release
       - run: npm run test:browser:phase47
       - run: docker build -t kingdom-come:checked .
       - run: npm run test:container
         env: {KINGDOM_CONTAINER_IMAGE: 'kingdom-come:checked', KINGDOM_TEST_PRIVATE_ALPHA: '1'}
+      - run: docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .
+      - run: node scripts/test-release-worker.mjs
+        env: {KINGDOM_CONTAINER_IMAGE: 'kingdom-come:checked', KINGDOM_RELEASE_WORKER_IMAGE: 'kingdom-come:release-worker-checked'}
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -50,4 +55,5 @@ jobs:
           path: |
             knights-reforged/test-results/phase47-*.json
             knights-reforged/test-results/phase47-browser/
+            knights-reforged/test-results/release-worker-verification.json
           retention-days: 14

@@ -4,6 +4,7 @@ assert.equal(process.env.GITHUB_REF,'refs/heads/release/production');
 assert.equal(process.env.GITHUB_EVENT_NAME,'workflow_dispatch');
 assert.equal(process.env.KINGDOM_RELEASE_ENABLED,'true','Complete owner setup before enabling releases.');
 assert.equal(process.env.KINGDOM_RAILWAY_AUTODEPLOY_DISABLED,'true','Confirm Railway GitHub autodeploy is disabled first.');
+assert.equal(process.env.KINGDOM_RELEASE_TRANSPORT,'private-job-v2','Complete the non-SSH verification service setup first.');
 const repo=process.env.GITHUB_REPOSITORY,sha=process.env.GITHUB_SHA,owner=process.env.KINGDOM_RELEASE_OWNER;
 assert.match(repo??'',/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/);assert.match(sha??'',/^[a-f0-9]{40}$/);assert.match(owner??'',/^[A-Za-z0-9-]{1,39}$/);
 async function get(path){const response=await fetch('https://api.github.com/repos/'+repo+path,{headers:{authorization:'Bearer '+process.env.GH_TOKEN,accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}});assert.ok(response.ok,'GitHub protection/check evidence is unavailable. Release stopped.');return response.json();}

@@ -7,8 +7,14 @@ import {migrate} from '../dist/migrate.js';
 import {requireRailwayOperator} from '../dist/operator.js';
 requireRailwayOperator(process.env);
 const target=process.env.KINGDOM_RESTORE_TEST_DATABASE;
-const source=new URL(process.env.DATABASE_URL),url=new URL(source);
+const source=new URL(process.env.DATABASE_URL);
+let url=new URL(source);
 if(!target||!/^[a-z][a-z0-9_]*_restore_test$/.test(target)||target===decodeURIComponent(source.pathname.slice(1)))throw new Error('Set a distinct existing restored database name ending _restore_test. No live connection was opened.');
+if(process.env.KINGDOM_RESTORE_DATABASE_URL){
+ const {privateDatabase}=await import('./release/protocol.mjs');
+ url=privateDatabase(process.env.KINGDOM_RESTORE_DATABASE_URL).url;
+ assert.notEqual(url.hostname,source.hostname,'Automated restore testing requires a separate private PostgreSQL service.');
+}
 url.pathname='/'+target;
 const db=createDatabase(url.href);
 async function snapshot(){
@@ -42,5 +48,5 @@ try{
   else assert.deepEqual(after[table],rows,table+' changed existing data');
  }
  const stable=JSON.stringify(after);await migrate(db);assert.equal(JSON.stringify(await snapshot()),stable,'Migration replay changed data.');
- console.log(JSON.stringify({passed:true,restoredDatabase:target,accounts:counts.accounts,bots:counts.bots,existingTablesVerified:Object.keys(before).length,sha256:createHash('sha256').update(stable).digest('hex'),migrationReplay:'unchanged',liveDatabaseConnected:false},null,2));
+ console.log(JSON.stringify({passed:true,restoredDatabase:target,restoredHost:url.hostname,accounts:counts.accounts,bots:counts.bots,existingTablesVerified:Object.keys(before).length,sha256:createHash('sha256').update(stable).digest('hex'),migrationReplay:'unchanged',liveDatabaseConnected:false},null,2));
 }finally{await db.end();}

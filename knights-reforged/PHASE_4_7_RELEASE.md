@@ -1,5 +1,7 @@
 # Phase 4.7 — Game feel and economy polish
 
+The release transport was subsequently corrected to remove SSH entirely. See [the workflow correction and verification](PHASE_4_7_RELEASE_WORKFLOW_UPDATE.md) and [the current owner setup guide](docs/phase47/OPERATIONS.md). Earlier verification files remain historical evidence, not a claim that the obsolete SSH setup is usable.
+
 Branch: `feature/kingdom-come-phase-4-7-game-feel-and-polish`.
 Base: `109e475abb010155387be013c8f2b313c257b5bf` (Phase 4.6).
 
@@ -24,7 +26,7 @@ No live Railway database was accessed. No deployment, production promotion, merg
 | 13. Victory XP | A measured adjustment only for eligible non-trivial opponents with 35–50% relevant strength: use at least a 50% strength factor. Matched/challenging rewards, level curve, loot and encounter gates remain unchanged. The “Decisive” presentation label never enters the formula. |
 | 14. Focused polish | Fast feedback, persistent safe selections, clearer unavailable states, compact header, consistent disclosures, sound synchronized to confirmed outcomes, preserved Hall/Rivalry/Revenge/equipment reports. No unrelated gameplay systems. |
 | 15. Preservation/security | Additive 020, immutable new ruleset, real PostgreSQL races/replays, populated 019 fixture, all old rows compared, secured sessions/Origin/CSRF, private operator commands, no production provisioning. [Security assessment](PHASE_4_7_SECURITY.md). |
-| Additional release automation | Protected `release/production`, exact-commit CI verification, sole-owner environment approval, disabled-by-default setup gate, authenticated SSH inside Railway, encrypted independent backup, checksum/archive verification, restored-copy migration/replay, deliberate deployment and exact-release health/status checks. Default manual run is a backup rehearsal. [One-time Android-friendly setup](docs/phase47/OPERATIONS.md). |
+| Additional release automation | Protected `release/production`, exact-commit CI verification, sole-owner environment approval, disabled-by-default setup gate, private one-shot Railway verification job, separate PostgreSQL restore cluster, encrypted HTTPS export, independent retained backup, signed exact-candidate pre-deploy approval and exact-release health/status checks. No SSH. Default manual run is a backup rehearsal. [Updated Android-friendly setup](docs/phase47/OPERATIONS.md). |
 
 ## Investigations and balance
 
@@ -81,4 +83,4 @@ Final command counts, screenshots and limitations are recorded in [PHASE_4_7_VER
 
 ## Release status
 
-This is a prepared, locally verified controlled-alpha candidate. Railway authentication, actual backup/artifact retention, host-key trust, production environment approval and physical Android/iPhone listening remain owner acceptance steps. The automation is not claimed to have deployed or been authenticated here. Two broadcasts remain pending exact-ID review. Do not initialize, seed, reset `dev`, repeat the old `gray` grant or regenerate bots during this upgrade.
+This is a prepared, locally verified controlled-alpha candidate. Railway authentication, private verification-service/bucket setup, actual backup/artifact retention, production environment approval and physical Android/iPhone listening remain owner acceptance steps. The revised automation removes the unsupported SSH pinning requirement. It is not claimed to have deployed or been authenticated here. Two broadcasts remain pending exact-ID review. Do not initialize, seed, reset `dev`, repeat the old `gray` grant or regenerate bots during this upgrade.

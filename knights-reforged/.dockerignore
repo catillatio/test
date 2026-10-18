@@ -27,3 +27,6 @@
 !deployment/moderate.mjs
 
 !deployment/audit-bots.mjs
+!deployment/release/
+!deployment/release/*.mjs
+!deployment/release/Dockerfile

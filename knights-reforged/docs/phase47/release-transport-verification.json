@@ -1,0 +1,88 @@
+{
+  "scope": "Phase 4.7 non-SSH release transport correction",
+  "verifiedAt": "2026-10-18T23:02:52.775Z",
+  "basedOn": "98ce3b23fbc08b2e35480446894bb6ec3340a2a2",
+  "candidateFingerprint": "ecff8c1add7bf7e6dbc18fdcf839d3c0a675fee28f86434f5654956abb65e071",
+  "liveRailwayAccess": false,
+  "liveDatabaseModified": false,
+  "deployed": false,
+  "merged": false,
+  "gameplayOrSqlMigrationChanged": false,
+  "typeScript": "passed",
+  "productionBuild": "passed",
+  "workflowActionlint": "passed",
+  "staticChecks": {
+    "passed": 91,
+    "failed": 0,
+    "productionEjsCases": 73
+  },
+  "automatedSuite": {
+    "passed": 273,
+    "failed": 0,
+    "skipped": 0,
+    "releaseGuardTests": 13
+  },
+  "gameContainer": {
+    "checksPassed": 21,
+    "portsPublished": false,
+    "restoredExistingTables": 64,
+    "botsPreserved": 450,
+    "restartAndSecureSessionChecks": "passed"
+  },
+  "privateReleaseJob": {
+    "passed": true,
+    "checks": [
+      "populated Phase 4.6 fixture has 450 stable bots, human sessions, Vault, inventory, Land, tutorial and social records",
+      "read-only source role exports age-encrypted data over verified HTTPS and restores only to the separate PostgreSQL cluster",
+      "the provider actually rejects a second conditional write of identical ciphertext before authorizing recovery",
+      "downloaded ciphertext decrypts with an ephemeral key, restores all old business rows, migrates the exact candidate and replays unchanged",
+      "independent owner-held age identity decrypts the exported recovery object to the verified original archive",
+      "replaying a completed job cannot overwrite a copy, ciphertext or successful report",
+      "a provider that silently ignores conditional writes fails before restoration or promotion",
+      "a corrupted encrypted download fails before any restore or production promotion",
+      "an untrusted object-store TLS certificate is rejected without disabling verification",
+      "a source/restore alias is rejected before any administrative database operation",
+      "unwritable temporary storage fails promptly and closes the verification pool without modifying the source",
+      "signed exact-candidate pre-deploy verifies the isolated copy before additive source migrations and preserves all old rows on replay",
+      "post-deployment aggregate verification is read-only and preserves sessions, balances and all 450 bots",
+      "neither PostgreSQL cluster nor the verification job has a published port"
+    ],
+    "liveProviderContacted": false,
+    "publicPorts": false,
+    "accounts": 452,
+    "bots": 450,
+    "existingTablesVerified": 64,
+    "recoverySha256": "ebe8ee5fb45cb940589a2f3892f504f931c65ae9ad2d1a2e5706f853547ec495"
+  },
+  "audits": {
+    "game": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "releaseController": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "buildNotes": "Canonical game and worker Dockerfiles were tested with equivalent temporary proxy-CA mount variants only for this managed development network. Repository Dockerfiles contain no secret/cache mount requirements; CI builds them directly.",
+  "notYetVerified": [
+    "Authenticated Railway project/environment token permissions",
+    "Real private worker and separate verification PostgreSQL service settings",
+    "Actual bucket SigV4 and HTTP 412 conditional-write behavior",
+    "Owner-held live recovery-key decryption and durable retention",
+    "GitHub production environment and branch-protection setup",
+    "End-to-end owner-approved provider deployment; no deployment attempted"
+  ],
+  "retainedArtifactRehearsal": {
+    "passed": true,
+    "check": "Backup-only rehearsal validates downloaded Actions ciphertext too; mutated bytes are rejected by the native validator."
+  }
+}

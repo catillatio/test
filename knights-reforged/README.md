@@ -2,6 +2,8 @@
 
 See [Phase 4.7 release notes](PHASE_4_7_RELEASE.md), [security findings](PHASE_4_7_SECURITY.md), [audio inventory](docs/phase47/AUDIO.md) and [owner approval / Railway operations](docs/phase47/OPERATIONS.md). This branch is not deployed automatically. Upgrade only after backup and restored-copy verification; never initialize or reseed the existing realm. Phase 4.6 features and historical records are preserved. The new game-feel ruleset versions equipment resale and the narrow XP adjustment separately from unchanged loot and Calling mechanics.
 
+The release workflow now uses a private Railway verification job, separate scratch PostgreSQL cluster, authenticated HTTPS encrypted export and signed exact-candidate pre-deploy approval. It requires no SSH keys or host-key exceptions. [Updated Android-friendly setup](docs/phase47/OPERATIONS.md).
+
 # Phase 4.6 live-realm update
 
 Use [PHASE_4_6_RELEASE.md](PHASE_4_6_RELEASE.md) for Hall of Champions, rivalries, Revenge, tutorial polish, one-time reviewed broadcast moderation, backup/restored-copy verification and manual Railway deployment. Do not rerun old initialization or reset player data. Security: [PHASE_4_6_SECURITY.md](PHASE_4_6_SECURITY.md). Reward and income formulas remain those documented in [Phase 4.5](PHASE_4_5_RELEASE.md).
@@ -120,6 +122,12 @@ Startup checks the installed alpha rules and migration head. Migrations are expl
 
 ## Test the alpha
 
+Install the isolated release-controller dependencies for the release safety tests. They are not part of the game runtime:
+
+```bash
+npm ci --ignore-scripts --prefix deployment/release
+```
+
 ```bash
 npm run verify
 npm run check:static
@@ -137,6 +145,8 @@ TEST_DATABASE_URL=postgres://YOUR_TEST_CONNECTION/knights_test npm run test:brow
 ```
 
 Create that test database separately. Never use the player database for tests. A designated non-loopback test host also needs `ALLOWED_TEST_DATABASE_HOST`; the included devcontainer sets it to its internal database hostname. Tests create uniquely named accounts, and migration tests create/drop their own temporary schemas. No existing player database is reset.
+
+The non-SSH release rehearsal has its own disposable Docker PostgreSQL clusters and HTTPS object-store fixture. With both local images built, run `KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_RELEASE_WORKER_IMAGE=kingdom-come:release-worker-checked node scripts/test-release-worker.mjs`. CI builds the game Dockerfile and `deployment/release/Dockerfile` first. This test uses no Railway token, live database or pre-existing volume.
 
 With a disposable development server running and a local Chromium executable:
 
