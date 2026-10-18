@@ -1,0 +1,324 @@
+{
+  "phase": "4.6",
+  "branch": "feature/kingdom-come-phase-4-6-rivalries-and-polish",
+  "baseCommit": "51bca0f09698bb4129c97b242ce77b5bb172f49d",
+  "runtimeCoreCommit": "f5e4e9ae6fde12ed946eea31cf1487df43c51b5e",
+  "finalUiCommit": "41ee30511830d32017c0a6cb3c64926550159318",
+  "recordedAt": "2026-10-18T18:42:33.847Z",
+  "liveProviderContacted": false,
+  "deployed": false,
+  "merged": false,
+  "verificationScope": "Full suites validate the unchanged gameplay/server implementation; final cosmetic podium and return-button edits were additionally rechecked with TypeScript/build, production EJS fixtures, browser regressions, and both final production-container rehearsals.",
+  "environment": {
+    "hostNode": "v24.19.0",
+    "imageNode": "24.22.0",
+    "postgres": "18.6",
+    "browser": "Chromium 154.0.8037.57",
+    "image": "sha256:1293891a24023d9ea6ba247b82b79beede83bd8edeaaf88e780fedcbfdb3918f"
+  },
+  "typecheck": {
+    "passed": true
+  },
+  "build": {
+    "passed": true
+  },
+  "fullSuite": {
+    "tests": 249,
+    "passed": 249,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "4ffd587081ce67363236964fc686f669b815129ba47ebefcb677dcd9aecfcc6b"
+  },
+  "dedicatedPostgres": {
+    "tests": 177,
+    "passed": 177,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "ab8a102a7c054781fc3c86f9d7ac2afbff452a5ea3c3e4f858c3b4a496f0f5f7"
+  },
+  "templates": {
+    "passed": 91,
+    "failed": 0,
+    "productionFixtures": 73
+  },
+  "browsers": {
+    "phase46": {
+      "passed": true,
+      "viewports": [
+        320,
+        360,
+        375,
+        390,
+        393,
+        412,
+        430,
+        1366
+      ],
+      "responsiveVisits": 56,
+      "screenshots": 8,
+      "checks": [
+        "Native Revenge consumes ordinary Spirit and creates a normal report.",
+        "Actual saved enemy loadout; no technical reward explanations.",
+        "Entire eight-lesson tutorial through real native quest, purchase, battle, Land and skill actions; saved completion and non-replaying celebration.",
+        "Eight Android/iPhone-sized/desktop widths, fixed five tabs, no overflow, missing images or duplicate IDs.",
+        "Keyboard-operable category links and equipment disclosure; reduced motion."
+      ],
+      "browserErrors": [],
+      "liveProviderContacted": false,
+      "limitations": [
+        "Headless Chromium with Android/iPhone viewport sizes; not physical devices, Safari, WebView or APK validation."
+      ]
+    },
+    "nativeHttps": {
+      "passed": true,
+      "nativePosts": 56,
+      "browserErrors": 0,
+      "secureCookies": true,
+      "csrfAndOriginRejected": true,
+      "originRewriteModes": [
+        "http://localhost:3001",
+        "https://localhost:3001",
+        "https://knights-session-fixture-3001.app.github.dev"
+      ],
+      "viewports": [
+        320,
+        360,
+        375,
+        390,
+        393,
+        412,
+        430,
+        1366
+      ],
+      "legacyResponsiveVisits": 150,
+      "phase44ResponsiveVisits": 48,
+      "contextPanelChecks": 40,
+      "purchaseLayouts": 8,
+      "liveProviderContacted": false
+    }
+  },
+  "processRestart": {
+    "passed": true,
+    "coverage": [
+      "PostgreSQL sessions",
+      "lifetime standings",
+      "rivalry totals",
+      "tutorial cursor/completion",
+      "achievement dates",
+      "Vault/inventory/Land/army/bounties/social",
+      "three offline shared income cycles and duplicate settlement protection"
+    ]
+  },
+  "containers": {
+    "standard": {
+      "image": "kingdom-come:phase46-check",
+      "postgresImage": "postgres:18-bookworm",
+      "privateAlpha": false,
+      "checks": [
+        "private PostgreSQL 18 started without a published port",
+        "unmigrated production startup fails without altering the empty database",
+        "separate compiled pre-deploy runner installs all 19 migrations without initialization",
+        "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+        "production server binds port 32123 and passes database healthcheck",
+        "real production HTTP registration, twelve pages, quests, quantity equipment, Land, Vault, PvP, idempotent gold healing/CSRF, retired militia and foreign-Origin rejection",
+        "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+        "native custom-format backup restores atomically into a separate fresh database with identical data",
+        "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+        "neither web nor PostgreSQL container publishes a port"
+      ],
+      "portsPublished": false,
+      "backupBytes": 236957,
+      "dataDigest": "237fb868cc3fac25c0a82425e3a22c3b8b982db881f70793a2f9f3b4b936f2e7"
+    },
+    "privateAlpha": {
+      "image": "kingdom-come:phase46-check",
+      "postgresImage": "postgres:18-bookworm",
+      "privateAlpha": true,
+      "checks": [
+        "private PostgreSQL 18 started without a published port",
+        "unmigrated production startup fails without altering the empty database",
+        "hidden psql password rotation rejects old TCP credentials and accepts the synchronized private service URL",
+        "Phase 4.6 startup refuses an unmigrated Phase 4.5 realm without touching data",
+        "first initialized-realm upgrade refuses a missing restored-copy gate without applying a migration or changing existing data",
+        "native Phase 4.5 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals",
+        "separate compiled pre-deploy runner installs all 19 migrations without initialization",
+        "Phase 4.6 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.5 rivals",
+        "compiled operator-only status reports the initial account and population without exposing credentials",
+        "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+        "production server binds port 8080 and passes database healthcheck",
+        "real production HTTP registration, twelve pages, quests, quantity equipment, Land, Vault, PvP, idempotent gold healing/CSRF, retired militia and foreign-Origin rejection",
+        "compiled operator moderation works without development tools, requires explicit authorization and preserves the existing audit history",
+        "compiled two-ID broadcast review, explicit approval, atomic idempotent hides and reversible restoration preserve unrelated messages",
+        "operator-only gray inspect/apply grants exactly 50000 spendable gold once on the disposable identity",
+        "production migration/start refuse leftover bootstrap credentials before any database changes",
+        "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+        "native custom-format backup restores atomically into a separate fresh database with identical data",
+        "redeploy removes bootstrap flag/secret and starts a fresh web container against the same persistent realm",
+        "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+        "neither web nor PostgreSQL container publishes a port"
+      ],
+      "portsPublished": false,
+      "restoredUpgrade": {
+        "passed": true,
+        "restoredDatabase": "phase45_restore_test",
+        "accounts": 451,
+        "bots": 450,
+        "existingTablesVerified": 61,
+        "sha256": "e7dc671b653135a7c02b213c4bd9fdfbe6717548fe380f2dc25442cf07fc33b3",
+        "migrationReplay": "unchanged",
+        "liveDatabaseConnected": false
+      },
+      "backupBytes": 944326,
+      "dataDigest": "903475b7aa369fd15da778f659dbb4fe8d73e600b6bb3b32c731c0a4b644a3b2"
+    }
+  },
+  "migration": {
+    "passed": true,
+    "base": "018_gameplay_refinement.sql",
+    "target": "019_champions_and_rivalries.sql",
+    "existingTablesVerified": 61,
+    "accounts": 454,
+    "bots": 450,
+    "oldBusinessRows": "unchanged",
+    "migrationReplay": "unchanged",
+    "backfilledStandings": 454,
+    "sha256": "734add3de9bcf4ba8986bc1946f49f1abf8a56e964aa47448ba83e1d955d63d4",
+    "liveDatabaseConnected": false
+  },
+  "performance": {
+    "characters": 1202,
+    "battles": 21200,
+    "hallStatements": 6,
+    "plans": "docs/phase46/query-plans.json"
+  },
+  "productionDependencyAudit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "preservation": {
+    "unchangedCoreFiles": {
+      "migrations/001_initial.sql": "40096563bb35db354736d73c0cb93cc4f5ca0aa5595171d3df99241adeaba1fb",
+      "migrations/002_land.sql": "312b98b552472ecb2957a05a7aa1eff1ecc0e14b9ae64ddb6c8740e272d5e06f",
+      "migrations/003_alpha.sql": "d81eaec91c74755dae0dbbd38dc6c879c1ba4647772cb398b52fb572c3226b18",
+      "migrations/004_retained_treasury.sql": "8217f1c80c21cc46d6b5f55143f4b376b97c0d1d5a39ae4d1fdfe829e37ceee3",
+      "migrations/005_maintenance_audit.sql": "1362901d0db4fb181fc7ec8f753dad0510cf495f59e3e0e3262ad0ccae247bc6",
+      "migrations/006_fantasy_progression.sql": "ab89b2dbac5da2ecf90543b2eb2510a7c4cc6c58519fa4f7136c5f0c3088ffc9",
+      "migrations/007_maintenance_event_identity.sql": "b858ae47d376f7daa6e9c1a083d0b6d0be2400befb93be23420076a6d1baec9d",
+      "migrations/008_land_purchase_order.sql": "d6fe143334fc9114a18f1d8581c66324a004a0b0f088c5bdec0610250c7c4eb8",
+      "migrations/009_combat_training.sql": "103e718c826c19bdfeac46f2f6f720599a5a852495fc61e773f79d8797261dc8",
+      "migrations/010_strategy_and_bounties.sql": "e69588496175a5c86e985871bec0efc6f28f5570098b1438d533eb7ca272fc84",
+      "migrations/011_community.sql": "7f64f50ecd08b15a2ca0c609fb9313d7d431ba21e992898acb530f47909d11e1",
+      "migrations/012_refinements.sql": "2dd0673ba8d36eff15c9b5d6dd53d111f6357d5d71c279de6620cb200b4f03b8",
+      "migrations/013_pvp_economy.sql": "735438a4d1a2727e07f28c20eccf952507df17995f5c548d8934d8d102ffc662",
+      "migrations/014_economy_and_progression.sql": "bd8b47b654649a6b7b7b95ff8b0766110495e20800ec57235b46591996fcb640",
+      "migrations/015_private_alpha_initialization.sql": "48dd5b9567577ae6965b5bd0b63f729aeecd4bb4612f36d8f98a1c77656dd79a",
+      "migrations/016_player_experience.sql": "8cce14e54e91540451773fc6a3baf049fe135db265adc443a9b829da469bfc18",
+      "migrations/017_security_and_operator_grants.sql": "e31bdd9f384cbbd65dc662da400e9eebaa8d7e82666074211d55a4e07703d224",
+      "migrations/018_gameplay_refinement.sql": "97d191da6b39ed61677538a86b8c0f7b75ab0a874e62774f0ad46a3e670ba43a",
+      "rulesets/alpha-0.1/rules.json": "46d2a88c1eb118eb9ebd9a44d8f16fbe268ec74318e1e7e20c757bfa69400d8a",
+      "rulesets/alpha-0.2/rules.json": "bf943ab9cc19bf186b5788ddce301f890561893703056179d4f0d65aaccd0a18",
+      "rulesets/alpha-0.3/rules.json": "7de8535440e873ddad9effb66bf870af07c45fef42c015361a8ae840746835f1",
+      "rulesets/community-0.1/rules.json": "3416c944fb728b0e7365efb319aea9b201218aff4166af43625166e79a12a81a",
+      "rulesets/gameplay-refinement-1/rules.json": "110d5878dea0188a67b8bb88b3523e744e81db1f853b4f3af12593229aa279dd",
+      "rulesets/land-provisional-0.1/rules.json": "9d6f2cfad99ab8d9265bef0fca855900bf5931e1edd2e88aafda6e233d68fc9f",
+      "rulesets/passive-rivals-1/rules.json": "7dea522d7fe49cbcc8b6d39cfb3c7cca3027551ed20da070003127d5594f4a44",
+      "rulesets/passive-rivals-2/rules.json": "956e00200ee17ad1a5ced4dbdf3efad81f785c398541bc3a96d0bbf34759d6fa",
+      "rulesets/passive-rivals-3/rules.json": "8262420ec0e6b3821eb37c1617af58a2f74b006459ec197637fcd93e04611a02",
+      "rulesets/passive-rivals-4/rules.json": "a670919ade06eeba876d44e07bd007f7467ae220a0da20af4ef13d2fbe08a9a5",
+      "rulesets/passive-rivals-5/rules.json": "6973dfcd0ec54bf023afe5c3eb98d0196631d868c706c4f725ab77d6bd78e478",
+      "rulesets/progression-economy-0.1/rules.json": "4094443ee0c11a3f1af36fd40c28950e372e8914098530642e730cf8c6022fbd",
+      "rulesets/progression-economy-0.2/rules.json": "18f2b379c66108c9190b7ff888339c3f11f0ab42b726d4e8350326ddc289cf0a",
+      "rulesets/pvp-economy-0.1/rules.json": "deacda01aed70e8ab23509cd4845cb9653511221d1a066e058f9ba337847533f",
+      "rulesets/recreation-0.1/rules.json": "835b4ff9f8344981aee94e3c5fed7d38c67e1099319457a8d02cb13695dc99bb",
+      "rulesets/refinements-0.1/rules.json": "d40538cec6f96755546d86c1e60e9e857b993283c68cf15a6cb7c69ec6b0addd",
+      "rulesets/strategy-0.1/rules.json": "43af4cb8970c634caa21f3b3e9cb0fff774307a8376dd06961abdca95aec843a",
+      "rulesets/strategy-0.2/rules.json": "a15397eaf3f9477744602c65346dfc444bca3e211328f02f10eeb7f8fa77985f",
+      "src/alpha-rules.ts": "a7d643da012ddd578005fdf519cd10be38775a66557e029c0b58f722c1bc0305",
+      "src/pvp-rules.ts": "d30ef2a75839d6a712bdabbd2f5e7c3cd5de0b5dca00882f11ee54d2af80066d",
+      "src/gameplay-rules.ts": "fd1c408727833f9478058203a5d3147be8200a9ec38e947bc8212e50c40afcc2",
+      "src/land.ts": "40743bea84714a1638c2431735dca6c0dd6f768fcb653db9c4379c75a8094ce4",
+      "src/estate.ts": "9739efb3cec222dd376586765d22225697c7077761dec439a1568b692c9e93ce",
+      "src/maintenance.ts": "057f3a7fe6c049242fec11d7c573c283ab8740206e2daf7ad9db2a46b307debe",
+      "src/bot-finance.ts": "de7a5dda989b58b14898f92bf40a5e3d420f6b0abf3b2f239062dd575debf113",
+      "src/development.ts": "9559fe678eb41273700181ed00470db074b375a58f2a1e3bfca4fe0a04c425da",
+      "src/inventory.ts": "1cdfc87fe923259f23f3a4fc249312791dce750dfcfa0a22b38f54ceb67acf98",
+      "src/progression.ts": "ce02692f28c1d96f409c65d56c881a67d89cb79c728cfae7a3ccd2214d60d834",
+      "src/rules.ts": "84c01015064d1329be17aca7f09c49c34d2d0e02b628740ec681cd75abfbf486",
+      "src/auth.ts": "09e508b9073808485537f6cb0ab13b33672209bdd7451bf510f01e6a244b23c1",
+      "src/security.ts": "fe352665520216bd4b0d6574155e06ec30f7ba26844d768f53663e989936836b",
+      "src/request-origin.ts": "86c92432d857097099d381681bf7a398239c4c55803670c2ba5865a50ae416f9",
+      "src/bounties.ts": "5b8df094b397e9136e7af1b37a6151fd3f6df7321eb847f9a7504b250139cdcc"
+    },
+    "existingArtworkChanged": false,
+    "oldBusinessRowsChanged": false,
+    "botAccountsPreserved": 450,
+    "liveAccountsTouched": 0,
+    "liveGrantExecuted": false,
+    "liveBroadcastCleanupExecuted": false
+  },
+  "screenshots": [
+    {
+      "file": "390-hall-of-champions.png",
+      "width": 390,
+      "height": 965,
+      "sha256": "b4fd3eab6337315c97f5036224ba0ee3425cd4251c7a6262a50b98ed9ac32f62"
+    },
+    {
+      "file": "390-incoming-revenge.png",
+      "width": 390,
+      "height": 984,
+      "sha256": "c4e924be9938ac7ca7747cca6aa028687d5bfa8f7306c3bf96dc9a2f2bead1ba"
+    },
+    {
+      "file": "390-land-purchase-completion.png",
+      "width": 390,
+      "height": 1206,
+      "sha256": "b883f6f1423b9c311c11711e3ba4d1e51a963e451ddeddbca6d88e01601d796c"
+    },
+    {
+      "file": "390-rivalry-history.png",
+      "width": 390,
+      "height": 3002,
+      "sha256": "ea62cc856fe19e3c6493a0da786f863ae7577540b8f6c1fc77a09936d5ed2c70"
+    },
+    {
+      "file": "390-tutorial-completion.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "fc53979fbe864a09d1c54679753d2d058934f8eb594c092e3948c6bbeee41a50"
+    },
+    {
+      "file": "390-tutorial-introduction.png",
+      "width": 390,
+      "height": 1112,
+      "sha256": "b5990c9f4d55bef90cd22798df1346933c959609e4448e335e801f1cab3847c9"
+    },
+    {
+      "file": "390-tutorial-land-step.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "15883f6664f4e7dd8ab746cdca64973637463eda7e4554235f387f17e21c3b51"
+    },
+    {
+      "file": "390-victory-enemy-equipment.png",
+      "width": 390,
+      "height": 1261,
+      "sha256": "5b3f1b680a85a430c2d02e8d1baab67674435221e1e02d26a01c2b5487ee4520"
+    }
+  ],
+  "operationalNotes": [
+    "Initial container initialization hit the workspace disk quota. Only unused Docker build cache and this task's superseded test images were removed; no database, backup or volume was deleted for cleanup. Both final rehearsals passed.",
+    "Local image builds use a temporary build-only CA mount for the managed network proxy. The committed Railway Dockerfile remains mount-free, TLS verification stays enabled, and the runtime has no CA secret."
+  ],
+  "remainingOwnerSteps": [
+    "Verify/export the actual live backup and restore a distinct private copy.",
+    "Pass the manual first-019 restored-copy gate and owner-controlled Railway deployment.",
+    "Review the exact two live broadcast IDs and approve the separate reversible moderation procedure.",
+    "Verify real Railway edge/private networking/secrets/backup retention and existing-player smoke tests.",
+    "Test actual Android/iPhone hardware; Safari/WebView/APK compatibility is not claimed."
+  ]
+}

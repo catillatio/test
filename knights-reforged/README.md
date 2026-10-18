@@ -1,6 +1,6 @@
-# Phase 4.5 live-realm update
+# Phase 4.6 live-realm update
 
-Use [PHASE_4_5_RELEASE.md](PHASE_4_5_RELEASE.md) for changes, exact reward formulas, backup/restored-copy verification and manual Railway deployment. Do not rerun old initialization or reset player data. Security: [PHASE_4_5_SECURITY.md](PHASE_4_5_SECURITY.md).
+Use [PHASE_4_6_RELEASE.md](PHASE_4_6_RELEASE.md) for Hall of Champions, rivalries, Revenge, tutorial polish, one-time reviewed broadcast moderation, backup/restored-copy verification and manual Railway deployment. Do not rerun old initialization or reset player data. Security: [PHASE_4_6_SECURITY.md](PHASE_4_6_SECURITY.md). Reward and income formulas remain those documented in [Phase 4.5](PHASE_4_5_RELEASE.md).
 
 # Kingdom Come — connected multiplayer alpha
 
@@ -14,7 +14,7 @@ Application: `knights-reforged/` in `catillatio/test`. Development branch: `feat
 
 For the `refinements is not defined` rendering hotfix, use [RENDERING_FIX.md](RENDERING_FIX.md). It requires a fresh build and server restart, with no migration, reset or account/bot provisioning commands.
 
-See [PHASE_4_1.md](PHASE_4_1.md) for finalized bounty rules, immediate repeat combat, public Tales, migration details, verification and exact Codespace commands. [Current screenshots](docs/phase-4-1-preview/README.md) and the [Android packaging assessment](APK_READINESS.md) accompany the milestone. No Android compatibility is claimed from browser tests.
+See [PHASE_4_1.md](PHASE_4_1.md) for finalized bounty rules, immediate repeat combat, public Tales, migration details, verification and exact Codespace commands. [Phase 4.1 screenshots](docs/phase-4-1-preview/README.md) and the [Android packaging assessment](APK_READINESS.md) accompany the milestone. No Android compatibility is claimed from browser tests.
 
 Earlier [PHASE_4.md](PHASE_4.md) and [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) preserve their historical implementation records. Current rules supersede their former combat/bounty limits. The strategy report also covers Calling bonuses, temporary rivals, development-account provisioning, funded bounties, verification and the port-3001 Codespace update. [Earlier milestone screenshots](docs/strategy-preview/README.md) remain available.
 
@@ -22,7 +22,7 @@ See [PHASE_4_3.md](PHASE_4_3.md) for the current XP formula, shared hourly incom
 
 For Railway, use [RAILWAY.md](RAILWAY.md): repository Dockerfile, private PostgreSQL, explicit HTTPS origin, a controlled pre-deploy migration, backup/restore and health/restart settings. No Railway resource or deployment is created by these files.
 
-**Current live Railway update:** follow [PHASE_4_4_RELEASE.md](PHASE_4_4_RELEASE.md) for backup/export, a separately restored-copy migration check, manual deployment and the separate authorized `gray` adjustment. Read [the security review](PHASE_4_4_SECURITY.md) and [verification](PHASE_4_4_VERIFICATION.json). **Do not rerun first-time initialization or reset `dev`.** [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md) is a historical Phase 4.3 first-launch record, not the current upgrade procedure.
+**Current live Railway update:** follow [PHASE_4_6_RELEASE.md](PHASE_4_6_RELEASE.md) for migration 019 and manual promotion from the existing Phase 4.5 realm. Do not repeat the historical `gray` grant, initialize the realm or reset `dev`. The earlier Phase 4.3/4.4/4.5 guides remain historical records, not this upgrade procedure.
 
 ## What works
 

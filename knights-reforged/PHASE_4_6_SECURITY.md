@@ -1,0 +1,41 @@
+# Phase 4.6 security and preservation review
+
+Scope: changed ranking/rivalry queries and read models, battle/tutorial views, existing combat-command boundary, additive 019, one-time moderation CLI, populated fixtures, native browser HTTPS, restart and production-container rehearsals. No live Railway connection or independent penetration test occurred. Passing tests support a controlled alpha release, not a blanket production-security claim.
+
+## Verified protections
+
+| Area | Protection |
+| --- | --- |
+| Rankings | Values originate from committed battle outcomes, matching completed bounty credits, real holdings and server level/XP. No score-writing HTTP endpoint exists. Category SQL uses a fixed allowlist, never request text as a column. Top twenty and personal rank share a read-only repeatable snapshot. Bot/account availability changes update eligibility transactionally. No ranking gold/XP is awarded. |
+| Privacy | Hall exposes public character identity and the selected statistic only. Land value excludes carried/Vault gold. Your Rivalry always uses the signed-in character and the viewed human's immutable IDs, never a requested arbitrary third-party pair. Credentials, sessions, account IDs and protected balances are not selected for these views. |
+| Rivalries | One-time historical backfill and transaction-local triggers use authoritative outcomes and documented ordinary-transfer data. Older ambiguous gold remains unknown. Claims are separate from loot. Current display names are escaped and do not determine identity. Disabled accounts and all temporary bots are excluded from human rival lists. |
+| Revenge | Reuses the existing authenticated, CSRF/Origin-checked, idempotent attack command. Sorted character locks, escrow lock ordering, Spirit, Health, level, repeat/bot budgets and zero-Health rules remain. Disabled human targets are now rejected server-side. No bonus, new delay or special eligibility exception. Private reports remain combatant-only. |
+| Equipment | SSR renders the encounter's saved selected quantities; only names/artwork are resolved from the existing catalog. No current-inventory substitution, full private snapshot, wallet or account data is displayed. Missing historical selections remain explicitly unknown. |
+| Tutorial | New commands accept enumerated actions and use a persistent server cursor; client step/completion/reward values are not trusted. Navigation never spends gold. Reading/skipping/replaying never creates XP, gold or gameplay evidence. Completed preferences remain permanent. Existing receipts prevent repeat requests from advancing an action twice. |
+| Broadcasts | No new web-admin route. Trusted operator entrypoint retains Railway/private-alpha/environment checks. Listing/review is read-only. Batch hide needs two distinct broadcast UUIDs, explicit confirmation, operator label and reviewed content digest. Stable row locks and a single transaction prevent partial/concurrent duplicate hides. Existing moderation journal/restore paths are reused; no message body/table is deleted. |
+| Authentication | Existing Argon2 password hashing, hashed persistent PostgreSQL sessions, session rotation/revocation, HttpOnly/SameSite=Lax and HTTPS Secure cookies remain. Origin/CSRF/forwarding code is unchanged. Native TLS forwarding tests include registration, login/logout, authenticated forms, forged-Origin/CSRF rejection and interrupted receipt replay. |
+| Economy | No loot, XP, Calling, resource, Land, equipment, income, recruitment or bounty formula/catalog is edited. New summaries have no financial effect. The full regressions retain conservation, Vault, concurrency, zero-Health, claim/refund, one-active-target, rolling placement limits and repeat-reward safeguards. |
+| Rendering | Display names, messages and saved item names use escaped EJS output. Links use server-validated immutable identities and fixed paths. New assets use a literal UI revision, avoiding the prior undefined shared-layout variable regression. Existing CSP, no-store private pages and safe static-file configuration remain. |
+| Migration | 019 only adds read models, indexes, triggers and a tutorial cursor. Its source lock prevents backfill/write gaps. Populated Phase 4.5 tests compare every pre-existing business row, including all 450 bots, hashes/sessions, wallets/Vault, inventories, Land, histories and tutorial evidence. Runtime fails closed without 019. First private-alpha upgrade requires the separate restored-copy gate. |
+| Deployment | Non-root Docker, locked dependency installation, private PostgreSQL, dynamic PORT/8080, DB-backed health, controlled migrate/start separation and one replica are retained. No database, provisioning, cleanup or test is run during image build. Operator commands are not web routes or startup tasks. |
+
+## Findings addressed
+
+- The original direct attack command did not explicitly reject a login-disabled human target. Public-profile availability and the actual attack transaction now enforce that restriction, so a copied Revenge/direct form cannot target that account. In-flight reports remain readable to their original participants; no fake current Health is displayed for an unavailable opponent.
+- Old technical reward strings could reappear through receipt notices even after cleaning the report template. The display path now replaces old attack notices with a natural report reference, without rewriting any saved receipt or combat result.
+- Historical ordinary loot had differing semantics before the PvP-economy version. Rivalry totals deliberately flag unsupported old transfers, and reports retain their saved legacy win/loss sign rather than silently applying today's transfer interpretation.
+- The previous server startup only required schema 018. Phase 4.6 now requires 019 before listening, avoiding an authenticated-page HTTP 500 when the new read models have not been installed.
+- Per-view battle recounts would undermine leaderboard performance for frequent fighters. Primary-key summaries now also serve the existing profile/achievement counters; no current financial state is cached there.
+
+No confirmed critical/high issue in the changed scope is intentionally left unresolved. This statement is limited to the review and evidence reported.
+
+## Outstanding risks and owner acceptance
+
+1. **Actual provider/data:** no live backup, secret, database, network exposure or deployed edge setting was inspected. Verify/export a consistent backup and its digest, restore to a distinct private copy and pass the controlled gate before manual promotion. Never reseed/reset the realm.
+2. **One-time cleanup:** the two live broadcast IDs and owner approval are still required. The implementation supplies safe commands; it does not claim that live messages have already been moderated.
+3. **Abuse/collusion:** rankings are cosmetic and combat resources/reward limits persist, but repeated legitimate fights can increase lifetime wins. Human wins against configured temporary rivals count consistently with existing statistics. Alpha cannot prove that separate human accounts have independent owners or eliminate collusion; monitor competitive statistics and funded bounties.
+4. **Capacity:** ranking reads use indexed summaries and bounded lists; the exact personal-rank count scales with eligible players, not combat history. Initial backfill and restored-copy comparison are controlled maintenance work and need adequate pre-deploy time/resources on very large realms. Per-process request throttles still assume one replica. No new polling was added.
+5. **Operations:** preserve the PostgreSQL volume/private reference, canonical HTTPS APP_ORIGIN, existing sessions and managed backup retention. Remove bootstrap credentials and obsolete initialization flags. Check domain/TLS, restore access, health/restart policy and credential rotation where still outstanding.
+6. **Clients:** responsive headless Chromium and native form/cookie tests do not verify Safari/WebKit, physical devices or APK/WebView compatibility. Actual Android/iPhone smoke tests and a multiplayer soak remain owner acceptance work.
+
+Exact results: [PHASE_4_6_VERIFICATION.json](PHASE_4_6_VERIFICATION.json). Owner upgrade, cleanup and rollback: [PHASE_4_6_RELEASE.md](PHASE_4_6_RELEASE.md).

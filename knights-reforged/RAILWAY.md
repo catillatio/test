@@ -1,8 +1,8 @@
 # Railway deployment — Kingdom Come
 
-Current branch: `feature/kingdom-come-phase-4-4-player-experience`.
+Current branch: `feature/kingdom-come-phase-4-6-rivalries-and-polish`.
 
-**For the existing Phase 4.4 live realm, use [PHASE_4_5_RELEASE.md](PHASE_4_5_RELEASE.md) first:** verified independent backup, separately restored-copy upgrade check, additive migration 018 and manual promotion. Never rerun first-time initialization or reset the development account.
+**For the existing Phase 4.5 live realm, use [PHASE_4_6_RELEASE.md](PHASE_4_6_RELEASE.md) first:** verified independent backup, separately restored-copy upgrade check, additive migration 019 and manual promotion. Never rerun first-time initialization or reset the development account.
 Application/root directory: `/knights-reforged` within `catillatio/test`.
 This change prepares deployment; it does not create services, deploy, merge, import data or alter player databases.
 
@@ -25,7 +25,7 @@ The multi-stage image installs from `package-lock.json`, compiles TypeScript, pr
 ## 1. Configure the existing service without starting a deployment
 
 1. Disable GitHub automatic deployments for this service before updating a connected branch. Keep changes staged; do not choose Deploy until you have reviewed the database, origin and backup steps below. Config-as-code does not control GitHub autodeploy.
-2. Select repository `catillatio/test`, branch `feature/kingdom-come-phase-4-4-player-experience`.
+2. Select repository `catillatio/test`, branch `feature/kingdom-come-phase-4-6-rivalries-and-polish`.
 3. Set **Root Directory** to `/knights-reforged`.
 4. Set **Config File Path** to `/knights-reforged/railway.json` (this setting is repository-relative).
 5. The configuration selects **Dockerfile** builder with `Dockerfile` relative to the application root. Clear old Railpack/custom build-command overrides. If a `RAILWAY_DOCKERFILE_PATH` override exists, remove it or set it to `Dockerfile`; do not leave a stale path.
