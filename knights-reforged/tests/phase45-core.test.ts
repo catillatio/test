@@ -13,14 +13,15 @@ test('gold healing settles free recovery, charges missing Health once under conc
   await r.db.query('UPDATE characters SET health=40,health_updated_at=$2 WHERE id=$1',[a.id,now]);
   const before=await r.me(a),key=randomUUID();assert.equal(before.healing.cost,60);
   const replies=await Promise.all([r.ok(a,'/api/v1/health/restorations',{maxCost:60},key),r.ok(a,'/api/v1/health/restorations',{maxCost:60},key),r.ok(a,'/api/v1/health/restorations',{maxCost:60})]);
-  assert.equal(replies[0].data.cost,60);const healed=await r.me(a);
+  // Either distinct request may win the lock; replayed copies share one result.
+  assert.equal(replies[0].data.cost,replies[1].data.cost);assert.equal(replies[0].data.cost+replies[2].data.cost,60);const healed=await r.me(a);
   assert.equal(healed.health,100);assert.equal(healed.gold,before.gold-60);assert.equal(healed.mana,before.mana);assert.equal(healed.spirit,before.spirit);
   assert.equal((await r.db.query('SELECT count(*)::int AS n FROM health_restorations')).rows[0]!.n,1);
   assert.equal((await r.ok(a,'/api/v1/health/restorations',{})).data.cost,0);assert.equal((await r.me(a)).gold,healed.gold);
   await r.db.query('UPDATE characters SET health=0,health_updated_at=$2 WHERE id=$1',[a.id,now]);
   assert.equal((await r.command(a,'/api/v1/health/restorations',{maxCost:1})).json().error.code,'HEALING_CHANGED');
   now=new Date(+now+before.calling.healthSeconds*1000);const recovered=await r.me(a);assert.ok(recovered.health>0);assert.equal(recovered.healing.missing,100-recovered.health);
-  const poor=await r.player();await r.db.query('UPDATE characters SET health=0 WHERE id=$1',[poor.id]);
+  const poor=await r.player();await r.db.query('UPDATE characters SET health=0,health_updated_at=$2 WHERE id=$1',[poor.id,now]);
   assert.equal((await r.command(poor,'/api/v1/health/restorations',{})).json().error.code,'INSUFFICIENT_GOLD');
  }finally{await r.close();}
 });

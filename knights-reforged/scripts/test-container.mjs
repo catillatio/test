@@ -145,6 +145,13 @@ try{
     await command(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
     await command(a,'/api/v1/vault/deposits',{amount:5});
     const battle=await command(a,'/api/v1/battles',{targetCharacterId:b.id});
+    const injured=(await state(a.cookie)).state;
+    const deniedHeal=await fetch(base+'/api/v1/health/restorations',{method:'POST',headers:{...headers,cookie:a.cookie,'content-type':'application/json','x-csrf-token':'invalid','idempotency-key':randomUUID()},body:'{}'});assert.equal(deniedHeal.status,403);
+    const healKey=randomUUID(),healed=await command(a,'/api/v1/health/restorations',{maxCost:injured.healing.cost},healKey);
+    assert.equal(healed.state.health,healed.state.maxHealth);assert.equal(healed.state.gold,injured.gold-healed.data.cost);
+    await command(a,'/api/v1/health/restorations',{maxCost:injured.healing.cost},healKey);assert.equal((await state(a.cookie)).state.gold,healed.state.gold);
+    const retired=await fetch(base+'/api/v1/army/recruitments',{method:'POST',headers:{...headers,cookie:a.cookie,'content-type':'application/json','x-csrf-token':a.csrf,'idempotency-key':randomUUID()},body:JSON.stringify({unitId:'militia',quantity:1})});assert.equal(retired.status,404);
+
     const comment=await command(a,'/api/v1/comments',{profileId:b.id,body:'A respectful production-container field report.'});
     for(const page of ['home','profile','quests','battle','bounties','armory','army','land','vault','settings']){
       const r=await fetch(base+'/game/'+page,{headers:{cookie:a.cookie}});assert.equal(r.status,200,await r.clone().text());
@@ -154,7 +161,7 @@ try{
     const gray=${alphaMode?'await player("gray")':'null'};
     console.log(JSON.stringify({a,b,gray,messageId:comment.data.messageId,battleId:battle.battleId,before:(await state(a.cookie)).state}));
   `);
-  check('real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP and foreign-Origin rejection');
+  check('real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP, idempotent gold healing/CSRF, retired militia and foreign-Origin rejection');
   if(alphaMode){
     let moderationDenied=false;
     try{docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/moderate.mjs','queue']);}catch(error){moderationDenied=true;assert.match(String(error.stderr),/ALLOW_REALM_MODERATION/);}

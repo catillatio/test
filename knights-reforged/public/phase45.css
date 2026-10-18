@@ -3,3 +3,8 @@
 @keyframes kingdom-triumph{0%{box-shadow:inset 0 0 55px #f0d06bb3;transform:translateY(5px)}100%{box-shadow:inset 0 0 0 transparent;transform:translateY(0)}}@keyframes kingdom-gold{0%{opacity:0;transform:translateY(30px) scale(.8)}20%{opacity:.9}100%{opacity:0;transform:translateY(-50px) scale(1.15)}}@keyframes kingdom-level{0%{transform:scale(.75);filter:brightness(1.8)}65%{transform:scale(1.05)}100%{transform:scale(1);filter:brightness(1)}}@keyframes kingdom-crowning{0%{box-shadow:inset 0 0 70px #ead393aa,0 0 15px #dfbe5b66}100%{box-shadow:inset 0 0 0 transparent,0 0 0 transparent}}
 @media(max-width:359px){.income-disclosure>summary{font-size:9px}.kingdoms-ui .resource-upper{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) 45px}.kingdoms-ui .realm-resource strong{font-size:10px}.kingdoms-ui .realm-resource small{font-size:8px}.kingdoms-ui .stat-icon{font-size:15px}.kingdoms-ui .resource-disclosure .realm-resource{gap:3px}}
 @media(prefers-reduced-motion:reduce){.reward-celebration.is-celebrating,.reward-celebration.is-celebrating:after,.level-celebration.is-celebrating .celebration-level{animation:none!important;transform:none!important;filter:none!important}}
+
+/* Author button display rules must never reveal a hidden retry control. */
+.status-panel [hidden]{display:none!important}
+
+.category-tabs .bounty-label{white-space:nowrap}

@@ -37,7 +37,7 @@ const scopedUrl=new URL(testDatabaseUrl);scopedUrl.searchParams.set('options','-
 await migrate(db);const app=await createApp({db,config});
 await provisionBots(db,{nodeEnv:'test',allowProvisioning:true});
 let browser:Browser|undefined,proxy:ReturnType<typeof tlsServer>|undefined,tunnel:Server|undefined;
-let originMode:'http'|'https'|'preserve'='http';
+let originMode:'http'|'https'|'preserve'='http';let loseNextHealingResponse=false;
 const sockets=new Set<Socket>(),observed:{browserOrigin:string|undefined;upstreamOrigin:string|undefined;refererOrigin:string|null;fetchSite:string|undefined;forwardedProto:string;path:string}[]=[];
 const track=(server:Server)=>server.on('connection',socket=>{sockets.add(socket);socket.on('close',()=>sockets.delete(socket));});
 const listen=async(server:Server)=>{server.listen(0,'127.0.0.1');await once(server,'listening');return (server.address() as {port:number}).port;};
@@ -52,7 +52,14 @@ try{
     const upstreamOrigin=request.headers.origin===config.origin&&originMode!=='preserve'?originMode+'://localhost:'+config.port:request.headers.origin;
     const headers={...request.headers,...(upstreamOrigin===undefined?{}:{origin:upstreamOrigin}),host:'localhost:'+config.port,'x-forwarded-host':host,'x-forwarded-proto':'https','x-forwarded-for':'203.0.113.41'};
     if(request.method==='POST')observed.push({browserOrigin:request.headers.origin,upstreamOrigin,refererOrigin:urlOrigin(request.headers.referer),fetchSite:String(request.headers['sec-fetch-site']),forwardedProto:'https',path:request.url!});
-    const upstream=httpRequest({hostname:'127.0.0.1',port:backend,path:request.url,method:request.method,headers},reply=>{response.writeHead(reply.statusCode!,reply.headers);reply.pipe(response);});
+    const upstream=httpRequest({hostname:'127.0.0.1',port:backend,path:request.url,method:request.method,headers},reply=>{
+      // Drop the reply AFTER a real native browser POST commits upstream.
+      // This avoids a synthetic API request with different Fetch Metadata.
+      if(loseNextHealingResponse&&request.method==='POST'&&request.url==='/api/v1/health/restorations'){
+        loseNextHealingResponse=false;reply.resume();reply.on('end',()=>{response.writeHead(502,{'content-type':'text/plain'});response.end('Disposable fixture: committed response lost at gateway.');});return;
+      }
+      response.writeHead(reply.statusCode!,reply.headers);reply.pipe(response);
+    });
     upstream.on('error',()=>{response.writeHead(502);response.end();});request.pipe(upstream);
   });
   track(proxy);const tlsPort=await listen(proxy);
@@ -400,6 +407,54 @@ try{
   await apprentice.goto(config.origin+'/game/home');await submit(apprentice,apprentice.getByRole('button',{name:'Skip guide',exact:true}));
   await apprentice.reload();assert.equal(await apprentice.locator('.tutorial-panel').count(),0);
   await writeFile(join(phase44Out,'summary.json'),JSON.stringify({passed:true,widths:phase44Widths,responsiveVisits:phase44Widths.length*6,reducedMotion:true,celebrationReplay:true,missingEquipmentNativeFlow:true,propertyConfirmation:true,tutorialSkipPersistent:true,liveProviderContacted:false},null,2));
+  // Phase 4.5: immediate contextual healing, server-derived next payment,
+  // one-tap purchases, interrupted-action replay and all four compact panels.
+  originMode='http';
+  const phase45Out=join(projectRoot,'test-results/phase45-browser');await mkdir(phase45Out,{recursive:true});
+  await db.query('UPDATE characters SET health=42,health_updated_at=clock_timestamp() WHERE id=$1',[merchant.characterId]);
+  await marketPage.setViewportSize({width:390,height:844});await marketPage.goto(config.origin+'/game/home');
+  await marketPage.getByLabel('Restore Health with gold',{exact:true}).click();
+  assert.equal(await marketPage.locator('[data-heal-form] button').isEnabled(),true);
+  assert.equal(await marketPage.getByRole('button',{name:'Retry safely',exact:true}).count(),0);
+  await marketPage.screenshot({path:join(phase45Out,'390-healing.png')});
+  const beforeHeal=await marketState(),originalUrl=marketPage.url();
+  const healed=marketPage.waitForResponse(r=>r.url().endsWith('/api/v1/health/restorations')&&r.ok());
+  await marketPage.getByRole('button',{name:'Heal Now',exact:true}).click();const healResult=await (await healed).json();
+  await marketPage.waitForFunction(()=>document.querySelector('[data-heal-message]')?.textContent?.includes('restored'));
+  assert.equal(marketPage.url(),originalUrl);assert.equal(healResult.data.cost,beforeHeal.healing.cost);
+  assert.equal((await marketState()).gold,beforeHeal.gold-beforeHeal.healing.cost);assert.equal((await marketState()).health,beforeHeal.maxHealth);
+  assert.equal(await marketPage.getByRole('button',{name:'Heal Now',exact:true}).isDisabled(),true);
+  await marketPage.getByLabel('Upcoming income breakdown',{exact:true}).click();
+  assert.ok((await marketPage.locator('[data-payment-countdown]').innerText()).includes('min'));
+  assert.equal(await marketPage.locator('.health[open]').count(),0);
+  await marketPage.screenshot({path:join(phase45Out,'390-income.png')});
+  for(const width of phase44Widths){
+    await marketPage.setViewportSize({width,height:844});await marketPage.goto(config.origin+'/game/home');
+    for(const label of ['Restore Health with gold','Upcoming income breakdown','Mana recovery details','Spirit recovery details','Experience and next unlocks']){
+      await marketPage.getByLabel(label,{exact:true}).click();
+      assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+' '+label);
+      const box=await marketPage.locator('.status-disclosure[open] .status-panel').boundingBox();assert.ok(box&&box.x>=0&&box.x+box.width<=width+1,width+' panel');
+      await marketPage.keyboard.press('Escape');assert.equal(await marketPage.locator('.status-disclosure[open]').count(),0);
+    }
+    await marketPage.goto(config.origin+purchaseReceiptPath);assert.equal(await marketPage.locator('.buy-more-form').isVisible(),true);
+    assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+    await marketPage.screenshot({path:join(phase45Out,width+'-buy-more.png')});
+  }
+  await db.query('UPDATE characters SET health=55,health_updated_at=clock_timestamp() WHERE id=$1',[merchant.characterId]);
+  await marketPage.goto(config.origin+'/game/home');await marketPage.getByLabel('Restore Health with gold',{exact:true}).click();
+  const interruptedBefore=await marketState();loseNextHealingResponse=true;
+  await marketPage.getByRole('button',{name:'Heal Now',exact:true}).click();await marketPage.getByRole('button',{name:'Retry safely',exact:true}).waitFor();
+  await marketPage.reload();await marketPage.getByLabel('Restore Health with gold',{exact:true}).click();
+  const retryHeal=marketPage.waitForResponse(r=>r.url().endsWith('/api/v1/health/restorations')&&r.ok());await marketPage.getByRole('button',{name:'Retry safely',exact:true}).click();await retryHeal;
+  assert.equal((await marketState()).gold,interruptedBefore.gold-interruptedBefore.healing.cost);
+  await marketPage.setViewportSize({width:390,height:844});await marketPage.goto(config.origin+'/game/land');await marketPage.screenshot({path:join(phase45Out,'390-land.png')});
+  await hunterPage.setViewportSize({width:390,height:844});await hunterPage.goto(victoryUrl);await hunterPage.screenshot({path:join(phase45Out,'390-victory.png')});
+  await apprentice.setViewportSize({width:390,height:844});await apprentice.goto(levelUpUrl);await apprentice.screenshot({path:join(phase45Out,'390-level-up.png')});
+  await apprentice.goto(config.origin+'/game/quests');await submit(apprentice,apprentice.getByRole('button',{name:'Do quest Patrol the border',exact:true}));
+  await apprentice.screenshot({path:join(phase45Out,'390-quest-reward.png')});
+  const balanceAfterQuest=(await apprenticeState()).gold;await apprentice.reload();assert.equal((await apprenticeState()).gold,balanceAfterQuest);assert.equal(await apprentice.locator('.quest-result.is-celebrating').count(),0);
+  await marketPage.goto(config.origin+'/game/battle');assert.match(await marketPage.locator('[aria-label="Battle categories"]').innerText(),/Bounty List \(\d+\)/);
+  assert.equal(await marketPage.getByRole('button',{name:'Recruit militia',exact:true}).count(),0);
   const legend=await fixture('Fable Keeper',50);await db.query('UPDATE army_stacks SET quantity=20 WHERE character_id=(SELECT id FROM characters WHERE account_id=$1)',[legend.accountId]);
   for(const itemId of ['eclipse-greatsword','eclipse-citadel-plate','eclipse-invocation'])await executeCommand(db,legend.accountId,randomUUID(),'buy',{itemId,quantity:5});
   await executeCommand(db,legend.accountId,randomUUID(),'land_buy',{propertyId:'eclipse-citadel',quantity:1});
@@ -468,53 +523,6 @@ try{
   await submit(noScriptPage,noScriptPage.getByRole('button',{name:'Post Comment',exact:true}));
   assert.match(await noScriptPage.locator('body').innerText(),/handwritten note without scripts/);
   await noScriptPage.screenshot({path:join(phase4Out,'390-comments.png'),fullPage:true});await noScript.close();
-  // Phase 4.5: immediate contextual healing, server-derived next payment,
-  // one-tap purchases, interrupted-action replay and all four compact panels.
-  const phase45Out=join(projectRoot,'test-results/phase45-browser');await mkdir(phase45Out,{recursive:true});
-  await db.query('UPDATE characters SET health=42,health_updated_at=clock_timestamp() WHERE id=$1',[merchant.characterId]);
-  await marketPage.setViewportSize({width:390,height:844});await marketPage.goto(config.origin+'/game/home');
-  await marketPage.getByLabel('Restore Health with gold',{exact:true}).click();
-  assert.equal(await marketPage.locator('[data-heal-form] button').isEnabled(),true);
-  await marketPage.screenshot({path:join(phase45Out,'390-healing.png')});
-  const beforeHeal=await marketState(),originalUrl=marketPage.url();
-  const healed=marketPage.waitForResponse(r=>r.url().endsWith('/api/v1/health/restorations')&&r.ok());
-  await marketPage.getByRole('button',{name:'Heal Now',exact:true}).click();const healResult=await (await healed).json();
-  await marketPage.waitForFunction(()=>document.querySelector('[data-heal-message]')?.textContent?.includes('restored'));
-  assert.equal(marketPage.url(),originalUrl);assert.equal(healResult.data.cost,beforeHeal.healing.cost);
-  assert.equal((await marketState()).gold,beforeHeal.gold-beforeHeal.healing.cost);assert.equal((await marketState()).health,beforeHeal.maxHealth);
-  assert.equal(await marketPage.getByRole('button',{name:'Heal Now',exact:true}).isDisabled(),true);
-  await marketPage.getByLabel('Upcoming income breakdown',{exact:true}).click();
-  assert.ok((await marketPage.locator('[data-payment-countdown]').innerText()).includes('min'));
-  assert.equal(await marketPage.locator('.health[open]').count(),0);
-  await marketPage.screenshot({path:join(phase45Out,'390-income.png')});
-  for(const width of phase44Widths){
-    await marketPage.setViewportSize({width,height:844});await marketPage.goto(config.origin+'/game/home');
-    for(const label of ['Restore Health with gold','Upcoming income breakdown','Mana recovery details','Spirit recovery details','Experience and next unlocks']){
-      await marketPage.getByLabel(label,{exact:true}).click();
-      assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+' '+label);
-      const box=await marketPage.locator('.status-disclosure[open] .status-panel').boundingBox();assert.ok(box&&box.x>=0&&box.x+box.width<=width+1,width+' panel');
-      await marketPage.keyboard.press('Escape');assert.equal(await marketPage.locator('.status-disclosure[open]').count(),0);
-    }
-    await marketPage.goto(config.origin+purchaseReceiptPath);assert.equal(await marketPage.locator('.buy-more-form').isVisible(),true);
-    assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-    await marketPage.screenshot({path:join(phase45Out,width+'-buy-more.png')});
-  }
-  await db.query('UPDATE characters SET health=55,health_updated_at=clock_timestamp() WHERE id=$1',[merchant.characterId]);
-  await marketPage.goto(config.origin+'/game/home');await marketPage.getByLabel('Restore Health with gold',{exact:true}).click();
-  const interruptedBefore=await marketState();let lost=false;
-  await marketPage.route('**/api/v1/health/restorations',async route=>{if(!lost){lost=true;await route.fetch();await route.abort('failed');}else await route.continue();});
-  await marketPage.getByRole('button',{name:'Heal Now',exact:true}).click();await marketPage.getByRole('button',{name:'Retry safely',exact:true}).waitFor();
-  await marketPage.reload();await marketPage.getByLabel('Restore Health with gold',{exact:true}).click();
-  const retryHeal=marketPage.waitForResponse(r=>r.url().endsWith('/api/v1/health/restorations')&&r.ok());await marketPage.getByRole('button',{name:'Retry safely',exact:true}).click();await retryHeal;
-  assert.equal((await marketState()).gold,interruptedBefore.gold-interruptedBefore.healing.cost);await marketPage.unroute('**/api/v1/health/restorations');
-  await marketPage.setViewportSize({width:390,height:844});await marketPage.goto(config.origin+'/game/land');await marketPage.screenshot({path:join(phase45Out,'390-land.png')});
-  await hunterPage.setViewportSize({width:390,height:844});await hunterPage.goto(victoryUrl);await hunterPage.screenshot({path:join(phase45Out,'390-victory.png')});
-  await apprentice.setViewportSize({width:390,height:844});await apprentice.goto(levelUpUrl);await apprentice.screenshot({path:join(phase45Out,'390-level-up.png')});
-  await apprentice.goto(config.origin+'/game/quests');await submit(apprentice,apprentice.getByRole('button',{name:'Do quest Patrol the border',exact:true}));
-  await apprentice.screenshot({path:join(phase45Out,'390-quest-reward.png')});
-  const balanceAfterQuest=(await apprenticeState()).gold;await apprentice.reload();assert.equal((await apprenticeState()).gold,balanceAfterQuest);assert.equal(await apprentice.locator('.quest-result.is-celebrating').count(),0);
-  await marketPage.goto(config.origin+'/game/battle');assert.match(await marketPage.locator('[aria-label="Battle categories"]').innerText(),/Bounty List \(\d+\)/);
-  assert.equal(await marketPage.getByRole('button',{name:'Recruit militia',exact:true}).count(),0);
   assert.ok(observed.length>=16);
   observed.forEach(request=>{assert.equal(request.browserOrigin,config.origin);assert.equal(request.refererOrigin,config.origin);assert.equal(request.fetchSite,'same-origin');});
   for(const upstream of ['http://localhost:3001','https://localhost:3001',config.origin])assert.ok(observed.some(request=>request.upstreamOrigin===upstream),upstream);

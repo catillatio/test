@@ -18,7 +18,11 @@ if(statusRoot){
  }
  document.addEventListener('realm-state',event=>paint(event.detail));
  const disclosures=[...statusRoot.querySelectorAll('.status-disclosure')];
- for(const panel of disclosures)panel.addEventListener('toggle',()=>{if(panel.open)for(const other of disclosures)if(other!==panel)other.open=false;});
+ for(const panel of disclosures){
+  // Close siblings synchronously on activation; native toggle events are queued.
+  panel.querySelector('summary')?.addEventListener('click',()=>{for(const other of disclosures)if(other!==panel)other.open=false;});
+  panel.addEventListener('toggle',()=>{if(panel.open)for(const other of disclosures)if(other!==panel)other.open=false;});
+ }
  document.addEventListener('click',event=>{if(!statusRoot.contains(event.target))disclosures.forEach(panel=>panel.open=false);});
  document.addEventListener('keydown',event=>{if(event.key==='Escape')for(const panel of disclosures)if(panel.open){panel.open=false;panel.querySelector('summary')?.focus();}});
  if(form){

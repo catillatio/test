@@ -1,4 +1,4 @@
-<nav class="category-tabs" aria-label="Battle categories"><a href="/game/battle" aria-current="page">Attack Rivals</a><a href="/game/bounties">Bounty List (<span data-bounty-count data-next-expiry="<%= nextBountyExpiry??'' %>"><%= bountyCount %></span>)</a></nav>
+<nav class="category-tabs" aria-label="Battle categories"><a href="/game/battle" aria-current="page">Attack Rivals</a><a href="/game/bounties"><span class="bounty-label">Bounty List (<span data-bounty-count data-next-expiry="<%= nextBountyExpiry??'' %>"><%= bountyCount %></span>)</span></a></nav>
 <p class="compact-help">Attack costs <strong>1 Spirit</strong>. You need at least <%= alpha.combat.minimumHealth %> Health; the defender needs positive Health. Victory depends on character strength, participating army and automatically selected equipment.</p>
 <div class="battle-summary"><span>Your attack <strong><%= state.attack %></strong></span><span>Defense <strong><%= state.defense %></strong></span><span>Army <strong><%= state.army.participants %></strong></span></div>
 <% const actorReady=state.health>=alpha.combat.minimumHealth&&state.spirit>=alpha.combat.spiritCost; %>
