@@ -1,0 +1,91 @@
+{
+  "date_utc": "2026-10-18T00:19:29.712000+00:00",
+  "branch": "feature/kingdom-come-phase-4-3-economy-and-progression",
+  "base_commit": "a0be03799f5f58e8918c17443cbe4d939a8c25d9",
+  "scope": "Deployment only; no gameplay source, templates, art, catalogs or SQL migration changes.",
+  "official_railway_schema": {
+    "url": "https://railway.com/railway.schema.json",
+    "validation": "passed with jsonschema",
+    "sha256": "0302fd53109298d9c277dbaedae772630506d8da43636e69875268a8782dd68f"
+  },
+  "automated": {
+    "command": "TEST_DATABASE_URL=<designated disposable *_test database> npm run verify",
+    "typescript": "passed",
+    "production_build": "passed",
+    "tests": 208,
+    "passed": 208,
+    "failed": 0,
+    "skipped": 0,
+    "includes": "Real PostgreSQL integration, Codespaces and Railway production-origin tests; existing gameplay/migration/concurrency regressions."
+  },
+  "static": {
+    "command": "npm run check:static",
+    "passed_checks": 78,
+    "failed": 0,
+    "production_ejs_fixture_cases": 60
+  },
+  "container_build": {
+    "runtime_image_id": "sha256:01825f1f59d3778ea3170a79af0bf1626089a8c34c0119687a83b74fc9e73903",
+    "normal_dockerfile": "Parsed successfully; npm ci blocked by SELF_SIGNED_CERT_IN_CHAIN from this workspace HTTPS proxy.",
+    "local_ca_validation": "Passed. Temporary Dockerfile outside Git adds a BuildKit proxy_ca secret only to npm ci/prune RUN instructions; all other instructions and runtime content match the committed Dockerfile.",
+    "tls_verification_disabled": false,
+    "workspace_ca_in_runtime": false,
+    "railway_dockerfile_has_mounts": false
+  },
+  "real_container_postgresql_checks": {
+    "image": "kingdom-come:railway-check",
+    "postgresImage": "postgres:18-bookworm",
+    "checks": [
+      "private PostgreSQL 18 started without a published port",
+      "unmigrated production startup fails without altering the empty database",
+      "separate compiled pre-deploy runner installs all 14 migrations",
+      "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+      "production server binds dynamically assigned port 32123 and passes database healthcheck",
+      "real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP and foreign-Origin rejection",
+      "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+      "native custom-format backup restores atomically into a separate fresh database with identical data",
+      "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+      "neither web nor PostgreSQL container publishes a port"
+    ],
+    "portsPublished": false,
+    "backupBytes": 183658,
+    "dataDigest": "6590a372e424e65416c75238f63081ca78664e46246498bc720bc5d20365edd7"
+  },
+  "https_browser": {
+    "command": "TEST_DATABASE_URL=<designated disposable *_test database> npm run test:codespaces",
+    "passed": true,
+    "native_browser_posts": 44,
+    "responsive_screen_visits": 150,
+    "additional_private_receipt_layouts": 5,
+    "viewport_widths": [
+      320,
+      360,
+      390,
+      412,
+      430,
+      1366
+    ],
+    "browser_errors": 0,
+    "fixture": "Real local TLS termination and HTTP forwarding with Codespaces-shaped hostname; no live provider contacted.",
+    "secure_cookies_csrf_origin_and_authentication": "passed"
+  },
+  "data_preservation": {
+    "new_sql_migrations": 0,
+    "existing_migration_files_modified": false,
+    "player_database_touched": false,
+    "migration_replays": "Two post-gameplay pre-deploy reruns preserve complete SQL data-only snapshots.",
+    "backup_restore": "Native pg_dump custom archive and pg_restore --single-transaction into separate fresh disposable database; complete SQL data-only snapshots match."
+  },
+  "deployment": {
+    "railway_resources_created": false,
+    "public_ports_or_endpoints_created": false,
+    "railway_deployment_triggered": false,
+    "github_autodeploy": "User confirmed disabled before push."
+  },
+  "limitations": [
+    "No Railway build/deployment was triggered; actual project variables, private DNS, provider TLS/domain issuance and health promotion require owner verification.",
+    "The unmodified mount-free Dockerfile cannot fetch npm over this workspace intercepting proxy without session CA accommodation; its runtime was built and exercised using that temporary build-only trust mount.",
+    "Railway SSH/CLI export and managed-volume backup controls were documented but not exercised against a provider account.",
+    "No Android APK or physical-device verification was performed."
+  ]
+}

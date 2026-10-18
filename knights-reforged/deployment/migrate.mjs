@@ -2,7 +2,9 @@
 import { loadConfig } from '../dist/config.js';
 import { createDatabase } from '../dist/db.js';
 import { migrate } from '../dist/migrate.js';
+import { validateDeploymentEnvironment } from './environment.mjs';
 
+validateDeploymentEnvironment();
 const db = createDatabase(loadConfig().databaseUrl);
 try {
   await migrate(db);

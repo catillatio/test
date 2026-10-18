@@ -16,6 +16,8 @@ Earlier [PHASE_4.md](PHASE_4.md) and [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.
 
 See [PHASE_4_3.md](PHASE_4_3.md) for the current XP formula, shared hourly income correction, bounty-only casualties, 450-rival upgrade and data-safe Codespace commands. [All sixteen acceptance sections](PHASE_4_3_CHECKLIST.md) and [current screenshots](docs/phase-4-3-preview/README.md) accompany the milestone. Earlier reports remain historical.
 
+For Railway, use [RAILWAY.md](RAILWAY.md): repository Dockerfile, private PostgreSQL, explicit HTTPS origin, a controlled pre-deploy migration, backup/restore and health/restart settings. No Railway resource or deployment is created by these files.
+
 ## What works
 
 - Attack Again with current target Health, finishing attacks to zero, Spirit/resource/reward checks without a combat cooldown and linked public profiles.

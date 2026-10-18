@@ -1,8 +1,10 @@
 # Private Codespaces launch and deployment preparation
 
+**Current Railway instructions:** [RAILWAY.md](RAILWAY.md) supersedes the historical container preparation below. Use the mount-free Dockerfile and `railway.json`, a private PostgreSQL URL and a separate pre-deploy migration. `RUN_MIGRATIONS=1` is no longer supported at server startup.
+
 Phase 3.5 TypeScript/build, PostgreSQL migration/regression, real TLS reverse-proxy, restart and browser checks have run in the development workspace. See [KINGDOM_COME_PHASE_3_5_VERIFICATION.json](KINGDOM_COME_PHASE_3_5_VERIFICATION.json) for the executed gates and limitations. The historical network blockers in older verification files do not describe this phase.
 
-No hosting resources, Codespace, public preview, deployment or merge are created by this work. The supplied container/devcontainer recipes are configuration files; Docker/container builds and provider access policies have not been verified here.
+No hosting resources, Codespace, public preview, deployment or merge are created by this work. Current image/runtime verification and its limits are recorded in [RAILWAY.md](RAILWAY.md); the earlier devcontainer recipes and provider access policies remain separate checks.
 
 ## Existing Codespace and player database
 
@@ -22,14 +24,14 @@ The existing application-local `.devcontainer` entrypoint points at the same che
 
 ## Prepared container hosting
 
-The Dockerfile retains the Fastify/PostgreSQL architecture, builds on Node 24, uses the package lock and runs TypeScript/unit/build gates. The final runtime is non-root and includes compiled code, views, public assets, all immutable catalogs, migrations and deployment helpers.
+The Dockerfile retains the Fastify/PostgreSQL architecture, builds on Node 24, uses the package lock and compiles TypeScript. Run unit/PostgreSQL checks separately on a designated test database. The final runtime is non-root and includes compiled code, views, public assets, all immutable catalogs, migrations and production entrypoints.
 
 ```bash
 cd knights-reforged
-docker build -t kingdom-come:phase-3-5-alpha .
+docker build -t kingdom-come:phase-4-3 .
 ```
 
-No image build has been executed in this workspace. Database tests are not established by the image's unit-only build step. Run the PostgreSQL gates on a designated disposable database before using the image with player data.
+The build does not connect to a player database. See the Railway guide for executed compatibility checks. Run the PostgreSQL gates on a designated disposable database before using the image with player data.
 
 Configure secrets/environment through the selected provider:
 
@@ -40,7 +42,7 @@ Configure secrets/environment through the selected provider:
 | `APP_ORIGIN` | Exact private HTTPS browser origin |
 | `HOST` | `0.0.0.0` inside the container |
 | `PORT` | Provider-assigned port or `3000` |
-| `RUN_MIGRATIONS` | Optional `1` for an explicitly chosen startup migration; otherwise run a separate schema job |
+| `RUN_MIGRATIONS` | Remove it; migrations run only through the separate pre-deploy command |
 
 The runtime command is `node deployment/start.mjs`. A separate migration job runs `node deployment/migrate.mjs`. The migration runner uses its advisory lock and immutable-ruleset checks. Startup verifies catalog definitions and schema migration head before listening. Health is `/healthz`.
 

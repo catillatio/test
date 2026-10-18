@@ -1,10 +1,22 @@
-node_modules
-.git
-.local
-.env
-.env.*
-!.env.example
-test-results
-*.log
-*.zip
-android/**/build
+# Allowlist the production build context. Research APKs, backups, .env files,
+# screenshots, development helpers and local dependencies never reach a build.
+**
+!Dockerfile
+!.dockerignore
+!package.json
+!package-lock.json
+!tsconfig.json
+!src/
+!src/**
+!views/
+!views/**
+!public/
+!public/**
+!rulesets/
+!rulesets/**
+!migrations/
+!migrations/**
+!deployment/
+!deployment/start.mjs
+!deployment/migrate.mjs
+!deployment/environment.mjs
