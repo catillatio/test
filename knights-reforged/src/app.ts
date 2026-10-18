@@ -292,7 +292,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/api/v1/me', { preHandler: requireAccount }, async request => {
     const state=await getState(db,request.realmSession!.account_id!,config);
     const counts=(request.query as {bounties?:string}).bounties==='1'?await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):undefined;
-    return {state,csrfToken:request.realmSession!.csrf_token,...(counts?{bounties:counts}:{})};
+    return {state,csrfToken:request.realmSession!.csrf_token,rulesetId:alpha.id,...(counts?{bounties:counts}:{})};
   });
   app.get('/api/v1/opponents', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!,config);

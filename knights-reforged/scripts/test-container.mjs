@@ -40,7 +40,7 @@ const client=`import assert from 'node:assert/strict';import {randomUUID} from '
 const origin=${JSON.stringify(origin)},base='http://127.0.0.1:${port}';
 const headers={origin,host:'game.railway.internal:${port}','x-forwarded-proto':'https','x-forwarded-host':new URL(origin).host};
 const session=r=>{const line=r.headers.getSetCookie().find(v=>v.startsWith('kr_session='));assert.ok(line);assert.match(line,/; Secure/);assert.match(line,/; HttpOnly/);return line.split(';')[0];};
-async function state(cookie){const r=await fetch(base+'/api/v1/me',{headers:{cookie}});assert.equal(r.status,200);return r.json();}
+async function state(cookie){const r=await fetch(base+'/api/v1/me',{headers:{cookie}});assert.equal(r.status,200);const payload=await r.json();assert.equal(payload.rulesetId,payload.state.rulesetId);return payload;}
 async function command(actor,url,payload={},key=randomUUID()){
  const r=await fetch(base+url,{method:'POST',headers:{...headers,cookie:actor.cookie,'content-type':'application/json','x-csrf-token':actor.csrf,'idempotency-key':key},body:JSON.stringify(payload)});
  const body=await r.text();assert.equal(r.status,200,body);return JSON.parse(body);

@@ -10,6 +10,7 @@ const skip=!testDatabaseUrl;
 test('gold healing settles free recovery, charges missing Health once under concurrent requests, and preserves ordinary resources',{skip},async()=>{
  let now=new Date('2046-01-01T00:00:00Z');const r=await realm({isolated:true,clock:()=>now});try{
   const a=await r.player();await r.prepare(a,1000);
+  const contract=await r.app.inject({method:'GET',url:'/api/v1/me',headers:{cookie:a.cookie}});assert.equal(contract.json().rulesetId,contract.json().state.rulesetId,'Existing top-level catalog version remains compatible.');
   await r.db.query('UPDATE characters SET health=40,health_updated_at=$2 WHERE id=$1',[a.id,now]);
   const before=await r.me(a),key=randomUUID();assert.equal(before.healing.cost,60);
   const replies=await Promise.all([r.ok(a,'/api/v1/health/restorations',{maxCost:60},key),r.ok(a,'/api/v1/health/restorations',{maxCost:60},key),r.ok(a,'/api/v1/health/restorations',{maxCost:60})]);
