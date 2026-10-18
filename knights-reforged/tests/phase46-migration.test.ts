@@ -84,7 +84,8 @@ test('Hall reads only indexed summaries with thousands of characters and twenty 
    'SELECT id FROM battles WHERE LEAST(attacker_id,defender_id)=$1 AND GREATEST(attacker_id,defender_id)=$2 ORDER BY created_at DESC,id DESC LIMIT 5']){
    const plan=(await r.db.query('EXPLAIN (ANALYZE,BUFFERS,FORMAT JSON) '+statement,statement.includes('$1')?[...[a.id,b.id].sort()]:undefined)).rows[0]!['QUERY PLAN'];plans.push(plan);
   }
+  const storedBattles=Number((await r.db.query('SELECT count(*)::text AS n FROM battles')).rows[0]!.n);assert.equal(storedBattles,21200);
   assert.match(JSON.stringify(plans[0]),/champions_victories/);assert.match(JSON.stringify(plans[1]),/battles_rivalry_recent/);
-  await mkdir('test-results',{recursive:true});await writeFile('test-results/phase46-query-plans.json',JSON.stringify({passed:true,characters:1202,battles:20000,hallStatements:statements.length,plans},null,2)+'\n');
+  await mkdir('test-results',{recursive:true});await writeFile('test-results/phase46-query-plans.json',JSON.stringify({passed:true,characters:1202,battles:storedBattles,pairBattles:20000,hallStatements:statements.length,plans},null,2)+'\n');
  }finally{await r.close();}
 });

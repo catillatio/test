@@ -103,7 +103,7 @@ try{
     assert.equal(sql('railway_test',"SELECT w.balance||':'||(s.quantity+1) FROM accounts a JOIN characters c ON c.account_id=a.id JOIN wallets w ON w.character_id=c.id JOIN army_stacks s ON s.character_id=c.id WHERE a.username='dev'"),'50000:10');
     check('Phase 4.6 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.5 rivals');
     const status=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/status.mjs']));
-    assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
+    assert.equal(status.release,'phase4.6');assert.equal(status.schemaHead,'019_champions_and_rivalries.sql');assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
     assert.equal(status.dev.username,'dev');assert.equal(status.dev.gold,50000);assert.equal(status.dev.recruited_army,10);
     assert.equal(status.maximum_bot_army,10);assert.equal(status.minimum_bot_plots,3);assert.equal(status.population.length,50);
     for(const level of status.population)assert.equal(level.rivals,9);
@@ -154,7 +154,7 @@ try{
     const retired=await fetch(base+'/api/v1/army/recruitments',{method:'POST',headers:{...headers,cookie:a.cookie,'content-type':'application/json','x-csrf-token':a.csrf,'idempotency-key':randomUUID()},body:JSON.stringify({unitId:'militia',quantity:1})});assert.equal(retired.status,404);
 
     const comment=await command(a,'/api/v1/comments',{profileId:b.id,body:'A respectful production-container field report.'});
-    for(const page of ['home','profile','quests','battle','bounties','armory','army','land','vault','settings']){
+    for(const page of ['home','profile','quests','battle','bounties','armory','army','land','vault','settings','champions','tutorial']){
       const r=await fetch(base+'/game/'+page,{headers:{cookie:a.cookie}});assert.equal(r.status,200,await r.clone().text());
     }
     const invalid=await fetch(base+'/api/v1/quests/border-patrol/runs',{method:'POST',headers:{...headers,origin:'https://foreign.invalid',cookie:a.cookie,'x-csrf-token':a.csrf,'content-type':'application/json'},body:'{}'});
@@ -162,7 +162,7 @@ try{
     const gray=${alphaMode?'await player("gray")':'null'};
     console.log(JSON.stringify({a,b,gray,messageId:comment.data.messageId,battleId:battle.battleId,before:(await state(a.cookie)).state}));
   `);
-  check('real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP, idempotent gold healing/CSRF, retired militia and foreign-Origin rejection');
+  check('real production HTTP registration, twelve pages, quests, quantity equipment, Land, Vault, PvP, idempotent gold healing/CSRF, retired militia and foreign-Origin rejection');
   if(alphaMode){
     let moderationDenied=false;
     try{docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/moderate.mjs','queue']);}catch(error){moderationDenied=true;assert.match(String(error.stderr),/ALLOW_REALM_MODERATION/);}
@@ -173,6 +173,20 @@ try{
     assert.equal(sql('railway_test',"SELECT status FROM realm_messages WHERE id='"+played.messageId+"'"),'hidden');
     assert.equal(moderate('restore',played.messageId,'Verified restoration check').completed,true);
     check('compiled operator moderation works without development tools, requires explicit authorization and preserves the existing audit history');
+    const broadcastIds=[randomUUID(),randomUUID(),randomUUID()];
+    for(const id of broadcastIds)sql('railway_test',`INSERT INTO realm_messages(id,author_id,channel,body,command_id,ruleset_id,created_at)
+      VALUES('${id}','${played.a.id}','broadcast','Disposable owner-reviewed broadcast','${randomUUID()}','community-0.1',clock_timestamp())`);
+    assert.equal(moderate('broadcasts').broadcasts.length,3);
+    const reviewed=moderate('review-broadcasts',...broadcastIds.slice(0,2));assert.equal(reviewed.records.length,2);
+    let hideDenied=false;try{moderate('hide-broadcasts',...broadcastIds.slice(0,2));}catch(error){hideDenied=true;assert.match(String(error.stderr),/confirmation/);}assert.ok(hideDenied);
+    await writeFile(join(folder,'moderation.env'),[...gameEnvironment(),'ALLOW_REALM_MODERATION=1','REALM_MODERATOR_LABEL=Disposable security operator',
+      'KINGDOM_BROADCAST_REVIEW='+reviewed.reviewSha256,'KINGDOM_BROADCAST_CONFIRM=HIDE_REVIEWED_BROADCASTS'].join('\n')+'\n',{mode:0o600});
+    const hideBroadcasts=()=>JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'moderation.env'),image,'node','deployment/moderate.mjs','hide-broadcasts',...broadcastIds.slice(0,2)]));
+    assert.equal(hideBroadcasts().hidden,2);assert.equal(hideBroadcasts().alreadyHidden,2);
+    assert.equal(sql('railway_test',"SELECT status FROM realm_messages WHERE id='"+broadcastIds[2]+"'"),'visible');
+    for(const id of broadcastIds.slice(0,2))assert.equal(moderate('restore',id,'Owner-approved reversal fixture').completed,true);
+    assert.equal(moderate('broadcasts').broadcasts.length,3);
+    check('compiled two-ID broadcast review, explicit approval, atomic idempotent hides and reversible restoration preserve unrelated messages');
     const inspect=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/grant-gray.mjs','inspect']));
     assert.equal(inspect.character_id,played.gray.id);
     await writeFile(join(folder,'grant.env'),[...gameEnvironment(),'KINGDOM_GRAY_ACCOUNT_ID='+inspect.account_id,'KINGDOM_GRAY_GRANT_CONFIRM=GRANT_GRAY_50000_PHASE44','KINGDOM_OPERATOR_REFERENCE=Disposable production-container regression'].join('\n')+'\n',{mode:0o600});
