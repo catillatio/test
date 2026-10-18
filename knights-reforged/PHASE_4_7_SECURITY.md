@@ -35,6 +35,8 @@ No confirmed critical/high-severity vulnerability was identified by this scoped 
 
 Local containers verify native PostgreSQL export/checksum/restore and copied-data migrations. Unit guard tests inject corrupt/truncated backups, incorrect branches/reviewers and failed preservation reports. actionlint verifies both workflows. Authenticated GitHub protection-plan behavior, Railway SSH/token permissions, independent host-key trust, actual artifact retention and an end-to-end provider promotion remain owner setup/rehearsal checks; they were not performed here.
 
+The first GitHub run passed the full suite and audit but failed its sound preview under the runner's automatically selected system Chromium. CI now selects installed Google Chrome explicitly and checks actual AAC decoding before the interaction suite. This is a test-browser compatibility correction, with no gameplay or credential changes; codec failures remain fatal rather than being skipped.
+
 ## Outstanding risks and acceptance gates
 
 - Complete the owner rehearsal and offline-key decryption check before approving promotion. Keep a durable independent encrypted backup and Railway-managed backups. GitHub artifacts expire; `/tmp` is not durable storage. A restore consumes capacity on the same PostgreSQL volume, so monitor it and review specifically named old test copies before any cleanup.

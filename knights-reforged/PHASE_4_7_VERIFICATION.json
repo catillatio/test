@@ -112,6 +112,11 @@
       "archiveSha256": "f518230646acc7a6a7a67365e7642618f659d5d8cdd7cf8c180336140d0504eb",
       "result": "passed",
       "authenticatedProviderSession": false
+    },
+    {
+      "command": "CHROMIUM_NO_SANDBOX=1 node scripts/check-browser-audio.mjs",
+      "result": "passed",
+      "purpose": "Decode the actual AAC sprite in the explicitly selected browser. CI selects installed Google Chrome; it does not silently fall back to an unbranded system snapshot."
     }
   ],
   "finalProductionImage": {
@@ -203,5 +208,14 @@
     "Physical Android Chrome/iPhone Safari audio unlocking, speaker quality, interruptions and OS tab suspension/eviction need owner device acceptance. Chromium viewport/clock simulations are not native-phone or APK verification.",
     "Live bot portfolios and the exact cause of low live rewards remain unverified. The read-only owner audit precedes any separately authorized capital/portfolio correction; none is included.",
     "The two live broadcasts remain unchanged until the owner reviews and approves their exact immutable IDs and digest."
-  ]
+  ],
+  "githubVerification": {
+    "initialRun": "https://github.com/catillatio/test/actions/runs/39166095076",
+    "fullSuite": "passed",
+    "typecheckBuildTemplates": "passed",
+    "dependencyAudit": "passed",
+    "initialBrowserPreview": "failed in automatically selected runner system Chromium",
+    "correction": "Explicit installed Google Chrome with mandatory AAC decode preflight; repeat CI result is linked in the delivery report.",
+    "localAdditionalBrowser": "Playwright Chrome Headless Shell 156.0.8078.4 passed all 64 responsive visits and 19 cues, in addition to system Chromium 154."
+  }
 }

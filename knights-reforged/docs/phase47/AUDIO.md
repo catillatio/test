@@ -37,3 +37,5 @@ Navigation closes the old audio context and releases its decoded buffer; back/fo
 Reduced-motion users retain static reward information and all controls. Sound is separately opt-in and can be muted or set to zero; enabling audio does not enable visual motion. No microphone, push-notification, storage permission or third-party tracking is requested.
 
 Physical Android/iPhone speakers, silent-mode behavior, Safari's current activation rules and subjective extended-play comfort still require owner listening. Automated Chromium playback proves codec/gesture/duplicate behavior, not a professional listener's device acceptance.
+
+CI explicitly selects the Ubuntu runner's installed Google Chrome. Its separately installed unbranded Chromium snapshot can have a different codec build; downloading Playwright does not change the script's system-browser fallback. `scripts/check-browser-audio.mjs` reports both candidates and requires the selected browser to decode the real sprite before the complete interaction tests. It never substitutes silent audio or skips an unsupported-codec failure.
