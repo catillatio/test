@@ -3,19 +3,21 @@ import { loadConfig } from '../dist/config.js';
 import { createDatabase } from '../dist/db.js';
 import { migrate } from '../dist/migrate.js';
 import { validateDeploymentEnvironment } from './environment.mjs';
-import { initializePrivateAlpha,assertPrivateAlphaBootstrapTarget } from '../dist/development.js';
 
 validateDeploymentEnvironment();
 const config=loadConfig(); // Validate private Railway target before connecting.
+// The owner restores the backup to a separate *_restore_test database first.
+// Verify that copy before opening the live pool or applying any live migration.
+if(process.env.KINGDOM_RESTORE_TEST_DATABASE)await import('./check-upgrade.mjs');
 const db = createDatabase(config.databaseUrl);
 try {
-  if(process.env.KINGDOM_ALPHA_INITIALIZE)await assertPrivateAlphaBootstrapTarget(db,process.env);
+  if(config.privateAlpha&&!process.env.KINGDOM_RESTORE_TEST_DATABASE){
+    const exists=(await db.query("SELECT to_regclass('schema_migrations') AS installed")).rows[0].installed;
+    if(exists){const versions=(await db.query('SELECT name FROM schema_migrations')).rows.map(row=>row.name);
+      if(versions.includes('015_private_alpha_initialization.sql')&&!versions.includes('017_security_and_operator_grants.sql'))throw new Error('First live Phase 4.4 upgrade requires a verified restored backup. Set KINGDOM_RESTORE_TEST_DATABASE to the separately restored *_restore_test database. No migration was applied.');
+    }
+  }
   await migrate(db);
   console.log('Database migrations and the provisional ruleset are installed.');
-  if(process.env.KINGDOM_ALPHA_INITIALIZE){
-    const environment={...process.env};
-    delete process.env.KINGDOM_DEV_PASSWORD;
-    const result=await initializePrivateAlpha(db,environment);
-    console.log(JSON.stringify({event:'private_alpha_initialization',...result}));
-  }
+
 } finally { await db.end(); }

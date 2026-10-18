@@ -15,6 +15,11 @@ import { type Database } from './db.js';
 import { authenticate, registerAccount, createSession, findSession, type Session } from './auth.js';
 import { getState, getBattle, recentBattles, listOpponents, type CharacterState } from './game.js';
 import { executeCommand, type CommandKind } from './commands.js';
+import {experienceView,regionFilter,rememberRegion} from './experience.js';
+import {experienceRules} from './experience-rules.js';
+import {announcements} from './announcements.js';
+import {createTradeQuote} from './trade.js';
+import {authenticationAttempt} from './security.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
 import { landRules } from './land-rules.js';
@@ -31,7 +36,7 @@ import { navigation as nav, templateScreens, commandRoutes } from './http-contra
 declare module 'fastify' { interface FastifyRequest { realmSession: Session | null; } }
 const uuid = z.string().uuid();
 const allowedScreens = new Set<string>(templateScreens);
-const destination: Record<CommandKind, string> = { vault_deposit:'vault',vault_withdraw:'vault',quest:'quests',quest_buy:'quests',recruit:'army',buy:'armory',sell:'armory',equip:'armory',attack:'battle',land_buy:'land',land_sell:'land',skill:'profile',profile:'profile',maintain:'armory',invite:'army',accept:'army',remove:'army',bounty_place:'bounties',bounty_cancel:'bounties',invite_code:'army',reject:'army',comment:'home',broadcast:'home',social_report:'home',social_remove:'home' };
+const destination: Record<CommandKind, string> = {tutorial:'home', vault_deposit:'vault',vault_withdraw:'vault',quest:'quests',quest_buy:'quests',recruit:'army',buy:'armory',sell:'armory',equip:'armory',attack:'battle',land_buy:'land',land_sell:'land',skill:'profile',profile:'profile',maintain:'armory',invite:'army',accept:'army',remove:'army',bounty_place:'bounties',bounty_cancel:'bounties',invite_code:'army',reject:'army',comment:'home',broadcast:'home',social_report:'home',social_remove:'home' };
 const asBody = (request: FastifyRequest) => (request.body && typeof request.body === 'object' ? request.body : {}) as Record<string, unknown>;
 const wantsJson = (request: FastifyRequest) => request.url.startsWith('/api/') || (request.headers.accept ?? '').includes('application/json');
 
@@ -47,11 +52,11 @@ export async function createApp(options: { db: Database; config: Config; logger?
   await app.register(helmet, { referrerPolicy:{policy:'same-origin'}, contentSecurityPolicy: { directives: { defaultSrc: ["'self'"],
     scriptSrc: ["'self'"], styleSrc: ["'self'"], imgSrc: ["'self'"], fontSrc: ["'self'"],
     objectSrc: ["'none'"], frameAncestors: ["'none'"], formAction: ["'self'"], upgradeInsecureRequests: config.secureCookies ? [] : null } } });
-  await app.register(rateLimit, { global: false });
-  await app.register(fastifyStatic, { root: join(projectRoot, 'public'), prefix: '/assets/', maxAge: '1h' });
+  await app.register(rateLimit, { global:true,max:config.nodeEnv==='test'?100000:600,timeWindow:'1 minute',allowList:request=>request.url.startsWith('/assets/')||request.url.split('?')[0]==='/healthz' });
+  await app.register(fastifyStatic, { root: join(projectRoot, 'public'), prefix: '/assets/', maxAge: '1h',dotfiles:'deny',index:false,list:false });
   // Rules used by shared/nested views are application constants, not optional
   // page locals. This also covers direct views and error rendering contexts.
-  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
+  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
   app.decorateRequest('realmSession', null);
 
   const setSessionCookie = (reply: FastifyReply, token: string, authenticated: boolean) => reply.setCookie('kr_session', token, {
@@ -115,18 +120,21 @@ export async function createApp(options: { db: Database; config: Config; logger?
       notice = receipt?.result?.message ?? null;
       actionResult = receipt?.result ?? null;
     }
+    const playerExperience=state?await experienceView(db,state.id):null;
+    const chosenRegion=regionFilter(query.area);
+    if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', {
-      screen, state, nav, rules, landRules, alpha, strategy, community, relativeTime, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,
+      screen, state, nav, rules, landRules, alpha, strategy, community, relativeTime, experienceRules,announcements,questEquipment:null,tradeQuote:null, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
-      questArea: query.area==='all'||alpha.content?.areas.some(area=>area.id===query.area) ? query.area : 'nearby',
+      questArea:chosenRegion??playerExperience?.region??'all',
       profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
       recruitment:{allowed:false,reason:'Review this army request in Recruit.',status:'none',automatic:false},publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
       feedTab:feedCategory((request.query as {feed?:string}).feed),feed:{entries:[],nextCursor:null},
       armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],
       csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
       commandId: randomUUID, notice, error: null, opponents: [], nextOpponentCursor:null, battles: [], battle: null,
-      title: 'Kingdom Come', authMode: 'login', formValues: { username: '', name: '' }, ...data,
+      experience:playerExperience,title: 'Kingdom Come', authMode: 'login', formValues: { username: '', name: '' }, ...data,
     });
   }
 
@@ -138,6 +146,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   }
   const authLimit = { config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 10, timeWindow: '1 minute' } } };
   app.post('/register', authLimit, async (request, reply) => {
+    await authenticationAttempt(db,'registration',asBody(request).username);
     const account = await registerAccount(db, asBody(request));
     const fresh = await createSession(db, account.accountId, request.realmSession?.token_hash);
     setSessionCookie(reply, fresh.token, true);
@@ -145,6 +154,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.post('/login', authLimit, async (request, reply) => {
     const body = asBody(request);
+    await authenticationAttempt(db,'login',body.username);
     const account = await authenticate(db, body.username, body.password);
     const fresh = await createSession(db, account.accountId, request.realmSession?.token_hash);
     setSessionCookie(reply, fresh.token, true);
@@ -172,6 +182,14 @@ export async function createApp(options: { db: Database; config: Config; logger?
       });
     });
   }
+  app.get('/game/achievements',{preHandler:requireAccount},async(request,reply)=>render(request,reply,'achievements',{title:'Achievements'}));
+  app.get('/api/v1/achievements',{preHandler:requireAccount},async request=>{const state=await getState(db,request.realmSession!.account_id!,config);return experienceView(db,state.id);});
+  app.get('/game/quests/:id/requirements',{preHandler:requireAccount},async(request,reply)=>{
+    const state=await getState(db,request.realmSession!.account_id!,config),quest=state.quests.find(q=>q.id===(request.params as {id:string}).id);
+    if(!quest)throw new GameError('QUEST_NOT_FOUND','That quest is not available.',404);
+    const missing=Object.entries(quest.missing).map(([id,quantity])=>({item:alpha.items.find(item=>item.id===id)!,quantity,cost:alpha.items.find(item=>item.id===id)!.price*quantity}));
+    return render(request,reply,'quest-equipment',{title:'Quest requirements',state,questEquipment:{quest,missing,total:quest.missingCost,shortfall:Math.max(0,quest.missingCost-state.gold)}});
+  });
   app.get('/game/purchases/:id',{preHandler:requireAccount},async(request,reply)=>{
     const id=(request.params as {id:string}).id;if(!uuid.safeParse(id).success)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
     const accountId=request.realmSession!.account_id!;
@@ -241,10 +259,21 @@ export async function createApp(options: { db: Database; config: Config; logger?
 
   for (const route of commandRoutes) {
     for (const url of [route.html, route.api]) {
-      app.post(url, { preHandler: requireAccount, config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 90, timeWindow: '1 minute' } } }, async (request, reply) => {
+      app.post(url, { preHandler: requireAccount, config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 90, timeWindow: '1 minute',hook:'preHandler',keyGenerator:(request:FastifyRequest)=>request.realmSession?.account_id??request.ip } } }, async (request, reply) => {
         const body = asBody(request);
         const input = route.kind === 'quest' || route.kind === 'quest_buy' ? { ...body, questId: (request.params as {id:string}).id } : body;
-        const result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input,{developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled});
+        if((route.kind==='land_buy'||route.kind==='land_sell')&&body.preview==='1'&&!wantsJson(request)){
+          const parsed=z.object({propertyId:z.string().regex(/^[a-z0-9-]+$/).max(64),quantity:z.coerce.number().int().min(1).max(alpha.limits.landTransaction)}).safeParse(body);
+          if(!parsed.success)throw new GameError('INVALID_QUANTITY','Choose a valid property quantity.');
+          const quote=await createTradeQuote(db,request.realmSession!.account_id!,route.kind,parsed.data.propertyId,parsed.data.quantity,config);
+          return render(request,reply,'trade-confirm',{title:route.kind==='land_buy'?'Confirm property purchase':'Confirm property sale',state:quote.state,tradeQuote:quote});
+        }
+        let result;
+        try{result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input,{developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled});}catch(error){
+          if(route.kind==='quest'&&!wantsJson(request)&&error instanceof GameError&&error.code==='MISSING_EQUIPMENT')return reply.redirect('/game/quests/'+(request.params as {id:string}).id+'/requirements',303);
+          throw error;
+        }
+        if(route.kind==='quest_buy'&&!wantsJson(request))return reply.redirect('/game/quests/'+result.data!.questId+'/requirements?command='+result.commandId,303);
         if (wantsJson(request)) return { ...result, state: await getState(db, request.realmSession!.account_id!,config) };
         if((route.kind==='buy'&&result.data?.itemId&&typeof result.data.quantity==='number')||(route.kind==='land_buy'&&result.data?.propertyId&&typeof result.data.quantity==='number'))
           return reply.redirect('/game/purchases/'+result.commandId,303);

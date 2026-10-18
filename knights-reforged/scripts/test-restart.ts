@@ -11,6 +11,7 @@ import {testDatabaseUrl} from '../tests/helpers.js';
 import {createDatabase} from '../src/db.js';
 import {migrate} from '../src/migrate.js';
 import {provisionBots} from '../src/development.js';
+import {alpha} from '../src/alpha-rules.js';
 
 if(!testDatabaseUrl)throw new Error('TEST_DATABASE_URL must designate a disposable *_test database. Build before running this check.');
 const db=createDatabase(testDatabaseUrl);await migrate(db);
@@ -71,11 +72,21 @@ try{
   const rivalState=(await fetch(origin+'/api/v1/me',{headers:{cookie:b.cookie}}).then(r=>r.json())).state;
   await command('/api/v1/army/code-invitations',{code:rivalState.invitationCode});
   await command('/api/v1/vault/deposits',{amount:1});
+  await command('/api/v1/tutorial',{action:'start'});
+  const chosenArea=alpha.content!.areas[0]!.id;
+  await fetch(origin+'/game/quests?area='+encodeURIComponent(chosenArea),{headers:{cookie:a.cookie}});
+  const experienceBefore=await fetch(origin+'/api/v1/achievements',{headers:{cookie:a.cookie}}).then(r=>r.json());
+  assert.ok(experienceBefore.achievements.some((award:{earnedAt:string|null})=>award.earnedAt));
+  assert.equal(experienceBefore.tutorial.status,'completed');
+  assert.equal(experienceBefore.tutorial.completed,8);
+  assert.equal(experienceBefore.region,chosenArea);
   const before=(await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}}).then(r=>r.json())).state;
   await stop();await start();
   const restored=await fetch(origin+'/api/v1/me',{headers:{cookie:a.cookie}});assert.equal(restored.status,200);
   const after=(await restored.json()).state;
   for(const key of ['id','gold','bankedGold','xp','level','mana','spirit','health','inventory','questsCompleted','land','training','skillPoints','maxMana','className','calling','invitationCode','army'])assert.deepEqual(after[key],before[key],key);
+  const experienceAfter=await fetch(origin+'/api/v1/achievements',{headers:{cookie:a.cookie}}).then(r=>r.json());
+  assert.deepEqual(experienceAfter,experienceBefore,'Achievement earned dates, unlocked status, tutorial facts and region survive a process restart.');
   const contracts=await fetch(origin+'/api/v1/bounties',{headers:{cookie:a.cookie}}).then(response=>response.json());
   assert.equal(contracts.history.find((record:{id:string})=>record.id===bounty.data.bountyId).status,'active');
   for(const owner of [a,b]){
@@ -110,5 +121,5 @@ try{
     const botAfter=(await botDb.query('SELECT w.balance,v.balance AS banked FROM wallets w JOIN vault_accounts v ON v.character_id=w.character_id WHERE w.character_id=$1',[restartBot])).rows[0]!;
     assert.equal(botAfter.balance,botBefore.balance+3*botBefore.property_net);assert.equal(botAfter.banked,botBefore.banked);
   }finally{await botDb.end();}
-  console.log('PASS: compiled server restarted; Vault, PvP sequence, sessions, progression, inventory, Land, Calling, funded bounty, comments, broadcasts, invitation codes, pending allies and both players’ private battle access survived. A second process restart settled exactly three offline shared cycles, and repeated reads paid nothing twice. A passive rival also received exactly three offline property periods after restart, with unchanged Vault savings and no duplicate payment on repeated profile views.');
+  console.log('PASS: compiled server restarted; achievement earned dates, tutorial progress, region filter, Vault, PvP sequence, sessions, progression, inventory, Land, Calling, funded bounty, comments, broadcasts, invitation codes, pending allies and both players’ private battle access survived. A second process restart settled exactly three offline shared cycles, and repeated reads paid nothing twice. A passive rival also received exactly three offline property periods after restart, with unchanged Vault savings and no duplicate payment on repeated profile views.');
 }finally{await stop();}

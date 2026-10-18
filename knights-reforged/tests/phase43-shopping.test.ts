@@ -28,6 +28,6 @@ test('all three equipment categories and Land have keyboard-free controls; durab
   assert.equal((await r.me(a)).gold,saved.gold);assert.deepEqual((await r.me(a)).land.holdings,saved.land.holdings);
   const home=await r.app.inject({method:'GET',url:'/game/home',headers:{cookie:a.cookie}});assert.ok(!home.body.includes('href="/game/bounties"'));assert.match(home.body,/href="\/game\/land"/);
   const battle=await r.app.inject({method:'GET',url:'/game/battle',headers:{cookie:a.cookie}});assert.match(battle.body,/href="\/game\/bounties"/);
-  const quests=await r.app.inject({method:'GET',url:'/game/quests?area=all',headers:{cookie:a.cookie}});assert.match(quests.body,/region-chevron/);assert.match(quests.body,/Quest region/);assert.match(quests.body,/All regions/);
+  const quests=await r.app.inject({method:'GET',url:'/game/quests?area=all',headers:{cookie:a.cookie}});assert.match(quests.body,/region-chevron/);assert.match(quests.body,/Quest region/);assert.match(quests.body,/All Regions/);
  }finally{await r.close();}
 });

@@ -1,6 +1,8 @@
 import { createHash,randomInt,randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { type Database,transaction } from './db.js';
+import {validateTradeQuote} from './trade.js';
+import {syncExperience,tutorialAction,levelCelebration} from './experience.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
 import { alpha,propertyById,itemById,questById,lootById,areRivals,resolveAlphaCombat } from './alpha-rules.js';
@@ -24,14 +26,15 @@ const uuid=z.string().uuid().transform(value=>value.toLowerCase());
 const id=z.string().min(1).max(64).regex(/^[a-z0-9-]+$/);
 const quantity=(max:number)=>z.union([z.number().int().min(1).max(max),z.string().max(16).regex(/^[1-9][0-9]*$/).transform(Number).pipe(z.number().int().min(1).max(max))]);
 const intents={
+  tutorial:z.object({action:z.enum(['start','skip'])}),
   quest:z.object({questId:id}),
   recruit:z.object({unitId:z.literal(rules.unit.id),quantity:quantity(alpha.limits.mercenaries)}),
   buy:z.object({itemId:id,quantity:quantity(alpha.limits.transaction).default(1)}),
   equip:z.object({inventoryEntryId:uuid}),
   attack:z.object({targetCharacterId:uuid}),
-  land_buy:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction)}),
+  land_buy:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction),quoteId:uuid.optional()}),
   sell:z.object({itemId:id,quantity:quantity(alpha.limits.transaction).default(1)}),
-  land_sell:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction)}),
+  land_sell:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction),quoteId:uuid.optional()}),
   skill:z.object({resource:z.enum(['health','mana','spirit','attack','defense'])}),
   maintain:z.object({}),
   vault_deposit:z.object({amount:quantity(pvp.vault.maximumBalance)}),
@@ -101,9 +104,11 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     }
     if (target&&kind==='attack') target=await materialize(sql,target,now);
     const state=await stateFrom(sql,actor,now,runtime);
+    if((kind==='land_buy'||kind==='land_sell')&&typeof intent.quoteId==='string')await validateTradeQuote(sql,intent.quoteId,accountId,actorId,kind,intent.propertyId as string,intent.quantity as number,now,state.gold,state.level,state.economy.netHourlyIncome,key);
+    await syncExperience(sql,actorId,now);
     const result:CommandResult={commandId:key,kind,message:''};
 
-    if(kind==='vault_deposit'||kind==='vault_withdraw'){
+    if(kind==='tutorial'){await tutorialAction(sql,actorId,intent.action as string,now);result.message=intent.action==='skip'?'Quick guide skipped. You can resume it in Profile.':'Your short adventure guide is ready.';}else if(kind==='vault_deposit'||kind==='vault_withdraw'){
       result.data=await vaultTransfer(sql,actorId,intent.amount as number,kind==='vault_deposit',key,now);
       result.message=String(intent.amount)+' gold '+(kind==='vault_deposit'?'deposited in your protected Vault.':'withdrawn into your unbanked purse.');
     }else if(kind==='comment'||kind==='broadcast'){
@@ -232,6 +237,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       if(target.health<community.combat.defenderMinimumHealth)throw new GameError('OPPONENT_DEFEATED','This opponent has been defeated (0 Health). They must recover before another attack.',409);
       if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Spirit to recover before attacking.',409);
       const targetState=await stateFrom(sql,target,now,runtime);
+      if(!targetIsBot)await syncExperience(sql,target.id,now);
       const count=(await sql.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND created_at>$3',[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
       let rewarded=count<alpha.combat.rewardedPerTarget;
       if(targetIsBot){
@@ -286,6 +292,14 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       await awardMilestones(sql,actorId);
       if(defenderProgression)await awardMilestones(sql,target.id);
       result.message=battle.winnerName+' won the battle.'+(!rewarded?(targetIsBot?' Temporary-rival gold/full-XP budget reached: victories still earn 1 XP; ordinary gold is capped at zero.':' Repeat-encounter XP is reduced to 1 per victory; ordinary victory loot still applies.'):'' )+(lootDetails&&lootDetails.multiplier<100?' Repeat victory: '+lootDetails.multiplier+'% ordinary loot.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
+    }
+    const experience=await syncExperience(sql,actorId,now,'gameplay');
+    const final=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[actorId])).rows[0]!;
+    result.data={...result.data,newAchievements:experience.awarded,celebration:levelCelebration(state.level,final.attained_level,final.skill_points-state.skillPoints)};
+    if(kind==='attack'&&result.battleId){
+      let defenderExperience=null;
+      if(target&&!targetIsBot){const gained=await syncExperience(sql,target.id,now,'gameplay');const finalDefender=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[target.id])).rows[0]!;defenderExperience={newAchievements:gained.awarded,celebration:levelCelebration(target.attained_level,finalDefender.attained_level,finalDefender.skill_points-target.skill_points)};}
+      await sql.query("UPDATE battles SET result=result||jsonb_build_object('playerExperience',jsonb_build_object($2::text,$3::jsonb)||CASE WHEN $4::text IS NULL THEN '{}'::jsonb ELSE jsonb_build_object($4::text,$5::jsonb) END) WHERE id=$1",[result.battleId,actorId,JSON.stringify(result.data),target&&!targetIsBot?target.id:null,JSON.stringify(defenderExperience)]);
     }
     await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);
     await sql.query('UPDATE command_receipts SET result=$3 WHERE account_id=$1 AND command_id=$2',[accountId,key,result]);

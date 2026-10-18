@@ -22,7 +22,6 @@ const result={image,postgresImage,privateAlpha:alphaMode,checks:[],portsPublishe
 const gameEnvironment=()=>['NODE_ENV=production','HOST=0.0.0.0','PORT='+port,'APP_ORIGIN='+origin,
   'DATABASE_URL=postgresql://postgres:'+password+'@'+privateHost+':5432/railway_test',
   ...(alphaMode?['KINGDOM_PRIVATE_ALPHA=1','RAILWAY_SERVICE_ID='+railwayServiceId,'RAILWAY_ENVIRONMENT_ID='+railwayEnvironmentId,
-    'KINGDOM_ALPHA_INITIALIZE=INITIALIZE_EMPTY_PRIVATE_ALPHA','KINGDOM_DEV_PASSWORD='+devPassword,
     'ENABLE_DEV_BOTS=1','ENABLE_DEV_BOT_BOUNTIES=1','ENABLE_DEV_BOT_RECRUITMENT=1']:[])];
 const docker=(args,options={})=>execFileSync('docker',['--host=unix:///var/run/docker.sock',...args],
   {env:dockerEnv,encoding:'utf8',timeout:45000,maxBuffer:32*1024*1024,stdio:['pipe','pipe','pipe'],...options});
@@ -72,14 +71,35 @@ try{
     await writeFile(join(folder,'game.env'),gameEnvironment().join('\n')+'\n',{mode:0o600});
     check('hidden psql password rotation rejects old TCP credentials and accepts the synchronized private service URL');
   }
-  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'15');
-  check('separate compiled pre-deploy runner installs all 15 migrations');
+  if(alphaMode){
+    // Test-only Phase 4.3 fixture. The production pre-deploy/start entrypoints
+    // cannot run first-time initialization or accept its old credential.
+    await writeFile(join(folder,'bootstrap.env'),[...gameEnvironment(),'KINGDOM_ALPHA_INITIALIZE=INITIALIZE_EMPTY_PRIVATE_ALPHA','KINGDOM_DEV_PASSWORD='+devPassword].join('\n')+'\n',{mode:0o600});
+    docker(['run','--rm','--network',network,'--env-file',join(folder,'bootstrap.env'),image,'node','--input-type=module','-e',`
+      import {createDatabase} from './dist/db.js';import {migrate} from './dist/migrate.js';import {initializePrivateAlpha} from './dist/development.js';
+      const db=createDatabase(process.env.DATABASE_URL);try{await migrate(db,{through:'015_private_alpha_initialization.sql'});await initializePrivateAlpha(db,process.env);await db.query("DELETE FROM rulesets WHERE id='player-experience-1'");}finally{await db.end();}
+    `]);
+    const original=data('railway_test');let missingCopyRejected=false;
+    try{migrate();}catch(error){missingCopyRejected=true;assert.match(String(error.stderr),/First live Phase 4.4 upgrade requires a verified restored backup/);}
+    assert.ok(missingCopyRejected);assert.equal(data('railway_test'),original);
+    check('first initialized-realm upgrade refuses a missing restored-copy gate without applying a migration or changing existing data');
+    const prior=docker(['exec',postgres,'pg_dump','-U','postgres','-d','railway_test','--format=custom','--no-owner','--no-acl'],{encoding:null});
+    docker(['exec',postgres,'createdb','-U','postgres','phase43_restore_test']);
+    docker(['exec','-i',postgres,'pg_restore','-U','postgres','--dbname=phase43_restore_test','--single-transaction','--exit-on-error','--no-owner','--no-acl'],{input:prior});
+    await writeFile(join(folder,'game.env'),[...gameEnvironment(),'KINGDOM_RESTORE_TEST_DATABASE=phase43_restore_test'].join('\n')+'\n',{mode:0o600});
+    result.restoredUpgrade=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),'-e','KINGDOM_RESTORE_TEST_DATABASE=phase43_restore_test',image,'node','deployment/check-upgrade.mjs']));
+    assert.equal(result.restoredUpgrade.passed,true);assert.equal(result.restoredUpgrade.bots,450);assert.equal(result.restoredUpgrade.liveDatabaseConnected,false);
+    assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'15');
+    check('native Phase 4.3 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals');
+  }
+  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'17');
+  check('separate compiled pre-deploy runner installs all 17 migrations without initialization');
   if(alphaMode){
     assert.equal(sql('railway_test','SELECT count(*) FROM private_alpha_initializations'),'1');
     assert.equal(sql('railway_test','SELECT count(*) FROM accounts'),'451');
     assert.equal(sql('railway_test','SELECT count(*) FROM development_bots'),'450');
     assert.equal(sql('railway_test',"SELECT w.balance||':'||(s.quantity+1) FROM accounts a JOIN characters c ON c.account_id=a.id JOIN wallets w ON w.character_id=c.id JOIN army_stacks s ON s.character_id=c.id WHERE a.username='dev'"),'50000:10');
-    check('first approved pre-deploy atomically provisions dev at 50000 gold/10 army and all 450 Phase 4.3 rivals');
+    check('Phase 4.4 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.3 rivals');
     const status=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/status.mjs']));
     assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
     assert.equal(status.dev.username,'dev');assert.equal(status.dev.gold,50000);assert.equal(status.dev.recruited_army,10);
@@ -101,10 +121,10 @@ try{
   await ready(healthy);
   check('production server binds port '+port+' and passes database healthcheck');
   const played=runtimeCode(client+`
-    async function player(){
+    async function player(user='image_'+randomUUID().replaceAll('-','').slice(0,12)){
       const form=await fetch(base+'/register'),html=await form.text();assert.equal(form.status,200);
       const r=await fetch(base+'/register',{method:'POST',redirect:'manual',headers:{...headers,cookie:session(form),'content-type':'application/x-www-form-urlencoded'},
-        body:new URLSearchParams({csrf:/name="csrf" value="([a-f0-9]{64})"/.exec(html)[1],username:'image_'+randomUUID().replaceAll('-','').slice(0,12),password:randomUUID()+'aA1!',name:'Image Knight'})});
+        body:new URLSearchParams({csrf:/name="csrf" value="([a-f0-9]{64})"/.exec(html)[1],username:user,password:randomUUID()+'aA1!',name:'Image Knight'})});
       assert.equal(r.status,303,await r.clone().text());const cookie=session(r),me=await state(cookie);return {cookie,csrf:me.csrfToken,id:me.state.id};
     }
     async function dev(){
@@ -124,14 +144,40 @@ try{
     await command(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
     await command(a,'/api/v1/vault/deposits',{amount:5});
     const battle=await command(a,'/api/v1/battles',{targetCharacterId:b.id});
+    const comment=await command(a,'/api/v1/comments',{profileId:b.id,body:'A respectful production-container field report.'});
     for(const page of ['home','profile','quests','battle','bounties','armory','army','land','vault','settings']){
       const r=await fetch(base+'/game/'+page,{headers:{cookie:a.cookie}});assert.equal(r.status,200,await r.clone().text());
     }
     const invalid=await fetch(base+'/api/v1/quests/border-patrol/runs',{method:'POST',headers:{...headers,origin:'https://foreign.invalid',cookie:a.cookie,'x-csrf-token':a.csrf,'content-type':'application/json'},body:'{}'});
     assert.equal(invalid.status,403);
-    console.log(JSON.stringify({a,b,battleId:battle.battleId,before:(await state(a.cookie)).state}));
+    const gray=${alphaMode?'await player("gray")':'null'};
+    console.log(JSON.stringify({a,b,gray,messageId:comment.data.messageId,battleId:battle.battleId,before:(await state(a.cookie)).state}));
   `);
   check('real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP and foreign-Origin rejection');
+  if(alphaMode){
+    let moderationDenied=false;
+    try{docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/moderate.mjs','queue']);}catch(error){moderationDenied=true;assert.match(String(error.stderr),/ALLOW_REALM_MODERATION/);}
+    assert.ok(moderationDenied);
+    const moderate=(...args)=>JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),'-e','ALLOW_REALM_MODERATION=1','-e','REALM_MODERATOR_LABEL=Disposable security operator',image,'node','deployment/moderate.mjs',...args]));
+    assert.deepEqual(moderate('queue'),{reports:[]});
+    assert.equal(moderate('hide',played.messageId,'Regression moderation check').completed,true);
+    assert.equal(sql('railway_test',"SELECT status FROM realm_messages WHERE id='"+played.messageId+"'"),'hidden');
+    assert.equal(moderate('restore',played.messageId,'Verified restoration check').completed,true);
+    check('compiled operator moderation works without development tools, requires explicit authorization and preserves the existing audit history');
+    const inspect=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/grant-gray.mjs','inspect']));
+    assert.equal(inspect.character_id,played.gray.id);
+    await writeFile(join(folder,'grant.env'),[...gameEnvironment(),'KINGDOM_GRAY_ACCOUNT_ID='+inspect.account_id,'KINGDOM_GRAY_GRANT_CONFIRM=GRANT_GRAY_50000_PHASE44','KINGDOM_OPERATOR_REFERENCE=Disposable production-container regression'].join('\n')+'\n',{mode:0o600});
+    const grant=()=>JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'grant.env'),image,'node','deployment/grant-gray.mjs','apply']));
+    assert.equal(grant().applied,true);assert.equal(grant().alreadyApplied,true);
+    assert.equal(Number(sql('railway_test',"SELECT balance FROM wallets WHERE character_id='"+played.gray.id+"'")),inspect.spendable_gold+50000);
+    assert.equal(sql('railway_test','SELECT count(*) FROM authorized_gold_grants'),'1');
+    check('operator-only gray inspect/apply grants exactly 50000 spendable gold once on the disposable identity');
+    const unchanged=data('railway_test');
+    for(const entrypoint of ['deployment/migrate.mjs','deployment/start.mjs']){
+      let denied=false;try{docker(['run','--rm','--network',network,'--env-file',join(folder,'bootstrap.env'),image,'node',entrypoint]);}catch(error){denied=true;assert.match(String(error.stderr),/Remove first-time initialization/);}assert.ok(denied);
+    }
+    assert.equal(data('railway_test'),unchanged);check('production migration/start refuse leftover bootstrap credentials before any database changes');
+  }
   const before=data('railway_test');
   if(alphaMode)docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/status.mjs']);
   assert.equal(data('railway_test'),before);

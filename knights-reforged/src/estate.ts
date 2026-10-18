@@ -8,10 +8,11 @@ import { ledger,creditGold } from './economy.js';
 
 export type EstateState = Omit<LandState,'properties'> & {
   equipmentUpkeep:number; totalUpkeep:number;
-  properties:(LandState['properties'][number]&{level:number;unlocked:boolean;art:string;basePrice:number;priceSteps:number[]})[];
+  properties:(LandState['properties'][number]&{level:number;unlocked:boolean;art:string;basePrice:number;priceSteps:number[];saleRefundSteps:number[];saleNetIncomeSteps:number[];maxSell:number;projectedBuyNetSteps:number[];projectedSaleNetSteps:number[]})[];
 };
 export async function estateState(sql:Sql,characterId:string,gold:number,equipmentUpkeep:number,level:number):Promise<EstateState> {
   const state=await getLandState(sql,characterId,gold);
+  const saleLots=(await sql.query('SELECT property_id,quantity,unit_price,hourly_income,hourly_upkeep FROM land_holdings WHERE character_id=$1 AND quantity>0 ORDER BY acquired_at,purchase_order,id',[characterId])).rows;
   const properties=alpha.properties.map(property=> {
     const owned=state.holdings.filter(holding=>holding.propertyId===property.id).reduce((n,holding)=>n+holding.quantity,0);
     const remaining=Math.max(0,alpha.limits.property-owned);
@@ -19,7 +20,13 @@ export async function estateState(sql:Sql,characterId:string,gold:number,equipme
     const priceSteps=Array.from({length:maxPurchase},(_,i)=>propertyPrice(property.price,owned+i));
     let total=0,maxAffordable=0;
     for (const price of priceSteps) { if (total+price>gold) break;total+=price;maxAffordable++; }
-    return {...property,unlocked:level>=property.level,basePrice:property.price,price:propertyPrice(property.price,owned),owned,remaining,maxPurchase,maxAffordable,priceSteps};
+    const lots=saleLots.filter(holding=>holding.property_id===property.id);
+    const saleUnits=lots.flatMap(holding=>Array.from({length:Math.min(holding.quantity,alpha.limits.landTransaction)},()=>Math.floor(holding.unit_price/2))).slice(0,alpha.limits.landTransaction);
+    const saleRefundSteps=saleUnits.map((_,i)=>saleUnits.slice(0,i+1).reduce((n,p)=>n+p,0));
+    const saleIncome=lots.flatMap(holding=>Array.from({length:Math.min(holding.quantity,alpha.limits.landTransaction)},()=>holding.hourly_income-holding.hourly_upkeep)).slice(0,alpha.limits.landTransaction);
+    const saleNetIncomeSteps=saleIncome.map((_,i)=>saleIncome.slice(0,i+1).reduce((n,p)=>n+p,0));
+    const net=state.hourlyIncome-state.hourlyUpkeep-equipmentUpkeep;
+    return {...property,projectedBuyNetSteps:priceSteps.map((_,i)=>net+(i+1)*(property.hourlyIncome-property.hourlyUpkeep)),projectedSaleNetSteps:saleNetIncomeSteps.map(n=>net-n),saleRefundSteps,saleNetIncomeSteps,maxSell:Math.min(owned,alpha.limits.landTransaction),unlocked:level>=property.level,basePrice:property.price,price:propertyPrice(property.price,owned),owned,remaining,maxPurchase,maxAffordable,priceSteps};
   });
   return {...state,rulesetId:alpha.id,properties,equipmentUpkeep,totalUpkeep:state.hourlyUpkeep+equipmentUpkeep,
     netHourlyIncome:state.hourlyIncome-state.hourlyUpkeep-equipmentUpkeep};

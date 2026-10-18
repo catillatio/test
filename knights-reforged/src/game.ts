@@ -92,7 +92,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   const healthSeconds=recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),manaSeconds=recoverySeconds(row.profile_class,'mana',alpha.resources.manaSeconds),spiritSeconds=recoverySeconds(row.profile_class,'spirit',alpha.resources.spiritSeconds);
   const manaNextAt=next(row.mana,row.max_mana,row.mana_updated_at,manaSeconds);
   const sword=inventory.find(i=>i.id===rules.weapon.id&&i.quantity>0);
-  const land=await estateState(sql,row.id,wallet.balance,upkeep.hourly_rate,row.attained_level);
+  const land=await estateState(sql,row.id,wallet.balance,upkeep.paused?0:upkeep.hourly_rate,row.attained_level);
   const activeEquipmentUpkeep=upkeep.paused?0:upkeep.hourly_rate;
   const economy={grossHourlyIncome:land.hourlyIncome,propertyUpkeep:land.hourlyUpkeep,equipmentUpkeep:activeEquipmentUpkeep,
     scheduledEquipmentUpkeep:upkeep.hourly_rate,otherUpkeep:0,totalUpkeep:land.hourlyUpkeep+activeEquipmentUpkeep,

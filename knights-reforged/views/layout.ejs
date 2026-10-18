@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="/assets/phase41.css?v=<%= alpha.id %>-phase41-render1">
   <link rel="stylesheet" href="/assets/phase42.css?v=phase42-1">
 <link rel="stylesheet" href="/assets/phase43.css?v=phase43-1">
+<link rel="stylesheet" href="/assets/phase44.css?v=phase44-1">
 </head>
 <body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -31,6 +32,7 @@
             <div class="page-heading"><h1><%= title %></h1><a class="warrior-label" href="/game/profile"><%= state.name %> ›</a></div>
           </header>
           <%- include('partials/secondary-nav') %>
+          <%- include('partials/tutorial') %>
         <% } %>
         <% if (notice && !(screen==='quests'&&actionResult?.kind==='quest')) { %><div class="notice notice-success" role="status"><span aria-hidden="true">✦</span> <%= notice %></div><% } %>
         <% if (error) { %><div class="notice notice-error" role="alert"><%= error %></div><% } %>
@@ -42,6 +44,7 @@
     <% if (state) { %><%- include('partials/primary-nav') %><% } %>
   </div>
   <% if (state) { %><script type="module" src="/assets/community.js?v=<%= alpha.id %>-phase41-render1"></script><script type="module" src="/assets/realm.js?v=<%= alpha.id %>-phase41-render1"></script><% } %>
-<% if(state) { %><script type="module" src="/assets/shopping.js?v=phase43-1"></script><% } %>
+<% if(state) { %><script type="module" src="/assets/shopping.js?v=phase44-1"></script><% } %>
+<% if(state) { %><script type="module" src="/assets/experience.js?v=phase44-1"></script><% } %>
 </body>
 </html>

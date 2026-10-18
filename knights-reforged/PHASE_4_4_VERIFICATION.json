@@ -1,0 +1,212 @@
+{
+  "phase": "4.4",
+  "branch": "feature/kingdom-come-phase-4-4-player-experience",
+  "baseCommit": "99468ccca2099bd8a76fff14a86e75c1482aa1ba",
+  "verifiedAtUtc": "2026-10-18T04:22:25.622709+00:00",
+  "environment": {
+    "node": "24.19.0",
+    "postgresql": "18.4",
+    "chromium": "154.0.8037.57",
+    "playwrightCore": "1.64.1",
+    "databases": "Explicit disposable local *_test databases and isolated schemas/containers only"
+  },
+  "automated": {
+    "command": "TEST_DATABASE_URL=<designated_disposable_test_database> npm run verify",
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "tests": 224,
+    "passed": 224,
+    "failed": 0,
+    "skipped": 0,
+    "realPostgresql": true,
+    "newPhase44Tests": 12
+  },
+  "static": {
+    "command": "npm run check:static",
+    "checksPassed": 85,
+    "failed": 0,
+    "productionEjsFixtures": 67
+  },
+  "browser": {
+    "command": "TEST_DATABASE_URL=<designated_disposable_test_database> npm run test:codespaces",
+    "passed": true,
+    "nativeHttpsPosts": 57,
+    "browserErrors": 0,
+    "existingResponsiveVisits": 150,
+    "privateReceiptLayouts": 5,
+    "phase44": {
+      "passed": true,
+      "widths": [
+        320,
+        360,
+        375,
+        390,
+        393,
+        412,
+        430,
+        1366
+      ],
+      "responsiveVisits": 48,
+      "reducedMotion": true,
+      "celebrationReplay": true,
+      "missingEquipmentNativeFlow": true,
+      "propertyConfirmation": true,
+      "tutorialSkipPersistent": true,
+      "liveProviderContacted": false
+    },
+    "codespacesOriginModes": [
+      "http://localhost:3001",
+      "https://localhost:3001",
+      "unchanged canonical HTTPS"
+    ],
+    "physicalDevicesVerified": false,
+    "realRailwayContacted": false
+  },
+  "restart": {
+    "command": "TEST_DATABASE_URL=<designated_disposable_test_database> npm run test:restart",
+    "passed": true,
+    "preserved": [
+      "session",
+      "achievement dates/unlocked status",
+      "tutorial facts/status",
+      "region",
+      "progression",
+      "wallet/Vault",
+      "inventory",
+      "Land saved rates and shared clock",
+      "Calling",
+      "bounty escrow",
+      "comments",
+      "broadcasts",
+      "invitations",
+      "private reports"
+    ],
+    "offlineCycles": 3,
+    "humanAndBotIncomeExactlyOnce": true
+  },
+  "security": {
+    "productionDependencyAudit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "staticPlugin": "10.1.6",
+    "staticHighAdvisoryFixed": "GHSA-83w8-p2f5-377r",
+    "throttlingPersistenceAndForwardedHeaderBypass": "tested",
+    "operatorEndpointPubliclyExposed": false,
+    "csrfAndCanonicalOrigin": "regression-tested",
+    "report": "PHASE_4_4_SECURITY.md",
+    "unrestrictedPublicSecurityCertification": false,
+    "compiledOperatorModeration": "Authorization refusal, queue, hide, restore and audit history verified in the production image without development tools; no web endpoint."
+  },
+  "preservation": {
+    "migrations": [
+      "016_player_experience.sql",
+      "017_security_and_operator_grants.sql"
+    ],
+    "newImmutableRuleset": "player-experience-1",
+    "originalMigrationsAndCatalogsChanged": false,
+    "populatedPhase43Upgrade": "Every existing business-table row preserved; additive ruleset/migration rows allowed; replay unchanged",
+    "botsPreserved": 450,
+    "initializationRerunByProductionEntrypoints": false,
+    "originalCodespacesDatabaseAccessed": false,
+    "liveRailwayAccessed": false,
+    "liveGrayGrantExecuted": false
+  },
+  "screenshots": {
+    "directory": "docs/phase44/screenshots",
+    "captures": 10,
+    "width": 390,
+    "height": 844,
+    "accounts": "Synthetic disposable test identities only"
+  },
+  "operatorGates": [
+    "Verify/export actual live backup and restore to a separate *_restore_test database",
+    "Set restored-copy gate before manual pre-deploy; inspect successful preservation result",
+    "Verify live Railway private networking, secrets removal, HTTPS domain, health/restart and existing-account state",
+    "Inspect exact gray identity and run the separate authorized once-only grant",
+    "Physical Android/iPhone and owner moderation/abuse monitoring"
+  ],
+  "deployment": {
+    "automaticDeploymentPerformed": false,
+    "mergedToMain": false,
+    "procedure": "PHASE_4_4_RELEASE.md",
+    "ownerRequestedOperatorCommands": true
+  },
+  "container": {
+    "image": "sha256:af8a04ca80ea8c5da28141bdfeece8b1cd3b8f70f5a0e485f0bb4cd0dc021655",
+    "tag": "kingdom-come:phase44-check",
+    "build": "passed",
+    "committedDockerfile": "Mount-free Node 24 Debian multi-stage Dockerfile; no secrets, SQL or initialization at build time",
+    "managedWorkspaceNetworkAccommodation": "Local validation used a temporary Dockerfile outside Git to mount only the provided verified proxy CA for npm RUN steps. No CA or secret is present in the runtime; the committed Railway Dockerfile remains mount-free. Railway builder itself was not contacted.",
+    "standardProduction": {
+      "image": "kingdom-come:phase44-check",
+      "postgresImage": "postgres:18-bookworm",
+      "privateAlpha": false,
+      "checks": [
+        "private PostgreSQL 18 started without a published port",
+        "unmigrated production startup fails without altering the empty database",
+        "separate compiled pre-deploy runner installs all 17 migrations without initialization",
+        "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+        "production server binds port 32123 and passes database healthcheck",
+        "real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP and foreign-Origin rejection",
+        "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+        "native custom-format backup restores atomically into a separate fresh database with identical data",
+        "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+        "neither web nor PostgreSQL container publishes a port"
+      ],
+      "portsPublished": false,
+      "backupBytes": 208802,
+      "dataDigest": "54208b7f7c34af5d4457c70b2d92e1a57b50e14a6e8b0b4860311ea8024b4e2a"
+    },
+    "existingPrivateAlphaUpgrade": {
+      "image": "kingdom-come:phase44-check",
+      "postgresImage": "postgres:18-bookworm",
+      "privateAlpha": true,
+      "checks": [
+        "private PostgreSQL 18 started without a published port",
+        "unmigrated production startup fails without altering the empty database",
+        "hidden psql password rotation rejects old TCP credentials and accepts the synchronized private service URL",
+        "first initialized-realm upgrade refuses a missing restored-copy gate without applying a migration or changing existing data",
+        "native Phase 4.3 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals",
+        "separate compiled pre-deploy runner installs all 17 migrations without initialization",
+        "Phase 4.4 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.3 rivals",
+        "compiled operator-only status reports the initial account and population without exposing credentials",
+        "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+        "production server binds port 8080 and passes database healthcheck",
+        "real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP and foreign-Origin rejection",
+        "compiled operator moderation works without development tools, requires explicit authorization and preserves the existing audit history",
+        "operator-only gray inspect/apply grants exactly 50000 spendable gold once on the disposable identity",
+        "production migration/start refuse leftover bootstrap credentials before any database changes",
+        "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+        "native custom-format backup restores atomically into a separate fresh database with identical data",
+        "redeploy removes bootstrap flag/secret and starts a fresh web container against the same persistent realm",
+        "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+        "neither web nor PostgreSQL container publishes a port"
+      ],
+      "portsPublished": false,
+      "restoredUpgrade": {
+        "passed": true,
+        "restoredDatabase": "phase43_restore_test",
+        "accounts": 451,
+        "bots": 450,
+        "existingTablesVerified": 52,
+        "sha256": "6020e9f68f9fca65f2de1772b435ea4246d4c6586735715e42a834d22ae848bb",
+        "migrationReplay": "unchanged",
+        "liveDatabaseConnected": false
+      },
+      "backupBytes": 903628,
+      "dataDigest": "731546aee370b0cdbd1fd420401a7ebd8abd89a2f3be1713bf696f2da524f30f"
+    },
+    "checksPassed": 29,
+    "liveProviderContacted": false
+  },
+  "focusedFinalChecks": {
+    "actualPhase43BackupWithoutNewExperienceCatalog": "1 migration test passed; new catalog added and every existing row preserved",
+    "operatorAndStaticSecurity": "5 tests passed after production moderation packaging",
+    "restart": "Passed with an explicitly selected non-default region retained"
+  }
+}

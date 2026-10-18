@@ -1,10 +1,12 @@
-# Railway deployment — Kingdom Come Phase 4.3
+# Railway deployment — Kingdom Come
 
-Branch: `feature/kingdom-come-phase-4-3-economy-and-progression`.
+Current branch: `feature/kingdom-come-phase-4-4-player-experience`.
+
+**For the existing live realm, use [PHASE_4_4_RELEASE.md](PHASE_4_4_RELEASE.md) first:** verified independent backup, separately restored-copy upgrade check, additive migrations 016/017 and manual promotion. Never rerun first-time initialization or reset the development account.
 Application/root directory: `/knights-reforged` within `catillatio/test`.
 This change prepares deployment; it does not create services, deploy, merge, import data or alter player databases.
 
-**Fresh private-alpha launch:** use [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md) for the approved one-time `dev`/450-rival bootstrap, port 8080 and credential rotation. The ordinary-production defaults below still keep development features off. The new private-alpha exception requires explicit Railway-only authorization and an immutable initialization journal; it never restores or changes Codespaces data.
+The historical [Phase 4.3 initialization guide](RAILWAY_INITIALIZATION.md) records the first launch only. The existing realm retains its initialization marker, accounts and 450 rivals; Phase 4.4 migration/start cannot initialize it. The ordinary-production defaults below keep development features off unless the existing Railway-only private-alpha mode is retained explicitly.
 
 ## Build failure and fix
 
@@ -23,7 +25,7 @@ The multi-stage image installs from `package-lock.json`, compiles TypeScript, pr
 ## 1. Configure the existing service without starting a deployment
 
 1. Disable GitHub automatic deployments for this service before updating a connected branch. Keep changes staged; do not choose Deploy until you have reviewed the database, origin and backup steps below. Config-as-code does not control GitHub autodeploy.
-2. Select repository `catillatio/test`, branch `feature/kingdom-come-phase-4-3-economy-and-progression`.
+2. Select repository `catillatio/test`, branch `feature/kingdom-come-phase-4-4-player-experience`.
 3. Set **Root Directory** to `/knights-reforged`.
 4. Set **Config File Path** to `/knights-reforged/railway.json` (this setting is repository-relative).
 5. The configuration selects **Dockerfile** builder with `Dockerfile` relative to the application root. Clear old Railpack/custom build-command overrides. If a `RAILWAY_DOCKERFILE_PATH` override exists, remove it or set it to `Dockerfile`; do not leave a stale path.
@@ -65,7 +67,7 @@ Use the PostgreSQL **private** connection variable. Verify its resolved hostname
 
 Railway private networking provides the service-to-service transport. Use the supplied private PostgreSQL URL's supported TLS settings; do not blindly add `sslmode=require` to a database that does not offer TLS. For a database provider requiring TLS, configure its verified CA/TLS connection settings. Never set `NODE_TLS_REJECT_UNAUTHORIZED=0`, `rejectUnauthorized:false`, or npm `strict-ssl=false`.
 
-Remove `RUN_MIGRATIONS`, `ALLOW_DEV_PROVISIONING`, copied Codespaces metadata and old proxy/CA workaround variables. Build/start/restart never provision players. Ordinary production keeps rivals disabled. The explicitly approved fresh private-alpha pre-deploy step is the only production bootstrap exception: temporarily supply the confirmation and sealed `KINGDOM_DEV_PASSWORD` from the initialization guide, then remove both after successful initialization. The persistent runtime switches govern rival discovery, recruitment and player-funded bot bounties; no combat/content/economic rules change.
+Remove `RUN_MIGRATIONS`, `ALLOW_DEV_PROVISIONING`, copied Codespaces metadata and old proxy/CA workaround variables. Build/start/restart never provision players. Ordinary production keeps rivals disabled. Remove historical `KINGDOM_ALPHA_INITIALIZE` and `KINGDOM_DEV_PASSWORD` before a live upgrade; current production entrypoints refuse them before SQL. Do not initialize or reseed the already live realm. The persistent runtime switches govern rival discovery, recruitment and player-funded bot bounties; no combat/content/economic rules change.
 
 The deployment entrypoints fail before connecting if production `DATABASE_URL` or explicit HTTPS `APP_ORIGIN` is missing/malformed; diagnostics do not include database credentials. Environment variables take precedence over `.env`, and the image contains no `.env`.
 
@@ -83,9 +85,9 @@ The registration page alone does not make a service private. For a restricted al
 
 Before the owner's first approved deployment, take a backup and decide which database contains the authoritative realm. Creating an empty Railway PostgreSQL service does **not** transfer Codespace accounts. To move the realm, restore a consistent Codespace dump into a separate, empty Railway database while the source game is stopped, verify it, then point the game at that database. Retain the original Codespace database and backup. Do not deploy an empty realm and assume the player data moved.
 
-At an approved deployment, Railway runs `node deployment/migrate.mjs` in the built image, in the private network with runtime variables. No development dependencies are required. It applies only unapplied versioned SQL migrations, uses the existing transaction/advisory lock and validates immutable catalogs. If migration fails or exceeds 300 seconds, the deployment fails; no new server is promoted. The private-alpha extension adds only migration **015**, an immutable initialization journal; migrations 001–014, catalogs and existing player records are unchanged.
+At an approved deployment, Railway runs `node deployment/migrate.mjs` in the built image, in the private network with runtime variables. No development dependencies are required. It applies only unapplied versioned SQL migrations, uses the existing transaction/advisory lock and validates immutable catalogs. If migration fails or exceeds 300 seconds, the deployment fails; no new server is promoted. Phase 4.4 adds **016/017** for experience/preferences/quotes and the authentication/operator journal. Prior migrations/catalogs and existing player records are unchanged. The first initialized private-alpha upgrade requires the separate restored-copy check described in the release guide before live migration.
 
-The web start command never applies migrations. `RUN_MIGRATIONS=1` fails with instructions to use pre-deploy. The server verifies the Phase 4.3 schema and installed rulesets before listening. Private-alpha mode additionally requires the durable initialization marker from additive migration `015_private_alpha_initialization.sql`. Restarts cannot reseed players, regrant starting funds or repeat previously committed migration work.
+The web start command never applies migrations. `RUN_MIGRATIONS=1` fails with instructions to use pre-deploy. The server verifies schema **017** and installed rulesets before listening. Private-alpha mode additionally requires the durable initialization marker from additive migration `015_private_alpha_initialization.sql`. Restarts cannot reseed players, regrant starting funds or repeat previously committed migration work.
 
 Manual equivalent, only in an approved environment connected to the intended database:
 
@@ -168,7 +170,7 @@ Do not use the live player database as `TEST_DATABASE_URL`. Full regression test
 
 ## Verification record
 
-See [RAILWAY_INITIALIZATION_VERIFICATION.json](RAILWAY_INITIALIZATION_VERIFICATION.json) for the current initialization, build, runtime, production-proxy, migration and backup/restore checks. [RAILWAY_VERIFICATION.json](RAILWAY_VERIFICATION.json) retains the earlier deployment-only results before migration 015. Both distinguish the local managed-proxy CA accommodation from provider checks still requiring the owner. Railway project access, service settings, domain/TLS issuance and deployment promotion are outside local verification.
+See [PHASE_4_4_VERIFICATION.json](PHASE_4_4_VERIFICATION.json) for current checks and [PHASE_4_4_SECURITY.md](PHASE_4_4_SECURITY.md) for the pre-alpha security review. [RAILWAY_INITIALIZATION_VERIFICATION.json](RAILWAY_INITIALIZATION_VERIFICATION.json) retains the historical first-launch checks. [RAILWAY_VERIFICATION.json](RAILWAY_VERIFICATION.json) retains the earlier deployment-only results before migration 015. Both distinguish the local managed-proxy CA accommodation from provider checks still requiring the owner. Railway project access, service settings, domain/TLS issuance and deployment promotion are outside local verification.
 
 Repeat the portable image/runtime check on a normal Docker-enabled Linux host:
 

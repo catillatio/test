@@ -25,7 +25,7 @@ export async function publicProfile(db:Database,characterId:string,runtime:GameR
       xpToNext:state.xpToNext,levelRequirement:state.levelRequirement,health:state.health,maxHealth:state.maxHealth,
       questsCompleted:state.questsCompleted,accountAgeDays:state.accountAgeDays,
       battleStats:state.battleStats,economy:state.economy,army:{participants:state.army.participants,capacity:state.army.capacity,total:state.army.total,allies:state.army.allies,mercenaries:state.army.mercenaries},
-      inventory:state.inventory.filter(item=>item.quantity>0).map(({inventoryId,...item})=>item),
+      inventory:state.inventory.filter(item=>item.quantity>0).map(({inventoryId,resaleSteps,maxSell,...item})=>item),
       properties:ownedProperties(state),temporaryRival:!!bot,botTier:bot?.tier??null,botActive:!!bot?.active,
       calling:{description:state.calling.description,attackPercent:state.calling.attackPercent,defensePercent:state.calling.defensePercent}};
   });

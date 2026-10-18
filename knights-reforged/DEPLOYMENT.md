@@ -1,8 +1,8 @@
-# Private Codespaces launch and deployment preparation
+# Kingdom Come deployment and development reference
 
 **Current Railway instructions:** [RAILWAY.md](RAILWAY.md) supersedes the historical container preparation below. Use the mount-free Dockerfile and `railway.json`, a private PostgreSQL URL and a separate pre-deploy migration. `RUN_MIGRATIONS=1` is no longer supported at server startup.
 
-The approved fresh private-alpha initialization is documented separately in [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md). It explicitly enables existing rivals on Railway production, creates `dev` and 450 bots once, then preserves progress. It is not a Codespaces recovery/reset procedure.
+**Current live Railway upgrade:** follow [PHASE_4_4_RELEASE.md](PHASE_4_4_RELEASE.md) for backup/export, restored-copy migration verification, manual deployment and the separate owner-run `gray` grant. Do not rerun initialization/reset or touch the original Codespaces database. [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md) is historical first-launch reference only.
 
 Phase 3.5 TypeScript/build, PostgreSQL migration/regression, real TLS reverse-proxy, restart and browser checks have run in the development workspace. See [KINGDOM_COME_PHASE_3_5_VERIFICATION.json](KINGDOM_COME_PHASE_3_5_VERIFICATION.json) for the executed gates and limitations. The historical network blockers in older verification files do not describe this phase.
 
@@ -30,7 +30,7 @@ The Dockerfile retains the Fastify/PostgreSQL architecture, builds on Node 24, u
 
 ```bash
 cd knights-reforged
-docker build -t kingdom-come:phase-4-3 .
+docker build -t kingdom-come:phase-4-4 .
 ```
 
 The build does not connect to a player database. See the Railway guide for executed compatibility checks. Run the PostgreSQL gates on a designated disposable database before using the image with player data.
@@ -72,7 +72,7 @@ The HTTPS regression reproduces TLS termination on a port-3001 Codespaces-shaped
 
 Use [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) for the current branch, additive migration 010 and exact super-winner port-3001 update commands. Existing installed dependencies and database volumes are reused. New immutable rulesets are installed by migration.
 
-Ordinary production disables temporary rivals. Local development provisioning still requires `NODE_ENV=development`, `ALLOW_DEV_PROVISIONING=1` and its private credential; those general CLIs remain prohibited in production. The separately approved Railway private-alpha mode uses only the guarded empty-realm pre-deploy initializer and explicit runtime switches described in the current initialization guide. Neither operation has an HTTP provisioning endpoint.
+Ordinary production disables temporary rivals. Local development provisioning still requires `NODE_ENV=development`, `ALLOW_DEV_PROVISIONING=1` and its private credential; those general CLIs remain prohibited in production. The already initialized Railway private-alpha realm retains its existing marker and explicit runtime switches. Current production start/migrate reject initialization credentials and cannot reseed. No operation has an HTTP provisioning endpoint.
 
 ## Phase 4 update
 

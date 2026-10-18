@@ -6,7 +6,7 @@ A server-rendered medieval multiplayer RPG inspired by Storm8 Kingdoms Live. Fiv
 
 **Active rules: `alpha-0.3` content, `strategy-0.2` specializations/rewards, `passive-rivals-5` development population, `community-0.1` social policy and `refinements-0.1`, `pvp-economy-0.1` and `progression-economy-0.2` combat/economic rules.** The content, economic policy and combat formulas are reconstructed Kingdom Come rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
 
-Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdom-come-phase-4-3-economy-and-progression`, based on the completed `feature/kingdom-come-phase-4-2-pvp-economy` branch, retaining the Codespaces Origin fix. No branches are merged and nothing is deployed automatically.
+Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdom-come-phase-4-4-player-experience`, based on the completed Phase 4.3 branch, retaining the Codespaces Origin fix. No branches are merged and nothing is deployed automatically.
 
 For the `refinements is not defined` rendering hotfix, use [RENDERING_FIX.md](RENDERING_FIX.md). It requires a fresh build and server restart, with no migration, reset or account/bot provisioning commands.
 
@@ -18,9 +18,14 @@ See [PHASE_4_3.md](PHASE_4_3.md) for the current XP formula, shared hourly incom
 
 For Railway, use [RAILWAY.md](RAILWAY.md): repository Dockerfile, private PostgreSQL, explicit HTTPS origin, a controlled pre-deploy migration, backup/restore and health/restart settings. No Railway resource or deployment is created by these files.
 
-For the approved **fresh Railway private alpha**, follow [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md): port 8080, one-time secret-based `dev`/450-rival initialization, durable no-reset redeploys and PostgreSQL credential rotation. Standard production still disables development features unless the Railway-only private-alpha mode is explicitly enabled. The original Codespaces database is not part of this initialization.
+**Current live Railway update:** follow [PHASE_4_4_RELEASE.md](PHASE_4_4_RELEASE.md) for backup/export, a separately restored-copy migration check, manual deployment and the separate authorized `gray` adjustment. Read [the security review](PHASE_4_4_SECURITY.md) and [verification](PHASE_4_4_VERIFICATION.json). **Do not rerun first-time initialization or reset `dev`.** [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md) is a historical Phase 4.3 first-launch record, not the current upgrade procedure.
 
 ## What works
+
+- All Regions quest filtering with persistent preferences, direct missing-equipment purchases and separate Quest confirmation.
+- Optional persistent eight-step tutorial, 23 cosmetic achievements, victory/quest rewards and lightweight level-up celebrations with reduced-motion support.
+- Compact property marketplace, keyboard-free 1/5/10/Max quantity controls, server-derived income/refunds, single-use Land confirmations and Buy More.
+- Royal Announcements, patched static-file dependency, durable authentication throttling and safe operator-only audited gold adjustment. [Phase 4.4 screenshots](docs/phase44/screenshots/README.md).
 
 - Attack Again with current target Health, finishing attacks to zero, Spirit/resource/reward checks without a combat cooldown and linked public profiles.
 - Illustrated saved-rate property holdings on private/public profiles, alongside authoritative income and inventory summaries.
@@ -30,7 +35,7 @@ For the approved **fresh Railway private alpha**, follow [RAILWAY_INITIALIZATION
 - Three persistent Calling specializations, modest combat/recovery tradeoffs and guarded 24-hour switching.
 - A funded Bounty List: 1–10,000 gold, exact fee confirmation, one active contract per target, shared 50-placement rolling daily limit, finishing-only claims and kills, cancellation and full principal refunds after 24 hours.
 - 450 optional passive development rivals across levels 1–50, armies capped at ten, progression-based equipment/gold, natural recovery and bounded daily rewards.
-- A guarded, repeatable `dev` account initializer; credentials are entered through a hidden prompt or workspace secret.
+- Existing persistent `dev` identity; live updates never reset or provision it. The historical development initializer remains local-only.
 - Persistent accounts and sessions; registration/login/logout, Argon2id, CSRF and strict Origin checks.
 - Health, Mana and Spirit with independent offline recovery, levels, skill points, capacity upgrades and milestones.
 - 60 equipment entries: 20 Weapons, 20 Armor and 20 Spells through level 50; quantity Buy/Sell, FIFO acquisition-cost resale and automatic attack/defense selection.
@@ -57,11 +62,11 @@ From the Codespaces terminal:
 ```bash
 cd /workspaces/test
 git status --short
-git fetch origin feature/kingdom-come-phase-4-3-economy-and-progression
-git switch -c feature/kingdom-come-phase-4-3-economy-and-progression FETCH_HEAD
+git fetch origin feature/kingdom-come-phase-4-4-player-experience
+git switch -c feature/kingdom-come-phase-4-4-player-experience FETCH_HEAD
 cd knights-reforged
+npm ci
 npm run db:migrate
-NODE_ENV=development ALLOW_DEV_PROVISIONING=1 npm run dev:bots
 npm run typecheck
 npm run build
 export NODE_ENV=development HOST=0.0.0.0 PORT=3001 ENABLE_DEV_BOTS=1 ENABLE_DEV_BOT_BOUNTIES=1 ENABLE_DEV_BOT_RECRUITMENT=1
@@ -69,7 +74,7 @@ export APP_ORIGIN=https://super-winner-4r7ppp6g7p4hq4rv-3001.app.github.dev
 npm start
 ```
 
-These commands use the existing installed dependencies and PostgreSQL connection; no dependency versions changed. If this feature branch already exists locally, switch to it and pull with `git pull --ff-only origin feature/kingdom-come-phase-4-3-economy-and-progression`. Preserve uncommitted work before switching. The guarded bot command upgrades existing NPC identities to the ten-member catalog; it does not reset the managed dev account or any normal player. Do not run `dev:account --reset` or demo resets. See the Phase 4.3 report for backup, moderation and smoke-test details.
+These commands are only for a separate development Codespace with its own existing backed-up database, not the live Railway update. They install the patched lockfile and additive migrations without any seeding. If this feature branch already exists locally, switch to it and pull with `git pull --ff-only origin feature/kingdom-come-phase-4-4-player-experience`. Preserve uncommitted work before switching. Do not run bot provisioning, `dev:account --reset` or demo resets during this update. For the live game use the Phase 4.4 Railway release guide instead; the original Codespaces database remains outside this task.
 
 Without an explicit public `APP_ORIGIN`, launch methods derive the HTTPS origin from `CODESPACE_NAME`, `PORT` and `GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN` (default `app.github.dev`); copied loopback defaults use that address too. An explicit public origin takes precedence, including a Codespaces URL. Update a copied old preview URL explicitly. The preview helper loads `.env` before choosing its port; exported environment variables take precedence over `.env`. Restart the application after updating it; existing accounts and sessions are retained. In **Ports**, keep the running port (normally **3000**, or **3001** when configured) **Private**, then choose **Open in Browser**. Sign into GitHub in Chrome on Android to use the private forwarded address. This work does not create a Codespace, hosting service or public URL.
 

@@ -6,10 +6,12 @@ import { ledger,creditGold } from './economy.js';
 
 export async function readInventory(sql:Sql,characterId:string):Promise<OwnedItem[]> {
   const rows=(await sql.query('SELECT id,item_definition_id,quantity FROM inventory_entries WHERE character_id=$1 ORDER BY acquired_at,id',[characterId])).rows;
+  const lots=(await sql.query('SELECT inventory_entry_id,remaining_quantity,unit_cost FROM inventory_lots WHERE character_id=$1 AND remaining_quantity>0 ORDER BY acquired_at,id',[characterId])).rows;
   return rows.map(row=> {
     const definition=itemById.get(row.item_definition_id);
     if (!definition) throw new GameError('CATALOG_MISSING','An owned item definition is unavailable; ownership is preserved.',503);
-    return {...definition,inventoryId:row.id as string,quantity:row.quantity as number};
+    const units=lots.filter(lot=>lot.inventory_entry_id===row.id).flatMap(lot=>Array.from({length:Math.min(alpha.limits.transaction,lot.remaining_quantity)},()=>Math.floor(lot.unit_cost/2))).slice(0,alpha.limits.transaction);
+    return {...definition,resaleSteps:units.map((_,i)=>units.slice(0,i+1).reduce((n,p)=>n+p,0)),maxSell:Math.min(row.quantity,alpha.limits.transaction),inventoryId:row.id as string,quantity:row.quantity as number};
   });
 }
 

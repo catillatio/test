@@ -1,4 +1,6 @@
-# Phase 4.3 — first Railway private-alpha initialization
+# Historical Phase 4.3 — first Railway private-alpha initialization
+
+**Historical reference only, for Phase 4.3 commit `99468cc`. The realm is now live. Do not execute the initialization steps for Phase 4.4: current entrypoints reject bootstrap credentials. Use [PHASE_4_4_RELEASE.md](PHASE_4_4_RELEASE.md) to preserve existing data and test a restored copy before upgrade. The password-rotation section below remains operator reference; it does not authorize initialization/reset.**
 
 Repository `catillatio/test`; branch `feature/kingdom-come-phase-4-3-economy-and-progression`; root `/knights-reforged`.
 

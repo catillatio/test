@@ -35,7 +35,7 @@ export async function registerAccount(db: Database, input: unknown) {
         [randomUUID(), ledgerId, characterId, alpha.startingGold]);
     });
   } catch (error) {
-    if ((error as {code?: string}).code === '23505') throw new GameError('USERNAME_TAKEN', 'That account name is already in use.', 409);
+    if ((error as {code?: string}).code === '23505') throw new GameError('REGISTRATION_UNAVAILABLE', 'Registration could not be completed with those details. Try different details or sign in.', 409);
     throw error;
   }
   return { accountId, characterId, username };

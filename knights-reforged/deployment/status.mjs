@@ -21,7 +21,8 @@ try{
     (SELECT count(*)::int FROM development_bots WHERE active) AS active_bots,
     (SELECT max(quantity+1)::int FROM army_stacks WHERE character_id IN(SELECT character_id FROM development_bots)) AS maximum_bot_army,
     (SELECT min(n)::int FROM (SELECT sum(quantity) AS n FROM land_holdings WHERE character_id IN(SELECT character_id FROM development_bots) GROUP BY character_id) q) AS minimum_bot_plots`)).rows[0];
-  console.log(JSON.stringify({initialized:!!marker,marker:marker??null,dev:dev??null,...totals,population,
+  const schemaHead=(await client.query('SELECT name FROM schema_migrations ORDER BY name DESC LIMIT 1')).rows[0]?.name;
+  console.log(JSON.stringify({release:'phase4.4',schemaHead,bootstrapCredentialsPresent:!!(process.env.KINGDOM_DEV_PASSWORD||process.env.KINGDOM_ALPHA_INITIALIZE),initialized:!!marker,marker:marker??null,dev:dev??null,...totals,population,
     features:{bots:config.developmentBotsEnabled,botBounties:config.developmentBotBountiesEnabled,botRecruitment:config.developmentBotRecruitmentEnabled}},null,2));
   if(!marker)process.exitCode=1;
 }finally{

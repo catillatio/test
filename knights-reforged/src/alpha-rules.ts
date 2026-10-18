@@ -50,7 +50,7 @@ export function advanceLevel(level: number, progress: number, award: number) {
   while (remaining >= levelRequirement(level)) { remaining -= levelRequirement(level); level++; }
   return { level, progress: remaining, points: (level-before)*alpha.progression.pointsPerLevel, gained: level-before };
 }
-export interface OwnedItem extends ItemDefinition { inventoryId: string; quantity: number; }
+export interface OwnedItem extends ItemDefinition {resaleSteps?:number[];maxSell?:number; inventoryId: string; quantity: number; }
 export interface SelectedItem { itemId: string; name: string; category: Category; quantity: number; attack: number; defense: number; }
 export function selectEquipment(inventory: OwnedItem[], participants: number, mode: 'attack' | 'defense', maintained = true) {
   if (!safe(participants,1,alpha.limits.participants)) throw new RangeError('Invalid army participation.');

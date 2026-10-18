@@ -99,7 +99,7 @@ try{
   await context.addCookies([{name:'kr_session',value:session.token,url:config.origin,httpOnly:true,secure:true,sameSite:'Lax'}]);
   const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
   const state=async()=>{const response=await page.request.get(config.origin+'/api/v1/me');assert.equal(response.status(),200);return (await response.json()).state;};
-  const action=async(button:Locator)=>{const prior=page.url();await Promise.all([page.waitForURL(url=>url.href!==prior),button.click()]);assert.equal(await page.getByRole('alert').count(),0,await page.locator('body').innerText());};
+  const action=async(button:Locator)=>{const prior=page.url();await Promise.all([page.waitForURL(url=>url.href!==prior),button.click()]);if(await page.locator('[data-trade-confirm]').count()){await Promise.all([page.waitForURL(url=>!url.pathname.endsWith('/buy')&&!url.pathname.endsWith('/sell')),page.locator('[data-trade-confirm] button[type=submit]').click()]);}assert.equal(await page.getByRole('alert').count(),0,await page.locator('body').innerText());};
   await page.goto(config.origin+'/game/quests');
   const before=await state();assert.equal(before.id,account.characterId);
   await action(page.getByRole('button',{name:'Do quest Patrol the border',exact:true}));assert.equal((await state()).questsCompleted,1);
@@ -165,7 +165,7 @@ try{
     await ctx.addCookies([{name:'kr_session',value:token,url:config.origin,httpOnly:true,secure:true,sameSite:'Lax'}]);
     const player=await ctx.newPage();player.on('pageerror',error=>errors.push(error.message));return player;
   }
-  async function submit(player:Page,button:Locator){const prior=player.url();await Promise.all([player.waitForURL(url=>url.href!==prior),button.click()]);assert.equal(await player.getByRole('alert').count(),0,await player.locator('body').innerText());}
+  async function submit(player:Page,button:Locator){const prior=player.url();await Promise.all([player.waitForURL(url=>url.href!==prior),button.click()]);if(await player.locator('[data-trade-confirm]').count()){await Promise.all([player.waitForURL(url=>!url.pathname.endsWith('/buy')&&!url.pathname.endsWith('/sell')),player.locator('[data-trade-confirm] button[type=submit]').click()]);}assert.equal(await player.getByRole('alert').count(),0,await player.locator('body').innerText());}
   const sponsor=await fixture('Ash Steward'),target=await fixture('Briar Outlaw'),hunter=await fixture('Crown Hunter',5);
   await executeCommand(db,hunter.accountId,randomUUID(),'skill',{resource:'spirit'});
   await executeCommand(db,hunter.accountId,randomUUID(),'skill',{resource:'spirit'});
@@ -283,7 +283,7 @@ try{
   for(const category of ['weapon','armor','spell']){
     const item=alpha.items.find(i=>i.category===category)!;
     await marketPage.goto(config.origin+'/game/armory?category='+category);
-    const control=marketPage.locator('[data-quantity-control][data-definition-id="'+item.id+'"]');
+    const control=marketPage.locator('[data-quantity-control][data-trade-mode="buy"][data-definition-id="'+item.id+'"]');
     assert.equal(await control.locator('input').getAttribute('readonly'),'');
     await control.getByRole('button',{name:'Increase quantity for '+item.name,exact:true}).click();
     await control.getByRole('button',{name:'Increase quantity for '+item.name,exact:true}).click();
@@ -301,7 +301,7 @@ try{
     assert.equal((await marketState()).inventory.find((i:{id:string})=>i.id===item.id).quantity,5);
   }
   await marketPage.goto(config.origin+'/game/land');
-  const landControl=marketPage.locator('[data-quantity-control][data-definition-id="smallholding"]');
+  const landControl=marketPage.locator('[data-quantity-control][data-trade-mode="buy"][data-definition-id="smallholding"]');
   await landControl.getByRole('button',{name:'Increase quantity for Smallholding',exact:true}).click();
   await landControl.getByRole('button',{name:'Increase quantity for Smallholding',exact:true}).click();
   await marketPage.screenshot({path:join(refinementOut,'390-land-quantity.png')});
@@ -341,9 +341,66 @@ try{
   await marketPage.locator('.region-picker summary').click();
   assert.equal(await marketPage.locator('.region-picker').evaluate(e=>e.hasAttribute('open')),true);
   await marketPage.screenshot({path:join(refinementOut,'390-quest-regions.png')});
-  await marketPage.getByRole('navigation',{name:'Quest regions'}).getByRole('link',{name:'All regions',exact:true}).click();
-  assert.match(await marketPage.locator('.region-picker summary').innerText(),/All regions/);
+  await marketPage.getByRole('navigation',{name:'Quest regions'}).getByRole('link',{name:'All Regions Every quest',exact:true}).click();
+  assert.match(await marketPage.locator('.region-picker summary').innerText(),/All Regions/);
   for(const width of [320,360,390,412,1366]){await marketPage.setViewportSize({width,height:844});await marketPage.goto(config.origin+purchaseReceiptPath);await marketPage.getByText('Buy More',{exact:true}).click();assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await marketPage.screenshot({path:join(refinementOut,width+'-buy-more.png')});}
+  // Phase 4.4: native tutorial, missing-equipment purchase, property confirmation,
+  // first real quest level-up, achievement collection and reduced-motion replay.
+  const phase44Out=join(projectRoot,'test-results/phase44-browser');await mkdir(phase44Out,{recursive:true});
+  await marketPage.setViewportSize({width:390,height:844});
+  const apprenticeAccount=await registerAccount(db,{username:'apprentice_'+suffix,name:'Dawn Apprentice',password:randomUUID()+'Aa1!'});
+  const apprenticeSession=await createSession(db,apprenticeAccount.accountId),apprentice=await playerPage(apprenticeSession.token);
+  const apprenticeState=async()=>(await apprentice.request.get(config.origin+'/api/v1/me').then(r=>r.json())).state;
+  await apprentice.goto(config.origin+'/game/home');assert.match(await apprentice.locator('body').innerText(),/PRE ALPHA BUILD, PLEASE REPORT BUGS TO @savism DISCORD/);
+  await submit(apprentice,apprentice.getByRole('button',{name:'Start quick guide',exact:true}));
+  assert.equal(await apprentice.locator('.tutorial-panel').count(),1);await apprentice.screenshot({path:join(phase44Out,'390-home-tutorial.png')});
+  let levelUpUrl='';
+  for(let i=0;i<10;i++){
+    await apprentice.goto(config.origin+'/game/quests');assert.match(await apprentice.locator('.region-picker summary').innerText(),/All Regions/);
+    await submit(apprentice,apprentice.getByRole('button',{name:'Do quest Patrol the border',exact:true}));
+    if(await apprentice.locator('.level-celebration').count()){levelUpUrl=apprentice.url();break;}
+  }
+  assert.ok(levelUpUrl);await apprentice.screenshot({path:join(phase44Out,'390-level-up.png')});
+  const levelBalance=(await apprenticeState()).gold;await apprentice.reload();assert.equal((await apprenticeState()).gold,levelBalance);
+  assert.equal(await apprentice.locator('.level-celebration.is-celebrating').count(),0);
+  await apprentice.goto(config.origin+'/game/quests');await apprentice.screenshot({path:join(phase44Out,'390-quests.png')});
+  await Promise.all([apprentice.waitForURL(url=>url.pathname.endsWith('/requirements')),apprentice.getByRole('button',{name:'Do quest Gather the Winter Timber',exact:true}).click()]);
+  assert.ok(!apprentice.url().includes('csrf'));assert.equal(await apprentice.getByRole('button',{name:'Buy Missing Equipment',exact:true}).isEnabled(),true);
+  const questPromptUrl=apprentice.url();await apprentice.screenshot({path:join(phase44Out,'390-quest-equipment.png')});
+  const beforeRequired=await apprenticeState();await submit(apprentice,apprentice.getByRole('button',{name:'Buy Missing Equipment',exact:true}));
+  const afterRequired=await apprenticeState();assert.equal(afterRequired.questsCompleted,beforeRequired.questsCompleted);assert.equal(afterRequired.mana,beforeRequired.mana);
+  await submit(apprentice,apprentice.getByRole('button',{name:'Do Quest',exact:true}));await apprentice.screenshot({path:join(phase44Out,'390-quest-reward.png')});
+  await marketPage.goto(config.origin+'/game/land');const starter=marketPage.locator('[data-land-property="smallholding"]'),buyControl=starter.locator('[data-trade-mode="buy"]');
+  await buyControl.getByRole('button',{name:'Select 5 Smallholding',exact:true}).click();assert.equal(await buyControl.locator('input').inputValue(),'5');
+  await marketPage.screenshot({path:join(phase44Out,'390-land.png')});
+  const marketGold=(await marketState()).gold;
+  await Promise.all([marketPage.waitForURL(url=>url.pathname==='/game/land/buy'),marketPage.getByRole('button',{name:'Buy Smallholding',exact:true}).click()]);
+  assert.equal((await marketState()).gold,marketGold);assert.equal(await marketPage.locator('[data-trade-confirm]').count(),1);
+  await marketPage.screenshot({path:join(phase44Out,'390-land-confirmation.png')});
+  await submit(marketPage,marketPage.getByRole('button',{name:'Confirm purchase',exact:true}));await marketPage.getByText('Buy More',{exact:true}).click();
+  await marketPage.screenshot({path:join(phase44Out,'390-buy-more.png')});
+  const winning=(await db.query("SELECT id FROM battles WHERE attacker_id=$1 AND outcome='attacker_win' ORDER BY created_at DESC LIMIT 1",[hunter.characterId])).rows[0]!.id;
+  const victoryUrl=config.origin+'/game/battles/'+winning;
+  await hunterPage.goto(victoryUrl);assert.equal(await hunterPage.getByRole('heading',{name:'VICTORY!',exact:true}).count(),1);
+  await hunterPage.screenshot({path:join(phase44Out,'390-battle-victory.png')});
+  await hunterPage.goto(config.origin+'/game/achievements');assert.ok(await hunterPage.locator('.achievement-row.is-earned').count());await hunterPage.screenshot({path:join(phase44Out,'390-achievements.png')});
+  const phase44Widths=[320,360,375,390,393,412,430,1366];
+  for(const width of phase44Widths){
+    await apprentice.setViewportSize({width,height:844});
+    for(const url of [config.origin+'/game/quests',questPromptUrl,levelUpUrl,config.origin+'/game/achievements',config.origin+'/game/land']){
+      await apprentice.goto(url);assert.ok(await apprentice.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+' '+url);
+      assert.equal(await apprentice.locator('button').evaluateAll(buttons=>buttons.some(button=>!button.textContent?.trim()&&!button.getAttribute('aria-label'))),false);
+      assert.equal(await apprentice.locator('input:not([type="hidden"]),textarea,select').evaluateAll(elements=>elements.some(element=>!element.getAttribute('aria-label')&&!(element as HTMLInputElement).labels?.length)),false);
+    }
+    await hunterPage.setViewportSize({width,height:844});await hunterPage.goto(victoryUrl);assert.ok(await hunterPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  }
+  const quiet=await browser.newContext({ignoreHTTPSErrors:true,reducedMotion:'reduce',viewport:{width:393,height:852},isMobile:true,hasTouch:true});
+  await quiet.route('**/*',route=>new URL(route.request().url()).origin===config.origin?route.continue():route.abort());
+  await quiet.addCookies([{name:'kr_session',value:apprenticeSession.token,url:config.origin,httpOnly:true,secure:true,sameSite:'Lax'}]);
+  const quietPage=await quiet.newPage();await quietPage.goto(levelUpUrl);assert.equal(await quietPage.locator('.is-celebrating').count(),0);await quiet.close();
+  await apprentice.goto(config.origin+'/game/home');await submit(apprentice,apprentice.getByRole('button',{name:'Skip guide',exact:true}));
+  await apprentice.reload();assert.equal(await apprentice.locator('.tutorial-panel').count(),0);
+  await writeFile(join(phase44Out,'summary.json'),JSON.stringify({passed:true,widths:phase44Widths,responsiveVisits:phase44Widths.length*6,reducedMotion:true,celebrationReplay:true,missingEquipmentNativeFlow:true,propertyConfirmation:true,tutorialSkipPersistent:true,liveProviderContacted:false},null,2));
   const legend=await fixture('Fable Keeper',50);await executeCommand(db,legend.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
   for(const itemId of ['eclipse-greatsword','eclipse-citadel-plate','eclipse-invocation'])await executeCommand(db,legend.accountId,randomUUID(),'buy',{itemId,quantity:5});
   await executeCommand(db,legend.accountId,randomUUID(),'land_buy',{propertyId:'eclipse-citadel',quantity:1});
@@ -418,13 +475,13 @@ try{
   const out=join(projectRoot,'test-results/codespaces-https');await mkdir(out,{recursive:true});await page.screenshot({path:join(out,'phone-quest-success.png'),fullPage:true});
   const summary={passed:true,fixture:'Real local TLS reverse proxy, Codespaces port 3001 origin rewriting and HTTP backend',live_provider_contacted:false,
     configured_origin:config.origin,origin_source:config.originSource,secure_cookies:config.secureCookies,
-    native_browser_registration:true,observed_post_headers:observed,
+    native_browser_registration:true,observed_post_headers:observed,phase44:{all_regions:true,persistent_guide:true,missing_equipment_native_flow:true,land_quantity_presets:true,single_use_confirmation:true,real_quest_level_up:true,achievements:true,celebration_replay:true,reduced_motion:true,viewports:phase44Widths,responsiveVisits:48},
     calling_change:true,escrow_bounty_placement_and_claim:true,private_bounty_report:true,passive_bot_combat:true,
     mobile_widths:widths,simplified_land_art:true,phase43:{quantity_steppers:true,keyboard_free:true,buy_more_equipment_and_land:true,private_persistent_receipts:true,profile_bot_recruitment:true,profile_real_player_recruitment_and_acceptance:true,shared_hourly_payment:true,next_timer_full_hour:true,region_selector:true,home_bounty_removed:true,purchase_receipt_viewports:[320,360,390,412,1366]},phase42:{bot_bounty_native_flow:true,bot_finishing_claim_keeps_reward_cap:true,vault_native_deposit_and_withdraw:true,prominent_profile_actions:true,native_comments:true,safe_text:true,native_reporting:true,native_broadcasts:true,native_code_invitation_and_acceptance:true,native_attack_again_to_zero:true,public_profile_links:true,viewports:widths,screensPerViewport:25,screenshots:'test-results/phase43-browser',home_only_land:true,no_combat_cooldown:true,public_tales:true,active_quest_repeat:true,automatic_income_settlement:true,defeat_indicator:true,accessibility:'Named controls, native form labels, five-tab navigation, overflow and image checks; keyboard skip-link and native comment form with JavaScript disabled also passed'},
     existing_accounts_preserved:true,pre_fix_non_secure_cookie_still_authenticates_over_https:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
     form_actions:['Registration','Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login','Attack skill allocation'],browser_errors:errors.length};
   await writeFile(join(out,'summary.json'),JSON.stringify(summary,null,2)+'\n');
-  console.log('PASS: Phase 4.3 quantity controls, Buy More, profile recruitment, shared hourly settlement, player/bot bounties and 150 responsive screen visits plus five private receipt layouts pass. Registration, existing-player gameplay, Calling, funded bounties, passive rivals and mobile layouts pass through a Codespaces port-3001 HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/phase43-browser/ and test-results/phase43-strategy-browser/.');
+  console.log('PASS: Phase 4.4 tutorial, All Regions filter, missing-equipment purchase then explicit quest, Land quantity presets/confirmation/Buy More, real quest level-up, victory, achievements, replay suppression and reduced motion pass at eight widths (48 new responsive visits), alongside 150 existing responsive visits and five receipt layouts. Registration and gameplay pass through the real Codespaces-shaped HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/phase44-browser/.');
 }finally{
   await browser?.close();for(const socket of sockets)socket.destroy();
   if(tunnel)await new Promise<void>(resolve=>tunnel!.close(()=>resolve()));if(proxy)await new Promise<void>(resolve=>proxy!.close(()=>resolve()));

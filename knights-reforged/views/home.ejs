@@ -1,4 +1,6 @@
-<section class="panel profile-banner"><p class="eyebrow">THE FIRST REALM</p><a href="/game/profile"><h2><%= state.name %></h2><span>Level <%= state.level %> <%= state.className %> · View Profile ›</span></a></section>
+<section class="royal-announcement" aria-label="Royal Announcements"><% for(const announcement of announcements) { %><h2><%= announcement.heading %></h2><p><%= announcement.text %></p><% } %></section>
+<% if(experience?.tutorial.status==='not_started') { %><section class="tutorial-invitation"><strong>Your first adventure?</strong><p>Learn quests, equipment, battles, Land and skills in eight short steps.</p><form method="post" action="/game/tutorial"><%- include('partials/command-fields') %><input type="hidden" name="action" value="start"><button class="button button-gold" type="submit">Start quick guide</button></form><form method="post" action="/game/tutorial"><%- include('partials/command-fields') %><input type="hidden" name="action" value="skip"><button class="tutorial-skip" type="submit">Skip tutorial</button></form></section><% } %>
+
 <section class="home-menu" aria-label="Main menu">
 <a class="button button-outline" href="/game/land"><span><span class="menu-icon" aria-hidden="true">♜</span>Land</span><small><%= state.economy.netHourlyIncome %> net gold/hr</small></a>
 <a class="button button-outline" href="/game/army?tab=army"><span><span class="menu-icon" aria-hidden="true">⚔</span>My Army (<%= state.army.participants %>)</span><small><%= state.army.allies %> player allies</small></a>
