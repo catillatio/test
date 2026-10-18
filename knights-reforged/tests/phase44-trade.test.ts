@@ -4,7 +4,7 @@ import {randomUUID} from 'node:crypto';
 import {realm,testDatabaseUrl} from './helpers.js';
 import {createTradeQuote} from '../src/trade.js';
 const skip=!testDatabaseUrl;
-test('Land previews do not purchase; confirmation is owner-bound, exact, single-use and idempotent under concurrent submissions',{skip},async()=>{
+test('retained legacy Land quotes remain owner-bound, exact, single-use and idempotent under concurrent submissions',{skip},async()=>{
  const r=await realm({isolated:true});try{
   const a=await r.player(),b=await r.player();await r.prepare(a,5000);await r.prepare(b,5000);
   const before=await r.me(a),quote=await createTradeQuote(r.db,a.accountId,'land_buy','smallholding',5);

@@ -295,7 +295,7 @@ try{
     await marketPage.screenshot({path:join(refinementOut,'390-'+category+'-quantity.png')});
     await submit(marketPage,marketPage.getByRole('button',{name:'Buy '+item.name,exact:true}));
     assert.equal((await marketState()).inventory.find((i:{id:string})=>i.id===item.id).quantity,3);
-    assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');
+    assert.equal(await marketPage.locator('.buy-more-form').isVisible(),true);
     await marketPage.getByRole('button',{name:'Increase quantity for '+item.name,exact:true}).click();
     await submit(marketPage,marketPage.getByRole('button',{name:'Buy more '+item.name,exact:true}));
     assert.equal((await marketState()).inventory.find((i:{id:string})=>i.id===item.id).quantity,5);
@@ -306,7 +306,7 @@ try{
   await landControl.getByRole('button',{name:'Increase quantity for Smallholding',exact:true}).click();
   await marketPage.screenshot({path:join(refinementOut,'390-land-quantity.png')});
   await submit(marketPage,marketPage.getByRole('button',{name:'Buy Smallholding',exact:true}));
-  assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');
+  assert.equal(await marketPage.locator('.buy-more-form').isVisible(),true);
   await marketPage.getByRole('button',{name:'Increase quantity for Smallholding',exact:true}).click();
   await marketPage.screenshot({path:join(refinementOut,'390-land-buy-more.png')});
   await submit(marketPage,marketPage.getByRole('button',{name:'Buy more Smallholding',exact:true}));
@@ -343,7 +343,7 @@ try{
   await marketPage.screenshot({path:join(refinementOut,'390-quest-regions.png')});
   await marketPage.getByRole('navigation',{name:'Quest regions'}).locator('a[href="/game/quests?area=all"]').click();
   assert.match(await marketPage.locator('.region-picker summary').innerText(),/All Regions/);
-  for(const width of [320,360,390,412,1366]){await marketPage.setViewportSize({width,height:844});await marketPage.goto(config.origin+purchaseReceiptPath);assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await marketPage.screenshot({path:join(refinementOut,width+'-buy-more.png')});}
+  for(const width of [320,360,390,412,1366]){await marketPage.setViewportSize({width,height:844});await marketPage.goto(config.origin+purchaseReceiptPath);assert.equal(await marketPage.locator('.buy-more-form').isVisible(),true);assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await marketPage.screenshot({path:join(refinementOut,width+'-buy-more.png')});}
   // Phase 4.4: native tutorial, missing-equipment purchase, one-tap property buying,
   // first real quest level-up, achievement collection and reduced-motion replay.
   const phase44Out=join(projectRoot,'test-results/phase44-browser');await mkdir(phase44Out,{recursive:true});
@@ -376,7 +376,7 @@ try{
   const marketGold=(await marketState()).gold,ownedBefore=(await marketState()).land.properties[0].owned;
   await submit(marketPage,marketPage.getByRole('button',{name:'Buy Smallholding',exact:true}));
   assert.ok((await marketState()).gold<marketGold);assert.equal((await marketState()).land.properties[0].owned,ownedBefore+5);
-  assert.equal(await marketPage.locator('[data-trade-confirm]').count(),0);assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');
+  assert.equal(await marketPage.locator('[data-trade-confirm]').count(),0);assert.equal(await marketPage.locator('.buy-more-form').isVisible(),true);
   await marketPage.screenshot({path:join(phase44Out,'390-buy-more.png')});
   const winning=(await db.query("SELECT id FROM battles WHERE attacker_id=$1 AND outcome='attacker_win' ORDER BY created_at DESC LIMIT 1",[hunter.characterId])).rows[0]!.id;
   const victoryUrl=config.origin+'/game/battles/'+winning;
@@ -419,7 +419,8 @@ try{
       // headings and form labels remain visible, and status text is announced.
       assert.equal(await legendPage.locator('button').evaluateAll(buttons=>buttons.some(button=>!button.textContent?.trim()&&!button.getAttribute('aria-label'))),false);
       assert.equal(await legendPage.locator('input:not([type="hidden"]), textarea, select').evaluateAll(elements=>elements.some(element=>!element.getAttribute('aria-label')&&!(element as HTMLInputElement).labels?.length)),false);
-      assert.equal(await legendPage.locator('img').evaluateAll(images=>images.some(image=>image instanceof HTMLImageElement&&(!image.complete||image.naturalWidth===0))),false);
+      await legendPage.waitForFunction(()=>[...document.images].every(image=>image.complete),{},{timeout:10000});
+      const brokenImages=await legendPage.locator('img').evaluateAll(images=>images.filter(image=>image instanceof HTMLImageElement&&image.naturalWidth===0).map(image=>(image as HTMLImageElement).src));assert.deepEqual(brokenImages,[],width+' '+screen+' image loading');
       if(['home','quests','army','army?tab=army','armory?category=weapon'].includes(screen))await legendPage.screenshot({path:join(refinementOut,width+'-'+screen.replaceAll('?','-').replaceAll('=','-')+'.png')});
       if(width===390&&screen==='players/'+elder.character_id)await legendPage.screenshot({path:join(screenOut,'390-level50-rival-profile.png'),fullPage:true});
       if(width===390&&screen==='profile')await legendPage.screenshot({path:join(phase4Out,'390-profile.png'),fullPage:true});
@@ -494,7 +495,7 @@ try{
       const box=await marketPage.locator('.status-disclosure[open] .status-panel').boundingBox();assert.ok(box&&box.x>=0&&box.x+box.width<=width+1,width+' panel');
       await marketPage.keyboard.press('Escape');assert.equal(await marketPage.locator('.status-disclosure[open]').count(),0);
     }
-    await marketPage.goto(config.origin+purchaseReceiptPath);assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');
+    await marketPage.goto(config.origin+purchaseReceiptPath);assert.equal(await marketPage.locator('.buy-more-form').isVisible(),true);
     assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await marketPage.screenshot({path:join(phase45Out,width+'-buy-more.png')});
   }

@@ -78,13 +78,15 @@ try{
   await action(a,a.getByRole('button',{name:'Increase Mana',exact:true}));assert.equal((await state(a)).maxMana,21);
   await a.goto(config.origin+'/game/quests');
   const road=a.locator('[data-quest="clear-old-road"]');
-  await action(a,road.getByRole('button',{name:/Buy requirements/}));
-  await action(a,road.getByRole('button',{name:/Do quest/}));
+  await Promise.all([a.waitForURL(url=>url.pathname.endsWith('/requirements')),road.getByRole('button',{name:/Buy requirements/}).click()]);
+  await action(a,a.getByRole('button',{name:'Buy Missing Equipment',exact:true}));
+  await action(a,a.getByRole('button',{name:'Do Quest',exact:true}));
   await action(a,a.getByRole('button',{name:'Do Again',exact:true}));
   assert.equal((await state(a)).level,3);
   const ruins=a.locator('[data-quest="search-ruins"]');
-  await action(a,ruins.getByRole('button',{name:/Buy requirements/}));
-  await action(a,ruins.getByRole('button',{name:/Do quest/}));
+  await Promise.all([a.waitForURL(url=>url.pathname.endsWith('/requirements')),ruins.getByRole('button',{name:/Buy requirements/}).click()]);
+  await action(a,a.getByRole('button',{name:'Buy Missing Equipment',exact:true}));
+  await action(a,a.getByRole('button',{name:'Do Quest',exact:true}));
   assert.equal((await state(a)).loot[0]?.id,'watchtower-map');
 
   await a.goto(config.origin+'/game/army');assert.equal(await a.getByRole('button',{name:'Recruit militia',exact:true}).count(),0);
@@ -96,7 +98,7 @@ try{
   await a.goto(config.origin+'/game/profile?tab=skills');await action(a,a.getByRole('button',{name:'Increase Defense',exact:true}));assert.equal((await state(a)).training.defense,1);
 
   await a.goto(config.origin+'/game/armory?category=spell');
-  await a.getByRole('button',{name:'Increase quantity for Ember Word',exact:true}).click();
+  await a.locator('[data-trade-mode="buy"][data-definition-id="ember-word"]').getByRole('button',{name:'Increase quantity for Ember Word',exact:true}).click();
   await action(a,a.getByRole('button',{name:'Buy Ember Word',exact:true}));
   assert.ok(new URL(a.url()).pathname.startsWith('/game/purchases/'));
   await a.goto(config.origin+'/game/armory?category=spell');

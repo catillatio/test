@@ -115,8 +115,8 @@ test('bounty badges count only active visible listings across placement, cancell
 
 test('bounty count covers more than the display page and disabled rivals; all expiry batches refund principal once',{skip},async()=>{
  let now=new Date('2046-04-04T00:00:00Z');const r=await realm({isolated:true,clock:()=>now,developmentBotsEnabled:true,developmentBotBountiesEnabled:true});try{
-  await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});const a=await r.player('Realm Patron');await r.prepare(a,100000,xpFor(50));for(let i=0;i<5;i++)await r.ok(a,'/api/v1/quests/border-patrol/runs');
-  const targets=(await r.db.query('SELECT c.id,c.attained_level AS level FROM development_bots d JOIN characters c ON c.id=d.character_id ORDER BY c.attained_level,c.id')).rows.filter(c=>areRivals(50,c.level)).slice(0,101);assert.equal(targets.length,101);
+  await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});const a=await r.player('Realm Patron');await r.prepare(a,100000,xpFor(40));for(let i=0;i<5;i++)await r.ok(a,'/api/v1/quests/border-patrol/runs');
+  const targets=(await r.db.query('SELECT c.id,c.attained_level AS level FROM development_bots d JOIN characters c ON c.id=d.character_id ORDER BY c.attained_level,c.id')).rows.filter(c=>areRivals(40,c.level)).slice(0,101);assert.equal(targets.length,101);
   const before=(await r.me(a)).gold;for(const target of targets)await r.ok(a,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1});
   assert.equal((await activeBountyCount(r.db,now,true)).count,101);assert.equal((await activeBountyCount(r.db,now,false)).count,0);
   const board=await bountyBoard(r.db,a.id,true);assert.equal(board.active.length,100);assert.equal(board.activeCount,101);assert.equal((await r.me(a)).gold,before-202);

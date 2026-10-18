@@ -90,10 +90,10 @@ export async function cancelBounty(sql:Sql,sponsorId:string,bountyId:string,comm
   return {bountyId,refund:row.amount as number};
 }
 async function claimBlockedReason(sql:Sql,claimantId:string,row:Record<string,any>,now:Date,battleLevels?:[number,number],botTargetsEnabled=false):Promise<string|null>{
-  const bot=(await sql.query('SELECT active FROM development_bots WHERE character_id=$1',[row.target_id])).rows[0];
-  if(bot&&(!botTargetsEnabled||!bot.active))return 'Temporary-target bounties require the development bounty flag.';
   if(row.sponsor_id===claimantId)return 'Sponsors cannot claim their own contracts.';
   if(row.target_id===claimantId)return 'You are this contract’s target.';
+  const bot=(await sql.query('SELECT active FROM development_bots WHERE character_id=$1',[row.target_id])).rows[0];
+  if(bot&&(!botTargetsEnabled||!bot.active))return 'Temporary-target bounties require the development bounty flag.';
   if((battleLevels&&battleLevels[0]<rule.minimumLevel)||!await qualified(sql,claimantId))return 'Reach level 3 and complete five quests.';
   const levels=battleLevels??(await sql.query('SELECT attained_level FROM characters WHERE id=ANY($1::uuid[]) ORDER BY id',[[claimantId,row.target_id]])).rows.map(r=>r.attained_level);
   if(levels.length!==2||!areRivals(levels[0]!,levels[1]!))return 'Target is outside your rival level range.';
@@ -140,13 +140,14 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
     const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name FROM bounties b
       JOIN characters c ON c.id=b.target_id JOIN characters s ON s.id=b.sponsor_id
       WHERE b.sponsor_id=$1 OR b.target_id=$1 OR b.claimant_id=$1 ORDER BY b.created_at DESC,b.id DESC LIMIT 50`,[characterId])).rows;
-    const listings=await Promise.all(active.map(async row=>{
+    // A transaction has one client; queued parallel reads add no SQL parallelism.
+    const listings=[];for(const row of active){
       const health=regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value;
       // Board presentation only. Claim eligibility must still allow a winning
       // attack that has just reduced the defender to zero Health.
-      return {...row,health,armySize:Math.min(row.temporary_rival?10:Number.MAX_SAFE_INTEGER,activeArmy(row.level,row.units,row.allies,row.legacy_army_floor).participants),
-        attackBlockedReason:health===0?'Opponent defeated — 0 Health. Wait for their recovery.':null,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now,undefined,botTargetsEnabled)};
-    }));
+      listings.push({...row,health,armySize:Math.min(row.temporary_rival?10:Number.MAX_SAFE_INTEGER,activeArmy(row.level,row.units,row.allies,row.legacy_army_floor).participants),
+        attackBlockedReason:health===0?'Opponent defeated — 0 Health. Wait for their recovery.':null,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now,undefined,botTargetsEnabled)});
+    }
     return {active:listings,activeCount:Number(active[0]?.visible_total??0),nextExpiryAt:active[0]?.next_expiry?new Date(active[0].next_expiry).toISOString():null,history,eligible:await qualified(sql,characterId),botTargetsEnabled,serverTime:now.toISOString(),rulesetId:pvp.id};
   });
 }

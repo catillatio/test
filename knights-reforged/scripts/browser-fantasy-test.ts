@@ -78,7 +78,7 @@ try{
   await page.setViewportSize({width:390,height:844});
   for(const item of alpha.items.filter(item=>['eclipse-greatsword','eclipse-citadel-plate','eclipse-invocation'].includes(item.id))){
     await page.goto(origin+'/game/armory?category='+item.category);
-    await page.getByRole('button',{name:'Increase quantity for '+item.name,exact:true}).click({clickCount:2});await act(page.getByRole('button',{name:'Buy '+item.name,exact:true}));
+    await page.locator('[data-quantity-control][data-trade-mode="buy"][data-definition-id="'+item.id+'"]').getByRole('button',{name:'Increase quantity for '+item.name,exact:true}).click({clickCount:2});await act(page.getByRole('button',{name:'Buy '+item.name,exact:true}));
     assert.equal((await state()).inventory.find(entry=>entry.id===item.id)?.quantity,3);
   }
   await page.goto(origin+'/game/armory?category=weapon');await act(page.getByRole('button',{name:'Sell Eclipse Greatsword',exact:true}));
@@ -96,8 +96,9 @@ try{
   await page.screenshot({path:join(out,'390-skills-progress.png'),fullPage:true});
   await page.goto(origin+'/game/quests?area=eclipse-crown');
   const discovery=page.locator('[data-quest="hold-last-meridian"]');await act(discovery.getByRole('button',{name:/Buy requirements/}));
-  await act(discovery.getByRole('button',{name:'Do quest Hold the Last Meridian',exact:true}));
+  await act(page.getByRole('button',{name:'Buy Missing Equipment',exact:true}));await act(page.getByRole('button',{name:'Do Quest',exact:true}));
   const finale=page.locator('[data-quest="defy-eclipsed-sovereign"]');await act(finale.getByRole('button',{name:'Do quest Defy the Eclipsed Sovereign',exact:true}));
+  if(new URL(page.url()).pathname.endsWith('/requirements')){if(await page.getByRole('button',{name:'Buy Missing Equipment',exact:true}).count())await act(page.getByRole('button',{name:'Buy Missing Equipment',exact:true}));await act(page.getByRole('button',{name:'Do Quest',exact:true}));}
   current=await state();assert.equal(current.questsCompleted,2);assert.ok(current.loot.some(loot=>loot.id==='eclipse-key'));
   await page.screenshot({path:join(out,'390-finale-success.png')});
   await page.goto(origin+'/game/battle');
