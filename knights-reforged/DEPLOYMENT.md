@@ -2,6 +2,8 @@
 
 **Current Railway instructions:** [RAILWAY.md](RAILWAY.md) supersedes the historical container preparation below. Use the mount-free Dockerfile and `railway.json`, a private PostgreSQL URL and a separate pre-deploy migration. `RUN_MIGRATIONS=1` is no longer supported at server startup.
 
+The approved fresh private-alpha initialization is documented separately in [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md). It explicitly enables existing rivals on Railway production, creates `dev` and 450 bots once, then preserves progress. It is not a Codespaces recovery/reset procedure.
+
 Phase 3.5 TypeScript/build, PostgreSQL migration/regression, real TLS reverse-proxy, restart and browser checks have run in the development workspace. See [KINGDOM_COME_PHASE_3_5_VERIFICATION.json](KINGDOM_COME_PHASE_3_5_VERIFICATION.json) for the executed gates and limitations. The historical network blockers in older verification files do not describe this phase.
 
 No hosting resources, Codespace, public preview, deployment or merge are created by this work. Current image/runtime verification and its limits are recorded in [RAILWAY.md](RAILWAY.md); the earlier devcontainer recipes and provider access policies remain separate checks.
@@ -41,7 +43,7 @@ Configure secrets/environment through the selected provider:
 | `DATABASE_URL` | Existing private PostgreSQL connection, with the provider's verified TLS requirements |
 | `APP_ORIGIN` | Exact private HTTPS browser origin |
 | `HOST` | `0.0.0.0` inside the container |
-| `PORT` | Provider-assigned port or `3000` |
+| `PORT` | `8080` for the Railway private alpha; otherwise provider-assigned |
 | `RUN_MIGRATIONS` | Remove it; migrations run only through the separate pre-deploy command |
 
 The runtime command is `node deployment/start.mjs`. A separate migration job runs `node deployment/migrate.mjs`. The migration runner uses its advisory lock and immutable-ruleset checks. Startup verifies catalog definitions and schema migration head before listening. Health is `/healthz`.
@@ -70,7 +72,7 @@ The HTTPS regression reproduces TLS termination on a port-3001 Codespaces-shaped
 
 Use [STRATEGY_MILESTONE.md](STRATEGY_MILESTONE.md) for the current branch, additive migration 010 and exact super-winner port-3001 update commands. Existing installed dependencies and database volumes are reused. New immutable rulesets are installed by migration.
 
-Temporary rivals require an explicit development-only provision command and `ENABLE_DEV_BOTS=1` at runtime. Production always disables their discovery/attacks. Provisioning the managed `dev` account requires `NODE_ENV=development`, `ALLOW_DEV_PROVISIONING=1` and its private credential through a hidden prompt or `KINGDOM_DEV_PASSWORD`. Neither provisioning operation is an HTTP endpoint or an automatic startup grant.
+Ordinary production disables temporary rivals. Local development provisioning still requires `NODE_ENV=development`, `ALLOW_DEV_PROVISIONING=1` and its private credential; those general CLIs remain prohibited in production. The separately approved Railway private-alpha mode uses only the guarded empty-realm pre-deploy initializer and explicit runtime switches described in the current initialization guide. Neither operation has an HTTP provisioning endpoint.
 
 ## Phase 4 update
 

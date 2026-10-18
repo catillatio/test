@@ -27,6 +27,20 @@ export async function assertInstalledRulesets(sql:Sql) {
   }
 }
 
+// Shared with fresh-realm provisioning so newly seeded high-level rivals are
+// fully reconciled before its completion marker commits, not on a redeploy.
+export async function reconcileLevelMilestones(sql:Sql) {
+  // One-time entitlements also apply to existing high-level characters.
+  // Never recompute XP/levels, touch timers, or re-grant spent points.
+  for(const milestone of alpha.progression.milestones??[]) {
+    await sql.query(`WITH awarded AS (
+      INSERT INTO progression_awards(character_id,award_id,points)
+      SELECT id,$1,$2 FROM characters WHERE attained_level>=$3
+      ON CONFLICT DO NOTHING RETURNING character_id,points)
+      UPDATE characters c SET skill_points=c.skill_points+a.points FROM awarded a WHERE c.id=a.character_id`,[milestone.id,milestone.points,milestone.level]);
+  }
+}
+
 export async function migrate(db: Database, options: { through?: string } = {}) {
   await transaction(db, async client => {
     await client.query('SELECT pg_advisory_xact_lock(61824004)');
@@ -43,15 +57,7 @@ export async function migrate(db: Database, options: { through?: string } = {}) 
     }
     await assertInstalledRulesets(client);
     if((await client.query("SELECT name FROM schema_migrations WHERE name='006_fantasy_progression.sql'")).rows.length) {
-      // One-time entitlements also apply to existing high-level characters.
-      // Never recompute their XP/levels, touch their timers, or re-grant spent points.
-      for(const milestone of alpha.progression.milestones??[]) {
-        await client.query(`WITH awarded AS (
-          INSERT INTO progression_awards(character_id,award_id,points)
-          SELECT id,$1,$2 FROM characters WHERE attained_level>=$3
-          ON CONFLICT DO NOTHING RETURNING character_id,points)
-          UPDATE characters c SET skill_points=c.skill_points+a.points FROM awarded a WHERE c.id=a.character_id`,[milestone.id,milestone.points,milestone.level]);
-      }
+      await reconcileLevelMilestones(client);
     }
   });
 }

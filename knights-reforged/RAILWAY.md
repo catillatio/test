@@ -4,6 +4,8 @@ Branch: `feature/kingdom-come-phase-4-3-economy-and-progression`.
 Application/root directory: `/knights-reforged` within `catillatio/test`.
 This change prepares deployment; it does not create services, deploy, merge, import data or alter player databases.
 
+**Fresh private-alpha launch:** use [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md) for the approved one-time `dev`/450-rival bootstrap, port 8080 and credential rotation. The ordinary-production defaults below still keep development features off. The new private-alpha exception requires explicit Railway-only authorization and an immutable initialization journal; it never restores or changes Codespaces data.
+
 ## Build failure and fix
 
 The previous repository Dockerfile contains the exact failing instruction:
@@ -16,7 +18,7 @@ That optional mount was for the analysis workspace's HTTPS proxy CA, not a game 
 
 The replacement Dockerfile uses ordinary `COPY` and `RUN npm ci` instructions, with no secret/cache mounts or custom frontend. `railway.json` explicitly selects `DOCKERFILE`, bypassing Railpack-generated build plans. Do not try to supply `proxy_ca`, disable npm certificate checks, or change gameplay/security to address this parser error.
 
-The multi-stage image installs from `package-lock.json`, compiles TypeScript, prunes development dependencies and runs as the `node` user. Native Argon2 and its runtime dependencies are retained. Runtime includes `dist`, `views`, `public`, every immutable `rulesets` version, all migrations and the three production entrypoints. The build context is allowlisted: no `.env`, database dumps, research APKs, development dependencies, screenshots or provisioning helpers. No database connection or migration is attempted during build. Full automated/PostgreSQL tests run separately.
+The multi-stage image installs from `package-lock.json`, compiles TypeScript, prunes development dependencies and runs as the `node` user. Native Argon2 and its runtime dependencies are retained. Runtime includes `dist`, `views`, `public`, every immutable `rulesets` version, all migrations, the production entrypoints and a read-only status helper. The build context is allowlisted: no `.env`, database dumps, research APKs, development dependencies or screenshots. No database connection or migration is attempted during build. Full automated/PostgreSQL tests run separately.
 
 ## 1. Configure the existing service without starting a deployment
 
@@ -57,13 +59,13 @@ Set these on the **Node/game service**, not in Git and not as Docker build argum
 | `ENABLE_DEV_BOT_BOUNTIES` | `0` |
 | `ENABLE_DEV_BOT_RECRUITMENT` | `0` |
 
-Let Railway supply `PORT`. Do not set it to 3001 or place the internal port in `APP_ORIGIN`. The server binds `0.0.0.0:$PORT`; Docker's `EXPOSE 3000` is metadata, not a restriction on Railway's assigned port. Point the approved HTTP domain's target port at that same service port. If an old manually defined `PORT` exists, remove it so Railway chooses the port consistently.
+For this approved private-alpha launch, set `PORT=8080` and the HTTP domain's target port to 8080. The server still honors `0.0.0.0:$PORT`; Docker's default and `EXPOSE` are now 8080. Do not set the internal port to the Codespaces port 3001 or place it in `APP_ORIGIN`. Other deployments can still override `PORT` dynamically.
 
 Use the PostgreSQL **private** connection variable. Verify its resolved hostname is the service's `*.railway.internal` host and that both services are in the same Railway project/environment. Do not use `DATABASE_PUBLIC_URL`, add a public TCP proxy, publish port 5432, or copy the local Codespace URL into Railway. Keep any existing PostgreSQL data volume attached and unchanged. The Node container does not need a persistent volume; all player state is in PostgreSQL.
 
 Railway private networking provides the service-to-service transport. Use the supplied private PostgreSQL URL's supported TLS settings; do not blindly add `sslmode=require` to a database that does not offer TLS. For a database provider requiring TLS, configure its verified CA/TLS connection settings. Never set `NODE_TLS_REJECT_UNAUTHORIZED=0`, `rejectUnauthorized:false`, or npm `strict-ssl=false`.
 
-Remove `RUN_MIGRATIONS`, `ALLOW_DEV_PROVISIONING`, `KINGDOM_DEV_PASSWORD`, copied Codespaces metadata and old proxy/CA workaround variables from the production service. No demo seeding, bot provisioning or development-account reset runs on build, migration, start or restart. Existing NPC/dev records are preserved, but development rival discovery/bounty/recruitment features remain disabled in production as before this change. No gameplay policy is changed to enable them on a production service.
+Remove `RUN_MIGRATIONS`, `ALLOW_DEV_PROVISIONING`, copied Codespaces metadata and old proxy/CA workaround variables. Build/start/restart never provision players. Ordinary production keeps rivals disabled. The explicitly approved fresh private-alpha pre-deploy step is the only production bootstrap exception: temporarily supply the confirmation and sealed `KINGDOM_DEV_PASSWORD` from the initialization guide, then remove both after successful initialization. The persistent runtime switches govern rival discovery, recruitment and player-funded bot bounties; no combat/content/economic rules change.
 
 The deployment entrypoints fail before connecting if production `DATABASE_URL` or explicit HTTPS `APP_ORIGIN` is missing/malformed; diagnostics do not include database credentials. Environment variables take precedence over `.env`, and the image contains no `.env`.
 
@@ -81,9 +83,9 @@ The registration page alone does not make a service private. For a restricted al
 
 Before the owner's first approved deployment, take a backup and decide which database contains the authoritative realm. Creating an empty Railway PostgreSQL service does **not** transfer Codespace accounts. To move the realm, restore a consistent Codespace dump into a separate, empty Railway database while the source game is stopped, verify it, then point the game at that database. Retain the original Codespace database and backup. Do not deploy an empty realm and assume the player data moved.
 
-At an approved deployment, Railway runs `node deployment/migrate.mjs` in the built image, in the private network with runtime variables. No development dependencies are required. It applies only unapplied versioned SQL migrations, uses the existing transaction/advisory lock and validates immutable catalogs. If migration fails or exceeds 300 seconds, the deployment fails; no new server is promoted. This change introduces **no SQL migration, catalog edit or data reconciliation**.
+At an approved deployment, Railway runs `node deployment/migrate.mjs` in the built image, in the private network with runtime variables. No development dependencies are required. It applies only unapplied versioned SQL migrations, uses the existing transaction/advisory lock and validates immutable catalogs. If migration fails or exceeds 300 seconds, the deployment fails; no new server is promoted. The private-alpha extension adds only migration **015**, an immutable initialization journal; migrations 001–014, catalogs and existing player records are unchanged.
 
-The web start command never applies migrations. `RUN_MIGRATIONS=1` fails with instructions to use pre-deploy. The server still verifies migration `014_economy_and_progression.sql` and installed rulesets before listening. Restarts cannot reseed players, regrant starting funds or repeat previously committed migration work.
+The web start command never applies migrations. `RUN_MIGRATIONS=1` fails with instructions to use pre-deploy. The server verifies the Phase 4.3 schema and installed rulesets before listening. Private-alpha mode additionally requires the durable initialization marker from additive migration `015_private_alpha_initialization.sql`. Restarts cannot reseed players, regrant starting funds or repeat previously committed migration work.
 
 Manual equivalent, only in an approved environment connected to the intended database:
 
@@ -166,7 +168,7 @@ Do not use the live player database as `TEST_DATABASE_URL`. Full regression test
 
 ## Verification record
 
-See [RAILWAY_VERIFICATION.json](RAILWAY_VERIFICATION.json) for the executed build, runtime, production-proxy, migration and backup/restore checks, including the local managed-proxy CA accommodation and provider checks still requiring the owner. Railway project access, service settings, domain/TLS issuance and deployment promotion are outside local verification.
+See [RAILWAY_INITIALIZATION_VERIFICATION.json](RAILWAY_INITIALIZATION_VERIFICATION.json) for the current initialization, build, runtime, production-proxy, migration and backup/restore checks. [RAILWAY_VERIFICATION.json](RAILWAY_VERIFICATION.json) retains the earlier deployment-only results before migration 015. Both distinguish the local managed-proxy CA accommodation from provider checks still requiring the owner. Railway project access, service settings, domain/TLS issuance and deployment promotion are outside local verification.
 
 Repeat the portable image/runtime check on a normal Docker-enabled Linux host:
 
@@ -177,6 +179,6 @@ docker pull postgres:18-bookworm
 npm run test:container
 ```
 
-The checker creates uniquely named disposable containers/databases and a private network, publishes no ports and removes only its own resources. It ignores the current `DATABASE_URL`. It checks an unmigrated startup failure, all fourteen pre-deploy migrations, native Argon2, runtime assets, dynamic port binding, real HTTP gameplay, duplicate-command handling, repeated migration preservation, custom-format backup/restore equality, graceful shutdown, persisted sessions and income schedules. It requires the managed/local Docker socket at `/var/run/docker.sock` and does not automatically install Docker or pull images. The workspace's intercepting HTTPS proxy requires a temporary CA mount for local npm build steps; that local-only validation Dockerfile is not the committed Railway Dockerfile, and no workspace CA is installed into the runtime image.
+The checker creates uniquely named disposable containers/databases and a private network, publishes no ports and removes only its own resources. It ignores the current `DATABASE_URL`. It checks an unmigrated startup failure, all fifteen pre-deploy migrations, native Argon2, runtime assets, dynamic port binding, real HTTP gameplay, duplicate-command handling, repeated migration preservation, custom-format backup/restore equality, graceful shutdown, persisted sessions and income schedules. `KINGDOM_TEST_PRIVATE_ALPHA=1 npm run test:container` additionally checks the fresh 450-rival bootstrap, hidden database-password rotation and redeployment without bootstrap secrets on port 8080. It requires the managed/local Docker socket at `/var/run/docker.sock` and does not automatically install Docker or pull images. The workspace's intercepting HTTPS proxy requires a temporary CA mount for local npm build steps; that local-only validation Dockerfile is not the committed Railway Dockerfile, and no workspace CA is installed into the runtime image.
 
 Official references checked during preparation: [Dockerfiles](https://docs.railway.com/builds/dockerfiles), [config as code](https://docs.railway.com/config-as-code/reference), [pre-deploy commands](https://docs.railway.com/deployments/pre-deploy-command) and [current configuration schema](https://railway.com/railway.schema.json).

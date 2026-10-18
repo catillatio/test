@@ -20,3 +20,4 @@
 !deployment/start.mjs
 !deployment/migrate.mjs
 !deployment/environment.mjs
+!deployment/status.mjs

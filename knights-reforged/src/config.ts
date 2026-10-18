@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {privateAlphaEnabled,privateAlphaConfirmation} from './private-alpha-policy.js';
 
 export const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export interface Config {
@@ -12,6 +13,7 @@ export interface Config {
   codespacesOrigin: string | null;
   databaseUrl: string;
   secureCookies: boolean;
+  privateAlpha:boolean;
   developmentBotsEnabled:boolean;
   developmentBotBountiesEnabled:boolean;
   developmentBotRecruitmentEnabled:boolean;
@@ -45,14 +47,18 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   if (origin.pathname !== '/' || origin.search || origin.hash) throw new Error('APP_ORIGIN must not contain a path or query.');
   const nodeEnv = env.NODE_ENV ?? 'development';
   if (nodeEnv === 'production' && origin.protocol !== 'https:') throw new Error('Production requires HTTPS.');
+  const privateAlpha=privateAlphaEnabled(env);
+  if(env.KINGDOM_ALPHA_INITIALIZE&&(!privateAlpha||env.KINGDOM_ALPHA_INITIALIZE!==privateAlphaConfirmation))
+    throw new Error('Invalid private-alpha initialization configuration.');
   return {
     nodeEnv, host: env.HOST ?? '0.0.0.0', port, origin: origin.origin,
     originSource:automatic?'codespaces':configured?'explicit':'local-default',
     codespacesOrigin:codespaceOrigin,
     databaseUrl: env.DATABASE_URL ?? 'postgres://knights:knights_local@127.0.0.1:54329/knights',
     secureCookies: origin.protocol === 'https:',
-    developmentBotsEnabled:nodeEnv!=='production'&&env.ENABLE_DEV_BOTS==='1',
-    developmentBotRecruitmentEnabled:['development','test'].includes(nodeEnv)&&env.ENABLE_DEV_BOTS==='1'&&env.ENABLE_DEV_BOT_RECRUITMENT==='1',
-    developmentBotBountiesEnabled:['development','test'].includes(nodeEnv)&&env.ENABLE_DEV_BOTS==='1'&&env.ENABLE_DEV_BOT_BOUNTIES==='1',
+    privateAlpha,
+    developmentBotsEnabled:(nodeEnv!=='production'||privateAlpha)&&env.ENABLE_DEV_BOTS==='1',
+    developmentBotRecruitmentEnabled:(['development','test'].includes(nodeEnv)||privateAlpha)&&env.ENABLE_DEV_BOTS==='1'&&env.ENABLE_DEV_BOT_RECRUITMENT==='1',
+    developmentBotBountiesEnabled:(['development','test'].includes(nodeEnv)||privateAlpha)&&env.ENABLE_DEV_BOTS==='1'&&env.ENABLE_DEV_BOT_BOUNTIES==='1',
   };
 }

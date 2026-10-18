@@ -11,7 +11,7 @@ RUN npm prune --omit=dev --no-audit --no-fund
 
 FROM node:24-bookworm-slim AS runtime
 WORKDIR /app
-ENV NODE_ENV=production HOST=0.0.0.0 PORT=3000
+ENV NODE_ENV=production HOST=0.0.0.0 PORT=8080
 COPY --from=build --chown=node:node /app/node_modules ./node_modules
 COPY --from=build --chown=node:node /app/dist ./dist
 COPY --from=build --chown=node:node /app/package.json ./package.json
@@ -19,9 +19,9 @@ COPY --chown=node:node views ./views
 COPY --chown=node:node public ./public
 COPY --chown=node:node rulesets ./rulesets
 COPY --chown=node:node migrations ./migrations
-COPY --chown=node:node deployment/start.mjs deployment/migrate.mjs deployment/environment.mjs ./deployment/
+COPY --chown=node:node deployment/start.mjs deployment/migrate.mjs deployment/environment.mjs deployment/status.mjs ./deployment/
 USER node
-EXPOSE 3000
+EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
   CMD node -e "fetch('http://127.0.0.1:'+process.env.PORT+'/healthz',{signal:AbortSignal.timeout(3000)}).then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
 CMD ["node", "deployment/start.mjs"]

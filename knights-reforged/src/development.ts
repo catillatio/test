@@ -13,6 +13,8 @@ import {buyEstate} from './estate.js';
 import {vaultTransfer} from './pvp-economy.js';
 import {propertyQuote} from './alpha-rules.js';
 import {materialize,type CharacterRow} from './game.js';
+import {privateAlphaInitializationId,requirePrivateAlphaInitialization} from './private-alpha-policy.js';
+import {reconcileLevelMilestones} from './migrate.js';
 
 export interface DevelopmentPermission{nodeEnv:string;allowProvisioning:boolean;}
 export function requireDevelopment(permission:DevelopmentPermission){
@@ -98,6 +100,10 @@ export async function provisionBots(db:Database,permission:DevelopmentPermission
   const disabledPasswordHash=disable?'':await hashPassword(randomUUID()+randomUUID());
   return transaction(db,async sql=>{
     await sql.query('SELECT pg_advisory_xact_lock(61824006)');
+    return provisionBotsInTransaction(sql,disabledPasswordHash,disable);
+  });
+}
+async function provisionBotsInTransaction(sql:Sql,disabledPasswordHash:string,disable=false){
     if(disable){await sql.query('UPDATE development_bots SET active=false');return {created:0,active:0};}
     await sql.query('SELECT id FROM characters WHERE id IN (SELECT character_id FROM development_bots) ORDER BY id FOR UPDATE');
     let created=0,upgraded=0;
@@ -155,7 +161,6 @@ export async function provisionBots(db:Database,permission:DevelopmentPermission
       if(old)upgraded++;else created++;
     }
     return {created,upgraded,active:Number((await sql.query('SELECT count(*)::int AS n FROM development_bots WHERE active')).rows[0]!.n)};
-  });
 }
 // Caller already owns this character's lock. Passive rivals never run commands.
 export async function prepareBot(sql:Sql,id:string,now:Date,enabled:boolean){
@@ -186,6 +191,10 @@ export async function provisionDevelopmentAccount(db:Database,permission:Develop
   const passwordHash=await hashPassword(password);
   return transaction(db,async sql=>{
     await sql.query('SELECT pg_advisory_xact_lock(61824006)');
+    return provisionDevelopmentAccountInTransaction(sql,passwordHash,reset);
+  });
+}
+async function provisionDevelopmentAccountInTransaction(sql:Sql,passwordHash:string,reset=false){
     const now=new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now);
     let account=(await sql.query("SELECT a.id,d.baseline_version FROM accounts a LEFT JOIN development_accounts d ON d.account_id=a.id WHERE a.username='dev' FOR UPDATE OF a")).rows[0];
     let initialized=false;
@@ -214,5 +223,50 @@ export async function provisionDevelopmentAccount(db:Database,permission:Develop
     await sql.query('UPDATE development_accounts SET baseline_version=$2,reset_at=$3 WHERE account_id=$1',[account.id,strategy.id,now]);
     await sql.query('INSERT INTO development_account_resets(id,account_id,ruleset_id,gold_before,gold_after,army_before,army_after,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)',[randomUUID(),account.id,strategy.id,gold,strategy.developmentAccount.gold,army,strategy.developmentAccount.armyParticipants-1,now]);
     return {accountId:account.id as string,characterId:character.id as string,reset:true,initialized};
+}
+
+// No HTTP route invokes this. Only the explicitly armed pre-deploy entrypoint
+// can reach this production bootstrap. Existing development CLIs stay blocked.
+export async function assertPrivateAlphaBootstrapTarget(sql:Sql,env:NodeJS.ProcessEnv){
+  requirePrivateAlphaInitialization(env);
+  const tables=(await sql.query("SELECT to_regclass('private_alpha_initializations') AS journal,to_regclass('accounts') AS accounts")).rows[0]!;
+  if(tables.journal&&(await sql.query('SELECT 1 FROM private_alpha_initializations WHERE id=$1',[privateAlphaInitializationId])).rows.length)return;
+  if(tables.accounts){
+    if((await sql.query('SELECT 1 FROM accounts LIMIT 1')).rows.length)
+      throw new Error('Private alpha bootstrap requires an empty player realm. Existing records were not changed.');
+  }else if((await sql.query("SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=current_schema() AND c.relkind IN ('r','p') LIMIT 1")).rows.length){
+    throw new Error('Private alpha bootstrap refuses an unrecognized nonempty schema.');
+  }
+}
+
+export async function initializePrivateAlpha(db:Database,env:NodeJS.ProcessEnv){
+  requirePrivateAlphaInitialization(env); // Before any SQL or password access.
+  return transaction(db,async sql=>{
+    await sql.query('SELECT pg_advisory_xact_lock(61824006)');
+    const completed=(await sql.query('SELECT dev_account_id FROM private_alpha_initializations WHERE id=$1',[privateAlphaInitializationId])).rows[0];
+    if(completed)return {initialized:false,alreadyInitialized:true,accountId:completed.dev_account_id as string,botsCreated:0};
+    // Block concurrent registration while checking the first-deployment realm.
+    // A nonempty/unmarked database is refused; there is no reset/adopt option.
+    await sql.query('LOCK TABLE accounts IN SHARE ROW EXCLUSIVE MODE');
+    if((await sql.query('SELECT 1 FROM accounts LIMIT 1')).rows.length||
+      (await sql.query('SELECT 1 FROM characters LIMIT 1')).rows.length) {
+      throw new Error('Private alpha bootstrap requires an empty player realm. Existing records were not changed.');
+    }
+    const password=env.KINGDOM_DEV_PASSWORD;
+    if(!registration.safeParse({username:'dev',name:'Development Knight',password}).success)
+      throw new Error('Set KINGDOM_DEV_PASSWORD as a sealed secret with 12–128 characters for first initialization.');
+    const account=await provisionDevelopmentAccountInTransaction(sql,await hashPassword(password!),false);
+    const bots=await provisionBotsInTransaction(sql,await hashPassword(randomUUID()+randomUUID()));
+    if(bots.active!==450||bots.created!==450||bots.upgraded)
+      throw new Error('Private alpha bot population verification failed; initialization rolled back.');
+    await reconcileLevelMilestones(sql);
+    await sql.query(`INSERT INTO private_alpha_initializations(id,dev_account_id,content_ruleset_id,bot_catalog_id,bot_count,railway_service_id,railway_environment_id)
+      VALUES($1,$2,$3,$4,450,$5,$6)`,[privateAlphaInitializationId,account.accountId,alpha.id,botCatalog.id,env.RAILWAY_SERVICE_ID,env.RAILWAY_ENVIRONMENT_ID]);
+    return {initialized:true,alreadyInitialized:false,accountId:account.accountId,botsCreated:bots.created};
   });
+}
+
+export async function assertPrivateAlphaInitialized(sql:Sql){
+  const marker=(await sql.query('SELECT dev_account_id FROM private_alpha_initializations WHERE id=$1',[privateAlphaInitializationId])).rows[0];
+  if(!marker)throw new Error('Private alpha is not initialized. Complete the explicitly armed Railway pre-deploy step before starting.');
 }

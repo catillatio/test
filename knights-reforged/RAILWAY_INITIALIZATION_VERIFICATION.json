@@ -1,0 +1,141 @@
+{
+  "date_utc": "2026-10-18T01:58:40.143705+00:00",
+  "branch": "feature/kingdom-come-phase-4-3-economy-and-progression",
+  "base_commit": "6b51e6104382672ecbb0620311144276516a4548",
+  "scope": "Fresh Railway private-alpha initialization and deployment safeguards only; existing gameplay formulas, catalogs, artwork, templates and migrations 001\u2013014 unchanged.",
+  "railway_configuration": {
+    "schema_validation": "passed against retained official Railway schema",
+    "schema_sha256": "0302fd53109298d9c277dbaedae772630506d8da43636e69875268a8782dd68f",
+    "builder": "DOCKERFILE",
+    "port": 8080,
+    "pre_deploy": "node deployment/migrate.mjs",
+    "start": "node deployment/start.mjs",
+    "healthcheck": "/healthz"
+  },
+  "automated": {
+    "command": "TEST_DATABASE_URL=<designated disposable *_test database> npm run verify",
+    "typescript": "passed",
+    "production_build": "passed",
+    "tests": 212,
+    "pass": 212,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "database": "Real isolated PostgreSQL fixtures; no Codespaces database or Railway database contacted."
+  },
+  "bootstrap_checks": [
+    "Production Railway metadata, explicit private-alpha flag, private PostgreSQL hostname, exact confirmation and initial sealed password required.",
+    "Unauthorized production CLIs and Codespaces/public-proxy targets rejected before initialization SQL.",
+    "Missing secret and injected mid-provisioning failure leave no partially initialized players, wallets or financial entries.",
+    "Unmarked nonempty player realm rejected without changing player rows.",
+    "Two concurrent initializers commit one dev account and one 450-rival population.",
+    "Dev authenticates at 50000 gold and ten army participants; 450 unique names, nine rivals at each level, army at most ten and at least three plots.",
+    "Production HTTPS-forwarded login, recruitment, quests, equipment, Land, Vault, bot bounty placement, combat and logout pass; foreign Origin and invalid CSRF rejected.",
+    "Initialization replay with absent or changed secret plus migration replay preserves all business-table rows after gameplay.",
+    "Immutable initialization marker prevents update/delete; account identity, password, sessions, purchases, XP and income survive app restart.",
+    "Offline hourly income settles correctly once through existing gameplay rules."
+  ],
+  "bootstrap_regression_fixed": "Container replay found preexisting migration milestone reconciliation would add entitlements to newly seeded high-level bots on the next deployment. The same unchanged reconciliation now runs inside initial provisioning before its marker commits; complete migration replay snapshots remain identical.",
+  "static": {
+    "command": "npm run check:static",
+    "passed_checks": 78,
+    "failed": 0,
+    "production_ejs_fixture_cases": 60
+  },
+  "container_build": {
+    "runtime_image_id": "sha256:f2376ca445605841c5873654fa3010cf76837b6370bdca1912e8f91c548bd3fd",
+    "railway_dockerfile_has_mounts": false,
+    "local_ca_validation": "Temporary validation Dockerfile outside Git adds BuildKit CA secret only to npm ci/prune for this managed workspace HTTPS proxy. All runtime inputs/instructions match the committed mount-free Railway Dockerfile.",
+    "tls_verification_disabled": false,
+    "workspace_ca_in_runtime": false,
+    "normal_provider_build": "Not executed on Railway; the unmodified npm network step needs the session CA only in this local intercepting-proxy environment."
+  },
+  "standard_production_container": {
+    "image": "kingdom-come:railway-check",
+    "postgresImage": "postgres:18-bookworm",
+    "privateAlpha": false,
+    "checks": [
+      "private PostgreSQL 18 started without a published port",
+      "unmigrated production startup fails without altering the empty database",
+      "separate compiled pre-deploy runner installs all 15 migrations",
+      "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+      "production server binds port 32123 and passes database healthcheck",
+      "real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP and foreign-Origin rejection",
+      "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+      "native custom-format backup restores atomically into a separate fresh database with identical data",
+      "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+      "neither web nor PostgreSQL container publishes a port"
+    ],
+    "portsPublished": false,
+    "backupBytes": 187751,
+    "dataDigest": "af8c4f29a9b0df5621ea734377b7d51cd096738fc47833c08b6736565e304d23"
+  },
+  "private_alpha_container": {
+    "image": "kingdom-come:railway-check",
+    "postgresImage": "postgres:18-bookworm",
+    "privateAlpha": true,
+    "checks": [
+      "private PostgreSQL 18 started without a published port",
+      "unmigrated production startup fails without altering the empty database",
+      "hidden psql password rotation rejects old TCP credentials and accepts the synchronized private service URL",
+      "separate compiled pre-deploy runner installs all 15 migrations",
+      "first approved pre-deploy atomically provisions dev at 50000 gold/10 army and all 450 Phase 4.3 rivals",
+      "compiled operator-only status reports the initial account and population without exposing credentials",
+      "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+      "production server binds port 8080 and passes database healthcheck",
+      "real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP and foreign-Origin rejection",
+      "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+      "native custom-format backup restores atomically into a separate fresh database with identical data",
+      "redeploy removes bootstrap flag/secret and starts a fresh web container against the same persistent realm",
+      "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+      "neither web nor PostgreSQL container publishes a port"
+    ],
+    "portsPublished": false,
+    "backupBytes": 880966,
+    "dataDigest": "a87ae7f6f78245de0393f8cab267586f1c42596ac76e2d046bf308154de3285f"
+  },
+  "https_browser": {
+    "command": "TEST_DATABASE_URL=<designated disposable *_test database> npm run test:codespaces",
+    "passed": true,
+    "native_browser_posts": 44,
+    "responsive_screen_visits": 150,
+    "additional_private_receipt_layouts": 5,
+    "viewport_widths": [
+      320,
+      360,
+      390,
+      412,
+      430,
+      1366
+    ],
+    "browser_errors": 0,
+    "secure_cookies_csrf_origin_and_authentication": "passed",
+    "fixture": "Real local TLS termination and HTTP forwarding using Codespaces-shaped hostname; no live provider contacted."
+  },
+  "data_preservation": {
+    "new_sql_migrations": [
+      "015_private_alpha_initialization.sql"
+    ],
+    "existing_sql_migrations_modified": false,
+    "original_codespaces_files_or_database_accessed": false,
+    "railway_database_accessed": false,
+    "full_table_replay_snapshots": "Identical before/after repeated compiled migration/bootstrap jobs, including a replay without the password secret.",
+    "backup_restore": "Native PostgreSQL custom archive restored atomically into a separate fresh disposable database, with identical complete data-only dump."
+  },
+  "deployment": {
+    "railway_resources_created": false,
+    "railway_migrations_executed": false,
+    "railway_realm_initialized": false,
+    "railway_password_rotated": false,
+    "railway_deployment_triggered": false,
+    "public_ports_or_endpoints_created": false,
+    "github_autodeploy": "User confirmed disabled before the authorized push."
+  },
+  "limitations": [
+    "No Railway CLI, integration, project session or private database credential is available in this workspace. Actual Railway migrations, one-time provisioning, password rotation, private DNS and domain/health promotion await owner-controlled manual deployment.",
+    "Private-alpha flags authorize deployment features; they are not an internet access firewall. The owner must configure the chosen private-alpha access boundary.",
+    "The production image was tested locally using a build-only proxy CA accommodation; actual Railway build/provider connectivity was not executed.",
+    "Railway authenticated SSH and managed volume backup controls are documented but were not exercised against the provider.",
+    "No APK or physical Android device verification was performed."
+  ]
+}

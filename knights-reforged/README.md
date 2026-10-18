@@ -18,6 +18,8 @@ See [PHASE_4_3.md](PHASE_4_3.md) for the current XP formula, shared hourly incom
 
 For Railway, use [RAILWAY.md](RAILWAY.md): repository Dockerfile, private PostgreSQL, explicit HTTPS origin, a controlled pre-deploy migration, backup/restore and health/restart settings. No Railway resource or deployment is created by these files.
 
+For the approved **fresh Railway private alpha**, follow [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md): port 8080, one-time secret-based `dev`/450-rival initialization, durable no-reset redeploys and PostgreSQL credential rotation. Standard production still disables development features unless the Railway-only private-alpha mode is explicitly enabled. The original Codespaces database is not part of this initialization.
+
 ## What works
 
 - Attack Again with current target Health, finishing attacks to zero, Spirit/resource/reward checks without a combat cooldown and linked public profiles.

@@ -14,8 +14,16 @@ const suffix=randomUUID().slice(0,8),network='kc-check-'+suffix,postgres='kc-pg-
 const image=process.env.KINGDOM_CONTAINER_IMAGE??'kingdom-come:railway-check';
 const postgresImage=process.env.KINGDOM_POSTGRES_IMAGE??'postgres:18-bookworm';
 const folder=await mkdtemp(join(tmpdir(),'kc-container-'));
-const password=randomUUID(),origin='https://kingdom-come-production.up.railway.app';
-const result={image,postgresImage,checks:[],portsPublished:false};
+let password=randomUUID();
+const origin='https://kingdom-come-production.up.railway.app',alphaMode=process.env.KINGDOM_TEST_PRIVATE_ALPHA==='1';
+const port=alphaMode?8080:32123,privateHost=postgres+'.railway.internal',devPassword=randomUUID()+'Aa1!';
+const railwayServiceId=randomUUID(),railwayEnvironmentId=randomUUID();
+const result={image,postgresImage,privateAlpha:alphaMode,checks:[],portsPublished:false};
+const gameEnvironment=()=>['NODE_ENV=production','HOST=0.0.0.0','PORT='+port,'APP_ORIGIN='+origin,
+  'DATABASE_URL=postgresql://postgres:'+password+'@'+privateHost+':5432/railway_test',
+  ...(alphaMode?['KINGDOM_PRIVATE_ALPHA=1','RAILWAY_SERVICE_ID='+railwayServiceId,'RAILWAY_ENVIRONMENT_ID='+railwayEnvironmentId,
+    'KINGDOM_ALPHA_INITIALIZE=INITIALIZE_EMPTY_PRIVATE_ALPHA','KINGDOM_DEV_PASSWORD='+devPassword,
+    'ENABLE_DEV_BOTS=1','ENABLE_DEV_BOT_BOUNTIES=1','ENABLE_DEV_BOT_RECRUITMENT=1']:[])];
 const docker=(args,options={})=>execFileSync('docker',['--host=unix:///var/run/docker.sock',...args],
   {env:dockerEnv,encoding:'utf8',timeout:45000,maxBuffer:32*1024*1024,stdio:['pipe','pipe','pipe'],...options});
 const check=(name)=>{result.checks.push(name);console.log('PASS: '+name);};
@@ -29,8 +37,8 @@ async function ready(command){
 }
 const runtimeCode=(code)=>JSON.parse(docker(['exec','-i',web,'node','--input-type=module'],{input:code}));
 const client=`import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';
-const origin=${JSON.stringify(origin)},base='http://127.0.0.1:32123';
-const headers={origin,host:'game.railway.internal:32123','x-forwarded-proto':'https','x-forwarded-host':new URL(origin).host};
+const origin=${JSON.stringify(origin)},base='http://127.0.0.1:${port}';
+const headers={origin,host:'game.railway.internal:${port}','x-forwarded-proto':'https','x-forwarded-host':new URL(origin).host};
 const session=r=>{const line=r.headers.getSetCookie().find(v=>v.startsWith('kr_session='));assert.ok(line);assert.match(line,/; Secure/);assert.match(line,/; HttpOnly/);return line.split(';')[0];};
 async function state(cookie){const r=await fetch(base+'/api/v1/me',{headers:{cookie}});assert.equal(r.status,200);return r.json();}
 async function command(actor,url,payload={},key=randomUUID()){
@@ -42,11 +50,10 @@ const data=(database)=>docker(['exec',postgres,'pg_dump','-U','postgres','-d',da
   .split('\n').filter(line=>!line.startsWith('\\restrict ')&&!line.startsWith('\\unrestrict ')).join('\n');
 try{
   await writeFile(join(folder,'postgres.env'),'POSTGRES_DB=railway_test\nPOSTGRES_PASSWORD='+password+'\n',{mode:0o600});
-  await writeFile(join(folder,'game.env'),['NODE_ENV=production','HOST=0.0.0.0','PORT=32123','APP_ORIGIN='+origin,
-    'DATABASE_URL=postgresql://postgres:'+password+'@'+postgres+':5432/railway_test'].join('\n')+'\n',{mode:0o600});
+  await writeFile(join(folder,'game.env'),gameEnvironment().join('\n')+'\n',{mode:0o600});
   docker(['image','inspect',image]);docker(['image','inspect',postgresImage]);
   docker(['network','create',network]);
-  docker(['run','-d','--name',postgres,'--network',network,'--env-file',join(folder,'postgres.env'),postgresImage]);
+  docker(['run','-d','--name',postgres,'--network',network,'--network-alias',privateHost,'--env-file',join(folder,'postgres.env'),postgresImage]);
   await ready(()=>docker(['exec',postgres,'pg_isready','-U','postgres','-d','railway_test']));
   check('private PostgreSQL 18 started without a published port');
   let refused=false;
@@ -55,8 +62,31 @@ try{
   assert.ok(refused);assert.equal(sql('railway_test',"SELECT count(*) FROM information_schema.tables WHERE table_schema='public'"),'0');
   check('unmigrated production startup fails without altering the empty database');
   const migrate=()=>docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/migrate.mjs']);
-  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'14');
-  check('separate compiled pre-deploy runner installs all 14 migrations');
+  if(alphaMode){
+    const nextPassword=randomUUID();
+    docker(['exec','-i',postgres,'psql','-U','postgres','-d','railway_test','-X','-v','ON_ERROR_STOP=1','-c','\\password'],{input:nextPassword+'\n'+nextPassword+'\n'});
+    let oldRejected=false;
+    try{migrate();}catch(error){oldRejected=true;assert.match(String(error.stderr)+String(error.stdout),/password authentication failed/);}
+    assert.ok(oldRejected);assert.equal(sql('railway_test',"SELECT count(*) FROM information_schema.tables WHERE table_schema='public'"),'0');
+    password=nextPassword;
+    await writeFile(join(folder,'game.env'),gameEnvironment().join('\n')+'\n',{mode:0o600});
+    check('hidden psql password rotation rejects old TCP credentials and accepts the synchronized private service URL');
+  }
+  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'15');
+  check('separate compiled pre-deploy runner installs all 15 migrations');
+  if(alphaMode){
+    assert.equal(sql('railway_test','SELECT count(*) FROM private_alpha_initializations'),'1');
+    assert.equal(sql('railway_test','SELECT count(*) FROM accounts'),'451');
+    assert.equal(sql('railway_test','SELECT count(*) FROM development_bots'),'450');
+    assert.equal(sql('railway_test',"SELECT w.balance||':'||(s.quantity+1) FROM accounts a JOIN characters c ON c.account_id=a.id JOIN wallets w ON w.character_id=c.id JOIN army_stacks s ON s.character_id=c.id WHERE a.username='dev'"),'50000:10');
+    check('first approved pre-deploy atomically provisions dev at 50000 gold/10 army and all 450 Phase 4.3 rivals');
+    const status=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/status.mjs']));
+    assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
+    assert.equal(status.dev.username,'dev');assert.equal(status.dev.gold,50000);assert.equal(status.dev.recruited_army,10);
+    assert.equal(status.maximum_bot_army,10);assert.equal(status.minimum_bot_plots,3);assert.equal(status.population.length,50);
+    for(const level of status.population)assert.equal(level.rivals,9);
+    check('compiled operator-only status reports the initial account and population without exposing credentials');
+  }
   const contents=JSON.parse(docker(['run','--rm',image,'node','--input-type=module','-e',`
     import fs from 'node:fs';import {hash,verify} from '@node-rs/argon2';
     const digest=await hash('disposable-container-fixture');
@@ -67,9 +97,9 @@ try{
   assert.equal(contents.uid,1000);assert.equal(contents.argon,true);assert.equal(contents.absent,true);assert.equal(contents.files,true);
   check('non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research');
   docker(['run','-d','--name',web,'--network',network,'--env-file',join(folder,'game.env'),image]);
-  const healthy=()=>docker(['exec',web,'node','-e',"fetch('http://127.0.0.1:32123/healthz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]);
+  const healthy=()=>docker(['exec',web,'node','-e',"fetch('http://127.0.0.1:"+port+"/healthz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]);
   await ready(healthy);
-  check('production server binds dynamically assigned port 32123 and passes database healthcheck');
+  check('production server binds port '+port+' and passes database healthcheck');
   const played=runtimeCode(client+`
     async function player(){
       const form=await fetch(base+'/register'),html=await form.text();assert.equal(form.status,200);
@@ -77,7 +107,16 @@ try{
         body:new URLSearchParams({csrf:/name="csrf" value="([a-f0-9]{64})"/.exec(html)[1],username:'image_'+randomUUID().replaceAll('-','').slice(0,12),password:randomUUID()+'aA1!',name:'Image Knight'})});
       assert.equal(r.status,303,await r.clone().text());const cookie=session(r),me=await state(cookie);return {cookie,csrf:me.csrfToken,id:me.state.id};
     }
-    const a=await player(),b=await player();
+    async function dev(){
+      const form=await fetch(base+'/login'),html=await form.text();
+      const r=await fetch(base+'/login',{method:'POST',redirect:'manual',headers:{...headers,cookie:session(form),'content-type':'application/x-www-form-urlencoded'},
+        body:new URLSearchParams({csrf:/name="csrf" value="([a-f0-9]{64})"/.exec(html)[1],username:'dev',password:${JSON.stringify(devPassword)}})});
+      assert.equal(r.status,303,await r.clone().text());const cookie=session(r),me=await state(cookie);
+      assert.equal(me.state.gold,50000);assert.equal(me.state.army.participants,10);
+      const rivals=await fetch(base+'/api/v1/opponents',{headers:{cookie}}).then(r=>r.json());assert.ok(rivals.opponents.some(r=>r.botTier));
+      return {cookie,csrf:me.csrfToken,id:me.state.id};
+    }
+    const a=${alphaMode?'await dev()':'await player()'},b=await player();
     const key=randomUUID(),quest=await command(a,'/api/v1/quests/border-patrol/runs',{},key);
     assert.equal((await command(a,'/api/v1/quests/border-patrol/runs',{},key)).commandId,quest.commandId);
     for(let i=0;i<2;i++)await command(a,'/api/v1/quests/border-patrol/runs');
@@ -93,7 +132,15 @@ try{
     console.log(JSON.stringify({a,b,battleId:battle.battleId,before:(await state(a.cookie)).state}));
   `);
   check('real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP and foreign-Origin rejection');
-  const before=data('railway_test');migrate();migrate();
+  const before=data('railway_test');
+  if(alphaMode)docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/status.mjs']);
+  assert.equal(data('railway_test'),before);
+  migrate();
+  if(alphaMode){
+    const noSecret=gameEnvironment().filter(line=>!line.startsWith('KINGDOM_DEV_PASSWORD='));
+    await writeFile(join(folder,'game.env'),noSecret.join('\n')+'\n',{mode:0o600});
+  }
+  migrate();
   assert.equal(data('railway_test'),before);
   check('repeated pre-deploy migrations preserve every table row, session, holding and financial record');
   const dump=docker(['exec',postgres,'pg_dump','-U','postgres','-d','railway_test','--format=custom','--no-owner','--no-acl'],{encoding:null});
@@ -104,7 +151,15 @@ try{
   result.backupBytes=dump.length;result.dataDigest=createHash('sha256').update(before).digest('hex');
   docker(['stop','--time','15',web]);
   assert.equal(JSON.parse(docker(['inspect',web]))[0].State.ExitCode,0);
-  docker(['start',web]);await ready(healthy);
+  if(alphaMode){
+    const permanent=gameEnvironment().filter(line=>!line.startsWith('KINGDOM_DEV_PASSWORD=')&&!line.startsWith('KINGDOM_ALPHA_INITIALIZE='));
+    await writeFile(join(folder,'game.env'),permanent.join('\n')+'\n',{mode:0o600});
+    migrate();
+    docker(['rm',web]);
+    docker(['run','-d','--name',web,'--network',network,'--env-file',join(folder,'game.env'),image]);
+    check('redeploy removes bootstrap flag/secret and starts a fresh web container against the same persistent realm');
+  }else docker(['start',web]);
+  await ready(healthy);
   const after=runtimeCode(client+`console.log(JSON.stringify((await state(${JSON.stringify(played.a.cookie)})).state));`);
   for(const key of ['id','gold','bankedGold','xp','level','inventory','questsCompleted','army','skillPoints'])assert.deepEqual(after[key],played.before[key],key);
   assert.equal(after.land.hourlyIncome,8);
