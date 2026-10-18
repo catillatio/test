@@ -100,7 +100,18 @@ const emptyLand={...land,hourlyIncome:0,hourlyUpkeep:0,totalUpkeep:0,netHourlyIn
 const contract={id:randomUUID(),sponsor_id:playerId,target_id:targetId,name:'Morgan',target_name:'Morgan',sponsor_name:'Arthur',level:3,profile_class:'Freeblade',army_size:3,armySize:3,amount:1000,fee:100,status:'active',claimant_id:null,created_at:new Date(Date.parse(now)-7200000).toISOString(),expires_at:next,claimBlockedReason:'Sponsors cannot claim their own contracts.'};
 const comment={id:randomUUID(),kind:'comment',createdAt:now,data:{authorId:targetId,authorName:'Morgan',profileId:playerId,profileName:'Arthur',body:'Welcome to the realm <script>!',reported:false}};
 const sampleAchievement={id:'quests-1',name:'A First Deed',category:'Quests',metric:'quests',threshold:1,rank:1,emblem:'scroll',description:'Complete your first quest.',progress:1,earnedAt:now,evidence:'gameplay'};
+const championCategories=[{id:'victories',name:'Battle Victories',unit:'victories',help:'Lifetime victories.'},{id:'bounties',name:'Bounty Hunters',unit:'claims',help:'Completed claims.'},{id:'land',name:'Wealthiest Kingdoms',unit:'gold in Land',help:'Recorded portfolio value.'},{id:'level',name:'Highest Level',unit:'level',help:'Level, then XP.'}];
+const formatStanding=value=>BigInt(value).toLocaleString('en');
+const guideSource=stripTypeScriptTypes(read('src/guide.ts'),{mode:'transform'});
+const {guideSteps}=await import('data:text/javascript;base64,'+Buffer.from(guideSource).toString('base64'));
+const tutorialExperience=status=>({tutorial:{status,position:7,completed:6,replaying:false,completedAt:status==='completed'?now:null,steps:guideSteps.map(step=>({...step,done:step.id!=='land'&&step.id!=='skills'}))},achievements:[]});
 const cases=[
+ {name:'champions',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[0],entries:[{id:playerId,name:'Arthur of the Vale',rank:1,score:'21',self:true}],own:{rank:'1',score:'21'}}})},
+ {name:'champions-empty',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[1],entries:[],own:null}})},
+ {name:'tutorial-introduction',data:fixture('tutorial',{experience:tutorialExperience('not_started')})},
+ {name:'tutorial-land-lesson',data:fixture('tutorial',{experience:tutorialExperience('active')})},
+ {name:'tutorial-completion',data:fixture('tutorial',{experience:tutorialExperience('completed')})},
+ {name:'tutorial-context-land',data:fixture('land',{experience:tutorialExperience('active')})},
  {name:'achievements',data:fixture('achievements',{experience:{tutorial:{status:'skipped',completed:0,steps:[]},achievements:[sampleAchievement]}})},
  {name:'quest-equipment',data:fixture('quest-equipment',{questEquipment:{quest:state.quests[1],missing:[{item:alpha.items[0],quantity:1,cost:5}],total:5,shortfall:0}})},
  {name:'quest-equipment-ready',data:fixture('quest-equipment',{questEquipment:{quest:state.quests[1],missing:[],total:0,shortfall:0}})},
@@ -155,7 +166,7 @@ for(const example of cases)check('Production EJS render: '+example.name,()=>{
  rendered.set(example.name,html);
 });
 const routeRegex=route=>new RegExp('^'+route.split('/').map(s=>s.startsWith(':')?'[^/]+':s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('/')+'$');
-const gets=['/game/achievements','/game/quests/:id/requirements','/','/login','/register','/rules','/game/profile','/game/bounties','/game/bounties/new','/game/vault','/game/settings','/game/purchases/:id','/game/players/:id',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
+const gets=['/game/champions','/game/tutorial','/game/achievements','/game/quests/:id/requirements','/','/login','/register','/rules','/game/profile','/game/bounties','/game/bounties/new','/game/vault','/game/settings','/game/purchases/:id','/game/players/:id',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
 const posts=['/login','/register','/logout','/game/bounties/preview',...commandRoutes.map(r=>r.html)].map(routeRegex),covered=new Set();
 check('Rendered links, asset references, unique IDs, labels, CSRF and command contracts',()=>{
  for(const [name,html] of rendered){
@@ -188,10 +199,10 @@ check('Original five tabs, selected artwork, Home-only Land and profile Home sel
  for(const example of cases){
   const links=navigationLinks(rendered.get(example.name),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
   if(!example.data.state)continue;
-  const selected=['report','bounties','bounty-confirm','bounty-new'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
+  const selected=['report','bounties','bounty-confirm','bounty-new','champions'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
   for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,'/assets/art/kingdoms-live/'+icons[id]+(id===selected?'_selected':'')+'.png');}
   assert.ok(!navigationLinks(rendered.get(example.name),'Secondary navigation').some(l=>l.href==='/game/land'));
-  assert.equal((rendered.get(example.name).match(/href="\/game\/land"/g)||[]).length,example.data.screen==='home'?1:0);
+  assert.equal((rendered.get(example.name).match(/href="\/game\/land"/g)||[]).length,example.data.screen==='home'||(example.data.screen==='purchase'&&example.data.purchase.type==='land')?1:0);
  }
 });
 check('Repeat quest styling follows authoritative eligibility; legacy details stay unknown',()=>{

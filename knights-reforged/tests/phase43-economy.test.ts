@@ -85,7 +85,7 @@ test('human defensive victories also earn level-aware XP, diminish to one, repla
    assert.equal(report.outcome,'defender_win');assert.equal(report.attackerXp,0);assert.equal(report.defenderXp,i<3?xp:1);
    const after=await r.me(b);assert.equal(after.xp-before.xp,report.defenderXp);assert.equal(after.health,before.health-report.defenderDamage);
    await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key);assert.equal((await r.me(b)).xp,after.xp);
-   const page=await r.app.inject({method:'GET',url:'/game/battles/'+hit.battleId,headers:{cookie:b.cookie}});assert.match(page.body,new RegExp('XP gained</dt><dd[^>]*>\\+[^<]*'+report.defenderXp));
+   const page=await r.app.inject({method:'GET',url:'/game/battles/'+hit.battleId,headers:{cookie:b.cookie}});assert.match(page.body,new RegExp('XP (?:gained|earned)</dt><dd[^>]*>\\+[^<]*'+report.defenderXp));
   }
   await r.db.query('UPDATE characters SET level_xp=$2 WHERE id=$1',[b.id,levelRequirement(start.level)-1]);
   const before=await r.me(b),hit=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id});

@@ -359,8 +359,8 @@ try{
   const apprenticeSession=await createSession(db,apprenticeAccount.accountId),apprentice=await playerPage(apprenticeSession.token);
   const apprenticeState=async()=>(await apprentice.request.get(config.origin+'/api/v1/me').then(r=>r.json())).state;
   await apprentice.goto(config.origin+'/game/home');assert.match(await apprentice.locator('body').innerText(),/PRE ALPHA BUILD, PLEASE REPORT BUGS TO @savism DISCORD/);
-  await submit(apprentice,apprentice.getByRole('button',{name:'Start quick guide',exact:true}));
-  assert.equal(await apprentice.locator('.tutorial-panel').count(),1);await apprentice.screenshot({path:join(phase44Out,'390-home-tutorial.png')});
+  await submit(apprentice,apprentice.getByRole('button',{name:'Start Tutorial',exact:true}));
+  assert.equal(await apprentice.locator('.guide-lesson').count(),1);await apprentice.screenshot({path:join(phase44Out,'390-home-tutorial.png')});
   let levelUpUrl='';
   for(let i=0;i<10;i++){
     await apprentice.goto(config.origin+'/game/quests');assert.match(await apprentice.locator('.region-picker summary').innerText(),/All Regions/);
@@ -404,8 +404,8 @@ try{
   await quiet.route('**/*',route=>new URL(route.request().url()).origin===config.origin?route.continue():route.abort());
   await quiet.addCookies([{name:'kr_session',value:apprenticeSession.token,url:config.origin,httpOnly:true,secure:true,sameSite:'Lax'}]);
   const quietPage=await quiet.newPage();await quietPage.goto(levelUpUrl);assert.equal(await quietPage.locator('.is-celebrating').count(),0);await quiet.close();
-  await apprentice.goto(config.origin+'/game/home');await submit(apprentice,apprentice.getByRole('button',{name:'Skip guide',exact:true}));
-  await apprentice.reload();assert.equal(await apprentice.locator('.tutorial-panel').count(),0);
+  await apprentice.goto(config.origin+'/game/tutorial');await submit(apprentice,apprentice.getByRole('button',{name:'Skip for now',exact:true}));
+  await apprentice.reload();assert.equal(await apprentice.locator('.guide-lesson').count(),0);
   await writeFile(join(phase44Out,'summary.json'),JSON.stringify({passed:true,widths:phase44Widths,responsiveVisits:phase44Widths.length*6,reducedMotion:true,celebrationReplay:true,missingEquipmentNativeFlow:true,propertyConfirmation:true,tutorialSkipPersistent:true,liveProviderContacted:false},null,2));
   // Phase 4.5: immediate contextual healing, server-derived next payment,
   // one-tap purchases, interrupted-action replay and all four compact panels.

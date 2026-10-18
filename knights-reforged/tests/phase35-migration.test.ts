@@ -80,7 +80,7 @@ test('populated Phase 3 upgrade preserves accounts, progression, inventory, Land
     try{
       const cookie='kr_session='+session.token;
       const profile=await app.inject({method:'GET',url:'/game/profile',headers:{cookie}});assert.equal(profile.statusCode,200,profile.body);assert.match(profile.body,/Established Warden/);
-      const report=await app.inject({method:'GET',url:'/game/battles/'+battleId,headers:{cookie}});assert.equal(report.statusCode,200,report.body);assert.match(report.body,/21\.0/);assert.ok(!report.body.includes('>2100<'));
+      const report=await app.inject({method:'GET',url:'/game/battles/'+battleId,headers:{cookie}});assert.equal(report.statusCode,200,report.body);assert.match(report.body,/21 participating army members/);assert.ok(!report.body.includes('>2100<'));
       assert.deepEqual((await db.query('SELECT result FROM battles WHERE id=$1',[battleId])).rows[0]!.result,oldBattle);
     }finally{await app.close();}
   }finally{await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end();}

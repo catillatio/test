@@ -3,7 +3,7 @@
 <%- include('partials/maintenance') %>
 <div class="catalog" aria-label="Equipment catalog">
 <% for (const item of alpha.items.filter(i=>i.category===category).sort((a,b)=>a.level-b.level||a.price-b.price)) { const owned=state.inventory.find(i=>i.id===item.id);const quantity=owned?.quantity??0;const unlocked=state.level>=item.level;const affordable=Math.min(alpha.limits.transaction,alpha.limits.inventory-quantity,Math.floor(state.gold/item.price)); %>
-  <article class="catalog-row" data-item="<%= item.id %>">
+  <article class="catalog-row" id="item-<%= item.id %>" data-item="<%= item.id %>">
     <%- include('partials/catalog-art',{entry:item,small:false}) %>
     <div class="catalog-description"><h2><%= item.name %></h2><small class="catalog-tier"><%= item.tier??'' %></small><span>Attack: <strong><%= item.attack %></strong></span><span>Defense: <strong><%= item.defense %></strong></span><span>Upkeep: <strong class="<%= item.upkeep?'cost':'' %>"><%= item.upkeep %></strong> / hour</span><% if (!unlocked) { %><span class="warning">Unlock at level <%= item.level %></span><% } %></div>
     <div class="catalog-trade"><div class="price-owned"><strong class="gold">● <%= item.price.toLocaleString('en') %></strong><span>Owned: <strong><%= quantity %></strong></span></div>
@@ -16,4 +16,4 @@
 <% } %>
 </div>
 <p class="compact-help">Sales return half the recorded cost of each copy, rounded down. Buying never requires passive income. Upkeep gear reserves one hourly bill when carried gold allows; otherwise it waits safely for funding.</p>
-<section class="panel"><h2 class="strip-title">Your automatic loadout</h2><p><%= state.army.participants %> participating members · Attack <strong><%= state.attack %></strong> · Defense <strong><%= state.defense %></strong></p><div class="loadout-grid"><% for (const group of [{name:'Attacking',items:state.attackEquipment.selected},{name:'Defending',items:state.defenseEquipment.selected}]) { %><div><h3><%= group.name %></h3><ul class="plain-list"><% for (const item of group.items) { %><li><%= item.name %> ×<%= item.quantity %></li><% } %><% if (!group.items.length) { %><li>No usable equipment yet.</li><% } %></ul></div><% } %></div></section>
+<section class="panel" id="automatic-loadout"><h2 class="strip-title">Your automatic loadout</h2><p><%= state.army.participants %> participating members · Attack <strong><%= state.attack %></strong> · Defense <strong><%= state.defense %></strong></p><div class="loadout-grid"><% for (const group of [{name:'Attacking',items:state.attackEquipment.selected},{name:'Defending',items:state.defenseEquipment.selected}]) { %><div><h3><%= group.name %></h3><ul class="plain-list"><% for (const item of group.items) { %><li><%= item.name %> ×<%= item.quantity %></li><% } %><% if (!group.items.length) { %><li>No usable equipment yet.</li><% } %></ul></div><% } %></div></section>

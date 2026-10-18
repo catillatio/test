@@ -6,6 +6,6 @@
 <form method="post" action="<%= purchase.type==='land'?'/game/land/buy':'/game/armory/buy' %>" class="buy-more-form"><%- include('partials/command-fields') %><input type="hidden" name="<%= purchase.type==='land'?'propertyId':'itemId' %>" value="<%= purchase.entry.id %>">
 <%- include('partials/quantity-control',{purchaseType:purchase.type,entry:purchase.entry,available:purchase.available,controlId:'more-'+purchase.entry.id,costSteps:purchase.costSteps,incomeSteps:purchase.type==='land'?purchase.entry.projectedBuyNetSteps:[]}) %>
 <button class="button button-gold" type="submit" aria-label="Buy more <%= purchase.entry.name %>"<% if(!purchase.available) { %> disabled<% } %>>Buy More</button><% if(!purchase.available) { %><p class="field-hint">Not enough gold, an ownership limit, or a level requirement prevents another purchase.</p><% } %></form></section>
-<p><a href="<%= purchase.type==='land'?'/game/home':'/game/armory?category='+purchase.entry.category %>">Continue your adventure ›</a></p>
+<p><a class="button button-outline return-to-market" href="<%= purchase.type==='land'?'/game/land':'/game/armory?category='+purchase.entry.category %>"><%= purchase.type==='land'?'Return to Land':'Return to Armory' %></a></p>
 <p class="field-hint">This receipt is saved. Refreshing it never repeats the purchase.</p>
 </section>

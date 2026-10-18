@@ -7,7 +7,7 @@
 <% if (state.maintenance.paused) { %><p class="compact-help warning">Equipment upkeep is paused. The displayed net excludes its suspended <%= state.maintenance.hourlyRate %> gold/hour bill. <a href="/game/armory">Resume in Armory ›</a></p><% } %>
 <div class="catalog land-properties">
 <% for (const property of state.land.properties) { const unlocked=state.level>=property.level;const available=property.maxAffordable; %>
-<article class="catalog-row land-property" data-land-property="<%= property.id %>" data-price-steps="<%= JSON.stringify(property.priceSteps) %>">
+<article class="catalog-row land-property" id="property-<%= property.id %>" data-land-property="<%= property.id %>" data-price-steps="<%= JSON.stringify(property.priceSteps) %>">
 <%- include('partials/catalog-art',{entry:property,small:false}) %>
 <div class="catalog-description"><h2><%= property.name %></h2><small class="catalog-tier"><%= property.tier??'' %></small><span>Income: <strong class="gold"><%= property.hourlyIncome %></strong> / hour</span><span>Upkeep: <%= property.hourlyUpkeep %> / hour</span><% if (!unlocked) { %><span class="warning">Level <%= property.level %> required</span><% } %></div>
 <div class="catalog-trade"><div class="price-owned"><strong class="gold">● <span data-land-unit-price><%= property.price.toLocaleString('en') %></span></strong><span>Owned: <strong data-land-owned><%= property.owned %></strong></span></div>

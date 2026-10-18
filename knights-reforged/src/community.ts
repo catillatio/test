@@ -74,9 +74,12 @@ export async function validateInvitation(sql:Sql,actorId:string,targetId:string,
 
 // No web-admin privilege or automatic report-count hiding. Operators review a
 // local CLI queue; all actions are auditable and a mute never affects gameplay.
-export async function moderateMessage(db:Database,input:{messageId?:string;characterId?:string;action:'hide'|'restore'|'mute'|'unmute';operator:string;reason:string;hours?:number}){
+export interface ModerationInput{messageId?:string;characterId?:string;action:'hide'|'restore'|'mute'|'unmute';operator:string;reason:string;hours?:number;}
+export async function moderateMessage(db:Database,input:ModerationInput){
+ return transaction(db,sql=>moderateMessageInTransaction(sql,input));
+}
+export async function moderateMessageInTransaction(sql:Sql,input:ModerationInput){
   if(!input.operator.trim()||input.operator.length>80||!input.reason.trim()||input.reason.length>200)throw new Error('An operator label and reason are required.');
-  return transaction(db,async sql=>{
     const now=new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now);
     if(input.action==='hide'||input.action==='restore'){
       const message=(await sql.query('SELECT * FROM realm_messages WHERE id=$1 FOR UPDATE',[input.messageId])).rows[0];
@@ -91,5 +94,4 @@ export async function moderateMessage(db:Database,input:{messageId?:string;chara
       }else await sql.query('DELETE FROM social_mutes WHERE character_id=$1',[input.characterId]);
     }
     await sql.query('INSERT INTO social_moderation(id,message_id,character_id,operator_label,action,reason,created_at) VALUES($1,$2,$3,$4,$5,$6,$7)',[randomUUID(),input.messageId??null,input.characterId??null,input.operator,input.action==='hide'?'operator_hide':input.action==='restore'?'operator_restore':input.action,input.reason,now]);
-  });
 }

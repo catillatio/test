@@ -2,6 +2,7 @@ import {type Database,transaction} from './db.js';
 import {clock,lockCharacters,materialize,stateFrom,type CharacterState,type GameRuntime} from './game.js';
 import {alpha,areRivals} from './alpha-rules.js';
 import {community} from './community-rules.js';
+import {GameError} from './errors.js';
 
 export function ownedProperties(state:CharacterState){
   // Sum saved holding rates, not today's catalog rates. Legacy purchases retain
@@ -16,6 +17,9 @@ export function ownedProperties(state:CharacterState){
 }
 export async function publicProfile(db:Database,characterId:string,runtime:GameRuntime={}){
   return transaction(db,async sql=>{
+    const identity=(await sql.query(`SELECT a.login_disabled,EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS bot
+      FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.id=$1`,[characterId])).rows[0];
+    if(!identity||identity.login_disabled&&!identity.bot)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
     const [row]=await lockCharacters(sql,[characterId]);const now=await clock(sql);
     const state=await stateFrom(sql,await materialize(sql,row!,now),now,runtime);
     const bot=(await sql.query('SELECT tier,active FROM development_bots WHERE character_id=$1',[characterId])).rows[0];
@@ -31,7 +35,7 @@ export async function publicProfile(db:Database,characterId:string,runtime:GameR
   });
 }
 export type PublicProfile=Awaited<ReturnType<typeof publicProfile>>;
-export function attackAvailability(actor:CharacterState,target:PublicProfile,developmentBotsEnabled:boolean){
+export function attackAvailability(actor:CharacterState,target:Pick<PublicProfile,'id'|'name'|'level'|'health'|'maxHealth'|'temporaryRival'|'botActive'>,developmentBotsEnabled:boolean){
   const reason=actor.id===target.id?'You cannot attack yourself.':target.temporaryRival&&(!developmentBotsEnabled||!target.botActive)?'This temporary rival is unavailable.':
     !areRivals(actor.level,target.level)?'Choose an opponent nearer your level.':target.health<community.combat.defenderMinimumHealth?'Opponent defeated — 0 Health. They must recover before another attack.':
     actor.health<alpha.combat.minimumHealth?'You need at least '+alpha.combat.minimumHealth+' Health to attack.':actor.spirit<alpha.combat.spiritCost?'Wait for Spirit to recover.':

@@ -29,7 +29,7 @@ const id=z.string().min(1).max(64).regex(/^[a-z0-9-]+$/);
 const quantity=(max:number)=>z.union([z.number().int().min(1).max(max),z.string().max(16).regex(/^[1-9][0-9]*$/).transform(Number).pipe(z.number().int().min(1).max(max))]);
 const intents={
   heal:z.object({maxCost:z.coerce.number().int().min(0).max(2147483647).optional()}),
-  tutorial:z.object({action:z.enum(['start','skip'])}),
+  tutorial:z.object({action:z.enum(['start','resume','skip','next','back','finish','replay'])}),
   quest:z.object({questId:id}),
   recruit:z.object({unitId:z.literal(rules.unit.id),quantity:quantity(alpha.limits.mercenaries)}),
   buy:z.object({itemId:id,quantity:quantity(alpha.limits.transaction).default(1)}),
@@ -95,6 +95,9 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     let actor=locked.find(row=>row.id===actorId)!;
     actor=await materialize(sql,actor,now);
     let target=targetId?locked.find(row=>row.id===targetId)!:null;
+    if(target&&kind==='attack'&&(await sql.query(`SELECT 1 FROM accounts a WHERE a.id=$1 AND a.login_disabled
+      AND NOT EXISTS(SELECT 1 FROM development_bots b WHERE b.character_id=$2)`,[target.account_id,target.id])).rows.length)
+      throw new GameError('OPPONENT_UNAVAILABLE','This opponent is no longer available for battle.',409);
     let targetIsBot=false;
     if(target&&kind==='attack'){
       targetIsBot=await prepareBot(sql,target.id,now,!!runtime.developmentBotsEnabled);
@@ -112,7 +115,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     await syncExperience(sql,actorId,now);
     const result:CommandResult={commandId:key,kind,message:''};
 
-    if(kind==='heal'){result.data=await restoreHealth(sql,actor,state.gold,key,now,intent.maxCost as number|undefined);result.message=result.data.missing?'Health restored to maximum for '+result.data.cost+' gold.':'Your Health is already full. No gold was charged.';}else if(kind==='tutorial'){await tutorialAction(sql,actorId,intent.action as string,now);result.message=intent.action==='skip'?'Quick guide skipped. You can resume it in Profile.':'Your short adventure guide is ready.';}else if(kind==='vault_deposit'||kind==='vault_withdraw'){
+    if(kind==='heal'){result.data=await restoreHealth(sql,actor,state.gold,key,now,intent.maxCost as number|undefined);result.message=result.data.missing?'Health restored to maximum for '+result.data.cost+' gold.':'Your Health is already full. No gold was charged.';}else if(kind==='tutorial'){await tutorialAction(sql,actorId,intent.action as string,now);result.message=intent.action==='skip'?'Tutorial paused. Resume in Help or Profile.':intent.action==='finish'?'Tutorial complete! You are ready to build your kingdom.':'Your tutorial is ready.';}else if(kind==='vault_deposit'||kind==='vault_withdraw'){
       result.data=await vaultTransfer(sql,actorId,intent.amount as number,kind==='vault_deposit',key,now);
       result.message=String(intent.amount)+' gold '+(kind==='vault_deposit'?'deposited in your protected Vault.':'withdrawn into your unbanked purse.');
     }else if(kind==='comment'||kind==='broadcast'){
@@ -289,11 +292,11 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       }
       await awardMilestones(sql,actorId);
       if(defenderProgression)await awardMilestones(sql,target.id);
-      result.message=battle.winnerName+' won the battle.'+(!rewarded?(targetIsBot?' Temporary-rival gold/full-XP budget reached: victories still earn 1 XP; ordinary gold is capped at zero.':' Repeat-encounter XP is reduced to 1 per victory; ordinary victory loot still applies.'):'' )+(lootDetails&&lootDetails.multiplier<100?' Repeat victory: '+lootDetails.multiplier+'% ordinary loot.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
+      result.message=battle.winnerName+' won the battle.'+(!rewarded||lootDetails&&lootDetails.multiplier<100?' Reduced rewards from repeated battles.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
     }
     const experience=await syncExperience(sql,actorId,now,'gameplay');
     const final=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[actorId])).rows[0]!;
-    result.data={...result.data,newAchievements:experience.awarded,celebration:levelCelebration(state.level,final.attained_level,final.skill_points-state.skillPoints)};
+    result.data={...result.data,newAchievements:experience.awarded,celebration:levelCelebration(state.level,final.attained_level,final.skill_points-state.skillPoints),...(experience.tutorialCompleted?{tutorialCompleted:true}:{})};
     if(kind==='attack'&&result.battleId){
       let defenderExperience=null;
       if(target&&!targetIsBot){const gained=await syncExperience(sql,target.id,now,'gameplay');const finalDefender=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[target.id])).rows[0]!;defenderExperience={newAchievements:gained.awarded,celebration:levelCelebration(target.attained_level,finalDefender.attained_level,finalDefender.skill_points-target.skill_points)};}

@@ -1,4 +1,4 @@
-<section class="panel tales-panel" aria-labelledby="tales-title"><h2 class="profile-section-heading" id="tales-title">Tales From the Field</h2>
+<section class="panel tales-panel" id="battle-tales" aria-labelledby="tales-title"><h2 class="profile-section-heading" id="tales-title">Tales From the Field</h2>
 <p class="compact-help">Public encounters of <%= character.name %>. Detailed saved reports are private to their combatants.</p>
 <% if(!tales.entries.length) { %><p class="feed-empty">No recorded battles on this page.</p><% } %>
 <% for(const entry of tales.entries) { const attacking=entry.attackerId===character.id; %><article class="tale-row">

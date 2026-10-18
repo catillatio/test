@@ -11,7 +11,7 @@ export const navigation = [
   { id: 'land', label: 'Land', icon: 'land' },
 ] as const;
 
-export const templateScreens = ['achievements','quest-equipment','trade-confirm','purchase', 'home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'bounty-new', 'vault', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
+export const templateScreens = ['champions','tutorial','achievements','quest-equipment','trade-confirm','purchase', 'home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'bounty-new', 'vault', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
 
 export const commandRoutes = [
   {kind:'heal',html:'/game/health/restore',api:'/api/v1/health/restorations'},

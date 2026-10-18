@@ -103,13 +103,10 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   const economy={grossHourlyIncome:land.hourlyIncome,propertyUpkeep:land.hourlyUpkeep,equipmentUpkeep:activeEquipmentUpkeep,
     scheduledEquipmentUpkeep:upkeep.hourly_rate,otherUpkeep:0,totalUpkeep:land.hourlyUpkeep+activeEquipmentUpkeep,
     netHourlyIncome:land.hourlyIncome-land.hourlyUpkeep-activeEquipmentUpkeep,maintenancePaused:upkeep.paused};
-  const battleStats=(await sql.query(`SELECT count(*)::int AS total,
-    count(*) FILTER(WHERE (attacker_id=$1 AND outcome='attacker_win') OR (defender_id=$1 AND outcome='defender_win'))::int AS wins,
-    count(*) FILTER(WHERE (attacker_id=$1 AND outcome='defender_win') OR (defender_id=$1 AND outcome='attacker_win'))::int AS losses,
-    (SELECT count(*)::int FROM bounty_kills WHERE claimant_id=$1) AS kills,
-    COALESCE((SELECT health_knockouts FROM legacy_field_statistics WHERE character_id=$1),0)::int AS "legacyKnockouts",
-    (SELECT count(*)::int FROM bounty_kills WHERE target_id=$1) AS deaths
-    FROM battles WHERE attacker_id=$1 OR defender_id=$1`,[row.id])).rows[0] as CharacterState['battleStats'];
+  const battleStats=(await sql.query(`SELECT (battle_victories+battle_defeats)::int AS total,
+    battle_victories::int AS wins,battle_defeats::int AS losses,bounty_claims::int AS kills,bounty_deaths::int AS deaths,
+    COALESCE((SELECT health_knockouts FROM legacy_field_statistics WHERE character_id=$1),0)::int AS "legacyKnockouts"
+    FROM champion_standings WHERE character_id=$1`,[row.id])).rows[0] as CharacterState['battleStats'];
   const accountCreated=new Date((await sql.query('SELECT created_at FROM accounts WHERE id=$1',[row.account_id])).rows[0]!.created_at);
   const untrainedAttack=rules.baseAttack+(row.attained_level-1)*rules.attackPerLevel+(army.participants-1)*rules.unit.attack+attackEquipment.attack;
   const untrainedDefense=rules.baseDefense+(row.attained_level-1)*rules.defensePerLevel+(army.participants-1)*rules.unit.defense+defenseEquipment.defense;
@@ -153,7 +150,7 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
   const rows=(await db.query(`SELECT c.*,b.tier AS bot_tier,b.recovered_at AS bot_recovered_at,to_char(c.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_at,
     (SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
     (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted' AND (NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END) OR ($8 AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END AND d.active)))) AS allies
-    FROM characters c LEFT JOIN development_bots b ON b.character_id=c.id WHERE c.id<>$1 AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
+    FROM characters c JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots b ON b.character_id=c.id WHERE c.id<>$1 AND (NOT a.login_disabled OR b.character_id IS NOT NULL) AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
     AND (b.character_id IS NULL OR ($7 AND b.active))
     AND ($4::timestamptz IS NULL OR (c.created_at,c.id)<($4::timestamptz,$5::uuid))
     ORDER BY c.created_at DESC,c.id DESC LIMIT 21`,[characterId,actor.attained_level-range,actor.attained_level+range,after,afterId,actor.attained_level,developmentBotsEnabled,developmentBotRecruitmentEnabled])).rows;

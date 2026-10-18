@@ -9,8 +9,8 @@ const db = createDatabase(config.databaseUrl);
 const app = await createApp({ db, config, logger: true });
 try {
   await assertInstalledRulesets(db);
-  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='018_gameplay_refinement.sql'");
-  if (!schema.rows.length) throw new Error('Phase 4.5 migrations are incomplete. Run node deployment/migrate.mjs before starting.');
+  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='019_champions_and_rivalries.sql'");
+  if (!schema.rows.length) throw new Error('Phase 4.6 migrations are incomplete. Run node deployment/migrate.mjs before starting.');
   if(config.privateAlpha)await assertPrivateAlphaInitialized(db);
   await app.listen({ host: config.host, port: config.port });
   app.log.info({event:'realm_origin_configuration',origin:config.origin,originSource:config.originSource,

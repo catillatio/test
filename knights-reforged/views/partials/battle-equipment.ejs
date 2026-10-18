@@ -1,0 +1,12 @@
+<details class="panel encounter-equipment <%= enemy?'enemy-equipment':'own-equipment' %>">
+<summary><span aria-hidden="true"><%= enemy?'⚔':'♜' %></span> <%= heading %><span class="equipment-chevron" aria-hidden="true">▾</span></summary>
+<p class="compact-help"><a class="player-link" href="/game/players/<%= ownerId %>"><%= ownerName %></a><% if(typeof participants==='number') { %> · <%= participants %> participating army members<% } %></p>
+<% if(Array.isArray(equipment)) { %>
+<div class="encounter-categories">
+<% for(const group of [{id:'weapon',name:'Weapons'},{id:'armor',name:'Armor'},{id:'spell',name:'Spells'},{id:'other',name:'Other Equipment'}]) { const selected=equipment.filter(used=>(used.category??alpha.items.find(item=>item.id===used.itemId)?.category??'other')===group.id);if(!selected.length)continue; %>
+<section class="encounter-category"><h3><%= group.name %></h3><div class="report-equipment" aria-label="<%= heading+' '+group.name %>">
+<% for(const used of selected) { const art=alpha.items.find(item=>item.id===used.itemId); %><figure class="inventory-figure"><% if(art) { %><%- include('catalog-art',{entry:art,small:false}) %><% } else { %><span class="unknown-equipment" aria-hidden="true">⚔</span><% } %><strong>×<%= used.quantity %></strong><figcaption><%= used.name %></figcaption></figure><% } %>
+</div></section><% } %></div>
+<p class="compact-help"><%= equipment.length?'Equipment actually used in this battle.':'No equipment contributed to this battle.' %></p>
+<% } else { %><p class="compact-help">Equipment quantities were not recorded in this historical battle.</p><% } %>
+</details>

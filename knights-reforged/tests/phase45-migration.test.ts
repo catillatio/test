@@ -13,6 +13,8 @@ import {grantExperience} from '../src/progression.js';
 import {ledger} from '../src/economy.js';
 import {vaultTransfer} from '../src/pvp-economy.js';
 import {executeCommand} from '../src/commands.js';
+import {placeBounty} from '../src/bounties.js';
+import {postMessage} from '../src/community.js';
 async function snapshot(db:Database){
  const tables=(await db.query("SELECT table_name FROM information_schema.tables WHERE table_schema=current_schema() AND table_type='BASE TABLE' ORDER BY table_name")).rows;
  const map:Record<string,string[]>={};for(const {table_name:table} of tables){assert.match(table,/^[a-z_]+$/);map[table]=(await db.query('SELECT row_to_json(t)::text AS row FROM "'+table+'" t')).rows.map(r=>r.row).sort();}return map;
@@ -32,12 +34,20 @@ test('populated Phase 4.4 migration preserves every business row, 450 bots, sess
    await vaultTransfer(sql,a.characterId,500,true,randomUUID(),new Date());
    await grantExperience(sql,a.characterId,30,new Date());await grantExperience(sql,b.characterId,30,new Date());
   });
-  await executeCommand(db,a.accountId,randomUUID(),'tutorial',{action:'start'});
-  await executeCommand(db,a.accountId,randomUUID(),'quest',{questId:'border-patrol'});
-  for(let i=0;i<4;i++)await executeCommand(db,a.accountId,randomUUID(),'quest',{questId:'border-patrol'});
-  for(let i=0;i<5;i++)await executeCommand(db,b.accountId,randomUUID(),'quest',{questId:'border-patrol'});
-  await executeCommand(db,a.accountId,randomUUID(),'bounty_place',{targetCharacterId:b.characterId,amount:100});
-  await executeCommand(db,a.accountId,randomUUID(),'comment',{profileId:b.characterId,body:'An enduring greeting from Phase 4.4.'});
+  // Construct genuine pre-019 journal/evidence rows using the legacy service
+  // functions. The current tutorial UI needs 019 and must not run on this 017 fixture.
+  await transaction(db,async sql=>{
+   await sql.query("INSERT INTO player_preferences(character_id,tutorial_status) VALUES($1,'active')",[a.characterId]);
+   for(const owner of [a,b]){
+    await sql.query("INSERT INTO character_quest_progress(character_id,quest_id,completions) VALUES($1,'border-patrol',5)",[owner.characterId]);
+    for(let i=0;i<5;i++)await sql.query("INSERT INTO quest_runs(id,character_id,quest_id,ruleset_id,energy_spent,gold_reward,xp_reward) VALUES($1,$2,'border-patrol','alpha-0.3',1,5,4)",[randomUUID(),owner.characterId]);
+    await ledger(sql,null,'quest_reward',[{characterId:owner.characterId,amount:25}]);await grantExperience(sql,owner.characterId,20,new Date());
+    await sql.query("INSERT INTO character_achievements(character_id,achievement_id,ruleset_id,metric_at_unlock,evidence) VALUES($1,'quests-1','player-experience-1',5,'gameplay')",[owner.characterId]);
+   }
+   for(const step of ['quest','rewards','equipment','automatic'])await sql.query('INSERT INTO tutorial_steps(character_id,step_id) VALUES($1,$2)',[a.characterId,step]);
+   await placeBounty(sql,a.characterId,b.characterId,100,randomUUID(),new Date());
+   await postMessage(sql,a.characterId,b.characterId,'An enduring greeting from Phase 4.4.',randomUUID(),new Date(),4,5);
+  });
   const key=randomUUID(),intent={unitId:'militia',quantity:2},oldResult={commandId:key,kind:'recruit',message:'Historical troops recruited.',data:{quantity:2,goldSpent:24}};
   await db.query('UPDATE army_stacks SET quantity=2 WHERE character_id=$1',[a.characterId]);
   await db.query('INSERT INTO command_receipts(account_id,command_id,kind,intent_hash,result) VALUES($1,$2,$3,$4,$5)',[a.accountId,key,'recruit',createHash('sha256').update(JSON.stringify({kind:'recruit',intent})).digest('hex'),oldResult]);

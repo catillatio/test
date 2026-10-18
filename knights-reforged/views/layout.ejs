@@ -19,8 +19,9 @@
 <link rel="stylesheet" href="/assets/phase43.css?v=phase43-1">
 <link rel="stylesheet" href="/assets/phase44.css?v=phase44-1">
   <link rel="stylesheet" href="/assets/phase45.css?v=phase45-1">
+  <link rel="stylesheet" href="/assets/phase46.css?v=phase46-1">
 </head>
-<body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new'].includes(screen) ? 'battle' : screen %>">
+<body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new','champions'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="app-shell">
     <div class="page-backdrop" aria-hidden="true"></div>
@@ -34,6 +35,7 @@
           </header>
           <%- include('partials/secondary-nav') %>
           <%- include('partials/tutorial') %>
+          <% if(screen!=='tutorial'&&(actionResult?.data?.tutorialCompleted||battle?.playerExperience?.[state.id]?.tutorialCompleted)) { %><aside class="tutorial-success-note" role="status"><strong>TUTORIAL COMPLETE!</strong> You're ready to build your kingdom. <a class="text-link" href="/game/tutorial">Continue Playing ›</a></aside><% } %>
         <% } %>
         <% if (notice && !(screen==='quests'&&actionResult?.kind==='quest')) { %><div class="notice notice-success" role="status"><span aria-hidden="true">✦</span> <%= notice %></div><% } %>
         <% if (error) { %><div class="notice notice-error" role="alert"><%= error %></div><% } %>
