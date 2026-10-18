@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="/assets/phase42.css?v=phase42-1">
 <link rel="stylesheet" href="/assets/phase43.css?v=phase43-1">
 <link rel="stylesheet" href="/assets/phase44.css?v=phase44-1">
+  <link rel="stylesheet" href="/assets/phase45.css?v=phase45-1">
 </head>
 <body class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -37,14 +38,16 @@
         <% if (notice && !(screen==='quests'&&actionResult?.kind==='quest')) { %><div class="notice notice-success" role="status"><span aria-hidden="true">✦</span> <%= notice %></div><% } %>
         <% if (error) { %><div class="notice notice-error" role="alert"><%= error %></div><% } %>
         <%- include(screen) %>
-        <p class="connection-status" data-connection-status role="status"></p>
+        <p class="action-feedback" data-action-feedback role="status" aria-live="polite"></p>
+        <p class="connection-status" data-connection-status role="status" aria-live="polite"></p>
         <footer class="page-footer"><span>Kingdom Come · Multiplayer alpha</span><a href="/rules">Alpha rules</a></footer>
       </main>
     </div>
     <% if (state) { %><%- include('partials/primary-nav') %><% } %>
   </div>
-  <% if (state) { %><script type="module" src="/assets/community.js?v=<%= alpha.id %>-phase41-render1"></script><script type="module" src="/assets/realm.js?v=<%= alpha.id %>-phase41-render1"></script><% } %>
-<% if(state) { %><script type="module" src="/assets/shopping.js?v=phase44-1"></script><% } %>
-<% if(state) { %><script type="module" src="/assets/experience.js?v=phase44-1"></script><% } %>
+  <% if (state) { %><script type="module" src="/assets/community.js?v=<%= alpha.id %>-phase45-1"></script><script type="module" src="/assets/realm.js?v=<%= alpha.id %>-phase45-1"></script><% } %>
+<% if(state) { %><script type="module" src="/assets/shopping.js?v=phase45-1"></script><% } %>
+<% if(state) { %><script type="module" src="/assets/experience.js?v=phase45-1"></script><% } %>
+<% if(state) { %><script type="module" src="/assets/status.js?v=phase45-1"></script><% } %>
 </body>
 </html>

@@ -68,5 +68,10 @@ export async function realm(options:{clock?:()=>Date;logger?:boolean;development
       if(xp)await grantExperience(sql,actor.id,xp,await clock(sql));
     });
   }
-  return {db,app,player,me,command,ok,prepare,close:async()=>{await app.close();await db.end();if(schema){await admin!.query(`DROP SCHEMA ${schema} CASCADE`);await admin!.end();}}};
+  // Existing militia are a compatibility fixture, never a public purchase path.
+  async function legacyArmy(actor:Player,quantity:number){
+    await transaction(db,async sql=>{await lockCharacters(sql,[actor.id]);await sql.query('UPDATE army_stacks SET quantity=quantity+$2 WHERE character_id=$1',[actor.id,quantity]);});
+    return {state:await me(actor)};
+  }
+  return {db,app,player,me,command,ok,prepare,legacyArmy,close:async()=>{await app.close();await db.end();if(schema){await admin!.query(`DROP SCHEMA ${schema} CASCADE`);await admin!.end();}}};
 }

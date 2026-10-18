@@ -36,7 +36,7 @@ try{
       await lockCharacters(sql,[account.characterId]);await ledger(sql,null,'test_fixture',[{characterId:account.characterId,amount:2000000}],alpha.id);
       await grantExperience(sql,account.characterId,Array.from({length:level-1},(_,i)=>levelRequirement(i+1)).reduce((n,xp)=>n+xp,0),await clock(sql));
     });
-    await executeCommand(db,account.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
+    await db.query('UPDATE army_stacks SET quantity=20 WHERE character_id=(SELECT id FROM characters WHERE account_id=$1)',[account.accountId]);
     return {...account,...await createSession(db,account.accountId)};
   }
   const knight=await qualified(50),rival=await qualified(49);
@@ -85,7 +85,7 @@ try{
   assert.equal((await state()).inventory.find(entry=>entry.id==='eclipse-greatsword')?.quantity,2);
   await page.goto(origin+'/game/land');await act(page.getByRole('button',{name:'Buy Eclipse Citadel',exact:true}));
   let current=await state();assert.equal(current.economy.grossHourlyIncome,3100);assert.equal(current.economy.propertyUpkeep,500);assert.equal(current.economy.equipmentUpkeep,480);assert.equal(current.economy.netHourlyIncome,2120);
-  assert.equal((await page.locator('[data-hourly-net]').textContent())?.trim(),'+2,120 gold/hr');
+  assert.equal(Number((await page.locator('[data-payment-gold]').textContent())?.replaceAll(',','')), (await (await page.request.get(origin+'/api/v1/me')).json()).state.payment.gold);
   await page.goto(origin+'/game/land');
   assert.equal(await page.getByRole('button',{name:'Buy Worldroot Bastion',exact:true}).isDisabled(),true);
   await act(page.getByRole('button',{name:'Sell Eclipse Citadel',exact:true}));assert.equal((await state()).economy.grossHourlyIncome,0);
@@ -114,7 +114,7 @@ try{
   const gap=await page.locator('.resource-upper').evaluate(element=>{const cells=[...element.children].map(child=>child.getBoundingClientRect());return cells[1]!.left-cells[0]!.right;});assert.ok(gap>=0);
   const headerFits=await page.locator('.resource-upper').evaluate(element=>{
     const xp=element.querySelector('.xp-resource')!.getBoundingClientRect();
-    return ['[data-wallet-gold]','[data-hourly-net]'].every(selector=>element.querySelector(selector)!.getBoundingClientRect().right<=xp.left+2);
+    return ['[data-wallet-gold]','[data-payment-gold]'].every(selector=>element.querySelector(selector)!.getBoundingClientRect().right<=xp.left+2);
   });assert.equal(headerFits,true,'maximum wallet and hourly flow must not cover the XP bar');
   await Promise.all([page.waitForURL(origin+'/login'),page.getByRole('button',{name:'Sign out',exact:true}).click()]);assert.equal((await page.request.get(origin+'/api/v1/me')).status(),401);
   assert.deepEqual(errors,[]);assert.deepEqual(failedAssets,[]);

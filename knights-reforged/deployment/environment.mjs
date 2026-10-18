@@ -2,7 +2,7 @@
 // or infer their browser address from a request's forwarded headers.
 export function validateDeploymentEnvironment(env = process.env) {
   if (env.NODE_ENV !== 'production') return;
-  if(env.KINGDOM_ALPHA_INITIALIZE||env.KINGDOM_DEV_PASSWORD||env.ALLOW_DEV_PROVISIONING==='1')throw new Error('Remove first-time initialization flags and development provisioning credentials before a live Phase 4.4 upgrade.');
+  if(env.KINGDOM_ALPHA_INITIALIZE||env.KINGDOM_DEV_PASSWORD||env.ALLOW_DEV_PROVISIONING==='1')throw new Error('Remove first-time initialization flags and development provisioning credentials before a live Phase 4.5 upgrade.');
   if (!env.APP_ORIGIN || !env.DATABASE_URL) {
     throw new Error('Production requires explicit APP_ORIGIN and DATABASE_URL service variables.');
   }

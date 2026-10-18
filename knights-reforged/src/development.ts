@@ -167,22 +167,10 @@ export async function prepareBot(sql:Sql,id:string,now:Date,enabled:boolean){
   const bot=(await sql.query('SELECT * FROM development_bots WHERE character_id=$1 FOR UPDATE',[id])).rows[0];
   if(!bot)return false;
   if(!enabled||!bot.active)throw new GameError('BOT_UNAVAILABLE','Temporary development rivals are disabled.',409);
-  if(+now-+new Date(bot.refilled_at)>=86400000){
-    // Settle actual offline estates and the old maintenance interval BEFORE
-    // computing a development top-up. Earned income must not be lost, and
-    // refilling a reserve must not erase an uncharged maintenance period.
-    const row=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[id])).rows[0]!;
-    await materialize(sql,row,now);
-    const level=(await sql.query('SELECT attained_level FROM characters WHERE id=$1',[id])).rows[0]!.attained_level;
-    const balance=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[id])).rows[0]!.balance;
-    const amount=Math.max(0,botGoldAllowance(level,bot.tier,bot.population_version,bot.variant)-balance);
-    await creditGold(sql,id,BigInt(amount),null,'development_bot_allowance',refinements.id);
-    const maintenance=(await sql.query('SELECT hourly_rate,reserve_gold,arrears_gold FROM maintenance_accounts WHERE character_id=$1',[id])).rows[0]!;
-    const reserveAdded=Math.max(0,maintenance.hourly_rate*strategy.bots.maintenanceHours-Number(maintenance.reserve_gold));
-    await sql.query('UPDATE maintenance_accounts SET reserve_gold=reserve_gold+$2,arrears_gold=0,paused=false,settled_at=$3 WHERE character_id=$1',[id,reserveAdded,now]);
-    await sql.query('UPDATE development_bots SET refilled_at=$2 WHERE character_id=$1',[id,now]);
-    await sql.query("INSERT INTO development_bot_events(id,character_id,kind,details,created_at) VALUES($1,$2,'refresh',$3,$4)",[randomUUID(),id,{goldAdded:amount,maintenanceHours:strategy.bots.maintenanceHours,maintenanceReserveAdded:reserveAdded,maintenanceArrearsCleared:maintenance.arrears_gold},now]);
-  }
+  // Phase 4.5: wealth comes from actual saved Land. Never create gold or
+  // maintenance reserves in response to an attack. Ordinary materialization
+  // settles income/upkeep; scheduled bot funding spends only its existing purse.
+
   return true;
 }
 export async function provisionDevelopmentAccount(db:Database,permission:DevelopmentPermission,password:string,reset=false){

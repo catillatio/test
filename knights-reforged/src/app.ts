@@ -17,8 +17,8 @@ import { getState, getBattle, recentBattles, listOpponents, type CharacterState 
 import { executeCommand, type CommandKind } from './commands.js';
 import {experienceView,regionFilter,rememberRegion} from './experience.js';
 import {experienceRules} from './experience-rules.js';
+import {gameplay} from './gameplay-rules.js';
 import {announcements} from './announcements.js';
-import {createTradeQuote} from './trade.js';
 import {authenticationAttempt} from './security.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
@@ -31,12 +31,13 @@ import {pvp,bountyRules} from './pvp-rules.js';
 import {publicProfile,ownedProperties,attackAvailability,recruitmentAvailability} from './profiles.js';
 import {activityFeed,armyDashboard,feedCategory,relativeTime,battleTales} from './feeds.js';
 import {bountyBoard as loadBountyBoard,bountyQuote,bountyPlacementAvailability} from './bounties.js';
+import {activeBountyCount} from './bounties.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
 
 declare module 'fastify' { interface FastifyRequest { realmSession: Session | null; } }
 const uuid = z.string().uuid();
 const allowedScreens = new Set<string>(templateScreens);
-const destination: Record<CommandKind, string> = {tutorial:'home', vault_deposit:'vault',vault_withdraw:'vault',quest:'quests',quest_buy:'quests',recruit:'army',buy:'armory',sell:'armory',equip:'armory',attack:'battle',land_buy:'land',land_sell:'land',skill:'profile',profile:'profile',maintain:'armory',invite:'army',accept:'army',remove:'army',bounty_place:'bounties',bounty_cancel:'bounties',invite_code:'army',reject:'army',comment:'home',broadcast:'home',social_report:'home',social_remove:'home' };
+const destination: Record<CommandKind, string> = {heal:'home',tutorial:'home', vault_deposit:'vault',vault_withdraw:'vault',quest:'quests',quest_buy:'quests',recruit:'army',buy:'armory',sell:'armory',equip:'armory',attack:'battle',land_buy:'land',land_sell:'land',skill:'profile',profile:'profile',maintain:'armory',invite:'army',accept:'army',remove:'army',bounty_place:'bounties',bounty_cancel:'bounties',invite_code:'army',reject:'army',comment:'home',broadcast:'home',social_report:'home',social_remove:'home' };
 const asBody = (request: FastifyRequest) => (request.body && typeof request.body === 'object' ? request.body : {}) as Record<string, unknown>;
 const wantsJson = (request: FastifyRequest) => request.url.startsWith('/api/') || (request.headers.accept ?? '').includes('application/json');
 
@@ -56,7 +57,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   await app.register(fastifyStatic, { root: join(projectRoot, 'public'), prefix: '/assets/', maxAge: '1h',dotfiles:'deny',index:false,list:false });
   // Rules used by shared/nested views are application constants, not optional
   // page locals. This also covers direct views and error rendering contexts.
-  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
+  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { bountyCount:0,nextBountyExpiry:null,gameplay,experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
   app.decorateRequest('realmSession', null);
 
   const setSessionCookie = (reply: FastifyReply, token: string, authenticated: boolean) => reply.setCookie('kr_session', token, {
@@ -121,10 +122,12 @@ export async function createApp(options: { db: Database; config: Config; logger?
       actionResult = receipt?.result ?? null;
     }
     const playerExperience=state?await experienceView(db,state.id):null;
+    const board=data.bountyBoard as {activeCount?:number;nextExpiryAt?:string|null}|undefined;
+    const counts=state&&['battle','bounties','bounty-new','bounty-confirm'].includes(screen)?board?.activeCount!==undefined?{count:board.activeCount,nextExpiryAt:board.nextExpiryAt??null}:await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):{count:0,nextExpiryAt:null};
     const chosenRegion=regionFilter(query.area);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', {
-      screen, state, nav, rules, landRules, alpha, strategy, community, relativeTime, experienceRules,announcements,questEquipment:null,tradeQuote:null, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,
+      screen, state, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       questArea:chosenRegion??playerExperience?.region??'all',
@@ -262,12 +265,6 @@ export async function createApp(options: { db: Database; config: Config; logger?
       app.post(url, { preHandler: requireAccount, config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 90, timeWindow: '1 minute',hook:'preHandler',keyGenerator:(request:FastifyRequest)=>request.realmSession?.account_id??request.ip } } }, async (request, reply) => {
         const body = asBody(request);
         const input = route.kind === 'quest' || route.kind === 'quest_buy' ? { ...body, questId: (request.params as {id:string}).id } : body;
-        if((route.kind==='land_buy'||route.kind==='land_sell')&&body.preview==='1'&&!wantsJson(request)){
-          const parsed=z.object({propertyId:z.string().regex(/^[a-z0-9-]+$/).max(64),quantity:z.coerce.number().int().min(1).max(alpha.limits.landTransaction)}).safeParse(body);
-          if(!parsed.success)throw new GameError('INVALID_QUANTITY','Choose a valid property quantity.');
-          const quote=await createTradeQuote(db,request.realmSession!.account_id!,route.kind,parsed.data.propertyId,parsed.data.quantity,config);
-          return render(request,reply,'trade-confirm',{title:route.kind==='land_buy'?'Confirm property purchase':'Confirm property sale',state:quote.state,tradeQuote:quote});
-        }
         let result;
         try{result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input,{developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled});}catch(error){
           if(route.kind==='quest'&&!wantsJson(request)&&error instanceof GameError&&error.code==='MISSING_EQUIPMENT')return reply.redirect('/game/quests/'+(request.params as {id:string}).id+'/requirements',303);
@@ -292,9 +289,11 @@ export async function createApp(options: { db: Database; config: Config; logger?
       });
     }
   }
-  app.get('/api/v1/me', { preHandler: requireAccount }, async request => ({
-    state: await getState(db, request.realmSession!.account_id!,config), csrfToken: request.realmSession!.csrf_token, rulesetId: alpha.id,
-  }));
+  app.get('/api/v1/me', { preHandler: requireAccount }, async request => {
+    const state=await getState(db,request.realmSession!.account_id!,config);
+    const counts=(request.query as {bounties?:string}).bounties==='1'?await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):undefined;
+    return {state,csrfToken:request.realmSession!.csrf_token,...(counts?{bounties:counts}:{})};
+  });
   app.get('/api/v1/opponents', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!,config);
     return listOpponents(db,state.id,(request.query as {after?:string}).after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled);

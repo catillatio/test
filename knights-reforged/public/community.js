@@ -3,12 +3,12 @@
 document.querySelectorAll('form[method="post"]').forEach(form=>{
   form.addEventListener('submit',event=>{
     if(form.dataset.submitting==='true'){event.preventDefault();return;}
-    form.dataset.submitting='true';form.setAttribute('aria-busy','true');
+    form.dataset.submitting='true';form.setAttribute('aria-busy','true');const feedback=document.querySelector('[data-action-feedback]');if(feedback)feedback.textContent=/battle\/attack/.test(form.action)?'Resolving battle…':/quests.*run/.test(form.action)?'Completing quest…':/buy|sell/.test(form.action)?'Updating your holdings…':'Completing action…';
     // Do not disable the successful submitter or change hidden fields here.
     // Native navigation, validation, cookies and CSRF keep their usual behavior.
   });
 });
-window.addEventListener('pageshow',()=>document.querySelectorAll('form[data-submitting]').forEach(form=>{delete form.dataset.submitting;form.removeAttribute('aria-busy');}));
+window.addEventListener('pageshow',()=>document.querySelectorAll('form[data-submitting]').forEach(form=>{delete form.dataset.submitting;form.removeAttribute('aria-busy');const feedback=document.querySelector('[data-action-feedback]');if(feedback)feedback.textContent='';}));
 const target=document.querySelector('[data-combat-target]');
 if(target){
   let pending=false;

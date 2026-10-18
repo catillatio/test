@@ -35,7 +35,7 @@ test('an expiry/finishing race refunds exactly once and cannot pay either a boun
 test('a finishing attack can claim even when the wounded defender wins the army contest; wins and kills stay distinct',{skip},async()=>{
   const r=await setup();try{
     const sponsor=await r.veteran(),target=await r.veteran(),hunter=await r.veteran();
-    await r.ok(target,'/api/v1/army/recruitments',{unitId:'militia',quantity:20});
+    await r.legacyArmy(target,20);
     const state=await r.me(target);
     const {alpha}=await import('../src/alpha-rules.js');
     for(const category of ['weapon','armor','spell']){
@@ -153,7 +153,7 @@ test('finishing-attack bounty eligibility uses pre-combat levels when the reward
     const sponsor=await r.veteran(),target=await r.veteran(),hunter=await r.veteran();
     const desired=Array.from({length:5},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0)-1;
     await r.prepare(hunter,0,desired-(await r.me(hunter)).xp);assert.equal((await r.me(hunter)).level,5);
-    await r.ok(hunter,'/api/v1/army/recruitments',{unitId:'militia',quantity:20});
+    await r.legacyArmy(hunter,20);
     await r.ok(hunter,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:10});
     await r.ok(sponsor,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1});
     await r.db.query('UPDATE characters SET health=1,health_updated_at=$2 WHERE id=$1',[target.id,r.now()]);

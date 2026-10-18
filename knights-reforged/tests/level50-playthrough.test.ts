@@ -4,11 +4,14 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {realm,testDatabaseUrl} from './helpers.js';
 import {alpha,itemById} from '../src/alpha-rules.js';
+import {provisionBots} from '../src/development.js';
 import {projectRoot} from '../src/config.js';
 
 test('a fresh player reaches level 50 and completes its finale through actual quest, inventory, army and income APIs',{skip:!testDatabaseUrl,timeout:180000},async()=>{
-  let virtualNow=Date.now();const startedAt=virtualNow,r=await realm({clock:()=>new Date(virtualNow),logger:process.env.DEBUG_REALM==='1'});
+  let virtualNow=Date.now();const startedAt=virtualNow,r=await realm({clock:()=>new Date(virtualNow),developmentBotsEnabled:true,developmentBotRecruitmentEnabled:true,isolated:true,logger:process.env.DEBUG_REALM==='1'});
   try{
+    await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});
+    const allies=(await r.db.query('SELECT character_id FROM development_bots ORDER BY character_id LIMIT 20')).rows.map(row=>row.character_id);let recruited=0;
     const player=await r.player('Returning Realm Knight');let state=await r.me(player),actions=0,runs=0,waits=0,highestLevel=1;
     const visited=new Set<string>(),checkpoints:{level:number;gold:number;quests:number;elapsedHours:number;hourlyNet:number}[]=[];
     const command=async(url:string,payload:Record<string,unknown>={})=>{assert.ok(++actions<2500,'Playthrough exceeded its bounded action budget.');const result=await r.ok(player,url,payload);state=result.state;return result;};
@@ -20,8 +23,8 @@ test('a fresh player reaches level 50 and completes its finale through actual qu
       while(goal.requiresLoot&&!state.loot.some(loot=>loot.id===goal.requiresLoot))goal=state.quests.find(q=>q.loot?.id===goal.requiresLoot)!;
       const recruits=Math.max(0,goal.army-state.army.participants);
       const maintenanceBuffer=Object.entries(goal.missing).reduce((n,[id,quantity])=>n+itemById.get(id)!.upkeep*quantity,0);
-      if(state.gold>=goal.missingCost+recruits*12+maintenanceBuffer){
-        if(recruits){await command('/api/v1/army/recruitments',{unitId:'militia',quantity:recruits});continue;}
+      if(state.gold>=goal.missingCost+maintenanceBuffer){
+        if(recruits){assert.ok(recruited<allies.length);virtualNow+=31000;await command('/api/v1/army/invitations',{targetCharacterId:allies[recruited++]});continue;}
         if(Object.keys(goal.missing).length){await command('/api/v1/quests/'+goal.id+'/equipment');continue;}
       }else{
         goal=state.quests.filter(q=>q.level<=state.level&&!Object.keys(q.missing).length&&q.army<=state.army.participants&&(!q.requiresLoot||state.loot.some(loot=>loot.id===q.requiresLoot)))

@@ -17,7 +17,7 @@ async function setup(bots=false){
   async function veteran(name='Realm Hunter',strong=false){
     const actor=await r.player(name);await r.prepare(actor,200000,30);
     for(let i=0;i<5;i++)await r.ok(actor,'/api/v1/quests/border-patrol/runs');
-    if(strong){await r.ok(actor,'/api/v1/army/recruitments',{unitId:'militia',quantity:10});await r.ok(actor,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:10});}
+    if(strong){await r.legacyArmy(actor,10);await r.ok(actor,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:10});}
     return actor;
   }
   const battle=async(id:string)=>(await r.db.query('SELECT result FROM battles WHERE id=$1',[id])).rows[0]!.result;
@@ -219,7 +219,7 @@ test('bot placement races, cancellation, expiry and fifty finishing claims obey 
       if(i>0){assert.equal(report.loot,0);assert.equal(report.attackerXp,1);}
       r.advance(180);
     }
-    assert.ok(ordinaryLoot<=50);assert.equal((await r.me(hunter)).battleStats.kills,50);
+    assert.ok(ordinaryLoot<=61);assert.equal((await r.me(hunter)).battleStats.kills,50);
     assert.equal((await r.me(hunter)).gold+(await r.me(sponsors[0]!)).gold+(await r.me(sponsors[1]!)).gold,initial+ordinaryLoot-50);
     const rejected=await r.command(sponsors[0]!,'/api/v1/bounties/placements',{targetCharacterId:target,amount:1});assert.equal(rejected.json().error.code,'BOUNTY_LIMIT');
     assert.equal((await r.db.query("SELECT count(*)::int AS n FROM bounties WHERE target_id=$1 AND status='active'",[target])).rows[0]!.n,0);

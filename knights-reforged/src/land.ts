@@ -13,7 +13,7 @@ export interface HoldingRow {
 export interface LandState {
   rulesetId: string; provisional: true; paymentIntervalSeconds: number;
   hourlyIncome: number; hourlyUpkeep: number; netHourlyIncome: number;
-  nextPaymentAt: string | null; pendingGold: string; nextPropertyPaymentGold?:string;partialNextPayment?:boolean;paymentPolicy?:string;
+  nextPaymentAt: string | null; pendingGold: string; nextPropertyPaymentGold?:string;nextPropertyGrossGold?:string;nextPropertyUpkeepGold?:string;partialNextPayment?:boolean;paymentPolicy?:string;
   properties: (LandProperty & { owned: number; remaining: number; maxPurchase: number; maxAffordable: number })[];
   holdings: { id: string; propertyId: string; name: string; quantity: number;
     hourlyIncome: number; hourlyUpkeep: number; nextPaymentAt: string; rulesetId: string }[];
@@ -82,7 +82,7 @@ export async function getLandState(sql: Sql, characterId: string, gold: number):
   const batches = await holdings(sql, characterId);
   const cycle=(await sql.query('SELECT next_payment_at FROM income_cycles WHERE character_id=$1',[characterId])).rows[0];
   const nextPaymentAt=cycle?new Date(cycle.next_payment_at).toISOString():null;
-  let nextPropertyPaymentGold=0n,partialNextPayment=false;
+  let nextPropertyPaymentGold=0n,nextPropertyUpkeepGold=0n,partialNextPayment=false;
   const owned = new Map<string, number>();
   let hourlyIncome = 0; let hourlyUpkeep = 0;
   const rows = batches.map(batch => {
@@ -91,6 +91,7 @@ export async function getLandState(sql: Sql, characterId: string, gold: number):
     hourlyUpkeep += batch.quantity * batch.hourly_upkeep;
     if(nextPaymentAt){const ms=Math.max(0,+new Date(nextPaymentAt)-+new Date(batch.accrued_through));
       nextPropertyPaymentGold+=(BigInt(batch.hourly_income-batch.hourly_upkeep)*BigInt(batch.quantity)*BigInt(ms)+BigInt(batch.income_remainder??0))/3600000n;
+      nextPropertyUpkeepGold+=(BigInt(batch.hourly_upkeep)*BigInt(batch.quantity)*BigInt(ms)+BigInt(batch.upkeep_remainder??0))/3600000n;
       partialNextPayment ||= ms<3600000;}
     return { id: batch.id, propertyId: batch.property_id, name: batch.property_name, quantity: batch.quantity,
       hourlyIncome: batch.quantity * batch.hourly_income, hourlyUpkeep: batch.quantity * batch.hourly_upkeep,
@@ -100,7 +101,7 @@ export async function getLandState(sql: Sql, characterId: string, gold: number):
   const account = (await sql.query('SELECT pending_gold FROM land_accounts WHERE character_id=$1', [characterId])).rows[0];
   return { rulesetId: landRules.id, provisional: true, paymentIntervalSeconds: landRules.paymentIntervalSeconds,
     hourlyIncome, hourlyUpkeep, netHourlyIncome: hourlyIncome - hourlyUpkeep,
-    nextPaymentAt: rows.length?nextPaymentAt:null,nextPropertyPaymentGold:nextPropertyPaymentGold.toString(),partialNextPayment,paymentPolicy:progressionEconomy.income.policy,
+    nextPaymentAt: rows.length?nextPaymentAt:null,nextPropertyPaymentGold:nextPropertyPaymentGold.toString(),nextPropertyGrossGold:(nextPropertyPaymentGold+nextPropertyUpkeepGold).toString(),nextPropertyUpkeepGold:nextPropertyUpkeepGold.toString(),partialNextPayment,paymentPolicy:progressionEconomy.income.policy,
     pendingGold: String(account?.pending_gold ?? '0'),
     properties: landRules.properties.map(property => {
       const quantity = owned.get(property.id) ?? 0;

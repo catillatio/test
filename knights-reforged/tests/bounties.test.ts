@@ -14,7 +14,7 @@ async function setup(){
     for(let i=0;i<5;i++)await r.ok(p,'/api/v1/quests/border-patrol/runs');
     return p;
   }
-  async function hunter(){const p=await veteran('Bounty Hunter');await r.ok(p,'/api/v1/army/recruitments',{unitId:'militia',quantity:20});await r.ok(p,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:20});return p;}
+  async function hunter(){const p=await veteran('Bounty Hunter');await r.legacyArmy(p,20);await r.ok(p,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:20});return p;}
   async function total(players:Player[]){
     const ids=players.map(p=>p.id);
     const row=(await r.db.query(`SELECT (SELECT COALESCE(sum(balance),0) FROM wallets WHERE character_id=ANY($1::uuid[]))+

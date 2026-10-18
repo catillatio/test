@@ -6,12 +6,12 @@ import {pvp} from './pvp-rules.js';
 
 // Caller holds both character locks. Failed/replayed commands roll this update
 // back or return their original receipt, so they never advance the sequence.
-export async function recordVictory(sql:Sql,attackerId:string,defenderId:string,now:Date){
+export async function recordVictory(sql:Sql,attackerId:string,defenderId:string,now:Date,rulesetId=pvp.id){
   const row=(await sql.query(`INSERT INTO pvp_loot_sequences(attacker_id,defender_id,window_started_at,victories,ruleset_id)
     VALUES($1,$2,$3,1,$4) ON CONFLICT(attacker_id,defender_id) DO UPDATE SET
     victories=CASE WHEN pvp_loot_sequences.window_started_at<=$3::timestamptz-($5*interval '1 second') THEN 1 ELSE pvp_loot_sequences.victories+1 END,
     window_started_at=CASE WHEN pvp_loot_sequences.window_started_at<=$3::timestamptz-($5*interval '1 second') THEN $3 ELSE pvp_loot_sequences.window_started_at END,
-    ruleset_id=EXCLUDED.ruleset_id RETURNING victories,window_started_at`,[attackerId,defenderId,now,pvp.id,pvp.loot.windowSeconds])).rows[0]!;
+    ruleset_id=EXCLUDED.ruleset_id RETURNING victories,window_started_at`,[attackerId,defenderId,now,rulesetId,pvp.loot.windowSeconds])).rows[0]!;
   return {victory:Number(row.victories),windowStartedAt:new Date(row.window_started_at).toISOString(),
     resetsAt:new Date(+new Date(row.window_started_at)+pvp.loot.windowSeconds*1000).toISOString()};
 }

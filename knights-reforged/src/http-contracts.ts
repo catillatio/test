@@ -14,11 +14,11 @@ export const navigation = [
 export const templateScreens = ['achievements','quest-equipment','trade-confirm','purchase', 'home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'bounty-new', 'vault', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
 
 export const commandRoutes = [
+  {kind:'heal',html:'/game/health/restore',api:'/api/v1/health/restorations'},
   {kind:'tutorial',html:'/game/tutorial',api:'/api/v1/tutorial'},
   {kind:'vault_deposit',html:'/game/vault/deposit',api:'/api/v1/vault/deposits'},
   {kind:'vault_withdraw',html:'/game/vault/withdraw',api:'/api/v1/vault/withdrawals'},
   { kind: 'quest', html: '/game/quests/:id/run', api: '/api/v1/quests/:id/runs' },
-  { kind: 'recruit', html: '/game/army/recruit', api: '/api/v1/army/recruitments' },
   { kind: 'buy', html: '/game/armory/buy', api: '/api/v1/inventory/purchases' },
   { kind: 'equip', html: '/game/armory/equip', api: '/api/v1/equipment' },
   { kind: 'attack', html: '/game/battle/attack', api: '/api/v1/battles' },

@@ -7,12 +7,14 @@ if(root){
   const text=(selector,value)=>document.querySelectorAll(selector).forEach(element=>{element.textContent=String(value);});
   function apply(state){
     if(!state||!Number.isSafeInteger(state.stateVersion)||state.stateVersion<version||!Number.isFinite(Date.parse(state.serverTime)))return;
-    version=state.stateVersion;serverTime=Date.parse(state.serverTime);synced=performance.now();incomeNext=Date.parse(state.land?.nextPaymentAt||'');
+    version=state.stateVersion;serverTime=Date.parse(state.serverTime);synced=performance.now();incomeNext=Date.parse((state.payment?state.payment.nextAt:state.land?.nextPaymentAt)||'');
     text('[data-wallet-gold]',Number(state.gold).toLocaleString('en'));text('[data-level]',state.level);text('[data-level-xp]',state.levelXp);text('[data-level-required]',state.levelRequirement);
     for(const element of document.querySelectorAll('[data-wallet-gold]'))element.dataset.goldDigits=String(state.gold).length;
-    if(state.economy&&Number.isSafeInteger(state.economy.netHourlyIncome))for(const element of document.querySelectorAll('[data-hourly-net]')){
-      const net=state.economy.netHourlyIncome;element.textContent=(net>0?'+':'')+net.toLocaleString('en')+' gold/hr';element.dataset.flow=net>0?'positive':net<0?'negative':'neutral';
+    if(state.payment){
+      const p=state.payment,element=root.querySelector('[data-payment-gold]');
+      if(element){element.dataset.flow=p.gold>0?'positive':p.gold<0?'negative':'neutral';element.textContent=(p.gold>0?'+':'')+(Math.abs(p.gold)>=1000000?new Intl.NumberFormat('en',{notation:'compact',maximumFractionDigits:1}).format(p.gold):Number(p.gold).toLocaleString('en'));element.classList.toggle('cost',p.gold<0);element.classList.toggle('gold',p.gold>=0);element.title=p.gold.toLocaleString('en')+' gold';}
     }
+    text('[data-xp-remaining]',state.xpToNext);
     const xp=document.querySelector('[data-xp-meter]');if(xp){xp.max=state.levelRequirement;xp.value=state.levelXp;}
     for(const name of ['health','mana','spirit']){
       const maximum=state['max'+name[0].toUpperCase()+name.slice(1)];
@@ -32,7 +34,7 @@ if(root){
     if(inFlight||performance.now()<retryAt)return;
     inFlight=true;retryAt=performance.now()+5000;
     const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),15000);
-    try{const response=await fetch('/api/v1/me',{credentials:'same-origin',cache:'no-store',signal:controller.signal});if(!response.ok)throw new Error('refresh');apply((await response.json()).state);}
+    try{const response=await fetch('/api/v1/me'+(document.querySelector('[data-bounty-count]')?'?bounties=1':''),{credentials:'same-origin',cache:'no-store',signal:controller.signal});if(!response.ok)throw new Error('refresh');const payload=await response.json();document.dispatchEvent(new CustomEvent('realm-state',{detail:payload.state}));if(payload.bounties)for(const count of document.querySelectorAll('[data-bounty-count]')){count.textContent=payload.bounties.count;count.dataset.nextExpiry=payload.bounties.nextExpiryAt||'';}}
     catch{text('[data-connection-status]','Connection interrupted. Your progress stays on the server.');retryAt=performance.now()+15000;}
     finally{clearTimeout(timeout);inFlight=false;}
   }
@@ -44,6 +46,8 @@ if(root){
     }
     const hp=Number(root.querySelector('[data-resource-value="health"]')?.textContent),spirit=Number(root.querySelector('[data-resource-value="spirit"]')?.textContent);
     for(const button of document.querySelectorAll('button[data-attack-ready]'))button.disabled=button.dataset.attackReady!=='true'||hp<20||spirit<1;
+    const paymentTime=root.querySelector('[data-payment-countdown]');if(paymentTime){const seconds=Math.max(0,Math.ceil((incomeNext-now)/1000));paymentTime.textContent=!Number.isFinite(incomeNext)?'No Land':seconds===0?'Checking…':seconds<60?'<1 min':Math.ceil(seconds/60)+' min';}
+    for(const count of document.querySelectorAll('[data-bounty-count]')){const expiry=Date.parse(count.dataset.nextExpiry||'');if(Number.isFinite(expiry)&&now>=expiry)due=true;}
     if(due||(Number.isFinite(incomeNext)&&now>=incomeNext))void refresh();
   }
   document.addEventListener('realm-state',event=>apply(event.detail));

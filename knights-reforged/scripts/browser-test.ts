@@ -87,8 +87,7 @@ try{
   await action(a,ruins.getByRole('button',{name:/Do quest/}));
   assert.equal((await state(a)).loot[0]?.id,'watchtower-map');
 
-  await a.goto(config.origin+'/game/army');await a.getByLabel('Number of recruits').fill('2');
-  await action(a,a.getByRole('button',{name:'Recruit militia',exact:true}));
+  await a.goto(config.origin+'/game/army');assert.equal(await a.getByRole('button',{name:'Recruit militia',exact:true}).count(),0);
   const defender=await state(b);
   await a.getByLabel('Invite using their code').fill(defender.invitationCode);
   await action(a,a.getByRole('button',{name:'Invite Ally',exact:true}));

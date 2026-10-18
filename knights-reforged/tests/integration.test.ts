@@ -104,9 +104,9 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
 
   test('login rotates the session; logout revokes it; CSRF and foreign Origin are rejected', async () => {
     const actor = await player();
-    const rejected = await app.inject({ method: 'POST', url: '/game/army/recruit', headers: { cookie: actor.cookie }, payload: { quantity: 1, unitId: rules.unit.id } });
+    const rejected = await app.inject({ method: 'POST', url: '/game/armory/buy', headers: { cookie: actor.cookie }, payload: { quantity: 1, unitId: rules.unit.id } });
     assert.equal(rejected.statusCode, 403);
-    const badOrigin = await app.inject({ method: 'POST', url: '/api/v1/army/recruitments', headers: {
+    const badOrigin = await app.inject({ method: 'POST', url: '/api/v1/inventory/purchases', headers: {
       cookie: actor.cookie, 'x-csrf-token': actor.csrf, origin: 'https://unrelated.invalid', 'idempotency-key': randomUUID(),
     }, payload: { quantity: 1, unitId: rules.unit.id } });
     assert.equal(badOrigin.statusCode, 403);
@@ -132,7 +132,8 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     assert.ok(reward >= 8 && reward <= 12);
     assert.equal(quest.json().state.gold, rules.startingGold + reward);
     assert.equal(quest.json().state.xp, 4);
-    assert.equal((await command(actor, '/api/v1/army/recruitments', { unitId: rules.unit.id, quantity: 2, price: 0 })).statusCode, 200);
+    // Historical army fixture: existing members survive the removal of paid recruitment.
+    await db.query('UPDATE army_stacks SET quantity=2 WHERE character_id=$1',[actor.id]);
     const buy = await command(actor, '/api/v1/inventory/purchases', { itemId: rules.weapon.id, price: 0 });
     assert.equal(buy.statusCode, 200, buy.body);
     assert.equal((await command(actor, '/api/v1/equipment', { inventoryEntryId: buy.json().inventoryEntryId })).statusCode, 200);
@@ -161,19 +162,19 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     assert.equal(responses[0]!.json().commandId, responses[1]!.json().commandId);
     assert.equal((await me(actor)).gold, rules.startingGold + responses[0]!.json().data.gold);
     assert.equal((await db.query('SELECT count(*)::integer AS n FROM quest_runs WHERE character_id=$1', [actor.id])).rows[0]!.n, 1);
-    const conflict = await command(actor, '/api/v1/army/recruitments', { unitId: rules.unit.id, quantity: 1 }, id);
+    const conflict = await command(actor, '/api/v1/inventory/purchases', { itemId: 'squires-blade', quantity: 1 }, id);
     assert.equal(conflict.statusCode, 409);
     assert.equal(conflict.json().error.code, 'COMMAND_CONFLICT');
   });
 
   test('concurrent spending cannot overdraw the wallet and remains ledger-consistent', async () => {
     const actor = await player();
-    const responses = await Promise.all([command(actor, '/api/v1/army/recruitments', { unitId: rules.unit.id, quantity: 3 }),
-      command(actor, '/api/v1/army/recruitments', { unitId: rules.unit.id, quantity: 3 })]);
+    const responses = await Promise.all([command(actor, '/api/v1/inventory/purchases', { itemId: 'squires-blade', quantity: 8 }),
+      command(actor, '/api/v1/inventory/purchases', { itemId: 'squires-blade', quantity: 8 })]);
     assert.deepEqual(responses.map(r => r.statusCode).sort(), [200, 409]);
     const state = await me(actor);
-    assert.equal(state.units, 3);
-    assert.equal(state.gold, rules.startingGold - 3 * rules.unit.goldCost);
+    assert.equal(state.inventory.find((item:{id:string})=>item.id==='squires-blade').quantity,8);
+    assert.equal(state.gold, rules.startingGold - 40);
     const total = (await db.query('SELECT sum(amount)::integer AS n FROM economy_entries WHERE character_id=$1', [actor.id])).rows[0]!.n;
     assert.equal(total, state.gold);
   });

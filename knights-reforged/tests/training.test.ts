@@ -60,7 +60,7 @@ describe('Persistent combat training and reference-inspired Profile',{skip:!test
   });
   test('zero-Health statistics and illustrated report quantities use persistent records and each viewer’s perspective',async()=>{
     const a=await r.player(),b=await r.player(),outsider=await r.player();await r.prepare(a,5000,650);await r.prepare(b,2000,650);
-    await r.ok(a,'/api/v1/army/recruitments',{unitId:'militia',quantity:20});await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:3});
+    await r.legacyArmy(a,20);await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:3});
     await r.ok(a,'/api/v1/skills',{resource:'attack'});
     await r.db.query('UPDATE characters SET health=20,health_updated_at=clock_timestamp() WHERE id=$1',[b.id]);
     const key=randomUUID(),fight=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id,attack:999999},key);await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key);
@@ -70,7 +70,7 @@ describe('Persistent combat training and reference-inspired Profile',{skip:!test
     await r.ok(a,'/api/v1/inventory/sales',{itemId:'iron-sword',quantity:3});await r.ok(a,'/api/v1/skills',{resource:'attack'});
     for(const [viewer,dealt,received,gold,xp] of [[a,saved.defenderDamage,saved.attackerDamage,'+'+saved.loot,'+'+saved.attackerXp],[b,saved.attackerDamage,saved.defenderDamage,'-'+saved.loot,'+0']] as const){
       const page=await r.app.inject({method:'GET',url:'/game/battles/'+fight.battleId,headers:{cookie:viewer.cookie}});assert.equal(page.statusCode,200,page.body);
-      assert.ok(page.body.includes('Damage dealt</dt><dd>'+dealt));assert.ok(page.body.includes('Damage received</dt><dd>'+received));assert.ok(page.body.includes('>'+gold+'</dd>'));assert.ok(page.body.includes('XP gained</dt><dd>'+xp));
+      assert.ok(page.body.includes('Damage dealt</dt><dd>'+dealt));assert.ok(page.body.includes('Damage received</dt><dd>'+received));assert.ok(page.body.includes('>'+gold+'</dd>'));assert.match(page.body,new RegExp('XP gained</dt><dd[^>]*>\\+(?:<span[^>]*>)?'+xp.slice(1)));
       assert.match(page.body,/×3/);assert.match(page.body,/data-art-atlas="weapons"/);assert.match(page.body,/Your army/);assert.match(page.body,/Their army/);
     }
     const rejected=await r.app.inject({method:'GET',url:'/game/battles/'+fight.battleId,headers:{cookie:outsider.cookie}});assert.equal(rejected.statusCode,404);

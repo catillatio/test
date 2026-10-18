@@ -19,7 +19,6 @@ try {
     if ((await db.query('SELECT id FROM accounts WHERE username=$1', [entry.username])).rows.length) continue;
     const account = await registerAccount(db, { ...entry, password: 'DemoKnights!2026' });
     await executeCommand(db, account.accountId, randomUUID(), 'quest', { questId: rules.quest.id });
-    await executeCommand(db, account.accountId, randomUUID(), 'recruit', { unitId: rules.unit.id, quantity: 2 });
     const item = await executeCommand(db, account.accountId, randomUUID(), 'buy', { itemId: rules.weapon.id });
     await executeCommand(db, account.accountId, randomUUID(), 'equip', { inventoryEntryId: item.inventoryEntryId });
   }

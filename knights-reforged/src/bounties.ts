@@ -118,15 +118,25 @@ export async function claimBounty(sql:Sql,claimantId:string,targetId:string,batt
   await sql.query("INSERT INTO bounty_kills(bounty_id,battle_id,claimant_id,target_id,ruleset_id,source,awarded_at) VALUES($1,$2,$3,$4,$5,'finishing_claim',$6)",[row.id,battleId,claimantId,targetId,pvp.id,now]);
   return {id:row.id as string,reward:row.amount as number,rulesetId:row.ruleset_id as string,claimRulesetId:pvp.id};
 }
+// One visibility rule shared by the board and its lightweight count.
+const visibleBounties=`b.status='active' AND b.expires_at>$1 AND
+ ((d.character_id IS NULL AND NOT a.login_disabled) OR ($2 AND d.active))`;
+export async function activeBountyCount(sql:Sql,now:Date,botTargetsEnabled=false){
+ const row=(await sql.query(`SELECT count(*)::int AS count,min(b.expires_at) AS next_expiry
+  FROM bounties b JOIN characters c ON c.id=b.target_id JOIN accounts a ON a.id=c.account_id
+  LEFT JOIN development_bots d ON d.character_id=c.id WHERE ${visibleBounties}`,[now,botTargetsEnabled])).rows[0]!;
+ return {count:row.count as number,nextExpiryAt:row.next_expiry?new Date(row.next_expiry).toISOString():null};
+}
 export async function bountyBoard(db:Database,characterId:string,botTargetsEnabled=false){
   return transaction(db,async sql=>{
     await lockBountyEscrow(sql);const now=new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now);
     await settleExpiredBounties(sql,now);
-    const active=(await sql.query<BountyRecord>(`SELECT b.*,c.name,c.attained_level AS level,c.profile_class,c.health,c.health_updated_at,c.max_health,c.legacy_army_floor,
+    const active=(await sql.query<BountyRecord>(`SELECT b.*,count(*) OVER()::int AS visible_total,min(b.expires_at) OVER() AS next_expiry,c.name,c.attained_level AS level,c.profile_class,c.health,c.health_updated_at,c.max_health,c.legacy_army_floor,
       (SELECT COALESCE(sum(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
       (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted') AS allies,
       EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS temporary_rival, sponsor.name AS sponsor_name FROM bounties b JOIN characters c ON c.id=b.target_id JOIN characters sponsor ON sponsor.id=b.sponsor_id
-      WHERE b.status='active' AND b.expires_at>$1 ORDER BY b.amount DESC,b.created_at,b.id LIMIT 100`,[now])).rows;
+      JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots d ON d.character_id=c.id
+      WHERE ${visibleBounties} ORDER BY b.amount DESC,b.created_at,b.id LIMIT 100`,[now,botTargetsEnabled])).rows;
     const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name FROM bounties b
       JOIN characters c ON c.id=b.target_id JOIN characters s ON s.id=b.sponsor_id
       WHERE b.sponsor_id=$1 OR b.target_id=$1 OR b.claimant_id=$1 ORDER BY b.created_at DESC,b.id DESC LIMIT 50`,[characterId])).rows;
@@ -137,6 +147,6 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
       return {...row,health,armySize:Math.min(row.temporary_rival?10:Number.MAX_SAFE_INTEGER,activeArmy(row.level,row.units,row.allies,row.legacy_army_floor).participants),
         attackBlockedReason:health===0?'Opponent defeated — 0 Health. Wait for their recovery.':null,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now,undefined,botTargetsEnabled)};
     }));
-    return {active:listings,history,eligible:await qualified(sql,characterId),botTargetsEnabled,serverTime:now.toISOString(),rulesetId:pvp.id};
+    return {active:listings,activeCount:Number(active[0]?.visible_total??0),nextExpiryAt:active[0]?.next_expiry?new Date(active[0].next_expiry).toISOString():null,history,eligible:await qualified(sql,characterId),botTargetsEnabled,serverTime:now.toISOString(),rulesetId:pvp.id};
   });
 }

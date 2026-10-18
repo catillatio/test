@@ -1,0 +1,10 @@
+{
+  "id":"gameplay-refinement-1",
+  "provenance":"Kingdom Come Phase 4.5 reconstruction; not recovered Storm8 formulas. Existing catalogs, balances and attained progression are preserved.",
+  "healing":{"levelsPerGoldPerHealth":10,"policy":"Full restoration costs missing Health times ceil(character level / 10). Natural recovery is settled first; full Health costs zero."},
+  "recruitment":{"goldMilitiaEnabled":false,"legacyMembers":"Retained unchanged; expand through consenting player allies or explicitly enabled development-rival invitations."},
+  "loot":{"percent":3,"maximum":15000,"windowSeconds":86400,"victoryPercentages":[100,75,50,25,10],"botBaseCap":50,"botLevelSquaredPercent":125,"botMaximum":3000},
+  "victoryXp":{"earlyRequirementPercent":5,"earlyThroughLevel":10,"transitionThroughLevel":16,"transitionStepPercent":0.5,"matureStartLevel":17,"matureStartPercent":9,"matureStepPercent":0.375,"maximumRequirementPercent":12,"maximumBase":300,"relativeLevelPercent":10,"minimumLevelPercent":25,"maximumLevelPercent":150,"minimumStrengthRatio":0.35,"maximumStrengthPercent":125,"repeatXp":1,"humanFullVictoriesPerTarget":3,"botFullVictoriesPerTarget":1,"botFullVictoriesPerDay":6,"windowSeconds":86400},
+  "botEconomy":{"automaticWalletGrants":false,"automaticFreeReserves":false,"policy":"Existing positive-net Land portfolios fund ordinary expenses. Once per saved shared hourly boundary, a bot may prepay maintenance using its own purse through the normal maintenance ledger. No wallet refill, Vault withdrawal, new property or equipment grant occurs."},
+  "income":{"policy":"Retain the persistent character-wide 60-minute cycle. All holdings join it; purchases earn their actual eligible time, integer fractions carry forward, and selling settles only earned time once. Upcoming-purse projection subtracts maintenance due from unreserved gold and distinguishes prepaid reserve and retained treasury amounts."}
+}

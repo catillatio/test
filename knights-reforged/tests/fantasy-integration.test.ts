@@ -12,7 +12,7 @@ describe('Fantasy tiers, transactions and persistent progression',{skip:!testDat
   async function tierPlayer(level:number){const p=await r.player('Tier '+level+' Knight');await r.prepare(p,1000000,xpFor(level));return p;}
   test('equipment and properties at levels 1, 10, 20, 30, 40 and 50 are functional, not decorative',async()=>{
     for(const level of [1,10,20,30,40,50]){
-      const p=await tierPlayer(level);await r.ok(p,'/api/v1/army/recruitments',{unitId:'militia',quantity:2});
+      const p=await tierPlayer(level);await r.legacyArmy(p,2);
       const chosen=['weapon','armor','spell'].map(category=>alpha.items.filter(item=>item.category===category&&item.level<=level).sort((a,b)=>b.level-a.level||b.price-a.price)[0]!);
       for(const item of chosen)await r.ok(p,'/api/v1/inventory/purchases',{itemId:item.id,quantity:3});
       const before=await r.me(p);assert.equal(before.level,level);assert.equal(before.army.participants,3);
@@ -36,7 +36,7 @@ describe('Fantasy tiers, transactions and persistent progression',{skip:!testDat
     }
   });
   test('quantity-gated quests buy only missing copies and story loot is earned in a separate action',async()=>{
-    const p=await tierPlayer(14);await r.ok(p,'/api/v1/army/recruitments',{unitId:'militia',quantity:4});
+    const p=await tierPlayer(14);await r.legacyArmy(p,4);
     await r.ok(p,'/api/v1/inventory/purchases',{itemId:'argent-sentinel-plate',quantity:1});
     let rejected=await r.command(p,'/api/v1/quests/stand-argent-gate/runs');assert.equal(rejected.json().error.code,'MISSING_EQUIPMENT');
     const bought=await r.ok(p,'/api/v1/quests/stand-argent-gate/equipment');assert.equal(bought.data.goldSpent,480);assert.equal(bought.state.questsCompleted,0);
@@ -45,7 +45,7 @@ describe('Fantasy tiers, transactions and persistent progression',{skip:!testDat
     const run=await r.ok(p,'/api/v1/quests/stand-argent-gate/runs');assert.equal(run.data.xp,42);assert.ok(run.data.gold>=130&&run.data.gold<=180);assert.equal(run.state.inventory.find((item:{id:string})=>item.id==='argent-sentinel-plate').quantity,2);
   });
   test('the level-50 finale enforces its discovery, equipment, army and Mana requirements and persists rewards',async()=>{
-    const p=await tierPlayer(50);await r.ok(p,'/api/v1/army/recruitments',{unitId:'militia',quantity:17});
+    const p=await tierPlayer(50);await r.legacyArmy(p,17);
     assert.equal((await r.command(p,'/api/v1/quests/defy-eclipsed-sovereign/runs')).json().error.code,'MISSING_EQUIPMENT');
     await r.ok(p,'/api/v1/quests/defy-eclipsed-sovereign/equipment');
     assert.equal((await r.command(p,'/api/v1/quests/defy-eclipsed-sovereign/runs')).json().error.code,'LOOT_REQUIRED');
@@ -95,7 +95,7 @@ describe('Fantasy tiers, transactions and persistent progression',{skip:!testDat
   });
   test('late-game two-player combat records the quantity-limited fantasy equipment actually used',async()=>{
     const a=await tierPlayer(50),b=await tierPlayer(49);
-    for(const player of [a,b])await r.ok(player,'/api/v1/army/recruitments',{unitId:'militia',quantity:20});
+    for(const player of [a,b])await r.legacyArmy(player,20);
     for(const itemId of ['eclipse-greatsword','seraphic-vestment','eclipse-invocation'])await r.ok(a,'/api/v1/inventory/purchases',{itemId,quantity:3});
     for(const itemId of ['astral-conductor','sovereigns-bastion','seraphs-rebuke'])await r.ok(b,'/api/v1/inventory/purchases',{itemId,quantity:4});
     const fight=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id,damage:99999});

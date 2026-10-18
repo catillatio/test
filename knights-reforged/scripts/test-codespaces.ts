@@ -169,7 +169,7 @@ try{
   const sponsor=await fixture('Ash Steward'),target=await fixture('Briar Outlaw'),hunter=await fixture('Crown Hunter',5);
   await executeCommand(db,hunter.accountId,randomUUID(),'skill',{resource:'spirit'});
   await executeCommand(db,hunter.accountId,randomUUID(),'skill',{resource:'spirit'});
-  await executeCommand(db,hunter.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
+  await db.query('UPDATE army_stacks SET quantity=20 WHERE character_id=(SELECT id FROM characters WHERE account_id=$1)',[hunter.accountId]);
   await executeCommand(db,hunter.accountId,randomUUID(),'buy',{itemId:'iron-sword',quantity:20});
   const sponsorPage=await playerPage(sponsor.token);await sponsorPage.goto(config.origin+'/game/players/'+target.characterId);
   const actions=sponsorPage.locator('.profile-actions');assert.equal(await actions.getByRole('button',{name:'Attack',exact:true}).count(),1);
@@ -190,7 +190,7 @@ try{
   assert.match(await hunterPage.locator('body').innerText(),/Bounty claimed!/);
   const claimedId=hunterPage.url().split('/').at(-1)!;
   const claimed=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+claimedId).then(response=>response.json())).battle;
-  assert.equal(claimed.bountyClaim.reward,1000);assert.equal(claimed.loot,5000);assert.equal(claimed.pvpRulesetId,'pvp-economy-0.1');
+  assert.equal(claimed.bountyClaim.reward,1000);assert.equal(claimed.loot,15000);assert.equal(claimed.pvpRulesetId,'gameplay-refinement-1');
   assert.equal((await sponsorPage.request.get(config.origin+'/api/v1/battles/'+claimedId)).status(),404);
   await hunterPage.screenshot({path:join(screenOut,'390-bounty-report.png'),fullPage:true});
   const bot=(await db.query("SELECT c.id,c.name FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=3 AND b.tier='green'")).rows[0]!;
@@ -206,7 +206,7 @@ try{
   await hunterPage.goto(config.origin+'/game/players/'+bot.id);
   await submit(hunterPage,hunterPage.getByRole('button',{name:'Attack',exact:true}));
   const botReport=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+hunterPage.url().split('/').at(-1)).then(r=>r.json())).battle;
-  assert.equal(botReport.temporaryRival,true);assert.equal(botReport.bountyClaim,null);assert.ok(botReport.loot<=50);
+  assert.equal(botReport.temporaryRival,true);assert.equal(botReport.bountyClaim,null);assert.ok(botReport.loot<=61);
   assert.equal(await hunterPage.getByRole('button',{name:'Attack Again',exact:true}).isEnabled(),true);
   await submit(hunterPage,hunterPage.getByRole('button',{name:'Attack Again',exact:true}));
   const botClaim=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+hunterPage.url().split('/').at(-1)).then(r=>r.json())).battle;
@@ -295,7 +295,7 @@ try{
     await marketPage.screenshot({path:join(refinementOut,'390-'+category+'-quantity.png')});
     await submit(marketPage,marketPage.getByRole('button',{name:'Buy '+item.name,exact:true}));
     assert.equal((await marketState()).inventory.find((i:{id:string})=>i.id===item.id).quantity,3);
-    await marketPage.getByText('Buy More',{exact:true}).click();
+    assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');
     await marketPage.getByRole('button',{name:'Increase quantity for '+item.name,exact:true}).click();
     await submit(marketPage,marketPage.getByRole('button',{name:'Buy more '+item.name,exact:true}));
     assert.equal((await marketState()).inventory.find((i:{id:string})=>i.id===item.id).quantity,5);
@@ -306,7 +306,7 @@ try{
   await landControl.getByRole('button',{name:'Increase quantity for Smallholding',exact:true}).click();
   await marketPage.screenshot({path:join(refinementOut,'390-land-quantity.png')});
   await submit(marketPage,marketPage.getByRole('button',{name:'Buy Smallholding',exact:true}));
-  await marketPage.getByText('Buy More',{exact:true}).click();
+  assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');
   await marketPage.getByRole('button',{name:'Increase quantity for Smallholding',exact:true}).click();
   await marketPage.screenshot({path:join(refinementOut,'390-land-buy-more.png')});
   await submit(marketPage,marketPage.getByRole('button',{name:'Buy more Smallholding',exact:true}));
@@ -341,10 +341,10 @@ try{
   await marketPage.locator('.region-picker summary').click();
   assert.equal(await marketPage.locator('.region-picker').evaluate(e=>e.hasAttribute('open')),true);
   await marketPage.screenshot({path:join(refinementOut,'390-quest-regions.png')});
-  await marketPage.getByRole('navigation',{name:'Quest regions'}).getByRole('link',{name:'All Regions Every quest',exact:true}).click();
+  await marketPage.getByRole('navigation',{name:'Quest regions'}).locator('a[href="/game/quests?area=all"]').click();
   assert.match(await marketPage.locator('.region-picker summary').innerText(),/All Regions/);
-  for(const width of [320,360,390,412,1366]){await marketPage.setViewportSize({width,height:844});await marketPage.goto(config.origin+purchaseReceiptPath);await marketPage.getByText('Buy More',{exact:true}).click();assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await marketPage.screenshot({path:join(refinementOut,width+'-buy-more.png')});}
-  // Phase 4.4: native tutorial, missing-equipment purchase, property confirmation,
+  for(const width of [320,360,390,412,1366]){await marketPage.setViewportSize({width,height:844});await marketPage.goto(config.origin+purchaseReceiptPath);assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await marketPage.screenshot({path:join(refinementOut,width+'-buy-more.png')});}
+  // Phase 4.4: native tutorial, missing-equipment purchase, one-tap property buying,
   // first real quest level-up, achievement collection and reduced-motion replay.
   const phase44Out=join(projectRoot,'test-results/phase44-browser');await mkdir(phase44Out,{recursive:true});
   await marketPage.setViewportSize({width:390,height:844});
@@ -373,11 +373,10 @@ try{
   await marketPage.goto(config.origin+'/game/land');const starter=marketPage.locator('[data-land-property="smallholding"]'),buyControl=starter.locator('[data-trade-mode="buy"]');
   await buyControl.getByRole('button',{name:'Select 5 Smallholding',exact:true}).click();assert.equal(await buyControl.locator('input').inputValue(),'5');
   await marketPage.screenshot({path:join(phase44Out,'390-land.png')});
-  const marketGold=(await marketState()).gold;
-  await Promise.all([marketPage.waitForURL(url=>url.pathname==='/game/land/buy'),marketPage.getByRole('button',{name:'Buy Smallholding',exact:true}).click()]);
-  assert.equal((await marketState()).gold,marketGold);assert.equal(await marketPage.locator('[data-trade-confirm]').count(),1);
-  await marketPage.screenshot({path:join(phase44Out,'390-land-confirmation.png')});
-  await submit(marketPage,marketPage.getByRole('button',{name:'Confirm purchase',exact:true}));await marketPage.getByText('Buy More',{exact:true}).click();
+  const marketGold=(await marketState()).gold,ownedBefore=(await marketState()).land.properties[0].owned;
+  await submit(marketPage,marketPage.getByRole('button',{name:'Buy Smallholding',exact:true}));
+  assert.ok((await marketState()).gold<marketGold);assert.equal((await marketState()).land.properties[0].owned,ownedBefore+5);
+  assert.equal(await marketPage.locator('[data-trade-confirm]').count(),0);assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');
   await marketPage.screenshot({path:join(phase44Out,'390-buy-more.png')});
   const winning=(await db.query("SELECT id FROM battles WHERE attacker_id=$1 AND outcome='attacker_win' ORDER BY created_at DESC LIMIT 1",[hunter.characterId])).rows[0]!.id;
   const victoryUrl=config.origin+'/game/battles/'+winning;
@@ -401,7 +400,7 @@ try{
   await apprentice.goto(config.origin+'/game/home');await submit(apprentice,apprentice.getByRole('button',{name:'Skip guide',exact:true}));
   await apprentice.reload();assert.equal(await apprentice.locator('.tutorial-panel').count(),0);
   await writeFile(join(phase44Out,'summary.json'),JSON.stringify({passed:true,widths:phase44Widths,responsiveVisits:phase44Widths.length*6,reducedMotion:true,celebrationReplay:true,missingEquipmentNativeFlow:true,propertyConfirmation:true,tutorialSkipPersistent:true,liveProviderContacted:false},null,2));
-  const legend=await fixture('Fable Keeper',50);await executeCommand(db,legend.accountId,randomUUID(),'recruit',{unitId:'militia',quantity:20});
+  const legend=await fixture('Fable Keeper',50);await db.query('UPDATE army_stacks SET quantity=20 WHERE character_id=(SELECT id FROM characters WHERE account_id=$1)',[legend.accountId]);
   for(const itemId of ['eclipse-greatsword','eclipse-citadel-plate','eclipse-invocation'])await executeCommand(db,legend.accountId,randomUUID(),'buy',{itemId,quantity:5});
   await executeCommand(db,legend.accountId,randomUUID(),'land_buy',{propertyId:'eclipse-citadel',quantity:1});
   const elder=(await db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite'")).rows[0]!;
@@ -453,7 +452,7 @@ try{
   const settled=legendPage.waitForResponse(r=>r.url().endsWith('/api/v1/land')&&r.ok());
   await legendPage.clock.fastForward(3601000);const settlement=await (await settled).json();
   await legendPage.waitForFunction(previous=>Number(document.querySelector('[data-wallet-gold]')?.textContent?.replaceAll(',',''))>previous,goldBefore);
-  assert.equal(Number((await legendPage.locator('[data-wallet-gold]').innerText()).replaceAll(',','')),settlement.gold);
+  assert.equal(Number((await legendPage.locator('[data-wallet-gold]').first().innerText()).replaceAll(',','')),settlement.gold);
   assert.equal(await legendPage.getByRole('link',{name:'Refresh income',exact:true}).count(),0);
   await legendPage.clock.resume();
   await legendPage.goto(config.origin+'/game/home');await legendPage.keyboard.press('Tab');
@@ -468,6 +467,53 @@ try{
   await submit(noScriptPage,noScriptPage.getByRole('button',{name:'Post Comment',exact:true}));
   assert.match(await noScriptPage.locator('body').innerText(),/handwritten note without scripts/);
   await noScriptPage.screenshot({path:join(phase4Out,'390-comments.png'),fullPage:true});await noScript.close();
+  // Phase 4.5: immediate contextual healing, server-derived next payment,
+  // one-tap purchases, interrupted-action replay and all four compact panels.
+  const phase45Out=join(projectRoot,'test-results/phase45-browser');await mkdir(phase45Out,{recursive:true});
+  await db.query('UPDATE characters SET health=42,health_updated_at=clock_timestamp() WHERE id=$1',[merchant.characterId]);
+  await marketPage.setViewportSize({width:390,height:844});await marketPage.goto(config.origin+'/game/home');
+  await marketPage.getByLabel('Restore Health with gold',{exact:true}).click();
+  assert.equal(await marketPage.locator('[data-heal-form] button').isEnabled(),true);
+  await marketPage.screenshot({path:join(phase45Out,'390-healing.png')});
+  const beforeHeal=await marketState(),originalUrl=marketPage.url();
+  const healed=marketPage.waitForResponse(r=>r.url().endsWith('/api/v1/health/restorations')&&r.ok());
+  await marketPage.getByRole('button',{name:'Heal Now',exact:true}).click();const healResult=await (await healed).json();
+  await marketPage.waitForFunction(()=>document.querySelector('[data-heal-message]')?.textContent?.includes('restored'));
+  assert.equal(marketPage.url(),originalUrl);assert.equal(healResult.data.cost,beforeHeal.healing.cost);
+  assert.equal((await marketState()).gold,beforeHeal.gold-beforeHeal.healing.cost);assert.equal((await marketState()).health,beforeHeal.maxHealth);
+  assert.equal(await marketPage.getByRole('button',{name:'Heal Now',exact:true}).isDisabled(),true);
+  await marketPage.getByLabel('Upcoming income breakdown',{exact:true}).click();
+  assert.ok((await marketPage.locator('[data-payment-countdown]').innerText()).includes('min'));
+  assert.equal(await marketPage.locator('.health[open]').count(),0);
+  await marketPage.screenshot({path:join(phase45Out,'390-income.png')});
+  for(const width of phase44Widths){
+    await marketPage.setViewportSize({width,height:844});await marketPage.goto(config.origin+'/game/home');
+    for(const label of ['Restore Health with gold','Upcoming income breakdown','Mana recovery details','Spirit recovery details','Experience and next unlocks']){
+      await marketPage.getByLabel(label,{exact:true}).click();
+      assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+' '+label);
+      const box=await marketPage.locator('.status-disclosure[open] .status-panel').boundingBox();assert.ok(box&&box.x>=0&&box.x+box.width<=width+1,width+' panel');
+      await marketPage.keyboard.press('Escape');assert.equal(await marketPage.locator('.status-disclosure[open]').count(),0);
+    }
+    await marketPage.goto(config.origin+purchaseReceiptPath);assert.equal(await marketPage.locator('details.buy-more').getAttribute('open'),'');
+    assert.ok(await marketPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+    await marketPage.screenshot({path:join(phase45Out,width+'-buy-more.png')});
+  }
+  await db.query('UPDATE characters SET health=55,health_updated_at=clock_timestamp() WHERE id=$1',[merchant.characterId]);
+  await marketPage.goto(config.origin+'/game/home');await marketPage.getByLabel('Restore Health with gold',{exact:true}).click();
+  const interruptedBefore=await marketState();let lost=false;
+  await marketPage.route('**/api/v1/health/restorations',async route=>{if(!lost){lost=true;await route.fetch();await route.abort('failed');}else await route.continue();});
+  await marketPage.getByRole('button',{name:'Heal Now',exact:true}).click();await marketPage.getByRole('button',{name:'Retry safely',exact:true}).waitFor();
+  await marketPage.reload();await marketPage.getByLabel('Restore Health with gold',{exact:true}).click();
+  const retryHeal=marketPage.waitForResponse(r=>r.url().endsWith('/api/v1/health/restorations')&&r.ok());await marketPage.getByRole('button',{name:'Retry safely',exact:true}).click();await retryHeal;
+  assert.equal((await marketState()).gold,interruptedBefore.gold-interruptedBefore.healing.cost);await marketPage.unroute('**/api/v1/health/restorations');
+  await marketPage.setViewportSize({width:390,height:844});await marketPage.goto(config.origin+'/game/land');await marketPage.screenshot({path:join(phase45Out,'390-land.png')});
+  await hunterPage.setViewportSize({width:390,height:844});await hunterPage.goto(victoryUrl);await hunterPage.screenshot({path:join(phase45Out,'390-victory.png')});
+  await apprentice.setViewportSize({width:390,height:844});await apprentice.goto(levelUpUrl);await apprentice.screenshot({path:join(phase45Out,'390-level-up.png')});
+  await apprentice.goto(config.origin+'/game/quests');await submit(apprentice,apprentice.getByRole('button',{name:'Do quest Patrol the border',exact:true}));
+  await apprentice.screenshot({path:join(phase45Out,'390-quest-reward.png')});
+  const balanceAfterQuest=(await apprenticeState()).gold;await apprentice.reload();assert.equal((await apprenticeState()).gold,balanceAfterQuest);assert.equal(await apprentice.locator('.quest-result.is-celebrating').count(),0);
+  await marketPage.goto(config.origin+'/game/battle');assert.match(await marketPage.locator('[aria-label="Battle categories"]').innerText(),/Bounty List \(\d+\)/);
+  assert.equal(await marketPage.getByRole('button',{name:'Recruit militia',exact:true}).count(),0);
   assert.ok(observed.length>=16);
   observed.forEach(request=>{assert.equal(request.browserOrigin,config.origin);assert.equal(request.refererOrigin,config.origin);assert.equal(request.fetchSite,'same-origin');});
   for(const upstream of ['http://localhost:3001','https://localhost:3001',config.origin])assert.ok(observed.some(request=>request.upstreamOrigin===upstream),upstream);
@@ -475,13 +521,13 @@ try{
   const out=join(projectRoot,'test-results/codespaces-https');await mkdir(out,{recursive:true});await page.screenshot({path:join(out,'phone-quest-success.png'),fullPage:true});
   const summary={passed:true,fixture:'Real local TLS reverse proxy, Codespaces port 3001 origin rewriting and HTTP backend',live_provider_contacted:false,
     configured_origin:config.origin,origin_source:config.originSource,secure_cookies:config.secureCookies,
-    native_browser_registration:true,observed_post_headers:observed,phase44:{all_regions:true,persistent_guide:true,missing_equipment_native_flow:true,land_quantity_presets:true,single_use_confirmation:true,real_quest_level_up:true,achievements:true,celebration_replay:true,reduced_motion:true,viewports:phase44Widths,responsiveVisits:48},
+    native_browser_registration:true,observed_post_headers:observed,phase45:{healing:true,immediate_health_update:true,no_charge_full_health:true,interrupted_heal_same_id:true,upcoming_income:true,context_panels:true,one_tap_purchases:true,buy_more_open:true,no_paid_militia:true,bounty_count:true,fast_celebrations:true,reduced_motion:true,viewports:phase44Widths,panelChecks:40,purchaseLayouts:8},phase44:{all_regions:true,persistent_guide:true,missing_equipment_native_flow:true,land_quantity_presets:true,one_tap_marketplace:true,real_quest_level_up:true,achievements:true,celebration_replay:true,reduced_motion:true,viewports:phase44Widths,responsiveVisits:48},
     calling_change:true,escrow_bounty_placement_and_claim:true,private_bounty_report:true,passive_bot_combat:true,
     mobile_widths:widths,simplified_land_art:true,phase43:{quantity_steppers:true,keyboard_free:true,buy_more_equipment_and_land:true,private_persistent_receipts:true,profile_bot_recruitment:true,profile_real_player_recruitment_and_acceptance:true,shared_hourly_payment:true,next_timer_full_hour:true,region_selector:true,home_bounty_removed:true,purchase_receipt_viewports:[320,360,390,412,1366]},phase42:{bot_bounty_native_flow:true,bot_finishing_claim_keeps_reward_cap:true,vault_native_deposit_and_withdraw:true,prominent_profile_actions:true,native_comments:true,safe_text:true,native_reporting:true,native_broadcasts:true,native_code_invitation_and_acceptance:true,native_attack_again_to_zero:true,public_profile_links:true,viewports:widths,screensPerViewport:25,screenshots:'test-results/phase43-browser',home_only_land:true,no_combat_cooldown:true,public_tales:true,active_quest_repeat:true,automatic_income_settlement:true,defeat_indicator:true,accessibility:'Named controls, native form labels, five-tab navigation, overflow and image checks; keyboard skip-link and native comment form with JavaScript disabled also passed'},
     existing_accounts_preserved:true,pre_fix_non_secure_cookie_still_authenticates_over_https:true,secure_http_only_cookie:true,session_rotation_and_logout:true,forged_origin_and_forwarded_headers_rejected:true,invalid_csrf_rejected:true,
     form_actions:['Registration','Quest','Equipment purchase','Land purchase','Land sale','PvP','Sign out','Sign in','Quest after rotated login','Attack skill allocation'],browser_errors:errors.length};
   await writeFile(join(out,'summary.json'),JSON.stringify(summary,null,2)+'\n');
-  console.log('PASS: Phase 4.4 tutorial, All Regions filter, missing-equipment purchase then explicit quest, Land quantity presets/confirmation/Buy More, real quest level-up, victory, achievements, replay suppression and reduced motion pass at eight widths (48 new responsive visits), alongside 150 existing responsive visits and five receipt layouts. Registration and gameplay pass through the real Codespaces-shaped HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/phase44-browser/.');
+  console.log('PASS: Phase 4.5 contextual gold healing, interrupted receipt replay, income countdown/breakdown, one-tap purchases and eight-width panels; Phase 4.4 tutorial, All Regions filter, missing-equipment purchase then explicit quest, Land quantity presets/confirmation/Buy More, real quest level-up, victory, achievements, replay suppression and reduced motion pass at eight widths (48 new responsive visits), alongside 150 existing responsive visits and five receipt layouts. Registration and gameplay pass through the real Codespaces-shaped HTTPS fixture. Secure cookies, CSRF, strict Origin validation and private reports remain enforced. Screenshots: test-results/phase45-browser/.');
 }finally{
   await browser?.close();for(const socket of sockets)socket.destroy();
   if(tunnel)await new Promise<void>(resolve=>tunnel!.close(()=>resolve()));if(proxy)await new Promise<void>(resolve=>proxy!.close(()=>resolve()));

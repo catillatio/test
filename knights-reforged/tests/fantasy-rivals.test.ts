@@ -65,7 +65,7 @@ test('persistent rival estates, real saved costs, income and protected wealth su
   }finally{await r.close();}
 });
 
-test('daily rival preparation settles real offline Land and maintenance before any synthetic allowance, without touching banked savings',{skip:!testDatabaseUrl},async()=>{
+test('rival preparation settles real offline income and self-funded upkeep without synthetic refills or touching savings',{skip:!testDatabaseUrl},async()=>{
   let now=new Date('2043-03-01T00:00:00Z');
   const r=await realm({isolated:true,developmentBotsEnabled:true,clock:()=>now});try{
     await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});const human=await r.player('Land Auditor');
@@ -75,11 +75,13 @@ test('daily rival preparation settles real offline Land and maintenance before a
     const fight=await r.ok(human,'/api/v1/battles',{targetCharacterId:bot.id});
     const saved=(await r.db.query('SELECT snapshot,result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!;
     assert.equal(saved.result.outcome,'defender_win');assert.equal(saved.result.loot,0);
-    assert.equal(saved.snapshot.defender.gold,before.gold+24*(before.economy.grossHourlyIncome-before.economy.propertyUpkeep));
+    const funding=(await r.db.query('SELECT sum(gold_charged)::int AS gold FROM bot_finance_events WHERE character_id=$1',[bot.id])).rows[0]!.gold;
+    assert.equal(saved.snapshot.defender.gold,before.gold+24*(before.economy.grossHourlyIncome-before.economy.propertyUpkeep)-funding);
     assert.equal(saved.snapshot.defender.bankedGold,before.bankedGold);
     const charge=(await r.db.query("SELECT sum(charged_gold)::text AS amount FROM maintenance_events WHERE character_id=$1 AND reason='accrual'",[bot.id])).rows[0]!.amount;
     assert.equal(BigInt(charge),BigInt(24*before.economy.equipmentUpkeep));
-    const refill=(await r.db.query("SELECT details FROM development_bot_events WHERE character_id=$1 AND kind='refresh'",[bot.id])).rows[0]!.details;
-    assert.equal(refill.goldAdded,0);assert.equal(refill.maintenanceReserveAdded,24*before.economy.equipmentUpkeep);
+    assert.equal((await r.db.query("SELECT count(*)::int AS n FROM development_bot_events WHERE character_id=$1 AND kind='refresh'",[bot.id])).rows[0]!.n,0);
+    const after=await getState(r.db,bot.account_id);assert.equal((await getState(r.db,bot.account_id)).gold,after.gold);
+    assert.equal((await r.db.query('SELECT count(*)::int AS n FROM bot_finance_events WHERE character_id=$1',[bot.id])).rows[0]!.n,1);
   }finally{await r.close();}
 });

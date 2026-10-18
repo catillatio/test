@@ -14,7 +14,7 @@ try {
   if(config.privateAlpha&&!process.env.KINGDOM_RESTORE_TEST_DATABASE){
     const exists=(await db.query("SELECT to_regclass('schema_migrations') AS installed")).rows[0].installed;
     if(exists){const versions=(await db.query('SELECT name FROM schema_migrations')).rows.map(row=>row.name);
-      if(versions.includes('015_private_alpha_initialization.sql')&&!versions.includes('017_security_and_operator_grants.sql'))throw new Error('First live Phase 4.4 upgrade requires a verified restored backup. Set KINGDOM_RESTORE_TEST_DATABASE to the separately restored *_restore_test database. No migration was applied.');
+      if(versions.includes('015_private_alpha_initialization.sql')&&!versions.includes('018_gameplay_refinement.sql'))throw new Error('First live Phase 4.5 upgrade requires a verified restored backup. Set KINGDOM_RESTORE_TEST_DATABASE to the separately restored *_restore_test database. No migration was applied.');
     }
   }
   await migrate(db);

@@ -67,7 +67,7 @@ test('bounty boards disable a defeated target, recover accurately, and still pay
   const r=await setup();try{
     const sponsor=await r.player(),target=await r.player(),hunter=await r.player();
     for(const player of [sponsor,target,hunter]){await r.prepare(player,10000,30);for(let i=0;i<5;i++)await r.ok(player,'/api/v1/quests/border-patrol/runs');}
-    await r.ok(hunter,'/api/v1/army/recruitments',{unitId:'militia',quantity:20});await r.ok(hunter,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:20});
+    await r.legacyArmy(hunter,20);await r.ok(hunter,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:20});
     const contract=await r.ok(sponsor,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1000});
     await r.db.query('UPDATE characters SET health=0,health_updated_at=$2 WHERE id=$1',[target.id,r.now()]);
     const board=await bountyBoard(r.db,hunter.id);assert.match(board.active[0]!.attackBlockedReason!,/Opponent defeated/);assert.equal(board.active[0]!.claimBlockedReason,null);

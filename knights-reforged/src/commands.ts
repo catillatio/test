@@ -1,6 +1,8 @@
 import { createHash,randomInt,randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { type Database,transaction } from './db.js';
+import {restoreHealth} from './healing.js';
+import {gameplay,victoryExperience45,victoryLoot45} from './gameplay-rules.js';
 import {validateTradeQuote} from './trade.js';
 import {syncExperience,tutorialAction,levelCelebration} from './experience.js';
 import { GameError } from './errors.js';
@@ -16,7 +18,7 @@ import {strategy} from './strategy-rules.js';
 import {prepareBot} from './development.js';
 import {community} from './community-rules.js';
 import {refinements} from './refinement-rules.js';
-import {victoryExperience,progressionEconomy} from './progression-economy-rules.js';
+import {progressionEconomy} from './progression-economy-rules.js';
 import {pvp,victoryLoot} from './pvp-rules.js';
 import {recordVictory,vaultTransfer} from './pvp-economy.js';
 import {postMessage,reportMessage,removeMessage,armyEvent,validateInvitation} from './community.js';
@@ -26,6 +28,7 @@ const uuid=z.string().uuid().transform(value=>value.toLowerCase());
 const id=z.string().min(1).max(64).regex(/^[a-z0-9-]+$/);
 const quantity=(max:number)=>z.union([z.number().int().min(1).max(max),z.string().max(16).regex(/^[1-9][0-9]*$/).transform(Number).pipe(z.number().int().min(1).max(max))]);
 const intents={
+  heal:z.object({maxCost:z.coerce.number().int().min(0).max(2147483647).optional()}),
   tutorial:z.object({action:z.enum(['start','skip'])}),
   quest:z.object({questId:id}),
   recruit:z.object({unitId:z.literal(rules.unit.id),quantity:quantity(alpha.limits.mercenaries)}),
@@ -73,6 +76,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       if (!old.result) throw new GameError('COMMAND_PENDING','The action is still processing.',409);
       return old.result as CommandResult;
     }
+    if(kind==='recruit')throw new GameError('GOLD_RECRUITMENT_REMOVED','Invite allies through Recruit or a player profile. Existing army members are preserved.',410);
     const actorId=(await sql.query('SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.account_id=$1 AND NOT a.login_disabled AND NOT EXISTS(SELECT 1 FROM development_bots b WHERE b.character_id=c.id)',[accountId])).rows[0]?.id as string|undefined;
     if (!actorId) throw new GameError('CHARACTER_NOT_FOUND','Your character was not found.',404);
     const membership=kind==='invite'||kind==='invite_code'||kind==='accept'||kind==='reject'||kind==='remove';
@@ -108,7 +112,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     await syncExperience(sql,actorId,now);
     const result:CommandResult={commandId:key,kind,message:''};
 
-    if(kind==='tutorial'){await tutorialAction(sql,actorId,intent.action as string,now);result.message=intent.action==='skip'?'Quick guide skipped. You can resume it in Profile.':'Your short adventure guide is ready.';}else if(kind==='vault_deposit'||kind==='vault_withdraw'){
+    if(kind==='heal'){result.data=await restoreHealth(sql,actor,state.gold,key,now,intent.maxCost as number|undefined);result.message=result.data.missing?'Health restored to maximum for '+result.data.cost+' gold.':'Your Health is already full. No gold was charged.';}else if(kind==='tutorial'){await tutorialAction(sql,actorId,intent.action as string,now);result.message=intent.action==='skip'?'Quick guide skipped. You can resume it in Profile.':'Your short adventure guide is ready.';}else if(kind==='vault_deposit'||kind==='vault_withdraw'){
       result.data=await vaultTransfer(sql,actorId,intent.amount as number,kind==='vault_deposit',key,now);
       result.message=String(intent.amount)+' gold '+(kind==='vault_deposit'?'deposited in your protected Vault.':'withdrawn into your unbanked purse.');
     }else if(kind==='comment'||kind==='broadcast'){
@@ -150,12 +154,6 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         const milestones=await awardMilestones(sql,actorId);
         result.data={...details,milestones};result.message='Quest complete: '+gold+' gold, '+progression.xpAwarded+' XP; '+quest.mana+' Mana used.'+(progression.gained?' Level '+progression.level+' reached!':'')+(lootName?' Loot: '+lootName+'.':'');
       }
-    } else if (kind==='recruit') {
-      const n=intent.quantity as number;
-      if (state.units+n>alpha.limits.mercenaries) throw new GameError('ARMY_FULL','You can retain at most '+alpha.limits.mercenaries+' militia.',409);
-      await ledger(sql,key,'recruitment',[{characterId:actorId,amount:-n*rules.unit.goldCost}],alpha.id);
-      await sql.query('UPDATE army_stacks SET quantity=quantity+$3 WHERE character_id=$1 AND unit_definition_id=$2',[actorId,rules.unit.id,n]);
-      result.message=n+' militia joined. Allies and mercenaries share your active army limit.';
     } else if (kind==='buy') {
       const purchase=await purchaseItems(sql,actorId,actor.attained_level,{[intent.itemId as string]:intent.quantity as number},key,now);
       result.inventoryEntryId=purchase.acquired[intent.itemId as string];await refreshMaintenance(sql,actorId,key,now);
@@ -247,30 +245,30 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       }
       const variation=alpha.combat.variation;
       const combat=resolveAlphaCombat(state,targetState,randomInt(-variation,variation+1),randomInt(-variation,variation+1),rewarded);
-      const sequence=combat.outcome==='attacker_win'?await recordVictory(sql,actorId,target.id,now):null;
-      const lootDetails=sequence?{...victoryLoot(targetState.gold,sequence.victory,targetIsBot,rewarded),...sequence}:null;
+      const sequence=combat.outcome==='attacker_win'?await recordVictory(sql,actorId,target.id,now,gameplay.id):null;
+      const lootDetails=sequence?{...victoryLoot45(targetState.gold,sequence.victory,targetIsBot,rewarded,target.attained_level),...sequence}:null;
       // Damage remains alpha-0.3. Only attacking victories transfer carried
       // gold; defensive wins never remove gold from the attacker. XP still
       // obeys the existing anti-farming budget independently of human loot.
       combat.loot=lootDetails?.amount??0;
-      const xpDetails=combat.outcome==='attacker_win'?victoryExperience(actor.attained_level,target.attained_level,rewarded):null;
+      const xpDetails=combat.outcome==='attacker_win'?victoryExperience45(actor.attained_level,target.attained_level,rewarded,state.attack,targetState.defense):null;
       combat.attackerXp=xpDetails?.amount??0;
       const winnerId=combat.outcome==='attacker_win'?actorId:target.id;
       if (combat.loot) {
-        await ledger(sql,key,'battle_loot',[{characterId:target.id,amount:-combat.loot}],pvp.id);
-        await creditGold(sql,actorId,BigInt(combat.loot),key,'battle_loot',pvp.id);
+        await ledger(sql,key,'battle_loot',[{characterId:target.id,amount:-combat.loot}],gameplay.id);
+        await creditGold(sql,actorId,BigInt(combat.loot),key,'battle_loot',gameplay.id);
       }
       await sql.query(`UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,
         spirit=spirit-$4,spirit_updated_at=CASE WHEN spirit=max_spirit THEN $3 ELSE spirit_updated_at END,attack_ready_at=$5 WHERE id=$1`,
         [actorId,combat.attackerHealthAfter,now,alpha.combat.spiritCost,now]);
       await sql.query('UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,state_version=state_version+1 WHERE id=$1',[target.id,combat.defenderHealthAfter,now]);
       const progression=await grantExperience(sql,actorId,combat.attackerXp,now);
-      let defenderXpDetails:ReturnType<typeof victoryExperience>|null=null;
+      let defenderXpDetails:ReturnType<typeof victoryExperience45>|null=null;
       let defenderProgression:{xpAwarded:number;gained:number;level:number}|null=null;
       if(combat.outcome==='defender_win'&&!targetIsBot){
         const fullWins=(await sql.query(`SELECT count(*)::int AS n FROM battles WHERE defender_id=$1 AND attacker_id=$2
           AND outcome='defender_win' AND result->'defenderFullXp'='true'::jsonb AND created_at>$3`,[target.id,actorId,new Date(+now-86400000)])).rows[0]!.n;
-        defenderXpDetails=victoryExperience(target.attained_level,actor.attained_level,fullWins<progressionEconomy.victoryXp.humanFullVictoriesPerTarget);
+        defenderXpDetails=victoryExperience45(target.attained_level,actor.attained_level,fullWins<gameplay.victoryXp.humanFullVictoriesPerTarget,targetState.defense,state.attack);
         // Defense must never refill Health on a knockout or reset combat costs.
         defenderProgression=await grantExperience(sql,target.id,defenderXpDetails.amount,now,false);
       }
@@ -282,7 +280,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         defenderXp:defenderProgression?.xpAwarded??0,defenderXpDetails,defenderFullXp:defenderXpDetails?!defenderXpDetails.reduced:false,defenderLevelGained:defenderProgression?.gained??0,defenderLevelAfter:defenderProgression?.level??target.attained_level,attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        progressionRulesetId:progressionEconomy.id,xpDetails,pvpRulesetId:pvp.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        commandId:key,victoryStyle:combat.outcome==='attacker_win'?(combat.attackPower>=combat.defensePower*1.5?'decisive':'hard-fought'):'defeat',progressionRulesetId:gameplay.id,xpDetails,pvpRulesetId:gameplay.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       if(combat.defenderHealthAfter===0){

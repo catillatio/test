@@ -11,6 +11,7 @@ import {migrate} from '../src/migrate.js';
 import {executeCommand} from '../src/commands.js';
 import {loadConfig} from '../src/config.js';
 import {createApp} from '../src/app.js';
+import {victoryExperience45,victoryLoot45} from '../src/gameplay-rules.js';
 import {victoryExperience} from '../src/progression-economy-rules.js';
 import {alpha,levelRequirement} from '../src/alpha-rules.js';
 
@@ -79,7 +80,7 @@ test('450 passive rivals span levels 1–50 with real quantity-limited equipment
     const p=await r.player();const page=await r.app.inject({method:'GET',url:'/game/battle',headers:{cookie:p.cookie}});assert.match(page.body,/Temporary rival/);
     for(const level of [1,10,20,30,40,50]){
       const player=await r.player('Tier Hunter '+level);await r.prepare(player,1000000,Array.from({length:level-1},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0));
-      await r.ok(player,'/api/v1/army/recruitments',{unitId:'militia',quantity:20});
+      await r.legacyArmy(player,20);
       for(const category of ['weapon','armor','spell']){
         const item=alpha.items.filter(item=>item.category===category&&item.level<=level).sort((a,b)=>b.attack-a.attack||b.defense-a.defense)[0]!;
         await r.ok(player,'/api/v1/inventory/purchases',{itemId:item.id,quantity:21});
@@ -88,7 +89,7 @@ test('450 passive rivals span levels 1–50 with real quantity-limited equipment
       const before=await r.me(player);const fight=await r.ok(player,'/api/v1/battles',{targetCharacterId:opponent.character_id});
       const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.result;
       assert.equal(report.outcome,'attacker_win');assert.equal(report.attackPower,Math.round(before.attack*(100+report.attackRoll)));assert.equal(report.botPopulationVersion,botCatalog.id);
-      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=50);assert.equal(report.attackerXp,victoryExperience(level,level).amount);
+      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=victoryLoot45(1000000,1,true,true,level).botCap!);const snap=(await r.db.query('SELECT snapshot FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.snapshot;assert.equal(report.attackerXp,victoryExperience45(level,level,true,before.attack,snap.defender.defense).amount);
     }
     const unprepared=await r.player('Unprepared Challenger');await r.prepare(unprepared,1000,Array.from({length:49},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0));
     const elite=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite' AND b.variant=0")).rows[0]!;
@@ -111,7 +112,7 @@ test('bot reward limits, disabled availability, replay and passive behavior use 
   let now=new Date('2031-01-01T00:00:00Z');const r=await realm({isolated:true,clock:()=>now,developmentBotsEnabled:true});
   try{
     await provisionBots(r.db,enabled);const p=await r.player();await r.prepare(p,5000,30);
-    await r.ok(p,'/api/v1/army/recruitments',{unitId:'militia',quantity:10});await r.ok(p,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:10});
+    await r.legacyArmy(p,10);await r.ok(p,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:10});
     const bots=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level BETWEEN 1 AND 4 ORDER BY c.attained_level,b.tier")).rows;
     for(let i=0;i<7;i++){
       now=new Date(+now+130000);const key=randomUUID();

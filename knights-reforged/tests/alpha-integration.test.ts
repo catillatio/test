@@ -42,7 +42,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
 
   test('quantity purchases preserve entry IDs, auto-select only available copies, and sales use actual FIFO costs',async()=>{
     const p=await r.player();await r.prepare(p,200);
-    await r.ok(p,'/api/v1/army/recruitments',{unitId:'militia',quantity:2});
+    await r.legacyArmy(p,2);
     const purchase=await r.ok(p,'/api/v1/inventory/purchases',{itemId:'ash-spear',quantity:'2',price:0,attack:99999});
     const id=purchase.inventoryEntryId;
     const second=await r.ok(p,'/api/v1/inventory/purchases',{itemId:'ash-spear',quantity:1});assert.equal(second.inventoryEntryId,id);
@@ -161,7 +161,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     assert.equal(found.data.loot,'Watchtower Map');assert.equal(found.state.loot.length,1);
     await r.ok(p,'/api/v1/quests/search-ruins/runs',{},key);assert.equal((await r.me(p)).loot.length,1);
     assert.equal((await r.command(p,'/api/v1/quests/take-watchtower/runs')).json().error.code,'ARMY_REQUIRED');
-    await r.ok(p,'/api/v1/army/recruitments',{unitId:'militia',quantity:1});await r.ok(p,'/api/v1/quests/take-watchtower/runs');
+    await r.legacyArmy(p,1);await r.ok(p,'/api/v1/quests/take-watchtower/runs');
     for(let i=0;i<9;i++)await r.ok(p,'/api/v1/quests/border-patrol/runs');
     assert.equal((await r.db.query("SELECT count(*)::int AS n FROM progression_awards WHERE character_id=$1 AND award_id='quests-10'",[p.id])).rows[0]!.n,1);
     assert.equal((await r.me(p)).loot.length,1);
@@ -204,7 +204,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     assert.equal((await r.command(outsider,'/api/v1/army/acceptances',{targetCharacterId:a.id})).statusCode,403);
     await r.ok(b,'/api/v1/army/acceptances',{targetCharacterId:a.id});
     assert.equal((await r.me(a)).army.participants,2);assert.equal((await r.me(b)).army.participants,2);
-    await r.ok(a,'/api/v1/army/recruitments',{unitId:'militia',quantity:3});
+    await r.legacyArmy(a,3);
     assert.equal((await r.me(a)).army.participants,3);assert.equal((await r.me(a)).army.total,5);
     await r.ok(a,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:2});assert.equal((await r.me(b)).inventory.length,0);
     await r.ok(b,'/api/v1/army/removals',{targetCharacterId:a.id});assert.equal((await r.me(a)).army.allies,0);assert.equal((await r.me(b)).army.participants,1);
@@ -221,7 +221,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
 
   test('combat spends Spirit, snapshots selected quantities, prevents repeated-reward farming and keeps reports private',async()=>{
     const a=await r.player('Attacking Knight'),b=await r.player('Defending Knight'),c=await r.player();
-    await r.prepare(a,200);await r.ok(a,'/api/v1/army/recruitments',{unitId:'militia',quantity:2});
+    await r.prepare(a,200);await r.legacyArmy(a,2);
     await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:2});
     await r.ok(a,'/api/v1/inventory/purchases',{itemId:'ash-spear',quantity:2});
     const original=await r.me(a);let last='';
@@ -277,7 +277,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     await r.ok(a,'/api/v1/quests/clear-old-road/equipment');
     await r.ok(a,'/api/v1/quests/clear-old-road/runs');
     await r.ok(a,'/api/v1/army/invitations',{targetCharacterId:b.id});await r.ok(b,'/api/v1/army/acceptances',{targetCharacterId:a.id});
-    await r.ok(a,'/api/v1/army/recruitments',{unitId:'militia',quantity:1});
+    await r.legacyArmy(a,1);
     const fight=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id});assert.ok(fight.battleId);
     const property=await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});assert.equal(property.state.land.properties[0].owned,1);
     await r.ok(a,'/api/v1/inventory/sales',{itemId:'wicker-buckler',quantity:1});
