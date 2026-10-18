@@ -1,0 +1,69 @@
+{
+  "command": "npm run test:codespaces",
+  "passed": true,
+  "viewports": [
+    320,
+    360,
+    375,
+    390,
+    393,
+    412,
+    430,
+    1366
+  ],
+  "nativeHttpsPosts": 56,
+  "upstreamOriginModes": {
+    "http://localhost:3001": 53,
+    "https://localhost:3001": 1,
+    "https://knights-session-fixture-3001.app.github.dev": 2
+  },
+  "fetchMetadata": "same-origin on all native POSTs",
+  "browserErrors": 0,
+  "phase45": {
+    "healing": true,
+    "immediate_health_update": true,
+    "no_charge_full_health": true,
+    "interrupted_heal_same_id": true,
+    "upcoming_income": true,
+    "context_panels": true,
+    "one_tap_purchases": true,
+    "buy_more_open": true,
+    "no_paid_militia": true,
+    "bounty_count": true,
+    "fast_celebrations": true,
+    "reduced_motion": true,
+    "viewports": [
+      320,
+      360,
+      375,
+      390,
+      393,
+      412,
+      430,
+      1366
+    ],
+    "panelChecks": 40,
+    "purchaseLayouts": 8
+  },
+  "existingResponsiveVisits": 198,
+  "baseline": {
+    "command": "npm run test:browser",
+    "passed": true,
+    "viewports": [
+      "1366x900",
+      "390x844",
+      "360x800"
+    ]
+  },
+  "fantasy": {
+    "command": "npm run test:browser:fantasy",
+    "passed": true,
+    "viewports": [
+      "330x740",
+      "360x800",
+      "390x844",
+      "1366x900"
+    ]
+  },
+  "faultInjection": "Real browser POST commits at the HTTP backend; the local TLS proxy discards its successful reply and returns a non-JSON gateway error. Same-ID retry after reload charges once. No synthetic Fetch Metadata or application security bypass."
+}

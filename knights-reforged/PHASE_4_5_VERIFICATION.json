@@ -1,0 +1,211 @@
+{
+  "release": "Kingdom Come Phase 4.5",
+  "verifiedAt": "2026-10-18T06:38:52.716Z",
+  "branch": "feature/kingdom-come-phase-4-5-gameplay-refinement",
+  "runtimeCommit": "a61c3a31ba57860c729ea3f918ee2d033259cd75",
+  "base": "1f1aec5eda3710b8c809b4c6b228a048ec4d48fc",
+  "liveDatabaseAccessed": false,
+  "deployed": false,
+  "mainMerged": false,
+  "scope": "Synthetic populated Phase 4.4 fixtures and isolated PostgreSQL; native local HTTPS proxy; production Docker image. Owner live backup/provider verification remains required.",
+  "commands": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "passed": true
+    },
+    "build": {
+      "command": "npm run build",
+      "passed": true
+    },
+    "fullSuite": {
+      "command": "TEST_DATABASE_URL=<disposable local *_test> npm test",
+      "tests": 238,
+      "passed": 238,
+      "failed": 0,
+      "skipped": 0
+    },
+    "postgres": {
+      "command": "TEST_DATABASE_URL=<separate disposable local *_test> npm run test:postgres",
+      "tests": 166,
+      "passed": 166,
+      "failed": 0,
+      "skipped": 0
+    },
+    "static": {
+      "command": "npm run check:static",
+      "passed": 85,
+      "failed": 0,
+      "productionEjsFixtures": 67
+    },
+    "restart": {
+      "command": "npm run test:restart with a designated disposable database",
+      "passed": true
+    },
+    "productionDependencies": {
+      "command": "npm audit --omit=dev --json",
+      "knownAdvisories": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    }
+  },
+  "browser": {
+    "command": "npm run test:codespaces",
+    "passed": true,
+    "viewports": [
+      320,
+      360,
+      375,
+      390,
+      393,
+      412,
+      430,
+      1366
+    ],
+    "nativeHttpsPosts": 56,
+    "upstreamOriginModes": {
+      "http://localhost:3001": 53,
+      "https://localhost:3001": 1,
+      "https://knights-session-fixture-3001.app.github.dev": 2
+    },
+    "fetchMetadata": "same-origin on all native POSTs",
+    "browserErrors": 0,
+    "phase45": {
+      "healing": true,
+      "immediate_health_update": true,
+      "no_charge_full_health": true,
+      "interrupted_heal_same_id": true,
+      "upcoming_income": true,
+      "context_panels": true,
+      "one_tap_purchases": true,
+      "buy_more_open": true,
+      "no_paid_militia": true,
+      "bounty_count": true,
+      "fast_celebrations": true,
+      "reduced_motion": true,
+      "viewports": [
+        320,
+        360,
+        375,
+        390,
+        393,
+        412,
+        430,
+        1366
+      ],
+      "panelChecks": 40,
+      "purchaseLayouts": 8
+    },
+    "existingResponsiveVisits": 198,
+    "baseline": {
+      "command": "npm run test:browser",
+      "passed": true,
+      "viewports": [
+        "1366x900",
+        "390x844",
+        "360x800"
+      ]
+    },
+    "fantasy": {
+      "command": "npm run test:browser:fantasy",
+      "passed": true,
+      "viewports": [
+        "330x740",
+        "360x800",
+        "390x844",
+        "1366x900"
+      ]
+    },
+    "faultInjection": "Real browser POST commits at the HTTP backend; the local TLS proxy discards its successful reply and returns a non-JSON gateway error. Same-ID retry after reload charges once. No synthetic Fetch Metadata or application security bypass."
+  },
+  "container": {
+    "image": "kingdom-come:phase45-check",
+    "runtimeImageId": "sha256:c97c6b752aba819c23e9c6154b895ac192c007df16744a58ebcffc0dad382ffe",
+    "buildPassed": true,
+    "committedDockerfilePortable": true,
+    "localBuildAccommodation": "Temporary Dockerfile outside Git adds the managed proxy CA as a build-only secret for npm. TLS validation stays enabled; committed Railway Dockerfile remains mount-free; runtime contains no CA secret.",
+    "standard": {
+      "image": "kingdom-come:phase45-check",
+      "postgresImage": "postgres:18-bookworm",
+      "privateAlpha": false,
+      "checks": [
+        "private PostgreSQL 18 started without a published port",
+        "unmigrated production startup fails without altering the empty database",
+        "separate compiled pre-deploy runner installs all 18 migrations without initialization",
+        "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+        "production server binds port 32123 and passes database healthcheck",
+        "real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP, idempotent gold healing/CSRF, retired militia and foreign-Origin rejection",
+        "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+        "native custom-format backup restores atomically into a separate fresh database with identical data",
+        "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+        "neither web nor PostgreSQL container publishes a port"
+      ],
+      "portsPublished": false,
+      "backupBytes": 218439,
+      "dataDigest": "a5942119010368a8a450e7b67e14b410bddc9f46ba1df7b286030821e1f05633"
+    },
+    "privateAlpha": {
+      "image": "kingdom-come:phase45-check",
+      "postgresImage": "postgres:18-bookworm",
+      "privateAlpha": true,
+      "checks": [
+        "private PostgreSQL 18 started without a published port",
+        "unmigrated production startup fails without altering the empty database",
+        "hidden psql password rotation rejects old TCP credentials and accepts the synchronized private service URL",
+        "first initialized-realm upgrade refuses a missing restored-copy gate without applying a migration or changing existing data",
+        "native Phase 4.4 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals",
+        "separate compiled pre-deploy runner installs all 18 migrations without initialization",
+        "Phase 4.5 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.4 rivals",
+        "compiled operator-only status reports the initial account and population without exposing credentials",
+        "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+        "production server binds port 8080 and passes database healthcheck",
+        "real production HTTP registration, ten pages, quests, quantity equipment, Land, Vault, PvP, idempotent gold healing/CSRF, retired militia and foreign-Origin rejection",
+        "compiled operator moderation works without development tools, requires explicit authorization and preserves the existing audit history",
+        "operator-only gray inspect/apply grants exactly 50000 spendable gold once on the disposable identity",
+        "production migration/start refuse leftover bootstrap credentials before any database changes",
+        "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+        "native custom-format backup restores atomically into a separate fresh database with identical data",
+        "redeploy removes bootstrap flag/secret and starts a fresh web container against the same persistent realm",
+        "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+        "neither web nor PostgreSQL container publishes a port"
+      ],
+      "portsPublished": false,
+      "restoredUpgrade": {
+        "passed": true,
+        "restoredDatabase": "phase44_restore_test",
+        "accounts": 451,
+        "bots": 450,
+        "existingTablesVerified": 58,
+        "sha256": "ca058fbfa41bbfcf885eabc602371e9622655c05ed36811aa20065cf11507e67",
+        "migrationReplay": "unchanged",
+        "liveDatabaseConnected": false
+      },
+      "backupBytes": 912696,
+      "dataDigest": "d042aa182cc0c3c1422b713ba57195d0f653fac285cff8926d3d0ba080b2ea4e"
+    }
+  },
+  "preservation": {
+    "migration": "018_gameplay_refinement.sql",
+    "existingMigrationsChanged": false,
+    "existingCatalogsChanged": false,
+    "artworkChanged": false,
+    "oldBusinessRowsChangedByMigration": 0,
+    "fixtureAccounts": 453,
+    "fixtureBots": 450,
+    "legacyCompletedRecruitmentReceiptReplays": true,
+    "newRecruitmentOrdersRejected": true,
+    "liveBalanceGrants": 0,
+    "botCapitalGrants": 0,
+    "existingSessionsPreserved": true
+  },
+  "limitations": [
+    "No live Railway database, backup, deployment or provider secret inspection. Owner must execute the private backup/export/restore-copy gate and manual upgrade.",
+    "Physical Android/iPhone, Safari/WebKit and APK compatibility remain unverified.",
+    "Headless layouts and accelerated progression do not establish real-world retention, long-term balance or a production security certification.",
+    "Initial Docker checks hit the workspace disk quota. Only unused build cache and superseded task images were removed; final sequential container checks passed. No original database or backup was deleted."
+  ]
+}

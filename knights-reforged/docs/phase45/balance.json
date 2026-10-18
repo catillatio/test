@@ -1,0 +1,708 @@
+{
+  "ruleset": "gameplay-refinement-1",
+  "provenance": "Kingdom Come Phase 4.5 reconstruction; not recovered Storm8 formulas. Existing catalogs, balances and attained progression are preserved.",
+  "progressionCurve": "Unchanged: Cumulative thresholds 0,12,30,60,105,165,245,350,485,650 for attained levels 1–10; from level 10 onward the next-level requirement is 200 + 45 × (level−10). Attained levels and in-level XP remain unchanged.",
+  "comparisonAssumptions": "Unrepeated equal-level, equal relevant pre-roll powers; these arithmetic rewards do not guarantee victory. The separate PostgreSQL examples record actual physical loadouts, rolls, transfers and XP.",
+  "progression": [
+    {
+      "level": 8,
+      "requirement": 135,
+      "beforeXp": 7,
+      "afterMatchedXp": 7,
+      "after75PercentStrengthXp": 5,
+      "percentOfLevel": 5.19,
+      "matchedFullWinsPerLevel": 20,
+      "quest": {
+        "name": "Track the Runewood Stag",
+        "level": 8,
+        "xp": 24,
+        "mana": 5,
+        "goldMin": 55,
+        "goldMax": 75
+      },
+      "botExample": {
+        "tier": "seasoned",
+        "exposedGold": 3762,
+        "netHourlyIncome": 157,
+        "beforeLoot": 50,
+        "afterLoot": 112
+      }
+    },
+    {
+      "level": 17,
+      "requirement": 515,
+      "beforeXp": 26,
+      "afterMatchedXp": 47,
+      "after75PercentStrengthXp": 35,
+      "percentOfLevel": 9.13,
+      "matchedFullWinsPerLevel": 11,
+      "quest": {
+        "name": "Shatter the Icewatch",
+        "level": 16,
+        "xp": 50,
+        "mana": 7,
+        "goldMin": 170,
+        "goldMax": 235
+      },
+      "botExample": {
+        "tier": "seasoned",
+        "exposedGold": 5946,
+        "netHourlyIncome": 578,
+        "beforeLoot": 50,
+        "afterLoot": 178
+      }
+    },
+    {
+      "level": 25,
+      "requirement": 875,
+      "beforeXp": 44,
+      "afterMatchedXp": 105,
+      "after75PercentStrengthXp": 78,
+      "percentOfLevel": 12,
+      "matchedFullWinsPerLevel": 9,
+      "quest": {
+        "name": "Break the Copper Oath",
+        "level": 25,
+        "xp": 86,
+        "mana": 8,
+        "goldMin": 385,
+        "goldMax": 525
+      },
+      "botExample": {
+        "tier": "seasoned",
+        "exposedGold": 20428,
+        "netHourlyIncome": 3962,
+        "beforeLoot": 50,
+        "afterLoot": 612
+      }
+    },
+    {
+      "level": 40,
+      "requirement": 1550,
+      "beforeXp": 78,
+      "afterMatchedXp": 186,
+      "after75PercentStrengthXp": 139,
+      "percentOfLevel": 12,
+      "matchedFullWinsPerLevel": 9,
+      "quest": {
+        "name": "Navigate the Astral Storm",
+        "level": 40,
+        "xp": 165,
+        "mana": 11,
+        "goldMin": 910,
+        "goldMax": 1190
+      },
+      "botExample": {
+        "tier": "seasoned",
+        "exposedGold": 75696,
+        "netHourlyIncome": 16574,
+        "beforeLoot": 50,
+        "afterLoot": 2050
+      }
+    },
+    {
+      "level": 50,
+      "requirement": 2000,
+      "beforeXp": 100,
+      "afterMatchedXp": 240,
+      "after75PercentStrengthXp": 180,
+      "percentOfLevel": 12,
+      "matchedFullWinsPerLevel": 9,
+      "quest": {
+        "name": "Defy the Eclipsed Sovereign",
+        "level": 50,
+        "xp": 230,
+        "mana": 13,
+        "goldMin": 1450,
+        "goldMax": 1950
+      },
+      "botExample": {
+        "tier": "seasoned",
+        "exposedGold": 113440,
+        "netHourlyIncome": 24600,
+        "beforeLoot": 50,
+        "afterLoot": 3000
+      }
+    }
+  ],
+  "loot": {
+    "beforeMaximum": 5000,
+    "afterMaximum": 15000,
+    "percent": 3,
+    "multipliers": [
+      100,
+      75,
+      50,
+      25,
+      10
+    ],
+    "goldCreatedByBattle": 0,
+    "exampleExposedBalances": [
+      {
+        "gold": 0,
+        "before": 0,
+        "after": 0
+      },
+      {
+        "gold": 300,
+        "before": 9,
+        "after": 9
+      },
+      {
+        "gold": 100000,
+        "before": 3000,
+        "after": 3000
+      },
+      {
+        "gold": 1000000,
+        "before": 5000,
+        "after": 15000
+      }
+    ]
+  },
+  "botEconomy": {
+    "population": 450,
+    "newCapitalGranted": 0,
+    "existingCatalogsChanged": false,
+    "positiveNetPortfolios": true,
+    "byLevel": [
+      {
+        "level": 1,
+        "population": 9,
+        "minimumWallet": 2550,
+        "maximumWallet": 4587,
+        "minimumNetHourly": 21,
+        "maximumNetHourly": 28
+      },
+      {
+        "level": 2,
+        "population": 9,
+        "minimumWallet": 2598,
+        "maximumWallet": 4633,
+        "minimumNetHourly": 36,
+        "maximumNetHourly": 36
+      },
+      {
+        "level": 3,
+        "population": 9,
+        "minimumWallet": 2625,
+        "maximumWallet": 4676,
+        "minimumNetHourly": 41,
+        "maximumNetHourly": 44
+      },
+      {
+        "level": 4,
+        "population": 9,
+        "minimumWallet": 2705,
+        "maximumWallet": 4821,
+        "minimumNetHourly": 66,
+        "maximumNetHourly": 69
+      },
+      {
+        "level": 5,
+        "population": 9,
+        "minimumWallet": 2754,
+        "maximumWallet": 4917,
+        "minimumNetHourly": 72,
+        "maximumNetHourly": 84
+      },
+      {
+        "level": 6,
+        "population": 9,
+        "minimumWallet": 2754,
+        "maximumWallet": 4913,
+        "minimumNetHourly": 70,
+        "maximumNetHourly": 84
+      },
+      {
+        "level": 7,
+        "population": 9,
+        "minimumWallet": 2913,
+        "maximumWallet": 5198,
+        "minimumNetHourly": 120,
+        "maximumNetHourly": 134
+      },
+      {
+        "level": 8,
+        "population": 9,
+        "minimumWallet": 3010,
+        "maximumWallet": 5369,
+        "minimumNetHourly": 148,
+        "maximumNetHourly": 164
+      },
+      {
+        "level": 9,
+        "population": 9,
+        "minimumWallet": 3010,
+        "maximumWallet": 5380,
+        "minimumNetHourly": 148,
+        "maximumNetHourly": 161
+      },
+      {
+        "level": 10,
+        "population": 9,
+        "minimumWallet": 3169,
+        "maximumWallet": 5680,
+        "minimumNetHourly": 169,
+        "maximumNetHourly": 211
+      },
+      {
+        "level": 11,
+        "population": 9,
+        "minimumWallet": 3627,
+        "maximumWallet": 8329,
+        "minimumNetHourly": 312,
+        "maximumNetHourly": 651
+      },
+      {
+        "level": 12,
+        "population": 9,
+        "minimumWallet": 4027,
+        "maximumWallet": 9611,
+        "minimumNetHourly": 431,
+        "maximumNetHourly": 875
+      },
+      {
+        "level": 13,
+        "population": 9,
+        "minimumWallet": 4030,
+        "maximumWallet": 9641,
+        "minimumNetHourly": 431,
+        "maximumNetHourly": 875
+      },
+      {
+        "level": 14,
+        "population": 9,
+        "minimumWallet": 4030,
+        "maximumWallet": 9641,
+        "minimumNetHourly": 431,
+        "maximumNetHourly": 874
+      },
+      {
+        "level": 15,
+        "population": 9,
+        "minimumWallet": 4612,
+        "maximumWallet": 11502,
+        "minimumNetHourly": 555,
+        "maximumNetHourly": 1181
+      },
+      {
+        "level": 16,
+        "population": 9,
+        "minimumWallet": 4612,
+        "maximumWallet": 11730,
+        "minimumNetHourly": 555,
+        "maximumNetHourly": 1167
+      },
+      {
+        "level": 17,
+        "population": 9,
+        "minimumWallet": 4624,
+        "maximumWallet": 11730,
+        "minimumNetHourly": 555,
+        "maximumNetHourly": 1167
+      },
+      {
+        "level": 18,
+        "population": 9,
+        "minimumWallet": 5248,
+        "maximumWallet": 13868,
+        "minimumNetHourly": 738,
+        "maximumNetHourly": 1538
+      },
+      {
+        "level": 19,
+        "population": 9,
+        "minimumWallet": 5248,
+        "maximumWallet": 13959,
+        "minimumNetHourly": 738,
+        "maximumNetHourly": 1538
+      },
+      {
+        "level": 20,
+        "population": 9,
+        "minimumWallet": 5312,
+        "maximumWallet": 14104,
+        "minimumNetHourly": 712,
+        "maximumNetHourly": 1538
+      },
+      {
+        "level": 21,
+        "population": 9,
+        "minimumWallet": 8377,
+        "maximumWallet": 35924,
+        "minimumNetHourly": 1754,
+        "maximumNetHourly": 5270
+      },
+      {
+        "level": 22,
+        "population": 9,
+        "minimumWallet": 8377,
+        "maximumWallet": 36636,
+        "minimumNetHourly": 1754,
+        "maximumNetHourly": 5190
+      },
+      {
+        "level": 23,
+        "population": 9,
+        "minimumWallet": 8403,
+        "maximumWallet": 36636,
+        "minimumNetHourly": 1748,
+        "maximumNetHourly": 5190
+      },
+      {
+        "level": 24,
+        "population": 9,
+        "minimumWallet": 10003,
+        "maximumWallet": 45186,
+        "minimumNetHourly": 2248,
+        "maximumNetHourly": 6690
+      },
+      {
+        "level": 25,
+        "population": 9,
+        "minimumWallet": 10003,
+        "maximumWallet": 45919,
+        "minimumNetHourly": 2248,
+        "maximumNetHourly": 6606
+      },
+      {
+        "level": 26,
+        "population": 9,
+        "minimumWallet": 10163,
+        "maximumWallet": 45919,
+        "minimumNetHourly": 2216,
+        "maximumNetHourly": 6606
+      },
+      {
+        "level": 27,
+        "population": 9,
+        "minimumWallet": 10163,
+        "maximumWallet": 45919,
+        "minimumNetHourly": 2216,
+        "maximumNetHourly": 6606
+      },
+      {
+        "level": 28,
+        "population": 9,
+        "minimumWallet": 12115,
+        "maximumWallet": 56350,
+        "minimumNetHourly": 2826,
+        "maximumNetHourly": 8436
+      },
+      {
+        "level": 29,
+        "population": 9,
+        "minimumWallet": 12198,
+        "maximumWallet": 56350,
+        "minimumNetHourly": 2812,
+        "maximumNetHourly": 8436
+      },
+      {
+        "level": 30,
+        "population": 9,
+        "minimumWallet": 12198,
+        "maximumWallet": 56712,
+        "minimumNetHourly": 2812,
+        "maximumNetHourly": 8387
+      },
+      {
+        "level": 31,
+        "population": 9,
+        "minimumWallet": 12198,
+        "maximumWallet": 56712,
+        "minimumNetHourly": 2812,
+        "maximumNetHourly": 8387
+      },
+      {
+        "level": 32,
+        "population": 9,
+        "minimumWallet": 14630,
+        "maximumWallet": 69708,
+        "minimumNetHourly": 3572,
+        "maximumNetHourly": 10667
+      },
+      {
+        "level": 33,
+        "population": 9,
+        "minimumWallet": 14630,
+        "maximumWallet": 73159,
+        "minimumNetHourly": 3572,
+        "maximumNetHourly": 10380
+      },
+      {
+        "level": 34,
+        "population": 9,
+        "minimumWallet": 14630,
+        "maximumWallet": 73159,
+        "minimumNetHourly": 3572,
+        "maximumNetHourly": 10380
+      },
+      {
+        "level": 35,
+        "population": 9,
+        "minimumWallet": 14630,
+        "maximumWallet": 74014,
+        "minimumNetHourly": 3572,
+        "maximumNetHourly": 10290
+      },
+      {
+        "level": 36,
+        "population": 9,
+        "minimumWallet": 33350,
+        "maximumWallet": 124117,
+        "minimumNetHourly": 9422,
+        "maximumNetHourly": 19080
+      },
+      {
+        "level": 37,
+        "population": 9,
+        "minimumWallet": 33904,
+        "maximumWallet": 124869,
+        "minimumNetHourly": 9340,
+        "maximumNetHourly": 19032
+      },
+      {
+        "level": 38,
+        "population": 9,
+        "minimumWallet": 33904,
+        "maximumWallet": 124869,
+        "minimumNetHourly": 9340,
+        "maximumNetHourly": 19032
+      },
+      {
+        "level": 39,
+        "population": 9,
+        "minimumWallet": 33904,
+        "maximumWallet": 124869,
+        "minimumNetHourly": 9340,
+        "maximumNetHourly": 19032
+      },
+      {
+        "level": 40,
+        "population": 9,
+        "minimumWallet": 41520,
+        "maximumWallet": 152323,
+        "minimumNetHourly": 11480,
+        "maximumNetHourly": 23586
+      },
+      {
+        "level": 41,
+        "population": 9,
+        "minimumWallet": 41678,
+        "maximumWallet": 154658,
+        "minimumNetHourly": 11462,
+        "maximumNetHourly": 23478
+      },
+      {
+        "level": 42,
+        "population": 9,
+        "minimumWallet": 41678,
+        "maximumWallet": 154658,
+        "minimumNetHourly": 11462,
+        "maximumNetHourly": 23478
+      },
+      {
+        "level": 43,
+        "population": 9,
+        "minimumWallet": 41678,
+        "maximumWallet": 154658,
+        "minimumNetHourly": 11462,
+        "maximumNetHourly": 23478
+      },
+      {
+        "level": 44,
+        "population": 9,
+        "minimumWallet": 41678,
+        "maximumWallet": 154658,
+        "minimumNetHourly": 11462,
+        "maximumNetHourly": 23478
+      },
+      {
+        "level": 45,
+        "population": 9,
+        "minimumWallet": 50595,
+        "maximumWallet": 190465,
+        "minimumNetHourly": 14076,
+        "maximumNetHourly": 28790
+      },
+      {
+        "level": 46,
+        "population": 9,
+        "minimumWallet": 50595,
+        "maximumWallet": 190465,
+        "minimumNetHourly": 14076,
+        "maximumNetHourly": 28790
+      },
+      {
+        "level": 47,
+        "population": 9,
+        "minimumWallet": 50595,
+        "maximumWallet": 190465,
+        "minimumNetHourly": 14076,
+        "maximumNetHourly": 28790
+      },
+      {
+        "level": 48,
+        "population": 9,
+        "minimumWallet": 50595,
+        "maximumWallet": 195510,
+        "minimumNetHourly": 14076,
+        "maximumNetHourly": 28550
+      },
+      {
+        "level": 49,
+        "population": 9,
+        "minimumWallet": 51094,
+        "maximumWallet": 195510,
+        "minimumNetHourly": 14037,
+        "maximumNetHourly": 28550
+      },
+      {
+        "level": 50,
+        "population": 9,
+        "minimumWallet": 60918,
+        "maximumWallet": 232047,
+        "minimumNetHourly": 17107,
+        "maximumNetHourly": 34960
+      }
+    ],
+    "policy": "No attack-triggered free wallet/reserve refill. Saved Land settles ordinary eligible time. Once per saved hourly boundary, bots can prepay upkeep from their own purse. No Vault withdrawals. Existing estates, wallets, inventories, identities and population are not rewritten by migration."
+  },
+  "budgets": {
+    "humanFullXpPerPair": 3,
+    "botFullRewardsPerOpponent": 1,
+    "botFullRewardsTotal": 6,
+    "seconds": 86400,
+    "repeatXp": 1,
+    "trivialStrengthRatioBelow": 0.35,
+    "botLootCap": "min(3000, 50 + floor(1.25 × min(targetLevel,50)²))"
+  },
+  "actualPostgresExamples": [
+    {
+      "case": "poor",
+      "attackerLevel": 8,
+      "defenderLevel": 8,
+      "before": 300,
+      "stolen": 9,
+      "remaining": 291,
+      "xp": 3,
+      "loot": {
+        "base": 9,
+        "amount": 9,
+        "botCap": null,
+        "victory": 1,
+        "resetsAt": "2046-04-02T00:00:00.000Z",
+        "rulesetId": "gameplay-refinement-1",
+        "multiplier": 100,
+        "windowStartedAt": "2046-04-01T00:00:00.000Z",
+        "botRewardAvailable": null
+      },
+      "xpDetails": {
+        "base": 7,
+        "amount": 3,
+        "reason": "matched_victory",
+        "reduced": false,
+        "trivial": false,
+        "rulesetId": "gameplay-refinement-1",
+        "levelPercent": 100,
+        "strengthPercent": 54,
+        "difficultyPercent": 100,
+        "requirementPercent": 5
+      }
+    },
+    {
+      "case": "wealthy",
+      "attackerLevel": 17,
+      "defenderLevel": 17,
+      "before": 1000000,
+      "stolen": 15000,
+      "remaining": 985000,
+      "xp": 29,
+      "loot": {
+        "base": 15000,
+        "amount": 15000,
+        "botCap": null,
+        "victory": 1,
+        "resetsAt": "2046-04-02T00:00:00.000Z",
+        "rulesetId": "gameplay-refinement-1",
+        "multiplier": 100,
+        "windowStartedAt": "2046-04-01T00:00:00.000Z",
+        "botRewardAvailable": null
+      },
+      "xpDetails": {
+        "base": 47,
+        "amount": 29,
+        "reason": "matched_victory",
+        "reduced": false,
+        "trivial": false,
+        "rulesetId": "gameplay-refinement-1",
+        "levelPercent": 100,
+        "strengthPercent": 62,
+        "difficultyPercent": 100,
+        "requirementPercent": 9
+      }
+    },
+    {
+      "case": "level25-versus-level29-bot",
+      "attackerLevel": 25,
+      "defenderLevel": 29,
+      "before": 12198,
+      "stolen": 365,
+      "remaining": 11833,
+      "xp": 58,
+      "loot": {
+        "base": 365,
+        "amount": 365,
+        "botCap": 1101,
+        "victory": 1,
+        "resetsAt": "2046-04-02T00:00:00.000Z",
+        "rulesetId": "gameplay-refinement-1",
+        "multiplier": 100,
+        "windowStartedAt": "2046-04-01T00:00:00.000Z",
+        "botRewardAvailable": true
+      },
+      "xpDetails": {
+        "base": 105,
+        "amount": 58,
+        "reason": "matched_victory",
+        "reduced": false,
+        "trivial": false,
+        "rulesetId": "gameplay-refinement-1",
+        "levelPercent": 140,
+        "strengthPercent": 40,
+        "difficultyPercent": 140,
+        "requirementPercent": 12
+      }
+    },
+    {
+      "case": "repeat-depleted-bot",
+      "before": 11833,
+      "stolen": 0,
+      "remaining": 11833,
+      "xp": 1,
+      "cap": "one full reward per bot / six bots per rolling 24h"
+    },
+    {
+      "case": "simultaneous-attacks",
+      "before": 1000,
+      "transfers": [
+        {
+          "gold": 30,
+          "xp": 18
+        },
+        {
+          "gold": 29,
+          "xp": 18
+        }
+      ],
+      "remaining": 941,
+      "duplicatedTransfers": 0
+    }
+  ],
+  "limitations": [
+    "Arithmetic victory counts exclude regeneration, losses, opponents, quest prerequisites and earned skill choices.",
+    "Browser and local-container tests do not verify Railway edge settings or physical Android/iPhone behavior.",
+    "No live database or player balance was accessed for this report."
+  ]
+}

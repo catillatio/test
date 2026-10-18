@@ -1,3 +1,7 @@
+# Phase 4.5 live-realm update
+
+Use [PHASE_4_5_RELEASE.md](PHASE_4_5_RELEASE.md) for changes, exact reward formulas, backup/restored-copy verification and manual Railway deployment. Do not rerun old initialization or reset player data. Security: [PHASE_4_5_SECURITY.md](PHASE_4_5_SECURITY.md).
+
 # Kingdom Come — connected multiplayer alpha
 
 Previously Knights Reforged. The application directory, database identifiers and historical research names are retained for compatibility.
