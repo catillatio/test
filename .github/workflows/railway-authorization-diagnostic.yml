@@ -1,0 +1,32 @@
+name: Railway authorization diagnostic
+# Read-only and manual; the existing production owner approval remains required.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: kingdom-come-railway-authorization-diagnostic
+  cancel-in-progress: false
+jobs:
+  diagnostic:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/release/production'
+    environment: production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - name: Verify only Railway token scope and target metadata
+        env:
+          # Direct bindings inside the approved job match the release's scopes;
+          # no reusable-workflow secret forwarding or extra credential is needed.
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+          RAILWAY_GAME_SERVICE_ID: ${{ vars.RAILWAY_GAME_SERVICE_ID }}
+          RAILWAY_RELEASE_WORKER_SERVICE_ID: ${{ vars.RAILWAY_RELEASE_WORKER_SERVICE_ID }}
+        run: bash knights-reforged/deployment/release/diagnose-railway.sh
