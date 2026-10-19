@@ -1,0 +1,20 @@
+name: Release configuration diagnostic
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: kingdom-come-release-diagnostic
+  cancel-in-progress: false
+jobs:
+  diagnostic:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/release/production'
+    uses: ./.github/workflows/release-configuration-diagnostic-checks.yml
+    # Typed secret inputs mask these repository variables in runner log headers,
+    # including the public PEM. No additional stored secrets are required.
+    secrets:
+      diagnostic_verify_key: ${{ vars.KINGDOM_RELEASE_VERIFY_KEY }}
+      diagnostic_backup_endpoint: ${{ vars.KINGDOM_BACKUP_ENDPOINT }}
+      diagnostic_backup_bucket: ${{ vars.KINGDOM_BACKUP_BUCKET }}
+      diagnostic_backup_region: ${{ vars.KINGDOM_BACKUP_REGION }}
+      diagnostic_backup_path_style: ${{ vars.KINGDOM_BACKUP_PATH_STYLE }}
