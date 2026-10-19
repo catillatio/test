@@ -7,10 +7,11 @@ import {join,dirname} from 'node:path';
 import {spawn} from 'node:child_process';
 import {releaseInputs} from './guard.mjs';
 import {candidateDigest} from './candidate.mjs';
-import {checkRequest,checkJobReport,copyName,protocol,uuid} from './protocol.mjs';
+import {checkRequest,checkJobReport,copyName,protocol} from './protocol.mjs';
 import {getFile,getReport,fileDigest} from './transfer.mjs';
 import {recoveryStore} from './store.mjs';
 import {signProof} from './proof.mjs';
+import {verifyQueuedDeployment} from './deployment.mjs';
 
 const base=new URL('../../',import.meta.url).pathname;
 function command(executable,args,{cwd=base}={}){
@@ -33,9 +34,8 @@ async function main(){
  await mkdir(out,{recursive:true,mode:0o700});
  const railwayArgs=['--project',settings.projectId,'--environment',settings.environmentId];
  const deploy=async(service,root=process.env.GITHUB_WORKSPACE)=>{
-  const queued=JSON.parse(await command('railway',['up',root,...railwayArgs,'--service',service,'--detach','--json',...(service===settings.workerServiceId?['--path-as-root']:[]),'--message','Kingdom Come '+settings.sha],{cwd:root}));
-  assert.equal(queued.projectId,settings.projectId);assert.equal(queued.environmentId,settings.environmentId);assert.equal(queued.serviceId,service);assert.match(queued.deploymentId,uuid);
-  return queued.deploymentId;
+  const queued=await command('railway',['up',root,...railwayArgs,'--service',service,'--detach','--json',...(service===settings.workerServiceId?['--path-as-root']:[]),'--message','Kingdom Come '+settings.sha],{cwd:root});
+  return verifyQueuedDeployment(queued,{projectId:settings.projectId,environmentId:settings.environmentId,serviceId:service},{token:process.env.RAILWAY_TOKEN});
  };
  const stage=async(service,values)=>{
   await command('railway',['variable','set',...railwayArgs,'--service',service,'--skip-deploys',...Object.entries(values).map(([key,value])=>key+'='+value)]);
