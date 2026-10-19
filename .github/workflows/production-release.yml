@@ -93,7 +93,11 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: kingdom-recovery-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .release-artifacts/
+          # Name finalized files directly: the pinned action excludes hidden
+          # directory inputs. Keep its default hidden-file exclusion enabled.
+          path: |
+            .release-artifacts/realm.dump.age
+            .release-artifacts/backup-manifest.json
           retention-days: 90
           if-no-files-found: error
       - name: Independently download and verify retained recovery artifact
@@ -116,6 +120,9 @@ jobs:
         if: always()
         with:
           name: kingdom-release-verification-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .release-artifacts/
+          path: |
+            .release-artifacts/realm.dump.age
+            .release-artifacts/backup-manifest.json
+            .release-artifacts/post-deploy.json
           retention-days: 90
           if-no-files-found: warn
