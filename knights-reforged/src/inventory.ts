@@ -3,6 +3,7 @@ import { type Sql } from './db.js';
 import { GameError } from './errors.js';
 import { alpha,itemById,type OwnedItem } from './alpha-rules.js';
 import { ledger,creditGold } from './economy.js';
+import {equipmentResale,gameFeel} from './game-feel-rules.js';
 
 export async function readInventory(sql:Sql,characterId:string):Promise<OwnedItem[]> {
   const rows=(await sql.query('SELECT id,item_definition_id,quantity FROM inventory_entries WHERE character_id=$1 ORDER BY acquired_at,id',[characterId])).rows;
@@ -10,7 +11,7 @@ export async function readInventory(sql:Sql,characterId:string):Promise<OwnedIte
   return rows.map(row=> {
     const definition=itemById.get(row.item_definition_id);
     if (!definition) throw new GameError('CATALOG_MISSING','An owned item definition is unavailable; ownership is preserved.',503);
-    const units=lots.filter(lot=>lot.inventory_entry_id===row.id).flatMap(lot=>Array.from({length:Math.min(alpha.limits.transaction,lot.remaining_quantity)},()=>Math.floor(lot.unit_cost/2))).slice(0,alpha.limits.transaction);
+    const units=lots.filter(lot=>lot.inventory_entry_id===row.id).flatMap(lot=>Array.from({length:Math.min(alpha.limits.transaction,lot.remaining_quantity)},()=>equipmentResale(lot.unit_cost))).slice(0,alpha.limits.transaction);
     return {...definition,resaleSteps:units.map((_,i)=>units.slice(0,i+1).reduce((n,p)=>n+p,0)),maxSell:Math.min(row.quantity,alpha.limits.transaction),inventoryId:row.id as string,quantity:row.quantity as number};
   });
 }
@@ -52,13 +53,13 @@ export async function sellItem(sql:Sql,characterId:string,itemId:string,quantity
   let left=quantity;let refund=0;
   for (const lot of lots) {
     const sold=Math.min(left,lot.remaining_quantity);if (!sold) break;
-    refund+=sold*Math.floor(lot.unit_cost/2);
+    refund+=sold*equipmentResale(lot.unit_cost);
     await sql.query('UPDATE inventory_lots SET remaining_quantity=remaining_quantity-$2 WHERE id=$1',[lot.id,sold]);left-=sold;
   }
   await sql.query('UPDATE inventory_entries SET quantity=quantity-$2 WHERE id=$1',[item.inventoryId,quantity]);
   if (item.quantity===quantity) await sql.query('DELETE FROM equipment_slots WHERE inventory_entry_id=$1',[item.inventoryId]);
-  await creditGold(sql,characterId,BigInt(refund),commandId,'equipment_sale',alpha.id);
+  await creditGold(sql,characterId,BigInt(refund),commandId,'equipment_sale',gameFeel.id);
   await sql.query('INSERT INTO inventory_transactions(id,character_id,item_id,kind,quantity,gold_amount,ruleset_id,command_id) VALUES($1,$2,$3,\'sell\',$4,$5,$6,$7)',
-    [randomUUID(),characterId,itemId,quantity,refund,alpha.id,commandId]);
+    [randomUUID(),characterId,itemId,quantity,refund,gameFeel.id,commandId]);
   return refund;
 }

@@ -15,5 +15,5 @@
   </article>
 <% } %>
 </div>
-<p class="compact-help">Sales return half the recorded cost of each copy, rounded down. Buying never requires passive income. Upkeep gear reserves one hourly bill when carried gold allows; otherwise it waits safely for funding.</p>
+<p class="compact-help">Sales return two-thirds of each copy’s recorded purchase cost, rounded down. The exact return appears beside Sell. Buying never requires passive income. Upkeep gear reserves one hourly bill when carried gold allows; otherwise it waits safely for funding.</p>
 <section class="panel" id="automatic-loadout"><h2 class="strip-title">Your automatic loadout</h2><p><%= state.army.participants %> participating members · Attack <strong><%= state.attack %></strong> · Defense <strong><%= state.defense %></strong></p><div class="loadout-grid"><% for (const group of [{name:'Attacking',items:state.attackEquipment.selected},{name:'Defending',items:state.defenseEquipment.selected}]) { %><div><h3><%= group.name %></h3><ul class="plain-list"><% for (const item of group.items) { %><li><%= item.name %> ×<%= item.quantity %></li><% } %><% if (!group.items.length) { %><li>No usable equipment yet.</li><% } %></ul></div><% } %></div></section>

@@ -52,7 +52,7 @@ test('019 preserves every populated Phase 4.5 business row and all 450 bots, bac
    await placeBounty(sql,b.characterId,a.characterId,20,randomUUID(),now);
    await sql.query(`INSERT INTO realm_messages(id,author_id,profile_id,channel,body,command_id,ruleset_id,created_at) VALUES($1,$2,$3,'comment','A saved greeting',$4,'community-0.1',$5),($6,$2,NULL,'broadcast','A saved proclamation',$7,'community-0.1',$5)`,[randomUUID(),a.characterId,b.characterId,randomUUID(),now,randomUUID(),randomUUID()]);
   });
-  const before=await snapshot(db);await migrate(db);const after=await snapshot(db);
+  const before=await snapshot(db);await migrate(db,{through:'019_champions_and_rivalries.sql'});const after=await snapshot(db);
   for(const [table,rows] of Object.entries(before)){
    if(['schema_migrations','rulesets'].includes(table)){const current=new Set(after[table]);assert.ok(rows.every(row=>current.has(row)),table);}
    else assert.deepEqual(after[table],rows,table);
@@ -62,7 +62,7 @@ test('019 preserves every populated Phase 4.5 business row and all 450 bots, bac
   const aRivalry=(await rivalryHistory(db,a.characterId,b.characterId))!;assert.equal(aRivalry.wins,'1');assert.equal(aRivalry.losses,'2');assert.equal(aRivalry.goldTaken,'20');assert.equal(aRivalry.goldLost,'5');assert.equal(aRivalry.unrecordedGold,'1');
   const bountyHall=await hallOfChampions(db,c.characterId,'bounties');assert.equal(bountyHall.entries[0]!.id,c.characterId);assert.equal(bountyHall.own!.score,'1');
   const hunterRivalry=(await rivalryHistory(db,c.characterId,b.characterId))!;assert.equal(hunterRivalry.bountiesClaimed,'1');assert.equal(hunterRivalry.goldTaken,'10','Escrow principal must not enter ordinary stolen-gold totals.');
-  await migrate(db);assert.deepEqual(await snapshot(db),after);
+  await migrate(db,{through:'019_champions_and_rivalries.sql'});assert.deepEqual(await snapshot(db),after);
   await mkdir('test-results',{recursive:true});await writeFile('test-results/phase46-preservation.json',JSON.stringify({passed:true,base:'018_gameplay_refinement.sql',target:head,existingTablesVerified:Object.keys(before).length,accounts:454,bots:450,oldBusinessRows:'unchanged',migrationReplay:'unchanged',backfilledStandings:454,sha256:createHash('sha256').update(JSON.stringify(after)).digest('hex'),liveDatabaseConnected:false},null,2)+'\n');
  }finally{await db.end();await admin.query('DROP SCHEMA '+schema+' CASCADE');await admin.end();}
 });

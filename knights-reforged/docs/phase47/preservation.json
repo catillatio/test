@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "base": "019_champions_and_rivalries.sql",
+  "target": "020_game_feel.sql",
+  "existingTablesVerified": 64,
+  "accounts": 454,
+  "bots": 450,
+  "oldBusinessRows": "unchanged",
+  "migrationReplay": "unchanged",
+  "sha256": "0f268de3a955e082e405187b44ed2d263632cf5292c5d937156c0d4cb7fcb2a3",
+  "liveDatabaseConnected": false,
+  "preservedStandings": 454
+}

@@ -18,7 +18,7 @@ describe('Fantasy tiers, transactions and persistent progression',{skip:!testDat
       const before=await r.me(p);assert.equal(before.level,level);assert.equal(before.army.participants,3);
       assert.equal(before.attack,callingPower(rules.baseAttack+(level-1)*rules.attackPerLevel+2*rules.unit.attack+chosen.reduce((n,item)=>n+3*item.attack,0),before.calling.attackPercent));
       assert.equal(before.defense,callingPower(rules.baseDefense+(level-1)*rules.defensePerLevel+2*rules.unit.defense+chosen.reduce((n,item)=>n+3*item.defense,0),before.calling.defensePercent));
-      for(const item of chosen){const sale=await r.ok(p,'/api/v1/inventory/sales',{itemId:item.id,quantity:1});assert.equal(sale.data.goldReceived,Math.floor(item.price/2));assert.equal(sale.state.inventory.find((owned:{id:string})=>owned.id===item.id).quantity,2);}
+      for(const item of chosen){const sale=await r.ok(p,'/api/v1/inventory/sales',{itemId:item.id,quantity:1});assert.equal(sale.data.goldReceived,Math.floor(item.price*2/3));assert.equal(sale.state.inventory.find((owned:{id:string})=>owned.id===item.id).quantity,2);}
       const property=alpha.properties.filter(p=>p.level<=level).at(-1)!;
       await r.ok(p,'/api/v1/land/purchases',{propertyId:property.id,quantity:2});
       const balance=await r.me(p);
@@ -75,7 +75,7 @@ describe('Fantasy tiers, transactions and persistent progression',{skip:!testDat
     const p=await tierPlayer(50);await r.ok(p,'/api/v1/inventory/purchases',{itemId:'eclipse-greatsword',quantity:3});
     const before=await r.me(p);assert.equal(before.maintenance.reserveGold,'180');
     const sale=await r.ok(p,'/api/v1/inventory/sales',{itemId:'eclipse-greatsword',quantity:2});
-    assert.equal(sale.state.maintenance.reserveGold,'60');assert.equal(sale.state.gold,before.gold+9000+120);
+    assert.equal(sale.state.maintenance.reserveGold,'60');assert.equal(sale.state.gold,before.gold+12000+120);
   });
   test('distinct purchases can fund upkeep at the same server instant while a receipt retry still pays once',async()=>{
     const fixed=await realm({clock:()=>new Date('2027-01-01T00:00:00Z')});

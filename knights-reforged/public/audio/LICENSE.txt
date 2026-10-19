@@ -1,0 +1,5 @@
+Kingdom Come original action sounds — CC0 1.0 Universal (CC0-1.0).
+To the extent possible under law, the authors waive all copyright and related
+rights to these synthesized audio assets. No third-party samples are used.
+https://creativecommons.org/publicdomain/zero/1.0/
+Source and sound-design inventory: scripts/create-audio.py and inventory.json.

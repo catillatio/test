@@ -83,14 +83,13 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
       assert.match(primary, /<span>Recruit<\/span>/);
       assert.ok(!primary.includes('/game/land'));
       const secondary = /<nav\b[^>]*aria-label="Secondary navigation"[^>]*>([\s\S]*?)<\/nav>/.exec(response.body)?.[1];
-      assert.ok(secondary);
-      assert.ok(!secondary?.includes('href="/game/land"'), 'Land is not a secondary shortcut');
+      assert.equal(secondary,undefined,'Redundant secondary navigation is removed; primary navigation and global Profile remain.');
       assert.equal(response.body.includes('href="/game/land"'),screen==='home');
       const activeCount = [...primary.matchAll(/aria-current="page"/g)].length;
       assert.equal(activeCount, screen === 'land' ? 0 : 1);
       if (screen === 'army') assert.match(response.body, /<h1>Recruit<\/h1>/);
       if (screen === 'land') {
-        assert.match(secondary, /Home menu/);
+        assert.match(response.body, /href="\/game\/home"/);
         assert.match(response.body, /data-land-countdown/);
         assert.match(response.body, /data-wallet-gold/);
       }

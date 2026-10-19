@@ -1,0 +1,59 @@
+name: Kingdom Come checks
+on:
+  pull_request:
+    paths: ['knights-reforged/**', '.github/workflows/**']
+  push:
+    branches: ['feature/kingdom-come-phase-4-7-game-feel-and-polish', 'release/production']
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    services:
+      postgres:
+        image: postgres:18-bookworm
+        env:
+          POSTGRES_USER: knights
+          POSTGRES_PASSWORD: disposable-ci-only
+          POSTGRES_DB: kingdom_come_ci_test
+        ports: ['127.0.0.1:5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U knights -d kingdom_come_ci_test"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    defaults:
+      run:
+        working-directory: knights-reforged
+    env:
+      TEST_DATABASE_URL: postgres://knights:disposable-ci-only@127.0.0.1:5432/kingdom_come_ci_test
+      # The runner also has an unbranded Chromium snapshot. Use its installed
+      # Google Chrome explicitly so the AAC test exercises a shipping codec.
+      BROWSER_EXECUTABLE: /usr/bin/google-chrome
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - run: npm ci --no-audit --no-fund
+      - run: npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release
+      - run: node scripts/check-browser-audio.mjs
+      - run: npm run typecheck && npm run build && npm run check:static
+      - run: npm test
+      - run: npm audit --omit=dev --audit-level=high
+      - run: npm audit --omit=dev --audit-level=high --prefix deployment/release
+      - run: npm run test:browser:phase47
+      - run: docker build -t kingdom-come:checked .
+      - run: npm run test:container
+        env: {KINGDOM_CONTAINER_IMAGE: 'kingdom-come:checked', KINGDOM_TEST_PRIVATE_ALPHA: '1'}
+      - run: docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .
+      - run: node scripts/test-release-worker.mjs
+        env: {KINGDOM_CONTAINER_IMAGE: 'kingdom-come:checked', KINGDOM_RELEASE_WORKER_IMAGE: 'kingdom-come:release-worker-checked'}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: kingdom-check-evidence
+          path: |
+            knights-reforged/test-results/phase47-*.json
+            knights-reforged/test-results/phase47-browser/
+            knights-reforged/test-results/release-worker-verification.json
+          retention-days: 14

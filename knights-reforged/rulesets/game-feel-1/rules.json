@@ -1,0 +1,7 @@
+{
+  "id": "game-feel-1",
+  "provenance": "Kingdom Come Phase 4.7. Recorded-cost equipment resale and a gentler difficulty curve for legitimate, non-trivial victories. No changes to loot, encounter allowances, Calling mechanics, or the level curve.",
+  "equipmentResale": {"numerator": 2, "denominator": 3, "rounding": "floor per recorded-cost copy"},
+  "victoryXp": {"minimumMeaningfulStrengthRatio": 0.35, "minimumStrengthPercent": 50, "maximumStrengthPercent": 125, "repeatXp": 1},
+  "botIncome": {"intervalSeconds": 60, "batchSize": 25, "maximumBatches": 18}
+}

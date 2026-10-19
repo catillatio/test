@@ -1,3 +1,9 @@
+# Phase 4.7 release automation
+
+The current candidate uses the same game Dockerfile, root directory, private database, pre-deploy migration command, port 8080 and health check. See [non-SSH owner setup and guarded release workflow](docs/phase47/OPERATIONS.md) for the dedicated production branch, one approval gate, encrypted independent backup, separate verification PostgreSQL cluster, signed pre-deploy approval and rollback. No live access or deployment is performed by preparing this branch. Preserve the original service/volume; do not run first-time initialization.
+
+The manual SSH sections below are historical operational references, not the automated upgrade path. Railway does not provide the stable, independently attested SSH host pin assumed by the original Phase 4.7 guide. Do not use unverified host keys or unattended first-use trust as a backup/deployment workaround. The current workflow contains no SSH operations.
+
 # Railway deployment — Kingdom Come
 
 Current branch: `feature/kingdom-come-phase-4-6-rivalries-and-polish`.
@@ -104,53 +110,13 @@ Use PostgreSQL backups before migration/import and keep an independent, access-c
 
 For Railway-native volume backups, select the existing PostgreSQL volume's **Backups** controls, take a manual backup and verify its completion. Use the Railway plan's documented restore/clone procedure and retain an independent logical dump; never delete the only source volume to test recovery.
 
-For a logical backup, use a PostgreSQL client of the same major version as the server, or a supported newer client. The minimal game image intentionally does not include database administration tools. PostgreSQL's own container has `pg_dump`, `pg_restore` and `psql`. Connect using Railway's authenticated SSH facility into that service; no public database proxy is necessary. In that private container shell:
+The current release uses a private verification job deployed through Railway's authenticated HTTPS API. Follow the [non-SSH owner release procedure](docs/phase47/OPERATIONS.md) for setup, encrypted export, checksum verification, isolated restored-copy migration tests and owner approval. The helper restores only to a separate private PostgreSQL cluster. No SSH gateway key, first-use trust or public database proxy is required.
 
-```bash
-set -eu
-umask 077
-export PGHOST=127.0.0.1 PGPORT=5432
-export PGUSER="${PGUSER:-$POSTGRES_USER}"
-export PGPASSWORD="${PGPASSWORD:-$POSTGRES_PASSWORD}"
-export PGDATABASE="${PGDATABASE:-$POSTGRES_DB}"
-test -n "$PGUSER" && test -n "$PGPASSWORD" && test -n "$PGDATABASE"
-pg_dump --format=custom --no-owner --no-acl --file=/tmp/kingdom-come.dump
-pg_restore --list /tmp/kingdom-come.dump > /tmp/kingdom-come.dump.list
-```
+For independent owner recovery, download the retained encrypted artifact, check the ciphertext hash, decrypt locally using the offline age identity, check the archive hash, and inspect it with PostgreSQL 18-or-newer `pg_restore --list`. Exact commands and expected manifest fields are in that procedure. Keep the encrypted owner copy independently of Actions retention. Never upload plaintext backups to a public URL.
 
-Export the dump through the owner's authenticated SSH/file-transfer workflow, not HTTP or a public database port. For a CLI with command passthrough, the following exports base64 text through SSH and decodes locally; run it in the Codespace or trusted workstation with the Railway CLI already linked to the intended project/environment:
+For the original local Codespace database, a local `pg_dump` may use its existing private `PG*` variables on the trusted machine. That is a separate operator recovery task; the release workflow never accesses or resets Codespaces PostgreSQL.
 
-```bash
-set -o pipefail
-umask 077
-mkdir -p .local/backups
-backup_file=".local/backups/kingdom-come-$(date -u +%Y%m%dT%H%M%SZ).dump"
-# First create /tmp/kingdom-come.dump in the PostgreSQL shell above.
-railway ssh --service Postgres -- base64 /tmp/kingdom-come.dump \
-  | tr -d '\r' | base64 --decode > "$backup_file"
-pg_restore --list "$backup_file" > "$backup_file.list"
-sha256sum "$backup_file"
-```
-
-Use your actual PostgreSQL service name. A failed SSH/export/list check is a failed backup; stop before migration and retain the source. Provider SSH/CLI access must be verified in your account; it was not exercised here. For the existing local Codespace database, `pg_dump` can instead use its existing `PG*` connection variables; keep passwords in environment/secrets, not command arguments or shell history. Do not print `DATABASE_URL`.
-
-Restore-test into a **separate fresh database/service**, never over the live realm. Upload the dump through the same authenticated private workflow, stop applications pointed at the destination and verify the destination identity explicitly:
-
-```sql
-SELECT current_database(), current_user;
-SELECT count(*) FROM information_schema.tables
-WHERE table_schema NOT IN ('pg_catalog','information_schema');
--- Expect zero application tables in the fresh destination.
-```
-
-After confirming that this is the fresh destination, use its private `PG*` variables:
-
-```bash
-pg_restore --single-transaction --exit-on-error --no-owner --no-acl \
-  --dbname="$PGDATABASE" /tmp/kingdom-come.dump
-```
-
-There is deliberately no `--clean`, `--create` or automatic restore-at-startup. A restore error rolls back that transaction. Compare source/destination migration heads and counts for accounts, characters, wallets, Vault balances, inventory, Land holdings, ledger entries, battles, bounties, comments and sessions. Test login and an authenticated action on the isolated restored realm. Preserve original data and backup; change the game service's private database reference only after the owner accepts verification. Native volume recovery is an emergency operation with the same explicit destination/data-loss review, not a routine upgrade step.
+Restore only to a separately named, fresh private recovery database after explicitly verifying its identity and emptiness. Do not use `--clean`, restore over the live realm, delete its volume, or change the game's database reference automatically. Compare migration heads, accounts, sessions, wallets, Vaults, inventory, Land, ledgers, battles, bounties and comments before an owner-approved recovery switch. The routine upgrade does not restore the game database at all.
 
 ## 6. Health, restart and operator checks
 

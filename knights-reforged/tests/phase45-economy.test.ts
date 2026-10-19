@@ -4,10 +4,11 @@ import {randomUUID} from 'node:crypto';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {realm,testDatabaseUrl,type Player} from './helpers.js';
 import {alpha,levelRequirement,areRivals} from '../src/alpha-rules.js';
-import {gameplay,victoryExperience45,victoryLoot45} from '../src/gameplay-rules.js';
+import {gameplay,victoryLoot45} from '../src/gameplay-rules.js';
 import {provisionBots,botBlueprint} from '../src/development.js';
 import {getState} from '../src/game.js';
 import {activeBountyCount,bountyBoard} from '../src/bounties.js';
+import {victoryExperience47 as victoryExperience45} from '../src/game-feel-rules.js';
 const skip=!testDatabaseUrl;
 const xpFor=(level:number)=>Array.from({length:level-1},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0);
 

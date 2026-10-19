@@ -1,0 +1,68 @@
+[
+  {
+    "file": "390-home.png",
+    "title": "Compact Home and status header",
+    "sha256": "377d2f3ef016e14d90fa4ae1c1a71d9024a63ddbacdda387c85ad1ce566ae14d",
+    "bytes": 225745
+  },
+  {
+    "file": "390-sound-settings.png",
+    "title": "Opt-in sound and persistent volume",
+    "sha256": "1a8fe4d26147e4353807f895f2fb704a8e0a231e0afb1ab860457a84c6ddb195",
+    "bytes": 195332
+  },
+  {
+    "file": "390-armory-buy-more.png",
+    "title": "Armory Buy More and preserved quantity",
+    "sha256": "af4dbd46a2ec95ba171b02354988c52cd3592d9d1ffc2050a5438a43f1a7ffe8",
+    "bytes": 176570
+  },
+  {
+    "file": "390-session-recovery.png",
+    "title": "Expired-session recovery without losing the menu",
+    "sha256": "92cba4b9163a5fbfe4ce89f4ce4ff33ce5519c80ebc7d9017bf081d457c39b08",
+    "bytes": 164283
+  },
+  {
+    "file": "390-land-buy-more.png",
+    "title": "Land purchase receipt with Buy More",
+    "sha256": "a7e9a730f1e9d6941f8741926c9b168b3a5fd987c8ce4ec2feaa1031a01d0019",
+    "bytes": 178016
+  },
+  {
+    "file": "390-income-breakdown.png",
+    "title": "Authoritative upcoming-payment breakdown",
+    "sha256": "e2ec172abcbc58c7282d230a666a9faf002c8ccab49f2f0096ab1b53ed919306",
+    "bytes": 202019
+  },
+  {
+    "file": "390-healing-panel.png",
+    "title": "Existing gold healing with polished controls",
+    "sha256": "b0e3b471376375621498e35196110a555d4837aa37016cb13ae8d32c76a11ec9",
+    "bytes": 207242
+  },
+  {
+    "file": "390-quest-complete.png",
+    "title": "Confirmed quest reward presentation",
+    "sha256": "7cb03a5f463008ffeeb5c366564561056c1a656c9c587b8ad43d436481b2c7be",
+    "bytes": 1057596
+  },
+  {
+    "file": "390-callings-signout.png",
+    "title": "Renamed Callings and visible Sign Out",
+    "sha256": "9b10e239f6b2a7f113f40bb3093d04b7ef10057a1ebbc1cb79fa493442b1e8b5",
+    "bytes": 203809
+  },
+  {
+    "file": "390-tutorial-step-six.png",
+    "title": "Tutorial Step 6, with explicit View Battle instruction",
+    "sha256": "e867f11a3eff8a34449d70810bf22052d9af97d5cded900d60b7783cc7bc5fa2",
+    "bytes": 222555
+  },
+  {
+    "file": "390-victory-equipment.png",
+    "title": "Victory, immediate Attack Again and saved enemy equipment",
+    "sha256": "0e42c24a75790a26a6be72a029fcb1a42957840c68a47ee6867fc97ae9ddc5f8",
+    "bytes": 238863
+  }
+]

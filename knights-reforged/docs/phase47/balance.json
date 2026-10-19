@@ -1,0 +1,696 @@
+{
+  "ruleset": "game-feel-1",
+  "xp": [
+    {
+      "level": 8,
+      "requirement": 135,
+      "quest": {
+        "name": "Track the Runewood Stag",
+        "xp": 24,
+        "mana": 5
+      },
+      "cases": [
+        {
+          "opponent": "matched",
+          "defenderLevel": 8,
+          "strengthRatio": 1,
+          "fullAllowance": true,
+          "before": 7,
+          "after": 7,
+          "percentOfLevel": 5.19
+        },
+        {
+          "opponent": "meaningful decisive",
+          "defenderLevel": 8,
+          "strengthRatio": 0.4,
+          "fullAllowance": true,
+          "before": 2,
+          "after": 3,
+          "percentOfLevel": 2.22
+        },
+        {
+          "opponent": "trivial",
+          "defenderLevel": 6,
+          "strengthRatio": 0.25,
+          "fullAllowance": true,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.74
+        },
+        {
+          "opponent": "repeat allowance exhausted",
+          "defenderLevel": 8,
+          "strengthRatio": 1,
+          "fullAllowance": false,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.74
+        }
+      ]
+    },
+    {
+      "level": 17,
+      "requirement": 515,
+      "quest": {
+        "name": "Shatter the Icewatch",
+        "xp": 50,
+        "mana": 7
+      },
+      "cases": [
+        {
+          "opponent": "matched",
+          "defenderLevel": 17,
+          "strengthRatio": 1,
+          "fullAllowance": true,
+          "before": 47,
+          "after": 47,
+          "percentOfLevel": 9.13
+        },
+        {
+          "opponent": "meaningful decisive",
+          "defenderLevel": 17,
+          "strengthRatio": 0.4,
+          "fullAllowance": true,
+          "before": 18,
+          "after": 23,
+          "percentOfLevel": 4.47
+        },
+        {
+          "opponent": "trivial",
+          "defenderLevel": 15,
+          "strengthRatio": 0.25,
+          "fullAllowance": true,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.19
+        },
+        {
+          "opponent": "repeat allowance exhausted",
+          "defenderLevel": 17,
+          "strengthRatio": 1,
+          "fullAllowance": false,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.19
+        }
+      ]
+    },
+    {
+      "level": 25,
+      "requirement": 875,
+      "quest": {
+        "name": "Break the Copper Oath",
+        "xp": 86,
+        "mana": 8
+      },
+      "cases": [
+        {
+          "opponent": "matched",
+          "defenderLevel": 25,
+          "strengthRatio": 1,
+          "fullAllowance": true,
+          "before": 105,
+          "after": 105,
+          "percentOfLevel": 12
+        },
+        {
+          "opponent": "meaningful decisive",
+          "defenderLevel": 25,
+          "strengthRatio": 0.4,
+          "fullAllowance": true,
+          "before": 42,
+          "after": 52,
+          "percentOfLevel": 5.94
+        },
+        {
+          "opponent": "trivial",
+          "defenderLevel": 23,
+          "strengthRatio": 0.25,
+          "fullAllowance": true,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.11
+        },
+        {
+          "opponent": "repeat allowance exhausted",
+          "defenderLevel": 25,
+          "strengthRatio": 1,
+          "fullAllowance": false,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.11
+        }
+      ]
+    },
+    {
+      "level": 40,
+      "requirement": 1550,
+      "quest": {
+        "name": "Navigate the Astral Storm",
+        "xp": 165,
+        "mana": 11
+      },
+      "cases": [
+        {
+          "opponent": "matched",
+          "defenderLevel": 40,
+          "strengthRatio": 1,
+          "fullAllowance": true,
+          "before": 186,
+          "after": 186,
+          "percentOfLevel": 12
+        },
+        {
+          "opponent": "meaningful decisive",
+          "defenderLevel": 40,
+          "strengthRatio": 0.4,
+          "fullAllowance": true,
+          "before": 74,
+          "after": 93,
+          "percentOfLevel": 6
+        },
+        {
+          "opponent": "trivial",
+          "defenderLevel": 38,
+          "strengthRatio": 0.25,
+          "fullAllowance": true,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.06
+        },
+        {
+          "opponent": "repeat allowance exhausted",
+          "defenderLevel": 40,
+          "strengthRatio": 1,
+          "fullAllowance": false,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.06
+        }
+      ]
+    },
+    {
+      "level": 50,
+      "requirement": 2000,
+      "quest": {
+        "name": "Defy the Eclipsed Sovereign",
+        "xp": 230,
+        "mana": 13
+      },
+      "cases": [
+        {
+          "opponent": "matched",
+          "defenderLevel": 50,
+          "strengthRatio": 1,
+          "fullAllowance": true,
+          "before": 240,
+          "after": 240,
+          "percentOfLevel": 12
+        },
+        {
+          "opponent": "meaningful decisive",
+          "defenderLevel": 50,
+          "strengthRatio": 0.4,
+          "fullAllowance": true,
+          "before": 96,
+          "after": 120,
+          "percentOfLevel": 6
+        },
+        {
+          "opponent": "trivial",
+          "defenderLevel": 48,
+          "strengthRatio": 0.25,
+          "fullAllowance": true,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.05
+        },
+        {
+          "opponent": "repeat allowance exhausted",
+          "defenderLevel": 50,
+          "strengthRatio": 1,
+          "fullAllowance": false,
+          "before": 1,
+          "after": 1,
+          "percentOfLevel": 0.05
+        }
+      ]
+    }
+  ],
+  "progressionCurve": "Unchanged: cumulative thresholds 0,12,30,60,105,165,245,350,485,650 through level 10. Later next-level requirement = 200 + 45 × (level−10). Character levels remain uncapped; existing content unchanged.",
+  "explanation": "+1 XP is intentional after encounter budgets, below 35% relevant strength, or after integer rounding at very low levels. The decisive presentation label is not used by the XP function. Only a non-trivial 35–50% strength ratio is now rounded up to a 50% strength factor; full matched and challenging rewards stay unchanged. Bot allowances: one full encounter per opponent and six total per rolling 24 hours, then 1 XP and zero ordinary gold. Human allowance: three per pair; separate defensive budget. Spirit and eligibility unchanged.",
+  "resale": [
+    {
+      "paid": 5,
+      "before": 2,
+      "after": 3
+    },
+    {
+      "paid": 12,
+      "before": 6,
+      "after": 8
+    },
+    {
+      "paid": 40,
+      "before": 20,
+      "after": 26
+    },
+    {
+      "paid": 75,
+      "before": 37,
+      "after": 50
+    },
+    {
+      "paid": 120,
+      "before": 60,
+      "after": 80
+    },
+    {
+      "paid": 9000,
+      "before": 4500,
+      "after": 6000
+    },
+    {
+      "paid": 175000,
+      "before": 87500,
+      "after": 116666
+    }
+  ],
+  "botEconomy": {
+    "passed": true,
+    "population": 450,
+    "offlineHours": 72,
+    "humanBalancesChanged": false,
+    "capitalGranted": 0,
+    "portfoliosChanged": 0,
+    "samples": [
+      {
+        "level": 5,
+        "before": {
+          "id": "17c906d5-aa7d-4cb5-8242-77df07ef7c10",
+          "name": "Lysandra Hearthguard",
+          "level": 5,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 3443,
+          "vault_gold": 2093,
+          "plots": 3,
+          "gross": "91",
+          "property_upkeep": "7",
+          "equipment_upkeep": 3,
+          "fully_funded_net": "81",
+          "paused": false,
+          "reserve_gold": "144",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-02T00:00:00.000Z",
+          "next_payment_at": "2047-01-02T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": null,
+          "last_funded": null,
+          "funding_events": 0
+        },
+        "after": {
+          "id": "17c906d5-aa7d-4cb5-8242-77df07ef7c10",
+          "name": "Lysandra Hearthguard",
+          "level": 5,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 9419,
+          "vault_gold": 2093,
+          "plots": 3,
+          "gross": "91",
+          "property_upkeep": "7",
+          "equipment_upkeep": 3,
+          "fully_funded_net": "81",
+          "paused": false,
+          "reserve_gold": "0",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-05T00:00:00.000Z",
+          "next_payment_at": "2047-01-05T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": "2047-01-05T00:00:00.000Z",
+          "last_funded": null,
+          "funding_events": 0
+        }
+      },
+      {
+        "level": 8,
+        "before": {
+          "id": "2cb03b21-9e47-4a1f-a23e-bda8df31f9d0",
+          "name": "Osric Ravenholt",
+          "level": 8,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 3762,
+          "vault_gold": 4087,
+          "plots": 3,
+          "gross": "181",
+          "property_upkeep": "17",
+          "equipment_upkeep": 7,
+          "fully_funded_net": "157",
+          "paused": false,
+          "reserve_gold": "336",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-02T00:00:00.000Z",
+          "next_payment_at": "2047-01-02T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": null,
+          "last_funded": null,
+          "funding_events": 0
+        },
+        "after": {
+          "id": "2cb03b21-9e47-4a1f-a23e-bda8df31f9d0",
+          "name": "Osric Ravenholt",
+          "level": 8,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 15402,
+          "vault_gold": 4087,
+          "plots": 3,
+          "gross": "181",
+          "property_upkeep": "17",
+          "equipment_upkeep": 7,
+          "fully_funded_net": "157",
+          "paused": false,
+          "reserve_gold": "0",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-05T00:00:00.000Z",
+          "next_payment_at": "2047-01-05T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": "2047-01-05T00:00:00.000Z",
+          "last_funded": null,
+          "funding_events": 0
+        }
+      },
+      {
+        "level": 17,
+        "before": {
+          "id": "f77b7da6-d87a-4f8d-b97c-e95954e417f3",
+          "name": "Zephryn Goldentarn",
+          "level": 17,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 5946,
+          "vault_gold": 15681,
+          "plots": 3,
+          "gross": "738",
+          "property_upkeep": "91",
+          "equipment_upkeep": 69,
+          "fully_funded_net": "578",
+          "paused": false,
+          "reserve_gold": "3312",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-02T00:00:00.000Z",
+          "next_payment_at": "2047-01-02T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": null,
+          "last_funded": null,
+          "funding_events": 0
+        },
+        "after": {
+          "id": "f77b7da6-d87a-4f8d-b97c-e95954e417f3",
+          "name": "Zephryn Goldentarn",
+          "level": 17,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 50874,
+          "vault_gold": 15681,
+          "plots": 3,
+          "gross": "738",
+          "property_upkeep": "91",
+          "equipment_upkeep": 69,
+          "fully_funded_net": "578",
+          "paused": false,
+          "reserve_gold": "0",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-05T00:00:00.000Z",
+          "next_payment_at": "2047-01-05T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": "2047-01-05T00:00:00.000Z",
+          "last_funded": null,
+          "funding_events": 0
+        }
+      },
+      {
+        "level": 25,
+        "before": {
+          "id": "8c2d05ba-590b-45c7-8b4c-f062b1996ef2",
+          "name": "Hesper Cloudspire",
+          "level": 25,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 20428,
+          "vault_gold": 111171,
+          "plots": 7,
+          "gross": "4850",
+          "property_upkeep": "720",
+          "equipment_upkeep": 168,
+          "fully_funded_net": "3962",
+          "paused": false,
+          "reserve_gold": "8064",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-02T00:00:00.000Z",
+          "next_payment_at": "2047-01-02T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": null,
+          "last_funded": null,
+          "funding_events": 0
+        },
+        "after": {
+          "id": "8c2d05ba-590b-45c7-8b4c-f062b1996ef2",
+          "name": "Hesper Cloudspire",
+          "level": 25,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 313756,
+          "vault_gold": 111171,
+          "plots": 7,
+          "gross": "4850",
+          "property_upkeep": "720",
+          "equipment_upkeep": 168,
+          "fully_funded_net": "3962",
+          "paused": false,
+          "reserve_gold": "0",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-05T00:00:00.000Z",
+          "next_payment_at": "2047-01-05T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": "2047-01-05T00:00:00.000Z",
+          "last_funded": null,
+          "funding_events": 0
+        }
+      },
+      {
+        "level": 40,
+        "before": {
+          "id": "174c098f-d401-412a-b3ff-b186011c41f2",
+          "name": "Cedric Ebonhart",
+          "level": 40,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 75696,
+          "vault_gold": 503328,
+          "plots": 13,
+          "gross": "20390",
+          "property_upkeep": "3240",
+          "equipment_upkeep": 576,
+          "fully_funded_net": "16574",
+          "paused": false,
+          "reserve_gold": "27648",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-02T00:00:00.000Z",
+          "next_payment_at": "2047-01-02T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": null,
+          "last_funded": null,
+          "funding_events": 0
+        },
+        "after": {
+          "id": "174c098f-d401-412a-b3ff-b186011c41f2",
+          "name": "Cedric Ebonhart",
+          "level": 40,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 1296672,
+          "vault_gold": 503328,
+          "plots": 13,
+          "gross": "20390",
+          "property_upkeep": "3240",
+          "equipment_upkeep": 576,
+          "fully_funded_net": "16574",
+          "paused": false,
+          "reserve_gold": "0",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-05T00:00:00.000Z",
+          "next_payment_at": "2047-01-05T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": "2047-01-05T00:00:00.000Z",
+          "last_funded": null,
+          "funding_events": 0
+        }
+      },
+      {
+        "level": 50,
+        "before": {
+          "id": "5b0a5799-e11d-492e-b5a6-ef04016c22b1",
+          "name": "Gwyneira Emberfall",
+          "level": 50,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 113440,
+          "vault_gold": 800180,
+          "plots": 13,
+          "gross": "30310",
+          "property_upkeep": "4840",
+          "equipment_upkeep": 870,
+          "fully_funded_net": "24600",
+          "paused": false,
+          "reserve_gold": "41760",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-02T00:00:00.000Z",
+          "next_payment_at": "2047-01-02T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": null,
+          "last_funded": null,
+          "funding_events": 0
+        },
+        "after": {
+          "id": "5b0a5799-e11d-492e-b5a6-ef04016c22b1",
+          "name": "Gwyneira Emberfall",
+          "level": 50,
+          "tier": "seasoned",
+          "variant": 0,
+          "active": true,
+          "population_version": "passive-rivals-5",
+          "exposed_gold": 1926400,
+          "vault_gold": 800180,
+          "plots": 13,
+          "gross": "30310",
+          "property_upkeep": "4840",
+          "equipment_upkeep": 870,
+          "fully_funded_net": "24600",
+          "paused": false,
+          "reserve_gold": "0",
+          "arrears_gold": "0",
+          "maintenance_through": "2047-01-05T00:00:00.000Z",
+          "next_payment_at": "2047-01-05T01:00:00.000Z",
+          "missing_clock": false,
+          "due_hours": 0,
+          "paid_through": "2047-01-05T00:00:00.000Z",
+          "last_funded": null,
+          "funding_events": 0
+        }
+      }
+    ]
+  },
+  "botFirstLoot": [
+    {
+      "level": 5,
+      "before": 81,
+      "after72Hours": 81,
+      "cap": 81,
+      "repeat": 0
+    },
+    {
+      "level": 8,
+      "before": 112,
+      "after72Hours": 130,
+      "cap": 130,
+      "repeat": 0
+    },
+    {
+      "level": 17,
+      "before": 178,
+      "after72Hours": 411,
+      "cap": 411,
+      "repeat": 0
+    },
+    {
+      "level": 25,
+      "before": 612,
+      "after72Hours": 831,
+      "cap": 831,
+      "repeat": 0
+    },
+    {
+      "level": 40,
+      "before": 2050,
+      "after72Hours": 2050,
+      "cap": 2050,
+      "repeat": 0
+    },
+    {
+      "level": 50,
+      "before": 3000,
+      "after72Hours": 3000,
+      "cap": 3000,
+      "repeat": 0
+    }
+  ],
+  "botLoot": [
+    {
+      "level": 8,
+      "cap": 130
+    },
+    {
+      "level": 17,
+      "cap": 411
+    },
+    {
+      "level": 25,
+      "cap": 831
+    },
+    {
+      "level": 40,
+      "cap": 2050
+    },
+    {
+      "level": 50,
+      "cap": 3000
+    }
+  ],
+  "preservation": {
+    "humanCapitalGranted": 0,
+    "botCapitalGranted": 0,
+    "holdingsRewritten": 0,
+    "oldBattleRewardsRecalculated": false,
+    "lootChanged": false
+  },
+  "limitations": [
+    "This is a populated synthetic Phase 4.6 fixture and deterministic arithmetic, not an audit of live Railway records.",
+    "The read-only owner bot audit identifies live overdue cursors or portfolio drift. No one-time correction is included or executed."
+  ]
+}
