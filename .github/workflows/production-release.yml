@@ -1,4 +1,5 @@
 name: Owner approved Railway release
+# Manual release only; production approval and all recovery checks remain required.
 on:
   workflow_dispatch:
     inputs:
