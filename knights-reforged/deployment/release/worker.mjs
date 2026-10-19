@@ -59,16 +59,21 @@ async function main(){
  }
  // All administrative operations below target the independent verification
  // cluster. The original PostgreSQL receives read-only queries and pg_dump.
- gate='independent-verification-cluster';const scratch=createDatabase(restore.url.href);
+ gate='independent-verification-database-connection';const scratch=createDatabase(restore.url.href);
  let lock,folder;
  try{
-  lock=await scratch.connect();folder=await mkdtemp(join(tmpdir(),'kingdom-release-'));
+  lock=await scratch.connect();
+  gate='independent-verification-working-directory';folder=await mkdtemp(join(tmpdir(),'kingdom-release-'));
+  gate='independent-verification-cluster-identity';
   const cluster=(await lock.query('SELECT system_identifier::text AS id FROM pg_control_system()')).rows[0].id;
   report.restoreClusterDigest=createHash('sha256').update(cluster).digest('hex');
   assert.notEqual(report.restoreClusterDigest,sourceClusterDigest,'The verification cluster must be independent.');
+  gate='independent-verification-advisory-lock';
   const locked=(await lock.query('SELECT pg_try_advisory_lock(61824087) AS acquired')).rows[0].acquired;
   assert.equal(locked,true,'Another private verification job is running.');
+  gate='independent-verification-copy-absence';
   assert.equal((await lock.query('SELECT count(*)::int AS n FROM pg_database WHERE datname=$1',[request.copy])).rows[0].n,0,'A verification database already exists; never overwrite it.');
+  gate='independent-verification-storage-capacity';
   const available=await statfs(folder),sourceBytes=BigInt(sourceStatus.sourceBytes);
   assert.ok(BigInt(available.bavail)*BigInt(available.bsize)>sourceBytes*5n+134217728n,'Insufficient temporary verification space.');
   const dump=join(folder,'realm.dump'),encrypted=join(folder,'realm.dump.age'),downloaded=join(folder,'downloaded.dump.age'),restored=join(folder,'restored.dump'),identity=join(folder,'restore.agekey');
