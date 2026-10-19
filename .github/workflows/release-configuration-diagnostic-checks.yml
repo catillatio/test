@@ -1,0 +1,49 @@
+name: Protected offline release checks
+on:
+  workflow_call:
+    secrets:
+      # Optional inputs for the schema; the protected production environment
+      # supplies these secrets. The caller deliberately does not forward them.
+      KINGDOM_RELEASE_SIGNING_KEY:
+        required: false
+      KINGDOM_BACKUP_ACCESS_KEY_ID:
+        required: false
+      KINGDOM_BACKUP_SECRET_ACCESS_KEY:
+        required: false
+      diagnostic_verify_key:
+        required: false
+      diagnostic_backup_endpoint:
+        required: false
+      diagnostic_backup_bucket:
+        required: false
+      diagnostic_backup_region:
+        required: false
+      diagnostic_backup_path_style:
+        required: false
+permissions:
+  contents: read
+jobs:
+  diagnostic:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/release/production'
+    environment: production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - name: Install locked diagnostic dependencies before exposing secrets
+        run: npm ci --ignore-scripts --no-audit --no-fund --prefix knights-reforged/deployment/release > /dev/null 2>&1
+      - name: Check only local key correspondence and offline presigning
+        env:
+          # These three credentials come from the existing approved environment.
+          KINGDOM_RELEASE_SIGNING_KEY: ${{ secrets.KINGDOM_RELEASE_SIGNING_KEY }}
+          KINGDOM_BACKUP_ACCESS_KEY_ID: ${{ secrets.KINGDOM_BACKUP_ACCESS_KEY_ID }}
+          KINGDOM_BACKUP_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_BACKUP_SECRET_ACCESS_KEY }}
+          KINGDOM_RELEASE_VERIFY_KEY: ${{ secrets.diagnostic_verify_key }}
+          KINGDOM_BACKUP_ENDPOINT: ${{ secrets.diagnostic_backup_endpoint }}
+          KINGDOM_BACKUP_BUCKET: ${{ secrets.diagnostic_backup_bucket }}
+          KINGDOM_BACKUP_REGION: ${{ secrets.diagnostic_backup_region }}
+          KINGDOM_BACKUP_PATH_STYLE: ${{ secrets.diagnostic_backup_path_style }}
+        run: bash knights-reforged/deployment/release/diagnose.sh
