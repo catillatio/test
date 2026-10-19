@@ -13,6 +13,9 @@ jobs:
     # Typed secret inputs mask these repository variables in runner log headers,
     # including the public PEM. No additional stored secrets are required.
     secrets:
+      KINGDOM_RELEASE_SIGNING_KEY: ${{ secrets.KINGDOM_RELEASE_SIGNING_KEY }}
+      KINGDOM_BACKUP_ACCESS_KEY_ID: ${{ secrets.KINGDOM_BACKUP_ACCESS_KEY_ID }}
+      KINGDOM_BACKUP_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_BACKUP_SECRET_ACCESS_KEY }}
       diagnostic_verify_key: ${{ vars.KINGDOM_RELEASE_VERIFY_KEY }}
       diagnostic_backup_endpoint: ${{ vars.KINGDOM_BACKUP_ENDPOINT }}
       diagnostic_backup_bucket: ${{ vars.KINGDOM_BACKUP_BUCKET }}
