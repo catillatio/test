@@ -54,10 +54,16 @@ check('The mockup-theme background matches its original-asset provenance',()=>{
   assert.equal(createHash('sha256').update(bytes).digest('hex'),manifest.sha256);
   assert.ok(read('public/remaster.css').includes('art/remaster-ui/'+manifest.asset));
 });
-for(const [manifest,count] of [['public/art/provenance.json',11],['public/art/land-provenance.json',2],['public/art/kingdoms-live/provenance.json',16],['public/art/alpha/provenance.json',18]]){
+for(const [manifest,count] of [['public/art/alpha/provenance.json',18]]){
   check('Artwork integrity: '+manifest,()=>{
     const art=json(manifest);assert.equal(art.assets.length,count);
     for(const item of art.assets)assert.equal(createHash('sha256').update(readFileSync(join(root,dirname(manifest),item.asset))).digest('hex'),item.sha256,item.asset);
+  });
+}
+for(const [manifest,retiredRoot,count] of [['docs/phase48/retired-art/provenance.json','public/art',11],['docs/phase48/retired-art/land-provenance.json','public/art',2],['docs/phase48/retired-art/kingdoms-live-provenance.json','public/art/kingdoms-live',16]]){
+  check('Unlicensed historical artwork is absent from the runtime tree: '+manifest,()=>{
+    const art=json(manifest);assert.equal(art.assets.length,count);
+    for(const item of art.assets)assert.ok(!existsSync(join(root,retiredRoot,item.asset)),item.asset+' must not be served');
   });
 }
 check('Fantasy illustration sheets and all catalog cell assignments are intact',()=>{
@@ -84,7 +90,7 @@ check('Simplified Land sheet preserves 21 property identities with verified imag
  assert.ok(read('public/strategy.css').includes('land-simple-0.1/properties.webp'));
 });
 check('CSS uses local assets; original tab gradients and safe areas remain',()=>{
-  for(const file of ['public/land-review.css','public/remaster.css','public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
+  for(const file of ['public/realm-theme.css','public/land-review.css','public/remaster.css','public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
     for(const match of read(file).matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)){
       assert.ok(!/^(?:https?:|\/\/)/.test(match[1]));assert.ok(existsSync(resolve(root,dirname(file),match[1])),match[1]);
     }
@@ -251,8 +257,11 @@ check('Upgraded pages bypass cached pre-expansion income clients',()=>{
     assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1-phase48-mockup2'));
     assert.ok(html.includes('/assets/kingdoms-live.css?v=phase48-mockup2'));assert.ok(html.includes('/assets/alpha.css?v=phase48-mockup2'));
     assert.ok(html.includes('/assets/remaster.css?v=phase48-mockup2'));
+    assert.ok(html.includes('/assets/realm-theme.css?v=phase48-shared1'));
+    assert.ok(html.includes('/assets/sound.js?v=phase48-shared1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
-    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase48-stage1'));
+    if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase48-shared1'));
+    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase48-land-polish1'));
   }
 });
 check('Land retains countdown, offline payment, sale, retained-gold and no-script hooks',()=>{
@@ -262,7 +271,7 @@ check('Land retains countdown, offline payment, sale, retained-gold and no-scrip
  }
 });
 check('The Land-only review stylesheet and original assets cannot replace other screens',()=>{
-  for(const example of cases)assert.equal(rendered.get(example.name).includes('/assets/land-review.css?v=phase48-land3'),example.data.screen==='land');
+  for(const example of cases)assert.equal(rendered.get(example.name).includes('/assets/land-review.css?v=phase48-land4'),example.data.screen==='land');
   const manifest=json('public/art/land-review/provenance.json');assert.equal(manifest.assets.length,3);
   for(const asset of manifest.assets){const bytes=readFileSync(join(root,'public/art/land-review',asset.asset));assert.equal(bytes.length,asset.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);}
   const reference=readFileSync(join(root,manifest.reference.path));assert.equal(createHash('sha256').update(reference).digest('hex'),manifest.reference.sha256);

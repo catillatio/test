@@ -1,0 +1,75 @@
+{
+  "status": "Feature-branch shared-screen review; replacement audio pending owner audition approval",
+  "environment": "Local isolated PostgreSQL 18 fixtures and Chromium; no production connection",
+  "fullSuite": {
+    "command": "TEST_DATABASE_URL=<local_disposable_test_database> npm test",
+    "tests": 433,
+    "passed": 432,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Real hosted-runner network namespace cannot be exercised in this local workspace.",
+    "durationMs": 641804.528849
+  },
+  "typeScript": "passed",
+  "productionBuild": "passed",
+  "static": {
+    "passed": 94,
+    "failed": 0,
+    "ejsFixtures": 73
+  },
+  "browser": {
+    "sharedVisits": 176,
+    "sharedWidths": [
+      320,
+      360,
+      390,
+      412,
+      430,
+      768,
+      1024,
+      1366
+    ],
+    "marketplaceResponsiveVisits": 56,
+    "audioAndRecoveryResponsiveVisits": 64,
+    "protectedLandResponsiveVisits": 18,
+    "vaultTouchViewports": 4,
+    "errors": 0,
+    "fullTenDigitWallet": "readable at 320\u2013430px and desktop",
+    "minimumMarketplaceTouchPixels": 44,
+    "screenshotsPublished": 44
+  },
+  "landDesktopPixels": {
+    "outsideApprovedPriceAndFlowChanges": 0,
+    "dimensions": [
+      1024,
+      1536
+    ]
+  },
+  "databasePreservation": {
+    "tablesCompared": 66,
+    "botsPreserved": 450,
+    "newMigrations": 0,
+    "migrationReplay": "unchanged",
+    "savedSessionAndPreferences": "preserved"
+  },
+  "restart": "Compiled server, saved sessions/progress and three offline income cycles passed; repeated settlement pays nothing twice.",
+  "botPolicy": {
+    "dailyRewardedVictories": 6,
+    "rewardedVictoriesPerBot": 1,
+    "lossesConsumeAllowance": false,
+    "startingCapitalGranted": 0,
+    "portfoliosChanged": 0,
+    "oldReceiptsRewritten": false
+  },
+  "releaseInfrastructureChanged": false,
+  "liveResourcesContacted": false,
+  "mergeOrDeploymentPerformed": false,
+  "runtimeAudioAssetsChanged": false,
+  "remaining": [
+    "Owner review of shared-screen screenshots",
+    "Owner approval of CC0 sound audition before runtime adoption",
+    "Physical Android/iPhone/Safari listening and touch checks",
+    "Exact-record owner review and separate reversible broadcast moderation, not performed here",
+    "Later Land properties retain their original catalog illustrations; no unapproved new artwork adopted"
+  ]
+}

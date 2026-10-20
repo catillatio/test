@@ -1,0 +1,7 @@
+<% const advance=position===8?'finish':'next';const advanceLabel=position===8?'Finish Tutorial':'Next Lesson'; %>
+<% if(step.done) { %><form method="post" action="/game/tutorial" class="guide-primary"><%- include('command-fields') %><input type="hidden" name="action" value="<%= advance %>"><button class="button button-gold" type="submit"><%= advanceLabel %></button></form>
+<% } else { %><a class="button button-gold guide-show-me" href="<%= step.href %>" data-guide-destination="<%= step.target %>">Show Me</a><% } %>
+<details class="guide-options"><summary>Back, skip &amp; more options ⌄</summary><div class="guide-controls">
+<% if(position>1) { %><form method="post" action="/game/tutorial"><%- include('command-fields') %><input type="hidden" name="action" value="back"><button class="button button-outline" type="submit">Back</button></form><% } %>
+<% if(!step.done) { %><form method="post" action="/game/tutorial"><%- include('command-fields') %><input type="hidden" name="action" value="<%= advance %>"><button class="button button-outline" type="submit"><%= advanceLabel %></button></form><% } else { %><a class="button button-outline" href="<%= step.href %>" data-guide-destination="<%= step.target %>">Review Step</a><% } %>
+<form method="post" action="/game/tutorial"><%- include('command-fields') %><input type="hidden" name="action" value="skip"><button class="tutorial-skip" type="submit">Skip for now</button></form></div><p class="field-hint">Next never spends gold or starts a battle. Your progress is saved.</p></details>

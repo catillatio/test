@@ -35,7 +35,7 @@ import {activityFeed,armyDashboard,feedCategory,relativeTime,battleTales} from '
 import {bountyBoard as loadBountyBoard,bountyQuote,bountyPlacementAvailability} from './bounties.js';
 import {activeBountyCount} from './bounties.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
-import {championCategories,formatStanding,hallOfChampions,recentHumanRivals,rivalryHistory,opponentUnavailable} from './competition.js';
+import {championCategories,formatStanding,hallOfChampions,rivalryHistory,opponentUnavailable} from './competition.js';
 
 declare module 'fastify' { interface FastifyRequest { realmSession: Session | null; } }
 const uuid = z.string().uuid();
@@ -167,10 +167,12 @@ export async function createApp(options: { db: Database; config: Config; logger?
   const authLimit = { config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 10, timeWindow: '1 minute' } } };
   app.post('/register', authLimit, async (request, reply) => {
     await authenticationAttempt(db,'registration',asBody(request).username);
-    const account = await registerAccount(db, asBody(request));
+    const account = await registerAccount(db, asBody(request),{soundEnabled:true});
     const fresh = await createSession(db, account.accountId, request.realmSession?.token_hash);
     setSessionCookie(reply, fresh.token, true);
-    return reply.redirect('/game/home', 303);
+    // Show an optional introduction once, directly after character creation.
+    // Ordinary login/navigation never redirects existing players into a guide.
+    return reply.redirect('/game/tutorial', 303);
   });
   app.post('/login', authLimit, async (request, reply) => {
     const body = asBody(request);
@@ -191,7 +193,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     app.get('/game/' + screen, { preHandler: requireAccount }, async (request, reply) => {
       const state = await getState(db, request.realmSession!.account_id!,config);
       return render(request, reply, screen, { title, state,
-        ...(screen === 'battle' ? { battles: await recentBattles(db, state.id),recentRivals:await recentHumanRivals(db,state) } : {}),
+        ...(screen === 'battle' ? { battles: await recentBattles(db, state.id) } : {}),
         ...(screen==='home'?{feed:await activityFeed(db,state.id,feedCategory((request.query as {feed?:string}).feed),(request.query as {after?:string}).after)}:{}),
         ...(screen==='army'?{armyEvents:await armyDashboard(db,state.id)}:{}),
         ...(screen === 'battle' ? await (async () => {

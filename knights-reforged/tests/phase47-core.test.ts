@@ -34,9 +34,9 @@ test('confirmed sound selects one highest-priority cue and uses immutable action
  assert.equal(soundFeedback(null,battle,'a')?.cue,'decisive');assert.equal(soundFeedback(null,battle,'b')?.cue,'defeat');
  assert.equal(soundFeedback(null,null,'a'),null);assert.equal(soundFeedback({...receipt,kind:'tutorial',data:{tutorialAction:'finish'}},null,'a')?.cue,'tutorial');
 });
-test('sound preferences default muted, persist restart, validate ranges, authorize and resist CSRF',{skip},async()=>{
+test('new-player sound opt-in and legacy mute persist, validate ranges, authorize and resist CSRF',{skip},async()=>{
  const r=await realm({isolated:true});try{
-  const a=await r.player(),b=await r.player();let response=await r.app.inject({url:'/api/v1/me',headers:{cookie:a.cookie}});assert.deepEqual(response.json().sound,{enabled:false,volume:55});
+  const a=await r.player(),b=await r.player();await r.db.query('DELETE FROM sound_preferences WHERE character_id=$1',[b.id]);let response=await r.app.inject({url:'/api/v1/me',headers:{cookie:a.cookie}});assert.deepEqual(response.json().sound,{enabled:true,volume:55});
   const key=randomUUID();await Promise.all([r.ok(a,'/api/v1/settings/sound',{enabled:'1',volume:'38'},key),r.ok(a,'/api/v1/settings/sound',{enabled:'1',volume:'38'},key)]);
   response=await r.app.inject({url:'/game/settings',headers:{cookie:a.cookie}});assert.equal(response.statusCode,200,response.body);assert.match(response.body,/data-sound-enabled="1" data-sound-volume="38"/);
   assert.deepEqual((await r.app.inject({url:'/api/v1/me',headers:{cookie:b.cookie}})).json().sound,{enabled:false,volume:55});

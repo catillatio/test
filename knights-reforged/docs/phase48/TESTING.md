@@ -1,6 +1,6 @@
 # Reproduce the first-stage checks
 
-The active design review is the [Land mobile follow-up](LAND_MOBILE_REVIEW.md). The [1024px Land direction](LAND_ONLY_REVIEW.md) is owner-approved and unchanged; both earlier shared themes were rejected. Those pages include the focused capture/comparison commands. The commands below also remain useful for the approved shared transaction safeguards.
+The active review is [shared screens](SHARED_REVIEW.md), using the owner-approved Land foundation. The [Land polish](LAND_POLISH.md) and [protected desktop comparison](shared-review/land-preservation.json) record the completed follow-up. Earlier blue-gray themes remain historical rejected proposals.
 
 Use only a disposable local PostgreSQL database ending in `_test`. Never point these commands at Railway or a database containing real player data. Existing test helpers reject ordinary non-local/non-test targets.
 
@@ -13,6 +13,9 @@ npm run check:static
 npm test
 npm run test:browser:phase48
 CHROMIUM_NO_SANDBOX=1 npm run test:browser:phase47
+npm exec -- tsx scripts/browser-phase48-screens.ts
+npm exec -- tsx scripts/browser-phase48-land-review.ts --shared-review
+npm exec -- tsx scripts/report-phase48-bots.ts
 ```
 
 The example URL belongs to the disposable local container used during development, not an application `.env` or live service. Use the corresponding connection for your own isolated test instance. Browser scripts use the installed Chromium/Chrome selected by `BROWSER_EXECUTABLE` when supplied.

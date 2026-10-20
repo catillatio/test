@@ -26,12 +26,13 @@ async function me(){const response=await page.request.get(origin+'/api/v1/me');a
 async function sounds():Promise<string[]>{return page.evaluate(()=>JSON.parse(localStorage.getItem('test-audio')||'[]'));}
 try{
  const actor=await r.player('Ser Rowan Ashford');await r.prepare(actor,50000,60);
+ await r.ok(actor,'/api/v1/settings/sound',{enabled:'0',volume:55}); // Existing mute preferences remain authoritative.
  await context.addCookies([{name:'kr_session',value:actor.cookie.split('=')[1]!,url:origin,httpOnly:true,sameSite:'Lax'}]);
- await page.goto(origin+'/game/home');await shot('390-home');assert.equal(await page.locator('body').getAttribute('data-sound-enabled'),'0');await page.getByRole('link',{name:'Profile',exact:true}).click();assert.deepEqual(await sounds(),[]);assert.equal(audioRequests.filter(url=>url.includes('.m4a')).length,0);checks.push('Muted default makes no AAC request or playback before explicit enable.');
+ await page.goto(origin+'/game/home');await shot('390-home');assert.equal(await page.locator('body').getAttribute('data-sound-enabled'),'0');await page.getByRole('link',{name:'Profile',exact:true}).click();assert.deepEqual(await sounds(),[]);assert.equal(audioRequests.filter(url=>url.includes('.m4a')).length,0);checks.push('Saved mute makes no AAC request or playback before explicit enable.');
  await page.goto(origin+'/game/settings');await page.locator('#sound-enabled').selectOption('1');await page.locator('#sound-volume').fill('42');
  await page.getByRole('button',{name:'Preview',exact:true}).click();await page.waitForFunction(()=>JSON.parse(localStorage.getItem('test-audio')||'[]').includes('achievement'));
  assert.ok(await page.evaluate(()=>(window as any).decodedAudioPeak>0.01),'AAC decoded to non-silent audio and started in a running Web Audio context.');
- await action(page.getByRole('button',{name:'Save Sound Settings',exact:true}));assert.equal(await page.locator('body').getAttribute('data-sound-volume'),'42');await shot('390-sound-settings');
+ await page.waitForFunction(()=>document.querySelector('[data-sound-status]')?.textContent==='Sound settings saved.');await page.reload();assert.equal(await page.locator('body').getAttribute('data-sound-volume'),'42');await shot('390-sound-settings');
  checks.push('Explicit gesture unlock, AAC decoding, persistent enabled/volume settings, and confirmed preview playback.');
  const palette=['click','navigate','coins','spend','equipment','sale','land','income','quest','victory','decisive','defeat','level','achievement','healing','bounty','alliance','error','tutorial'];
  for(const cue of palette){const before=(await sounds()).filter(name=>name===cue).length;await page.waitForTimeout(130);await page.evaluate(cue=>document.dispatchEvent(new CustomEvent('kingdom-action-result',{detail:{id:'palette-'+cue,cue}})),cue);await page.waitForFunction(({cue,count})=>JSON.parse(localStorage.getItem('test-audio')||'[]').filter((name:string)=>name===cue).length===count,{cue,count:before+1});assert.ok(await page.evaluate(()=>(window as any).decodedAudioPeak>0.001));}
@@ -64,7 +65,7 @@ try{
  actor.cookie='kr_session='+(await context.cookies()).find(cookie=>cookie.name==='kr_session')!.value;
  actor.csrf=(await(await page.request.get(origin+'/api/v1/me')).json()).csrfToken;
  await r.ok(actor,'/api/v1/tutorial',{action:'replay'});for(let i=0;i<5;i++)await r.ok(actor,'/api/v1/tutorial',{action:'next'});
- await page.goto(origin+'/game/tutorial');assert.match(await page.locator('.guide-lesson').innerText(),/Step 6 of 8/);assert.match(await page.locator('.guide-lesson').innerText(),/Tap View Battle/);await shot('390-tutorial-step-six');await page.getByRole('link',{name:'Show Me',exact:true}).click();await page.waitForURL('**/game/profile?tab=battles#battle-tales');assert.match(page.url(),/tab=battles#battle-tales/);
+ await page.goto(origin+'/game/tutorial');assert.match(await page.locator('.guide-lesson').innerText(),/Step 6 of 8/);assert.match(await page.locator('.guide-lesson').innerText(),/Tap View Battle/);await shot('390-tutorial-step-six');if(await page.getByRole('link',{name:'Show Me',exact:true}).isVisible())await page.getByRole('link',{name:'Show Me',exact:true}).click();else{await page.locator('.guide-options>summary').click();await page.getByRole('link',{name:'Review Step',exact:true}).click();}await page.waitForURL('**/game/profile?tab=battles#battle-tales');assert.match(page.url(),/tab=battles#battle-tales/);
  checks.push('Tutorial Step 6 explicitly teaches View Battle; victory evidence is automatic and Next is allowed without fabricating a win.');
  await r.ok(actor,'/api/v1/tutorial',{action:'skip'});
  const rival=await r.player('Garrick Thornwick');await r.prepare(rival,20000,30);await r.legacyArmy(actor,9);await r.ok(actor,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:10});

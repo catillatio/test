@@ -23,6 +23,10 @@ const browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTAB
 const context=await browser.newContext({viewport:{width:1024,height:1536},hasTouch:true,isMobile:true,timezoneId:'America/New_York'});
 await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
 const page=await context.newPage(),errors:string[]=[],checks:string[]=[];let landPosts=0;
+// Freeze display time for the exact desktop pixel comparison. Under load a
+// real second may elapse while artwork decodes; that is not a styling change.
+// Resume before interaction/clock tests. Server financial time stays fixed.
+await page.clock.install({time:fixedNow});await page.clock.pauseAt(fixedNow);
 let desktopPixelComparison:{width:number;height:number;differentPixels:number;protectedDifferentPixels:number}|null=null;
 page.on('pageerror',error=>errors.push(error.message));
 page.on('request',request=>{if(request.method()==='POST'&&new URL(request.url()).pathname.startsWith('/game/land/'))landPosts++;});
@@ -81,6 +85,7 @@ try{
   }finally{await comparisonPage.close();}
   checks.push('Approved 1024px header, background, artwork, rows and navigation retain their pixels; only requested price/Gold Flow metadata may differ.');
  }
+ await page.clock.resume();
  if(!baseline){
   const scoped=await page.evaluate(()=>{
    const sheet=[...document.styleSheets].find(s=>s.href?.includes('/land-review.css'))!;
