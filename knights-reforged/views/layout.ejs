@@ -6,21 +6,22 @@
   <meta name="theme-color" content="#151310">
   <meta name="description" content="Raise an army, take on quests, and challenge other warriors in Kingdom Come.">
   <title><%= title %> · Kingdom Come</title>
-  <link rel="icon" type="image/png" href="/assets/art/kingdoms-live/icon.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/art/remaster-ui/crest.svg">
   <link rel="stylesheet" href="/assets/styles.css">
-  <link rel="stylesheet" href="/assets/kingdoms-live.css">
-  <link rel="stylesheet" href="/assets/alpha.css">
+  <link rel="stylesheet" href="/assets/kingdoms-live.css?v=phase48-stage1">
+  <link rel="stylesheet" href="/assets/alpha.css?v=phase48-stage1">
   <link rel="stylesheet" href="/assets/refinements.css?v=<%= alpha.id %>">
   <link rel="stylesheet" href="/assets/strategy.css?v=strategy-0.2">
   <link rel="stylesheet" href="/assets/community.css?v=community-0.1">
   <!-- Use the established layout context and a UI revision, not page-specific rules locals. -->
-  <link rel="stylesheet" href="/assets/phase41.css?v=<%= alpha.id %>-phase41-render1">
+  <link rel="stylesheet" href="/assets/phase41.css?v=<%= alpha.id %>-phase41-render1-phase48-stage1">
   <link rel="stylesheet" href="/assets/phase42.css?v=phase42-1">
 <link rel="stylesheet" href="/assets/phase43.css?v=phase43-1">
 <link rel="stylesheet" href="/assets/phase44.css?v=phase44-1">
   <link rel="stylesheet" href="/assets/phase45.css?v=phase45-1">
   <link rel="stylesheet" href="/assets/phase46.css?v=phase46-1">
   <link rel="stylesheet" href="/assets/phase47.css?v=phase47-1">
+  <link rel="stylesheet" href="/assets/remaster.css?v=phase48-stage1">
 </head>
 <body data-sound-enabled="<%= soundConfig.enabled?'1':'0' %>" data-sound-volume="<%= soundConfig.volume %>" data-sound-event="<%= JSON.stringify(soundResult) %>" class="kingdoms-ui <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new','champions'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -32,7 +33,7 @@
         <% if (state) { %>
           <header class="character-header">
             <%- include('partials/resources') %>
-            <div class="page-heading<%= ['home','quests','battle','armory','army','purchase','profile','settings','report','tutorial'].includes(screen)?' visually-hidden-heading':'' %>"><h1><%= title %></h1></div>
+            <div class="page-heading<%= ['home','quests','battle','armory','land','army','purchase','profile','settings','report','tutorial'].includes(screen)?' visually-hidden-heading':'' %>"><h1><%= title %></h1></div>
           </header>
           <%- include('partials/tutorial') %>
           <% if(screen!=='tutorial'&&(actionResult?.data?.tutorialCompleted||battle?.playerExperience?.[state.id]?.tutorialCompleted)) { %><aside class="tutorial-success-note" role="status"><strong>TUTORIAL COMPLETE!</strong> You're ready to build your kingdom. <a class="text-link" href="/game/tutorial">Continue Playing ›</a></aside><% } %>
@@ -52,6 +53,6 @@
 <% if(state) { %><script type="module" src="/assets/experience.js?v=phase45-1"></script><% } %>
 <% if(state) { %><script type="module" src="/assets/status.js?v=phase45-1"></script><% } %>
 <script type="module" src="/assets/sound.js?v=phase47-1"></script>
-<% if(state) { %><script type="module" src="/assets/market.js?v=phase47-1"></script><% } %>
+<% if(state) { %><script type="module" src="/assets/market.js?v=phase48-stage1"></script><% } %>
 </body>
 </html>

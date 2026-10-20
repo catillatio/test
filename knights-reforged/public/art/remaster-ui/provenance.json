@@ -1,0 +1,19 @@
+{
+  "source": "Original vector geometry authored for the Phase 4.8 UI preview; no external artwork or fonts.",
+  "license": "CC0-1.0",
+  "status": "UI preview for owner review; property and audio replacements are separate approval steps.",
+  "assets": [
+    {
+      "asset": "crest.svg",
+      "sha256": "07629083a16be9a740007ad4661a45c4eea9c913ea3eda5d07ea9e0df14efb75"
+    },
+    {
+      "asset": "icons.svg",
+      "sha256": "de98a2f2a02d6dcd432a6dfda6d57c72f97d41b70f800fb528095a58113a32a7"
+    },
+    {
+      "asset": "courtyard.svg",
+      "sha256": "943b99232d62f19902a8745e38153ad9c98d5d9bb5dab7198e1d4bb009327cec"
+    }
+  ]
+}

@@ -38,6 +38,15 @@ check('All browser scripts parse as JavaScript',()=>{
     const result=spawnSync(process.execPath,['--check',join(root,file)],{encoding:'utf8'});assert.equal(result.status,0,result.stderr);
   }
 });
+check('Phase 4.8 original vector assets have verified provenance; no active APK artwork references',()=>{
+  const manifest=json('public/art/remaster-ui/provenance.json');assert.equal(manifest.license,'CC0-1.0');assert.equal(manifest.assets.length,3);
+  for(const asset of manifest.assets)assert.equal(createHash('sha256').update(readFileSync(join(root,'public/art/remaster-ui',asset.asset))).digest('hex'),asset.sha256);
+  const symbols=read('public/art/remaster-ui/icons.svg');for(const id of ['home','quests','battle','armory','army'])assert.ok(symbols.includes('id="'+id+'"'));
+  for(const path of [...files('views'),...files('public').filter(p=>p.endsWith('.css'))]){
+    const source=read(path);assert.ok(!source.includes('art/kingdoms-live/'),path);
+    assert.ok(!/\/assets\/art\/(?:home|quests|battle|armory|army|crest|tab-[^"']*)\.png/.test(source),path);
+  }
+});
 for(const [manifest,count] of [['public/art/provenance.json',11],['public/art/land-provenance.json',2],['public/art/kingdoms-live/provenance.json',16],['public/art/alpha/provenance.json',18]]){
   check('Artwork integrity: '+manifest,()=>{
     const art=json(manifest);assert.equal(art.assets.length,count);
@@ -68,7 +77,7 @@ check('Simplified Land sheet preserves 21 property identities with verified imag
  assert.ok(read('public/strategy.css').includes('land-simple-0.1/properties.webp'));
 });
 check('CSS uses local assets; original tab gradients and safe areas remain',()=>{
-  for(const file of ['public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
+  for(const file of ['public/remaster.css','public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
     for(const match of read(file).matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)){
       assert.ok(!/^(?:https?:|\/\/)/.test(match[1]));assert.ok(existsSync(resolve(root,dirname(file),match[1])),match[1]);
     }
@@ -194,14 +203,14 @@ check('Rendered links, asset references, unique IDs, labels, CSRF and command co
  // by integration tests. Every other command has an HTML form in these fixtures.
  assert.deepEqual([...covered].sort(),commandRoutes.filter(r=>r.kind!=='equip').map(r=>r.kind).sort());
 });
-check('Original five tabs, selected artwork, Home-only Land and profile Home selection',()=>{
+check('Original five destinations, accessible original vector icons, Home-only Land and profile Home selection',()=>{
  const expected=[['/game/home','Home'],['/game/quests','Quests'],['/game/battle','Battle'],['/game/armory','Armory'],['/game/army','Recruit']];
- const icons={home:'home',quests:'missions',battle:'attack',armory:'equipment',army:'recruit'};
+
  for(const example of cases){
   const links=navigationLinks(rendered.get(example.name),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
   if(!example.data.state)continue;
-  const selected=['report','bounties','bounty-confirm','bounty-new','champions'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
-  for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,'/assets/art/kingdoms-live/'+icons[id]+(id===selected?'_selected':'')+'.png');}
+  const selected=example.data.screen==='land'?'home':example.data.screen==='purchase'?(example.data.purchase.type==='equipment'?'armory':'home'):['report','bounties','bounty-confirm','bounty-new','champions'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
+  for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,null);assert.ok(rendered.get(example.name).includes('/assets/art/remaster-ui/icons.svg#'+id));}
   assert.ok(!navigationLinks(rendered.get(example.name),'Secondary navigation').some(l=>l.href==='/game/land'));
   assert.equal((rendered.get(example.name).match(/href="\/game\/land"/g)||[]).length,example.data.screen==='home'||(example.data.screen==='purchase'&&example.data.purchase.type==='land')?1:0);
  }
@@ -232,9 +241,11 @@ check('Active branding and package lock use Kingdom Come',()=>{
 check('Upgraded pages bypass cached pre-expansion income clients',()=>{
   for(const example of cases){
     const html=rendered.get(example.name);assert.ok(html.includes('/assets/refinements.css?v='+alpha.id));
-    assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1'));
+    assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1-phase48-stage1'));
+    assert.ok(html.includes('/assets/kingdoms-live.css?v=phase48-stage1'));assert.ok(html.includes('/assets/alpha.css?v=phase48-stage1'));
+    assert.ok(html.includes('/assets/remaster.css?v=phase48-stage1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
-    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase47-1'));
+    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase48-stage1'));
   }
 });
 check('Land retains countdown, offline payment, sale, retained-gold and no-script hooks',()=>{

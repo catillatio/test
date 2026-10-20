@@ -39,6 +39,7 @@ if (root) {
       setText('[data-equipment-upkeep]', number(state.economy?.equipmentUpkeep ?? state.land.equipmentUpkeep ?? 0));
       setText('[data-next-property-payment]', number(state.land.nextPropertyPaymentGold ?? 0));
       setText('[data-partial-payment]', state.land.partialNextPayment ? 'Includes a prorated first period.' : '');
+      setText('[data-land-net-detail]', number(state.economy?.netHourlyIncome ?? state.land.netHourlyIncome));
       setText('[data-land-net]', number(state.economy?.netHourlyIncome ?? state.land.netHourlyIncome));
       document.querySelectorAll('[data-wallet-gold]').forEach(element => { element.textContent = number(state.gold); });
       showTime(root.querySelector('[data-land-payment-time]'), nextPayment);
@@ -49,18 +50,9 @@ if (root) {
         const card = [...root.querySelectorAll('[data-land-property]')].find(element => element.dataset.landProperty === property.id);
         if (!card) continue;
         card.querySelector('[data-land-owned]').textContent = String(property.owned);
-        const input = card.querySelector('input[name="quantity"]');
-        const button = card.querySelector('button[type="submit"]');
-        input.max = String(Math.max(1, property.maxAffordable));
-        input.disabled = button.disabled = property.maxAffordable === 0 || property.unlocked === false;
         const price = card.querySelector('[data-land-unit-price]');
         if (price) price.textContent = number(property.price);
         if (property.priceSteps) card.dataset.priceSteps = JSON.stringify(property.priceSteps);
-        const sell = card.querySelector('[data-land-sell]');
-        if (sell) {
-          sell.querySelector('input[name="quantity"]').max = String(Math.max(1, Math.min(25, property.owned)));
-          sell.querySelector('button').disabled = property.owned === 0;
-        }
         card.querySelector('[data-land-buy-hint]').textContent = property.remaining === 0 ? 'Ownership limit reached.' :
           property.unlocked === false ? 'Unlocks at level ' + property.level + '.' :
           property.maxAffordable === 0 ? 'Earn more gold to buy this property.' : 'Joins the shared hourly cycle; first partial period is prorated.';

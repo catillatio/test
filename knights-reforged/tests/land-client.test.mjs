@@ -37,12 +37,15 @@ function browser(fetch, nextPayment = '2026-10-17T13:00:00.000Z') {
   const document = { hidden: false, querySelector: selector => selector === '[data-land-screen]' ? root : null,
     querySelectorAll: selector => selector === '[data-wallet-gold]' ? [wallet] : [],
     addEventListener: (name, callback) => listeners.set(name, callback) };
+  const events = [];
+  document.dispatchEvent = event => { events.push(event); };
   const requests = [];
   runInNewContext(source, { document, window:{addEventListener:(name,fn)=>windowListeners.set(name,fn)}, performance: { now: () => elapsed }, AbortController,
     fetch: async (url, options) => { requests.push({ url, options }); return fetch(url, options); },
+    CustomEvent: class { constructor(type,detail) { this.type=type;Object.assign(this,detail); } },
     setInterval: (callback, delay) => intervals.push({ callback, delay }),
     setTimeout: () => 1, clearTimeout: () => {} });
-  return { selectors, document, listeners, windowListeners, requests, wallet, input, button, holding,
+  return { events, selectors, document, listeners, windowListeners, requests, wallet, input, button, holding,
     tick(milliseconds) { elapsed += milliseconds; intervals.find(timer => timer.delay === 1000).callback(); },
     poll() { intervals.find(timer => timer.delay === 60000).callback(); } };
 }
@@ -72,7 +75,7 @@ test('a due countdown cannot mint gold; overlapping ticks issue one server reque
   assert.notEqual(page.requests[0].options.method, 'POST');
 });
 
-test('API refresh displays server rates, availability and the next persisted holding payment', async () => {
+test('API refresh displays server rates and persisted payment without unlocking trade controls', async () => {
   const page = browser(async () => response({ hourlyIncome: 38, hourlyUpkeep: 8, netHourlyIncome: 30,
     properties: [{ id: 'smallholding', owned: 3, remaining: 97, maxAffordable: 2 }] }));
   page.poll();
@@ -80,10 +83,21 @@ test('API refresh displays server rates, availability and the next persisted hol
   assert.equal(page.selectors.get('[data-land-gross]').textContent, '38');
   assert.equal(page.selectors.get('[data-land-upkeep]').textContent, '8');
   assert.equal(page.selectors.get('[data-land-net]').textContent, '30');
-  assert.equal(page.input.max, '2');
-  assert.equal(page.input.disabled, false);
-  assert.equal(page.button.disabled, false);
+  // Transaction controls now have one owner: market.js. Income refresh must
+  // not unlock a pending trade or mutate its immutable quantity.
+  assert.equal(page.input.disabled, true);
+  assert.equal(page.button.disabled, true);
   assert.equal(page.holding.datetime, '2026-10-17T14:00:00.000Z');
+});
+
+test('complete Land refresh forwards authoritative eligibility to shared trading without mutating a pending quantity', async () => {
+  const payload=await response().json();
+  payload.state={id:'actor',stateVersion:2,gold:22,land:payload.land};
+  const page=browser(async()=>({ok:true,json:async()=>payload}));
+  page.input.value='5';page.poll();await flush();
+  assert.equal(page.events.length,1);assert.equal(page.events[0].type,'realm-state');
+  assert.equal(page.events[0].detail,payload.state);
+  assert.equal(page.input.value,'5');assert.equal(page.button.disabled,true);
 });
 
 test('offline fetch failures preserve displayed gold and retry on reconnect', async () => {

@@ -34,7 +34,8 @@
     "verify": "npm run typecheck && npm test && npm run build",
     "balance:phase45": "tsx scripts/phase45-balance.ts",
     "test:browser:phase46": "tsx scripts/browser-phase46-test.ts",
-    "test:browser:phase47": "tsx scripts/browser-phase47-test.ts"
+    "test:browser:phase47": "tsx scripts/browser-phase47-test.ts",
+    "test:browser:phase48": "tsx scripts/browser-phase48-test.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",

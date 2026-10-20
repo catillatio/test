@@ -1,0 +1,10 @@
+<% const land=type==='land'; %>
+<section class="panel market-bulk-panel" id="bulk-trade" aria-labelledby="bulk-title">
+<div class="market-panel-heading"><h2 id="bulk-title"><%= entry.name %></h2><a class="market-close" href="<%= land?'/game/land#property-'+entry.id:'/game/armory?category='+entry.category+'#item-'+entry.id %>" aria-label="Close bulk controls">Close ×</a></div>
+<p class="field-hint">Choose how many to buy or sell.</p>
+<div class="bulk-trades"><% for(const mode of ['buy','sell']) { const buying=mode==='buy'; %>
+<form method="post" action="/game/<%= land?'land':'armory' %>/<%= mode %>"><%- include('command-fields') %><input type="hidden" name="<%= land?'propertyId':'itemId' %>" value="<%= entry.id %>">
+<%- include('quantity-control',{purchaseType:type,tradeMode:mode,entry,available:buying?availableBuy:availableSell,controlId:'bulk-'+mode+'-'+entry.id,costSteps:buying?buyCosts:sellCosts,incomeSteps:land?(buying?entry.projectedBuyNetSteps:entry.projectedSaleNetSteps):[]}) %>
+<button class="button <%= buying?'button-gold':'button-outline' %>" type="submit" aria-label="<%= buying?'Buy':'Sell' %> selected <%= entry.name %>"<% if((buying?availableBuy:availableSell)<1) { %> disabled<% } %>><%= buying?'Buy':'Sell' %> selected</button>
+</form><% } %></div>
+</section>

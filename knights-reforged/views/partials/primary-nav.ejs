@@ -1,8 +1,8 @@
-<% const tabIcons = { home: 'home', quests: 'missions', battle: 'attack', armory: 'equipment', army: 'recruit' }; %>
+<% const tabIcons = { home: 'home', quests: 'quests', battle: 'battle', armory: 'armory', army: 'army' };const marketScreen=screen==='land'?'home':screen==='purchase'?(typeof purchase!=='undefined'&&purchase.type==='equipment'?'armory':'home'):screen; %>
 <nav class="primary-nav" aria-label="Primary navigation">
-  <% for (const item of nav.filter(item => Object.hasOwn(tabIcons, item.id))) { const current = item.id === screen || (screen==='quest-equipment'&&item.id==='quests') || (['report','bounties','bounty-confirm','bounty-new','champions'].includes(screen) && item.id === 'battle') || (['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(screen) && item.id === 'home'); %>
+  <% for (const item of nav.filter(item => Object.hasOwn(tabIcons, item.id))) { const current = item.id === marketScreen || (screen==='quest-equipment'&&item.id==='quests') || (['report','bounties','bounty-confirm','bounty-new','champions'].includes(screen) && item.id === 'battle') || (['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(screen) && item.id === 'home'); %>
     <a href="/game/<%= item.id %>" class="nav-link<%= current ? ' is-current' : '' %>"<% if (current) { %> aria-current="page"<% } %>>
-      <img src="/assets/art/kingdoms-live/<%= tabIcons[item.id] %><%= current ? '_selected' : '' %>.png" width="30" height="30" alt="">
+      <svg class="nav-icon" width="26" height="26" aria-hidden="true"><use href="/assets/art/remaster-ui/icons.svg#<%= item.id %>"></use></svg>
       <span><%= item.label %></span>
     </a>
   <% } %>

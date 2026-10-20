@@ -86,7 +86,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
       assert.equal(secondary,undefined,'Redundant secondary navigation is removed; primary navigation and global Profile remain.');
       assert.equal(response.body.includes('href="/game/land"'),screen==='home');
       const activeCount = [...primary.matchAll(/aria-current="page"/g)].length;
-      assert.equal(activeCount, screen === 'land' ? 0 : 1);
+      assert.equal(activeCount,1,'Land selects its existing Home destination without adding a tab');
       if (screen === 'army') assert.match(response.body, /<h1>Recruit<\/h1>/);
       if (screen === 'land') {
         assert.match(response.body, /href="\/game\/home"/);
