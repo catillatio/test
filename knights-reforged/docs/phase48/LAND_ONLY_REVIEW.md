@@ -1,6 +1,6 @@
 # Phase 4.8 — Land-only visual correction
 
-**Owner review required. No approval or visual equivalence is claimed.** Work remains on `feature/kingdom-come-phase-4-8-ui-remaster`. Home, Armory, and the remaining Phase 4.8 stages are frozen. Nothing was merged, deployed, or changed in Railway.
+**Review update:** The owner approved this 1024 × 1536 visual direction. The [mobile-only follow-up](LAND_MOBILE_REVIEW.md) is pending a separate review; the approved desktop capture and comparison remain unchanged. Work remains on `feature/kingdom-come-phase-4-8-ui-remaster`. Home, Armory, and the remaining Phase 4.8 stages are frozen. Nothing was merged, deployed, or changed in Railway.
 
 ## Exact reference and comparison
 

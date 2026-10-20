@@ -1,6 +1,6 @@
 # Reproduce the first-stage checks
 
-The active design review is now [Land-only](LAND_ONLY_REVIEW.md); both earlier shared themes were rejected. That page includes the focused capture/comparison commands. The commands below also remain useful for the approved shared transaction safeguards.
+The active design review is the [Land mobile follow-up](LAND_MOBILE_REVIEW.md). The [1024px Land direction](LAND_ONLY_REVIEW.md) is owner-approved and unchanged; both earlier shared themes were rejected. Those pages include the focused capture/comparison commands. The commands below also remain useful for the approved shared transaction safeguards.
 
 Use only a disposable local PostgreSQL database ending in `_test`. Never point these commands at Railway or a database containing real player data. Existing test helpers reject ordinary non-local/non-test targets.
 

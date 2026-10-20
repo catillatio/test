@@ -1,0 +1,145 @@
+{
+  "status": "mobile-owner-review-pending",
+  "implementationCommit": "c43c22d83f7b8171e062d30de073e4004367922e",
+  "testedAt": "2026-10-20T05:31:15.771023+00:00",
+  "scope": "Land-only CSS at widths up to 430px; no application logic changes",
+  "tests": {
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "static": {
+      "passed": 94,
+      "failed": 0,
+      "ejsFixtures": 73
+    },
+    "focused": {
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0
+    },
+    "landResponsiveVisits": 18,
+    "sharedResponsiveVisits": 56,
+    "browserErrors": []
+  },
+  "desktopPixelComparison": {
+    "width": 1024,
+    "height": 1536,
+    "differentPixels": 0
+  },
+  "unchangedApprovedImages": [
+    {
+      "path": "docs/phase48/land-only-review/screenshots/1024-land.png",
+      "sha256": "c895509c02a7b7e6f5635096b37fd1698600b960e86abd9a6669d67635ca6a02",
+      "unchangedSince": "e8c0f63f5f4899deb259f1560a3d4233d4e2a035"
+    },
+    {
+      "path": "docs/phase48/land-only-review/comparison.png",
+      "sha256": "16c3df8a7e4f23d7cc4ed3541c7688de9045d4b4cac24fa59897602eac25a9fd",
+      "unchangedSince": "e8c0f63f5f4899deb259f1560a3d4233d4e2a035"
+    }
+  ],
+  "mobile": [
+    {
+      "width": 320,
+      "height": 844,
+      "completeRowsGoldFlowCollapsed": 5,
+      "horizontalOverflow": false,
+      "checkedTouchTargets": 77,
+      "minimumTargetWidth": 44,
+      "minimumTargetHeight": 44,
+      "allVisibleCentersReachable": true,
+      "headingFont": "23px",
+      "rowHeight": 98
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "completeRowsGoldFlowCollapsed": 5,
+      "horizontalOverflow": false,
+      "checkedTouchTargets": 77,
+      "minimumTargetWidth": 44,
+      "minimumTargetHeight": 44,
+      "allVisibleCentersReachable": true,
+      "headingFont": "23px",
+      "rowHeight": 98
+    },
+    {
+      "width": 430,
+      "height": 844,
+      "completeRowsGoldFlowCollapsed": 5,
+      "horizontalOverflow": false,
+      "checkedTouchTargets": 77,
+      "minimumTargetWidth": 44,
+      "minimumTargetHeight": 44,
+      "allVisibleCentersReachable": true,
+      "headingFont": "23px",
+      "rowHeight": 98
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/phase48/land-mobile-review/screenshots/320-land.png",
+      "sha256": "ea22637a9bc9a98884238750d3250337ab911540a15ed35f0958dbefbdfb25df"
+    },
+    {
+      "path": "docs/phase48/land-mobile-review/screenshots/320-land-compact.png",
+      "sha256": "3d62b80d15c6e92533b0df53f2dd3b3e797e6d2dd12c9b1b7620b1505e8b3737"
+    },
+    {
+      "path": "docs/phase48/land-mobile-review/screenshots/390-land.png",
+      "sha256": "5f0cca722cb11538a1c71d83b0bc7b35abe7ab1b14254fd9846094d4beff751f"
+    },
+    {
+      "path": "docs/phase48/land-mobile-review/screenshots/390-land-compact.png",
+      "sha256": "29291d023d12ba318fad1379055550bdde03a7f693636f4b9d82ea788c28c944"
+    },
+    {
+      "path": "docs/phase48/land-mobile-review/screenshots/430-land.png",
+      "sha256": "996e0a7cb561ae04c922c62954b018852edad9a7744949bfcec90aaf638787fb"
+    },
+    {
+      "path": "docs/phase48/land-mobile-review/screenshots/430-land-compact.png",
+      "sha256": "42940eb7c89528a8f1c3a4988ecd364a53fa5bd10804a075e7095ca06d55854c"
+    },
+    {
+      "path": "docs/phase48/land-mobile-review/screenshots/390-income-disclosure.png",
+      "sha256": "b3cc633122269bbe3c0cace4a5efb705da1ea8784baadcf5d277e59114530c4b"
+    },
+    {
+      "path": "docs/phase48/land-mobile-review/screenshots/390-health-disclosure.png",
+      "sha256": "f947c904ff58d51cb074c71d52bbd17afdf88089ea0c2546ed4e30b86567d2f1"
+    },
+    {
+      "path": "docs/phase48/land-mobile-review/screenshots/390-land-bulk.png",
+      "sha256": "64d0767b0f3ed339640e7f2202629465b209f48a8b86c2e32c6c290331a391c9"
+    }
+  ],
+  "preservation": {
+    "approvedCssRemainsExactPrefix": true,
+    "unchangedPaths": [
+      ".github/workflows",
+      "knights-reforged/src",
+      "knights-reforged/deployment",
+      "knights-reforged/migrations",
+      "knights-reforged/rulesets",
+      "knights-reforged/public/art",
+      "knights-reforged/public/remaster.css",
+      "knights-reforged/public/market.js",
+      "knights-reforged/public/shopping.js",
+      "knights-reforged/public/land.js",
+      "knights-reforged/views"
+    ],
+    "gameplayChanges": false,
+    "transactionChanges": false,
+    "artworkChanges": false,
+    "migrationChanges": false,
+    "productionAccessed": false,
+    "deployed": false,
+    "merged": false
+  },
+  "limitations": [
+    "Chromium touch emulation, not physical Android/iPhone or Safari.",
+    "844px viewport height; browser chrome, safe-area insets and expanded panels change visible row count.",
+    "Full game and production release suites were not rerun for this CSS-only follow-up.",
+    "Mobile visual approval and all remaining Phase 4.8 stages are pending."
+  ]
+}
