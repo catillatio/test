@@ -1,5 +1,7 @@
 # Phase 4.8 — first visual-stage review
 
+**Historical preview.** The owner rejected this blue-gray visual theme and the photographic-looking property direction below. They approved the compact layouts and transaction-safety work. The newer [definitive-mockup theme review](MOCKUP_THEME_REVIEW.md) supersedes this page's visual proposal and screenshots. Verification here records the earlier Stage 1 baseline; it is not a fresh run against the revised theme.
+
 Status: **preview; owner review required before remaining screens**. Base: `release/production` at `cf4a99d378c2bf2991228ed3fcd2a25a85004ecf`. Branch: `feature/kingdom-come-phase-4-8-ui-remaster`. This is not a completed Phase 4.8 release or a deployment candidate.
 
 ## Implemented

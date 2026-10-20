@@ -1,0 +1,12 @@
+{
+  "asset": "property-illustrated-v2.png",
+  "status": "Owner approval pending; documentation preview only, not a runtime property asset.",
+  "source": "Original OpenAI image generation for Kingdom Come. The owner-supplied definitive Land mockup was used as the style and atmosphere reference.",
+  "rights": "Original generated project output, subject to applicable OpenAI terms. No third-party stock or extracted APK artwork; no exclusivity or copyright protection asserted.",
+  "original_source": "/workspace/generated_images/exec-12cefc08-efbd-4496-942d-ab571d451b9f.png",
+  "sha256": "1dba98eb2dab9c1539acd9f03ac163f8ca52824c0042cc843e400ad2d165d4af",
+  "layout": "Two columns by three rows; read left to right, top to bottom.",
+  "catalog_identities": ["smallholding", "woodland", "copper-workshop", "watchtower", "river-mill", "hearthstead-hamlet"],
+  "economy_values": "None; existing catalog values remain authoritative.",
+  "processing": "Unmodified copy of the generated PNG."
+}

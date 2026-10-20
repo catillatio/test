@@ -18,3 +18,14 @@ The example URL belongs to the disposable local container used during developmen
 Run the existing `npm run test:restart` only against its own disposable `_test` database: that test explicitly provisions its synthetic 450-bot fixture. This test setup is not an upgrade command and must never be used for production.
 
 No migration or initialization is required by this visual stage. Production release/recovery workflows and operator commands remain unchanged and must not be run to review these screenshots.
+
+The definitive-mockup revision records fresh results in [verification-mockup.json](verification-mockup.json). `test:browser:phase48` now writes to `test-results/phase48-mockup-browser` and visits eight widths, including 1024px for direct composition review. Its checked-in review images are under `docs/phase48/mockup-review/screenshots`. The earlier `screenshots/` directory and `verification-stage1.json` remain historical evidence of the superseded theme.
+
+To reproduce the focused client/PostgreSQL/rendering/security run used for this presentation-only revision:
+
+```sh
+npm exec -- tsx --test --test-concurrency=1 \
+  tests/phase48-market-client.test.mjs tests/land-client.test.mjs \
+  tests/phase43-shopping.test.ts tests/integration.test.ts \
+  tests/rendering.test.ts tests/phase44-security.test.ts
+```

@@ -1,0 +1,73 @@
+{
+  "scope": "Definitive-mockup visual revision only; synthetic local PostgreSQL 18 fixtures. No production access.",
+  "previousStageCommit": "21446332d7f609b3cb9b5d55972852cb5fa7b2db",
+  "productionBaseCommit": "cf4a99d378c2bf2991228ed3fcd2a25a85004ecf",
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "focusedAutomatedRegressions": {
+    "tests": 48,
+    "pass": 48,
+    "fail": 0,
+    "skipped": 0,
+    "files": [
+      "tests/phase48-market-client.test.mjs",
+      "tests/land-client.test.mjs",
+      "tests/phase43-shopping.test.ts",
+      "tests/integration.test.ts",
+      "tests/rendering.test.ts",
+      "tests/phase44-security.test.ts"
+    ],
+    "coverage": "Concurrent/retried marketplace commands, shared in-flight locks, ambiguous-response recovery, identity-bound session recovery, Land eligibility, rendering and security."
+  },
+  "static": {
+    "passed": 93,
+    "failed": 0,
+    "renderFixtures": 73,
+    "evidence": "mockup-review/static-checks.json"
+  },
+  "browser": {
+    "phase48ResponsiveVisits": 56,
+    "phase48Widths": [
+      320,
+      360,
+      390,
+      412,
+      430,
+      768,
+      1024,
+      1366
+    ],
+    "phase47ResponsiveVisits": 64,
+    "passed": true,
+    "screenshots": 16,
+    "phase48Evidence": "mockup-review/browser.json",
+    "phase47Evidence": "mockup-review/phase47-browser.json",
+    "coverage": "Real single and bulk trades, exact refunds, duplicate submission suppression, lost-response retries, simulated three-hour idle, expired-session recovery, keyboard Gold Flow disclosure, 44px trade targets, five-tab navigation, no overflow or browser errors, no APK-art requests; existing audio and wider gameplay UI."
+  },
+  "protectedPathsComparedWithPreviousStage": [
+    ".github/workflows",
+    "knights-reforged/src",
+    "knights-reforged/deployment",
+    "knights-reforged/migrations",
+    "knights-reforged/rulesets",
+    "knights-reforged/public/market.js",
+    "knights-reforged/public/shopping.js",
+    "knights-reforged/public/land.js"
+  ],
+  "protectedPathsChanged": false,
+  "migrationsAdded": false,
+  "propertyReplacementAdopted": false,
+  "audioReplacementAdopted": false,
+  "fullSuiteRerunForThisRevision": false,
+  "priorFullSuiteEvidence": "verification-stage1.json records 422 pass, 0 fail, 1 intentional hosted-runner skip on the earlier Stage 1 commit. It is historical evidence, not a new run for this revision.",
+  "limitations": [
+    "Chromium touch emulation, not physical Android/iPhone or Safari/WebKit certification.",
+    "Idle and background/foreground events are simulated, not mobile OS suspension.",
+    "Subjective visual, property-art and audio acceptance remains with the owner.",
+    "Remaining Phase 4.8 screen-specific, tutorial, audio and bot-policy work is paused for visual review."
+  ],
+  "productionContacted": false,
+  "deployed": false,
+  "merged": false,
+  "themeCommit": "6c034b6adb91022d20900a771a7c175fa2fcf373"
+}
