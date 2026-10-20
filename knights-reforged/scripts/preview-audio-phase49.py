@@ -5,6 +5,8 @@ import numpy as np
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'docs/phase49/audio-audition'
+if (OUT/'inventory.json').exists() and 'REJECTED' in json.loads((OUT/'inventory.json').read_text()).get('status',''):
+    raise SystemExit('This audition was rejected by the owner. Use the separate orchestral preview; do not relabel or regenerate rejected clips.')
 CACHE=Path('/tmp/phase49-audition-sources')
 RATE=44100
 OUT.mkdir(parents=True,exist_ok=True);CACHE.mkdir(parents=True,exist_ok=True)

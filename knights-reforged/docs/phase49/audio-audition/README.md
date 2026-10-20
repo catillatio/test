@@ -1,6 +1,10 @@
 # Phase 4.9 medieval reward audio audition
 
-**Owner audition only; not adopted into runtime.** Ordinary buttons/navigation are silent in the new UI. No background music is included.
+**REJECTED by owner. Archived for provenance only; none of these four clips may be adopted.**
+
+The owner rejected the complete metallic/chime-based audition. See the separate [orchestral review](../audio-orchestral-audition/README.md) for the new musical approach; it also requires explicit approval.
+
+**Not adopted into runtime.** Ordinary buttons/navigation are silent in the new UI. No background music is included.
 
 [Listen to the short four-cue reel](audition.mp3): victory, defeat, quest completion, level-up, with 0.8-second gaps. Start at low volume. Alternatively download the individual MP3s or this folder and open `index.html`; nothing autoplays. GitHub may require tapping **View raw / Download** to listen on Android.
 
