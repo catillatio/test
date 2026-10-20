@@ -1,5 +1,7 @@
 # Phase 4.8 — definitive Land mockup review
 
+**Superseded and not approved.** The owner rejected this second shared visual revision. The current [Land-only correction and direct pixel comparison](LAND_ONLY_REVIEW.md) replaces it as the active review. Other screens are frozen pending Land approval. This document and its captures remain historical evidence.
+
 **Review checkpoint; remaining screen work is paused.** Branch: `feature/kingdom-come-phase-4-8-ui-remaster`. This revision follows Stage 1 commit `21446332d7f609b3cb9b5d55972852cb5fa7b2db`. It is not a finished Phase 4.8 release or a deployment candidate.
 
 ## Visual authority and changes

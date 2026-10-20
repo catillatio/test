@@ -1,5 +1,7 @@
 # Phase 4.8 property artwork — revised painted preview
 
+**Current status:** the second visual revision was not approved. The original six-tile sheet below is now shown provisionally in the [Land-only working review](../LAND_ONLY_REVIEW.md), encoded into a Land-specific atlas. It is not approved for release or use on other screens. The paragraphs below retain the earlier proposal's context; its statement about not being served applied to that earlier commit.
+
 The owner's latest Land mockup is the definitive artistic target. [property-illustrated-v2.png](property-illustrated-v2.png) proposes warm painted timber and stone, grounded medieval structures, dark natural foregrounds, muted mountain light, and consistent landscape framing. It replaces the earlier photographic-looking proposal.
 
 Read left to right, top to bottom: **Smallholding, Woodland, Copper Workshop, Watchtower, River Mill, Hearthstead Hamlet**. These are six existing catalog identities. No illustrative property names, prices, balances, or income values from the mockup have been introduced into the game.
