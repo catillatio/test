@@ -1,0 +1,42 @@
+{
+  "image": "kingdom-come:phase48-alpha-candidate",
+  "postgresImage": "postgres:18-bookworm",
+  "privateAlpha": true,
+  "checks": [
+    "private PostgreSQL 18 started without a published port",
+    "unmigrated production startup fails without altering the empty database",
+    "hidden psql password rotation rejects old TCP credentials and accepts the synchronized private service URL",
+    "Phase 4.7 startup refuses an unmigrated Phase 4.6 realm without touching data",
+    "first initialized-realm upgrade refuses a missing restored-copy gate without applying a migration or changing existing data",
+    "native Phase 4.6 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals",
+    "separate compiled pre-deploy runner installs all 20 migrations without initialization",
+    "Phase 4.7 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.6 rivals",
+    "compiled operator-only status reports the initial account and population without exposing credentials",
+    "non-root production image has native Argon2/assets/catalogs and excludes dev dependencies, source, secrets and research",
+    "production server binds port 8080 and passes database healthcheck",
+    "real production HTTP registration, twelve pages, quests, quantity equipment, Land, Vault, PvP, idempotent gold healing/CSRF, retired militia and foreign-Origin rejection",
+    "compiled operator moderation works without development tools, requires explicit authorization and preserves the existing audit history",
+    "compiled two-ID broadcast review, explicit approval, atomic idempotent hides and reversible restoration preserve unrelated messages",
+    "operator-only gray inspect/apply grants exactly 50000 spendable gold once on the disposable identity",
+    "production migration/start refuse leftover bootstrap credentials before any database changes",
+    "repeated pre-deploy migrations preserve every table row, session, holding and financial record",
+    "native custom-format backup restores atomically into a separate fresh database with identical data",
+    "redeploy removes bootstrap flag/secret and starts a fresh web container against the same persistent realm",
+    "SIGTERM is graceful; restart preserves session/gameplay/income schedule; Secure logout revokes session",
+    "neither web nor PostgreSQL container publishes a port"
+  ],
+  "portsPublished": false,
+  "restoredUpgrade": {
+    "passed": true,
+    "restoredDatabase": "phase45_restore_test",
+    "restoredHost": "kc-pg-c1ebc862.railway.internal",
+    "accounts": 451,
+    "bots": 450,
+    "existingTablesVerified": 64,
+    "sha256": "0e6e9a851bfa96532e17bbbc2d9731ac3af0707537ed3db7f2240da8665122fd",
+    "migrationReplay": "unchanged",
+    "liveDatabaseConnected": false
+  },
+  "backupBytes": 949812,
+  "dataDigest": "2cf2e664e25bf7fdeda92f3e14c972d8e3333fbd7737668bf81fab209c98b954"
+}

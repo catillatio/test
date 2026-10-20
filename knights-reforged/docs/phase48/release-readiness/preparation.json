@@ -1,0 +1,40 @@
+{
+  "scope": "Read-only code and metadata audit; no live database access",
+  "runtimeBaseline": "b3014eadf9cca6341f03d87154c689fc0ef7fa43",
+  "candidateDigest": "6c7341f779e570644ed334f8b9c8b630ec2fe8dfd295cb73e82c58ab5b7f14cd",
+  "typecheck": true,
+  "productionBuild": true,
+  "static": {
+    "passed": 94,
+    "failed": 0,
+    "ejsFixtures": 73
+  },
+  "actionlint": {
+    "version": "1.7.12",
+    "allWorkflowsPassed": true,
+    "workflowsChanged": false
+  },
+  "githubReadOnly": {
+    "productionBranchProtected": true,
+    "environmentSoleReviewer": "catillatio",
+    "administratorBypass": false,
+    "environmentBranchOnly": "release/production",
+    "actionsVariablesReadable": false,
+    "actionsSecretsReadable": false,
+    "railwayAuthenticated": false
+  },
+  "historicalProtectedPromotion": {
+    "runId": 39353372794,
+    "sha": "cf4a99d378c2bf2991228ed3fcd2a25a85004ecf",
+    "promoteAndPostChecks": "success",
+    "isAuthorizationForPhase48": false
+  },
+  "runtimeAudioByteIdentical": true,
+  "retiredApkHashesAbsent": 27,
+  "newMigrations": 0,
+  "freshBackupAndRestoreForNewProductionCommit": "Required during authorized protected release; not performed in preparation",
+  "fullRegressionAndRecoveryRunResults": "To be recorded in the release-candidate PR after completion; do not merge with pending or failing checks.",
+  "localBuildTrust": "Test-only ephemeral proxy-CA mount, TLS verification enabled; repository Dockerfiles unchanged; original Dockerfiles also require normal CI validation.",
+  "productionChanged": false,
+  "releaseDispatched": false
+}
