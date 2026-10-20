@@ -9,7 +9,8 @@ import {loadConfig} from '../src/config.js';
 
 if(!testDatabaseUrl)throw new Error('A disposable local *_test PostgreSQL database is required.');
 const baseline=process.argv.includes('--baseline');
-const out='test-results/phase48-land-only/'+(baseline?'before':'after');
+const mobileReview=process.argv.includes('--mobile-review');
+const out='test-results/phase48-land-'+(mobileReview?'mobile':'only')+'/'+(baseline?'before':'after');
 await mkdir(out,{recursive:true});
 const fixedNow=new Date('2026-10-20T18:15:00.000Z');
 const r=await realm({isolated:true,clock:()=>fixedNow});
@@ -20,6 +21,7 @@ const browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTAB
 const context=await browser.newContext({viewport:{width:1024,height:1536},hasTouch:true,isMobile:true,timezoneId:'America/New_York'});
 await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
 const page=await context.newPage(),errors:string[]=[],checks:string[]=[];let landPosts=0;
+let desktopPixelComparison:{width:number;height:number;differentPixels:number}|null=null;
 page.on('pageerror',error=>errors.push(error.message));
 page.on('request',request=>{if(request.method()==='POST'&&new URL(request.url()).pathname.startsWith('/game/land/'))landPosts++;});
 page.on('response',response=>{if(new URL(response.url()).pathname.startsWith('/assets/')&&response.status()>=400)errors.push('Asset response '+response.status()+' '+new URL(response.url()).pathname);});
@@ -49,8 +51,28 @@ try{
  if(!baseline){const saved=existsSync('test-results/phase48-land-only/before/other-screens.json')?'test-results/phase48-land-only/before/other-screens.json':'docs/phase48/land-only-review/baseline/other-screens.json';const before=JSON.parse(await readFile(saved,'utf8'));assert.deepEqual(unchanged,before,'Home and Armory presentation must remain unchanged.');checks.push('Home and Armory computed layout and styling match the untouched baseline; neither loads the Land stylesheet.');}
  await writeFile(out+'/other-screens.json',JSON.stringify(unchanged,null,2)+'\n');
  await visit('/game/land');
- if(!baseline)await page.evaluate(async()=>{await document.fonts.ready;for(const name of ['painted-properties','castle-landscape','interface-icons']){const image=new Image();image.src='/assets/art/land-review/'+name+'.webp';await image.decode();if(!image.naturalWidth)throw new Error('Review image did not decode');}});
+ if(!baseline||mobileReview)await page.evaluate(async()=>{await document.fonts.ready;for(const name of ['painted-properties','castle-landscape','interface-icons']){const image=new Image();image.src='/assets/art/land-review/'+name+'.webp';await image.decode();if(!image.naturalWidth)throw new Error('Review image did not decode');}});
  await shot('1024-land');const desktop=await metrics();
+ if(mobileReview&&!baseline){
+  const approved=(await readFile('docs/phase48/land-only-review/screenshots/1024-land.png')).toString('base64');
+  const actual=(await readFile(out+'/1024-land.png')).toString('base64');
+  // Decode local screenshots in a blank, network-blocked context. The game
+  // correctly forbids data: images; its CSP must not be relaxed for a test.
+  const comparisonPage=await browser.newPage();await comparisonPage.route('**/*',route=>route.abort());
+  try{desktopPixelComparison=await comparisonPage.evaluate(async({approved,actual})=>{
+   const images=[];
+   for(const bytes of [approved,actual]){const image=new Image();image.src='data:image/png;base64,'+bytes;await image.decode();images.push(image);}
+   const [left,right]=images;if(!left||!right||left.naturalWidth!==1024||left.naturalHeight!==1536||right.naturalWidth!==1024||right.naturalHeight!==1536)throw new Error('Desktop comparison dimensions must match');
+   const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=1536;const context=canvas.getContext('2d',{willReadFrequently:true})!;
+   context.drawImage(left,0,0);const expected=context.getImageData(0,0,1024,1536).data;
+   context.clearRect(0,0,1024,1536);context.drawImage(right,0,0);const rendered=context.getImageData(0,0,1024,1536).data;
+   let differentPixels=0;for(let i=0;i<expected.length;i+=4)if(expected[i]!==rendered[i]||expected[i+1]!==rendered[i+1]||expected[i+2]!==rendered[i+2]||expected[i+3]!==rendered[i+3])differentPixels++;
+   return {width:1024,height:1536,differentPixels};
+  },{approved,actual});
+  assert.equal(desktopPixelComparison.differentPixels,0,'The approved 1024px capture must remain pixel-identical.');
+  }finally{await comparisonPage.close();}
+  checks.push('The fresh 1024×1536 Land screenshot matches every pixel of the approved capture.');
+ }
  if(!baseline){
   const scoped=await page.evaluate(()=>{
    const sheet=[...document.styleSheets].find(s=>s.href?.includes('/land-review.css'))!;
@@ -67,6 +89,46 @@ try{
   checks.push('Land-only CSS selectors and asset loading are isolated; six original illustrations decode and occupy their frames. All 21 real catalog entries, prices, holdings and restrictions come from the server.');
  }
  await page.setViewportSize({width:390,height:844});await visit('/game/land');await shot('390-land');const mobile=await metrics();
+ const mobileLayouts=[];
+ if(mobileReview){
+  assert.deepEqual(desktop,JSON.parse(await readFile('docs/phase48/land-only-review/browser.json','utf8')).desktop,'The approved desktop composition must remain unchanged.');
+  for(const width of [320,390,430]){
+   await page.setViewportSize({width,height:844});await visit('/game/land');await shot(width+'-land');
+   const expanded=await metrics();await page.locator('.land-flow-head').click();await page.locator('.land-flow-head').blur();await shot(width+'-land-compact');
+   const collapsed=await metrics();
+   const layout=await page.evaluate(()=>{
+    const navTop=document.querySelector('.primary-nav')!.getBoundingClientRect().top;
+    const rows=[...document.querySelectorAll('.land-property')].map(node=>node.getBoundingClientRect());
+    const targets=[...document.querySelectorAll('.topbar a,.resource-upper>a,.status-disclosure>summary,.land-flow-head,.income-explanation>summary,.single-trades button[type=submit],.market-bulk-link,.primary-nav a')].filter(node=>node.checkVisibility()).map(node=>{
+     const r=node.getBoundingClientRect();
+     const visible=r.top>=0&&(node.closest('.primary-nav')?r.bottom<=innerHeight:r.bottom<=navTop);
+     const hit=visible?document.elementFromPoint(r.x+r.width/2,r.y+r.height/2):null;
+     return {label:node.getAttribute('aria-label')??node.textContent?.trim(),width:r.width,height:r.height,visible,centerReachable:!visible||!!hit&&(node===hit||node.contains(hit))};
+    });
+    return {width:innerWidth,headingFont:getComputedStyle(document.querySelector('.page-heading h1')!).fontSize,overflow:document.documentElement.scrollWidth>innerWidth,completeRows:rows.filter(r=>r.top>=0&&r.bottom<=navTop).length,targets};
+   });
+   if(!baseline){
+    assert.equal(layout.overflow,false,width+'px horizontal overflow');assert.ok(layout.completeRows>=4,width+'px needs at least four complete property rows');
+    assert.ok(layout.targets.every(t=>t.width>=44&&t.height>=44),width+'px undersized touch target');
+    assert.ok(layout.targets.every(t=>t.centerReachable),width+'px overlapping touch target: '+JSON.stringify(layout.targets.filter(t=>!t.centerReachable)));
+   }
+   mobileLayouts.push({expanded,collapsed,...layout});
+   if(!baseline){
+    for(const selector of ['.income-disclosure>summary','.xp-resource>summary','.health>summary','.mana>summary','.spirit>summary']){
+     const summary=page.locator(selector);await summary.focus();await page.keyboard.press('Enter');
+     assert.notEqual(await summary.locator('..').getAttribute('open'),null);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+     assert.ok(await summary.evaluate(node=>getComputedStyle(node).outlineStyle!=='none'),'Keyboard focus must stay visible');
+     if(selector==='.income-disclosure>summary')await shot(width+'-income-disclosure');
+     if(selector==='.health>summary')await shot(width+'-health-disclosure');
+     await page.keyboard.press('Enter');await summary.blur();
+    }
+   }
+  }
+  if(!baseline){
+   checks.push('320/390/430px: 4+ complete collapsed rows; 44px+ header, status, trade, Bulk and navigation targets; centers remain reachable; keyboard disclosures retain visible focus. The approved desktop metrics and styling match exactly.');
+  }
+  await writeFile(out+'/mobile-layouts.json',JSON.stringify(mobileLayouts,null,2)+'\n');
+ }
  if(!baseline){
   const widths=[320,360,390,412,430,768,900,1024,1366];
   for(const width of widths){await page.setViewportSize({width,height:width>=900?1536:844});for(const path of ['/game/land','/game/land?bulk=smallholding#bulk-trade']){
@@ -93,6 +155,6 @@ try{
   checks.push('Empty Land state remains readable at 390px and 1024px without a clipped countdown.');
  }
  assert.deepEqual(errors,[]);
- await writeFile(out+'/summary.json',JSON.stringify({passed:true,baseline,viewport:{desktop:[1024,1536],mobile:[390,844]},checks,desktop,mobile,errors,productionContacted:false},null,2)+'\n');
+ await writeFile(out+'/summary.json',JSON.stringify({passed:true,baseline,viewport:{desktop:[1024,1536],mobile:[390,844]},checks,desktopPixelComparison,desktop,mobile,errors,productionContacted:false},null,2)+'\n');
  console.log(JSON.stringify({passed:true,baseline,checks,desktop,mobile},null,2));
 }finally{await context.close();await browser.close();await app.close();await r.close();}
