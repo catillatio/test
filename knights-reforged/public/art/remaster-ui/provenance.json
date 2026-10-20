@@ -1,15 +1,15 @@
 {
   "source": "Original vector geometry authored for the Phase 4.8 UI preview; no external artwork or fonts.",
   "license": "CC0-1.0",
-  "status": "UI preview for owner review; property and audio replacements are separate approval steps.",
+  "status": "Definitive Land mockup theme revision; original vector geometry, not copied artwork. Property replacement remains approval-only.",
   "assets": [
     {
       "asset": "crest.svg",
-      "sha256": "07629083a16be9a740007ad4661a45c4eea9c913ea3eda5d07ea9e0df14efb75"
+      "sha256": "349b1efacc3a5e79fafe89c7e4bd6b15d9ccade450e2045709b1cafae432dab8"
     },
     {
       "asset": "icons.svg",
-      "sha256": "de98a2f2a02d6dcd432a6dfda6d57c72f97d41b70f800fb528095a58113a32a7"
+      "sha256": "415e1712b5dcf467f6503ce59156d5715922e7d3ef4f3816e0d0f393e30800ef"
     },
     {
       "asset": "courtyard.svg",

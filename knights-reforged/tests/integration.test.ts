@@ -240,7 +240,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     assert.equal((await buyLand(owner)).statusCode, 200);
     const response = await app.inject({ method: 'GET', url: '/game/land', headers: { cookie: owner.cookie } });
     assert.equal(response.statusCode, 200, response.body);
-    assert.match(response.body, /Reconstructed alpha economy/);
+    assert.match(response.body, /Each additional property of the same type costs 10% more/);
     assert.match(response.body, /data-land-countdown/);
     assert.ok(!response.body.includes('Refresh income'));
     assert.equal((await me(other)).land.holdings.length, 0);

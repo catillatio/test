@@ -1,0 +1,2 @@
+<% const market=type==='land'?'/game/land':'/game/armory?category='+entry.category; %>
+<a class="market-bulk-link" href="<%= market %><%= type==='land'?'?':'&' %>bulk=<%= entry.id %>#bulk-trade" aria-label="Bulk buy or sell <%= entry.name %>">Bulk <span aria-hidden="true">›</span></a>
