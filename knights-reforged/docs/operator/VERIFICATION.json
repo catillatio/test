@@ -1,0 +1,136 @@
+{
+  "checkedAtUtc": "2026-10-20T21:48:44.000049+00:00",
+  "baseProductionCommit": "b305fa011d9428b7e00e68a7cc38026e0bcdb256",
+  "branch": "feature/kingdom-come-targeted-owner-operator",
+  "scope": "Development and synthetic verification only; not production execution authorization",
+  "fullAutomatedSuite": {
+    "tests": 449,
+    "pass": 448,
+    "fail": 0,
+    "skipped": 1,
+    "skipReason": "Existing real GitHub-hosted-runner network-namespace test requires GITHUB_ACTIONS=true and sudo."
+  },
+  "focusedProtocolTests": {
+    "passed": 10,
+    "failed": 0,
+    "latestGrayConfirmationIncludesExactMessageUuid": true
+  },
+  "focusedPostgresqlTests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "privateWorkerContainer": {
+    "passed": true,
+    "checks": [
+      "Private image, actual age encryption/decryption and exact owner confirmation",
+      "Read-only inspection before audit setup leaves every table unchanged",
+      "Explicit isolated setup/replay preserves game schema head 020 and every business row",
+      "Two concurrent private workers correct the name exactly once",
+      "Gray-only audited hide and read-only post-verification; Development Knight untouched",
+      "Authenticated metadata denial fails before DB mutation",
+      "450 bots preserved and both operator audit records restore with append-only protections"
+    ],
+    "bots": 450,
+    "operatorReceipts": 2,
+    "gameSchemaHead": "020_game_feel.sql",
+    "actualRailwayOperations": 0,
+    "productionAccessed": false
+  },
+  "preservation": {
+    "passed": true,
+    "accounts": 452,
+    "bots": 450,
+    "tablesChecked": 68,
+    "changedBusinessColumns": [
+      "accounts.username"
+    ],
+    "auditRowsAdded": 1,
+    "passwordAndSessionPreserved": true,
+    "duplicateAppliesOnce": true,
+    "productionAccessed": false
+  },
+  "staticChecks": {
+    "passed": 94,
+    "failed": 0,
+    "productionEjsCases": 73
+  },
+  "browserRegression": {
+    "passed": true,
+    "responsiveVisits": 64,
+    "viewports": [
+      320,
+      360,
+      375,
+      390,
+      393,
+      412,
+      430,
+      1366
+    ],
+    "browserErrors": [],
+    "limitations": [
+      "Chromium AAC/Web Audio and gesture gating verified; physical Android/iPhone audio quality and Safari policies still require owner acceptance.",
+      "Idle time is browser-clock simulation; background events are simulated, not mobile OS suspension."
+    ]
+  },
+  "typecheck": "PASS",
+  "productionTypescriptBuild": "PASS",
+  "actionlint": {
+    "versionsTested": [
+      "1.7.7",
+      "1.7.12"
+    ],
+    "newWorkflows": 2,
+    "passed": true,
+    "ciDownloadChecksumVerified": true
+  },
+  "dependencyAudits": {
+    "gameProductionVulnerabilities": 0,
+    "unchangedReleaseProductionVulnerabilities": 0
+  },
+  "sourceFileSha256": {
+    ".github/workflows/owner-operator-checks.yml": "d8e7cc7b80aa0bdff103397a82d30549547f2d23ff45eecf6f7aa46772b1ccd8",
+    ".github/workflows/owner-operator.yml": "7fc2fba4e42537208fcb42cab91fb39a0f0d21d7caa60061af202756df19e5ec",
+    "knights-reforged/deployment/operator/Dockerfile": "a50bdf41e116a60b6b29266c00da227494087e8642825864c0294b369d32de7c",
+    "knights-reforged/deployment/operator/audit.sql": "1f2a8be6b4245f0928c76eda772fbb1ded45b30b6df8e134616ad7173fc86c9c",
+    "knights-reforged/deployment/operator/controller.mjs": "04073441a6b4b3869e58efa2e39d12d8c573baa91abe64a4db953390d05c512b",
+    "knights-reforged/deployment/operator/preflight.mjs": "b1e064be2c738613156c448000b7a737b2bfab76cf4473227fbc1858ae5ee158",
+    "knights-reforged/deployment/operator/protocol.mjs": "8fcfc796481776e6087e3360a76908b235f52d09fdd247e387c6550fab0350cb",
+    "knights-reforged/deployment/operator/railway.mjs": "1bc3b61a98c20ac2c1996a83f4b251c0f90e9aeba1deb6fee7b065cddbbe05d5",
+    "knights-reforged/deployment/operator/read-artifact.py": "2373756c3e07ab5cc6a685f215ffaa9878a4488a2719b206ead48c94479be4e5",
+    "knights-reforged/deployment/operator/worker.mjs": "0751d2874067c4126b797883254f41ee80a9aa4365bdce8daafc54eac1d18679",
+    "knights-reforged/docs/operator/README.md": "05741cfd3a039e5e938a76ed867cbf92f05da70fa9774ebdd14e6e883c3e9eb8",
+    "knights-reforged/scripts/fixtures/owner-worker-harness.mjs": "4d17493ec538659828d4a21de6eeeff7191c220180850833df9ea501a182309c",
+    "knights-reforged/scripts/test-owner-operator.mjs": "921860bb44ade6425f2ee3fecf64e5492382f280a6ed707aa0f2d2a9cc1a48d8",
+    "knights-reforged/src/owner-actions.ts": "669efb8cf7c3150df41abdb5f9ee83aca620dd85f9581f1605cc0e87984e6f2d",
+    "knights-reforged/src/owner-audit.ts": "48d6d2b8b57457e8cf3e03f2a9cc6984da78bc97929d21aa76e38f387d6cc9ee",
+    "knights-reforged/tests/owner-actions.test.ts": "9ba9cfd5ab29aff290c033fc080c78d9de713590aee34f660ddff7cfee9d806b",
+    "knights-reforged/tests/owner-operator.test.mjs": "56fcc5111390c712efd425f66705a3ca867932ae1091f4f6881ae664854a9897"
+  },
+  "safety": {
+    "existingTrackedFilesModified": 0,
+    "gameMigrationFilesAdded": 0,
+    "gameSchemaHead": "020_game_feel.sql",
+    "newAuditTablesInstalledOnlyBySeparatelyApprovedSetup": 2,
+    "existingReleaseFilesChanged": 0,
+    "gameStartupChanges": 0,
+    "productionRecordsAccessed": false,
+    "productionMutations": 0,
+    "authenticatedRailwayOperations": 0,
+    "productionWorkflowsDispatched": 0,
+    "merged": false
+  },
+  "testEnvironmentNotes": [
+    "First broad run hit local disk exhaustion: five PostgreSQL tests failed on file extension. Disposable Docker build cache/images were reclaimed; complete rerun passed.",
+    "Private-worker image tested with an inherited proxy-CA Node base override; TLS verification remained enabled. The production Dockerfile default is unchanged node:24-bookworm-slim.",
+    "Synthetic backup/restore used a separate database in disposable PostgreSQL 18, not a production independent-recovery rehearsal.",
+    "Latest exact-Gray-UUID confirmation was rechecked with focused protocol and private-worker tests after the broad suite."
+  ],
+  "unverifiedUntilSeparateOwnerAuthorization": [
+    "Live target account mapping, username versus character-name field and replacement availability",
+    "Exact live Gray message UUID, body/time/status and feed visibility",
+    "Private operator service setup, scoped Railway access, actual provider log transport and operator-key configuration",
+    "Production audit setup and either live action"
+  ],
+  "githubCi": "New draft PR checks run independently after push; this record describes local verification."
+}
