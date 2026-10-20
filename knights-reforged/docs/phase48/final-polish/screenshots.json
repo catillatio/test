@@ -1,0 +1,188 @@
+{
+  "unalteredCaptures": true,
+  "count": 26,
+  "screenshots": [
+    {
+      "file": "screenshots/320-home.png",
+      "width": 320,
+      "height": 844,
+      "sha256": "e074fb56697ea99cddf362c85f5d5aa58e58186cd09016223fd629290528f053",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/320-armory.png",
+      "width": 320,
+      "height": 844,
+      "sha256": "4f5d6f39b471effa5c8adb2fb120b0e0183931e3e1e092668c7120ead4ae4ae1",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/320-land.png",
+      "width": 320,
+      "height": 844,
+      "sha256": "20412d110f3fa5a2d0b90f6a8be9fc6b46f13afc4bbd970e08300ac79496c837",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/320-battle.png",
+      "width": 320,
+      "height": 844,
+      "sha256": "31cddceb22939feb4052bbbc1cfba782e391bffeb0ba99fdd7fb9f3fd876c4d0",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/320-profile.png",
+      "width": 320,
+      "height": 844,
+      "sha256": "69bd29831da8776ae34ce3f5ae2c2f46fa924316d8c79f5584c91ee9bdf4c588",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-home.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "0d298fdd60598d0f00c81c569d3e2b3375c7d71c0983ed829a42d22c2822da4a",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-armory.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "9532bd04dbda04f99e4e786255513cbe6a3fd4163f1661b604fbb7670f7c4bac",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-land.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "0c6fe31c99574c9eeb4c1edce2586f86cb81318b90a7c67f221a51ecba50b9c0",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-battle.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "ae56f62d3ff40053a5dadb6352a9bc55483f72b40aa31fecd216931f6d6fe8c4",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-profile.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "b5fe83676a1c4d503518447368682b51907b47e1e0154eb94e6c15df4496d9f7",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/430-home.png",
+      "width": 430,
+      "height": 844,
+      "sha256": "6ce1771a7c3f5a402970528e41e208d2dd9e999d93d1841089c4e39e4dc79da0",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/430-armory.png",
+      "width": 430,
+      "height": 844,
+      "sha256": "77aae016d2667c1adb8571e924ddf83166fed1171da899945d9fef373e931dbe",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/430-land.png",
+      "width": 430,
+      "height": 844,
+      "sha256": "d587952b591d1176f0ff8c71fd85c7e0990450f0c3e785555d90c1b2def90cd1",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/430-battle.png",
+      "width": 430,
+      "height": 844,
+      "sha256": "4081614b0ae3e558023979decf26a73c7f9134b0dc7725f450cbe25dac328905",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/430-profile.png",
+      "width": 430,
+      "height": 844,
+      "sha256": "b225fe9e99677a7202f2c8b2d11717d2bab56bffafc39fc13776165d878e1f1f",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/1024-home.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "74f45911a924567183def157d116d9bfc2f1a1ff7150fdc8cd7793c816fec987",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/1024-armory.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "02d35346caa74e14ef5ee8ec41c3197bda8b9afaacb202f36af966d988f44824",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/1024-land.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "fe6192ad37b7f977ceffe2b6ff0fb25d01d3e6ee914b4210e01a82a4c124cc28",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/1024-battle.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "445ef578d7d64374bec710e87ff36a06b352819a31d95e969dc59e8029efd273",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/1024-profile.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "153882cb06c6107201f78cddfa932805e2fe6a006645fecf6514b219449e7028",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-home-recent-activity.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "0d298fdd60598d0f00c81c569d3e2b3375c7d71c0983ed829a42d22c2822da4a",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-victory-heading.png",
+      "width": 352,
+      "height": 27,
+      "sha256": "33dfc82ef41f0f502206b799544f45e450dedb9eb9460ff2d33869ca381f9e0f",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-victory-badge.png",
+      "width": 75,
+      "height": 27,
+      "sha256": "f3c79761a25d78567334e9f136e563406b12190b5e8eb7a0c9976aa9054d618a",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-defeat-heading.png",
+      "width": 352,
+      "height": 27,
+      "sha256": "83c9cb365c39f9301d8c5d6051e451b540057fa8b7aee1c465d85af465550a8c",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-defeat-badge.png",
+      "width": 72,
+      "height": 27,
+      "sha256": "db2e6cac9bcb7e22ba47492baa68ee7db2f0a580409ed86d1e276da13328943c",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    },
+    {
+      "file": "screenshots/390-outcomes-context.png",
+      "width": 374,
+      "height": 293,
+      "sha256": "7db9ba42e8f89a962138d023467887bef0ed8c672192142a0c4cd5a08c88f762",
+      "rendering": "Unretouched native Chromium capture; synthetic isolated local fixture"
+    }
+  ]
+}

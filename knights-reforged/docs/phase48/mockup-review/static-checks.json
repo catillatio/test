@@ -1,0 +1,380 @@
+{
+  "scope": "Production EJS fixture rendering, local references, form contracts, original navigation and artwork hashes.",
+  "fixtureCount": 73,
+  "passed": 93,
+  "failed": 0,
+  "results": [
+    {
+      "name": "All production EJS templates compile with the installed EJS engine",
+      "passed": true
+    },
+    {
+      "name": "Local imports resolve and external dependencies are declared",
+      "passed": true
+    },
+    {
+      "name": "All browser scripts parse as JavaScript",
+      "passed": true
+    },
+    {
+      "name": "Phase 4.8 original vector assets have verified provenance; no active APK artwork references",
+      "passed": true
+    },
+    {
+      "name": "The mockup-theme background matches its original-asset provenance",
+      "passed": true
+    },
+    {
+      "name": "Artwork integrity: public/art/provenance.json",
+      "passed": true
+    },
+    {
+      "name": "Artwork integrity: public/art/land-provenance.json",
+      "passed": true
+    },
+    {
+      "name": "Artwork integrity: public/art/kingdoms-live/provenance.json",
+      "passed": true
+    },
+    {
+      "name": "Artwork integrity: public/art/alpha/provenance.json",
+      "passed": true
+    },
+    {
+      "name": "Fantasy illustration sheets and all catalog cell assignments are intact",
+      "passed": true
+    },
+    {
+      "name": "Simplified Land sheet preserves 21 property identities with verified image bytes and row bounds",
+      "passed": true
+    },
+    {
+      "name": "CSS uses local assets; original tab gradients and safe areas remain",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: champions",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: champions-empty",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: tutorial-introduction",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: tutorial-land-lesson",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: tutorial-completion",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: tutorial-context-land",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: achievements",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: quest-equipment",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: quest-equipment-ready",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: trade-confirm-buy",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: trade-confirm-sell",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: home-tutorial",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: quest-celebration",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: purchase-equipment",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: purchase-land",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: purchase-unavailable",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: profile-public-tales",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: profile-legacy-tales",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: home-defeat-activity",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: quests-result-unavailable",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: bounty-confirm",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: bounty-new",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: bounty-unavailable",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: vault",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: profile-no-land",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: profile-bot-no-land",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: report-defeated",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: bounty-defeated",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: home-mixed-activity",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: settings",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: profile-comments",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: profile-public",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: army-roster",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: army-dashboard",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: home-comments",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: home-broadcasts",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: home-own-comment",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: home",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: quests",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: battle",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: armory",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: army",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: land",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: bounties-empty",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: bounties-own",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: bounties-hunt",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: profile",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: profile-skills",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: profile-battles",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: armory-armor",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: armory-spells",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: armory-paused",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: quests-missing",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: quests-result",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: land-empty",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: land-no-gold",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: land-locked",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: land-limit",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: land-retained",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: battle-empty",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: battle-recovering",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: home-history",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: report-alpha",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: report-previous-alpha",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: report-legacy",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: auth-public",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: register",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: rules-public",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: rules-signed-in",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: error-public",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: error-signed-in",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: escaped-name",
+      "passed": true
+    },
+    {
+      "name": "Production EJS render: large-resources",
+      "passed": true
+    },
+    {
+      "name": "Rendered links, asset references, unique IDs, labels, CSRF and command contracts",
+      "passed": true
+    },
+    {
+      "name": "Original five destinations, accessible original vector icons, Home-only Land and profile Home selection",
+      "passed": true
+    },
+    {
+      "name": "Repeat quest styling follows authoritative eligibility; legacy details stay unknown",
+      "passed": true
+    },
+    {
+      "name": "Compact combat outcomes are distinct shield statuses and profile totals remain hidden",
+      "passed": true
+    },
+    {
+      "name": "Legacy HTML command routes are preserved through the alpha expansion",
+      "passed": true
+    },
+    {
+      "name": "Active branding and package lock use Kingdom Come",
+      "passed": true
+    },
+    {
+      "name": "Upgraded pages bypass cached pre-expansion income clients",
+      "passed": true
+    },
+    {
+      "name": "Land retains countdown, offline payment, sale, retained-gold and no-script hooks",
+      "passed": true
+    }
+  ]
+}

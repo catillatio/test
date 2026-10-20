@@ -1,0 +1,158 @@
+{
+  "home": {
+    "styles": {
+      ".topbar": {
+        "width": 1022,
+        "height": 65,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "border": "",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(36, 34, 25, 0.97), rgba(9, 10, 8, 0.98)) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".realm-brand": {
+        "width": 213,
+        "height": 54,
+        "font": "15px / 21px Georgia, \"Times New Roman\", serif",
+        "border": "0px none rgb(241, 220, 167)",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(241, 220, 167)"
+      },
+      ".realm-resources": {
+        "width": 1022,
+        "height": 162,
+        "font": "",
+        "border": "0px none rgb(244, 240, 229)",
+        "background": "rgb(16, 18, 15) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".resource-upper": {
+        "width": 1022,
+        "height": 80,
+        "font": "",
+        "border": "",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(52, 55, 39, 0.97), rgba(16, 21, 15, 0.97) 65%, rgb(7, 11, 8)) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".resource-lower": {
+        "width": 1022,
+        "height": 82,
+        "font": "",
+        "border": "",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(49, 160, 142) 0%, rgb(26, 120, 105) 8%, rgb(18, 99, 86) 40%, rgb(16, 72, 56) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".primary-nav": {
+        "width": 1024,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "border": "",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(54, 57, 52), rgb(23, 28, 23) 45%, rgb(8, 13, 8)) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".nav-icon": {
+        "width": 27,
+        "height": 27,
+        "font": "700 12px Georgia, \"Times New Roman\", serif",
+        "border": "0px none rgb(255, 251, 237)",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(255, 251, 237)"
+      },
+      ".button-gold": {
+        "width": 280,
+        "height": 44,
+        "font": "700 15px / 18px Georgia, \"Times New Roman\", serif",
+        "border": "1px solid rgb(193, 154, 75)",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(133, 103, 48) 0%, rgb(111, 81, 37) 40%, rgb(83, 60, 25) 78%, rgb(61, 44, 18)) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(255, 244, 219)"
+      },
+      ".home-menu": {
+        "width": 990,
+        "height": 272,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "border": "0px none rgb(244, 240, 229)",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".catalog-row": null
+    },
+    "landStylesheet": false
+  },
+  "armory": {
+    "styles": {
+      ".topbar": {
+        "width": 1022,
+        "height": 65,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "border": "",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(36, 34, 25, 0.97), rgba(9, 10, 8, 0.98)) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".realm-brand": {
+        "width": 213,
+        "height": 54,
+        "font": "15px / 21px Georgia, \"Times New Roman\", serif",
+        "border": "0px none rgb(241, 220, 167)",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(241, 220, 167)"
+      },
+      ".realm-resources": {
+        "width": 1022,
+        "height": 162,
+        "font": "",
+        "border": "0px none rgb(244, 240, 229)",
+        "background": "rgb(16, 18, 15) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".resource-upper": {
+        "width": 1022,
+        "height": 80,
+        "font": "",
+        "border": "",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(52, 55, 39, 0.97), rgba(16, 21, 15, 0.97) 65%, rgb(7, 11, 8)) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".resource-lower": {
+        "width": 1022,
+        "height": 82,
+        "font": "",
+        "border": "",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(49, 160, 142) 0%, rgb(26, 120, 105) 8%, rgb(18, 99, 86) 40%, rgb(16, 72, 56) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".primary-nav": {
+        "width": 1024,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "border": "",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(54, 57, 52), rgb(23, 28, 23) 45%, rgb(8, 13, 8)) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      },
+      ".nav-icon": {
+        "width": 27,
+        "height": 27,
+        "font": "700 12px Georgia, \"Times New Roman\", serif",
+        "border": "0px none rgb(241, 241, 231)",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(241, 241, 231)"
+      },
+      ".button-gold": {
+        "width": 280,
+        "height": 44,
+        "font": "700 15px / 18px Georgia, \"Times New Roman\", serif",
+        "border": "1px solid rgb(193, 154, 75)",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(133, 103, 48) 0%, rgb(111, 81, 37) 40%, rgb(83, 60, 25) 78%, rgb(61, 44, 18)) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(255, 244, 219)"
+      },
+      ".home-menu": null,
+      ".catalog-row": {
+        "width": 990,
+        "height": 120,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "border": "1px solid rgb(101, 103, 85)",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(105deg, rgba(9, 13, 11, 0.925), rgba(11, 16, 13, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(244, 240, 229)"
+      }
+    },
+    "landStylesheet": false
+  }
+}

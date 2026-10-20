@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "checks": [
+    "Single-item purchase submits once, spends the catalog price, and receipt refresh awards nothing.",
+    "Bulk intent survives simulated three-hour idle, online/visibility events and reload; lost committed response retries one receipt without another charge.",
+    "Gold Flow can be opened and closed with the keyboard; its compact state shows at least four complete property rows at 390px.",
+    "Land buy, Return to Land, bulk sale, exact authoritative refund and expandable income accounting work.",
+    "Expired session preserves the focused bulk screen and quantity; no purchase POST is sent.",
+    "56 responsive visits, 44px trade buttons, five tabs, no horizontal overflow, no JavaScript errors, and no APK-derived asset requests."
+  ],
+  "measurements": [
+    {
+      "path": "/game/armory",
+      "rowHeight": 110,
+      "fullyVisible": 4,
+      "headerHeight": 103.171875
+    },
+    {
+      "path": "/game/land",
+      "rowHeight": 102,
+      "fullyVisible": 3,
+      "headerHeight": 103.171875
+    }
+  ],
+  "widths": [
+    320,
+    360,
+    390,
+    412,
+    430,
+    768,
+    1024,
+    1366
+  ],
+  "responsiveVisits": 56,
+  "browserErrors": [],
+  "productionContacted": false,
+  "limitations": [
+    "Chromium touch emulation; physical Android/iPhone and WebKit review remain.",
+    "Three-hour idle uses a simulated browser clock.",
+    "Definitive mockup theme review; revised painted property sheet is not adopted. Sound and remaining screen-specific changes await owner review."
+  ]
+}

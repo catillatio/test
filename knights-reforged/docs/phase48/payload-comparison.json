@@ -1,0 +1,17 @@
+{
+  "scope": "Uncompressed marketplace content fragments, same synthetic level-15 state and current unchanged partial dependencies; excludes layout, compression and cache. This is payload size, not a latency benchmark.",
+  "screens": [
+    {
+      "screen": "armory",
+      "beforeBytes": 100069,
+      "afterBytes": 45265,
+      "reductionPercent": 55
+    },
+    {
+      "screen": "land",
+      "beforeBytes": 108757,
+      "afterBytes": 53794,
+      "reductionPercent": 51
+    }
+  ]
+}

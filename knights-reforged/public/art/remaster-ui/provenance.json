@@ -1,0 +1,19 @@
+{
+  "source": "Original vector geometry authored for Kingdom Come; no external artwork, fonts, or samples. Profile helm, stone keep, iron coffer, forged gear, crown/laurel and broken-sword emblems refined for the Phase 4.8 final shared visual review.",
+  "license": "CC0-1.0",
+  "status": "Approved Phase 4.8 visual direction; original icon refinements prepared for owner review, without deployment.",
+  "assets": [
+    {
+      "asset": "crest.svg",
+      "sha256": "349b1efacc3a5e79fafe89c7e4bd6b15d9ccade450e2045709b1cafae432dab8"
+    },
+    {
+      "asset": "icons.svg",
+      "sha256": "05d766373a123142b33b2e9279dd44d81b2792deb2d49b60834f43b9a37719e0"
+    },
+    {
+      "asset": "courtyard.svg",
+      "sha256": "943b99232d62f19902a8745e38153ad9c98d5d9bb5dab7198e1d4bb009327cec"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<% const land=type==='land'; %>
+<div class="trade-actions single-trades">
+<% for(const mode of ['buy','sell']) { const buying=mode==='buy',max=buying?availableBuy:availableSell; %>
+<form method="post" action="/game/<%= land?'land':'armory' %>/<%= mode %>" data-market-form data-purchase-type="<%= type %>" data-trade-mode="<%= mode %>" data-definition-id="<%= entry.id %>" data-required-level="<%= entry.level %>" data-unit-price="<%= entry.price %>" data-max="<%= max %>"<% if(land&&buying) { %> class="land-buy-form"<% } %><% if(land&&!buying) { %> data-land-sell<% } %>>
+<%- include('command-fields') %><input type="hidden" name="<%= land?'propertyId':'itemId' %>" value="<%= entry.id %>"><input type="hidden" name="quantity" value="1">
+<button class="button <%= buying?'button-gold':'button-outline' %>" type="submit" aria-label="<%= buying?'Buy':'Sell' %> <%= entry.name %>"<% if(max<1) { %> disabled<% } %>><%= buying?'Buy':'Sell' %><% if(!buying) { %><small>+<span data-single-return><%= Number(refund??0).toLocaleString('en') %></span></small><% } %></button>
+</form><% } %>
+</div>

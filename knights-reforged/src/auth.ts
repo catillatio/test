@@ -16,7 +16,7 @@ export const hashPassword=(password:string)=>hash(password,passwordOptions);
 export const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
 export interface Session { token_hash: string; csrf_token: string; account_id: string | null; username?: string; }
 
-export async function registerAccount(db: Database, input: unknown) {
+export async function registerAccount(db: Database, input: unknown, options:{soundEnabled?:boolean}={}) {
   const parsed = registration.safeParse(input);
   if (!parsed.success) throw new GameError('INVALID_ACCOUNT', parsed.error.issues[0]?.message ?? 'Invalid account.');
   const { username, name, password } = parsed.data;
@@ -29,6 +29,9 @@ export async function registerAccount(db: Database, input: unknown) {
       await client.query('INSERT INTO characters(id,account_id,name) VALUES($1,$2,$3)', [characterId, accountId, name]);
       await client.query('INSERT INTO wallets(character_id,balance) VALUES($1,$2)', [characterId, alpha.startingGold]);
       await client.query('INSERT INTO army_stacks(character_id,unit_definition_id,quantity) VALUES($1,$2,0)', [characterId, rules.unit.id]);
+      // New humans opt into action sounds, subject to the browser gesture gate.
+      // Existing preference rows and the legacy muted fallback remain untouched.
+      if(options.soundEnabled)await client.query('INSERT INTO sound_preferences(character_id,enabled,volume) VALUES($1,true,55)', [characterId]);
       const ledgerId = randomUUID();
       await client.query('INSERT INTO economy_transactions(id,reason,ruleset_id) VALUES($1,$2,$3)', [ledgerId, 'starting_grant', alpha.id]);
       await client.query('INSERT INTO economy_entries(id,transaction_id,character_id,amount,balance_after) VALUES($1,$2,$3,$4,$4)',

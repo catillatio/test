@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "base": "cf4a99d378c2bf2991228ed3fcd2a25a85004ecf",
+  "visualBaseline": "b3014eadf9cca6341f03d87154c689fc0ef7fa43",
+  "changes": {
+    "documentation": 207,
+    "source": 3,
+    "views": 23,
+    "public": 52,
+    "tests": 10,
+    "scripts": 9
+  },
+  "protectedPathsByteIdentical": [
+    ".github/workflows",
+    "knights-reforged/deployment",
+    "knights-reforged/migrations",
+    "knights-reforged/rulesets",
+    "knights-reforged/Dockerfile",
+    "knights-reforged/.dockerignore",
+    "knights-reforged/railway.json",
+    "knights-reforged/package-lock.json",
+    "knights-reforged/public/audio"
+  ],
+  "knownRetiredAssetHashesAbsentFromPublic": 27,
+  "publicFilesAudited": 88,
+  "audioAuditionRuntimeReferences": [],
+  "runtimeAudioByteIdentical": true,
+  "newMigrations": 0,
+  "expectedSchemaHead": "020_game_feel.sql",
+  "productionContacted": false
+}

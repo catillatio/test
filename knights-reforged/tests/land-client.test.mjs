@@ -19,7 +19,7 @@ function browser(fetch, nextPayment = '2026-10-17T13:00:00.000Z') {
   const intervals = [];
   const listeners = new Map();
   const windowListeners = new Map();
-  const selectors = new Map(['countdown', 'status', 'gross', 'upkeep', 'net', 'payment-time', 'pending', 'pending-gold']
+  const selectors = new Map(['countdown', 'status', 'gross', 'upkeep', 'net', 'payment-time', 'pending', 'pending-gold', 'summary-countdown', 'summary-net']
     .map(name => ['[data-land-' + name + ']', element()]));
   const owned = element();
   const input = element({ value: '1', disabled: true });
@@ -37,12 +37,15 @@ function browser(fetch, nextPayment = '2026-10-17T13:00:00.000Z') {
   const document = { hidden: false, querySelector: selector => selector === '[data-land-screen]' ? root : null,
     querySelectorAll: selector => selector === '[data-wallet-gold]' ? [wallet] : [],
     addEventListener: (name, callback) => listeners.set(name, callback) };
+  const events = [];
+  document.dispatchEvent = event => { events.push(event); };
   const requests = [];
   runInNewContext(source, { document, window:{addEventListener:(name,fn)=>windowListeners.set(name,fn)}, performance: { now: () => elapsed }, AbortController,
     fetch: async (url, options) => { requests.push({ url, options }); return fetch(url, options); },
+    CustomEvent: class { constructor(type,detail) { this.type=type;Object.assign(this,detail); } },
     setInterval: (callback, delay) => intervals.push({ callback, delay }),
     setTimeout: () => 1, clearTimeout: () => {} });
-  return { selectors, document, listeners, windowListeners, requests, wallet, input, button, holding,
+  return { events, selectors, document, listeners, windowListeners, requests, wallet, input, button, holding,
     tick(milliseconds) { elapsed += milliseconds; intervals.find(timer => timer.delay === 1000).callback(); },
     poll() { intervals.find(timer => timer.delay === 60000).callback(); } };
 }
@@ -72,7 +75,7 @@ test('a due countdown cannot mint gold; overlapping ticks issue one server reque
   assert.notEqual(page.requests[0].options.method, 'POST');
 });
 
-test('API refresh displays server rates, availability and the next persisted holding payment', async () => {
+test('API refresh displays server rates and persisted payment without unlocking trade controls', async () => {
   const page = browser(async () => response({ hourlyIncome: 38, hourlyUpkeep: 8, netHourlyIncome: 30,
     properties: [{ id: 'smallholding', owned: 3, remaining: 97, maxAffordable: 2 }] }));
   page.poll();
@@ -80,10 +83,21 @@ test('API refresh displays server rates, availability and the next persisted hol
   assert.equal(page.selectors.get('[data-land-gross]').textContent, '38');
   assert.equal(page.selectors.get('[data-land-upkeep]').textContent, '8');
   assert.equal(page.selectors.get('[data-land-net]').textContent, '30');
-  assert.equal(page.input.max, '2');
-  assert.equal(page.input.disabled, false);
-  assert.equal(page.button.disabled, false);
+  // Transaction controls now have one owner: market.js. Income refresh must
+  // not unlock a pending trade or mutate its immutable quantity.
+  assert.equal(page.input.disabled, true);
+  assert.equal(page.button.disabled, true);
   assert.equal(page.holding.datetime, '2026-10-17T14:00:00.000Z');
+});
+
+test('complete Land refresh forwards authoritative eligibility to shared trading without mutating a pending quantity', async () => {
+  const payload=await response().json();
+  payload.state={id:'actor',stateVersion:2,gold:22,land:payload.land};
+  const page=browser(async()=>({ok:true,json:async()=>payload}));
+  page.input.value='5';page.poll();await flush();
+  assert.equal(page.events.length,1);assert.equal(page.events[0].type,'realm-state');
+  assert.equal(page.events[0].detail,payload.state);
+  assert.equal(page.input.value,'5');assert.equal(page.button.disabled,true);
 });
 
 test('offline fetch failures preserve displayed gold and retry on reconnect', async () => {
@@ -125,4 +139,28 @@ test('a wealthy character cannot enable a level-locked Land purchase through pol
 test('Land reconnects after back-forward navigation and network recovery without a refresh button',async()=>{
   const page=browser(async()=>response());page.windowListeners.get('pageshow')({persisted:true});await flush();assert.equal(page.wallet.textContent,'22');
   page.tick(6000);page.windowListeners.get('online')();await flush();assert.equal(page.requests.length,2);
+});
+
+
+test('collapsed summary follows the same server clock and refreshed signed net income without additional requests', async () => {
+  let net = 30;
+  const page = browser(async () => response({ netHourlyIncome: net }));
+  assert.equal(page.selectors.get('[data-land-summary-countdown]').textContent, 'Next 01:00:00');
+  page.tick(61000);
+  assert.equal(page.selectors.get('[data-land-summary-countdown]').textContent, 'Next 00:58:59');
+  assert.equal(page.requests.length, 0);
+  page.poll(); await flush();
+  assert.equal(page.selectors.get('[data-land-summary-net]').textContent, '+30');
+  net = -12; page.tick(6000); page.poll(); await flush();
+  assert.equal(page.selectors.get('[data-land-summary-net]').textContent, '-12');
+  assert.equal(page.wallet.textContent, '22');
+  assert.equal(page.requests.length, 2);
+});
+
+test('collapsed empty Land summary does not promise a payment or generate a request', () => {
+  const page = browser(async () => response(), '');
+  assert.equal(page.selectors.get('[data-land-summary-countdown]').textContent, 'No Land yet');
+  page.tick(7200000);
+  assert.equal(page.requests.length, 0);
+  assert.equal(page.wallet.textContent, '15');
 });

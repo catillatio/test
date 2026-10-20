@@ -1,5 +1,5 @@
 import {soundIndex} from './audio/index.js?v=phase47-1';
-// One short cue per confirmed action. Default muted; no music, third-party
+// One short cue per confirmed action. Server-owned opt-in/mute; no music, third-party
 // requests, predicted rewards or financial writes. AAC works in mobile Safari.
 const body=document.body,identity=document.querySelector('[data-character-id]')?.dataset.characterId||'anonymous';
 let enabled=body.dataset.soundEnabled==='1',volume=Math.max(0,Math.min(100,Number(body.dataset.soundVolume)||0)),context=null,active=null,activeGain=null,lastAt=-Infinity,lastReward=-Infinity,lastRoutine=-Infinity,interacted=false,waiting=null;
@@ -61,7 +61,7 @@ if(settings){
  const choice=settings.querySelector('[name="enabled"]'),range=settings.querySelector('[name="volume"]'),output=settings.querySelector('[data-sound-volume]');
  range.addEventListener('input',()=>{volume=Number(range.value);output.textContent=volume+'%';if(activeGain)activeGain.gain.value=volume/100*.74;});
  choice.addEventListener('change',()=>{enabled=choice.value==='1';if(!enabled&&active)try{active.stop();}catch{}unlock();});
- settings.querySelector('[data-sound-preview]')?.addEventListener('click',()=>{unlock();if(choice.value==='1')void play('achievement',{preview:true,reward:true});else settings.querySelector('[data-sound-status]').textContent='Choose Enabled to preview sound. Save to keep your preference.';});
+ settings.querySelector('[data-sound-preview]')?.addEventListener('click',()=>{unlock();if(choice.value==='1')void play('achievement',{preview:true,reward:true});else settings.querySelector('[data-sound-status]').textContent='Choose Enabled to preview sound. Changes save automatically.';});
 }
 // Income is sounded only for a newly observed, committed Land journal after
 // this page opened. Initial/historical receipts and ordinary gold changes do not.
@@ -70,6 +70,7 @@ document.addEventListener('realm-state',event=>{const receipt=event.detail?.inco
 document.addEventListener('kingdom-action-error',()=>void play('error'));
 const preferenceKey='kingdom-sound-preference:'+identity;
 try{localStorage.setItem(preferenceKey,JSON.stringify({enabled,volume}));}catch{}
+document.addEventListener('kingdom-preference-saved',event=>{const saved=event.detail;if(!['0','1'].includes(saved?.enabled)||!Number.isInteger(saved.volume)||saved.volume<0||saved.volume>100)return;try{localStorage.setItem(preferenceKey,JSON.stringify({enabled:saved.enabled==='1',volume:saved.volume}));}catch{}});
 function savedPreference(){try{const saved=JSON.parse(localStorage.getItem(preferenceKey)||'null');if(typeof saved?.enabled==='boolean'&&Number.isInteger(saved.volume)&&saved.volume>=0&&saved.volume<=100){enabled=saved.enabled;volume=saved.volume;if(activeGain)activeGain.gain.value=enabled?volume/100*.74:0;if(!enabled&&active)active.stop();if(settings){settings.querySelector('[name="enabled"]').value=enabled?'1':'0';settings.querySelector('[name="volume"]').value=String(volume);settings.querySelector('[data-sound-volume]').textContent=volume+'%';}}}catch{}}
 window.addEventListener('storage',event=>{if(event.key===preferenceKey)savedPreference();});
 window.addEventListener('pageshow',event=>{if(navigationTimer)clearTimeout(navigationTimer);navigationTimer=null;if(event.persisted)savedPreference();});

@@ -2,6 +2,7 @@
 // on the server. Reusing a submitted form ID returns the same saved transaction.
 document.querySelectorAll('form[method="post"]').forEach(form=>{
   form.addEventListener('submit',event=>{
+    if(form.matches('[data-sound-settings]')&&form.dataset.autosave==='ready')return;
     if(form.dataset.submitting==='true'){event.preventDefault();return;}
     form.dataset.submitting='true';form.setAttribute('aria-busy','true');const feedback=document.querySelector('[data-action-feedback]');if(feedback)feedback.textContent=/battle\/attack/.test(form.action)?'Resolving battle…':/quests.*run/.test(form.action)?'Completing quest…':/buy|sell/.test(form.action)?'Updating your holdings…':'Completing action…';
     // Do not disable the successful submitter or change hidden fields here.

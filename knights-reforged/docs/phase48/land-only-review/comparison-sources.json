@@ -1,0 +1,32 @@
+{
+  "reference": {
+    "path": "docs/phase48/ChatGPT Image Oct 20, 2026, 12_34_13 AM.png",
+    "sha256": "5eeab990681187eedd6eb89f13bd40c67a36d91052c2155778add17cdf5084e4",
+    "dimensions": [
+      1024,
+      1536
+    ]
+  },
+  "actual": {
+    "path": "test-results/phase48-land-only/after/1024-land.png",
+    "sha256": "c895509c02a7b7e6f5635096b37fd1698600b960e86abd9a6669d67635ca6a02",
+    "dimensions": [
+      1024,
+      1536
+    ]
+  },
+  "composition": {
+    "dimensions": [
+      2048,
+      1588
+    ],
+    "captionHeight": 52,
+    "imageScaling": false,
+    "imageRetouching": false,
+    "nativeRgbPixelEquality": {
+      "referenceMismatches": 0,
+      "actualMismatches": 0
+    }
+  },
+  "productionContacted": false
+}

@@ -1,0 +1,114 @@
+{
+  "scope": "Land-only visual correction and owner review. No production access, deployment, merge, or continuation of other Phase 4.8 stages.",
+  "previousVisualCommit": "7e58f0fb81ea594885c5dd4074c1b89a9fde9608",
+  "ownerReferenceCommit": "dc2e3ccdabac6be86566352c1bbd3b7b7480c0a6",
+  "reference": {
+    "path": "docs/phase48/ChatGPT Image Oct 20, 2026, 12_34_13 AM.png",
+    "sha256": "5eeab990681187eedd6eb89f13bd40c67a36d91052c2155778add17cdf5084e4",
+    "dimensions": [
+      1024,
+      1536
+    ]
+  },
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "static": {
+    "passed": 94,
+    "failed": 0,
+    "renderFixtures": 73
+  },
+  "focusedAutomatedRegressions": {
+    "tests": 48,
+    "pass": 48,
+    "fail": 0,
+    "skipped": 0,
+    "files": [
+      "tests/phase48-market-client.test.mjs",
+      "tests/land-client.test.mjs",
+      "tests/phase43-shopping.test.ts",
+      "tests/integration.test.ts",
+      "tests/rendering.test.ts",
+      "tests/phase44-security.test.ts"
+    ]
+  },
+  "browser": {
+    "landResponsiveVisits": 18,
+    "landWidths": [
+      320,
+      360,
+      390,
+      412,
+      430,
+      768,
+      900,
+      1024,
+      1366
+    ],
+    "emptyStateWidths": [
+      390,
+      1024
+    ],
+    "sharedMarketplaceResponsiveVisits": 56,
+    "pass": true,
+    "homeArmoryFingerprintsUnchanged": true,
+    "coverage": [
+      "Land stylesheet absent from Home and Armory",
+      "All Land CSS selectors explicitly scoped",
+      "Original artwork successfully decoded and framed",
+      "Real catalog prices and holdings",
+      "Locked property restrictions",
+      "Native target geometry",
+      "Keyboard disclosures",
+      "44px+ trade targets contained in rows",
+      "No horizontal overflow",
+      "Duplicate submission suppression",
+      "Receipt refresh does not recharge",
+      "Exact single-sale refund",
+      "Return to Land",
+      "Bulk quantity persistence",
+      "Readable empty states",
+      "Shared three-hour idle and ambiguous-response recovery",
+      "Expired-session recovery"
+    ],
+    "evidence": "land-only-review/browser.json",
+    "sharedEvidence": "land-only-review/shared-browser.json"
+  },
+  "comparison": {
+    "eachInputDimensions": [
+      1024,
+      1536
+    ],
+    "outputDimensions": [
+      2048,
+      1588
+    ],
+    "captionHeight": 52,
+    "scaling": false,
+    "retouching": false,
+    "nativeRgbPixelEquality": {
+      "referenceMismatches": 0,
+      "actualMismatches": 0
+    },
+    "evidence": "land-only-review/comparison-sources.json"
+  },
+  "sourceGameplayChanged": false,
+  "migrationsAdded": false,
+  "releaseRecoveryWorkflowsChanged": false,
+  "marketplaceClientJavaScriptChanged": false,
+  "homeArmoryOrSharedThemeChanged": false,
+  "ownerUploadedReferencePreserved": true,
+  "productionAccessed": false,
+  "fullSuiteRerunForThisPresentationRevision": false,
+  "priorFullSuiteEvidence": "verification-stage1.json remains historical evidence, not a fresh full-suite run.",
+  "assetStatus": "Original Land-only working review assets pending owner approval. Not propagated to other screens or deployed.",
+  "limitations": [
+    "Chromium emulation, not physical Android/iPhone or Safari certification",
+    "Mockup font file is unknown; platform serif rendering may differ",
+    "Original illustrations and icons differ in detail and silhouette",
+    "All 21 real properties remain present; mockup illustrates only six",
+    "Bulk controls, exact refund amounts and live status messages intentionally remain",
+    "Shared prolonged idle/background checks use simulated time/events"
+  ],
+  "reviewStatus": "Awaiting explicit owner approval of Land before any visual propagation or other Phase 4.8 stages.",
+  "landImplementationCommit": "17ce34d08ba3c3c2c0da419cd709117bab70d903"
+}

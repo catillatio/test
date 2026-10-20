@@ -1,0 +1,129 @@
+{
+  "passed": true,
+  "scope": "Phase 4.8 final shared visual polish; feature-branch owner review",
+  "branch": "feature/kingdom-come-phase-4-8-ui-remaster",
+  "baseCommit": "d71e8529804b408b04750cce0fe3b1c2130ac6b7",
+  "visualAuthority": {
+    "path": "docs/phase48/ChatGPT Image Oct 20, 2026, 12_34_13 AM.png",
+    "sha256": "5eeab990681187eedd6eb89f13bd40c67a36d91052c2155778add17cdf5084e4",
+    "unchanged": true
+  },
+  "checks": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "passed": true
+    },
+    "productionBuild": {
+      "command": "npm run build",
+      "passed": true
+    },
+    "static": {
+      "command": "npm run check:static",
+      "passed": 94,
+      "failed": 0,
+      "productionEjsFixtures": 73
+    },
+    "focusedRegression": {
+      "passed": 61,
+      "failed": 0,
+      "skipped": 0,
+      "files": [
+        "land-client.test.mjs",
+        "phase48-market-client.test.mjs",
+        "phase48-preferences-client.test.mjs",
+        "phase43-shopping.test.ts",
+        "profile-economy.test.ts",
+        "rendering.test.ts",
+        "community-combat.test.ts",
+        "community-social.test.ts",
+        "phase44-security.test.ts",
+        "codespaces-origin.test.ts",
+        "training.test.ts",
+        "phase46-guide-moderation.test.ts",
+        "phase48-preservation.test.ts"
+      ],
+      "command": "npm exec -- tsx --test --test-concurrency=1 <listed tests under tests/>; disposable local TEST_DATABASE_URL"
+    },
+    "visualBrowser": {
+      "passed": true,
+      "visits": 45,
+      "captures": 26,
+      "widths": [
+        320,
+        360,
+        390,
+        412,
+        430,
+        768,
+        1024,
+        1366
+      ],
+      "cleanCheckoutBaselineFallbackVerified": true,
+      "geometryScreenWidthPairs": 40,
+      "landRows390": 5,
+      "landRowHeight390": 98
+    },
+    "sharedBrowser": {
+      "passed": true,
+      "visits": 176,
+      "syntheticBotsPreserved": 450
+    },
+    "marketplaceBrowser": {
+      "passed": true,
+      "responsiveVisits": 56,
+      "ambiguousResponseRecovery": true,
+      "duplicateSuppression": true,
+      "expiredSessionIntentRetention": true
+    },
+    "populatedFixturePreservation": {
+      "passed": true,
+      "base": "Phase 4.7 / 020_game_feel.sql",
+      "newMigrations": 0,
+      "tablesVerified": 66,
+      "humans": 1,
+      "bots": 450,
+      "migrationReplay": "all rows unchanged",
+      "processReconstruction": "saved cookie and preferences retained",
+      "productionContacted": false
+    },
+    "accessibility": {
+      "checked": [
+        "44px Buy/Sell targets",
+        "Visible names and labels",
+        "Read-only Victory/Defeat semantics",
+        "Keyboard focus and Gold Flow disclosure",
+        "Reduced-motion button behavior",
+        "Responsive overflow at eight widths"
+      ],
+      "fullWcagAudit": false
+    },
+    "protectedPathsUnchanged": [
+      ".github/workflows",
+      "knights-reforged/src",
+      "knights-reforged/deployment",
+      "knights-reforged/migrations",
+      "knights-reforged/rulesets",
+      "knights-reforged/public/*.js",
+      "knights-reforged/public/audio",
+      "knights-reforged/public/art/land-review",
+      "knights-reforged/package.json",
+      "knights-reforged/package-lock.json"
+    ]
+  },
+  "newAssetLicensing": {
+    "icons": "Original CC0-1.0 vector geometry; no third-party artwork or fonts",
+    "approvedPropertyArtChanged": false,
+    "bottomNavigationArtworkChanged": false
+  },
+  "newMigrations": 0,
+  "productionContacted": false,
+  "productionDataChanged": false,
+  "merged": false,
+  "deployed": false,
+  "limitations": [
+    "Chromium touch emulation, not physical Android/iPhone, WebKit or screen-reader certification.",
+    "Real catalog values and original replacement artwork differ from the illustrative mockup.",
+    "Separate runtime audio adoption remains pending owner audition.",
+    "Focused functional regression and broad browser checks were run for this styling pass; no claim to have rerun all historical release-controller tests."
+  ]
+}

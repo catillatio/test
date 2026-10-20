@@ -1,0 +1,554 @@
+{
+  "status": "Owner audition only. Not served or adopted.",
+  "license": "CC0-1.0",
+  "credit": "Kenney (kenney.nl); edited and layered for Kingdom Come",
+  "sources": {
+    "interface": {
+      "page": "https://kenney.nl/assets/interface-sounds",
+      "download": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+      "archiveSha256": "f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232"
+    },
+    "rpg": {
+      "page": "https://kenney.nl/assets/rpg-audio",
+      "download": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+      "archiveSha256": "6dbeaf8544da958d8f2adcb4a4a4b76c1ade34a05f8ab9edccd327da7375f38b"
+    },
+    "impact": {
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "download": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+      "archiveSha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8"
+    }
+  },
+  "cues": [
+    {
+      "id": "click",
+      "file": "click.mp3",
+      "seconds": 0.13,
+      "sha256": "0f6d60613da6d7ff4f71e696ddcdda7ac4e8c540f0cde3a4e45806b0b500a3a0",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "metalClick.ogg",
+          "offset": 0,
+          "gain": 0.7,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "id": "navigate",
+      "file": "navigate.mp3",
+      "seconds": 0.25,
+      "sha256": "608026ca34aba784695fe772f064898ba5c0fb0315c5d909e2c316ecced6b95a",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "bookFlip1.ogg",
+          "offset": 0,
+          "gain": 1.0,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "id": "coins",
+      "file": "coins.mp3",
+      "seconds": 0.48,
+      "sha256": "ac04e99b66b8f68f4729cf401bcb87e795981b38e07f2586f95c815284b50999",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "handleCoins2.ogg",
+          "offset": 0,
+          "gain": 1.0,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "id": "spend",
+      "file": "spend.mp3",
+      "seconds": 0.35,
+      "sha256": "5727c0d41d8db9b0a56235d1735e16fff8182cfdf825cc37a09b1af61dfc759f",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "handleCoins.ogg",
+          "offset": 0,
+          "gain": 1.0,
+          "pitch": 0.88
+        }
+      ]
+    },
+    {
+      "id": "equipment",
+      "file": "equipment.mp3",
+      "seconds": 0.48,
+      "sha256": "39e6ebdc7bdb974da3e73588a07a575c0e3a83e4ba6c8bdb7b805e55c783a6d5",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "drawKnife2.ogg",
+          "offset": 0,
+          "gain": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactMetal_light_000.ogg",
+          "offset": 0.1,
+          "gain": 0.3,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "id": "sale",
+      "file": "sale.mp3",
+      "seconds": 0.4,
+      "sha256": "c56e32d4c661819b9c37f32e621e455ea876fce4091def745a870fde1fba500e",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "handleCoins.ogg",
+          "offset": 0,
+          "gain": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "pack": "rpg",
+          "file": "metalLatch.ogg",
+          "offset": 0.09,
+          "gain": 0.22,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "id": "land",
+      "file": "land.mp3",
+      "seconds": 0.59,
+      "sha256": "c66fbd4f7dfdebb6b10c7c50ecf5957b7d9d325c32cd74823a9612d5a6acfca2",
+      "parts": [
+        {
+          "pack": "impact",
+          "file": "impactWood_heavy_000.ogg",
+          "offset": 0,
+          "gain": 0.65,
+          "pitch": 1.0
+        },
+        {
+          "pack": "rpg",
+          "file": "metalLatch.ogg",
+          "offset": 0.12,
+          "gain": 0.45,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "id": "income",
+      "file": "income.mp3",
+      "seconds": 0.7,
+      "sha256": "4badfe7d56cb9076cf3d47bc56b782e07e277553074bdd28161069a32bd1d8b8",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "handleCoins2.ogg",
+          "offset": 0,
+          "gain": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.12,
+          "gain": 0.25,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.22499999999999998,
+          "gain": 0.25,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.32999999999999996,
+          "gain": 0.25,
+          "pitch": 1.5
+        }
+      ]
+    },
+    {
+      "id": "quest",
+      "file": "quest.mp3",
+      "seconds": 0.78,
+      "sha256": "3b9753f5bedce8d40b93d4a4c6095ba828bf6b3cda2c649cc83e9faaace8fa82",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "bookClose.ogg",
+          "offset": 0,
+          "gain": 0.5,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.07,
+          "gain": 0.25,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.175,
+          "gain": 0.25,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.28,
+          "gain": 0.25,
+          "pitch": 1.5
+        }
+      ]
+    },
+    {
+      "id": "victory",
+      "file": "victory.mp3",
+      "seconds": 0.88,
+      "sha256": "1b26bb71f08a2bce03d5cfa5738ffef2b5cf9ec119abef54e6560eed50f56829",
+      "parts": [
+        {
+          "pack": "impact",
+          "file": "impactPlate_medium_000.ogg",
+          "offset": 0,
+          "gain": 0.45,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.08,
+          "gain": 0.38,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.185,
+          "gain": 0.38,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.29,
+          "gain": 0.38,
+          "pitch": 1.5
+        }
+      ]
+    },
+    {
+      "id": "decisive",
+      "file": "decisive.mp3",
+      "seconds": 1.05,
+      "sha256": "712373d04286fa8519e52fa86244b15afd5029fb2b748b2e4d3e184693999e9b",
+      "parts": [
+        {
+          "pack": "impact",
+          "file": "impactMetal_heavy_000.ogg",
+          "offset": 0,
+          "gain": 0.45,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.08,
+          "gain": 0.38,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.185,
+          "gain": 0.38,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.29,
+          "gain": 0.38,
+          "pitch": 1.5
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.38,
+          "gain": 0.3,
+          "pitch": 2
+        }
+      ]
+    },
+    {
+      "id": "defeat",
+      "file": "defeat.mp3",
+      "seconds": 0.55,
+      "sha256": "d7bf97b3f2b8601a1f724237b48cc722880ca59adb3423f11548133411c8e22c",
+      "parts": [
+        {
+          "pack": "impact",
+          "file": "impactMetal_medium_001.ogg",
+          "offset": 0,
+          "gain": 0.5,
+          "pitch": 0.72
+        }
+      ]
+    },
+    {
+      "id": "level",
+      "file": "level.mp3",
+      "seconds": 1.25,
+      "sha256": "a0296c536b1087fd407d8e674b427b3fa132653619840a2f4fe0a6c614a52819",
+      "parts": [
+        {
+          "pack": "impact",
+          "file": "impactPlate_heavy_000.ogg",
+          "offset": 0,
+          "gain": 0.3,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.07,
+          "gain": 0.38,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.175,
+          "gain": 0.38,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.28,
+          "gain": 0.38,
+          "pitch": 1.5
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.5,
+          "gain": 0.5,
+          "pitch": 2
+        }
+      ]
+    },
+    {
+      "id": "achievement",
+      "file": "achievement.mp3",
+      "seconds": 0.95,
+      "sha256": "5d2fe202d55f55b4da4f2e587a06d7f0e4f427b12e1c9baf9971efed82b885b9",
+      "parts": [
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.04,
+          "gain": 0.38,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.145,
+          "gain": 0.38,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.25,
+          "gain": 0.38,
+          "pitch": 1.5
+        },
+        {
+          "pack": "interface",
+          "file": "glass_001.ogg",
+          "offset": 0.32,
+          "gain": 0.22,
+          "pitch": 1.2
+        }
+      ]
+    },
+    {
+      "id": "healing",
+      "file": "healing.mp3",
+      "seconds": 0.65,
+      "sha256": "d8ea30797d70f8ce40cbddfadbadd999ab64cfc96bf8508940912007f83fcfc2",
+      "parts": [
+        {
+          "pack": "interface",
+          "file": "glass_001.ogg",
+          "offset": 0,
+          "gain": 0.35,
+          "pitch": 0.8
+        },
+        {
+          "pack": "interface",
+          "file": "glass_002.ogg",
+          "offset": 0.15,
+          "gain": 0.3,
+          "pitch": 1.2
+        }
+      ]
+    },
+    {
+      "id": "bounty",
+      "file": "bounty.mp3",
+      "seconds": 1.0,
+      "sha256": "4ae8998270733c177c07a91ec2d30a8c593fc1f7812324cad685ff5de1802396",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "drawKnife1.ogg",
+          "offset": 0,
+          "gain": 0.6,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactMetal_heavy_000.ogg",
+          "offset": 0.12,
+          "gain": 0.3,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.22,
+          "gain": 0.38,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.325,
+          "gain": 0.38,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.43,
+          "gain": 0.38,
+          "pitch": 1.5
+        }
+      ]
+    },
+    {
+      "id": "alliance",
+      "file": "alliance.mp3",
+      "seconds": 0.58,
+      "sha256": "371ceb102434367a14eeccf2d48969faaf7c70ed5f2486fe2bf445eb8eb1a092",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "metalLatch.ogg",
+          "offset": 0,
+          "gain": 0.5,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.04,
+          "gain": 0.25,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.145,
+          "gain": 0.25,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.25,
+          "gain": 0.25,
+          "pitch": 1.5
+        }
+      ]
+    },
+    {
+      "id": "error",
+      "file": "error.mp3",
+      "seconds": 0.17,
+      "sha256": "636b5d8440aa41cfc1f355c916d533fd4b75c119a39a87c35ffd5fcbf32ae658",
+      "parts": [
+        {
+          "pack": "interface",
+          "file": "close_001.ogg",
+          "offset": 0,
+          "gain": 0.6,
+          "pitch": 0.7
+        }
+      ]
+    },
+    {
+      "id": "tutorial",
+      "file": "tutorial.mp3",
+      "seconds": 0.97,
+      "sha256": "c7e7aff68ca901063abdd6496ba34868930f630fae0fa2a341f5c46df3315b5c",
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "bookClose.ogg",
+          "offset": 0,
+          "gain": 0.35,
+          "pitch": 1.0
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.07,
+          "gain": 0.38,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.175,
+          "gain": 0.38,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.28,
+          "gain": 0.38,
+          "pitch": 1.5
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "offset": 0.4,
+          "gain": 0.25,
+          "pitch": 2
+        }
+      ]
+    }
+  ]
+}

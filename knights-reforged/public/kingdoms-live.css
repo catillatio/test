@@ -1,8 +1,6 @@
-/* Shared presentation only. Native tab states/gradients follow the APK XML.
- * Resource header, content controls, fonts, secondary Land entry and responsive
- * frame are reconstructions: original server HTML/CSS was not recovered.
- * The original images are byte-for-byte copies. Gameplay templates stay intact.
- */
+/* Legacy five-tab layout primitives, retained for compatibility.
+ * Runtime artwork now uses the original Phase 4.8 vector assets.
+ * Historical source provenance remains separate from runtime references. */
 :root {
   --bg: #151310;
   --panel: #191714eb;
@@ -24,11 +22,11 @@
 .page-backdrop {
   position: fixed; z-index: -1; top: 0; bottom: 0; left: 50%;
   width: min(100%, var(--game-width)); transform: translateX(-50%); pointer-events: none;
-  background: #141310 url('./art/kingdoms-live/bg_default.jpg') center top / cover no-repeat;
+  background: #141310 url('./art/remaster-ui/courtyard.svg') center top / cover no-repeat;
 }
-.screen-quests .page-backdrop { background-image: url('./art/kingdoms-live/bg_missions.jpg'); }
-.screen-battle .page-backdrop { background-image: url('./art/kingdoms-live/bg_attack.jpg'); }
-.screen-armory .page-backdrop { background-image: url('./art/kingdoms-live/bg_equipment.jpg'); }
+.screen-quests .page-backdrop { background-image: url('./art/remaster-ui/courtyard.svg'); }
+.screen-battle .page-backdrop { background-image: url('./art/remaster-ui/courtyard.svg'); }
+.screen-armory .page-backdrop { background-image: url('./art/remaster-ui/courtyard.svg'); }
 .kingdoms-ui .topbar {
   min-height: 52px; gap: 8px; border-bottom: 1px solid #6c5d40;
   padding: calc(6px + env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 6px max(12px, env(safe-area-inset-left));

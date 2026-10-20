@@ -35,7 +35,7 @@ import {activityFeed,armyDashboard,feedCategory,relativeTime,battleTales} from '
 import {bountyBoard as loadBountyBoard,bountyQuote,bountyPlacementAvailability} from './bounties.js';
 import {activeBountyCount} from './bounties.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
-import {championCategories,formatStanding,hallOfChampions,recentHumanRivals,rivalryHistory,opponentUnavailable} from './competition.js';
+import {championCategories,formatStanding,hallOfChampions,rivalryHistory,opponentUnavailable} from './competition.js';
 
 declare module 'fastify' { interface FastifyRequest { realmSession: Session | null; } }
 const uuid = z.string().uuid();
@@ -131,7 +131,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id,config) : null);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
-    const query = request.query as { command?: string; category?: string;area?:string;tab?:string };
+    const query = request.query as { command?: string; category?: string;area?:string;tab?:string;bulk?:unknown };
     if (session?.account_id && uuid.safeParse(query?.command).success) {
       const receipt = (await db.query('SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2', [session.account_id, query.command])).rows[0];
       notice = receipt?.result?.kind==='attack'?'Your battle is recorded. View it in Battles.':receipt?.result?.kind==='profile'?String(receipt.result.message).replace(/\b(Freeblade|Warden|Spellward)\b/g,key=>callingName(key)):receipt?.result?.message ?? null;
@@ -146,6 +146,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       screen, state,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
+      marketBulkId:typeof query.bulk==='string'?query.bulk:null,
       questArea:chosenRegion??playerExperience?.region??'all',
       profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
       recruitment:{allowed:false,reason:'Review this army request in Recruit.',status:'none',automatic:false},publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
@@ -166,10 +167,12 @@ export async function createApp(options: { db: Database; config: Config; logger?
   const authLimit = { config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 10, timeWindow: '1 minute' } } };
   app.post('/register', authLimit, async (request, reply) => {
     await authenticationAttempt(db,'registration',asBody(request).username);
-    const account = await registerAccount(db, asBody(request));
+    const account = await registerAccount(db, asBody(request),{soundEnabled:true});
     const fresh = await createSession(db, account.accountId, request.realmSession?.token_hash);
     setSessionCookie(reply, fresh.token, true);
-    return reply.redirect('/game/home', 303);
+    // Show an optional introduction once, directly after character creation.
+    // Ordinary login/navigation never redirects existing players into a guide.
+    return reply.redirect('/game/tutorial', 303);
   });
   app.post('/login', authLimit, async (request, reply) => {
     const body = asBody(request);
@@ -190,7 +193,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     app.get('/game/' + screen, { preHandler: requireAccount }, async (request, reply) => {
       const state = await getState(db, request.realmSession!.account_id!,config);
       return render(request, reply, screen, { title, state,
-        ...(screen === 'battle' ? { battles: await recentBattles(db, state.id),recentRivals:await recentHumanRivals(db,state) } : {}),
+        ...(screen === 'battle' ? { battles: await recentBattles(db, state.id) } : {}),
         ...(screen==='home'?{feed:await activityFeed(db,state.id,feedCategory((request.query as {feed?:string}).feed),(request.query as {after?:string}).after)}:{}),
         ...(screen==='army'?{armyEvents:await armyDashboard(db,state.id)}:{}),
         ...(screen === 'battle' ? await (async () => {

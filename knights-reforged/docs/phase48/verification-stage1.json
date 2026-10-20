@@ -1,0 +1,35 @@
+{
+  "scope": "First visual stage only; disposable local PostgreSQL 18 fixtures, no Railway/production access.",
+  "baseCommit": "cf4a99d378c2bf2991228ed3fcd2a25a85004ecf",
+  "uiCommit": "eaeac64",
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "automatedPostgresAndOfflineSuite": {
+    "tests": 423,
+    "pass": 422,
+    "fail": 0,
+    "skipped": 1
+  },
+  "skippedCheck": "Real hosted-runner network namespace; intentionally not exercised locally or with production secrets.",
+  "static": {
+    "passed": 92,
+    "failed": 0,
+    "renderFixtures": 73
+  },
+  "browser": {
+    "phase47ResponsiveVisits": 64,
+    "phase48ResponsiveVisits": 42,
+    "passed": true
+  },
+  "processRestart": "PASS: two compiled-process restarts; sessions and persistent progress survived; three offline human/bot income periods settled exactly once.",
+  "productionDependencyAudits": {
+    "applicationVulnerabilities": 0,
+    "releaseControllerVulnerabilities": 0
+  },
+  "protectedPathsChanged": false,
+  "migrationsAdded": false,
+  "productionAccessed": false,
+  "propertyReplacementAdopted": false,
+  "audioReplacementAdopted": false,
+  "reviewStatus": "Awaiting owner visual review before remaining Phase 4.8 stages."
+}
