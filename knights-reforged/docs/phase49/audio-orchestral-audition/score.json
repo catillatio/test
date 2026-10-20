@@ -1,0 +1,871 @@
+{
+  "tempoNote": "Cues use independent short cadences; timings in seconds.",
+  "composition": "Original project cue arrangements, dedicated CC0-1.0 to the extent applicable; no third-party melody or rejected sound-effect edit.",
+  "cues": {
+    "victory": {
+      "name": "The standard is raised",
+      "seconds": 3.9,
+      "description": "D-major brass cadence. Three French-horn voices support an articulated solo-trumpet call, resolving on a sustained horn/trumpet chord. No impacts or notification samples.",
+      "events": [
+        {
+          "instrument": "trumpet-stac",
+          "note": 62,
+          "time": 0,
+          "duration": 0.19,
+          "velocity": 91,
+          "pan": 0.12,
+          "gain": 0.68
+        },
+        {
+          "instrument": "trumpet-stac",
+          "note": 62,
+          "time": 0.245,
+          "duration": 0.19,
+          "velocity": 91,
+          "pan": 0.12,
+          "gain": 0.68
+        },
+        {
+          "instrument": "trumpet-stac",
+          "note": 69,
+          "time": 0.5,
+          "duration": 0.3,
+          "velocity": 91,
+          "pan": 0.12,
+          "gain": 0.68
+        },
+        {
+          "instrument": "trumpet-stac",
+          "note": 66,
+          "time": 0.86,
+          "duration": 0.29,
+          "velocity": 91,
+          "pan": 0.12,
+          "gain": 0.68
+        },
+        {
+          "instrument": "trumpet",
+          "note": 74,
+          "time": 1.22,
+          "duration": 0.95,
+          "velocity": 90,
+          "pan": 0.12,
+          "gain": 0.59
+        },
+        {
+          "instrument": "horn-stac",
+          "note": 50,
+          "time": 0.0,
+          "duration": 0.27,
+          "velocity": 84,
+          "pan": -0.3,
+          "gain": 0.65
+        },
+        {
+          "instrument": "horn-stac",
+          "note": 57,
+          "time": 0.009,
+          "duration": 0.27,
+          "velocity": 87,
+          "pan": 0.22,
+          "gain": 0.65
+        },
+        {
+          "instrument": "horn-stac",
+          "note": 62,
+          "time": 0.018,
+          "duration": 0.27,
+          "velocity": 90,
+          "pan": -0.12,
+          "gain": 0.65
+        },
+        {
+          "instrument": "horn-stac",
+          "note": 55,
+          "time": 0.5,
+          "duration": 0.32,
+          "velocity": 80,
+          "pan": -0.3,
+          "gain": 0.63
+        },
+        {
+          "instrument": "horn-stac",
+          "note": 59,
+          "time": 0.509,
+          "duration": 0.32,
+          "velocity": 83,
+          "pan": 0.22,
+          "gain": 0.63
+        },
+        {
+          "instrument": "horn-stac",
+          "note": 62,
+          "time": 0.518,
+          "duration": 0.32,
+          "velocity": 86,
+          "pan": -0.12,
+          "gain": 0.63
+        },
+        {
+          "instrument": "horn-stac",
+          "note": 57,
+          "time": 0.86,
+          "duration": 0.3,
+          "velocity": 83,
+          "pan": -0.3,
+          "gain": 0.63
+        },
+        {
+          "instrument": "horn-stac",
+          "note": 61,
+          "time": 0.869,
+          "duration": 0.3,
+          "velocity": 86,
+          "pan": 0.22,
+          "gain": 0.63
+        },
+        {
+          "instrument": "horn-stac",
+          "note": 64,
+          "time": 0.878,
+          "duration": 0.3,
+          "velocity": 89,
+          "pan": -0.12,
+          "gain": 0.63
+        },
+        {
+          "instrument": "horn",
+          "note": 50,
+          "time": 1.22,
+          "duration": 1.0,
+          "velocity": 82,
+          "pan": -0.3,
+          "gain": 0.62
+        },
+        {
+          "instrument": "horn",
+          "note": 57,
+          "time": 1.229,
+          "duration": 1.0,
+          "velocity": 85,
+          "pan": 0.22,
+          "gain": 0.62
+        },
+        {
+          "instrument": "horn",
+          "note": 62,
+          "time": 1.238,
+          "duration": 1.0,
+          "velocity": 88,
+          "pan": -0.12,
+          "gain": 0.62
+        },
+        {
+          "instrument": "horn",
+          "note": 66,
+          "time": 1.247,
+          "duration": 1.0,
+          "velocity": 82,
+          "pan": 0.34,
+          "gain": 0.62
+        },
+        {
+          "instrument": "cello",
+          "note": 38,
+          "time": 1.22,
+          "duration": 1.0,
+          "velocity": 73,
+          "pan": -0.3,
+          "gain": 0.28
+        },
+        {
+          "instrument": "cello",
+          "note": 50,
+          "time": 1.229,
+          "duration": 1.0,
+          "velocity": 76,
+          "pan": 0.22,
+          "gain": 0.28
+        }
+      ]
+    },
+    "defeat": {
+      "name": "The lowered banner",
+      "seconds": 3.9,
+      "description": "Low French horn and cello in a restrained G-minor / A / D-minor resolution. Softer attacks and a falling inner line; no comic wah-wah or impact.",
+      "events": [
+        {
+          "instrument": "horn",
+          "note": 43,
+          "time": 0.0,
+          "duration": 0.67,
+          "velocity": 35,
+          "pan": -0.3,
+          "gain": 0.7
+        },
+        {
+          "instrument": "horn",
+          "note": 50,
+          "time": 0.009,
+          "duration": 0.67,
+          "velocity": 38,
+          "pan": 0.22,
+          "gain": 0.7
+        },
+        {
+          "instrument": "horn",
+          "note": 58,
+          "time": 0.018,
+          "duration": 0.67,
+          "velocity": 41,
+          "pan": -0.12,
+          "gain": 0.7
+        },
+        {
+          "instrument": "cello",
+          "note": 43,
+          "time": 0.0,
+          "duration": 0.69,
+          "velocity": 37,
+          "pan": -0.3,
+          "gain": 0.4
+        },
+        {
+          "instrument": "cello",
+          "note": 50,
+          "time": 0.009,
+          "duration": 0.69,
+          "velocity": 40,
+          "pan": 0.22,
+          "gain": 0.4
+        },
+        {
+          "instrument": "horn",
+          "note": 45,
+          "time": 0.65,
+          "duration": 0.67,
+          "velocity": 35,
+          "pan": -0.3,
+          "gain": 0.7
+        },
+        {
+          "instrument": "horn",
+          "note": 52,
+          "time": 0.659,
+          "duration": 0.67,
+          "velocity": 38,
+          "pan": 0.22,
+          "gain": 0.7
+        },
+        {
+          "instrument": "horn",
+          "note": 61,
+          "time": 0.668,
+          "duration": 0.67,
+          "velocity": 41,
+          "pan": -0.12,
+          "gain": 0.7
+        },
+        {
+          "instrument": "cello",
+          "note": 45,
+          "time": 0.65,
+          "duration": 0.69,
+          "velocity": 37,
+          "pan": -0.3,
+          "gain": 0.4
+        },
+        {
+          "instrument": "cello",
+          "note": 52,
+          "time": 0.659,
+          "duration": 0.69,
+          "velocity": 40,
+          "pan": 0.22,
+          "gain": 0.4
+        },
+        {
+          "instrument": "horn",
+          "note": 38,
+          "time": 1.3,
+          "duration": 1.0,
+          "velocity": 35,
+          "pan": -0.3,
+          "gain": 0.7
+        },
+        {
+          "instrument": "horn",
+          "note": 45,
+          "time": 1.309,
+          "duration": 1.0,
+          "velocity": 38,
+          "pan": 0.22,
+          "gain": 0.7
+        },
+        {
+          "instrument": "horn",
+          "note": 53,
+          "time": 1.318,
+          "duration": 1.0,
+          "velocity": 41,
+          "pan": -0.12,
+          "gain": 0.7
+        },
+        {
+          "instrument": "cello",
+          "note": 38,
+          "time": 1.3,
+          "duration": 1.02,
+          "velocity": 37,
+          "pan": -0.3,
+          "gain": 0.4
+        },
+        {
+          "instrument": "cello",
+          "note": 45,
+          "time": 1.309,
+          "duration": 1.02,
+          "velocity": 40,
+          "pan": 0.22,
+          "gain": 0.4
+        }
+      ]
+    },
+    "quest": {
+      "name": "A deed written in starlight",
+      "seconds": 4.0,
+      "description": "Concert-harp arpeggio over soft bowed strings, with three lightly voiced recorded glockenspiel bell notes. D-major/add-nine color and a trailing harp response.",
+      "events": [
+        {
+          "instrument": "harp",
+          "note": 50,
+          "time": 0.05,
+          "duration": 0.7,
+          "velocity": 73,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "harp",
+          "note": 57,
+          "time": 0.155,
+          "duration": 0.7,
+          "velocity": 78,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "harp",
+          "note": 62,
+          "time": 0.26,
+          "duration": 0.7,
+          "velocity": 83,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "harp",
+          "note": 66,
+          "time": 0.365,
+          "duration": 0.7,
+          "velocity": 73,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "harp",
+          "note": 69,
+          "time": 0.47,
+          "duration": 0.7,
+          "velocity": 78,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "harp",
+          "note": 74,
+          "time": 0.575,
+          "duration": 0.7,
+          "velocity": 83,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "harp",
+          "note": 78,
+          "time": 0.68,
+          "duration": 0.7,
+          "velocity": 73,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "harp",
+          "note": 81,
+          "time": 0.785,
+          "duration": 0.7,
+          "velocity": 78,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "harp",
+          "note": 78,
+          "time": 0.89,
+          "duration": 0.7,
+          "velocity": 83,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "harp",
+          "note": 74,
+          "time": 0.995,
+          "duration": 0.7,
+          "velocity": 73,
+          "pan": -0.2,
+          "gain": 0.82
+        },
+        {
+          "instrument": "violin",
+          "note": 62,
+          "time": 0.15,
+          "duration": 1.45,
+          "velocity": 29,
+          "pan": -0.3,
+          "gain": 0.22
+        },
+        {
+          "instrument": "violin",
+          "note": 66,
+          "time": 0.159,
+          "duration": 1.45,
+          "velocity": 32,
+          "pan": 0.22,
+          "gain": 0.22
+        },
+        {
+          "instrument": "violin",
+          "note": 69,
+          "time": 0.168,
+          "duration": 1.45,
+          "velocity": 35,
+          "pan": -0.12,
+          "gain": 0.22
+        },
+        {
+          "instrument": "glock",
+          "note": 86,
+          "time": 0.74,
+          "duration": 0.4,
+          "velocity": 48,
+          "pan": 0.28,
+          "gain": 0.14
+        },
+        {
+          "instrument": "glock",
+          "note": 81,
+          "time": 1.12,
+          "duration": 0.4,
+          "velocity": 48,
+          "pan": 0.28,
+          "gain": 0.14
+        },
+        {
+          "instrument": "glock",
+          "note": 86,
+          "time": 1.53,
+          "duration": 0.4,
+          "velocity": 48,
+          "pan": 0.28,
+          "gain": 0.14
+        },
+        {
+          "instrument": "harp",
+          "note": 69,
+          "time": 1.35,
+          "duration": 0.75,
+          "velocity": 60,
+          "pan": -0.15,
+          "gain": 0.54
+        },
+        {
+          "instrument": "harp",
+          "note": 66,
+          "time": 1.51,
+          "duration": 0.75,
+          "velocity": 60,
+          "pan": -0.15,
+          "gain": 0.54
+        },
+        {
+          "instrument": "harp",
+          "note": 62,
+          "time": 1.67,
+          "duration": 0.75,
+          "velocity": 60,
+          "pan": -0.15,
+          "gain": 0.54
+        }
+      ]
+    },
+    "level": {
+      "name": "The kingdom ascends",
+      "seconds": 5.3,
+      "description": "A longer G / A / D orchestral ascent: independent trumpet melody, four-part horns, bowed violin/cello support and a concert-harp rise. Broader than ordinary victory; no reused victory recording.",
+      "events": [
+        {
+          "instrument": "harp",
+          "note": 62,
+          "time": 0.02,
+          "duration": 0.9,
+          "velocity": 83,
+          "pan": -0.3,
+          "gain": 0.48
+        },
+        {
+          "instrument": "harp",
+          "note": 66,
+          "time": 0.11,
+          "duration": 0.9,
+          "velocity": 83,
+          "pan": -0.3,
+          "gain": 0.48
+        },
+        {
+          "instrument": "harp",
+          "note": 69,
+          "time": 0.2,
+          "duration": 0.9,
+          "velocity": 83,
+          "pan": -0.3,
+          "gain": 0.48
+        },
+        {
+          "instrument": "harp",
+          "note": 74,
+          "time": 0.29,
+          "duration": 0.9,
+          "velocity": 83,
+          "pan": -0.3,
+          "gain": 0.48
+        },
+        {
+          "instrument": "harp",
+          "note": 78,
+          "time": 0.38,
+          "duration": 0.9,
+          "velocity": 83,
+          "pan": -0.3,
+          "gain": 0.48
+        },
+        {
+          "instrument": "harp",
+          "note": 81,
+          "time": 0.47,
+          "duration": 0.9,
+          "velocity": 83,
+          "pan": -0.3,
+          "gain": 0.48
+        },
+        {
+          "instrument": "horn",
+          "note": 43,
+          "time": 0.0,
+          "duration": 0.73,
+          "velocity": 88,
+          "pan": -0.3,
+          "gain": 0.6
+        },
+        {
+          "instrument": "horn",
+          "note": 55,
+          "time": 0.009,
+          "duration": 0.73,
+          "velocity": 91,
+          "pan": 0.22,
+          "gain": 0.6
+        },
+        {
+          "instrument": "horn",
+          "note": 59,
+          "time": 0.018,
+          "duration": 0.73,
+          "velocity": 94,
+          "pan": -0.12,
+          "gain": 0.6
+        },
+        {
+          "instrument": "horn",
+          "note": 62,
+          "time": 0.027,
+          "duration": 0.73,
+          "velocity": 88,
+          "pan": 0.34,
+          "gain": 0.6
+        },
+        {
+          "instrument": "violin",
+          "note": 71,
+          "time": 0.0,
+          "duration": 0.75,
+          "velocity": 76,
+          "pan": -0.3,
+          "gain": 0.32
+        },
+        {
+          "instrument": "violin",
+          "note": 74,
+          "time": 0.009,
+          "duration": 0.75,
+          "velocity": 79,
+          "pan": 0.22,
+          "gain": 0.32
+        },
+        {
+          "instrument": "cello",
+          "note": 43,
+          "time": 0.0,
+          "duration": 0.77,
+          "velocity": 75,
+          "pan": -0.3,
+          "gain": 0.36
+        },
+        {
+          "instrument": "cello",
+          "note": 55,
+          "time": 0.009,
+          "duration": 0.77,
+          "velocity": 78,
+          "pan": 0.22,
+          "gain": 0.36
+        },
+        {
+          "instrument": "horn",
+          "note": 45,
+          "time": 0.74,
+          "duration": 0.73,
+          "velocity": 88,
+          "pan": -0.3,
+          "gain": 0.6
+        },
+        {
+          "instrument": "horn",
+          "note": 57,
+          "time": 0.749,
+          "duration": 0.73,
+          "velocity": 91,
+          "pan": 0.22,
+          "gain": 0.6
+        },
+        {
+          "instrument": "horn",
+          "note": 61,
+          "time": 0.758,
+          "duration": 0.73,
+          "velocity": 94,
+          "pan": -0.12,
+          "gain": 0.6
+        },
+        {
+          "instrument": "horn",
+          "note": 64,
+          "time": 0.767,
+          "duration": 0.73,
+          "velocity": 88,
+          "pan": 0.34,
+          "gain": 0.6
+        },
+        {
+          "instrument": "violin",
+          "note": 73,
+          "time": 0.74,
+          "duration": 0.75,
+          "velocity": 76,
+          "pan": -0.3,
+          "gain": 0.32
+        },
+        {
+          "instrument": "violin",
+          "note": 76,
+          "time": 0.749,
+          "duration": 0.75,
+          "velocity": 79,
+          "pan": 0.22,
+          "gain": 0.32
+        },
+        {
+          "instrument": "cello",
+          "note": 45,
+          "time": 0.74,
+          "duration": 0.77,
+          "velocity": 75,
+          "pan": -0.3,
+          "gain": 0.36
+        },
+        {
+          "instrument": "cello",
+          "note": 57,
+          "time": 0.749,
+          "duration": 0.77,
+          "velocity": 78,
+          "pan": 0.22,
+          "gain": 0.36
+        },
+        {
+          "instrument": "horn",
+          "note": 50,
+          "time": 1.48,
+          "duration": 1.45,
+          "velocity": 88,
+          "pan": -0.3,
+          "gain": 0.6
+        },
+        {
+          "instrument": "horn",
+          "note": 57,
+          "time": 1.489,
+          "duration": 1.45,
+          "velocity": 91,
+          "pan": 0.22,
+          "gain": 0.6
+        },
+        {
+          "instrument": "horn",
+          "note": 62,
+          "time": 1.498,
+          "duration": 1.45,
+          "velocity": 94,
+          "pan": -0.12,
+          "gain": 0.6
+        },
+        {
+          "instrument": "horn",
+          "note": 66,
+          "time": 1.507,
+          "duration": 1.45,
+          "velocity": 88,
+          "pan": 0.34,
+          "gain": 0.6
+        },
+        {
+          "instrument": "violin",
+          "note": 74,
+          "time": 1.48,
+          "duration": 1.5,
+          "velocity": 76,
+          "pan": -0.3,
+          "gain": 0.32
+        },
+        {
+          "instrument": "violin",
+          "note": 78,
+          "time": 1.489,
+          "duration": 1.5,
+          "velocity": 79,
+          "pan": 0.22,
+          "gain": 0.32
+        },
+        {
+          "instrument": "cello",
+          "note": 50,
+          "time": 1.48,
+          "duration": 1.5,
+          "velocity": 75,
+          "pan": -0.3,
+          "gain": 0.36
+        },
+        {
+          "instrument": "cello",
+          "note": 57,
+          "time": 1.489,
+          "duration": 1.5,
+          "velocity": 78,
+          "pan": 0.22,
+          "gain": 0.36
+        },
+        {
+          "instrument": "trumpet-stac",
+          "note": 67,
+          "time": 0.15,
+          "duration": 0.27,
+          "velocity": 89,
+          "pan": 0.14,
+          "gain": 0.59
+        },
+        {
+          "instrument": "trumpet-stac",
+          "note": 69,
+          "time": 0.48,
+          "duration": 0.22,
+          "velocity": 89,
+          "pan": 0.14,
+          "gain": 0.59
+        },
+        {
+          "instrument": "trumpet-stac",
+          "note": 73,
+          "time": 0.8,
+          "duration": 0.26,
+          "velocity": 89,
+          "pan": 0.14,
+          "gain": 0.59
+        },
+        {
+          "instrument": "trumpet-stac",
+          "note": 76,
+          "time": 1.12,
+          "duration": 0.25,
+          "velocity": 89,
+          "pan": 0.14,
+          "gain": 0.59
+        },
+        {
+          "instrument": "trumpet",
+          "note": 74,
+          "time": 1.49,
+          "duration": 1.48,
+          "velocity": 94,
+          "pan": 0.14,
+          "gain": 0.56
+        },
+        {
+          "instrument": "harp",
+          "note": 74,
+          "time": 1.5,
+          "duration": 0.75,
+          "velocity": 76,
+          "pan": -0.27,
+          "gain": 0.42
+        },
+        {
+          "instrument": "harp",
+          "note": 78,
+          "time": 1.63,
+          "duration": 0.75,
+          "velocity": 76,
+          "pan": -0.27,
+          "gain": 0.42
+        },
+        {
+          "instrument": "harp",
+          "note": 81,
+          "time": 1.76,
+          "duration": 0.75,
+          "velocity": 76,
+          "pan": -0.27,
+          "gain": 0.42
+        },
+        {
+          "instrument": "harp",
+          "note": 86,
+          "time": 1.89,
+          "duration": 0.75,
+          "velocity": 76,
+          "pan": -0.27,
+          "gain": 0.42
+        }
+      ]
+    }
+  }
+}

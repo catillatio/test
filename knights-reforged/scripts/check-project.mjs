@@ -16,8 +16,15 @@ const rules=json('rulesets/recreation-0.1/rules.json'),landRules=json('rulesets/
 const contractSource=stripTypeScriptTypes(read('src/http-contracts.ts'),{mode:'transform'});
 const {navigation,templateScreens,commandRoutes}=await import('data:text/javascript;base64,'+Buffer.from(contractSource).toString('base64'));
 const {callingName,callingDescription}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(read('src/calling-presentation.ts'))).toString('base64'));
+const {battleRewardNotes}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(read('src/battle-reward-notes.ts'))).toString('base64'));
 const results=[];
 function check(name,run){try{run();results.push({name,passed:true});}catch(error){results.push({name,passed:false,error:error.message});}}
+check('Phase 4.9 approved property replacements retain stable IDs and verified original provenance',()=>{
+ const manifest=json('public/art/properties-49/provenance.json');
+ assert.deepEqual(manifest.assets.map(a=>a.id),['wyrmcrest-keep','moonwell-sanctuary']);
+ assert.equal(createHash('sha256').update(readFileSync(join(root,manifest.source))).digest('hex'),manifest.sourceSha256);
+ for(const asset of manifest.assets){const bytes=readFileSync(join(root,'public/art/properties-49',asset.asset));assert.equal(bytes.length,asset.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);assert.ok(alpha.properties.some(p=>p.id===asset.id));}
+});
 function files(dir){return readdirSync(join(root,dir),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?files(join(dir,entry.name)):[join(dir,entry.name)]);}
 check('All production EJS templates compile with the installed EJS engine',()=>{
   for(const path of files('views'))if(path.endsWith('.ejs'))ejs.compile(read(path),{filename:join(root,path)});
@@ -117,7 +124,7 @@ const state={healing:{health:85,maxHealth:110,missing:25,unitCost:1,cost:25,avai
 const legacyBattle={id:battleId,attackerId:playerId,defenderId:targetId,attackerName:'Arthur',defenderName:'Morgan',winnerName:'Arthur',winnerId:playerId,loot:3,attackPower:20,defensePower:10,attackRoll:2,defenseRoll:1,attackerDamage:3,defenderDamage:12,attackerHealthAfter:82,defenderHealthAfter:88,attackerXp:5,createdAt:now};
 const newBattle={...legacyBattle,rulesetId:alpha.id,attackPower:2000,defensePower:1000,attackerArmy:4,defenderArmy:2,attackerMaxHealth:110,defenderMaxHealth:100,spiritSpent:1,rewarded:true,attackEquipment:[],defenseEquipment:[]};
 const opponent={id:targetId,name:'Morgan',level:3,units:2,armySize:3,className:'Freeblade',health:100,maxHealth:100};
-const fixture=(screen,extra={})=>({screen,announcements:[{heading:'Royal Announcements',text:'PRE ALPHA BUILD, PLEASE REPORT BUGS TO @savism DISCORD'}],experience:{tutorial:{status:'skipped',completed:0,steps:[]},achievements:[]},experienceRules:{achievements:[]},recruitment:{allowed:true,reason:null,status:"none",automatic:false},purchase:{type:"equipment",entry:alpha.items[0],owned:2,available:2,costSteps:[5,10]},state,nav:navigation,rules,landRules,alpha,strategy,community,refinements,bountyRules,pvp,gameplay,bountyCount:0,nextBountyExpiry:null,bountyPlacement:{allowed:true,reason:null},bountyTarget:{id:targetId,name:"Morgan",level:3,className:"Warden",health:100,maxHealth:100,temporaryRival:false},vaultEntries:[],developmentBotBountiesEnabled:false,relativeTime:()=> 'just now',publicCharacter:null,profileProperties:[{id:'smallholding',name:'Smallholding',quantity:1,grossIncome:8,upkeep:1,art:'farm',illustration:alpha.properties[0].illustration}],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:{targetId,targetName:'Morgan',amount:1,fee:1,total:2,rulesetId:refinements.id},feedTab:'all',feed:{entries:[],nextCursor:null},armyTab:'recruit',armyEvents:[],developmentBotsEnabled:false,bountyBoard:{active:[],history:[],eligible:true},csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:screen==='purchase'?{kind:"buy",data:{quantity:1,goldSpent:5,itemId:alpha.items[0].id}}:null,
+const fixture=(screen,extra={})=>({screen,announcements:[{heading:'Royal Announcements',text:'PRE ALPHA BUILD, PLEASE REPORT BUGS TO @savism DISCORD'}],experience:{tutorial:{status:'skipped',completed:0,steps:[]},achievements:[]},experienceRules:{achievements:[]},recruitment:{allowed:true,reason:null,status:"none",automatic:false},purchase:{type:"equipment",entry:alpha.items[0],owned:2,available:2,costSteps:[5,10]},state,nav:navigation,rules,landRules,alpha,strategy,community,refinements,bountyRules,pvp,gameplay,bountyCount:0,nextBountyExpiry:null,bountyPlacement:{allowed:true,reason:null},bountyTarget:{id:targetId,name:"Morgan",level:3,className:"Warden",health:100,maxHealth:100,temporaryRival:false},vaultEntries:[],developmentBotBountiesEnabled:false,relativeTime:()=> 'just now',showCalling:false,publicCharacter:null,profileProperties:[{id:'smallholding',name:'Smallholding',quantity:1,grossIncome:8,upkeep:1,art:'farm',illustration:alpha.properties[0].illustration}],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:{targetId,targetName:'Morgan',amount:1,fee:1,total:2,rulesetId:refinements.id},feedTab:'all',feed:{entries:[],nextCursor:null},armyTab:'recruit',armyEvents:[],developmentBotsEnabled:false,bountyBoard:{active:[],history:[],eligible:true},csrf:'a'.repeat(64),accountName:'arthur',commandId:randomUUID,notice:null,error:null,actionResult:screen==='purchase'?{kind:"buy",data:{quantity:1,goldSpent:5,itemId:alpha.items[0].id}}:null,
  opponents:[opponent],nextOpponentCursor:null,battles:[],battle:newBattle,title:navigation.find(n=>n.id===screen)?.label??'The Realm',authMode:'login',formValues:{username:'',name:''},category:'weapon',questArea:'all',profileTab:'player',...extra});
 const emptyLand={...land,hourlyIncome:0,hourlyUpkeep:0,totalUpkeep:0,netHourlyIncome:0,nextPaymentAt:null,holdings:[],properties:properties.map(p=>({...p,owned:0}))};
 const contract={id:randomUUID(),sponsor_id:playerId,target_id:targetId,name:'Morgan',target_name:'Morgan',sponsor_name:'Arthur',level:3,profile_class:'Freeblade',army_size:3,armySize:3,amount:1000,fee:100,status:'active',claimant_id:null,created_at:new Date(Date.parse(now)-7200000).toISOString(),expires_at:next,claimBlockedReason:'Sponsors cannot claim their own contracts.'};
@@ -140,6 +147,7 @@ const cases=[
  {name:'quest-equipment-ready',data:fixture('quest-equipment',{questEquipment:{quest:state.quests[1],missing:[],total:0,shortfall:0}})},
  {name:'trade-confirm-buy',data:fixture('trade-confirm',{tradeQuote:{property:properties[0],kind:'land_buy',quantity:1,amount:45,projectedNet:14,owned:1,id:randomUUID()}})},
  {name:'trade-confirm-sell',data:fixture('trade-confirm',{tradeQuote:{property:properties[0],kind:'land_sell',quantity:1,amount:22,projectedNet:0,owned:1,id:randomUUID()}})},
+ {name:'home-calling',data:fixture('home',{showCalling:true})},
  {name:'home-tutorial',data:fixture('home',{experience:{tutorial:{status:'active',completed:0,steps:[{id:'quest',name:'Your first deed',help:'Complete a quest.',href:'/game/quests',done:false}]},achievements:[]}})},
  {name:'quest-celebration',data:fixture('quests',{experienceRules:{achievements:[sampleAchievement]},actionResult:{kind:'quest',commandId:randomUUID(),data:{questId:'border-patrol',questName:'Patrol',gold:8,xp:4,mana:2,newAchievements:['quests-1'],celebration:{level:5,points:2,equipment:['Iron sword'],quests:['New quest'],land:[]}}}})},
  {name:'purchase-equipment',data:fixture('purchase')},
@@ -178,13 +186,16 @@ const cases=[
  {name:'battle-empty',data:fixture('battle',{opponents:[]})},{name:'battle-recovering',data:fixture('battle',{state:{...state,health:0,spirit:0}})},
  {name:'home-history',data:fixture('home',{battles:[{id:battleId,result:newBattle,created_at:now}]})},
  {name:'report-alpha',data:fixture('report')},{name:'report-previous-alpha',data:fixture('report',{battle:{...newBattle,rulesetId:'alpha-0.1'}})},{name:'report-legacy',data:fixture('report',{battle:legacyBattle})},
+ {name:'report-bot-repeat',data:fixture('report',{battle:{...newBattle,outcome:'attacker_win',botRewardEligibilityPolicy:'bot-combat-rewards-1',lootDetails:{multiplier:85},xpDetails:{trivial:false}}})},
+ {name:'report-bot-v2-repeat',data:fixture('report',{battle:{...newBattle,outcome:'attacker_win',botRewardEligibilityPolicy:'bot-combat-rewards-2',lootDetails:{multiplier:85},xpDetails:{trivial:false}}})},
+ {name:'report-bot-weak',data:fixture('report',{battle:{...newBattle,outcome:'attacker_win',botRewardEligibilityPolicy:'bot-combat-rewards-1',lootDetails:{multiplier:100},xpDetails:{trivial:true}}})},
  ...['auth','rules','error'].flatMap(screen=>[{name:screen+'-public',data:fixture(screen,{state:null})},...(screen==='auth'?[{name:'register',data:fixture('auth',{state:null,authMode:'register'})}]:[{name:screen+'-signed-in',data:fixture(screen)}])]),
  {name:'escaped-name',data:fixture('home',{state:{...state,name:'<img src=x onerror=1>'}})},
  {name:'large-resources',data:fixture('home',{state:{...state,name:'MMMMMMMMMMMMMMMMMMMMMMMMMMMM',gold:2147483647,xp:2147483647,level:42949673}})},
 ];
 const rendered=new Map();
 for(const example of cases)check('Production EJS render: '+example.name,()=>{
- const html=ejs.render(read('views/layout.ejs'),{callingName,callingDescription,sound:{enabled:false,volume:55},soundEvent:null,...example.data},{filename:join(root,'views/layout.ejs')});
+ const html=ejs.render(read('views/layout.ejs'),{callingName,callingDescription,battleRewardNotes,sound:{enabled:false,volume:55},soundEvent:null,...example.data},{filename:join(root,'views/layout.ejs')});
  assert.ok(html.startsWith('<!doctype html>')&&!html.includes('<%'));assert.ok(!html.includes('<img src=x'));
  rendered.set(example.name,html);
 });
@@ -261,7 +272,7 @@ check('Upgraded pages bypass cached pre-expansion income clients',()=>{
     assert.ok(html.includes('/assets/kingdoms-live.css?v=phase48-mockup2'));assert.ok(html.includes('/assets/alpha.css?v=phase48-mockup2'));
     assert.ok(html.includes('/assets/remaster.css?v=phase48-mockup2'));
     assert.ok(html.includes('/assets/realm-theme.css?v=phase48-finish1'));
-    assert.ok(html.includes('/assets/sound.js?v=phase48-shared1'));
+    assert.ok(html.includes('/assets/sound.js?v=phase49-orchestral-1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
     if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase48-shared1'));
     if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase48-land-polish1'));

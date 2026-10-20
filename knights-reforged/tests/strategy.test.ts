@@ -14,6 +14,7 @@ import {createApp} from '../src/app.js';
 import {victoryExperience45,victoryLoot45} from '../src/gameplay-rules.js';
 import {victoryExperience} from '../src/progression-economy-rules.js';
 import {alpha,levelRequirement} from '../src/alpha-rules.js';
+import {botVictoryRewards} from '../src/bot-combat-rules.js';
 
 const enabled={nodeEnv:'test',allowProvisioning:true};
 const skip=!testDatabaseUrl?'Use a disposable TEST_DATABASE_URL ending in _test.':false;
@@ -43,7 +44,7 @@ test('Calling changes persist, serialize concurrent requests and cannot backdate
     const destination=selected.className==='Spellward'?'Warden':'Spellward';await r.ok(p,'/api/v1/profile',{className:destination});
     const after=await r.me(p);assert.equal(after.gold,before.gold-100);assert.equal(after.training.attack,before.training.attack);
     assert.equal(after.attack,callingPower(after.training.untrainedAttack,strategy.callings[destination].attackPercent));
-    const page=await r.app.inject({method:'GET',url:'/game/profile',headers:{cookie:p.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/>Calling<\/h2>/);assert.ok(!page.body.includes('cosmetic'));
+    const page=await r.app.inject({method:'GET',url:'/game/home?calling=1',headers:{cookie:p.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/>Calling<\/h2>/);assert.ok(!page.body.includes('cosmetic'));
   }finally{await r.close();}
 });
 test('each Calling applies its own offline recovery interval and preserves fractional ticks',{skip},async()=>{
@@ -89,7 +90,7 @@ test('450 passive rivals span levels 1–50 with real quantity-limited equipment
       const before=await r.me(player);const fight=await r.ok(player,'/api/v1/battles',{targetCharacterId:opponent.character_id});
       const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.result;
       assert.equal(report.outcome,'attacker_win');assert.equal(report.attackPower,Math.round(before.attack*(100+report.attackRoll)));assert.equal(report.botPopulationVersion,botCatalog.id);
-      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=victoryLoot45(1000000,1,true,true,level).botCap!);const snap=(await r.db.query('SELECT snapshot FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.snapshot;assert.equal(report.attackerXp,victoryExperience45(level,level,true,before.attack,snap.defender.defense).amount);
+      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=victoryLoot45(1000000,1,true,true,level).botCap!);const snap=(await r.db.query('SELECT snapshot FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.snapshot;assert.equal(report.attackerXp,botVictoryRewards(snap.defender.gold,level,level,1,before.attack,snap.defender.defense).xp.amount);
     }
     const unprepared=await r.player('Unprepared Challenger');await r.prepare(unprepared,1000,Array.from({length:49},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0));
     const elite=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite' AND b.variant=0")).rows[0]!;
@@ -108,7 +109,7 @@ test('450 passive rivals span levels 1–50 with real quantity-limited equipment
     await assert.rejects(executeCommand(r.db,bot.id,randomUUID(),'attack',{targetCharacterId:p.id},{developmentBotsEnabled:true}),/not found/);
   }finally{await r.close();}
 });
-test('bot reward limits, disabled availability, replay and passive behavior use the normal battle engine',{skip},async()=>{
+test('bot pair rewards, disabled availability, replay and passive behavior use the normal battle engine',{skip},async()=>{
   let now=new Date('2031-01-01T00:00:00Z');const r=await realm({isolated:true,clock:()=>now,developmentBotsEnabled:true});
   try{
     await provisionBots(r.db,enabled);const p=await r.player();await r.prepare(p,5000,30);
@@ -119,15 +120,16 @@ test('bot reward limits, disabled availability, replay and passive behavior use 
       const result=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[i]!.character_id},key);
       const replay=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[i]!.character_id},key);assert.equal(result.battleId,replay.battleId);
       const report=(await r.app.inject({method:'GET',url:'/api/v1/battles/'+result.battleId,headers:{cookie:p.cookie}})).json().battle;
-      assert.equal(report.temporaryRival,true);assert.equal(report.rewarded,i<6);if(i===6){assert.equal(report.loot,0);assert.equal(report.attackerXp,1);}
+      assert.equal(report.temporaryRival,true);assert.equal(report.rewarded,true);assert.ok(report.loot>0);assert.equal(report.lootDetails.multiplier,100);
       assert.equal(report.bountyClaim,null);assert.ok(report.attackEquipment.length>0);
       if(i===0){
         now=new Date(+now+130000);const same=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[i]!.character_id});
-        assert.equal((await r.db.query('SELECT rewarded FROM battles WHERE id=$1',[same.battleId])).rows[0]!.rewarded,false);
+        const repeated=(await r.db.query('SELECT rewarded,result FROM battles WHERE id=$1',[same.battleId])).rows[0]!;
+        assert.equal(repeated.rewarded,true);assert.equal(repeated.result.lootDetails.multiplier,85);assert.ok(repeated.result.loot>0);
       }
     }
     now=new Date(+now+130000);const repeated=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[6]!.character_id});
-    assert.equal((await r.db.query('SELECT rewarded FROM battles WHERE id=$1',[repeated.battleId])).rows[0]!.rewarded,false);
+    assert.equal((await r.db.query('SELECT rewarded FROM battles WHERE id=$1',[repeated.battleId])).rows[0]!.rewarded,true);
     assert.equal((await r.db.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=ANY(SELECT character_id FROM development_bots)')).rows[0]!.n,0);
     const hidden=await createApp({db:r.db,config:loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000'})});try{
       const list=await hidden.inject({method:'GET',url:'/api/v1/opponents',headers:{cookie:p.cookie}});assert.equal(list.statusCode,200);assert.ok(list.json().opponents.every((x:{botTier:string|null})=>!x.botTier));

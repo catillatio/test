@@ -1,0 +1,11 @@
+{
+  "id": "bot-combat-rewards-1",
+  "provenance": "Phase 4.9 owner-approved development test. Bot-only, wallet-funded loot and existing difficulty XP; no shared daily or one-win-per-target cutoff. The 40% repeat floor is provisional.",
+  "baseGoldRuleset": "gameplay-refinement-1",
+  "baseXpRuleset": "game-feel-1",
+  "windowSeconds": 86400,
+  "victoryPercentages": [100, 85, 70, 55, 40],
+  "provisionalRepeatFloor": true,
+  "rounding": "Apply the repeat percentage after the existing bot gold ceiling and after the existing full difficulty XP calculation; floor each final award, with the existing 1-XP victory minimum.",
+  "history": "Use the existing persistent ordered-pair victory sequence. Losses and retries do not advance it. Never recalculate historical receipts or reset existing sequences."
+}

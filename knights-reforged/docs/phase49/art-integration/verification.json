@@ -1,0 +1,198 @@
+{
+  "scope": "Owner-approved property integration and separate unapproved orchestral audition; no release",
+  "approvedBalancePolicy": "bot-combat-rewards-2",
+  "balanceChanged": false,
+  "fullLocalSuite": {
+    "tests": 452,
+    "passed": 451,
+    "failed": 0,
+    "skipped": 1,
+    "durationMs": 741971.651865,
+    "skipReason": "Hosted-runner-only synthetic network namespace check; not applicable locally"
+  },
+  "focusedNewTests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "typeScript": "PASS",
+  "productionBuild": "PASS",
+  "static": {
+    "passed": 99,
+    "failed": 0,
+    "productionEjsFixtures": 77
+  },
+  "propertyBrowser": {
+    "passed": true,
+    "checks": [
+      "320px: approved artwork loads, Gold Mine displays, no overflow, five tabs, 44px trade targets, unchanged receipt/Buy More flow",
+      "390px: approved artwork loads, Gold Mine displays, no overflow, five tabs, 44px trade targets, unchanged receipt/Buy More flow",
+      "430px: approved artwork loads, Gold Mine displays, no overflow, five tabs, 44px trade targets, unchanged receipt/Buy More flow",
+      "1024px: approved artwork loads, Gold Mine displays, no overflow, five tabs, 44px trade targets, unchanged receipt/Buy More flow"
+    ],
+    "captures": [
+      "320-gold-mine.png",
+      "320-keep.png",
+      "320-holdings.png",
+      "320-receipt.png",
+      "390-gold-mine.png",
+      "390-keep.png",
+      "390-holdings.png",
+      "390-receipt.png",
+      "430-gold-mine.png",
+      "430-keep.png",
+      "430-holdings.png",
+      "430-receipt.png",
+      "1024-gold-mine.png",
+      "1024-keep.png",
+      "1024-holdings.png",
+      "1024-receipt.png"
+    ],
+    "errors": [],
+    "productionContacted": false
+  },
+  "existingAudioAndShoppingBrowser": {
+    "passed": true,
+    "checks": [
+      "Saved mute makes no AAC request or playback before explicit enable.",
+      "Explicit gesture unlock, AAC decoding, persistent enabled/volume settings, and confirmed preview playback.",
+      "All 17 meaningful cues decode to non-silent segments; ordinary navigation stays silent; one sprite request; repeated confirmed-action events produce one sound.",
+      "Buy More remains visible and quantity survives three simulated idle hours, visibility/online events, and reload.",
+      "Lost committed purchase response stays in place; same-ID retry purchases five copies exactly once.",
+      "Real expired session offers reauthentication; login restores the same receipt and safe quantity without executing a trade.",
+      "Tutorial Step 6 explicitly teaches View Battle; victory evidence is automatic and Next is allowed without fabricating a win.",
+      "Confirmed battle presentation, existing Enemy Equipment, Attack Again, and human rivalry navigation remain available.",
+      "Audio contexts close on navigation; saved mute/volume and safe navigation recover after back/forward."
+    ],
+    "viewports": [
+      320,
+      360,
+      375,
+      390,
+      393,
+      412,
+      430,
+      1366
+    ],
+    "responsiveVisits": 64,
+    "audioCuesObserved": [
+      "achievement",
+      "coins",
+      "spend",
+      "equipment",
+      "sale",
+      "land",
+      "income",
+      "quest",
+      "victory",
+      "decisive",
+      "defeat",
+      "level",
+      "achievement",
+      "healing",
+      "bounty",
+      "alliance",
+      "error",
+      "tutorial",
+      "coins",
+      "equipment",
+      "error",
+      "equipment",
+      "achievement",
+      "healing",
+      "achievement",
+      "achievement"
+    ],
+    "audioSpriteBytes": 151519,
+    "browserErrors": [],
+    "screenshots": 11,
+    "liveProviderContacted": false,
+    "limitations": [
+      "Chromium AAC/Web Audio and gesture gating verified; physical Android/iPhone audio quality and Safari policies still require owner acceptance.",
+      "Idle time is browser-clock simulation; background events are simulated, not mobile OS suspension."
+    ]
+  },
+  "populatedPreservation": {
+    "passed": true,
+    "fixture": "Populated synthetic Phase 4.9 v1 plus legacy Phase 4.8 / 020 schema",
+    "tablesVerified": 66,
+    "accounts": 452,
+    "bots": 450,
+    "schemaMigrationsAdded": 0,
+    "phase48RulesetsAdded": [
+      "bot-combat-rewards-1",
+      "bot-combat-rewards-2"
+    ],
+    "rulesetsAdded": [
+      "bot-combat-rewards-2"
+    ],
+    "retainedRulesets": [
+      "bot-combat-rewards-1"
+    ],
+    "businessRowsChanged": 0,
+    "historicalReceiptReplayedUnchanged": true,
+    "fullXpV1ReceiptReplayedUnchanged": true,
+    "savedSessionSurvived": true,
+    "productionContacted": false
+  },
+  "newPropertyPreservation": {
+    "botCount": 450,
+    "protectedBusinessTables": 28,
+    "oldNamedAndUnnamedReceiptsRetained": true,
+    "duplicateReceiptReplayedUnchanged": true,
+    "newPurchaseStableId": "moonwell-sanctuary",
+    "applicationReconstructionRetainsSessionAndHistoricalHeading": true,
+    "schemaMigrationsAdded": 0,
+    "immutableCatalogsChanged": 0
+  },
+  "audition": {
+    "status": "Owner approval pending; not adopted",
+    "sourceLicense": "CC0-1.0",
+    "sourceLibrary": "VSCO 2 Community Edition",
+    "recordedSources": 50,
+    "originalCues": 4,
+    "loudnessTargetLUFS": -20,
+    "decodedMeasurements": [
+      {
+        "id": "victory",
+        "integratedLUFS": -19.99,
+        "truePeakDBTP": -9.7
+      },
+      {
+        "id": "defeat",
+        "integratedLUFS": -20.0,
+        "truePeakDBTP": -10.19
+      },
+      {
+        "id": "quest",
+        "integratedLUFS": -19.98,
+        "truePeakDBTP": -4.33
+      },
+      {
+        "id": "level",
+        "integratedLUFS": -19.99,
+        "truePeakDBTP": -9.19
+      }
+    ],
+    "reproducesByteForByte": true,
+    "rejectedPriorSetBarredFromAdoption": true
+  },
+  "productionDependencyAudit": {
+    "totalVulnerabilities": 0
+  },
+  "runtimeAudioAssetsChanged": false,
+  "releaseInfrastructureChanged": false,
+  "productionAccessed": false,
+  "grayModeration": {
+    "required": true,
+    "liveIdKnown": false,
+    "hidden": false,
+    "liveFeedsVerified": false,
+    "blocked": "No authenticated trusted operator execution channel",
+    "developmentKnightExcluded": true
+  },
+  "limitations": [
+    "New musical timbres/arrangements require owner listening approval on phone speakers and headphones.",
+    "Chromium mobile emulation is not physical iPhone/Safari or Android listening acceptance.",
+    "Gray broadcast remains a mandatory live moderation task."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "checks": [
+    "320 repeat: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+    "320 weak: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+    "320 empty: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+    "390 repeat: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+    "390 weak: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+    "390 empty: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+    "430 repeat: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+    "430 weak: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+    "430 empty: actual receipt, accurate explanation, no horizontal overflow, five tabs"
+  ],
+  "errors": [],
+  "viewports": [
+    320,
+    390,
+    430
+  ],
+  "productionContacted": false
+}

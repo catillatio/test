@@ -10,6 +10,8 @@ import numpy as np
 RATE = 32000
 OUT = Path(__file__).resolve().parents[1] / 'public/audio'
 OUT.mkdir(parents=True, exist_ok=True)
+if (OUT / 'inventory.json').exists() and json.loads((OUT / 'inventory.json').read_text()).get('version') != 'phase47-1':
+    raise SystemExit('Historical Phase 4.7 generator cannot overwrite adopted audio. Use scripts/adopt-orchestral-phase49.py.')
 rng = np.random.default_rng(4701)
 
 def note(freq, duration, voice):

@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    "320px: approved artwork loads, Gold Mine displays, no overflow, five tabs, 44px trade targets, unchanged receipt/Buy More flow",
+    "390px: approved artwork loads, Gold Mine displays, no overflow, five tabs, 44px trade targets, unchanged receipt/Buy More flow",
+    "430px: approved artwork loads, Gold Mine displays, no overflow, five tabs, 44px trade targets, unchanged receipt/Buy More flow",
+    "1024px: approved artwork loads, Gold Mine displays, no overflow, five tabs, 44px trade targets, unchanged receipt/Buy More flow"
+  ],
+  "captures": [
+    "320-gold-mine.png",
+    "320-keep.png",
+    "320-holdings.png",
+    "320-receipt.png",
+    "390-gold-mine.png",
+    "390-keep.png",
+    "390-holdings.png",
+    "390-receipt.png",
+    "430-gold-mine.png",
+    "430-keep.png",
+    "430-holdings.png",
+    "430-receipt.png",
+    "1024-gold-mine.png",
+    "1024-keep.png",
+    "1024-holdings.png",
+    "1024-receipt.png"
+  ],
+  "errors": [],
+  "productionContacted": false
+}

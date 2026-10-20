@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "summary": "PASS: compiled server restarted; lifetime standings, rivalry totals, tutorial cursor/completion, achievement earned dates, tutorial progress, region filter, Vault, PvP sequence, sessions, progression, inventory, Land, Calling, funded bounty, comments, broadcasts, invitation codes, pending allies and both players’ private battle access survived. A second process restart settled exactly three offline shared cycles, and repeated reads paid nothing twice. A passive rival also received exactly three offline property periods after restart, with unchanged Vault savings and no duplicate payment on repeated profile views.",
+  "missedHumanIncomePeriods": 3,
+  "missedBotIncomePeriods": 3,
+  "duplicatePayments": false,
+  "productionContacted": false
+}

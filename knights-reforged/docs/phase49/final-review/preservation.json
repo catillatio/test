@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "fixture": "Populated synthetic Phase 4.9 v1 plus legacy Phase 4.8 / 020 schema",
+  "tablesVerified": 66,
+  "accounts": 452,
+  "bots": 450,
+  "schemaMigrationsAdded": 0,
+  "phase48RulesetsAdded": [
+    "bot-combat-rewards-1",
+    "bot-combat-rewards-2"
+  ],
+  "rulesetsAdded": [
+    "bot-combat-rewards-2"
+  ],
+  "retainedRulesets": [
+    "bot-combat-rewards-1"
+  ],
+  "businessRowsChanged": 0,
+  "historicalReceiptReplayedUnchanged": true,
+  "fullXpV1ReceiptReplayedUnchanged": true,
+  "savedSessionSurvived": true,
+  "productionContacted": false
+}

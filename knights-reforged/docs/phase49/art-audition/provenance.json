@@ -1,0 +1,30 @@
+{
+  "status": "Owner-approved illustration direction; integrated into feature-branch runtime, not deployed",
+  "rights": "Original OpenAI-generated project output, subject to applicable OpenAI terms. No third-party stock, extracted APK or copied Storm8 artwork; no exclusivity or copyright protection asserted.",
+  "method": "Original image generation using the owner-approved Land mockup as the primary style reference; current original atlas used only to identify replacements. No creative post-editing.",
+  "asset": "property-proposals.png",
+  "sha256": "62621bf966b8ee73c5abcb82dceb19070927434a26a9f9e42ad01acbc80b1b0c",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "layout": "Two landscape illustrations stacked vertically: Wyrmcrest Keep above, Gold Mine below.",
+  "source": "/workspace/generated_images/exec-73412d91-e447-4087-a21b-7969d80d3d14.png",
+  "stableIdentities": [
+    {
+      "id": "wyrmcrest-keep",
+      "proposedName": "Wyrmcrest Keep"
+    },
+    {
+      "id": "moonwell-sanctuary",
+      "proposedName": "Gold Mine"
+    }
+  ],
+  "references": [
+    "docs/phase48/ChatGPT Image Oct 20, 2026, 12_34_13 AM.png",
+    "public/art/land-simple-0.1/properties.webp"
+  ],
+  "runtimeCatalogChanged": false,
+  "existingHoldingsChanged": false,
+  "integration": "public/art/properties-49/provenance.json"
+}

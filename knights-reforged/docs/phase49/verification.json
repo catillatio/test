@@ -1,0 +1,171 @@
+{
+  "scope": "Development balancing checkpoint only; no production operations or infrastructure changes",
+  "base": "b305fa011d9428b7e00e68a7cc38026e0bcdb256",
+  "previousCheckpoint": "c1e7e787e5f3e1a604b620680ccef60089b7ef3e",
+  "policy": "bot-combat-rewards-2",
+  "retainedPolicy": "bot-combat-rewards-1",
+  "botFullXpPercent": 65,
+  "provisionalRepeatFloor": true,
+  "fullLocalSuite": {
+    "tests": 444,
+    "passed": 443,
+    "failed": 0,
+    "skipped": 1,
+    "durationMs": 609152.205463,
+    "command": "TEST_DATABASE_URL=<designated disposable local database> npm test",
+    "skippedTest": "real hosted-runner network namespace executes synthetic checks without production secrets; requires GitHub-hosted runner",
+    "interruptedEarlierAttemptsExcluded": true
+  },
+  "static": {
+    "checksPassed": 97,
+    "failed": 0,
+    "productionEjsFixtures": 76
+  },
+  "typeScript": "PASS",
+  "productionBuild": "PASS",
+  "populatedPreservation": {
+    "passed": true,
+    "fixture": "Populated synthetic Phase 4.9 v1 plus legacy Phase 4.8 / 020 schema",
+    "tablesVerified": 66,
+    "accounts": 452,
+    "bots": 450,
+    "schemaMigrationsAdded": 0,
+    "phase48RulesetsAdded": [
+      "bot-combat-rewards-1",
+      "bot-combat-rewards-2"
+    ],
+    "rulesetsAdded": [
+      "bot-combat-rewards-2"
+    ],
+    "retainedRulesets": [
+      "bot-combat-rewards-1"
+    ],
+    "businessRowsChanged": 0,
+    "historicalReceiptReplayedUnchanged": true,
+    "fullXpV1ReceiptReplayedUnchanged": true,
+    "savedSessionSurvived": true,
+    "productionContacted": false
+  },
+  "simulations": {
+    "cases": 216,
+    "seeds": [
+      4901,
+      4919,
+      4927
+    ],
+    "botXpPercentCandidates": [
+      100,
+      65,
+      40
+    ],
+    "startingLevels": [
+      5,
+      8,
+      10,
+      17,
+      25,
+      40,
+      50
+    ],
+    "schedules": [
+      "6 sustained hours",
+      "1 hour daily for 14 days",
+      "2 hours daily for 14 days"
+    ],
+    "sameRivalAndSharedMultiAccountCases": 18,
+    "allConserved": true,
+    "protectedVaultUnchanged": true,
+    "exactSpiritBudgetAllCases": true,
+    "economicSourcesChanged": false,
+    "actualCombatAndRecoveryHelpers": true,
+    "report": "xp-comparison.json"
+  },
+  "browser": {
+    "passed": true,
+    "checks": [
+      "320 repeat: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "320 weak: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "320 empty: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "390 repeat: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "390 weak: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "390 empty: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "430 repeat: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "430 weak: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "430 empty: actual receipt, accurate explanation, no horizontal overflow, five tabs"
+    ],
+    "errors": [],
+    "viewports": [
+      320,
+      390,
+      430
+    ],
+    "productionContacted": false
+  },
+  "dependencyAudits": {
+    "allGameDependencies": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "productionGameDependencies": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "productionReleaseWorkerDependencies": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "protectedPathsUnchangedFromPreviousCheckpoint": [
+    ".github",
+    "knights-reforged/deployment",
+    "knights-reforged/migrations",
+    "knights-reforged/src/commands.ts",
+    "knights-reforged/src/development.ts",
+    "knights-reforged/src/gameplay-rules.ts",
+    "knights-reforged/src/game-feel-rules.ts",
+    "knights-reforged/rulesets/bot-combat-rewards-1",
+    "knights-reforged/rulesets/gameplay-refinement-1",
+    "knights-reforged/rulesets/game-feel-1",
+    "knights-reforged/public/audio",
+    "knights-reforged/public/art"
+  ],
+  "broadcasts": {
+    "requiredReleaseItem": true,
+    "authorsRequested": [
+      "Gray",
+      "Development Night"
+    ],
+    "recordsIdentified": false,
+    "recordsHidden": false,
+    "liveFeedVerified": false,
+    "ownerOperatorShellAvailable": false,
+    "productionAccessConfiguredHere": false,
+    "existingProtectedBroadcastWorkflow": false,
+    "operatorProposalImplemented": false,
+    "githubEnvironmentMetadataReadOnlyReviewed": {
+      "name": "Production",
+      "requiredReviewerCount": 1,
+      "allowedBranch": "release/production"
+    },
+    "secretMetadata": "UNVERIFIED: integration has no environment-secret metadata permission",
+    "instructions": "BROADCAST_REVIEW.md",
+    "operatorInvestigation": "OPERATOR_INSPECTION_OPTIONS.md"
+  },
+  "remainingRequirements": "BACKLOG.md",
+  "hostedCI": "Tracked by draft PR #12 after push; not claimed passed by these local results",
+  "productionContacted": false,
+  "merged": false,
+  "deployed": false
+}

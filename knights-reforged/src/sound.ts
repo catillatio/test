@@ -11,7 +11,7 @@ export function soundFeedback(receipt:any,battle:any,viewerId:string|undefined){
  let cue=reward?.celebration?'level':battle?.bountyClaim?.id&&battle.attackerId===viewerId?'bounty':(reward?.tutorialCompleted||record.kind==='tutorial'&&reward?.tutorialAction==='finish')?'tutorial':reward?.newAchievements?.length?'achievement':null;
  if(!cue){
   if(battle)cue=battle.winnerId===viewerId?battle.victoryStyle==='decisive'?'decisive':'victory':'defeat';
-  else cue=({quest:'quest',quest_buy:'equipment',buy:'equipment',sell:'sale',land_buy:'land',land_sell:'sale',heal:'healing',accept:'alliance',vault_deposit:'spend',vault_withdraw:'coins',bounty_place:'spend',bounty_cancel:'coins',invite:record.data?.armyEvent==='accepted'?'alliance':'click',invite_code:record.data?.armyEvent==='accepted'?'alliance':'click'} as Record<string,string>)[record.kind]??'click';
+  else cue=({quest:'quest',quest_buy:'equipment',buy:'equipment',sell:'sale',land_buy:'land',land_sell:'sale',heal:'healing',accept:'alliance',vault_deposit:'spend',vault_withdraw:'coins',bounty_place:'spend',bounty_cancel:'coins',invite:record.data?.armyEvent==='accepted'?'alliance':null,invite_code:record.data?.armyEvent==='accepted'?'alliance':null} as Record<string,string|null>)[record.kind]??null;
  }
- return {id:record.commandId,cue};
+ return cue?{id:record.commandId,cue}:null;
 }

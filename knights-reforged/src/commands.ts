@@ -5,6 +5,8 @@ import {restoreHealth} from './healing.js';
 import {gameplay,victoryLoot45} from './gameplay-rules.js';
 import {callingName} from './calling-presentation.js';
 import {gameFeel,victoryExperience47} from './game-feel-rules.js';
+import {botCombat,botVictoryRewards} from './bot-combat-rules.js';
+import {battleRewardNotes} from './battle-reward-notes.js';
 import {validateTradeQuote} from './trade.js';
 import {syncExperience,tutorialAction,levelCelebration} from './experience.js';
 import { GameError } from './errors.js';
@@ -13,6 +15,7 @@ import { alpha,propertyById,itemById,questById,lootById,areRivals,resolveAlphaCo
 import { clock,lockCharacters,materialize,stateFrom,type CharacterRow } from './game.js';
 import { ledger,creditGold } from './economy.js';
 import { purchaseItems,sellItem,readInventory } from './inventory.js';
+import {propertyName} from './property-presentation.js';
 import { grantExperience,awardMilestones,allocateSkill } from './progression.js';
 import { refreshMaintenance,fundMaintenance } from './maintenance.js';
 import { buyEstate,sellEstate } from './estate.js';
@@ -176,8 +179,8 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       result.message='Equipment available to your army. Best attack and defense equipment are selected automatically.';
     } else if (kind==='land_buy') {
       const purchase=await buyEstate(sql,actorId,actor.attained_level,intent.propertyId as string,intent.quantity as number,key,now);
-      result.holdingId=purchase.holdingId;result.message=intent.quantity+' '+propertyById.get(intent.propertyId as string)!.name+' purchased for '+purchase.cost+' gold. Income joins your shared hourly cycle; the first partial period is prorated.';
-      result.data={goldSpent:purchase.cost,propertyId:intent.propertyId,quantity:intent.quantity,itemName:propertyById.get(intent.propertyId as string)!.name};
+      result.holdingId=purchase.holdingId;result.message=intent.quantity+' '+propertyName(intent.propertyId as string,propertyById.get(intent.propertyId as string)!.name)+' purchased for '+purchase.cost+' gold. Income joins your shared hourly cycle; the first partial period is prorated.';
+      result.data={goldSpent:purchase.cost,propertyId:intent.propertyId,quantity:intent.quantity,itemName:propertyName(intent.propertyId as string,propertyById.get(intent.propertyId as string)!.name)};
     } else if (kind==='land_sell') {
       const refund=await sellEstate(sql,actorId,intent.propertyId as string,intent.quantity as number,key,now);
       result.message='Sold '+intent.quantity+' properties for '+refund+' gold. Earned time was settled first; the shared payment clock is unchanged.';result.data={goldReceived:refund};
@@ -243,36 +246,30 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Spirit to recover before attacking.',409);
       const targetState=await stateFrom(sql,target,now,runtime);
       if(!targetIsBot)await syncExperience(sql,target.id,now);
-      let rewarded:boolean;
-      if(targetIsBot){
-        // Only successful, rewarded encounters consume the unchanged bot
-        // allowance. Historical losses remain immutable but do not block a
-        // future win. The actor lock serializes this shared daily budget.
-        const budget=(await sql.query(`SELECT count(*)::int AS total,
-          count(*) FILTER (WHERE b.defender_id=$2)::int AS pair
-          FROM battles b JOIN development_bots d ON d.character_id=b.defender_id
-          WHERE b.attacker_id=$1 AND b.rewarded AND b.outcome='attacker_win' AND b.created_at>$3`,
-          [actorId,target.id,new Date(+now-strategy.bots.rewardWindowSeconds*1000)])).rows[0]!;
-        rewarded=budget.pair<strategy.bots.perTargetRewardedBattles&&budget.total<strategy.bots.dailyRewardedBattles;
-      }else{
+      // Bot rewards depend on this pair and the real purse, never on victories
+      // against other bots. Human reward eligibility is deliberately unchanged.
+      let rewarded=true;
+      if(!targetIsBot){
         const count=(await sql.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND created_at>$3',[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
         rewarded=count<alpha.combat.rewardedPerTarget;
       }
       const variation=alpha.combat.variation;
       const combat=resolveAlphaCombat(state,targetState,randomInt(-variation,variation+1),randomInt(-variation,variation+1),rewarded);
       if(targetIsBot&&combat.outcome!=='attacker_win')rewarded=false;
-      const sequence=combat.outcome==='attacker_win'?await recordVictory(sql,actorId,target.id,now,gameplay.id):null;
-      const lootDetails=sequence?{...victoryLoot45(targetState.gold,sequence.victory,targetIsBot,rewarded,target.attained_level),...sequence}:null;
+      const rewardRulesetId=targetIsBot?botCombat.id:gameplay.id;
+      const sequence=combat.outcome==='attacker_win'?await recordVictory(sql,actorId,target.id,now,rewardRulesetId):null;
+      const botRewards=targetIsBot&&sequence?botVictoryRewards(targetState.gold,actor.attained_level,target.attained_level,sequence.victory,state.attack,targetState.defense):null;
+      const lootDetails=sequence?{...(botRewards?.loot??victoryLoot45(targetState.gold,sequence.victory,false,rewarded,target.attained_level)),...sequence}:null;
       // Damage remains alpha-0.3. Only attacking victories transfer carried
       // gold; defensive wins never remove gold from the attacker. XP still
-      // obeys the existing anti-farming budget independently of human loot.
+      // obeys the existing human budget or the bot-only pair reduction.
       combat.loot=lootDetails?.amount??0;
-      const xpDetails=combat.outcome==='attacker_win'?victoryExperience47(actor.attained_level,target.attained_level,rewarded,state.attack,targetState.defense):null;
+      const xpDetails=combat.outcome==='attacker_win'?botRewards?.xp??victoryExperience47(actor.attained_level,target.attained_level,rewarded,state.attack,targetState.defense):null;
       combat.attackerXp=xpDetails?.amount??0;
       const winnerId=combat.outcome==='attacker_win'?actorId:target.id;
       if (combat.loot) {
-        await ledger(sql,key,'battle_loot',[{characterId:target.id,amount:-combat.loot}],gameplay.id);
-        await creditGold(sql,actorId,BigInt(combat.loot),key,'battle_loot',gameplay.id);
+        await ledger(sql,key,'battle_loot',[{characterId:target.id,amount:-combat.loot}],rewardRulesetId);
+        await creditGold(sql,actorId,BigInt(combat.loot),key,'battle_loot',rewardRulesetId);
       }
       await sql.query(`UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,
         spirit=spirit-$4,spirit_updated_at=CASE WHEN spirit=max_spirit THEN $3 ELSE spirit_updated_at END,attack_ready_at=$5 WHERE id=$1`,
@@ -296,7 +293,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         defenderXp:defenderProgression?.xpAwarded??0,defenderXpDetails,defenderFullXp:defenderXpDetails?!defenderXpDetails.reduced:false,defenderLevelGained:defenderProgression?.gained??0,defenderLevelAfter:defenderProgression?.level??target.attained_level,attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        commandId:key,victoryStyle:combat.outcome==='attacker_win'?(combat.attackPower>=combat.defensePower*1.5?'decisive':'hard-fought'):'defeat',progressionRulesetId:gameFeel.id,xpDetails,pvpRulesetId:gameplay.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botRewardEligibilityPolicy:targetIsBot?'victories-only-1':null,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        commandId:key,victoryStyle:combat.outcome==='attacker_win'?(combat.attackPower>=combat.defensePower*1.5?'decisive':'hard-fought'):'defeat',progressionRulesetId:targetIsBot?botCombat.id:gameFeel.id,xpDetails,pvpRulesetId:rewardRulesetId,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botRewardEligibilityPolicy:targetIsBot?botCombat.id:null,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       if(combat.defenderHealthAfter===0){
@@ -305,7 +302,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       }
       await awardMilestones(sql,actorId);
       if(defenderProgression)await awardMilestones(sql,target.id);
-      result.message=battle.winnerName+' won the battle.'+(!rewarded||lootDetails&&lootDetails.multiplier<100?' Reduced rewards from repeated battles.':'')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
+      result.message=battle.winnerName+' won the battle.'+battleRewardNotes(battle,true).map(note=>' '+note).join('')+(battle.bountyClaim?' Bounty claimed: '+battle.bountyClaim.reward+' gold, separate from battle loot.':'');
     }
     const experience=await syncExperience(sql,actorId,now,'gameplay');
     const final=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[actorId])).rows[0]!;

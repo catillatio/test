@@ -1,0 +1,41 @@
+{
+  "status": "Owner-approved illustration direction; integrated for review, not deployed",
+  "rights": "Original OpenAI-generated project output, subject to applicable OpenAI terms. No third-party stock, APK-derived or copied Storm8 artwork; no exclusivity or copyright protection asserted.",
+  "source": "docs/phase49/art-audition/property-proposals.png",
+  "sourceSha256": "62621bf966b8ee73c5abcb82dceb19070927434a26a9f9e42ad01acbc80b1b0c",
+  "method": "Split approved two-image sheet at its divider, downsample and encode WebP; no new illustration or creative repainting.",
+  "assets": [
+    {
+      "id": "wyrmcrest-keep",
+      "name": "Wyrmcrest Keep",
+      "asset": "wyrmcrest-keep.webp",
+      "sha256": "94d833a312ef80d1a36a5afb0f854988af113b93b6843a0791f55482195596a2",
+      "bytes": 87410,
+      "width": 512,
+      "height": 382,
+      "sourceCrop": [
+        0,
+        0,
+        1024,
+        764
+      ]
+    },
+    {
+      "id": "moonwell-sanctuary",
+      "name": "Gold Mine",
+      "asset": "gold-mine.webp",
+      "sha256": "c997008b7854f2031b06a02ba04935aca0e032b90d61d90fb12a6cd17e1580fa",
+      "bytes": 96282,
+      "width": 512,
+      "height": 382,
+      "sourceCrop": [
+        0,
+        772,
+        1024,
+        764
+      ]
+    }
+  ],
+  "stablePropertyIds": true,
+  "economicCatalogChanged": false
+}

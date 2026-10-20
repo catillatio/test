@@ -5,6 +5,7 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {realm,testDatabaseUrl,type Player} from './helpers.js';
 import {alpha,levelRequirement,areRivals} from '../src/alpha-rules.js';
 import {gameplay,victoryLoot45} from '../src/gameplay-rules.js';
+import {botVictoryRewards} from '../src/bot-combat-rules.js';
 import {provisionBots,botBlueprint} from '../src/development.js';
 import {getState} from '../src/game.js';
 import {activeBountyCount,bountyBoard} from '../src/bounties.js';
@@ -53,14 +54,15 @@ test('actual poor, wealthy, high-bot and concurrent victories transfer only expo
   assert.ok(attacker.attack*90>target.defense*110);
   const vault=target.bankedGold,hit=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot.id}),report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[hit.battleId])).rows[0]!.result;
   assert.equal(report.outcome,'attacker_win');assert.equal(report.loot,victoryLoot45(target.gold,1,true,true,29).amount);
-  assert.equal(report.attackerXp,victoryExperience45(25,29,true,attacker.attack,target.defense).amount);
+  assert.equal(report.attackerXp,botVictoryRewards(target.gold,25,29,1,attacker.attack,target.defense).xp.amount);
   const after=await getState(r.db,bot.account_id);assert.equal(after.gold,target.gold-report.loot);assert.equal(after.bankedGold,vault);
   examples.push({case:'level25-versus-level29-bot',attackerLevel:25,defenderLevel:29,before:target.gold,stolen:report.loot,remaining:after.gold,xp:report.attackerXp,loot:report.lootDetails,xpDetails:report.xpDetails});
   // Viewing, an obsolete daily-refresh marker and repeat attacks cannot refill gold.
   await r.db.query("UPDATE development_bots SET refilled_at='2000-01-01' WHERE character_id=$1",[bot.id]);
   const repeat=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot.id}),again=(await r.db.query('SELECT result FROM battles WHERE id=$1',[repeat.battleId])).rows[0]!.result;
-  assert.equal(again.loot,0);assert.equal(again.attackerXp,1);assert.equal((await getState(r.db,bot.account_id)).gold,after.gold);
-  examples.push({case:'repeat-depleted-bot',before:after.gold,stolen:0,remaining:after.gold,xp:again.attackerXp,cap:'one full reward per bot / six bots per rolling 24h'});
+  const expected=botVictoryRewards(after.gold,attacker.level,target.level,2,attacker.attack,target.defense);
+  assert.equal(again.loot,expected.loot.amount);assert.equal(again.attackerXp,expected.xp.amount);assert.equal((await getState(r.db,bot.account_id)).gold,after.gold-again.loot);
+  examples.push({case:'repeat-bot',before:after.gold,stolen:again.loot,remaining:after.gold-again.loot,xp:again.attackerXp,repeatMultiplier:85});
   const x=await fighter(17,'Western Challenger',10),y=await fighter(17,'Eastern Challenger',10),d=await fighter(17,'Exposed Keeper',5);
   await r.db.query('UPDATE wallets SET balance=1000 WHERE character_id=$1',[d.id]);const total=(await r.me(x)).gold+(await r.me(y)).gold+1000;
   const keys=[randomUUID(),randomUUID()];const race=await Promise.all([r.ok(x,'/api/v1/battles',{targetCharacterId:d.id},keys[0]),r.ok(y,'/api/v1/battles',{targetCharacterId:d.id},keys[1])]);

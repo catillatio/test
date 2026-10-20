@@ -1,0 +1,76 @@
+{
+  "passed": true,
+  "checks": [
+    "320px: no overflow, five tabs, Calling beside Hall, keyboard disclosures, four categories, bounded rankings, 44px targets, unchanged teal row and Land density",
+    "390px: no overflow, five tabs, Calling beside Hall, keyboard disclosures, four categories, bounded rankings, 44px targets, unchanged teal row and Land density",
+    "430px: no overflow, five tabs, Calling beside Hall, keyboard disclosures, four categories, bounded rankings, 44px targets, unchanged teal row and Land density",
+    "1024px: no overflow, five tabs, Calling beside Hall, keyboard disclosures, four categories, bounded rankings, 44px targets, unchanged teal row and Land density",
+    "Calling uses actual server command, returns to Home, free first change and same-key retry applies once; ordinary navigation and controls emit no sounds"
+  ],
+  "captures": [
+    "320-land.png",
+    "320-home.png",
+    "320-calling.png",
+    "320-profile.png",
+    "320-profile-details.png",
+    "320-champions.png",
+    "390-land.png",
+    "390-home.png",
+    "390-calling.png",
+    "390-calling-details.png",
+    "390-profile.png",
+    "390-profile-details.png",
+    "390-champions.png",
+    "430-land.png",
+    "430-home.png",
+    "430-calling.png",
+    "430-profile.png",
+    "430-profile-details.png",
+    "430-champions.png"
+  ],
+  "measurements": [
+    {
+      "width": 320,
+      "teal": "linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%)",
+      "resourceHeight": 46,
+      "rowHeight": 98
+    },
+    {
+      "width": 390,
+      "teal": "linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%)",
+      "resourceHeight": 46,
+      "rowHeight": 98
+    },
+    {
+      "width": 430,
+      "teal": "linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%)",
+      "resourceHeight": 46,
+      "rowHeight": 98
+    },
+    {
+      "width": 1024,
+      "teal": "linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%)",
+      "resourceHeight": 80,
+      "rowHeight": 126
+    }
+  ],
+  "errors": [],
+  "preservedTables": [
+    "accounts",
+    "development_bots",
+    "wallets",
+    "vault_accounts",
+    "inventory_entries",
+    "inventory_lots",
+    "land_holdings",
+    "army_stacks",
+    "battles",
+    "bounties",
+    "character_achievements",
+    "tutorial_guides",
+    "sound_preferences"
+  ],
+  "preservedCharacterProgression": true,
+  "preservedBotCount": 450,
+  "productionContacted": false
+}

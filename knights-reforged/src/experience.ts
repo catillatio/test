@@ -1,3 +1,4 @@
+import {propertyName} from './property-presentation.js';
 import {type Database,type Sql,transaction} from './db.js';
 import {experienceRules,type AchievementMetric} from './experience-rules.js';
 import {alpha} from './alpha-rules.js';
@@ -89,5 +90,5 @@ export async function rememberRegion(sql:Sql,id:string,region:string){
 export function levelCelebration(before:number,after:number,points:number){
  if(after<=before)return null;
  return {before,level:after,points:Math.max(0,points),equipment:alpha.items.filter(item=>item.level>before&&item.level<=after).map(item=>item.name),
- quests:alpha.quests.filter(item=>item.level>before&&item.level<=after).map(item=>item.name),land:alpha.properties.filter(item=>item.level>before&&item.level<=after).map(item=>item.name)};
+ quests:alpha.quests.filter(item=>item.level>before&&item.level<=after).map(item=>item.name),land:alpha.properties.filter(item=>item.level>before&&item.level<=after).map(item=>propertyName(item.id,item.name))};
 }

@@ -153,12 +153,12 @@ test('profile actions are prominent for humans and bots, placement shows exact f
     }finally{await disabled.close();}
   }finally{await r.close();}
 });
-test('bot bounties use real escrow, eligible finishing attackers, one kill and unchanged bot reward caps',{skip},async()=>{
+test('bot bounties use real escrow, eligible finishing attackers, one kill and separate pair-reduced ordinary loot',{skip},async()=>{
   const r=await setup(true);try{
     await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});
     const sponsor=await r.veteran('Contract Sponsor',true),hunter=await r.veteran('Bounty Finisher',true),other=await r.veteran('Other Finisher',true);await r.ready(sponsor,hunter,other);
     const bot=(await r.db.query("SELECT b.character_id,c.account_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=3 AND b.tier='green'")).rows[0]!;
-    await r.ok(hunter,'/api/v1/battles',{targetCharacterId:bot.character_id}); // Spend normal bot allowance first.
+    await r.ok(hunter,'/api/v1/battles',{targetCharacterId:bot.character_id}); // Begin the ordinary pair sequence first.
     const sponsorBefore=(await r.me(sponsor)).gold,first=await r.ok(sponsor,'/api/v1/bounties/placements',{targetCharacterId:bot.character_id,amount:1000});
     await r.db.query('UPDATE characters SET health=35,health_updated_at=$2 WHERE id=$1',[bot.character_id,r.now()]);
     const firstHit=await r.ok(hunter,'/api/v1/battles',{targetCharacterId:bot.character_id});assert.equal((await r.battle(firstHit.battleId)).bountyClaim,null);
@@ -168,7 +168,7 @@ test('bot bounties use real escrow, eligible finishing attackers, one kill and u
     const claimed=(await r.db.query('SELECT * FROM bounties WHERE id=$1',[first.data.bountyId])).rows[0]!;
     assert.equal(claimed.status,'claimed');const report=await r.battle(claimed.battle_id);
     assert.equal(report.defenderHealthAfter,0);assert.equal(report.bountyClaim.reward,1000);assert.equal((await r.db.query('SELECT count(*)::int AS n FROM bounty_kills')).rows[0]!.n,1);
-    if(claimed.claimant_id===hunter.id){assert.equal(report.loot,0);assert.equal(report.attackerXp,1);assert.equal((await r.me(hunter)).gold,before+1000);}
+    if(claimed.claimant_id===hunter.id){assert.ok(report.loot>0);assert.equal(report.lootDetails.multiplier,70);assert.equal(report.attackerXp,1);assert.equal((await r.me(hunter)).gold,before+1000+report.loot);}
     assert.equal((await r.me(sponsor)).gold,sponsorBefore-1100);
     assert.equal((await r.db.query('SELECT health FROM characters WHERE id=$1',[bot.character_id])).rows[0]!.health,0);
     assert.equal((await r.command(hunter,'/api/v1/battles',{targetCharacterId:bot.character_id})).json().error.code,'OPPONENT_DEFEATED');
@@ -216,10 +216,10 @@ test('bot placement races, cancellation, expiry and fifty finishing claims obey 
       if(i===0)await r.db.query('UPDATE characters SET health=1,health_updated_at=$2 WHERE id=$1',[target,r.now()]);
       const report=await r.battle((await r.ok(hunter,'/api/v1/battles',{targetCharacterId:target})).battleId);
       assert.equal(report.defenderHealthAfter,0);assert.equal(report.bountyClaim.reward,1);ordinaryLoot+=report.loot;
-      if(i>0){assert.equal(report.loot,0);assert.equal(report.attackerXp,1);}
+      if(i>0){assert.ok(report.loot>0);assert.equal(report.lootDetails.multiplier,[100,85,70,55,40][Math.min(i,4)]);assert.equal(report.attackerXp,1);}
       r.advance(180);
     }
-    assert.ok(ordinaryLoot<=61);assert.equal((await r.me(hunter)).battleStats.kills,50);
+    assert.ok(ordinaryLoot<=50*61);assert.equal((await r.me(hunter)).battleStats.kills,50);
     assert.equal((await r.me(hunter)).gold+(await r.me(sponsors[0]!)).gold+(await r.me(sponsors[1]!)).gold,initial+ordinaryLoot-50);
     const rejected=await r.command(sponsors[0]!,'/api/v1/bounties/placements',{targetCharacterId:target,amount:1});assert.equal(rejected.json().error.code,'BOUNTY_LIMIT');
     assert.equal((await r.db.query("SELECT count(*)::int AS n FROM bounties WHERE target_id=$1 AND status='active'",[target])).rows[0]!.n,0);

@@ -16,7 +16,15 @@ test('450 existing bots earn real saved Land income offline without views, doubl
   // must also work in the worker, without requiring the first profile visit.
   await r.db.query('DELETE FROM income_cycles WHERE character_id=$1',[before.bots[0]!.id]);
   now=new Date(+now+72*3600000);
-  const passes=await Promise.all([settleDueBotIncome(r.db,true),settleDueBotIncome(r.db,true)]);assert.equal(passes.reduce((n,p)=>n+p.settled,0),450);
+  const passes=await Promise.all([settleDueBotIncome(r.db,true),settleDueBotIncome(r.db,true)]);
+  // This is a processed-row counter, not a distinct-payment count. A concurrent
+  // query can acquire a newly released character using an older joined income
+  // snapshot, then materialize it harmlessly again. Prove exactly-once money and
+  // durable periods below rather than assuming workers visit exactly 450 rows.
+  const processedRows=passes.reduce((n,p)=>n+p.settled,0);assert.ok(processedRows>=450&&processedRows<=900);
+  const holdings=(await r.db.query('SELECT count(*)::int n FROM land_holdings WHERE quantity>0')).rows[0]!.n;
+  const payments=(await r.db.query('SELECT count(*)::int n,count(DISTINCT holding_id)::int holdings,min(interval_count)::int minimum,max(interval_count)::int maximum FROM land_income_settlements')).rows[0]!;
+  assert.equal(payments.n,holdings);assert.equal(payments.holdings,holdings);assert.equal(payments.minimum,72);assert.equal(payments.maximum,72);
   const after=await auditBotEconomy(r.db);assert.equal(after.dueBots,0);
   for(const bot of before.bots){const later=after.bots.find(b=>b.id===bot.id)!;
    const propertyNet=BigInt(bot.gross)-BigInt(bot.property_upkeep),rate=BigInt(bot.equipment_upkeep);
@@ -33,6 +41,6 @@ test('450 existing bots earn real saved Land income offline without views, doubl
   assert.equal((await r.me(human)).gold,humanBefore.gold);assert.equal((await r.me(human)).bankedGold,humanBefore.bankedGold);
   now=new Date(+now+3600000);assert.equal((await settleDueBotIncome(r.db,false)).settled,0);
   await settleDueBotIncome(r.db,true);assert.equal((await auditBotEconomy(r.db)).dueBots,0);
-  await mkdir('test-results',{recursive:true});await writeFile('test-results/phase47-bot-economy.json',JSON.stringify({passed:true,population:450,offlineHours:72,humanBalancesChanged:false,capitalGranted:0,portfoliosChanged:0,samples:[5,8,17,25,40,50].map(level=>({level,before:before.bots.find(b=>b.level===level&&b.tier==='seasoned'&&b.variant===0),after:after.bots.find(b=>b.level===level&&b.tier==='seasoned'&&b.variant===0)}))},null,2)+'\n');
+  await mkdir('test-results',{recursive:true});await writeFile('test-results/phase47-bot-economy.json',JSON.stringify({passed:true,population:450,offlineHours:72,processedRows,holdingsPaidOnce:holdings,humanBalancesChanged:false,capitalGranted:0,portfoliosChanged:0,samples:[5,8,17,25,40,50].map(level=>({level,before:before.bots.find(b=>b.level===level&&b.tier==='seasoned'&&b.variant===0),after:after.bots.find(b=>b.level===level&&b.tier==='seasoned'&&b.variant===0)}))},null,2)+'\n');
  }finally{await r.close();}
 });

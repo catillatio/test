@@ -24,7 +24,7 @@ try{
  await r.ok(actor,'/api/v1/inventory/purchases',{itemId:'squires-blade',quantity:2});
  await context.addCookies([{name:'kr_session',value:actor.cookie.split('=')[1]!,url:origin,httpOnly:true,sameSite:'Lax'}]);
  await visit('/game/home');await shot('390-home-new');await r.ok(actor,'/api/v1/tutorial',{action:'skip'});
- await visit('/game/home');await shot('390-home');assert.equal(await page.locator('.home-menu a').count(),7);assert.equal(await page.locator('.primary-nav a').count(),5);
+ await visit('/game/home');await shot('390-home');assert.equal(await page.locator('.home-menu a').count(),8);assert.equal(await page.locator('.calling-menu-link').count(),1);assert.equal(await page.locator('.primary-nav a').count(),5);
  await visit('/game/armory');assert.equal(await page.locator('.market-catalog [data-quantity-control]').count(),0);
  assert.equal(await page.locator('.market-catalog form[data-market-form] [name=quantity][value="1"]').count(),40);
  await shot('390-armory');const before=await me(),beforePosts=posts;
@@ -77,7 +77,7 @@ try{
  checks.push('Expired session preserves the focused bulk screen and quantity; no purchase POST is sent.');
  assert.ok(!assets.some(p=>p.includes('/art/kingdoms-live/')||/^\/assets\/art\/(home|quests|battle|armory|army|crest|tab-).*\.png$/.test(p)),'No APK-derived runtime art requests.');
  assert.deepEqual(errors,[]);checks.push('56 responsive visits, 44px trade buttons, five tabs, no horizontal overflow, no JavaScript errors, and no APK-derived asset requests.');
- await writeFile(out+'/summary.json',JSON.stringify({passed:true,checks,measurements,widths,responsiveVisits:widths.length*paths.length,browserErrors:errors,productionContacted:false,limitations:['Chromium touch emulation; physical Android/iPhone and WebKit review remain.','Three-hour idle uses a simulated browser clock.','Approved Land direction shared across the game. Original runtime sound remains pending the separate licensed audition; shared-screen screenshots await owner review.']},null,2)+'\n');
+ await writeFile(out+'/summary.json',JSON.stringify({passed:true,checks,measurements,widths,responsiveVisits:widths.length*paths.length,browserErrors:errors,productionContacted:false,limitations:['Chromium touch emulation; physical Android/iPhone and WebKit review remain.','Three-hour idle uses a simulated browser clock.','Approved shared UI and orchestral audio are the alpha baseline; professional refinement remains future work.']},null,2)+'\n');
  console.log(JSON.stringify({passed:true,checks,measurements},null,2));
 }catch(error){await page.screenshot({path:out+'/failure.png',fullPage:true}).catch(()=>{});await writeFile(out+'/failure.json',JSON.stringify({error:String(error),url:page.url(),errors,checks,text:await page.locator('main').innerText().catch(()=> '')},null,2));throw error;}
 finally{await context.close();await browser.close();await app.close();await r.close();}

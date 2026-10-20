@@ -1,0 +1,192 @@
+{
+  "status": "REJECTED by owner; archival provenance only; never adopt any of these four clips",
+  "license": "CC0-1.0",
+  "credit": "Kenney (kenney.nl); original project layering/editing also CC0",
+  "runtimeAssetsChanged": false,
+  "sources": {
+    "rpg": {
+      "page": "https://kenney.nl/assets/rpg-audio",
+      "download": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+      "archiveSha256": "6dbeaf8544da958d8f2adcb4a4a4b76c1ade34a05f8ab9edccd327da7375f38b"
+    },
+    "impact": {
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "download": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+      "archiveSha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8"
+    }
+  },
+  "cues": [
+    {
+      "id": "victory",
+      "file": "victory.mp3",
+      "seconds": 1.25,
+      "bytes": 31390,
+      "sha256": "b00630bb48edf3d34d68f8f5d959c942cd74f987e5a4b332fffc956d2ce34d81",
+      "decodedPeak": 0.53061443567276,
+      "decodedRms": 0.0727488249540329,
+      "parts": [
+        {
+          "pack": "impact",
+          "file": "impactPlate_medium_000.ogg",
+          "sourceSha256": "b670d30452983369771081319c268475edaaafe782bf4e8d70bd7eef09d8823c",
+          "offset": 0,
+          "gain": 0.32,
+          "pitch": 0.95
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.09,
+          "gain": 0.48,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.26,
+          "gain": 0.36,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.43,
+          "gain": 0.32,
+          "pitch": 1.5
+        }
+      ]
+    },
+    {
+      "id": "defeat",
+      "file": "defeat.mp3",
+      "seconds": 0.85,
+      "bytes": 21985,
+      "sha256": "40dfd337c58429a25fcc48dec277210580bbfaa81df5f38bd0eb4e151cb363b6",
+      "decodedPeak": 0.5000149011611938,
+      "decodedRms": 0.04058392345905304,
+      "parts": [
+        {
+          "pack": "impact",
+          "file": "impactMetal_medium_001.ogg",
+          "sourceSha256": "e8a9eaba7c4d27422e4eeb3e6c7100d5d7dc0f83e005efc98c960adcc5265337",
+          "offset": 0,
+          "gain": 0.38,
+          "pitch": 0.72
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.12,
+          "gain": 0.18,
+          "pitch": 0.65
+        }
+      ]
+    },
+    {
+      "id": "quest",
+      "file": "quest.mp3",
+      "seconds": 0.95,
+      "bytes": 24493,
+      "sha256": "2afad43313fb083716eb9918fad20baf7fa6a31a975cb7b8d239ab514da4dcde",
+      "decodedPeak": 0.5433266758918762,
+      "decodedRms": 0.04232603684067726,
+      "parts": [
+        {
+          "pack": "rpg",
+          "file": "bookClose.ogg",
+          "sourceSha256": "81e976532565f4372abd14e83d2684195fa548d0a28d345de221e56052454f32",
+          "offset": 0,
+          "gain": 0.28,
+          "pitch": 1
+        },
+        {
+          "pack": "rpg",
+          "file": "handleCoins2.ogg",
+          "sourceSha256": "4b857968d64f9ac9336a10ffac6694d7547e1f01566ad6857b30bc8db3ee6c32",
+          "offset": 0.09,
+          "gain": 0.22,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.12,
+          "gain": 0.3,
+          "pitch": 1.5
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.3,
+          "gain": 0.24,
+          "pitch": 2
+        }
+      ]
+    },
+    {
+      "id": "level",
+      "file": "level.mp3",
+      "seconds": 1.75,
+      "bytes": 43301,
+      "sha256": "22c9ef4d3a395cc1859a13917b037ff124cfc851fed60a5931c82ea9fe4b792a",
+      "decodedPeak": 0.5432885885238647,
+      "decodedRms": 0.06784868240356445,
+      "parts": [
+        {
+          "pack": "impact",
+          "file": "impactPlate_heavy_000.ogg",
+          "sourceSha256": "112d4f93ddcc370b410630f971c0f5d991856102da9c76bc5c5540d388e75aaa",
+          "offset": 0,
+          "gain": 0.18,
+          "pitch": 0.9
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.07,
+          "gain": 0.34,
+          "pitch": 0.75
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.24,
+          "gain": 0.38,
+          "pitch": 1
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.41,
+          "gain": 0.32,
+          "pitch": 1.25
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.58,
+          "gain": 0.31,
+          "pitch": 1.5
+        },
+        {
+          "pack": "impact",
+          "file": "impactBell_heavy_000.ogg",
+          "sourceSha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+          "offset": 0.82,
+          "gain": 0.24,
+          "pitch": 2
+        }
+      ]
+    }
+  ]
+}

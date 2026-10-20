@@ -3,6 +3,7 @@ import {clock,lockCharacters,materialize,stateFrom,type CharacterState,type Game
 import {alpha,areRivals} from './alpha-rules.js';
 import {community} from './community-rules.js';
 import {GameError} from './errors.js';
+import {propertyName} from './property-presentation.js';
 
 export function ownedProperties(state:CharacterState){
   // Sum saved holding rates, not today's catalog rates. Legacy purchases retain
@@ -10,7 +11,7 @@ export function ownedProperties(state:CharacterState){
   const groups=new Map<string,{id:string;name:string;quantity:number;grossIncome:number;upkeep:number;illustration?:{atlas:string;row:number;column:number};art:string}>();
   for(const holding of state.land.holdings){
     const catalog=alpha.properties.find(p=>p.id===holding.propertyId),old=groups.get(holding.propertyId);
-    const entry=old??{id:holding.propertyId,name:holding.name,quantity:0,grossIncome:0,upkeep:0,illustration:catalog?.illustration,art:catalog?.art??'fields'};
+    const entry=old??{id:holding.propertyId,name:propertyName(holding.propertyId,holding.name),quantity:0,grossIncome:0,upkeep:0,illustration:catalog?.illustration,art:catalog?.art??'fields'};
     entry.quantity+=holding.quantity;entry.grossIncome+=holding.hourlyIncome;entry.upkeep+=holding.hourlyUpkeep;groups.set(holding.propertyId,entry);
   }
   return [...groups.values()].sort((a,b)=>a.grossIncome-b.grossIncome||a.name.localeCompare(b.name));

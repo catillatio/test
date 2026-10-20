@@ -1,146 +1,187 @@
 {
-  "version": "phase47-1",
-  "origin": "Original deterministic synthesis, scripts/create-audio.py. No sampled recordings or copied game audio.",
+  "version": "phase49-orchestral-1",
+  "origin": "Four owner-approved recorded-orchestra cues; other individual Phase 4.7 original action assets retained unchanged.",
+  "ownerApproval": "https://github.com/catillatio/test/pull/12#issuecomment-6303697572",
+  "approvedSourceCommit": "087e1a8530f8e683a2a97dac938e22005c2663c3",
+  "sourceManifest": "orchestral-sources.json",
+  "sourceManifestSha256": "766f00c255eeb0292f9c2fbe84a3e71f9ce528fc63b9b717d345190937f14361",
+  "sourceScoreSha256": "2f01f65f5a01565390a3871274885acd81edf4ca8347000d43109e9004150fe3",
+  "packaging": "scripts/adopt-orchestral-phase49.py; full approved masters, no musical edits; stereo AAC at 48 kHz / 128 kbit/s; 90 ms sprite gaps.",
   "sounds": [
     {
       "id": "click",
       "file": "click.m4a",
-      "seconds": 0.26,
+      "seconds": 0.288,
       "bytes": 3072,
       "voice": "wood",
-      "peak": 0.165,
-      "rms": 0.035,
-      "license": "CC0-1.0"
+      "peak": 0.184084,
+      "rms": 0.025531,
+      "license": "CC0-1.0",
+      "sha256": "e01bef907fe123df0b873af5877a9a0a77f573f9b83896958e61841ecc79e04d"
     },
     {
       "id": "navigate",
       "file": "navigate.m4a",
-      "seconds": 0.36,
+      "seconds": 0.384,
       "bytes": 3829,
       "voice": "pluck",
-      "peak": 0.286,
-      "rms": 0.06,
-      "license": "CC0-1.0"
+      "peak": 0.203165,
+      "rms": 0.040549,
+      "license": "CC0-1.0",
+      "sha256": "0421c56ee2b0f125a37b2cbd69c7eb7da3089e819e9690ecc82d43096e70118d"
     },
     {
       "id": "coins",
       "file": "coins.m4a",
-      "seconds": 0.68,
+      "seconds": 0.704,
       "bytes": 6157,
       "voice": "bell",
-      "peak": 0.367,
-      "rms": 0.068,
-      "license": "CC0-1.0"
+      "peak": 0.262014,
+      "rms": 0.046902,
+      "license": "CC0-1.0",
+      "sha256": "e86f7ef70b851715c671fd07999336ebdb573ea21197343c7b77fab7069adaae"
     },
     {
       "id": "spend",
       "file": "spend.m4a",
-      "seconds": 0.52,
+      "seconds": 0.544,
       "bytes": 5169,
       "voice": "bell",
-      "peak": 0.292,
-      "rms": 0.051,
-      "license": "CC0-1.0"
+      "peak": 0.210093,
+      "rms": 0.034953,
+      "license": "CC0-1.0",
+      "sha256": "1f97c68066b5b158d5c28fd8437841ca517a2953ba6c9388ccf85602a435176e"
     },
     {
       "id": "equipment",
       "file": "equipment.m4a",
-      "seconds": 0.72,
+      "seconds": 0.736,
       "bytes": 6793,
       "voice": "bell",
-      "peak": 0.381,
-      "rms": 0.075,
-      "license": "CC0-1.0"
+      "peak": 0.269449,
+      "rms": 0.053003,
+      "license": "CC0-1.0",
+      "sha256": "94767965c8eaaf2a333410fe48c50d0aec7816d28c9aa0939a24e78ebc6dff17"
     },
     {
       "id": "sale",
       "file": "sale.m4a",
-      "seconds": 0.56,
+      "seconds": 0.576,
       "bytes": 5386,
       "voice": "pluck",
-      "peak": 0.326,
-      "rms": 0.07,
-      "license": "CC0-1.0"
+      "peak": 0.225332,
+      "rms": 0.048839,
+      "license": "CC0-1.0",
+      "sha256": "f51ea7dede1bb3ee25dbc20f61faf73c9929711acb43a761abff9bd1916fd77a"
     },
     {
       "id": "land",
       "file": "land.m4a",
-      "seconds": 0.81,
+      "seconds": 0.832,
       "bytes": 7532,
       "voice": "horn",
-      "peak": 0.449,
-      "rms": 0.092,
-      "license": "CC0-1.0"
+      "peak": 0.312563,
+      "rms": 0.063885,
+      "license": "CC0-1.0",
+      "sha256": "3287e712dc7956919085f83272eabf0c46e3994277d13a2e6d3c269b505d1999"
     },
     {
       "id": "income",
       "file": "income.m4a",
-      "seconds": 0.81,
+      "seconds": 0.832,
       "bytes": 7573,
       "voice": "bell",
-      "peak": 0.422,
-      "rms": 0.082,
-      "license": "CC0-1.0"
+      "peak": 0.298287,
+      "rms": 0.057709,
+      "license": "CC0-1.0",
+      "sha256": "562ac0f71721272a5c72ab7000adcf81d02058b938e423d0e1dd70a413b4fb6e"
     },
     {
       "id": "quest",
       "file": "quest.m4a",
-      "seconds": 0.99,
-      "bytes": 8990,
-      "voice": "pluck",
-      "peak": 0.415,
-      "rms": 0.095,
-      "license": "CC0-1.0"
+      "seconds": 4.0,
+      "bytes": 65140,
+      "voice": "recorded-orchestra",
+      "peak": 0.6047,
+      "rms": 0.064065,
+      "license": "CC0-1.0",
+      "sha256": "0c0b0c595106d62eedc58326dc3715fba859737c68fdabadef3fd5be398da83e",
+      "sourceMaster": "quest.flac",
+      "sourceMasterSha256": "afb75b8121c34417c7174c9ce08f53acb6c3686790ce05044f10c3d04ab36a9c",
+      "approvedMp3Sha256": "930e2f141ce1bc51e0dc89664c469ff145e050f62a7e3a75cfb372f0efbc28d3",
+      "ownerApproval": "https://github.com/catillatio/test/pull/12#issuecomment-6303697572"
     },
     {
       "id": "victory",
       "file": "victory.m4a",
-      "seconds": 1.11,
-      "bytes": 9966,
-      "voice": "horn",
-      "peak": 0.496,
-      "rms": 0.103,
-      "license": "CC0-1.0"
+      "seconds": 3.9,
+      "bytes": 60198,
+      "voice": "recorded-orchestra",
+      "peak": 0.321907,
+      "rms": 0.056116,
+      "license": "CC0-1.0",
+      "sha256": "fdacc3b7963cf80381ceb94ae96c2bbdb476905826a30b82f4fd38beddfd9b7b",
+      "sourceMaster": "victory.flac",
+      "sourceMasterSha256": "62f033c69b85961386bf286de96ac001a12e1706d4e2a48f158ba9ae1ab6dff0",
+      "approvedMp3Sha256": "41bb1209afe549eb36e2f90ba21107f4fb4591b91d93fddf22bb4f28b9882b5a",
+      "ownerApproval": "https://github.com/catillatio/test/pull/12#issuecomment-6303697572"
     },
     {
       "id": "decisive",
       "file": "decisive.m4a",
-      "seconds": 1.24,
-      "bytes": 10942,
-      "voice": "horn",
-      "peak": 0.517,
-      "rms": 0.093,
-      "license": "CC0-1.0"
+      "seconds": 3.9,
+      "bytes": 60198,
+      "voice": "recorded-orchestra",
+      "peak": 0.321907,
+      "rms": 0.056116,
+      "license": "CC0-1.0",
+      "sha256": "fdacc3b7963cf80381ceb94ae96c2bbdb476905826a30b82f4fd38beddfd9b7b",
+      "sourceMaster": "victory.flac",
+      "sourceMasterSha256": "62f033c69b85961386bf286de96ac001a12e1706d4e2a48f158ba9ae1ab6dff0",
+      "approvedMp3Sha256": "41bb1209afe549eb36e2f90ba21107f4fb4591b91d93fddf22bb4f28b9882b5a",
+      "ownerApproval": "https://github.com/catillatio/test/pull/12#issuecomment-6303697572",
+      "aliasOf": "victory"
     },
     {
       "id": "defeat",
       "file": "defeat.m4a",
-      "seconds": 0.81,
-      "bytes": 7326,
-      "voice": "horn",
-      "peak": 0.272,
-      "rms": 0.055,
-      "license": "CC0-1.0"
+      "seconds": 3.9,
+      "bytes": 59925,
+      "voice": "recorded-orchestra",
+      "peak": 0.307858,
+      "rms": 0.0651,
+      "license": "CC0-1.0",
+      "sha256": "1caed90386d2b33cc3db6d1d29170a29768821d6e485621a77dafa38adaac39f",
+      "sourceMaster": "defeat.flac",
+      "sourceMasterSha256": "5ffa47de54c82a2db06626e77381925162f29d0e67138ac38dd56f2911cf0e28",
+      "approvedMp3Sha256": "691bb8c66b3267f4c0a799dce3c165c685b1243e59b7ccb78f77835b8b7ef46d",
+      "ownerApproval": "https://github.com/catillatio/test/pull/12#issuecomment-6303697572"
     },
     {
       "id": "level",
       "file": "level.m4a",
-      "seconds": 1.51,
-      "bytes": 13193,
-      "voice": "horn",
-      "peak": 0.524,
-      "rms": 0.118,
-      "license": "CC0-1.0"
+      "seconds": 5.3,
+      "bytes": 74438,
+      "voice": "recorded-orchestra",
+      "peak": 0.346155,
+      "rms": 0.055876,
+      "license": "CC0-1.0",
+      "sha256": "87f0c9daf15ed15fc27594a8d1063ef3450a685e1bd03cfee58a43d121fefa2e",
+      "sourceMaster": "level.flac",
+      "sourceMasterSha256": "e511c6e6d4bef141d902f6a41d94e639367d68ed377928246f5d34e520df2e38",
+      "approvedMp3Sha256": "ed4692bf13d743581516051cb33b54c7137cfc5184d390bb3336bc330ec62d30",
+      "ownerApproval": "https://github.com/catillatio/test/pull/12#issuecomment-6303697572"
     },
     {
       "id": "achievement",
       "file": "achievement.m4a",
-      "seconds": 1.18,
+      "seconds": 1.184,
       "bytes": 10591,
       "voice": "bell",
-      "peak": 0.456,
-      "rms": 0.079,
-      "license": "CC0-1.0"
+      "peak": 0.319698,
+      "rms": 0.056093,
+      "license": "CC0-1.0",
+      "sha256": "fb75f0e887d5b61478f6bb5dfb7bdcf6b78d3dc7e397013d811b267c38addd10"
     },
     {
       "id": "healing",
@@ -148,9 +189,10 @@
       "seconds": 0.96,
       "bytes": 8871,
       "voice": "air",
-      "peak": 0.338,
-      "rms": 0.061,
-      "license": "CC0-1.0"
+      "peak": 0.238151,
+      "rms": 0.043356,
+      "license": "CC0-1.0",
+      "sha256": "e6bceb8d0346b977153677969bf27371b42673111c453aec31f7659168d67eda"
     },
     {
       "id": "bounty",
@@ -158,39 +200,56 @@
       "seconds": 1.28,
       "bytes": 11254,
       "voice": "horn",
-      "peak": 0.517,
-      "rms": 0.107,
-      "license": "CC0-1.0"
+      "peak": 0.368159,
+      "rms": 0.075999,
+      "license": "CC0-1.0",
+      "sha256": "7963978d0158fd699998f58cca824118fd752b3f9674e61bfb98ebe4fa265346"
     },
     {
       "id": "alliance",
       "file": "alliance.m4a",
-      "seconds": 0.88,
+      "seconds": 0.896,
       "bytes": 8086,
       "voice": "pluck",
-      "peak": 0.415,
-      "rms": 0.083,
-      "license": "CC0-1.0"
+      "peak": 0.292631,
+      "rms": 0.058348,
+      "license": "CC0-1.0",
+      "sha256": "aaaa2936e41aca3e23363b7dc7d2617a23f3bc2da860d519d1c4c6ba73f3ba6e"
     },
     {
       "id": "error",
       "file": "error.m4a",
-      "seconds": 0.37,
+      "seconds": 0.384,
       "bytes": 3920,
       "voice": "wood",
-      "peak": 0.16,
-      "rms": 0.033,
-      "license": "CC0-1.0"
+      "peak": 0.112665,
+      "rms": 0.023353,
+      "license": "CC0-1.0",
+      "sha256": "7a8fa2b279c7366af88342ed0e2fe1cc1a79a6915db5703960b0aeddd18062f8"
     },
     {
       "id": "tutorial",
       "file": "tutorial.m4a",
-      "seconds": 1.34,
+      "seconds": 1.344,
       "bytes": 11933,
       "voice": "bell",
-      "peak": 0.483,
-      "rms": 0.085,
-      "license": "CC0-1.0"
+      "peak": 0.342699,
+      "rms": 0.060186,
+      "license": "CC0-1.0",
+      "sha256": "c686827b486503eb9d72c79c4172dd773708f1fbfe3197224ef40e8b676e1157"
     }
-  ]
+  ],
+  "sprite": {
+    "file": "realm.m4a",
+    "bytes": 441263,
+    "sha256": "02030c03acd9b87fb8859cb14daaa18726cafccf8d12fcb816e94420d189a947",
+    "seconds": 29.664
+  },
+  "silentEvents": [
+    "click",
+    "navigate"
+  ],
+  "aliases": {
+    "decisive": "victory"
+  }
 }

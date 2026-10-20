@@ -1,0 +1,224 @@
+{
+  "scope": "Phase 4.9 final alpha candidate after owner comment 6303697572; local/synthetic verification only",
+  "verifiedAt": "2026-10-20T23:26:16.420Z",
+  "branch": "feature/kingdom-come-phase-4-9-bot-combat-rewards",
+  "ownerApprovedSource": "087e1a8530f8e683a2a97dac938e22005c2663c3",
+  "productionBase": "b305fa011d9428b7e00e68a7cc38026e0bcdb256",
+  "candidateDigest": "7216b874994f9d5a2092b218eb1a7b56c59bd964d4ba2ce6b2692c8ef393762f",
+  "automated": {
+    "tests": 453,
+    "passed": 452,
+    "failed": 0,
+    "skipped": 1,
+    "cancelled": 0,
+    "durationMs": 1044999.567848,
+    "postgresql": "All gameplay/integration tests used designated local PostgreSQL 18; no PostgreSQL test skipped.",
+    "skippedTest": "real hosted-runner network namespace executes synthetic checks without production secrets",
+    "command": "TEST_DATABASE_URL=<disposable local *_test database> npm test"
+  },
+  "typeScript": "PASS",
+  "productionBuild": "PASS",
+  "static": {
+    "passed": 99,
+    "failed": 0,
+    "ejsFixtures": 77
+  },
+  "actionlint": "PASS",
+  "preservation": {
+    "passed": true,
+    "fixture": "Populated synthetic Phase 4.9 v1 plus legacy Phase 4.8 / 020 schema",
+    "tablesVerified": 66,
+    "accounts": 452,
+    "bots": 450,
+    "schemaMigrationsAdded": 0,
+    "phase48RulesetsAdded": [
+      "bot-combat-rewards-1",
+      "bot-combat-rewards-2"
+    ],
+    "rulesetsAdded": [
+      "bot-combat-rewards-2"
+    ],
+    "retainedRulesets": [
+      "bot-combat-rewards-1"
+    ],
+    "businessRowsChanged": 0,
+    "historicalReceiptReplayedUnchanged": true,
+    "fullXpV1ReceiptReplayedUnchanged": true,
+    "savedSessionSurvived": true,
+    "productionContacted": false
+  },
+  "audio": {
+    "version": "phase49-orchestral-1",
+    "spriteBytes": 441263,
+    "fullApprovedCueLengthsPreserved": true,
+    "decisiveAlias": "victory",
+    "meaningfulEventPriorityUnchanged": true,
+    "routineNavigationAndButtonsSilent": true,
+    "byteReproducible": true,
+    "measurements": [
+      {
+        "cue": "victory",
+        "aacIntegratedLUFS": -20.07,
+        "aacTruePeakDBTP": -9.83
+      },
+      {
+        "cue": "defeat",
+        "aacIntegratedLUFS": -20.02,
+        "aacTruePeakDBTP": -10.23
+      },
+      {
+        "cue": "quest",
+        "aacIntegratedLUFS": -20.1,
+        "aacTruePeakDBTP": -4.37
+      },
+      {
+        "cue": "level",
+        "aacIntegratedLUFS": -20.08,
+        "aacTruePeakDBTP": -9.21
+      }
+    ]
+  },
+  "browsers": {
+    "audioRecoveryResponsiveVisits": 64,
+    "marketplaceResponsiveVisits": 56,
+    "rewardReceiptVisits": 9,
+    "uiScreenshotCount": 19,
+    "propertyScreenshotCount": 16,
+    "viewports": [
+      320,
+      360,
+      375,
+      390,
+      393,
+      412,
+      430,
+      1366
+    ],
+    "physicalDevicesVerified": false
+  },
+  "gameContainer": {
+    "checks": 21,
+    "publicPorts": false,
+    "backupBytes": 950286
+  },
+  "independentRecovery": {
+    "passed": true,
+    "checks": 15,
+    "existingTablesVerified": 64,
+    "accounts": 452,
+    "bots": 450,
+    "publicPorts": false,
+    "liveProviderContacted": false
+  },
+  "compiledRestart": {
+    "passed": true,
+    "summary": "PASS: compiled server restarted; lifetime standings, rivalry totals, tutorial cursor/completion, achievement earned dates, tutorial progress, region filter, Vault, PvP sequence, sessions, progression, inventory, Land, Calling, funded bounty, comments, broadcasts, invitation codes, pending allies and both players’ private battle access survived. A second process restart settled exactly three offline shared cycles, and repeated reads paid nothing twice. A passive rival also received exactly three offline property periods after restart, with unchanged Vault savings and no duplicate payment on repeated profile views.",
+    "missedHumanIncomePeriods": 3,
+    "missedBotIncomePeriods": 3,
+    "duplicatePayments": false,
+    "productionContacted": false
+  },
+  "dependencyAudits": {
+    "game": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 102,
+        "dev": 35,
+        "optional": 41,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 150
+      }
+    },
+    "release": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 28,
+        "dev": 0,
+        "optional": 0,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 27
+      }
+    },
+    "all": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 102,
+        "dev": 35,
+        "optional": 41,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 150
+      }
+    }
+  },
+  "safetyAudit": "change-audit.json",
+  "githubCi": "See PR checks for the pushed head; exact resulting release/production push CI remains mandatory after a separately authorized merge.",
+  "initialFixtureAttempts": {
+    "excludedFromPassTotals": true,
+    "bootstrapTimeoutAttempts": 1,
+    "postgresReadinessFailures": 2,
+    "guardsOrTimeoutsWeakened": false,
+    "completedGameContainerAndRecoveryReruns": true
+  },
+  "ownerScope": {
+    "audioApprovedForAlpha": true,
+    "grayCleanupClosedByOwnerReport": true,
+    "usernameCorrectionWithdrawn": true,
+    "pr13DraftUntouched": true,
+    "levelExpansion": false,
+    "broaderCosmeticChangesDeferred": true
+  },
+  "codeBlockers": [],
+  "alphaLimitations": [
+    "Physical Android/iPhone Safari, speakers/headphones, hardware mute and real OS suspension need owner device checks.",
+    "Provisional 40% repeat floor and long-term multi-account progression require controlled-alpha observation.",
+    "Professional audio refinement and broader tutorial/result cosmetics deferred."
+  ],
+  "pendingProductionGates": [
+    "Explicit owner merge and promotion authorization",
+    "Successful exact production-merge commit push CI",
+    "Existing production credentials/settings/autodeploy/private-network configuration confirmed through established release gates",
+    "Protected owner approval, fresh encrypted backup/independent restored copy/retained artifact verification and exact candidate signed proof",
+    "Live health/private aggregate/login-page verification and owner authenticated smoke test"
+  ],
+  "productionContacted": false,
+  "merged": false,
+  "deployed": false,
+  "evidence": {
+    "preservation": "preservation.json",
+    "ui": "ui.json",
+    "propertyScreens": "propertyScreens.json",
+    "rewardScreens": "rewardScreens.json",
+    "audio": "audio.json",
+    "audioReproduction": "audioReproduction.json",
+    "audioLoudness": "audioLoudness.json",
+    "audioRecoveryBrowser": "audioRecoveryBrowser.json",
+    "marketplaceBrowser": "marketplaceBrowser.json",
+    "gameContainer": "gameContainer.json",
+    "independentRecovery": "independentRecovery.json",
+    "static": "static.json"
+  }
+}
