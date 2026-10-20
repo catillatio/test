@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {alpha,levelRequirement} from '../src/alpha-rules.js';
-import {botCombat,botVictoryRewards} from '../src/bot-combat-rules.js';
+import {botCombat,previousBotCombat,botVictoryRewards} from '../src/bot-combat-rules.js';
 import {battleRewardNotes} from '../src/battle-reward-notes.js';
 import {victoryLoot45} from '../src/gameplay-rules.js';
 import {victoryExperience47} from '../src/game-feel-rules.js';
@@ -12,11 +12,12 @@ import {realm,testDatabaseUrl} from './helpers.js';
 const skip=!testDatabaseUrl;
 const xpFor=(level:number)=>Array.from({length:level-1},(_,i)=>levelRequirement(i+1)).reduce((s,x)=>s+x,0);
 
-test('bot policy preserves first rewards, applies its ceiling before pair reductions and floors both awards',()=>{
+test('bot v2 preserves gold, scales difficulty XP to 65% before pair reductions and floors both awards',()=>{
  for(const level of [1,8,17,25,40,50])for(const gold of [0,20,33,34,300,5946,100000,2147483647]){
   const first=botVictoryRewards(gold,level,level,1,100,100);
   assert.equal(first.loot.amount,victoryLoot45(gold,1,true,true,level).amount);
-  assert.equal(first.xp.amount,victoryExperience47(level,level).amount);
+  assert.equal(first.xp.amount,Math.max(1,Math.floor(victoryExperience47(level,level).amount*.65)));
+  assert.equal(first.xp.unreducedAmount,victoryExperience47(level,level).amount);assert.equal(first.xp.fullXpPercent,65);assert.equal(first.xp.scaledFullAmount,first.xp.amount);
   for(const n of [2,3,4,5,6,100]){const r=botVictoryRewards(gold,level,level,n,100,100),m=[100,85,70,55,40][Math.min(n-1,4)]!;
    assert.equal(r.loot.amount,Math.floor(first.loot.amount*m/100));assert.equal(r.xp.amount,Math.max(1,Math.floor(first.xp.amount*m/100)));
    assert.ok(r.loot.amount<=gold);assert.equal(r.loot.multiplier,m);assert.equal(r.xp.rulesetId,botCombat.id);
@@ -26,11 +27,11 @@ test('bot policy preserves first rewards, applies its ceiling before pair reduct
  for(const n of [0,-1,1.1,NaN,Number.MAX_SAFE_INTEGER+1])assert.throws(()=>botVictoryRewards(100,17,17,n,100,100),RangeError);
 });
 test('empty wallets do not suppress difficulty XP, and trivial victories never gain XP for looking decisive',()=>{
- assert.equal(botVictoryRewards(0,25,25,1,100,100).xp.amount,105);
+ assert.equal(botVictoryRewards(0,25,25,1,100,100).xp.amount,68);
  assert.equal(botVictoryRewards(100000,25,25,1,100,34).xp.amount,1);
- assert.equal(botVictoryRewards(100000,25,25,1,100,35).xp.amount,52);
+ assert.equal(botVictoryRewards(100000,25,25,1,100,35).xp.amount,33);
  assert.deepEqual(botVictoryRewards(1000,17,17,2,100,34).xp.reductionReasons,['repeat_opponent','overwhelming_advantage']);
- assert.equal(botVictoryRewards(1000,25,29,1,100,80).xp.amount,117);
+ assert.equal(botVictoryRewards(1000,25,29,1,100,80).xp.amount,76);
  // The original human formulas and sequence are preserved.
  assert.deepEqual([1,2,3,4,5].map(n=>victoryLoot45(100000,n).multiplier),[100,75,50,25,10]);
  assert.equal(victoryExperience47(17,17,false).amount,1);
@@ -38,6 +39,7 @@ test('empty wallets do not suppress difficulty XP, and trivial victories never g
 test('report notes distinguish repeat, low strength and purse poverty without internal calculations',()=>{
  const base={botRewardEligibilityPolicy:botCombat.id,outcome:'attacker_win',loot:20,lootDetails:{multiplier:100},xpDetails:{trivial:false}};
  assert.deepEqual(battleRewardNotes(base,true),[]);
+ assert.deepEqual(battleRewardNotes({...base,botRewardEligibilityPolicy:previousBotCombat.id,lootDetails:{multiplier:85}},true),['Reduced rewards from repeated battles with this rival.']);
  assert.deepEqual(battleRewardNotes({...base,xpDetails:{trivial:true}},true),['Less experience against a much weaker opponent.']);
  assert.deepEqual(battleRewardNotes({...base,lootDetails:{multiplier:85}},true),['Reduced rewards from repeated battles with this rival.']);
  assert.equal(battleRewardNotes({...base,loot:0,lootDetails:{multiplier:40},xpDetails:{trivial:true}},true).length,3);
@@ -69,6 +71,7 @@ test('more than six different meaningful rivals pay, repeated XP/gold match snap
   }
   const records=[];for(const bot of candidates.slice(0,9)){const h=await hit(bot.id);assert.ok(h.b.loot>0);assert.ok(h.b.attackerXp>1);assert.equal(h.b.lootDetails.multiplier,100);records.push(h);}
   const target=candidates[0]!.id;await r.db.query('UPDATE characters SET health=1000,max_health=1000 WHERE id=$1',[target]);
+  await r.db.query('UPDATE pvp_loot_sequences SET ruleset_id=$3 WHERE attacker_id=$1 AND defender_id=$2',[a.id,target,previousBotCombat.id]);
   for(const m of [85,70,55,40,40,40])assert.equal((await hit(target)).b.lootDetails.multiplier,m);
   await r.db.query("UPDATE characters SET name='Renamed Rival' WHERE id=$1",[target]);
   now=new Date('2049-01-01T23:59:59.999Z');assert.equal((await hit(target)).b.lootDetails.multiplier,40);

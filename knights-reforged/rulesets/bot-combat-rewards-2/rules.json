@@ -1,0 +1,12 @@
+{
+  "id": "bot-combat-rewards-2",
+  "provenance": "Phase 4.9 owner-selected 65% bot combat XP development balance. Gold and the provisional repeat floor are unchanged from bot-combat-rewards-1. No shared daily or one-win-per-target cutoff.",
+  "baseGoldRuleset": "gameplay-refinement-1",
+  "baseXpRuleset": "game-feel-1",
+  "windowSeconds": 86400,
+  "victoryPercentages": [100, 85, 70, 55, 40],
+  "fullXpPercent": 65,
+  "provisionalRepeatFloor": true,
+  "rounding": "Gold is unchanged: floor after the existing bot ceiling and pair percentage. XP: max(1, floor(full difficulty XP * 65 / 100)), then max(1, floor(scaled full XP * pair percentage / 100)).",
+  "history": "Use the existing persistent ordered-pair victory sequence. Losses and retries do not advance it. Never recalculate historical receipts or reset existing sequences. Retain bot-combat-rewards-1 unchanged."
+}

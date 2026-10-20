@@ -1,43 +1,84 @@
 {
-  "scope": "Development branch only; no production operations",
+  "scope": "Development balancing checkpoint only; no production operations or infrastructure changes",
   "base": "b305fa011d9428b7e00e68a7cc38026e0bcdb256",
-  "policy": "bot-combat-rewards-1",
+  "previousCheckpoint": "c1e7e787e5f3e1a604b620680ccef60089b7ef3e",
+  "policy": "bot-combat-rewards-2",
+  "retainedPolicy": "bot-combat-rewards-1",
+  "botFullXpPercent": 65,
   "provisionalRepeatFloor": true,
   "fullLocalSuite": {
-    "tests": 441,
-    "passed": 440,
+    "tests": 444,
+    "passed": 443,
     "failed": 0,
     "skipped": 1,
-    "skippedTest": "real hosted-runner network namespace executes synthetic checks without production secrets; requires GitHub-hosted runner"
+    "durationMs": 609152.205463,
+    "command": "TEST_DATABASE_URL=<designated disposable local database> npm test",
+    "skippedTest": "real hosted-runner network namespace executes synthetic checks without production secrets; requires GitHub-hosted runner",
+    "interruptedEarlierAttemptsExcluded": true
   },
   "static": {
-    "checksPassed": 96,
+    "checksPassed": 97,
     "failed": 0,
-    "productionEjsFixtures": 75
+    "productionEjsFixtures": 76
   },
   "typeScript": "PASS",
   "productionBuild": "PASS",
   "populatedPreservation": {
     "passed": true,
-    "fixture": "Populated synthetic Phase 4.8 / 020 schema",
+    "fixture": "Populated synthetic Phase 4.9 v1 plus legacy Phase 4.8 / 020 schema",
     "tablesVerified": 66,
     "accounts": 452,
     "bots": 450,
     "schemaMigrationsAdded": 0,
+    "phase48RulesetsAdded": [
+      "bot-combat-rewards-1",
+      "bot-combat-rewards-2"
+    ],
     "rulesetsAdded": [
+      "bot-combat-rewards-2"
+    ],
+    "retainedRulesets": [
       "bot-combat-rewards-1"
     ],
     "businessRowsChanged": 0,
     "historicalReceiptReplayedUnchanged": true,
+    "fullXpV1ReceiptReplayedUnchanged": true,
     "savedSessionSurvived": true,
     "productionContacted": false
   },
   "simulations": {
-    "cases": 66,
+    "cases": 216,
+    "seeds": [
+      4901,
+      4919,
+      4927
+    ],
+    "botXpPercentCandidates": [
+      100,
+      65,
+      40
+    ],
+    "startingLevels": [
+      5,
+      8,
+      10,
+      17,
+      25,
+      40,
+      50
+    ],
+    "schedules": [
+      "6 sustained hours",
+      "1 hour daily for 14 days",
+      "2 hours daily for 14 days"
+    ],
+    "sameRivalAndSharedMultiAccountCases": 18,
     "allConserved": true,
     "protectedVaultUnchanged": true,
+    "exactSpiritBudgetAllCases": true,
+    "economicSourcesChanged": false,
     "actualCombatAndRecoveryHelpers": true,
-    "sourcesChanged": false
+    "report": "xp-comparison.json"
   },
   "browser": {
     "passed": true,
@@ -60,33 +101,8 @@
     ],
     "productionContacted": false
   },
-  "existingMarketBrowser": {
-    "passed": true,
-    "checks": [
-      "Single-item purchase submits once, spends the catalog price, and receipt refresh awards nothing.",
-      "Bulk intent survives simulated three-hour idle, online/visibility events and reload; lost committed response retries one receipt without another charge.",
-      "Gold Flow can be opened and closed with the keyboard; its compact state shows at least four complete property rows at 390px.",
-      "Land buy, Return to Land, bulk sale, exact authoritative refund and expandable income accounting work.",
-      "Expired session preserves the focused bulk screen and quantity; no purchase POST is sent.",
-      "56 responsive visits, 44px trade buttons, five tabs, no horizontal overflow, no JavaScript errors, and no APK-derived asset requests."
-    ],
-    "measurements": [
-      {
-        "path": "/game/armory",
-        "rowHeight": 98,
-        "fullyVisible": 5,
-        "headerHeight": 94
-      },
-      {
-        "path": "/game/land",
-        "rowHeight": 98,
-        "fullyVisible": 3,
-        "headerHeight": 94
-      }
-    ]
-  },
-  "npmAudit": {
-    "game": {
+  "dependencyAudits": {
+    "allGameDependencies": {
       "info": 0,
       "low": 0,
       "moderate": 0,
@@ -94,7 +110,15 @@
       "critical": 0,
       "total": 0
     },
-    "releaseController": {
+    "productionGameDependencies": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "productionReleaseWorkerDependencies": {
       "info": 0,
       "low": 0,
       "moderate": 0,
@@ -103,29 +127,45 @@
       "total": 0
     }
   },
-  "unchangedPaths": [
+  "protectedPathsUnchangedFromPreviousCheckpoint": [
     ".github",
     "knights-reforged/deployment",
     "knights-reforged/migrations",
-    "knights-reforged/public",
-    "knights-reforged/Dockerfile",
-    "knights-reforged/railway.json",
-    "knights-reforged/package-lock.json",
-    "knights-reforged/src/auth.ts",
-    "knights-reforged/src/bot-income.ts",
-    "knights-reforged/src/bot-finance.ts",
+    "knights-reforged/src/commands.ts",
     "knights-reforged/src/development.ts",
     "knights-reforged/src/gameplay-rules.ts",
-    "knights-reforged/src/game-feel-rules.ts"
+    "knights-reforged/src/game-feel-rules.ts",
+    "knights-reforged/rulesets/bot-combat-rewards-1",
+    "knights-reforged/rulesets/gameplay-refinement-1",
+    "knights-reforged/rulesets/game-feel-1",
+    "knights-reforged/public/audio",
+    "knights-reforged/public/art"
   ],
-  "incomeTestCorrection": "The first full run failed only a processed-row count assumption (475 visits versus 450 bots). The updated assertion proves unique 72-hour payments per holding and exact per-bot wallet/reserve conservation; runtime income code unchanged. The final full run passed.",
+  "broadcasts": {
+    "requiredReleaseItem": true,
+    "authorsRequested": [
+      "Gray",
+      "Development Night"
+    ],
+    "recordsIdentified": false,
+    "recordsHidden": false,
+    "liveFeedVerified": false,
+    "ownerOperatorShellAvailable": false,
+    "productionAccessConfiguredHere": false,
+    "existingProtectedBroadcastWorkflow": false,
+    "operatorProposalImplemented": false,
+    "githubEnvironmentMetadataReadOnlyReviewed": {
+      "name": "Production",
+      "requiredReviewerCount": 1,
+      "allowedBranch": "release/production"
+    },
+    "secretMetadata": "UNVERIFIED: integration has no environment-secret metadata permission",
+    "instructions": "BROADCAST_REVIEW.md",
+    "operatorInvestigation": "OPERATOR_INSPECTION_OPTIONS.md"
+  },
+  "remainingRequirements": "BACKLOG.md",
+  "hostedCI": "Tracked by draft PR #12 after push; not claimed passed by these local results",
   "productionContacted": false,
   "merged": false,
-  "deployed": false,
-  "limitations": [
-    "40% floor and faster sustained progression require owner gameplay review.",
-    "Responsive Chromium is not physical Android/iPhone Safari certification.",
-    "No live Railway snapshot was used.",
-    "GitHub-hosted namespace test is skipped locally."
-  ]
+  "deployed": false
 }

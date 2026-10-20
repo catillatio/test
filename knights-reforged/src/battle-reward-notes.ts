@@ -6,7 +6,7 @@ interface RewardSummary {
 // Historical/human repetition summaries stay compatible. Where recorded, weak
 // opponent XP is explained separately; no current inventory or hidden numbers.
 export function battleRewardNotes(battle:RewardSummary,viewerAttacking:boolean){
- if(battle.botRewardEligibilityPolicy==='bot-combat-rewards-1'){
+ if(battle.botRewardEligibilityPolicy==='bot-combat-rewards-1'||battle.botRewardEligibilityPolicy==='bot-combat-rewards-2'){
   if(!viewerAttacking||battle.outcome!=='attacker_win')return [];
   const notes:string[]=[];
   if((battle.lootDetails?.multiplier??100)<100)notes.push('Reduced rewards from repeated battles with this rival.');

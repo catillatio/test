@@ -54,7 +54,7 @@ test('actual poor, wealthy, high-bot and concurrent victories transfer only expo
   assert.ok(attacker.attack*90>target.defense*110);
   const vault=target.bankedGold,hit=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot.id}),report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[hit.battleId])).rows[0]!.result;
   assert.equal(report.outcome,'attacker_win');assert.equal(report.loot,victoryLoot45(target.gold,1,true,true,29).amount);
-  assert.equal(report.attackerXp,victoryExperience45(25,29,true,attacker.attack,target.defense).amount);
+  assert.equal(report.attackerXp,botVictoryRewards(target.gold,25,29,1,attacker.attack,target.defense).xp.amount);
   const after=await getState(r.db,bot.account_id);assert.equal(after.gold,target.gold-report.loot);assert.equal(after.bankedGold,vault);
   examples.push({case:'level25-versus-level29-bot',attackerLevel:25,defenderLevel:29,before:target.gold,stolen:report.loot,remaining:after.gold,xp:report.attackerXp,loot:report.lootDetails,xpDetails:report.xpDetails});
   // Viewing, an obsolete daily-refresh marker and repeat attacks cannot refill gold.

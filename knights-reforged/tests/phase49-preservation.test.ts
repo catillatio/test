@@ -11,9 +11,11 @@ import {syncExperience} from '../src/experience.js';
 import {executeCommand} from '../src/commands.js';
 import {createApp} from '../src/app.js';
 import {loadConfig} from '../src/config.js';
-import {botCombat} from '../src/bot-combat-rules.js';
+import {botCombat,previousBotCombat} from '../src/bot-combat-rules.js';
+import {victoryExperience47} from '../src/game-feel-rules.js';
+import {ledger} from '../src/economy.js';
 
-test('populated Phase 4.8 upgrade adds only one immutable ruleset, retaining all 450 bots, old zero-reward receipts, finance and sessions',{skip:!testDatabaseUrl},async()=>{
+test('populated Phase 4.9 v1 upgrade retains 450 bots, v1 and legacy receipts, pair windows, finance and sessions byte-for-byte',{skip:!testDatabaseUrl},async()=>{
  const now=new Date('2049-03-01T00:00:00Z'),r=await realm({isolated:true,developmentBotsEnabled:true,clock:()=>now});try{
   const a=await r.player('Existing Alpha Ruler'),b=await r.player('Existing Alpha Neighbor');
   for(const p of[a,b]){await r.prepare(p,20000,30);for(let i=0;i<5;i++)await r.ok(p,'/api/v1/quests/border-patrol/runs');}
@@ -34,8 +36,24 @@ test('populated Phase 4.8 upgrade adds only one immutable ruleset, retaining all
    await sql.query('INSERT INTO pvp_loot_sequences(attacker_id,defender_id,window_started_at,victories,ruleset_id) VALUES($1,$2,$3,7,$4)',[a.id,target,now,'gameplay-refinement-1']);
    await syncExperience(sql,a.id,now,'gameplay');
   });
+  // Also exercise the actual Phase 4.8 registry shape, before either bot policy
+  // was installed. This branch must register both without touching old data.
+  await r.db.query('DELETE FROM rulesets WHERE id=ANY($1::text[])',[[previousBotCombat.id,botCombat.id]]);
+  const phase48Before=await snapshot();await migrate(r.db);const phase48After=await snapshot();
+  for(const [table,rows] of Object.entries(phase48Before)){if(table==='rulesets'){assert.equal(phase48After[table]!.length,rows.length+2);assert.ok(rows.every(row=>phase48After[table]!.includes(row)));}else assert.deepEqual(phase48After[table],rows,'Phase 4.8 '+table);}
+  const priorKey=randomUUID(),priorBattle=randomUUID(),priorXp=victoryExperience47(3,3).amount;
+  const priorResult={commandId:priorKey,kind:'attack',battleId:priorBattle,message:'Saved full-XP Phase 4.9 v1 victory.',data:{}};
+  await transaction(r.db,async sql=>{
+   await grantExperience(sql,a.id,priorXp,now);
+   await ledger(sql,priorKey,'battle_loot',[{characterId:target,amount:-30},{characterId:a.id,amount:30}],previousBotCombat.id);
+   await sql.query(`INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at)
+    VALUES($1,$2,$3,'alpha-0.3','attacker_win',$4,$5,true,$6)`,[priorBattle,a.id,target,{attacker:{level:3,attack:100},defender:{level:3,defense:100,gold:1000}},
+    {id:priorBattle,commandId:priorKey,outcome:'attacker_win',attackerId:a.id,defenderId:target,winnerId:a.id,attackerName:'Existing Alpha Ruler',defenderName:'Historical V1 Rival',loot:30,attackerXp:priorXp,rewarded:true,temporaryRival:true,botRewardEligibilityPolicy:previousBotCombat.id,pvpRulesetId:previousBotCombat.id,progressionRulesetId:previousBotCombat.id,lootDetails:{multiplier:100},xpDetails:{unreducedAmount:priorXp,repeatMultiplier:100,amount:priorXp,trivial:false},spiritSpent:1,attackEquipment:[],defenseEquipment:[],createdAt:now.toISOString()},now]);
+   await sql.query('INSERT INTO command_receipts(account_id,command_id,kind,intent_hash,result) VALUES($1,$2,$3,$4,$5)',[a.accountId,priorKey,'attack',createHash('sha256').update(JSON.stringify({kind:'attack',intent})).digest('hex'),priorResult]);
+   await syncExperience(sql,a.id,now,'gameplay');
+  });
   await r.me(a);await r.me(b);
-  // Reconstruct the pre-upgrade registry; no new-policy battle exists yet.
+  // Reconstruct the v1 registry; v1 and legacy battles remain immutable.
   await r.db.query('DELETE FROM rulesets WHERE id=$1',[botCombat.id]);
   await assert.rejects(assertInstalledRulesets(r.db),/not installed/);
   async function snapshot(){const out:Record<string,string[]>={};for(const {table_name:t} of(await r.db.query("SELECT table_name FROM information_schema.tables WHERE table_schema=current_schema() AND table_type='BASE TABLE' ORDER BY table_name")).rows){assert.match(t,/^[a-z_]+$/);out[t]=(await r.db.query('SELECT row_to_json(t)::text row FROM "'+t+'" t')).rows.map(x=>x.row).sort();}return out;}
@@ -45,11 +63,14 @@ test('populated Phase 4.8 upgrade adds only one immutable ruleset, retaining all
   assert.equal(after.development_bots!.length,450);assert.equal(after.accounts!.length,452);assert.ok(after.battles!.length>0);assert.ok(after.bounties!.length>0);assert.ok(after.character_achievements!.length>0);
   await migrate(r.db);assert.deepEqual(await snapshot(),after);
   assert.deepEqual(await executeCommand(r.db,a.accountId,key,'attack',intent,{developmentBotsEnabled:true}),oldResult);assert.deepEqual(await snapshot(),after);
+  assert.deepEqual(await executeCommand(r.db,a.accountId,priorKey,'attack',intent,{developmentBotsEnabled:true}),priorResult);assert.deepEqual(await snapshot(),after);
+  assert.ok(after.rulesets!.some(row=>JSON.parse(row).id===previousBotCombat.id));
   const app=await createApp({db:r.db,config:loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',ENABLE_DEV_BOTS:'1'})});
   try{const response=await app.inject({url:'/api/v1/me',headers:{cookie:a.cookie}});assert.equal(response.statusCode,200);assert.equal(response.json().state.id,a.id);assert.deepEqual(response.json().sound,{enabled:false,volume:27});
    const report=await app.inject({url:'/game/battles/'+battleId,headers:{cookie:a.cookie}});assert.equal(report.statusCode,200);assert.match(report.body,/Old Rival Name/);
+   const v1Report=await app.inject({url:'/game/battles/'+priorBattle,headers:{cookie:a.cookie}});assert.equal(v1Report.statusCode,200);assert.match(v1Report.body,/Historical V1 Rival/);assert.match(v1Report.body,new RegExp('data-reward-count="'+priorXp+'"'));
   }finally{await app.close();}
   const preserved=await snapshot();for(const table of['accounts','sessions','wallets','vault_accounts','inventory_entries','inventory_lots','land_holdings','army_stacks','development_bots','battles','bounties','bounty_events','command_receipts','character_achievements','tutorial_guides','sound_preferences','pvp_loot_sequences'])assert.deepEqual(preserved[table],after[table],table);
-  await mkdir('test-results',{recursive:true});await writeFile('test-results/phase49-preservation.json',JSON.stringify({passed:true,fixture:'Populated synthetic Phase 4.8 / 020 schema',tablesVerified:Object.keys(before).length,accounts:452,bots:450,schemaMigrationsAdded:0,rulesetsAdded:[botCombat.id],businessRowsChanged:0,historicalReceiptReplayedUnchanged:true,savedSessionSurvived:true,productionContacted:false},null,2)+'\n');
+  await mkdir('test-results',{recursive:true});await writeFile('test-results/phase49-preservation.json',JSON.stringify({passed:true,fixture:'Populated synthetic Phase 4.9 v1 plus legacy Phase 4.8 / 020 schema',tablesVerified:Object.keys(before).length,accounts:452,bots:450,schemaMigrationsAdded:0,phase48RulesetsAdded:[previousBotCombat.id,botCombat.id],rulesetsAdded:[botCombat.id],retainedRulesets:[previousBotCombat.id],businessRowsChanged:0,historicalReceiptReplayedUnchanged:true,fullXpV1ReceiptReplayedUnchanged:true,savedSessionSurvived:true,productionContacted:false},null,2)+'\n');
  }finally{await r.close();}
 });

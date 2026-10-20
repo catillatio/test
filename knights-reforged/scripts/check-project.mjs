@@ -180,6 +180,7 @@ const cases=[
  {name:'home-history',data:fixture('home',{battles:[{id:battleId,result:newBattle,created_at:now}]})},
  {name:'report-alpha',data:fixture('report')},{name:'report-previous-alpha',data:fixture('report',{battle:{...newBattle,rulesetId:'alpha-0.1'}})},{name:'report-legacy',data:fixture('report',{battle:legacyBattle})},
  {name:'report-bot-repeat',data:fixture('report',{battle:{...newBattle,outcome:'attacker_win',botRewardEligibilityPolicy:'bot-combat-rewards-1',lootDetails:{multiplier:85},xpDetails:{trivial:false}}})},
+ {name:'report-bot-v2-repeat',data:fixture('report',{battle:{...newBattle,outcome:'attacker_win',botRewardEligibilityPolicy:'bot-combat-rewards-2',lootDetails:{multiplier:85},xpDetails:{trivial:false}}})},
  {name:'report-bot-weak',data:fixture('report',{battle:{...newBattle,outcome:'attacker_win',botRewardEligibilityPolicy:'bot-combat-rewards-1',lootDetails:{multiplier:100},xpDetails:{trivial:true}}})},
  ...['auth','rules','error'].flatMap(screen=>[{name:screen+'-public',data:fixture(screen,{state:null})},...(screen==='auth'?[{name:'register',data:fixture('auth',{state:null,authMode:'register'})}]:[{name:screen+'-signed-in',data:fixture(screen)}])]),
  {name:'escaped-name',data:fixture('home',{state:{...state,name:'<img src=x onerror=1>'}})},

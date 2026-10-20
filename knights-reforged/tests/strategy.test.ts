@@ -14,6 +14,7 @@ import {createApp} from '../src/app.js';
 import {victoryExperience45,victoryLoot45} from '../src/gameplay-rules.js';
 import {victoryExperience} from '../src/progression-economy-rules.js';
 import {alpha,levelRequirement} from '../src/alpha-rules.js';
+import {botVictoryRewards} from '../src/bot-combat-rules.js';
 
 const enabled={nodeEnv:'test',allowProvisioning:true};
 const skip=!testDatabaseUrl?'Use a disposable TEST_DATABASE_URL ending in _test.':false;
@@ -89,7 +90,7 @@ test('450 passive rivals span levels 1–50 with real quantity-limited equipment
       const before=await r.me(player);const fight=await r.ok(player,'/api/v1/battles',{targetCharacterId:opponent.character_id});
       const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.result;
       assert.equal(report.outcome,'attacker_win');assert.equal(report.attackPower,Math.round(before.attack*(100+report.attackRoll)));assert.equal(report.botPopulationVersion,botCatalog.id);
-      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=victoryLoot45(1000000,1,true,true,level).botCap!);const snap=(await r.db.query('SELECT snapshot FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.snapshot;assert.equal(report.attackerXp,victoryExperience45(level,level,true,before.attack,snap.defender.defense).amount);
+      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=victoryLoot45(1000000,1,true,true,level).botCap!);const snap=(await r.db.query('SELECT snapshot FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.snapshot;assert.equal(report.attackerXp,botVictoryRewards(snap.defender.gold,level,level,1,before.attack,snap.defender.defense).xp.amount);
     }
     const unprepared=await r.player('Unprepared Challenger');await r.prepare(unprepared,1000,Array.from({length:49},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0));
     const elite=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite' AND b.variant=0")).rows[0]!;
