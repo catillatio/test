@@ -1,199 +1,307 @@
-# Targeted owner operator — preparation for review
+# Targeted owner operator — hardened draft, inactive
 
-This change prepares a private mechanism. It grants no permission to provision a Railway service, inspect production records, install audit tables or execute either correction. Those are future, separately authorized steps. Nothing in this change runs on normal game startup or deployment.
+Development and synthetic testing only. This PR grants no permission to merge,
+provision services, enable workflows, inspect production, bootstrap roles/audits,
+hide a message, restore it, or rename an account. PR #12 is independent.
 
-This branch is based on production `b305fa011d9428b7e00e68a7cc38026e0bcdb256`. It does not merge the Phase 4.9 gameplay branch or change draft PR #12.
+The existing game/release Dockerfile, start commands, migrations and protected
+release/backup/restore/promotion files are unchanged. The game schema head stays
+`020_game_feel.sql`. No initialization, seed or bot-generation path is called.
 
-## Scope and current unknowns
+## Two private service identities and two database authorities
 
-| Action | Fixed player UUID | Allowed change |
+The previous same-credential setup/runtime design is replaced:
+
+| Job | Private Railway service | Database authority |
 | --- | --- | --- |
-| Name correction | `af025047-1c77-437a-8d5a-dd51eba71840` | Exactly one reviewed field: `mosslikesbbc` → `mosslikesbb` |
-| Gray broadcast | `aff9d7b2-5044-4002-907a-60a9a273d375` | One exact matching broadcast: `visible` → `hidden` |
+| `setup-audit` | Separate empty **operator bootstrap** service | Privileged PostgreSQL bootstrap credential; setup mode only |
+| Review / apply / verify / Gray reversal | Separate empty **operator runtime** service | `kc_operator_runtime`, never the game/admin credential |
 
-Neither live target has been inspected during development. The account UUID, actual unwanted-name field, replacement availability, Gray message UUID, timestamp and current visibility remain **unverified** until an authorized review. The Gray content is compared against the exact owner-specified UTF-8 message digest, without printing it in Actions logs. No approximate age, display-name search or fuzzy content matching authorizes a write.
+Both services run the same one-shot image; the signed mode determines which
+immutable service UUID is permitted. The worker independently checks authenticated
+Railway metadata before opening PostgreSQL. A normal request sent to bootstrap,
+or a setup request sent to runtime, fails closed.
 
-The current player UI's **Reported for review** state records a report; it does not confer moderation rights or hide another author's message. This tool reuses the existing trusted moderation transaction instead of changing account permissions or turning a player report into an automatic deletion.
+`kc_operator_owner` is a separate **NOLOGIN** role owning the two audit tables and
+the guard function. The existing game schema remains owned by its privileged
+owner, never by runtime. Neither new role has superuser, replication, BYPASSRLS,
+CREATEROLE, CREATEDB or inherited memberships. Runtime has a four-connection limit,
+no schema/database CREATE, no TEMP and owns no schema, table or function.
 
-Development Knight's already-removed message is outside the action whitelist. There is no arbitrary player ID, replacement name, SQL, deletion, role-change or restore input.
+Bootstrap requires the existing `public` game schema, creates roles once and never resets an existing password. It transfers
+ownership of **only the new audit objects**. It does not transfer ownership of any
+existing game table or modify any player record. Unknown existing roles or an
+old/incompatible audit installation cause failure, never automatic adoption.
 
-## Architecture and separation
+PostgreSQL normally grants TEMP through PUBLIC. To exclude the new runtime role,
+bootstrap explicitly preserves every pre-existing role's effective TEMP privilege
+with an individual grant, then revokes PUBLIC TEMP **before creating the new
+roles**. The previous database ACL and preserved roles are recorded in the immutable
+bootstrap marker. Existing game logins retain their effective access; future new
+roles no longer inherit TEMP by default. This database-ACL change is part of the
+separately approved bootstrap, not an ordinary deployment. Unexpected PUBLIC CREATE
+or other grants that would give runtime DDL make bootstrap roll back completely.
+Do not broadly revoke unrelated production privileges to force it through.
 
-1. A manually dispatched GitHub workflow checks the exact protected production commit, sole owner identity, environment protection and successful game/operator CI.
-2. GitHub's existing protected **production** environment requires owner approval before Railway credentials and a **new, separate operator signing key** become available.
-3. The controller signs a 15-minute request for one action and one private operator service. Only that request is staged; game/release/database service variables are never changed.
-4. Railway builds a small allowlisted source bundle and runs a one-shot worker in its private network. There is no HTTP listener, public endpoint, SSH connection, migration runner or initialization command.
-5. The controller and worker independently authenticate the project/environment-scoped token and verify deployment identity through Railway's authenticated metadata API. A deployment ID alone is insufficient.
-6. A review uses an explicit PostgreSQL `REPEATABLE READ READ ONLY` transaction, without normal game reads that can settle income or advance tutorial state.
-7. Human-readable target details are encrypted in memory to the owner's existing public age recipient. Authenticated exact-deployment logs carry only an operator report frame with ciphertext, IDs and hashes. Provider output and exceptions are captured, not echoed.
-8. GitHub retains `owner-operator-<run>-<attempt>` artifacts. These are **not recovery backups**. They cannot satisfy release, migration, backup or promotion proofs.
+The bootstrap password is supplied privately as `KINGDOM_OPERATOR_RUNTIME_PASSWORD`
+(base64url, 43–128 characters), generated on a trusted machine or password manager.
+The bootstrap process generates a standard SCRAM verifier, so plaintext passwords
+never appear in credential-utility SQL, CLI arguments, artifacts or logs. The
+runtime connection is authenticated after setup; a wrong secret fails without
+resetting the database role. Neither password nor admin URL is returned in reports.
 
-The protocol domain is `kingdom-owner-operator-v1`. It imports no release protocol, store or controller. Its Ed25519 public key must differ from the release key. No release signing secret, recovery-store credential or PostgreSQL connection string is placed in the operator GitHub job. Only the existing public age recipient and public release key are reused, the latter solely to reject key reuse.
+## Effective runtime grants and audit verification
 
-The existing production concurrency group is shared to prevent operator/release overlap; release files and behavior are unchanged. Requests expire and the service must use **Never** restart with one replica, no cron, no automatic source deployment and no public networking.
-
-## One-time setup — only after separate owner authorization
-
-Do not perform this setup merely because the development PR exists. Review the PR and synthetic test evidence first. Neither this guide nor a passing CI run authorizes a merge, service creation or production database access.
-
-### GitHub, including Android web UI
-
-After an explicitly authorized merge to `release/production`:
-
-1. In the repository web UI, open **Settings → Environments → production**. Retain sole reviewer `catillatio`, administrator bypass disabled, and deployment access restricted to `release/production`. Do not weaken protection to make a job start.
-2. Under **Settings → Secrets and variables → Actions → Variables**, add repository variables `KINGDOM_OPERATOR_OWNER=catillatio` and, **only when production operator use has separately been authorized**, `KINGDOM_OPERATOR_ENABLED=true`. The default is disabled: unset or any other value stops the workflow.
-3. Using a trusted offline machine, generate a distinct operator Ed25519 pair. Do not rotate or reuse release keys:
-
-   ```sh
-   umask 077
-   openssl genpkey -algorithm Ed25519 -out kingdom-operator-private.pem
-   openssl pkey -in kingdom-operator-private.pem -pubout -out kingdom-operator-public.pem
-   ```
-
-4. Add the complete multiline private PEM as **production environment secret** `KINGDOM_OPERATOR_SIGNING_KEY`. Add the complete public PEM as **production environment variable** `KINGDOM_OPERATOR_VERIFY_KEY`. Preserve actual line breaks; do not substitute literal `\n` text. Never paste the private key into chat, workflow inputs or the repository.
-5. Add production environment variable `RAILWAY_OPERATOR_SERVICE_ID` after the separately authorized private-service setup below.
-6. Keep existing production environment bindings: `RAILWAY_TOKEN` secret; variables `RAILWAY_PROJECT_ID`, `RAILWAY_ENVIRONMENT_ID`, `RAILWAY_GAME_SERVICE_ID`, `RAILWAY_PG_SERVICE_ID`, `RAILWAY_RELEASE_WORKER_SERVICE_ID`, `RAILWAY_VERIFY_PG_SERVICE_ID`, `KINGDOM_DATABASE_HOST`, `KINGDOM_DATABASE_NAME`, `KINGDOM_BACKUP_RECIPIENT` and `KINGDOM_RELEASE_VERIFY_KEY`. The last two are public keys. Do not copy a database URL or release private signing key into this workflow.
-7. Both **Kingdom Come checks** and **Targeted operator checks** must pass for the exact current production push commit. The controller checks these again after environment approval. A changed production commit requires a new review; it cannot consume an older code candidate's approval.
-
-On Android, **Actions → Owner approved targeted operator → Run workflow** exposes operation and review fields. Selecting **Run workflow** is not the environment approval: review the pending job under **Review deployments** and approve production separately. Stop if the exact intended branch, commit, action or approval gate is absent.
-
-### Dedicated private Railway service
-
-In the existing project and production environment, create a **separate empty private service**, for example `KingdomOwnerOperator`. This must not be the game, PostgreSQL, release worker or verification PostgreSQL service. Do not attach a GitHub repository or enable automatic deployment. Do not use `railway run` as a remote shell.
-
-Configure only the new service:
-
-| Setting | Required value |
+| Object | Allowed runtime access |
 | --- | --- |
-| Builder | Dockerfile; uploaded bundle root; no game root-directory setting |
-| Start | Image CMD: `node deployment/operator/worker.mjs` |
-| Pre-deploy / health check / cron | None |
-| Replicas / restart | One / Never |
-| Public domain / TCP proxy | None |
-| `NODE_ENV` | `production` |
-| `KINGDOM_PRIVATE_ALPHA` | `1` |
-| `KINGDOM_OPERATOR_WORKER` | `1` |
-| `DATABASE_URL` | Reference to the existing PostgreSQL service's **private** URL, exact configured source database |
-| `RAILWAY_TOKEN` | Existing project/environment-scoped token, stored privately; used for authenticated read-only identity checks |
-| `KINGDOM_OPERATOR_VERIFY_KEY` | New public operator PEM, matching GitHub's operator signing secret |
+| accounts | SELECT id/username/login_disabled; UPDATE username only |
+| characters | SELECT id/account_id/name; UPDATE name only |
+| development_bots | SELECT character_id |
+| realm_messages | SELECT (existing moderation helper needs the full row); UPDATE status only |
+| social_moderation | INSERT; SELECT id/message_id/action/reason/created_at |
+| owner_operator_schema | SELECT |
+| owner_operator_actions | SELECT and INSERT |
 
-Railway supplies actual project/environment/service/deployment IDs. The worker compares them to the signed context and authenticated metadata. The private URL must have the expected `*.railway.internal` hostname, exact database name, port 5432/default and no query overrides. Do not expose PostgreSQL publicly or copy its URL into Actions.
+There is no password-hash, session, wallet, Vault, inventory, Land or combat-data
+access, no DELETE/TRUNCATE/TRIGGER grant and no audit UPDATE. Role grants are
+column/table scoped; exact target rows are enforced by the signed private worker.
+The credential is not a database-level row-restricted capability. PostgreSQL
+superusers and the trusted bootstrap authority remain capable of administration.
 
-Do not set initialization, seed, release-worker, migration or release-backup-proof variables on the operator service. No signing private key or age private identity belongs there. `KINGDOM_OPERATOR_REQUEST` is staged automatically only after all workflow approvals. Avoid applying unrelated pending service changes; leave the game and existing verification services unchanged.
+Before any normal job—and again inside a mutation transaction—the implementation
+checks effective privileges, including PUBLIC/inherited grants, object ownership,
+role flags and memberships. Excess access or DDL fails closed. It verifies the
+actual guard body, language, signature, owner and settings, all four trigger
+bindings/events/enabled states/conditions, and a catalog fingerprint of audit
+columns, defaults and constraints. Matching names or a marker alone are insufficient.
 
-This design reuses the existing database user and project token. It does not create or broaden account permissions. The provider credential is project/environment scoped, **not service-only**; signed target restrictions, checked service identity, protected code and owner approval supply the narrower application-level boundary. Treat that token and database user as sensitive operator credentials.
+Audits are append-only for runtime. An audit failure rolls back both the target
+change and the existing social moderation audit. A unique authorization receipt
+makes simultaneous and retried execution idempotent. The source SHA/run/owner,
+review digest, immutable target IDs, exact field and before/after states are retained.
 
-## Audit support — explicit schema-only approval
+## Railway token investigation and unresolved scope risk
 
-The game's release verifier pins schema head `020_game_feel.sql`. Adding an automatic game migration would conflict with that safeguard. Consequently `deployment/operator/audit.sql` is deliberately **outside** the game's migrations list. Ordinary startup, upgrades, review and verification never install it.
+Official references reviewed:
 
-An independently approved `setup-audit` operation creates only:
+- https://docs.railway.com/guides/public-api — project tokens are environment scoped.
+- https://docs.railway.com/integrations/oauth/scopes-and-user-consent — OAuth offers
+  `project:viewer` and `project:member`, not documented service-only capabilities.
 
-- `owner_operator_schema`: definition hash and installer/code/run/timestamp marker.
-- `owner_operator_actions`: immutable authorization receipt with player/account/message IDs, exact field, before/after values, owner, code SHA and GitHub run identity.
-- Append-only update/delete/truncate triggers on both tables.
+The **controller** must read project/environment, service configuration, deployments
+and logs; stage `KINGDOM_OPERATOR_REQUEST` on the selected operator service; and
+upload/build that service. A read-only token cannot perform the required staging
+and upload operations. No service-only read token can support that whole workflow.
+The existing project/environment token is the narrowest existing compatible
+credential demonstrated by this mechanism; do not substitute account/workspace keys.
 
-It modifies no existing business rows or migration records, runs no seeding or bot provisioning, and requires the populated realm, exactly 450 existing bots and unchanged schema head. A repeated setup verifies the installed definition/protections and adds nothing. Partial or incompatible setup fails closed.
+The **workers** issue only authenticated metadata reads, but currently use that
+same project/environment token. Its provider permissions still include mutations
+and may expose other services' variables, including administrative connection
+references. PostgreSQL runtime grants do not contain a compromised Railway token.
+This residual project/environment blast radius must be explicitly accepted before
+activation using repository variable `KINGDOM_OPERATOR_RAILWAY_SCOPE_ACKNOWLEDGED=true`.
+Each private service also requires `KINGDOM_OPERATOR_RAILWAY_SCOPE_ACKNOWLEDGED=1`.
+These flags are unset during development; they are not permission grants by themselves.
 
-For that operation alone, enter this schema-only confirmation, substituting reviewed non-secret IDs:
+A separately consented OAuth `project:viewer` credential is a possible future
+worker-only reduction. It requires an OAuth app/token lifecycle and a separately
+validated identity-verification path; it has not been provisioned or assumed to
+support the CLI/project-token identity contract. Do not remove independent identity
+verification or silently fall back to a broader token. This PR does not claim
+service-only Railway least privilege or a live authorization test.
 
-```text
-INSTALL_OPERATOR_AUDIT_V1/<full-production-SHA>/<project-UUID>/<environment-UUID>
-```
+## Fail-closed private service posture
 
-It authorizes no username or broadcast change. Read-only target reviews can run before setup; mutation requests fail without verified audit support. Trigger protections are enforced for ordinary SQL but cannot resist a database owner deliberately disabling or replacing them; no such capability is exposed through this operator protocol.
+Authenticated API checks run before request staging/upload and again in the worker
+before SQL. Both distinct operator services must have:
 
-## Review each exact target
+- Dockerfile builder, default/root upload directory, no config-file override.
+- No repository trigger, repository source or image source; no GitHub autodeploy.
+- No build/start override, pre-deploy command, cron or health check.
+- Exactly one replica, restart **Never**, zero retries and sleeping disabled.
+- No Railway domain, custom domain or TCP proxy.
 
-Only after explicit production-inspection authorization, dispatch **review-name**, using `field=auto` initially. Both `accounts.username` and `characters.name` are inspected through the fixed player UUID. One match selects that field; two matches produce an ineligible review requiring another owner-selected field. Neither match, missing/disabled/bot account or unavailable replacement stops application. The two fields will never be silently changed together.
+Missing metadata is failure, not an inferred default. No automatic repair,
+service creation, restart or configuration changes occur. The controller stages
+only the signed request and deliberately uploads **only the chosen operator service**.
+Even a read-only database review therefore deploys a private worker. Enabling a
+GitHub variable alone does not deploy anything. A merge could trigger an existing
+Railway source deployment if autodeploy were enabled: the owner must verify it is
+disabled **before any separately authorized merge**, without applying unrelated
+pending changes. Existing game/release services must not be cloned or edited.
 
-Dispatch **review-gray** separately. The query is bounded to at most 50 broadcasts from Gray's fixed player UUID and requires one exact content match. A truncated or ambiguous result fails closed. An optional exact broadcast UUID can disambiguate, but it must still pass author/channel/content checks. Hidden or deleted messages cannot receive a new hide authorization.
+## Separate signing and encrypted review
 
-For each successful review:
+Protocol `kingdom-owner-operator-v2` cannot satisfy release/migration/backup proofs.
+Use a NEW Ed25519 operator pair, never a release private key. Every declared public
+verification field rejects private PEMs and non-Ed25519 keys. Controller matching
+and separation checks remain mandatory. Only the private signing PEM belongs in a
+GitHub production **secret**. Only a PUBLIC KEY PEM belongs in variables or Railway.
 
-1. Download its `owner-operator-<run>-<attempt>` artifact. Retain the run ID, attempt and artifact ID.
-2. `review.json` contains hashes and immutable IDs, not full names/message text. `review.age` contains the actual human-readable review. Decrypt on the owner's trusted machine using the existing offline age identity:
+The existing public age recipient encrypts human-readable target details in memory.
+No age private identity is uploaded. Exact-deployment authenticated logs carry only
+an operator frame with ciphertext, IDs and hashes; failures print fixed categories.
+GitHub retains `owner-operator-RUN-ATTEMPT` artifacts for 30 days. These are NOT
+recovery backups and cannot authorize game promotion or production migration.
 
-   ```sh
-   umask 077
-   age --decrypt --identity /trusted/offline-owner.agekey --output reviewed-target.json review.age
-   ```
+Reviews last 24 hours; signed job requests last 15 minutes and are rechecked after
+provider operations. Apply/verify require the successful owner review's exact
+workflow/run/attempt/artifact, code SHA, environment, digest and target. Source
+changes require a new review. Preserve the artifact and audit reference.
 
-3. Review `details`, `review`, `reviewSha256`, `eligible` and `confirmation`. Do not approve a digest without inspecting the decrypted target. Do not post the private identity, encrypted artifact's signed download URL or private configuration in chat.
-4. For the name, confirm the player/account UUID mapping, **both current name values**, selected field and replacement availability. Changing the login handle changes future login text, not the password or existing sessions; changing only the public name leaves login unchanged.
-5. For Gray, confirm message UUID, fixed author UUID, author name, exact full body, six-digit UTC creation timestamp and `visible` status. Development Knight is never a target.
+## Fixed targets, reviews and independently approved mutations
 
-Reviews last 24 hours. Job requests last 15 minutes. Exact code SHA, project/environment, private source identity and operator-service identity must still match. A code update requires a new review, not a guard override.
+Name target: `af025047-1c77-437a-8d5a-dd51eba71840`, exact `mosslikesbbc` → `mosslikesbb`.
+`review-name` inspects BOTH `accounts.username` and `characters.name`. One matching
+field is selected; if both match, review again with an explicit field. Only that
+field can change. Replacement validation and uniqueness checks are authoritative.
+Credentials, account/player UUIDs, sessions and all other records stay unchanged.
 
-## Two independent mutation approvals
+Gray author: `aff9d7b2-5044-4002-907a-60a9a273d375`. `review-gray` requires one exact
+owner-specified content digest among at most 50 broadcasts, or an explicit UUID
+that still matches author/channel/content. Truncation/ambiguity fails. Inspect the
+decrypted UUID, author, full body, six-digit UTC timestamp and visible status.
+Development Knight is never a target. **Reported for review** is only a player report,
+not a permission to remove someone else's message.
 
-Development approval does **not** authorize these dispatches. Obtain explicit owner authorization for the reviewed name field and, separately, the exact reviewed Gray UUID.
-
-For **apply-name**, fill its original review run ID, artifact ID, SHA-256 digest and exact confirmation from the decrypted review:
-
-```text
-name_correction/af025047-1c77-437a-8d5a-dd51eba71840/<reviewed-field>/<full-review-digest>
-```
-
-Review the pending production job and approve it. **apply-gray** is a different dispatch and different environment approval, using its own artifact/digest/phrase:
-
-```text
-gray_broadcast_hide/aff9d7b2-5044-4002-907a-60a9a273d375/<exact-message-UUID>/message_status/<full-review-digest>
-```
-
-The artifact must originate in the successful owner workflow, at the same exact production commit, by the same owner. Unrelated/release artifacts and failed/expired review artifacts are rejected. There is no automatic apply after review, no combined mutation option and no automatic follow-up to the other action.
-
-The transaction locks the exact account/player and, for Gray, exact message; rechecks reviewed names/content/time/status; performs one field update or existing reversible moderation action; appends audit; verifies resulting state; then commits. Uniqueness constraints and timeouts remain authoritative. Unexpected changes roll back everything. No wallet, inventory, session, password, army, recruitment, property, battle, tutorial, achievement or bot row is rewritten.
-
-## Success, retries and interrupted reports
-
-A worker can commit and then lose its encrypted report. A failed workflow therefore does **not** prove that no change occurred. Never authorize a different message or a new guessed target to recover.
-
-- Retry with the **same original review artifact and authorization** while it remains valid. One unique receipt makes concurrent/retried calls return `already-applied`; they cannot duplicate the change or audit.
-- Or dispatch **verify-name** / **verify-gray** with the original review artifact, run and digest. This is an explicit read-only transaction and can inspect an expired review, provided its retained artifact, code and environment still match. It cannot execute or reverse a mutation.
-- Download/decrypt the encrypted result to inspect the exact current values and audit reference. Provider failures print fixed categories only. Do not disable validation to obtain a report.
-- Once an artifact expires (30 days), or production code changes, this exact-artifact path stops. Preserve the downloaded audit reference; request a separately reviewed compatible audit inspection rather than bypassing same-code checks.
-
-For the name, the result verifies the selected new value, untouched other name and same account/player UUID. Password/session preservation is proven in synthetic tests without inspecting production password hashes. The account owner can confirm ordinary login or an existing session after a separately authorized live action.
-
-For Gray, verification requires the same UUID/author/body/time, hidden status, and corresponding existing `social_moderation.operator_hide` audit. After the authorized action, owner UI verification must confirm absence from **Recent Activity → All** and **Broadcasts**, with unrelated activity intact. Ordinary game page reads may settle income normally; the operator's read-only checks do not. Until the live checks occur, cleanup remains unresolved.
-
-Reversal is possible because the message is retained. The existing trusted `deployment/moderate.mjs restore <message-UUID> <reason>` procedure requires its own authorization and trusted operator access; **this narrow job intentionally has no restore input**. A username reversal likewise needs a new separately reviewed correction and audit, never deletion of the original receipt.
-
-## Security review and limits
-
-Verified locally:
-
-- Distinct Ed25519 protocol/key domain; exact candidate, owner, deployment and service binding; action-specific confirmations and expiry; separate approvals; no release-proof interoperability.
-- No public routes or changes to game authentication, CSRF, Origin, logout, startup, release workflow, backup/restore code or database connection configuration.
-- Read-only reviews cannot settle income or write tutorial/session state. Wrong target, stale names/content/time, disabled accounts, duplicates and unavailable metadata stop safely.
-- Atomic single-field changes and reversible hide; append-only audit; concurrent replay protection; induced audit failure rolls back the target and social audit together.
-- Populated synthetic fixtures preserve 450 bots and unrelated rows, password authentication and existing sessions; isolated backup/restore retains both operator audit records and trigger protections.
-- No private keys, database URLs, signed URLs, exception details or raw provider responses are logged. Review content is age encrypted; malformed worker requests emit only a fixed failure label.
-
-Unverified until separately authorized setup/use:
-
-- Actual new Railway service configuration, token access, private connectivity, operator key correspondence and provider log transport behavior. Synthetic tests substitute authenticated metadata; they do not claim a successful live deployment.
-- The two live target identities/states, replacement availability and feed removal. No production records were inspected or mutated during development.
-- Future changes to GitHub/Railway APIs, network availability and provider retention. These cause a closed failure, not a reason to weaken assertions.
-
-The mechanism is narrow trusted-owner tooling, not a general administration system or proof of production security. The existing Phase 4.7 encrypted recovery, independent restore, signed approval and promotion gates remain unchanged. Operator artifacts never substitute for a recovery artifact, and no release is dispatched by these workflows.
-
-## Reproducible verification
-
-Run only against a local disposable `*_test` PostgreSQL database, with **no production credentials**:
+Decryption on the owner's trusted machine (never paste credentials into chat):
 
 ```sh
-npm ci --no-audit --no-fund
-npm run typecheck
-npm run build
-npm run check:static
-node --test tests/owner-operator.test.mjs
-TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55488/phase48_test npx tsx --test --test-concurrency=1 tests/owner-actions.test.ts
-TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55488/phase48_test npm test
-node scripts/test-owner-operator.mjs
+umask 077
+age --decrypt --identity /trusted/offline-owner.agekey --output reviewed-target.json review.age
 ```
 
-From repository root, validate both new workflow files with actionlint. The private-worker fixture builds the dedicated image, creates a fresh local PostgreSQL 18 container, provisions only synthetic accounts/bots, substitutes Railway metadata with a test-only harness, exercises actual age encryption/decryption, restores a synthetic dump, then removes its disposable resources. The harness is never bundled into the production worker. `KINGDOM_OPERATOR_TEST_NODE_IMAGE` is a local test-only CA image override; production uses the Dockerfile's ordinary Node base with TLS verification intact.
+Only after reviewing actual details—not just a digest—may the owner authorize:
 
-See [VERIFICATION.json](VERIFICATION.json) for the recorded results and limitations. No production workflow has been executed as part of this preparation.
+```text
+name_correction/af025047-1c77-437a-8d5a-dd51eba71840/<selected-field>/<review-digest>
+gray_broadcast_hide/aff9d7b2-5044-4002-907a-60a9a273d375/<message-UUID>/message_status/<review-digest>
+```
+
+Each apply is a DIFFERENT dispatch and production-environment approval. There is
+no combined mutation or automatic apply after review. Exact account/name state,
+message author/body/time/status, authentication-disabled status and bot exclusion
+are revalidated under locks. All mutations are transactional and auditable.
+
+## Gray reversal: separate fresh review, never automatic
+
+Prepared operations `review-gray-restore`, `apply-gray-restore`, `verify-gray-restore`
+apply ONLY to the same fixed Gray identity/content and a hide completed by this
+operator. Review requires the exact message UUID AND original hide authorization
+UUID. It verifies the immutable hide receipt, matching message/time/body, hidden
+status and latest matching `operator_hide` social audit. Author-deleted messages,
+later unrelated moderation and Development Knight cannot be restored.
+
+Decrypt the fresh restoration review, including its warning that the offensive
+message will become publicly visible. Restoration requires a NEW owner authorization,
+review digest and environment approval:
+
+```text
+gray_broadcast_restore/aff9d7b2-5044-4002-907a-60a9a273d375/<message-UUID>/<original-hide-authorization-UUID>/message_status/<new-review-digest>
+```
+
+The restore adds an `operator_restore` social audit and a NEW append-only operator
+receipt linked to the hide. A unique parent reference and normal idempotency prevent
+duplicate reversals. Neither original audit is rewritten or deleted. No hide or
+restore has been performed in production during development.
+
+## Minimum FUTURE owner setup order (not authorized now)
+
+1. Review this hardening revision, residual Railway scope and test evidence. Keep
+   PR #13 draft/inactive until separately approved. No merge or dispatch is implied.
+2. Before a separately authorized merge, verify existing game/release autodeploy
+   is disabled and no unrelated pending Railway changes will be applied. Merge
+   only after explicit approval; require both exact-commit push CI workflows.
+3. Create TWO separate empty private services after explicit setup authorization.
+   Configure the posture above; neither is the game, PostgreSQL, release worker
+   or verification PostgreSQL. Do not connect a repository or clone the game.
+4. Generate a distinct operator Ed25519 pair on a trusted machine. In GitHub web
+   **Settings → Environments → production**, retain sole reviewer `catillatio`,
+   no administrator bypass and only `release/production`. Add secret
+   `KINGDOM_OPERATOR_SIGNING_KEY` and PUBLIC variable `KINGDOM_OPERATOR_VERIFY_KEY`.
+   Preserve existing release keys. Never put a private PEM in a variable.
+5. Add environment variables `RAILWAY_OPERATOR_SERVICE_ID` and
+   `RAILWAY_OPERATOR_BOOTSTRAP_SERVICE_ID`. Reuse existing project/environment,
+   game/PG/verifier IDs, private host/database name, public age recipient and
+   public release verification key. Keep `RAILWAY_TOKEN` only in its protected
+   GitHub secret. Repository flags are `KINGDOM_OPERATOR_OWNER=catillatio`,
+   `KINGDOM_OPERATOR_ENABLED` and the separately reviewed scope acknowledgment.
+6. Privately configure bootstrap only: `NODE_ENV=production`,
+   `KINGDOM_PRIVATE_ALPHA=1`, `KINGDOM_OPERATOR_WORKER=1`,
+   `KINGDOM_OPERATOR_BOOTSTRAP=1`, scope acknowledgment `1`, scoped provider token,
+   public operator key, privileged private `DATABASE_URL` and random runtime
+   password. Bootstrap's image CMD is the worker, not a game/migration command.
+7. Confirm a current recovery backup using the established independent recovery
+   procedure before privileged bootstrap. The operator neither creates backups
+   nor consumes release approvals. Only after separate authorization enable the owner workflow and approve
+   **setup-audit** with its schema/role/ACL-specific confirmation:
+
+   ```text
+   INSTALL_OPERATOR_AUDIT_V2_PRESERVE_EXISTING_ACL/<full-SHA>/<project-UUID>/<environment-UUID>
+   ```
+
+   This authorizes no account/message action. Review the encrypted setup report.
+   If it fails, do not reset the database or edit the marker to force acceptance.
+8. Configure runtime only with the new `kc_operator_runtime` private URL, same
+   public operator key/scoped metadata token and normal worker/private-alpha flags.
+   It must have NO bootstrap flag, runtime-password variable or admin connection.
+   Secure/remove bootstrap-service credential references when no longer needed;
+   coordinate future setup separately and do not rotate the game's credential.
+   Existing provider deployment snapshots and project-token access are privileged
+   residual risks, not erased by removing a current variable.
+9. Approve read-only name/Gray reviews, download/decrypt and verify exact targets.
+   Then—and only with separate exact-target authorization—approve each apply.
+   Verify the selected name and Gray absence from Recent Activity → All and
+   Broadcasts, with unrelated activity intact. Keep operator disabled when unused.
+
+Android: **Actions → Owner approved targeted operator → Run workflow**, select
+`release/production` and the exact intended operation. **Review deployments** is a
+separate owner approval. Do not approve a different branch/commit or bypass a gate.
+The two live account mappings and exact Gray UUID/state remain uninspected here.
+
+## Interrupted jobs, recovery and backups
+
+A canceled/timed-out GitHub runner does not cancel an already queued Railway job.
+The request remains usable only until its signed expiry; the worker rechecks it
+before DB work. Operator-only sessions have 5s connection/lock limits, 15s normal
+statement limits (bootstrap requests 30s), 20s idle-transaction/client-query limits, two client connections and a
+four-connection role cap. Existing game timeout/start configuration is unchanged.
+
+A transaction may commit before report upload fails. Retry the SAME review artifact
+and authorization while valid, or run the corresponding read-only `verify-*` job.
+Do not generate a new authorization merely because reporting failed. Never auto
+restore, restart services or dispatch a game release to recover a report. Confirm
+worker completion and current receipt before another administrative/release action.
+The shared production concurrency group also serializes with releases; Actions can
+replace an older pending run, so avoid stacking dispatches. A stopped runner alone
+is not proof of a stopped worker.
+
+If the original artifact expires, the production SHA changes, or metadata/permissions
+are unavailable, this exact-artifact path stops. Request a separately reviewed
+read-only audit inspection; do not weaken same-code or provenance checks.
+
+Existing encrypted recovery and independent restore gates are unchanged. Logical
+backups preserve audit rows and trigger definitions, but the established
+`--no-owner --no-acl` recovery format does NOT reproduce PostgreSQL roles/ownership/
+grants. A raw restored database therefore deliberately fails operator readiness.
+Keep operator disabled after a disaster restore until a separately authorized,
+reviewed ownership/permission rebind and runtime credential provisioning has passed
+on a restored COPY. Do not blindly rerun bootstrap or overwrite existing audit
+history. No automatic permission repair is included in ordinary game deployment.
+
+## Verification and limitations
+
+See [VERIFICATION.json](VERIFICATION.json) and [SECURITY_REVIEW.md](SECURITY_REVIEW.md).
+Tests use populated synthetic realms with all 450 bots, actual restricted PostgreSQL
+logins, adversarial DDL/grants/guard replacement, rollback, races, SCRAM authentication,
+actual age encryption/decryption and no production network access. Fixture metadata
+is mocked outside the allowlisted worker bundle. Local build CA trust is supplied
+as an ephemeral BuildKit secret; TLS is never disabled and the session CA is not
+copied into image layers.
+
+The provider's actual configuration, live key/credential correspondence, target
+records and moderation results remain unverified until separately authorized.
+This is controlled owner tooling with explicit residual provider-token risk,
+not a claim of service-level confinement or tamper resistance against PostgreSQL
+superusers/Railway project administrators.
