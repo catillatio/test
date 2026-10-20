@@ -1,0 +1,131 @@
+{
+  "scope": "Development branch only; no production operations",
+  "base": "b305fa011d9428b7e00e68a7cc38026e0bcdb256",
+  "policy": "bot-combat-rewards-1",
+  "provisionalRepeatFloor": true,
+  "fullLocalSuite": {
+    "tests": 441,
+    "passed": 440,
+    "failed": 0,
+    "skipped": 1,
+    "skippedTest": "real hosted-runner network namespace executes synthetic checks without production secrets; requires GitHub-hosted runner"
+  },
+  "static": {
+    "checksPassed": 96,
+    "failed": 0,
+    "productionEjsFixtures": 75
+  },
+  "typeScript": "PASS",
+  "productionBuild": "PASS",
+  "populatedPreservation": {
+    "passed": true,
+    "fixture": "Populated synthetic Phase 4.8 / 020 schema",
+    "tablesVerified": 66,
+    "accounts": 452,
+    "bots": 450,
+    "schemaMigrationsAdded": 0,
+    "rulesetsAdded": [
+      "bot-combat-rewards-1"
+    ],
+    "businessRowsChanged": 0,
+    "historicalReceiptReplayedUnchanged": true,
+    "savedSessionSurvived": true,
+    "productionContacted": false
+  },
+  "simulations": {
+    "cases": 66,
+    "allConserved": true,
+    "protectedVaultUnchanged": true,
+    "actualCombatAndRecoveryHelpers": true,
+    "sourcesChanged": false
+  },
+  "browser": {
+    "passed": true,
+    "checks": [
+      "320 repeat: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "320 weak: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "320 empty: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "390 repeat: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "390 weak: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "390 empty: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "430 repeat: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "430 weak: actual receipt, accurate explanation, no horizontal overflow, five tabs",
+      "430 empty: actual receipt, accurate explanation, no horizontal overflow, five tabs"
+    ],
+    "errors": [],
+    "viewports": [
+      320,
+      390,
+      430
+    ],
+    "productionContacted": false
+  },
+  "existingMarketBrowser": {
+    "passed": true,
+    "checks": [
+      "Single-item purchase submits once, spends the catalog price, and receipt refresh awards nothing.",
+      "Bulk intent survives simulated three-hour idle, online/visibility events and reload; lost committed response retries one receipt without another charge.",
+      "Gold Flow can be opened and closed with the keyboard; its compact state shows at least four complete property rows at 390px.",
+      "Land buy, Return to Land, bulk sale, exact authoritative refund and expandable income accounting work.",
+      "Expired session preserves the focused bulk screen and quantity; no purchase POST is sent.",
+      "56 responsive visits, 44px trade buttons, five tabs, no horizontal overflow, no JavaScript errors, and no APK-derived asset requests."
+    ],
+    "measurements": [
+      {
+        "path": "/game/armory",
+        "rowHeight": 98,
+        "fullyVisible": 5,
+        "headerHeight": 94
+      },
+      {
+        "path": "/game/land",
+        "rowHeight": 98,
+        "fullyVisible": 3,
+        "headerHeight": 94
+      }
+    ]
+  },
+  "npmAudit": {
+    "game": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "releaseController": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "unchangedPaths": [
+    ".github",
+    "knights-reforged/deployment",
+    "knights-reforged/migrations",
+    "knights-reforged/public",
+    "knights-reforged/Dockerfile",
+    "knights-reforged/railway.json",
+    "knights-reforged/package-lock.json",
+    "knights-reforged/src/auth.ts",
+    "knights-reforged/src/bot-income.ts",
+    "knights-reforged/src/bot-finance.ts",
+    "knights-reforged/src/development.ts",
+    "knights-reforged/src/gameplay-rules.ts",
+    "knights-reforged/src/game-feel-rules.ts"
+  ],
+  "incomeTestCorrection": "The first full run failed only a processed-row count assumption (475 visits versus 450 bots). The updated assertion proves unique 72-hour payments per holding and exact per-bot wallet/reserve conservation; runtime income code unchanged. The final full run passed.",
+  "productionContacted": false,
+  "merged": false,
+  "deployed": false,
+  "limitations": [
+    "40% floor and faster sustained progression require owner gameplay review.",
+    "Responsive Chromium is not physical Android/iPhone Safari certification.",
+    "No live Railway snapshot was used.",
+    "GitHub-hosted namespace test is skipped locally."
+  ]
+}

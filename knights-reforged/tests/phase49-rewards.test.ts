@@ -85,6 +85,8 @@ test('more than six different meaningful rivals pay, repeated XP/gold match snap
   const emptyPage=await r.app.inject({url:'/game/battles/'+empty.b.id,headers:{cookie:a.cookie}});
   assert.equal(emptyPage.statusCode,200);assert.match(emptyPage.body,/This rival had too little unprotected gold to steal/);
   assert.match(emptyPage.body,/Reduced rewards from repeated battles with this rival/);assert.ok(!emptyPage.body.includes('Less experience against a much weaker opponent.'));
+  const publicRules=await r.app.inject({url:'/rules'});assert.equal(publicRules.statusCode,200);assert.match(publicRules.body,/Bot ordinary gold uses/);assert.ok(!publicRules.body.includes('once per rival and six times total'));
+  const rivals=await r.app.inject({url:'/game/battle',headers:{cookie:a.cookie}});assert.equal(rivals.statusCode,200);assert.match(rivals.body,/Different rivals do not share a daily reward limit/);assert.ok(!rivals.body.includes('At most six rewarded bot victories'));
  }finally{await r.close();}
 });
 test('two accounts serialize the real purse; duplicate keys and insufficient-Spirit races cannot duplicate transfer, XP or sequence',{skip},async()=>{
