@@ -1,0 +1,98 @@
+// Land-only review against a synthetic local realm. Never accepts a live database.
+import assert from 'node:assert/strict';
+import {mkdir,readFile,writeFile} from 'node:fs/promises';
+import {existsSync} from 'node:fs';
+import {chromium} from 'playwright-core';
+import {realm,testDatabaseUrl} from '../tests/helpers.js';
+import {createApp} from '../src/app.js';
+import {loadConfig} from '../src/config.js';
+
+if(!testDatabaseUrl)throw new Error('A disposable local *_test PostgreSQL database is required.');
+const baseline=process.argv.includes('--baseline');
+const out='test-results/phase48-land-only/'+(baseline?'before':'after');
+await mkdir(out,{recursive:true});
+const fixedNow=new Date('2026-10-20T18:15:00.000Z');
+const r=await realm({isolated:true,clock:()=>fixedNow});
+const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://127.0.0.1:3000'});
+const app=await createApp({db:r.db,config});
+const origin=await app.listen({host:'127.0.0.1',port:0});config.origin=origin;
+const browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTABLE??(existsSync('/usr/bin/chromium')?'/usr/bin/chromium':undefined),headless:true,args:['--no-sandbox']});
+const context=await browser.newContext({viewport:{width:1024,height:1536},hasTouch:true,isMobile:true,timezoneId:'America/New_York'});
+await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
+const page=await context.newPage(),errors:string[]=[],checks:string[]=[];let landPosts=0;
+page.on('pageerror',error=>errors.push(error.message));
+page.on('request',request=>{if(request.method()==='POST'&&new URL(request.url()).pathname.startsWith('/game/land/'))landPosts++;});
+page.on('response',response=>{if(new URL(response.url()).pathname.startsWith('/assets/')&&response.status()>=400)errors.push('Asset response '+response.status()+' '+new URL(response.url()).pathname);});
+async function visit(path:string){assert.equal((await page.goto(origin+path))?.status(),200);await page.locator('.realm-resources').waitFor();await page.evaluate(()=>{document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,0);});await page.waitForTimeout(180);}
+async function shot(name:string){await page.screenshot({path:out+'/'+name+'.png',fullPage:false,animations:'disabled'});}
+async function metrics(){return page.evaluate(()=>{
+ const selectors={brand:'.topbar',resources:'.realm-resources',gold:'.resource-upper',recovery:'.resource-lower',title:'.page-heading',flow:'.land-income-panel',flowHeader:'.land-flow-head',flowColumns:'.flow-grid',payment:'.land-payment-row',paymentDate:'[data-land-payment-time]',firstRow:'.land-property',firstArt:'.property-art-frame',firstName:'.land-property h2',firstBuy:'.land-property .button-gold',navigation:'.primary-nav',navigationIcon:'.primary-nav .nav-icon',navigationLabel:'.primary-nav .nav-link span'};
+ return Object.fromEntries(Object.entries(selectors).map(([name,selector])=>{
+  const node=document.querySelector(selector)!;const r=node.getBoundingClientRect(),s=getComputedStyle(node);
+  return [name,{x:r.x,y:r.y,width:r.width,height:r.height,font:s.font,fontSize:s.fontSize,border:s.border,borderRadius:s.borderRadius,background:s.background,boxShadow:s.boxShadow}];
+ }));
+ });}
+async function otherScreenFingerprint(path:string){await visit(path);return page.evaluate(()=>{
+ const selectors=['.topbar','.realm-brand','.realm-resources','.resource-upper','.resource-lower','.primary-nav','.nav-icon','.button-gold','.home-menu','.catalog-row'];
+ return {styles:Object.fromEntries(selectors.map(selector=>{
+  const node=document.querySelector(selector);if(!node)return [selector,null];const r=node.getBoundingClientRect(),s=getComputedStyle(node);
+  return [selector,{width:r.width,height:r.height,font:s.font,border:s.border,background:s.background,color:s.color}];
+ })),landStylesheet:!!document.querySelector('link[href*="land-review.css"]')};
+ });}
+try{
+ const actor=await r.player('Ser Marlow Ardent');await r.prepare(actor,50000,2500);
+ for(const [propertyId,quantity] of [['smallholding',4],['woodland',3],['copper-workshop',2],['watchtower',1],['river-mill',2],['hearthstead-hamlet',1]] as const)await r.ok(actor,'/api/v1/land/purchases',{propertyId,quantity});
+ await r.ok(actor,'/api/v1/inventory/purchases',{itemId:'ransackers-axe',quantity:2});
+ await r.ok(actor,'/api/v1/tutorial',{action:'skip'});
+ await context.addCookies([{name:'kr_session',value:actor.cookie.split('=')[1]!,url:origin,httpOnly:true,sameSite:'Lax'}]);
+ const unchanged={home:await otherScreenFingerprint('/game/home'),armory:await otherScreenFingerprint('/game/armory')};
+ if(!baseline){const saved=existsSync('test-results/phase48-land-only/before/other-screens.json')?'test-results/phase48-land-only/before/other-screens.json':'docs/phase48/land-only-review/baseline/other-screens.json';const before=JSON.parse(await readFile(saved,'utf8'));assert.deepEqual(unchanged,before,'Home and Armory presentation must remain unchanged.');checks.push('Home and Armory computed layout and styling match the untouched baseline; neither loads the Land stylesheet.');}
+ await writeFile(out+'/other-screens.json',JSON.stringify(unchanged,null,2)+'\n');
+ await visit('/game/land');
+ if(!baseline)await page.evaluate(async()=>{await document.fonts.ready;for(const name of ['painted-properties','castle-landscape','interface-icons']){const image=new Image();image.src='/assets/art/land-review/'+name+'.webp';await image.decode();if(!image.naturalWidth)throw new Error('Review image did not decode');}});
+ await shot('1024-land');const desktop=await metrics();
+ if(!baseline){
+  const scoped=await page.evaluate(()=>{
+   const sheet=[...document.styleSheets].find(s=>s.href?.includes('/land-review.css'))!;
+   const pending=[...sheet.cssRules],selectors:string[]=[];
+   while(pending.length){const rule=pending.shift()!;if('selectorText' in rule)selectors.push(String(rule.selectorText));if('cssRules' in rule)pending.push(...(rule as CSSGroupingRule).cssRules);}
+   return selectors;
+  });
+  assert.ok(scoped.length>100);assert.ok(scoped.every(s=>s.split(',').every(selector=>selector.trim().startsWith('.kingdoms-ui.screen-land'))));
+  const frames=await page.locator('.land-review-art').evaluateAll(nodes=>nodes.map(node=>({width:node.getBoundingClientRect().width,height:node.getBoundingClientRect().height,display:getComputedStyle(node).display,background:getComputedStyle(node).backgroundImage})));
+  assert.equal(frames.length,6);assert.ok(frames.every(frame=>frame.width>0&&frame.height>0&&frame.display==='block'&&frame.background.includes('/art/land-review/painted-properties.webp')));
+  const me=await r.me(actor);assert.equal(await page.locator('.land-property').count(),me.land.properties.length);
+  for(const property of me.land.properties){const row=page.locator('[data-land-property="'+property.id+'"]');assert.equal(await row.locator('[data-land-owned]').innerText(),String(property.owned));assert.equal(await row.locator('[data-land-unit-price]').innerText(),property.price.toLocaleString('en'));if(property.unlocked===false)assert.equal(await row.getByRole('button',{name:'Buy '+property.name,exact:true}).isDisabled(),true);}
+  assert.equal(desktop.brand!.height,68);assert.equal(desktop.resources!.height,162);assert.equal(desktop.flow!.x,21);assert.equal(desktop.flow!.y,331);assert.equal(desktop.flow!.width,982);assert.equal(desktop.firstRow!.y,570);assert.equal(desktop.firstBuy!.width,115);assert.equal(desktop.firstBuy!.height,68);assert.equal(desktop.navigation!.height,98);
+  checks.push('Land-only CSS selectors and asset loading are isolated; six original illustrations decode and occupy their frames. All 21 real catalog entries, prices, holdings and restrictions come from the server.');
+ }
+ await page.setViewportSize({width:390,height:844});await visit('/game/land');await shot('390-land');const mobile=await metrics();
+ if(!baseline){
+  const widths=[320,360,390,412,430,768,900,1024,1366];
+  for(const width of widths){await page.setViewportSize({width,height:width>=900?1536:844});for(const path of ['/game/land','/game/land?bulk=smallholding#bulk-trade']){
+   await visit(path);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+' '+path+' overflows');assert.equal(await page.locator('.primary-nav a').count(),5);
+   const sizes=await page.locator('.single-trades button[type=submit]').evaluateAll(nodes=>nodes.map(node=>({w:node.getBoundingClientRect().width,h:node.getBoundingClientRect().height})));assert.ok(sizes.every(size=>size.w>=44&&size.h>=44),width+' '+path+' trade sizes: '+JSON.stringify(sizes));
+   const contained=await page.locator('.land-property').evaluateAll(rows=>rows.every(row=>{const r=row.getBoundingClientRect();return [...row.querySelectorAll('.single-trades button[type=submit]')].every(button=>{const b=button.getBoundingClientRect();return b.left>=r.left&&b.right<=r.right;});}));assert.ok(contained,width+' '+path+' trade controls leave their property row');
+  }}
+  checks.push('18 Land/bulk responsive visits at 320–1366px: five tabs, 44px+ trade targets, no horizontal overflow.');
+  await page.setViewportSize({width:390,height:844});await visit('/game/land');
+  const toggle=page.locator('.land-flow-head');await toggle.focus();await page.keyboard.press('Enter');assert.equal(await page.locator('.gold-flow').getAttribute('open'),null);await toggle.blur();await shot('390-land-compact');
+  const visible=await page.locator('.land-property').evaluateAll(rows=>{const top=document.querySelector('.primary-nav')!.getBoundingClientRect().top;return rows.filter(row=>{const r=row.getBoundingClientRect();return r.top>=0&&r.bottom<=top;}).length;});assert.ok(visible>=4);
+  await toggle.focus();await page.keyboard.press('Enter');assert.notEqual(await page.locator('.gold-flow').getAttribute('open'),null);await toggle.blur();
+  await page.locator('.income-explanation>summary').click();assert.equal(await page.locator('[data-next-property-payment]').isVisible(),true);await shot('390-income-details');await page.locator('.income-explanation>summary').click();
+  const before=await r.me(actor),price=before.land.properties.find(p=>p.id==='smallholding')!.price,postsBefore=landPosts;
+  await page.evaluate(()=>{const form=document.querySelector<HTMLFormElement>('#property-smallholding form')!;form.requestSubmit();form.requestSubmit();});await page.waitForURL('**/game/purchases/**');
+  const purchased=await r.me(actor);assert.equal(purchased.gold,before.gold-price);assert.equal(purchased.land.properties.find(p=>p.id==='smallholding')!.owned,5);assert.equal(landPosts-postsBefore,1);
+  await page.reload();assert.equal((await r.me(actor)).gold,purchased.gold);await page.getByRole('link',{name:'Return to Land',exact:true}).click();await page.waitForURL('**/game/land');
+  const forSale=await r.me(actor),refund=forSale.land.properties.find(p=>p.id==='smallholding')!.saleRefundSteps[0]!;
+  await page.getByRole('button',{name:'Sell Smallholding',exact:true}).click();await page.waitForURL('**/game/land?command=*');assert.equal((await r.me(actor)).gold,forSale.gold+refund);await page.reload();assert.equal((await r.me(actor)).gold,forSale.gold+refund);
+  await page.getByRole('link',{name:'Bulk buy or sell Smallholding',exact:true}).click();await page.locator('#bulk-trade').waitFor();const bulk=page.locator('.bulk-trades form').first();await bulk.getByRole('button',{name:'Select 5 Smallholding',exact:true}).click();await page.reload();assert.equal(await bulk.locator('[name=quantity]').inputValue(),'5');await shot('390-land-bulk');
+  checks.push('Keyboard disclosures and compact rows remain accessible; one-tap double submission buys once, receipt refresh charges nothing, sale refunds the exact authoritative amount once, Return to Land and persisted bulk quantity work.');
+  const newcomer=await r.player('Elowen Greyfern');await context.addCookies([{name:'kr_session',value:newcomer.cookie.split('=')[1]!,url:origin,httpOnly:true,sameSite:'Lax'}]);
+  for(const width of [390,1024]){await page.setViewportSize({width,height:width===390?844:1536});await visit('/game/land');assert.equal(await page.locator('[data-land-countdown]').innerText(),'No property owned');assert.ok(await page.locator('.land-payment-row').evaluate(node=>node.scrollWidth<=node.clientWidth));}
+  checks.push('Empty Land state remains readable at 390px and 1024px without a clipped countdown.');
+ }
+ assert.deepEqual(errors,[]);
+ await writeFile(out+'/summary.json',JSON.stringify({passed:true,baseline,viewport:{desktop:[1024,1536],mobile:[390,844]},checks,desktop,mobile,errors,productionContacted:false},null,2)+'\n');
+ console.log(JSON.stringify({passed:true,baseline,checks,desktop,mobile},null,2));
+}finally{await context.close();await browser.close();await app.close();await r.close();}

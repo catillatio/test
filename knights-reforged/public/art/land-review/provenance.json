@@ -1,0 +1,52 @@
+{
+  "status": "Provisional Land-only review assets; not approved for propagation to other screens or production.",
+  "rights": "Original OpenAI-generated project output, subject to applicable OpenAI terms; no third-party stock or extracted Storm8 assets. No exclusivity or copyright protection asserted.",
+  "reference": {
+    "path": "docs/phase48/ChatGPT Image Oct 20, 2026, 12_34_13 AM.png",
+    "sha256": "5eeab990681187eedd6eb89f13bd40c67a36d91052c2155778add17cdf5084e4",
+    "dimensions": [
+      1024,
+      1536
+    ],
+    "commit": "dc2e3ccdabac6be86566352c1bbd3b7b7480c0a6"
+  },
+  "processing": "WebP encoding with FFmpeg; no creative edits or compositing. Source PNGs retained. Runtime framing uses CSS only.",
+  "assets": [
+    {
+      "asset": "painted-properties.webp",
+      "description": "Original six-tile preview generated for the owner in the preceding review; first six real catalog identities only.",
+      "bytes": 608884,
+      "sha256": "74180fb5be6813543797ec8de021de15cc436e7efa0da9f2ea1b7c4998f23b7b",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "source": "docs/phase48/previews/property-illustrated-v2.png",
+      "source_sha256": "1dba98eb2dab9c1539acd9f03ac163f8ca52824c0042cc843e400ad2d165d4af"
+    },
+    {
+      "asset": "castle-landscape.webp",
+      "description": "New original background generated against the exact uploaded Land reference; no UI or grid baked into the landscape.",
+      "bytes": 326642,
+      "sha256": "b76d1107f7d35dc1fdc22f671f36ee4775ba20a8f1fedc5d7199949ce67f7057",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "source": "/workspace/generated_images/exec-df6b98d3-23f3-40f8-9a72-7dc61c28f66d.png",
+      "source_sha256": "972bfe7e3bf20efd407fc6f19855da1622d13af38a6a51b4e9b5f3611bf507ee"
+    },
+    {
+      "asset": "interface-icons.webp",
+      "description": "New original transparent six-cell atlas: helmet, castle, gauntlet, swords, anvil, lion.",
+      "bytes": 351170,
+      "sha256": "9e6bf5a2bac61b5991d4acd67e6e8ec51d5d47c717e8df4e9cfea9ba9cc166b1",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "source": "/workspace/generated_images/exec-4d097753-3de3-4a4f-95e1-94866b6f5952.png",
+      "source_sha256": "48cf86e9a8a31672c33cae0c008c433f2382b4ae17f5ffc694032f070af90f49"
+    }
+  ]
+}

@@ -84,7 +84,7 @@ check('Simplified Land sheet preserves 21 property identities with verified imag
  assert.ok(read('public/strategy.css').includes('land-simple-0.1/properties.webp'));
 });
 check('CSS uses local assets; original tab gradients and safe areas remain',()=>{
-  for(const file of ['public/remaster.css','public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
+  for(const file of ['public/land-review.css','public/remaster.css','public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
     for(const match of read(file).matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)){
       assert.ok(!/^(?:https?:|\/\/)/.test(match[1]));assert.ok(existsSync(resolve(root,dirname(file),match[1])),match[1]);
     }
@@ -260,6 +260,12 @@ check('Land retains countdown, offline payment, sale, retained-gold and no-scrip
   const html=rendered.get(example.name);
   for(const hook of ['data-land-countdown','data-land-status','data-land-payment-time','data-land-gross','data-land-upkeep','data-equipment-upkeep','data-land-net','data-land-pending','data-land-pending-gold','data-land-owned','data-land-buy-hint','data-wallet-gold','data-land-sell','<noscript>','/assets/land.js'])assert.ok(html.includes(hook),example.name+': '+hook);
  }
+});
+check('The Land-only review stylesheet and original assets cannot replace other screens',()=>{
+  for(const example of cases)assert.equal(rendered.get(example.name).includes('/assets/land-review.css?v=phase48-land3'),example.data.screen==='land');
+  const manifest=json('public/art/land-review/provenance.json');assert.equal(manifest.assets.length,3);
+  for(const asset of manifest.assets){const bytes=readFileSync(join(root,'public/art/land-review',asset.asset));assert.equal(bytes.length,asset.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);}
+  const reference=readFileSync(join(root,manifest.reference.path));assert.equal(createHash('sha256').update(reference).digest('hex'),manifest.reference.sha256);
 });
 mkdirSync(join(root,'test-results'),{recursive:true});
 const report={scope:'Production EJS fixture rendering, local references, form contracts, original navigation and artwork hashes.',fixtureCount:cases.length,

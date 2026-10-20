@@ -1,0 +1,271 @@
+/* Phase 4.8 Land-only review. Reference canvas: 1024 × 1536.
+   Loaded only for /game/land; every selector is explicitly scoped to that screen.
+   No prices, balances, eligibility or reward calculations belong in this file. */
+.kingdoms-ui.screen-land { --land-edge: 21px; --land-panel: #0b0e0ef2; }
+.kingdoms-ui.screen-land .app-shell { border-inline: 0; background: #090a0a55; }
+.kingdoms-ui.screen-land .page-backdrop {
+  background-image: url('art/land-review/castle-landscape.webp');
+  background-position: center 90px;
+  background-size: 1024px 1536px;
+}
+.kingdoms-ui.screen-land .page-backdrop:after {
+  background: linear-gradient(90deg, #03050a99, #03050a22 70%), linear-gradient(#02040833 230px, #03050550 550px, #02040488 900px, #010303ce);
+}
+.kingdoms-ui.screen-land .main-content {
+  padding: 0 var(--land-edge) calc(118px + env(safe-area-inset-bottom));
+}
+.kingdoms-ui.screen-land .character-header {
+  margin: 0 calc(-1 * var(--land-edge)); border: 0; background: transparent;
+}
+.kingdoms-ui.screen-land .topbar {
+  height: 68px; min-height: 68px; padding: env(safe-area-inset-top) 22px 0;
+  border-bottom: 1px solid #777059;
+  background: linear-gradient(110deg, #30291efc, #1c1813fa 46%, #10110efa);
+}
+.kingdoms-ui.screen-land .realm-brand { position: relative; min-height: 66px; gap: 16px; }
+.kingdoms-ui.screen-land .realm-brand img { width: 40px; height: 44px; flex-basis: 40px; visibility: hidden; }
+.kingdoms-ui.screen-land .realm-brand:before { content: ''; position: absolute; top: 50%; left: 0; transform: translateY(-50%); width: 44px; height: 48px; pointer-events: none; background: url('art/land-review/interface-icons.webp') -6px -8px / 168px 112px no-repeat; }
+.kingdoms-ui.screen-land .realm-brand > span { font: 700 24px/1.2 Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .profile-link { padding: 10px 16px; font: 700 20px/1.2 Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .resource-upper {
+  height: 82px; min-height: 82px; padding: 0 22px;
+  grid-template-columns: minmax(0, 1fr) 356px 54px; gap: 28px;
+  background: linear-gradient(#333528fc, #151812fc 58%, #090c09fe);
+}
+.kingdoms-ui.screen-land .resource-upper strong { font-size: 30px; line-height: 35px; }
+.kingdoms-ui.screen-land .gold-resource > .gold { gap: 7px; }
+.kingdoms-ui.screen-land .gold-resource .coin-icon { width: 20px; height: 20px; }
+.kingdoms-ui.screen-land .income-disclosure > summary { font-size: 19px; line-height: 26px; min-height: 30px; }
+.kingdoms-ui.screen-land .resource-upper small { font-size: 18px; line-height: 24px; }
+.kingdoms-ui.screen-land .xp-resource > summary { padding: 0; gap: 12px; min-height: 80px; }
+.kingdoms-ui.screen-land .xp-resource progress { height: 7px; margin: 0; }
+.kingdoms-ui.screen-land .resource-upper > a { min-height: 80px; gap: 2px; }
+.kingdoms-ui.screen-land .resource-upper > a strong { font-size: 32px; }
+.kingdoms-ui.screen-land .resource-lower {
+  height: 80px; padding: 0 20px; gap: 22px;
+  grid-template-columns: 316px 322px minmax(0, 1fr);
+  background: linear-gradient(#238779 0%, #157468 12%, #145e53 45%, #0d3b31 100%);
+  border-top: 1px solid #59a99b; border-bottom: 1px solid #9b9d8c;
+  box-shadow: inset 0 1px #bdffdd21, inset 0 -1px #14231e;
+}
+.kingdoms-ui.screen-land .resource-disclosure .realm-resource { height: 78px; min-height: 78px; padding: 7px 0; gap: 10px; }
+.kingdoms-ui.screen-land .realm-resource .stat-icon { width: 30px; height: 34px; flex-basis: 30px; }
+.kingdoms-ui.screen-land .realm-resource .resource-reading strong { font: 600 20px/25px Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .realm-resource small, .kingdoms-ui.screen-land .realm-resource time { font: 400 18px/24px Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .resource-reading { transform: translateY(-2px); }
+.kingdoms-ui.screen-land .resource-reading meter { height: 6px; margin-top: 2px; }
+.kingdoms-ui.screen-land meter::-webkit-meter-optimum-value { background: linear-gradient(#b9db72, #7da63c 45%, #6f9a32); }
+.kingdoms-ui.screen-land .page-heading {
+  height: 101px; padding: 24px; border: 0;
+  background: linear-gradient(90deg, #05060855, #03050800 60%);
+}
+.kingdoms-ui.screen-land .page-heading h1 { margin: 0; font: 700 44px/53px Georgia, 'Times New Roman', serif; color: #f6f5f0; }
+.kingdoms-ui.screen-land .land-income-panel {
+  margin: 0 0 15px; padding: 0; border: 1px solid #737369; border-radius: 11px;
+  background: linear-gradient(110deg, #0d1213f5, #090d0df5);
+  box-shadow: inset 0 1px #c6c5ad40, inset 0 -1px #fff1, 0 2px 5px #000e, 0 0 0 1px #252925;
+}
+.kingdoms-ui.screen-land .land-flow-head {
+  height: 59px; min-height: 59px; padding: 0 14px 0 26px; gap: 20px;
+  background: linear-gradient(#323531f7, #21241ff7 64%, #1d211df7);
+  border-bottom: 1px solid #4c514a; box-shadow: inset 0 1px #dad8c731;
+}
+.kingdoms-ui.screen-land .land-flow-head h2 { gap: 21px; font: 700 30px/40px Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .flow-icon { width: 36px; height: 38px; }
+.kingdoms-ui.screen-land .flow-caret { font-size: 28px; font-weight: 700; line-height: 30px; }
+.kingdoms-ui.screen-land .land-flow-body { grid-template-columns: minmax(0, 1fr) 238px; height: 104px; align-items: start; }
+.kingdoms-ui.screen-land .land-flow-body .flow-grid {
+  position: relative;
+  height: 104px; gap: 0; padding: 20px 0 12px 24px;
+  grid-template-rows: repeat(2, 36px); grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.kingdoms-ui.screen-land .land-flow-body .flow-grid > div {
+  display: flex; flex-wrap: nowrap; align-items: baseline; justify-content: space-between; gap: 9px; padding-right: 20px;
+}
+.kingdoms-ui.screen-land .land-flow-body .flow-grid:before { content: ''; position: absolute; top: 0; bottom: 0; left: calc(50% + 12px); border-left: 1px solid #3b403b; }
+.kingdoms-ui.screen-land .land-flow-body .flow-grid > div:nth-child(n+3) { padding-left: 20px; }
+.kingdoms-ui.screen-land .land-flow-body .flow-grid dt { color: #d5d3cb; font: 400 20px/27px Georgia, 'Times New Roman', serif; white-space: nowrap; }
+.kingdoms-ui.screen-land .land-flow-body .flow-grid dd { color: #e4dfd0; font: 700 20px/27px Georgia, 'Times New Roman', serif; white-space: nowrap; }
+.kingdoms-ui.screen-land .land-flow-body .flow-grid small { display: inline; font: inherit; font-weight: 400; }
+.kingdoms-ui.screen-land .land-payment-row {
+  height: 132px; padding: 21px 30px 13px; gap: 2px; justify-content: flex-start; align-items: flex-start;
+  background: #0b111130; border-left: 1px solid #3c423e; border-bottom: 1px solid #3c423e;
+  font: 400 20px/26px Georgia, 'Times New Roman', serif;
+}
+.kingdoms-ui.screen-land .land-payment-row .land-countdown { margin: 0; font: 700 32px/37px Georgia, 'Times New Roman', serif; }
+/* The legacy stylesheet marks the 9px date size !important. Override only Land. */
+.kingdoms-ui.screen-land .land-payment-row [data-land-payment-time] { display: block; position: static; width: auto; height: auto; margin: 0; clip-path: none; overflow: visible; white-space: nowrap; font: 400 17px/23px Georgia, 'Times New Roman', serif; font-size: 17px !important; }
+.kingdoms-ui.screen-land [data-next-payment=''] .land-payment-row { height: auto; min-height: 132px; padding-top: 15px; padding-bottom: 15px; }
+.kingdoms-ui.screen-land [data-next-payment=''] .land-countdown { white-space: normal; font-size: 20px; line-height: 25px; }
+.kingdoms-ui.screen-land [data-next-payment=''] [data-land-payment-time] { white-space: normal; font-size: 14px !important; line-height: 18px; }
+.kingdoms-ui.screen-land .income-explanation { width: calc(100% - 292px); margin: 0 0 0 24px; border-top: 1px solid #3c423d; }
+.kingdoms-ui.screen-land .income-explanation > summary { min-height: 44px; gap: 22px; font: 400 19px/27px Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .income-explanation .field-hint { font-size: 15px; line-height: 1.5; }
+.kingdoms-ui.screen-land .land-income-panel > .land-sync-note { padding: 0 24px; min-height: 14px; font: 400 11px/14px Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .market-catalog { gap: 8px; }
+.kingdoms-ui.screen-land.signed-in .market-catalog .land-property {
+  position: relative; min-height: 126px; padding: 3px 13px 3px 3px;
+  grid-template-columns: 198px minmax(0, 1fr) 132px 240px; gap: 24px;
+  border: 1px solid #4f504a; border-radius: 8px;
+  background: linear-gradient(105deg, #10100ff7, #101010f7 70%, #0d0f0ff7);
+  box-shadow: inset 0 1px #d2cebb1c, inset 0 -1px #c3bfa51c, 0 2px 4px #000e, 0 0 0 1px #191d1c;
+}
+.kingdoms-ui.screen-land .property-art-frame { --frame-width: 198px; --frame-height: 116px; border: 1px solid #51534b; border-radius: 3px; }
+.kingdoms-ui.screen-land.signed-in .market-catalog .property-art-frame .catalog-art {
+  width: var(--frame-width); height: var(--frame-width); border: 0;
+  filter: saturate(.78) brightness(.82) contrast(1.07);
+}
+.kingdoms-ui.screen-land.signed-in .market-catalog .property-art-frame .land-review-art {
+  display: block; width: 100%; height: 100%; transform: none; background-image: url('art/land-review/painted-properties.webp');
+  background-size: auto 300%; background-repeat: no-repeat;
+  background-position: calc((var(--frame-width) - var(--frame-height) * 2.25) / 2 - var(--tile-column) * var(--frame-height) * 2.25) calc(-1 * var(--tile-row) * var(--frame-height));
+  filter: saturate(.82) brightness(.9) contrast(1.04);
+}
+.kingdoms-ui.screen-land .review-tile-0 { --tile-column: 0; --tile-row: 0; }
+.kingdoms-ui.screen-land .review-tile-1 { --tile-column: 1; --tile-row: 0; }
+.kingdoms-ui.screen-land .review-tile-2 { --tile-column: 0; --tile-row: 1; }
+.kingdoms-ui.screen-land .review-tile-3 { --tile-column: 1; --tile-row: 1; }
+.kingdoms-ui.screen-land .review-tile-4 { --tile-column: 0; --tile-row: 2; }
+.kingdoms-ui.screen-land .review-tile-5 { --tile-column: 1; --tile-row: 2; }
+.kingdoms-ui.screen-land .market-catalog .catalog-description h2 { margin: 0 0 2px; font: 700 28px/34px Georgia, 'Times New Roman', serif; color: #f7f5ee; }
+.kingdoms-ui.screen-land .market-catalog .catalog-description > span,
+.kingdoms-ui.screen-land .catalog-more > span { font: 400 22px/32px Georgia, 'Times New Roman', serif; color: #c7c8c2; }
+.kingdoms-ui.screen-land .catalog-more { position: relative; display: block; min-height: 32px; padding-right: 55px; }
+.kingdoms-ui.screen-land .catalog-more .market-bulk-link { position: absolute; right: 0; top: -6px; min-height: 44px; width: 48px; font-size: 13px; color: #c9b483; }
+.kingdoms-ui.screen-land .market-catalog .price-owned { gap: 8px; padding-left: 5px; }
+.kingdoms-ui.screen-land .market-catalog .price-owned > .gold { gap: 7px; font: 700 24px/29px Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .market-catalog .price-owned > span { font: 400 20px/26px Georgia, 'Times New Roman', serif; color: #d7d6cf; }
+.kingdoms-ui.screen-land .price-owned [data-land-owned] { font-weight: 400; }
+.kingdoms-ui.screen-land .single-trades { grid-template-columns: 115px 110px; gap: 14px; }
+.kingdoms-ui.screen-land .single-trades .button { position: relative; height: 68px; min-height: 68px; padding: 0; justify-content: center; border-radius: 7px; font: 700 24px/29px Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .single-trades .button small { position: absolute; bottom: 4px; font: 400 11px/13px Georgia, 'Times New Roman', serif; }
+.kingdoms-ui.screen-land .button-gold {
+  border-color: #c89d4a; border-top-color: #e3bd71;
+  background: linear-gradient(#a27d40, #7d5f2d 35%, #543d18 76%, #3d2c12);
+  box-shadow: inset 0 1px #ffebad50, inset 0 -2px #20160560, 0 2px 3px #000b;
+}
+.kingdoms-ui.screen-land .button-outline { border-color: #5e6262; border-top-color: #767979; background: linear-gradient(#303233, #222425 45%, #101415); box-shadow: inset 0 1px #e9edef1c, 0 2px 3px #000b; }
+.kingdoms-ui.screen-land .primary-nav { height: calc(98px + env(safe-area-inset-bottom)); border-top: 1px solid #777b79; background: linear-gradient(#303233, #111313 50%, #040606); }
+.kingdoms-ui.screen-land .primary-nav .nav-link { position: relative; height: 96px; min-height: 96px; padding: 7px 0; gap: 6px; font: 700 20px/24px Georgia, 'Times New Roman', serif; border-radius: 4px 4px 0 0; }
+.kingdoms-ui.screen-land .primary-nav .nav-icon { width: 46px; height: 44px; visibility: hidden; }
+.kingdoms-ui.screen-land .primary-nav .nav-link:before { content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 56px; height: 56px; pointer-events: none; background-image: url('art/land-review/interface-icons.webp'); background-size: 168px 112px; background-repeat: no-repeat; filter: grayscale(1) brightness(1.45); }
+.kingdoms-ui.screen-land .primary-nav [href='/game/home']:before { background-position: -56px 0; }
+.kingdoms-ui.screen-land .primary-nav [href='/game/quests']:before { background-position: -112px 0; }
+.kingdoms-ui.screen-land .primary-nav [href='/game/battle']:before { background-position: 0 -56px; }
+.kingdoms-ui.screen-land .primary-nav [href='/game/armory']:before { background-position: -56px -56px; }
+.kingdoms-ui.screen-land .primary-nav [href='/game/army']:before { background-position: -112px -56px; }
+.kingdoms-ui.screen-land .primary-nav .is-current { background: linear-gradient(#4a4c4d, #242626 50%, #161818); box-shadow: inset 0 1px #91928e42, inset 0 -2px #626665; }
+.kingdoms-ui.screen-land .action-feedback:not(:empty) { bottom: calc(108px + env(safe-area-inset-bottom)); }
+.kingdoms-ui.screen-land .land-holdings-panel { margin-top: 12px; }
+@media (min-width: 900px) and (max-width: 1023px) {
+  .kingdoms-ui.screen-land .land-flow-body { grid-template-columns: minmax(0, 1fr) 210px; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid dt,
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid dd { font-size: 17px; }
+  .kingdoms-ui.screen-land .land-payment-row { padding-inline: 18px; font-size: 18px; }
+  .kingdoms-ui.screen-land .land-payment-row .land-countdown { font-size: 28px; }
+  .kingdoms-ui.screen-land .land-payment-row [data-land-payment-time] { font-size: 15px !important; }
+  .kingdoms-ui.screen-land .income-explanation { width: calc(100% - 264px); }
+  .kingdoms-ui.screen-land.signed-in .market-catalog .land-property { grid-template-columns: 160px minmax(0, 1fr) 122px 220px; gap: 18px; }
+  .kingdoms-ui.screen-land .property-art-frame { --frame-width: 160px; --frame-height: 100px; }
+  .kingdoms-ui.screen-land .market-catalog .catalog-description h2 { font-size: 24px; }
+  .kingdoms-ui.screen-land .market-catalog .catalog-description > span,
+  .kingdoms-ui.screen-land .catalog-more > span { font-size: 20px; }
+  .kingdoms-ui.screen-land .single-trades { grid-template-columns: 105px 101px; }
+}
+@media (max-width: 899px) {
+  .kingdoms-ui.screen-land { --land-edge: 10px; }
+  .kingdoms-ui.screen-land .page-backdrop { background-position: center 44px; background-size: 740px 1110px; }
+  .kingdoms-ui.screen-land .main-content { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+  .kingdoms-ui.screen-land .topbar { height: 44px; min-height: 44px; padding-inline: 10px; }
+  .kingdoms-ui.screen-land .realm-brand { min-height: 44px; gap: 8px; }
+  .kingdoms-ui.screen-land .realm-brand img { width: 28px; height: 32px; flex-basis: 28px; }
+  .kingdoms-ui.screen-land .realm-brand:before { width: 30px; height: 34px; background-size: 120px 80px; background-position: -5px -5px; }
+  .kingdoms-ui.screen-land .realm-brand > span { font-size: 17px; }
+  .kingdoms-ui.screen-land .profile-link { font-size: 13px; padding: 10px 7px; }
+  .kingdoms-ui.screen-land .resource-upper { height: 53px; min-height: 53px; padding: 0 9px; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) 35px; gap: 8px; }
+  .kingdoms-ui.screen-land .resource-upper strong { font-size: 19px; line-height: 24px; }
+  .kingdoms-ui.screen-land .gold-resource > .gold { gap: 4px; }
+  .kingdoms-ui.screen-land .gold-resource .coin-icon { width: 15px; height: 15px; }
+  .kingdoms-ui.screen-land .income-disclosure > summary { min-height: 24px; font-size: 11px; line-height: 18px; }
+  .kingdoms-ui.screen-land .resource-upper small { font-size: 11px; line-height: 15px; }
+  .kingdoms-ui.screen-land .xp-resource > summary { min-height: 51px; gap: 5px; }
+  .kingdoms-ui.screen-land .xp-resource progress { height: 6px; }
+  .kingdoms-ui.screen-land .resource-upper > a { min-height: 51px; gap: 1px; }
+  .kingdoms-ui.screen-land .resource-upper > a strong { font-size: 20px; }
+  .kingdoms-ui.screen-land .resource-lower { height: 49px; padding: 0 7px; gap: 7px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kingdoms-ui.screen-land .resource-disclosure .realm-resource { height: 47px; min-height: 47px; padding: 3px 0; gap: 5px; }
+  .kingdoms-ui.screen-land .realm-resource .stat-icon { width: 22px; height: 25px; flex-basis: 22px; }
+  .kingdoms-ui.screen-land .realm-resource .resource-reading strong { font-size: 13px; line-height: 16px; }
+  .kingdoms-ui.screen-land .realm-resource small, .kingdoms-ui.screen-land .realm-resource time { font-size: 11px; line-height: 15px; }
+  .kingdoms-ui.screen-land .resource-reading { transform: none; }
+  .kingdoms-ui.screen-land .resource-reading meter { height: 5px; margin-top: 3px; }
+  .kingdoms-ui.screen-land .page-heading { height: 54px; padding: 10px; }
+  .kingdoms-ui.screen-land .page-heading h1 { font-size: 30px; line-height: 35px; }
+  .kingdoms-ui.screen-land .land-income-panel { border-radius: 8px; margin-bottom: 10px; }
+  .kingdoms-ui.screen-land .land-flow-head { height: 44px; min-height: 44px; padding: 0 12px; }
+  .kingdoms-ui.screen-land .land-flow-head h2 { font-size: 22px; line-height: 30px; gap: 9px; }
+  .kingdoms-ui.screen-land .flow-icon { width: 27px; height: 29px; }
+  .kingdoms-ui.screen-land .flow-caret { font-size: 23px; }
+  .kingdoms-ui.screen-land .flow-unit { display: none; }
+  .kingdoms-ui.screen-land .land-flow-body { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid { height: 72px; padding: 9px 10px; grid-template-rows: repeat(2, 27px); gap: 0 10px; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid:before { display: none; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid > div { gap: 4px; padding: 0; border: 0; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid > div:nth-child(-n+2) { border: 0; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid > div:nth-child(n+3) { padding-left: 0; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid dt { font-size: 12px; line-height: 23px; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid dd { font-size: 14px; line-height: 23px; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid small { display: none; }
+  .kingdoms-ui.screen-land .land-payment-row { height: 41px; padding: 4px 11px; flex-direction: row; justify-content: space-between; align-items: center; gap: 7px; font-size: 13px; line-height: 23px; border-inline: 0; border-block: 1px solid #373e3b; }
+  .kingdoms-ui.screen-land .land-payment-row .land-countdown { font-size: 21px; line-height: 29px; }
+  .kingdoms-ui.screen-land [data-next-payment=''] .land-payment-row { height: auto; min-height: 41px; padding-block: 5px; }
+  .kingdoms-ui.screen-land [data-next-payment=''] .land-countdown { font-size: 16px; line-height: 22px; }
+  .kingdoms-ui.screen-land .land-payment-row [data-land-payment-time] { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .kingdoms-ui.screen-land .income-explanation { width: auto; margin: 0 11px; border-top: 0; }
+  .kingdoms-ui.screen-land .income-explanation > summary { min-height: 44px; font-size: 13px; gap: 12px; }
+  .kingdoms-ui.screen-land .income-explanation .field-hint { font-size: 12px; }
+  .kingdoms-ui.screen-land .land-income-panel > .land-sync-note { min-height: 16px; padding: 0 11px 3px; font-size: 10px; line-height: 13px; }
+  .kingdoms-ui.screen-land .market-catalog { gap: 7px; }
+  .kingdoms-ui.screen-land.signed-in .market-catalog .land-property { grid-template-columns: 90px minmax(0, 1fr) 120px; gap: 8px; padding: 4px; min-height: 106px; }
+  .kingdoms-ui.screen-land .property-art-frame { --frame-width: 90px; --frame-height: 60px; }
+  .kingdoms-ui.screen-land .market-catalog .catalog-trade { display: block; grid-column: 3; }
+  .kingdoms-ui.screen-land .market-catalog .catalog-description h2 { font-size: 17px; line-height: 21px; margin-bottom: 4px; }
+  .kingdoms-ui.screen-land .market-catalog .catalog-description > span, .kingdoms-ui.screen-land .catalog-more > span { font-size: 13px; line-height: 20px; }
+  .kingdoms-ui.screen-land .catalog-more { min-height: 22px; padding-right: 46px; }
+  .kingdoms-ui.screen-land .catalog-more .market-bulk-link { top: -10px; width: 44px; min-width: 44px; font-size: 12px; }
+  .kingdoms-ui.screen-land .market-catalog .price-owned { gap: 3px; margin-bottom: 5px; padding: 0; }
+  .kingdoms-ui.screen-land .market-catalog .price-owned > .gold { font-size: 17px; line-height: 20px; gap: 4px; }
+  .kingdoms-ui.screen-land .market-catalog .price-owned .coin-icon { width: 19px; height: 19px; }
+  .kingdoms-ui.screen-land .market-catalog .price-owned > span { font-size: 12px; line-height: 16px; }
+  .kingdoms-ui.screen-land .single-trades { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .kingdoms-ui.screen-land .single-trades .button { height: 46px; min-height: 46px; font-size: 16px; line-height: 20px; }
+  .kingdoms-ui.screen-land .single-trades .button small { font-size: 10px; line-height: 11px; bottom: 2px; }
+  .kingdoms-ui.screen-land .primary-nav { height: calc(62px + env(safe-area-inset-bottom)); }
+  .kingdoms-ui.screen-land .primary-nav .nav-link { height: 60px; min-height: 60px; font-size: 12px; line-height: 16px; gap: 2px; padding: 4px 0; }
+  .kingdoms-ui.screen-land .primary-nav .nav-icon { width: 30px; height: 29px; }
+  .kingdoms-ui.screen-land .primary-nav .nav-link:before { top: 2px; width: 40px; height: 40px; background-size: 120px 80px; }
+  .kingdoms-ui.screen-land .primary-nav [href='/game/home']:before { background-position: -40px 0; }
+  .kingdoms-ui.screen-land .primary-nav [href='/game/quests']:before { background-position: -80px 0; }
+  .kingdoms-ui.screen-land .primary-nav [href='/game/battle']:before { background-position: 0 -40px; }
+  .kingdoms-ui.screen-land .primary-nav [href='/game/armory']:before { background-position: -40px -40px; }
+  .kingdoms-ui.screen-land .primary-nav [href='/game/army']:before { background-position: -80px -40px; }
+  .kingdoms-ui.screen-land .action-feedback:not(:empty) { bottom: calc(72px + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 359px) {
+  .kingdoms-ui.screen-land { --land-edge: 8px; }
+  .kingdoms-ui.screen-land .resource-upper { padding-inline: 6px; gap: 5px; }
+  .kingdoms-ui.screen-land .resource-upper strong { font-size: 17px; }
+  .kingdoms-ui.screen-land .resource-upper small, .kingdoms-ui.screen-land .income-disclosure > summary { font-size: 10px; }
+  .kingdoms-ui.screen-land .resource-lower { padding-inline: 5px; gap: 5px; }
+  .kingdoms-ui.screen-land .realm-resource .stat-icon { width: 20px; flex-basis: 20px; }
+  .kingdoms-ui.screen-land .realm-resource .resource-reading strong { font-size: 12px; }
+  .kingdoms-ui.screen-land .realm-resource small, .kingdoms-ui.screen-land .realm-resource time { font-size: 10px; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid { gap: 0 7px; padding-inline: 8px; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid dt { font-size: 11px; }
+  .kingdoms-ui.screen-land .land-flow-body .flow-grid dd { font-size: 13px; }
+  .kingdoms-ui.screen-land.signed-in .market-catalog .land-property { grid-template-columns: 68px minmax(0, 1fr) 108px; gap: 6px; }
+  .kingdoms-ui.screen-land .property-art-frame { --frame-width: 68px; --frame-height: 49px; }
+  .kingdoms-ui.screen-land .market-catalog .catalog-description h2 { font-size: 15px; line-height: 19px; }
+  .kingdoms-ui.screen-land .market-catalog .catalog-description > span, .kingdoms-ui.screen-land .catalog-more > span { font-size: 12px; line-height: 18px; }
+  .kingdoms-ui.screen-land .single-trades { gap: 5px; }
+}

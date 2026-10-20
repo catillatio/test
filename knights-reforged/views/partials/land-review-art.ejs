@@ -1,0 +1,3 @@
+<% /* Provisional Land-only review. Original illustrations; no catalog/economy changes. */
+const reviewTile=['smallholding','woodland','copper-workshop','watchtower','river-mill','hearthstead-hamlet'].indexOf(entry.id); %>
+<% if(reviewTile>=0) { %><span class="catalog-art land-review-art review-tile-<%= reviewTile %>" role="img" aria-label="<%= entry.name %> illustration" data-art-atlas="land-review"></span><% } else { %><%- include('catalog-art',{entry,small:false}) %><% } %>
