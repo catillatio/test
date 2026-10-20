@@ -1,0 +1,56 @@
+{
+  "game": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 102,
+      "dev": 35,
+      "optional": 41,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 150
+    }
+  },
+  "release": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 28,
+      "dev": 0,
+      "optional": 0,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 27
+    }
+  },
+  "all": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 102,
+      "dev": 35,
+      "optional": 41,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 150
+    }
+  }
+}

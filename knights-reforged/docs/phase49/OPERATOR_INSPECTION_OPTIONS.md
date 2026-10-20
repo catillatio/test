@@ -1,5 +1,7 @@
 # Broadcast identification without an operator shell
 
+**HISTORICAL / INACTIVE:** owner comment [6303697572](https://github.com/catillatio/test/pull/12#issuecomment-6303697572) closes Gray moderation following his voluntary removal and drops the username correction. Do not execute or activate the proposals below. PR #13 remains separate, paused and draft; no operator infrastructure belongs in Phase 4.9.
+
 **Scope update:** only Gray’s exact reported broadcast remains in scope. The owner reports Development Knight already removed through the UI; do not touch it again. The earlier two-message proposal below is historical investigation, not current moderation authorization. [Current single-record procedure](BROADCAST_REVIEW.md) supersedes all two-record cleanup instructions. No operator workflow has been implemented.
 
 ## Confirmed read-only investigation, 2026-10-20

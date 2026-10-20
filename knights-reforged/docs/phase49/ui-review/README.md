@@ -40,7 +40,9 @@ Actual rendered pages from an isolated synthetic realm; no real player accounts 
 
 [Property artwork](../art-audition/README.md): original less-fiery Wyrmcrest Keep above, proposed Gold Mine below. Provenance and image checksum included. **Not adopted.** Preview lighting is brighter than the dark marketplace reference and the scene is more detailed; review compact cropping before adoption. The Gold Mine name remains mandatory, but its runtime presentation rename/art mapping is a subsequent compatible step retaining stable ID `moonwell-sanctuary`, holdings, paid costs, rates and historical receipts. No catalog values change.
 
-## Urgent Gray broadcast status
+## Historical Gray broadcast status — superseded
+
+**Current owner direction (comment 6303697572): Gray removed his own message. No further moderation or name correction is requested.** The following is the earlier checkpoint's access limitation, not a current task. Audio and property integration are now approved; [final review](../FINAL_REVIEW.md) supersedes this stage's pending-review statements.
 
 **Not removed here; immutable message ID is still unknown.** The owner reports Development Knight was already removed through the UI and explicitly excludes it from further action. The current authorization is only for Gray’s exact reported message, once conclusively identified.
 

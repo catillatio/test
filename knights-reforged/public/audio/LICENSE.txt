@@ -1,5 +1,10 @@
 Kingdom Come original action sounds — CC0 1.0 Universal (CC0-1.0).
 To the extent possible under law, the authors waive all copyright and related
-rights to these synthesized audio assets. No third-party samples are used.
+rights to the retained synthesized action assets. Those assets use no samples.
 https://creativecommons.org/publicdomain/zero/1.0/
-Source and sound-design inventory: scripts/create-audio.py and inventory.json.
+The Phase 4.9 Victory, Defeat, Quest and Level-up recordings use CC0-licensed
+VSCO 2 Community Edition acoustic instruments in original project arrangements.
+Decisive Victory uses the same approved Victory recording.
+See LICENSE-VSCO-CC0.txt, LICENSE-ORCHESTRAL-CUES-CC0.txt,
+orchestral-sources.json and inventory.json for provenance and approvals.
+Packaging: scripts/adopt-orchestral-phase49.py.

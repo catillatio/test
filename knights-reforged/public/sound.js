@@ -1,4 +1,4 @@
-import {soundIndex} from './audio/index.js?v=phase47-1';
+import {soundIndex} from './audio/index.js?v=phase49-orchestral-1';
 // One short cue per confirmed action. Server-owned opt-in/mute; no music, third-party
 // requests, predicted rewards or financial writes. AAC works in mobile Safari.
 const body=document.body,identity=document.querySelector('[data-character-id]')?.dataset.characterId||'anonymous';
@@ -10,7 +10,7 @@ const remember=id=>{if(!id||seen.includes(id))return false;seen.push(id);seen=se
 function engine(){if(!context){const Constructor=window.AudioContext||window.webkitAudioContext;if(!Constructor)return null;try{context=new Constructor({latencyHint:'interactive'});}catch{return null;}}return context;}
 let spritePromise=null;
 async function load(cue){
- if(!spritePromise)spritePromise=(async()=>{const ctx=engine();if(!ctx)throw new Error('Audio unavailable');const response=await fetch('/assets/audio/realm.m4a?v=phase47-1',{cache:'force-cache'});if(!response.ok)throw new Error('Audio unavailable');return ctx.decodeAudioData(await response.arrayBuffer());})().catch(error=>{spritePromise=null;throw error;});
+ if(!spritePromise)spritePromise=(async()=>{const ctx=engine();if(!ctx)throw new Error('Audio unavailable');const response=await fetch('/assets/audio/realm.m4a?v=phase49-orchestral-1',{cache:'force-cache'});if(!response.ok)throw new Error('Audio unavailable');return ctx.decodeAudioData(await response.arrayBuffer());})().catch(error=>{spritePromise=null;throw error;});
  return spritePromise;
 }
 function offer(cue){waiting=cue;let button=document.querySelector('[data-play-result]');if(!button){button=document.createElement('button');button.type='button';button.className='button button-outline sound-unlock';button.dataset.playResult='';button.textContent='♫ Play result sound';const panel=document.querySelector('.reward-celebration,.purchase-receipt,.notice-success')||document.querySelector('main');panel?.append(button);button.addEventListener('click',()=>{const next=waiting;waiting=null;button.remove();void play(next,{reward:true});});}}

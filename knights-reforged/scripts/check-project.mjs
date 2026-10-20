@@ -272,7 +272,7 @@ check('Upgraded pages bypass cached pre-expansion income clients',()=>{
     assert.ok(html.includes('/assets/kingdoms-live.css?v=phase48-mockup2'));assert.ok(html.includes('/assets/alpha.css?v=phase48-mockup2'));
     assert.ok(html.includes('/assets/remaster.css?v=phase48-mockup2'));
     assert.ok(html.includes('/assets/realm-theme.css?v=phase48-finish1'));
-    assert.ok(html.includes('/assets/sound.js?v=phase49-quiet1'));
+    assert.ok(html.includes('/assets/sound.js?v=phase49-orchestral-1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
     if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase48-shared1'));
     if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase48-land-polish1'));

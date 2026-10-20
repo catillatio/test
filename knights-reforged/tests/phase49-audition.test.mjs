@@ -25,14 +25,22 @@ test('orchestral audition has pinned recorded-instrument provenance, licensed ma
  assert.ok(score.cues.level.events.length>score.cues.victory.events.length);
 });
 
-test('four documentation-only audition clips are distinct, checksum-verified and loudness matched',()=>{
+test('approved audition masters remain distinct, checksum-verified and loudness matched after runtime adoption',()=>{
  const inventory=json('inventory.json'),sources=json('sources.json');
  const rejected=JSON.parse(readFileSync(new URL('../docs/phase49/audio-audition/inventory.json',import.meta.url)));
  assert.match(rejected.status,/REJECTED/);assert.equal(rejected.runtimeAssetsChanged,false);
  assert.equal(inventory.cues.length,4);assert.equal(new Set(inventory.cues.map(c=>c.sha256)).size,4);
  for(const cue of inventory.cues){assert.equal(sha(cue.file),cue.sha256);assert.equal(sha(cue.master),cue.masterSha256);assert.equal(bytes(cue.file).length,cue.bytes);assert.ok(Math.abs(cue.integratedLUFS+20)<=.4);assert.ok(cue.truePeakDBTP<=-1.8);assert.ok(!rejected.cues.some(old=>old.sha256===cue.sha256));for(const hash of cue.sources)assert.ok(sources.sources.some(s=>s.sha256===hash));}
  assert.equal(sha('audition.mp3'),inventory.reelSha256);
- // This review cannot implicitly replace the existing runtime audio set.
+ // Frozen audition metadata describes its creation at 087e1a8. Adoption is
+ // separately tied to the exact owner approval and unchanged source masters.
  const runtime=JSON.parse(readFileSync(new URL('../public/audio/inventory.json',import.meta.url)));
- assert.equal(runtime.version,'phase47-1');
+ assert.equal(runtime.version,'phase49-orchestral-1');
+ assert.equal(runtime.approvedSourceCommit,'087e1a8530f8e683a2a97dac938e22005c2663c3');
+ assert.equal(runtime.ownerApproval,'https://github.com/catillatio/test/pull/12#issuecomment-6303697572');
+ assert.equal(runtime.sourceManifestSha256,inventory.sourceManifestSha256);
+ assert.equal(runtime.sourceScoreSha256,inventory.scoreSha256);
+ for(const cue of inventory.cues){const adopted=runtime.sounds.find(s=>s.id===cue.id);assert.equal(adopted.sourceMasterSha256,cue.masterSha256);assert.equal(adopted.approvedMp3Sha256,cue.sha256);assert.equal(adopted.seconds,cue.seconds);assert.equal(adopted.voice,'recorded-orchestra');}
+ const publicManifest=readFileSync(new URL('../public/audio/orchestral-sources.json',import.meta.url));assert.equal(createHash('sha256').update(publicManifest).digest('hex'),inventory.sourceManifestSha256);
+ for(const [source,target] of [['LICENSE-VSCO-CC0.txt','LICENSE-VSCO-CC0.txt'],['LICENSE-CUES-CC0.txt','LICENSE-ORCHESTRAL-CUES-CC0.txt']])assert.deepEqual(readFileSync(new URL('../public/audio/'+target,import.meta.url)),bytes(source));
 });

@@ -1,14 +1,16 @@
-# Phase 4.9 — Approved interface, property integration and orchestral audition
+# Phase 4.9 — Alpha candidate, approved economy/interface/art and orchestral audio
+
+**Current owner direction:** [comment 6303697572](https://github.com/catillatio/test/pull/12#issuecomment-6303697572) approves the orchestral set at `087e1a8` for alpha adoption, closes Gray moderation following voluntary removal, and **drops the username correction entirely**. PR #13 is paused/draft and untouched. No new operator system, broader redesign, bot-finance adjustment or level expansion belongs in this candidate. [Final release-readiness review](docs/phase49/FINAL_REVIEW.md) and [protected release procedure](PHASE_4_9_RELEASE.md) are the current checkpoint; earlier stage counts below are historical.
 
 The owner has **approved the 65% XP checkpoint**, all **five interface refinements**, and the **Wyrmcrest Keep / Gold Mine artwork direction**. Immutable `bot-combat-rewards-2`, bot gold, pair percentages and economy/recovery rules remain unchanged.
 
 The two approved original illustrations are now integrated. Current property displays say **Gold Mine**, retaining **`moonwell-sanctuary`** and every existing economic value/record. Historical receipt headings retain the saved name. No schema migration or immutable catalog edit is introduced. [Runtime screenshots and preservation details](docs/phase49/art-integration/README.md), [verification](docs/phase49/art-integration/verification.json). Latest full verification: **452 tests / 451 pass / 0 fail / 1 hosted-only local skip**; TypeScript/build, 99 static checks / 77 EJS fixtures, four art viewport groups / 16 captures and 64 audio/recovery responsive visits PASS.
 
-The previous **four audio clips are REJECTED**, archived explicitly and barred from adoption. A separate [orchestral audition](docs/phase49/audio-orchestral-audition/README.md) uses publisher-licensed CC0 French horn, trumpet, harp, bowed strings and soft bells in purpose-made musical arrangements. Four clips are loudness matched, with pinned source/license/score/output provenance and lossless masters. **Owner listening approval is still required. No new runtime audio is adopted.** Ordinary controls/navigation remain silent.
+The previous **four impact/chime clips are REJECTED**, archived explicitly and barred from adoption. The approved [orchestral set](docs/phase49/audio-orchestral-audition/README.md) uses CC0 French horn, trumpet, harp, bowed strings and soft bells. Runtime `phase49-orchestral-1` retains the full approved arrangements (3.9/3.9/4.0/5.3 seconds); decisive uses the same approved Victory. The pinned source/license/score/master hashes are retained, with mobile AAC packaging and versioned cache URLs. Ordinary controls/navigation remain silent; event priority, gesture unlocking, mute/volume, receipt matching, replay suppression and navigation recovery are preserved.
 
 [Approved UI checkpoint screenshots/evidence](docs/phase49/ui-review/README.md). [Complete persistent backlog](docs/phase49/BACKLOG.md). PR #12 remains draft; no merge, deployment, production-data access or release-infrastructure change.
 
-**Urgent moderation scope:** only Gray's exact reported broadcast remains. The owner reports Development Knight already removed through the UI; do not touch it again. The live Gray UUID is unknown and no authenticated operator channel exists here. [Why the UI says Reported for review, current authorization, DOM-only identification and the existing one-record reversible hide procedure](docs/phase49/BROADCAST_REVIEW.md). No moderation or production operation was executed.
+**Administration scope:** no Gray or Development Knight moderation, restoration or record inspection. Both removals are owner-reported, not independently verified here. No username change is requested. [Historical investigation, explicitly inactive](docs/phase49/BROADCAST_REVIEW.md). No moderation or production operation was executed.
 
 [Current required backlog](docs/phase49/BACKLOG.md). PR #12 remains draft; no merge, deployment or release-infrastructure change.
 
@@ -89,10 +91,10 @@ npm audit
 
 Actual new-policy receipts: [390px repeated rival](docs/phase49/screenshots/390-repeat.png), [weaker rival](docs/phase49/screenshots/390-weak.png), [empty purse](docs/phase49/screenshots/390-empty.png); [all 320/390/430px captures](docs/phase49/screenshots). The approved interface is unchanged.
 
-## Required remaining work
+## Final checkpoint and remaining limitations
 
-Pause for owner balancing review before the next manageable backlog stage. [BACKLOG.md](docs/phase49/BACKLOG.md) explicitly keeps navigation sounds, reward-audio audition, Profile disclosures, Home Calling, compact Hall, neutral panels, Wyrmcrest art, Gold Mine rename/art, tutorial and battle polish open. No unrelated UI/audio/artwork implementation is mixed into this checkpoint.
+The approved balance, five UI changes, property integration and four orchestral cues are implemented. [BACKLOG.md](docs/phase49/BACKLOG.md) distinguishes verified delivery from owner-closed/withdrawn administration and deferred cosmetic work. No additional agreed alpha-blocking interface requirement was identified in the source audit. Tutorial/result flows and existing accomplishments remain intact; professional sound refinement, broad redesign, level 100/200 content and administration dashboard remain future work.
 
-**Required Gray cleanup remains blocked, not complete.** The current one-message scope and owner authorization supersede the earlier two-message plan. Development Knight was owner-reported removed and is excluded. [Current blocker and safe procedure](docs/phase49/BROADCAST_REVIEW.md); no live hide or feed verification has been performed here.
+Physical iPhone/Android audio/OS interruptions and sustained live-alpha economy observation cannot be established by desktop browser emulation. The 40% same-bot floor and long-term pace remain provisional. The final evidence and remaining release gates are recorded in [FINAL_REVIEW.md](docs/phase49/FINAL_REVIEW.md). Keep PR #12 draft and pause for owner review; do not merge or deploy until separately authorized.
 
 [Original 100% proposal](docs/phase49/V1_IMPLEMENTATION.md) and [66 original simulations](docs/phase49/paced-simulations.json) are retained as historical evidence, not the active 65% policy. No merge or deployment is authorized by this report.

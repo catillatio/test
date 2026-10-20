@@ -1,4 +1,6 @@
-# Urgent single-broadcast moderation — Gray only
+# Historical broadcast investigation — CLOSED, do not execute
+
+**Superseded by [owner comment 6303697572](https://github.com/catillatio/test/pull/12#issuecomment-6303697572): Gray removed his own message. No Gray inspection, hide or restoration is requested or authorized for this release. Development Knight remains excluded.** No production action was performed here. The notes/commands below preserve the earlier investigation only; they are not current execution instructions. PR #13 stays draft/inactive.
 
 ## Current authorization and status
 

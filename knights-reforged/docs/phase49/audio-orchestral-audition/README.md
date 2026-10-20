@@ -1,6 +1,6 @@
-# Phase 4.9 orchestral reward audition — owner approval pending
+# Phase 4.9 orchestral reward audition — approved for alpha
 
-**None of these recordings are approved or adopted.** They are new purpose-made musical arrangements, separate from the rejected four-clip SFX audition. Ordinary buttons and navigation remain silent; the runtime reward audio remains unchanged.
+**Owner approved all four arrangements at `087e1a8` for alpha in [comment 6303697572](https://github.com/catillatio/test/pull/12#issuecomment-6303697572).** They are now packaged in runtime `phase49-orchestral-1`, separately from the rejected four-clip SFX audition. Ordinary buttons/navigation remain silent. The approved score, lossless masters, MP3s and creation-time inventory are retained unchanged; the inventory's pending status is historical metadata, not the current decision. Runtime approval/source hashes and licenses are in `public/audio/inventory.json` and `orchestral-sources.json`.
 
 [Listen to all four cues](audition.mp3), in order **Victory → Defeat → Quest → Level-up**, with 0.8-second pauses. GitHub on Android may require **View raw / Download**. Individual MP3s below are volume matched. For an offline player, download this folder and open [index.html](index.html); tap to play, no autoplay. Lossless FLAC masters are included for close listening.
 
@@ -30,7 +30,7 @@ The pinned [source repository](https://github.com/sgossner/VSCO-2-CE/tree/440300
 
 The target is **−20 LUFS**, true peak no higher than **−2 dBTP**; decoded MP3 measurements are above. No limiter was needed to force all cues to the same peak: their natural dynamics differ. Clips have click-safe edges and a short decaying tail. [inventory.json](inventory.json) records output hashes, source hashes, note counts and measurements. Tests verify mapping coverage, distinct outputs, licensing checksums, rejection status of the old set and the unchanged runtime audio version.
 
-**Quality acceptance remains open.** These are sampled orchestral arrangements with real-instrument timbres, not a claim of a professionally commissioned orchestral session. Numerical matching cannot establish musical taste, emotional impact or physical-device quality. Please audition on phone speakers and headphones; naturalness of the horn phrase, balance of harp/bells, and the distinct fuller level-up are the owner decision. No audio enters `public/audio/` before explicit approval.
+**Alpha adoption is approved; professional refinement is deferred.** These are sampled orchestral arrangements, not a professionally commissioned orchestral session. Numerical matching cannot establish physical-device quality. Actual Android/iPhone speakers, headphones, hardware mute and Safari interruption behavior remain owner-device checks. `scripts/adopt-orchestral-phase49.py` packages the complete approved masters as 48 kHz stereo AAC without musical edits; 3.9s Victory/Defeat, 4.0s Quest and 5.3s Level-up. Decisive Victory shares the approved Victory, rather than adding an unreviewed arrangement. Existing meaningful-event priority is preserved, so a level-up/achievement may supersede a simultaneous victory cue. No blocking playback, navigation delay, new rewards, preference reset or background music is added.
 
 ## Research decisions
 

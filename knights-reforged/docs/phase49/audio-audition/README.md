@@ -2,7 +2,7 @@
 
 **REJECTED by owner. Archived for provenance only; none of these four clips may be adopted.**
 
-The owner rejected the complete metallic/chime-based audition. See the separate [orchestral review](../audio-orchestral-audition/README.md) for the new musical approach; it also requires explicit approval.
+The owner rejected the complete metallic/chime-based audition. The separate [orchestral set](../audio-orchestral-audition/README.md) was subsequently approved for alpha in owner comment 6303697572 and adopted. That approval does not apply to any clip in this rejected archive.
 
 **Not adopted into runtime.** Ordinary buttons/navigation are silent in the new UI. No background music is included.
 

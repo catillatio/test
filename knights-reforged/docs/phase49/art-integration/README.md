@@ -1,6 +1,6 @@
 # Approved property artwork and Gold Mine integration
 
-**Owner-approved illustration direction, integrated on the feature branch; not deployed.** The five earlier UI refinements and the 65% combat checkpoint are approved and unchanged. Audio remains a separate unapproved audition.
+**Owner-approved illustration direction, integrated on the feature branch; not deployed.** The five earlier UI refinements and the 65% combat checkpoint are approved and unchanged. Later [owner comment 6303697572](https://github.com/catillatio/test/pull/12#issuecomment-6303697572) also approves orchestral audio adoption and closes/withdraws all moderation/name-correction work. Verification counts below describe this earlier art checkpoint; [final candidate evidence](../FINAL_REVIEW.md) is current.
 
 The approved [original source sheet](../art-audition/property-proposals.png) supplies the less-fiery Wyrmcrest Keep and the Gold Mine. Two WebP derivatives are encoded at 512×382, with the sheet divider excluded. [Runtime provenance](../../../public/art/properties-49/provenance.json) records the source/output SHA-256 hashes and exact crop coordinates. No new creative repainting, extracted APK art or third-party stock is introduced.
 
@@ -31,4 +31,4 @@ The illustrations remain more detailed/brighter than the dark reference sheet. E
 
 `scripts/browser-phase49-properties.ts` verifies four viewport groups and creates these 16 captures: artwork URL/dimensions, names, 44px controls, no overflow, five tabs, receipt and Buy More. `tests/phase49-audition.test.mjs` verifies separate orchestral provenance, loudness, archived rejection status and unchanged runtime audio. Full counts are recorded in [verification.json](verification.json): **452 tests, 451 passed, 0 failed, 1 hosted-only test skipped locally**; TypeScript/build PASS; 99 static checks and 77 EJS fixtures PASS; four property browser viewport groups / 16 screenshots PASS; existing audio/recovery browser suite / 64 responsive visits PASS. All four musical clips, masters, reel and inventory reproduce byte-for-byte. Production dependency audit: zero vulnerabilities.
 
-Gray's exact live broadcast remains a required, blocked moderation task; Development Knight is excluded from further action. No live service/database, protected release workflow, deployment setting or credential was accessed or modified.
+Gray cleanup is closed on the owner's voluntary-removal report; no further Gray or Development Knight action is authorized. No live service/database, protected release workflow, deployment setting or credential was accessed or modified.

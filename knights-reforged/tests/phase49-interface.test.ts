@@ -11,6 +11,18 @@ test('ordinary actions have no sound hint; confirmed rewards keep priority and a
  assert.equal(soundFeedback({commandId:'receipt',kind:'profile',data:{newAchievements:['first']}},null,'a')?.cue,'achievement');
  assert.equal(soundFeedback({commandId:'receipt',kind:'invite',data:{armyEvent:'accepted'}},null,'a')?.cue,'alliance');
 });
+test('approved reward playback hints reflect committed outcomes and select only one meaningful cue',()=>{
+ const battle={commandId:'saved-battle',attackerId:'attacker',winnerId:'attacker',victoryStyle:'hard-fought',playerExperience:{attacker:{}}};
+ const before=structuredClone(battle);
+ assert.deepEqual(soundFeedback(null,battle,'attacker'),{id:'saved-battle',cue:'victory'});
+ assert.equal(soundFeedback(null,{...battle,victoryStyle:'decisive'},'attacker')?.cue,'decisive');
+ assert.equal(soundFeedback(null,battle,'defender')?.cue,'defeat');
+ assert.equal(soundFeedback({commandId:'saved-quest',kind:'quest',data:{gold:7,xp:2}},null,'attacker')?.cue,'quest');
+ assert.equal(soundFeedback(null,{...battle,playerExperience:{attacker:{celebration:{level:8},newAchievements:['level-eight']}}},'attacker')?.cue,'level');
+ assert.equal(soundFeedback(null,{...battle,bountyClaim:{id:'claimed'}},'attacker')?.cue,'bounty');
+ assert.deepEqual(battle,before,'Presentation cannot mutate a recorded battle or its rewards.');
+ assert.equal(soundFeedback({kind:'quest',data:{gold:7,xp:2}},null,'attacker'),null,'An uncommitted outcome has no result sound.');
+});
 test('Calling moves to Home with fixed return navigation; existing cost, cooldown, CSRF and receipt protections remain',{skip:!testDatabaseUrl},async()=>{
  const r=await realm({isolated:true});try{
   const a=await r.player('Home Calling Review');await r.prepare(a,500,30);
