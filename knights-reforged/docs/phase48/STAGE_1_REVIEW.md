@@ -45,3 +45,16 @@ Replacement audio has not been adopted. A separate audition and license review r
 5. Complete Phase 4.8 preservation, migration/no-op, security and visual acceptance checks before a separate release review.
 
 No merge, release workflow dispatch, Railway operation or production database access is authorized by this preview.
+
+## Completed verification
+
+- TypeScript and production build: passed.
+- Full automated run with local PostgreSQL: **422 passed, 0 failed, 1 skipped** (423 tests). The skipped test requires the real hosted-runner network namespace; no production credentials were used to bypass it.
+- Static/template/asset checks: **92 passed**, including 73 production-template fixture renders.
+- Existing Phase 4.7 browser regression: **64 responsive visits**, audio engine and shopping recovery passed.
+- First-stage Phase 4.8 browser checks: **42 responsive visits** and actual transaction/recovery flows passed.
+- Compiled-process restart persistence: passed, including exactly three offline income periods and no duplicate payouts.
+- Application and release-controller production-dependency audits: **0 vulnerabilities** reported by each audit.
+- Protected release/deployment/migration/ruleset paths: unchanged from the base commit.
+
+See [structured verification](verification-stage1.json), [safety findings and limitations](SECURITY_STAGE_1.md), and [local test instructions](TESTING.md). These are development checks; no Railway deployment or live configuration was tested.
