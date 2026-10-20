@@ -5,20 +5,21 @@ import {mkdtemp,mkdir,readFile,writeFile,cp,readdir,rm} from 'node:fs/promises';
 import {join,resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawn} from 'node:child_process';
-import {protocol,uuid,hash,checkContext,checkRequest,checkReview,checkReport,confirmation,signedRequest,canonical,digest,framePrefix} from './protocol.mjs';
-import {verifyToken,verifyDeployment,deploymentMessages,railwayRead} from './railway.mjs';
+import {protocol,uuid,hash,checkContext,checkRequest,checkReview,checkReport,confirmation,signedRequest,canonical,digest,framePrefix,publicEd25519,expectedService} from './protocol.mjs';
+import {verifyToken,verifyDeployment,deploymentMessages,verifyService} from './railway.mjs';
 import {preflight} from './preflight.mjs';
 const base=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 function command(executable,args,{cwd=base}={}){return new Promise((resolve,reject)=>{
- const p=spawn(executable,args,{cwd,env:process.env,stdio:['ignore','pipe','pipe']}),parts=[];let size=0;
+ const childEnv={...process.env};for(const key of ['KINGDOM_OPERATOR_SIGNING_KEY','GH_TOKEN','GITHUB_TOKEN','ACTIONS_RUNTIME_TOKEN'])delete childEnv[key];if(executable!=='railway')delete childEnv.RAILWAY_TOKEN;
+ const p=spawn(executable,args,{cwd,env:childEnv,stdio:['ignore','pipe','pipe']}),parts=[];let size=0;
  p.stdout.on('data',b=>{size+=b.length;if(size>100000){p.kill();reject(new Error());}else parts.push(b);});p.stderr.resume();p.on('error',()=>reject(new Error()));p.on('close',c=>c===0?resolve(Buffer.concat(parts).toString()):reject(new Error()));
 });}
 export function settings(env){
- assert.equal(env.GITHUB_REPOSITORY,'catillatio/test');assert.equal(env.KINGDOM_OPERATOR_ENABLED,'true');assert.equal(env.KINGDOM_OPERATOR_OWNER,'catillatio');
- const c=checkContext({projectId:env.RAILWAY_PROJECT_ID,environmentId:env.RAILWAY_ENVIRONMENT_ID,gameServiceId:env.RAILWAY_GAME_SERVICE_ID,pgServiceId:env.RAILWAY_PG_SERVICE_ID,releaseServiceId:env.RAILWAY_RELEASE_WORKER_SERVICE_ID,verifyPgServiceId:env.RAILWAY_VERIFY_PG_SERVICE_ID,operatorServiceId:env.RAILWAY_OPERATOR_SERVICE_ID,sourceHost:env.KINGDOM_DATABASE_HOST,sourceDatabase:env.KINGDOM_DATABASE_NAME});
- assert.ok(env.RAILWAY_TOKEN&&!env.RAILWAY_API_TOKEN);assert.match(env.KINGDOM_BACKUP_RECIPIENT,/^age1[a-z0-9]{58}$/);
- const privateKey=createPrivateKey(env.KINGDOM_OPERATOR_SIGNING_KEY),publicKey=createPublicKey(env.KINGDOM_OPERATOR_VERIFY_KEY);assert.equal(privateKey.asymmetricKeyType,'ed25519');assert.equal(publicKey.asymmetricKeyType,'ed25519');assert.deepEqual(createPublicKey(privateKey).export({type:'spki',format:'der'}),publicKey.export({type:'spki',format:'der'}));
- assert.notDeepEqual(publicKey.export({type:'spki',format:'der'}),createPublicKey(env.KINGDOM_EXISTING_RELEASE_VERIFY_KEY).export({type:'spki',format:'der'}),'Use a distinct operator signing key.');
+ assert.ok(!env.DATABASE_URL&&!env.KINGDOM_RELEASE_SIGNING_KEY);assert.equal(env.GITHUB_REPOSITORY,'catillatio/test');assert.equal(env.KINGDOM_OPERATOR_ENABLED,'true');assert.equal(env.KINGDOM_OPERATOR_OWNER,'catillatio');
+ const c=checkContext({projectId:env.RAILWAY_PROJECT_ID,environmentId:env.RAILWAY_ENVIRONMENT_ID,gameServiceId:env.RAILWAY_GAME_SERVICE_ID,pgServiceId:env.RAILWAY_PG_SERVICE_ID,releaseServiceId:env.RAILWAY_RELEASE_WORKER_SERVICE_ID,verifyPgServiceId:env.RAILWAY_VERIFY_PG_SERVICE_ID,operatorServiceId:env.RAILWAY_OPERATOR_SERVICE_ID,bootstrapServiceId:env.RAILWAY_OPERATOR_BOOTSTRAP_SERVICE_ID,sourceHost:env.KINGDOM_DATABASE_HOST,sourceDatabase:env.KINGDOM_DATABASE_NAME});
+ assert.equal(env.KINGDOM_OPERATOR_RAILWAY_SCOPE_ACKNOWLEDGED,'true');assert.ok(env.RAILWAY_TOKEN&&!env.RAILWAY_API_TOKEN);assert.match(env.KINGDOM_BACKUP_RECIPIENT,/^age1[a-z0-9]{58}$/);
+ const privateKey=createPrivateKey(env.KINGDOM_OPERATOR_SIGNING_KEY),publicKey=publicEd25519(env.KINGDOM_OPERATOR_VERIFY_KEY);assert.equal(privateKey.asymmetricKeyType,'ed25519');assert.equal(publicKey.asymmetricKeyType,'ed25519');assert.deepEqual(createPublicKey(privateKey).export({type:'spki',format:'der'}),publicKey.export({type:'spki',format:'der'}));
+ assert.notDeepEqual(publicKey.export({type:'spki',format:'der'}),publicEd25519(env.KINGDOM_EXISTING_RELEASE_VERIFY_KEY).export({type:'spki',format:'der'}),'Use a distinct operator signing key.');
  return c;
 }
 async function github(path,token,{fetcher=globalThis.fetch}={}){const response=await fetcher('https://api.github.com/repos/catillatio/test'+path,{redirect:'error',signal:AbortSignal.timeout(15000),headers:{authorization:'Bearer '+token,accept:'application/vnd.github+json'}});assert.equal(response.ok,true);return response.json();}
@@ -59,21 +60,21 @@ export async function collectReport(request,id,token,{getMessages=deploymentMess
 }
 let gate='PREFLIGHT';
 async function main(){
- const env={...process.env};const input={'review-name':['review','name_correction'],'review-gray':['review','gray_broadcast_hide'],'apply-name':['apply','name_correction'],'apply-gray':['apply','gray_broadcast_hide'],'verify-name':['verify','name_correction'],'verify-gray':['verify','gray_broadcast_hide'],'setup-audit':['setup','audit_setup']}[env.OPERATOR_INPUT];assert.ok(input);[env.OPERATOR_MODE,env.OPERATOR_ACTION]=input;await preflight(env);const context=settings(env);
- assert.ok(['review','apply','verify','setup'].includes(env.OPERATOR_MODE));assert.ok(['name_correction','gray_broadcast_hide','audit_setup'].includes(env.OPERATOR_ACTION));
+ const env={...process.env};const input={'review-name':['review','name_correction'],'review-gray':['review','gray_broadcast_hide'],'apply-name':['apply','name_correction'],'apply-gray':['apply','gray_broadcast_hide'],'verify-name':['verify','name_correction'],'verify-gray':['verify','gray_broadcast_hide'],'review-gray-restore':['review','gray_broadcast_restore'],'apply-gray-restore':['apply','gray_broadcast_restore'],'verify-gray-restore':['verify','gray_broadcast_restore'],'setup-audit':['setup','audit_setup']}[env.OPERATOR_INPUT];assert.ok(input);[env.OPERATOR_MODE,env.OPERATOR_ACTION]=input;await preflight(env);const context=settings(env);
+ assert.ok(['review','apply','verify','setup'].includes(env.OPERATOR_MODE));assert.ok(['name_correction','gray_broadcast_hide','gray_broadcast_restore','audit_setup'].includes(env.OPERATOR_ACTION));
  const temp=await mkdtemp(join(env.RUNNER_TEMP,'kingdom-owner-'));try{
   let reviewed=null;if(['apply','verify'].includes(env.OPERATOR_MODE)){gate='REVIEW_ATTESTATION';reviewed=await reviewedArtifact(env,context,{download:id=>downloadReview(id,env,temp)});}
   gate='RAILWAY_AUTHORIZATION';await verifyToken(context,env.RAILWAY_TOKEN);
   // Existing operator service only; never create/retarget a service or modify
   // game, database or verifier settings. CLI output stays captured, not logged.
-  const service=await railwayRead('query KingdomOperatorService($id: String!, $env: String!) { service(id: $id) { id projectId } serviceInstance(serviceId: $id, environmentId: $env) { serviceId environmentId } }',{id:context.operatorServiceId,env:context.environmentId},env.RAILWAY_TOKEN);
-  assert.equal(service?.service?.projectId,context.projectId);assert.equal(service?.service?.id,context.operatorServiceId);assert.equal(service?.serviceInstance?.environmentId,context.environmentId);assert.equal(service?.serviceInstance?.serviceId,context.operatorServiceId);
+  const targetService=env.OPERATOR_MODE==='setup'?context.bootstrapServiceId:context.operatorServiceId;
+  gate='SERVICE_POSTURE';await verifyService(context,env.RAILWAY_TOKEN,{serviceId:targetService});
   gate='CODE_BUNDLE';const built=await bundle(temp,env.GITHUB_SHA),now=new Date();
-  const request=checkRequest({protocol,kind:'request',mode:env.OPERATOR_MODE,action:env.OPERATOR_ACTION,jobId:'op_'+env.GITHUB_RUN_ID+'_'+env.GITHUB_RUN_ATTEMPT+'_'+randomUUID().replaceAll('-',''),authorizationId:reviewed?.authorization.id??randomUUID(),sourceSha:env.GITHUB_SHA,bundleDigest:built.digest,context,owner:'catillatio',createdAt:now.toISOString(),expiresAt:new Date(+now+900000).toISOString(),recipient:env.KINGDOM_BACKUP_RECIPIENT,field:reviewed?.field??(env.OPERATOR_ACTION==='gray_broadcast_hide'?'message_status':env.OPERATOR_FIELD),messageId:reviewed?.messageId??(env.OPERATOR_MESSAGE_ID||null),review:reviewed,confirmation:['apply','setup'].includes(env.OPERATOR_MODE)?env.OPERATOR_CONFIRMATION:null});
-  const args=['--project',context.projectId,'--environment',context.environmentId,'--service',context.operatorServiceId];
+  const request=checkRequest({protocol,kind:'request',mode:env.OPERATOR_MODE,action:env.OPERATOR_ACTION,jobId:'op_'+env.GITHUB_RUN_ID+'_'+env.GITHUB_RUN_ATTEMPT+'_'+randomUUID().replaceAll('-',''),authorizationId:reviewed?.authorization.id??randomUUID(),sourceSha:env.GITHUB_SHA,bundleDigest:built.digest,context,owner:'catillatio',createdAt:now.toISOString(),expiresAt:new Date(+now+900000).toISOString(),recipient:env.KINGDOM_BACKUP_RECIPIENT,field:reviewed?.field??(env.OPERATOR_ACTION.startsWith('gray_broadcast_')?'message_status':env.OPERATOR_FIELD),messageId:reviewed?.messageId??(env.OPERATOR_MESSAGE_ID||null),reversesAuthorizationId:reviewed?.reversesAuthorizationId??(env.OPERATOR_REVERSES_AUTHORIZATION_ID||null),review:reviewed,confirmation:['apply','setup'].includes(env.OPERATOR_MODE)?env.OPERATOR_CONFIRMATION:null});
+  const args=['--project',context.projectId,'--environment',context.environmentId,'--service',targetService];
   gate='OPERATOR_REQUEST_STAGING';await command('railway',['variable','set',...args,'--skip-deploys','KINGDOM_OPERATOR_REQUEST='+signedRequest(request,env.KINGDOM_OPERATOR_SIGNING_KEY)]);
   gate='OPERATOR_UPLOAD';const queued=JSON.parse(await command('railway',['up',built.destination,...args,'--path-as-root','--detach','--json','--message','Owner operator '+request.jobId],{cwd:built.destination}));
-  gate='DEPLOYMENT_IDENTITY';await verifyDeployment(queued.deploymentId,context,env.RAILWAY_TOKEN);
+  gate='DEPLOYMENT_IDENTITY';await verifyDeployment(queued.deploymentId,context,env.RAILWAY_TOKEN,undefined,targetService);
   gate='PRIVATE_REPORT';const report=await collectReport(request,queued.deploymentId,env.RAILWAY_TOKEN);
   gate='LOCAL_ARTIFACT';const out=join(env.RUNNER_TEMP,'kingdom-owner-operator');await mkdir(out,{recursive:true,mode:0o700});const stem=request.mode==='review'?'review':'result';
   await writeFile(join(out,stem+'.json'),JSON.stringify(report,null,2)+'\n',{mode:0o600,flag:'wx'});await writeFile(join(out,stem+'.age'),Buffer.from(report.encrypted,'base64'),{mode:0o600,flag:'wx'});

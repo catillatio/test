@@ -1,7 +1,7 @@
 // No HTTP route, startup hook, initialization, provisioning or release import.
 import {createHash} from 'node:crypto';
 import {registration} from './auth.js';
-import {assertOwnerAudit} from './owner-audit.js';
+import {assertOperatorRuntime} from './owner-audit.js';
 import {type Database,type Sql,transaction} from './db.js';
 import {moderateMessageInTransaction} from './community.js';
 
@@ -10,7 +10,7 @@ export const grayTarget='aff9d7b2-5044-4002-907a-60a9a273d375';
 export const oldName='mosslikesbbc',newName='mosslikesbb';
 export const grayBodySha256='c4cb23c808234a16c1c32862e0128b875635eeb3d704c764767d9fd1d2e6f5ba';
 export type NameField='account_username'|'character_name';
-export type OwnerOperation='name_correction'|'gray_broadcast_hide';
+export type OwnerOperation='name_correction'|'gray_broadcast_hide'|'gray_broadcast_restore';
 const sha=(text:string)=>createHash('sha256').update(text).digest('hex');
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 function requireThat(value:unknown):asserts value {if(!value)throw new Error('Operator target or state does not match the approved review.');}
@@ -22,7 +22,7 @@ export const reviewDigest=(review:unknown)=>sha(canonical(review));
 export interface TargetReview {
  operation:OwnerOperation;characterId:string;accountId:string;field:NameField|'message_status'|null;
  usernameHash:string;characterNameHash:string;
- messageId?:string;bodyHash?:string;createdAt?:string;status?:string;
+ reversesAuthorizationId?:string;messageId?:string;bodyHash?:string;createdAt?:string;status?:string;
 }
 interface Identity {account_id:string;character_id:string;username:string;name:string;login_disabled:boolean;bot:boolean;}
 async function identity(sql:Sql,id:string,lock=false):Promise<Identity>{
@@ -68,6 +68,23 @@ export async function inspectGray(sql:Sql,messageId?:string){
  return {review,details:{playerId:i.character_id,accountId:i.account_id,authorName:i.name,messageId:m.id,body:m.body,
   createdAt:m.created_at,status:m.status,applyEligible:m.status==='visible',reversible:true}};
 }
+// Restore is a new reviewed authorization linked to this tool's immutable hide
+// receipt. Author-deleted or subsequently re-moderated messages cannot restore.
+async function assertGrayRestore(sql:Sql,review:TargetReview){
+ requireThat(uuid.test(review.reversesAuthorizationId??''));
+ const parent=(await sql.query("SELECT * FROM owner_operator_actions WHERE authorization_id=$1 AND operation='gray_broadcast_hide'",[review.reversesAuthorizationId])).rows[0];
+ requireThat(parent&&parent.character_id===grayTarget&&parent.message_id===review.messageId&&parent.account_id===review.accountId&&parent.after_state.bodyHash===review.bodyHash&&parent.after_state.createdAt===review.createdAt);
+ const last=(await sql.query('SELECT id,action FROM social_moderation WHERE message_id=$1 ORDER BY created_at DESC,id DESC LIMIT 1',[review.messageId])).rows[0];
+ requireThat(last&&last.id===parent.after_state.socialModerationId&&last.action==='operator_hide');
+ return parent;
+}
+export async function inspectGrayRestore(sql:Sql,messageId:string,hideAuthorizationId:string){
+ const r=await inspectGray(sql,messageId);
+ requireThat(r.review.status==='hidden');
+ const review={...r.review,operation:'gray_broadcast_restore' as const,reversesAuthorizationId:hideAuthorizationId};
+ await assertGrayRestore(sql,review);
+ return {review,details:{...r.details,applyEligible:true,reversesAuthorizationId:hideAuthorizationId,note:'This restores the exact offensive message to public visibility. Separate explicit owner approval is required.'}};
+}
 export async function readOnlyReview<T>(db:Database,work:(sql:Sql)=>Promise<T>){
  const sql=await db.connect();try{
   await sql.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
@@ -83,15 +100,15 @@ export async function applyOwnerAction(db:Database,approval:OwnerAuthorization){
  requireThat(review.authorization?.id===approval.id&&review.authorization.sourceSha===approval.sourceSha&&review.authorization.operator===approval.operator);
  requireThat(Date.parse(review.authorization.createdAt)<=Date.now()+60000&&Date.parse(review.authorization.expiresAt)>Date.now()&&Date.parse(review.authorization.expiresAt)>Date.parse(review.authorization.createdAt)&&Date.parse(review.authorization.expiresAt)-Date.parse(review.authorization.createdAt)<=86400000);
  requireThat((review.operation==='name_correction'&&review.characterId===nameTarget&&['account_username','character_name'].includes(review.field??''))||
-  (review.operation==='gray_broadcast_hide'&&review.characterId===grayTarget&&review.field==='message_status'&&uuid.test(review.messageId??'')&&review.bodyHash===grayBodySha256&&review.status==='visible'));
+  (['gray_broadcast_hide','gray_broadcast_restore'].includes(review.operation)&&review.characterId===grayTarget&&review.field==='message_status'&&uuid.test(review.messageId??'')&&review.bodyHash===grayBodySha256&&review.status===(review.operation==='gray_broadcast_restore'?'hidden':'visible')));
  return transaction(db,async sql=>{
   await sql.query("SET LOCAL statement_timeout='15s'");await sql.query("SET LOCAL lock_timeout='5s'");
-  await assertOwnerAudit(sql);
+  await assertOperatorRuntime(sql);
   await sql.query('SELECT pg_advisory_xact_lock(61824900,hashtext($1))',[approval.id]);
   const i=await identity(sql,review.characterId,true);requireThat(i.account_id===review.accountId);
   const existing=(await sql.query('SELECT * FROM owner_operator_actions WHERE authorization_id=$1',[approval.id])).rows[0];
   let message:Record<string,any>|undefined;
-  if(review.operation==='gray_broadcast_hide'){
+  if(review.operation.startsWith('gray_broadcast_')){
    message=(await sql.query(`SELECT id,author_id,channel,body,status,to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS created_at
     FROM realm_messages WHERE id=$1 FOR UPDATE`,[review.messageId])).rows[0];
    requireThat(message&&message.author_id===grayTarget&&message.channel==='broadcast'&&sha(message.body)===review.bodyHash&&message.created_at===review.createdAt);
@@ -99,7 +116,7 @@ export async function applyOwnerAction(db:Database,approval:OwnerAuthorization){
   if(existing){
    requireThat(existing.review_sha256===approval.digest&&existing.operation===review.operation&&existing.character_id===review.characterId&&existing.account_id===review.accountId);
    if(review.operation==='name_correction')requireThat(i.username===existing.after_state.username&&i.name===existing.after_state.characterName);
-   else requireThat(message?.status==='hidden');
+   else requireThat(message?.status===(review.operation==='gray_broadcast_restore'?'visible':'hidden'));
    return {applied:false,alreadyApplied:true,authorizationId:approval.id,reviewSha256:approval.digest,verification:await verifyOwnerAction(sql,review)};
   }
   requireThat(sha(i.username)===review.usernameHash&&sha(i.name)===review.characterNameHash);
@@ -115,14 +132,17 @@ export async function applyOwnerAction(db:Database,approval:OwnerAuthorization){
    requireThat(changed.rows.length===1);
    after={username:field==='account_username'?newName:i.username,characterName:field==='character_name'?newName:i.name};
   }else{
-   requireThat(message?.status==='visible');before={messageId:review.messageId,status:message.status,bodyHash:review.bodyHash,createdAt:review.createdAt};
-   const reason='Owner-approved Gray hide '+approval.id;
-   await moderateMessageInTransaction(sql,{messageId:review.messageId,action:'hide',operator:approval.operator,reason});
-   const audit=(await sql.query("SELECT id FROM social_moderation WHERE message_id=$1 AND action='operator_hide' AND reason=$2",[review.messageId,reason])).rows;
-   requireThat(audit.length===1);after={...before,status:'hidden',socialModerationId:audit[0]!.id};
+   const restoring=review.operation==='gray_broadcast_restore';
+   requireThat(message?.status===(restoring?'hidden':'visible'));
+   if(restoring)await assertGrayRestore(sql,review);
+   before={messageId:review.messageId,status:message.status,bodyHash:review.bodyHash,createdAt:review.createdAt};
+   const reason='Owner-approved Gray '+(restoring?'restore ':'hide ')+approval.id;
+   await moderateMessageInTransaction(sql,{messageId:review.messageId,action:restoring?'restore':'hide',operator:approval.operator,reason});
+   const audit=(await sql.query("SELECT id FROM social_moderation WHERE message_id=$1 AND action=$3 AND reason=$2",[review.messageId,reason,restoring?'operator_restore':'operator_hide'])).rows;
+   requireThat(audit.length===1);after={...before,status:restoring?'visible':'hidden',socialModerationId:audit[0]!.id};
   }
-  await sql.query(`INSERT INTO owner_operator_actions(authorization_id,operation,review_sha256,character_id,account_id,message_id,field,before_state,after_state,operator_label,source_sha,github_run_id,github_run_attempt)
-   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,[approval.id,review.operation,approval.digest,i.character_id,i.account_id,review.messageId??null,review.field,before,after,approval.operator,approval.sourceSha,approval.runId,approval.runAttempt]);
+  await sql.query(`INSERT INTO owner_operator_actions(authorization_id,operation,review_sha256,character_id,account_id,message_id,field,before_state,after_state,operator_label,source_sha,github_run_id,github_run_attempt,reverses_authorization_id)
+   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,[approval.id,review.operation,approval.digest,i.character_id,i.account_id,review.messageId??null,review.field,before,after,approval.operator,approval.sourceSha,approval.runId,approval.runAttempt,review.reversesAuthorizationId??null]);
   const verification=await verifyOwnerAction(sql,review);
   return {applied:true,alreadyApplied:false,authorizationId:approval.id,reviewSha256:approval.digest,verification};
  });
@@ -138,8 +158,8 @@ export async function verifyOwnerAction(sql:Sql,review:ApprovedTargetReview){
  else{
   requireThat(review.characterId===grayTarget&&review.bodyHash===grayBodySha256);
   const message=(await sql.query(`SELECT author_id,channel,body,status,to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS created_at FROM realm_messages WHERE id=$1`,[review.messageId])).rows[0];
-  requireThat(message&&message.author_id===grayTarget&&message.channel==='broadcast'&&sha(message.body)===review.bodyHash&&message.created_at===review.createdAt&&message.status==='hidden');
-  requireThat((await sql.query("SELECT 1 FROM social_moderation WHERE id=$1 AND message_id=$2 AND action='operator_hide'",[audit.after_state.socialModerationId,review.messageId])).rows.length===1);
+  requireThat(message&&message.author_id===grayTarget&&message.channel==='broadcast'&&sha(message.body)===review.bodyHash&&message.created_at===review.createdAt&&message.status===(review.operation==='gray_broadcast_restore'?'visible':'hidden'));
+  requireThat((await sql.query("SELECT 1 FROM social_moderation WHERE id=$1 AND message_id=$2 AND action=$3",[audit.after_state.socialModerationId,review.messageId,review.operation==='gray_broadcast_restore'?'operator_restore':'operator_hide'])).rows.length===1);
  }
  return {verified:true,authorizationId:review.authorization.id,reviewSha256:reviewDigest(review),operation:review.operation,field:review.field,characterId:i.character_id,accountId:i.account_id,messageId:review.messageId??null,before:audit.before_state,after:audit.after_state,currentUsername:i.username,currentCharacterName:i.name};
 }

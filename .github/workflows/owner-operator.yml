@@ -6,7 +6,7 @@ on:
       operation:
         description: 'Review first. Apply needs a reviewed artifact and exact owner confirmation.'
         type: choice
-        options: [review-name, review-gray, apply-name, apply-gray, verify-name, verify-gray, setup-audit]
+        options: [review-name, review-gray, apply-name, apply-gray, verify-name, verify-gray, review-gray-restore, apply-gray-restore, verify-gray-restore, setup-audit]
         default: review-name
         required: true
       field:
@@ -16,6 +16,9 @@ on:
         default: auto
       message_id:
         description: 'Optional Gray-only exact broadcast UUID for read-only inspection.'
+        type: string
+      reverses_authorization_id:
+        description: 'Gray restore review only: original audited hide authorization UUID.'
         type: string
       review_run_id:
         description: 'Apply/verify: successful owner-operator review run ID.'
@@ -50,6 +53,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           KINGDOM_OPERATOR_ENABLED: ${{ vars.KINGDOM_OPERATOR_ENABLED }}
           KINGDOM_OPERATOR_OWNER: ${{ vars.KINGDOM_OPERATOR_OWNER }}
+          KINGDOM_OPERATOR_RAILWAY_SCOPE_ACKNOWLEDGED: ${{ vars.KINGDOM_OPERATOR_RAILWAY_SCOPE_ACKNOWLEDGED }}
         run: node knights-reforged/deployment/operator/preflight.mjs
   operator:
     needs: safety
@@ -74,12 +78,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           KINGDOM_OPERATOR_ENABLED: ${{ vars.KINGDOM_OPERATOR_ENABLED }}
           KINGDOM_OPERATOR_OWNER: ${{ vars.KINGDOM_OPERATOR_OWNER }}
+          KINGDOM_OPERATOR_RAILWAY_SCOPE_ACKNOWLEDGED: ${{ vars.KINGDOM_OPERATOR_RAILWAY_SCOPE_ACKNOWLEDGED }}
           RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
           RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
           RAILWAY_GAME_SERVICE_ID: ${{ vars.RAILWAY_GAME_SERVICE_ID }}
           RAILWAY_PG_SERVICE_ID: ${{ vars.RAILWAY_PG_SERVICE_ID }}
           RAILWAY_RELEASE_WORKER_SERVICE_ID: ${{ vars.RAILWAY_RELEASE_WORKER_SERVICE_ID }}
           RAILWAY_VERIFY_PG_SERVICE_ID: ${{ vars.RAILWAY_VERIFY_PG_SERVICE_ID }}
+          RAILWAY_OPERATOR_BOOTSTRAP_SERVICE_ID: ${{ vars.RAILWAY_OPERATOR_BOOTSTRAP_SERVICE_ID }}
           RAILWAY_OPERATOR_SERVICE_ID: ${{ vars.RAILWAY_OPERATOR_SERVICE_ID }}
           KINGDOM_DATABASE_HOST: ${{ vars.KINGDOM_DATABASE_HOST }}
           KINGDOM_DATABASE_NAME: ${{ vars.KINGDOM_DATABASE_NAME }}
@@ -91,6 +97,7 @@ jobs:
           OPERATOR_INPUT: ${{ inputs.operation }}
           OPERATOR_FIELD: ${{ inputs.field }}
           OPERATOR_MESSAGE_ID: ${{ inputs.message_id }}
+          OPERATOR_REVERSES_AUTHORIZATION_ID: ${{ inputs.reverses_authorization_id }}
           OPERATOR_REVIEW_RUN_ID: ${{ inputs.review_run_id }}
           OPERATOR_REVIEW_ARTIFACT_ID: ${{ inputs.review_artifact_id }}
           OPERATOR_REVIEW_DIGEST: ${{ inputs.review_digest }}

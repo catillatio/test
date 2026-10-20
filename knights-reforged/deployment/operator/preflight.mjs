@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {sha} from './protocol.mjs';
 export async function preflight(env,{fetcher=globalThis.fetch}={}){
  assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(env.GITHUB_REF,'refs/heads/release/production');assert.equal(env.GITHUB_REPOSITORY,'catillatio/test');
- assert.equal(env.KINGDOM_OPERATOR_ENABLED,'true');assert.equal(env.KINGDOM_OPERATOR_OWNER,'catillatio');assert.equal(env.GITHUB_ACTOR,'catillatio');assert.equal(env.GITHUB_TRIGGERING_ACTOR,'catillatio');
+ assert.equal(env.KINGDOM_OPERATOR_ENABLED,'true');assert.equal(env.KINGDOM_OPERATOR_RAILWAY_SCOPE_ACKNOWLEDGED,'true');assert.equal(env.KINGDOM_OPERATOR_OWNER,'catillatio');assert.equal(env.GITHUB_ACTOR,'catillatio');assert.equal(env.GITHUB_TRIGGERING_ACTOR,'catillatio');
  assert.match(env.GITHUB_SHA,sha);assert.notEqual(env.NODE_TLS_REJECT_UNAUTHORIZED,'0');
  const get=async path=>{const r=await fetcher('https://api.github.com/repos/catillatio/test'+path,{redirect:'error',signal:AbortSignal.timeout(15000),headers:{authorization:'Bearer '+env.GH_TOKEN,accept:'application/vnd.github+json'}});assert.equal(r.ok,true);return r.json();};
  const e=await get('/environments/production'),rule=e.protection_rules?.find(r=>r.type==='required_reviewers');

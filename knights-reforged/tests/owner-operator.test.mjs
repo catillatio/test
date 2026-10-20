@@ -5,18 +5,19 @@ import {readFileSync,readdirSync,mkdtempSync,rmSync,writeFileSync} from 'node:fs
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {protocol,checkRequest,signedRequest,verifiedRequest,checkReview,confirmation,checkReport,digest,nameTarget,grayTarget,framePrefix,setupConfirmation} from '../deployment/operator/protocol.mjs';
+import {protocol,checkRequest,signedRequest,verifiedRequest,checkReview,confirmation,checkReport,digest,nameTarget,grayTarget,framePrefix,setupConfirmation,publicEd25519} from '../deployment/operator/protocol.mjs';
 import {settings,reviewedArtifact,collectReport,bundle} from '../deployment/operator/controller.mjs';
 import {preflight} from '../deployment/operator/preflight.mjs';
-import {verifyDeployment,verifyToken} from '../deployment/operator/railway.mjs';
+import {verifyDeployment,verifyToken,verifyService} from '../deployment/operator/railway.mjs';
 import {checkRequest as releaseRequest,checkJobReport as releaseReport} from '../deployment/release/protocol.mjs';
+import {safeService} from '../scripts/fixtures/owner-service-posture.mjs';
 import {verifyProof} from '../deployment/release/proof.mjs';
 const pair=()=>{const p=generateKeyPairSync('ed25519');return {privateKey:p.privateKey.export({type:'pkcs8',format:'pem'}),publicKey:p.publicKey.export({type:'spki',format:'pem'})};};
-const keys=pair(),releaseKeys=pair(),sha='a'.repeat(40),context={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),pgServiceId:randomUUID(),releaseServiceId:randomUUID(),verifyPgServiceId:randomUUID(),operatorServiceId:randomUUID(),sourceHost:'realm.railway.internal',sourceDatabase:'railway'};
+const keys=pair(),releaseKeys=pair(),sha='a'.repeat(40),context={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),pgServiceId:randomUUID(),releaseServiceId:randomUUID(),verifyPgServiceId:randomUUID(),operatorServiceId:randomUUID(),bootstrapServiceId:randomUUID(),sourceHost:'realm.railway.internal',sourceDatabase:'railway'};
 const authorization=()=>({id:randomUUID(),sourceSha:sha,...Object.fromEntries(['projectId','environmentId','operatorServiceId','sourceHost','sourceDatabase'].map(k=>[k,context[k]])),createdAt:new Date().toISOString(),expiresAt:new Date(Date.now()+86400000).toISOString(),operator:'catillatio'});
 const review=()=>({operation:'name_correction',characterId:nameTarget,accountId:randomUUID(),field:'account_username',usernameHash:'1'.repeat(64),characterNameHash:'2'.repeat(64),authorization:authorization()});
 function request(mode='review'){
- const r={protocol,kind:'request',mode,action:'name_correction',jobId:'op_123_1_'+'a'.repeat(32),authorizationId:randomUUID(),sourceSha:sha,bundleDigest:'3'.repeat(64),context,owner:'catillatio',createdAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),recipient:'age1'+'a'.repeat(58),field:'auto',messageId:null,review:null,confirmation:null};
+ const r={protocol,kind:'request',mode,action:'name_correction',jobId:'op_123_1_'+'a'.repeat(32),authorizationId:randomUUID(),sourceSha:sha,bundleDigest:'3'.repeat(64),context,owner:'catillatio',createdAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),recipient:'age1'+'a'.repeat(58),field:'auto',messageId:null,reversesAuthorizationId:null,review:null,confirmation:null};
  if(mode!=='review'){r.review=review();r.authorizationId=r.review.authorization.id;r.field=r.review.field;r.confirmation=mode==='apply'?confirmation(r.review):null;}return r;
 }
 const encrypted=Buffer.from('age-encryption.org/v1\nsynthetic encrypted bytes').toString('base64');
@@ -24,7 +25,7 @@ function report(r=request(),id=randomUUID()){
  const target=r.review??{...review(),authorization:{...authorization(),id:r.authorizationId}};
  return {protocol,kind:'report',jobId:r.jobId,sourceSha:r.sourceSha,bundleDigest:r.bundleDigest,context:r.context,deploymentId:id,mode:r.mode,action:r.action,passed:true,review:target,reviewSha256:digest(target),eligible:true,encrypted,outcome:r.mode==='review'?null:r.mode==='verify'?'verified':'applied'};
 }
-const env=()=>({GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF:'refs/heads/release/production',GITHUB_REPOSITORY:'catillatio/test',GITHUB_ACTOR:'catillatio',GITHUB_TRIGGERING_ACTOR:'catillatio',GITHUB_SHA:sha,GH_TOKEN:'synthetic-github',KINGDOM_OPERATOR_ENABLED:'true',KINGDOM_OPERATOR_OWNER:'catillatio',RAILWAY_TOKEN:'synthetic-railway',RAILWAY_PROJECT_ID:context.projectId,RAILWAY_ENVIRONMENT_ID:context.environmentId,RAILWAY_GAME_SERVICE_ID:context.gameServiceId,RAILWAY_PG_SERVICE_ID:context.pgServiceId,RAILWAY_RELEASE_WORKER_SERVICE_ID:context.releaseServiceId,RAILWAY_VERIFY_PG_SERVICE_ID:context.verifyPgServiceId,RAILWAY_OPERATOR_SERVICE_ID:context.operatorServiceId,KINGDOM_DATABASE_HOST:context.sourceHost,KINGDOM_DATABASE_NAME:context.sourceDatabase,KINGDOM_BACKUP_RECIPIENT:'age1'+'a'.repeat(58),KINGDOM_OPERATOR_SIGNING_KEY:keys.privateKey,KINGDOM_OPERATOR_VERIFY_KEY:keys.publicKey,KINGDOM_EXISTING_RELEASE_VERIFY_KEY:releaseKeys.publicKey});
+const env=()=>({GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF:'refs/heads/release/production',GITHUB_REPOSITORY:'catillatio/test',GITHUB_ACTOR:'catillatio',GITHUB_TRIGGERING_ACTOR:'catillatio',GITHUB_SHA:sha,GH_TOKEN:'synthetic-github',KINGDOM_OPERATOR_ENABLED:'true',KINGDOM_OPERATOR_RAILWAY_SCOPE_ACKNOWLEDGED:'true',KINGDOM_OPERATOR_OWNER:'catillatio',RAILWAY_TOKEN:'synthetic-railway',RAILWAY_PROJECT_ID:context.projectId,RAILWAY_ENVIRONMENT_ID:context.environmentId,RAILWAY_GAME_SERVICE_ID:context.gameServiceId,RAILWAY_PG_SERVICE_ID:context.pgServiceId,RAILWAY_RELEASE_WORKER_SERVICE_ID:context.releaseServiceId,RAILWAY_VERIFY_PG_SERVICE_ID:context.verifyPgServiceId,RAILWAY_OPERATOR_SERVICE_ID:context.operatorServiceId,RAILWAY_OPERATOR_BOOTSTRAP_SERVICE_ID:context.bootstrapServiceId,KINGDOM_DATABASE_HOST:context.sourceHost,KINGDOM_DATABASE_NAME:context.sourceDatabase,KINGDOM_BACKUP_RECIPIENT:'age1'+'a'.repeat(58),KINGDOM_OPERATOR_SIGNING_KEY:keys.privateKey,KINGDOM_OPERATOR_VERIFY_KEY:keys.publicKey,KINGDOM_EXISTING_RELEASE_VERIFY_KEY:releaseKeys.publicKey});
 
 test('operator requests require distinct Ed25519 signatures, exact targets, expiry and action-specific confirmation',()=>{
  const r=request('apply');assert.deepEqual(verifiedRequest(signedRequest(r,keys.privateKey),keys.publicKey),r);
@@ -45,7 +46,11 @@ test('operator requests/reports cannot satisfy release protocols or signed migra
  assert.throws(()=>releaseRequest(r));assert.throws(()=>releaseReport(result,{}));
  assert.throws(()=>verifyProof(e,keys.publicKey,{},'a'.repeat(64)));
  assert.throws(()=>verifiedRequest(JSON.stringify({protocol:'kingdom-release-job-v2',kind:'signed-request',payload:r,signature:'x'.repeat(86)}),keys.publicKey));
- for(const file of readdirSync(new URL('../deployment/operator/',import.meta.url)).filter(f=>f.endsWith('.mjs'))){const text=readFileSync(new URL('../deployment/operator/'+file,import.meta.url),'utf8');assert.doesNotMatch(text,/from\s+['"][^'"]*release\//);assert.doesNotMatch(text,/KINGDOM_RELEASE_SIGNING_KEY|StrictHostKeyChecking|NODE_TLS_REJECT_UNAUTHORIZED\s*=\s*['"]?0/);}
+ for(const file of readdirSync(new URL('../deployment/operator/',import.meta.url)).filter(f=>f.endsWith('.mjs'))){const text=readFileSync(new URL('../deployment/operator/'+file,import.meta.url),'utf8');assert.doesNotMatch(text,/from\s+['"][^'"]*release\//);assert.doesNotMatch(text,/StrictHostKeyChecking|NODE_TLS_REJECT_UNAUTHORIZED\s*=\s*['"]?0/);}
+ // Mentioning the release secret solely to REJECT accidental wiring is safe;
+ // neither the workflow nor any child is allowed to receive or use that key.
+ assert.doesNotMatch(readFileSync(new URL('../../.github/workflows/owner-operator.yml',import.meta.url),'utf8'),/secrets\.KINGDOM_RELEASE_SIGNING_KEY/);
+ assert.throws(()=>settings({...env(),KINGDOM_RELEASE_SIGNING_KEY:releaseKeys.privateKey}));
 });
 test('protected preflight rejects non-owner, bypassable environment, wrong branch and missing exact-commit CI',async()=>{
  const responses={environment:{can_admins_bypass:false,protection_rules:[{type:'required_reviewers',reviewers:[{type:'User',reviewer:{login:'catillatio'}}]}],deployment_branch_policy:{custom_branch_policies:true}},policies:{branch_policies:[{name:'release/production',type:'branch'}]},branch:{protected:true,commit:{sha}},runs:{workflow_runs:[{head_sha:sha,conclusion:'success',event:'push',head_repository:{full_name:'catillatio/test'}}]}};
@@ -108,4 +113,22 @@ test('invalid worker requests fail before database imports and print only a fixe
  for(const file of readdirSync(new URL('../src/',import.meta.url)).filter(f=>f.endsWith('.ts')&&!f.startsWith('owner-'))){
   assert.doesNotMatch(readFileSync(new URL('../src/'+file,import.meta.url),'utf8'),/from\s+['"][^'"]*(?:owner-actions|owner-audit)/);
  }
+});
+
+test('all public verification fields reject private PEMs and wrong algorithms without deriving and accepting their public halves',()=>{
+ assert.throws(()=>publicEd25519(keys.privateKey));assert.throws(()=>verifiedRequest(signedRequest(request(),keys.privateKey),keys.privateKey));
+ assert.throws(()=>settings({...env(),KINGDOM_OPERATOR_VERIFY_KEY:keys.privateKey}));
+ assert.throws(()=>settings({...env(),KINGDOM_EXISTING_RELEASE_VERIFY_KEY:releaseKeys.privateKey}));
+ const rsa=generateKeyPairSync('rsa',{modulusLength:2048});assert.throws(()=>publicEd25519(rsa.publicKey.export({type:'spki',format:'pem'})));
+ assert.equal(publicEd25519(keys.publicKey).asymmetricKeyType,'ed25519');
+});
+test('private service posture fails closed for source/autodeploy, commands, replicas, restart and every public networking path',async()=>{
+ const good=safeService(context.projectId,context.environmentId,context.operatorServiceId);
+ const check=record=>verifyService(context,'synthetic',{fetcher:async()=>({ok:true,json:async()=>({data:record})})});
+ await check(good);
+ for(const [key,value] of Object.entries({source:{repo:'catillatio/test',image:null},startCommand:'node dist/server.js',buildCommand:'run something',preDeployCommand:['node migrate'],restartPolicyType:'ALWAYS',restartPolicyMaxRetries:1,numReplicas:2,cronSchedule:'* * * * *',healthcheckPath:'/healthz',builder:'RAILPACK',sleepApplication:true,railwayConfigFile:'railway.json',rootDirectory:'/knights-reforged'}))await assert.rejects(check({...good,serviceInstance:{...good.serviceInstance,[key]:value}}));
+ await assert.rejects(check({...good,service:{...good.service,repoTriggers:{edges:[{node:{id:'synthetic'}}]}}}));
+ await assert.rejects(check({...good,tcpProxies:[{id:'synthetic'}]}));
+ for(const field of ['customDomains','serviceDomains'])await assert.rejects(check({...good,serviceInstance:{...good.serviceInstance,domains:{...good.serviceInstance.domains,[field]:[{id:'synthetic'}]}}}));
+ await assert.rejects(check({...good,serviceInstance:{...good.serviceInstance,startCommand:undefined}}));
 });

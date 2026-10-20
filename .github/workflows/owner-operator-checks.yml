@@ -1,7 +1,7 @@
 name: Targeted operator checks
 on:
   pull_request:
-    paths: ['knights-reforged/deployment/operator/**', 'knights-reforged/src/owner-*.ts', 'knights-reforged/tests/owner-*.test.*', 'knights-reforged/scripts/test-owner-operator.mjs', 'knights-reforged/scripts/fixtures/owner-worker-harness.mjs', '.github/workflows/owner-operator*.yml']
+    paths: ['knights-reforged/deployment/operator/**', 'knights-reforged/src/owner-*.ts', 'knights-reforged/tests/owner-*.test.*', 'knights-reforged/scripts/test-owner-operator.mjs', 'knights-reforged/scripts/fixtures/owner-*.mjs', '.github/workflows/owner-operator*.yml']
   push:
     branches: [release/production]
 permissions:
