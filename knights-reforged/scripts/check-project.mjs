@@ -16,6 +16,7 @@ const rules=json('rulesets/recreation-0.1/rules.json'),landRules=json('rulesets/
 const contractSource=stripTypeScriptTypes(read('src/http-contracts.ts'),{mode:'transform'});
 const {navigation,templateScreens,commandRoutes}=await import('data:text/javascript;base64,'+Buffer.from(contractSource).toString('base64'));
 const {callingName,callingDescription}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(read('src/calling-presentation.ts'))).toString('base64'));
+const {battleRewardNotes}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(read('src/battle-reward-notes.ts'))).toString('base64'));
 const results=[];
 function check(name,run){try{run();results.push({name,passed:true});}catch(error){results.push({name,passed:false,error:error.message});}}
 function files(dir){return readdirSync(join(root,dir),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?files(join(dir,entry.name)):[join(dir,entry.name)]);}
@@ -178,13 +179,15 @@ const cases=[
  {name:'battle-empty',data:fixture('battle',{opponents:[]})},{name:'battle-recovering',data:fixture('battle',{state:{...state,health:0,spirit:0}})},
  {name:'home-history',data:fixture('home',{battles:[{id:battleId,result:newBattle,created_at:now}]})},
  {name:'report-alpha',data:fixture('report')},{name:'report-previous-alpha',data:fixture('report',{battle:{...newBattle,rulesetId:'alpha-0.1'}})},{name:'report-legacy',data:fixture('report',{battle:legacyBattle})},
+ {name:'report-bot-repeat',data:fixture('report',{battle:{...newBattle,outcome:'attacker_win',botRewardEligibilityPolicy:'bot-combat-rewards-1',lootDetails:{multiplier:85},xpDetails:{trivial:false}}})},
+ {name:'report-bot-weak',data:fixture('report',{battle:{...newBattle,outcome:'attacker_win',botRewardEligibilityPolicy:'bot-combat-rewards-1',lootDetails:{multiplier:100},xpDetails:{trivial:true}}})},
  ...['auth','rules','error'].flatMap(screen=>[{name:screen+'-public',data:fixture(screen,{state:null})},...(screen==='auth'?[{name:'register',data:fixture('auth',{state:null,authMode:'register'})}]:[{name:screen+'-signed-in',data:fixture(screen)}])]),
  {name:'escaped-name',data:fixture('home',{state:{...state,name:'<img src=x onerror=1>'}})},
  {name:'large-resources',data:fixture('home',{state:{...state,name:'MMMMMMMMMMMMMMMMMMMMMMMMMMMM',gold:2147483647,xp:2147483647,level:42949673}})},
 ];
 const rendered=new Map();
 for(const example of cases)check('Production EJS render: '+example.name,()=>{
- const html=ejs.render(read('views/layout.ejs'),{callingName,callingDescription,sound:{enabled:false,volume:55},soundEvent:null,...example.data},{filename:join(root,'views/layout.ejs')});
+ const html=ejs.render(read('views/layout.ejs'),{callingName,callingDescription,battleRewardNotes,sound:{enabled:false,volume:55},soundEvent:null,...example.data},{filename:join(root,'views/layout.ejs')});
  assert.ok(html.startsWith('<!doctype html>')&&!html.includes('<%'));assert.ok(!html.includes('<img src=x'));
  rendered.set(example.name,html);
 });

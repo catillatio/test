@@ -1,5 +1,5 @@
 <% const victory=battle.winnerId===state.id;const viewerAttacking=battle.attackerId===state.id;const modern=typeof battle.spiritSpent==='number'&&Array.isArray(battle.attackEquipment);const received=viewerAttacking?battle.attackerDamage:battle.defenderDamage;const dealt=viewerAttacking?battle.defenderDamage:battle.attackerDamage;const xp=viewerAttacking?(battle.attackerXp??null):modern?(battle.defenderXp??0):null;
-const reduced=viewerAttacking?(battle.rewarded===false||battle.lootDetails?.multiplier<100||battle.xpDetails?.reason==='repeat_budget'):battle.defenderXpDetails?.reason==='repeat_budget'; %>
+const rewardNotes=battleRewardNotes(battle,viewerAttacking); %>
 <%- include('partials/celebration',{reward:battle.playerExperience?.[state.id],identity:battle.id??'historical-battle'}) %>
 <section class="panel battle-result <%= victory?'victory-celebration reward-celebration '+(battle.victoryStyle==='decisive'?'decisive-victory':''):'defeat-result' %>" data-celebration-id="<%= battle.id??'historical' %>-battle">
 <h2 class="<%= victory?'success':'warning' %>"><% if(victory) { %><span class="result-emblem" aria-hidden="true">⚔</span> <% } %><%= victory?'VICTORY!':'DEFEAT' %></h2>
@@ -7,7 +7,7 @@ const reduced=viewerAttacking?(battle.rewarded===false||battle.lootDetails?.mult
 <dl class="report-outcome"><div><dt>Damage dealt</dt><dd><%= dealt??'Not recorded' %></dd></div><div><dt>Damage received</dt><dd><%= received??'Not recorded' %></dd></div>
 <div><dt><%= battle.pvpRulesetId?(viewerAttacking?'Gold won':'Gold lost'):victory?'Gold won':'Gold lost' %></dt><dd class="gold"<% if(victory&&typeof battle.loot==='number') { %> data-reward-count="<%= battle.loot %>" data-prefix="+"<% } %>><%= typeof battle.loot==='number'?((battle.pvpRulesetId?viewerAttacking:victory)?'+':battle.loot?'-':'')+battle.loot.toLocaleString('en'):'Not recorded' %></dd></div>
 <div><dt>XP gained</dt><dd<% if(victory&&xp!==null) { %> data-reward-count="<%= xp %>" data-prefix="+"<% } %>><%= xp===null?'Not recorded':'+'+xp %></dd></div></dl>
-<% if(reduced) { %><p class="compact-help">Reduced rewards from repeated battles.</p><% } %>
+<% for(const note of rewardNotes) { %><p class="compact-help" data-reward-note><%= note %></p><% } %>
 <p class="compact-help"><%= viewerAttacking?(battle.spiritSpent??1)+' Spirit spent':'Defending costs no Spirit' %> · Level <%= state.level %> · <%= state.xpToNext %> XP to your next level</p>
 <progress class="reward-progress" value="<%= state.levelXp %>" max="<%= state.levelRequirement %>" aria-label="Level progress"></progress><time datetime="<%= battle.createdAt %>"><%= new Date(battle.createdAt).toLocaleString('en-GB',{timeZone:'UTC'}) %> UTC</time>
 </section>

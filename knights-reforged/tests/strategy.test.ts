@@ -108,7 +108,7 @@ test('450 passive rivals span levels 1–50 with real quantity-limited equipment
     await assert.rejects(executeCommand(r.db,bot.id,randomUUID(),'attack',{targetCharacterId:p.id},{developmentBotsEnabled:true}),/not found/);
   }finally{await r.close();}
 });
-test('bot reward limits, disabled availability, replay and passive behavior use the normal battle engine',{skip},async()=>{
+test('bot pair rewards, disabled availability, replay and passive behavior use the normal battle engine',{skip},async()=>{
   let now=new Date('2031-01-01T00:00:00Z');const r=await realm({isolated:true,clock:()=>now,developmentBotsEnabled:true});
   try{
     await provisionBots(r.db,enabled);const p=await r.player();await r.prepare(p,5000,30);
@@ -119,15 +119,16 @@ test('bot reward limits, disabled availability, replay and passive behavior use 
       const result=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[i]!.character_id},key);
       const replay=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[i]!.character_id},key);assert.equal(result.battleId,replay.battleId);
       const report=(await r.app.inject({method:'GET',url:'/api/v1/battles/'+result.battleId,headers:{cookie:p.cookie}})).json().battle;
-      assert.equal(report.temporaryRival,true);assert.equal(report.rewarded,i<6);if(i===6){assert.equal(report.loot,0);assert.equal(report.attackerXp,1);}
+      assert.equal(report.temporaryRival,true);assert.equal(report.rewarded,true);assert.ok(report.loot>0);assert.equal(report.lootDetails.multiplier,100);
       assert.equal(report.bountyClaim,null);assert.ok(report.attackEquipment.length>0);
       if(i===0){
         now=new Date(+now+130000);const same=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[i]!.character_id});
-        assert.equal((await r.db.query('SELECT rewarded FROM battles WHERE id=$1',[same.battleId])).rows[0]!.rewarded,false);
+        const repeated=(await r.db.query('SELECT rewarded,result FROM battles WHERE id=$1',[same.battleId])).rows[0]!;
+        assert.equal(repeated.rewarded,true);assert.equal(repeated.result.lootDetails.multiplier,85);assert.ok(repeated.result.loot>0);
       }
     }
     now=new Date(+now+130000);const repeated=await r.ok(p,'/api/v1/battles',{targetCharacterId:bots[6]!.character_id});
-    assert.equal((await r.db.query('SELECT rewarded FROM battles WHERE id=$1',[repeated.battleId])).rows[0]!.rewarded,false);
+    assert.equal((await r.db.query('SELECT rewarded FROM battles WHERE id=$1',[repeated.battleId])).rows[0]!.rewarded,true);
     assert.equal((await r.db.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=ANY(SELECT character_id FROM development_bots)')).rows[0]!.n,0);
     const hidden=await createApp({db:r.db,config:loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000'})});try{
       const list=await hidden.inject({method:'GET',url:'/api/v1/opponents',headers:{cookie:p.cookie}});assert.equal(list.statusCode,200);assert.ok(list.json().opponents.every((x:{botTier:string|null})=>!x.botTier));

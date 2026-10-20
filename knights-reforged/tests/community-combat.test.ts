@@ -51,14 +51,14 @@ test('repeating reports cannot bypass Spirit, attacker recovery, level range or 
     assert.equal((await r.command(a,'/api/v1/battles',{targetCharacterId:b.id})).json().error.code,'RIVAL_LEVEL_RANGE');
   }finally{await r.close();}
 });
-test('repeat bot attacks use the same engine and preserve the one-per-bot reward cap after a recovery',{skip},async()=>{
+test('repeat bot attacks use the same engine and apply gradual pair reductions after recovery',{skip},async()=>{
   const r=await setup(true);try{
     await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});const a=await r.player();
     const bot=(await r.db.query("SELECT c.id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=1 AND b.tier='green' AND b.variant=0")).rows[0]!.id;
     await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
     const first=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot});assert.equal((await r.report(first.battleId)).rewarded,true);assert.equal((await r.report(first.battleId)).outcome,'attacker_win');
     r.advance(600);const before=await r.me(a),second=await r.ok(a,'/api/v1/battles',{targetCharacterId:bot}),report=await r.report(second.battleId);
-    assert.equal(report.rewarded,false);assert.equal(report.loot,0);assert.equal(report.attackerXp,1);assert.equal(second.state.gold,before.gold);assert.equal(second.state.spirit,before.spirit-1);
+    assert.equal(report.rewarded,true);assert.ok(report.loot>0);assert.equal(report.lootDetails.multiplier,85);assert.equal(report.attackerXp,1);assert.equal(second.state.gold,before.gold+report.loot);assert.equal(second.state.spirit,before.spirit-1);
     const profile=await r.app.inject({method:'GET',url:'/game/players/'+bot,headers:{cookie:a.cookie}});assert.equal(profile.statusCode,200,profile.body);assert.match(profile.body,/Temporary computer-controlled rival/);
   }finally{await r.close();}
 });
