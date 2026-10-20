@@ -243,15 +243,24 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Spirit to recover before attacking.',409);
       const targetState=await stateFrom(sql,target,now,runtime);
       if(!targetIsBot)await syncExperience(sql,target.id,now);
-      const count=(await sql.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND created_at>$3',[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
-      let rewarded=count<alpha.combat.rewardedPerTarget;
+      let rewarded:boolean;
       if(targetIsBot){
-        const total=(await sql.query(`SELECT count(*)::int AS n FROM battles b JOIN development_bots d ON d.character_id=b.defender_id
-          WHERE b.attacker_id=$1 AND b.rewarded AND b.created_at>$2`,[actorId,new Date(+now-strategy.bots.rewardWindowSeconds*1000)])).rows[0]!.n;
-        rewarded=count<strategy.bots.perTargetRewardedBattles&&total<strategy.bots.dailyRewardedBattles;
+        // Only successful, rewarded encounters consume the unchanged bot
+        // allowance. Historical losses remain immutable but do not block a
+        // future win. The actor lock serializes this shared daily budget.
+        const budget=(await sql.query(`SELECT count(*)::int AS total,
+          count(*) FILTER (WHERE b.defender_id=$2)::int AS pair
+          FROM battles b JOIN development_bots d ON d.character_id=b.defender_id
+          WHERE b.attacker_id=$1 AND b.rewarded AND b.outcome='attacker_win' AND b.created_at>$3`,
+          [actorId,target.id,new Date(+now-strategy.bots.rewardWindowSeconds*1000)])).rows[0]!;
+        rewarded=budget.pair<strategy.bots.perTargetRewardedBattles&&budget.total<strategy.bots.dailyRewardedBattles;
+      }else{
+        const count=(await sql.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND created_at>$3',[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
+        rewarded=count<alpha.combat.rewardedPerTarget;
       }
       const variation=alpha.combat.variation;
       const combat=resolveAlphaCombat(state,targetState,randomInt(-variation,variation+1),randomInt(-variation,variation+1),rewarded);
+      if(targetIsBot&&combat.outcome!=='attacker_win')rewarded=false;
       const sequence=combat.outcome==='attacker_win'?await recordVictory(sql,actorId,target.id,now,gameplay.id):null;
       const lootDetails=sequence?{...victoryLoot45(targetState.gold,sequence.victory,targetIsBot,rewarded,target.attained_level),...sequence}:null;
       // Damage remains alpha-0.3. Only attacking victories transfer carried
@@ -287,7 +296,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         defenderXp:defenderProgression?.xpAwarded??0,defenderXpDetails,defenderFullXp:defenderXpDetails?!defenderXpDetails.reduced:false,defenderLevelGained:defenderProgression?.gained??0,defenderLevelAfter:defenderProgression?.level??target.attained_level,attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        commandId:key,victoryStyle:combat.outcome==='attacker_win'?(combat.attackPower>=combat.defensePower*1.5?'decisive':'hard-fought'):'defeat',progressionRulesetId:gameFeel.id,xpDetails,pvpRulesetId:gameplay.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        commandId:key,victoryStyle:combat.outcome==='attacker_win'?(combat.attackPower>=combat.defensePower*1.5?'decisive':'hard-fought'):'defeat',progressionRulesetId:gameFeel.id,xpDetails,pvpRulesetId:gameplay.id,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botRewardEligibilityPolicy:targetIsBot?'victories-only-1':null,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       if(combat.defenderHealthAfter===0){

@@ -1,0 +1,403 @@
+{
+  "scope": "Offline deterministic catalog audit; no live data accessed or financial corrections applied.",
+  "population": 450,
+  "botsPerLevel": 9,
+  "minimumNetIncome": 21,
+  "minimumPlots": 3,
+  "maximumArmy": 10,
+  "capitalGranted": 0,
+  "portfoliosChanged": 0,
+  "formulaChanged": false,
+  "samples": [
+    {
+      "level": 5,
+      "name": "Lysandra Hearthguard",
+      "callingId": "Spellward",
+      "army": 1,
+      "exposedGold": 3443,
+      "vault": 2093,
+      "equipment": [
+        {
+          "id": "ransackers-axe",
+          "name": "Ransacker's Axe",
+          "level": 3,
+          "quantity": 1
+        },
+        {
+          "id": "warden-mail",
+          "name": "Warden Mail",
+          "level": 3,
+          "quantity": 1
+        },
+        {
+          "id": "thorn-hex",
+          "name": "Thorn Hex",
+          "level": 3,
+          "quantity": 1
+        }
+      ],
+      "land": [
+        {
+          "id": "hearthstead-hamlet",
+          "quantity": 1,
+          "name": "Hearthstead Hamlet"
+        },
+        {
+          "id": "smallholding",
+          "quantity": 2,
+          "name": "Smallholding"
+        }
+      ],
+      "plots": 3,
+      "grossIncome": 91,
+      "fullyFundedNetIncome": 81,
+      "firstEligibleWinLoot": 81,
+      "botLootCap": 81,
+      "winAfterPriorLossBefore": 0,
+      "winAfterPriorLossAfter": 81,
+      "repeatedWinWithinWindow": 0,
+      "note": "Catalog starting-state arithmetic, not live balances or a guarantee of victory. Starting gold, Land and all rates remain unchanged."
+    },
+    {
+      "level": 8,
+      "name": "Osric Ravenholt",
+      "callingId": "Spellward",
+      "army": 1,
+      "exposedGold": 3762,
+      "vault": 4087,
+      "equipment": [
+        {
+          "id": "wardens-halberd",
+          "name": "Warden's Halberd",
+          "level": 5,
+          "quantity": 1
+        },
+        {
+          "id": "castellan-helm",
+          "name": "Castellan Helm",
+          "level": 6,
+          "quantity": 1
+        },
+        {
+          "id": "stonebinding",
+          "name": "Stonebinding",
+          "level": 5,
+          "quantity": 1
+        }
+      ],
+      "land": [
+        {
+          "id": "granite-quarry",
+          "quantity": 1,
+          "name": "Granite Quarry"
+        },
+        {
+          "id": "smallholding",
+          "quantity": 2,
+          "name": "Smallholding"
+        }
+      ],
+      "plots": 3,
+      "grossIncome": 181,
+      "fullyFundedNetIncome": 157,
+      "firstEligibleWinLoot": 112,
+      "botLootCap": 130,
+      "winAfterPriorLossBefore": 0,
+      "winAfterPriorLossAfter": 112,
+      "repeatedWinWithinWindow": 0,
+      "note": "Catalog starting-state arithmetic, not live balances or a guarantee of victory. Starting gold, Land and all rates remain unchanged."
+    },
+    {
+      "level": 15,
+      "name": "Wulfran Wyrmward",
+      "callingId": "Spellward",
+      "army": 3,
+      "exposedGold": 5826,
+      "vault": 16113,
+      "equipment": [
+        {
+          "id": "briarheart-bow",
+          "name": "Briarheart Bow",
+          "level": 10,
+          "quantity": 3
+        },
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Argent Sentinel Plate",
+          "level": 12,
+          "quantity": 3
+        },
+        {
+          "id": "silverroot-ward",
+          "name": "Silverroot Ward",
+          "level": 10,
+          "quantity": 3
+        }
+      ],
+      "land": [
+        {
+          "id": "silver-vein-mine",
+          "quantity": 1,
+          "name": "Silver Vein Mine"
+        },
+        {
+          "id": "moonwell-sanctuary",
+          "quantity": 1,
+          "name": "Moonwell Sanctuary"
+        },
+        {
+          "id": "smallholding",
+          "quantity": 1,
+          "name": "Smallholding"
+        }
+      ],
+      "plots": 3,
+      "grossIncome": 738,
+      "fullyFundedNetIncome": 596,
+      "firstEligibleWinLoot": 174,
+      "botLootCap": 331,
+      "winAfterPriorLossBefore": 0,
+      "winAfterPriorLossAfter": 174,
+      "repeatedWinWithinWindow": 0,
+      "note": "Catalog starting-state arithmetic, not live balances or a guarantee of victory. Starting gold, Land and all rates remain unchanged."
+    },
+    {
+      "level": 17,
+      "name": "Zephryn Goldentarn",
+      "callingId": "Spellward",
+      "army": 3,
+      "exposedGold": 5946,
+      "vault": 15681,
+      "equipment": [
+        {
+          "id": "stormglass-pike",
+          "name": "Stormglass Pike",
+          "level": 15,
+          "quantity": 3
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "level": 15,
+          "quantity": 3
+        },
+        {
+          "id": "silverroot-ward",
+          "name": "Silverroot Ward",
+          "level": 10,
+          "quantity": 3
+        }
+      ],
+      "land": [
+        {
+          "id": "silver-vein-mine",
+          "quantity": 1,
+          "name": "Silver Vein Mine"
+        },
+        {
+          "id": "moonwell-sanctuary",
+          "quantity": 1,
+          "name": "Moonwell Sanctuary"
+        },
+        {
+          "id": "smallholding",
+          "quantity": 1,
+          "name": "Smallholding"
+        }
+      ],
+      "plots": 3,
+      "grossIncome": 738,
+      "fullyFundedNetIncome": 578,
+      "firstEligibleWinLoot": 178,
+      "botLootCap": 411,
+      "winAfterPriorLossBefore": 0,
+      "winAfterPriorLossAfter": 178,
+      "repeatedWinWithinWindow": 0,
+      "note": "Catalog starting-state arithmetic, not live balances or a guarantee of victory. Starting gold, Land and all rates remain unchanged."
+    },
+    {
+      "level": 25,
+      "name": "Hesper Cloudspire",
+      "callingId": "Spellward",
+      "army": 4,
+      "exposedGold": 20428,
+      "vault": 111171,
+      "equipment": [
+        {
+          "id": "moonthorn-recurve",
+          "name": "Moonthorn Recurve",
+          "level": 21,
+          "quantity": 4
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Embercrest Bulwark",
+          "level": 18,
+          "quantity": 4
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "level": 21,
+          "quantity": 4
+        }
+      ],
+      "land": [
+        {
+          "id": "ironwood-fort",
+          "quantity": 3,
+          "name": "Ironwood Fort"
+        },
+        {
+          "id": "tempest-port",
+          "quantity": 2,
+          "name": "Tempest Port"
+        },
+        {
+          "id": "runekeeper-academy",
+          "quantity": 2,
+          "name": "Runekeeper Academy"
+        }
+      ],
+      "plots": 7,
+      "grossIncome": 4850,
+      "fullyFundedNetIncome": 3962,
+      "firstEligibleWinLoot": 612,
+      "botLootCap": 831,
+      "winAfterPriorLossBefore": 0,
+      "winAfterPriorLossAfter": 612,
+      "repeatedWinWithinWindow": 0,
+      "note": "Catalog starting-state arithmetic, not live balances or a guarantee of victory. Starting gold, Land and all rates remain unchanged."
+    },
+    {
+      "level": 40,
+      "name": "Cedric Ebonhart",
+      "callingId": "Spellward",
+      "army": 6,
+      "exposedGold": 75696,
+      "vault": 503328,
+      "equipment": [
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Sun-etched Warhammer",
+          "level": 32,
+          "quantity": 6
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Wyrmscale Aegis",
+          "level": 36,
+          "quantity": 6
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Dawnstar Benediction",
+          "level": 32,
+          "quantity": 6
+        }
+      ],
+      "land": [
+        {
+          "id": "oathbound-citadel",
+          "quantity": 4,
+          "name": "Oathbound Citadel"
+        },
+        {
+          "id": "dawnspire-cathedral",
+          "quantity": 3,
+          "name": "Dawnspire Cathedral"
+        },
+        {
+          "id": "wyrmcrest-keep",
+          "quantity": 3,
+          "name": "Wyrmcrest Keep"
+        },
+        {
+          "id": "astral-observatory",
+          "quantity": 3,
+          "name": "Astral Observatory"
+        }
+      ],
+      "plots": 13,
+      "grossIncome": 20390,
+      "fullyFundedNetIncome": 16574,
+      "firstEligibleWinLoot": 2050,
+      "botLootCap": 2050,
+      "winAfterPriorLossBefore": 0,
+      "winAfterPriorLossAfter": 2050,
+      "repeatedWinWithinWindow": 0,
+      "note": "Catalog starting-state arithmetic, not live balances or a guarantee of victory. Starting gold, Land and all rates remain unchanged."
+    },
+    {
+      "level": 50,
+      "name": "Gwyneira Emberfall",
+      "callingId": "Spellward",
+      "army": 7,
+      "exposedGold": 113440,
+      "vault": 800180,
+      "equipment": [
+        {
+          "id": "astral-conductor",
+          "name": "Astral Conductor",
+          "level": 40,
+          "quantity": 6
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Sovereign's Bastion",
+          "level": 44,
+          "quantity": 6
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Seraph's Rebuke",
+          "level": 47,
+          "quantity": 6
+        }
+      ],
+      "land": [
+        {
+          "id": "wyrmcrest-keep",
+          "quantity": 4,
+          "name": "Wyrmcrest Keep"
+        },
+        {
+          "id": "astral-observatory",
+          "quantity": 3,
+          "name": "Astral Observatory"
+        },
+        {
+          "id": "throne-of-ash",
+          "quantity": 3,
+          "name": "Throne of Ash"
+        },
+        {
+          "id": "eclipse-citadel",
+          "quantity": 3,
+          "name": "Eclipse Citadel"
+        }
+      ],
+      "plots": 13,
+      "grossIncome": 30310,
+      "fullyFundedNetIncome": 24600,
+      "firstEligibleWinLoot": 3000,
+      "botLootCap": 3000,
+      "winAfterPriorLossBefore": 0,
+      "winAfterPriorLossAfter": 3000,
+      "repeatedWinWithinWindow": 0,
+      "note": "Catalog starting-state arithmetic, not live balances or a guarantee of victory. Starting gold, Land and all rates remain unchanged."
+    }
+  ],
+  "policy": "One rewarded bot victory per opponent and six total per rolling 24 hours. Losses do not consume either allowance. Victories after the allowance is exhausted still earn the existing minimum 1 XP and zero ordinary gold. The existing fixed-sequence loot percentages, 3% of exposed gold, level-aware bot loot cap, Spirit costs and Vault protection remain unchanged.",
+  "history": "Old loss receipts and battle records remain immutable. The eligibility query ignores their old rewarded=true flag when counting successful bot victories; no prior gold or XP is recalculated.",
+  "rootCauses": [
+    "An already rewarded opponent or exhausted six-win budget intentionally yields zero gold, even if its wallet is full.",
+    "The previous code also counted rewarded=true defender_win records, so a loss could incorrectly exhaust an allowance.",
+    "Balances below 34 exposed gold round the 3% base to zero; protected Vault savings never count."
+  ],
+  "income": "Saved estates settle through the existing independent background income worker, including offline periods. No profile-view grant or instant refill is added. Fully funded net income is positive for all 450 catalog portfolios.",
+  "limitations": [
+    "These are deterministic fixture/catalog results; the actual live bot purse and settlement journal were not inspected.",
+    "Observed historical/current deployment configuration remains an owner-side check; no realm initialization, reseeding or portfolio rewrite is authorized."
+  ]
+}
