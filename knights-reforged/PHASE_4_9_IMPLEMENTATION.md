@@ -1,4 +1,18 @@
-# Phase 4.9 — 65% bot XP balancing checkpoint
+# Phase 4.9 — Interface and audition review checkpoint
+
+The owner has **approved the 65% XP checkpoint**. Immutable `bot-combat-rewards-2`, bot gold, repeat percentages and all economy/recovery rules remain unchanged. No further XP change is included.
+
+The next review stage implements silent routine controls, compact expandable Profile Stats/Income, Calling beside Hall of Champions on Home, compact mobile rankings and neutral panel styling with unchanged teal resources. [UI screenshots, behavior and verification](docs/phase49/ui-review/README.md).
+
+Separate approval-only previews: [four reward-audio samples](docs/phase49/audio-audition/README.md) and [Wyrmcrest Keep / Gold Mine artwork](docs/phase49/art-audition/README.md). Runtime audio/art catalogs are unchanged; the compatible Gold Mine rename remains mandatory and pending adoption.
+
+**Urgent moderation scope:** only Gray's exact reported broadcast remains. The owner reports Development Knight already removed through the UI; do not touch it again. The live Gray UUID is unknown and no authenticated operator channel exists here. [Why the UI says Reported for review, current authorization, DOM-only identification and the existing one-record reversible hide procedure](docs/phase49/BROADCAST_REVIEW.md). No moderation or production operation was executed.
+
+[Current required backlog](docs/phase49/BACKLOG.md). PR #12 remains draft; no merge, deployment or release-infrastructure change.
+
+---
+
+## Approved bot-balancing checkpoint (retained evidence)
 
 Branch: `feature/kingdom-come-phase-4-9-bot-combat-rewards`; draft PR #12 targets `release/production`.
 Production source baseline: `b305fa011d9428b7e00e68a7cc38026e0bcdb256`.
@@ -77,6 +91,6 @@ Actual new-policy receipts: [390px repeated rival](docs/phase49/screenshots/390-
 
 Pause for owner balancing review before the next manageable backlog stage. [BACKLOG.md](docs/phase49/BACKLOG.md) explicitly keeps navigation sounds, reward-audio audition, Profile disclosures, Home Calling, compact Hall, neutral panels, Wyrmcrest art, Gold Mine rename/art, tutorial and battle polish open. No unrelated UI/audio/artwork implementation is mixed into this checkpoint.
 
-**Required broadcast cleanup is blocked, not complete.** Exact Gray and **Development Night** record IDs, authors, times and contents cannot be obtained without authorized operator access, which is absent here. [Read-only owner commands and review worksheet](docs/phase49/BROADCAST_REVIEW.md) stop before the exact-record approval gate; reversible hiding and verification in both Recent Activity All and Broadcasts are mandatory afterward. The earlier Development Knight spelling is not substituted. No broadcast was hidden or deleted.
+**Required Gray cleanup remains blocked, not complete.** The current one-message scope and owner authorization supersede the earlier two-message plan. Development Knight was owner-reported removed and is excluded. [Current blocker and safe procedure](docs/phase49/BROADCAST_REVIEW.md); no live hide or feed verification has been performed here.
 
 [Original 100% proposal](docs/phase49/V1_IMPLEMENTATION.md) and [66 original simulations](docs/phase49/paced-simulations.json) are retained as historical evidence, not the active 65% policy. No merge or deployment is authorized by this report.
