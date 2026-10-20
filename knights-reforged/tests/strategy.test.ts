@@ -44,7 +44,7 @@ test('Calling changes persist, serialize concurrent requests and cannot backdate
     const destination=selected.className==='Spellward'?'Warden':'Spellward';await r.ok(p,'/api/v1/profile',{className:destination});
     const after=await r.me(p);assert.equal(after.gold,before.gold-100);assert.equal(after.training.attack,before.training.attack);
     assert.equal(after.attack,callingPower(after.training.untrainedAttack,strategy.callings[destination].attackPercent));
-    const page=await r.app.inject({method:'GET',url:'/game/profile',headers:{cookie:p.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/>Calling<\/h2>/);assert.ok(!page.body.includes('cosmetic'));
+    const page=await r.app.inject({method:'GET',url:'/game/home?calling=1',headers:{cookie:p.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/>Calling<\/h2>/);assert.ok(!page.body.includes('cosmetic'));
   }finally{await r.close();}
 });
 test('each Calling applies its own offline recovery interval and preserves fractional ticks',{skip},async()=>{

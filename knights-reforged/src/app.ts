@@ -132,7 +132,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id,config) : null);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
-    const query = request.query as { command?: string; category?: string;area?:string;tab?:string;bulk?:unknown };
+    const query = request.query as { command?: string; category?: string;area?:string;tab?:string;bulk?:unknown;calling?:string };
     if (session?.account_id && uuid.safeParse(query?.command).success) {
       const receipt = (await db.query('SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2', [session.account_id, query.command])).rows[0];
       notice = receipt?.result?.kind==='attack'?'Your battle is recorded. View it in Battles.':receipt?.result?.kind==='profile'?String(receipt.result.message).replace(/\b(Freeblade|Warden|Spellward)\b/g,key=>callingName(key)):receipt?.result?.message ?? null;
@@ -149,7 +149,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,
       questArea:chosenRegion??playerExperience?.region??'all',
-      profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
+      showCalling:query.calling==='1',profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
       recruitment:{allowed:false,reason:'Review this army request in Recruit.',status:'none',automatic:false},publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
       feedTab:feedCategory((request.query as {feed?:string}).feed),feed:{entries:[],nextCursor:null},
       armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],
@@ -314,6 +314,9 @@ export async function createApp(options: { db: Database; config: Config; logger?
           return reply.redirect(location+'&command='+result.commandId,303);
         }
         if(route.kind==='broadcast')return reply.redirect('/game/home?feed=broadcasts&command='+result.commandId,303);
+        // A fixed destination only; existing Calling authorization/costs and
+        // command idempotency remain in the shared command handler.
+        if(route.kind==='profile'&&body.returnTo==='home')return reply.redirect('/game/home?calling=1&command='+result.commandId+'#calling',303);
         return reply.redirect(result.battleId ? '/game/battles/' + result.battleId :
           '/game/' + destination[route.kind] + '?command=' + result.commandId +
           (destination[route.kind]==='armory' && ['weapon','armor','spell'].includes(String(result.data?.category)) ? '&category='+result.data!.category : '') +

@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="/assets/remaster.css?v=phase48-mockup2">
   <link rel="stylesheet" href="/assets/realm-theme.css?v=phase48-finish1">
   <% if(screen==='land') { %><link rel="stylesheet" href="/assets/land-review.css?v=phase48-land-finish1"><% } %>
+  <link rel="stylesheet" href="/assets/phase49.css?v=phase49-ui1">
 </head>
 <body data-sound-enabled="<%= soundConfig.enabled?'1':'0' %>" data-sound-volume="<%= soundConfig.volume %>" data-sound-event="<%= JSON.stringify(soundResult) %>" class="kingdoms-ui realm-remaster <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new','champions'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -54,7 +55,7 @@
 <% if(state) { %><script type="module" src="/assets/shopping.js?v=phase47-1"></script><% } %>
 <% if(state) { %><script type="module" src="/assets/experience.js?v=phase45-1"></script><% } %>
 <% if(state) { %><script type="module" src="/assets/status.js?v=phase45-1"></script><% } %>
-<script type="module" src="/assets/sound.js?v=phase48-shared1"></script>
+<script type="module" src="/assets/sound.js?v=phase49-quiet1"></script>
 <% if(state) { %><script type="module" src="/assets/market.js?v=phase48-mockup2"></script><script type="module" src="/assets/interface.js?v=phase48-shared1"></script><% } %>
 </body>
 </html>

@@ -1,0 +1,247 @@
+{
+  "scope": "Owner review only: interface stage and documentation auditions; no production operations",
+  "approvedBalancePolicy": "bot-combat-rewards-2",
+  "balanceChanged": false,
+  "fullLocalSuite": {
+    "tests": 447,
+    "passed": 446,
+    "failed": 0,
+    "skipped": 1,
+    "durationMs": 694371.878534,
+    "skipReason": "Hosted-runner-only synthetic network namespace check; not applicable locally"
+  },
+  "additionalFocusedInterfaceTests": {
+    "passed": 3,
+    "failed": 0,
+    "includesUpdatedFixedReturnNavigationTest": true
+  },
+  "typeScript": "PASS",
+  "productionBuild": "PASS",
+  "static": {
+    "passed": 98,
+    "failed": 0,
+    "productionEjsFixtures": 77
+  },
+  "browser": {
+    "passed": true,
+    "checks": [
+      "320px: no overflow, five tabs, Calling beside Hall, keyboard disclosures, four categories, bounded rankings, 44px targets, unchanged teal row and Land density",
+      "390px: no overflow, five tabs, Calling beside Hall, keyboard disclosures, four categories, bounded rankings, 44px targets, unchanged teal row and Land density",
+      "430px: no overflow, five tabs, Calling beside Hall, keyboard disclosures, four categories, bounded rankings, 44px targets, unchanged teal row and Land density",
+      "1024px: no overflow, five tabs, Calling beside Hall, keyboard disclosures, four categories, bounded rankings, 44px targets, unchanged teal row and Land density",
+      "Calling uses actual server command, returns to Home, free first change and same-key retry applies once; ordinary navigation and controls emit no sounds"
+    ],
+    "captures": [
+      "320-land.png",
+      "320-home.png",
+      "320-calling.png",
+      "320-profile.png",
+      "320-profile-details.png",
+      "320-champions.png",
+      "390-land.png",
+      "390-home.png",
+      "390-calling.png",
+      "390-calling-details.png",
+      "390-profile.png",
+      "390-profile-details.png",
+      "390-champions.png",
+      "430-land.png",
+      "430-home.png",
+      "430-calling.png",
+      "430-profile.png",
+      "430-profile-details.png",
+      "430-champions.png"
+    ],
+    "measurements": [
+      {
+        "width": 320,
+        "teal": "linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%)",
+        "resourceHeight": 46,
+        "rowHeight": 98
+      },
+      {
+        "width": 390,
+        "teal": "linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%)",
+        "resourceHeight": 46,
+        "rowHeight": 98
+      },
+      {
+        "width": 430,
+        "teal": "linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%)",
+        "resourceHeight": 46,
+        "rowHeight": 98
+      },
+      {
+        "width": 1024,
+        "teal": "linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%)",
+        "resourceHeight": 80,
+        "rowHeight": 126
+      }
+    ],
+    "errors": [],
+    "preservedTables": [
+      "accounts",
+      "development_bots",
+      "wallets",
+      "vault_accounts",
+      "inventory_entries",
+      "inventory_lots",
+      "land_holdings",
+      "army_stacks",
+      "battles",
+      "bounties",
+      "character_achievements",
+      "tutorial_guides",
+      "sound_preferences"
+    ],
+    "preservedCharacterProgression": true,
+    "preservedBotCount": 450,
+    "productionContacted": false
+  },
+  "audioAndRecoveryBrowser": {
+    "passed": true,
+    "checks": [
+      "Saved mute makes no AAC request or playback before explicit enable.",
+      "Explicit gesture unlock, AAC decoding, persistent enabled/volume settings, and confirmed preview playback.",
+      "All 17 meaningful cues decode to non-silent segments; ordinary navigation stays silent; one sprite request; repeated confirmed-action events produce one sound.",
+      "Buy More remains visible and quantity survives three simulated idle hours, visibility/online events, and reload.",
+      "Lost committed purchase response stays in place; same-ID retry purchases five copies exactly once.",
+      "Real expired session offers reauthentication; login restores the same receipt and safe quantity without executing a trade.",
+      "Tutorial Step 6 explicitly teaches View Battle; victory evidence is automatic and Next is allowed without fabricating a win.",
+      "Confirmed battle presentation, existing Enemy Equipment, Attack Again, and human rivalry navigation remain available.",
+      "Audio contexts close on navigation; saved mute/volume and safe navigation recover after back/forward."
+    ],
+    "viewports": [
+      320,
+      360,
+      375,
+      390,
+      393,
+      412,
+      430,
+      1366
+    ],
+    "responsiveVisits": 64,
+    "audioCuesObserved": [
+      "achievement",
+      "coins",
+      "spend",
+      "equipment",
+      "sale",
+      "land",
+      "income",
+      "quest",
+      "victory",
+      "decisive",
+      "defeat",
+      "level",
+      "achievement",
+      "healing",
+      "bounty",
+      "alliance",
+      "error",
+      "tutorial",
+      "coins",
+      "equipment",
+      "error",
+      "equipment",
+      "achievement",
+      "healing",
+      "achievement",
+      "achievement"
+    ],
+    "audioSpriteBytes": 151519,
+    "browserErrors": [],
+    "screenshots": 11,
+    "liveProviderContacted": false,
+    "limitations": [
+      "Chromium AAC/Web Audio and gesture gating verified; physical Android/iPhone audio quality and Safari policies still require owner acceptance.",
+      "Idle time is browser-clock simulation; background events are simulated, not mobile OS suspension."
+    ]
+  },
+  "populatedPreservation": {
+    "passed": true,
+    "fixture": "Populated synthetic Phase 4.9 v1 plus legacy Phase 4.8 / 020 schema",
+    "tablesVerified": 66,
+    "accounts": 452,
+    "bots": 450,
+    "schemaMigrationsAdded": 0,
+    "phase48RulesetsAdded": [
+      "bot-combat-rewards-1",
+      "bot-combat-rewards-2"
+    ],
+    "rulesetsAdded": [
+      "bot-combat-rewards-2"
+    ],
+    "retainedRulesets": [
+      "bot-combat-rewards-1"
+    ],
+    "businessRowsChanged": 0,
+    "historicalReceiptReplayedUnchanged": true,
+    "fullXpV1ReceiptReplayedUnchanged": true,
+    "savedSessionSurvived": true,
+    "productionContacted": false
+  },
+  "auditions": {
+    "audioClips": 4,
+    "audioSourceArchivesVerified": true,
+    "audioChecksumsAndPeaksVerified": true,
+    "license": "CC0-1.0 Kenney, original edits also CC0",
+    "artDimensions": [
+      1024,
+      1536
+    ],
+    "artChecksumVerified": true,
+    "runtimeAudioAdopted": false,
+    "runtimeArtworkAdopted": false,
+    "goldMineRename": "Required; runtime compatible rename pending art approval/adoption"
+  },
+  "dependencyAudits": {
+    "game": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "worker": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "unchangedPathsFromApprovedBalance": [
+    ".github",
+    "knights-reforged/deployment",
+    "knights-reforged/migrations",
+    "knights-reforged/rulesets",
+    "knights-reforged/public/audio",
+    "knights-reforged/public/art"
+  ],
+  "sourceChangesRestrictedTo": [
+    "src/app.ts: Home Calling UI context and fixed return destination",
+    "src/sound.ts: no fallback routine sounds"
+  ],
+  "grayBroadcast": {
+    "requiredReleaseItem": true,
+    "identityObtained": false,
+    "hiddenHere": false,
+    "liveAllAndBroadcastsVerified": false,
+    "blocker": "No authenticated production execution channel or live message UUID",
+    "existingMechanism": "Single-record reversible operator_hide with audit; CLI already exists",
+    "authorization": "Exact Gray message only, once conclusively verified",
+    "developmentKnight": "Owner reports already removed through existing UI; excluded; do not touch again"
+  },
+  "operatorWorkflowAdded": false,
+  "publicAdminEndpointAdded": false,
+  "permissionsChanged": false,
+  "databaseMigrationsAdded": 0,
+  "productionContacted": false,
+  "merged": false,
+  "deployed": false,
+  "hostedCI": "Normal PR checks after push; not dispatched as a production release"
+}

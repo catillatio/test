@@ -1,0 +1,71 @@
+/* Approved Phase 4.9 interaction stage. No changes to teal resource bars,
+   bronze action geometry, marketplace density or the Land payment layout. */
+.kingdoms-ui.realm-remaster {
+  --bg: #090909; --panel: #0e0e0ef2; --panel-soft: #252525;
+  --panel-face: linear-gradient(110deg, #ffffff04, transparent 48%), linear-gradient(110deg, #181818ef, #0b0b0bf4);
+  --panel-edge: #65635e; --panel-top: #858179; --panel-low: #353330;
+  --market-face: linear-gradient(105deg, #181818f0, #0d0d0df5 67%, #0e0e0ef5); --realm-panel: #0e0e0ef2;
+  --steel-face: linear-gradient(#353535, #242424 45%, #151515);
+  background-color: #090909;
+}
+.kingdoms-ui.realm-remaster .page-backdrop:after {
+  background: linear-gradient(90deg, #05050588, #04040424 68%, #03030344), linear-gradient(#04040426 230px, #04040460 550px, #020202ad 1050px, #020202dc);
+}
+.kingdoms-ui.realm-remaster .resource-upper { background: linear-gradient(#323232fc, #181818fc 58%, #0b0b0bfe); }
+.kingdoms-ui.realm-remaster :is(.strip-title,.profile-section-heading) { background: linear-gradient(#363432f5, #242321ef); border-color: #5d5952; }
+.kingdoms-ui.realm-remaster :is(input,textarea,select) { background-color: #141414; }
+.kingdoms-ui.realm-remaster .notice-success { background: #29251eef; border-color: #95805a; }
+.kingdoms-ui.realm-remaster :is(.empty-state,.status-panel) { background: #111111f5; }
+.kingdoms-ui.realm-remaster :is(.next-level-strip,.tutorial-resume,.tutorial-invitation,.tutorial-panel) { background: linear-gradient(110deg,#242424ef,#111111eb); border-color: #746958; }
+.kingdoms-ui.realm-remaster .activity-entry { background: linear-gradient(110deg,#191919ed,#0e0e0eee); border-color: #5b5752; }
+.kingdoms-ui.realm-remaster :is(.profile-stat-grid,.profile-gold-flow) > div { background: #151515b0; border-color: #554f48; }
+.kingdoms-ui.realm-remaster :is(.victory-celebration,.decisive-victory,.level-celebration) { background: radial-gradient(ellipse at top,#a7883b30,transparent 70%),#141414f0; }
+.kingdoms-ui.realm-remaster .action-feedback:not(:empty) { background: #29251ef2; }
+.kingdoms-ui.realm-remaster .home-menu .hall-menu-link { grid-column: auto; min-height: 48px; }
+.kingdoms-ui.realm-remaster .home-menu .calling-menu-link { flex-direction: column; gap: 1px; }
+.calling-menu-link small { font-size: 11px; font-weight: 400; color: #d5cdbb; }
+.calling-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.calling-heading h2 { margin: 0; font: 700 19px Georgia,serif; }
+.calling-heading a { display: flex; align-items: center; min-height: 44px; min-width: 44px; justify-content: center; }
+.calling-panel .inline-form { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; }
+.calling-panel .inline-form label { grid-column: 1/-1; }
+.calling-panel .inline-form :is(select,button) { min-height: 44px; min-width: 44px; margin: 0; }
+.calling-details > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: #dac28d; }
+.calling-details > summary:after { content: '▾'; margin-left: auto; }
+.calling-details[open] > summary:after { content: '▴'; }
+.kingdoms-ui.realm-remaster .calling-row.is-current { background: #a3833e1c; border-left-color: #b4975c; }
+.kingdoms-ui.realm-remaster .profile-info { padding: 0; }
+.profile-disclosure + .profile-disclosure { border-top: 1px solid #676056; }
+.profile-disclosure > summary { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 6px 10px; cursor: pointer; }
+.profile-disclosure > summary > span { font: 700 17px Georgia,serif; }
+.profile-disclosure > summary :is(small,strong) { margin-left: auto; font-size: 12px; text-align: right; font-weight: 400; }
+.profile-disclosure > summary:after { content: '▾'; color: #d0b77f; }
+.profile-disclosure[open] > summary:after { content: '▴'; }
+.profile-disclosure > :not(summary) { margin: 0; padding: 8px 10px; }
+.profile-disclosure .profile-stat-grid, .profile-disclosure .profile-gold-flow { gap: 6px 10px; }
+.profile-info > .warning { margin: 0; padding: 8px 10px; }
+.champions-intro { padding: 0 2px 5px; gap: 6px; }
+.champions-intro p { font-size: 12px; margin: 0; }
+.champions-crown { width: 22px; height: 22px; }
+.kingdoms-ui.realm-remaster .champion-tabs { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 4px; margin-bottom: 7px; }
+.kingdoms-ui.realm-remaster .champion-tabs a { min-height: 44px; padding: 4px 2px; font-size: 12px; border-color: #68615a; background: var(--steel-face); }
+.kingdoms-ui.realm-remaster .champion-tabs a[aria-current=page] { background: var(--bronze-face); border-color: #b39250; color: #fff2cf; }
+.kingdoms-ui.realm-remaster .champions-panel { padding: 6px 8px; }
+.kingdoms-ui.realm-remaster .champions-panel .strip-title { margin-bottom: 6px; font-size: 17px; }
+.kingdoms-ui.realm-remaster .your-standing { background: #28241e; border-color: #756348; padding: 7px; margin: 6px 0; }
+.champion-columns { display: grid; grid-template-columns: 24px minmax(0,1fr) minmax(66px,29%); gap: 6px; padding: 4px 2px; font-size: 10px; color: #bdb7aa; }
+.champion-columns > :last-child { text-align: right; }
+.kingdoms-ui.realm-remaster .champion-list { margin: 0; }
+.kingdoms-ui.realm-remaster .champion-row { min-height: 50px; padding: 3px 2px; gap: 6px; grid-template-columns: 24px minmax(0,1fr) minmax(66px,29%); }
+.kingdoms-ui.realm-remaster .champion-row .player-link { display: flex; flex-direction: column; justify-content: center; min-height: 44px; min-width: 44px; font-size: 13px; line-height: 1.25; }
+.champion-row .player-link small { font-size: 10px; font-weight: 400; }
+.kingdoms-ui.realm-remaster .champion-row.is-self { background: #b28b3a17; }
+.kingdoms-ui.realm-remaster .champion-score { font-size: 13px; }
+.kingdoms-ui.realm-remaster .champion-rules { margin-top: 5px; }
+.kingdoms-ui.realm-remaster .champion-rules > summary { min-height: 44px; }
+.champion-rules > p { font-size: 12px; }
+@media (min-width:700px) {
+  .kingdoms-ui.realm-remaster .champions-panel { padding: 10px 14px; }
+  .kingdoms-ui.realm-remaster .champion-row .player-link { font-size: 15px; }
+  .profile-disclosure > summary :is(small,strong) { font-size: 14px; }
+}
