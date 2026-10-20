@@ -15,6 +15,7 @@ import { alpha,propertyById,itemById,questById,lootById,areRivals,resolveAlphaCo
 import { clock,lockCharacters,materialize,stateFrom,type CharacterRow } from './game.js';
 import { ledger,creditGold } from './economy.js';
 import { purchaseItems,sellItem,readInventory } from './inventory.js';
+import {propertyName} from './property-presentation.js';
 import { grantExperience,awardMilestones,allocateSkill } from './progression.js';
 import { refreshMaintenance,fundMaintenance } from './maintenance.js';
 import { buyEstate,sellEstate } from './estate.js';
@@ -178,8 +179,8 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       result.message='Equipment available to your army. Best attack and defense equipment are selected automatically.';
     } else if (kind==='land_buy') {
       const purchase=await buyEstate(sql,actorId,actor.attained_level,intent.propertyId as string,intent.quantity as number,key,now);
-      result.holdingId=purchase.holdingId;result.message=intent.quantity+' '+propertyById.get(intent.propertyId as string)!.name+' purchased for '+purchase.cost+' gold. Income joins your shared hourly cycle; the first partial period is prorated.';
-      result.data={goldSpent:purchase.cost,propertyId:intent.propertyId,quantity:intent.quantity,itemName:propertyById.get(intent.propertyId as string)!.name};
+      result.holdingId=purchase.holdingId;result.message=intent.quantity+' '+propertyName(intent.propertyId as string,propertyById.get(intent.propertyId as string)!.name)+' purchased for '+purchase.cost+' gold. Income joins your shared hourly cycle; the first partial period is prorated.';
+      result.data={goldSpent:purchase.cost,propertyId:intent.propertyId,quantity:intent.quantity,itemName:propertyName(intent.propertyId as string,propertyById.get(intent.propertyId as string)!.name)};
     } else if (kind==='land_sell') {
       const refund=await sellEstate(sql,actorId,intent.propertyId as string,intent.quantity as number,key,now);
       result.message='Sold '+intent.quantity+' properties for '+refund+' gold. Earned time was settled first; the shared payment clock is unchanged.';result.data={goldReceived:refund};

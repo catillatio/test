@@ -234,7 +234,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const available=state.level<entry.level?0:land?(entry as CharacterState['land']['properties'][number]).maxAffordable:Math.min(alpha.limits.transaction,alpha.limits.inventory-owned,Math.floor(state.gold/entry.price));
     const steps=land?(entry as CharacterState['land']['properties'][number]).priceSteps:Array.from({length:Math.max(1,available)},()=>entry.price);
     const costSteps=steps.map((_,i)=>steps.slice(0,i+1).reduce((n,p)=>n+p,0));
-    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry,owned,available,costSteps}});
+    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry,receiptName:receipt.data.itemName??(land?alpha.properties.find(p=>p.id===entry.id)!.name:entry.name),owned,available,costSteps}});
   });
   app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config);

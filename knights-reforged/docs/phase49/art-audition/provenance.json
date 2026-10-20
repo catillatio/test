@@ -1,5 +1,5 @@
 {
-  "status": "Owner preview only; no runtime adoption or economic changes",
+  "status": "Owner-approved illustration direction; integrated into feature-branch runtime, not deployed",
   "rights": "Original OpenAI-generated project output, subject to applicable OpenAI terms. No third-party stock, extracted APK or copied Storm8 artwork; no exclusivity or copyright protection asserted.",
   "method": "Original image generation using the owner-approved Land mockup as the primary style reference; current original atlas used only to identify replacements. No creative post-editing.",
   "asset": "property-proposals.png",
@@ -25,5 +25,6 @@
     "public/art/land-simple-0.1/properties.webp"
   ],
   "runtimeCatalogChanged": false,
-  "existingHoldingsChanged": false
+  "existingHoldingsChanged": false,
+  "integration": "public/art/properties-49/provenance.json"
 }

@@ -69,3 +69,14 @@
   .kingdoms-ui.realm-remaster .champion-row .player-link { font-size: 15px; }
   .profile-disclosure > summary :is(small,strong) { font-size: 14px; }
 }
+/* Approved original replacement illustrations, scoped to the two stable IDs.
+   Square thumbnails crop the full illustration; Land uses its existing frame. */
+.kingdoms-ui.realm-remaster .property-art-49 {
+  display: block; background-size: cover; background-position: center; background-repeat: no-repeat;
+}
+.property-art-49-0 { background-image: url('art/properties-49/wyrmcrest-keep.webp'); }
+.property-art-49-1 { background-image: url('art/properties-49/gold-mine.webp'); }
+.kingdoms-ui.screen-land.signed-in .market-catalog .property-art-frame .property-art-49 {
+  width: 100%; height: 100%; transform: none;
+  filter: saturate(.82) brightness(.9) contrast(1.04);
+}

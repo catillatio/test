@@ -5,6 +5,7 @@ import { GameError } from './errors.js';
 import { alpha,propertyById,propertyPrice,propertyQuote } from './alpha-rules.js';
 import { getLandState,accrueHolding,type LandState,type HoldingRow } from './land.js';
 import { ledger,creditGold } from './economy.js';
+import {propertyName} from './property-presentation.js';
 
 export type EstateState = Omit<LandState,'properties'> & {
   equipmentUpkeep:number; totalUpkeep:number;
@@ -26,16 +27,16 @@ export async function estateState(sql:Sql,characterId:string,gold:number,equipme
     const saleIncome=lots.flatMap(holding=>Array.from({length:Math.min(holding.quantity,alpha.limits.landTransaction)},()=>holding.hourly_income-holding.hourly_upkeep)).slice(0,alpha.limits.landTransaction);
     const saleNetIncomeSteps=saleIncome.map((_,i)=>saleIncome.slice(0,i+1).reduce((n,p)=>n+p,0));
     const net=state.hourlyIncome-state.hourlyUpkeep-equipmentUpkeep;
-    return {...property,projectedBuyNetSteps:priceSteps.map((_,i)=>net+(i+1)*(property.hourlyIncome-property.hourlyUpkeep)),projectedSaleNetSteps:saleNetIncomeSteps.map(n=>net-n),saleRefundSteps,saleNetIncomeSteps,maxSell:Math.min(owned,alpha.limits.landTransaction),unlocked:level>=property.level,basePrice:property.price,price:propertyPrice(property.price,owned),owned,remaining,maxPurchase,maxAffordable,priceSteps};
+    return {...property,name:propertyName(property.id,property.name),projectedBuyNetSteps:priceSteps.map((_,i)=>net+(i+1)*(property.hourlyIncome-property.hourlyUpkeep)),projectedSaleNetSteps:saleNetIncomeSteps.map(n=>net-n),saleRefundSteps,saleNetIncomeSteps,maxSell:Math.min(owned,alpha.limits.landTransaction),unlocked:level>=property.level,basePrice:property.price,price:propertyPrice(property.price,owned),owned,remaining,maxPurchase,maxAffordable,priceSteps};
   });
-  return {...state,rulesetId:alpha.id,properties,equipmentUpkeep,totalUpkeep:state.hourlyUpkeep+equipmentUpkeep,
+  return {...state,holdings:state.holdings.map(h=>({...h,name:propertyName(h.propertyId,h.name)})),rulesetId:alpha.id,properties,equipmentUpkeep,totalUpkeep:state.hourlyUpkeep+equipmentUpkeep,
     netHourlyIncome:state.hourlyIncome-state.hourlyUpkeep-equipmentUpkeep};
 }
 
 export async function buyEstate(sql:Sql,characterId:string,level:number,propertyId:string,quantity:number,commandId:string,now:Date) {
   const property=propertyById.get(propertyId);
   if (!property) throw new GameError('PROPERTY_NOT_FOUND','That property is not available.',404);
-  if (level<property.level) throw new GameError('LEVEL_REQUIRED',`${property.name} unlocks at level ${property.level}.`,409);
+  if (level<property.level) throw new GameError('LEVEL_REQUIRED',`${propertyName(property.id,property.name)} unlocks at level ${property.level}.`,409);
   const owned=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM land_holdings WHERE character_id=$1 AND property_id=$2',[characterId,propertyId])).rows[0]!.quantity as number;
   if (owned+quantity>alpha.limits.property) throw new GameError('LAND_LIMIT','The property ownership limit has been reached.',409);
   const prices=propertyQuote(property.price,owned,quantity);const cost=prices.reduce((n,price)=>n+price,0);
@@ -48,7 +49,7 @@ export async function buyEstate(sql:Sql,characterId:string,level:number,property
   for (const price of prices) {
     const id=randomUUID();first ||= id;
     await sql.query(`INSERT INTO land_holdings(id,character_id,property_id,property_name,ruleset_id,quantity,original_quantity,unit_price,hourly_income,hourly_upkeep,interval_seconds,acquired_at,accrued_through)
-      VALUES($1,$2,$3,$4,$5,1,1,$6,$7,$8,3600,$9,$9)`,[id,characterId,propertyId,property.name,alpha.id,price,property.hourlyIncome,property.hourlyUpkeep,now]);
+      VALUES($1,$2,$3,$4,$5,1,1,$6,$7,$8,3600,$9,$9)`,[id,characterId,propertyId,propertyName(property.id,property.name),alpha.id,price,property.hourlyIncome,property.hourlyUpkeep,now]);
   }
   return {holdingId:first,cost};
 }

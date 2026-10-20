@@ -19,6 +19,12 @@ const {callingName,callingDescription}=await import('data:text/javascript;base64
 const {battleRewardNotes}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(read('src/battle-reward-notes.ts'))).toString('base64'));
 const results=[];
 function check(name,run){try{run();results.push({name,passed:true});}catch(error){results.push({name,passed:false,error:error.message});}}
+check('Phase 4.9 approved property replacements retain stable IDs and verified original provenance',()=>{
+ const manifest=json('public/art/properties-49/provenance.json');
+ assert.deepEqual(manifest.assets.map(a=>a.id),['wyrmcrest-keep','moonwell-sanctuary']);
+ assert.equal(createHash('sha256').update(readFileSync(join(root,manifest.source))).digest('hex'),manifest.sourceSha256);
+ for(const asset of manifest.assets){const bytes=readFileSync(join(root,'public/art/properties-49',asset.asset));assert.equal(bytes.length,asset.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);assert.ok(alpha.properties.some(p=>p.id===asset.id));}
+});
 function files(dir){return readdirSync(join(root,dir),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?files(join(dir,entry.name)):[join(dir,entry.name)]);}
 check('All production EJS templates compile with the installed EJS engine',()=>{
   for(const path of files('views'))if(path.endsWith('.ejs'))ejs.compile(read(path),{filename:join(root,path)});

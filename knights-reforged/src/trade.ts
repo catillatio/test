@@ -1,6 +1,7 @@
 import {randomUUID} from 'node:crypto';
 import {type Database,type Sql,transaction} from './db.js';
 import {GameError} from './errors.js';
+import {propertyName} from './property-presentation.js';
 import {propertyById,alpha,propertyQuote} from './alpha-rules.js';
 import {clock,lockCharacters,materialize,stateFrom} from './game.js';
 export async function propertyTrade(sql:Sql,characterId:string,kind:'land_buy'|'land_sell',propertyId:string,quantity:number,gold:number,level:number,currentNet:number){
@@ -19,7 +20,7 @@ export async function propertyTrade(sql:Sql,characterId:string,kind:'land_buy'|'
   const holdings=(await sql.query('SELECT quantity,unit_price,hourly_income,hourly_upkeep FROM land_holdings WHERE character_id=$1 AND property_id=$2 AND quantity>0 ORDER BY acquired_at,purchase_order,id',[characterId,propertyId])).rows;
   netChange=0;let left=quantity;for(const holding of holdings){const sold=Math.min(left,holding.quantity);amount+=sold*Math.floor(holding.unit_price/2);netChange+=sold*(holding.hourly_income-holding.hourly_upkeep);left-=sold;}
  }
- return {property,quantity,amount,owned,projectedNet:currentNet+(kind==='land_buy'?1:-1)*netChange};
+ return {property:{...property,name:propertyName(property.id,property.name)},quantity,amount,owned,projectedNet:currentNet+(kind==='land_buy'?1:-1)*netChange};
 }
 export async function createTradeQuote(db:Database,accountId:string,kind:'land_buy'|'land_sell',propertyId:string,quantity:number,runtime={}){
  return transaction(db,async sql=>{
