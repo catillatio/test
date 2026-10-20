@@ -15,7 +15,7 @@ describe('Profile and authoritative active hourly gold',{skip:!testDatabaseUrl},
     await r.db.query('UPDATE wallets SET balance=0 WHERE character_id=$1',[p.id]);
     await r.db.query("UPDATE maintenance_accounts SET settled_at=clock_timestamp()-interval '100 hours' WHERE character_id=$1",[p.id]);
     state=await r.me(p);assert.equal(state.maintenance.paused,true);assert.equal(state.economy.equipmentUpkeep,0);assert.equal(state.economy.scheduledEquipmentUpkeep,8);assert.equal(state.economy.netHourlyIncome,7);
-    page=await r.app.inject({method:'GET',url:'/game/land',headers:{cookie:p.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/data-payment-gold[^>]*>\+7<\/span> Gold/);assert.match(page.body,/data-land-net>7</);
+    page=await r.app.inject({method:'GET',url:'/game/land',headers:{cookie:p.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/data-payment-gold[^>]*>\+7<\/span> Gold/);assert.match(page.body,/data-land-net(?:\s[^>]*)?>7</);
     await r.prepare(p,16);state=(await r.ok(p,'/api/v1/maintenance')).state;assert.equal(state.economy.netHourlyIncome,-1);
   });
   test('Profile replaces header logout; its stats and account logout preserve authentication',async()=>{

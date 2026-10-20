@@ -9,6 +9,10 @@ if (root) {
   let retryAt = 0;
   let version = Number(document.querySelector('[data-realm-state]')?.dataset.stateVersion || 0);
   const countdown = root.querySelector('[data-land-countdown]');
+  const renderCountdown = value => {
+    if (countdown) countdown.textContent = value;
+    setText('[data-land-summary-countdown]', nextPayment ? 'Next ' + value : 'No Land yet');
+  };
   const status = root.querySelector('[data-land-status]');
   const number = value => Number(value).toLocaleString('en');
   const setText = (selector, value) => { const element = root.querySelector(selector); if (element) element.textContent = value; };
@@ -41,6 +45,8 @@ if (root) {
       setText('[data-partial-payment]', state.land.partialNextPayment ? 'Includes a prorated first period.' : '');
       setText('[data-land-net-detail]', number(state.economy?.netHourlyIncome ?? state.land.netHourlyIncome));
       setText('[data-land-net]', number(state.economy?.netHourlyIncome ?? state.land.netHourlyIncome));
+      const net = state.economy?.netHourlyIncome ?? state.land.netHourlyIncome;
+      setText('[data-land-summary-net]', (net > 0 ? '+' : '') + number(net));
       document.querySelectorAll('[data-wallet-gold]').forEach(element => { element.textContent = number(state.gold); });
       showTime(root.querySelector('[data-land-payment-time]'), nextPayment);
       const pending = root.querySelector('[data-land-pending]');
@@ -75,12 +81,12 @@ if (root) {
 
   function tick() {
     if (!countdown) return;
-    if (!nextPayment) { countdown.textContent = 'No property owned'; return; }
+    if (!nextPayment) { renderCountdown('No property owned'); return; }
     const now = serverTime + performance.now() - syncedAt;
     const seconds = Math.max(0, Math.ceil((Date.parse(nextPayment) - now) / 1000));
-    if (!Number.isFinite(seconds)) { countdown.textContent = 'Checking income…'; void refresh(); return; }
-    countdown.textContent = seconds === 0 ? 'Payment due — checking…' :
-      [Math.floor(seconds / 3600), Math.floor(seconds % 3600 / 60), seconds % 60].map(value => String(value).padStart(2, '0')).join(':');
+    if (!Number.isFinite(seconds)) { renderCountdown('Checking income…'); void refresh(); return; }
+    renderCountdown(seconds === 0 ? 'Payment due — checking…' :
+      [Math.floor(seconds / 3600), Math.floor(seconds % 3600 / 60), seconds % 60].map(value => String(value).padStart(2, '0')).join(':'));
     if (!seconds) void refresh();
   }
   showTime(root.querySelector('[data-land-payment-time]'), nextPayment);

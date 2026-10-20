@@ -1,0 +1,2879 @@
+[
+  {
+    "expanded": {
+      "brand": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(48, 41, 30, 0.99), rgba(28, 24, 19, 0.98) 46%, rgba(16, 17, 14, 0.98)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "resources": {
+        "x": 0,
+        "y": 44,
+        "width": 320,
+        "height": 94,
+        "font": "",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgb(16, 18, 15) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "gold": {
+        "x": 0,
+        "y": 44,
+        "width": 320,
+        "height": 48,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(51, 53, 40, 0.99), rgba(21, 24, 18, 0.99) 58%, rgba(9, 12, 9, 0.996)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "recovery": {
+        "x": 0,
+        "y": 92,
+        "width": 320,
+        "height": 46,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(189, 255, 221, 0.13) 0px 1px 0px 0px inset, rgb(20, 35, 30) 0px -1px 0px 0px inset"
+      },
+      "title": {
+        "x": 0,
+        "y": 138,
+        "width": 320,
+        "height": 38,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(90deg, rgba(5, 6, 8, 0.333), rgba(3, 5, 8, 0) 60%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "flow": {
+        "x": 8,
+        "y": 176,
+        "width": 304,
+        "height": 200,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(115, 115, 105)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(13, 18, 19, 0.96), rgba(9, 13, 13, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(198, 197, 173, 0.25) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.067) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 5px 0px, rgb(37, 41, 37) 0px 0px 0px 1px"
+      },
+      "flowHeader": {
+        "x": 9,
+        "y": 177,
+        "width": 302,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(50, 53, 49, 0.97), rgba(33, 36, 31, 0.97) 64%, rgba(29, 33, 29, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(218, 216, 199, 0.192) 0px 1px 0px 0px inset"
+      },
+      "flowColumns": {
+        "x": 9,
+        "y": 221,
+        "width": 302,
+        "height": 62,
+        "font": "12px / 16.8px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "payment": {
+        "x": 9,
+        "y": 283,
+        "width": 302,
+        "height": 35,
+        "font": "12px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(11, 17, 17, 0.19) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "paymentDate": {
+        "x": 17,
+        "y": 300,
+        "width": 1,
+        "height": 1,
+        "font": "17px / 23px Georgia, \"Times New Roman\", serif",
+        "fontSize": "17px",
+        "border": "0px none rgb(200, 197, 184)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstRow": {
+        "x": 8,
+        "y": 383,
+        "width": 304,
+        "height": 98,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(79, 80, 74)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(105deg, rgba(16, 16, 15, 0.97), rgba(16, 16, 16, 0.97) 70%, rgba(13, 15, 15, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(210, 206, 187, 0.11) 0px 1px 0px 0px inset, rgba(195, 191, 165, 0.11) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 4px 0px, rgb(25, 29, 28) 0px 0px 0px 1px"
+      },
+      "firstArt": {
+        "x": 13,
+        "y": 387,
+        "width": 68,
+        "height": 49,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(81, 83, 75)",
+        "borderRadius": "2px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstName": {
+        "x": 87,
+        "y": 402.5,
+        "width": 106,
+        "height": 19,
+        "font": "700 15px / 19px Georgia, \"Times New Roman\", serif",
+        "fontSize": "15px",
+        "border": "0px none rgb(247, 245, 238)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstBuy": {
+        "x": 199,
+        "y": 429,
+        "width": 51.5,
+        "height": 44,
+        "font": "700 15px / 19px Georgia, \"Times New Roman\", serif",
+        "fontSize": "15px",
+        "border": "",
+        "borderRadius": "4px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(162, 125, 64), rgb(125, 95, 45) 35%, rgb(84, 61, 24) 76%, rgb(61, 44, 18)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(255, 235, 173, 0.314) 0px 1px 0px 0px inset, rgba(32, 22, 5, 0.376) 0px -2px 0px 0px inset, rgba(0, 0, 0, 0.733) 0px 2px 3px 0px"
+      },
+      "navigation": {
+        "x": 0,
+        "y": 786,
+        "width": 320,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(48, 50, 51), rgb(17, 19, 19) 50%, rgb(4, 6, 6)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(0, 0, 0, 0.667) 0px -2px 7px 0px"
+      },
+      "navigationIcon": {
+        "x": 17,
+        "y": 793,
+        "width": 30,
+        "height": 27,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "navigationLabel": {
+        "x": 16.671875,
+        "y": 821,
+        "width": 30.65625,
+        "height": 16,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      }
+    },
+    "collapsed": {
+      "brand": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(48, 41, 30, 0.99), rgba(28, 24, 19, 0.98) 46%, rgba(16, 17, 14, 0.98)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "resources": {
+        "x": 0,
+        "y": 44,
+        "width": 320,
+        "height": 94,
+        "font": "",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgb(16, 18, 15) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "gold": {
+        "x": 0,
+        "y": 44,
+        "width": 320,
+        "height": 48,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(51, 53, 40, 0.99), rgba(21, 24, 18, 0.99) 58%, rgba(9, 12, 9, 0.996)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "recovery": {
+        "x": 0,
+        "y": 92,
+        "width": 320,
+        "height": 46,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(189, 255, 221, 0.13) 0px 1px 0px 0px inset, rgb(20, 35, 30) 0px -1px 0px 0px inset"
+      },
+      "title": {
+        "x": 0,
+        "y": 138,
+        "width": 320,
+        "height": 38,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(90deg, rgba(5, 6, 8, 0.333), rgba(3, 5, 8, 0) 60%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "flow": {
+        "x": 8,
+        "y": 176,
+        "width": 304,
+        "height": 59,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(115, 115, 105)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(13, 18, 19, 0.96), rgba(9, 13, 13, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(198, 197, 173, 0.25) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.067) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 5px 0px, rgb(37, 41, 37) 0px 0px 0px 1px"
+      },
+      "flowHeader": {
+        "x": 9,
+        "y": 177,
+        "width": 302,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(50, 53, 49, 0.97), rgba(33, 36, 31, 0.97) 64%, rgba(29, 33, 29, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(218, 216, 199, 0.192) 0px 1px 0px 0px inset"
+      },
+      "flowColumns": {
+        "x": 9,
+        "y": 221,
+        "width": 302,
+        "height": 62,
+        "font": "12px / 16.8px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "payment": {
+        "x": 9,
+        "y": 283,
+        "width": 302,
+        "height": 35,
+        "font": "12px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(11, 17, 17, 0.19) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "paymentDate": {
+        "x": 17,
+        "y": 300,
+        "width": 1,
+        "height": 1,
+        "font": "17px / 23px Georgia, \"Times New Roman\", serif",
+        "fontSize": "17px",
+        "border": "0px none rgb(200, 197, 184)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstRow": {
+        "x": 8,
+        "y": 242,
+        "width": 304,
+        "height": 98,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(79, 80, 74)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(105deg, rgba(16, 16, 15, 0.97), rgba(16, 16, 16, 0.97) 70%, rgba(13, 15, 15, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(210, 206, 187, 0.11) 0px 1px 0px 0px inset, rgba(195, 191, 165, 0.11) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 4px 0px, rgb(25, 29, 28) 0px 0px 0px 1px"
+      },
+      "firstArt": {
+        "x": 13,
+        "y": 246,
+        "width": 68,
+        "height": 49,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(81, 83, 75)",
+        "borderRadius": "2px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstName": {
+        "x": 87,
+        "y": 261.5,
+        "width": 106,
+        "height": 19,
+        "font": "700 15px / 19px Georgia, \"Times New Roman\", serif",
+        "fontSize": "15px",
+        "border": "0px none rgb(247, 245, 238)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstBuy": {
+        "x": 199,
+        "y": 288,
+        "width": 51.5,
+        "height": 44,
+        "font": "700 15px / 19px Georgia, \"Times New Roman\", serif",
+        "fontSize": "15px",
+        "border": "",
+        "borderRadius": "4px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(162, 125, 64), rgb(125, 95, 45) 35%, rgb(84, 61, 24) 76%, rgb(61, 44, 18)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(255, 235, 173, 0.314) 0px 1px 0px 0px inset, rgba(32, 22, 5, 0.376) 0px -2px 0px 0px inset, rgba(0, 0, 0, 0.733) 0px 2px 3px 0px"
+      },
+      "navigation": {
+        "x": 0,
+        "y": 786,
+        "width": 320,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(48, 50, 51), rgb(17, 19, 19) 50%, rgb(4, 6, 6)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(0, 0, 0, 0.667) 0px -2px 7px 0px"
+      },
+      "navigationIcon": {
+        "x": 17,
+        "y": 793,
+        "width": 30,
+        "height": 27,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "navigationLabel": {
+        "x": 16.671875,
+        "y": 821,
+        "width": 30.65625,
+        "height": 16,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      }
+    },
+    "width": 320,
+    "headingFont": "23px",
+    "overflow": false,
+    "completeRows": 5,
+    "targets": [
+      {
+        "label": "Kingdom Come home",
+        "width": 143,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Profile",
+        "width": 47.3125,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Upcoming income breakdown",
+        "width": 145.90625,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Experience and next unlocks",
+        "width": 108.09375,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "15Level14 unspent skill points",
+        "width": 44,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Restore Health with gold",
+        "width": 98.65625,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Mana recovery details",
+        "width": 98.671875,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Spirit recovery details",
+        "width": 98.65625,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Gold FlowNet +325/hr · Next 01:00:00Hourly⌄325",
+        "width": 302,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Smallholding",
+        "width": 68,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Smallholding",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Smallholding",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Woodland",
+        "width": 68,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Woodland",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Woodland",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Copper Workshop",
+        "width": 68,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Copper Workshop",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Copper Workshop",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Watchtower",
+        "width": 68,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Watchtower",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Watchtower",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell River Mill",
+        "width": 68,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy River Mill",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell River Mill",
+        "width": 51.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Hearthstead Hamlet",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Hearthstead Hamlet",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Hearthstead Hamlet",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Crown Harbour",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Crown Harbour",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Crown Harbour",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Granite Quarry",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Granite Quarry",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Granite Quarry",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Bannerhold Manor",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Bannerhold Manor",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Bannerhold Manor",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Silver Vein Mine",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Silver Vein Mine",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Silver Vein Mine",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Moonwell Sanctuary",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Moonwell Sanctuary",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Moonwell Sanctuary",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Ironwood Fort",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Ironwood Fort",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Ironwood Fort",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Tempest Port",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Tempest Port",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Tempest Port",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Runekeeper Academy",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Runekeeper Academy",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Runekeeper Academy",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Oathbound Citadel",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Oathbound Citadel",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Oathbound Citadel",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Dawnspire Cathedral",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Dawnspire Cathedral",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Dawnspire Cathedral",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Wyrmcrest Keep",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Wyrmcrest Keep",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Wyrmcrest Keep",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Astral Observatory",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Astral Observatory",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Astral Observatory",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Throne of Ash",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Throne of Ash",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Throne of Ash",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Eclipse Citadel",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Eclipse Citadel",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Eclipse Citadel",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Worldroot Bastion",
+        "width": 68,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Worldroot Bastion",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Worldroot Bastion",
+        "width": 51.5,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Home",
+        "width": 64,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Quests",
+        "width": 64,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Battle",
+        "width": 64,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Armory",
+        "width": 64,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Recruit",
+        "width": 64,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      }
+    ]
+  },
+  {
+    "expanded": {
+      "brand": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(48, 41, 30, 0.99), rgba(28, 24, 19, 0.98) 46%, rgba(16, 17, 14, 0.98)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "resources": {
+        "x": 0,
+        "y": 44,
+        "width": 390,
+        "height": 94,
+        "font": "",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgb(16, 18, 15) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "gold": {
+        "x": 0,
+        "y": 44,
+        "width": 390,
+        "height": 48,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(51, 53, 40, 0.99), rgba(21, 24, 18, 0.99) 58%, rgba(9, 12, 9, 0.996)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "recovery": {
+        "x": 0,
+        "y": 92,
+        "width": 390,
+        "height": 46,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(189, 255, 221, 0.13) 0px 1px 0px 0px inset, rgb(20, 35, 30) 0px -1px 0px 0px inset"
+      },
+      "title": {
+        "x": 0,
+        "y": 138,
+        "width": 390,
+        "height": 38,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(90deg, rgba(5, 6, 8, 0.333), rgba(3, 5, 8, 0) 60%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "flow": {
+        "x": 8,
+        "y": 176,
+        "width": 374,
+        "height": 200,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(115, 115, 105)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(13, 18, 19, 0.96), rgba(9, 13, 13, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(198, 197, 173, 0.25) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.067) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 5px 0px, rgb(37, 41, 37) 0px 0px 0px 1px"
+      },
+      "flowHeader": {
+        "x": 9,
+        "y": 177,
+        "width": 372,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(50, 53, 49, 0.97), rgba(33, 36, 31, 0.97) 64%, rgba(29, 33, 29, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(218, 216, 199, 0.192) 0px 1px 0px 0px inset"
+      },
+      "flowColumns": {
+        "x": 9,
+        "y": 221,
+        "width": 372,
+        "height": 62,
+        "font": "12px / 16.8px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "payment": {
+        "x": 9,
+        "y": 283,
+        "width": 372,
+        "height": 35,
+        "font": "12px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(11, 17, 17, 0.19) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "paymentDate": {
+        "x": 17,
+        "y": 300,
+        "width": 1,
+        "height": 1,
+        "font": "17px / 23px Georgia, \"Times New Roman\", serif",
+        "fontSize": "17px",
+        "border": "0px none rgb(200, 197, 184)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstRow": {
+        "x": 8,
+        "y": 383,
+        "width": 374,
+        "height": 98,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(79, 80, 74)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(105deg, rgba(16, 16, 15, 0.97), rgba(16, 16, 16, 0.97) 70%, rgba(13, 15, 15, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(210, 206, 187, 0.11) 0px 1px 0px 0px inset, rgba(195, 191, 165, 0.11) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 4px 0px, rgb(25, 29, 28) 0px 0px 0px 1px"
+      },
+      "firstArt": {
+        "x": 13,
+        "y": 387,
+        "width": 80,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(81, 83, 75)",
+        "borderRadius": "2px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstName": {
+        "x": 100,
+        "y": 402,
+        "width": 154,
+        "height": 20,
+        "font": "700 16px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "16px",
+        "border": "0px none rgb(247, 245, 238)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstBuy": {
+        "x": 261,
+        "y": 429,
+        "width": 55,
+        "height": 44,
+        "font": "700 15px / 19px Georgia, \"Times New Roman\", serif",
+        "fontSize": "15px",
+        "border": "",
+        "borderRadius": "4px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(162, 125, 64), rgb(125, 95, 45) 35%, rgb(84, 61, 24) 76%, rgb(61, 44, 18)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(255, 235, 173, 0.314) 0px 1px 0px 0px inset, rgba(32, 22, 5, 0.376) 0px -2px 0px 0px inset, rgba(0, 0, 0, 0.733) 0px 2px 3px 0px"
+      },
+      "navigation": {
+        "x": 0,
+        "y": 786,
+        "width": 390,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(48, 50, 51), rgb(17, 19, 19) 50%, rgb(4, 6, 6)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(0, 0, 0, 0.667) 0px -2px 7px 0px"
+      },
+      "navigationIcon": {
+        "x": 24,
+        "y": 793,
+        "width": 30,
+        "height": 27,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "navigationLabel": {
+        "x": 23.671875,
+        "y": 821,
+        "width": 30.65625,
+        "height": 16,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      }
+    },
+    "collapsed": {
+      "brand": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(48, 41, 30, 0.99), rgba(28, 24, 19, 0.98) 46%, rgba(16, 17, 14, 0.98)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "resources": {
+        "x": 0,
+        "y": 44,
+        "width": 390,
+        "height": 94,
+        "font": "",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgb(16, 18, 15) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "gold": {
+        "x": 0,
+        "y": 44,
+        "width": 390,
+        "height": 48,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(51, 53, 40, 0.99), rgba(21, 24, 18, 0.99) 58%, rgba(9, 12, 9, 0.996)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "recovery": {
+        "x": 0,
+        "y": 92,
+        "width": 390,
+        "height": 46,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(189, 255, 221, 0.13) 0px 1px 0px 0px inset, rgb(20, 35, 30) 0px -1px 0px 0px inset"
+      },
+      "title": {
+        "x": 0,
+        "y": 138,
+        "width": 390,
+        "height": 38,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(90deg, rgba(5, 6, 8, 0.333), rgba(3, 5, 8, 0) 60%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "flow": {
+        "x": 8,
+        "y": 176,
+        "width": 374,
+        "height": 59,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(115, 115, 105)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(13, 18, 19, 0.96), rgba(9, 13, 13, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(198, 197, 173, 0.25) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.067) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 5px 0px, rgb(37, 41, 37) 0px 0px 0px 1px"
+      },
+      "flowHeader": {
+        "x": 9,
+        "y": 177,
+        "width": 372,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(50, 53, 49, 0.97), rgba(33, 36, 31, 0.97) 64%, rgba(29, 33, 29, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(218, 216, 199, 0.192) 0px 1px 0px 0px inset"
+      },
+      "flowColumns": {
+        "x": 9,
+        "y": 221,
+        "width": 372,
+        "height": 62,
+        "font": "12px / 16.8px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "payment": {
+        "x": 9,
+        "y": 283,
+        "width": 372,
+        "height": 35,
+        "font": "12px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(11, 17, 17, 0.19) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "paymentDate": {
+        "x": 17,
+        "y": 300,
+        "width": 1,
+        "height": 1,
+        "font": "17px / 23px Georgia, \"Times New Roman\", serif",
+        "fontSize": "17px",
+        "border": "0px none rgb(200, 197, 184)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstRow": {
+        "x": 8,
+        "y": 242,
+        "width": 374,
+        "height": 98,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(79, 80, 74)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(105deg, rgba(16, 16, 15, 0.97), rgba(16, 16, 16, 0.97) 70%, rgba(13, 15, 15, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(210, 206, 187, 0.11) 0px 1px 0px 0px inset, rgba(195, 191, 165, 0.11) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 4px 0px, rgb(25, 29, 28) 0px 0px 0px 1px"
+      },
+      "firstArt": {
+        "x": 13,
+        "y": 246,
+        "width": 80,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(81, 83, 75)",
+        "borderRadius": "2px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstName": {
+        "x": 100,
+        "y": 261,
+        "width": 154,
+        "height": 20,
+        "font": "700 16px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "16px",
+        "border": "0px none rgb(247, 245, 238)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstBuy": {
+        "x": 261,
+        "y": 288,
+        "width": 55,
+        "height": 44,
+        "font": "700 15px / 19px Georgia, \"Times New Roman\", serif",
+        "fontSize": "15px",
+        "border": "",
+        "borderRadius": "4px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(162, 125, 64), rgb(125, 95, 45) 35%, rgb(84, 61, 24) 76%, rgb(61, 44, 18)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(255, 235, 173, 0.314) 0px 1px 0px 0px inset, rgba(32, 22, 5, 0.376) 0px -2px 0px 0px inset, rgba(0, 0, 0, 0.733) 0px 2px 3px 0px"
+      },
+      "navigation": {
+        "x": 0,
+        "y": 786,
+        "width": 390,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(48, 50, 51), rgb(17, 19, 19) 50%, rgb(4, 6, 6)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(0, 0, 0, 0.667) 0px -2px 7px 0px"
+      },
+      "navigationIcon": {
+        "x": 24,
+        "y": 793,
+        "width": 30,
+        "height": 27,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "navigationLabel": {
+        "x": 23.671875,
+        "y": 821,
+        "width": 30.65625,
+        "height": 16,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      }
+    },
+    "width": 390,
+    "headingFont": "23px",
+    "overflow": false,
+    "completeRows": 5,
+    "targets": [
+      {
+        "label": "Kingdom Come home",
+        "width": 143,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Profile",
+        "width": 47.3125,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Upcoming income breakdown",
+        "width": 181.53125,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Experience and next unlocks",
+        "width": 134.46875,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "15Level14 unspent skill points",
+        "width": 44,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Restore Health with gold",
+        "width": 122,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Mana recovery details",
+        "width": 122,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Spirit recovery details",
+        "width": 122,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Gold FlowNet +325/hr · Next 01:00:00Hourly⌄325",
+        "width": 372,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Smallholding",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Smallholding",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Smallholding",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Woodland",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Woodland",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Woodland",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Copper Workshop",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Copper Workshop",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Copper Workshop",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Watchtower",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Watchtower",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Watchtower",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell River Mill",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy River Mill",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell River Mill",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Hearthstead Hamlet",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Hearthstead Hamlet",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Hearthstead Hamlet",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Crown Harbour",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Crown Harbour",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Crown Harbour",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Granite Quarry",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Granite Quarry",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Granite Quarry",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Bannerhold Manor",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Bannerhold Manor",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Bannerhold Manor",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Silver Vein Mine",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Silver Vein Mine",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Silver Vein Mine",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Moonwell Sanctuary",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Moonwell Sanctuary",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Moonwell Sanctuary",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Ironwood Fort",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Ironwood Fort",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Ironwood Fort",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Tempest Port",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Tempest Port",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Tempest Port",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Runekeeper Academy",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Runekeeper Academy",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Runekeeper Academy",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Oathbound Citadel",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Oathbound Citadel",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Oathbound Citadel",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Dawnspire Cathedral",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Dawnspire Cathedral",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Dawnspire Cathedral",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Wyrmcrest Keep",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Wyrmcrest Keep",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Wyrmcrest Keep",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Astral Observatory",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Astral Observatory",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Astral Observatory",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Throne of Ash",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Throne of Ash",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Throne of Ash",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Eclipse Citadel",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Eclipse Citadel",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Eclipse Citadel",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Worldroot Bastion",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Worldroot Bastion",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Worldroot Bastion",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Home",
+        "width": 78,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Quests",
+        "width": 78,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Battle",
+        "width": 78,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Armory",
+        "width": 78,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Recruit",
+        "width": 78,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      }
+    ]
+  },
+  {
+    "expanded": {
+      "brand": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(48, 41, 30, 0.99), rgba(28, 24, 19, 0.98) 46%, rgba(16, 17, 14, 0.98)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "resources": {
+        "x": 0,
+        "y": 44,
+        "width": 430,
+        "height": 94,
+        "font": "",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgb(16, 18, 15) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "gold": {
+        "x": 0,
+        "y": 44,
+        "width": 430,
+        "height": 48,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(51, 53, 40, 0.99), rgba(21, 24, 18, 0.99) 58%, rgba(9, 12, 9, 0.996)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "recovery": {
+        "x": 0,
+        "y": 92,
+        "width": 430,
+        "height": 46,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(189, 255, 221, 0.13) 0px 1px 0px 0px inset, rgb(20, 35, 30) 0px -1px 0px 0px inset"
+      },
+      "title": {
+        "x": 0,
+        "y": 138,
+        "width": 430,
+        "height": 38,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(90deg, rgba(5, 6, 8, 0.333), rgba(3, 5, 8, 0) 60%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "flow": {
+        "x": 8,
+        "y": 176,
+        "width": 414,
+        "height": 200,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(115, 115, 105)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(13, 18, 19, 0.96), rgba(9, 13, 13, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(198, 197, 173, 0.25) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.067) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 5px 0px, rgb(37, 41, 37) 0px 0px 0px 1px"
+      },
+      "flowHeader": {
+        "x": 9,
+        "y": 177,
+        "width": 412,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(50, 53, 49, 0.97), rgba(33, 36, 31, 0.97) 64%, rgba(29, 33, 29, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(218, 216, 199, 0.192) 0px 1px 0px 0px inset"
+      },
+      "flowColumns": {
+        "x": 9,
+        "y": 221,
+        "width": 412,
+        "height": 62,
+        "font": "12px / 16.8px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "payment": {
+        "x": 9,
+        "y": 283,
+        "width": 412,
+        "height": 35,
+        "font": "12px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(11, 17, 17, 0.19) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "paymentDate": {
+        "x": 17,
+        "y": 300,
+        "width": 1,
+        "height": 1,
+        "font": "17px / 23px Georgia, \"Times New Roman\", serif",
+        "fontSize": "17px",
+        "border": "0px none rgb(200, 197, 184)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstRow": {
+        "x": 8,
+        "y": 383,
+        "width": 414,
+        "height": 98,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(79, 80, 74)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(105deg, rgba(16, 16, 15, 0.97), rgba(16, 16, 16, 0.97) 70%, rgba(13, 15, 15, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(210, 206, 187, 0.11) 0px 1px 0px 0px inset, rgba(195, 191, 165, 0.11) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 4px 0px, rgb(25, 29, 28) 0px 0px 0px 1px"
+      },
+      "firstArt": {
+        "x": 13,
+        "y": 387,
+        "width": 80,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(81, 83, 75)",
+        "borderRadius": "2px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstName": {
+        "x": 100,
+        "y": 402,
+        "width": 194,
+        "height": 20,
+        "font": "700 16px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "16px",
+        "border": "0px none rgb(247, 245, 238)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstBuy": {
+        "x": 301,
+        "y": 429,
+        "width": 55,
+        "height": 44,
+        "font": "700 15px / 19px Georgia, \"Times New Roman\", serif",
+        "fontSize": "15px",
+        "border": "",
+        "borderRadius": "4px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(162, 125, 64), rgb(125, 95, 45) 35%, rgb(84, 61, 24) 76%, rgb(61, 44, 18)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(255, 235, 173, 0.314) 0px 1px 0px 0px inset, rgba(32, 22, 5, 0.376) 0px -2px 0px 0px inset, rgba(0, 0, 0, 0.733) 0px 2px 3px 0px"
+      },
+      "navigation": {
+        "x": 0,
+        "y": 786,
+        "width": 430,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(48, 50, 51), rgb(17, 19, 19) 50%, rgb(4, 6, 6)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(0, 0, 0, 0.667) 0px -2px 7px 0px"
+      },
+      "navigationIcon": {
+        "x": 28,
+        "y": 793,
+        "width": 30,
+        "height": 27,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "navigationLabel": {
+        "x": 27.671875,
+        "y": 821,
+        "width": 30.65625,
+        "height": 16,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      }
+    },
+    "collapsed": {
+      "brand": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(48, 41, 30, 0.99), rgba(28, 24, 19, 0.98) 46%, rgba(16, 17, 14, 0.98)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "resources": {
+        "x": 0,
+        "y": 44,
+        "width": 430,
+        "height": 94,
+        "font": "",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgb(16, 18, 15) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "gold": {
+        "x": 0,
+        "y": 44,
+        "width": 430,
+        "height": 48,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(51, 53, 40, 0.99), rgba(21, 24, 18, 0.99) 58%, rgba(9, 12, 9, 0.996)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "recovery": {
+        "x": 0,
+        "y": 92,
+        "width": 430,
+        "height": 46,
+        "font": "",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(189, 255, 221, 0.13) 0px 1px 0px 0px inset, rgb(20, 35, 30) 0px -1px 0px 0px inset"
+      },
+      "title": {
+        "x": 0,
+        "y": 138,
+        "width": 430,
+        "height": 38,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(90deg, rgba(5, 6, 8, 0.333), rgba(3, 5, 8, 0) 60%) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "flow": {
+        "x": 8,
+        "y": 176,
+        "width": 414,
+        "height": 59,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(115, 115, 105)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(13, 18, 19, 0.96), rgba(9, 13, 13, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(198, 197, 173, 0.25) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.067) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 5px 0px, rgb(37, 41, 37) 0px 0px 0px 1px"
+      },
+      "flowHeader": {
+        "x": 9,
+        "y": 177,
+        "width": 412,
+        "height": 44,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(50, 53, 49, 0.97), rgba(33, 36, 31, 0.97) 64%, rgba(29, 33, 29, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(218, 216, 199, 0.192) 0px 1px 0px 0px inset"
+      },
+      "flowColumns": {
+        "x": 9,
+        "y": 221,
+        "width": 412,
+        "height": 62,
+        "font": "12px / 16.8px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(244, 240, 229)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "payment": {
+        "x": 9,
+        "y": 283,
+        "width": 412,
+        "height": 35,
+        "font": "12px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(11, 17, 17, 0.19) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "paymentDate": {
+        "x": 17,
+        "y": 300,
+        "width": 1,
+        "height": 1,
+        "font": "17px / 23px Georgia, \"Times New Roman\", serif",
+        "fontSize": "17px",
+        "border": "0px none rgb(200, 197, 184)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstRow": {
+        "x": 8,
+        "y": 242,
+        "width": 414,
+        "height": 98,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(79, 80, 74)",
+        "borderRadius": "5px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(105deg, rgba(16, 16, 15, 0.97), rgba(16, 16, 16, 0.97) 70%, rgba(13, 15, 15, 0.97)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(210, 206, 187, 0.11) 0px 1px 0px 0px inset, rgba(195, 191, 165, 0.11) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.933) 0px 2px 4px 0px, rgb(25, 29, 28) 0px 0px 0px 1px"
+      },
+      "firstArt": {
+        "x": 13,
+        "y": 246,
+        "width": 80,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "1px solid rgb(81, 83, 75)",
+        "borderRadius": "2px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstName": {
+        "x": 100,
+        "y": 261,
+        "width": 194,
+        "height": 20,
+        "font": "700 16px / 20px Georgia, \"Times New Roman\", serif",
+        "fontSize": "16px",
+        "border": "0px none rgb(247, 245, 238)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "firstBuy": {
+        "x": 301,
+        "y": 288,
+        "width": 55,
+        "height": 44,
+        "font": "700 15px / 19px Georgia, \"Times New Roman\", serif",
+        "fontSize": "15px",
+        "border": "",
+        "borderRadius": "4px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(162, 125, 64), rgb(125, 95, 45) 35%, rgb(84, 61, 24) 76%, rgb(61, 44, 18)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(255, 235, 173, 0.314) 0px 1px 0px 0px inset, rgba(32, 22, 5, 0.376) 0px -2px 0px 0px inset, rgba(0, 0, 0, 0.733) 0px 2px 3px 0px"
+      },
+      "navigation": {
+        "x": 0,
+        "y": 786,
+        "width": 430,
+        "height": 58,
+        "font": "14px / 19.6px Georgia, \"Times New Roman\", serif",
+        "fontSize": "14px",
+        "border": "",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(48, 50, 51), rgb(17, 19, 19) 50%, rgb(4, 6, 6)) repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(0, 0, 0, 0.667) 0px -2px 7px 0px"
+      },
+      "navigationIcon": {
+        "x": 28,
+        "y": 793,
+        "width": 30,
+        "height": 27,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      },
+      "navigationLabel": {
+        "x": 27.671875,
+        "y": 821,
+        "width": 30.65625,
+        "height": 16,
+        "font": "700 12px / 16px Georgia, \"Times New Roman\", serif",
+        "fontSize": "12px",
+        "border": "0px none rgb(255, 251, 237)",
+        "borderRadius": "0px",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "none"
+      }
+    },
+    "width": 430,
+    "headingFont": "23px",
+    "overflow": false,
+    "completeRows": 5,
+    "targets": [
+      {
+        "label": "Kingdom Come home",
+        "width": 143,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Profile",
+        "width": 47.3125,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Upcoming income breakdown",
+        "width": 204.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Experience and next unlocks",
+        "width": 151.5,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "15Level14 unspent skill points",
+        "width": 44,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Restore Health with gold",
+        "width": 135.328125,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Mana recovery details",
+        "width": 135.328125,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Spirit recovery details",
+        "width": 135.328125,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Gold FlowNet +325/hr · Next 01:00:00Hourly⌄325",
+        "width": 412,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Smallholding",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Smallholding",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Smallholding",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Woodland",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Woodland",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Woodland",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Copper Workshop",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Copper Workshop",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Copper Workshop",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Watchtower",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Watchtower",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Watchtower",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell River Mill",
+        "width": 80,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy River Mill",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell River Mill",
+        "width": 55,
+        "height": 44,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Hearthstead Hamlet",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Hearthstead Hamlet",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Hearthstead Hamlet",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Crown Harbour",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Crown Harbour",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Crown Harbour",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Granite Quarry",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Granite Quarry",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Granite Quarry",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Bannerhold Manor",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Bannerhold Manor",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Bannerhold Manor",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Silver Vein Mine",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Silver Vein Mine",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Silver Vein Mine",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Moonwell Sanctuary",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Moonwell Sanctuary",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Moonwell Sanctuary",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Ironwood Fort",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Ironwood Fort",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Ironwood Fort",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Tempest Port",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Tempest Port",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Tempest Port",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Runekeeper Academy",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Runekeeper Academy",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Runekeeper Academy",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Oathbound Citadel",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Oathbound Citadel",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Oathbound Citadel",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Dawnspire Cathedral",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Dawnspire Cathedral",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Dawnspire Cathedral",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Wyrmcrest Keep",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Wyrmcrest Keep",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Wyrmcrest Keep",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Astral Observatory",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Astral Observatory",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Astral Observatory",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Throne of Ash",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Throne of Ash",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Throne of Ash",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Eclipse Citadel",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Eclipse Citadel",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Eclipse Citadel",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Bulk buy or sell Worldroot Bastion",
+        "width": 80,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Buy Worldroot Bastion",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Sell Worldroot Bastion",
+        "width": 55,
+        "height": 44,
+        "visible": false,
+        "centerReachable": true
+      },
+      {
+        "label": "Home",
+        "width": 86,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Quests",
+        "width": 86,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Battle",
+        "width": 86,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Armory",
+        "width": 86,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      },
+      {
+        "label": "Recruit",
+        "width": 86,
+        "height": 56,
+        "visible": true,
+        "centerReachable": true
+      }
+    ]
+  }
+]

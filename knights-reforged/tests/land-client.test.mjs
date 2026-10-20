@@ -19,7 +19,7 @@ function browser(fetch, nextPayment = '2026-10-17T13:00:00.000Z') {
   const intervals = [];
   const listeners = new Map();
   const windowListeners = new Map();
-  const selectors = new Map(['countdown', 'status', 'gross', 'upkeep', 'net', 'payment-time', 'pending', 'pending-gold']
+  const selectors = new Map(['countdown', 'status', 'gross', 'upkeep', 'net', 'payment-time', 'pending', 'pending-gold', 'summary-countdown', 'summary-net']
     .map(name => ['[data-land-' + name + ']', element()]));
   const owned = element();
   const input = element({ value: '1', disabled: true });
@@ -139,4 +139,28 @@ test('a wealthy character cannot enable a level-locked Land purchase through pol
 test('Land reconnects after back-forward navigation and network recovery without a refresh button',async()=>{
   const page=browser(async()=>response());page.windowListeners.get('pageshow')({persisted:true});await flush();assert.equal(page.wallet.textContent,'22');
   page.tick(6000);page.windowListeners.get('online')();await flush();assert.equal(page.requests.length,2);
+});
+
+
+test('collapsed summary follows the same server clock and refreshed signed net income without additional requests', async () => {
+  let net = 30;
+  const page = browser(async () => response({ netHourlyIncome: net }));
+  assert.equal(page.selectors.get('[data-land-summary-countdown]').textContent, 'Next 01:00:00');
+  page.tick(61000);
+  assert.equal(page.selectors.get('[data-land-summary-countdown]').textContent, 'Next 00:58:59');
+  assert.equal(page.requests.length, 0);
+  page.poll(); await flush();
+  assert.equal(page.selectors.get('[data-land-summary-net]').textContent, '+30');
+  net = -12; page.tick(6000); page.poll(); await flush();
+  assert.equal(page.selectors.get('[data-land-summary-net]').textContent, '-12');
+  assert.equal(page.wallet.textContent, '22');
+  assert.equal(page.requests.length, 2);
+});
+
+test('collapsed empty Land summary does not promise a payment or generate a request', () => {
+  const page = browser(async () => response(), '');
+  assert.equal(page.selectors.get('[data-land-summary-countdown]').textContent, 'No Land yet');
+  page.tick(7200000);
+  assert.equal(page.requests.length, 0);
+  assert.equal(page.wallet.textContent, '15');
 });
