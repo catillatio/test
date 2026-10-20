@@ -2,7 +2,7 @@
 <nav class="primary-nav" aria-label="Primary navigation">
   <% for (const item of nav.filter(item => Object.hasOwn(tabIcons, item.id))) { const current = item.id === marketScreen || (screen==='quest-equipment'&&item.id==='quests') || (['report','bounties','bounty-confirm','bounty-new','champions'].includes(screen) && item.id === 'battle') || (['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(screen) && item.id === 'home'); %>
     <a href="/game/<%= item.id %>" class="nav-link<%= current ? ' is-current' : '' %>"<% if (current) { %> aria-current="page"<% } %>>
-      <svg class="nav-icon" width="26" height="26" aria-hidden="true"><use href="/assets/art/remaster-ui/icons.svg?v=phase48-mockup2#<%= item.id %>"></use></svg>
+      <svg class="nav-icon" width="26" height="26" aria-hidden="true"><use href="/assets/art/remaster-ui/icons.svg?v=phase48-finish1#<%= item.id %>"></use></svg>
       <span><%= item.label %></span>
     </a>
   <% } %>

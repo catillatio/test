@@ -2,9 +2,8 @@
    Loaded only for /game/land; every selector is explicitly scoped to that screen.
    No prices, balances, eligibility or reward calculations belong in this file. */
 .kingdoms-ui.screen-land .land-income-panel {
-  margin: 0 0 15px; padding: 0; border: 1px solid #737369; border-radius: 11px;
-  background: linear-gradient(110deg, #0d1213f5, #090d0df5);
-  box-shadow: inset 0 1px #c6c5ad40, inset 0 -1px #fff1, 0 2px 5px #000e, 0 0 0 1px #252925;
+  margin: 0 0 15px; padding: 0; border: 1px solid var(--panel-edge); border-top-color: var(--panel-top); border-bottom-color: var(--panel-low); border-radius: 11px;
+  background: var(--panel-face); box-shadow: var(--panel-relief);
 }
 .kingdoms-ui.screen-land .land-flow-head {
   height: 59px; min-height: 59px; padding: 0 14px 0 26px; gap: 20px;
@@ -47,9 +46,8 @@
 .kingdoms-ui.screen-land.signed-in .market-catalog .land-property {
   position: relative; min-height: 126px; padding: 3px 13px 3px 3px;
   grid-template-columns: 198px minmax(0, 1fr) 132px 240px; gap: 24px;
-  border: 1px solid #4f504a; border-radius: 8px;
-  background: linear-gradient(105deg, #10100ff7, #101010f7 70%, #0d0f0ff7);
-  box-shadow: inset 0 1px #d2cebb1c, inset 0 -1px #c3bfa51c, 0 2px 4px #000e, 0 0 0 1px #191d1c;
+  border: 1px solid var(--panel-edge); border-top-color: var(--panel-top); border-bottom-color: var(--panel-low); border-radius: 8px;
+  background: var(--market-face); box-shadow: var(--panel-relief);
 }
 .kingdoms-ui.screen-land .property-art-frame { --frame-width: 198px; --frame-height: 116px; border: 1px solid #51534b; border-radius: 3px; }
 .kingdoms-ui.screen-land.signed-in .market-catalog .property-art-frame .catalog-art {
@@ -210,4 +208,7 @@
 @media (max-width: 359px) {
   .kingdoms-ui.screen-land .catalog-more .market-bulk-link { width: 68px; }
   .kingdoms-ui.screen-land .market-catalog .price-owned > .gold { font-size: 14px; }
+}
+@media (max-width: 899px) {
+  .kingdoms-ui.screen-land .market-catalog :is(.catalog-description > span, .catalog-more > span, .price-owned > span, .single-trades .button small) { font-family: var(--detail-font); font-weight: 400; }
 }

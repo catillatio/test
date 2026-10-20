@@ -1,7 +1,7 @@
 {
-  "source": "Original vector geometry authored for the Phase 4.8 UI preview; no external artwork or fonts.",
+  "source": "Original vector geometry authored for Kingdom Come; no external artwork, fonts, or samples. Profile helm, stone keep, iron coffer, forged gear, crown/laurel and broken-sword emblems refined for the Phase 4.8 final shared visual review.",
   "license": "CC0-1.0",
-  "status": "Definitive Land mockup theme revision; original vector geometry, not copied artwork. Property replacement remains approval-only.",
+  "status": "Approved Phase 4.8 visual direction; original icon refinements prepared for owner review, without deployment.",
   "assets": [
     {
       "asset": "crest.svg",
@@ -9,7 +9,7 @@
     },
     {
       "asset": "icons.svg",
-      "sha256": "415e1712b5dcf467f6503ce59156d5715922e7d3ef4f3816e0d0f393e30800ef"
+      "sha256": "05d766373a123142b33b2e9279dd44d81b2792deb2d49b60834f43b9a37719e0"
     },
     {
       "asset": "courtyard.svg",

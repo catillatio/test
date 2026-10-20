@@ -223,7 +223,7 @@ check('Original five destinations, accessible original vector icons, Home-only L
   const links=navigationLinks(rendered.get(example.name),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
   if(!example.data.state)continue;
   const selected=example.data.screen==='land'?'home':example.data.screen==='purchase'?(example.data.purchase.type==='equipment'?'armory':'home'):['report','bounties','bounty-confirm','bounty-new','champions'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
-  for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,null);assert.ok(rendered.get(example.name).includes('/assets/art/remaster-ui/icons.svg?v=phase48-mockup2#'+id));}
+  for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,null);assert.ok(rendered.get(example.name).includes('/assets/art/remaster-ui/icons.svg?v=phase48-finish1#'+id));}
   assert.ok(!navigationLinks(rendered.get(example.name),'Secondary navigation').some(l=>l.href==='/game/land'));
   assert.equal((rendered.get(example.name).match(/href="\/game\/land"/g)||[]).length,example.data.screen==='home'||(example.data.screen==='purchase'&&example.data.purchase.type==='land')?1:0);
  }
@@ -235,10 +235,13 @@ check('Repeat quest styling follows authoritative eligibility; legacy details st
  assert.ok(rendered.get('profile-legacy-tales').includes('Gold not recorded'));
  assert.ok(!rendered.get('profile-public-tales').includes('href="/game/battles/'+battleId+'"'));
 });
-check('Compact combat outcomes are distinct shield statuses and profile totals remain hidden',()=>{
+check('Compact combat outcomes are distinct medieval metal statuses and profile totals remain hidden',()=>{
  assert.ok(rendered.get('home-defeat-activity').includes('outcome-defeat'));
  assert.ok(rendered.get('home-mixed-activity').includes('outcome-victory'));
+ assert.ok(rendered.get('home-defeat-activity').includes('#defeat-emblem'));
+ assert.ok(rendered.get('home-mixed-activity').includes('#victory-emblem'));
  for(const [name,html] of rendered){
+  if(name.startsWith('home')){assert.ok(html.includes('id="activity-title" class="profile-section-heading">Recent Activity</h2>'));assert.ok(!html.includes('>Realm Activity</h2>'));}
   if(name.startsWith('profile'))assert.ok(!/Attack power<|Defense power<|untrainedAttack/.test(html));
   for(const match of html.matchAll(/<span class="combat-outcome[^>]*>([\s\S]*?)<\/span><\/span>/g)){assert.ok(match[1].includes('<svg'));assert.ok(!match[1].includes('<button'));}
  }
@@ -257,7 +260,7 @@ check('Upgraded pages bypass cached pre-expansion income clients',()=>{
     assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1-phase48-mockup2'));
     assert.ok(html.includes('/assets/kingdoms-live.css?v=phase48-mockup2'));assert.ok(html.includes('/assets/alpha.css?v=phase48-mockup2'));
     assert.ok(html.includes('/assets/remaster.css?v=phase48-mockup2'));
-    assert.ok(html.includes('/assets/realm-theme.css?v=phase48-shared1'));
+    assert.ok(html.includes('/assets/realm-theme.css?v=phase48-finish1'));
     assert.ok(html.includes('/assets/sound.js?v=phase48-shared1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
     if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase48-shared1'));
@@ -271,7 +274,7 @@ check('Land retains countdown, offline payment, sale, retained-gold and no-scrip
  }
 });
 check('The Land-only review stylesheet and original assets cannot replace other screens',()=>{
-  for(const example of cases)assert.equal(rendered.get(example.name).includes('/assets/land-review.css?v=phase48-land4'),example.data.screen==='land');
+  for(const example of cases)assert.equal(rendered.get(example.name).includes('/assets/land-review.css?v=phase48-land-finish1'),example.data.screen==='land');
   const manifest=json('public/art/land-review/provenance.json');assert.equal(manifest.assets.length,3);
   for(const asset of manifest.assets){const bytes=readFileSync(join(root,'public/art/land-review',asset.asset));assert.equal(bytes.length,asset.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);}
   const reference=readFileSync(join(root,manifest.reference.path));assert.equal(createHash('sha256').update(reference).digest('hex'),manifest.reference.sha256);

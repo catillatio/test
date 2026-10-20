@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "baselineCommit": "d71e8529804b408b04750cce0fe3b1c2130ac6b7",
+  "screenWidthPairs": 40,
+  "fieldsCompared": [
+    "header",
+    "menu",
+    "rows",
+    "art",
+    "trades"
+  ],
+  "allRectanglesUnchanged": true,
+  "mobileLandRowHeight": 98,
+  "mobileLandCompleteRows": 5,
+  "mobileLandSize": [
+    390,
+    844
+  ],
+  "baselineSha256": "a273fd86bc5a093ea564d946728ef2ee286043723b89aa20cb11cc316cb762f0",
+  "method": "Native bounding rectangles; no pixel-equivalence claim. Screenshot fixture wallets may differ because actual quest/combat rewards are resolved independently."
+}

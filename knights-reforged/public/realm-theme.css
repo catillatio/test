@@ -2,8 +2,15 @@
    Extracted from the owner-approved desktop/mobile Land styling. */
 .kingdoms-ui.realm-remaster {
   --panel: #0b0e0ef2; --panel-soft: #242725; --line: #62645d;
-  --bronze-face: linear-gradient(#a27d40, #7d5f2d 35%, #543d18 76%, #3d2c12);
-  --steel-face: linear-gradient(#303233, #222425 45%, #101415);
+  --bronze-face: linear-gradient(105deg, #fff3c414, transparent 43%, #100a0320), linear-gradient(#aa8a50, #94703a 18%, #785725 47%, #67491e 52%, #4d3514 88%, #3b2a12);
+  --bronze-menu-face: linear-gradient(105deg, #fbe7bb12, transparent 45%, #100a0325), linear-gradient(#806b47, #655334 30%, #4c3d24 55%, #30281a 90%, #282217);
+  --steel-face: linear-gradient(105deg, #ffffff06, transparent 52%), linear-gradient(#393c39, #282c29 45%, #121615);
+  --button-relief: inset 0 1px #fff0be5c, inset 1px 0 #f9e5b41a, inset -1px 0 #140b024d, inset 0 -2px #241506b3, 0 2px 3px #0009;
+  --panel-face: linear-gradient(110deg, #ffffff04, transparent 48%), linear-gradient(110deg, #151814ef, #080c0bf4);
+  --market-face: linear-gradient(105deg, #171814f0, #0b0e0df5 67%, #0b0e0ef5);
+  --panel-edge: #65675d; --panel-top: #858673; --panel-low: #323b35;
+  --panel-relief: inset 0 1px #e3d8ad1f, inset 0 -1px #0009, 0 3px 6px #0009, 0 0 0 1px #05080680;
+  --detail-font: Arial, 'Helvetica Neue', sans-serif;
 }
 .kingdoms-ui.realm-remaster { --realm-edge: 21px; --realm-panel: #0b0e0ef2; }
 .kingdoms-ui.realm-remaster .app-shell { border-inline: 0; background: #090a0a55; }
@@ -13,7 +20,7 @@
   background-size: 1024px 1536px;
 }
 .kingdoms-ui.realm-remaster .page-backdrop:after {
-  background: linear-gradient(90deg, #03050a99, #03050a22 70%), linear-gradient(#02040833 230px, #03050550 550px, #02040488 900px, #010303ce);
+  background: linear-gradient(90deg, #04060788, #03050524 68%, #02040344), linear-gradient(#03040526 230px, #03050460 550px, #010303ad 1050px, #010303dc);
 }
 .kingdoms-ui.realm-remaster .main-content {
   padding: 0 var(--realm-edge) calc(118px + env(safe-area-inset-bottom));
@@ -65,11 +72,14 @@
 }
 .kingdoms-ui.realm-remaster .page-heading h1 { margin: 0; font: 700 44px/53px Georgia, 'Times New Roman', serif; color: #f6f5f0; }
 .kingdoms-ui.realm-remaster .button-gold {
-  border-color: #c89d4a; border-top-color: #e3bd71;
-  background: linear-gradient(#a27d40, #7d5f2d 35%, #543d18 76%, #3d2c12);
-  box-shadow: inset 0 1px #ffebad50, inset 0 -2px #20160560, 0 2px 3px #000b;
+  border-color: #af873e #89652d #76511f; border-top-color: #d6b16b;
+  background: var(--bronze-face); box-shadow: var(--button-relief);
+  text-shadow: 0 1px 1px #211304;
 }
-.kingdoms-ui.realm-remaster .button-outline { border-color: #5e6262; border-top-color: #767979; background: linear-gradient(#303233, #222425 45%, #101415); box-shadow: inset 0 1px #e9edef1c, 0 2px 3px #000b; }
+.kingdoms-ui.realm-remaster .button-outline { border-color: #5d635f #484f4a #343b37; border-top-color: #8a8d81; background: var(--steel-face); box-shadow: inset 0 1px #f1f0d823, inset 0 -2px #0007, 0 2px 3px #0009; }
+.kingdoms-ui.realm-remaster .button:hover:not(:disabled) { filter: brightness(1.06); }
+.kingdoms-ui.realm-remaster .button:active:not(:disabled) { box-shadow: inset 0 2px 4px #160e08a6, inset 0 -1px #f5db9c35, 0 1px 1px #0008; filter: brightness(1.03); }
+.kingdoms-ui.realm-remaster .button:focus-visible { outline: 2px solid #f2d998; outline-offset: 3px; }
 .kingdoms-ui.realm-remaster .primary-nav { height: calc(98px + env(safe-area-inset-bottom)); border-top: 1px solid #777b79; background: linear-gradient(#303233, #111313 50%, #040606); }
 .kingdoms-ui.realm-remaster .primary-nav .nav-link { position: relative; height: 96px; min-height: 96px; padding: 7px 0; gap: 6px; font: 700 20px/24px Georgia, 'Times New Roman', serif; border-radius: 4px 4px 0 0; }
 .kingdoms-ui.realm-remaster .primary-nav .nav-icon { width: 46px; height: 44px; visibility: hidden; }
@@ -172,8 +182,8 @@
 /* Shared components. Keep headings that establish context, without restoring
    the repeated page labels deliberately hidden in the existing navigation. */
 .kingdoms-ui.realm-remaster .page-heading.visually-hidden-heading { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.kingdoms-ui.realm-remaster .panel { border: 1px solid #555951; border-radius: 5px; background: linear-gradient(110deg, #0d1112f5, #090c0cf5); box-shadow: inset 0 1px #d2cebb1c, 0 2px 4px #000b; }
-.kingdoms-ui.realm-remaster .strip-title, .kingdoms-ui.realm-remaster .profile-section-heading { color: #f5f1e6; border-color: #50564d; background: linear-gradient(#30342f, #20251f); box-shadow: inset 0 1px #d4d6c320; }
+.kingdoms-ui.realm-remaster .panel { border: 1px solid var(--panel-edge); border-top-color: var(--panel-top); border-bottom-color: var(--panel-low); border-radius: 5px; background: var(--panel-face); box-shadow: var(--panel-relief); }
+.kingdoms-ui.realm-remaster .strip-title, .kingdoms-ui.realm-remaster .profile-section-heading { color: #f5f1e6; border-color: #595d52; background: linear-gradient(#343833f5, #202620ef); box-shadow: inset 0 1px #e5dfc42b, inset 0 -1px #0006; }
 .kingdoms-ui.realm-remaster .category-tabs > a { border-color: #555a51; color: #e4e2d9; background: var(--steel-face); }
 .kingdoms-ui.realm-remaster .category-tabs a[aria-current] { color: #fff0c2; border-color: #a78b50; background: linear-gradient(#77603b, #4c3c22 50%, #2d261b); box-shadow: inset 0 1px #e9d69a35, inset 0 -2px #b2965a; }
 .kingdoms-ui.realm-remaster .text-link, .kingdoms-ui.realm-remaster .player-link { color: #e5d2a1; }
@@ -187,17 +197,17 @@
 /* Home retains every existing destination in the familiar two-column menu. */
 .kingdoms-ui.realm-remaster .royal-announcement { padding: 8px 10px; border-color: #84724c; border-radius: 4px; background: linear-gradient(110deg, #30291dee, #141612ef); }
 .kingdoms-ui.realm-remaster .home-menu { gap: 7px; margin-block: 8px 10px; }
-.kingdoms-ui.realm-remaster .home-menu .button { min-height: 54px; padding: 8px 10px; color: #fff2d2; border-color: #a68b54; border-top-color: #cbb27c; background: linear-gradient(#6e5c3d, #4c3f29 42%, #30291c 75%, #242117); box-shadow: inset 0 1px #f6dda73b, inset 0 -2px #17110777, 0 2px 3px #000b; }
+.kingdoms-ui.realm-remaster .home-menu .button { min-height: 54px; padding: 8px 10px; color: #fff2d2; border-color: #a68b54 #80653d #6d532d; border-top-color: #cbb27c; background: var(--bronze-menu-face); box-shadow: var(--button-relief); }
 .kingdoms-ui.realm-remaster .home-menu .hall-menu-link { min-height: 46px; }
 .kingdoms-ui.realm-remaster .tutorial-invitation, .kingdoms-ui.realm-remaster .tutorial-resume { background: #101615ef; border-color: #77725c; }
-.kingdoms-ui.realm-remaster .activity-entry { background: #0c1111ee; border-color: #555b52; }
+.kingdoms-ui.realm-remaster .activity-entry { background: linear-gradient(110deg, #161a15ed, #0a0f0fee); border-color: #555b52; box-shadow: inset 0 1px #d0c49b0b; }
 .kingdoms-ui.realm-remaster .message-form { background: linear-gradient(#242821f2, #0c1111f5); border-color: #716c57; }
 .kingdoms-ui.realm-remaster .message-form textarea { background: #0d1211; border-color: #62665c; }
 /* Compact Armory rows reuse the Land hierarchy: image, description, price,
    owned quantity and deliberate one-item actions. Bulk remains secondary. */
 .kingdoms-ui.realm-remaster.screen-armory .market-catalog { gap: 6px; }
 .kingdoms-ui.realm-remaster.screen-armory .market-upkeep { margin-bottom: 7px; border: 1px solid #55594f; border-radius: 4px; background: #0b1111ed; }
-.kingdoms-ui.realm-remaster.screen-armory .market-catalog .catalog-row { position: relative; min-height: 98px; padding: 3px 4px; gap: 7px; grid-template-columns: 80px minmax(0, 1fr) 116px; border-color: #4f504a; border-radius: 5px; background: linear-gradient(105deg, #10100ff7, #101010f7 70%, #0d0f0ff7); box-shadow: inset 0 1px #d2cebb1c, inset 0 -1px #c3bfa51c, 0 2px 4px #000e; }
+.kingdoms-ui.realm-remaster.screen-armory .market-catalog .catalog-row { position: relative; min-height: 98px; padding: 3px 4px; gap: 7px; grid-template-columns: 80px minmax(0, 1fr) 116px; border-color: var(--panel-edge); border-top-color: var(--panel-top); border-bottom-color: var(--panel-low); border-radius: 5px; background: var(--market-face); box-shadow: var(--panel-relief); }
 .kingdoms-ui.realm-remaster.screen-armory .market-catalog .catalog-art { width: 68px; height: 61px; max-width: 80px; align-self: start; margin-top: 1px; border: 1px solid #51534b; border-radius: 2px; }
 .kingdoms-ui.realm-remaster.screen-armory .market-catalog .catalog-description h2 { margin-bottom: 2px; color: #f7f5ee; font: 700 16px/20px Georgia, serif; overflow-wrap: normal; }
 .kingdoms-ui.realm-remaster.screen-armory .market-catalog .catalog-description > span, .kingdoms-ui.realm-remaster.screen-armory .catalog-more > span { color: #c7c8c2; font: 400 12px/18px Georgia, serif; }
@@ -320,3 +330,34 @@
 
 .kingdoms-ui.realm-remaster .guide-resource-hint { border-left: 2px solid #b59a65; padding: 5px 7px; background: #26271bea; color: #e2d7b9; font-size: 12px; }
 @media (max-width: 359px) { .kingdoms-ui.realm-remaster.screen-armory .price-owned > .gold { font-size: 14px; } }
+
+/* Final material/typographic finish. Dimensions, grid tracks, row spacing,
+   action targets and the approved illustrated/nav assets stay unchanged. */
+.kingdoms-ui.realm-remaster :is(.compact-help, .field-hint, .relative-time, .public-profile-note, .region-position, .page-footer) { font-family: var(--detail-font); font-weight: 400; }
+.kingdoms-ui.realm-remaster :is(.profile-stat-grid, .profile-gold-flow, .report-outcome) { font-family: var(--detail-font); font-variant-numeric: tabular-nums; }
+.kingdoms-ui.realm-remaster :is(.profile-stat-grid, .profile-gold-flow, .report-outcome) dd { font-weight: 600; }
+.kingdoms-ui.realm-remaster .activity-entry h3 { font-weight: 400; }
+.kingdoms-ui.realm-remaster .activity-entry h3 .player-link { font-weight: 600; }
+.kingdoms-ui.realm-remaster .activity-entry p { font-family: var(--detail-font); font-weight: 400; }
+.kingdoms-ui.realm-remaster .profile-identity { border-color: var(--panel-edge); background: var(--panel-face); box-shadow: inset 0 1px #e3d8ad18; }
+.kingdoms-ui.realm-remaster .home-menu .menu-icon { filter: drop-shadow(0 1px 0 #160e08); }
+
+/* Outcomes are read-only, squared metal captions, never action buttons or
+   bright ribbons. Visible words and distinct original emblems convey state. */
+.kingdoms-ui.realm-remaster .combat-outcome {
+  clip-path: none; border: 1px solid #77603b; border-top-color: #988052;
+  border-radius: 2px; padding: 2px 6px 2px 4px; gap: 4px;
+  font: 600 12px/18px var(--detail-font); letter-spacing: 0;
+  box-shadow: inset 0 1px #f0d99a1f, inset 0 -1px #0005;
+}
+.kingdoms-ui.realm-remaster .combat-outcome svg { width: 18px; height: 20px; fill: none; stroke: currentColor; filter: drop-shadow(0 1px 0 #0008); }
+.kingdoms-ui.realm-remaster .outcome-victory { color: #ebcf94; background: linear-gradient(105deg, #43331be8, #25231de8); text-shadow: 0 1px #080b09; }
+.kingdoms-ui.realm-remaster .outcome-defeat { color: #dbb4a8; border-color: #70524a; border-top-color: #8b6b60; background: linear-gradient(105deg, #352624ec, #20211fec); text-shadow: 0 1px #080b09; }
+@media (max-width: 899px) {
+  .kingdoms-ui.realm-remaster.screen-armory .market-catalog :is(.catalog-description > span, .catalog-more > span, .price-owned > span, .single-trades .button small) { font-family: var(--detail-font); font-weight: 400; }
+}
+@media (max-width: 359px) {
+  /* Preserve the approved paired-stat line at the narrowest width. The
+     compact serif fits both values without smaller text or taller rows. */
+  .kingdoms-ui.realm-remaster.screen-armory .market-catalog .catalog-row .catalog-description > span { font-family: Georgia, 'Times New Roman', serif; }
+}

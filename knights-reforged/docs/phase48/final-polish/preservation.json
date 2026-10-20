@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "base": "Phase 4.7 / 020_game_feel.sql",
+  "newMigrations": 0,
+  "tablesVerified": 66,
+  "humans": 1,
+  "bots": 450,
+  "migrationReplay": "all rows unchanged",
+  "processReconstruction": "saved cookie and preferences retained",
+  "productionContacted": false
+}
