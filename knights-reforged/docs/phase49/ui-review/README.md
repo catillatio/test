@@ -1,3 +1,5 @@
+> Owner decision: all five UI refinements and the property-art direction are APPROVED. The first four-clip reward-audio audition is REJECTED. This page records the earlier UI checkpoint; current [art integration](../art-integration/README.md) and [new orchestral audition](../audio-orchestral-audition/README.md) supersede its asset-status discussion below. New audio remains unapproved and outside runtime.
+
 # Phase 4.9 — Interface and audition review
 
 **Owner review checkpoint, not a release candidate.** Approved `bot-combat-rewards-2` remains immutable at 65% XP with the unchanged 100/85/70/55/40 pair percentages. No economy, combat, resource-recovery, bot-finance or release-infrastructure changes. PR #12 stays draft. No production database or Railway service was accessed.

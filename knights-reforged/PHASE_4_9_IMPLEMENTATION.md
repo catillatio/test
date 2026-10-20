@@ -1,10 +1,12 @@
-# Phase 4.9 — Interface and audition review checkpoint
+# Phase 4.9 — Approved interface, property integration and orchestral audition
 
-The owner has **approved the 65% XP checkpoint**. Immutable `bot-combat-rewards-2`, bot gold, repeat percentages and all economy/recovery rules remain unchanged. No further XP change is included.
+The owner has **approved the 65% XP checkpoint**, all **five interface refinements**, and the **Wyrmcrest Keep / Gold Mine artwork direction**. Immutable `bot-combat-rewards-2`, bot gold, pair percentages and economy/recovery rules remain unchanged.
 
-The next review stage implements silent routine controls, compact expandable Profile Stats/Income, Calling beside Hall of Champions on Home, compact mobile rankings and neutral panel styling with unchanged teal resources. [UI screenshots, behavior and verification](docs/phase49/ui-review/README.md).
+The two approved original illustrations are now integrated. Current property displays say **Gold Mine**, retaining **`moonwell-sanctuary`** and every existing economic value/record. Historical receipt headings retain the saved name. No schema migration or immutable catalog edit is introduced. [Runtime screenshots and preservation details](docs/phase49/art-integration/README.md), [verification](docs/phase49/art-integration/verification.json). Latest full verification: **452 tests / 451 pass / 0 fail / 1 hosted-only local skip**; TypeScript/build, 99 static checks / 77 EJS fixtures, four art viewport groups / 16 captures and 64 audio/recovery responsive visits PASS.
 
-Separate approval-only previews: [four reward-audio samples](docs/phase49/audio-audition/README.md) and [Wyrmcrest Keep / Gold Mine artwork](docs/phase49/art-audition/README.md). Runtime audio/art catalogs are unchanged; the compatible Gold Mine rename remains mandatory and pending adoption.
+The previous **four audio clips are REJECTED**, archived explicitly and barred from adoption. A separate [orchestral audition](docs/phase49/audio-orchestral-audition/README.md) uses publisher-licensed CC0 French horn, trumpet, harp, bowed strings and soft bells in purpose-made musical arrangements. Four clips are loudness matched, with pinned source/license/score/output provenance and lossless masters. **Owner listening approval is still required. No new runtime audio is adopted.** Ordinary controls/navigation remain silent.
+
+[Approved UI checkpoint screenshots/evidence](docs/phase49/ui-review/README.md). [Complete persistent backlog](docs/phase49/BACKLOG.md). PR #12 remains draft; no merge, deployment, production-data access or release-infrastructure change.
 
 **Urgent moderation scope:** only Gray's exact reported broadcast remains. The owner reports Development Knight already removed through the UI; do not touch it again. The live Gray UUID is unknown and no authenticated operator channel exists here. [Why the UI says Reported for review, current authorization, DOM-only identification and the existing one-record reversible hide procedure](docs/phase49/BROADCAST_REVIEW.md). No moderation or production operation was executed.
 
