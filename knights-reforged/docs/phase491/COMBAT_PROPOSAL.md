@@ -1,5 +1,8 @@
 # Army participation and bot difficulty — archived first comparison
 
+> **Archived research, not adopted.** [Owner decision 6306433839](https://github.com/catillatio/test/pull/14#issuecomment-6306433839) freezes Phase 4.9.1 to the approved battle-result/audio changes. Do not execute calibration, purchases, army changes or any rollout/reversal procedure described below. Keep the models and prior disposable-copy results as evidence only; future living-bot/army work belongs to Phase 5. This page's earlier approval requests and proposed gates are historical. See the [final release report](FINAL_RELEASE_REVIEW.md).
+
+
 **Owner decision:** [comment6305431189](https://github.com/catillatio/test/pull/14#issuecomment-6305431189) rejects uncapped linear and logarithmic human models. They remain below solely as historical numerical evidence, never runtime code. The latest [owner comment6305978770](https://github.com/catillatio/test/pull/14#issuecomment-6305978770) selects [conservative canary preparation](canary/REVIEW.md); the earlier broad calibration is historical only. Original human rules are fixed.
 
 No combat policy is adopted by this branch. Active rules, human PvP, bot identities, purses, Land, bounties, quests, recruitment, training, recovery and `bot-combat-rewards-2` are unchanged. This is an offline catalog/blueprint audit, not an inspection of live bots.

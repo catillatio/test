@@ -1,0 +1,174 @@
+{
+  "passed": true,
+  "navigation": [
+    {
+      "kind": "gesture",
+      "path": "/game/home",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/quests",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/battle",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/armory",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/army",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/home",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/quests",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/battle",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/armory",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/army",
+      "pointerType": "mouse"
+    }
+  ],
+  "completeTrace": [
+    {
+      "kind": "gesture",
+      "path": "/game/home",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/quests",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/battle",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/armory",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/army",
+      "pointerType": "touch"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/home",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/quests",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/battle",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/armory",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/army",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/settings",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "context",
+      "path": "/game/settings"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/settings"
+    },
+    {
+      "kind": "start",
+      "path": "/game/settings",
+      "offset": 23.076,
+      "duration": 1.184
+    },
+    {
+      "kind": "cue",
+      "path": "/game/settings",
+      "cue": "achievement"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/settings"
+    },
+    {
+      "kind": "start",
+      "path": "/game/settings",
+      "offset": 9.706,
+      "duration": 3.9
+    },
+    {
+      "kind": "cue",
+      "path": "/game/settings",
+      "cue": "victory"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/settings",
+      "pointerType": "mouse"
+    },
+    {
+      "kind": "context",
+      "path": "/game/settings"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/settings"
+    },
+    {
+      "kind": "context",
+      "path": "/game/settings"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/settings"
+    },
+    {
+      "kind": "gesture",
+      "path": "/game/settings",
+      "pointerType": "mouse"
+    }
+  ],
+  "errors": [],
+  "liveContacted": false
+}

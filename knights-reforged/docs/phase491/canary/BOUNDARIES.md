@@ -1,5 +1,8 @@
 # Canary authorization, monitoring and correction boundaries
 
+> **Archived research, not adopted.** [Owner decision 6306433839](https://github.com/catillatio/test/pull/14#issuecomment-6306433839) freezes Phase 4.9.1 to the approved battle-result/audio changes. Do not execute calibration, purchases, army changes or any rollout/reversal procedure described below. Keep the models and prior disposable-copy results as evidence only; future living-bot/army work belongs to Phase 5. This page's earlier approval requests and proposed gates are historical. See the [final release report](../FINAL_RELEASE_REVIEW.md).
+
+
 Current authorization: **development and disposable/restored-copy testing only**. `bot-canary-proposal-1` is not a registered runtime policy. No operator/bootstrap/deployment workflow is provided or enabled. PR #13 is inactive; neither it nor the protected release worker is repurposed.
 
 ## Exact proposed scope

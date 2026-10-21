@@ -1,0 +1,93 @@
+{
+  "verifiedCodeHead": "c8ac08b79ff5ae73ebe30d06ec54dc674f263221",
+  "ownerDecision": "6306433839",
+  "ci": {
+    "run": 39532411306,
+    "url": "https://github.com/catillatio/test/actions/runs/39532411306",
+    "event": "pull_request",
+    "conclusion": "success",
+    "fullSuite": {
+      "tests": 474,
+      "suites": 5,
+      "pass": 474,
+      "fail": 0,
+      "skipped": 0
+    },
+    "gameContainerGroups": 21,
+    "independentRecoveryGroups": 15,
+    "note": "Completed exact executable-source CI. Final documentation head must also pass CI before ready-for-review; latest check is recorded on PR #14."
+  },
+  "freshLocalChecks": {
+    "typecheck": {
+      "passed": true,
+      "logSha256": "274959a85773416a67d59c91fd62f40b05d4d1262caf63e347740a826a4c3a48"
+    },
+    "build": {
+      "passed": true,
+      "logSha256": "bdb0e440e404cbbe789f6c5dba3e41e9f8cf7c53dd40f6a72783f765b78867b2"
+    },
+    "static": {
+      "passed": true,
+      "logSha256": "7ee273843b5b2030c41e9ae179b2c4892a44a5918dbf000e46e942cd586c256a"
+    },
+    "actionlint": {
+      "passed": true,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-audio": {
+      "passed": true,
+      "logSha256": "ae50f2b0aea9bc91e6e1a0127c8cef5ac80b977a9fca3d485fabf4abb4476ece"
+    },
+    "orchestral": {
+      "passed": true,
+      "logSha256": "ce6718029204180b236834cb56b8341841d81619968a662e4207cb38e7b26a29"
+    },
+    "reports": {
+      "passed": true,
+      "logSha256": "ae75d9f133ca7f2f22d0063be685d89b031fc4336d92470e9d84bf313d228151"
+    },
+    "restart": {
+      "passed": true,
+      "logSha256": "facce1bcca8b60312e3ad90b473777cae8d39186159b49c0b4d5dc14b07ee336"
+    }
+  },
+  "static": {
+    "passed": 99,
+    "failed": 0,
+    "productionEjsFixtures": 77
+  },
+  "dependencyAudits": {
+    "game": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "controller": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "approvedScreenshotsChanged": false,
+  "newBalancingExperimentsRun": false,
+  "experimentalCalibrationApplied": false,
+  "productionContacted": false,
+  "releaseDispatched": false,
+  "pr13Modified": false,
+  "versions": {
+    "node": "24.19.0",
+    "typescript": "5.9.3",
+    "postgres": "18.6-bookworm",
+    "chromium": "154.0.8037.57"
+  },
+  "limitations": [
+    "Physical Android Chrome/iPhone Safari and the original live audible honk are not conclusively verified by local Chromium.",
+    "Production settings/credentials/data remain uninspected; fresh backup, independent restored-copy test, signing and production-commit CI remain mandatory for an authorized future promotion."
+  ]
+}

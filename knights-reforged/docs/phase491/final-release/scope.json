@@ -1,0 +1,137 @@
+{
+  "base": "793f747a7920a7b1dc000230a3050482e98393f2",
+  "verifiedCodeHead": "c8ac08b79ff5ae73ebe30d06ec54dc674f263221",
+  "ownerDecision": "6306433839",
+  "runtimeChangedFiles": [
+    "knights-reforged/public/phase491.css",
+    "knights-reforged/public/sound.js",
+    "knights-reforged/public/status.js",
+    "knights-reforged/src/app.ts",
+    "knights-reforged/views/layout.ejs",
+    "knights-reforged/views/partials/attack-again.ejs",
+    "knights-reforged/views/partials/battle-equipment.ejs",
+    "knights-reforged/views/partials/battle-used-items.ejs",
+    "knights-reforged/views/report.ejs"
+  ],
+  "protectedObjects": {
+    ".github": {
+      "baseObject": "c2511b51fff5f58440609d1638c41980081fdcf6",
+      "candidateObject": "c2511b51fff5f58440609d1638c41980081fdcf6",
+      "identical": true
+    },
+    "knights-reforged/deployment": {
+      "baseObject": "02feb0291680310515dc9ab87ed24bb1186e41ca",
+      "candidateObject": "02feb0291680310515dc9ab87ed24bb1186e41ca",
+      "identical": true
+    },
+    "knights-reforged/migrations": {
+      "baseObject": "125bd0c6be1d9ce7e9b58e3dedfc1b5c71cba14c",
+      "candidateObject": "125bd0c6be1d9ce7e9b58e3dedfc1b5c71cba14c",
+      "identical": true
+    },
+    "knights-reforged/rulesets": {
+      "baseObject": "6dc2d21a85c3508a5ab65375099d4e46a1971507",
+      "candidateObject": "6dc2d21a85c3508a5ab65375099d4e46a1971507",
+      "identical": true
+    },
+    "knights-reforged/public/audio": {
+      "baseObject": "b09933bbeb9b4a0c516ede68c267309d45e994ee",
+      "candidateObject": "b09933bbeb9b4a0c516ede68c267309d45e994ee",
+      "identical": true
+    },
+    "knights-reforged/public/art": {
+      "baseObject": "eb89f76574076480a170aeceb49b6ededadfac75",
+      "candidateObject": "eb89f76574076480a170aeceb49b6ededadfac75",
+      "identical": true
+    },
+    "knights-reforged/railway.json": {
+      "baseObject": "ed00ceeee0497a0f0120defab0a60e01e40f31ea",
+      "candidateObject": "ed00ceeee0497a0f0120defab0a60e01e40f31ea",
+      "identical": true
+    },
+    "knights-reforged/Dockerfile": {
+      "baseObject": "6b812205bb85539c8b72a9ee186136cb181b7b47",
+      "candidateObject": "6b812205bb85539c8b72a9ee186136cb181b7b47",
+      "identical": true
+    },
+    "knights-reforged/package.json": {
+      "baseObject": "ea4850ca90622d53e9551281a667df021f449e7c",
+      "candidateObject": "ea4850ca90622d53e9551281a667df021f449e7c",
+      "identical": true
+    },
+    "knights-reforged/package-lock.json": {
+      "baseObject": "9342e57b47b3f71b7af62fd38e5099bddadc0b06",
+      "candidateObject": "9342e57b47b3f71b7af62fd38e5099bddadc0b06",
+      "identical": true
+    },
+    "knights-reforged/src/game.ts": {
+      "baseObject": "4f12744cb523852aff37e173b765164193b4d7a4",
+      "candidateObject": "4f12744cb523852aff37e173b765164193b4d7a4",
+      "identical": true
+    },
+    "knights-reforged/src/development.ts": {
+      "baseObject": "84e679b6c2057597c6b0d7cdd6d2da88ffdb1990",
+      "candidateObject": "84e679b6c2057597c6b0d7cdd6d2da88ffdb1990",
+      "identical": true
+    },
+    "knights-reforged/src/commands.ts": {
+      "baseObject": "30eee22f9bc72b3fe3a72eb045395c0266a146d9",
+      "candidateObject": "30eee22f9bc72b3fe3a72eb045395c0266a146d9",
+      "identical": true
+    },
+    "knights-reforged/src/config.ts": {
+      "baseObject": "b239ec8a558e97db8109f72d6cee6812463c7a5b",
+      "candidateObject": "b239ec8a558e97db8109f72d6cee6812463c7a5b",
+      "identical": true
+    },
+    "knights-reforged/src/auth.ts": {
+      "baseObject": "b9a235486a7b9a1810fe2fa1a879e69687340542",
+      "candidateObject": "b9a235486a7b9a1810fe2fa1a879e69687340542",
+      "identical": true
+    },
+    "knights-reforged/src/migrate.ts": {
+      "baseObject": "afaadc6610358ada63304e181bac15f85e43e34c",
+      "candidateObject": "afaadc6610358ada63304e181bac15f85e43e34c",
+      "identical": true
+    },
+    "knights-reforged/src/bot-combat-rules.ts": {
+      "baseObject": "32e6926e0c87195ee24d61d98d7807c5dd9aed6b",
+      "candidateObject": "32e6926e0c87195ee24d61d98d7807c5dd9aed6b",
+      "identical": true
+    },
+    "knights-reforged/src/economy.ts": {
+      "baseObject": "299e96865da2acdef05a946574e3b0cffd82ceba",
+      "candidateObject": "299e96865da2acdef05a946574e3b0cffd82ceba",
+      "identical": true
+    },
+    "knights-reforged/src/estate.ts": {
+      "baseObject": "0e44fc85b9463504db167db5e6d598fc84be583d",
+      "candidateObject": "0e44fc85b9463504db167db5e6d598fc84be583d",
+      "identical": true
+    },
+    "knights-reforged/src/trade.ts": {
+      "baseObject": "650f16458c406c163586bd4dc5044f1f9ac99993",
+      "candidateObject": "650f16458c406c163586bd4dc5044f1f9ac99993",
+      "identical": true
+    },
+    "knights-reforged/src/alpha-rules.ts": {
+      "baseObject": "de785743e997592c67afaa1dfe3d468ddc399785",
+      "candidateObject": "de785743e997592c67afaa1dfe3d468ddc399785",
+      "identical": true
+    },
+    "knights-reforged/src/progression.ts": {
+      "baseObject": "d8ec75d8daf7dda37c2d947ead28a5a48c113cb5",
+      "candidateObject": "d8ec75d8daf7dda37c2d947ead28a5a48c113cb5",
+      "identical": true
+    }
+  },
+  "approvedRuntimeAndScreenshotsIdentical": true,
+  "productionGameScriptsPackaged": false,
+  "privateWorkerRuntimeScriptsPackaged": false,
+  "experimentalRulesActivated": false,
+  "newSqlMigrations": 0,
+  "newRulesets": 0,
+  "newDependencies": 0,
+  "productionContacted": false,
+  "pr13Modified": false
+}

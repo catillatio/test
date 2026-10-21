@@ -3,29 +3,15 @@
 Development branch: `feature/kingdom-come-phase-4-9-1-combat-audio-polish`.
 Base: merged Phase 4.9 `793f747a7920a7b1dc000230a3050482e98393f2`.
 
-## Current owner checkpoint
+## Current owner decision — finalize the alpha release
 
-[Owner comment 6305978770](https://github.com/catillatio/test/pull/14#issuecomment-6305978770) now authorizes **preparation/testing of a conservative 18-bot canary**, not population-wide liquidation or live execution. The proposed fixed selection contains five small, genuinely funded additions and 13 unchanged controls; existing gear, members, points, Vaults and Land are retained. No active policy changes.
+[Owner comment 6306433839](https://github.com/catillatio/test/pull/14#issuecomment-6306433839) approves release preparation for the battle-result and audio changes below. **No bot calibration is adopted or authorized for execution.** The 18-bot canary, five purchase candidates and earlier models remain archived documentation/test evidence only. No bot purchases, army changes or financial correction belong to this release. Living-bot progression and army scaling move to Phase 5.
 
-- **[Current canary owner review](canary/REVIEW.md)** · [Exact proposed manifest](canary/MANIFEST.md)
-- [Per-bot gear/rewards/finances](canary/BOT_EVIDENCE.md) · [All-level/daily/targeted pacing](canary/PACING.md)
-- [Authorization, objective gates, monitoring and correction](canary/BOUNDARIES.md)
-- [Fresh separate-database preservation and verification](canary/VERIFICATION.md)
+- **[Final release-readiness report](FINAL_RELEASE_REVIEW.md)** — verification, preservation, blockers and alpha limitations.
+- **[Protected owner release guide](../../PHASE_4_9_1_RELEASE.md)** — merge review first; separate deployment authorization remains required.
+- [Approved screenshots](#review-material) — unchanged from the accepted report/audio baseline `a21b2b0`.
 
-The following earlier checkpoint is retained as history and comparison; its broad sales/point-spending proposal is superseded. The original human mechanics and approved report/audio baseline remain unchanged and independently releasable. No Gray/username action is requested; PR #13 remains inactive.
-
-[Owner comment 6305431189](https://github.com/catillatio/test/pull/14#issuecomment-6305431189) approves the 390px report presentation and new-user default mute, preserves original human participation and rejects both uncapped-linear and logarithmic human models. Approved report/audio files and screenshots remain unchanged from `a21b2b0`. Physical-phone verification of the live navigation honk is still pending.
-
-The new work is a **separate, unadopted bot-only experiment**: paid saved loadouts, existing earned defense points and fixed existing members. No runtime difficulty/reward change is enabled.
-
-- **[Bot-only owner review and safe rollout proposal](bot-only/REVIEW.md)**
-- [All levels 1–50, gear-only versus earned-points](bot-only/PER_LEVEL.md)
-- [Before/after matchup profiles](bot-only/MATCHUPS.md) · [Purchase costs, sale proceeds and net income](bot-only/FINANCES.md)
-- [64 paced before/after sessions and multi-account pressure](bot-only/SESSIONS.md)
-- [Actual populated dump/restore and transactional rehearsal](bot-only/copy-verification.json)
-- [New checkpoint verification](bot-only/VERIFICATION.md)
-
-The proposed equipment liquidation exposes additional existing asset value once; lower upkeep increases projected net income. Those effects, low-level catalog limits and the preserved advantage of large real player armies require owner review before any bot policy adoption. No production inspection or adjustment occurred.
+The owner has not authorized merging, deployment, protected-workflow dispatch or production access. PR #13 stays inactive. The username request is withdrawn; Gray requires no action.
 
 ## Implemented
 
@@ -60,4 +46,8 @@ PR #13 remains inactive/draft at `f6243463b5f9df054d569ae313a0d6a629d87ce2`. Gra
 
 The live navigation honk's exact audible origin remains **unconfirmed** because it did not reproduce in the permitted local baseline and production was not accessed. The corrected local navigation path is instrumented silent, including every source start rather than just named navigation events. Physical Android Chrome/iPhone Safari, stale restored tabs and device sound behavior still require owner verification. The new module revision only takes effect after a separately authorized protected release; nothing was deployed here.
 
-Please review the separate bot-only candidate and its financial effects before selecting any new balance policy. The approved report/audio changes remain independently releasable. No merge or deployment is authorized or performed by this work.
+## Archived research — not a release prerequisite
+
+[Original army audit](COMBAT_PROPOSAL.md), [broad bot-only model](bot-only/REVIEW.md) and [18-bot canary](canary/REVIEW.md) preserve earlier evidence; their rollout/approval discussions are superseded by comment 6306433839. They must not be run as release steps. Production builds exclude these scripts, and no runtime, migration, startup or workflow imports/executes them. Current human rules, bot finances, 65% XP and pair reductions stay unchanged. No additional balancing experiment was performed for finalization.
+
+Pause for owner merge approval after the exact-head checks pass. Production release remains separately authorized.
