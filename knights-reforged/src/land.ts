@@ -26,25 +26,44 @@ async function holdings(sql: Sql, characterId: string, lock = false) {
 
 // Must be called after locking the character row. Both state reads and every
 // gameplay command use this path, including settlement of an offline defender.
-export async function accrueHolding(sql:Sql,batch:HoldingRow,through:Date,reason:'shared_cycle'|'sale'){
+// Each lot keeps its original full/partial settlement row and exact numerator
+// remainders. Only SQL round trips are batched; no history is aggregated.
+function holdingAccrual(batch:HoldingRow,through:Date,reason:'shared_cycle'|'sale'){
  const elapsed=+through-+new Date(batch.accrued_through);
- if(elapsed<=0)return 0n;
+ if(elapsed<=0)return null;
  const ms=BigInt(elapsed),denominator=3600000n;
- // income_remainder is the NET numerator; upkeep has its own numerator.
- // Gross = paid net + paid upkeep, so a partial interval can never pay negative net.
+ // Net and upkeep retain separate exact numerator remainders; gross is their sum.
  const netNumerator=BigInt(batch.hourly_income-batch.hourly_upkeep)*BigInt(batch.quantity)*ms+BigInt(batch.income_remainder??0);
  const upkeepNumerator=BigInt(batch.hourly_upkeep)*BigInt(batch.quantity)*ms+BigInt(batch.upkeep_remainder??0);
- const net=netNumerator/denominator,upkeep=upkeepNumerator/denominator,gross=net+upkeep;
- const netRemainder=netNumerator%denominator,upkeepRemainder=upkeepNumerator%denominator;
- if(elapsed%3600000===0&&!BigInt(batch.income_remainder??0)&&!BigInt(batch.upkeep_remainder??0)&&reason==='shared_cycle'){
-  await sql.query(`INSERT INTO land_income_settlements(holding_id,period_start_at,period_end_at,interval_count,gross_gold,upkeep_gold,net_gold)
-   VALUES($1,$2,$3,$4,$5,$6,$7)`,[batch.id,batch.accrued_through,through,elapsed/3600000,gross.toString(),upkeep.toString(),net.toString()]);
- }else{
-  await sql.query(`INSERT INTO land_partial_settlements(holding_id,period_start_at,period_end_at,quantity,gross_gold,upkeep_gold,net_gold,income_remainder,upkeep_remainder,reason,ruleset_id)
-   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,[batch.id,batch.accrued_through,through,batch.quantity,gross.toString(),upkeep.toString(),net.toString(),netRemainder.toString(),upkeepRemainder.toString(),reason,progressionEconomy.id]);
+ const net=netNumerator/denominator,upkeep=upkeepNumerator/denominator;
+ return {holding_id:batch.id,period_start_at:batch.accrued_through,period_end_at:through,quantity:batch.quantity,
+  interval_count:elapsed%3600000===0&&!BigInt(batch.income_remainder??0)&&!BigInt(batch.upkeep_remainder??0)&&reason==='shared_cycle'?elapsed/3600000:null,
+  gross_gold:(net+upkeep).toString(),upkeep_gold:upkeep.toString(),net_gold:net.toString(),
+  income_remainder:(netNumerator%denominator).toString(),upkeep_remainder:(upkeepNumerator%denominator).toString(),reason,ruleset_id:progressionEconomy.id};
+}
+async function accrueHoldings(sql:Sql,batches:HoldingRow[],through:Date,reason:'shared_cycle'|'sale'){
+ let generated=0n;
+ // Bounded payloads also support legacy realms with many separate paid lots.
+ for(let offset=0;offset<batches.length;offset+=250){
+  const rows=batches.slice(offset,offset+250).map(b=>holdingAccrual(b,through,reason)).filter(r=>r!==null);
+  if(!rows.length)continue;
+  const full=rows.filter(r=>r.interval_count!==null),partial=rows.filter(r=>r.interval_count===null);
+  if(full.length)await sql.query(`INSERT INTO land_income_settlements(holding_id,period_start_at,period_end_at,interval_count,gross_gold,upkeep_gold,net_gold)
+   SELECT holding_id,period_start_at,period_end_at,interval_count,gross_gold,upkeep_gold,net_gold FROM jsonb_to_recordset($1::jsonb)
+   AS a(holding_id uuid,period_start_at timestamptz,period_end_at timestamptz,interval_count bigint,gross_gold numeric,upkeep_gold numeric,net_gold numeric)`,[JSON.stringify(full)]);
+  if(partial.length)await sql.query(`INSERT INTO land_partial_settlements(holding_id,period_start_at,period_end_at,quantity,gross_gold,upkeep_gold,net_gold,income_remainder,upkeep_remainder,reason,ruleset_id)
+   SELECT holding_id,period_start_at,period_end_at,quantity,gross_gold,upkeep_gold,net_gold,income_remainder,upkeep_remainder,reason,ruleset_id FROM jsonb_to_recordset($1::jsonb)
+   AS a(holding_id uuid,period_start_at timestamptz,period_end_at timestamptz,quantity integer,gross_gold numeric,upkeep_gold numeric,net_gold numeric,income_remainder bigint,upkeep_remainder bigint,reason text,ruleset_id text)`,[JSON.stringify(partial)]);
+  const updated=await sql.query(`UPDATE land_holdings h SET accrued_through=a.period_end_at,income_remainder=a.income_remainder,upkeep_remainder=a.upkeep_remainder
+   FROM jsonb_to_recordset($1::jsonb) AS a(holding_id uuid,period_end_at timestamptz,income_remainder bigint,upkeep_remainder bigint)
+   WHERE h.id=a.holding_id`,[JSON.stringify(rows)]);
+  if(updated.rowCount!==rows.length)throw new Error('Land settlement cursor mismatch.');
+  for(const row of rows)generated+=BigInt(row.net_gold);
  }
- await sql.query('UPDATE land_holdings SET accrued_through=$2,income_remainder=$3,upkeep_remainder=$4 WHERE id=$1',[batch.id,through,netRemainder.toString(),upkeepRemainder.toString()]);
- return net;
+ return generated;
+}
+export async function accrueHolding(sql:Sql,batch:HoldingRow,through:Date,reason:'shared_cycle'|'sale'){
+ return accrueHoldings(sql,[batch],through,reason);
 }
 
 export async function settleLand(sql: Sql, characterId: string, now: Date, rulesetId = progressionEconomy.id): Promise<boolean> {
@@ -59,10 +78,8 @@ export async function settleLand(sql: Sql, characterId: string, now: Date, rules
   if(cycle&&+new Date(cycle.next_payment_at)<=+now){
     const due=+new Date(cycle.next_payment_at);
     const through=new Date(due+Math.floor((+now-due)/3600000)*3600000);
-    for(const batch of batches){
-      const accrual=await accrueHolding(sql,batch,through,'shared_cycle');
-      generated+=accrual;settled ||= +through>+new Date(batch.accrued_through);
-    }
+    generated=await accrueHoldings(sql,batches,through,'shared_cycle');
+    settled=batches.some(batch=>+through>+new Date(batch.accrued_through));
     await sql.query('UPDATE income_cycles SET next_payment_at=$2 WHERE character_id=$1',[characterId,new Date(+through+3600000)]);
   }
   const account = (await sql.query(`UPDATE land_accounts SET pending_gold=pending_gold+$2::numeric
