@@ -1,0 +1,4013 @@
+{
+  "policy": {
+    "id": "living-bot-economy-1",
+    "intervalMs": 300000,
+    "slotsPerDecision": 144,
+    "maximumBotsPerTick": 5,
+    "maximumPopulation": 450,
+    "pursePercent": 5,
+    "maximumCost": 5000,
+    "incomeBudgetHours": 2,
+    "cashUpkeepHours": 4,
+    "maximumUpkeepPercent": 35,
+    "maximumIncomeGrowthPercent": 2
+  },
+  "days": 30,
+  "population": 450,
+  "humans": 7,
+  "engine": "Real PostgreSQL worker, hourly income via 12 cooperating sweepers and actual combat commands",
+  "productionContacted": false,
+  "initial": {
+    "gold": {
+      "min": 2550,
+      "p10": 3684,
+      "median": 19161,
+      "p90": 113136,
+      "max": 232047,
+      "sum": 18187643
+    },
+    "netHourly": {
+      "min": 21,
+      "p10": 81,
+      "median": 3962,
+      "p90": 21330,
+      "max": 34960,
+      "sum": 3283805
+    },
+    "finance": {
+      "gold": 19515836,
+      "reserve": 6053568,
+      "retained": 0,
+      "income": 0,
+      "upkeep": 0,
+      "purchases": 103334066
+    }
+  },
+  "reports": [
+    {
+      "scenario": "quiet",
+      "checkpoints": [
+        {
+          "day": 1,
+          "purchaseDistribution": {
+            "decisions": {
+              "min": 0,
+              "p10": 1,
+              "median": 2,
+              "p90": 2,
+              "max": 2,
+              "sum": 842
+            },
+            "land": {
+              "min": 0,
+              "p10": 0,
+              "median": 1,
+              "p90": 2,
+              "max": 2,
+              "sum": 610
+            },
+            "gear": {
+              "min": 0,
+              "p10": 0,
+              "median": 0,
+              "p90": 0,
+              "max": 2,
+              "sum": 38
+            },
+            "botsWithoutAnyPurchase": 31
+          },
+          "phases": [
+            {
+              "phase": "days 1–2",
+              "kind": "equipment",
+              "n": 38
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "land",
+              "n": 610
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "wait",
+              "n": 194
+            }
+          ],
+          "journalRows": {
+            "full_settlements": 87403,
+            "partial_settlements": 6714,
+            "holdings": 4215,
+            "maintenance_events": 10774,
+            "bot_finance_events": 10394
+          },
+          "maximumCommittedDecisionsPerSlot": 5,
+          "finance": {
+            "gold": 81926220,
+            "reserve": -3025954,
+            "retained": 0,
+            "income": 82015980,
+            "upkeep": 3026124,
+            "purchases": 89590
+          },
+          "decisions": [
+            {
+              "kind": "equipment",
+              "reason": null,
+              "count": 38,
+              "cost": "1042",
+              "topup": "17"
+            },
+            {
+              "kind": "land",
+              "reason": null,
+              "count": 610,
+              "cost": "88548",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving",
+              "count": 192,
+              "cost": "0",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving_for_affordable_upgrade",
+              "count": 2,
+              "cost": "0",
+              "topup": "0"
+            }
+          ],
+          "gold": {
+            "min": 3034,
+            "p10": 5915,
+            "median": 117766,
+            "p90": 637737,
+            "max": 1106093,
+            "sum": 100113863
+          },
+          "netHourly": {
+            "min": 21,
+            "p10": 88,
+            "median": 4004,
+            "p90": 21330,
+            "max": 35030,
+            "sum": 3297746
+          },
+          "equipmentImprovedBots": 30,
+          "hardOwnershipCappedBots": 0,
+          "botsWithOnlyWaitsInLastSevenDays": 24,
+          "botsAtBestUnlockedEquipment": 12,
+          "botsWhoseUsefulGearAllCostsAbove5000": 0,
+          "maximumOwnedProperty": 7,
+          "maximumOwnedEquipment": 10,
+          "pausedBots": 0,
+          "cohorts": [
+            {
+              "band": "1–10",
+              "bots": 90,
+              "gold": {
+                "min": 3034,
+                "p10": 3862,
+                "median": 5915,
+                "p90": 8982,
+                "max": 10921,
+                "sum": 564736
+              },
+              "initialGold": {
+                "min": 2550,
+                "p10": 2809,
+                "median": 3706,
+                "p90": 4913,
+                "max": 5680,
+                "sum": 344452
+              },
+              "netIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 88,
+                "p90": 175,
+                "max": 225,
+                "sum": 9308
+              },
+              "initialNetIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 81,
+                "p90": 164,
+                "max": 211,
+                "sum": 8650
+              },
+              "improvedEquipment": 30,
+              "medianEquipmentPowerGainPercent": 0
+            },
+            {
+              "band": "11–25",
+              "bots": 135,
+              "gold": {
+                "min": 12304,
+                "p10": 18044,
+                "median": 36099,
+                "p90": 141561,
+                "max": 211861,
+                "sum": 7967006
+              },
+              "initialGold": {
+                "min": 3627,
+                "p10": 5106,
+                "median": 8645,
+                "p90": 28487,
+                "max": 45919,
+                "sum": 1696466
+              },
+              "netIncome": {
+                "min": 312,
+                "p10": 491,
+                "median": 1133,
+                "p90": 4545,
+                "max": 6705,
+                "sum": 252621
+              },
+              "initialNetIncome": {
+                "min": 312,
+                "p10": 477,
+                "median": 1105,
+                "p90": 4460,
+                "max": 6690,
+                "sum": 249462
+              },
+              "improvedEquipment": 0,
+              "medianEquipmentPowerGainPercent": 0
+            },
+            {
+              "band": "26–50",
+              "bots": 225,
+              "gold": {
+                "min": 65415,
+                "p10": 119805,
+                "median": 381818,
+                "p90": 741497,
+                "max": 1106093,
+                "sum": 91582121
+              },
+              "initialGold": {
+                "min": 10163,
+                "p10": 18256,
+                "median": 56712,
+                "p90": 142728,
+                "max": 232047,
+                "sum": 16146725
+              },
+              "netIncome": {
+                "min": 2246,
+                "p10": 4074,
+                "median": 13339,
+                "p90": 23540,
+                "max": 35030,
+                "sum": 3035817
+              },
+              "initialNetIncome": {
+                "min": 2216,
+                "p10": 4026,
+                "median": 13324,
+                "p90": 23478,
+                "max": 34960,
+                "sum": 3025693
+              },
+              "improvedEquipment": 0,
+              "medianEquipmentPowerGainPercent": 0
+            }
+          ],
+          "examples": [
+            {
+              "name": "Lysandra Hearthguard",
+              "level": 5,
+              "before": {
+                "gold": 3443,
+                "netHourly": 81,
+                "land": 3,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "144"
+              },
+              "after": {
+                "gold": 5484,
+                "netHourly": 95,
+                "land": 5,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "72"
+              },
+              "holdings": {
+                "hearthstead-hamlet": 1,
+                "smallholding": 4
+              }
+            },
+            {
+              "name": "Wulfran Wyrmward",
+              "level": 15,
+              "before": {
+                "gold": 5826,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "2448"
+              },
+              "after": {
+                "gold": 21354,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "1224"
+              },
+              "holdings": {
+                "smallholding": 1,
+                "silver-vein-mine": 1,
+                "moonwell-sanctuary": 1
+              }
+            },
+            {
+              "name": "Hesper Cloudspire",
+              "level": 25,
+              "before": {
+                "gold": 20428,
+                "netHourly": 3962,
+                "land": 7,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "8064"
+              },
+              "after": {
+                "gold": 119691,
+                "netHourly": 3984,
+                "land": 9,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "4032"
+              },
+              "holdings": {
+                "tempest-port": 2,
+                "ironwood-fort": 3,
+                "smallholding": 1,
+                "runekeeper-academy": 2,
+                "woodland": 1
+              }
+            },
+            {
+              "name": "Cedric Ebonhart",
+              "level": 40,
+              "before": {
+                "gold": 75696,
+                "netHourly": 16574,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "27648"
+              },
+              "after": {
+                "gold": 488266,
+                "netHourly": 16629,
+                "land": 14,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "13824"
+              },
+              "holdings": {
+                "astral-observatory": 3,
+                "wyrmcrest-keep": 3,
+                "dawnspire-cathedral": 3,
+                "river-mill": 1,
+                "oathbound-citadel": 4
+              }
+            },
+            {
+              "name": "Gwyneira Emberfall",
+              "level": 50,
+              "before": {
+                "gold": 113440,
+                "netHourly": 24600,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "41760"
+              },
+              "after": {
+                "gold": 724888,
+                "netHourly": 24615,
+                "land": 14,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "20880"
+              },
+              "holdings": {
+                "wyrmcrest-keep": 4,
+                "astral-observatory": 3,
+                "eclipse-citadel": 3,
+                "woodland": 1,
+                "throne-of-ash": 3
+              }
+            }
+          ],
+          "attacks": {
+            "attempted": 0,
+            "wins": 0,
+            "losses": 0,
+            "gold": 0,
+            "xp": 0,
+            "levelUps": 0,
+            "spiritSpent": 0,
+            "blocked": {}
+          },
+          "scheduling": {
+            "missedCandidates": 0,
+            "capacityMisses": 58,
+            "parallelTicks": 0,
+            "replayChecks": 0,
+            "maxReceiptsPerSlot": 0,
+            "restartCatchups": 0
+          },
+          "workload": {
+            "income": {
+              "queries": 547886,
+              "transactions": 747,
+              "milliseconds": 553499.1578849884
+            },
+            "economy": {
+              "queries": 32209,
+              "transactions": 842,
+              "milliseconds": 5624.30335000077
+            },
+            "observation": {
+              "queries": 12,
+              "transactions": 0,
+              "milliseconds": 76.85521400001016
+            }
+          },
+          "elapsedSeconds": 60
+        },
+        {
+          "day": 7,
+          "purchaseDistribution": {
+            "decisions": {
+              "min": 5,
+              "p10": 10,
+              "median": 14,
+              "p90": 14,
+              "max": 14,
+              "sum": 5894
+            },
+            "land": {
+              "min": 0,
+              "p10": 3,
+              "median": 6,
+              "p90": 9,
+              "max": 13,
+              "sum": 2759
+            },
+            "gear": {
+              "min": 0,
+              "p10": 1,
+              "median": 4,
+              "p90": 6,
+              "max": 7,
+              "sum": 1612
+            },
+            "botsWithoutAnyPurchase": 0
+          },
+          "phases": [
+            {
+              "phase": "days 1–2",
+              "kind": "equipment",
+              "n": 82
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "land",
+              "n": 1173
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "wait",
+              "n": 429
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "equipment",
+              "n": 1530
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "land",
+              "n": 1586
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "wait",
+              "n": 1094
+            }
+          ],
+          "journalRows": {
+            "full_settlements": 636004,
+            "partial_settlements": 235383,
+            "holdings": 6364,
+            "maintenance_events": 130516,
+            "bot_finance_events": 75194
+          },
+          "maximumCommittedDecisionsPerSlot": 5,
+          "finance": {
+            "gold": 560702174,
+            "reserve": -5912139,
+            "retained": 0,
+            "income": 578338838,
+            "upkeep": 21993850,
+            "purchases": 1554953
+          },
+          "decisions": [
+            {
+              "kind": "equipment",
+              "reason": null,
+              "count": 1612,
+              "cost": "1161529",
+              "topup": "232922"
+            },
+            {
+              "kind": "land",
+              "reason": null,
+              "count": 2759,
+              "cost": "393424",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving",
+              "count": 1447,
+              "cost": "0",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving_for_affordable_upgrade",
+              "count": 76,
+              "cost": "0",
+              "topup": "0"
+            }
+          ],
+          "gold": {
+            "min": 6025,
+            "p10": 20564,
+            "median": 700409,
+            "p90": 3744545,
+            "max": 6186208,
+            "sum": 578889817
+          },
+          "netHourly": {
+            "min": 21,
+            "p10": 124,
+            "median": 4105,
+            "p90": 21502,
+            "max": 35267,
+            "sum": 3326167
+          },
+          "equipmentImprovedBots": 439,
+          "hardOwnershipCappedBots": 0,
+          "botsWithOnlyWaitsInLastSevenDays": 0,
+          "botsAtBestUnlockedEquipment": 48,
+          "botsWhoseUsefulGearAllCostsAbove5000": 0,
+          "maximumOwnedProperty": 15,
+          "maximumOwnedEquipment": 10,
+          "pausedBots": 0,
+          "cohorts": [
+            {
+              "band": "1–10",
+              "bots": 90,
+              "gold": {
+                "min": 6025,
+                "p10": 9283,
+                "median": 20564,
+                "p90": 36132,
+                "max": 42580,
+                "sum": 2038612
+              },
+              "initialGold": {
+                "min": 2550,
+                "p10": 2809,
+                "median": 3706,
+                "p90": 4913,
+                "max": 5680,
+                "sum": 344452
+              },
+              "netIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 124,
+                "p90": 213,
+                "max": 262,
+                "sum": 11804
+              },
+              "initialNetIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 81,
+                "p90": 164,
+                "max": 211,
+                "sum": 8650
+              },
+              "improvedEquipment": 83,
+              "medianEquipmentPowerGainPercent": 42.86
+            },
+            {
+              "band": "11–25",
+              "bots": 135,
+              "gold": {
+                "min": 60252,
+                "p10": 90084,
+                "median": 205600,
+                "p90": 807981,
+                "max": 1183279,
+                "sum": 44840673
+              },
+              "initialGold": {
+                "min": 3627,
+                "p10": 5106,
+                "median": 8645,
+                "p90": 28487,
+                "max": 45919,
+                "sum": 1696466
+              },
+              "netIncome": {
+                "min": 315,
+                "p10": 523,
+                "median": 1174,
+                "p90": 4636,
+                "max": 6742,
+                "sum": 258831
+              },
+              "initialNetIncome": {
+                "min": 312,
+                "p10": 477,
+                "median": 1105,
+                "p90": 4460,
+                "max": 6690,
+                "sum": 249462
+              },
+              "improvedEquipment": 133,
+              "medianEquipmentPowerGainPercent": 12.8
+            },
+            {
+              "band": "26–50",
+              "bots": 225,
+              "gold": {
+                "min": 383539,
+                "p10": 710065,
+                "median": 2324460,
+                "p90": 4156871,
+                "max": 6186208,
+                "sum": 532010532
+              },
+              "initialGold": {
+                "min": 10163,
+                "p10": 18256,
+                "median": 56712,
+                "p90": 142728,
+                "max": 232047,
+                "sum": 16146725
+              },
+              "netIncome": {
+                "min": 2260,
+                "p10": 4137,
+                "median": 13345,
+                "p90": 23595,
+                "max": 35267,
+                "sum": 3055532
+              },
+              "initialNetIncome": {
+                "min": 2216,
+                "p10": 4026,
+                "median": 13324,
+                "p90": 23478,
+                "max": 34960,
+                "sum": 3025693
+              },
+              "improvedEquipment": 223,
+              "medianEquipmentPowerGainPercent": 2.99
+            }
+          ],
+          "examples": [
+            {
+              "name": "Lysandra Hearthguard",
+              "level": 5,
+              "before": {
+                "gold": 3443,
+                "netHourly": 81,
+                "land": 3,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "144"
+              },
+              "after": {
+                "gold": 21260,
+                "netHourly": 131,
+                "land": 11,
+                "gear": 6,
+                "equipmentAttack": 23,
+                "equipmentDefense": 35,
+                "reserve": "9"
+              },
+              "holdings": {
+                "hearthstead-hamlet": 1,
+                "smallholding": 10
+              }
+            },
+            {
+              "name": "Wulfran Wyrmward",
+              "level": 15,
+              "before": {
+                "gold": 5826,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "2448"
+              },
+              "after": {
+                "gold": 107795,
+                "netHourly": 612,
+                "land": 9,
+                "gear": 13,
+                "equipmentAttack": 181,
+                "equipmentDefense": 216,
+                "reserve": "77"
+              },
+              "holdings": {
+                "smallholding": 7,
+                "silver-vein-mine": 1,
+                "moonwell-sanctuary": 1
+              }
+            },
+            {
+              "name": "Hesper Cloudspire",
+              "level": 25,
+              "before": {
+                "gold": 20428,
+                "netHourly": 3962,
+                "land": 7,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "8064"
+              },
+              "after": {
+                "gold": 709269,
+                "netHourly": 4175,
+                "land": 17,
+                "gear": 15,
+                "equipmentAttack": 327,
+                "equipmentDefense": 464,
+                "reserve": "208"
+              },
+              "holdings": {
+                "tempest-port": 2,
+                "ironwood-fort": 3,
+                "river-mill": 3,
+                "copper-workshop": 1,
+                "smallholding": 3,
+                "runekeeper-academy": 2,
+                "woodland": 3
+              }
+            },
+            {
+              "name": "Cedric Ebonhart",
+              "level": 40,
+              "before": {
+                "gold": 75696,
+                "netHourly": 16574,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "27648"
+              },
+              "after": {
+                "gold": 2900348,
+                "netHourly": 16714,
+                "land": 19,
+                "gear": 19,
+                "equipmentAttack": 690,
+                "equipmentDefense": 1062,
+                "reserve": "588"
+              },
+              "holdings": {
+                "watchtower": 2,
+                "woodland": 2,
+                "astral-observatory": 3,
+                "wyrmcrest-keep": 3,
+                "dawnspire-cathedral": 3,
+                "smallholding": 1,
+                "river-mill": 1,
+                "oathbound-citadel": 4
+              }
+            },
+            {
+              "name": "Gwyneira Emberfall",
+              "level": 50,
+              "before": {
+                "gold": 113440,
+                "netHourly": 24600,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "41760"
+              },
+              "after": {
+                "gold": 4290716,
+                "netHourly": 24670,
+                "land": 15,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "870"
+              },
+              "holdings": {
+                "river-mill": 1,
+                "wyrmcrest-keep": 4,
+                "astral-observatory": 3,
+                "eclipse-citadel": 3,
+                "woodland": 1,
+                "throne-of-ash": 3
+              }
+            }
+          ],
+          "attacks": {
+            "attempted": 0,
+            "wins": 0,
+            "losses": 0,
+            "gold": 0,
+            "xp": 0,
+            "levelUps": 0,
+            "spiritSpent": 0,
+            "blocked": {}
+          },
+          "scheduling": {
+            "missedCandidates": 0,
+            "capacityMisses": 406,
+            "parallelTicks": 0,
+            "replayChecks": 0,
+            "maxReceiptsPerSlot": 0,
+            "restartCatchups": 0
+          },
+          "workload": {
+            "income": {
+              "queries": 4492840,
+              "transactions": 5167,
+              "milliseconds": 4605626.287442053
+            },
+            "economy": {
+              "queries": 249683,
+              "transactions": 5894,
+              "milliseconds": 44357.315559004375
+            },
+            "observation": {
+              "queries": 24,
+              "transactions": 0,
+              "milliseconds": 609.7087290000927
+            }
+          },
+          "elapsedSeconds": 500
+        },
+        {
+          "day": 30,
+          "purchaseDistribution": {
+            "decisions": {
+              "min": 26,
+              "p10": 42,
+              "median": 60,
+              "p90": 60,
+              "max": 60,
+              "sum": 25260
+            },
+            "land": {
+              "min": 0,
+              "p10": 17,
+              "median": 25,
+              "p90": 34,
+              "max": 46,
+              "sum": 11088
+            },
+            "gear": {
+              "min": 0,
+              "p10": 5,
+              "median": 15,
+              "p90": 23,
+              "max": 30,
+              "sum": 6453
+            },
+            "botsWithoutAnyPurchase": 0
+          },
+          "phases": [
+            {
+              "phase": "days 1–2",
+              "kind": "equipment",
+              "n": 82
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "land",
+              "n": 1173
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "wait",
+              "n": 429
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "equipment",
+              "n": 1530
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "land",
+              "n": 1586
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "wait",
+              "n": 1094
+            },
+            {
+              "phase": "days 8–30",
+              "kind": "equipment",
+              "n": 4841
+            },
+            {
+              "phase": "days 8–30",
+              "kind": "land",
+              "n": 8329
+            },
+            {
+              "phase": "days 8–30",
+              "kind": "wait",
+              "n": 6196
+            }
+          ],
+          "journalRows": {
+            "full_settlements": 3164683,
+            "partial_settlements": 3528781,
+            "holdings": 14693,
+            "maintenance_events": 629256,
+            "bot_finance_events": 323594
+          },
+          "maximumCommittedDecisionsPerSlot": 5,
+          "finance": {
+            "gold": 2418508665,
+            "reserve": -5828917,
+            "retained": 0,
+            "income": 2545755902,
+            "upkeep": 121179650,
+            "purchases": 11896504
+          },
+          "decisions": [
+            {
+              "kind": "equipment",
+              "reason": null,
+              "count": 6453,
+              "cost": "9223840",
+              "topup": "1438079"
+            },
+            {
+              "kind": "land",
+              "reason": null,
+              "count": 11088,
+              "cost": "2672664",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving",
+              "count": 6235,
+              "cost": "0",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving_for_affordable_upgrade",
+              "count": 1484,
+              "cost": "0",
+              "topup": "0"
+            }
+          ],
+          "gold": {
+            "min": 17617,
+            "p10": 123291,
+            "median": 2997087,
+            "p90": 15646004,
+            "max": 25597018,
+            "sum": 2436696308
+          },
+          "netHourly": {
+            "min": 21,
+            "p10": 221,
+            "median": 4352,
+            "p90": 21543,
+            "max": 35161,
+            "sum": 3455397
+          },
+          "equipmentImprovedBots": 444,
+          "hardOwnershipCappedBots": 0,
+          "botsWithOnlyWaitsInLastSevenDays": 68,
+          "botsAtBestUnlockedEquipment": 230,
+          "botsWhoseUsefulGearAllCostsAbove5000": 0,
+          "maximumOwnedProperty": 37,
+          "maximumOwnedEquipment": 10,
+          "pausedBots": 0,
+          "cohorts": [
+            {
+              "band": "1–10",
+              "bots": 90,
+              "gold": {
+                "min": 17617,
+                "p10": 24739,
+                "median": 123291,
+                "p90": 183536,
+                "max": 208419,
+                "sum": 11391436
+              },
+              "initialGold": {
+                "min": 2550,
+                "p10": 2809,
+                "median": 3706,
+                "p90": 4913,
+                "max": 5680,
+                "sum": 344452
+              },
+              "netIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 221,
+                "p90": 323,
+                "max": 378,
+                "sum": 20605
+              },
+              "initialNetIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 81,
+                "p90": 164,
+                "max": 211,
+                "sum": 8650
+              },
+              "improvedEquipment": 84,
+              "medianEquipmentPowerGainPercent": 60
+            },
+            {
+              "band": "11–25",
+              "bots": 135,
+              "gold": {
+                "min": 265447,
+                "p10": 404828,
+                "median": 879913,
+                "p90": 3448292,
+                "max": 5053515,
+                "sum": 193552180
+              },
+              "initialGold": {
+                "min": 3627,
+                "p10": 5106,
+                "median": 8645,
+                "p90": 28487,
+                "max": 45919,
+                "sum": 1696466
+              },
+              "netIncome": {
+                "min": 484,
+                "p10": 678,
+                "median": 1380,
+                "p90": 5116,
+                "max": 7336,
+                "sum": 295773
+              },
+              "initialNetIncome": {
+                "min": 312,
+                "p10": 477,
+                "median": 1105,
+                "p90": 4460,
+                "max": 6690,
+                "sum": 249462
+              },
+              "improvedEquipment": 135,
+              "medianEquipmentPowerGainPercent": 34.62
+            },
+            {
+              "band": "26–50",
+              "bots": 225,
+              "gold": {
+                "min": 1659910,
+                "p10": 3109489,
+                "median": 9685979,
+                "p90": 17164664,
+                "max": 25597018,
+                "sum": 2231752692
+              },
+              "initialGold": {
+                "min": 10163,
+                "p10": 18256,
+                "median": 56712,
+                "p90": 142728,
+                "max": 232047,
+                "sum": 16146725
+              },
+              "netIncome": {
+                "min": 2410,
+                "p10": 4421,
+                "median": 13516,
+                "p90": 23635,
+                "max": 35161,
+                "sum": 3139019
+              },
+              "initialNetIncome": {
+                "min": 2216,
+                "p10": 4026,
+                "median": 13324,
+                "p90": 23478,
+                "max": 34960,
+                "sum": 3025693
+              },
+              "improvedEquipment": 225,
+              "medianEquipmentPowerGainPercent": 20.9
+            }
+          ],
+          "examples": [
+            {
+              "name": "Lysandra Hearthguard",
+              "level": 5,
+              "before": {
+                "gold": 3443,
+                "netHourly": 81,
+                "land": 3,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "144"
+              },
+              "after": {
+                "gold": 133032,
+                "netHourly": 236,
+                "land": 26,
+                "gear": 6,
+                "equipmentAttack": 23,
+                "equipmentDefense": 35,
+                "reserve": "9"
+              },
+              "holdings": {
+                "hearthstead-hamlet": 1,
+                "smallholding": 25
+              }
+            },
+            {
+              "name": "Wulfran Wyrmward",
+              "level": 15,
+              "before": {
+                "gold": 5826,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "2448"
+              },
+              "after": {
+                "gold": 455705,
+                "netHourly": 752,
+                "land": 31,
+                "gear": 21,
+                "equipmentAttack": 246,
+                "equipmentDefense": 228,
+                "reserve": "147"
+              },
+              "holdings": {
+                "smallholding": 22,
+                "silver-vein-mine": 1,
+                "moonwell-sanctuary": 1,
+                "woodland": 7
+              }
+            },
+            {
+              "name": "Hesper Cloudspire",
+              "level": 25,
+              "before": {
+                "gold": 20428,
+                "netHourly": 3962,
+                "land": 7,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "8064"
+              },
+              "after": {
+                "gold": 3043533,
+                "netHourly": 4427,
+                "land": 35,
+                "gear": 32,
+                "equipmentAttack": 488,
+                "equipmentDefense": 492,
+                "reserve": "498"
+              },
+              "holdings": {
+                "tempest-port": 2,
+                "watchtower": 3,
+                "hearthstead-hamlet": 2,
+                "ironwood-fort": 3,
+                "river-mill": 6,
+                "copper-workshop": 4,
+                "smallholding": 6,
+                "runekeeper-academy": 2,
+                "woodland": 7
+              }
+            },
+            {
+              "name": "Cedric Ebonhart",
+              "level": 40,
+              "before": {
+                "gold": 75696,
+                "netHourly": 16574,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "27648"
+              },
+              "after": {
+                "gold": 12202003,
+                "netHourly": 17006,
+                "land": 36,
+                "gear": 34,
+                "equipmentAttack": 932,
+                "equipmentDefense": 1062,
+                "reserve": "986"
+              },
+              "holdings": {
+                "watchtower": 5,
+                "copper-workshop": 3,
+                "woodland": 5,
+                "crown-harbour": 2,
+                "astral-observatory": 3,
+                "wyrmcrest-keep": 3,
+                "dawnspire-cathedral": 3,
+                "smallholding": 3,
+                "river-mill": 4,
+                "hearthstead-hamlet": 1,
+                "oathbound-citadel": 4
+              }
+            },
+            {
+              "name": "Gwyneira Emberfall",
+              "level": 50,
+              "before": {
+                "gold": 113440,
+                "netHourly": 24600,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "41760"
+              },
+              "after": {
+                "gold": 17974143,
+                "netHourly": 24989,
+                "land": 27,
+                "gear": 30,
+                "equipmentAttack": 1051,
+                "equipmentDefense": 1378,
+                "reserve": "911"
+              },
+              "holdings": {
+                "crown-harbour": 1,
+                "river-mill": 2,
+                "wyrmcrest-keep": 4,
+                "astral-observatory": 3,
+                "smallholding": 3,
+                "copper-workshop": 2,
+                "eclipse-citadel": 3,
+                "woodland": 3,
+                "throne-of-ash": 3,
+                "watchtower": 3
+              }
+            }
+          ],
+          "attacks": {
+            "attempted": 0,
+            "wins": 0,
+            "losses": 0,
+            "gold": 0,
+            "xp": 0,
+            "levelUps": 0,
+            "spiritSpent": 0,
+            "blocked": {}
+          },
+          "scheduling": {
+            "missedCandidates": 0,
+            "capacityMisses": 1740,
+            "parallelTicks": 0,
+            "replayChecks": 0,
+            "maxReceiptsPerSlot": 0,
+            "restartCatchups": 0
+          },
+          "workload": {
+            "income": {
+              "queries": 25422930,
+              "transactions": 21982,
+              "milliseconds": 28197752.721399006
+            },
+            "economy": {
+              "queries": 1058848,
+              "transactions": 25260,
+              "milliseconds": 201536.86901909998
+            },
+            "observation": {
+              "queries": 36,
+              "transactions": 0,
+              "milliseconds": 4685.938863000629
+            }
+          },
+          "elapsedSeconds": 2988
+        }
+      ],
+      "preservation": true,
+      "initialFixtureHash": "80bdcb24345e120e294b9e7a948d3b84148c87d07cb13135ef37cdfe8ce110d8"
+    },
+    {
+      "scenario": "attacked",
+      "checkpoints": [
+        {
+          "day": 1,
+          "purchaseDistribution": {
+            "decisions": {
+              "min": 0,
+              "p10": 1,
+              "median": 2,
+              "p90": 2,
+              "max": 2,
+              "sum": 842
+            },
+            "land": {
+              "min": 0,
+              "p10": 0,
+              "median": 1,
+              "p90": 2,
+              "max": 2,
+              "sum": 610
+            },
+            "gear": {
+              "min": 0,
+              "p10": 0,
+              "median": 0,
+              "p90": 0,
+              "max": 2,
+              "sum": 38
+            },
+            "botsWithoutAnyPurchase": 31
+          },
+          "phases": [
+            {
+              "phase": "days 1–2",
+              "kind": "equipment",
+              "n": 38
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "land",
+              "n": 610
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "wait",
+              "n": 194
+            }
+          ],
+          "journalRows": {
+            "full_settlements": 87403,
+            "partial_settlements": 6714,
+            "holdings": 4215,
+            "maintenance_events": 11035,
+            "bot_finance_events": 10394
+          },
+          "maximumCommittedDecisionsPerSlot": 5,
+          "finance": {
+            "gold": 81908404,
+            "reserve": -3027586,
+            "retained": 0,
+            "income": 82015980,
+            "upkeep": 3045572,
+            "purchases": 89590
+          },
+          "decisions": [
+            {
+              "kind": "equipment",
+              "reason": null,
+              "count": 38,
+              "cost": "1042",
+              "topup": "17"
+            },
+            {
+              "kind": "land",
+              "reason": null,
+              "count": 610,
+              "cost": "88548",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving",
+              "count": 192,
+              "cost": "0",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving_for_affordable_upgrade",
+              "count": 2,
+              "cost": "0",
+              "topup": "0"
+            }
+          ],
+          "gold": {
+            "min": 3034,
+            "p10": 5915,
+            "median": 117766,
+            "p90": 637737,
+            "max": 1106093,
+            "sum": 100040378
+          },
+          "netHourly": {
+            "min": 21,
+            "p10": 88,
+            "median": 4004,
+            "p90": 21330,
+            "max": 35030,
+            "sum": 3297746
+          },
+          "equipmentImprovedBots": 30,
+          "hardOwnershipCappedBots": 0,
+          "botsWithOnlyWaitsInLastSevenDays": 24,
+          "botsAtBestUnlockedEquipment": 12,
+          "botsWhoseUsefulGearAllCostsAbove5000": 0,
+          "maximumOwnedProperty": 7,
+          "maximumOwnedEquipment": 10,
+          "pausedBots": 0,
+          "cohorts": [
+            {
+              "band": "1–10",
+              "bots": 90,
+              "gold": {
+                "min": 3034,
+                "p10": 3862,
+                "median": 5915,
+                "p90": 8751,
+                "max": 10921,
+                "sum": 561805
+              },
+              "initialGold": {
+                "min": 2550,
+                "p10": 2809,
+                "median": 3706,
+                "p90": 4913,
+                "max": 5680,
+                "sum": 344452
+              },
+              "netIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 88,
+                "p90": 175,
+                "max": 225,
+                "sum": 9308
+              },
+              "initialNetIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 81,
+                "p90": 164,
+                "max": 211,
+                "sum": 8650
+              },
+              "improvedEquipment": 30,
+              "medianEquipmentPowerGainPercent": 0
+            },
+            {
+              "band": "11–25",
+              "bots": 135,
+              "gold": {
+                "min": 12304,
+                "p10": 18044,
+                "median": 36099,
+                "p90": 141561,
+                "max": 211861,
+                "sum": 7957979
+              },
+              "initialGold": {
+                "min": 3627,
+                "p10": 5106,
+                "median": 8645,
+                "p90": 28487,
+                "max": 45919,
+                "sum": 1696466
+              },
+              "netIncome": {
+                "min": 312,
+                "p10": 491,
+                "median": 1133,
+                "p90": 4545,
+                "max": 6705,
+                "sum": 252621
+              },
+              "initialNetIncome": {
+                "min": 312,
+                "p10": 477,
+                "median": 1105,
+                "p90": 4460,
+                "max": 6690,
+                "sum": 249462
+              },
+              "improvedEquipment": 0,
+              "medianEquipmentPowerGainPercent": 0
+            },
+            {
+              "band": "26–50",
+              "bots": 225,
+              "gold": {
+                "min": 65415,
+                "p10": 119805,
+                "median": 381818,
+                "p90": 741497,
+                "max": 1106093,
+                "sum": 91520594
+              },
+              "initialGold": {
+                "min": 10163,
+                "p10": 18256,
+                "median": 56712,
+                "p90": 142728,
+                "max": 232047,
+                "sum": 16146725
+              },
+              "netIncome": {
+                "min": 2246,
+                "p10": 4074,
+                "median": 13339,
+                "p90": 23540,
+                "max": 35030,
+                "sum": 3035817
+              },
+              "initialNetIncome": {
+                "min": 2216,
+                "p10": 4026,
+                "median": 13324,
+                "p90": 23478,
+                "max": 34960,
+                "sum": 3025693
+              },
+              "improvedEquipment": 0,
+              "medianEquipmentPowerGainPercent": 0
+            }
+          ],
+          "examples": [
+            {
+              "name": "Lysandra Hearthguard",
+              "level": 5,
+              "before": {
+                "gold": 3443,
+                "netHourly": 81,
+                "land": 3,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "144"
+              },
+              "after": {
+                "gold": 5484,
+                "netHourly": 95,
+                "land": 5,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "72"
+              },
+              "holdings": {
+                "hearthstead-hamlet": 1,
+                "smallholding": 4
+              }
+            },
+            {
+              "name": "Wulfran Wyrmward",
+              "level": 15,
+              "before": {
+                "gold": 5826,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "2448"
+              },
+              "after": {
+                "gold": 21354,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "1224"
+              },
+              "holdings": {
+                "smallholding": 1,
+                "silver-vein-mine": 1,
+                "moonwell-sanctuary": 1
+              }
+            },
+            {
+              "name": "Hesper Cloudspire",
+              "level": 25,
+              "before": {
+                "gold": 20428,
+                "netHourly": 3962,
+                "land": 7,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "8064"
+              },
+              "after": {
+                "gold": 119691,
+                "netHourly": 3984,
+                "land": 9,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "4032"
+              },
+              "holdings": {
+                "tempest-port": 2,
+                "ironwood-fort": 3,
+                "smallholding": 1,
+                "runekeeper-academy": 2,
+                "woodland": 1
+              }
+            },
+            {
+              "name": "Cedric Ebonhart",
+              "level": 40,
+              "before": {
+                "gold": 75696,
+                "netHourly": 16574,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "27648"
+              },
+              "after": {
+                "gold": 488266,
+                "netHourly": 16629,
+                "land": 14,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "13824"
+              },
+              "holdings": {
+                "astral-observatory": 3,
+                "wyrmcrest-keep": 3,
+                "dawnspire-cathedral": 3,
+                "river-mill": 1,
+                "oathbound-citadel": 4
+              }
+            },
+            {
+              "name": "Gwyneira Emberfall",
+              "level": 50,
+              "before": {
+                "gold": 113440,
+                "netHourly": 24600,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "41760"
+              },
+              "after": {
+                "gold": 724888,
+                "netHourly": 24615,
+                "land": 14,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "20880"
+              },
+              "holdings": {
+                "wyrmcrest-keep": 4,
+                "astral-observatory": 3,
+                "eclipse-citadel": 3,
+                "woodland": 1,
+                "throne-of-ash": 3
+              }
+            }
+          ],
+          "attacks": {
+            "attempted": 144,
+            "wins": 117,
+            "losses": 27,
+            "gold": 73485,
+            "xp": 2320,
+            "levelUps": 0,
+            "spiritSpent": 144,
+            "blocked": {}
+          },
+          "scheduling": {
+            "missedCandidates": 0,
+            "capacityMisses": 58,
+            "parallelTicks": 0,
+            "replayChecks": 0,
+            "maxReceiptsPerSlot": 0,
+            "restartCatchups": 0
+          },
+          "workload": {
+            "income": {
+              "queries": 554680,
+              "transactions": 765,
+              "milliseconds": 572714.6708340077
+            },
+            "economy": {
+              "queries": 32209,
+              "transactions": 842,
+              "milliseconds": 5356.0558959515765
+            },
+            "observation": {
+              "queries": 300,
+              "transactions": 0,
+              "milliseconds": 99.86453300062567
+            },
+            "attacks": {
+              "queries": 18425,
+              "transactions": 144,
+              "milliseconds": 4237.98573801294
+            }
+          },
+          "elapsedSeconds": 65
+        },
+        {
+          "day": 7,
+          "purchaseDistribution": {
+            "decisions": {
+              "min": 5,
+              "p10": 10,
+              "median": 14,
+              "p90": 14,
+              "max": 14,
+              "sum": 5894
+            },
+            "land": {
+              "min": 0,
+              "p10": 3,
+              "median": 6,
+              "p90": 9,
+              "max": 13,
+              "sum": 2759
+            },
+            "gear": {
+              "min": 0,
+              "p10": 1,
+              "median": 4,
+              "p90": 6,
+              "max": 7,
+              "sum": 1612
+            },
+            "botsWithoutAnyPurchase": 0
+          },
+          "phases": [
+            {
+              "phase": "days 1–2",
+              "kind": "equipment",
+              "n": 82
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "land",
+              "n": 1173
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "wait",
+              "n": 429
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "equipment",
+              "n": 1530
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "land",
+              "n": 1586
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "wait",
+              "n": 1094
+            }
+          ],
+          "journalRows": {
+            "full_settlements": 636004,
+            "partial_settlements": 235383,
+            "holdings": 6364,
+            "maintenance_events": 132369,
+            "bot_finance_events": 75194
+          },
+          "maximumCommittedDecisionsPerSlot": 5,
+          "finance": {
+            "gold": 560449350,
+            "reserve": -5913771,
+            "retained": 0,
+            "income": 578338838,
+            "upkeep": 22248306,
+            "purchases": 1554953
+          },
+          "decisions": [
+            {
+              "kind": "equipment",
+              "reason": null,
+              "count": 1612,
+              "cost": "1161529",
+              "topup": "232922"
+            },
+            {
+              "kind": "land",
+              "reason": null,
+              "count": 2759,
+              "cost": "393424",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving",
+              "count": 1447,
+              "cost": "0",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving_for_affordable_upgrade",
+              "count": 76,
+              "cost": "0",
+              "topup": "0"
+            }
+          ],
+          "gold": {
+            "min": 6025,
+            "p10": 20443,
+            "median": 700405,
+            "p90": 3744545,
+            "max": 6186208,
+            "sum": 578375184
+          },
+          "netHourly": {
+            "min": 21,
+            "p10": 124,
+            "median": 4105,
+            "p90": 21502,
+            "max": 35267,
+            "sum": 3326167
+          },
+          "equipmentImprovedBots": 439,
+          "hardOwnershipCappedBots": 0,
+          "botsWithOnlyWaitsInLastSevenDays": 0,
+          "botsAtBestUnlockedEquipment": 48,
+          "botsWhoseUsefulGearAllCostsAbove5000": 0,
+          "maximumOwnedProperty": 15,
+          "maximumOwnedEquipment": 10,
+          "pausedBots": 0,
+          "cohorts": [
+            {
+              "band": "1–10",
+              "bots": 90,
+              "gold": {
+                "min": 6025,
+                "p10": 9283,
+                "median": 20443,
+                "p90": 35872,
+                "max": 42230,
+                "sum": 2014689
+              },
+              "initialGold": {
+                "min": 2550,
+                "p10": 2809,
+                "median": 3706,
+                "p90": 4913,
+                "max": 5680,
+                "sum": 344452
+              },
+              "netIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 124,
+                "p90": 213,
+                "max": 262,
+                "sum": 11804
+              },
+              "initialNetIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 81,
+                "p90": 164,
+                "max": 211,
+                "sum": 8650
+              },
+              "improvedEquipment": 83,
+              "medianEquipmentPowerGainPercent": 42.86
+            },
+            {
+              "band": "11–25",
+              "bots": 135,
+              "gold": {
+                "min": 59850,
+                "p10": 89883,
+                "median": 204759,
+                "p90": 807981,
+                "max": 1183279,
+                "sum": 44788643
+              },
+              "initialGold": {
+                "min": 3627,
+                "p10": 5106,
+                "median": 8645,
+                "p90": 28487,
+                "max": 45919,
+                "sum": 1696466
+              },
+              "netIncome": {
+                "min": 315,
+                "p10": 523,
+                "median": 1174,
+                "p90": 4636,
+                "max": 6742,
+                "sum": 258831
+              },
+              "initialNetIncome": {
+                "min": 312,
+                "p10": 477,
+                "median": 1105,
+                "p90": 4460,
+                "max": 6690,
+                "sum": 249462
+              },
+              "improvedEquipment": 133,
+              "medianEquipmentPowerGainPercent": 12.8
+            },
+            {
+              "band": "26–50",
+              "bots": 225,
+              "gold": {
+                "min": 383539,
+                "p10": 710065,
+                "median": 2324460,
+                "p90": 4156871,
+                "max": 6186208,
+                "sum": 531571852
+              },
+              "initialGold": {
+                "min": 10163,
+                "p10": 18256,
+                "median": 56712,
+                "p90": 142728,
+                "max": 232047,
+                "sum": 16146725
+              },
+              "netIncome": {
+                "min": 2260,
+                "p10": 4137,
+                "median": 13345,
+                "p90": 23595,
+                "max": 35267,
+                "sum": 3055532
+              },
+              "initialNetIncome": {
+                "min": 2216,
+                "p10": 4026,
+                "median": 13324,
+                "p90": 23478,
+                "max": 34960,
+                "sum": 3025693
+              },
+              "improvedEquipment": 223,
+              "medianEquipmentPowerGainPercent": 2.99
+            }
+          ],
+          "examples": [
+            {
+              "name": "Lysandra Hearthguard",
+              "level": 5,
+              "before": {
+                "gold": 3443,
+                "netHourly": 81,
+                "land": 3,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "144"
+              },
+              "after": {
+                "gold": 21260,
+                "netHourly": 131,
+                "land": 11,
+                "gear": 6,
+                "equipmentAttack": 23,
+                "equipmentDefense": 35,
+                "reserve": "9"
+              },
+              "holdings": {
+                "hearthstead-hamlet": 1,
+                "smallholding": 10
+              }
+            },
+            {
+              "name": "Wulfran Wyrmward",
+              "level": 15,
+              "before": {
+                "gold": 5826,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "2448"
+              },
+              "after": {
+                "gold": 107795,
+                "netHourly": 612,
+                "land": 9,
+                "gear": 13,
+                "equipmentAttack": 181,
+                "equipmentDefense": 216,
+                "reserve": "77"
+              },
+              "holdings": {
+                "smallholding": 7,
+                "silver-vein-mine": 1,
+                "moonwell-sanctuary": 1
+              }
+            },
+            {
+              "name": "Hesper Cloudspire",
+              "level": 25,
+              "before": {
+                "gold": 20428,
+                "netHourly": 3962,
+                "land": 7,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "8064"
+              },
+              "after": {
+                "gold": 709269,
+                "netHourly": 4175,
+                "land": 17,
+                "gear": 15,
+                "equipmentAttack": 327,
+                "equipmentDefense": 464,
+                "reserve": "208"
+              },
+              "holdings": {
+                "tempest-port": 2,
+                "ironwood-fort": 3,
+                "river-mill": 3,
+                "copper-workshop": 1,
+                "smallholding": 3,
+                "runekeeper-academy": 2,
+                "woodland": 3
+              }
+            },
+            {
+              "name": "Cedric Ebonhart",
+              "level": 40,
+              "before": {
+                "gold": 75696,
+                "netHourly": 16574,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "27648"
+              },
+              "after": {
+                "gold": 2900348,
+                "netHourly": 16714,
+                "land": 19,
+                "gear": 19,
+                "equipmentAttack": 690,
+                "equipmentDefense": 1062,
+                "reserve": "588"
+              },
+              "holdings": {
+                "watchtower": 2,
+                "woodland": 2,
+                "astral-observatory": 3,
+                "wyrmcrest-keep": 3,
+                "dawnspire-cathedral": 3,
+                "smallholding": 1,
+                "river-mill": 1,
+                "oathbound-citadel": 4
+              }
+            },
+            {
+              "name": "Gwyneira Emberfall",
+              "level": 50,
+              "before": {
+                "gold": 113440,
+                "netHourly": 24600,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "41760"
+              },
+              "after": {
+                "gold": 4290716,
+                "netHourly": 24670,
+                "land": 15,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "870"
+              },
+              "holdings": {
+                "river-mill": 1,
+                "wyrmcrest-keep": 4,
+                "astral-observatory": 3,
+                "eclipse-citadel": 3,
+                "woodland": 1,
+                "throne-of-ash": 3
+              }
+            }
+          ],
+          "attacks": {
+            "attempted": 1008,
+            "wins": 775,
+            "losses": 231,
+            "gold": 514633,
+            "xp": 16326,
+            "levelUps": 13,
+            "spiritSpent": 1006,
+            "blocked": {
+              "NEEDS_RECOVERY": 2
+            }
+          },
+          "scheduling": {
+            "missedCandidates": 0,
+            "capacityMisses": 406,
+            "parallelTicks": 0,
+            "replayChecks": 0,
+            "maxReceiptsPerSlot": 0,
+            "restartCatchups": 0
+          },
+          "workload": {
+            "income": {
+              "queries": 4588493,
+              "transactions": 5426,
+              "milliseconds": 4752635.266381223
+            },
+            "economy": {
+              "queries": 249683,
+              "transactions": 5894,
+              "milliseconds": 43488.49282390578
+            },
+            "observation": {
+              "queries": 2038,
+              "transactions": 0,
+              "milliseconds": 970.9896870087832
+            },
+            "attacks": {
+              "queries": 129415,
+              "transactions": 1008,
+              "milliseconds": 29661.436610008124
+            }
+          },
+          "elapsedSeconds": 543
+        },
+        {
+          "day": 30,
+          "purchaseDistribution": {
+            "decisions": {
+              "min": 26,
+              "p10": 42,
+              "median": 60,
+              "p90": 60,
+              "max": 60,
+              "sum": 25260
+            },
+            "land": {
+              "min": 0,
+              "p10": 17,
+              "median": 25,
+              "p90": 34,
+              "max": 46,
+              "sum": 11088
+            },
+            "gear": {
+              "min": 0,
+              "p10": 5,
+              "median": 15,
+              "p90": 23,
+              "max": 30,
+              "sum": 6453
+            },
+            "botsWithoutAnyPurchase": 0
+          },
+          "phases": [
+            {
+              "phase": "days 1–2",
+              "kind": "equipment",
+              "n": 82
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "land",
+              "n": 1173
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "wait",
+              "n": 429
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "equipment",
+              "n": 1530
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "land",
+              "n": 1586
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "wait",
+              "n": 1094
+            },
+            {
+              "phase": "days 8–30",
+              "kind": "equipment",
+              "n": 4841
+            },
+            {
+              "phase": "days 8–30",
+              "kind": "land",
+              "n": 8329
+            },
+            {
+              "phase": "days 8–30",
+              "kind": "wait",
+              "n": 6196
+            }
+          ],
+          "journalRows": {
+            "full_settlements": 3164683,
+            "partial_settlements": 3528781,
+            "holdings": 14693,
+            "maintenance_events": 636180,
+            "bot_finance_events": 323594
+          },
+          "maximumCommittedDecisionsPerSlot": 5,
+          "finance": {
+            "gold": 2417723012,
+            "reserve": -5830549,
+            "retained": 0,
+            "income": 2545755902,
+            "upkeep": 121966935,
+            "purchases": 11896504
+          },
+          "decisions": [
+            {
+              "kind": "equipment",
+              "reason": null,
+              "count": 6453,
+              "cost": "9223840",
+              "topup": "1438079"
+            },
+            {
+              "kind": "land",
+              "reason": null,
+              "count": 11088,
+              "cost": "2672664",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving",
+              "count": 6235,
+              "cost": "0",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving_for_affordable_upgrade",
+              "count": 1484,
+              "cost": "0",
+              "topup": "0"
+            }
+          ],
+          "gold": {
+            "min": 17617,
+            "p10": 122986,
+            "median": 2996317,
+            "p90": 15646004,
+            "max": 25597018,
+            "sum": 2435098544
+          },
+          "netHourly": {
+            "min": 21,
+            "p10": 221,
+            "median": 4352,
+            "p90": 21543,
+            "max": 35161,
+            "sum": 3455397
+          },
+          "equipmentImprovedBots": 444,
+          "hardOwnershipCappedBots": 0,
+          "botsWithOnlyWaitsInLastSevenDays": 68,
+          "botsAtBestUnlockedEquipment": 230,
+          "botsWhoseUsefulGearAllCostsAbove5000": 0,
+          "maximumOwnedProperty": 37,
+          "maximumOwnedEquipment": 10,
+          "pausedBots": 0,
+          "cohorts": [
+            {
+              "band": "1–10",
+              "bots": 90,
+              "gold": {
+                "min": 17617,
+                "p10": 24739,
+                "median": 122986,
+                "p90": 182835,
+                "max": 207100,
+                "sum": 11321914
+              },
+              "initialGold": {
+                "min": 2550,
+                "p10": 2809,
+                "median": 3706,
+                "p90": 4913,
+                "max": 5680,
+                "sum": 344452
+              },
+              "netIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 221,
+                "p90": 323,
+                "max": 378,
+                "sum": 20605
+              },
+              "initialNetIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 81,
+                "p90": 164,
+                "max": 211,
+                "sum": 8650
+              },
+              "improvedEquipment": 84,
+              "medianEquipmentPowerGainPercent": 60
+            },
+            {
+              "band": "11–25",
+              "bots": 135,
+              "gold": {
+                "min": 264844,
+                "p10": 402911,
+                "median": 879913,
+                "p90": 3448292,
+                "max": 5053515,
+                "sum": 193387353
+              },
+              "initialGold": {
+                "min": 3627,
+                "p10": 5106,
+                "median": 8645,
+                "p90": 28487,
+                "max": 45919,
+                "sum": 1696466
+              },
+              "netIncome": {
+                "min": 484,
+                "p10": 678,
+                "median": 1380,
+                "p90": 5116,
+                "max": 7336,
+                "sum": 295773
+              },
+              "initialNetIncome": {
+                "min": 312,
+                "p10": 477,
+                "median": 1105,
+                "p90": 4460,
+                "max": 6690,
+                "sum": 249462
+              },
+              "improvedEquipment": 135,
+              "medianEquipmentPowerGainPercent": 34.62
+            },
+            {
+              "band": "26–50",
+              "bots": 225,
+              "gold": {
+                "min": 1654540,
+                "p10": 3105251,
+                "median": 9685979,
+                "p90": 17164664,
+                "max": 25597018,
+                "sum": 2230389277
+              },
+              "initialGold": {
+                "min": 10163,
+                "p10": 18256,
+                "median": 56712,
+                "p90": 142728,
+                "max": 232047,
+                "sum": 16146725
+              },
+              "netIncome": {
+                "min": 2410,
+                "p10": 4421,
+                "median": 13516,
+                "p90": 23635,
+                "max": 35161,
+                "sum": 3139019
+              },
+              "initialNetIncome": {
+                "min": 2216,
+                "p10": 4026,
+                "median": 13324,
+                "p90": 23478,
+                "max": 34960,
+                "sum": 3025693
+              },
+              "improvedEquipment": 225,
+              "medianEquipmentPowerGainPercent": 20.9
+            }
+          ],
+          "examples": [
+            {
+              "name": "Lysandra Hearthguard",
+              "level": 5,
+              "before": {
+                "gold": 3443,
+                "netHourly": 81,
+                "land": 3,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "144"
+              },
+              "after": {
+                "gold": 132951,
+                "netHourly": 236,
+                "land": 26,
+                "gear": 6,
+                "equipmentAttack": 23,
+                "equipmentDefense": 35,
+                "reserve": "9"
+              },
+              "holdings": {
+                "hearthstead-hamlet": 1,
+                "smallholding": 25
+              }
+            },
+            {
+              "name": "Wulfran Wyrmward",
+              "level": 15,
+              "before": {
+                "gold": 5826,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "2448"
+              },
+              "after": {
+                "gold": 455093,
+                "netHourly": 752,
+                "land": 31,
+                "gear": 21,
+                "equipmentAttack": 246,
+                "equipmentDefense": 228,
+                "reserve": "147"
+              },
+              "holdings": {
+                "smallholding": 22,
+                "silver-vein-mine": 1,
+                "moonwell-sanctuary": 1,
+                "woodland": 7
+              }
+            },
+            {
+              "name": "Hesper Cloudspire",
+              "level": 25,
+              "before": {
+                "gold": 20428,
+                "netHourly": 3962,
+                "land": 7,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "8064"
+              },
+              "after": {
+                "gold": 3041871,
+                "netHourly": 4427,
+                "land": 35,
+                "gear": 32,
+                "equipmentAttack": 488,
+                "equipmentDefense": 492,
+                "reserve": "498"
+              },
+              "holdings": {
+                "tempest-port": 2,
+                "watchtower": 3,
+                "hearthstead-hamlet": 2,
+                "ironwood-fort": 3,
+                "river-mill": 6,
+                "copper-workshop": 4,
+                "smallholding": 6,
+                "runekeeper-academy": 2,
+                "woodland": 7
+              }
+            },
+            {
+              "name": "Cedric Ebonhart",
+              "level": 40,
+              "before": {
+                "gold": 75696,
+                "netHourly": 16574,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "27648"
+              },
+              "after": {
+                "gold": 12202003,
+                "netHourly": 17006,
+                "land": 36,
+                "gear": 34,
+                "equipmentAttack": 932,
+                "equipmentDefense": 1062,
+                "reserve": "986"
+              },
+              "holdings": {
+                "watchtower": 5,
+                "copper-workshop": 3,
+                "woodland": 5,
+                "crown-harbour": 2,
+                "astral-observatory": 3,
+                "wyrmcrest-keep": 3,
+                "dawnspire-cathedral": 3,
+                "smallholding": 3,
+                "river-mill": 4,
+                "hearthstead-hamlet": 1,
+                "oathbound-citadel": 4
+              }
+            },
+            {
+              "name": "Gwyneira Emberfall",
+              "level": 50,
+              "before": {
+                "gold": 113440,
+                "netHourly": 24600,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "41760"
+              },
+              "after": {
+                "gold": 17974143,
+                "netHourly": 24989,
+                "land": 27,
+                "gear": 30,
+                "equipmentAttack": 1051,
+                "equipmentDefense": 1378,
+                "reserve": "911"
+              },
+              "holdings": {
+                "crown-harbour": 1,
+                "river-mill": 2,
+                "wyrmcrest-keep": 4,
+                "astral-observatory": 3,
+                "smallholding": 3,
+                "copper-workshop": 2,
+                "eclipse-citadel": 3,
+                "woodland": 3,
+                "throne-of-ash": 3,
+                "watchtower": 3
+              }
+            }
+          ],
+          "attacks": {
+            "attempted": 3780,
+            "wins": 2348,
+            "losses": 1320,
+            "gold": 1597764,
+            "xp": 56354,
+            "levelUps": 50,
+            "spiritSpent": 3668,
+            "blocked": {
+              "NEEDS_RECOVERY": 112,
+              "no_nearby_catalog": 540
+            }
+          },
+          "scheduling": {
+            "missedCandidates": 0,
+            "capacityMisses": 1740,
+            "parallelTicks": 0,
+            "replayChecks": 0,
+            "maxReceiptsPerSlot": 0,
+            "restartCatchups": 0
+          },
+          "workload": {
+            "income": {
+              "queries": 26075178,
+              "transactions": 23734,
+              "milliseconds": 30032123.90380654
+            },
+            "economy": {
+              "queries": 1058848,
+              "transactions": 25260,
+              "milliseconds": 195984.78651556792
+            },
+            "observation": {
+              "queries": 8024,
+              "transactions": 0,
+              "milliseconds": 5089.005264031235
+            },
+            "attacks": {
+              "queries": 478765,
+              "transactions": 3780,
+              "milliseconds": 112989.20004184684
+            }
+          },
+          "elapsedSeconds": 3267
+        }
+      ],
+      "preservation": true,
+      "initialFixtureHash": "80bdcb24345e120e294b9e7a948d3b84148c87d07cb13135ef37cdfe8ce110d8"
+    },
+    {
+      "scenario": "interrupted",
+      "checkpoints": [
+        {
+          "day": 1,
+          "purchaseDistribution": {
+            "decisions": {
+              "min": 0,
+              "p10": 1,
+              "median": 2,
+              "p90": 2,
+              "max": 2,
+              "sum": 842
+            },
+            "land": {
+              "min": 0,
+              "p10": 0,
+              "median": 1,
+              "p90": 2,
+              "max": 2,
+              "sum": 610
+            },
+            "gear": {
+              "min": 0,
+              "p10": 0,
+              "median": 0,
+              "p90": 0,
+              "max": 2,
+              "sum": 38
+            },
+            "botsWithoutAnyPurchase": 31
+          },
+          "phases": [
+            {
+              "phase": "days 1–2",
+              "kind": "equipment",
+              "n": 38
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "land",
+              "n": 610
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "wait",
+              "n": 194
+            }
+          ],
+          "journalRows": {
+            "full_settlements": 87403,
+            "partial_settlements": 6714,
+            "holdings": 4215,
+            "maintenance_events": 10774,
+            "bot_finance_events": 10394
+          },
+          "maximumCommittedDecisionsPerSlot": 5,
+          "finance": {
+            "gold": 81926220,
+            "reserve": -3025954,
+            "retained": 0,
+            "income": 82015980,
+            "upkeep": 3026124,
+            "purchases": 89590
+          },
+          "decisions": [
+            {
+              "kind": "equipment",
+              "reason": null,
+              "count": 38,
+              "cost": "1042",
+              "topup": "17"
+            },
+            {
+              "kind": "land",
+              "reason": null,
+              "count": 610,
+              "cost": "88548",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving",
+              "count": 192,
+              "cost": "0",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving_for_affordable_upgrade",
+              "count": 2,
+              "cost": "0",
+              "topup": "0"
+            }
+          ],
+          "gold": {
+            "min": 3034,
+            "p10": 5915,
+            "median": 117766,
+            "p90": 637737,
+            "max": 1106093,
+            "sum": 100113863
+          },
+          "netHourly": {
+            "min": 21,
+            "p10": 88,
+            "median": 4004,
+            "p90": 21330,
+            "max": 35030,
+            "sum": 3297746
+          },
+          "equipmentImprovedBots": 30,
+          "hardOwnershipCappedBots": 0,
+          "botsWithOnlyWaitsInLastSevenDays": 24,
+          "botsAtBestUnlockedEquipment": 12,
+          "botsWhoseUsefulGearAllCostsAbove5000": 0,
+          "maximumOwnedProperty": 7,
+          "maximumOwnedEquipment": 10,
+          "pausedBots": 0,
+          "cohorts": [
+            {
+              "band": "1–10",
+              "bots": 90,
+              "gold": {
+                "min": 3034,
+                "p10": 3862,
+                "median": 5915,
+                "p90": 8982,
+                "max": 10921,
+                "sum": 564736
+              },
+              "initialGold": {
+                "min": 2550,
+                "p10": 2809,
+                "median": 3706,
+                "p90": 4913,
+                "max": 5680,
+                "sum": 344452
+              },
+              "netIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 88,
+                "p90": 175,
+                "max": 225,
+                "sum": 9308
+              },
+              "initialNetIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 81,
+                "p90": 164,
+                "max": 211,
+                "sum": 8650
+              },
+              "improvedEquipment": 30,
+              "medianEquipmentPowerGainPercent": 0
+            },
+            {
+              "band": "11–25",
+              "bots": 135,
+              "gold": {
+                "min": 12304,
+                "p10": 18044,
+                "median": 36099,
+                "p90": 141561,
+                "max": 211861,
+                "sum": 7967006
+              },
+              "initialGold": {
+                "min": 3627,
+                "p10": 5106,
+                "median": 8645,
+                "p90": 28487,
+                "max": 45919,
+                "sum": 1696466
+              },
+              "netIncome": {
+                "min": 312,
+                "p10": 491,
+                "median": 1133,
+                "p90": 4545,
+                "max": 6705,
+                "sum": 252621
+              },
+              "initialNetIncome": {
+                "min": 312,
+                "p10": 477,
+                "median": 1105,
+                "p90": 4460,
+                "max": 6690,
+                "sum": 249462
+              },
+              "improvedEquipment": 0,
+              "medianEquipmentPowerGainPercent": 0
+            },
+            {
+              "band": "26–50",
+              "bots": 225,
+              "gold": {
+                "min": 65415,
+                "p10": 119805,
+                "median": 381818,
+                "p90": 741497,
+                "max": 1106093,
+                "sum": 91582121
+              },
+              "initialGold": {
+                "min": 10163,
+                "p10": 18256,
+                "median": 56712,
+                "p90": 142728,
+                "max": 232047,
+                "sum": 16146725
+              },
+              "netIncome": {
+                "min": 2246,
+                "p10": 4074,
+                "median": 13339,
+                "p90": 23540,
+                "max": 35030,
+                "sum": 3035817
+              },
+              "initialNetIncome": {
+                "min": 2216,
+                "p10": 4026,
+                "median": 13324,
+                "p90": 23478,
+                "max": 34960,
+                "sum": 3025693
+              },
+              "improvedEquipment": 0,
+              "medianEquipmentPowerGainPercent": 0
+            }
+          ],
+          "examples": [
+            {
+              "name": "Lysandra Hearthguard",
+              "level": 5,
+              "before": {
+                "gold": 3443,
+                "netHourly": 81,
+                "land": 3,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "144"
+              },
+              "after": {
+                "gold": 5484,
+                "netHourly": 95,
+                "land": 5,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "72"
+              },
+              "holdings": {
+                "hearthstead-hamlet": 1,
+                "smallholding": 4
+              }
+            },
+            {
+              "name": "Wulfran Wyrmward",
+              "level": 15,
+              "before": {
+                "gold": 5826,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "2448"
+              },
+              "after": {
+                "gold": 21354,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "1224"
+              },
+              "holdings": {
+                "silver-vein-mine": 1,
+                "moonwell-sanctuary": 1,
+                "smallholding": 1
+              }
+            },
+            {
+              "name": "Hesper Cloudspire",
+              "level": 25,
+              "before": {
+                "gold": 20428,
+                "netHourly": 3962,
+                "land": 7,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "8064"
+              },
+              "after": {
+                "gold": 119691,
+                "netHourly": 3984,
+                "land": 9,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "4032"
+              },
+              "holdings": {
+                "runekeeper-academy": 2,
+                "tempest-port": 2,
+                "ironwood-fort": 3,
+                "woodland": 1,
+                "smallholding": 1
+              }
+            },
+            {
+              "name": "Cedric Ebonhart",
+              "level": 40,
+              "before": {
+                "gold": 75696,
+                "netHourly": 16574,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "27648"
+              },
+              "after": {
+                "gold": 488266,
+                "netHourly": 16629,
+                "land": 14,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "13824"
+              },
+              "holdings": {
+                "river-mill": 1,
+                "astral-observatory": 3,
+                "oathbound-citadel": 4,
+                "wyrmcrest-keep": 3,
+                "dawnspire-cathedral": 3
+              }
+            },
+            {
+              "name": "Gwyneira Emberfall",
+              "level": 50,
+              "before": {
+                "gold": 113440,
+                "netHourly": 24600,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "41760"
+              },
+              "after": {
+                "gold": 724888,
+                "netHourly": 24615,
+                "land": 14,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "20880"
+              },
+              "holdings": {
+                "woodland": 1,
+                "throne-of-ash": 3,
+                "wyrmcrest-keep": 4,
+                "astral-observatory": 3,
+                "eclipse-citadel": 3
+              }
+            }
+          ],
+          "attacks": {
+            "attempted": 0,
+            "wins": 0,
+            "losses": 0,
+            "gold": 0,
+            "xp": 0,
+            "levelUps": 0,
+            "spiritSpent": 0,
+            "blocked": {}
+          },
+          "scheduling": {
+            "missedCandidates": 0,
+            "capacityMisses": 58,
+            "parallelTicks": 24,
+            "replayChecks": 24,
+            "maxReceiptsPerSlot": 5,
+            "restartCatchups": 0
+          },
+          "workload": {
+            "income": {
+              "queries": 549696,
+              "transactions": 753,
+              "milliseconds": 581045.7720771339
+            },
+            "economy": {
+              "queries": 32789,
+              "transactions": 954,
+              "milliseconds": 6959.425647894852
+            },
+            "observation": {
+              "queries": 36,
+              "transactions": 0,
+              "milliseconds": 59.81955500226468
+            },
+            "economy_replay": {
+              "queries": 384,
+              "transactions": 56,
+              "milliseconds": 83.93521300051361
+            }
+          },
+          "elapsedSeconds": 63
+        },
+        {
+          "day": 7,
+          "purchaseDistribution": {
+            "decisions": {
+              "min": 4,
+              "p10": 8,
+              "median": 12,
+              "p90": 12,
+              "max": 12,
+              "sum": 5052
+            },
+            "land": {
+              "min": 0,
+              "p10": 3,
+              "median": 5,
+              "p90": 8,
+              "max": 11,
+              "sum": 2428
+            },
+            "gear": {
+              "min": 0,
+              "p10": 1,
+              "median": 3,
+              "p90": 5,
+              "max": 6,
+              "sum": 1326
+            },
+            "botsWithoutAnyPurchase": 0
+          },
+          "phases": [
+            {
+              "phase": "days 1–2",
+              "kind": "equipment",
+              "n": 82
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "land",
+              "n": 1173
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "wait",
+              "n": 429
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "equipment",
+              "n": 1244
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "land",
+              "n": 1255
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "wait",
+              "n": 869
+            }
+          ],
+          "journalRows": {
+            "full_settlements": 542496,
+            "partial_settlements": 179656,
+            "holdings": 6033,
+            "maintenance_events": 108896,
+            "bot_finance_events": 64394
+          },
+          "maximumCommittedDecisionsPerSlot": 5,
+          "finance": {
+            "gold": 560657962,
+            "reserve": -5914928,
+            "retained": 0,
+            "income": 577719329,
+            "upkeep": 21713524,
+            "purchases": 1262771
+          },
+          "decisions": [
+            {
+              "kind": "equipment",
+              "reason": null,
+              "count": 1326,
+              "cost": "921210",
+              "topup": "184045"
+            },
+            {
+              "kind": "land",
+              "reason": null,
+              "count": 2428,
+              "cost": "341561",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving",
+              "count": 1235,
+              "cost": "0",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving_for_affordable_upgrade",
+              "count": 63,
+              "cost": "0",
+              "topup": "0"
+            }
+          ],
+          "gold": {
+            "min": 6025,
+            "p10": 19878,
+            "median": 704476,
+            "p90": 3744623,
+            "max": 6187108,
+            "sum": 578845605
+          },
+          "netHourly": {
+            "min": 21,
+            "p10": 115,
+            "median": 4090,
+            "p90": 21504,
+            "max": 35120,
+            "sum": 3322506
+          },
+          "equipmentImprovedBots": 435,
+          "hardOwnershipCappedBots": 0,
+          "botsWithOnlyWaitsInLastSevenDays": 0,
+          "botsAtBestUnlockedEquipment": 40,
+          "botsWhoseUsefulGearAllCostsAbove5000": 0,
+          "maximumOwnedProperty": 13,
+          "maximumOwnedEquipment": 10,
+          "pausedBots": 0,
+          "cohorts": [
+            {
+              "band": "1–10",
+              "bots": 90,
+              "gold": {
+                "min": 6025,
+                "p10": 9283,
+                "median": 19878,
+                "p90": 36006,
+                "max": 42437,
+                "sum": 2006359
+              },
+              "initialGold": {
+                "min": 2550,
+                "p10": 2809,
+                "median": 3706,
+                "p90": 4913,
+                "max": 5680,
+                "sum": 344452
+              },
+              "netIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 115,
+                "p90": 209,
+                "max": 255,
+                "sum": 11270
+              },
+              "initialNetIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 81,
+                "p90": 164,
+                "max": 211,
+                "sum": 8650
+              },
+              "improvedEquipment": 81,
+              "medianEquipmentPowerGainPercent": 41.46
+            },
+            {
+              "band": "11–25",
+              "bots": 135,
+              "gold": {
+                "min": 61557,
+                "p10": 90164,
+                "median": 204463,
+                "p90": 809628,
+                "max": 1182929,
+                "sum": 44829326
+              },
+              "initialGold": {
+                "min": 3627,
+                "p10": 5106,
+                "median": 8645,
+                "p90": 28487,
+                "max": 45919,
+                "sum": 1696466
+              },
+              "netIncome": {
+                "min": 323,
+                "p10": 526,
+                "median": 1171,
+                "p90": 4645,
+                "max": 6744,
+                "sum": 258283
+              },
+              "initialNetIncome": {
+                "min": 312,
+                "p10": 477,
+                "median": 1105,
+                "p90": 4460,
+                "max": 6690,
+                "sum": 249462
+              },
+              "improvedEquipment": 133,
+              "medianEquipmentPowerGainPercent": 10.03
+            },
+            {
+              "band": "26–50",
+              "bots": 225,
+              "gold": {
+                "min": 386975,
+                "p10": 710155,
+                "median": 2324326,
+                "p90": 4159813,
+                "max": 6187108,
+                "sum": 532009920
+              },
+              "initialGold": {
+                "min": 10163,
+                "p10": 18256,
+                "median": 56712,
+                "p90": 142728,
+                "max": 232047,
+                "sum": 16146725
+              },
+              "netIncome": {
+                "min": 2247,
+                "p10": 4166,
+                "median": 13325,
+                "p90": 23607,
+                "max": 35120,
+                "sum": 3052953
+              },
+              "initialNetIncome": {
+                "min": 2216,
+                "p10": 4026,
+                "median": 13324,
+                "p90": 23478,
+                "max": 34960,
+                "sum": 3025693
+              },
+              "improvedEquipment": 221,
+              "medianEquipmentPowerGainPercent": 2.33
+            }
+          ],
+          "examples": [
+            {
+              "name": "Lysandra Hearthguard",
+              "level": 5,
+              "before": {
+                "gold": 3443,
+                "netHourly": 81,
+                "land": 3,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "144"
+              },
+              "after": {
+                "gold": 20628,
+                "netHourly": 117,
+                "land": 9,
+                "gear": 6,
+                "equipmentAttack": 23,
+                "equipmentDefense": 35,
+                "reserve": "9"
+              },
+              "holdings": {
+                "hearthstead-hamlet": 1,
+                "smallholding": 8
+              }
+            },
+            {
+              "name": "Wulfran Wyrmward",
+              "level": 15,
+              "before": {
+                "gold": 5826,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "2448"
+              },
+              "after": {
+                "gold": 109036,
+                "netHourly": 620,
+                "land": 9,
+                "gear": 11,
+                "equipmentAttack": 168,
+                "equipmentDefense": 216,
+                "reserve": "69"
+              },
+              "holdings": {
+                "smallholding": 7,
+                "silver-vein-mine": 1,
+                "moonwell-sanctuary": 1
+              }
+            },
+            {
+              "name": "Hesper Cloudspire",
+              "level": 25,
+              "before": {
+                "gold": 20428,
+                "netHourly": 3962,
+                "land": 7,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "8064"
+              },
+              "after": {
+                "gold": 704898,
+                "netHourly": 4113,
+                "land": 15,
+                "gear": 15,
+                "equipmentAttack": 327,
+                "equipmentDefense": 464,
+                "reserve": "208"
+              },
+              "holdings": {
+                "tempest-port": 2,
+                "ironwood-fort": 3,
+                "river-mill": 2,
+                "copper-workshop": 1,
+                "smallholding": 2,
+                "runekeeper-academy": 2,
+                "woodland": 3
+              }
+            },
+            {
+              "name": "Cedric Ebonhart",
+              "level": 40,
+              "before": {
+                "gold": 75696,
+                "netHourly": 16574,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "27648"
+              },
+              "after": {
+                "gold": 2896721,
+                "netHourly": 16669,
+                "land": 17,
+                "gear": 19,
+                "equipmentAttack": 690,
+                "equipmentDefense": 1062,
+                "reserve": "588"
+              },
+              "holdings": {
+                "watchtower": 1,
+                "woodland": 1,
+                "astral-observatory": 3,
+                "wyrmcrest-keep": 3,
+                "dawnspire-cathedral": 3,
+                "smallholding": 1,
+                "river-mill": 1,
+                "oathbound-citadel": 4
+              }
+            },
+            {
+              "name": "Gwyneira Emberfall",
+              "level": 50,
+              "before": {
+                "gold": 113440,
+                "netHourly": 24600,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "41760"
+              },
+              "after": {
+                "gold": 4290716,
+                "netHourly": 24670,
+                "land": 15,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "870"
+              },
+              "holdings": {
+                "river-mill": 1,
+                "wyrmcrest-keep": 4,
+                "astral-observatory": 3,
+                "eclipse-citadel": 3,
+                "woodland": 1,
+                "throne-of-ash": 3
+              }
+            }
+          ],
+          "attacks": {
+            "attempted": 0,
+            "wins": 0,
+            "losses": 0,
+            "gold": 0,
+            "xp": 0,
+            "levelUps": 0,
+            "spiritSpent": 0,
+            "blocked": {}
+          },
+          "scheduling": {
+            "missedCandidates": 842,
+            "capacityMisses": 406,
+            "parallelTicks": 144,
+            "replayChecks": 144,
+            "maxReceiptsPerSlot": 5,
+            "restartCatchups": 1
+          },
+          "workload": {
+            "income": {
+              "queries": 3874979,
+              "transactions": 4663,
+              "milliseconds": 4724152.749688798
+            },
+            "economy": {
+              "queries": 216435,
+              "transactions": 5724,
+              "milliseconds": 48082.750655793585
+            },
+            "observation": {
+              "queries": 168,
+              "transactions": 0,
+              "milliseconds": 616.4260580055416
+            },
+            "economy_replay": {
+              "queries": 2304,
+              "transactions": 336,
+              "milliseconds": 549.0655789552256
+            },
+            "income_replay": {
+              "queries": 4,
+              "transactions": 1,
+              "milliseconds": 5.414371000602841
+            }
+          },
+          "elapsedSeconds": 507
+        },
+        {
+          "day": 30,
+          "purchaseDistribution": {
+            "decisions": {
+              "min": 23,
+              "p10": 40,
+              "median": 56,
+              "p90": 56,
+              "max": 56,
+              "sum": 23576
+            },
+            "land": {
+              "min": 0,
+              "p10": 15,
+              "median": 23,
+              "p90": 31,
+              "max": 43,
+              "sum": 10364
+            },
+            "gear": {
+              "min": 0,
+              "p10": 5,
+              "median": 14,
+              "p90": 22,
+              "max": 28,
+              "sum": 6166
+            },
+            "botsWithoutAnyPurchase": 0
+          },
+          "phases": [
+            {
+              "phase": "days 1–2",
+              "kind": "equipment",
+              "n": 82
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "land",
+              "n": 1173
+            },
+            {
+              "phase": "days 1–2",
+              "kind": "wait",
+              "n": 429
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "equipment",
+              "n": 1244
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "land",
+              "n": 1255
+            },
+            {
+              "phase": "days 3–7",
+              "kind": "wait",
+              "n": 869
+            },
+            {
+              "phase": "days 8–30",
+              "kind": "equipment",
+              "n": 4840
+            },
+            {
+              "phase": "days 8–30",
+              "kind": "land",
+              "n": 7936
+            },
+            {
+              "phase": "days 8–30",
+              "kind": "wait",
+              "n": 5748
+            }
+          ],
+          "journalRows": {
+            "full_settlements": 2919599,
+            "partial_settlements": 3081693,
+            "holdings": 13969,
+            "maintenance_events": 586147,
+            "bot_finance_events": 301994
+          },
+          "maximumCommittedDecisionsPerSlot": 5,
+          "finance": {
+            "gold": 2413814062,
+            "reserve": -5835875,
+            "retained": 0,
+            "income": 2536495356,
+            "upkeep": 117620423,
+            "purchases": 10896746
+          },
+          "decisions": [
+            {
+              "kind": "equipment",
+              "reason": null,
+              "count": 6166,
+              "cost": "8507365",
+              "topup": "1335260"
+            },
+            {
+              "kind": "land",
+              "reason": null,
+              "count": 10364,
+              "cost": "2389381",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving",
+              "count": 5825,
+              "cost": "0",
+              "topup": "0"
+            },
+            {
+              "kind": "wait",
+              "reason": "saving_for_affordable_upgrade",
+              "count": 1221,
+              "cost": "0",
+              "topup": "0"
+            }
+          ],
+          "gold": {
+            "min": 17617,
+            "p10": 117334,
+            "median": 2969497,
+            "p90": 15699847,
+            "max": 25590032,
+            "sum": 2432001705
+          },
+          "netHourly": {
+            "min": 21,
+            "p10": 220,
+            "median": 4250,
+            "p90": 21651,
+            "max": 35101,
+            "sum": 3437452
+          },
+          "equipmentImprovedBots": 444,
+          "hardOwnershipCappedBots": 0,
+          "botsWithOnlyWaitsInLastSevenDays": 59,
+          "botsAtBestUnlockedEquipment": 224,
+          "botsWhoseUsefulGearAllCostsAbove5000": 0,
+          "maximumOwnedProperty": 36,
+          "maximumOwnedEquipment": 10,
+          "pausedBots": 0,
+          "cohorts": [
+            {
+              "band": "1–10",
+              "bots": 90,
+              "gold": {
+                "min": 17617,
+                "p10": 24739,
+                "median": 117334,
+                "p90": 178595,
+                "max": 200317,
+                "sum": 10981629
+              },
+              "initialGold": {
+                "min": 2550,
+                "p10": 2809,
+                "median": 3706,
+                "p90": 4913,
+                "max": 5680,
+                "sum": 344452
+              },
+              "netIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 220,
+                "p90": 323,
+                "max": 375,
+                "sum": 20484
+              },
+              "initialNetIncome": {
+                "min": 21,
+                "p10": 28,
+                "median": 81,
+                "p90": 164,
+                "max": 211,
+                "sum": 8650
+              },
+              "improvedEquipment": 84,
+              "medianEquipmentPowerGainPercent": 60
+            },
+            {
+              "band": "11–25",
+              "bots": 135,
+              "gold": {
+                "min": 264487,
+                "p10": 399620,
+                "median": 880664,
+                "p90": 3384604,
+                "max": 4986561,
+                "sum": 192170989
+              },
+              "initialGold": {
+                "min": 3627,
+                "p10": 5106,
+                "median": 8645,
+                "p90": 28487,
+                "max": 45919,
+                "sum": 1696466
+              },
+              "netIncome": {
+                "min": 491,
+                "p10": 674,
+                "median": 1345,
+                "p90": 5071,
+                "max": 7206,
+                "sum": 290456
+              },
+              "initialNetIncome": {
+                "min": 312,
+                "p10": 477,
+                "median": 1105,
+                "p90": 4460,
+                "max": 6690,
+                "sum": 249462
+              },
+              "improvedEquipment": 135,
+              "medianEquipmentPowerGainPercent": 34.62
+            },
+            {
+              "band": "26–50",
+              "bots": 225,
+              "gold": {
+                "min": 1653819,
+                "p10": 3078466,
+                "median": 9694949,
+                "p90": 17148332,
+                "max": 25590032,
+                "sum": 2228849087
+              },
+              "initialGold": {
+                "min": 10163,
+                "p10": 18256,
+                "median": 56712,
+                "p90": 142728,
+                "max": 232047,
+                "sum": 16146725
+              },
+              "netIncome": {
+                "min": 2367,
+                "p10": 4437,
+                "median": 13584,
+                "p90": 23617,
+                "max": 35101,
+                "sum": 3126512
+              },
+              "initialNetIncome": {
+                "min": 2216,
+                "p10": 4026,
+                "median": 13324,
+                "p90": 23478,
+                "max": 34960,
+                "sum": 3025693
+              },
+              "improvedEquipment": 225,
+              "medianEquipmentPowerGainPercent": 19.78
+            }
+          ],
+          "examples": [
+            {
+              "name": "Lysandra Hearthguard",
+              "level": 5,
+              "before": {
+                "gold": 3443,
+                "netHourly": 81,
+                "land": 3,
+                "gear": 3,
+                "equipmentAttack": 23,
+                "equipmentDefense": 18,
+                "reserve": "144"
+              },
+              "after": {
+                "gold": 126792,
+                "netHourly": 236,
+                "land": 26,
+                "gear": 6,
+                "equipmentAttack": 23,
+                "equipmentDefense": 35,
+                "reserve": "9"
+              },
+              "holdings": {
+                "hearthstead-hamlet": 1,
+                "smallholding": 25
+              }
+            },
+            {
+              "name": "Wulfran Wyrmward",
+              "level": 15,
+              "before": {
+                "gold": 5826,
+                "netHourly": 596,
+                "land": 3,
+                "gear": 9,
+                "equipmentAttack": 120,
+                "equipmentDefense": 216,
+                "reserve": "2448"
+              },
+              "after": {
+                "gold": 446692,
+                "netHourly": 697,
+                "land": 27,
+                "gear": 21,
+                "equipmentAttack": 246,
+                "equipmentDefense": 228,
+                "reserve": "150"
+              },
+              "holdings": {
+                "smallholding": 21,
+                "silver-vein-mine": 1,
+                "moonwell-sanctuary": 1,
+                "woodland": 4
+              }
+            },
+            {
+              "name": "Hesper Cloudspire",
+              "level": 25,
+              "before": {
+                "gold": 20428,
+                "netHourly": 3962,
+                "land": 7,
+                "gear": 12,
+                "equipmentAttack": 264,
+                "equipmentDefense": 464,
+                "reserve": "8064"
+              },
+              "after": {
+                "gold": 3006121,
+                "netHourly": 4246,
+                "land": 30,
+                "gear": 33,
+                "equipmentAttack": 488,
+                "equipmentDefense": 492,
+                "reserve": "510"
+              },
+              "holdings": {
+                "tempest-port": 2,
+                "watchtower": 3,
+                "hearthstead-hamlet": 1,
+                "ironwood-fort": 3,
+                "river-mill": 5,
+                "copper-workshop": 3,
+                "smallholding": 5,
+                "runekeeper-academy": 2,
+                "woodland": 6
+              }
+            },
+            {
+              "name": "Cedric Ebonhart",
+              "level": 40,
+              "before": {
+                "gold": 75696,
+                "netHourly": 16574,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 678,
+                "equipmentDefense": 1062,
+                "reserve": "27648"
+              },
+              "after": {
+                "gold": 12140949,
+                "netHourly": 16883,
+                "land": 33,
+                "gear": 34,
+                "equipmentAttack": 932,
+                "equipmentDefense": 1062,
+                "reserve": "986"
+              },
+              "holdings": {
+                "watchtower": 4,
+                "copper-workshop": 3,
+                "woodland": 3,
+                "crown-harbour": 2,
+                "astral-observatory": 3,
+                "wyrmcrest-keep": 3,
+                "dawnspire-cathedral": 3,
+                "smallholding": 4,
+                "river-mill": 4,
+                "oathbound-citadel": 4
+              }
+            },
+            {
+              "name": "Gwyneira Emberfall",
+              "level": 50,
+              "before": {
+                "gold": 113440,
+                "netHourly": 24600,
+                "land": 13,
+                "gear": 18,
+                "equipmentAttack": 984,
+                "equipmentDefense": 1302,
+                "reserve": "41760"
+              },
+              "after": {
+                "gold": 17981514,
+                "netHourly": 25014,
+                "land": 27,
+                "gear": 29,
+                "equipmentAttack": 1031,
+                "equipmentDefense": 1340,
+                "reserve": "886"
+              },
+              "holdings": {
+                "crown-harbour": 1,
+                "river-mill": 2,
+                "wyrmcrest-keep": 4,
+                "astral-observatory": 3,
+                "smallholding": 3,
+                "copper-workshop": 2,
+                "eclipse-citadel": 3,
+                "woodland": 3,
+                "throne-of-ash": 3,
+                "watchtower": 3
+              }
+            }
+          ],
+          "attacks": {
+            "attempted": 0,
+            "wins": 0,
+            "losses": 0,
+            "gold": 0,
+            "xp": 0,
+            "levelUps": 0,
+            "spiritSpent": 0,
+            "blocked": {}
+          },
+          "scheduling": {
+            "missedCandidates": 1684,
+            "capacityMisses": 1740,
+            "parallelTicks": 672,
+            "replayChecks": 672,
+            "maxReceiptsPerSlot": 5,
+            "restartCatchups": 2
+          },
+          "workload": {
+            "income": {
+              "queries": 23559127,
+              "transactions": 21393,
+              "milliseconds": 28578272.366197683
+            },
+            "economy": {
+              "queries": 1008135,
+              "transactions": 26712,
+              "milliseconds": 215004.81654833443
+            },
+            "observation": {
+              "queries": 708,
+              "transactions": 0,
+              "milliseconds": 4296.1885540205985
+            },
+            "economy_replay": {
+              "queries": 10752,
+              "transactions": 1568,
+              "milliseconds": 2685.889698921703
+            },
+            "income_replay": {
+              "queries": 8,
+              "transactions": 2,
+              "milliseconds": 8.96384100150317
+            }
+          },
+          "elapsedSeconds": 3005
+        }
+      ],
+      "preservation": true,
+      "initialFixtureHash": "80bdcb24345e120e294b9e7a948d3b84148c87d07cb13135ef37cdfe8ce110d8"
+    }
+  ]
+}

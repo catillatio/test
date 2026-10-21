@@ -19,9 +19,9 @@ Policy `living-bot-economy-1`:
 
 This changes bot holdings only through real purchases when enabled. It does not change a combat formula, difficulty multiplier, human participation rule, bot army, Calling, XP/level, recruitment, quest or bounty policy. `bot-combat-rewards-2`, 65% XP and 100/85/70/55/40 repeats remain unchanged. Real purchased gear can naturally improve a bot's ordinary combat loadout. New property income is legitimate additional Land income, not combat currency creation.
 
-## Verification and observed impact
+## Initial verification and 24-hour observations
 
-Full local PostgreSQL suite: **480 tests, 479 passed, 0 failed, 1 existing hosted-runner-only skip**. No gameplay/preservation test was skipped. TypeScript, production build, **99 static checks / 77 EJS fixtures**, actionlint and both production dependency audits passed (zero reported vulnerabilities). [Verification](docs/phase5/milestone1/verification.json).
+Initial baseline local PostgreSQL suite: **480 tests, 479 passed, 0 failed, 1 existing hosted-runner-only skip**. No gameplay/preservation test was skipped. TypeScript, production build, **99 static checks / 77 EJS fixtures**, actionlint and both production dependency audits passed (zero reported vulnerabilities). [Verification](docs/phase5/milestone1/verification.json).
 
 The six new tests cover deterministic/limited decisions, paused/poor/inactive/invalid actors, preserved prepaid credit/Vaults, forged receipts, held locks, concurrent PvP and multiple workers, actual post-purchase rollback, exactly-once paid lots/journals, timer non-overlap/shutdown and fresh compiled-worker process restarts. A fully populated 66-table/452-account/450-bot source survives migration replay with no row changes before activation. During the worker test, every human row, original identity, paid lot and immutable financial-history row remains intact; original holdings only gain normal settlement cursors. Personal activity is unchanged.
 
@@ -40,13 +40,23 @@ The compiled **game server** also passes its real process-restart test with the 
 
 These are saved before/after receipts. New equipment reserve funding stays reserved; old prepaid credit is not refunded. Much of the initial stock has long prepaid upkeep, so its gear purchases wait while normal upkeep consumes that credit. Land purchases can proceed without touching it.
 
+## Extended 7- and 30-day owner review
+
+[Long-term review](docs/phase5/milestone1/LONG_TERM_REVIEW.md), [raw results](docs/phase5/milestone1/long-term.json) and [verification](docs/phase5/milestone1/long-term-verification.json) now cover quiet, moderately raided and interrupted worlds starting from the same saved synthetic 450-bot fixture. These are additional nonproduction tests; the approved runtime policy and default-OFF setting are unchanged.
+
+At 30 days the quiet world made **11,088 Land purchases and 6,453 equipment purchases**, improving selected equipment for **444/450 bots**. Six synthetic raiders transferred **1,597,764 gold** from bot purses without changing aggregate purchase counts or costs. Two 24-hour outages skipped **1,684** selected opportunities; concurrent workers/replays did not duplicate purchases or income. The narrow matched-opponent pool, fixed human loadouts and moderate attack cadence are explicit limitations, not proof against optimized farming.
+
+Owner decisions remain: **68 bots bought nothing in the last quiet week**, the lowest starter portfolio cannot afford another Smallholding under the two-hour-income budget, much equipment improvement is offensive while bots remain passive, and the quiet month generated **6.69 million settlement rows**. Net hourly income rose **5.23%**; only **0.47%** of Land credits funded acquisitions. Production storage capacity remains unverified. No cap, allowance, selector, combat rule or later milestone was changed to address these findings.
+
+Code CI [39543977454](https://github.com/catillatio/test/actions/runs/39543977454) passed **482/482 tests with zero skips/failures**, compilation/build/static/browser checks, both dependency audits, 21 game-container groups and 15 independent recovery-worker groups. Local actionlint and focused economic/race/preservation checks passed. The long-horizon experiments execute separately from normal CI because they run millions of real SQL statements. PR #16 stays draft for owner review.
+
 ## Operational load and rollout safety
 
 One timer per game process runs every five minutes, independently of player profile views. Each tick reads at most **451 ID rows** (more than 450 fails closed) and handles at most five candidates. Receipt lookups use the existing `(account_id, command_id)` primary key; there is no growing-history scan. Ordinary transaction locks and `SKIP LOCKED` coordinate income, PvP and multiple workers. The timer does not overlap itself and drains on graceful shutdown. Unexpected failures abort the current transaction and log a fixed message without database/provider details.
 
 Original accounts, credentials, sessions, Vaults, identities, existing gear/lots, holdings, receipts, financial history and all human progress remain preserved. No fake public activity is emitted, and personal Home Recent Activity is unchanged by autonomous purchases. Bots retain the existing computer-controlled labels.
 
-This is a conservative alpha slice: expensive assets above the budget wait; decisions are not guaranteed; a paused/poor bot is not rescued with free capital; a busy or offline slot can be missed. The 24-hour synthetic observations do not establish long-term inflation, player earnings or production performance. Existing ownership limits, rising Land prices, the small income-growth gate and finite purchase budget bound progression; review actual alpha behavior before expanding the policy.
+This is a conservative alpha slice: expensive assets above the budget wait; decisions are not guaranteed; a paused/poor bot is not rescued with free capital; a busy or offline slot can be missed. The initial 24-hour observations are extended by the paired 7/30-day review above. These synthetic runs do not establish production capacity or worst-case farming behavior. Existing ownership limits, rising Land prices, the small income-growth gate and finite purchase budget bound progression; review actual alpha behavior before expanding the policy.
 
 **Owner review before rollout.** Keep this draft PR unmerged and the switch off. No production setting, record or service was inspected or changed. Any later activation requires separate owner authorization through the established protected deployment process, including its backup/independent restore/signing/approval gates. Do not apply a Railway variable change or source redeploy as an activation shortcut. Disabling future purchases does not undo legitimate completed trades; retain receipts, holdings and financial history.
 
