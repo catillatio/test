@@ -1,0 +1,74 @@
+{
+  "base": "127a6849134403d569c2bc217db9d04da2886fae",
+  "implementationCommit": "b7f10e92ebd0c38e35ae6670a0325b117e899c3f",
+  "issue": 15,
+  "milestone": 1,
+  "fullSuite": {
+    "tests": 480,
+    "suites": 5,
+    "pass": 479,
+    "fail": 0,
+    "skipped": 1
+  },
+  "durationMilliseconds": 747261.803431,
+  "fullSuiteLogSha256": "f34e1c9a1b8656ca215e25eb3dabb0a8c8e246b43d33b9180ee19ed525027a16",
+  "existingLocalSkip": "real hosted-runner network namespace executes synthetic checks without production secrets",
+  "checks": {
+    "typecheck": {
+      "passed": true,
+      "logSha256": "274959a85773416a67d59c91fd62f40b05d4d1262caf63e347740a826a4c3a48"
+    },
+    "build": {
+      "passed": true,
+      "logSha256": "bdb0e440e404cbbe789f6c5dba3e41e9f8cf7c53dd40f6a72783f765b78867b2"
+    },
+    "static": {
+      "passed": true,
+      "logSha256": "4c40672f7ee4879077ca6512e6eb6d63d981e34d6e2fc6c2670ae05dd898e09c"
+    },
+    "actionlint": {
+      "passed": true,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "static": {
+    "passed": 99,
+    "failed": 0,
+    "ejsFixtures": 77
+  },
+  "productionDependencyAudits": {
+    "game": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "release": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "newMigrations": 0,
+  "newDependencies": 0,
+  "protectedPathsUnchanged": 22,
+  "enabledByDefault": false,
+  "productionAccessed": false,
+  "releaseDispatched": false,
+  "pr13Modified": false,
+  "gameServerProcessRestart": {
+    "passed": true,
+    "autonomyEnabled": false,
+    "logSha256": "facce1bcca8b60312e3ad90b473777cae8d39186159b49c0b4d5dc14b07ee336"
+  },
+  "productionConfigGate": {
+    "passed": true,
+    "syntheticConfigurationOnly": true,
+    "connectionOpened": false
+  }
+}
