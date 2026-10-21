@@ -1,6 +1,6 @@
 # Army participation and bot difficulty — archived first comparison
 
-**Owner decision:** [comment6305431189](https://github.com/catillatio/test/pull/14#issuecomment-6305431189) rejects uncapped linear and logarithmic human models. They remain below solely as historical numerical evidence, never runtime code. The active development checkpoint is [bot-only calibration](bot-only/REVIEW.md); original human rules are fixed.
+**Owner decision:** [comment6305431189](https://github.com/catillatio/test/pull/14#issuecomment-6305431189) rejects uncapped linear and logarithmic human models. They remain below solely as historical numerical evidence, never runtime code. The latest [owner comment6305978770](https://github.com/catillatio/test/pull/14#issuecomment-6305978770) selects [conservative canary preparation](canary/REVIEW.md); the earlier broad calibration is historical only. Original human rules are fixed.
 
 No combat policy is adopted by this branch. Active rules, human PvP, bot identities, purses, Land, bounties, quests, recruitment, training, recovery and `bot-combat-rewards-2` are unchanged. This is an offline catalog/blueprint audit, not an inspection of live bots.
 

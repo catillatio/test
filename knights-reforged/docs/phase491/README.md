@@ -5,6 +5,15 @@ Base: merged Phase 4.9 `793f747a7920a7b1dc000230a3050482e98393f2`.
 
 ## Current owner checkpoint
 
+[Owner comment 6305978770](https://github.com/catillatio/test/pull/14#issuecomment-6305978770) now authorizes **preparation/testing of a conservative 18-bot canary**, not population-wide liquidation or live execution. The proposed fixed selection contains five small, genuinely funded additions and 13 unchanged controls; existing gear, members, points, Vaults and Land are retained. No active policy changes.
+
+- **[Current canary owner review](canary/REVIEW.md)** · [Exact proposed manifest](canary/MANIFEST.md)
+- [Per-bot gear/rewards/finances](canary/BOT_EVIDENCE.md) · [All-level/daily/targeted pacing](canary/PACING.md)
+- [Authorization, objective gates, monitoring and correction](canary/BOUNDARIES.md)
+- [Fresh separate-database preservation and verification](canary/VERIFICATION.md)
+
+The following earlier checkpoint is retained as history and comparison; its broad sales/point-spending proposal is superseded. The original human mechanics and approved report/audio baseline remain unchanged and independently releasable. No Gray/username action is requested; PR #13 remains inactive.
+
 [Owner comment 6305431189](https://github.com/catillatio/test/pull/14#issuecomment-6305431189) approves the 390px report presentation and new-user default mute, preserves original human participation and rejects both uncapped-linear and logarithmic human models. Approved report/audio files and screenshots remain unchanged from `a21b2b0`. Physical-phone verification of the live navigation honk is still pending.
 
 The new work is a **separate, unadopted bot-only experiment**: paid saved loadouts, existing earned defense points and fixed existing members. No runtime difficulty/reward change is enabled.

@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "fullSuite": {
+    "tests": 474,
+    "suites": 5,
+    "pass": 473,
+    "fail": 0,
+    "skipped": 1
+  },
+  "durationMilliseconds": 629271.966161,
+  "logSha256": "c8745374cf9323e01346e299e5ff6a4c89e6e68b9ddb90582c4fbabe7652ef07",
+  "existingSkip": "real hosted-runner network namespace executes synthetic checks without production secrets",
+  "focusedTests": {
+    "pass": 7,
+    "fail": 0
+  },
+  "typecheck": true,
+  "build": true,
+  "static": {
+    "passed": 99,
+    "failed": 0,
+    "productionEjsFixtures": 77
+  },
+  "actionlint": {
+    "passed": true,
+    "version": "1.7.7"
+  },
+  "separateRestoredDatabases": 2,
+  "populated": {
+    "tables": 66,
+    "accounts": 452,
+    "bots": 450
+  },
+  "canary": {
+    "selected": 18,
+    "purchases": 5,
+    "controls": 13,
+    "purchaseGold": 7252,
+    "extraHourlyUpkeep": 63,
+    "sales": 0,
+    "credits": 0,
+    "membersAdded": 0,
+    "pointsSpent": 0
+  },
+  "models": {
+    "matchupRows": 1800,
+    "rollPairsEach": 441,
+    "pacedRuns": 600,
+    "targetedRuns": 24,
+    "dailyRuns": 20,
+    "futureStressCases": 30
+  },
+  "economicIntentDigest": "fbd571b86e7bd89ab7592b6b869df14c9e18b35a274f5908445044d1bae11fce",
+  "localNavigationAudioBrowser": true,
+  "versions": {
+    "node": "24.19.0",
+    "typescript": "5.9.3",
+    "postgres": "18.6-bookworm",
+    "chromium": "154.0.8037.57"
+  },
+  "initialAttempt": {
+    "passed": false,
+    "reason": "Local disk exhausted after an additional PostgreSQL image pull; interrupted and not counted as passing",
+    "resolution": "Removed only this task container/image; used cached PostgreSQL18-bookworm; repeated copy rehearsal and clean full suite without changing assertions"
+  },
+  "policyAdopted": false,
+  "productionContacted": false,
+  "releaseDispatched": false,
+  "pr13Modified": false
+}

@@ -1,5 +1,7 @@
 # Bot-only calibration — owner review checkpoint
 
+**Historical comparison, superseded:** [owner comment 6305978770](https://github.com/catillatio/test/pull/14#issuecomment-6305978770) selects a conservative small canary without broad liquidation/point spending. The current work is [the 18-slot canary proposal](../canary/REVIEW.md), with five paid additions and 13 controls. Do not treat this older population-wide experiment or its recommendation as current rollout scope or authorization.
+
 This carries out [owner comment 6305431189](https://github.com/catillatio/test/pull/14#issuecomment-6305431189). **No bot balance policy is adopted.** The candidate and transaction prototype exist only in offline/test scripts. The approved report/audio implementation remains byte-identical to `a21b2b0`; no runtime, catalog, ruleset, migration, release, or operator file changes in this checkpoint.
 
 The owner rejected uncapped-linear and logarithmic human armies. Neither is implemented. Original human participation, recruitment, combat, bounties, finite gold transfers, `bot-combat-rewards-2` with 65% XP, and 100/85/70/55/40 pair reductions remain authoritative. PR #14 stays draft; PR #13 stays paused. No live account, bot, or service was inspected or modified.
@@ -101,7 +103,7 @@ There are [30 additional level 100/200 mechanical cases](STRESS.md), owned armie
 
 ## Populated restored-copy rehearsal and transaction safety
 
-[Machine-readable copy verification](copy-verification.json) records an actual custom-format `pg_dump`, SHA-256 and `pg_restore` into a **different new local disposable database**, not merely a schema clone. All 66 source tables,452 accounts and450 bots match before/after two no-op migrations. The source fixture then remains unchanged throughout the experiment. All humans, trades, battles, sessions, tutorials and bot identities are synthetic; no production snapshot was available or accessed.
+[Machine-readable copy verification](copy-verification.json) records an actual custom-format `pg_dump`, SHA-256 and `pg_restore` into a **different new local disposable database**, not merely a schema clone. All 66 source tables, 452 accounts and450 bots match before/after two no-op migrations. The source fixture then remains unchanged throughout the experiment. All humans, trades, battles, sessions, tutorials and bot identities are synthetic; no production snapshot was available or accessed.
 
 The local prototype:
 
@@ -136,7 +138,7 @@ npm run check:static
 npx tsx scripts/phase491-bot-calibration.ts
 ```
 
-The dump/restore rehearsal additionally requires a dedicated local PostgreSQL18 container named `kingdom-bot-calibration-test`, `TEST_POSTGRES_CONTAINER` set to that name and the connection pointing to its disposable test database:
+The dump/restore rehearsal additionally requires a dedicated local PostgreSQL 18 container named `kingdom-bot-calibration-test`, `TEST_POSTGRES_CONTAINER` set to that name and the connection pointing to its disposable test database:
 
 ```sh
 npx tsx scripts/phase491-bot-copy-test.ts

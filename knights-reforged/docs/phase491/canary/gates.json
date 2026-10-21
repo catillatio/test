@@ -1,0 +1,67 @@
+{
+  "productionPromotionAuthorized": false,
+  "thresholdsAreProposedForOwnerReview": true,
+  "checks": [
+    {
+      "name": "SELECTION_AND_REPRESENTATION",
+      "pass": true
+    },
+    {
+      "name": "EXPOSED_PURSE_ONLY",
+      "pass": true
+    },
+    {
+      "name": "TOTAL_SPEND_CEILING",
+      "pass": true,
+      "observed": 7252,
+      "ceiling": 7500
+    },
+    {
+      "name": "EXTRA_UPKEEP_CEILING",
+      "pass": true,
+      "observed": 63,
+      "ceiling": 75
+    },
+    {
+      "name": "EACH_POWER_INCREASE",
+      "pass": true,
+      "observed": 6.696664679857944,
+      "ceiling": 8
+    },
+    {
+      "name": "MATCHUP_WIN_RATE_CHANGE",
+      "pass": true,
+      "observed": 14.512471655328802,
+      "ceiling": 15
+    },
+    {
+      "name": "PACED_GOLD_CHANGE",
+      "pass": true,
+      "observed": 5.771541532617541,
+      "ceiling": 10
+    },
+    {
+      "name": "PACED_XP_CHANGE_WITH_AT_LEAST_100_BASELINE",
+      "pass": true,
+      "observed": 10.6801007556675,
+      "ceiling": 15
+    },
+    {
+      "name": "PACED_LEVEL_CHANGE",
+      "pass": true,
+      "observed": 1,
+      "ceiling": 1
+    },
+    {
+      "name": "CONSERVATION_AND_VAULTS",
+      "pass": true
+    }
+  ],
+  "outstanding": [
+    "Independent owner review/selection of this experiment and thresholds",
+    "Authorized fresh saved-state inspection and exact live UUID manifest (not performed)",
+    "Fresh verified backup and actual-data isolated rehearsal",
+    "Separately reviewed scoped operator mechanism and exact-target mutation approval; no production executor exists here",
+    "Physical-phone navigation audio verification remains separate"
+  ]
+}
