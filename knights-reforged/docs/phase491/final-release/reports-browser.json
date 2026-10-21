@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    "320px victory: authentic rewards, both saved loadouts visible, no overflow, keyboard details, five tabs and 44px attack",
+    "320px defeat: authentic rewards, both saved loadouts visible, no overflow, keyboard details, five tabs and 44px attack",
+    "390px victory: authentic rewards, both saved loadouts visible, no overflow, keyboard details, five tabs and 44px attack",
+    "390px defeat: authentic rewards, both saved loadouts visible, no overflow, keyboard details, five tabs and 44px attack",
+    "430px victory: authentic rewards, both saved loadouts visible, no overflow, keyboard details, five tabs and 44px attack",
+    "430px defeat: authentic rewards, both saved loadouts visible, no overflow, keyboard details, five tabs and 44px attack",
+    "1024px victory: authentic rewards, both saved loadouts visible, no overflow, keyboard details, five tabs and 44px attack",
+    "1024px defeat: authentic rewards, both saved loadouts visible, no overflow, keyboard details, five tabs and 44px attack",
+    "Zero Spirit disables Revenge; existing POST security/eligibility remains authoritative"
+  ],
+  "shots": [
+    "320-victory.png",
+    "320-defeat.png",
+    "390-victory.png",
+    "390-victory-report.png",
+    "390-defeat.png",
+    "390-defeat-report.png",
+    "430-victory.png",
+    "430-defeat.png",
+    "1024-victory.png",
+    "1024-defeat.png"
+  ],
+  "errors": [],
+  "productionContacted": false,
+  "source": "Actual resolved synthetic realm battle, existing catalog artwork; no fabricated equipment"
+}

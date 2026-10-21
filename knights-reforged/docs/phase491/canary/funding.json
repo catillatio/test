@@ -1,0 +1,1298 @@
+[
+  {
+    "slot": "5:green:0",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 22,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "5:green:0",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 22,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "5:green:0",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 22,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "5:green:0",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 22,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "5:green:0",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 22,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "5:green:0",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 22,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "5:green:0",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:green:0",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:seasoned:1",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:seasoned:1",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:seasoned:1",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:seasoned:1",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:seasoned:1",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:seasoned:1",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:seasoned:1",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:seasoned:1",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "5:elite:2",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "5:elite:2",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "5:elite:2",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "5:elite:2",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "5:elite:2",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "5:elite:2",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "5:elite:2",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "5:elite:2",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "8:green:1",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:green:1",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:green:1",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:green:1",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:green:1",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:green:1",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:green:1",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:green:1",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:seasoned:2",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:seasoned:2",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:seasoned:2",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:seasoned:2",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:seasoned:2",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:seasoned:2",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:seasoned:2",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:seasoned:2",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "8:elite:0",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "8:elite:0",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "8:elite:0",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "8:elite:0",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "8:elite:0",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "8:elite:0",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "8:elite:0",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "8:elite:0",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "15:green:2",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 330,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "15:green:2",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 330,
+    "reserveTopup": 21,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "15:green:2",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 330,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "15:green:2",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 330,
+    "reserveTopup": 21,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "15:green:2",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:green:2",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:green:2",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:green:2",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:seasoned:0",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:seasoned:0",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:seasoned:0",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:seasoned:0",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:seasoned:0",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:seasoned:0",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:seasoned:0",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:seasoned:0",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "15:elite:1",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "15:elite:1",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "15:elite:1",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "15:elite:1",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "15:elite:1",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "15:elite:1",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "15:elite:1",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "15:elite:1",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:green:0",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "25:green:0",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "25:green:0",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "25:green:0",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "25:green:0",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "25:green:0",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "25:green:0",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "25:green:0",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "25:seasoned:1",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:seasoned:1",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:seasoned:1",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:seasoned:1",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:seasoned:1",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:seasoned:1",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:seasoned:1",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:seasoned:1",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:elite:2",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:elite:2",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:elite:2",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:elite:2",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:elite:2",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:elite:2",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:elite:2",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "25:elite:2",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:green:1",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 480,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "40:green:1",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 480,
+    "reserveTopup": 295,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "40:green:1",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 480,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "40:green:1",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 480,
+    "reserveTopup": 295,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "40:green:1",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 330,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "40:green:1",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 140,
+    "reserveTopup": 291,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "40:green:1",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "40:green:1",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "40:seasoned:2",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:seasoned:2",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:seasoned:2",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:seasoned:2",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:seasoned:2",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:seasoned:2",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:seasoned:2",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:seasoned:2",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:elite:0",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:elite:0",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:elite:0",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:elite:0",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:elite:0",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:elite:0",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:elite:0",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "40:elite:0",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "50:green:2",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 720,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:green:2",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 720,
+    "reserveTopup": 372,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:green:2",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 720,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:green:2",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 720,
+    "reserveTopup": 372,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:green:2",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 720,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:green:2",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 330,
+    "reserveTopup": 368,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:green:2",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "50:green:2",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "50:seasoned:0",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 5700,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:seasoned:0",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 5700,
+    "reserveTopup": 912,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:seasoned:0",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 1800,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:seasoned:0",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 1800,
+    "reserveTopup": 889,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:seasoned:0",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "purchase",
+    "cost": 1000,
+    "reserveTopup": 0,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:seasoned:0",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "purchase",
+    "cost": 220,
+    "reserveTopup": 874,
+    "reason": "Modest paid addition; no sales, points, member grants or refunds"
+  },
+  {
+    "slot": "50:seasoned:0",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "50:seasoned:0",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "No small affordable purchase passes every strength, matchup and upkeep bound"
+  },
+  {
+    "slot": "50:elite:1",
+    "pursePercent": 100,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "50:elite:1",
+    "pursePercent": 100,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "50:elite:1",
+    "pursePercent": 50,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "50:elite:1",
+    "pursePercent": 50,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "50:elite:1",
+    "pursePercent": 10,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "50:elite:1",
+    "pursePercent": 10,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "50:elite:1",
+    "pursePercent": 0,
+    "keepReserve": true,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  },
+  {
+    "slot": "50:elite:1",
+    "pursePercent": 0,
+    "keepReserve": false,
+    "status": "control",
+    "cost": 0,
+    "reserveTopup": 0,
+    "reason": "Already too challenging for the fixed ordinary benchmark"
+  }
+]

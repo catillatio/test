@@ -1,0 +1,2915 @@
+{
+  "syntheticOnly": true,
+  "manifestDigest": "292aa60585414b67b1fd4edf77c336b0879e0f029989be5f9ed48b17c8d637a0",
+  "manifest": {
+    "policy": "bot-canary-proposal-1",
+    "productionAuthorized": false,
+    "createdAt": "2035-01-01T00:00:00.000Z",
+    "expiresAt": "2035-01-01T00:15:00.000Z",
+    "entries": [
+      {
+        "slot": "5:green:0",
+        "botId": "3b27a3e7-1b35-4dc7-9b22-f145b50fba6b",
+        "accountId": "803c7fbd-e50e-4687-9c27-45da3da61c8f",
+        "before": {
+          "id": "3b27a3e7-1b35-4dc7-9b22-f145b50fba6b",
+          "accountId": "803c7fbd-e50e-4687-9c27-45da3da61c8f",
+          "name": "Thrain Nightbloom",
+          "level": 5,
+          "tier": "green",
+          "variant": 0,
+          "calling": "Freeblade",
+          "militia": 0,
+          "legacyFloor": 1,
+          "attackTraining": 0,
+          "defenseTraining": 0,
+          "skillPoints": 1,
+          "gold": 2754,
+          "vault": 1732,
+          "reserve": 0,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 91,
+          "propertyUpkeep": 7,
+          "stateVersion": 1,
+          "health": 110,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "hearth-ward",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 15
+                }
+              ]
+            },
+            {
+              "itemId": "iron-sword",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 40
+                }
+              ]
+            },
+            {
+              "itemId": "padded-coat",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 18
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 0,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "f84cc8a4925d30df99435ba58c9e687869e813ad0a6186906a1f81aa6114de9a",
+          "landDigest": "7b33877328d0fc17d7a95497369469f044f6118383e26d602d56761b8abb8e4d"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "5:green:0",
+          "botId": "3b27a3e7-1b35-4dc7-9b22-f145b50fba6b",
+          "accountId": "803c7fbd-e50e-4687-9c27-45da3da61c8f",
+          "snapshotHash": "b2406da9f9d99fded9f99a0832c3ba1295641dfb741a9d0b92a1de42db46d437",
+          "participants": 1,
+          "before": {
+            "attack": 22.88,
+            "defense": 17.64
+          },
+          "oldRate": 0,
+          "propertyNet": 84,
+          "status": "purchase",
+          "reason": "Modest paid addition; no sales, points, member grants or refunds",
+          "purchases": [
+            {
+              "itemId": "hazeltwig-longbow",
+              "quantity": 1,
+              "gold": 22
+            }
+          ],
+          "cost": 22,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 22.88,
+            "defense": 18.62
+          },
+          "newRate": 0,
+          "netHourly": 84,
+          "finalGold": 2732,
+          "finalReserve": 0
+        },
+        "after": {
+          "id": "3b27a3e7-1b35-4dc7-9b22-f145b50fba6b",
+          "accountId": "803c7fbd-e50e-4687-9c27-45da3da61c8f",
+          "name": "Thrain Nightbloom",
+          "level": 5,
+          "tier": "green",
+          "variant": 0,
+          "calling": "Freeblade",
+          "militia": 0,
+          "legacyFloor": 1,
+          "attackTraining": 0,
+          "defenseTraining": 0,
+          "skillPoints": 1,
+          "gold": 2732,
+          "vault": 1732,
+          "reserve": 0,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 91,
+          "propertyUpkeep": 7,
+          "stateVersion": 1,
+          "health": 110,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "hearth-ward",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 15
+                }
+              ]
+            },
+            {
+              "itemId": "iron-sword",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 40
+                }
+              ]
+            },
+            {
+              "itemId": "padded-coat",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 18
+                }
+              ]
+            },
+            {
+              "itemId": "hazeltwig-longbow",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 22
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 0,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "f84cc8a4925d30df99435ba58c9e687869e813ad0a6186906a1f81aa6114de9a",
+          "landDigest": "7b33877328d0fc17d7a95497369469f044f6118383e26d602d56761b8abb8e4d"
+        }
+      },
+      {
+        "slot": "5:seasoned:1",
+        "botId": "84cd1ef9-eedc-4d67-a93d-b1e3954f65c2",
+        "accountId": "fb5b4a4b-0249-4856-995b-84b3a5438372",
+        "before": {
+          "id": "84cd1ef9-eedc-4d67-a93d-b1e3954f65c2",
+          "accountId": "fb5b4a4b-0249-4856-995b-84b3a5438372",
+          "name": "Anwen Briarward",
+          "level": 5,
+          "tier": "seasoned",
+          "variant": 1,
+          "calling": "Warden",
+          "militia": 0,
+          "legacyFloor": 1,
+          "attackTraining": 1,
+          "defenseTraining": 1,
+          "skillPoints": 1,
+          "gold": 3684,
+          "vault": 2093,
+          "reserve": 144,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 91,
+          "propertyUpkeep": 7,
+          "stateVersion": 1,
+          "health": 120,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "ransackers-axe",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 75
+                }
+              ]
+            },
+            {
+              "itemId": "thorn-hex",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 55
+                }
+              ]
+            },
+            {
+              "itemId": "warden-mail",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 65
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 3,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "561a859aaed1754a75afa2b9d0b19345bc48931e439d3cbed9169ef050a18fac",
+          "landDigest": "b56b5b18cbf67104d87d0edbcee9567e1f292a28923e0de9e609fdff5ef33050"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "5:seasoned:1",
+          "botId": "84cd1ef9-eedc-4d67-a93d-b1e3954f65c2",
+          "accountId": "fb5b4a4b-0249-4856-995b-84b3a5438372",
+          "snapshotHash": "1d04ea324ba88777697e8a20dcea8a5946505b750c4ea88223f2b5e67d33f8b4",
+          "participants": 1,
+          "before": {
+            "attack": 35.63,
+            "defense": 28.36
+          },
+          "oldRate": 3,
+          "propertyNet": 84,
+          "status": "control",
+          "reason": "No small affordable purchase passes every strength, matchup and upkeep bound",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 35.63,
+            "defense": 28.36
+          },
+          "newRate": 3,
+          "netHourly": 81,
+          "finalGold": 3684,
+          "finalReserve": 144
+        },
+        "after": {
+          "id": "84cd1ef9-eedc-4d67-a93d-b1e3954f65c2",
+          "accountId": "fb5b4a4b-0249-4856-995b-84b3a5438372",
+          "name": "Anwen Briarward",
+          "level": 5,
+          "tier": "seasoned",
+          "variant": 1,
+          "calling": "Warden",
+          "militia": 0,
+          "legacyFloor": 1,
+          "attackTraining": 1,
+          "defenseTraining": 1,
+          "skillPoints": 1,
+          "gold": 3684,
+          "vault": 2093,
+          "reserve": 144,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 91,
+          "propertyUpkeep": 7,
+          "stateVersion": 1,
+          "health": 120,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "ransackers-axe",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 75
+                }
+              ]
+            },
+            {
+              "itemId": "thorn-hex",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 55
+                }
+              ]
+            },
+            {
+              "itemId": "warden-mail",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 65
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 3,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "561a859aaed1754a75afa2b9d0b19345bc48931e439d3cbed9169ef050a18fac",
+          "landDigest": "b56b5b18cbf67104d87d0edbcee9567e1f292a28923e0de9e609fdff5ef33050"
+        }
+      },
+      {
+        "slot": "5:elite:2",
+        "botId": "8efef4b7-815a-46c4-b956-99a79a83a1be",
+        "accountId": "8f8d7b25-0f32-462a-8b6b-7581a794744b",
+        "before": {
+          "id": "8efef4b7-815a-46c4-b956-99a79a83a1be",
+          "accountId": "8f8d7b25-0f32-462a-8b6b-7581a794744b",
+          "name": "Delia Redspire",
+          "level": 5,
+          "tier": "elite",
+          "variant": 2,
+          "calling": "Spellward",
+          "militia": 1,
+          "legacyFloor": 1,
+          "attackTraining": 2,
+          "defenseTraining": 2,
+          "skillPoints": 1,
+          "gold": 4917,
+          "vault": 2526,
+          "reserve": 288,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 91,
+          "propertyUpkeep": 7,
+          "stateVersion": 1,
+          "health": 130,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "ransackers-axe",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 75
+                }
+              ]
+            },
+            {
+              "itemId": "thorn-hex",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 55
+                }
+              ]
+            },
+            {
+              "itemId": "warden-mail",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 65
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 6,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "6d12cf0b222454aecf26c391756f4674112592d8d47c9ec8237d913d020af0eb",
+          "landDigest": "67e441d67dc6da4d04acb737a796f361c385da74c16ad023acee41dd1deffe89"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "5:elite:2",
+          "botId": "8efef4b7-815a-46c4-b956-99a79a83a1be",
+          "accountId": "8f8d7b25-0f32-462a-8b6b-7581a794744b",
+          "snapshotHash": "930dd76cd3969e3c3512766583344ff1d802b56024d88f16759c89b06db054f3",
+          "participants": 2,
+          "before": {
+            "attack": 61.98,
+            "defense": 46.98
+          },
+          "oldRate": 6,
+          "propertyNet": 84,
+          "status": "control",
+          "reason": "Already too challenging for the fixed ordinary benchmark",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 61.98,
+            "defense": 46.98
+          },
+          "newRate": 6,
+          "netHourly": 78,
+          "finalGold": 4917,
+          "finalReserve": 288
+        },
+        "after": {
+          "id": "8efef4b7-815a-46c4-b956-99a79a83a1be",
+          "accountId": "8f8d7b25-0f32-462a-8b6b-7581a794744b",
+          "name": "Delia Redspire",
+          "level": 5,
+          "tier": "elite",
+          "variant": 2,
+          "calling": "Spellward",
+          "militia": 1,
+          "legacyFloor": 1,
+          "attackTraining": 2,
+          "defenseTraining": 2,
+          "skillPoints": 1,
+          "gold": 4917,
+          "vault": 2526,
+          "reserve": 288,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 91,
+          "propertyUpkeep": 7,
+          "stateVersion": 1,
+          "health": 130,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "ransackers-axe",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 75
+                }
+              ]
+            },
+            {
+              "itemId": "thorn-hex",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 55
+                }
+              ]
+            },
+            {
+              "itemId": "warden-mail",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 65
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 6,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "6d12cf0b222454aecf26c391756f4674112592d8d47c9ec8237d913d020af0eb",
+          "landDigest": "67e441d67dc6da4d04acb737a796f361c385da74c16ad023acee41dd1deffe89"
+        }
+      },
+      {
+        "slot": "8:green:1",
+        "botId": "a3098673-7fef-40be-ab86-a58145285173",
+        "accountId": "77deaf57-7bd1-484b-825d-3a730630b5e9",
+        "before": {
+          "id": "a3098673-7fef-40be-ab86-a58145285173",
+          "accountId": "77deaf57-7bd1-484b-825d-3a730630b5e9",
+          "name": "Rhos Duskweald",
+          "level": 8,
+          "tier": "green",
+          "variant": 1,
+          "calling": "Spellward",
+          "militia": 0,
+          "legacyFloor": 1,
+          "attackTraining": 0,
+          "defenseTraining": 0,
+          "skillPoints": 1,
+          "gold": 3221,
+          "vault": 3346,
+          "reserve": 144,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 181,
+          "propertyUpkeep": 17,
+          "stateVersion": 1,
+          "health": 110,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "ransackers-axe",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 75
+                }
+              ]
+            },
+            {
+              "itemId": "thorn-hex",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 55
+                }
+              ]
+            },
+            {
+              "itemId": "warden-mail",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 65
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 3,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "6e01080cc932fda512d0d4fd31efd54a2d23970e2d766915f9c2dae49865d0db",
+          "landDigest": "e1c519c646f2b0533fdab71f57246dd453c202d399f358c138d82ff78a843f3c"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "8:green:1",
+          "botId": "a3098673-7fef-40be-ab86-a58145285173",
+          "accountId": "77deaf57-7bd1-484b-825d-3a730630b5e9",
+          "snapshotHash": "4d9db958a199e1b04f6440b51a0733b5537362a12fb8e04bf1b4303edb11874d",
+          "participants": 1,
+          "before": {
+            "attack": 41.16,
+            "defense": 29.4
+          },
+          "oldRate": 3,
+          "propertyNet": 164,
+          "status": "control",
+          "reason": "No small affordable purchase passes every strength, matchup and upkeep bound",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 41.16,
+            "defense": 29.4
+          },
+          "newRate": 3,
+          "netHourly": 161,
+          "finalGold": 3221,
+          "finalReserve": 144
+        },
+        "after": {
+          "id": "a3098673-7fef-40be-ab86-a58145285173",
+          "accountId": "77deaf57-7bd1-484b-825d-3a730630b5e9",
+          "name": "Rhos Duskweald",
+          "level": 8,
+          "tier": "green",
+          "variant": 1,
+          "calling": "Spellward",
+          "militia": 0,
+          "legacyFloor": 1,
+          "attackTraining": 0,
+          "defenseTraining": 0,
+          "skillPoints": 1,
+          "gold": 3221,
+          "vault": 3346,
+          "reserve": 144,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 181,
+          "propertyUpkeep": 17,
+          "stateVersion": 1,
+          "health": 110,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "ransackers-axe",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 75
+                }
+              ]
+            },
+            {
+              "itemId": "thorn-hex",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 55
+                }
+              ]
+            },
+            {
+              "itemId": "warden-mail",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 65
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 3,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "6e01080cc932fda512d0d4fd31efd54a2d23970e2d766915f9c2dae49865d0db",
+          "landDigest": "e1c519c646f2b0533fdab71f57246dd453c202d399f358c138d82ff78a843f3c"
+        }
+      },
+      {
+        "slot": "8:seasoned:2",
+        "botId": "f766e4e7-9eb1-4a2a-91b4-92be19eee11b",
+        "accountId": "5185582a-c63d-4a5c-adf4-da1d8cc26cbd",
+        "before": {
+          "id": "f766e4e7-9eb1-4a2a-91b4-92be19eee11b",
+          "accountId": "5185582a-c63d-4a5c-adf4-da1d8cc26cbd",
+          "name": "Una Shadowmere",
+          "level": 8,
+          "tier": "seasoned",
+          "variant": 2,
+          "calling": "Freeblade",
+          "militia": 0,
+          "legacyFloor": 1,
+          "attackTraining": 1,
+          "defenseTraining": 1,
+          "skillPoints": 1,
+          "gold": 4288,
+          "vault": 4111,
+          "reserve": 288,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 181,
+          "propertyUpkeep": 17,
+          "stateVersion": 1,
+          "health": 120,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "gateward-kite-shield",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 100
+                }
+              ]
+            },
+            {
+              "itemId": "stonebinding",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 90
+                }
+              ]
+            },
+            {
+              "itemId": "wardens-halberd",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 110
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 6,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "88fc71e6dc06e930b39d37d86cd54d36262302fb36e7e92550d22584b2e3aa3a",
+          "landDigest": "5bb0506861d0ecf1a8f3263c67506ecf81683c19c6f3aad41b16973173d809ce"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "8:seasoned:2",
+          "botId": "f766e4e7-9eb1-4a2a-91b4-92be19eee11b",
+          "accountId": "5185582a-c63d-4a5c-adf4-da1d8cc26cbd",
+          "snapshotHash": "8d14386325651da5919bacc9f3edb04dfdc9edd73115605462df91b6956fdc30",
+          "participants": 1,
+          "before": {
+            "attack": 38.86,
+            "defense": 46.52
+          },
+          "oldRate": 6,
+          "propertyNet": 164,
+          "status": "control",
+          "reason": "No small affordable purchase passes every strength, matchup and upkeep bound",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 38.86,
+            "defense": 46.52
+          },
+          "newRate": 6,
+          "netHourly": 158,
+          "finalGold": 4288,
+          "finalReserve": 288
+        },
+        "after": {
+          "id": "f766e4e7-9eb1-4a2a-91b4-92be19eee11b",
+          "accountId": "5185582a-c63d-4a5c-adf4-da1d8cc26cbd",
+          "name": "Una Shadowmere",
+          "level": 8,
+          "tier": "seasoned",
+          "variant": 2,
+          "calling": "Freeblade",
+          "militia": 0,
+          "legacyFloor": 1,
+          "attackTraining": 1,
+          "defenseTraining": 1,
+          "skillPoints": 1,
+          "gold": 4288,
+          "vault": 4111,
+          "reserve": 288,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 181,
+          "propertyUpkeep": 17,
+          "stateVersion": 1,
+          "health": 120,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "gateward-kite-shield",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 100
+                }
+              ]
+            },
+            {
+              "itemId": "stonebinding",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 90
+                }
+              ]
+            },
+            {
+              "itemId": "wardens-halberd",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 110
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 6,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "88fc71e6dc06e930b39d37d86cd54d36262302fb36e7e92550d22584b2e3aa3a",
+          "landDigest": "5bb0506861d0ecf1a8f3263c67506ecf81683c19c6f3aad41b16973173d809ce"
+        }
+      },
+      {
+        "slot": "8:elite:0",
+        "botId": "13927613-6323-4b3a-b3f8-6e70d4daaae6",
+        "accountId": "4a73b1e4-3dfa-43a0-86ab-58041fd9c26e",
+        "before": {
+          "id": "13927613-6323-4b3a-b3f8-6e70d4daaae6",
+          "accountId": "4a73b1e4-3dfa-43a0-86ab-58041fd9c26e",
+          "name": "Hesper Runebrook",
+          "level": 8,
+          "tier": "elite",
+          "variant": 0,
+          "calling": "Warden",
+          "militia": 1,
+          "legacyFloor": 1,
+          "attackTraining": 4,
+          "defenseTraining": 4,
+          "skillPoints": 1,
+          "gold": 4720,
+          "vault": 4838,
+          "reserve": 768,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 181,
+          "propertyUpkeep": 17,
+          "stateVersion": 1,
+          "health": 130,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "runebound-hauberk",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 220
+                }
+              ]
+            },
+            {
+              "itemId": "stonebinding",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 90
+                }
+              ]
+            },
+            {
+              "itemId": "wardens-halberd",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 110
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 16,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "56e5b43807c6c8aaba447e75df5197dacb6abdb69542994e5239a53a00593fbf",
+          "landDigest": "286b9a767d71ff384e575b9a4ab1a63a99561c592cc22b1580bc6ecef18d468b"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "8:elite:0",
+          "botId": "13927613-6323-4b3a-b3f8-6e70d4daaae6",
+          "accountId": "4a73b1e4-3dfa-43a0-86ab-58041fd9c26e",
+          "snapshotHash": "8b1d939560f6446a1dc551afb5699d8b05a1232252ce31abb298343b784b1918",
+          "participants": 2,
+          "before": {
+            "attack": 71.34,
+            "defense": 108.16
+          },
+          "oldRate": 16,
+          "propertyNet": 164,
+          "status": "control",
+          "reason": "Already too challenging for the fixed ordinary benchmark",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 71.34,
+            "defense": 108.16
+          },
+          "newRate": 16,
+          "netHourly": 148,
+          "finalGold": 4720,
+          "finalReserve": 768
+        },
+        "after": {
+          "id": "13927613-6323-4b3a-b3f8-6e70d4daaae6",
+          "accountId": "4a73b1e4-3dfa-43a0-86ab-58041fd9c26e",
+          "name": "Hesper Runebrook",
+          "level": 8,
+          "tier": "elite",
+          "variant": 0,
+          "calling": "Warden",
+          "militia": 1,
+          "legacyFloor": 1,
+          "attackTraining": 4,
+          "defenseTraining": 4,
+          "skillPoints": 1,
+          "gold": 4720,
+          "vault": 4838,
+          "reserve": 768,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 181,
+          "propertyUpkeep": 17,
+          "stateVersion": 1,
+          "health": 130,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "runebound-hauberk",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 220
+                }
+              ]
+            },
+            {
+              "itemId": "stonebinding",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 90
+                }
+              ]
+            },
+            {
+              "itemId": "wardens-halberd",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 110
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 16,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "56e5b43807c6c8aaba447e75df5197dacb6abdb69542994e5239a53a00593fbf",
+          "landDigest": "286b9a767d71ff384e575b9a4ab1a63a99561c592cc22b1580bc6ecef18d468b"
+        }
+      },
+      {
+        "slot": "15:green:2",
+        "botId": "f56b4fd4-31e1-4077-a9e2-1258542a270b",
+        "accountId": "36921e66-6440-4e10-babf-bbbc3e543f0c",
+        "before": {
+          "id": "f56b4fd4-31e1-4077-a9e2-1258542a270b",
+          "accountId": "36921e66-6440-4e10-babf-bbbc3e543f0c",
+          "name": "Jessam Stonebriar",
+          "level": 15,
+          "tier": "green",
+          "variant": 2,
+          "calling": "Warden",
+          "militia": 1,
+          "legacyFloor": 1,
+          "attackTraining": 1,
+          "defenseTraining": 1,
+          "skillPoints": 2,
+          "gold": 7212,
+          "vault": 25452,
+          "reserve": 768,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 1358,
+          "propertyUpkeep": 161,
+          "stateVersion": 1,
+          "health": 130,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "runebound-hauberk",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 220
+                }
+              ]
+            },
+            {
+              "itemId": "stonebinding",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 90
+                }
+              ]
+            },
+            {
+              "itemId": "wardens-halberd",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 110
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 16,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "b7ffef9fb9244cb2e96a717ea41fd64966c6cee82fdfdc0858a16ad17f7e24c6",
+          "landDigest": "744d8e24d2bb52c0961d0d04ab4e80039acd9e283216bd95272ab7cbd0f0a54f"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "15:green:2",
+          "botId": "f56b4fd4-31e1-4077-a9e2-1258542a270b",
+          "accountId": "36921e66-6440-4e10-babf-bbbc3e543f0c",
+          "snapshotHash": "c3ca1ea16d6272f70ebb6a6295945f6ea94d9e87524db8f5fa78b1dede6e233b",
+          "participants": 2,
+          "before": {
+            "attack": 83.14,
+            "defense": 112.39
+          },
+          "oldRate": 16,
+          "propertyNet": 1197,
+          "status": "purchase",
+          "reason": "Modest paid addition; no sales, points, member grants or refunds",
+          "purchases": [
+            {
+              "itemId": "verdant-aegis",
+              "quantity": 1,
+              "gold": 330
+            }
+          ],
+          "cost": 330,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 83.14,
+            "defense": 117.64
+          },
+          "newRate": 21,
+          "netHourly": 1176,
+          "finalGold": 6882,
+          "finalReserve": 768
+        },
+        "after": {
+          "id": "f56b4fd4-31e1-4077-a9e2-1258542a270b",
+          "accountId": "36921e66-6440-4e10-babf-bbbc3e543f0c",
+          "name": "Jessam Stonebriar",
+          "level": 15,
+          "tier": "green",
+          "variant": 2,
+          "calling": "Warden",
+          "militia": 1,
+          "legacyFloor": 1,
+          "attackTraining": 1,
+          "defenseTraining": 1,
+          "skillPoints": 2,
+          "gold": 6882,
+          "vault": 25452,
+          "reserve": 768,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 1358,
+          "propertyUpkeep": 161,
+          "stateVersion": 1,
+          "health": 130,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "runebound-hauberk",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 220
+                }
+              ]
+            },
+            {
+              "itemId": "stonebinding",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 90
+                }
+              ]
+            },
+            {
+              "itemId": "wardens-halberd",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 110
+                }
+              ]
+            },
+            {
+              "itemId": "verdant-aegis",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 330
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 16,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "b7ffef9fb9244cb2e96a717ea41fd64966c6cee82fdfdc0858a16ad17f7e24c6",
+          "landDigest": "744d8e24d2bb52c0961d0d04ab4e80039acd9e283216bd95272ab7cbd0f0a54f"
+        }
+      },
+      {
+        "slot": "15:seasoned:0",
+        "botId": "69eacc9e-73cf-4e18-b13a-bc9f04ac7c3c",
+        "accountId": "af833c90-4259-428c-bf83-806345e0aa0c",
+        "before": {
+          "id": "69eacc9e-73cf-4e18-b13a-bc9f04ac7c3c",
+          "accountId": "af833c90-4259-428c-bf83-806345e0aa0c",
+          "name": "Wulfran Wyrmward",
+          "level": 15,
+          "tier": "seasoned",
+          "variant": 0,
+          "calling": "Spellward",
+          "militia": 2,
+          "legacyFloor": 1,
+          "attackTraining": 3,
+          "defenseTraining": 3,
+          "skillPoints": 2,
+          "gold": 5826,
+          "vault": 16113,
+          "reserve": 2448,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 738,
+          "propertyUpkeep": 91,
+          "stateVersion": 1,
+          "health": 140,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "argent-sentinel-plate",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 480
+                }
+              ]
+            },
+            {
+              "itemId": "briarheart-bow",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 360
+                }
+              ]
+            },
+            {
+              "itemId": "silverroot-ward",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 300
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 51,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "c8b9d76cde4e5730c74536f62bf8d0d403d6dfd7281e86779619f6b6b3a06c1c",
+          "landDigest": "e23d3e9bfaa8a5462a134e157cd59589026bfd65c95fafb0b10251a791ffbf96"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "15:seasoned:0",
+          "botId": "69eacc9e-73cf-4e18-b13a-bc9f04ac7c3c",
+          "accountId": "af833c90-4259-428c-bf83-806345e0aa0c",
+          "snapshotHash": "06f18485ea985152e5d1d442e4f95d19e65fd4a11d734a52071b918a541e7682",
+          "participants": 3,
+          "before": {
+            "attack": 160.49,
+            "defense": 241.25
+          },
+          "oldRate": 51,
+          "propertyNet": 647,
+          "status": "control",
+          "reason": "No small affordable purchase passes every strength, matchup and upkeep bound",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 160.49,
+            "defense": 241.25
+          },
+          "newRate": 51,
+          "netHourly": 596,
+          "finalGold": 5826,
+          "finalReserve": 2448
+        },
+        "after": {
+          "id": "69eacc9e-73cf-4e18-b13a-bc9f04ac7c3c",
+          "accountId": "af833c90-4259-428c-bf83-806345e0aa0c",
+          "name": "Wulfran Wyrmward",
+          "level": 15,
+          "tier": "seasoned",
+          "variant": 0,
+          "calling": "Spellward",
+          "militia": 2,
+          "legacyFloor": 1,
+          "attackTraining": 3,
+          "defenseTraining": 3,
+          "skillPoints": 2,
+          "gold": 5826,
+          "vault": 16113,
+          "reserve": 2448,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 738,
+          "propertyUpkeep": 91,
+          "stateVersion": 1,
+          "health": 140,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "argent-sentinel-plate",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 480
+                }
+              ]
+            },
+            {
+              "itemId": "briarheart-bow",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 360
+                }
+              ]
+            },
+            {
+              "itemId": "silverroot-ward",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 300
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 51,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "c8b9d76cde4e5730c74536f62bf8d0d403d6dfd7281e86779619f6b6b3a06c1c",
+          "landDigest": "e23d3e9bfaa8a5462a134e157cd59589026bfd65c95fafb0b10251a791ffbf96"
+        }
+      },
+      {
+        "slot": "15:elite:1",
+        "botId": "dea8c18f-4bae-4fab-adac-69c63fef39bc",
+        "accountId": "9fd36f58-030e-41b5-87cd-e5e7768ab98b",
+        "before": {
+          "id": "dea8c18f-4bae-4fab-adac-69c63fef39bc",
+          "accountId": "9fd36f58-030e-41b5-87cd-e5e7768ab98b",
+          "name": "Marek Highthorn",
+          "level": 15,
+          "tier": "elite",
+          "variant": 1,
+          "calling": "Freeblade",
+          "militia": 3,
+          "legacyFloor": 1,
+          "attackTraining": 7,
+          "defenseTraining": 7,
+          "skillPoints": 2,
+          "gold": 9539,
+          "vault": 28151,
+          "reserve": 4416,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 1048,
+          "propertyUpkeep": 126,
+          "stateVersion": 1,
+          "health": 150,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "frostweave-mantle",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 720
+                }
+              ]
+            },
+            {
+              "itemId": "silverroot-ward",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 300
+                }
+              ]
+            },
+            {
+              "itemId": "stormglass-pike",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 760
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 92,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "6c58381cb7f4f1d6f15c918291244c98afec5fa8afbd084e8f5cc759b0ee3aca",
+          "landDigest": "842778b1301a7c936cd22090af07df118e752da84b25d13dee7e1bd3ca3670da"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "15:elite:1",
+          "botId": "dea8c18f-4bae-4fab-adac-69c63fef39bc",
+          "accountId": "9fd36f58-030e-41b5-87cd-e5e7768ab98b",
+          "snapshotHash": "beda98577c52d8c5cfe3d19f9ff347aa99aae88c0660ad9daee40f68cf1d72b7",
+          "participants": 4,
+          "before": {
+            "attack": 304.91,
+            "defense": 344.99
+          },
+          "oldRate": 92,
+          "propertyNet": 922,
+          "status": "control",
+          "reason": "Already too challenging for the fixed ordinary benchmark",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 304.91,
+            "defense": 344.99
+          },
+          "newRate": 92,
+          "netHourly": 830,
+          "finalGold": 9539,
+          "finalReserve": 4416
+        },
+        "after": {
+          "id": "dea8c18f-4bae-4fab-adac-69c63fef39bc",
+          "accountId": "9fd36f58-030e-41b5-87cd-e5e7768ab98b",
+          "name": "Marek Highthorn",
+          "level": 15,
+          "tier": "elite",
+          "variant": 1,
+          "calling": "Freeblade",
+          "militia": 3,
+          "legacyFloor": 1,
+          "attackTraining": 7,
+          "defenseTraining": 7,
+          "skillPoints": 2,
+          "gold": 9539,
+          "vault": 28151,
+          "reserve": 4416,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 1048,
+          "propertyUpkeep": 126,
+          "stateVersion": 1,
+          "health": 150,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "frostweave-mantle",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 720
+                }
+              ]
+            },
+            {
+              "itemId": "silverroot-ward",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 300
+                }
+              ]
+            },
+            {
+              "itemId": "stormglass-pike",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 760
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 92,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "6c58381cb7f4f1d6f15c918291244c98afec5fa8afbd084e8f5cc759b0ee3aca",
+          "landDigest": "842778b1301a7c936cd22090af07df118e752da84b25d13dee7e1bd3ca3670da"
+        }
+      },
+      {
+        "slot": "25:green:0",
+        "botId": "cd30d12d-2245-4dae-9d38-df9fd3cf77bc",
+        "accountId": "bb9725c8-cac7-41fd-9293-57974aec1ead",
+        "before": {
+          "id": "cd30d12d-2245-4dae-9d38-df9fd3cf77bc",
+          "accountId": "bb9725c8-cac7-41fd-9293-57974aec1ead",
+          "name": "Osric Ashenfell",
+          "level": 25,
+          "tier": "green",
+          "variant": 0,
+          "calling": "Freeblade",
+          "militia": 1,
+          "legacyFloor": 1,
+          "attackTraining": 2,
+          "defenseTraining": 2,
+          "skillPoints": 3,
+          "gold": 10003,
+          "vault": 49942,
+          "reserve": 2496,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 2700,
+          "propertyUpkeep": 400,
+          "stateVersion": 1,
+          "health": 150,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "embercrest-bulwark",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 1000
+                }
+              ]
+            },
+            {
+              "itemId": "silverroot-ward",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 300
+                }
+              ]
+            },
+            {
+              "itemId": "stormglass-pike",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 760
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 52,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "d9f4939b2c83df12fd95c172a9d90cbed3f4fc034d28b16f279ca49a22d10d48",
+          "landDigest": "b5711b15f8cd5e38aaba0550043e31a17afc73d800af3e683ff192b153ba5a05"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "25:green:0",
+          "botId": "cd30d12d-2245-4dae-9d38-df9fd3cf77bc",
+          "accountId": "bb9725c8-cac7-41fd-9293-57974aec1ead",
+          "snapshotHash": "5041604c926addc6252f13e10074ea39c42c98d5a0ddbb5c460c11531a917dd4",
+          "participants": 2,
+          "before": {
+            "attack": 171.85,
+            "defense": 202.92
+          },
+          "oldRate": 52,
+          "propertyNet": 2300,
+          "status": "control",
+          "reason": "No small affordable purchase passes every strength, matchup and upkeep bound",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 171.85,
+            "defense": 202.92
+          },
+          "newRate": 52,
+          "netHourly": 2248,
+          "finalGold": 10003,
+          "finalReserve": 2496
+        },
+        "after": {
+          "id": "cd30d12d-2245-4dae-9d38-df9fd3cf77bc",
+          "accountId": "bb9725c8-cac7-41fd-9293-57974aec1ead",
+          "name": "Osric Ashenfell",
+          "level": 25,
+          "tier": "green",
+          "variant": 0,
+          "calling": "Freeblade",
+          "militia": 1,
+          "legacyFloor": 1,
+          "attackTraining": 2,
+          "defenseTraining": 2,
+          "skillPoints": 3,
+          "gold": 10003,
+          "vault": 49942,
+          "reserve": 2496,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 2700,
+          "propertyUpkeep": 400,
+          "stateVersion": 1,
+          "health": 150,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "embercrest-bulwark",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 1000
+                }
+              ]
+            },
+            {
+              "itemId": "silverroot-ward",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 300
+                }
+              ]
+            },
+            {
+              "itemId": "stormglass-pike",
+              "quantity": 2,
+              "lots": [
+                {
+                  "quantity": 2,
+                  "unitCost": 760
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 52,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "d9f4939b2c83df12fd95c172a9d90cbed3f4fc034d28b16f279ca49a22d10d48",
+          "landDigest": "b5711b15f8cd5e38aaba0550043e31a17afc73d800af3e683ff192b153ba5a05"
+        }
+      },
+      {
+        "slot": "25:seasoned:1",
+        "botId": "cc96fb51-1719-468e-8200-ebc092d3c917",
+        "accountId": "e43904fe-f5c7-400d-bc95-37b3d2545582",
+        "before": {
+          "id": "cc96fb51-1719-468e-8200-ebc092d3c917",
+          "accountId": "e43904fe-f5c7-400d-bc95-37b3d2545582",
+          "name": "Varric Amberfell",
+          "level": 25,
+          "tier": "seasoned",
+          "variant": 1,
+          "calling": "Warden",
+          "militia": 3,
+          "legacyFloor": 1,
+          "attackTraining": 5,
+          "defenseTraining": 5,
+          "skillPoints": 3,
+          "gold": 24092,
+          "vault": 123856,
+          "reserve": 9408,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 5400,
+          "propertyUpkeep": 800,
+          "stateVersion": 1,
+          "health": 160,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "moonthorn-recurve",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 1450
+                }
+              ]
+            },
+            {
+              "itemId": "moonwell-veil",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 1250
+                }
+              ]
+            },
+            {
+              "itemId": "oathkeepers-cuirass",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 1800
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 196,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "54dd269afe0f243155a5d6906057ca93ab2341bade3aadbc28cc91b880753f26",
+          "landDigest": "20cc1cfa500ecc7daac23646989ac51ed8bc8ce0bcfa9a600ad98c231b311ec6"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "25:seasoned:1",
+          "botId": "cc96fb51-1719-468e-8200-ebc092d3c917",
+          "accountId": "e43904fe-f5c7-400d-bc95-37b3d2545582",
+          "snapshotHash": "c13a8007e09f8faefcf19f66fbf3475cfefd81489bda3eb22e88f9fc69a9aed4",
+          "participants": 4,
+          "before": {
+            "attack": 372.5,
+            "defense": 575.48
+          },
+          "oldRate": 196,
+          "propertyNet": 4600,
+          "status": "control",
+          "reason": "Already too challenging for the fixed ordinary benchmark",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 372.5,
+            "defense": 575.48
+          },
+          "newRate": 196,
+          "netHourly": 4404,
+          "finalGold": 24092,
+          "finalReserve": 9408
+        },
+        "after": {
+          "id": "cc96fb51-1719-468e-8200-ebc092d3c917",
+          "accountId": "e43904fe-f5c7-400d-bc95-37b3d2545582",
+          "name": "Varric Amberfell",
+          "level": 25,
+          "tier": "seasoned",
+          "variant": 1,
+          "calling": "Warden",
+          "militia": 3,
+          "legacyFloor": 1,
+          "attackTraining": 5,
+          "defenseTraining": 5,
+          "skillPoints": 3,
+          "gold": 24092,
+          "vault": 123856,
+          "reserve": 9408,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 5400,
+          "propertyUpkeep": 800,
+          "stateVersion": 1,
+          "health": 160,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "moonthorn-recurve",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 1450
+                }
+              ]
+            },
+            {
+              "itemId": "moonwell-veil",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 1250
+                }
+              ]
+            },
+            {
+              "itemId": "oathkeepers-cuirass",
+              "quantity": 4,
+              "lots": [
+                {
+                  "quantity": 4,
+                  "unitCost": 1800
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 196,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "54dd269afe0f243155a5d6906057ca93ab2341bade3aadbc28cc91b880753f26",
+          "landDigest": "20cc1cfa500ecc7daac23646989ac51ed8bc8ce0bcfa9a600ad98c231b311ec6"
+        }
+      },
+      {
+        "slot": "25:elite:2",
+        "botId": "80792b23-d332-4849-9cb8-3998e676e6d6",
+        "accountId": "767c45d2-9b0e-4fa3-a28a-9bed45dc1f2e",
+        "before": {
+          "id": "80792b23-d332-4849-9cb8-3998e676e6d6",
+          "accountId": "767c45d2-9b0e-4fa3-a28a-9bed45dc1f2e",
+          "name": "Zephan Oakenford",
+          "level": 25,
+          "tier": "elite",
+          "variant": 2,
+          "calling": "Spellward",
+          "militia": 5,
+          "legacyFloor": 1,
+          "attackTraining": 12,
+          "defenseTraining": 12,
+          "skillPoints": 3,
+          "gold": 45919,
+          "vault": 234740,
+          "reserve": 14112,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 8100,
+          "propertyUpkeep": 1200,
+          "stateVersion": 1,
+          "health": 170,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "moonthorn-recurve",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 1450
+                }
+              ]
+            },
+            {
+              "itemId": "moonwell-veil",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 1250
+                }
+              ]
+            },
+            {
+              "itemId": "oathkeepers-cuirass",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 1800
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 294,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "4431ad958defd2a21f2e06d45ed610b811ec6855e753fc2e56957049e9b18a83",
+          "landDigest": "6644df96b62d8681890baf7ce5c50187637e8c949592cfdd62d73aefed0746e0"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "25:elite:2",
+          "botId": "80792b23-d332-4849-9cb8-3998e676e6d6",
+          "accountId": "767c45d2-9b0e-4fa3-a28a-9bed45dc1f2e",
+          "snapshotHash": "295bc0b2a4f48b8971162274a60489260bceb81e1324a9f4b01633b8b2ecbe68",
+          "participants": 6,
+          "before": {
+            "attack": 568.56,
+            "defense": 852.84
+          },
+          "oldRate": 294,
+          "propertyNet": 6900,
+          "status": "control",
+          "reason": "Already too challenging for the fixed ordinary benchmark",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 568.56,
+            "defense": 852.84
+          },
+          "newRate": 294,
+          "netHourly": 6606,
+          "finalGold": 45919,
+          "finalReserve": 14112
+        },
+        "after": {
+          "id": "80792b23-d332-4849-9cb8-3998e676e6d6",
+          "accountId": "767c45d2-9b0e-4fa3-a28a-9bed45dc1f2e",
+          "name": "Zephan Oakenford",
+          "level": 25,
+          "tier": "elite",
+          "variant": 2,
+          "calling": "Spellward",
+          "militia": 5,
+          "legacyFloor": 1,
+          "attackTraining": 12,
+          "defenseTraining": 12,
+          "skillPoints": 3,
+          "gold": 45919,
+          "vault": 234740,
+          "reserve": 14112,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 8100,
+          "propertyUpkeep": 1200,
+          "stateVersion": 1,
+          "health": 170,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "moonthorn-recurve",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 1450
+                }
+              ]
+            },
+            {
+              "itemId": "moonwell-veil",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 1250
+                }
+              ]
+            },
+            {
+              "itemId": "oathkeepers-cuirass",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 1800
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 294,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "4431ad958defd2a21f2e06d45ed610b811ec6855e753fc2e56957049e9b18a83",
+          "landDigest": "6644df96b62d8681890baf7ce5c50187637e8c949592cfdd62d73aefed0746e0"
+        }
+      },
+      {
+        "slot": "40:green:1",
+        "botId": "c38dd55f-bbe1-41b2-81f2-f7b7c7144b62",
+        "accountId": "27368067-0375-4662-ba7d-69a2f537bbec",
+        "before": {
+          "id": "c38dd55f-bbe1-41b2-81f2-f7b7c7144b62",
+          "accountId": "27368067-0375-4662-ba7d-69a2f537bbec",
+          "name": "Isen Runefell",
+          "level": 40,
+          "tier": "green",
+          "variant": 1,
+          "calling": "Spellward",
+          "militia": 3,
+          "legacyFloor": 1,
+          "attackTraining": 3,
+          "defenseTraining": 3,
+          "skillPoints": 6,
+          "gold": 47848,
+          "vault": 297584,
+          "reserve": 13824,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 15100,
+          "propertyUpkeep": 2400,
+          "stateVersion": 1,
+          "health": 180,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "dawnstar-benediction",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 3000
+                }
+              ]
+            },
+            {
+              "itemId": "sun-etched-warhammer",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 3400
+                }
+              ]
+            },
+            {
+              "itemId": "wyrmscale-aegis",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 4100
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 288,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "2b4e4b83c0e97c0c7d8f0e5740208a86b5232a9460faaad5f95e3b489800de35",
+          "landDigest": "fd9061cc2e0b9e2eabcbaf2b8a8db5b30397293b343b1af812fbed7fb36184e0"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "40:green:1",
+          "botId": "c38dd55f-bbe1-41b2-81f2-f7b7c7144b62",
+          "accountId": "27368067-0375-4662-ba7d-69a2f537bbec",
+          "snapshotHash": "041714e43b6061a90f6f316265adfacdad79568fa1fc5166c46b8b1682404f08",
+          "participants": 4,
+          "before": {
+            "attack": 435.05,
+            "defense": 586.46
+          },
+          "oldRate": 288,
+          "propertyNet": 12700,
+          "status": "purchase",
+          "reason": "Modest paid addition; no sales, points, member grants or refunds",
+          "purchases": [
+            {
+              "itemId": "argent-sentinel-plate",
+              "quantity": 1,
+              "gold": 480
+            }
+          ],
+          "cost": 480,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 445.15,
+            "defense": 617.75
+          },
+          "newRate": 295,
+          "netHourly": 12405,
+          "finalGold": 47368,
+          "finalReserve": 13824
+        },
+        "after": {
+          "id": "c38dd55f-bbe1-41b2-81f2-f7b7c7144b62",
+          "accountId": "27368067-0375-4662-ba7d-69a2f537bbec",
+          "name": "Isen Runefell",
+          "level": 40,
+          "tier": "green",
+          "variant": 1,
+          "calling": "Spellward",
+          "militia": 3,
+          "legacyFloor": 1,
+          "attackTraining": 3,
+          "defenseTraining": 3,
+          "skillPoints": 6,
+          "gold": 47368,
+          "vault": 297584,
+          "reserve": 13824,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 15100,
+          "propertyUpkeep": 2400,
+          "stateVersion": 1,
+          "health": 180,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "dawnstar-benediction",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 3000
+                }
+              ]
+            },
+            {
+              "itemId": "sun-etched-warhammer",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 3400
+                }
+              ]
+            },
+            {
+              "itemId": "wyrmscale-aegis",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 4100
+                }
+              ]
+            },
+            {
+              "itemId": "argent-sentinel-plate",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 480
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 288,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "2b4e4b83c0e97c0c7d8f0e5740208a86b5232a9460faaad5f95e3b489800de35",
+          "landDigest": "fd9061cc2e0b9e2eabcbaf2b8a8db5b30397293b343b1af812fbed7fb36184e0"
+        }
+      },
+      {
+        "slot": "40:seasoned:2",
+        "botId": "7eb3faab-38b9-4b2c-83b3-30665bbd09e2",
+        "accountId": "e78349e9-e730-4178-8b41-336034a4330d",
+        "before": {
+          "id": "7eb3faab-38b9-4b2c-83b3-30665bbd09e2",
+          "accountId": "e78349e9-e730-4178-8b41-336034a4330d",
+          "name": "Ser Lyra Glenwynd",
+          "level": 40,
+          "tier": "seasoned",
+          "variant": 2,
+          "calling": "Freeblade",
+          "militia": 5,
+          "legacyFloor": 1,
+          "attackTraining": 8,
+          "defenseTraining": 8,
+          "skillPoints": 6,
+          "gold": 94957,
+          "vault": 561841,
+          "reserve": 27648,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 22650,
+          "propertyUpkeep": 3600,
+          "stateVersion": 1,
+          "health": 190,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "dawnstar-benediction",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 3000
+                }
+              ]
+            },
+            {
+              "itemId": "sun-etched-warhammer",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 3400
+                }
+              ]
+            },
+            {
+              "itemId": "wyrmscale-aegis",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 4100
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 576,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "80c53f355e2b8bf123a8be835c2f07d3ab1aa7e0e7451bb1e275d04528cc49b5",
+          "landDigest": "58c844aa35cd3a5a41fd89fd24e4413832fc81274beab1122baebdcd97d75601"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "40:seasoned:2",
+          "botId": "7eb3faab-38b9-4b2c-83b3-30665bbd09e2",
+          "accountId": "e78349e9-e730-4178-8b41-336034a4330d",
+          "snapshotHash": "280e25bcd7cda47fcda9950cb06827ab6f7f6e4d095a6a69c09194e0e4b5fee6",
+          "participants": 6,
+          "before": {
+            "attack": 871.6,
+            "defense": 1181.17
+          },
+          "oldRate": 576,
+          "propertyNet": 19050,
+          "status": "control",
+          "reason": "Already too challenging for the fixed ordinary benchmark",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 871.6,
+            "defense": 1181.17
+          },
+          "newRate": 576,
+          "netHourly": 18474,
+          "finalGold": 94957,
+          "finalReserve": 27648
+        },
+        "after": {
+          "id": "7eb3faab-38b9-4b2c-83b3-30665bbd09e2",
+          "accountId": "e78349e9-e730-4178-8b41-336034a4330d",
+          "name": "Ser Lyra Glenwynd",
+          "level": 40,
+          "tier": "seasoned",
+          "variant": 2,
+          "calling": "Freeblade",
+          "militia": 5,
+          "legacyFloor": 1,
+          "attackTraining": 8,
+          "defenseTraining": 8,
+          "skillPoints": 6,
+          "gold": 94957,
+          "vault": 561841,
+          "reserve": 27648,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 22650,
+          "propertyUpkeep": 3600,
+          "stateVersion": 1,
+          "health": 190,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "dawnstar-benediction",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 3000
+                }
+              ]
+            },
+            {
+              "itemId": "sun-etched-warhammer",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 3400
+                }
+              ]
+            },
+            {
+              "itemId": "wyrmscale-aegis",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 4100
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 576,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "80c53f355e2b8bf123a8be835c2f07d3ab1aa7e0e7451bb1e275d04528cc49b5",
+          "landDigest": "58c844aa35cd3a5a41fd89fd24e4413832fc81274beab1122baebdcd97d75601"
+        }
+      },
+      {
+        "slot": "40:elite:0",
+        "botId": "e828ec1d-e433-4ed5-827b-a5565bb74324",
+        "accountId": "c4fa708b-4d67-46ed-85d3-82ff3766bbfa",
+        "before": {
+          "id": "e828ec1d-e433-4ed5-827b-a5565bb74324",
+          "accountId": "c4fa708b-4d67-46ed-85d3-82ff3766bbfa",
+          "name": "Nimue Ravenshade",
+          "level": 40,
+          "tier": "elite",
+          "variant": 0,
+          "calling": "Warden",
+          "militia": 8,
+          "legacyFloor": 1,
+          "attackTraining": 20,
+          "defenseTraining": 20,
+          "skillPoints": 6,
+          "gold": 126165,
+          "vault": 830224,
+          "reserve": 46656,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 26810,
+          "propertyUpkeep": 4260,
+          "stateVersion": 1,
+          "health": 200,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "astral-conductor",
+              "quantity": 9,
+              "lots": [
+                {
+                  "quantity": 9,
+                  "unitCost": 5700
+                }
+              ]
+            },
+            {
+              "itemId": "dawnstar-benediction",
+              "quantity": 9,
+              "lots": [
+                {
+                  "quantity": 9,
+                  "unitCost": 3000
+                }
+              ]
+            },
+            {
+              "itemId": "wyrmscale-aegis",
+              "quantity": 9,
+              "lots": [
+                {
+                  "quantity": 9,
+                  "unitCost": 4100
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 972,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "2319a3b59a3340abbe0f644e7e42f94deed57570eba40f250ba72e71390ef6b1",
+          "landDigest": "c0256d52ec5c5b6e927bb7bf69bc5ba3e3171119759c67450a256bf50c36683a"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "40:elite:0",
+          "botId": "e828ec1d-e433-4ed5-827b-a5565bb74324",
+          "accountId": "c4fa708b-4d67-46ed-85d3-82ff3766bbfa",
+          "snapshotHash": "74561efadf810729a99bddd0df8e4749d5d149f5fe43ded322672bcae4063afa",
+          "participants": 9,
+          "before": {
+            "attack": 1427.66,
+            "defense": 2231.42
+          },
+          "oldRate": 972,
+          "propertyNet": 22550,
+          "status": "control",
+          "reason": "Already too challenging for the fixed ordinary benchmark",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 1427.66,
+            "defense": 2231.42
+          },
+          "newRate": 972,
+          "netHourly": 21578,
+          "finalGold": 126165,
+          "finalReserve": 46656
+        },
+        "after": {
+          "id": "e828ec1d-e433-4ed5-827b-a5565bb74324",
+          "accountId": "c4fa708b-4d67-46ed-85d3-82ff3766bbfa",
+          "name": "Nimue Ravenshade",
+          "level": 40,
+          "tier": "elite",
+          "variant": 0,
+          "calling": "Warden",
+          "militia": 8,
+          "legacyFloor": 1,
+          "attackTraining": 20,
+          "defenseTraining": 20,
+          "skillPoints": 6,
+          "gold": 126165,
+          "vault": 830224,
+          "reserve": 46656,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 26810,
+          "propertyUpkeep": 4260,
+          "stateVersion": 1,
+          "health": 200,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "astral-conductor",
+              "quantity": 9,
+              "lots": [
+                {
+                  "quantity": 9,
+                  "unitCost": 5700
+                }
+              ]
+            },
+            {
+              "itemId": "dawnstar-benediction",
+              "quantity": 9,
+              "lots": [
+                {
+                  "quantity": 9,
+                  "unitCost": 3000
+                }
+              ]
+            },
+            {
+              "itemId": "wyrmscale-aegis",
+              "quantity": 9,
+              "lots": [
+                {
+                  "quantity": 9,
+                  "unitCost": 4100
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 972,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "2319a3b59a3340abbe0f644e7e42f94deed57570eba40f250ba72e71390ef6b1",
+          "landDigest": "c0256d52ec5c5b6e927bb7bf69bc5ba3e3171119759c67450a256bf50c36683a"
+        }
+      },
+      {
+        "slot": "50:green:2",
+        "botId": "68ce7da0-0645-4ab9-8ae0-c2a3b2393595",
+        "accountId": "d2023d18-5cfc-4590-a626-4e73d93b3e8c",
+        "before": {
+          "id": "68ce7da0-0645-4ab9-8ae0-c2a3b2393595",
+          "accountId": "d2023d18-5cfc-4590-a626-4e73d93b3e8c",
+          "name": "Una Thornvale",
+          "level": 50,
+          "tier": "green",
+          "variant": 2,
+          "calling": "Warden",
+          "militia": 3,
+          "legacyFloor": 1,
+          "attackTraining": 4,
+          "defenseTraining": 4,
+          "skillPoints": 8,
+          "gold": 80172,
+          "vault": 512616,
+          "reserve": 17424,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 24290,
+          "propertyUpkeep": 3880,
+          "stateVersion": 1,
+          "health": 200,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "astral-conductor",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 5700
+                }
+              ]
+            },
+            {
+              "itemId": "dawnstar-benediction",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 3000
+                }
+              ]
+            },
+            {
+              "itemId": "sovereigns-bastion",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 6700
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 363,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "d57d27e15072a9464fb1730f3a6d7b3a6f5d438dfbc88cad6a7087211cb8533b",
+          "landDigest": "c6befdf444d01f3816b091397e951d65d8257f6ca199b23864fe978c46e3f10c"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "50:green:2",
+          "botId": "68ce7da0-0645-4ab9-8ae0-c2a3b2393595",
+          "accountId": "d2023d18-5cfc-4590-a626-4e73d93b3e8c",
+          "snapshotHash": "4dd911e6dbcd0279db78aea03a1118fcdefa590148a56e86890ab3fb44b5dba3",
+          "participants": 4,
+          "before": {
+            "attack": 505.52,
+            "defense": 726.84
+          },
+          "oldRate": 363,
+          "propertyNet": 20410,
+          "status": "purchase",
+          "reason": "Modest paid addition; no sales, points, member grants or refunds",
+          "purchases": [
+            {
+              "itemId": "frostweave-mantle",
+              "quantity": 1,
+              "gold": 720
+            }
+          ],
+          "cost": 720,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 518.77,
+            "defense": 764.69
+          },
+          "newRate": 372,
+          "netHourly": 20038,
+          "finalGold": 79452,
+          "finalReserve": 17424
+        },
+        "after": {
+          "id": "68ce7da0-0645-4ab9-8ae0-c2a3b2393595",
+          "accountId": "d2023d18-5cfc-4590-a626-4e73d93b3e8c",
+          "name": "Una Thornvale",
+          "level": 50,
+          "tier": "green",
+          "variant": 2,
+          "calling": "Warden",
+          "militia": 3,
+          "legacyFloor": 1,
+          "attackTraining": 4,
+          "defenseTraining": 4,
+          "skillPoints": 8,
+          "gold": 79452,
+          "vault": 512616,
+          "reserve": 17424,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 24290,
+          "propertyUpkeep": 3880,
+          "stateVersion": 1,
+          "health": 200,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "astral-conductor",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 5700
+                }
+              ]
+            },
+            {
+              "itemId": "dawnstar-benediction",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 3000
+                }
+              ]
+            },
+            {
+              "itemId": "sovereigns-bastion",
+              "quantity": 3,
+              "lots": [
+                {
+                  "quantity": 3,
+                  "unitCost": 6700
+                }
+              ]
+            },
+            {
+              "itemId": "frostweave-mantle",
+              "quantity": 1,
+              "lots": [
+                {
+                  "quantity": 1,
+                  "unitCost": 720
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 363,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "d57d27e15072a9464fb1730f3a6d7b3a6f5d438dfbc88cad6a7087211cb8533b",
+          "landDigest": "c6befdf444d01f3816b091397e951d65d8257f6ca199b23864fe978c46e3f10c"
+        }
+      },
+      {
+        "slot": "50:seasoned:0",
+        "botId": "c1787768-91bd-4573-a1eb-85551577c365",
+        "accountId": "647f77c8-8570-4943-9d14-40bb2678c31d",
+        "before": {
+          "id": "c1787768-91bd-4573-a1eb-85551577c365",
+          "accountId": "647f77c8-8570-4943-9d14-40bb2678c31d",
+          "name": "Gwyneira Emberfall",
+          "level": 50,
+          "tier": "seasoned",
+          "variant": 0,
+          "calling": "Spellward",
+          "militia": 6,
+          "legacyFloor": 1,
+          "attackTraining": 10,
+          "defenseTraining": 10,
+          "skillPoints": 8,
+          "gold": 113440,
+          "vault": 800180,
+          "reserve": 41760,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 30310,
+          "propertyUpkeep": 4840,
+          "stateVersion": 1,
+          "health": 210,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "astral-conductor",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 5700
+                }
+              ]
+            },
+            {
+              "itemId": "seraphs-rebuke",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 7500
+                }
+              ]
+            },
+            {
+              "itemId": "sovereigns-bastion",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 6700
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 870,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "9ec039c667eb23a12d43932746ae07b2fe97ec1d80e8c4fb47660f6423a68be5",
+          "landDigest": "3cb50a9cf99ba325a0cdf6c29aed62f504f0aebd75b8b9388bb3f544d668695b"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "50:seasoned:0",
+          "botId": "c1787768-91bd-4573-a1eb-85551577c365",
+          "accountId": "647f77c8-8570-4943-9d14-40bb2678c31d",
+          "snapshotHash": "b04b97a838ce24b236827c535320d649b3dc4ae64faaffdb18da60c3732506e0",
+          "participants": 7,
+          "before": {
+            "attack": 1191.19,
+            "defense": 1474.7
+          },
+          "oldRate": 870,
+          "propertyNet": 25470,
+          "status": "purchase",
+          "reason": "Modest paid addition; no sales, points, member grants or refunds",
+          "purchases": [
+            {
+              "itemId": "astral-conductor",
+              "quantity": 1,
+              "gold": 5700
+            }
+          ],
+          "cost": 5700,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 1270.96,
+            "defense": 1532.92
+          },
+          "newRate": 912,
+          "netHourly": 24558,
+          "finalGold": 107740,
+          "finalReserve": 41760
+        },
+        "after": {
+          "id": "c1787768-91bd-4573-a1eb-85551577c365",
+          "accountId": "647f77c8-8570-4943-9d14-40bb2678c31d",
+          "name": "Gwyneira Emberfall",
+          "level": 50,
+          "tier": "seasoned",
+          "variant": 0,
+          "calling": "Spellward",
+          "militia": 6,
+          "legacyFloor": 1,
+          "attackTraining": 10,
+          "defenseTraining": 10,
+          "skillPoints": 8,
+          "gold": 107740,
+          "vault": 800180,
+          "reserve": 41760,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 30310,
+          "propertyUpkeep": 4840,
+          "stateVersion": 1,
+          "health": 210,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "astral-conductor",
+              "quantity": 7,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 5700
+                },
+                {
+                  "quantity": 1,
+                  "unitCost": 5700
+                }
+              ]
+            },
+            {
+              "itemId": "seraphs-rebuke",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 7500
+                }
+              ]
+            },
+            {
+              "itemId": "sovereigns-bastion",
+              "quantity": 6,
+              "lots": [
+                {
+                  "quantity": 6,
+                  "unitCost": 6700
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 870,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "9ec039c667eb23a12d43932746ae07b2fe97ec1d80e8c4fb47660f6423a68be5",
+          "landDigest": "3cb50a9cf99ba325a0cdf6c29aed62f504f0aebd75b8b9388bb3f544d668695b"
+        }
+      },
+      {
+        "slot": "50:elite:1",
+        "botId": "143e016a-819f-41aa-96c2-7fcd61fd3c18",
+        "accountId": "7e52d252-2fd1-4781-bc80-d8bce18de4a0",
+        "before": {
+          "id": "143e016a-819f-41aa-96c2-7fcd61fd3c18",
+          "accountId": "7e52d252-2fd1-4781-bc80-d8bce18de4a0",
+          "name": "Ysolda Ivorymere",
+          "level": 50,
+          "tier": "elite",
+          "variant": 1,
+          "calling": "Freeblade",
+          "militia": 9,
+          "legacyFloor": 1,
+          "attackTraining": 25,
+          "defenseTraining": 25,
+          "skillPoints": 8,
+          "gold": 212154,
+          "vault": 1381758,
+          "reserve": 74880,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 41580,
+          "propertyUpkeep": 6640,
+          "stateVersion": 1,
+          "health": 220,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "astral-conductor",
+              "quantity": 10,
+              "lots": [
+                {
+                  "quantity": 10,
+                  "unitCost": 5700
+                }
+              ]
+            },
+            {
+              "itemId": "eclipse-citadel-plate",
+              "quantity": 10,
+              "lots": [
+                {
+                  "quantity": 10,
+                  "unitCost": 8800
+                }
+              ]
+            },
+            {
+              "itemId": "seraphs-rebuke",
+              "quantity": 10,
+              "lots": [
+                {
+                  "quantity": 10,
+                  "unitCost": 7500
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 1560,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "4114761477d073548240127c9e85e199c8c40a7e6df192ae32b8a2b306aef256",
+          "landDigest": "f51fd38d1315bf59a0294e62f930b258612f40fc3bd0755598e61eb8ae709010"
+        },
+        "plan": {
+          "policy": "bot-canary-proposal-1",
+          "slot": "50:elite:1",
+          "botId": "143e016a-819f-41aa-96c2-7fcd61fd3c18",
+          "accountId": "7e52d252-2fd1-4781-bc80-d8bce18de4a0",
+          "snapshotHash": "fb972389a745b6240a07e7e29d6f5eab0136b8e4ffb48f7a4e71a4c3a4fd8286",
+          "participants": 10,
+          "before": {
+            "attack": 2392,
+            "defense": 2942.45
+          },
+          "oldRate": 1560,
+          "propertyNet": 34940,
+          "status": "control",
+          "reason": "Already too challenging for the fixed ordinary benchmark",
+          "purchases": [],
+          "cost": 0,
+          "reserveTopup": 0,
+          "after": {
+            "attack": 2392,
+            "defense": 2942.45
+          },
+          "newRate": 1560,
+          "netHourly": 33380,
+          "finalGold": 212154,
+          "finalReserve": 74880
+        },
+        "after": {
+          "id": "143e016a-819f-41aa-96c2-7fcd61fd3c18",
+          "accountId": "7e52d252-2fd1-4781-bc80-d8bce18de4a0",
+          "name": "Ysolda Ivorymere",
+          "level": 50,
+          "tier": "elite",
+          "variant": 1,
+          "calling": "Freeblade",
+          "militia": 9,
+          "legacyFloor": 1,
+          "attackTraining": 25,
+          "defenseTraining": 25,
+          "skillPoints": 8,
+          "gold": 212154,
+          "vault": 1381758,
+          "reserve": 74880,
+          "arrears": 0,
+          "paused": false,
+          "grossIncome": 41580,
+          "propertyUpkeep": 6640,
+          "stateVersion": 1,
+          "health": 220,
+          "settledAt": "2035-01-01T00:00:00.000Z",
+          "nextPaymentAt": "2035-01-01T01:00:00.000Z",
+          "inventory": [
+            {
+              "itemId": "astral-conductor",
+              "quantity": 10,
+              "lots": [
+                {
+                  "quantity": 10,
+                  "unitCost": 5700
+                }
+              ]
+            },
+            {
+              "itemId": "eclipse-citadel-plate",
+              "quantity": 10,
+              "lots": [
+                {
+                  "quantity": 10,
+                  "unitCost": 8800
+                }
+              ]
+            },
+            {
+              "itemId": "seraphs-rebuke",
+              "quantity": 10,
+              "lots": [
+                {
+                  "quantity": 10,
+                  "unitCost": 7500
+                }
+              ]
+            }
+          ],
+          "maintenanceRate": 1560,
+          "maintenanceRemainder": "0",
+          "paidLotsDigest": "4114761477d073548240127c9e85e199c8c40a7e6df192ae32b8a2b306aef256",
+          "landDigest": "f51fd38d1315bf59a0294e62f930b258612f40fc3bd0755598e61eb8ae709010"
+        }
+      }
+    ]
+  },
+  "transactions": [
+    {
+      "botId": "3b27a3e7-1b35-4dc7-9b22-f145b50fba6b",
+      "commandId": "41cdb8f6-0836-42c6-b226-0ff5aaf29d93",
+      "childCommandId": "62ecae64-a680-455a-bd97-cf3488c6cd8a",
+      "manifestDigest": "292aa60585414b67b1fd4edf77c336b0879e0f029989be5f9ed48b17c8d637a0",
+      "cost": 22,
+      "beforeGold": 2754,
+      "afterGold": 2732,
+      "reserveBefore": 0,
+      "reserveAfter": 0
+    },
+    {
+      "botId": "f56b4fd4-31e1-4077-a9e2-1258542a270b",
+      "commandId": "352dd0ba-570b-407d-be1b-8702d65e60e8",
+      "childCommandId": "2f968ada-dd53-4ef3-a06e-53347988b452",
+      "manifestDigest": "292aa60585414b67b1fd4edf77c336b0879e0f029989be5f9ed48b17c8d637a0",
+      "cost": 330,
+      "beforeGold": 7212,
+      "afterGold": 6882,
+      "reserveBefore": 768,
+      "reserveAfter": 768
+    },
+    {
+      "botId": "c38dd55f-bbe1-41b2-81f2-f7b7c7144b62",
+      "commandId": "09dbb763-af8c-41cc-900b-a6c504ee9b06",
+      "childCommandId": "89274c5b-d7cc-40b6-9dd8-1b80512eea74",
+      "manifestDigest": "292aa60585414b67b1fd4edf77c336b0879e0f029989be5f9ed48b17c8d637a0",
+      "cost": 480,
+      "beforeGold": 47848,
+      "afterGold": 47368,
+      "reserveBefore": 13824,
+      "reserveAfter": 13824
+    },
+    {
+      "botId": "68ce7da0-0645-4ab9-8ae0-c2a3b2393595",
+      "commandId": "03ccd063-c2bc-4a0a-840a-820df8fb2c1c",
+      "childCommandId": "cd5c187d-aa5b-426e-ae7c-5133171608c9",
+      "manifestDigest": "292aa60585414b67b1fd4edf77c336b0879e0f029989be5f9ed48b17c8d637a0",
+      "cost": 720,
+      "beforeGold": 80172,
+      "afterGold": 79452,
+      "reserveBefore": 17424,
+      "reserveAfter": 17424
+    },
+    {
+      "botId": "c1787768-91bd-4573-a1eb-85551577c365",
+      "commandId": "de2df702-9d2d-4e36-801c-de95d9f7ca58",
+      "childCommandId": "8e61a487-818a-48c6-a6a6-f632af9e3b24",
+      "manifestDigest": "292aa60585414b67b1fd4edf77c336b0879e0f029989be5f9ed48b17c8d637a0",
+      "cost": 5700,
+      "beforeGold": 113440,
+      "afterGold": 107740,
+      "reserveBefore": 41760,
+      "reserveAfter": 41760
+    }
+  ]
+}

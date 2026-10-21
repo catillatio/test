@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "viewports": [
+    320,
+    360,
+    375,
+    390,
+    393,
+    412,
+    430,
+    1366
+  ],
+  "responsiveVisits": 56,
+  "screenshots": 8,
+  "checks": [
+    "Native Revenge consumes ordinary Spirit and creates a normal report.",
+    "Actual saved enemy loadout; no technical reward explanations.",
+    "Entire eight-lesson tutorial through real native quest, purchase, battle, Land and skill actions; saved completion and non-replaying celebration.",
+    "Eight Android/iPhone-sized/desktop widths, fixed five tabs, no overflow, missing images or duplicate IDs.",
+    "Keyboard-operable category links and equipment disclosure; reduced motion."
+  ],
+  "browserErrors": [],
+  "liveProviderContacted": false,
+  "limitations": [
+    "Headless Chromium with Android/iPhone viewport sizes; not physical devices, Safari, WebView or APK validation."
+  ]
+}

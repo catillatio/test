@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "fullSuite": {
+    "tests": 461,
+    "suites": 5,
+    "pass": 460,
+    "fail": 0,
+    "skipped": 1
+  },
+  "durationMilliseconds": 565146.974109,
+  "logSha256": "54596b98455db6ac14de4c4ca89650aa57cbe864a45474a785994c65a3a3fdad",
+  "skippedCase": "real hosted-runner network namespace executes synthetic checks without production secrets",
+  "focused": {
+    "tests": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "typecheck": true,
+  "build": true,
+  "static": {
+    "passed": 99,
+    "failed": 0,
+    "productionEjsFixtures": 77
+  },
+  "actionlint": {
+    "passed": true,
+    "version": "1.7.7"
+  },
+  "compiledProcessRestart": true,
+  "models": {
+    "matrixRows": 3744,
+    "matchups": 11232,
+    "rollPairsEach": 441,
+    "pacedSessions": 48
+  },
+  "versions": {
+    "node": "24.19.0",
+    "typescript": "5.9.3",
+    "postgres": "18.6",
+    "chromium": "154.0.8037.57"
+  },
+  "productionContacted": false,
+  "releaseDispatched": false
+}

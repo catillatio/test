@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "approvedBaseline": "a21b2b0e805f1a7428c3e88ab8930d89f854ec3a",
+  "fullSuite": {
+    "tests": 467,
+    "suites": 5,
+    "pass": 466,
+    "fail": 0,
+    "skipped": 1
+  },
+  "durationMilliseconds": 721369.055679,
+  "logSha256": "e29e0fc36240272d84223c39d5bfc68b84eba235f9425998c9873fe9307c896c",
+  "skippedCase": "real hosted-runner network namespace executes synthetic checks without production secrets",
+  "newFocusedTests": 6,
+  "typecheck": true,
+  "build": true,
+  "static": {
+    "passed": 99,
+    "failed": 0,
+    "productionEjsFixtures": 77
+  },
+  "actionlint": {
+    "passed": true,
+    "version": "1.7.7"
+  },
+  "models": {
+    "existingBots": 450,
+    "levels": 50,
+    "modes": 2,
+    "humanProfiles": 4,
+    "matchupRows": 3600,
+    "rollPairsEach": 441,
+    "futureStressCases": 30,
+    "pacedSessions": 64
+  },
+  "actualDumpRestore": true,
+  "actualConcurrentCopyTransactions": true,
+  "navigationAudioBrowser": true,
+  "versions": {
+    "node": "24.19.0",
+    "typescript": "5.9.3",
+    "postgres": "18.6",
+    "chromium": "154.0.8037.57"
+  },
+  "runtimePolicyAdopted": false,
+  "productionContacted": false,
+  "releaseDispatched": false,
+  "pr13Modified": false
+}

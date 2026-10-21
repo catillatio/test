@@ -1,0 +1,36 @@
+# Phase 4.9.1 protected alpha release — owner guide
+
+PR [#14](https://github.com/catillatio/test/pull/14), branch `feature/kingdom-come-phase-4-9-1-combat-audio-polish`, targets `release/production`. [Owner scope](https://github.com/catillatio/test/pull/14#issuecomment-6306433839). [Final readiness and limitations](docs/phase491/FINAL_RELEASE_REVIEW.md).
+
+This prepares the existing Phase 4.7 protected release process. It grants no merge, deployment, workflow-dispatch or production-access authorization. Do not run bot experiments or operator actions. PR #13 stays inactive; the username request is withdrawn and Gray requires no action.
+
+## Candidate and database behavior
+
+- Only approved battle-report presentation and audio behavior change: saved outcomes/rewards/loadouts, current-resource Attack Again/Revenge, silent routine controls, interrupted-playback cancellation and new human registrations muted by default. Existing sound choices/volume and approved recording bytes are retained.
+- Human combat, bot difficulty/finances, `bot-combat-rewards-2` (65% XP, 100/85/70/55/40 repeats), wallet-funded gold, bounties, Land, equipment, army and recruitment rules are unchanged.
+- **No SQL migration or ruleset definition is added.** Schema head remains `020_game_feel.sql`. On the existing Phase 4.9 database, the normal controlled migration/replay should be a no-op for existing business rows and policy definitions. It must still run through the signed pre-deploy gate; never skip or substitute it.
+- All bot studies/canary plans are inactive research, excluded from game runtime and verification-worker runtime packaging. No calibration script, purchase, reseed, initialization, bot regeneration, account correction, moderation or financial adjustment is a release step.
+
+## Android / GitHub web sequence
+
+1. **Owner merge review:** open PR #14 → **Files changed**, review the final report, approved screenshots and all green checks at the current full head SHA. Verify no newer unreviewed push. Do not merge until the owner explicitly authorizes it. Do not activate PR #13.
+2. **Pre-release confirmation:** when separately authorized, use the established owner channels to confirm Railway GitHub autodeploy is still disabled, the game and independent verification services/cluster remain configured, PostgreSQL remains private, and GitHub's protected `production` environment still requires the owner and restricts the branch to `release/production`. These live settings have not been inspected in this development task. Preserve existing keys, scoped credentials, connections, commands and safeguards; resolve any failed confirmation before proceeding.
+3. **Authorized merge:** merge only into `release/production`. Record its resulting full commit SHA **M**. Hold the branch steady. Never deploy the feature branch or use Railway's manual source redeploy as a substitute for the protected process.
+4. In **Actions → Kingdom Come checks**, require the complete successful **push** run on `release/production` at **M**. A PR run, merge-preview run or previous production commit does not satisfy release preflight.
+5. Retain `KINGDOM_BACKUP_KEY_VERIFIED=true` only while the owner's independently tested offline age identity/recipient remain valid. Do not rotate keys or set an old `KINGDOM_RECOVERY_ARTIFACT_ID`: the workflow supplies the fresh same-run artifact ID. If recovery setup is uncertain, resolve it with a separately authorized protected backup-only rehearsal and offline archive validation first. No extra rehearsal is required solely for this patch when the established setup remains verified.
+6. **Separate production authorization:** only after explicit owner approval to release **M**, open **Actions → Owner approved Railway release → Run workflow**, select **release/production** and enable **Deploy after all gates?**. At **Review deployments**, confirm **M** and approve the protected production job. No dispatch or environment approval is performed by this preparation.
+7. Let the existing workflow perform every gate in order: protected branch/exact-commit push CI → owner approval → locked exact-candidate build → authenticated private worker deployment identity → encrypted native backup → independent export/download/decryption/archive check → separate-cluster restored-copy migration/replay/preservation → retained GitHub ciphertext/manifest → independent retained-artifact download/check → fresh exact-candidate Ed25519 approval → controlled game pre-deploy proof and restored-copy check → migration → game deployment → exact-commit `/healthz` → private saved-realm verification → anonymous login check. **Stop on failure; do not manually advance, alter proof/copy names or weaken a guard.**
+8. Preserve the fresh `kingdom-recovery-<run>-<attempt>` artifact and verification evidence. Record **M**, run/attempt, artifact ID and Railway deployment ID. `/healthz` deliberately keeps its established `release: "phase4.7"` protocol marker: readiness plus the full commit **M** and deployment identity identify the actual patch. Do not edit the marker to bypass validation.
+9. After a successful authorized promotion, owner smoke-test existing login/session and saved audio preferences; a new account should begin muted. Test Home → Quests → Battle → Armory → Recruit, reload/back/forward and interrupted tabs for silence; explicitly enable sound in Settings and test real reward cues. Check a new battle's actual rewards and both saved loadouts, an older report with missing snapshot fields, Attack Again/resource restrictions, Land/inventory/Vault continuity and the existing rival/Hall flows. Use normal gameplay only. Physical Android Chrome and iPhone Safari listening/autoplay/suspension remain alpha device checks.
+
+The controller always requires a **fresh backup/restore/artifact chain for candidate M**. A prior recovery artifact cannot authorize this promotion. No live backup, production setting, signature, service identity or device result is claimed verified by local synthetic tests.
+
+## Stop, rollback and recovery
+
+A failure before completed promotion is not permission to redeploy, rerun initialization, delete a restored copy or restore live data. Preserve the fixed failure category and evidence and investigate through the established owner process. The old active deployment may remain running after failed pre-deploy; confirm through authorized service metadata before any recovery action.
+
+For a code regression, prepare a reviewed revert PR to `release/production`, leaving existing data and policy definitions in place. Its new exact commit requires CI, fresh encrypted backup/independent restore, signing and owner approval through the same protected workflow. There is no schema downgrade, preference backfill, bot rollback or balance correction in this patch.
+
+Database recovery is a separate, explicitly authorized incident procedure. Retain ciphertext/manifest checksums, decrypt with the original offline identity, validate with compatible PostgreSQL tooling, and rehearse on an independent isolated copy before considering a live restore. Never reset/reseed the realm or overwrite legitimate intervening play as an automatic rollback.
+
+The release workflow/controller, signing/backup gates, migration/start commands, Railway configuration and keys are unchanged by this patch.

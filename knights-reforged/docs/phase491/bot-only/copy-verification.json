@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "adopted": false,
+  "policy": "bot-calibration-candidate-1",
+  "archiveSha256": "7804cdc2e2346bf91105eb0d6d593359236227ee072d148e4f6ce3bf9d8e87e6",
+  "sourceTables": 66,
+  "accounts": 452,
+  "bots": 450,
+  "appliedThisLoop": 404,
+  "appliedConcurrent": 1,
+  "unchangedOrDeferred": 45,
+  "purchaseSpentThisLoop": 2278537,
+  "fifoSaleRefundThisLoop": 4726725,
+  "earnedPointsSpentThisLoop": 820,
+  "purchaseSpentTotal": 2278677,
+  "fifoSaleRefundTotal": 4726818,
+  "earnedPointsSpentTotal": 821,
+  "prepaidCreditConvertedToGold": 0,
+  "checks": [
+    "Custom pg_dump restored into a separate empty disposable database; all66 tables/452 accounts/450 bots and two no-op migrations match byte-for-byte",
+    "Missing authorization, production mode/target, nonlocal target and human target fail closed without mutation",
+    "Tampered reviewed plan and injected post-trade failure leave all tables unchanged; real transaction rollback proven",
+    "Concurrent same-key/different-key retries apply one candidate once and replay its immutable audit receipt",
+    "Changed completed intent and foreign-kind command collision fail closed; existing audit rows remain unchanged",
+    "A real ordinary battle wins/steals against the target under the same character locks; stale pre-battle quote is rejected",
+    "All450 identities and existing members, two human accounts/holdings, credentials/sessions, Vaults, Land, achievements/tutorial and every prior financial/combat receipt remain intact",
+    "Original militia 20/storage and equipment 101/participation constraints are still enforced",
+    "Three hours of normal bot income/upkeep after calibration settle once; duplicate settlement changes no rows or Vaults",
+    "Source populated fixture never mutated; all experiment writes were confined to its restored copy"
+  ],
+  "copyIsSeparateDatabase": true
+}

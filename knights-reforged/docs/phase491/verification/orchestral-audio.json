@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "checks": [
+    "Saved enabled preference creates no audio engine, network load or sound before the first page gesture.",
+    "Four approved cues play to completion (3.9/3.9/4.0/5.3 seconds); decisive uses the approved 3.9-second victory; one cached AAC sprite.",
+    "Receipt deduplication, rapid duplicate events, immediate mute, saved volume and refresh suppression remain intact.",
+    "Hidden-page reward is suppressed and does not replay on foregrounding. This simulates visibility, not mobile OS suspension.",
+    "An interrupted audio fetch offers an explicit local playback retry; it cannot resubmit or duplicate a game action."
+  ],
+  "errors": [],
+  "version": "phase49-orchestral-1",
+  "spriteBytes": 441263,
+  "productionContacted": false,
+  "limitations": [
+    "Headless Chromium with AAC decoding and real Web Audio; physical Android Chrome/iPhone Safari, speakers, hardware mute and OS interruptions remain owner device checks."
+  ]
+}

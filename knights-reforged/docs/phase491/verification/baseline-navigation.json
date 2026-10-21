@@ -1,0 +1,102 @@
+{
+  "navigation": [
+    {
+      "kind": "context",
+      "path": "/game/home"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/home"
+    },
+    {
+      "kind": "context",
+      "path": "/game/quests"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/quests"
+    },
+    {
+      "kind": "context",
+      "path": "/game/battle"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/battle"
+    },
+    {
+      "kind": "context",
+      "path": "/game/armory"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/armory"
+    },
+    {
+      "kind": "context",
+      "path": "/game/army"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/army"
+    },
+    {
+      "kind": "context",
+      "path": "/game/home"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/home"
+    },
+    {
+      "kind": "context",
+      "path": "/game/quests"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/quests"
+    },
+    {
+      "kind": "context",
+      "path": "/game/battle"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/battle"
+    },
+    {
+      "kind": "context",
+      "path": "/game/armory"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/armory"
+    },
+    {
+      "kind": "context",
+      "path": "/game/army"
+    },
+    {
+      "kind": "resume",
+      "path": "/game/army"
+    },
+    {
+      "kind": "context",
+      "path": "/game/home"
+    },
+    {
+      "kind": "context",
+      "path": "/game/army"
+    },
+    {
+      "kind": "context",
+      "path": "/game/home"
+    },
+    {
+      "kind": "context",
+      "path": "/game/home"
+    }
+  ],
+  "errors": [],
+  "liveContacted": false
+}

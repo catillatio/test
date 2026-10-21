@@ -11,7 +11,7 @@ import {rules,regenerate} from '../../src/rules.js';
 import {scaleBotExperience} from '../../src/bot-experience.js';
 
 const H=3600000,DAY=24*H,MAX=2147483647;
-export interface SimulationOptions {level:number;hours:number;policy:'phase48'|'phase49';mode:'varied'|'same';players?:number;seed?:number;decisionSeconds?:number;spiritCapacity?:number;heal?:boolean;restartAtHour?:number;loadout?:'natural'|'established';botXpPercent?:100|65|40;dailySessionHours?:number;}
+export interface SimulationOptions {level:number;hours:number;policy:'phase48'|'phase49';mode:'varied'|'same';players?:number;seed?:number;decisionSeconds?:number;spiritCapacity?:number;heal?:boolean;restartAtHour?:number;loadout?:'natural'|'established';botXpPercent?:100|65|40;dailySessionHours?:number;targetSlot?:string;botLoadout?:(level:number,tier:string,variant:number)=>{militia:number;training:number;inventory:OwnedItem[];wallet:number;reserve:bigint};}
 interface Fighter {
  id:string;name:string;level:number;xp:number;levelXp:number;calling:string;militia:number;training:number;inventory:OwnedItem[];
  health:number;maxHealth:number;hpAt:number;spirit:number;maxSpirit:number;spiritAt:number;
@@ -50,6 +50,14 @@ export function simulateBotCombat(options:SimulationOptions){
   const b=botBlueprint(l,tier,variant),rate=b.items.reduce((s,i)=>s+i.upkeep*b.quantities[i.id]!,0),propertyNet=b.properties.reduce((s,p)=>{const a=alpha.properties.find(a=>a.id===p.id)!;return s+p.quantity*(a.hourlyIncome-a.hourlyUpkeep);},0);
   return {...common,id:l+':'+tier+':'+variant,name:b.name,level:l,xp:xpFor(l),calling:b.calling,militia:b.participants-1,training:b.training,inventory:owned(b.items,b.quantities),health:b.health,maxHealth:b.health,spirit:b.spirit,maxSpirit:b.spirit,wallet:b.gold,vault:b.bankedGold,reserve:BigInt(rate*48),rate,propertyNet};
  })));
+ // Offline candidate input only. Original behavior is identical without it;
+ // no human power, membership, regeneration or reward branch changes.
+ if(options.botLoadout)for(const b of bots){const [level,tier,variant]=b.id.split(':'),loadout=options.botLoadout(Number(level),tier!,Number(variant));
+  assert.equal(loadout.militia,b.militia,'Candidate cannot grant or remove army members');assert.ok(Number.isInteger(loadout.training)&&loadout.training>=b.training&&loadout.training<=25);
+  assert.ok(Number.isSafeInteger(loadout.wallet)&&loadout.wallet>=0&&loadout.reserve>=0n);
+  for(const i of loadout.inventory)assert.ok(alpha.items.some(a=>a.id===i.id&&a.level<=b.level)&&Number.isInteger(i.quantity)&&i.quantity>=0&&i.quantity<=1000);
+  b.training=loadout.training;b.inventory=loadout.inventory.map(i=>({...alpha.items.find(a=>a.id===i.id)!,quantity:i.quantity,inventoryId:i.inventoryId}));b.wallet=loadout.wallet;b.reserve=loadout.reserve;b.rate=b.inventory.reduce((s,i)=>s+i.upkeep*i.quantity,0);
+ }
  const p=options.loadout==='established'?Math.min(10,1+2*level):Math.max(1,Math.round(Math.min(10,1+Math.floor(level/5))*.7)),quantity=options.loadout==='established'?10:Math.ceil(p*.8);
  const items=(['weapon','armor','spell'] as const).map(c=>alpha.items.filter(i=>i.category===c&&i.level<=Math.max(1,level-(options.loadout==='established'?0:2))).sort((a,b)=>b.attack-a.attack||b.defense-a.defense||a.id.localeCompare(b.id))[0]!);
  const inventory=owned(items,Object.fromEntries(items.map(i=>[i.id,quantity]))),rate=inventory.reduce((s,i)=>s+i.quantity*i.upkeep,0);
@@ -78,7 +86,8 @@ export function simulateBotCombat(options:SimulationOptions){
   const hp=f.health,sp=f.spirit;recover(f,t);if(!isBot){naturalSpirit+=f.spirit-sp;naturalHealth+=f.health-hp;}
  };
  const startingAttack=power(humans[0]!,'attack');
- const fixed=bots.filter(b=>areRivals(level,b.level)).sort((a,b)=>Math.abs(botDefense(a)/startingAttack-.85)-Math.abs(botDefense(b)/startingAttack-.85)||a.id.localeCompare(b.id))[0]!.id;
+ if(options.targetSlot)assert.ok(mode==='same'&&bots.some(b=>b.id===options.targetSlot&&areRivals(level,b.level)),'Offline fixed target must be an eligible existing bot');
+ const fixed=options.targetSlot??bots.filter(b=>areRivals(level,b.level)).sort((a,b)=>Math.abs(botDefense(a)/startingAttack-.85)-Math.abs(botDefense(b)/startingAttack-.85)||a.id.localeCompare(b.id))[0]!.id;
  const duration=hours*H;let nextHour=H;
  for(let t=0;t<duration;t+=6000){
   if(options.restartAtHour&&t===options.restartAtHour*H){({bots,humans,pairs,attempts,budgets}=structuredClone({bots,humans,pairs,attempts,budgets}));restarts++;}

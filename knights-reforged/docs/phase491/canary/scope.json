@@ -1,0 +1,69 @@
+{
+  "approvedBaseline": "a21b2b0e805f1a7428c3e88ab8930d89f854ec3a",
+  "newRuntimePolicy": false,
+  "newMigration": false,
+  "productionContacted": false,
+  "releaseDispatched": false,
+  "checks": [
+    {
+      "path": "knights-reforged/src",
+      "unchanged": true,
+      "approvedGitObject": "d88544e94ef2d4f64d489bc67675ea360474b14f"
+    },
+    {
+      "path": "knights-reforged/public",
+      "unchanged": true,
+      "approvedGitObject": "03146b3140d5dc6c57854f2bb803bcc9f4448083"
+    },
+    {
+      "path": "knights-reforged/views",
+      "unchanged": true,
+      "approvedGitObject": "7cdf7706bb1c675c2b237219a54a79e52bd144bb"
+    },
+    {
+      "path": "knights-reforged/rulesets",
+      "unchanged": true,
+      "approvedGitObject": "6dc2d21a85c3508a5ab65375099d4e46a1971507"
+    },
+    {
+      "path": "knights-reforged/migrations",
+      "unchanged": true,
+      "approvedGitObject": "125bd0c6be1d9ce7e9b58e3dedfc1b5c71cba14c"
+    },
+    {
+      "path": "knights-reforged/deployment",
+      "unchanged": true,
+      "approvedGitObject": "02feb0291680310515dc9ab87ed24bb1186e41ca"
+    },
+    {
+      "path": ".github",
+      "unchanged": true,
+      "approvedGitObject": "c2511b51fff5f58440609d1638c41980081fdcf6"
+    },
+    {
+      "path": "knights-reforged/Dockerfile",
+      "unchanged": true,
+      "approvedGitObject": "6b812205bb85539c8b72a9ee186136cb181b7b47"
+    },
+    {
+      "path": "knights-reforged/railway.json",
+      "unchanged": true,
+      "approvedGitObject": "ed00ceeee0497a0f0120defab0a60e01e40f31ea"
+    },
+    {
+      "path": "knights-reforged/package.json",
+      "unchanged": true,
+      "approvedGitObject": "ea4850ca90622d53e9551281a667df021f449e7c"
+    },
+    {
+      "path": "knights-reforged/package-lock.json",
+      "unchanged": true,
+      "approvedGitObject": "9342e57b47b3f71b7af62fd38e5099bddadc0b06"
+    },
+    {
+      "path": "knights-reforged/docs/phase491/screenshots",
+      "unchanged": true,
+      "approvedGitObject": "56d05da9b2f23afac27fb821d6fcd74ccbef5f8f"
+    }
+  ]
+}

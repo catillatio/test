@@ -1,0 +1,89 @@
+{
+  "base": "793f747a7920a7b1dc000230a3050482e98393f2",
+  "implementationCommit": "a894b27d5376a68bacaeabe5c3978f931957652c",
+  "protectedObjects": {
+    ".github": {
+      "base": "c2511b51fff5f58440609d1638c41980081fdcf6",
+      "implementation": "c2511b51fff5f58440609d1638c41980081fdcf6",
+      "identical": true
+    },
+    "knights-reforged/deployment": {
+      "base": "02feb0291680310515dc9ab87ed24bb1186e41ca",
+      "implementation": "02feb0291680310515dc9ab87ed24bb1186e41ca",
+      "identical": true
+    },
+    "knights-reforged/migrations": {
+      "base": "125bd0c6be1d9ce7e9b58e3dedfc1b5c71cba14c",
+      "implementation": "125bd0c6be1d9ce7e9b58e3dedfc1b5c71cba14c",
+      "identical": true
+    },
+    "knights-reforged/rulesets": {
+      "base": "6dc2d21a85c3508a5ab65375099d4e46a1971507",
+      "implementation": "6dc2d21a85c3508a5ab65375099d4e46a1971507",
+      "identical": true
+    },
+    "knights-reforged/public/audio": {
+      "base": "b09933bbeb9b4a0c516ede68c267309d45e994ee",
+      "implementation": "b09933bbeb9b4a0c516ede68c267309d45e994ee",
+      "identical": true
+    },
+    "knights-reforged/public/art": {
+      "base": "eb89f76574076480a170aeceb49b6ededadfac75",
+      "implementation": "eb89f76574076480a170aeceb49b6ededadfac75",
+      "identical": true
+    },
+    "knights-reforged/railway.json": {
+      "base": "ed00ceeee0497a0f0120defab0a60e01e40f31ea",
+      "implementation": "ed00ceeee0497a0f0120defab0a60e01e40f31ea",
+      "identical": true
+    },
+    "knights-reforged/Dockerfile": {
+      "base": "6b812205bb85539c8b72a9ee186136cb181b7b47",
+      "implementation": "6b812205bb85539c8b72a9ee186136cb181b7b47",
+      "identical": true
+    },
+    "knights-reforged/package.json": {
+      "base": "ea4850ca90622d53e9551281a667df021f449e7c",
+      "implementation": "ea4850ca90622d53e9551281a667df021f449e7c",
+      "identical": true
+    },
+    "knights-reforged/package-lock.json": {
+      "base": "9342e57b47b3f71b7af62fd38e5099bddadc0b06",
+      "implementation": "9342e57b47b3f71b7af62fd38e5099bddadc0b06",
+      "identical": true
+    },
+    "knights-reforged/src/game.ts": {
+      "base": "4f12744cb523852aff37e173b765164193b4d7a4",
+      "implementation": "4f12744cb523852aff37e173b765164193b4d7a4",
+      "identical": true
+    },
+    "knights-reforged/src/development.ts": {
+      "base": "84e679b6c2057597c6b0d7cdd6d2da88ffdb1990",
+      "implementation": "84e679b6c2057597c6b0d7cdd6d2da88ffdb1990",
+      "identical": true
+    },
+    "knights-reforged/src/commands.ts": {
+      "base": "30eee22f9bc72b3fe3a72eb045395c0266a146d9",
+      "implementation": "30eee22f9bc72b3fe3a72eb045395c0266a146d9",
+      "identical": true
+    },
+    "knights-reforged/src/bot-combat-rules.ts": {
+      "base": "32e6926e0c87195ee24d61d98d7807c5dd9aed6b",
+      "implementation": "32e6926e0c87195ee24d61d98d7807c5dd9aed6b",
+      "identical": true
+    },
+    "knights-reforged/src/gameplay-rules.ts": {
+      "base": "2501b73264bf17b5d24c07b1b89da597d211d441",
+      "implementation": "2501b73264bf17b5d24c07b1b89da597d211d441",
+      "identical": true
+    },
+    "knights-reforged/src/game-feel-rules.ts": {
+      "base": "856e727884ed5f4e74998d1b8181ffc5be24282b",
+      "implementation": "856e727884ed5f4e74998d1b8181ffc5be24282b",
+      "identical": true
+    }
+  },
+  "productionContacted": false,
+  "pr13Head": "f6243463b5f9df054d569ae313a0d6a629d87ce2",
+  "pr13RemainsOpenDraft": true
+}
