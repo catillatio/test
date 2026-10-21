@@ -1,0 +1,222 @@
+{
+  "ownerComment": "6321701295",
+  "productionBase": "127a6849134403d569c2bc217db9d04da2886fae",
+  "approvedImplementation": "3eadf355eaa04cf1637d09120f8e53d7615071f6",
+  "scope": "Milestones 1 and 2 only; documentation finalization; both startup flags default OFF",
+  "humanBattleBodyEquivalentAfterTwoAutonomousOnlyConditionals": true,
+  "runtimeFiles": [
+    {
+      "status": "A",
+      "path": "knights-reforged/src/bot-combat.ts",
+      "sha256": "0fedc49777360257c2646bb15be7710f2a020d3eb4be135f9f9c52aa09518f85"
+    },
+    {
+      "status": "A",
+      "path": "knights-reforged/src/bot-economy.ts",
+      "sha256": "d0efcc5f6c08773cb40acb422d2ba8f95b3eb1bf6ee55fed8a04871aed9078e2"
+    },
+    {
+      "status": "M",
+      "path": "knights-reforged/src/bot-income.ts",
+      "sha256": "bd50ca3e7a600450865a54ae8337787165e6112cc8aa721361ae9caf10d46f4a"
+    },
+    {
+      "status": "A",
+      "path": "knights-reforged/src/bot-schedule.ts",
+      "sha256": "cf3de6aa0411ab14bc3b6958fe727693df1d81f6bd9036cd04e5e5f5e126fe7d"
+    },
+    {
+      "status": "M",
+      "path": "knights-reforged/src/bounties.ts",
+      "sha256": "6663c486ab37126013e9a8c2962e3c09043e708a22383a75a8544866c59fdfa9"
+    },
+    {
+      "status": "A",
+      "path": "knights-reforged/src/combat.ts",
+      "sha256": "710ea2c714d7d0134d25bd36ab298a6c20b0b29ae1585754751e377185f06080"
+    },
+    {
+      "status": "M",
+      "path": "knights-reforged/src/commands.ts",
+      "sha256": "0577a1187c19c8d98a79679111671b273b9e3a981c358c7b0de209fde4cf6ee7"
+    },
+    {
+      "status": "M",
+      "path": "knights-reforged/src/config.ts",
+      "sha256": "fe00122230ac5fe5d1f4a74731c1a9a76ebf3ea015af52c2e99a993cb8e38b9f"
+    },
+    {
+      "status": "M",
+      "path": "knights-reforged/src/land.ts",
+      "sha256": "6ba170eb6c8bc2d445382793a4aadd7c42474e050ed941e7e34c84d02f72e209"
+    },
+    {
+      "status": "M",
+      "path": "knights-reforged/src/server.ts",
+      "sha256": "6141f43084dc3e5b917f3cd30c8890ab061594d8d7d3b5aa51669d47ffbedc53"
+    }
+  ],
+  "unchangedProtectedObjects": [
+    {
+      "path": ".github",
+      "gitObject": "c2511b51fff5f58440609d1638c41980081fdcf6",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/deployment",
+      "gitObject": "02feb0291680310515dc9ab87ed24bb1186e41ca",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/migrations",
+      "gitObject": "125bd0c6be1d9ce7e9b58e3dedfc1b5c71cba14c",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/rulesets",
+      "gitObject": "6dc2d21a85c3508a5ab65375099d4e46a1971507",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/public",
+      "gitObject": "03146b3140d5dc6c57854f2bb803bcc9f4448083",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/views",
+      "gitObject": "7cdf7706bb1c675c2b237219a54a79e52bd144bb",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/Dockerfile",
+      "gitObject": "6b812205bb85539c8b72a9ee186136cb181b7b47",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/.dockerignore",
+      "gitObject": "cada5e5a5e79f316626a6b5505ffa8da820c6391",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/railway.json",
+      "gitObject": "ed00ceeee0497a0f0120defab0a60e01e40f31ea",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/package.json",
+      "gitObject": "ea4850ca90622d53e9551281a667df021f449e7c",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/package-lock.json",
+      "gitObject": "9342e57b47b3f71b7af62fd38e5099bddadc0b06",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/auth.ts",
+      "gitObject": "b9a235486a7b9a1810fe2fa1a879e69687340542",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/app.ts",
+      "gitObject": "88841cdf7c737af01abf0a7b054deff60a121a7e",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/private-alpha-policy.ts",
+      "gitObject": "4c0fd1c53c8873fdbe4e6ae0c41c6de2734e6f92",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/development.ts",
+      "gitObject": "84e679b6c2057597c6b0d7cdd6d2da88ffdb1990",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/bot-combat-rules.ts",
+      "gitObject": "32e6926e0c87195ee24d61d98d7807c5dd9aed6b",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/alpha-rules.ts",
+      "gitObject": "de785743e997592c67afaa1dfe3d468ddc399785",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/progression.ts",
+      "gitObject": "d8ec75d8daf7dda37c2d947ead28a5a48c113cb5",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/feeds.ts",
+      "gitObject": "9f1532882d0cd3c5e7f2f1a9a38723a6b5491cd0",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/estate.ts",
+      "gitObject": "0e44fc85b9463504db167db5e6d598fc84be583d",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/inventory.ts",
+      "gitObject": "8cd6cd6465d5a1e40713b13db416e164dfb747f6",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/maintenance.ts",
+      "gitObject": "e6fee9920c98d6ede2fb6dec8494d8a4aedb400b",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/economy.ts",
+      "gitObject": "299e96865da2acdef05a946574e3b0cffd82ceba",
+      "matchesProductionBase": true
+    },
+    {
+      "path": "knights-reforged/src/db.ts",
+      "gitObject": "ad638fd6b686a30dbc8cc3127e81e1aa3de5fc14",
+      "matchesProductionBase": true
+    }
+  ],
+  "schemaHead": "020_game_feel.sql",
+  "newMigrations": 0,
+  "newDependencies": 0,
+  "priorExactHeadCI": {
+    "runId": "39636470277",
+    "headSha": "3eadf355eaa04cf1637d09120f8e53d7615071f6",
+    "conclusion": "success",
+    "tests": 489,
+    "passed": 489,
+    "failed": 0,
+    "skipped": 0,
+    "gameContainerGroups": 21,
+    "independentRecoveryGroups": 15,
+    "responsiveViews": 64
+  },
+  "evidenceSha256": {
+    "milestone1/long-term.json": "2bd6754b652aa4e38dcd937ba2035862e187a5919841b9a69c54d8c43802c0e4",
+    "milestone1/settlement-efficiency.json": "04bc3eb75914053c6e50b9057b9550123eb1fb85b0b4861a26067d4462f5ebd1",
+    "milestone2/24-hour-results.json": "b98a6557a7eb6578b647194974bb433976b5465d97064736a28f28af0487eb5a",
+    "milestone2/regression-results.json": "b26bc80ee7788d962cc94e0a7bd6dcc4cd628088089a0d61e9b7323e4a2f1d76"
+  },
+  "longSimulationsRepeated": false,
+  "productionAccess": false,
+  "productionSettingsVerified": false,
+  "activationAuthorized": false,
+  "pr13Touched": false,
+  "finalDocumentationHeadCI": "Record exact final SHA and completed run in PR #16 checks and description after this documentation commit.",
+  "finalizationLocalChecks": {
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "static": {
+      "passed": 99,
+      "failed": 0,
+      "productionEjsFixtures": 77
+    },
+    "actionlint": "PASS",
+    "documentationLinks": "PASS",
+    "frozenRuntimeHashes": "PASS",
+    "repeatedLocalFullSuite": false,
+    "repeatedLongSimulation": false
+  }
+}

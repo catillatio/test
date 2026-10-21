@@ -1,0 +1,115 @@
+{
+  "postgres": "18",
+  "durability": {
+    "fsync": "on",
+    "synchronous_commit": "on",
+    "full_page_writes": "on"
+  },
+  "trials": 3,
+  "method": "same populated fixture; rollback each benchmark; median settlement execution wall time excludes COMMIT and observation; no transport-delay injection",
+  "results": [
+    {
+      "label": "450 original bot portfolios, first hour",
+      "characters": 450,
+      "before": {
+        "name": "legacy",
+        "trial": 0,
+        "queries": 14406,
+        "settlementInserts": 3603,
+        "cursorUpdates": 3603,
+        "maxPayload": 0,
+        "rows": 3603,
+        "holdingRowsUpdated": 3603,
+        "durableRows": {
+          "settlements": 3603,
+          "ledgerTransactions": 450,
+          "ledgerEntries": 450,
+          "retainedEvents": 900
+        },
+        "milliseconds": 1940.789901,
+        "samples": [
+          1940.789901,
+          1855.3092450000004,
+          1945.8852419999985
+        ]
+      },
+      "after": {
+        "name": "batched",
+        "trial": 0,
+        "queries": 8100,
+        "settlementInserts": 450,
+        "cursorUpdates": 450,
+        "maxPayload": 19,
+        "rows": 3603,
+        "holdingRowsUpdated": 3603,
+        "durableRows": {
+          "settlements": 3603,
+          "ledgerTransactions": 450,
+          "ledgerEntries": 450,
+          "retainedEvents": 900
+        },
+        "milliseconds": 1554.1617670000005,
+        "samples": [
+          1554.1617670000005,
+          1629.1850020000002,
+          1426.740228999999
+        ]
+      },
+      "sqlReductionPercent": 43.773427738442315,
+      "latencyReductionPercent": 19.92117404366067
+    },
+    {
+      "label": "mature paid lots, 1/30/59 minute purchases and seven-day downtime",
+      "characters": 451,
+      "before": {
+        "name": "legacy",
+        "trial": 0,
+        "queries": 23120,
+        "settlementInserts": 7952,
+        "cursorUpdates": 7952,
+        "maxPayload": 0,
+        "rows": 7952,
+        "holdingRowsUpdated": 7952,
+        "durableRows": {
+          "settlements": 7952,
+          "ledgerTransactions": 451,
+          "ledgerEntries": 451,
+          "retainedEvents": 902
+        },
+        "milliseconds": 3404.5813290000006,
+        "samples": [
+          3285.440630000001,
+          3817.7766269999993,
+          3404.5813290000006
+        ]
+      },
+      "after": {
+        "name": "batched",
+        "trial": 0,
+        "queries": 8571,
+        "settlementInserts": 903,
+        "cursorUpdates": 452,
+        "maxPayload": 250,
+        "rows": 7952,
+        "holdingRowsUpdated": 7952,
+        "durableRows": {
+          "settlements": 7952,
+          "ledgerTransactions": 451,
+          "ledgerEntries": 451,
+          "retainedEvents": 902
+        },
+        "milliseconds": 1776.2690520000033,
+        "samples": [
+          2060.765890999999,
+          1762.484666000004,
+          1776.2690520000033
+        ]
+      },
+      "sqlReductionPercent": 62.92820069204153,
+      "latencyReductionPercent": 47.82709295648602
+    }
+  ],
+  "preservation": "PASS",
+  "rollbackStages": 5,
+  "multiWorkerBots": 450
+}

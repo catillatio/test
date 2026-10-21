@@ -17,6 +17,8 @@ export interface Config {
   developmentBotsEnabled:boolean;
   developmentBotBountiesEnabled:boolean;
   developmentBotRecruitmentEnabled:boolean;
+  livingBotEconomyEnabled:boolean;
+  livingBotCombatEnabled:boolean;
 }
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const port = Number(env.PORT ?? 3000);
@@ -50,6 +52,12 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const privateAlpha=privateAlphaEnabled(env);
   if(env.KINGDOM_ALPHA_INITIALIZE&&(!privateAlpha||env.KINGDOM_ALPHA_INITIALIZE!==privateAlphaConfirmation))
     throw new Error('Invalid private-alpha initialization configuration.');
+  if(env.ENABLE_LIVING_BOT_ECONOMY!==undefined&&!['0','1'].includes(env.ENABLE_LIVING_BOT_ECONOMY))throw new Error('Invalid autonomous rival economy switch.');
+  const livingBotEconomyEnabled=env.ENABLE_LIVING_BOT_ECONOMY==='1';
+  if(livingBotEconomyEnabled&&(env.ENABLE_DEV_BOTS!=='1'||nodeEnv==='production'&&!privateAlpha))throw new Error('Autonomous purchases require enabled development rivals in the private alpha.');
+  if(env.ENABLE_LIVING_BOT_COMBAT!==undefined&&!['0','1'].includes(env.ENABLE_LIVING_BOT_COMBAT))throw new Error('Invalid autonomous rival combat switch.');
+  const livingBotCombatEnabled=env.ENABLE_LIVING_BOT_COMBAT==='1';
+  if(livingBotCombatEnabled&&(env.ENABLE_DEV_BOTS!=='1'||nodeEnv==='production'&&!privateAlpha))throw new Error('Autonomous duels require enabled development rivals in the private alpha.');
   return {
     nodeEnv, host: env.HOST ?? '0.0.0.0', port, origin: origin.origin,
     originSource:automatic?'codespaces':configured?'explicit':'local-default',
@@ -57,6 +65,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     databaseUrl: env.DATABASE_URL ?? 'postgres://knights:knights_local@127.0.0.1:54329/knights',
     secureCookies: origin.protocol === 'https:',
     privateAlpha,
+    livingBotEconomyEnabled,
+    livingBotCombatEnabled,
     developmentBotsEnabled:(nodeEnv!=='production'||privateAlpha)&&env.ENABLE_DEV_BOTS==='1',
     developmentBotRecruitmentEnabled:(['development','test'].includes(nodeEnv)||privateAlpha)&&env.ENABLE_DEV_BOTS==='1'&&env.ENABLE_DEV_BOT_RECRUITMENT==='1',
     developmentBotBountiesEnabled:(['development','test'].includes(nodeEnv)||privateAlpha)&&env.ENABLE_DEV_BOTS==='1'&&env.ENABLE_DEV_BOT_BOUNTIES==='1',

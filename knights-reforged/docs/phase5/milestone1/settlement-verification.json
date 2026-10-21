@@ -1,0 +1,33 @@
+{
+  "runtimeCommit": "55d3882ab89319ada7d7ad4087159ff6bd6efe1e",
+  "baseline": "42844af5c0777538d625d05b6cdf763e26a01309",
+  "rawSha256": "04bc3eb75914053c6e50b9057b9550123eb1fb85b0b4861a26067d4462f5ebd1",
+  "runtimeFiles": [
+    "src/land.ts",
+    "src/bot-income.ts"
+  ],
+  "focused": {
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "skip": 0
+  },
+  "localFullRunBeforeRecheckFix": {
+    "tests": 484,
+    "pass": 482,
+    "fail": 1,
+    "skip": 1,
+    "finding": "stale joined candidate snapshot, redundant materialization; fixed and focused regression passed"
+  },
+  "unchanged": [
+    "protected workflows",
+    "release/recovery/signing",
+    "migrations",
+    "catalogs/rewards",
+    "purchase policy and OFF default",
+    "human combat and personal feeds",
+    "PR #13"
+  ],
+  "productionAccess": false,
+  "combatActivation": false
+}

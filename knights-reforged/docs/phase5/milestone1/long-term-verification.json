@@ -1,0 +1,61 @@
+{
+  "ciRun": 39543977454,
+  "ciUrl": "https://github.com/catillatio/test/actions/runs/39543977454",
+  "testedCodeCommit": "0c18e4218cd3964edfc7499e5ff2f3ca3b5b10b3",
+  "tests": 482,
+  "passed": 482,
+  "failed": 0,
+  "skipped": 0,
+  "staticChecks": 99,
+  "ejsFixtures": 77,
+  "gameContainerGroups": 21,
+  "recoveryWorkerGroups": 15,
+  "dependencyAuditsWithZeroVulnerabilities": 2,
+  "typecheck": true,
+  "build": true,
+  "browser": true,
+  "actionlint": true,
+  "productionContacted": false,
+  "runtimeChangedSinceOwnerApprovedBaseline": false,
+  "releaseInfrastructureChanged": false,
+  "defaultAutonomyEnabled": false,
+  "newMigrations": 0,
+  "policySourceSha256": "efecc16715ae1486fad06460ae50036deb5b86554f3389e9a411f355101ca9f3",
+  "localStorageObservation": {
+    "scenario": "attacked",
+    "approximatelyVirtualDay": 28,
+    "databaseBytesIncludingIndexes": 1807546047,
+    "excludesWAL": true,
+    "productionCapacityVerified": false
+  },
+  "longHorizon": {
+    "passed": true,
+    "virtualDaysPerScenario": 30,
+    "checkpoints": [
+      1,
+      7,
+      30
+    ],
+    "scenarios": [
+      "quiet",
+      "attacked",
+      "interrupted"
+    ],
+    "population": 450,
+    "humanFixtures": 7,
+    "sameInitialFixtureHash": "80bdcb24345e120e294b9e7a948d3b84148c87d07cb13135ef37cdfe8ce110d8",
+    "allScenariosPreservedOriginalRecords": true,
+    "walletAndReserveConservation": true,
+    "maximumCommittedDecisionsPerSlot": 5,
+    "nominalMonthlyOpportunities": 27000,
+    "capacitySkipped": 1740,
+    "offlineSkipped": 1684,
+    "interruptedDecisions": 23576,
+    "concurrentPurchaseTicks": 672,
+    "explicitReplayChecks": 672,
+    "incomeCatchupReplays": 2,
+    "ruleChanges": 0,
+    "productionRecordsAccessed": false
+  },
+  "rawResultSha256": "2bd6754b652aa4e38dcd937ba2035862e187a5919841b9a69c54d8c43802c0e4"
+}

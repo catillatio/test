@@ -4,6 +4,8 @@ import {gameFeel} from './game-feel-rules.js';
 
 // Housekeeping, never provisioning. Ordinary saved Land clocks are the sole
 // income source. Locks are shared with combat; another worker skips busy bots.
+const dueIncome=`i.next_payment_at<=$1 OR (i.character_id IS NULL AND EXISTS(
+ SELECT 1 FROM land_holdings h WHERE h.character_id=c.id AND h.quantity>0 AND h.accrued_through<=$1::timestamptz-interval '1 hour'))`;
 export async function settleDueBotIncome(db:Database,enabled:boolean){
  if(!enabled)return {settled:0,batches:0};
  let settled=0,batches=0;
@@ -13,11 +15,19 @@ export async function settleDueBotIncome(db:Database,enabled:boolean){
    const rows=(await sql.query<CharacterRow>(`SELECT c.*,true AS development_bot FROM characters c
     JOIN development_bots b ON b.character_id=c.id AND b.active
     LEFT JOIN income_cycles i ON i.character_id=c.id
-    WHERE i.next_payment_at<=$1 OR (i.character_id IS NULL AND EXISTS(
-      SELECT 1 FROM land_holdings h WHERE h.character_id=c.id AND h.quantity>0 AND h.accrued_through<=$1::timestamptz-interval '1 hour'))
+    WHERE ${dueIncome}
     ORDER BY i.next_payment_at NULLS FIRST,c.id LIMIT $2 FOR UPDATE OF c SKIP LOCKED`,[now,gameFeel.botIncome.batchSize])).rows;
-   for(const row of rows)await materialize(sql,row,now);
-   return rows.length;
+   if(!rows.length)return 0;
+   // READ COMMITTED can retain the old joined cycle snapshot while acquiring
+   // a character row just committed by another sweeper. Recheck all candidates
+   // in one fresh statement, after their character locks are ours. Payouts
+   // already revalidate their cursors; this also avoids redundant upkeep and
+   // resource materialization and counts only genuinely due bots.
+   const due=new Set((await sql.query<{id:string}>(`SELECT c.id FROM characters c
+    LEFT JOIN income_cycles i ON i.character_id=c.id
+    WHERE c.id=ANY($2::uuid[]) AND (${dueIncome})`,[now,rows.map(r=>r.id)])).rows.map(r=>r.id));
+   for(const row of rows)if(due.has(row.id))await materialize(sql,row,now);
+   return due.size;
   });
   settled+=count;if(!count)break;
  }
