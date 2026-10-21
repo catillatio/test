@@ -3,7 +3,6 @@
 import argparse
 import hashlib
 import json
-import os
 from pathlib import Path
 import re
 import shutil
@@ -55,6 +54,6 @@ digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
 report = {'package':'game.kingdomcome.alpha','version':'0.1.0-alpha.1','minSdk':26,'targetSdk':36,
           'permissions':['android.permission.INTERNET'],'sha256':digest,'bytes':artifact.stat().st_size,
           'signerCertificateSha256':fingerprint[1].lower(),'signing':'Ephemeral Android debug key; not stable release signing.',
-          'sourceCommit':os.environ.get('GITHUB_SHA'),'productionContacted':False}
+          'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),'productionContacted':False}
 (out / 'verification.json').write_text(json.dumps(report, indent=2)+'\n')
 print('PASS: APK signature, package, SDKs, sole INTERNET permission, cleartext/backup restrictions and checksum.')
