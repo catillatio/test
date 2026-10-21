@@ -1,0 +1,15 @@
+{
+  "runtimeCommit": "7cb29594ac0a7c8b55abf35100962a6d2f40e6fe",
+  "ownerComment": "6320554228",
+  "defaultOff": true,
+  "humanCombatExtractionEquivalent": true,
+  "focusedDistinctTests": 14,
+  "finalDuelTests": 4,
+  "productionAccess": false,
+  "releaseInfrastructureChanged": false,
+  "longCharacterizationRepeated": false,
+  "evidenceSha256": {
+    "24-hour-results.json": "b98a6557a7eb6578b647194974bb433976b5465d97064736a28f28af0487eb5a",
+    "regression-results.json": "b26bc80ee7788d962cc94e0a7bd6dcc4cd628088089a0d61e9b7323e4a2f1d76"
+  }
+}

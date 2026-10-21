@@ -1,5 +1,7 @@
 # Milestone 2 boundary — genuine bot-versus-bot combat
 
+**Current status:** implemented for development under owner comment `6320554228`, default OFF. See [owner review and evidence](REVIEW.md). The planning text below records the earlier `671c4b0` preparation checkpoint.
+
 Prepared under [owner comment 6319300648](https://github.com/catillatio/test/pull/16#issuecomment-6319300648), after the settlement-efficiency checkpoint. This is the next separately reviewable implementation slice, **not an installed or enabled combat policy**. No autonomous combat timer, flag, endpoint, bot XP award or battle is added in this checkpoint. Autonomous purchases remain default OFF. No bot-human attacks are authorized.
 
 ## Smallest implementation slice

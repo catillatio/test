@@ -1,5 +1,7 @@
 # Phase 5 — The Living Realm: milestone 1
 
+Current development includes [Milestone 2 — genuine default-OFF bot duels](docs/phase5/milestone2/REVIEW.md) under owner comment `6320554228`. The Milestone 1 checkpoints below retain their original scope and measurements.
+
 Implements only [Issue #15's first milestone](https://github.com/catillatio/test/issues/15): existing computer-controlled rivals occasionally buy real Land and equipment with their saved exposed gold. Base: merged Phase 4.9.1, `127a6849134403d569c2bc217db9d04da2886fae`. Branch: `feature/kingdom-come-phase-5-living-realm-economy`.
 
 ## Small implementation, real purchases
