@@ -1,0 +1,69 @@
+{
+  "approvedBaseline": "a21b2b0e805f1a7428c3e88ab8930d89f854ec3a",
+  "runtimePolicyAdopted": false,
+  "productionContacted": false,
+  "newSqlMigrations": 0,
+  "releaseInfrastructureEdits": 0,
+  "checks": [
+    {
+      "path": "knights-reforged/src",
+      "baselineGitObject": "d88544e94ef2d4f64d489bc67675ea360474b14f",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/public",
+      "baselineGitObject": "03146b3140d5dc6c57854f2bb803bcc9f4448083",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/views",
+      "baselineGitObject": "7cdf7706bb1c675c2b237219a54a79e52bd144bb",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/rulesets",
+      "baselineGitObject": "6dc2d21a85c3508a5ab65375099d4e46a1971507",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/migrations",
+      "baselineGitObject": "125bd0c6be1d9ce7e9b58e3dedfc1b5c71cba14c",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/deployment",
+      "baselineGitObject": "02feb0291680310515dc9ab87ed24bb1186e41ca",
+      "unchanged": true
+    },
+    {
+      "path": ".github",
+      "baselineGitObject": "c2511b51fff5f58440609d1638c41980081fdcf6",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/Dockerfile",
+      "baselineGitObject": "6b812205bb85539c8b72a9ee186136cb181b7b47",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/railway.json",
+      "baselineGitObject": "ed00ceeee0497a0f0120defab0a60e01e40f31ea",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/package.json",
+      "baselineGitObject": "ea4850ca90622d53e9551281a667df021f449e7c",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/package-lock.json",
+      "baselineGitObject": "9342e57b47b3f71b7af62fd38e5099bddadc0b06",
+      "unchanged": true
+    },
+    {
+      "path": "knights-reforged/docs/phase491/screenshots",
+      "baselineGitObject": "56d05da9b2f23afac27fb821d6fcd74ccbef5f8f",
+      "unchanged": true
+    }
+  ]
+}

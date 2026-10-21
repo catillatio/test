@@ -2,6 +2,8 @@
 
 All database and browser tests use disposable local PostgreSQL 18 and synthetic accounts. No production or Railway service/database was contacted; no release workflow was dispatched. No keys, credentials, deployment settings or protected release logic were changed.
 
+The results below describe the approved report/audio baseline at `a21b2b0`. The subsequent owner-requested **bot-only development checkpoint has [separate verification](bot-only/VERIFICATION.md)**, including the new full regression run, paid transactions and an actual populated dump/restore rehearsal. Baseline screenshots and runtime changes are retained exactly; the archived human army alternatives were rejected by the owner and remain offline historical evidence only.
+
 ## Results
 
 The clean full suite completed with **461 tests: 460 passed, 0 failed, 1 existing hosted-runner-only skip** (565.15 seconds). Eight new focused cases are included. [Machine-readable results](verification/automated.json).
@@ -38,7 +40,7 @@ The first full pass caught two presentation compatibility failures: the report's
 - The original live honk is not reproduced or conclusively attributed by this local audit. The pre-fix trace had audio-context operations but no audible source starts; see [the investigation](AUDIO_INVESTIGATION.md). Local corrected navigation is silent at the source-start level. A separately authorized deployment and physical-device verification are still necessary before declaring the live symptom fixed.
 - Chromium mobile emulation verifies layout, AAC decoding, gesture/focus behavior and scripted visibility/history events. It does not certify iPhone Safari, physical speakers, hardware mute, mobile OS suspension or actual bfcache retention.
 - The hosted-runner network-namespace test is host-specific and is skipped locally by its existing guard. Its fail-closed controller regressions still run; no guard was bypassed.
-- New army curves and bot strength adjustments are **proposals**, not an adopted combat policy. The logarithmic candidate needs precise fixed-point/rounding, migration/storage, recruitment and human-PvP review. Stronger bot loadouts require a funded, authorized acquisition plan and durable audit. No free wealth or equipment was created.
+- New army curves and bot strength adjustments are **proposals**, not an adopted combat policy. The owner rejected uncapped-linear and logarithmic human models. Only the separately documented funded bot-loadout experiment proceeds; original human rules remain unchanged. No free wealth, members, points or equipment are granted.
 - These checks support controlled alpha review; they do not claim production security or certify current live data/configuration.
 
 ## Reproduce locally

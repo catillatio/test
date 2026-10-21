@@ -1,4 +1,6 @@
-# Army participation and bot difficulty — review only
+# Army participation and bot difficulty — archived first comparison
+
+**Owner decision:** [comment6305431189](https://github.com/catillatio/test/pull/14#issuecomment-6305431189) rejects uncapped linear and logarithmic human models. They remain below solely as historical numerical evidence, never runtime code. The active development checkpoint is [bot-only calibration](bot-only/REVIEW.md); original human rules are fixed.
 
 No combat policy is adopted by this branch. Active rules, human PvP, bot identities, purses, Land, bounties, quests, recruitment, training, recovery and `bot-combat-rewards-2` are unchanged. This is an offline catalog/blueprint audit, not an inspection of live bots.
 
@@ -53,4 +55,4 @@ For 100/200 tests, current bots remain level 50 and are **ineligible** under exi
 - `paced-baseline.json`: 48 deterministic accepted-policy sessions of 1/2/6 active hours, natural/established inventories, losses, blocked resources, natural recovery, level-up refills, gold, healing and upkeep, with conservation assertions. This preserves the existing Phase 4.9 simulator and does not activate the proposals. It is not a promise of player earnings.
 - Tests independently compare baseline power with actual selection/training, preserve first 21 support slots, check monotonic finite behavior at large armies, enforce existing reward policy identity and account for every proposed upkeep copy.
 
-**Recommendation:** keep the current policy for this polish release. Separately approve a bot-only calibration experiment with sustainable paid equipment and varied fixed difficulty targets. Review diminishing support as a distinct human-PvP proposal; do not combine cap removal with the low-risk report/audio changes. None of the alternatives is ready for production adoption merely because the offline tests pass.
+**Recommendation:** keep the current policy for this polish release. Separately approve a bot-only calibration experiment with sustainable paid equipment and varied fixed difficulty targets. The owner has rejected diminishing support; do not implement it or uncapped human armies; do not combine cap removal with the low-risk report/audio changes. None of the alternatives is ready for production adoption merely because the offline tests pass.
