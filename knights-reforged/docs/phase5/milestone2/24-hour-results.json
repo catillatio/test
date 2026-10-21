@@ -1,0 +1,125 @@
+{
+  "policy": {
+    "id": "living-bot-duels-1",
+    "intervalMs": 300000,
+    "slotsPerDecision": 144,
+    "maximumBotsPerTick": 5,
+    "maximumPopulation": 450,
+    "initiationsPerUtcDay": 2,
+    "incomingPerUtcDay": 4,
+    "incomingPerHour": 1
+  },
+  "simulation": {
+    "hours": 24,
+    "bots": 450,
+    "queries": 482194,
+    "milliseconds": 113968.12283000001,
+    "ticks": {
+      "considered": 1024,
+      "battled": 802,
+      "replayed": 0,
+      "busy": 157,
+      "ineligible": 65
+    },
+    "purchases": 597
+  },
+  "battles": {
+    "count": 804,
+    "wins": 285,
+    "losses": 519,
+    "goldTransferred": 276275,
+    "xp": 8806,
+    "levels": 1
+  },
+  "examples": [
+    {
+      "level": 5,
+      "before": {
+        "name": "Evelith Wolfhart",
+        "gold": 6494,
+        "net": 72,
+        "level": 5
+      },
+      "after": [
+        {
+          "name": "Evelith Wolfhart",
+          "gold": 8538,
+          "net": 79,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "level": 15,
+      "before": {
+        "name": "Orwyn Brightmoor",
+        "gold": 24362,
+        "net": 555,
+        "level": 15
+      },
+      "after": [
+        {
+          "name": "Orwyn Brightmoor",
+          "gold": 39492,
+          "net": 559,
+          "level": 15
+        }
+      ]
+    },
+    {
+      "level": 25,
+      "before": {
+        "name": "Rowan Deepwood",
+        "gold": 190540,
+        "net": 5666,
+        "level": 25
+      },
+      "after": [
+        {
+          "name": "Rowan Deepwood",
+          "gold": 333244,
+          "net": 5696,
+          "level": 25
+        }
+      ]
+    },
+    {
+      "level": 40,
+      "before": {
+        "name": "Nimue Ravenshade",
+        "gold": 712465,
+        "net": 21578,
+        "level": 40
+      },
+      "after": [
+        {
+          "name": "Nimue Ravenshade",
+          "gold": 1254828,
+          "net": 21608,
+          "level": 40
+        }
+      ]
+    },
+    {
+      "level": 50,
+      "before": {
+        "name": "Zephryn Hawkridge",
+        "gold": 1061145,
+        "net": 31910,
+        "level": 50
+      },
+      "after": [
+        {
+          "name": "Zephryn Hawkridge",
+          "gold": 1858777,
+          "net": 31980,
+          "level": 50
+        }
+      ]
+    }
+  ],
+  "preservation": "PASS",
+  "conservation": "PASS",
+  "abruptCrash": "PASS",
+  "processReplay": "PASS"
+}
