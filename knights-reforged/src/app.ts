@@ -168,7 +168,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   const authLimit = { config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 10, timeWindow: '1 minute' } } };
   app.post('/register', authLimit, async (request, reply) => {
     await authenticationAttempt(db,'registration',asBody(request).username);
-    const account = await registerAccount(db, asBody(request),{soundEnabled:true});
+    const account = await registerAccount(db, asBody(request));
     const fresh = await createSession(db, account.accountId, request.realmSession?.token_hash);
     setSessionCookie(reply, fresh.token, true);
     // Show an optional introduction once, directly after character creation.

@@ -31,7 +31,8 @@ try{
  await page.goto(origin+'/game/settings');await page.waitForTimeout(150);
  assert.equal(requests.length,0);assert.equal((await probe()).contexts,0);assert.deepEqual((await probe()).played,[]);
  checks.push('Saved enabled preference creates no audio engine, network load or sound before the first page gesture.');
- await Promise.all([page.waitForResponse(response=>response.url().includes('/assets/audio/realm.m4a')),page.keyboard.press('Tab')]);await page.waitForFunction(()=>!!sessionStorage.getItem('kingdom-audio-interaction'));
+ await page.keyboard.press('Tab');await page.waitForFunction(()=>!!sessionStorage.getItem('kingdom-audio-interaction'));
+ assert.equal(requests.length,0);assert.equal((await probe()).contexts,0,'Routine focus navigation cannot create or resume an audio engine.');
  assert.deepEqual((await probe()).played,[]);assert.ok(requests.every(url=>url.endsWith('?v=phase49-orchestral-1')));
  const inventory=JSON.parse(await readFile('public/audio/inventory.json','utf8'));
  for(const name of['victory','defeat','quest','level','decisive']){

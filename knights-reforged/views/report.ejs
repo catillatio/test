@@ -1,19 +1,25 @@
 <% const victory=battle.winnerId===state.id;const viewerAttacking=battle.attackerId===state.id;const modern=typeof battle.spiritSpent==='number'&&Array.isArray(battle.attackEquipment);const received=viewerAttacking?battle.attackerDamage:battle.defenderDamage;const dealt=viewerAttacking?battle.defenderDamage:battle.attackerDamage;const xp=viewerAttacking?(battle.attackerXp??null):modern?(battle.defenderXp??0):null;
-const rewardNotes=battleRewardNotes(battle,viewerAttacking); %>
-<%- include('partials/celebration',{reward:battle.playerExperience?.[state.id],identity:battle.id??'historical-battle'}) %>
-<section class="panel battle-result <%= victory?'victory-celebration reward-celebration '+(battle.victoryStyle==='decisive'?'decisive-victory':''):'defeat-result' %>" data-celebration-id="<%= battle.id??'historical' %>-battle">
-<h2 class="<%= victory?'success':'warning' %>"><% if(victory) { %><span class="result-emblem" aria-hidden="true">⚔</span> <% } %><%= victory?'VICTORY!':'DEFEAT' %></h2>
-<p><% if(!viewerAttacking) { %><a class="player-link" href="/game/players/<%= battle.attackerId %>"><%= battle.attackerName %></a> attacked you. You <%= victory?'held your ground.':'lost the battle.' %><% } else { %>You <%= victory?'won':'lost' %> the battle against <a class="player-link" href="/game/players/<%= battle.defenderId %>"><%= battle.defenderName %></a>.<% } %></p>
-<dl class="report-outcome"><div><dt>Damage dealt</dt><dd><%= dealt??'Not recorded' %></dd></div><div><dt>Damage received</dt><dd><%= received??'Not recorded' %></dd></div>
-<div><dt><%= battle.pvpRulesetId?(viewerAttacking?'Gold won':'Gold lost'):victory?'Gold won':'Gold lost' %></dt><dd class="gold"<% if(victory&&typeof battle.loot==='number') { %> data-reward-count="<%= battle.loot %>" data-prefix="+"<% } %>><%= typeof battle.loot==='number'?((battle.pvpRulesetId?viewerAttacking:victory)?'+':battle.loot?'-':'')+battle.loot.toLocaleString('en'):'Not recorded' %></dd></div>
-<div><dt>XP gained</dt><dd<% if(victory&&xp!==null) { %> data-reward-count="<%= xp %>" data-prefix="+"<% } %>><%= xp===null?'Not recorded':'+'+xp %></dd></div></dl>
-<% for(const note of rewardNotes) { %><p class="compact-help" data-reward-note><%= note %></p><% } %>
-<p class="compact-help"><%= viewerAttacking?(battle.spiritSpent??1)+' Spirit spent':'Defending costs no Spirit' %> · Level <%= state.level %> · <%= state.xpToNext %> XP to your next level</p>
-<progress class="reward-progress" value="<%= state.levelXp %>" max="<%= state.levelRequirement %>" aria-label="Level progress"></progress><time datetime="<%= battle.createdAt %>"><%= new Date(battle.createdAt).toLocaleString('en-GB',{timeZone:'UTC'}) %> UTC</time>
-</section>
-<% if(battle.bountyClaim) { %><section class="panel bounty-reward"><h2 class="success">Bounty claimed!</h2><p><a class="player-link" href="/game/players/<%= battle.attackerId %>"><%= viewerAttacking?'You':battle.attackerName %></a> received <strong class="gold"><%= battle.bountyClaim.reward.toLocaleString('en') %> bounty gold</strong>, separate from the ordinary battle loot above.</p></section><% } %>
-<%- include('partials/attack-again') %>
-<%- include('partials/battle-equipment',{heading:'Enemy Equipment',ownerId:viewerAttacking?battle.defenderId:battle.attackerId,ownerName:viewerAttacking?battle.defenderName:battle.attackerName,equipment:viewerAttacking?battle.defenseEquipment:battle.attackEquipment,participants:viewerAttacking?battle.defenderArmy:battle.attackerArmy,enemy:true}) %>
+const rewardNotes=battleRewardNotes(battle,viewerAttacking);const goldReceived=battle.pvpRulesetId?viewerAttacking:victory; %>
+<article class="panel battle-result resolved-battle <%= victory?'victory-celebration reward-celebration '+(battle.victoryStyle==='decisive'?'decisive-victory':''):'defeat-result' %>" data-celebration-id="<%= battle.id??'historical' %>-battle" aria-labelledby="battle-outcome">
+<header class="battle-outcome-heading"><h2 id="battle-outcome"><%= victory?'VICTORY!':'DEFEAT' %></h2>
+<p><% if(!viewerAttacking) { %><a class="player-link" href="/game/players/<%= battle.attackerId %>"><%= battle.attackerName %></a> attacked you. You <%= victory?'held your ground.':'lost the battle.' %><% } else { %>You <%= victory?'defeated':'were defeated by' %> <a class="player-link" href="/game/players/<%= battle.defenderId %>"><%= battle.defenderName %></a>.<% } %></p></header>
+<dl class="battle-rewards">
+<div><dt><%= goldReceived?'Gold won':'Gold lost' %></dt><dd class="gold"<% if(victory&&goldReceived&&typeof battle.loot==='number') { %> data-reward-count="<%= battle.loot %>" data-prefix="+"<% } %>><%= typeof battle.loot==='number'?(goldReceived?'+':battle.loot?'-':'')+battle.loot.toLocaleString('en'):'Not recorded' %></dd></div>
+<div><dt>XP gained</dt><dd<% if(victory&&xp!==null) { %> data-reward-count="<%= xp %>" data-prefix="+"<% } %>><%= xp===null?'Not recorded':'+'+xp.toLocaleString('en') %></dd></div></dl>
+<% if(battle.bountyClaim) { %><p class="bounty-reward"><strong>Bounty claimed!</strong> <a class="player-link" href="/game/players/<%= battle.attackerId %>"><%= viewerAttacking?'You':battle.attackerName %></a> received <strong class="gold"><%= battle.bountyClaim.reward.toLocaleString('en') %> bounty gold</strong>, separate from the ordinary battle loot above.</p><% } %>
+<dl class="battle-damage"><div><dt>Damage dealt</dt><dd><%= dealt??'Not recorded' %></dd></div><div><dt>Damage received</dt><dd><%= received??'Not recorded' %></dd></div></dl>
+<div class="battle-progress"><span>Level <%= state.level %> · <%= state.xpToNext.toLocaleString('en') %> XP to next level</span><progress class="reward-progress" value="<%= state.levelXp %>" max="<%= state.levelRequirement %>" aria-label="Level progress"></progress></div>
+<div class="battle-armies">
 <%- include('partials/battle-equipment',{heading:'Your Equipment',ownerId:state.id,ownerName:viewerAttacking?battle.attackerName:battle.defenderName,equipment:viewerAttacking?battle.attackEquipment:battle.defenseEquipment,participants:viewerAttacking?battle.attackerArmy:battle.defenderArmy,enemy:false}) %>
+<%- include('partials/battle-equipment',{heading:'Enemy Equipment',ownerId:viewerAttacking?battle.defenderId:battle.attackerId,ownerName:viewerAttacking?battle.defenderName:battle.attackerName,equipment:viewerAttacking?battle.defenseEquipment:battle.attackEquipment,participants:viewerAttacking?battle.defenderArmy:battle.attackerArmy,enemy:true}) %>
+</div>
+<%- include('partials/attack-again') %>
+<details class="battle-record-details"><summary><%= rewardNotes.length?'Reward & battle details':'Battle details' %></summary>
+<% for(const note of rewardNotes) { %><p class="compact-help" data-reward-note><%= note %></p><% } %>
+<p class="compact-help"><%= viewerAttacking?(typeof battle.spiritSpent==='number'?battle.spiritSpent+' Spirit spent':'Spirit cost not recorded'):'Defending costs no Spirit' %></p>
+<time datetime="<%= battle.createdAt %>"><%= new Date(battle.createdAt).toLocaleString('en-GB',{timeZone:'UTC'}) %> UTC</time>
 <% if(battle.temporaryRival) { %><p class="compact-help bot-label">Temporary computer-controlled rival</p><% } %>
+</details>
+</article>
+<%- include('partials/celebration',{reward:battle.playerExperience?.[state.id],identity:battle.id??'historical-battle'}) %>
 <div class="report-actions"><a href="/game/battle" class="button button-gold">Return to rivals</a><a href="/game/profile?tab=battles" class="button button-outline">My battles</a></div>

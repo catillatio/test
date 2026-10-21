@@ -2,7 +2,7 @@ import {soundIndex} from './audio/index.js?v=phase49-orchestral-1';
 // One short cue per confirmed action. Server-owned opt-in/mute; no music, third-party
 // requests, predicted rewards or financial writes. AAC works in mobile Safari.
 const body=document.body,identity=document.querySelector('[data-character-id]')?.dataset.characterId||'anonymous';
-let enabled=body.dataset.soundEnabled==='1',volume=Math.max(0,Math.min(100,Number(body.dataset.soundVolume)||0)),context=null,active=null,activeGain=null,lastAt=-Infinity,lastReward=-Infinity,lastRoutine=-Infinity,interacted=false,waiting=null;
+let enabled=body.dataset.soundEnabled==='1',volume=Math.max(0,Math.min(100,Number(body.dataset.soundVolume)||0)),context=null,active=null,activeGain=null,lastAt=-Infinity,lastReward=-Infinity,lastRoutine=-Infinity,interacted=false,waiting=null,generation=0,departing=false;
 const sounds=new Set(['coins','spend','equipment','sale','land','income','quest','victory','decisive','defeat','level','achievement','healing','bounty','alliance','error','tutorial']);
 const seenKey='kingdom-sounds:'+identity;
 let seen=[];try{seen=JSON.parse(localStorage.getItem(seenKey)||'[]');if(!Array.isArray(seen))seen=[];}catch{}
@@ -15,7 +15,8 @@ async function load(cue){
 }
 function offer(cue){waiting=cue;let button=document.querySelector('[data-play-result]');if(!button){button=document.createElement('button');button.type='button';button.className='button button-outline sound-unlock';button.dataset.playResult='';button.textContent='♫ Play result sound';const panel=document.querySelector('.reward-celebration,.purchase-receipt,.notice-success')||document.querySelector('main');panel?.append(button);button.addEventListener('click',()=>{const next=waiting;waiting=null;button.remove();void play(next,{reward:true});});}}
 async function play(cue,{reward=false,preview=false}={}){
- if(!sounds.has(cue)||(!enabled&&!preview)||!volume||document.hidden)return false;
+ if(!sounds.has(cue)||(!enabled&&!preview)||!volume||document.hidden||departing)return false;
+ const attempt=generation;
  const now=performance.now();if(!reward&&now-lastRoutine<90)return false;if(reward&&now-lastReward<100)return false;
  let previousInteraction=false;try{previousInteraction=!!sessionStorage.getItem('kingdom-audio-interaction');}catch{}if(!interacted&&!previousInteraction)return false;
  const ctx=engine();if(!ctx)return false;
@@ -23,16 +24,18 @@ async function play(cue,{reward=false,preview=false}={}){
   // resume() is invoked synchronously from the gesture before any fetch/await.
   const resume=ctx.resume();const bufferPromise=load(cue);bufferPromise.catch(()=>{});
   await Promise.race([resume,new Promise((_,reject)=>setTimeout(()=>reject(new Error('Tap required')),700))]);
-  if(ctx.state!=='running')throw new Error('Tap required');const buffer=await bufferPromise;if(!buffer||document.hidden)return false;
+  if(ctx.state!=='running')throw new Error('Tap required');const buffer=await bufferPromise;if(!buffer||document.hidden||departing||attempt!==generation||(!enabled&&!preview)||!volume)return false;
   if(reward&&performance.now()-lastReward<100)return false;if(!reward&&active)return false;
   if(active){try{active.stop();}catch{}} // no stacked horn/click spam
   const node=ctx.createBufferSource(),gain=ctx.createGain();node.buffer=buffer;gain.gain.value=volume/100*.74;node.connect(gain);gain.connect(ctx.destination);node.start(0,soundIndex[cue].start,soundIndex[cue].duration);active=node;activeGain=gain;
   lastAt=performance.now();if(reward)lastReward=lastAt;else lastRoutine=lastAt;
   node.onended=()=>{if(active===node){active=null;activeGain=null;}node.disconnect();gain.disconnect();};
   document.dispatchEvent(new CustomEvent('kingdom-sound-played',{detail:{cue}}));return true;
- }catch{if(reward&&enabled)offer(cue);return false;}
+ }catch{if(reward&&enabled&&!departing&&!document.hidden&&attempt===generation)offer(cue);return false;}
 }
-function unlock(){interacted=true;try{sessionStorage.setItem('kingdom-audio-interaction','1');}catch{}if(enabled){const ctx=engine();void ctx?.resume().catch(()=>{});void load().catch(()=>{});}}
+// A routine gesture records consent to the browser gesture gate only. It must
+// not create/resume an AudioContext, fetch a sprite, or resume a prior sound.
+function unlock(){interacted=true;try{sessionStorage.setItem('kingdom-audio-interaction','1');}catch{}}
 document.addEventListener('pointerdown',unlock,{capture:true,passive:true});document.addEventListener('keydown',unlock,{capture:true});
 const pendingKey='kingdom-sound-action:'+identity;
 document.addEventListener('submit',event=>{const form=event.target;if(!(form instanceof HTMLFormElement))return;const id=form.querySelector('[name="commandId"]')?.value;if(id)try{sessionStorage.setItem(pendingKey,JSON.stringify({id,at:Date.now()}));}catch{}},true);
@@ -46,7 +49,7 @@ function result(){
  if(remember(event.id))void play(event.cue,{reward:true});
 }
 result();
-if(enabled&&volume){let previous=false;try{previous=!!sessionStorage.getItem('kingdom-audio-interaction');}catch{}if(previous)void load().catch(()=>{});}
+// Decode lazily for a confirmed reward or an explicit Settings preview.
 const settings=document.querySelector('[data-sound-settings]');
 if(settings){
  const choice=settings.querySelector('[name="enabled"]'),range=settings.querySelector('[name="volume"]'),output=settings.querySelector('[data-sound-volume]');
@@ -64,5 +67,9 @@ try{localStorage.setItem(preferenceKey,JSON.stringify({enabled,volume}));}catch{
 document.addEventListener('kingdom-preference-saved',event=>{const saved=event.detail;if(!['0','1'].includes(saved?.enabled)||!Number.isInteger(saved.volume)||saved.volume<0||saved.volume>100)return;try{localStorage.setItem(preferenceKey,JSON.stringify({enabled:saved.enabled==='1',volume:saved.volume}));}catch{}});
 function savedPreference(){try{const saved=JSON.parse(localStorage.getItem(preferenceKey)||'null');if(typeof saved?.enabled==='boolean'&&Number.isInteger(saved.volume)&&saved.volume>=0&&saved.volume<=100){enabled=saved.enabled;volume=saved.volume;if(activeGain)activeGain.gain.value=enabled?volume/100*.74:0;if(!enabled&&active)active.stop();if(settings){settings.querySelector('[name="enabled"]').value=enabled?'1':'0';settings.querySelector('[name="volume"]').value=String(volume);settings.querySelector('[data-sound-volume]').textContent=volume+'%';}}}catch{}}
 window.addEventListener('storage',event=>{if(event.key===preferenceKey)savedPreference();});
-window.addEventListener('pageshow',event=>{if(event.persisted)savedPreference();});
-window.addEventListener('pagehide',()=>{if(active)try{active.stop();}catch{}active=null;activeGain=null;const old=context;context=null;spritePromise=null;if(old&&old.state!=='closed')void old.close().catch(()=>{});});
+window.addEventListener('pageshow',event=>{departing=false;if(event.persisted)savedPreference();});
+window.addEventListener('pagehide',()=>{departing=true;generation++;waiting=null;document.querySelector('[data-play-result]')?.remove();if(active)try{active.stop();}catch{}active=null;activeGain=null;const old=context;context=null;spritePromise=null;if(old&&old.state!=='closed')void old.close().catch(()=>{});});
+
+// Cancel pending decode/resume work on suspension; foreground/history restoration
+// never resumes a cue. A subsequent confirmed event needs a new playback attempt.
+document.addEventListener('visibilitychange',()=>{if(document.hidden){generation++;if(active)try{active.stop();}catch{}active=null;activeGain=null;}});

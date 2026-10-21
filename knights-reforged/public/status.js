@@ -42,7 +42,7 @@ if(statusRoot){
     const response=await fetch('/api/v1/health/restorations',{method:'POST',credentials:'same-origin',headers:{accept:'application/json','content-type':'application/x-www-form-urlencoded'},body,signal:controller.signal});
     const result=await response.json();
     if(!response.ok){document.dispatchEvent(new CustomEvent('kingdom-action-error'));forget();form.querySelector('[name="commandId"]').value=crypto.randomUUID();message.textContent=result.error?.message||'Healing could not complete. Refresh to review your current resources.';return;}
-    document.dispatchEvent(new CustomEvent('realm-state',{detail:result.state}));document.dispatchEvent(new CustomEvent('kingdom-action-result',{detail:{id:result.commandId,cue:result.data?.missing?'healing':'click'}}));message.textContent=result.message;forget();form.querySelector('[name="commandId"]').value=crypto.randomUUID();
+    document.dispatchEvent(new CustomEvent('realm-state',{detail:result.state}));if(result.data?.missing)document.dispatchEvent(new CustomEvent('kingdom-action-result',{detail:{id:result.commandId,cue:'healing'}}));message.textContent=result.message;forget();form.querySelector('[name="commandId"]').value=crypto.randomUUID();
    }catch{retry.hidden=false;message.textContent='Connection interrupted. Retry safely to confirm this same request; you will not be charged twice.';}
    finally{clearTimeout(timeout);busy=false;form.removeAttribute('aria-busy');retry.disabled=false;}
   }

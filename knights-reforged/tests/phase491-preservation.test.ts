@@ -1,0 +1,16 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdir,writeFile} from 'node:fs/promises';import {createHash} from 'node:crypto';
+import {realm,testDatabaseUrl} from './helpers.js';import {provisionBots} from '../src/development.js';import {migrate,reconcileLevelMilestones} from '../src/migrate.js';import {transaction} from '../src/db.js';import {createApp} from '../src/app.js';import {loadConfig} from '../src/config.js';
+test('Phase4.9 populated 450-bot fixture survives no-op upgrade, application restart, report reads and existing sound preferences byte-for-byte',{skip:!testDatabaseUrl,timeout:180000},async()=>{
+ const r=await realm({isolated:true,developmentBotsEnabled:true,clock:()=>new Date('2049-04-01T00:00:00Z')});try{
+  const a=await r.player('Existing Enabled Ruler'),b=await r.player('Existing Muted Ruler');for(const p of[a,b]){await r.prepare(p,30000,30);await r.ok(p,'/api/v1/tutorial',{action:'skip'});}
+  await r.ok(a,'/api/v1/settings/sound',{enabled:'1',volume:39});await r.ok(b,'/api/v1/settings/sound',{enabled:'0',volume:22});
+  await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:3});await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:3});await r.ok(a,'/api/v1/vault/deposits',{amount:1000});const hit=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id});
+  await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});await transaction(r.db,reconcileLevelMilestones);await r.me(a);await r.me(b);
+  async function snapshot(){const result:Record<string,string[]>={};for(const {table_name:t} of(await r.db.query("SELECT table_name FROM information_schema.tables WHERE table_schema=current_schema() AND table_type='BASE TABLE' ORDER BY table_name")).rows){assert.match(t,/^[a-z_]+$/);result[t]=(await r.db.query('SELECT row_to_json(t)::text row FROM "'+t+'" t')).rows.map(x=>x.row).sort();}return result;}
+  const before=await snapshot();await migrate(r.db);await migrate(r.db);const app=await createApp({db:r.db,config:loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',ENABLE_DEV_BOTS:'1'})});try{
+   for(const [p,enabled,volume]of[[a,true,39],[b,false,22]]as const){const response=await app.inject({url:'/api/v1/me',headers:{cookie:p.cookie}});assert.equal(response.statusCode,200);assert.deepEqual(response.json().sound,{enabled,volume});assert.equal((await app.inject({url:'/game/battles/'+hit.battleId,headers:{cookie:p.cookie}})).statusCode,200);}
+   const after=await snapshot();assert.deepEqual(Object.keys(after),Object.keys(before));for(const table of Object.keys(before)){assert.equal(createHash('sha256').update(JSON.stringify(after[table])).digest('hex'),createHash('sha256').update(JSON.stringify(before[table])).digest('hex'),table+' rows changed');}assert.equal(before.development_bots!.length,450);assert.equal(before.accounts!.length,452);
+   await mkdir('test-results',{recursive:true});await writeFile('test-results/phase491-preservation.json',JSON.stringify({passed:true,tables:Object.keys(before),accounts:452,bots:450,allRowsUnchanged:true,rowsSha256:createHash('sha256').update(JSON.stringify(before)).digest('hex'),sessionsRetained:true,soundPreferencesRetained:true,duplicateMigrationNoOp:true,productionContacted:false},null,2)+'\n');
+  }finally{await app.close();}
+ }finally{await r.close();}
+});
