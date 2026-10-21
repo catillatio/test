@@ -13,6 +13,8 @@ interface BountyRecord extends Record<string,any>{id:string;sponsor_id:string;ta
 // locks. This one ordering covers attacks, claims, cancellation and refunds.
 // It avoids transferring gold under a different wallet-lock ordering.
 export async function lockBountyEscrow(sql:Sql){await sql.query('SELECT pg_advisory_xact_lock(61824005)');}
+// Autonomous work yields immediately to any existing escrow/gameplay operation.
+export async function tryLockBountyEscrow(sql:Sql){return !!(await sql.query('SELECT pg_try_advisory_xact_lock(61824005) AS locked')).rows[0]!.locked;}
 const cutoff=(now:Date,seconds:number)=>new Date(+now-seconds*1000);
 async function allies(sql:Sql,a:string,b:string){return (await sql.query("SELECT 1 FROM army_links WHERE low_id=LEAST($1::uuid,$2::uuid) AND high_id=GREATEST($1::uuid,$2::uuid) AND status='accepted'",[a,b])).rows.length>0;}
 async function qualified(sql:Sql,id:string){

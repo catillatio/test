@@ -1,3 +1,4 @@
+import {scheduledNumber as numberFor,scheduledCommand,scheduledCandidates,startScheduledBotWork} from './bot-schedule.js';
 import {createHash} from 'node:crypto';
 import {type Database,transaction} from './db.js';
 import {clock,materialize,type CharacterRow} from './game.js';
@@ -13,20 +14,12 @@ export const livingEconomy=Object.freeze({id:'living-bot-economy-1',intervalMs:3
  slotsPerDecision:144,maximumBotsPerTick:5,maximumPopulation:450,
  pursePercent:5,maximumCost:5000,incomeBudgetHours:2,cashUpkeepHours:4,
  maximumUpkeepPercent:35,maximumIncomeGrowthPercent:2});
-const numberFor=(text:string)=>createHash('sha256').update(text).digest().readUInt32BE(0);
 export function economyWindow(now:Date){return Math.floor(+now/livingEconomy.intervalMs);}
 export function decisionSlot(id:string){return numberFor(id)%livingEconomy.slotsPerDecision;}
-export function economyCommand(id:string,window:number){
- const bytes=createHash('sha256').update(livingEconomy.id+':'+id+':'+window).digest().subarray(0,16);
- bytes[6]=(bytes[6]!&15)|64;bytes[8]=(bytes[8]!&63)|128;
- const hex=bytes.toString('hex');return [hex.slice(0,8),hex.slice(8,12),hex.slice(12,16),hex.slice(16,20),hex.slice(20)].join('-');
-}
-// The same bounded candidates on every worker/retry. Do not replace a busy,
-// disabled or already-processed candidate with a sixth bot in this time slot.
+export function economyCommand(id:string,window:number){return scheduledCommand(livingEconomy.id,id,window);}
+// Stable global candidates; do not replace a skipped bot with a sixth actor.
 export function economyCandidates(ids:string[],window:number){
- if(ids.length>livingEconomy.maximumPopulation)throw new Error('Unexpected rival population; autonomous purchases stopped.');
- return ids.filter(id=>decisionSlot(id)===window%livingEconomy.slotsPerDecision)
-  .sort((a,b)=>numberFor(a+':'+window)-numberFor(b+':'+window)||a.localeCompare(b)).slice(0,livingEconomy.maximumBotsPerTick);
+ return scheduledCandidates(ids,window,{slots:livingEconomy.slotsPerDecision,maximum:livingEconomy.maximumBotsPerTick,population:livingEconomy.maximumPopulation});
 }
 export interface EconomySnapshot {
  gold:number;level:number;participants:number;propertyNet:number;rate:number;
@@ -138,9 +131,5 @@ export async function runBotEconomy(db:Database,enabled:boolean){
  return result;
 }
 export function startBotEconomy(db:Database,enabled:boolean,onError:(error:unknown)=>void){
- if(!enabled)return async()=>{};
- let pending:Promise<unknown>|null=null,stopped=false;
- const tick=()=>{if(stopped||pending)return;pending=runBotEconomy(db,true).catch(onError).finally(()=>{pending=null;});};
- const timer=setInterval(tick,livingEconomy.intervalMs);timer.unref();tick();
- return async()=>{stopped=true;clearInterval(timer);await pending;};
+ return startScheduledBotWork(()=>runBotEconomy(db,true),enabled,livingEconomy.intervalMs,onError);
 }
