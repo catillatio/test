@@ -18,8 +18,9 @@ android {
     lint {
         abortOnError true
         warningsAsErrors true
-        // Deliberate pinned toolchain; a newest-version hint is not a build failure.
-        disable 'AndroidGradlePluginVersion'
+        // Deliberate API-36 alpha: runner-installed newer SDKs must not change this target.
+        // Keep NewApi and all security checks strict; suppress only freshness hints.
+        disable 'AndroidGradlePluginVersion', 'OldTargetApi'
     }
 }
 
