@@ -11,7 +11,7 @@ import {rules,regenerate} from '../../src/rules.js';
 import {scaleBotExperience} from '../../src/bot-experience.js';
 
 const H=3600000,DAY=24*H,MAX=2147483647;
-export interface SimulationOptions {level:number;hours:number;policy:'phase48'|'phase49';mode:'varied'|'same';players?:number;seed?:number;decisionSeconds?:number;spiritCapacity?:number;heal?:boolean;restartAtHour?:number;loadout?:'natural'|'established';botXpPercent?:100|65|40;dailySessionHours?:number;botLoadout?:(level:number,tier:string,variant:number)=>{militia:number;training:number;inventory:OwnedItem[];wallet:number;reserve:bigint};}
+export interface SimulationOptions {level:number;hours:number;policy:'phase48'|'phase49';mode:'varied'|'same';players?:number;seed?:number;decisionSeconds?:number;spiritCapacity?:number;heal?:boolean;restartAtHour?:number;loadout?:'natural'|'established';botXpPercent?:100|65|40;dailySessionHours?:number;targetSlot?:string;botLoadout?:(level:number,tier:string,variant:number)=>{militia:number;training:number;inventory:OwnedItem[];wallet:number;reserve:bigint};}
 interface Fighter {
  id:string;name:string;level:number;xp:number;levelXp:number;calling:string;militia:number;training:number;inventory:OwnedItem[];
  health:number;maxHealth:number;hpAt:number;spirit:number;maxSpirit:number;spiritAt:number;
@@ -86,7 +86,8 @@ export function simulateBotCombat(options:SimulationOptions){
   const hp=f.health,sp=f.spirit;recover(f,t);if(!isBot){naturalSpirit+=f.spirit-sp;naturalHealth+=f.health-hp;}
  };
  const startingAttack=power(humans[0]!,'attack');
- const fixed=bots.filter(b=>areRivals(level,b.level)).sort((a,b)=>Math.abs(botDefense(a)/startingAttack-.85)-Math.abs(botDefense(b)/startingAttack-.85)||a.id.localeCompare(b.id))[0]!.id;
+ if(options.targetSlot)assert.ok(mode==='same'&&bots.some(b=>b.id===options.targetSlot&&areRivals(level,b.level)),'Offline fixed target must be an eligible existing bot');
+ const fixed=options.targetSlot??bots.filter(b=>areRivals(level,b.level)).sort((a,b)=>Math.abs(botDefense(a)/startingAttack-.85)-Math.abs(botDefense(b)/startingAttack-.85)||a.id.localeCompare(b.id))[0]!.id;
  const duration=hours*H;let nextHour=H;
  for(let t=0;t<duration;t+=6000){
   if(options.restartAtHour&&t===options.restartAtHour*H){({bots,humans,pairs,attempts,budgets}=structuredClone({bots,humans,pairs,attempts,budgets}));restarts++;}
