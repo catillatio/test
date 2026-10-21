@@ -1,0 +1,7387 @@
+{
+  "productionContacted": false,
+  "policyChanged": false,
+  "assumptions": [
+    "Seed4901, 30-second decision cadence, all actual resource ticks, outcomes, finite shared bot purses, costs, 65% XP, pair reductions and level-up refills inherited from accepted Phase4.9 simulator.",
+    "1/2/6 continuous active hours at representative starting levels. No new equipment, training or recruitment during the session. No proposal balance is active.",
+    "Natural and established describe the existing simulator legal loadout fixtures; these are not live-player telemetry. No modeled earnings at level100/200 against inaccessible level50 bots."
+  ],
+  "results": [
+    {
+      "options": {
+        "level": 1,
+        "hours": 1,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 1,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 32,
+      "naturalHealth": 163,
+      "startingEquipment": [
+        {
+          "id": "iron-sword",
+          "quantity": 1
+        },
+        {
+          "id": "padded-coat",
+          "quantity": 1
+        },
+        {
+          "id": "ember-word",
+          "quantity": 1
+        }
+      ],
+      "startingArmy": 1,
+      "startingAttackTraining": 0,
+      "wins": 34,
+      "losses": 7,
+      "knockouts": 0,
+      "goldTransferred": 2054,
+      "xpAwarded": 34,
+      "oneXpWins": 34,
+      "zeroGoldWins": 0,
+      "repeatWins": 5,
+      "trivialWins": 0,
+      "levelUps": 2,
+      "refillSpirit": 6,
+      "refillHealth": 7,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        3
+      ],
+      "finalWallets": [
+        7054
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        84
+      ],
+      "distinctTargets": 31,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 79,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126082",
+      "initialCombined": "24244579",
+      "endingCombined": "27528384",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "2:elite:1",
+        "attackerLevel": 1,
+        "defenderLevel": 2,
+        "attack": 16.64,
+        "defense": 15.84,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 55,
+        "xp": 1,
+        "remainingDefenderGold": 4291,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 1
+      },
+      "last": {
+        "minute": 59.5,
+        "player": 0,
+        "target": "5:green:2",
+        "attackerLevel": 3,
+        "defenderLevel": 5,
+        "attack": 20.8,
+        "defense": 18.72,
+        "defenderMaintenancePaused": false,
+        "outcome": "defender_win",
+        "gold": 0,
+        "xp": 0,
+        "remainingDefenderGold": 3059,
+        "pairVictory": 0,
+        "multiplier": 100,
+        "healthBefore": 86,
+        "healthAfter": 74,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 3
+      }
+    },
+    {
+      "options": {
+        "level": 1,
+        "hours": 1,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 1,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 32,
+      "naturalHealth": 115,
+      "startingEquipment": [
+        {
+          "id": "iron-sword",
+          "quantity": 10
+        },
+        {
+          "id": "padded-coat",
+          "quantity": 10
+        },
+        {
+          "id": "ember-word",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 3,
+      "startingAttackTraining": 0,
+      "wins": 40,
+      "losses": 1,
+      "knockouts": 0,
+      "goldTransferred": 2416,
+      "xpAwarded": 40,
+      "oneXpWins": 40,
+      "zeroGoldWins": 0,
+      "repeatWins": 23,
+      "trivialWins": 0,
+      "levelUps": 2,
+      "refillSpirit": 6,
+      "refillHealth": 12,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        3
+      ],
+      "finalWallets": [
+        7416
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 17,
+      "maximumVictoriesInOnePair": 3,
+      "blocked": {
+        "spirit": 79,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126082",
+      "initialCombined": "24244579",
+      "endingCombined": "27528384",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "3:elite:0",
+        "attackerLevel": 1,
+        "defenderLevel": 3,
+        "attack": 45.76,
+        "defense": 26.26,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 61,
+        "xp": 1,
+        "remainingDefenderGold": 4043,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 1
+      },
+      "last": {
+        "minute": 59,
+        "player": 0,
+        "target": "5:seasoned:2",
+        "attackerLevel": 3,
+        "defenderLevel": 5,
+        "attack": 49.92,
+        "defense": 18.81,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 68,
+        "xp": 1,
+        "remainingDefenderGold": 3774,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 3
+      }
+    },
+    {
+      "options": {
+        "level": 1,
+        "hours": 2,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 1,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 65,
+      "naturalHealth": 291,
+      "startingEquipment": [
+        {
+          "id": "iron-sword",
+          "quantity": 1
+        },
+        {
+          "id": "padded-coat",
+          "quantity": 1
+        },
+        {
+          "id": "ember-word",
+          "quantity": 1
+        }
+      ],
+      "startingArmy": 1,
+      "startingAttackTraining": 0,
+      "wins": 65,
+      "losses": 11,
+      "knockouts": 0,
+      "goldTransferred": 3829,
+      "xpAwarded": 65,
+      "oneXpWins": 65,
+      "zeroGoldWins": 0,
+      "repeatWins": 31,
+      "trivialWins": 0,
+      "levelUps": 3,
+      "refillSpirit": 9,
+      "refillHealth": 13,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        4
+      ],
+      "finalWallets": [
+        8829
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        75
+      ],
+      "distinctTargets": 38,
+      "maximumVictoriesInOnePair": 3,
+      "blocked": {
+        "spirit": 164,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252164",
+      "initialCombined": "24244579",
+      "endingCombined": "30812189",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "2:elite:1",
+        "attackerLevel": 1,
+        "defenderLevel": 2,
+        "attack": 16.64,
+        "defense": 15.84,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 55,
+        "xp": 1,
+        "remainingDefenderGold": 4291,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 1
+      },
+      "last": {
+        "minute": 118,
+        "player": 0,
+        "target": "6:green:1",
+        "attackerLevel": 4,
+        "defenderLevel": 6,
+        "attack": 22.88,
+        "defense": 19.6,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 74,
+        "xp": 1,
+        "remainingDefenderGold": 2865,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 68,
+        "healthAfter": 65,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 4
+      }
+    },
+    {
+      "options": {
+        "level": 1,
+        "hours": 2,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 1,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 65,
+      "naturalHealth": 217,
+      "startingEquipment": [
+        {
+          "id": "iron-sword",
+          "quantity": 10
+        },
+        {
+          "id": "padded-coat",
+          "quantity": 10
+        },
+        {
+          "id": "ember-word",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 3,
+      "startingAttackTraining": 0,
+      "wins": 76,
+      "losses": 1,
+      "knockouts": 0,
+      "goldTransferred": 4708,
+      "xpAwarded": 76,
+      "oneXpWins": 76,
+      "zeroGoldWins": 0,
+      "repeatWins": 53,
+      "trivialWins": 0,
+      "levelUps": 3,
+      "refillSpirit": 9,
+      "refillHealth": 18,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        4
+      ],
+      "finalWallets": [
+        9708
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 23,
+      "maximumVictoriesInOnePair": 4,
+      "blocked": {
+        "spirit": 163,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252164",
+      "initialCombined": "24244579",
+      "endingCombined": "30812189",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "3:elite:0",
+        "attackerLevel": 1,
+        "defenderLevel": 3,
+        "attack": 45.76,
+        "defense": 26.26,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 61,
+        "xp": 1,
+        "remainingDefenderGold": 4043,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 1
+      },
+      "last": {
+        "minute": 119,
+        "player": 0,
+        "target": "6:green:2",
+        "attackerLevel": 4,
+        "defenderLevel": 6,
+        "attack": 52,
+        "defense": 19.76,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 63,
+        "xp": 1,
+        "remainingDefenderGold": 2987,
+        "pairVictory": 3,
+        "multiplier": 70,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 4
+      }
+    },
+    {
+      "options": {
+        "level": 1,
+        "hours": 6,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 3.5,
+          "activeHours": 3.5016666666666665
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 1,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 198,
+      "naturalHealth": 1055,
+      "startingEquipment": [
+        {
+          "id": "iron-sword",
+          "quantity": 1
+        },
+        {
+          "id": "padded-coat",
+          "quantity": 1
+        },
+        {
+          "id": "ember-word",
+          "quantity": 1
+        }
+      ],
+      "startingArmy": 1,
+      "startingAttackTraining": 0,
+      "wins": 149,
+      "losses": 63,
+      "knockouts": 0,
+      "goldTransferred": 7779,
+      "xpAwarded": 150,
+      "oneXpWins": 148,
+      "zeroGoldWins": 0,
+      "repeatWins": 107,
+      "trivialWins": 0,
+      "levelUps": 4,
+      "refillSpirit": 12,
+      "refillHealth": 19,
+      "heals": 2,
+      "healingGold": 168,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        5
+      ],
+      "finalWallets": [
+        12611
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        79
+      ],
+      "distinctTargets": 48,
+      "maximumVictoriesInOnePair": 6,
+      "blocked": {
+        "spirit": 506,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "756492",
+      "initialCombined": "24244579",
+      "endingCombined": "43947241",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "2:elite:1",
+        "attackerLevel": 1,
+        "defenderLevel": 2,
+        "attack": 16.64,
+        "defense": 15.84,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 55,
+        "xp": 1,
+        "remainingDefenderGold": 4291,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 1
+      },
+      "last": {
+        "minute": 358.5,
+        "player": 0,
+        "target": "7:green:0",
+        "attackerLevel": 5,
+        "defenderLevel": 7,
+        "attack": 24.96,
+        "defense": 20.58,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 38,
+        "xp": 1,
+        "remainingDefenderGold": 3208,
+        "pairVictory": 6,
+        "multiplier": 40,
+        "healthBefore": 72,
+        "healthAfter": 69,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 5
+      }
+    },
+    {
+      "options": {
+        "level": 1,
+        "hours": 6,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 2.8583333333333334,
+          "activeHours": 2.86
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 1,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 197,
+      "naturalHealth": 639,
+      "startingEquipment": [
+        {
+          "id": "iron-sword",
+          "quantity": 10
+        },
+        {
+          "id": "padded-coat",
+          "quantity": 10
+        },
+        {
+          "id": "ember-word",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 3,
+      "startingAttackTraining": 0,
+      "wins": 213,
+      "losses": 2,
+      "knockouts": 0,
+      "goldTransferred": 12382,
+      "xpAwarded": 215,
+      "oneXpWins": 211,
+      "zeroGoldWins": 0,
+      "repeatWins": 178,
+      "trivialWins": 0,
+      "levelUps": 5,
+      "refillSpirit": 15,
+      "refillHealth": 27,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        6
+      ],
+      "finalWallets": [
+        17382
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        100
+      ],
+      "distinctTargets": 35,
+      "maximumVictoriesInOnePair": 8,
+      "blocked": {
+        "spirit": 505,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "756492",
+      "initialCombined": "24244579",
+      "endingCombined": "43947409",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "3:elite:0",
+        "attackerLevel": 1,
+        "defenderLevel": 3,
+        "attack": 45.76,
+        "defense": 26.26,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 61,
+        "xp": 1,
+        "remainingDefenderGold": 4043,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 1
+      },
+      "last": {
+        "minute": 358.5,
+        "player": 0,
+        "target": "7:seasoned:1",
+        "attackerLevel": 6,
+        "defenderLevel": 7,
+        "attack": 56.16,
+        "defense": 51.47,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 44,
+        "xp": 1,
+        "remainingDefenderGold": 4047,
+        "pairVictory": 8,
+        "multiplier": 40,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 6
+      }
+    },
+    {
+      "options": {
+        "level": 5,
+        "hours": 1,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 5,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 102,
+      "startingEquipment": [
+        {
+          "id": "ransackers-axe",
+          "quantity": 1
+        },
+        {
+          "id": "warden-mail",
+          "quantity": 1
+        },
+        {
+          "id": "thorn-hex",
+          "quantity": 1
+        }
+      ],
+      "startingArmy": 1,
+      "startingAttackTraining": 0,
+      "wins": 36,
+      "losses": 0,
+      "knockouts": 0,
+      "goldTransferred": 2770,
+      "xpAwarded": 36,
+      "oneXpWins": 36,
+      "zeroGoldWins": 0,
+      "repeatWins": 8,
+      "trivialWins": 0,
+      "levelUps": 0,
+      "refillSpirit": 0,
+      "refillHealth": 0,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        5
+      ],
+      "finalWallets": [
+        7770
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 28,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 84,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126085",
+      "initialCombined": "24244582",
+      "endingCombined": "27528384",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "7:seasoned:2",
+        "attackerLevel": 5,
+        "defenderLevel": 7,
+        "attack": 37.44,
+        "defense": 28.7,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 111,
+        "xp": 1,
+        "remainingDefenderGold": 4042,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 5
+      },
+      "last": {
+        "minute": 59.5,
+        "player": 0,
+        "target": "5:seasoned:0",
+        "attackerLevel": 5,
+        "defenderLevel": 5,
+        "attack": 37.44,
+        "defense": 26.72,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 68,
+        "xp": 1,
+        "remainingDefenderGold": 3294,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 5
+      }
+    },
+    {
+      "options": {
+        "level": 5,
+        "hours": 1,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 5,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 102,
+      "startingEquipment": [
+        {
+          "id": "ransackers-axe",
+          "quantity": 10
+        },
+        {
+          "id": "warden-mail",
+          "quantity": 10
+        },
+        {
+          "id": "thorn-hex",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 0,
+      "wins": 36,
+      "losses": 0,
+      "knockouts": 0,
+      "goldTransferred": 3100,
+      "xpAwarded": 36,
+      "oneXpWins": 36,
+      "zeroGoldWins": 0,
+      "repeatWins": 0,
+      "trivialWins": 36,
+      "levelUps": 0,
+      "refillSpirit": 0,
+      "refillHealth": 0,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        5
+      ],
+      "finalWallets": [
+        8100
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 36,
+      "maximumVictoriesInOnePair": 1,
+      "blocked": {
+        "spirit": 84,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126112",
+      "initialCombined": "24244609",
+      "endingCombined": "27528384",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "7:elite:0",
+        "attackerLevel": 5,
+        "defenderLevel": 7,
+        "attack": 280.8,
+        "defense": 95.34,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 111,
+        "xp": 1,
+        "remainingDefenderGold": 4449,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 5
+      },
+      "last": {
+        "minute": 59.5,
+        "player": 0,
+        "target": "3:elite:2",
+        "attackerLevel": 5,
+        "defenderLevel": 3,
+        "attack": 280.8,
+        "defense": 16.83,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 61,
+        "xp": 1,
+        "remainingDefenderGold": 4615,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 5
+      }
+    },
+    {
+      "options": {
+        "level": 5,
+        "hours": 2,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 5,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 204,
+      "startingEquipment": [
+        {
+          "id": "ransackers-axe",
+          "quantity": 1
+        },
+        {
+          "id": "warden-mail",
+          "quantity": 1
+        },
+        {
+          "id": "thorn-hex",
+          "quantity": 1
+        }
+      ],
+      "startingArmy": 1,
+      "startingAttackTraining": 0,
+      "wins": 71,
+      "losses": 0,
+      "knockouts": 0,
+      "goldTransferred": 5133,
+      "xpAwarded": 71,
+      "oneXpWins": 71,
+      "zeroGoldWins": 0,
+      "repeatWins": 40,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 6,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        6
+      ],
+      "finalWallets": [
+        10130
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 31,
+      "maximumVictoriesInOnePair": 3,
+      "blocked": {
+        "spirit": 169,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252170",
+      "initialCombined": "24244582",
+      "endingCombined": "30812186",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "7:seasoned:2",
+        "attackerLevel": 5,
+        "defenderLevel": 7,
+        "attack": 37.44,
+        "defense": 28.7,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 111,
+        "xp": 1,
+        "remainingDefenderGold": 4042,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 5
+      },
+      "last": {
+        "minute": 118,
+        "player": 0,
+        "target": "4:seasoned:1",
+        "attackerLevel": 6,
+        "defenderLevel": 4,
+        "attack": 39.52,
+        "defense": 27.04,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 49,
+        "xp": 1,
+        "remainingDefenderGold": 3511,
+        "pairVictory": 3,
+        "multiplier": 70,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 6
+      }
+    },
+    {
+      "options": {
+        "level": 5,
+        "hours": 2,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 5,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 204,
+      "startingEquipment": [
+        {
+          "id": "ransackers-axe",
+          "quantity": 10
+        },
+        {
+          "id": "warden-mail",
+          "quantity": 10
+        },
+        {
+          "id": "thorn-hex",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 0,
+      "wins": 71,
+      "losses": 0,
+      "knockouts": 1,
+      "goldTransferred": 5879,
+      "xpAwarded": 71,
+      "oneXpWins": 71,
+      "zeroGoldWins": 0,
+      "repeatWins": 24,
+      "trivialWins": 60,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 6,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        6
+      ],
+      "finalWallets": [
+        10849
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 47,
+      "maximumVictoriesInOnePair": 6,
+      "blocked": {
+        "spirit": 169,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252224",
+      "initialCombined": "24244609",
+      "endingCombined": "30812159",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "7:elite:0",
+        "attackerLevel": 5,
+        "defenderLevel": 7,
+        "attack": 280.8,
+        "defense": 95.34,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 111,
+        "xp": 1,
+        "remainingDefenderGold": 4449,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 5
+      },
+      "last": {
+        "minute": 118,
+        "player": 0,
+        "target": "8:elite:0",
+        "attackerLevel": 6,
+        "defenderLevel": 8,
+        "attack": 282.88,
+        "defense": 108.16,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 52,
+        "xp": 1,
+        "remainingDefenderGold": 4378,
+        "pairVictory": 6,
+        "multiplier": 40,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 6
+      }
+    },
+    {
+      "options": {
+        "level": 5,
+        "hours": 6,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 5,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 199,
+      "naturalHealth": 778,
+      "startingEquipment": [
+        {
+          "id": "ransackers-axe",
+          "quantity": 1
+        },
+        {
+          "id": "warden-mail",
+          "quantity": 1
+        },
+        {
+          "id": "thorn-hex",
+          "quantity": 1
+        }
+      ],
+      "startingArmy": 1,
+      "startingAttackTraining": 0,
+      "wins": 176,
+      "losses": 31,
+      "knockouts": 0,
+      "goldTransferred": 10198,
+      "xpAwarded": 193,
+      "oneXpWins": 166,
+      "zeroGoldWins": 0,
+      "repeatWins": 140,
+      "trivialWins": 0,
+      "levelUps": 2,
+      "refillSpirit": 6,
+      "refillHealth": 12,
+      "heals": 2,
+      "healingGold": 169,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        7
+      ],
+      "finalWallets": [
+        15014
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        73
+      ],
+      "distinctTargets": 38,
+      "maximumVictoriesInOnePair": 7,
+      "blocked": {
+        "spirit": 511,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "756510",
+      "initialCombined": "24244582",
+      "endingCombined": "43947225",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "7:seasoned:2",
+        "attackerLevel": 5,
+        "defenderLevel": 7,
+        "attack": 37.44,
+        "defense": 28.7,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 111,
+        "xp": 1,
+        "remainingDefenderGold": 4042,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 5
+      },
+      "last": {
+        "minute": 358.5,
+        "player": 0,
+        "target": "6:seasoned:0",
+        "attackerLevel": 7,
+        "defenderLevel": 6,
+        "attack": 41.6,
+        "defense": 27.71,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 38,
+        "xp": 1,
+        "remainingDefenderGold": 3456,
+        "pairVictory": 7,
+        "multiplier": 40,
+        "healthBefore": 66,
+        "healthAfter": 63,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 7
+      }
+    },
+    {
+      "options": {
+        "level": 5,
+        "hours": 6,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 5,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 199,
+      "naturalHealth": 606,
+      "startingEquipment": [
+        {
+          "id": "ransackers-axe",
+          "quantity": 10
+        },
+        {
+          "id": "warden-mail",
+          "quantity": 10
+        },
+        {
+          "id": "thorn-hex",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 0,
+      "wins": 207,
+      "losses": 0,
+      "knockouts": 114,
+      "goldTransferred": 13622,
+      "xpAwarded": 207,
+      "oneXpWins": 207,
+      "zeroGoldWins": 0,
+      "repeatWins": 157,
+      "trivialWins": 60,
+      "levelUps": 2,
+      "refillSpirit": 6,
+      "refillHealth": 12,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        7
+      ],
+      "finalWallets": [
+        18472
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 50,
+      "maximumVictoriesInOnePair": 40,
+      "blocked": {
+        "spirit": 513,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "756672",
+      "initialCombined": "24244609",
+      "endingCombined": "43947259",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "7:elite:0",
+        "attackerLevel": 5,
+        "defenderLevel": 7,
+        "attack": 280.8,
+        "defense": 95.34,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 111,
+        "xp": 1,
+        "remainingDefenderGold": 4449,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 5
+      },
+      "last": {
+        "minute": 358.5,
+        "player": 0,
+        "target": "9:elite:0",
+        "attackerLevel": 7,
+        "defenderLevel": 9,
+        "attack": 284.96,
+        "defense": 109.24,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 49,
+        "xp": 1,
+        "remainingDefenderGold": 4058,
+        "pairVictory": 23,
+        "multiplier": 40,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 7
+      }
+    },
+    {
+      "options": {
+        "level": 8,
+        "hours": 1,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 8,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 102,
+      "startingEquipment": [
+        {
+          "id": "sunsteel-glaive",
+          "quantity": 1
+        },
+        {
+          "id": "castellan-helm",
+          "quantity": 1
+        },
+        {
+          "id": "storm-sigil",
+          "quantity": 1
+        }
+      ],
+      "startingArmy": 1,
+      "startingAttackTraining": 1,
+      "wins": 36,
+      "losses": 0,
+      "knockouts": 0,
+      "goldTransferred": 3577,
+      "xpAwarded": 72,
+      "oneXpWins": 12,
+      "zeroGoldWins": 0,
+      "repeatWins": 14,
+      "trivialWins": 0,
+      "levelUps": 0,
+      "refillSpirit": 0,
+      "refillHealth": 0,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        8
+      ],
+      "finalWallets": [
+        8577
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 22,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 84,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126091",
+      "initialCombined": "24244588",
+      "endingCombined": "27528384",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "9:seasoned:1",
+        "attackerLevel": 8,
+        "defenderLevel": 9,
+        "attack": 60.92,
+        "defense": 58.82,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 120,
+        "xp": 4,
+        "remainingDefenderGold": 3909,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 8
+      },
+      "last": {
+        "minute": 59.5,
+        "player": 0,
+        "target": "9:green:2",
+        "attackerLevel": 8,
+        "defenderLevel": 9,
+        "attack": 60.92,
+        "defense": 32.24,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 84,
+        "xp": 1,
+        "remainingDefenderGold": 3246,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 8
+      }
+    },
+    {
+      "options": {
+        "level": 8,
+        "hours": 1,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 8,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 102,
+      "startingEquipment": [
+        {
+          "id": "kingsguard-longsword",
+          "quantity": 10
+        },
+        {
+          "id": "runebound-hauberk",
+          "quantity": 10
+        },
+        {
+          "id": "tempest-lance",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 1,
+      "wins": 36,
+      "losses": 0,
+      "knockouts": 24,
+      "goldTransferred": 2418,
+      "xpAwarded": 38,
+      "oneXpWins": 34,
+      "zeroGoldWins": 0,
+      "repeatWins": 34,
+      "trivialWins": 0,
+      "levelUps": 0,
+      "refillSpirit": 0,
+      "refillHealth": 0,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        8
+      ],
+      "finalWallets": [
+        7418
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 2,
+      "maximumVictoriesInOnePair": 18,
+      "blocked": {
+        "spirit": 84,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126202",
+      "initialCombined": "24244699",
+      "endingCombined": "27528384",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "10:elite:0",
+        "attackerLevel": 8,
+        "defenderLevel": 10,
+        "attack": 605.03,
+        "defense": 242.42,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 152,
+        "xp": 2,
+        "remainingDefenderGold": 4939,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 8
+      },
+      "last": {
+        "minute": 59.5,
+        "player": 0,
+        "target": "10:elite:1",
+        "attackerLevel": 8,
+        "defenderLevel": 10,
+        "attack": 605.03,
+        "defense": 228.44,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 50,
+        "xp": 1,
+        "remainingDefenderGold": 4195,
+        "pairVictory": 18,
+        "multiplier": 40,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 8
+      }
+    },
+    {
+      "options": {
+        "level": 8,
+        "hours": 2,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 8,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 204,
+      "startingEquipment": [
+        {
+          "id": "sunsteel-glaive",
+          "quantity": 1
+        },
+        {
+          "id": "castellan-helm",
+          "quantity": 1
+        },
+        {
+          "id": "storm-sigil",
+          "quantity": 1
+        }
+      ],
+      "startingArmy": 1,
+      "startingAttackTraining": 1,
+      "wins": 69,
+      "losses": 0,
+      "knockouts": 0,
+      "goldTransferred": 6025,
+      "xpAwarded": 116,
+      "oneXpWins": 34,
+      "zeroGoldWins": 0,
+      "repeatWins": 47,
+      "trivialWins": 0,
+      "levelUps": 0,
+      "refillSpirit": 0,
+      "refillHealth": 0,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        8
+      ],
+      "finalWallets": [
+        11016
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 22,
+      "maximumVictoriesInOnePair": 4,
+      "blocked": {
+        "spirit": 171,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252182",
+      "initialCombined": "24244588",
+      "endingCombined": "30812180",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "9:seasoned:1",
+        "attackerLevel": 8,
+        "defenderLevel": 9,
+        "attack": 60.92,
+        "defense": 58.82,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 120,
+        "xp": 4,
+        "remainingDefenderGold": 3909,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 8
+      },
+      "last": {
+        "minute": 119,
+        "player": 0,
+        "target": "7:seasoned:1",
+        "attackerLevel": 8,
+        "defenderLevel": 7,
+        "attack": 60.92,
+        "defense": 51.47,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 61,
+        "xp": 1,
+        "remainingDefenderGold": 3687,
+        "pairVictory": 4,
+        "multiplier": 55,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 8
+      }
+    },
+    {
+      "options": {
+        "level": 8,
+        "hours": 2,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 8,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 204,
+      "startingEquipment": [
+        {
+          "id": "kingsguard-longsword",
+          "quantity": 10
+        },
+        {
+          "id": "runebound-hauberk",
+          "quantity": 10
+        },
+        {
+          "id": "tempest-lance",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 1,
+      "wins": 69,
+      "losses": 0,
+      "knockouts": 57,
+      "goldTransferred": 3942,
+      "xpAwarded": 71,
+      "oneXpWins": 67,
+      "zeroGoldWins": 0,
+      "repeatWins": 67,
+      "trivialWins": 0,
+      "levelUps": 0,
+      "refillSpirit": 0,
+      "refillHealth": 0,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        8
+      ],
+      "finalWallets": [
+        8822
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 2,
+      "maximumVictoriesInOnePair": 35,
+      "blocked": {
+        "spirit": 171,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252404",
+      "initialCombined": "24244699",
+      "endingCombined": "30812069",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "10:elite:0",
+        "attackerLevel": 8,
+        "defenderLevel": 10,
+        "attack": 605.03,
+        "defense": 242.42,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 152,
+        "xp": 2,
+        "remainingDefenderGold": 4939,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 8
+      },
+      "last": {
+        "minute": 119,
+        "player": 0,
+        "target": "10:elite:0",
+        "attackerLevel": 8,
+        "defenderLevel": 10,
+        "attack": 605.03,
+        "defense": 242.42,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 40,
+        "xp": 1,
+        "remainingDefenderGold": 3381,
+        "pairVictory": 35,
+        "multiplier": 40,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 8
+      }
+    },
+    {
+      "options": {
+        "level": 8,
+        "hours": 6,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 8,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 199,
+      "naturalHealth": 626,
+      "startingEquipment": [
+        {
+          "id": "sunsteel-glaive",
+          "quantity": 1
+        },
+        {
+          "id": "castellan-helm",
+          "quantity": 1
+        },
+        {
+          "id": "storm-sigil",
+          "quantity": 1
+        }
+      ],
+      "startingArmy": 1,
+      "startingAttackTraining": 1,
+      "wins": 203,
+      "losses": 2,
+      "knockouts": 0,
+      "goldTransferred": 13532,
+      "xpAwarded": 298,
+      "oneXpWins": 138,
+      "zeroGoldWins": 0,
+      "repeatWins": 178,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 6,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        9
+      ],
+      "finalWallets": [
+        18487
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 25,
+      "maximumVictoriesInOnePair": 9,
+      "blocked": {
+        "spirit": 515,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "756546",
+      "initialCombined": "24244588",
+      "endingCombined": "43947364",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "9:seasoned:1",
+        "attackerLevel": 8,
+        "defenderLevel": 9,
+        "attack": 60.92,
+        "defense": 58.82,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 120,
+        "xp": 4,
+        "remainingDefenderGold": 3909,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 8
+      },
+      "last": {
+        "minute": 359,
+        "player": 0,
+        "target": "9:green:0",
+        "attackerLevel": 9,
+        "defenderLevel": 9,
+        "attack": 63.02,
+        "defense": 30.38,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 40,
+        "xp": 1,
+        "remainingDefenderGold": 3351,
+        "pairVictory": 9,
+        "multiplier": 40,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 9
+      }
+    },
+    {
+      "options": {
+        "level": 8,
+        "hours": 6,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 8,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 199,
+      "naturalHealth": 612,
+      "startingEquipment": [
+        {
+          "id": "kingsguard-longsword",
+          "quantity": 10
+        },
+        {
+          "id": "runebound-hauberk",
+          "quantity": 10
+        },
+        {
+          "id": "tempest-lance",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 1,
+      "wins": 205,
+      "losses": 0,
+      "knockouts": 167,
+      "goldTransferred": 12886,
+      "xpAwarded": 219,
+      "oneXpWins": 194,
+      "zeroGoldWins": 0,
+      "repeatWins": 200,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 3,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        9
+      ],
+      "finalWallets": [
+        17286
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        100
+      ],
+      "distinctTargets": 5,
+      "maximumVictoriesInOnePair": 67,
+      "blocked": {
+        "spirit": 515,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "757212",
+      "initialCombined": "24244699",
+      "endingCombined": "43946809",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "10:elite:0",
+        "attackerLevel": 8,
+        "defenderLevel": 10,
+        "attack": 605.03,
+        "defense": 242.42,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 152,
+        "xp": 2,
+        "remainingDefenderGold": 4939,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 8
+      },
+      "last": {
+        "minute": 359,
+        "player": 0,
+        "target": "11:elite:2",
+        "attackerLevel": 9,
+        "defenderLevel": 11,
+        "attack": 607.13,
+        "defense": 229.47,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 80,
+        "xp": 1,
+        "remainingDefenderGold": 9393,
+        "pairVictory": 24,
+        "multiplier": 40,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 9
+      }
+    },
+    {
+      "options": {
+        "level": 15,
+        "hours": 1,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 15,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 175,
+      "startingEquipment": [
+        {
+          "id": "runescar-saber",
+          "quantity": 3
+        },
+        {
+          "id": "argent-sentinel-plate",
+          "quantity": 3
+        },
+        {
+          "id": "runic-convergence",
+          "quantity": 3
+        }
+      ],
+      "startingArmy": 3,
+      "startingAttackTraining": 2,
+      "wins": 24,
+      "losses": 12,
+      "knockouts": 0,
+      "goldTransferred": 4861,
+      "xpAwarded": 388,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 0,
+      "trivialWins": 0,
+      "levelUps": 0,
+      "refillSpirit": 0,
+      "refillHealth": 0,
+      "heals": 2,
+      "healingGold": 358,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        15
+      ],
+      "finalWallets": [
+        9503
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 36,
+      "maximumVictoriesInOnePair": 1,
+      "blocked": {
+        "spirit": 82,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126145",
+      "initialCombined": "24244642",
+      "endingCombined": "27528026",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "12:elite:2",
+        "attackerLevel": 15,
+        "defenderLevel": 12,
+        "attack": 248.23,
+        "defense": 232.69,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 230,
+        "xp": 13,
+        "remainingDefenderGold": 9381,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 15
+      },
+      "last": {
+        "minute": 59.5,
+        "player": 0,
+        "target": "15:green:0",
+        "attackerLevel": 15,
+        "defenderLevel": 15,
+        "attack": 248.23,
+        "defense": 155.4,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 138,
+        "xp": 12,
+        "remainingDefenderGold": 4474,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 15
+      }
+    },
+    {
+      "options": {
+        "level": 15,
+        "hours": 1,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 15,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 102,
+      "startingEquipment": [
+        {
+          "id": "stormglass-pike",
+          "quantity": 10
+        },
+        {
+          "id": "frostweave-mantle",
+          "quantity": 10
+        },
+        {
+          "id": "winters-judgment",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 2,
+      "wins": 36,
+      "losses": 0,
+      "knockouts": 0,
+      "goldTransferred": 8899,
+      "xpAwarded": 345,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 24,
+      "trivialWins": 0,
+      "levelUps": 0,
+      "refillSpirit": 0,
+      "refillHealth": 0,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        15
+      ],
+      "finalWallets": [
+        13899
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 12,
+      "maximumVictoriesInOnePair": 3,
+      "blocked": {
+        "spirit": 84,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126352",
+      "initialCombined": "24244849",
+      "endingCombined": "27528384",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "18:elite:0",
+        "attackerLevel": 15,
+        "defenderLevel": 18,
+        "attack": 933.5,
+        "defense": 421.7,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 257,
+        "xp": 13,
+        "remainingDefenderGold": 8338,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 15
+      },
+      "last": {
+        "minute": 59.5,
+        "player": 0,
+        "target": "15:elite:2",
+        "attackerLevel": 15,
+        "defenderLevel": 15,
+        "attack": 933.5,
+        "defense": 328.21,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 228,
+        "xp": 7,
+        "remainingDefenderGold": 10662,
+        "pairVictory": 3,
+        "multiplier": 70,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 15
+      }
+    },
+    {
+      "options": {
+        "level": 15,
+        "hours": 2,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 15,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 322,
+      "startingEquipment": [
+        {
+          "id": "runescar-saber",
+          "quantity": 3
+        },
+        {
+          "id": "argent-sentinel-plate",
+          "quantity": 3
+        },
+        {
+          "id": "runic-convergence",
+          "quantity": 3
+        }
+      ],
+      "startingArmy": 3,
+      "startingAttackTraining": 2,
+      "wins": 47,
+      "losses": 24,
+      "knockouts": 0,
+      "goldTransferred": 10454,
+      "xpAwarded": 855,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 5,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 6,
+      "heals": 4,
+      "healingGold": 696,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        16
+      ],
+      "finalWallets": [
+        14695
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 49,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 165,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252290",
+      "initialCombined": "24244642",
+      "endingCombined": "30811430",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "12:elite:2",
+        "attackerLevel": 15,
+        "defenderLevel": 12,
+        "attack": 248.23,
+        "defense": 232.69,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 230,
+        "xp": 13,
+        "remainingDefenderGold": 9381,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 15
+      },
+      "last": {
+        "minute": 118,
+        "player": 0,
+        "target": "19:green:2",
+        "attackerLevel": 16,
+        "defenderLevel": 19,
+        "attack": 250.35,
+        "defense": 177.52,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 252,
+        "xp": 18,
+        "remainingDefenderGold": 9659,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 16
+      }
+    },
+    {
+      "options": {
+        "level": 15,
+        "hours": 2,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 15,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 204,
+      "startingEquipment": [
+        {
+          "id": "stormglass-pike",
+          "quantity": 10
+        },
+        {
+          "id": "frostweave-mantle",
+          "quantity": 10
+        },
+        {
+          "id": "winters-judgment",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 2,
+      "wins": 71,
+      "losses": 0,
+      "knockouts": 0,
+      "goldTransferred": 17650,
+      "xpAwarded": 730,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 50,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 6,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        16
+      ],
+      "finalWallets": [
+        22380
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 21,
+      "maximumVictoriesInOnePair": 5,
+      "blocked": {
+        "spirit": 169,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252704",
+      "initialCombined": "24244849",
+      "endingCombined": "30811919",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "18:elite:0",
+        "attackerLevel": 15,
+        "defenderLevel": 18,
+        "attack": 933.5,
+        "defense": 421.7,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 257,
+        "xp": 13,
+        "remainingDefenderGold": 8338,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 15
+      },
+      "last": {
+        "minute": 118,
+        "player": 0,
+        "target": "20:elite:2",
+        "attackerLevel": 16,
+        "defenderLevel": 20,
+        "attack": 935.63,
+        "defense": 498.04,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 310,
+        "xp": 12,
+        "remainingDefenderGold": 14509,
+        "pairVictory": 3,
+        "multiplier": 70,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 16
+      }
+    },
+    {
+      "options": {
+        "level": 15,
+        "hours": 6,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 2.058333333333333,
+          "activeHours": 2.06
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 15,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 197,
+      "naturalHealth": 884,
+      "startingEquipment": [
+        {
+          "id": "runescar-saber",
+          "quantity": 3
+        },
+        {
+          "id": "argent-sentinel-plate",
+          "quantity": 3
+        },
+        {
+          "id": "runic-convergence",
+          "quantity": 3
+        }
+      ],
+      "startingArmy": 3,
+      "startingAttackTraining": 2,
+      "wins": 170,
+      "losses": 50,
+      "knockouts": 0,
+      "goldTransferred": 53754,
+      "xpAwarded": 4169,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 106,
+      "trivialWins": 0,
+      "levelUps": 7,
+      "refillSpirit": 21,
+      "refillHealth": 171,
+      "heals": 6,
+      "healingGold": 1218,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        22
+      ],
+      "finalWallets": [
+        57221
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        70
+      ],
+      "distinctTargets": 70,
+      "maximumVictoriesInOnePair": 4,
+      "blocked": {
+        "spirit": 494,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "756870",
+      "initialCombined": "24244642",
+      "endingCombined": "43945876",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "12:elite:2",
+        "attackerLevel": 15,
+        "defenderLevel": 12,
+        "attack": 248.23,
+        "defense": 232.69,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 230,
+        "xp": 13,
+        "remainingDefenderGold": 9381,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 15
+      },
+      "last": {
+        "minute": 358.5,
+        "player": 0,
+        "target": "27:green:1",
+        "attackerLevel": 22,
+        "defenderLevel": 27,
+        "attack": 263.08,
+        "defense": 264.89,
+        "defenderMaintenancePaused": false,
+        "outcome": "defender_win",
+        "gold": 0,
+        "xp": 0,
+        "remainingDefenderGold": 25544,
+        "pairVictory": 0,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 70,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 22
+      }
+    },
+    {
+      "options": {
+        "level": 15,
+        "hours": 6,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 2.5416666666666665,
+          "activeHours": 2.5433333333333334
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 15,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 197,
+      "naturalHealth": 660,
+      "startingEquipment": [
+        {
+          "id": "stormglass-pike",
+          "quantity": 10
+        },
+        {
+          "id": "frostweave-mantle",
+          "quantity": 10
+        },
+        {
+          "id": "winters-judgment",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 2,
+      "wins": 215,
+      "losses": 5,
+      "knockouts": 0,
+      "goldTransferred": 91253,
+      "xpAwarded": 4287,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 152,
+      "trivialWins": 0,
+      "levelUps": 7,
+      "refillSpirit": 21,
+      "refillHealth": 56,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        22
+      ],
+      "finalWallets": [
+        94903
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        50
+      ],
+      "distinctTargets": 63,
+      "maximumVictoriesInOnePair": 5,
+      "blocked": {
+        "spirit": 500,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "758112",
+      "initialCombined": "24244849",
+      "endingCombined": "43946059",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "18:elite:0",
+        "attackerLevel": 15,
+        "defenderLevel": 18,
+        "attack": 933.5,
+        "defense": 421.7,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 257,
+        "xp": 13,
+        "remainingDefenderGold": 8338,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 15
+      },
+      "last": {
+        "minute": 358,
+        "player": 0,
+        "target": "27:elite:1",
+        "attackerLevel": 22,
+        "defenderLevel": 27,
+        "attack": 948.36,
+        "defense": 862.66,
+        "defenderMaintenancePaused": false,
+        "outcome": "defender_win",
+        "gold": 0,
+        "xp": 0,
+        "remainingDefenderGold": 71774,
+        "pairVictory": 0,
+        "multiplier": 100,
+        "healthBefore": 70,
+        "healthAfter": 40,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 22
+      }
+    },
+    {
+      "options": {
+        "level": 17,
+        "hours": 1,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 17,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 32,
+      "naturalHealth": 158,
+      "startingEquipment": [
+        {
+          "id": "stormglass-pike",
+          "quantity": 3
+        },
+        {
+          "id": "frostweave-mantle",
+          "quantity": 3
+        },
+        {
+          "id": "winters-judgment",
+          "quantity": 3
+        }
+      ],
+      "startingArmy": 3,
+      "startingAttackTraining": 2,
+      "wins": 29,
+      "losses": 9,
+      "knockouts": 0,
+      "goldTransferred": 7405,
+      "xpAwarded": 686,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 0,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 30,
+      "heals": 1,
+      "healingGold": 180,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        18
+      ],
+      "finalWallets": [
+        12225
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        79
+      ],
+      "distinctTargets": 38,
+      "maximumVictoriesInOnePair": 1,
+      "blocked": {
+        "spirit": 81,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126163",
+      "initialCombined": "24244660",
+      "endingCombined": "27528204",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "19:seasoned:1",
+        "attackerLevel": 17,
+        "defenderLevel": 19,
+        "attack": 306.57,
+        "defense": 305.29,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 264,
+        "xp": 35,
+        "remainingDefenderGold": 8546,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 17
+      },
+      "last": {
+        "minute": 58.5,
+        "player": 0,
+        "target": "19:green:1",
+        "attackerLevel": 18,
+        "defenderLevel": 19,
+        "attack": 308.69,
+        "defense": 175.19,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 207,
+        "xp": 20,
+        "remainingDefenderGold": 6726,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 82,
+        "healthAfter": 79,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 18
+      }
+    },
+    {
+      "options": {
+        "level": 17,
+        "hours": 1,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 17,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 108,
+      "startingEquipment": [
+        {
+          "id": "stormglass-pike",
+          "quantity": 10
+        },
+        {
+          "id": "frostweave-mantle",
+          "quantity": 10
+        },
+        {
+          "id": "winters-judgment",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 2,
+      "wins": 38,
+      "losses": 0,
+      "knockouts": 0,
+      "goldTransferred": 16424,
+      "xpAwarded": 799,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 6,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 6,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        18
+      ],
+      "finalWallets": [
+        21424
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        100
+      ],
+      "distinctTargets": 32,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 82,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126352",
+      "initialCombined": "24244849",
+      "endingCombined": "27528384",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "21:elite:0",
+        "attackerLevel": 17,
+        "defenderLevel": 21,
+        "attack": 937.75,
+        "defense": 701.27,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 601,
+        "xp": 31,
+        "remainingDefenderGold": 27886,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 17
+      },
+      "last": {
+        "minute": 58.5,
+        "player": 0,
+        "target": "22:seasoned:1",
+        "attackerLevel": 18,
+        "defenderLevel": 22,
+        "attack": 939.87,
+        "defense": 536.47,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 484,
+        "xp": 22,
+        "remainingDefenderGold": 18518,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 18
+      }
+    },
+    {
+      "options": {
+        "level": 17,
+        "hours": 2,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 17,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 65,
+      "naturalHealth": 317,
+      "startingEquipment": [
+        {
+          "id": "stormglass-pike",
+          "quantity": 3
+        },
+        {
+          "id": "frostweave-mantle",
+          "quantity": 3
+        },
+        {
+          "id": "winters-judgment",
+          "quantity": 3
+        }
+      ],
+      "startingArmy": 3,
+      "startingAttackTraining": 2,
+      "wins": 59,
+      "losses": 15,
+      "knockouts": 0,
+      "goldTransferred": 14573,
+      "xpAwarded": 1308,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 12,
+      "trivialWins": 0,
+      "levelUps": 2,
+      "refillSpirit": 6,
+      "refillHealth": 44,
+      "heals": 2,
+      "healingGold": 344,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        19
+      ],
+      "finalWallets": [
+        19148
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        88
+      ],
+      "distinctTargets": 53,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 164,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252326",
+      "initialCombined": "24244660",
+      "endingCombined": "30811764",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "19:seasoned:1",
+        "attackerLevel": 17,
+        "defenderLevel": 19,
+        "attack": 306.57,
+        "defense": 305.29,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 264,
+        "xp": 35,
+        "remainingDefenderGold": 8546,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 17
+      },
+      "last": {
+        "minute": 119,
+        "player": 0,
+        "target": "23:green:0",
+        "attackerLevel": 19,
+        "defenderLevel": 23,
+        "attack": 310.81,
+        "defense": 198.95,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 251,
+        "xp": 28,
+        "remainingDefenderGold": 9646,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 81,
+        "healthAfter": 78,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 19
+      }
+    },
+    {
+      "options": {
+        "level": 17,
+        "hours": 2,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 17,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 65,
+      "naturalHealth": 210,
+      "startingEquipment": [
+        {
+          "id": "stormglass-pike",
+          "quantity": 10
+        },
+        {
+          "id": "frostweave-mantle",
+          "quantity": 10
+        },
+        {
+          "id": "winters-judgment",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 2,
+      "wins": 74,
+      "losses": 0,
+      "knockouts": 0,
+      "goldTransferred": 32201,
+      "xpAwarded": 1525,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 36,
+      "trivialWins": 0,
+      "levelUps": 2,
+      "refillSpirit": 6,
+      "refillHealth": 9,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        19
+      ],
+      "finalWallets": [
+        36931
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 38,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 166,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252704",
+      "initialCombined": "24244849",
+      "endingCombined": "30811919",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "21:elite:0",
+        "attackerLevel": 17,
+        "defenderLevel": 21,
+        "attack": 937.75,
+        "defense": 701.27,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 601,
+        "xp": 31,
+        "remainingDefenderGold": 27886,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 17
+      },
+      "last": {
+        "minute": 118.5,
+        "player": 0,
+        "target": "20:seasoned:2",
+        "attackerLevel": 19,
+        "defenderLevel": 20,
+        "attack": 941.99,
+        "defense": 340.41,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 314,
+        "xp": 17,
+        "remainingDefenderGold": 12020,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 19
+      }
+    },
+    {
+      "options": {
+        "level": 17,
+        "hours": 6,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 5.316666666666666,
+          "activeHours": 5.318333333333333
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 17,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 196,
+      "naturalHealth": 860,
+      "startingEquipment": [
+        {
+          "id": "stormglass-pike",
+          "quantity": 3
+        },
+        {
+          "id": "frostweave-mantle",
+          "quantity": 3
+        },
+        {
+          "id": "winters-judgment",
+          "quantity": 3
+        }
+      ],
+      "startingArmy": 3,
+      "startingAttackTraining": 2,
+      "wins": 198,
+      "losses": 27,
+      "knockouts": 0,
+      "goldTransferred": 82400,
+      "xpAwarded": 6905,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 123,
+      "trivialWins": 0,
+      "levelUps": 9,
+      "refillSpirit": 27,
+      "refillHealth": 166,
+      "heals": 2,
+      "healingGold": 344,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        26
+      ],
+      "finalWallets": [
+        86651
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        87
+      ],
+      "distinctTargets": 80,
+      "maximumVictoriesInOnePair": 4,
+      "blocked": {
+        "spirit": 493,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "756978",
+      "initialCombined": "24244660",
+      "endingCombined": "43946660",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "19:seasoned:1",
+        "attackerLevel": 17,
+        "defenderLevel": 19,
+        "attack": 306.57,
+        "defense": 305.29,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 264,
+        "xp": 35,
+        "remainingDefenderGold": 8546,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 17
+      },
+      "last": {
+        "minute": 358,
+        "player": 0,
+        "target": "32:green:0",
+        "attackerLevel": 26,
+        "defenderLevel": 32,
+        "attack": 325.67,
+        "defense": 285.89,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 989,
+        "xp": 93,
+        "remainingDefenderGold": 31991,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 80,
+        "healthAfter": 77,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 26
+      }
+    },
+    {
+      "options": {
+        "level": 17,
+        "hours": 6,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 4.166666666666667,
+          "activeHours": 4.168333333333333
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 17,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 195,
+      "naturalHealth": 748,
+      "startingEquipment": [
+        {
+          "id": "stormglass-pike",
+          "quantity": 10
+        },
+        {
+          "id": "frostweave-mantle",
+          "quantity": 10
+        },
+        {
+          "id": "winters-judgment",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 2,
+      "wins": 206,
+      "losses": 25,
+      "knockouts": 0,
+      "goldTransferred": 148895,
+      "xpAwarded": 8732,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 113,
+      "trivialWins": 0,
+      "levelUps": 11,
+      "refillSpirit": 33,
+      "refillHealth": 86,
+      "heals": 5,
+      "healingGold": 1326,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        28
+      ],
+      "finalWallets": [
+        151219
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        74
+      ],
+      "distinctTargets": 96,
+      "maximumVictoriesInOnePair": 3,
+      "blocked": {
+        "spirit": 484,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "758112",
+      "initialCombined": "24244849",
+      "endingCombined": "43944733",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "21:elite:0",
+        "attackerLevel": 17,
+        "defenderLevel": 21,
+        "attack": 937.75,
+        "defense": 701.27,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 601,
+        "xp": 31,
+        "remainingDefenderGold": 27886,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 17
+      },
+      "last": {
+        "minute": 359,
+        "player": 0,
+        "target": "30:elite:0",
+        "attackerLevel": 28,
+        "defenderLevel": 30,
+        "attack": 961.08,
+        "defense": 1084.77,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1175,
+        "xp": 105,
+        "remainingDefenderGold": 80222,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 77,
+        "healthAfter": 74,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 28
+      }
+    },
+    {
+      "options": {
+        "level": 25,
+        "hours": 1,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 25,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 160,
+      "startingEquipment": [
+        {
+          "id": "cinderwyrm-cleaver",
+          "quantity": 4
+        },
+        {
+          "id": "nightwatch-carapace",
+          "quantity": 4
+        },
+        {
+          "id": "ashen-revenant",
+          "quantity": 4
+        }
+      ],
+      "startingArmy": 4,
+      "startingAttackTraining": 4,
+      "wins": 23,
+      "losses": 15,
+      "knockouts": 0,
+      "goldTransferred": 13076,
+      "xpAwarded": 1195,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 0,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 25,
+      "heals": 3,
+      "healingGold": 861,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        26
+      ],
+      "finalWallets": [
+        17215
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        95
+      ],
+      "distinctTargets": 38,
+      "maximumVictoriesInOnePair": 1,
+      "blocked": {
+        "spirit": 79,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126238",
+      "initialCombined": "24244735",
+      "endingCombined": "27527523",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "21:elite:2",
+        "attackerLevel": 25,
+        "defenderLevel": 21,
+        "attack": 517,
+        "defense": 499.11,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 601,
+        "xp": 39,
+        "remainingDefenderGold": 35323,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 25
+      },
+      "last": {
+        "minute": 58.5,
+        "player": 0,
+        "target": "31:green:0",
+        "attackerLevel": 26,
+        "defenderLevel": 31,
+        "attack": 519.17,
+        "defense": 284.89,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 365,
+        "xp": 57,
+        "remainingDefenderGold": 11833,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 98,
+        "healthAfter": 95,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 26
+      }
+    },
+    {
+      "options": {
+        "level": 25,
+        "hours": 1,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 25,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 32,
+      "naturalHealth": 152,
+      "startingEquipment": [
+        {
+          "id": "oathbound-greatsword",
+          "quantity": 10
+        },
+        {
+          "id": "nightwatch-carapace",
+          "quantity": 10
+        },
+        {
+          "id": "oathfire-nova",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 4,
+      "wins": 38,
+      "losses": 3,
+      "knockouts": 0,
+      "goldTransferred": 38103,
+      "xpAwarded": 2120,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 0,
+      "trivialWins": 0,
+      "levelUps": 2,
+      "refillSpirit": 6,
+      "refillHealth": 23,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        27
+      ],
+      "finalWallets": [
+        43103
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        71
+      ],
+      "distinctTargets": 41,
+      "maximumVictoriesInOnePair": 1,
+      "blocked": {
+        "spirit": 79,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126612",
+      "initialCombined": "24245109",
+      "endingCombined": "27528384",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "30:elite:0",
+        "attackerLevel": 25,
+        "defenderLevel": 30,
+        "attack": 1406.08,
+        "defense": 1084.77,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1175,
+        "xp": 78,
+        "remainingDefenderGold": 42572,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 25
+      },
+      "last": {
+        "minute": 59,
+        "player": 0,
+        "target": "33:seasoned:1",
+        "attackerLevel": 27,
+        "defenderLevel": 33,
+        "attack": 1410.41,
+        "defense": 953.58,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1138,
+        "xp": 75,
+        "remainingDefenderGold": 36804,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 64,
+        "healthAfter": 61,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 27
+      }
+    },
+    {
+      "options": {
+        "level": 25,
+        "hours": 2,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 25,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 290,
+      "startingEquipment": [
+        {
+          "id": "cinderwyrm-cleaver",
+          "quantity": 4
+        },
+        {
+          "id": "nightwatch-carapace",
+          "quantity": 4
+        },
+        {
+          "id": "ashen-revenant",
+          "quantity": 4
+        }
+      ],
+      "startingArmy": 4,
+      "startingAttackTraining": 4,
+      "wins": 54,
+      "losses": 20,
+      "knockouts": 0,
+      "goldTransferred": 29204,
+      "xpAwarded": 2444,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 4,
+      "trivialWins": 0,
+      "levelUps": 2,
+      "refillSpirit": 6,
+      "refillHealth": 28,
+      "heals": 4,
+      "healingGold": 1113,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        27
+      ],
+      "finalWallets": [
+        32935
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        100
+      ],
+      "distinctTargets": 63,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 162,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "252476",
+      "initialCombined": "24244735",
+      "endingCombined": "30810920",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "21:elite:2",
+        "attackerLevel": 25,
+        "defenderLevel": 21,
+        "attack": 517,
+        "defense": 499.11,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 601,
+        "xp": 39,
+        "remainingDefenderGold": 35323,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 25
+      },
+      "last": {
+        "minute": 118.5,
+        "player": 0,
+        "target": "27:seasoned:0",
+        "attackerLevel": 27,
+        "defenderLevel": 27,
+        "attack": 521.33,
+        "defense": 544.34,
+        "defenderMaintenancePaused": false,
+        "outcome": "defender_win",
+        "gold": 0,
+        "xp": 0,
+        "remainingDefenderGold": 24147,
+        "pairVictory": 0,
+        "multiplier": 100,
+        "healthBefore": 46,
+        "healthAfter": 16,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 27
+      }
+    },
+    {
+      "options": {
+        "level": 25,
+        "hours": 2,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 25,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 65,
+      "naturalHealth": 299,
+      "startingEquipment": [
+        {
+          "id": "oathbound-greatsword",
+          "quantity": 10
+        },
+        {
+          "id": "nightwatch-carapace",
+          "quantity": 10
+        },
+        {
+          "id": "oathfire-nova",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 4,
+      "wins": 73,
+      "losses": 4,
+      "knockouts": 0,
+      "goldTransferred": 71908,
+      "xpAwarded": 3675,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 1,
+      "trivialWins": 0,
+      "levelUps": 3,
+      "refillSpirit": 9,
+      "refillHealth": 29,
+      "heals": 0,
+      "healingGold": 0,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        28
+      ],
+      "finalWallets": [
+        76378
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 75,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 163,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "253224",
+      "initialCombined": "24245109",
+      "endingCombined": "30811659",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "30:elite:0",
+        "attackerLevel": 25,
+        "defenderLevel": 30,
+        "attack": 1406.08,
+        "defense": 1084.77,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1175,
+        "xp": 78,
+        "remainingDefenderGold": 42572,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 25
+      },
+      "last": {
+        "minute": 119,
+        "player": 0,
+        "target": "33:elite:1",
+        "attackerLevel": 28,
+        "defenderLevel": 33,
+        "attack": 1412.57,
+        "defense": 1360.75,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1199,
+        "xp": 96,
+        "remainingDefenderGold": 72241,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 28
+      }
+    },
+    {
+      "options": {
+        "level": 25,
+        "hours": 6,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 25,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 197,
+      "naturalHealth": 844,
+      "startingEquipment": [
+        {
+          "id": "cinderwyrm-cleaver",
+          "quantity": 4
+        },
+        {
+          "id": "nightwatch-carapace",
+          "quantity": 4
+        },
+        {
+          "id": "ashen-revenant",
+          "quantity": 4
+        }
+      ],
+      "startingArmy": 4,
+      "startingAttackTraining": 4,
+      "wins": 175,
+      "losses": 48,
+      "knockouts": 0,
+      "goldTransferred": 143811,
+      "xpAwarded": 8819,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 98,
+      "trivialWins": 0,
+      "levelUps": 8,
+      "refillSpirit": 24,
+      "refillHealth": 141,
+      "heals": 8,
+      "healingGold": 2390,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        33
+      ],
+      "finalWallets": [
+        145641
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        32
+      ],
+      "distinctTargets": 84,
+      "maximumVictoriesInOnePair": 3,
+      "blocked": {
+        "spirit": 489,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "757428",
+      "initialCombined": "24244735",
+      "endingCombined": "43944239",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "21:elite:2",
+        "attackerLevel": 25,
+        "defenderLevel": 21,
+        "attack": 517,
+        "defense": 499.11,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 601,
+        "xp": 39,
+        "remainingDefenderGold": 35323,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 25
+      },
+      "last": {
+        "minute": 358,
+        "player": 0,
+        "target": "29:seasoned:2",
+        "attackerLevel": 33,
+        "defenderLevel": 29,
+        "attack": 534.31,
+        "defense": 546.4,
+        "defenderMaintenancePaused": false,
+        "outcome": "defender_win",
+        "gold": 0,
+        "xp": 0,
+        "remainingDefenderGold": 64966,
+        "pairVictory": 0,
+        "multiplier": 100,
+        "healthBefore": 61,
+        "healthAfter": 32,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 33
+      }
+    },
+    {
+      "options": {
+        "level": 25,
+        "hours": 6,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 25,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 195,
+      "naturalHealth": 838,
+      "startingEquipment": [
+        {
+          "id": "oathbound-greatsword",
+          "quantity": 10
+        },
+        {
+          "id": "nightwatch-carapace",
+          "quantity": 10
+        },
+        {
+          "id": "oathfire-nova",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 4,
+      "wins": 212,
+      "losses": 22,
+      "knockouts": 0,
+      "goldTransferred": 298947,
+      "xpAwarded": 14659,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 90,
+      "trivialWins": 0,
+      "levelUps": 12,
+      "refillSpirit": 36,
+      "refillHealth": 107,
+      "heals": 3,
+      "healingGold": 937,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        37
+      ],
+      "finalWallets": [
+        300360
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        87
+      ],
+      "distinctTargets": 129,
+      "maximumVictoriesInOnePair": 3,
+      "blocked": {
+        "spirit": 483,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "759672",
+      "initialCombined": "24245109",
+      "endingCombined": "43943822",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "30:elite:0",
+        "attackerLevel": 25,
+        "defenderLevel": 30,
+        "attack": 1406.08,
+        "defense": 1084.77,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1175,
+        "xp": 78,
+        "remainingDefenderGold": 42572,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 25
+      },
+      "last": {
+        "minute": 359.5,
+        "player": 0,
+        "target": "45:green:2",
+        "attackerLevel": 37,
+        "defenderLevel": 45,
+        "attack": 1432.04,
+        "defense": 627.72,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2193,
+        "xp": 69,
+        "remainingDefenderGold": 145161,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 90,
+        "healthAfter": 87,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 37
+      }
+    },
+    {
+      "options": {
+        "level": 40,
+        "hours": 1,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 40,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 180,
+      "startingEquipment": [
+        {
+          "id": "dragonwake-falchion",
+          "quantity": 5
+        },
+        {
+          "id": "ossuary-raiment",
+          "quantity": 5
+        },
+        {
+          "id": "dragons-last-breath",
+          "quantity": 5
+        }
+      ],
+      "startingArmy": 6,
+      "startingAttackTraining": 6,
+      "wins": 21,
+      "losses": 15,
+      "knockouts": 0,
+      "goldTransferred": 31687,
+      "xpAwarded": 1641,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 0,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 39,
+      "heals": 3,
+      "healingGold": 1108,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        41
+      ],
+      "finalWallets": [
+        35579
+      ],
+      "finalSpirit": [
+        3
+      ],
+      "finalHealth": [
+        100
+      ],
+      "distinctTargets": 36,
+      "maximumVictoriesInOnePair": 1,
+      "blocked": {
+        "spirit": 81,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "126562",
+      "initialCombined": "24245059",
+      "endingCombined": "27527276",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "35:seasoned:0",
+        "attackerLevel": 40,
+        "defenderLevel": 35,
+        "attack": 1083.66,
+        "defense": 1083.2,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 990,
+        "xp": 59,
+        "remainingDefenderGold": 32030,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 40
+      },
+      "last": {
+        "minute": 59.5,
+        "player": 0,
+        "target": "45:green:0",
+        "attackerLevel": 40,
+        "defenderLevel": 45,
+        "attack": 1083.66,
+        "defense": 636.93,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1517,
+        "xp": 104,
+        "remainingDefenderGold": 49078,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 64,
+        "healthAfter": 100,
+        "spiritBefore": 1,
+        "spiritAfter": 3,
+        "levelAfter": 41
+      }
+    },
+    {
+      "options": {
+        "level": 40,
+        "hours": 1,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 40,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 32,
+      "naturalHealth": 179,
+      "startingEquipment": [
+        {
+          "id": "dragonwake-falchion",
+          "quantity": 10
+        },
+        {
+          "id": "astral-archon-robes",
+          "quantity": 10
+        },
+        {
+          "id": "dragons-last-breath",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 6,
+      "wins": 29,
+      "losses": 9,
+      "knockouts": 0,
+      "goldTransferred": 63189,
+      "xpAwarded": 2842,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 0,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 67,
+      "heals": 1,
+      "healingGold": 392,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        41
+      ],
+      "finalWallets": [
+        67797
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        100
+      ],
+      "distinctTargets": 38,
+      "maximumVictoriesInOnePair": 1,
+      "blocked": {
+        "spirit": 81,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "127222",
+      "initialCombined": "24245719",
+      "endingCombined": "27527992",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "40:elite:1",
+        "attackerLevel": 40,
+        "defenderLevel": 40,
+        "attack": 2138.66,
+        "defense": 2102.69,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2050,
+        "xp": 118,
+        "remainingDefenderGold": 138029,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 40
+      },
+      "last": {
+        "minute": 58.5,
+        "player": 0,
+        "target": "46:seasoned:1",
+        "attackerLevel": 41,
+        "defenderLevel": 46,
+        "attack": 2140.86,
+        "defense": 1457.81,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2695,
+        "xp": 126,
+        "remainingDefenderGold": 102417,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 94,
+        "healthAfter": 91,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 41
+      }
+    },
+    {
+      "options": {
+        "level": 40,
+        "hours": 2,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 40,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 308,
+      "startingEquipment": [
+        {
+          "id": "dragonwake-falchion",
+          "quantity": 5
+        },
+        {
+          "id": "ossuary-raiment",
+          "quantity": 5
+        },
+        {
+          "id": "dragons-last-breath",
+          "quantity": 5
+        }
+      ],
+      "startingArmy": 6,
+      "startingAttackTraining": 6,
+      "wins": 52,
+      "losses": 22,
+      "knockouts": 0,
+      "goldTransferred": 90501,
+      "xpAwarded": 3999,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 3,
+      "trivialWins": 0,
+      "levelUps": 2,
+      "refillSpirit": 6,
+      "refillHealth": 45,
+      "heals": 4,
+      "healingGold": 1518,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        42
+      ],
+      "finalWallets": [
+        93503
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        44
+      ],
+      "distinctTargets": 61,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 162,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "253124",
+      "initialCombined": "24245059",
+      "endingCombined": "30810191",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "35:seasoned:0",
+        "attackerLevel": 40,
+        "defenderLevel": 35,
+        "attack": 1083.66,
+        "defense": 1083.2,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 990,
+        "xp": 59,
+        "remainingDefenderGold": 32030,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 40
+      },
+      "last": {
+        "minute": 118.5,
+        "player": 0,
+        "target": "40:seasoned:0",
+        "attackerLevel": 42,
+        "defenderLevel": 40,
+        "attack": 1088.07,
+        "defense": 1181.17,
+        "defenderMaintenancePaused": false,
+        "outcome": "defender_win",
+        "gold": 0,
+        "xp": 0,
+        "remainingDefenderGold": 92846,
+        "pairVictory": 0,
+        "multiplier": 100,
+        "healthBefore": 64,
+        "healthAfter": 34,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 42
+      }
+    },
+    {
+      "options": {
+        "level": 40,
+        "hours": 2,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 40,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 65,
+      "naturalHealth": 281,
+      "startingEquipment": [
+        {
+          "id": "dragonwake-falchion",
+          "quantity": 10
+        },
+        {
+          "id": "astral-archon-robes",
+          "quantity": 10
+        },
+        {
+          "id": "dragons-last-breath",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 6,
+      "wins": 68,
+      "losses": 9,
+      "knockouts": 0,
+      "goldTransferred": 149613,
+      "xpAwarded": 5548,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 1,
+      "trivialWins": 0,
+      "levelUps": 3,
+      "refillSpirit": 9,
+      "refillHealth": 76,
+      "heals": 1,
+      "healingGold": 392,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        43
+      ],
+      "finalWallets": [
+        153081
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 76,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 162,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "254444",
+      "initialCombined": "24245719",
+      "endingCombined": "30810657",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "40:elite:1",
+        "attackerLevel": 40,
+        "defenderLevel": 40,
+        "attack": 2138.66,
+        "defense": 2102.69,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2050,
+        "xp": 118,
+        "remainingDefenderGold": 138029,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 40
+      },
+      "last": {
+        "minute": 119,
+        "player": 0,
+        "target": "40:elite:1",
+        "attackerLevel": 43,
+        "defenderLevel": 40,
+        "attack": 2145.27,
+        "defense": 2102.69,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1742,
+        "xp": 76,
+        "remainingDefenderGold": 159787,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 43
+      }
+    },
+    {
+      "options": {
+        "level": 40,
+        "hours": 6,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 40,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 197,
+      "naturalHealth": 845,
+      "startingEquipment": [
+        {
+          "id": "dragonwake-falchion",
+          "quantity": 5
+        },
+        {
+          "id": "ossuary-raiment",
+          "quantity": 5
+        },
+        {
+          "id": "dragons-last-breath",
+          "quantity": 5
+        }
+      ],
+      "startingArmy": 6,
+      "startingAttackTraining": 6,
+      "wins": 164,
+      "losses": 54,
+      "knockouts": 0,
+      "goldTransferred": 285592,
+      "xpAwarded": 10399,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 110,
+      "trivialWins": 0,
+      "levelUps": 6,
+      "refillSpirit": 18,
+      "refillHealth": 60,
+      "heals": 12,
+      "healingGold": 5173,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        46
+      ],
+      "finalWallets": [
+        283019
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        97
+      ],
+      "distinctTargets": 62,
+      "maximumVictoriesInOnePair": 4,
+      "blocked": {
+        "spirit": 490,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "759372",
+      "initialCombined": "24245059",
+      "endingCombined": "43939836",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "35:seasoned:0",
+        "attackerLevel": 40,
+        "defenderLevel": 35,
+        "attack": 1083.66,
+        "defense": 1083.2,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 990,
+        "xp": 59,
+        "remainingDefenderGold": 32030,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 40
+      },
+      "last": {
+        "minute": 359,
+        "player": 0,
+        "target": "40:green:2",
+        "attackerLevel": 46,
+        "defenderLevel": 40,
+        "attack": 1096.89,
+        "defense": 580.59,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1127,
+        "xp": 15,
+        "remainingDefenderGold": 116173,
+        "pairVictory": 4,
+        "multiplier": 55,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 46
+      }
+    },
+    {
+      "options": {
+        "level": 40,
+        "hours": 6,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 40,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 197,
+      "naturalHealth": 838,
+      "startingEquipment": [
+        {
+          "id": "dragonwake-falchion",
+          "quantity": 10
+        },
+        {
+          "id": "astral-archon-robes",
+          "quantity": 10
+        },
+        {
+          "id": "dragons-last-breath",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 6,
+      "wins": 190,
+      "losses": 31,
+      "knockouts": 0,
+      "goldTransferred": 370066,
+      "xpAwarded": 12313,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 117,
+      "trivialWins": 0,
+      "levelUps": 7,
+      "refillSpirit": 21,
+      "refillHealth": 203,
+      "heals": 4,
+      "healingGold": 1742,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        47
+      ],
+      "finalWallets": [
+        367624
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        28
+      ],
+      "distinctTargets": 76,
+      "maximumVictoriesInOnePair": 4,
+      "blocked": {
+        "spirit": 495,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "763332",
+      "initialCombined": "24245719",
+      "endingCombined": "43939967",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "40:elite:1",
+        "attackerLevel": 40,
+        "defenderLevel": 40,
+        "attack": 2138.66,
+        "defense": 2102.69,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2050,
+        "xp": 118,
+        "remainingDefenderGold": 138029,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 40
+      },
+      "last": {
+        "minute": 359,
+        "player": 0,
+        "target": "39:elite:2",
+        "attackerLevel": 47,
+        "defenderLevel": 39,
+        "attack": 2154.09,
+        "defense": 1717.81,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1073,
+        "xp": 15,
+        "remainingDefenderGold": 217822,
+        "pairVictory": 4,
+        "multiplier": 55,
+        "healthBefore": 31,
+        "healthAfter": 28,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 47
+      }
+    },
+    {
+      "options": {
+        "level": 50,
+        "hours": 1,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 50,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 50,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 116,
+      "startingEquipment": [
+        {
+          "id": "crown-of-ash-blade",
+          "quantity": 6
+        },
+        {
+          "id": "seraphic-vestment",
+          "quantity": 6
+        },
+        {
+          "id": "voidbound-chain",
+          "quantity": 6
+        }
+      ],
+      "startingArmy": 7,
+      "startingAttackTraining": 8,
+      "wins": 34,
+      "losses": 4,
+      "knockouts": 0,
+      "goldTransferred": 81971,
+      "xpAwarded": 2373,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 0,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 3,
+      "heals": 1,
+      "healingGold": 490,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        51
+      ],
+      "finalWallets": [
+        86481
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        95
+      ],
+      "distinctTargets": 38,
+      "maximumVictoriesInOnePair": 1,
+      "blocked": {
+        "spirit": 81,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "127000",
+      "initialCombined": "24245497",
+      "endingCombined": "27527894",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "50:seasoned:0",
+        "attackerLevel": 50,
+        "defenderLevel": 50,
+        "attack": 1571.36,
+        "defense": 1474.7,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 3000,
+        "xp": 144,
+        "remainingDefenderGold": 110440,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 50
+      },
+      "last": {
+        "minute": 58.5,
+        "player": 0,
+        "target": "48:green:1",
+        "attackerLevel": 51,
+        "defenderLevel": 48,
+        "attack": 1573.6,
+        "defense": 682.86,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1763,
+        "xp": 55,
+        "remainingDefenderGold": 57016,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 98,
+        "healthAfter": 95,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 51
+      }
+    },
+    {
+      "options": {
+        "level": 50,
+        "hours": 1,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 1,
+      "calendarHours": 1,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 50,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 50,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 33,
+      "naturalHealth": 168,
+      "startingEquipment": [
+        {
+          "id": "eclipse-greatsword",
+          "quantity": 10
+        },
+        {
+          "id": "seraphic-vestment",
+          "quantity": 10
+        },
+        {
+          "id": "eclipse-invocation",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 8,
+      "wins": 30,
+      "losses": 6,
+      "knockouts": 0,
+      "goldTransferred": 78817,
+      "xpAwarded": 2046,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 0,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 4,
+      "heals": 1,
+      "healingGold": 490,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        51
+      ],
+      "finalWallets": [
+        83327
+      ],
+      "finalSpirit": [
+        3
+      ],
+      "finalHealth": [
+        100
+      ],
+      "distinctTargets": 36,
+      "maximumVictoriesInOnePair": 1,
+      "blocked": {
+        "spirit": 83,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "3409887",
+      "upkeepPaid": "127822",
+      "initialCombined": "24246319",
+      "endingCombined": "27527894",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "48:elite:1",
+        "attackerLevel": 50,
+        "defenderLevel": 48,
+        "attack": 2864.16,
+        "defense": 2722.05,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2930,
+        "xp": 118,
+        "remainingDefenderGold": 174155,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 50
+      },
+      "last": {
+        "minute": 59.5,
+        "player": 0,
+        "target": "49:seasoned:0",
+        "attackerLevel": 50,
+        "defenderLevel": 49,
+        "attack": 2864.16,
+        "defense": 1460.23,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2866,
+        "xp": 70,
+        "remainingDefenderGold": 92694,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 99,
+        "healthAfter": 100,
+        "spiritBefore": 1,
+        "spiritAfter": 3,
+        "levelAfter": 51
+      }
+    },
+    {
+      "options": {
+        "level": 50,
+        "hours": 2,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 50,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 50,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 258,
+      "startingEquipment": [
+        {
+          "id": "crown-of-ash-blade",
+          "quantity": 6
+        },
+        {
+          "id": "seraphic-vestment",
+          "quantity": 6
+        },
+        {
+          "id": "voidbound-chain",
+          "quantity": 6
+        }
+      ],
+      "startingArmy": 7,
+      "startingAttackTraining": 8,
+      "wins": 64,
+      "losses": 8,
+      "knockouts": 0,
+      "goldTransferred": 148112,
+      "xpAwarded": 3840,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 8,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 3,
+      "heals": 1,
+      "healingGold": 490,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        51
+      ],
+      "finalWallets": [
+        151704
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        44
+      ],
+      "distinctTargets": 57,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 167,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "254000",
+      "initialCombined": "24245497",
+      "endingCombined": "30810781",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "50:seasoned:0",
+        "attackerLevel": 50,
+        "defenderLevel": 50,
+        "attack": 1571.36,
+        "defense": 1474.7,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 3000,
+        "xp": 144,
+        "remainingDefenderGold": 110440,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 50
+      },
+      "last": {
+        "minute": 119.5,
+        "player": 0,
+        "target": "46:seasoned:0",
+        "attackerLevel": 51,
+        "defenderLevel": 46,
+        "attack": 1573.6,
+        "defense": 1373.71,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2290,
+        "xp": 58,
+        "remainingDefenderGold": 109451,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 47,
+        "healthAfter": 44,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 51
+      }
+    },
+    {
+      "options": {
+        "level": 50,
+        "hours": 2,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 2,
+      "calendarHours": 2,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 50,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 50,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 66,
+      "naturalHealth": 294,
+      "startingEquipment": [
+        {
+          "id": "eclipse-greatsword",
+          "quantity": 10
+        },
+        {
+          "id": "seraphic-vestment",
+          "quantity": 10
+        },
+        {
+          "id": "eclipse-invocation",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 8,
+      "wins": 61,
+      "losses": 11,
+      "knockouts": 0,
+      "goldTransferred": 157497,
+      "xpAwarded": 3526,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 9,
+      "trivialWins": 0,
+      "levelUps": 1,
+      "refillSpirit": 3,
+      "refillHealth": 4,
+      "heals": 2,
+      "healingGold": 1048,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        51
+      ],
+      "finalWallets": [
+        159709
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        94
+      ],
+      "distinctTargets": 57,
+      "maximumVictoriesInOnePair": 2,
+      "blocked": {
+        "spirit": 166,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "6819774",
+      "upkeepPaid": "255644",
+      "initialCombined": "24246319",
+      "endingCombined": "30809401",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "48:elite:1",
+        "attackerLevel": 50,
+        "defenderLevel": 48,
+        "attack": 2864.16,
+        "defense": 2722.05,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2930,
+        "xp": 118,
+        "remainingDefenderGold": 174155,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 50
+      },
+      "last": {
+        "minute": 119.5,
+        "player": 0,
+        "target": "45:elite:1",
+        "attackerLevel": 51,
+        "defenderLevel": 45,
+        "attack": 2866.41,
+        "defense": 2519.13,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2193,
+        "xp": 46,
+        "remainingDefenderGold": 196376,
+        "pairVictory": 2,
+        "multiplier": 85,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 51
+      }
+    },
+    {
+      "options": {
+        "level": 50,
+        "hours": 6,
+        "loadout": "natural",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 50,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 50,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 198,
+      "naturalHealth": 791,
+      "startingEquipment": [
+        {
+          "id": "crown-of-ash-blade",
+          "quantity": 6
+        },
+        {
+          "id": "seraphic-vestment",
+          "quantity": 6
+        },
+        {
+          "id": "voidbound-chain",
+          "quantity": 6
+        }
+      ],
+      "startingArmy": 7,
+      "startingAttackTraining": 8,
+      "wins": 194,
+      "losses": 16,
+      "knockouts": 0,
+      "goldTransferred": 387877,
+      "xpAwarded": 8177,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 137,
+      "trivialWins": 0,
+      "levelUps": 3,
+      "refillSpirit": 9,
+      "refillHealth": 53,
+      "heals": 2,
+      "healingGold": 1030,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        53
+      ],
+      "finalWallets": [
+        387257
+      ],
+      "finalSpirit": [
+        0
+      ],
+      "finalHealth": [
+        100
+      ],
+      "distinctTargets": 57,
+      "maximumVictoriesInOnePair": 5,
+      "blocked": {
+        "spirit": 508,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "762000",
+      "initialCombined": "24245497",
+      "endingCombined": "43941789",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "50:seasoned:0",
+        "attackerLevel": 50,
+        "defenderLevel": 50,
+        "attack": 1571.36,
+        "defense": 1474.7,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 3000,
+        "xp": 144,
+        "remainingDefenderGold": 110440,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 50
+      },
+      "last": {
+        "minute": 359,
+        "player": 0,
+        "target": "46:seasoned:2",
+        "attackerLevel": 53,
+        "defenderLevel": 46,
+        "attack": 1578.1,
+        "defense": 1296.79,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1078,
+        "xp": 16,
+        "remainingDefenderGold": 223607,
+        "pairVictory": 5,
+        "multiplier": 40,
+        "healthBefore": 97,
+        "healthAfter": 94,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 53
+      }
+    },
+    {
+      "options": {
+        "level": 50,
+        "hours": 6,
+        "loadout": "established",
+        "mode": "varied",
+        "policy": "phase49",
+        "botXpPercent": 65,
+        "heal": true,
+        "seed": 4901,
+        "players": 1,
+        "decisionSeconds": 30,
+        "spiritCapacity": 3
+      },
+      "activeHours": 6,
+      "calendarHours": 6,
+      "milestones": [
+        {
+          "player": 0,
+          "level": 5,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 8,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 10,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 17,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 25,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 40,
+          "calendarHours": 0,
+          "activeHours": 0
+        },
+        {
+          "player": 0,
+          "level": 50,
+          "calendarHours": 0,
+          "activeHours": 0
+        }
+      ],
+      "sessionStarts": [
+        {
+          "hour": 0,
+          "player": 0,
+          "level": 50,
+          "health": 100,
+          "spirit": 3,
+          "wallet": 5000
+        }
+      ],
+      "naturalSpirit": 199,
+      "naturalHealth": 939,
+      "startingEquipment": [
+        {
+          "id": "eclipse-greatsword",
+          "quantity": 10
+        },
+        {
+          "id": "seraphic-vestment",
+          "quantity": 10
+        },
+        {
+          "id": "eclipse-invocation",
+          "quantity": 10
+        }
+      ],
+      "startingArmy": 10,
+      "startingAttackTraining": 8,
+      "wins": 181,
+      "losses": 29,
+      "knockouts": 0,
+      "goldTransferred": 387202,
+      "xpAwarded": 7506,
+      "oneXpWins": 0,
+      "zeroGoldWins": 0,
+      "repeatWins": 125,
+      "trivialWins": 0,
+      "levelUps": 3,
+      "refillSpirit": 9,
+      "refillHealth": 13,
+      "heals": 4,
+      "healingGold": 2146,
+      "maintenanceActions": 0,
+      "finalLevels": [
+        53
+      ],
+      "finalWallets": [
+        381356
+      ],
+      "finalSpirit": [
+        1
+      ],
+      "finalHealth": [
+        62
+      ],
+      "distinctTargets": 57,
+      "maximumVictoriesInOnePair": 5,
+      "blocked": {
+        "spirit": 506,
+        "health": 0,
+        "targetHealth": 0,
+        "level": 0,
+        "noOpponents": 0
+      },
+      "generatedPropertyGold": "20459322",
+      "upkeepPaid": "766932",
+      "initialCombined": "24246319",
+      "endingCombined": "43936563",
+      "vaultUnchanged": true,
+      "conserved": true,
+      "restarts": 0,
+      "first": {
+        "minute": 0,
+        "player": 0,
+        "target": "48:elite:1",
+        "attackerLevel": 50,
+        "defenderLevel": 48,
+        "attack": 2864.16,
+        "defense": 2722.05,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 2930,
+        "xp": 118,
+        "remainingDefenderGold": 174155,
+        "pairVictory": 1,
+        "multiplier": 100,
+        "healthBefore": 100,
+        "healthAfter": 97,
+        "spiritBefore": 3,
+        "spiritAfter": 2,
+        "levelAfter": 50
+      },
+      "last": {
+        "minute": 358.5,
+        "player": 0,
+        "target": "45:elite:1",
+        "attackerLevel": 53,
+        "defenderLevel": 45,
+        "attack": 2870.9,
+        "defense": 2519.13,
+        "defenderMaintenancePaused": false,
+        "outcome": "attacker_win",
+        "gold": 1032,
+        "xp": 14,
+        "remainingDefenderGold": 307319,
+        "pairVictory": 5,
+        "multiplier": 40,
+        "healthBefore": 65,
+        "healthAfter": 62,
+        "spiritBefore": 1,
+        "spiritAfter": 0,
+        "levelAfter": 53
+      }
+    }
+  ]
+}

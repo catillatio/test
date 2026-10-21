@@ -1,0 +1,6068 @@
+{
+  "productionContacted": false,
+  "gameplayChanged": false,
+  "activeRewardPolicy": "bot-combat-rewards-2",
+  "fullBotXpPercent": 65,
+  "repeatPercentages": [
+    100,
+    85,
+    70,
+    55,
+    40
+  ],
+  "assumptions": [
+    "All levels 1–50 and 100/200 stress only; no future catalog, bots or rewards are invented. At 100/200 current bot catalog remains level 50, so these encounters fail current level eligibility and do not represent legal earnings.",
+    "Inventory limited to 1000 copies of each selected item; 10000 army is an under-equipped stress case, not a suggested grant. No member/inventory is created.",
+    "Every integer roll pair -10..10 is enumerated, including defender-winning ties. Rounded powers, real catalog costs/upkeep and unchanged bot reward calculations are used.",
+    "Current training uses floor((level-1)/3), max25, achievable via earned skill points; bots retain blueprint training. Proposals target one fixed moderate army, not every attacker; no dynamic strength or rewards.",
+    "Proposed loadouts use current items and replace no actual records. Same Land/Vault/wallet: extra upkeep is charged for every owned copy, even if its marginal power diminishes.",
+    "Gold is a finite wallet transfer. Expected rewards below are conditional on one eligible victory, not an hourly currency faucet. Current bot catalog balances are synthetic provisioning values, not observed live finances."
+  ],
+  "challengeSensitivity": [
+    {
+      "ratio": 0.8,
+      "eligible": true,
+      "winPercent": 100,
+      "expectedDamageDealt": 29.965986394557824,
+      "expectedDamageReceived": 3,
+      "xpPerWin": 54,
+      "repeatXp": 21,
+      "goldPerWin": 300,
+      "repeatGold": 120,
+      "expectedXpPerAttempt": 54,
+      "strengthRatio": 0.8
+    },
+    {
+      "ratio": 1,
+      "eligible": true,
+      "winPercent": 47.62,
+      "expectedDamageDealt": 14.800453514739228,
+      "expectedDamageReceived": 15.229024943310657,
+      "xpPerWin": 68,
+      "repeatXp": 27,
+      "goldPerWin": 300,
+      "repeatGold": 120,
+      "expectedXpPerAttempt": 32.38095238095238,
+      "strengthRatio": 1
+    },
+    {
+      "ratio": 1.04,
+      "eligible": true,
+      "winPercent": 33.11,
+      "expectedDamageDealt": 10.727891156462585,
+      "expectedDamageReceived": 19.693877551020407,
+      "xpPerWin": 70,
+      "repeatXp": 28,
+      "goldPerWin": 300,
+      "repeatGold": 120,
+      "expectedXpPerAttempt": 23.174603174603174,
+      "strengthRatio": 1.04
+    },
+    {
+      "ratio": 1.08,
+      "eligible": true,
+      "winPercent": 19.95,
+      "expectedDamageDealt": 7.517006802721088,
+      "expectedDamageReceived": 23.517006802721088,
+      "xpPerWin": 73,
+      "repeatXp": 29,
+      "goldPerWin": 300,
+      "repeatGold": 120,
+      "expectedXpPerAttempt": 14.566893424036282,
+      "strengthRatio": 1.08
+    },
+    {
+      "ratio": 1.12,
+      "eligible": true,
+      "winPercent": 10.66,
+      "expectedDamageDealt": 5.258503401360544,
+      "expectedDamageReceived": 26.34013605442177,
+      "xpPerWin": 76,
+      "repeatXp": 30,
+      "goldPerWin": 300,
+      "repeatGold": 120,
+      "expectedXpPerAttempt": 8.099773242630386,
+      "strengthRatio": 1.12
+    },
+    {
+      "ratio": 1.18,
+      "eligible": true,
+      "winPercent": 2.27,
+      "expectedDamageDealt": 3.383219954648526,
+      "expectedDamageReceived": 28.979591836734695,
+      "xpPerWin": 79,
+      "repeatXp": 31,
+      "goldPerWin": 300,
+      "repeatGold": 120,
+      "expectedXpPerAttempt": 1.7913832199546484,
+      "strengthRatio": 1.18
+    }
+  ],
+  "resources": {
+    "spiritCost": 1,
+    "healthMinimum": 20,
+    "healthPerTick": 10,
+    "healthSeconds": 180,
+    "spiritSeconds": 120,
+    "freebladeSpiritSeconds": 108,
+    "winnerDamage": 3,
+    "maximumLossDamage": 30,
+    "baseHealth": 100,
+    "baseSpirit": 3,
+    "levelUpRefills": true
+  },
+  "representative": [
+    {
+      "level": 1,
+      "xpRequired": 12,
+      "referenceArmy": 1,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 1,
+            "army": 1,
+            "participants": 1,
+            "effectiveParticipants": 1,
+            "power": 16.64,
+            "training": 0,
+            "calling": "Freeblade",
+            "upkeep": 0,
+            "investment": 66,
+            "items": [
+              {
+                "id": "iron-sword",
+                "quantity": 1
+              },
+              {
+                "id": "padded-coat",
+                "quantity": 1
+              },
+              {
+                "id": "ember-word",
+                "quantity": 1
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 1,
+              "army": 1,
+              "participants": 1,
+              "effectiveParticipants": 1,
+              "power": 5.88,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 0,
+              "investment": 40,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 0
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 0
+                }
+              ],
+              "wallet": 2550,
+              "vault": 427,
+              "netIncome": 21,
+              "grossIncome": 24,
+              "properties": [
+                {
+                  "id": "smallholding",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 16.87074829931973,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 51,
+              "repeatGold": 20,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.3533653846153846
+            },
+            {
+              "tier": "seasoned",
+              "level": 1,
+              "army": 1,
+              "participants": 1,
+              "effectiveParticipants": 1,
+              "power": 13.72,
+              "training": 0,
+              "calling": "Spellward",
+              "upkeep": 0,
+              "investment": 73,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 1
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 1
+                }
+              ],
+              "wallet": 3191,
+              "vault": 534,
+              "netIncome": 21,
+              "grossIncome": 24,
+              "properties": [
+                {
+                  "id": "smallholding",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 99.77,
+              "expectedDamageDealt": 12.947845804988662,
+              "expectedDamageReceived": 3.020408163265306,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 51,
+              "repeatGold": 20,
+              "expectedXpPerAttempt": 0.9977324263038548,
+              "strengthRatio": 0.8245192307692307
+            },
+            {
+              "tier": "elite",
+              "level": 1,
+              "army": 1,
+              "participants": 1,
+              "effectiveParticipants": 1,
+              "power": 14.56,
+              "training": 0,
+              "calling": "Warden",
+              "upkeep": 0,
+              "investment": 73,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 1
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 1
+                }
+              ],
+              "wallet": 4024,
+              "vault": 892,
+              "netIncome": 28,
+              "grossIncome": 32,
+              "properties": [
+                {
+                  "id": "smallholding",
+                  "quantity": 4
+                }
+              ],
+              "eligible": true,
+              "winPercent": 93.2,
+              "expectedDamageDealt": 11.997732426303855,
+              "expectedDamageReceived": 3.6122448979591835,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 51,
+              "repeatGold": 20,
+              "expectedXpPerAttempt": 0.9319727891156463,
+              "strengthRatio": 0.875
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 1,
+            "army": 1,
+            "participants": 1,
+            "effectiveParticipants": 1,
+            "power": 16.64,
+            "training": 0,
+            "calling": "Freeblade",
+            "upkeep": 0,
+            "investment": 66,
+            "items": [
+              {
+                "id": "iron-sword",
+                "quantity": 1
+              },
+              {
+                "id": "padded-coat",
+                "quantity": 1
+              },
+              {
+                "id": "ember-word",
+                "quantity": 1
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 1,
+              "army": 1,
+              "participants": 1,
+              "effectiveParticipants": 1,
+              "power": 13.72,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 0,
+              "investment": 73,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 1
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 1
+                }
+              ],
+              "referenceArmy": 1,
+              "targetPower": 13.312000000000001,
+              "netIncome": 21,
+              "upkeepDelta": 0,
+              "wallet": 2550,
+              "vault": 427,
+              "properties": [
+                {
+                  "id": "smallholding",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 99.77,
+              "expectedDamageDealt": 12.947845804988662,
+              "expectedDamageReceived": 3.020408163265306,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 51,
+              "repeatGold": 20,
+              "expectedXpPerAttempt": 0.9977324263038548,
+              "strengthRatio": 0.8245192307692307
+            },
+            {
+              "tier": "seasoned",
+              "level": 1,
+              "army": 2,
+              "participants": 2,
+              "effectiveParticipants": 2,
+              "power": 15.68,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 0,
+              "investment": 73,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 1
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 1
+                }
+              ],
+              "referenceArmy": 1,
+              "targetPower": 16.64,
+              "netIncome": 21,
+              "upkeepDelta": 0,
+              "wallet": 3191,
+              "vault": 534,
+              "properties": [
+                {
+                  "id": "smallholding",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 74.15,
+              "expectedDamageDealt": 9.918367346938776,
+              "expectedDamageReceived": 5.333333333333333,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 51,
+              "repeatGold": 20,
+              "expectedXpPerAttempt": 0.7414965986394558,
+              "strengthRatio": 0.9423076923076923
+            },
+            {
+              "tier": "elite",
+              "level": 1,
+              "army": 2,
+              "participants": 2,
+              "effectiveParticipants": 2,
+              "power": 16.64,
+              "training": 0,
+              "calling": "Warden",
+              "upkeep": 0,
+              "investment": 73,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 1
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 1
+                }
+              ],
+              "referenceArmy": 1,
+              "targetPower": 19.6352,
+              "netIncome": 28,
+              "upkeepDelta": 0,
+              "wallet": 4024,
+              "vault": 892,
+              "properties": [
+                {
+                  "id": "smallholding",
+                  "quantity": 4
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 7.378684807256236,
+              "expectedDamageReceived": 7.807256235827665,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 51,
+              "repeatGold": 20,
+              "expectedXpPerAttempt": 0.47619047619047616,
+              "strengthRatio": 1
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 1,
+            "army": 1,
+            "participants": 1,
+            "effectiveParticipants": 1,
+            "power": 16.64,
+            "training": 0,
+            "calling": "Freeblade",
+            "upkeep": 0,
+            "investment": 66,
+            "items": [
+              {
+                "id": "iron-sword",
+                "quantity": 1
+              },
+              {
+                "id": "padded-coat",
+                "quantity": 1
+              },
+              {
+                "id": "ember-word",
+                "quantity": 1
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 1,
+              "army": 1,
+              "participants": 1,
+              "effectiveParticipants": 1,
+              "power": 13.72,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 0,
+              "investment": 73,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 1
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 1
+                }
+              ],
+              "referenceArmy": 1,
+              "targetPower": 13.312000000000001,
+              "netIncome": 21,
+              "upkeepDelta": 0,
+              "wallet": 2550,
+              "vault": 427,
+              "properties": [
+                {
+                  "id": "smallholding",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 99.77,
+              "expectedDamageDealt": 12.947845804988662,
+              "expectedDamageReceived": 3.020408163265306,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 51,
+              "repeatGold": 20,
+              "expectedXpPerAttempt": 0.9977324263038548,
+              "strengthRatio": 0.8245192307692307
+            },
+            {
+              "tier": "seasoned",
+              "level": 1,
+              "army": 2,
+              "participants": 2,
+              "effectiveParticipants": 2,
+              "power": 15.68,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 0,
+              "investment": 73,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 1
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 1
+                }
+              ],
+              "referenceArmy": 1,
+              "targetPower": 16.64,
+              "netIncome": 21,
+              "upkeepDelta": 0,
+              "wallet": 3191,
+              "vault": 534,
+              "properties": [
+                {
+                  "id": "smallholding",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 74.15,
+              "expectedDamageDealt": 9.918367346938776,
+              "expectedDamageReceived": 5.333333333333333,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 51,
+              "repeatGold": 20,
+              "expectedXpPerAttempt": 0.7414965986394558,
+              "strengthRatio": 0.9423076923076923
+            },
+            {
+              "tier": "elite",
+              "level": 1,
+              "army": 2,
+              "participants": 2,
+              "effectiveParticipants": 2,
+              "power": 16.64,
+              "training": 0,
+              "calling": "Warden",
+              "upkeep": 0,
+              "investment": 73,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 1
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 1
+                }
+              ],
+              "referenceArmy": 1,
+              "targetPower": 19.6352,
+              "netIncome": 28,
+              "upkeepDelta": 0,
+              "wallet": 4024,
+              "vault": 892,
+              "properties": [
+                {
+                  "id": "smallholding",
+                  "quantity": 4
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 7.378684807256236,
+              "expectedDamageReceived": 7.807256235827665,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 51,
+              "repeatGold": 20,
+              "expectedXpPerAttempt": 0.47619047619047616,
+              "strengthRatio": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "xpRequired": 60,
+      "referenceArmy": 3,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 5,
+            "army": 3,
+            "participants": 3,
+            "effectiveParticipants": 3,
+            "power": 92.44,
+            "training": 1,
+            "calling": "Freeblade",
+            "upkeep": 9,
+            "investment": 585,
+            "items": [
+              {
+                "id": "ransackers-axe",
+                "quantity": 3
+              },
+              {
+                "id": "warden-mail",
+                "quantity": 3
+              },
+              {
+                "id": "thorn-hex",
+                "quantity": 3
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 5,
+              "army": 1,
+              "participants": 1,
+              "effectiveParticipants": 1,
+              "power": 17.64,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 0,
+              "investment": 73,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 1
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 1
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 1
+                }
+              ],
+              "wallet": 2754,
+              "vault": 1732,
+              "netIncome": 84,
+              "grossIncome": 91,
+              "properties": [
+                {
+                  "id": "hearthstead-hamlet",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 81,
+              "repeatGold": 32,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.1908264820424059
+            },
+            {
+              "tier": "seasoned",
+              "level": 5,
+              "army": 1,
+              "participants": 1,
+              "effectiveParticipants": 1,
+              "power": 26.72,
+              "training": 1,
+              "calling": "Spellward",
+              "upkeep": 3,
+              "investment": 195,
+              "items": [
+                {
+                  "id": "ransackers-axe",
+                  "quantity": 1
+                },
+                {
+                  "id": "warden-mail",
+                  "quantity": 1
+                },
+                {
+                  "id": "thorn-hex",
+                  "quantity": 1
+                }
+              ],
+              "wallet": 3443,
+              "vault": 2093,
+              "netIncome": 81,
+              "grossIncome": 91,
+              "properties": [
+                {
+                  "id": "hearthstead-hamlet",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 81,
+              "repeatGold": 32,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.2890523582864561
+            },
+            {
+              "tier": "elite",
+              "level": 5,
+              "army": 2,
+              "participants": 2,
+              "effectiveParticipants": 2,
+              "power": 85.92,
+              "training": 2,
+              "calling": "Warden",
+              "upkeep": 12,
+              "investment": 600,
+              "items": [
+                {
+                  "id": "wardens-halberd",
+                  "quantity": 2
+                },
+                {
+                  "id": "gateward-kite-shield",
+                  "quantity": 2
+                },
+                {
+                  "id": "stonebinding",
+                  "quantity": 2
+                }
+              ],
+              "wallet": 4310,
+              "vault": 2346,
+              "netIncome": 72,
+              "grossIncome": 91,
+              "properties": [
+                {
+                  "id": "hearthstead-hamlet",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 78.68,
+              "expectedDamageDealt": 13.387755102040817,
+              "expectedDamageReceived": 5.249433106575964,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 81,
+              "repeatGold": 32,
+              "expectedXpPerAttempt": 0.7868480725623582,
+              "strengthRatio": 0.9294677628732151
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 5,
+            "army": 3,
+            "participants": 3,
+            "effectiveParticipants": 3,
+            "power": 92.44,
+            "training": 1,
+            "calling": "Freeblade",
+            "upkeep": 9,
+            "investment": 585,
+            "items": [
+              {
+                "id": "ransackers-axe",
+                "quantity": 3
+              },
+              {
+                "id": "warden-mail",
+                "quantity": 3
+              },
+              {
+                "id": "thorn-hex",
+                "quantity": 3
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 5,
+              "army": 7,
+              "participants": 7,
+              "effectiveParticipants": 7,
+              "power": 73.5,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 0,
+              "investment": 438,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 6
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 6
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 6
+                }
+              ],
+              "referenceArmy": 3,
+              "targetPower": 73.952,
+              "netIncome": 84,
+              "upkeepDelta": 0,
+              "wallet": 2754,
+              "vault": 1732,
+              "properties": [
+                {
+                  "id": "hearthstead-hamlet",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 20.970521541950113,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 81,
+              "repeatGold": 32,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.7951103418433578
+            },
+            {
+              "tier": "seasoned",
+              "level": 5,
+              "army": 8,
+              "participants": 8,
+              "effectiveParticipants": 8,
+              "power": 93.1,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 12,
+              "investment": 780,
+              "items": [
+                {
+                  "id": "ransackers-axe",
+                  "quantity": 4
+                },
+                {
+                  "id": "warden-mail",
+                  "quantity": 4
+                },
+                {
+                  "id": "thorn-hex",
+                  "quantity": 4
+                }
+              ],
+              "referenceArmy": 3,
+              "targetPower": 92.44,
+              "netIncome": 72,
+              "upkeepDelta": 9,
+              "wallet": 3443,
+              "vault": 2093,
+              "properties": [
+                {
+                  "id": "hearthstead-hamlet",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 8.526077097505668,
+              "expectedDamageReceived": 9.253968253968255,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 81,
+              "repeatGold": 32,
+              "expectedXpPerAttempt": 0.47619047619047616,
+              "strengthRatio": 1.00713976633492
+            },
+            {
+              "tier": "elite",
+              "level": 5,
+              "army": 3,
+              "participants": 3,
+              "effectiveParticipants": 3,
+              "power": 123.95,
+              "training": 1,
+              "calling": "Warden",
+              "upkeep": 18,
+              "investment": 900,
+              "items": [
+                {
+                  "id": "wardens-halberd",
+                  "quantity": 3
+                },
+                {
+                  "id": "gateward-kite-shield",
+                  "quantity": 3
+                },
+                {
+                  "id": "stonebinding",
+                  "quantity": 3
+                }
+              ],
+              "referenceArmy": 3,
+              "targetPower": 109.07919999999999,
+              "netIncome": 66,
+              "upkeepDelta": 6,
+              "wallet": 4310,
+              "vault": 2346,
+              "properties": [
+                {
+                  "id": "hearthstead-hamlet",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 0,
+              "expectedDamageDealt": 3,
+              "expectedDamageReceived": 26.41496598639456,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 81,
+              "repeatGold": 32,
+              "expectedXpPerAttempt": 0,
+              "strengthRatio": 1.3408697533535268
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 5,
+            "army": 3,
+            "participants": 3,
+            "effectiveParticipants": 3,
+            "power": 92.44,
+            "training": 1,
+            "calling": "Freeblade",
+            "upkeep": 9,
+            "investment": 585,
+            "items": [
+              {
+                "id": "ransackers-axe",
+                "quantity": 3
+              },
+              {
+                "id": "warden-mail",
+                "quantity": 3
+              },
+              {
+                "id": "thorn-hex",
+                "quantity": 3
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 5,
+              "army": 7,
+              "participants": 7,
+              "effectiveParticipants": 7,
+              "power": 73.5,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 0,
+              "investment": 438,
+              "items": [
+                {
+                  "id": "iron-sword",
+                  "quantity": 6
+                },
+                {
+                  "id": "padded-coat",
+                  "quantity": 6
+                },
+                {
+                  "id": "hearth-ward",
+                  "quantity": 6
+                }
+              ],
+              "referenceArmy": 3,
+              "targetPower": 73.952,
+              "netIncome": 84,
+              "upkeepDelta": 0,
+              "wallet": 2754,
+              "vault": 1732,
+              "properties": [
+                {
+                  "id": "hearthstead-hamlet",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 20.970521541950113,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 81,
+              "repeatGold": 32,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.7951103418433578
+            },
+            {
+              "tier": "seasoned",
+              "level": 5,
+              "army": 8,
+              "participants": 8,
+              "effectiveParticipants": 8,
+              "power": 93.1,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 12,
+              "investment": 780,
+              "items": [
+                {
+                  "id": "ransackers-axe",
+                  "quantity": 4
+                },
+                {
+                  "id": "warden-mail",
+                  "quantity": 4
+                },
+                {
+                  "id": "thorn-hex",
+                  "quantity": 4
+                }
+              ],
+              "referenceArmy": 3,
+              "targetPower": 92.44,
+              "netIncome": 72,
+              "upkeepDelta": 9,
+              "wallet": 3443,
+              "vault": 2093,
+              "properties": [
+                {
+                  "id": "hearthstead-hamlet",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 8.526077097505668,
+              "expectedDamageReceived": 9.253968253968255,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 81,
+              "repeatGold": 32,
+              "expectedXpPerAttempt": 0.47619047619047616,
+              "strengthRatio": 1.00713976633492
+            },
+            {
+              "tier": "elite",
+              "level": 5,
+              "army": 3,
+              "participants": 3,
+              "effectiveParticipants": 3,
+              "power": 123.95,
+              "training": 1,
+              "calling": "Warden",
+              "upkeep": 18,
+              "investment": 900,
+              "items": [
+                {
+                  "id": "wardens-halberd",
+                  "quantity": 3
+                },
+                {
+                  "id": "gateward-kite-shield",
+                  "quantity": 3
+                },
+                {
+                  "id": "stonebinding",
+                  "quantity": 3
+                }
+              ],
+              "referenceArmy": 3,
+              "targetPower": 109.07919999999999,
+              "netIncome": 66,
+              "upkeepDelta": 6,
+              "wallet": 4310,
+              "vault": 2346,
+              "properties": [
+                {
+                  "id": "hearthstead-hamlet",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 0,
+              "expectedDamageDealt": 3,
+              "expectedDamageReceived": 26.41496598639456,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 81,
+              "repeatGold": 32,
+              "expectedXpPerAttempt": 0,
+              "strengthRatio": 1.3408697533535268
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 8,
+      "xpRequired": 135,
+      "referenceArmy": 5,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 8,
+            "army": 5,
+            "participants": 5,
+            "effectiveParticipants": 5,
+            "power": 239.74,
+            "training": 2,
+            "calling": "Freeblade",
+            "upkeep": 45,
+            "investment": 2100,
+            "items": [
+              {
+                "id": "sunsteel-glaive",
+                "quantity": 5
+              },
+              {
+                "id": "castellan-helm",
+                "quantity": 5
+              },
+              {
+                "id": "storm-sigil",
+                "quantity": 5
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 8,
+              "army": 1,
+              "participants": 1,
+              "effectiveParticipants": 1,
+              "power": 29.4,
+              "training": 0,
+              "calling": "Freeblade",
+              "upkeep": 3,
+              "investment": 195,
+              "items": [
+                {
+                  "id": "ransackers-axe",
+                  "quantity": 1
+                },
+                {
+                  "id": "warden-mail",
+                  "quantity": 1
+                },
+                {
+                  "id": "thorn-hex",
+                  "quantity": 1
+                }
+              ],
+              "wallet": 3010,
+              "vault": 3346,
+              "netIncome": 161,
+              "grossIncome": 181,
+              "properties": [
+                {
+                  "id": "granite-quarry",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 90,
+              "repeatGold": 36,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.12263285225661132
+            },
+            {
+              "tier": "seasoned",
+              "level": 8,
+              "army": 1,
+              "participants": 1,
+              "effectiveParticipants": 1,
+              "power": 49.49,
+              "training": 1,
+              "calling": "Spellward",
+              "upkeep": 7,
+              "investment": 340,
+              "items": [
+                {
+                  "id": "wardens-halberd",
+                  "quantity": 1
+                },
+                {
+                  "id": "castellan-helm",
+                  "quantity": 1
+                },
+                {
+                  "id": "stonebinding",
+                  "quantity": 1
+                }
+              ],
+              "wallet": 3762,
+              "vault": 4087,
+              "netIncome": 157,
+              "grossIncome": 181,
+              "properties": [
+                {
+                  "id": "granite-quarry",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 112,
+              "repeatGold": 44,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.20643196796529573
+            },
+            {
+              "tier": "elite",
+              "level": 8,
+              "army": 2,
+              "participants": 2,
+              "effectiveParticipants": 2,
+              "power": 108.16,
+              "training": 4,
+              "calling": "Warden",
+              "upkeep": 16,
+              "investment": 840,
+              "items": [
+                {
+                  "id": "wardens-halberd",
+                  "quantity": 2
+                },
+                {
+                  "id": "runebound-hauberk",
+                  "quantity": 2
+                },
+                {
+                  "id": "stonebinding",
+                  "quantity": 2
+                }
+              ],
+              "wallet": 4720,
+              "vault": 4838,
+              "netIncome": 148,
+              "grossIncome": 181,
+              "properties": [
+                {
+                  "id": "granite-quarry",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 130,
+              "repeatGold": 52,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.4511554183699007
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 8,
+            "army": 5,
+            "participants": 5,
+            "effectiveParticipants": 5,
+            "power": 239.74,
+            "training": 2,
+            "calling": "Freeblade",
+            "upkeep": 45,
+            "investment": 2100,
+            "items": [
+              {
+                "id": "sunsteel-glaive",
+                "quantity": 5
+              },
+              {
+                "id": "castellan-helm",
+                "quantity": 5
+              },
+              {
+                "id": "storm-sigil",
+                "quantity": 5
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 8,
+              "army": 11,
+              "participants": 11,
+              "effectiveParticipants": 11,
+              "power": 192.02,
+              "training": 1,
+              "calling": "Freeblade",
+              "upkeep": 27,
+              "investment": 1755,
+              "items": [
+                {
+                  "id": "ransackers-axe",
+                  "quantity": 9
+                },
+                {
+                  "id": "warden-mail",
+                  "quantity": 9
+                },
+                {
+                  "id": "thorn-hex",
+                  "quantity": 9
+                }
+              ],
+              "referenceArmy": 5,
+              "targetPower": 191.79200000000003,
+              "netIncome": 137,
+              "upkeepDelta": 24,
+              "wallet": 3010,
+              "vault": 3346,
+              "properties": [
+                {
+                  "id": "granite-quarry",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 28.3015873015873,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 3,
+              "repeatXp": 1,
+              "goldPerWin": 90,
+              "repeatGold": 36,
+              "expectedXpPerAttempt": 3,
+              "strengthRatio": 0.8009510302828063
+            },
+            {
+              "tier": "seasoned",
+              "level": 8,
+              "army": 6,
+              "participants": 6,
+              "effectiveParticipants": 6,
+              "power": 247.45,
+              "training": 1,
+              "calling": "Freeblade",
+              "upkeep": 42,
+              "investment": 2040,
+              "items": [
+                {
+                  "id": "wardens-halberd",
+                  "quantity": 6
+                },
+                {
+                  "id": "castellan-helm",
+                  "quantity": 6
+                },
+                {
+                  "id": "stonebinding",
+                  "quantity": 6
+                }
+              ],
+              "referenceArmy": 5,
+              "targetPower": 239.74,
+              "netIncome": 122,
+              "upkeepDelta": 35,
+              "wallet": 3762,
+              "vault": 4087,
+              "properties": [
+                {
+                  "id": "granite-quarry",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 35.6,
+              "expectedDamageDealt": 8.63265306122449,
+              "expectedDamageReceived": 14.616780045351474,
+              "xpPerWin": 4,
+              "repeatXp": 1,
+              "goldPerWin": 112,
+              "repeatGold": 44,
+              "expectedXpPerAttempt": 1.4240362811791383,
+              "strengthRatio": 1.0321598398264786
+            },
+            {
+              "tier": "elite",
+              "level": 8,
+              "army": 6,
+              "participants": 6,
+              "effectiveParticipants": 6,
+              "power": 297.02,
+              "training": 2,
+              "calling": "Warden",
+              "upkeep": 48,
+              "investment": 2520,
+              "items": [
+                {
+                  "id": "wardens-halberd",
+                  "quantity": 6
+                },
+                {
+                  "id": "runebound-hauberk",
+                  "quantity": 6
+                },
+                {
+                  "id": "stonebinding",
+                  "quantity": 6
+                }
+              ],
+              "referenceArmy": 5,
+              "targetPower": 282.8932,
+              "netIncome": 116,
+              "upkeepDelta": 32,
+              "wallet": 4720,
+              "vault": 4838,
+              "properties": [
+                {
+                  "id": "granite-quarry",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 0,
+              "expectedDamageDealt": 3,
+              "expectedDamageReceived": 28.755102040816325,
+              "xpPerWin": 5,
+              "repeatXp": 2,
+              "goldPerWin": 130,
+              "repeatGold": 52,
+              "expectedXpPerAttempt": 0,
+              "strengthRatio": 1.2389255026278467
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 8,
+            "army": 5,
+            "participants": 5,
+            "effectiveParticipants": 5,
+            "power": 239.74,
+            "training": 2,
+            "calling": "Freeblade",
+            "upkeep": 45,
+            "investment": 2100,
+            "items": [
+              {
+                "id": "sunsteel-glaive",
+                "quantity": 5
+              },
+              {
+                "id": "castellan-helm",
+                "quantity": 5
+              },
+              {
+                "id": "storm-sigil",
+                "quantity": 5
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 8,
+              "army": 11,
+              "participants": 11,
+              "effectiveParticipants": 11,
+              "power": 192.02,
+              "training": 1,
+              "calling": "Freeblade",
+              "upkeep": 27,
+              "investment": 1755,
+              "items": [
+                {
+                  "id": "ransackers-axe",
+                  "quantity": 9
+                },
+                {
+                  "id": "warden-mail",
+                  "quantity": 9
+                },
+                {
+                  "id": "thorn-hex",
+                  "quantity": 9
+                }
+              ],
+              "referenceArmy": 5,
+              "targetPower": 191.79200000000003,
+              "netIncome": 137,
+              "upkeepDelta": 24,
+              "wallet": 3010,
+              "vault": 3346,
+              "properties": [
+                {
+                  "id": "granite-quarry",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 28.3015873015873,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 3,
+              "repeatXp": 1,
+              "goldPerWin": 90,
+              "repeatGold": 36,
+              "expectedXpPerAttempt": 3,
+              "strengthRatio": 0.8009510302828063
+            },
+            {
+              "tier": "seasoned",
+              "level": 8,
+              "army": 6,
+              "participants": 6,
+              "effectiveParticipants": 6,
+              "power": 247.45,
+              "training": 1,
+              "calling": "Freeblade",
+              "upkeep": 42,
+              "investment": 2040,
+              "items": [
+                {
+                  "id": "wardens-halberd",
+                  "quantity": 6
+                },
+                {
+                  "id": "castellan-helm",
+                  "quantity": 6
+                },
+                {
+                  "id": "stonebinding",
+                  "quantity": 6
+                }
+              ],
+              "referenceArmy": 5,
+              "targetPower": 239.74,
+              "netIncome": 122,
+              "upkeepDelta": 35,
+              "wallet": 3762,
+              "vault": 4087,
+              "properties": [
+                {
+                  "id": "granite-quarry",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 35.6,
+              "expectedDamageDealt": 8.63265306122449,
+              "expectedDamageReceived": 14.616780045351474,
+              "xpPerWin": 4,
+              "repeatXp": 1,
+              "goldPerWin": 112,
+              "repeatGold": 44,
+              "expectedXpPerAttempt": 1.4240362811791383,
+              "strengthRatio": 1.0321598398264786
+            },
+            {
+              "tier": "elite",
+              "level": 8,
+              "army": 6,
+              "participants": 6,
+              "effectiveParticipants": 6,
+              "power": 297.02,
+              "training": 2,
+              "calling": "Warden",
+              "upkeep": 48,
+              "investment": 2520,
+              "items": [
+                {
+                  "id": "wardens-halberd",
+                  "quantity": 6
+                },
+                {
+                  "id": "runebound-hauberk",
+                  "quantity": 6
+                },
+                {
+                  "id": "stonebinding",
+                  "quantity": 6
+                }
+              ],
+              "referenceArmy": 5,
+              "targetPower": 282.8932,
+              "netIncome": 116,
+              "upkeepDelta": 32,
+              "wallet": 4720,
+              "vault": 4838,
+              "properties": [
+                {
+                  "id": "granite-quarry",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 0,
+              "expectedDamageDealt": 3,
+              "expectedDamageReceived": 28.755102040816325,
+              "xpPerWin": 5,
+              "repeatXp": 2,
+              "goldPerWin": 130,
+              "repeatGold": 52,
+              "expectedXpPerAttempt": 0,
+              "strengthRatio": 1.2389255026278467
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 15,
+      "xpRequired": 425,
+      "referenceArmy": 8,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 15,
+            "army": 8,
+            "participants": 8,
+            "effectiveParticipants": 8,
+            "power": 620.84,
+            "training": 4,
+            "calling": "Freeblade",
+            "upkeep": 168,
+            "investment": 11680,
+            "items": [
+              {
+                "id": "runescar-saber",
+                "quantity": 8
+              },
+              {
+                "id": "argent-sentinel-plate",
+                "quantity": 8
+              },
+              {
+                "id": "runic-convergence",
+                "quantity": 8
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 15,
+              "army": 2,
+              "participants": 2,
+              "effectiveParticipants": 2,
+              "power": 155.4,
+              "training": 1,
+              "calling": "Freeblade",
+              "upkeep": 30,
+              "investment": 1980,
+              "items": [
+                {
+                  "id": "briarheart-bow",
+                  "quantity": 2
+                },
+                {
+                  "id": "verdant-aegis",
+                  "quantity": 2
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 2
+                }
+              ],
+              "wallet": 4612,
+              "vault": 13293,
+              "netIncome": 617,
+              "grossIncome": 738,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 138,
+              "repeatGold": 55,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.2503060369821532
+            },
+            {
+              "tier": "seasoned",
+              "level": 15,
+              "army": 3,
+              "participants": 3,
+              "effectiveParticipants": 3,
+              "power": 241.25,
+              "training": 3,
+              "calling": "Spellward",
+              "upkeep": 51,
+              "investment": 3420,
+              "items": [
+                {
+                  "id": "briarheart-bow",
+                  "quantity": 3
+                },
+                {
+                  "id": "argent-sentinel-plate",
+                  "quantity": 3
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 3
+                }
+              ],
+              "wallet": 5826,
+              "vault": 16113,
+              "netIncome": 596,
+              "grossIncome": 738,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 10,
+              "repeatXp": 4,
+              "goldPerWin": 174,
+              "repeatGold": 69,
+              "expectedXpPerAttempt": 10,
+              "strengthRatio": 0.3885864312866439
+            },
+            {
+              "tier": "elite",
+              "level": 15,
+              "army": 4,
+              "participants": 4,
+              "effectiveParticipants": 4,
+              "power": 366.11,
+              "training": 7,
+              "calling": "Warden",
+              "upkeep": 92,
+              "investment": 7120,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 4
+                },
+                {
+                  "id": "frostweave-mantle",
+                  "quantity": 4
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 4
+                }
+              ],
+              "wallet": 7540,
+              "vault": 18911,
+              "netIncome": 555,
+              "grossIncome": 738,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 11,
+              "repeatXp": 4,
+              "goldPerWin": 226,
+              "repeatGold": 90,
+              "expectedXpPerAttempt": 11,
+              "strengthRatio": 0.589701050190065
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 15,
+            "army": 8,
+            "participants": 8,
+            "effectiveParticipants": 8,
+            "power": 620.84,
+            "training": 4,
+            "calling": "Freeblade",
+            "upkeep": 168,
+            "investment": 11680,
+            "items": [
+              {
+                "id": "runescar-saber",
+                "quantity": 8
+              },
+              {
+                "id": "argent-sentinel-plate",
+                "quantity": 8
+              },
+              {
+                "id": "runic-convergence",
+                "quantity": 8
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 15,
+              "army": 7,
+              "participants": 7,
+              "effectiveParticipants": 7,
+              "power": 506.8,
+              "training": 2,
+              "calling": "Freeblade",
+              "upkeep": 105,
+              "investment": 6930,
+              "items": [
+                {
+                  "id": "briarheart-bow",
+                  "quantity": 7
+                },
+                {
+                  "id": "verdant-aegis",
+                  "quantity": 7
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 7
+                }
+              ],
+              "referenceArmy": 8,
+              "targetPower": 496.672,
+              "netIncome": 542,
+              "upkeepDelta": 75,
+              "wallet": 4612,
+              "vault": 13293,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 29.578231292517007,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 16,
+              "repeatXp": 6,
+              "goldPerWin": 138,
+              "repeatGold": 55,
+              "expectedXpPerAttempt": 16,
+              "strengthRatio": 0.8163133818697249
+            },
+            {
+              "tier": "seasoned",
+              "level": 15,
+              "army": 13,
+              "participants": 13,
+              "effectiveParticipants": 13,
+              "power": 618.75,
+              "training": 2,
+              "calling": "Freeblade",
+              "upkeep": 136,
+              "investment": 9120,
+              "items": [
+                {
+                  "id": "briarheart-bow",
+                  "quantity": 8
+                },
+                {
+                  "id": "argent-sentinel-plate",
+                  "quantity": 8
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 8
+                }
+              ],
+              "referenceArmy": 8,
+              "targetPower": 620.84,
+              "netIncome": 511,
+              "upkeepDelta": 85,
+              "wallet": 5826,
+              "vault": 16113,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 52.38,
+              "expectedDamageDealt": 14.619047619047619,
+              "expectedDamageReceived": 13.705215419501133,
+              "xpPerWin": 20,
+              "repeatXp": 8,
+              "goldPerWin": 174,
+              "repeatGold": 69,
+              "expectedXpPerAttempt": 10.476190476190476,
+              "strengthRatio": 0.9966335931963146
+            },
+            {
+              "tier": "elite",
+              "level": 15,
+              "army": 20,
+              "participants": 20,
+              "effectiveParticipants": 20,
+              "power": 719.26,
+              "training": 4,
+              "calling": "Warden",
+              "upkeep": 184,
+              "investment": 14240,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 8
+                },
+                {
+                  "id": "frostweave-mantle",
+                  "quantity": 8
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 8
+                }
+              ],
+              "referenceArmy": 8,
+              "targetPower": 732.5912,
+              "netIncome": 463,
+              "upkeepDelta": 92,
+              "wallet": 7540,
+              "vault": 18911,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 4.54,
+              "expectedDamageDealt": 3.7006802721088436,
+              "expectedDamageReceived": 27.829931972789115,
+              "xpPerWin": 23,
+              "repeatXp": 9,
+              "goldPerWin": 226,
+              "repeatGold": 90,
+              "expectedXpPerAttempt": 1.0430839002267573,
+              "strengthRatio": 1.1585271567553637
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 15,
+            "army": 8,
+            "participants": 8,
+            "effectiveParticipants": 8,
+            "power": 620.84,
+            "training": 4,
+            "calling": "Freeblade",
+            "upkeep": 168,
+            "investment": 11680,
+            "items": [
+              {
+                "id": "runescar-saber",
+                "quantity": 8
+              },
+              {
+                "id": "argent-sentinel-plate",
+                "quantity": 8
+              },
+              {
+                "id": "runic-convergence",
+                "quantity": 8
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 15,
+              "army": 7,
+              "participants": 7,
+              "effectiveParticipants": 7,
+              "power": 506.8,
+              "training": 2,
+              "calling": "Freeblade",
+              "upkeep": 105,
+              "investment": 6930,
+              "items": [
+                {
+                  "id": "briarheart-bow",
+                  "quantity": 7
+                },
+                {
+                  "id": "verdant-aegis",
+                  "quantity": 7
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 7
+                }
+              ],
+              "referenceArmy": 8,
+              "targetPower": 496.672,
+              "netIncome": 542,
+              "upkeepDelta": 75,
+              "wallet": 4612,
+              "vault": 13293,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 29.578231292517007,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 16,
+              "repeatXp": 6,
+              "goldPerWin": 138,
+              "repeatGold": 55,
+              "expectedXpPerAttempt": 16,
+              "strengthRatio": 0.8163133818697249
+            },
+            {
+              "tier": "seasoned",
+              "level": 15,
+              "army": 13,
+              "participants": 13,
+              "effectiveParticipants": 13,
+              "power": 618.75,
+              "training": 2,
+              "calling": "Freeblade",
+              "upkeep": 136,
+              "investment": 9120,
+              "items": [
+                {
+                  "id": "briarheart-bow",
+                  "quantity": 8
+                },
+                {
+                  "id": "argent-sentinel-plate",
+                  "quantity": 8
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 8
+                }
+              ],
+              "referenceArmy": 8,
+              "targetPower": 620.84,
+              "netIncome": 511,
+              "upkeepDelta": 85,
+              "wallet": 5826,
+              "vault": 16113,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 52.38,
+              "expectedDamageDealt": 14.619047619047619,
+              "expectedDamageReceived": 13.705215419501133,
+              "xpPerWin": 20,
+              "repeatXp": 8,
+              "goldPerWin": 174,
+              "repeatGold": 69,
+              "expectedXpPerAttempt": 10.476190476190476,
+              "strengthRatio": 0.9966335931963146
+            },
+            {
+              "tier": "elite",
+              "level": 15,
+              "army": 20,
+              "participants": 20,
+              "effectiveParticipants": 20,
+              "power": 719.26,
+              "training": 4,
+              "calling": "Warden",
+              "upkeep": 184,
+              "investment": 14240,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 8
+                },
+                {
+                  "id": "frostweave-mantle",
+                  "quantity": 8
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 8
+                }
+              ],
+              "referenceArmy": 8,
+              "targetPower": 732.5912,
+              "netIncome": 463,
+              "upkeepDelta": 92,
+              "wallet": 7540,
+              "vault": 18911,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 4.54,
+              "expectedDamageDealt": 3.7006802721088436,
+              "expectedDamageReceived": 27.829931972789115,
+              "xpPerWin": 23,
+              "repeatXp": 9,
+              "goldPerWin": 226,
+              "repeatGold": 90,
+              "expectedXpPerAttempt": 1.0430839002267573,
+              "strengthRatio": 1.1585271567553637
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 17,
+      "xpRequired": 515,
+      "referenceArmy": 9,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 17,
+            "army": 9,
+            "participants": 9,
+            "effectiveParticipants": 9,
+            "power": 872.51,
+            "training": 5,
+            "calling": "Freeblade",
+            "upkeep": 243,
+            "investment": 19440,
+            "items": [
+              {
+                "id": "stormglass-pike",
+                "quantity": 9
+              },
+              {
+                "id": "frostweave-mantle",
+                "quantity": 9
+              },
+              {
+                "id": "winters-judgment",
+                "quantity": 9
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 17,
+              "army": 2,
+              "participants": 2,
+              "effectiveParticipants": 2,
+              "power": 165.3,
+              "training": 1,
+              "calling": "Freeblade",
+              "upkeep": 34,
+              "investment": 2280,
+              "items": [
+                {
+                  "id": "briarheart-bow",
+                  "quantity": 2
+                },
+                {
+                  "id": "argent-sentinel-plate",
+                  "quantity": 2
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 2
+                }
+              ],
+              "wallet": 4624,
+              "vault": 13216,
+              "netIncome": 613,
+              "grossIncome": 738,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 138,
+              "repeatGold": 55,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.18945341600669335
+            },
+            {
+              "tier": "seasoned",
+              "level": 17,
+              "army": 3,
+              "participants": 3,
+              "effectiveParticipants": 3,
+              "power": 255.38,
+              "training": 3,
+              "calling": "Spellward",
+              "upkeep": 69,
+              "investment": 5340,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 3
+                },
+                {
+                  "id": "frostweave-mantle",
+                  "quantity": 3
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 3
+                }
+              ],
+              "wallet": 5946,
+              "vault": 15681,
+              "netIncome": 578,
+              "grossIncome": 738,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 178,
+              "repeatGold": 71,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.2926957857216536
+            },
+            {
+              "tier": "elite",
+              "level": 17,
+              "army": 4,
+              "participants": 4,
+              "effectiveParticipants": 4,
+              "power": 371.78,
+              "training": 8,
+              "calling": "Warden",
+              "upkeep": 92,
+              "investment": 7120,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 4
+                },
+                {
+                  "id": "frostweave-mantle",
+                  "quantity": 4
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 4
+                }
+              ],
+              "wallet": 7540,
+              "vault": 18911,
+              "netIncome": 555,
+              "grossIncome": 738,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 14,
+              "repeatXp": 5,
+              "goldPerWin": 226,
+              "repeatGold": 90,
+              "expectedXpPerAttempt": 14,
+              "strengthRatio": 0.42610399880803657
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 17,
+            "army": 9,
+            "participants": 9,
+            "effectiveParticipants": 9,
+            "power": 872.51,
+            "training": 5,
+            "calling": "Freeblade",
+            "upkeep": 243,
+            "investment": 19440,
+            "items": [
+              {
+                "id": "stormglass-pike",
+                "quantity": 9
+              },
+              {
+                "id": "frostweave-mantle",
+                "quantity": 9
+              },
+              {
+                "id": "winters-judgment",
+                "quantity": 9
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 17,
+              "army": 15,
+              "participants": 15,
+              "effectiveParticipants": 15,
+              "power": 696.72,
+              "training": 2,
+              "calling": "Freeblade",
+              "upkeep": 153,
+              "investment": 10260,
+              "items": [
+                {
+                  "id": "briarheart-bow",
+                  "quantity": 9
+                },
+                {
+                  "id": "argent-sentinel-plate",
+                  "quantity": 9
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 9
+                }
+              ],
+              "referenceArmy": 9,
+              "targetPower": 698.008,
+              "netIncome": 494,
+              "upkeepDelta": 119,
+              "wallet": 4624,
+              "vault": 13216,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 29.947845804988663,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 24,
+              "repeatXp": 9,
+              "goldPerWin": 138,
+              "repeatGold": 55,
+              "expectedXpPerAttempt": 24,
+              "strengthRatio": 0.7985237991541645
+            },
+            {
+              "tier": "seasoned",
+              "level": 17,
+              "army": 11,
+              "participants": 11,
+              "effectiveParticipants": 11,
+              "power": 876.65,
+              "training": 2,
+              "calling": "Freeblade",
+              "upkeep": 253,
+              "investment": 19580,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 11
+                },
+                {
+                  "id": "frostweave-mantle",
+                  "quantity": 11
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 11
+                }
+              ],
+              "referenceArmy": 9,
+              "targetPower": 872.51,
+              "netIncome": 394,
+              "upkeepDelta": 184,
+              "wallet": 5946,
+              "vault": 15681,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 14.197278911564625,
+              "expectedDamageReceived": 15.356009070294785,
+              "xpPerWin": 30,
+              "repeatXp": 12,
+              "goldPerWin": 178,
+              "repeatGold": 71,
+              "expectedXpPerAttempt": 14.285714285714285,
+              "strengthRatio": 1.0047449312901857
+            },
+            {
+              "tier": "elite",
+              "level": 17,
+              "army": 12,
+              "participants": 12,
+              "effectiveParticipants": 12,
+              "power": 1042.86,
+              "training": 5,
+              "calling": "Warden",
+              "upkeep": 276,
+              "investment": 21360,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 12
+                },
+                {
+                  "id": "frostweave-mantle",
+                  "quantity": 12
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 12
+                }
+              ],
+              "referenceArmy": 9,
+              "targetPower": 1029.5618,
+              "netIncome": 371,
+              "upkeepDelta": 184,
+              "wallet": 7540,
+              "vault": 18911,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 1.36,
+              "expectedDamageDealt": 3.1746031746031744,
+              "expectedDamageReceived": 29.303854875283445,
+              "xpPerWin": 35,
+              "repeatXp": 14,
+              "goldPerWin": 226,
+              "repeatGold": 90,
+              "expectedXpPerAttempt": 0.47619047619047616,
+              "strengthRatio": 1.1952413152857846
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 17,
+            "army": 9,
+            "participants": 9,
+            "effectiveParticipants": 9,
+            "power": 872.51,
+            "training": 5,
+            "calling": "Freeblade",
+            "upkeep": 243,
+            "investment": 19440,
+            "items": [
+              {
+                "id": "stormglass-pike",
+                "quantity": 9
+              },
+              {
+                "id": "frostweave-mantle",
+                "quantity": 9
+              },
+              {
+                "id": "winters-judgment",
+                "quantity": 9
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 17,
+              "army": 15,
+              "participants": 15,
+              "effectiveParticipants": 15,
+              "power": 696.72,
+              "training": 2,
+              "calling": "Freeblade",
+              "upkeep": 153,
+              "investment": 10260,
+              "items": [
+                {
+                  "id": "briarheart-bow",
+                  "quantity": 9
+                },
+                {
+                  "id": "argent-sentinel-plate",
+                  "quantity": 9
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 9
+                }
+              ],
+              "referenceArmy": 9,
+              "targetPower": 698.008,
+              "netIncome": 494,
+              "upkeepDelta": 119,
+              "wallet": 4624,
+              "vault": 13216,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 29.947845804988663,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 24,
+              "repeatXp": 9,
+              "goldPerWin": 138,
+              "repeatGold": 55,
+              "expectedXpPerAttempt": 24,
+              "strengthRatio": 0.7985237991541645
+            },
+            {
+              "tier": "seasoned",
+              "level": 17,
+              "army": 11,
+              "participants": 11,
+              "effectiveParticipants": 11,
+              "power": 876.65,
+              "training": 2,
+              "calling": "Freeblade",
+              "upkeep": 253,
+              "investment": 19580,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 11
+                },
+                {
+                  "id": "frostweave-mantle",
+                  "quantity": 11
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 11
+                }
+              ],
+              "referenceArmy": 9,
+              "targetPower": 872.51,
+              "netIncome": 394,
+              "upkeepDelta": 184,
+              "wallet": 5946,
+              "vault": 15681,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 14.197278911564625,
+              "expectedDamageReceived": 15.356009070294785,
+              "xpPerWin": 30,
+              "repeatXp": 12,
+              "goldPerWin": 178,
+              "repeatGold": 71,
+              "expectedXpPerAttempt": 14.285714285714285,
+              "strengthRatio": 1.0047449312901857
+            },
+            {
+              "tier": "elite",
+              "level": 17,
+              "army": 12,
+              "participants": 12,
+              "effectiveParticipants": 12,
+              "power": 1042.86,
+              "training": 5,
+              "calling": "Warden",
+              "upkeep": 276,
+              "investment": 21360,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 12
+                },
+                {
+                  "id": "frostweave-mantle",
+                  "quantity": 12
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 12
+                }
+              ],
+              "referenceArmy": 9,
+              "targetPower": 1029.5618,
+              "netIncome": 371,
+              "upkeepDelta": 184,
+              "wallet": 7540,
+              "vault": 18911,
+              "properties": [
+                {
+                  "id": "silver-vein-mine",
+                  "quantity": 1
+                },
+                {
+                  "id": "moonwell-sanctuary",
+                  "quantity": 1
+                },
+                {
+                  "id": "smallholding",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 1.36,
+              "expectedDamageDealt": 3.1746031746031744,
+              "expectedDamageReceived": 29.303854875283445,
+              "xpPerWin": 35,
+              "repeatXp": 14,
+              "goldPerWin": 226,
+              "repeatGold": 90,
+              "expectedXpPerAttempt": 0.47619047619047616,
+              "strengthRatio": 1.1952413152857846
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 25,
+      "xpRequired": 875,
+      "referenceArmy": 13,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 25,
+            "army": 13,
+            "participants": 13,
+            "effectiveParticipants": 13,
+            "power": 1618.53,
+            "training": 8,
+            "calling": "Freeblade",
+            "upkeep": 507,
+            "investment": 44200,
+            "items": [
+              {
+                "id": "cinderwyrm-cleaver",
+                "quantity": 13
+              },
+              {
+                "id": "nightwatch-carapace",
+                "quantity": 13
+              },
+              {
+                "id": "ashen-revenant",
+                "quantity": 13
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 25,
+              "army": 2,
+              "participants": 2,
+              "effectiveParticipants": 2,
+              "power": 202.92,
+              "training": 2,
+              "calling": "Freeblade",
+              "upkeep": 52,
+              "investment": 4120,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 2
+                },
+                {
+                  "id": "embercrest-bulwark",
+                  "quantity": 2
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 2
+                }
+              ],
+              "wallet": 10003,
+              "vault": 49942,
+              "netIncome": 2248,
+              "grossIncome": 2700,
+              "properties": [
+                {
+                  "id": "ironwood-fort",
+                  "quantity": 2
+                },
+                {
+                  "id": "tempest-port",
+                  "quantity": 1
+                },
+                {
+                  "id": "runekeeper-academy",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 300,
+              "repeatGold": 120,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.12537302366962613
+            },
+            {
+              "tier": "seasoned",
+              "level": 25,
+              "army": 4,
+              "participants": 4,
+              "effectiveParticipants": 4,
+              "power": 513.47,
+              "training": 5,
+              "calling": "Spellward",
+              "upkeep": 168,
+              "investment": 14800,
+              "items": [
+                {
+                  "id": "moonthorn-recurve",
+                  "quantity": 4
+                },
+                {
+                  "id": "embercrest-bulwark",
+                  "quantity": 4
+                },
+                {
+                  "id": "moonwell-veil",
+                  "quantity": 4
+                }
+              ],
+              "wallet": 20428,
+              "vault": 111171,
+              "netIncome": 3962,
+              "grossIncome": 4850,
+              "properties": [
+                {
+                  "id": "ironwood-fort",
+                  "quantity": 3
+                },
+                {
+                  "id": "tempest-port",
+                  "quantity": 2
+                },
+                {
+                  "id": "runekeeper-academy",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 612,
+              "repeatGold": 244,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.3172446602781537
+            },
+            {
+              "tier": "elite",
+              "level": 25,
+              "army": 6,
+              "participants": 6,
+              "effectiveParticipants": 6,
+              "power": 905.05,
+              "training": 12,
+              "calling": "Warden",
+              "upkeep": 294,
+              "investment": 27000,
+              "items": [
+                {
+                  "id": "moonthorn-recurve",
+                  "quantity": 6
+                },
+                {
+                  "id": "oathkeepers-cuirass",
+                  "quantity": 6
+                },
+                {
+                  "id": "moonwell-veil",
+                  "quantity": 6
+                }
+              ],
+              "wallet": 35580,
+              "vault": 200545,
+              "netIncome": 5666,
+              "grossIncome": 7000,
+              "properties": [
+                {
+                  "id": "ironwood-fort",
+                  "quantity": 4
+                },
+                {
+                  "id": "tempest-port",
+                  "quantity": 3
+                },
+                {
+                  "id": "runekeeper-academy",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 37,
+              "repeatXp": 14,
+              "goldPerWin": 831,
+              "repeatGold": 332,
+              "expectedXpPerAttempt": 37,
+              "strengthRatio": 0.5591802438014741
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 25,
+            "army": 13,
+            "participants": 13,
+            "effectiveParticipants": 13,
+            "power": 1618.53,
+            "training": 8,
+            "calling": "Freeblade",
+            "upkeep": 507,
+            "investment": 44200,
+            "items": [
+              {
+                "id": "cinderwyrm-cleaver",
+                "quantity": 13
+              },
+              {
+                "id": "nightwatch-carapace",
+                "quantity": 13
+              },
+              {
+                "id": "ashen-revenant",
+                "quantity": 13
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 25,
+              "army": 22,
+              "participants": 22,
+              "effectiveParticipants": 22,
+              "power": 1299.48,
+              "training": 4,
+              "calling": "Freeblade",
+              "upkeep": 364,
+              "investment": 28840,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 14
+                },
+                {
+                  "id": "embercrest-bulwark",
+                  "quantity": 14
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 14
+                }
+              ],
+              "referenceArmy": 13,
+              "targetPower": 1294.824,
+              "netIncome": 1936,
+              "upkeepDelta": 312,
+              "wallet": 10003,
+              "vault": 49942,
+              "properties": [
+                {
+                  "id": "ironwood-fort",
+                  "quantity": 2
+                },
+                {
+                  "id": "tempest-port",
+                  "quantity": 1
+                },
+                {
+                  "id": "runekeeper-academy",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 29.988662131519273,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 54,
+              "repeatXp": 21,
+              "goldPerWin": 300,
+              "repeatGold": 120,
+              "expectedXpPerAttempt": 54,
+              "strengthRatio": 0.8028766843988063
+            },
+            {
+              "tier": "seasoned",
+              "level": 25,
+              "army": 31,
+              "participants": 31,
+              "effectiveParticipants": 31,
+              "power": 1627.66,
+              "training": 4,
+              "calling": "Freeblade",
+              "upkeep": 546,
+              "investment": 48100,
+              "items": [
+                {
+                  "id": "moonthorn-recurve",
+                  "quantity": 13
+                },
+                {
+                  "id": "embercrest-bulwark",
+                  "quantity": 13
+                },
+                {
+                  "id": "moonwell-veil",
+                  "quantity": 13
+                }
+              ],
+              "referenceArmy": 13,
+              "targetPower": 1618.53,
+              "netIncome": 3584,
+              "upkeepDelta": 378,
+              "wallet": 20428,
+              "vault": 111171,
+              "properties": [
+                {
+                  "id": "ironwood-fort",
+                  "quantity": 3
+                },
+                {
+                  "id": "tempest-port",
+                  "quantity": 2
+                },
+                {
+                  "id": "runekeeper-academy",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 14.879818594104309,
+              "expectedDamageReceived": 16.213151927437643,
+              "xpPerWin": 68,
+              "repeatXp": 27,
+              "goldPerWin": 612,
+              "repeatGold": 244,
+              "expectedXpPerAttempt": 32.38095238095238,
+              "strengthRatio": 1.0056409210827109
+            },
+            {
+              "tier": "elite",
+              "level": 25,
+              "army": 32,
+              "participants": 32,
+              "effectiveParticipants": 32,
+              "power": 1898.21,
+              "training": 8,
+              "calling": "Warden",
+              "upkeep": 637,
+              "investment": 58500,
+              "items": [
+                {
+                  "id": "moonthorn-recurve",
+                  "quantity": 13
+                },
+                {
+                  "id": "oathkeepers-cuirass",
+                  "quantity": 13
+                },
+                {
+                  "id": "moonwell-veil",
+                  "quantity": 13
+                }
+              ],
+              "referenceArmy": 13,
+              "targetPower": 1909.8654,
+              "netIncome": 5323,
+              "upkeepDelta": 343,
+              "wallet": 35580,
+              "vault": 200545,
+              "properties": [
+                {
+                  "id": "ironwood-fort",
+                  "quantity": 4
+                },
+                {
+                  "id": "tempest-port",
+                  "quantity": 3
+                },
+                {
+                  "id": "runekeeper-academy",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 2.95,
+              "expectedDamageDealt": 3.600907029478458,
+              "expectedDamageReceived": 28.94557823129252,
+              "xpPerWin": 79,
+              "repeatXp": 31,
+              "goldPerWin": 831,
+              "repeatGold": 332,
+              "expectedXpPerAttempt": 2.328798185941043,
+              "strengthRatio": 1.1727987741963386
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 25,
+            "army": 13,
+            "participants": 13,
+            "effectiveParticipants": 13,
+            "power": 1618.53,
+            "training": 8,
+            "calling": "Freeblade",
+            "upkeep": 507,
+            "investment": 44200,
+            "items": [
+              {
+                "id": "cinderwyrm-cleaver",
+                "quantity": 13
+              },
+              {
+                "id": "nightwatch-carapace",
+                "quantity": 13
+              },
+              {
+                "id": "ashen-revenant",
+                "quantity": 13
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 25,
+              "army": 22,
+              "participants": 22,
+              "effectiveParticipants": 21.89257420525684,
+              "power": 1299.26,
+              "training": 4,
+              "calling": "Freeblade",
+              "upkeep": 364,
+              "investment": 28840,
+              "items": [
+                {
+                  "id": "stormglass-pike",
+                  "quantity": 14
+                },
+                {
+                  "id": "embercrest-bulwark",
+                  "quantity": 14
+                },
+                {
+                  "id": "silverroot-ward",
+                  "quantity": 14
+                }
+              ],
+              "referenceArmy": 13,
+              "targetPower": 1294.824,
+              "netIncome": 1936,
+              "upkeepDelta": 312,
+              "wallet": 10003,
+              "vault": 49942,
+              "properties": [
+                {
+                  "id": "ironwood-fort",
+                  "quantity": 2
+                },
+                {
+                  "id": "tempest-port",
+                  "quantity": 1
+                },
+                {
+                  "id": "runekeeper-academy",
+                  "quantity": 1
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 29.988662131519273,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 54,
+              "repeatXp": 21,
+              "goldPerWin": 300,
+              "repeatGold": 120,
+              "expectedXpPerAttempt": 54,
+              "strengthRatio": 0.8027407585895844
+            },
+            {
+              "tier": "seasoned",
+              "level": 25,
+              "army": 32,
+              "participants": 32,
+              "effectiveParticipants": 26.28702335992928,
+              "power": 1618.06,
+              "training": 4,
+              "calling": "Freeblade",
+              "upkeep": 546,
+              "investment": 48100,
+              "items": [
+                {
+                  "id": "moonthorn-recurve",
+                  "quantity": 13
+                },
+                {
+                  "id": "embercrest-bulwark",
+                  "quantity": 13
+                },
+                {
+                  "id": "moonwell-veil",
+                  "quantity": 13
+                }
+              ],
+              "referenceArmy": 13,
+              "targetPower": 1618.53,
+              "netIncome": 3584,
+              "upkeepDelta": 378,
+              "wallet": 20428,
+              "vault": 111171,
+              "properties": [
+                {
+                  "id": "ironwood-fort",
+                  "quantity": 3
+                },
+                {
+                  "id": "tempest-port",
+                  "quantity": 2
+                },
+                {
+                  "id": "runekeeper-academy",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 52.38,
+              "expectedDamageDealt": 15.746031746031745,
+              "expectedDamageReceived": 15.229024943310657,
+              "xpPerWin": 66,
+              "repeatXp": 26,
+              "goldPerWin": 612,
+              "repeatGold": 244,
+              "expectedXpPerAttempt": 34.57142857142858,
+              "strengthRatio": 0.9997096130439349
+            },
+            {
+              "tier": "elite",
+              "level": 25,
+              "army": 32,
+              "participants": 32,
+              "effectiveParticipants": 26.28702335992928,
+              "power": 1885.37,
+              "training": 8,
+              "calling": "Warden",
+              "upkeep": 637,
+              "investment": 58500,
+              "items": [
+                {
+                  "id": "moonthorn-recurve",
+                  "quantity": 13
+                },
+                {
+                  "id": "oathkeepers-cuirass",
+                  "quantity": 13
+                },
+                {
+                  "id": "moonwell-veil",
+                  "quantity": 13
+                }
+              ],
+              "referenceArmy": 13,
+              "targetPower": 1909.8654,
+              "netIncome": 5323,
+              "upkeepDelta": 343,
+              "wallet": 35580,
+              "vault": 200545,
+              "properties": [
+                {
+                  "id": "ironwood-fort",
+                  "quantity": 4
+                },
+                {
+                  "id": "tempest-port",
+                  "quantity": 3
+                },
+                {
+                  "id": "runekeeper-academy",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 3.63,
+              "expectedDamageDealt": 3.7823129251700682,
+              "expectedDamageReceived": 28.705215419501133,
+              "xpPerWin": 78,
+              "repeatXp": 31,
+              "goldPerWin": 831,
+              "repeatGold": 332,
+              "expectedXpPerAttempt": 2.8299319727891157,
+              "strengthRatio": 1.1648656496944758
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 40,
+      "xpRequired": 1550,
+      "referenceArmy": 21,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 40,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 4536.27,
+            "training": 13,
+            "calling": "Freeblade",
+            "upkeep": 2016,
+            "investment": 224700,
+            "items": [
+              {
+                "id": "dragonwake-falchion",
+                "quantity": 21
+              },
+              {
+                "id": "ossuary-raiment",
+                "quantity": 21
+              },
+              {
+                "id": "dragons-last-breath",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 40,
+              "army": 4,
+              "participants": 4,
+              "effectiveParticipants": 4,
+              "power": 547.09,
+              "training": 3,
+              "calling": "Freeblade",
+              "upkeep": 270,
+              "investment": 28800,
+              "items": [
+                {
+                  "id": "sun-etched-warhammer",
+                  "quantity": 3
+                },
+                {
+                  "id": "dawnforge-panoply",
+                  "quantity": 3
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 3
+                }
+              ],
+              "wallet": 41520,
+              "vault": 275217,
+              "netIncome": 11480,
+              "grossIncome": 13970,
+              "properties": [
+                {
+                  "id": "oathbound-citadel",
+                  "quantity": 3
+                },
+                {
+                  "id": "dawnspire-cathedral",
+                  "quantity": 2
+                },
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 2
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 1245,
+              "repeatGold": 498,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.12060349141475264
+            },
+            {
+              "tier": "seasoned",
+              "level": 40,
+              "army": 6,
+              "participants": 6,
+              "effectiveParticipants": 6,
+              "power": 1181.17,
+              "training": 8,
+              "calling": "Spellward",
+              "upkeep": 576,
+              "investment": 63000,
+              "items": [
+                {
+                  "id": "sun-etched-warhammer",
+                  "quantity": 6
+                },
+                {
+                  "id": "wyrmscale-aegis",
+                  "quantity": 6
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 6
+                }
+              ],
+              "wallet": 75696,
+              "vault": 503328,
+              "netIncome": 16574,
+              "grossIncome": 20390,
+              "properties": [
+                {
+                  "id": "oathbound-citadel",
+                  "quantity": 4
+                },
+                {
+                  "id": "dawnspire-cathedral",
+                  "quantity": 3
+                },
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 2050,
+              "repeatGold": 820,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.26038353096266315
+            },
+            {
+              "tier": "elite",
+              "level": 40,
+              "army": 9,
+              "participants": 9,
+              "effectiveParticipants": 9,
+              "power": 2231.42,
+              "training": 20,
+              "calling": "Warden",
+              "upkeep": 972,
+              "investment": 115200,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 9
+                },
+                {
+                  "id": "wyrmscale-aegis",
+                  "quantity": 9
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 9
+                }
+              ],
+              "wallet": 126165,
+              "vault": 830224,
+              "netIncome": 21578,
+              "grossIncome": 26810,
+              "properties": [
+                {
+                  "id": "oathbound-citadel",
+                  "quantity": 5
+                },
+                {
+                  "id": "dawnspire-cathedral",
+                  "quantity": 4
+                },
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 60,
+              "repeatXp": 24,
+              "goldPerWin": 2050,
+              "repeatGold": 820,
+              "expectedXpPerAttempt": 60,
+              "strengthRatio": 0.4919063459626521
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 40,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 4536.27,
+            "training": 13,
+            "calling": "Freeblade",
+            "upkeep": 2016,
+            "investment": 224700,
+            "items": [
+              {
+                "id": "dragonwake-falchion",
+                "quantity": 21
+              },
+              {
+                "id": "ossuary-raiment",
+                "quantity": 21
+              },
+              {
+                "id": "dragons-last-breath",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 40,
+              "army": 21,
+              "participants": 21,
+              "effectiveParticipants": 21,
+              "power": 3664.89,
+              "training": 6,
+              "calling": "Freeblade",
+              "upkeep": 1890,
+              "investment": 201600,
+              "items": [
+                {
+                  "id": "sun-etched-warhammer",
+                  "quantity": 21
+                },
+                {
+                  "id": "dawnforge-panoply",
+                  "quantity": 21
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 21
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 3629.0160000000005,
+              "netIncome": 9860,
+              "upkeepDelta": 1620,
+              "wallet": 41520,
+              "vault": 275217,
+              "properties": [
+                {
+                  "id": "oathbound-citadel",
+                  "quantity": 3
+                },
+                {
+                  "id": "dawnspire-cathedral",
+                  "quantity": 2
+                },
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 2
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 96,
+              "repeatXp": 38,
+              "goldPerWin": 1245,
+              "repeatGold": 498,
+              "expectedXpPerAttempt": 96,
+              "strengthRatio": 0.8079082594290021
+            },
+            {
+              "tier": "seasoned",
+              "level": 40,
+              "army": 39,
+              "participants": 39,
+              "effectiveParticipants": 39,
+              "power": 4537.48,
+              "training": 6,
+              "calling": "Freeblade",
+              "upkeep": 2304,
+              "investment": 252000,
+              "items": [
+                {
+                  "id": "sun-etched-warhammer",
+                  "quantity": 24
+                },
+                {
+                  "id": "wyrmscale-aegis",
+                  "quantity": 24
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 24
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 4536.27,
+              "netIncome": 14846,
+              "upkeepDelta": 1728,
+              "wallet": 75696,
+              "vault": 503328,
+              "properties": [
+                {
+                  "id": "oathbound-citadel",
+                  "quantity": 4
+                },
+                {
+                  "id": "dawnspire-cathedral",
+                  "quantity": 3
+                },
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 15.857142857142858,
+              "expectedDamageReceived": 16.285714285714285,
+              "xpPerWin": 120,
+              "repeatXp": 48,
+              "goldPerWin": 2050,
+              "repeatGold": 820,
+              "expectedXpPerAttempt": 57.14285714285714,
+              "strengthRatio": 1.0002667389727682
+            },
+            {
+              "tier": "elite",
+              "level": 40,
+              "army": 56,
+              "participants": 56,
+              "effectiveParticipants": 56,
+              "power": 5370.66,
+              "training": 13,
+              "calling": "Warden",
+              "upkeep": 2484,
+              "investment": 294400,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 23
+                },
+                {
+                  "id": "wyrmscale-aegis",
+                  "quantity": 23
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 23
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 5352.7986,
+              "netIncome": 20066,
+              "upkeepDelta": 1512,
+              "wallet": 126165,
+              "vault": 830224,
+              "properties": [
+                {
+                  "id": "oathbound-citadel",
+                  "quantity": 5
+                },
+                {
+                  "id": "dawnspire-cathedral",
+                  "quantity": 4
+                },
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                }
+              ],
+              "eligible": true,
+              "winPercent": 2.04,
+              "expectedDamageDealt": 3.4648526077097506,
+              "expectedDamageReceived": 29.39455782312925,
+              "xpPerWin": 142,
+              "repeatXp": 56,
+              "goldPerWin": 2050,
+              "repeatGold": 820,
+              "expectedXpPerAttempt": 2.897959183673469,
+              "strengthRatio": 1.1839374640398388
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 40,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 4536.27,
+            "training": 13,
+            "calling": "Freeblade",
+            "upkeep": 2016,
+            "investment": 224700,
+            "items": [
+              {
+                "id": "dragonwake-falchion",
+                "quantity": 21
+              },
+              {
+                "id": "ossuary-raiment",
+                "quantity": 21
+              },
+              {
+                "id": "dragons-last-breath",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 40,
+              "army": 21,
+              "participants": 21,
+              "effectiveParticipants": 21,
+              "power": 3664.89,
+              "training": 6,
+              "calling": "Freeblade",
+              "upkeep": 1890,
+              "investment": 201600,
+              "items": [
+                {
+                  "id": "sun-etched-warhammer",
+                  "quantity": 21
+                },
+                {
+                  "id": "dawnforge-panoply",
+                  "quantity": 21
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 21
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 3629.0160000000005,
+              "netIncome": 9860,
+              "upkeepDelta": 1620,
+              "wallet": 41520,
+              "vault": 275217,
+              "properties": [
+                {
+                  "id": "oathbound-citadel",
+                  "quantity": 3
+                },
+                {
+                  "id": "dawnspire-cathedral",
+                  "quantity": 2
+                },
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 2
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 96,
+              "repeatXp": 38,
+              "goldPerWin": 1245,
+              "repeatGold": 498,
+              "expectedXpPerAttempt": 96,
+              "strengthRatio": 0.8079082594290021
+            },
+            {
+              "tier": "seasoned",
+              "level": 40,
+              "army": 26,
+              "participants": 26,
+              "effectiveParticipants": 24.243720864865317,
+              "power": 4551.63,
+              "training": 6,
+              "calling": "Freeblade",
+              "upkeep": 2496,
+              "investment": 273000,
+              "items": [
+                {
+                  "id": "sun-etched-warhammer",
+                  "quantity": 26
+                },
+                {
+                  "id": "wyrmscale-aegis",
+                  "quantity": 26
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 26
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 4536.27,
+              "netIncome": 14654,
+              "upkeepDelta": 1920,
+              "wallet": 75696,
+              "vault": 503328,
+              "properties": [
+                {
+                  "id": "oathbound-citadel",
+                  "quantity": 4
+                },
+                {
+                  "id": "dawnspire-cathedral",
+                  "quantity": 3
+                },
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 15.700680272108844,
+              "expectedDamageReceived": 16.6281179138322,
+              "xpPerWin": 120,
+              "repeatXp": 48,
+              "goldPerWin": 2050,
+              "repeatGold": 820,
+              "expectedXpPerAttempt": 57.14285714285714,
+              "strengthRatio": 1.003386041836134
+            },
+            {
+              "tier": "elite",
+              "level": 40,
+              "army": 29,
+              "participants": 29,
+              "effectiveParticipants": 25.394449154672436,
+              "power": 5352.54,
+              "training": 13,
+              "calling": "Warden",
+              "upkeep": 2592,
+              "investment": 307200,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 24
+                },
+                {
+                  "id": "wyrmscale-aegis",
+                  "quantity": 24
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 24
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 5352.7986,
+              "netIncome": 19958,
+              "upkeepDelta": 1620,
+              "wallet": 126165,
+              "vault": 830224,
+              "properties": [
+                {
+                  "id": "oathbound-citadel",
+                  "quantity": 5
+                },
+                {
+                  "id": "dawnspire-cathedral",
+                  "quantity": 4
+                },
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                }
+              ],
+              "eligible": true,
+              "winPercent": 2.27,
+              "expectedDamageDealt": 3.557823129251701,
+              "expectedDamageReceived": 29.31519274376417,
+              "xpPerWin": 141,
+              "repeatXp": 56,
+              "goldPerWin": 2050,
+              "repeatGold": 820,
+              "expectedXpPerAttempt": 3.197278911564626,
+              "strengthRatio": 1.1799429928112743
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 50,
+      "xpRequired": 2000,
+      "referenceArmy": 21,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 50,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 5592.87,
+            "training": 16,
+            "calling": "Freeblade",
+            "upkeep": 3213,
+            "investment": 447300,
+            "items": [
+              {
+                "id": "crown-of-ash-blade",
+                "quantity": 21
+              },
+              {
+                "id": "seraphic-vestment",
+                "quantity": 21
+              },
+              {
+                "id": "voidbound-chain",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 50,
+              "army": 4,
+              "participants": 4,
+              "effectiveParticipants": 4,
+              "power": 684.9,
+              "training": 4,
+              "calling": "Freeblade",
+              "upkeep": 363,
+              "investment": 46200,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 3
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 3
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 3
+                }
+              ],
+              "wallet": 60918,
+              "vault": 437385,
+              "netIncome": 17107,
+              "grossIncome": 20790,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 2
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 1827,
+              "repeatGold": 730,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.12245948859887679
+            },
+            {
+              "tier": "seasoned",
+              "level": 50,
+              "army": 7,
+              "participants": 7,
+              "effectiveParticipants": 7,
+              "power": 1474.7,
+              "training": 10,
+              "calling": "Spellward",
+              "upkeep": 870,
+              "investment": 119400,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 6
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 6
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 6
+                }
+              ],
+              "wallet": 113440,
+              "vault": 800180,
+              "netIncome": 24600,
+              "grossIncome": 30310,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 3
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 1,
+              "repeatXp": 1,
+              "goldPerWin": 3000,
+              "repeatGold": 1200,
+              "expectedXpPerAttempt": 1,
+              "strengthRatio": 0.26367500049169745
+            },
+            {
+              "tier": "elite",
+              "level": 50,
+              "army": 10,
+              "participants": 10,
+              "effectiveParticipants": 10,
+              "power": 3122.6,
+              "training": 25,
+              "calling": "Warden",
+              "upkeep": 1560,
+              "investment": 220000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 10
+                },
+                {
+                  "id": "eclipse-citadel-plate",
+                  "quantity": 10
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 10
+                }
+              ],
+              "wallet": 190925,
+              "vault": 1320748,
+              "netIncome": 31910,
+              "grossIncome": 39830,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 5
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 4
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 4
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 85,
+              "repeatXp": 34,
+              "goldPerWin": 3000,
+              "repeatGold": 1200,
+              "expectedXpPerAttempt": 85,
+              "strengthRatio": 0.5583180013123852
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 50,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 5592.87,
+            "training": 16,
+            "calling": "Freeblade",
+            "upkeep": 3213,
+            "investment": 447300,
+            "items": [
+              {
+                "id": "crown-of-ash-blade",
+                "quantity": 21
+              },
+              {
+                "id": "seraphic-vestment",
+                "quantity": 21
+              },
+              {
+                "id": "voidbound-chain",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 50,
+              "army": 48,
+              "participants": 48,
+              "effectiveParticipants": 48,
+              "power": 4474.92,
+              "training": 8,
+              "calling": "Freeblade",
+              "upkeep": 2420,
+              "investment": 308000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 20
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 20
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 20
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 4474.296,
+              "netIncome": 15050,
+              "upkeepDelta": 2057,
+              "wallet": 60918,
+              "vault": 437385,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 2
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 124,
+              "repeatXp": 49,
+              "goldPerWin": 1827,
+              "repeatGold": 730,
+              "expectedXpPerAttempt": 124,
+              "strengthRatio": 0.8001115706247419
+            },
+            {
+              "tier": "seasoned",
+              "level": 50,
+              "army": 24,
+              "participants": 24,
+              "effectiveParticipants": 24,
+              "power": 5617.99,
+              "training": 8,
+              "calling": "Freeblade",
+              "upkeep": 3480,
+              "investment": 477600,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 24
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 24
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 24
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 5592.87,
+              "netIncome": 21990,
+              "upkeepDelta": 2610,
+              "wallet": 113440,
+              "vault": 800180,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 3
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 15.72108843537415,
+              "expectedDamageReceived": 16.859410430839002,
+              "xpPerWin": 156,
+              "repeatXp": 62,
+              "goldPerWin": 3000,
+              "repeatGold": 1200,
+              "expectedXpPerAttempt": 74.28571428571428,
+              "strengthRatio": 1.0044914328421723
+            },
+            {
+              "tier": "elite",
+              "level": 50,
+              "army": 28,
+              "participants": 28,
+              "effectiveParticipants": 28,
+              "power": 6595.39,
+              "training": 16,
+              "calling": "Warden",
+              "upkeep": 3588,
+              "investment": 506000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 23
+                },
+                {
+                  "id": "eclipse-citadel-plate",
+                  "quantity": 23
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 23
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 6599.5866,
+              "netIncome": 29882,
+              "upkeepDelta": 2028,
+              "wallet": 190925,
+              "vault": 1320748,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 5
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 4
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 4
+                }
+              ],
+              "eligible": true,
+              "winPercent": 2.27,
+              "expectedDamageDealt": 3.582766439909297,
+              "expectedDamageReceived": 29.31972789115646,
+              "xpPerWin": 182,
+              "repeatXp": 72,
+              "goldPerWin": 3000,
+              "repeatGold": 1200,
+              "expectedXpPerAttempt": 4.1269841269841265,
+              "strengthRatio": 1.1792496517887954
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 50,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 5592.87,
+            "training": 16,
+            "calling": "Freeblade",
+            "upkeep": 3213,
+            "investment": 447300,
+            "items": [
+              {
+                "id": "crown-of-ash-blade",
+                "quantity": 21
+              },
+              {
+                "id": "seraphic-vestment",
+                "quantity": 21
+              },
+              {
+                "id": "voidbound-chain",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 50,
+              "army": 50,
+              "participants": 50,
+              "effectiveParticipants": 29.440852801386356,
+              "power": 4435.63,
+              "training": 8,
+              "calling": "Freeblade",
+              "upkeep": 2420,
+              "investment": 308000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 20
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 20
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 20
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 4474.296,
+              "netIncome": 15050,
+              "upkeepDelta": 2057,
+              "wallet": 60918,
+              "vault": 437385,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 2
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 2
+                }
+              ],
+              "eligible": true,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": 122,
+              "repeatXp": 48,
+              "goldPerWin": 1827,
+              "repeatGold": 730,
+              "expectedXpPerAttempt": 122,
+              "strengthRatio": 0.7930865548457232
+            },
+            {
+              "tier": "seasoned",
+              "level": 50,
+              "army": 62,
+              "participants": 62,
+              "effectiveParticipants": 30.681472514601715,
+              "power": 5579.9,
+              "training": 8,
+              "calling": "Freeblade",
+              "upkeep": 3625,
+              "investment": 497500,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 25
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 25
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 25
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 5592.87,
+              "netIncome": 21845,
+              "upkeepDelta": 2755,
+              "wallet": 113440,
+              "vault": 800180,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 3
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 3
+                }
+              ],
+              "eligible": true,
+              "winPercent": 52.38,
+              "expectedDamageDealt": 16.571428571428573,
+              "expectedDamageReceived": 15.857142857142858,
+              "xpPerWin": 154,
+              "repeatXp": 61,
+              "goldPerWin": 3000,
+              "repeatGold": 1200,
+              "expectedXpPerAttempt": 80.66666666666667,
+              "strengthRatio": 0.9976809759568879
+            },
+            {
+              "tier": "elite",
+              "level": 50,
+              "army": 24,
+              "participants": 24,
+              "effectiveParticipants": 23.23846315174169,
+              "power": 6650.94,
+              "training": 16,
+              "calling": "Warden",
+              "upkeep": 3744,
+              "investment": 528000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 24
+                },
+                {
+                  "id": "eclipse-citadel-plate",
+                  "quantity": 24
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 24
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 6599.5866,
+              "netIncome": 29726,
+              "upkeepDelta": 2184,
+              "wallet": 190925,
+              "vault": 1320748,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 5
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 4
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 4
+                }
+              ],
+              "eligible": true,
+              "winPercent": 1.36,
+              "expectedDamageDealt": 3.36281179138322,
+              "expectedDamageReceived": 29.54421768707483,
+              "xpPerWin": 183,
+              "repeatXp": 73,
+              "goldPerWin": 3000,
+              "repeatGold": 1200,
+              "expectedXpPerAttempt": 2.489795918367347,
+              "strengthRatio": 1.1891819405779143
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 100,
+      "xpRequired": 4250,
+      "referenceArmy": 21,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 100,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 6156.8,
+            "training": 25,
+            "calling": "Freeblade",
+            "upkeep": 3213,
+            "investment": 447300,
+            "items": [
+              {
+                "id": "crown-of-ash-blade",
+                "quantity": 21
+              },
+              {
+                "id": "seraphic-vestment",
+                "quantity": 21
+              },
+              {
+                "id": "voidbound-chain",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 50,
+              "army": 4,
+              "participants": 4,
+              "effectiveParticipants": 4,
+              "power": 684.9,
+              "training": 4,
+              "calling": "Freeblade",
+              "upkeep": 363,
+              "investment": 46200,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 3
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 3
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 3
+                }
+              ],
+              "wallet": 60918,
+              "vault": 437385,
+              "netIncome": 17107,
+              "grossIncome": 20790,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 2
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 2
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.11124285343035342
+            },
+            {
+              "tier": "seasoned",
+              "level": 50,
+              "army": 7,
+              "participants": 7,
+              "effectiveParticipants": 7,
+              "power": 1474.7,
+              "training": 10,
+              "calling": "Spellward",
+              "upkeep": 870,
+              "investment": 119400,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 6
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 6
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 6
+                }
+              ],
+              "wallet": 113440,
+              "vault": 800180,
+              "netIncome": 24600,
+              "grossIncome": 30310,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 3
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 3
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.23952377858627857
+            },
+            {
+              "tier": "elite",
+              "level": 50,
+              "army": 10,
+              "participants": 10,
+              "effectiveParticipants": 10,
+              "power": 3122.6,
+              "training": 25,
+              "calling": "Warden",
+              "upkeep": 1560,
+              "investment": 220000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 10
+                },
+                {
+                  "id": "eclipse-citadel-plate",
+                  "quantity": 10
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 10
+                }
+              ],
+              "wallet": 190925,
+              "vault": 1320748,
+              "netIncome": 31910,
+              "grossIncome": 39830,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 5
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 4
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 4
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.5071790540540541
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 100,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 6156.8,
+            "training": 25,
+            "calling": "Freeblade",
+            "upkeep": 3213,
+            "investment": 447300,
+            "items": [
+              {
+                "id": "crown-of-ash-blade",
+                "quantity": 21
+              },
+              {
+                "id": "seraphic-vestment",
+                "quantity": 21
+              },
+              {
+                "id": "voidbound-chain",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 100,
+              "army": 50,
+              "participants": 50,
+              "effectiveParticipants": 50,
+              "power": 4867.78,
+              "training": 16,
+              "calling": "Freeblade",
+              "upkeep": 2420,
+              "investment": 308000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 20
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 20
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 20
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 4925.4400000000005,
+              "netIncome": 15050,
+              "upkeepDelta": 2057,
+              "wallet": 60918,
+              "vault": 437385,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 2
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 2
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.7906347453222452
+            },
+            {
+              "tier": "seasoned",
+              "level": 100,
+              "army": 58,
+              "participants": 58,
+              "effectiveParticipants": 58,
+              "power": 6168.28,
+              "training": 16,
+              "calling": "Freeblade",
+              "upkeep": 3480,
+              "investment": 477600,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 24
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 24
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 24
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 6156.8,
+              "netIncome": 21990,
+              "upkeepDelta": 2610,
+              "wallet": 113440,
+              "vault": 800180,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 3
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 3
+                }
+              ],
+              "eligible": false,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 15.857142857142858,
+              "expectedDamageReceived": 16.537414965986393,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 1.001864604989605
+            },
+            {
+              "tier": "elite",
+              "level": 100,
+              "army": 57,
+              "participants": 57,
+              "effectiveParticipants": 57,
+              "power": 7247.5,
+              "training": 25,
+              "calling": "Warden",
+              "upkeep": 3588,
+              "investment": 506000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 23
+                },
+                {
+                  "id": "eclipse-citadel-plate",
+                  "quantity": 23
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 23
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 7265.023999999999,
+              "netIncome": 29882,
+              "upkeepDelta": 2028,
+              "wallet": 190925,
+              "vault": 1320748,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 5
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 4
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 4
+                }
+              ],
+              "eligible": false,
+              "winPercent": 2.49,
+              "expectedDamageDealt": 3.630385487528345,
+              "expectedDamageReceived": 29.263038548752835,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 1.1771537162162162
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 100,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 6156.8,
+            "training": 25,
+            "calling": "Freeblade",
+            "upkeep": 3213,
+            "investment": 447300,
+            "items": [
+              {
+                "id": "crown-of-ash-blade",
+                "quantity": 21
+              },
+              {
+                "id": "seraphic-vestment",
+                "quantity": 21
+              },
+              {
+                "id": "voidbound-chain",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 100,
+              "army": 50,
+              "participants": 50,
+              "effectiveParticipants": 29.440852801386356,
+              "power": 4821.03,
+              "training": 16,
+              "calling": "Freeblade",
+              "upkeep": 2420,
+              "investment": 308000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 20
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 20
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 20
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 4925.4400000000005,
+              "netIncome": 15050,
+              "upkeepDelta": 2057,
+              "wallet": 60918,
+              "vault": 437385,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 2
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 2
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.783041515072765
+            },
+            {
+              "tier": "seasoned",
+              "level": 100,
+              "army": 32,
+              "participants": 32,
+              "effectiveParticipants": 26.28702335992928,
+              "power": 6156.3,
+              "training": 16,
+              "calling": "Freeblade",
+              "upkeep": 3770,
+              "investment": 517400,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 26
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 26
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 26
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 6156.8,
+              "netIncome": 21700,
+              "upkeepDelta": 2900,
+              "wallet": 113440,
+              "vault": 800180,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 3
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 3
+                }
+              ],
+              "eligible": false,
+              "winPercent": 52.38,
+              "expectedDamageDealt": 16.285714285714285,
+              "expectedDamageReceived": 15.857142857142858,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.9999187889812889
+            },
+            {
+              "tier": "elite",
+              "level": 100,
+              "army": 60,
+              "participants": 60,
+              "effectiveParticipants": 30.499623018294688,
+              "power": 7250.83,
+              "training": 25,
+              "calling": "Warden",
+              "upkeep": 3744,
+              "investment": 528000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 24
+                },
+                {
+                  "id": "eclipse-citadel-plate",
+                  "quantity": 24
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 24
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 7265.023999999999,
+              "netIncome": 29726,
+              "upkeepDelta": 2184,
+              "wallet": 190925,
+              "vault": 1320748,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 5
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 4
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 4
+                }
+              ],
+              "eligible": false,
+              "winPercent": 2.49,
+              "expectedDamageDealt": 3.623582766439909,
+              "expectedDamageReceived": 29.27437641723356,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 1.1776945816008315
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 200,
+      "xpRequired": 8750,
+      "referenceArmy": 21,
+      "scenarios": [
+        {
+          "policy": "current",
+          "human": {
+            "level": 200,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 6416.8,
+            "training": 25,
+            "calling": "Freeblade",
+            "upkeep": 3213,
+            "investment": 447300,
+            "items": [
+              {
+                "id": "crown-of-ash-blade",
+                "quantity": 21
+              },
+              {
+                "id": "seraphic-vestment",
+                "quantity": 21
+              },
+              {
+                "id": "voidbound-chain",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 50,
+              "army": 4,
+              "participants": 4,
+              "effectiveParticipants": 4,
+              "power": 684.9,
+              "training": 4,
+              "calling": "Freeblade",
+              "upkeep": 363,
+              "investment": 46200,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 3
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 3
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 3
+                }
+              ],
+              "wallet": 60918,
+              "vault": 437385,
+              "netIncome": 17107,
+              "grossIncome": 20790,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 2
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 2
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.10673544445829697
+            },
+            {
+              "tier": "seasoned",
+              "level": 50,
+              "army": 7,
+              "participants": 7,
+              "effectiveParticipants": 7,
+              "power": 1474.7,
+              "training": 10,
+              "calling": "Spellward",
+              "upkeep": 870,
+              "investment": 119400,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 6
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 6
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 6
+                }
+              ],
+              "wallet": 113440,
+              "vault": 800180,
+              "netIncome": 24600,
+              "grossIncome": 30310,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 3
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 3
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.2298186011719237
+            },
+            {
+              "tier": "elite",
+              "level": 50,
+              "army": 10,
+              "participants": 10,
+              "effectiveParticipants": 10,
+              "power": 3122.6,
+              "training": 25,
+              "calling": "Warden",
+              "upkeep": 1560,
+              "investment": 220000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 10
+                },
+                {
+                  "id": "eclipse-citadel-plate",
+                  "quantity": 10
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 10
+                }
+              ],
+              "wallet": 190925,
+              "vault": 1320748,
+              "netIncome": 31910,
+              "grossIncome": 39830,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 5
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 4
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 4
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.48662884927066447
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-linear",
+          "human": {
+            "level": 200,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 6416.8,
+            "training": 25,
+            "calling": "Freeblade",
+            "upkeep": 3213,
+            "investment": 447300,
+            "items": [
+              {
+                "id": "crown-of-ash-blade",
+                "quantity": 21
+              },
+              {
+                "id": "seraphic-vestment",
+                "quantity": 21
+              },
+              {
+                "id": "voidbound-chain",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 200,
+              "army": 47,
+              "participants": 47,
+              "effectiveParticipants": 47,
+              "power": 5110.7,
+              "training": 25,
+              "calling": "Freeblade",
+              "upkeep": 2299,
+              "investment": 292600,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 19
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 19
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 19
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 5133.4400000000005,
+              "netIncome": 15171,
+              "upkeepDelta": 1936,
+              "wallet": 60918,
+              "vault": 437385,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 2
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 2
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.7964561775339732
+            },
+            {
+              "tier": "seasoned",
+              "level": 200,
+              "army": 23,
+              "participants": 23,
+              "effectiveParticipants": 23,
+              "power": 6417.78,
+              "training": 25,
+              "calling": "Freeblade",
+              "upkeep": 3335,
+              "investment": 457700,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 23
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 23
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 23
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 6416.8,
+              "netIncome": 22135,
+              "upkeepDelta": 2465,
+              "wallet": 113440,
+              "vault": 800180,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 3
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 3
+                }
+              ],
+              "eligible": false,
+              "winPercent": 47.62,
+              "expectedDamageDealt": 15.857142857142858,
+              "expectedDamageReceived": 16.285714285714285,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 1.0001527240992394
+            },
+            {
+              "tier": "elite",
+              "level": 200,
+              "army": 24,
+              "participants": 24,
+              "effectiveParticipants": 24,
+              "power": 7594.6,
+              "training": 25,
+              "calling": "Warden",
+              "upkeep": 3744,
+              "investment": 528000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 24
+                },
+                {
+                  "id": "eclipse-citadel-plate",
+                  "quantity": 24
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 24
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 7571.824,
+              "netIncome": 29726,
+              "upkeepDelta": 2184,
+              "wallet": 190925,
+              "vault": 1320748,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 5
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 4
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 4
+                }
+              ],
+              "eligible": false,
+              "winPercent": 2.04,
+              "expectedDamageDealt": 3.489795918367347,
+              "expectedDamageReceived": 29.408163265306122,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 1.1835494327390599
+            }
+          ]
+        },
+        {
+          "policy": "uncapped-support",
+          "human": {
+            "level": 200,
+            "army": 21,
+            "participants": 21,
+            "effectiveParticipants": 21,
+            "power": 6416.8,
+            "training": 25,
+            "calling": "Freeblade",
+            "upkeep": 3213,
+            "investment": 447300,
+            "items": [
+              {
+                "id": "crown-of-ash-blade",
+                "quantity": 21
+              },
+              {
+                "id": "seraphic-vestment",
+                "quantity": 21
+              },
+              {
+                "id": "voidbound-chain",
+                "quantity": 21
+              }
+            ]
+          },
+          "opponents": [
+            {
+              "tier": "green",
+              "level": 200,
+              "army": 47,
+              "participants": 47,
+              "effectiveParticipants": 29.05961208216906,
+              "power": 5066.75,
+              "training": 25,
+              "calling": "Freeblade",
+              "upkeep": 2299,
+              "investment": 292600,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 19
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 19
+                },
+                {
+                  "id": "dawnstar-benediction",
+                  "quantity": 19
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 5133.4400000000005,
+              "netIncome": 15171,
+              "upkeepDelta": 1936,
+              "wallet": 60918,
+              "vault": 437385,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 3
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 2
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 2
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 2
+                }
+              ],
+              "eligible": false,
+              "winPercent": 100,
+              "expectedDamageDealt": 30,
+              "expectedDamageReceived": 3,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 0.7896069692058346
+            },
+            {
+              "tier": "seasoned",
+              "level": 200,
+              "army": 24,
+              "participants": 24,
+              "effectiveParticipants": 23.23846315174169,
+              "power": 6481.75,
+              "training": 25,
+              "calling": "Freeblade",
+              "upkeep": 3480,
+              "investment": 477600,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 24
+                },
+                {
+                  "id": "sovereigns-bastion",
+                  "quantity": 24
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 24
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 6416.8,
+              "netIncome": 21990,
+              "upkeepDelta": 2610,
+              "wallet": 113440,
+              "vault": 800180,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 4
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 3
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 3
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 3
+                }
+              ],
+              "eligible": false,
+              "winPercent": 45.12,
+              "expectedDamageDealt": 14.83673469387755,
+              "expectedDamageReceived": 17.399092970521544,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 1.0101218675975563
+            },
+            {
+              "tier": "elite",
+              "level": 200,
+              "army": 62,
+              "participants": 62,
+              "effectiveParticipants": 30.681472514601715,
+              "power": 7543.09,
+              "training": 25,
+              "calling": "Warden",
+              "upkeep": 3900,
+              "investment": 550000,
+              "items": [
+                {
+                  "id": "astral-conductor",
+                  "quantity": 25
+                },
+                {
+                  "id": "eclipse-citadel-plate",
+                  "quantity": 25
+                },
+                {
+                  "id": "seraphs-rebuke",
+                  "quantity": 25
+                }
+              ],
+              "referenceArmy": 21,
+              "targetPower": 7571.824,
+              "netIncome": 29570,
+              "upkeepDelta": 2340,
+              "wallet": 190925,
+              "vault": 1320748,
+              "properties": [
+                {
+                  "id": "wyrmcrest-keep",
+                  "quantity": 5
+                },
+                {
+                  "id": "astral-observatory",
+                  "quantity": 4
+                },
+                {
+                  "id": "throne-of-ash",
+                  "quantity": 4
+                },
+                {
+                  "id": "eclipse-citadel",
+                  "quantity": 4
+                }
+              ],
+              "eligible": false,
+              "winPercent": 2.72,
+              "expectedDamageDealt": 3.6666666666666665,
+              "expectedDamageReceived": 29.210884353741495,
+              "xpPerWin": null,
+              "repeatXp": null,
+              "goldPerWin": null,
+              "repeatGold": null,
+              "expectedXpPerAttempt": null,
+              "strengthRatio": 1.1755220670739308
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "matrixRows": 3744,
+  "encounterCount": 11232
+}

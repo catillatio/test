@@ -15,6 +15,7 @@ await context.route('**/*',route=>new URL(route.request().url()).origin===origin
 await context.addInitScript(`(()=>{
  const record=(kind,detail={})=>{const events=JSON.parse(localStorage.getItem('phase491-trace')||'[]');events.push({kind,path:location.pathname,...detail});localStorage.setItem('phase491-trace',JSON.stringify(events));};
  document.addEventListener('kingdom-sound-played',e=>record('cue',e.detail));
+ document.addEventListener('pointerdown',e=>record('gesture',{pointerType:e.pointerType}),true);
  const Original=window.AudioContext||window.webkitAudioContext;
  if(Original){window.AudioContext=class extends Original{constructor(...args){super(...args);record('context');}resume(){record('resume');return super.resume();}createBufferSource(){const node=super.createBufferSource(),start=node.start.bind(node);node.start=(...args)=>{record('start',{offset:args[1],duration:args[2]});return start(...args);};return node;}};}
 })();`);
@@ -25,10 +26,10 @@ try{
  await context.addCookies([{name:'kr_session',value:actor.cookie.split('=')[1]!,url:origin,httpOnly:true,sameSite:'Lax'}]);
  await page.goto(origin+'/game/home');await page.locator('.primary-nav').waitFor();
  for(let cycle=0;cycle<2;cycle++)for(const name of['Quests','Battle','Armory','Recruit','Home']){
-  await page.getByRole('navigation',{name:'Primary navigation'}).getByRole('link',{name,exact:true}).click();await page.waitForLoadState('load');await page.waitForTimeout(180);
+  const link=page.getByRole('navigation',{name:'Primary navigation'}).getByRole('link',{name,exact:true});if(cycle===0)await link.tap();else await link.click();await page.waitForLoadState('load');await page.waitForTimeout(180);
  }
  await page.goBack({waitUntil:'load'});await page.goForward({waitUntil:'load'});await page.reload();await page.waitForTimeout(300);
- const navigation=await trace();assert.equal(navigation.filter((e:any)=>e.kind==='start'||e.kind==='cue').length,0);
+ const navigation=await trace();assert.ok(navigation.some((e:any)=>e.kind==='gesture'&&e.pointerType==='touch'));assert.ok(navigation.some((e:any)=>e.kind==='gesture'&&e.pointerType==='mouse'));assert.equal(navigation.filter((e:any)=>e.kind==='start'||e.kind==='cue').length,0);
  if(!process.env.PHASE491_BASELINE)assert.equal(navigation.filter((e:any)=>e.kind==='context'||e.kind==='resume').length,0,'Ordinary navigation must not even resume the audio engine');
  await mkdir('test-results',{recursive:true});
  if(process.env.PHASE491_BASELINE){await writeFile('test-results/phase491-baseline-navigation.json',JSON.stringify({navigation,errors,liveContacted:false},null,2));console.log('BASELINE trace: '+navigation.length+' Web Audio operations, zero source starts');}
