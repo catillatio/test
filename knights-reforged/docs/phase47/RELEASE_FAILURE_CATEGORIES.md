@@ -1,6 +1,8 @@
 # Release controller failure categories
 
-This changes failure reporting in `deployment/release/run.mjs` only. No workflow, approval, credential, Railway command/argument, request count, retry policy, worker, encryption, backup gate, signature, migration, or promotion order changes. No additional provider operation is performed to test permissions.
+The original category-only change described below changed failure reporting in `deployment/release/run.mjs` only. [Issue #21 report-readiness handling](REPORT_READINESS.md) subsequently added bounded 403/404 report polling and fixed `PRIVATE_REPORT_READ` diagnostics; the existing terminal failure categories and all approval/evidence gates remain unchanged.
+
+For the original category-only change: No workflow, approval, credential, Railway command/argument, request count, retry policy, worker, encryption, backup gate, signature, migration, or promotion order changes. No additional provider operation is performed to test permissions.
 
 When the controller fails, stderr includes exactly one of these fixed category lines, followed by the existing generic safety message. The process still exits unsuccessfully. Success output is unchanged; no extra PASS markers or diagnostic values are emitted.
 
@@ -12,7 +14,7 @@ When the controller fails, stderr includes exactly one of these fixed category l
 | `BACKUP_RESTORE_VERIFICATION: FAIL` | Worker evidence could not be obtained or validated; independent encrypted recovery download/checksum or manifest retention failed; retained recovery validation before promotion failed; or the post-deployment preservation evidence failed. |
 | `RELEASE_SAFETY: FAIL` | An unclassified precondition, local preparation/cleanup, game staging/upload, health, or other safety check failed. This avoids falsely blaming worker permissions. |
 
-These are failure boundaries, not provider diagnoses. For example, an unavailable worker report can result from a worker build/startup failure, report storage access, timeout, or a failed backup/restore check. A failed upload command does **not** prove that Railway queued nothing; it might have accepted the upload before the CLI failed. Identity verification can likewise fail after a deployment was queued. No automatic retry, cancellation, restart, or rollback is added.
+These are failure boundaries, not provider diagnoses. For example, an unavailable worker report can result from a worker build/startup failure, report storage access, timeout, or a failed backup/restore check. A failed upload command does **not** prove that Railway queued nothing; it might have accepted the upload before the CLI failed. Identity verification can likewise fail after a deployment was queued. No Railway staging/upload/deployment retry, cancellation, restart, or rollback is added. Exact-object report GET polling is described separately in [REPORT_READINESS.md](REPORT_READINESS.md).
 
 The controller records categories privately by error identity. It replaces exceptions with a fresh generic error and never inspects or prints provider error messages, response bodies, error properties, stacks, causes, credentials, signed URLs, or connection strings. An exception's own text or category-like properties cannot select a logged category. Existing provider stdout/stderr suppression remains. Cleanup behavior is unchanged; an unclassified cleanup error remains a generic safety failure.
 
