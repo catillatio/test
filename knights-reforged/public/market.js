@@ -81,9 +81,13 @@ for (const form of document.querySelectorAll('form')) {
         feedback(result.error?.message || 'Review the current price and try again.', true); return;
       }
       feedback(result.message); forget(); trade.navigating = true;
-      const destination = result.kind === 'buy' || result.kind === 'land_buy' ? '/game/purchases/' + result.commandId :
-        result.kind === 'land_sell' ? '/game/land?command=' + result.commandId :
-          '/game/armory?category=' + encodeURIComponent(result.data?.category || 'weapon') + '&command=' + result.commandId;
+      const land = result.kind === 'land_buy' || result.kind === 'land_sell';
+      const savedCategory = result.data?.category ?? result.state?.inventory?.find(item => item.id === result.data?.itemId)?.category ?? new URL(location.href).searchParams.get('category');
+      const category = ['weapon','armor','spell'].includes(savedCategory) ? savedCategory : 'weapon';
+      const definitionId = land ? result.data?.propertyId : result.data?.itemId;
+      const anchor = (result.kind === 'buy' || result.kind === 'land_buy') && typeof definitionId === 'string' && /^[a-z0-9-]+$/.test(definitionId) ?
+        '#' + (land ? 'property-' : 'item-') + definitionId : '';
+      const destination = (land ? '/game/land?command=' : '/game/armory?category=' + category + '&command=') + result.commandId + anchor;
       location.assign(destination);
     } catch {
       feedback(trade.pending ? 'Connection interrupted. Your trade may have completed. Check / Retry Safely cannot charge twice.' :

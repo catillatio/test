@@ -48,7 +48,7 @@ test('one-tap Land buys/sales and 1, 30, 59 minute purchases keep the saved hour
   const page=await r.app.inject({method:'GET',url:'/game/land',headers:{cookie:a.cookie}});assert.doesNotMatch(page.body,/name="preview"/);
   const key=randomUUID(),post={propertyId:'smallholding',quantity:'1',csrf:a.csrf,commandId:key};
   const responses=await Promise.all([r.app.inject({method:'POST',url:'/game/land/buy',headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:post}),r.app.inject({method:'POST',url:'/game/land/buy',headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:post})]);
-  assert.ok(responses.every(response=>response.statusCode===303));assert.ok(responses.every(response=>String(response.headers.location).includes('/game/purchases/')));assert.equal((await r.me(a)).land.properties[0]!.owned,5);
+  assert.ok(responses.every(response=>response.statusCode===303));assert.ok(responses.every(response=>String(response.headers.location).includes('/game/land?command=')));assert.equal((await r.me(a)).land.properties[0]!.owned,5);
  }finally{await r.close();}
 });
 test('upcoming payment matches authoritative purse movement with prepaid, wallet-funded, suspended and negative upkeep',{skip},async()=>{

@@ -13,13 +13,13 @@ test('all three equipment categories and Land have keyboard-free controls; durab
   }
   for(const [url,payload] of [['/game/armory/buy',{itemId:'squires-blade',quantity:2}],['/game/land/buy',{propertyId:'smallholding',quantity:2}]] as const){
    const key=randomUUID();const response=await r.app.inject({method:'POST',url,headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:{...payload,csrf:a.csrf,commandId:key}});
-   assert.equal(response.statusCode,303,response.body);assert.equal(response.headers.location,'/game/purchases/'+key);
-   const before=await r.me(a),page=await r.app.inject({method:'GET',url:String(response.headers.location),headers:{cookie:a.cookie}});
+   assert.equal(response.statusCode,303,response.body);assert.equal(response.headers.location,(url.includes('armory')?'/game/armory?category=weapon&command='+key+'#item-squires-blade':'/game/land?command='+key+'#property-smallholding'));
+   const before=await r.me(a),page=await r.app.inject({method:'GET',url:'/game/purchases/'+key,headers:{cookie:a.cookie}});
    assert.equal(page.statusCode,200,page.body);assert.match(page.body,/Buy More/);assert.match(page.body,/Purchased <strong>2<\/strong>/);assert.match(page.body,/data-quantity-plus/);
    assert.ok(!page.body.includes('value="'+key+'"'),'Receipt reuses no submitted command ID.');
-   await r.app.inject({method:'GET',url:String(response.headers.location),headers:{cookie:a.cookie}});assert.equal((await r.me(a)).gold,before.gold);
+   await r.app.inject({method:'GET',url:'/game/purchases/'+key,headers:{cookie:a.cookie}});assert.equal((await r.me(a)).gold,before.gold);
    const replay=await r.app.inject({method:'POST',url,headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:{...payload,csrf:a.csrf,commandId:key}});assert.equal(replay.statusCode,303);assert.equal((await r.me(a)).gold,before.gold);
-   const denied=await r.app.inject({method:'GET',url:String(response.headers.location),headers:{cookie:b.cookie}});assert.equal(denied.statusCode,404);
+   const denied=await r.app.inject({method:'GET',url:'/game/purchases/'+key,headers:{cookie:b.cookie}});assert.equal(denied.statusCode,404);
   }
   const oldKey=randomUUID(),oldPayload={propertyId:'smallholding',quantity:1};
   await r.ok(a,'/api/v1/land/purchases',oldPayload,oldKey);

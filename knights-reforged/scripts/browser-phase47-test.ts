@@ -41,6 +41,7 @@ try{
  checks.push('All 17 meaningful cues decode to non-silent segments; ordinary navigation stays silent; one sprite request; repeated confirmed-action events produce one sound.');
 
  await page.goto(origin+'/game/armory');await action(page.getByRole('button',{name:"Buy Squire's Blade",exact:true}));
+ await page.locator('.market-purchase-feedback a').click();await page.waitForURL('**/game/purchases/**');
  const receipt=page.url(),more=page.locator('.buy-more-form'),quantity=more.locator('[name="quantity"]');await more.getByRole('button',{name:"Select 5 Squire's Blade",exact:true}).click();assert.equal(await quantity.inputValue(),'5');
  await page.clock.install();await page.clock.fastForward('03:00:00');assert.equal(page.url(),receipt);assert.equal(await quantity.inputValue(),'5');assert.equal(await page.getByRole('button',{name:"Buy more Squire's Blade",exact:true}).isVisible(),true);
  await page.evaluate(async()=>{const response=await fetch('/api/v1/me');const payload=await response.json();document.dispatchEvent(new CustomEvent('realm-state',{detail:payload.state}));document.dispatchEvent(new Event('visibilitychange'));window.dispatchEvent(new Event('online'));});assert.equal(await quantity.inputValue(),'5');await page.reload();assert.equal(await quantity.inputValue(),'5');assert.equal(await more.getByRole('button',{name:'Check / Retry Safely',exact:true}).isVisible(),false);await shot('390-armory-buy-more');

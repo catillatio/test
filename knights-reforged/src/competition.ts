@@ -19,7 +19,7 @@ export async function hallOfChampions(db:Database,viewerId:string,selection?:unk
  const order=`s.${column} DESC,${level?'s.xp DESC,':''}s.created_at,s.character_id`;
  return transaction(db,async sql=>{
   await sql.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY');
-  const rows=(await sql.query(`SELECT s.character_id AS id,c.name,s.${column}::text AS score${level?',s.xp::text AS xp':''}
+  const rows=(await sql.query(`SELECT s.character_id AS id,c.name,c.attained_level AS level,s.${column}::text AS score${level?',s.xp::text AS xp':''}
    FROM champion_standings s JOIN characters c ON c.id=s.character_id WHERE ${filter} ORDER BY ${order} LIMIT 20`)).rows;
   const mine=(await sql.query(`SELECT s.${column}::text AS score${level?',s.xp::text AS xp':''},s.created_at::text AS created_at,s.character_id
    FROM champion_standings s WHERE s.character_id=$1 AND ${filter}`,[viewerId])).rows[0];
@@ -29,7 +29,7 @@ export async function hallOfChampions(db:Database,viewerId:string,selection?:unk
    ownRank=(await sql.query(`SELECT (count(*)+1)::text AS rank FROM champion_standings s WHERE ${filter} AND (${ahead})`,
     level?[mine.score,mine.created_at,viewerId,mine.xp]:[mine.score,mine.created_at,viewerId])).rows[0]!.rank;
   }
-  return {category,entries:rows.map((row,index)=>({id:row.id as string,name:row.name as string,score:row.score as string,xp:row.xp as string|undefined,rank:index+1,self:row.id===viewerId})),
+  return {category,entries:rows.map((row,index)=>({id:row.id as string,name:row.name as string,level:Number(row.level),score:row.score as string,xp:row.xp as string|undefined,rank:index+1,self:row.id===viewerId})),
    own:mine&&ownRank?{rank:ownRank,score:mine.score as string,xp:mine.xp as string|undefined}:null};
  });
 }

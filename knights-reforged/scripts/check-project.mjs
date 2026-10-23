@@ -136,7 +136,7 @@ const guideSource=stripTypeScriptTypes(read('src/guide.ts'),{mode:'transform'});
 const {guideSteps}=await import('data:text/javascript;base64,'+Buffer.from(guideSource).toString('base64'));
 const tutorialExperience=status=>({tutorial:{status,position:7,completed:6,replaying:false,completedAt:status==='completed'?now:null,steps:guideSteps.map(step=>({...step,done:step.id!=='land'&&step.id!=='skills'}))},achievements:[]});
 const cases=[
- {name:'champions',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[0],entries:[{id:playerId,name:'Arthur of the Vale',rank:1,score:'21',self:true}],own:{rank:'1',score:'21'}}})},
+ {name:'champions',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[0],entries:[{id:playerId,name:'Arthur of the Vale',level:3,rank:1,score:'21',self:true}],own:{rank:'1',score:'21'}}})},
  {name:'champions-empty',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[1],entries:[],own:null}})},
  {name:'tutorial-introduction',data:fixture('tutorial',{experience:tutorialExperience('not_started')})},
  {name:'tutorial-land-lesson',data:fixture('tutorial',{experience:tutorialExperience('active')})},

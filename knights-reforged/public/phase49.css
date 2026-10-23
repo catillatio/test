@@ -76,6 +76,33 @@
 }
 .property-art-49-0 { background-image: url('art/properties-49/wyrmcrest-keep.webp'); }
 .property-art-49-1 { background-image: url('art/properties-49/gold-mine.webp'); }
+/* Phase 5.1A: only the remaining tutorial/reward surfaces. Resource bars,
+   semantic success/error text, motion preferences and approved layouts stay. */
+.kingdoms-ui.realm-remaster :is(.guide-welcome,.guide-lesson,.quest-result,.achievement-row,.achievement-toast) {
+  background: linear-gradient(110deg,#262421ed,#111111f2);
+}
+.kingdoms-ui.realm-remaster .achievement-row.is-locked { background: #151515e8; }
+.kingdoms-ui.realm-remaster .tutorial-complete {
+  background: radial-gradient(ellipse at top,#95712d40,transparent 75%),linear-gradient(#292622f8,#111111f5);
+}
+.kingdoms-ui.realm-remaster :is(.tutorial-success-note,.guide-done) {
+  background: #29251ef0; border-color: #a18b59;
+}
+.kingdoms-ui.realm-remaster .achievement-emblem {
+  background: linear-gradient(135deg,#c7ad60,#494038 35%,#202020 70%,#9c7939);
+}
+.kingdoms-ui.realm-remaster :is(.achievement-emblem.rank-3,.achievement-emblem.rank-4,.achievement-emblem.rank-5) {
+  background: linear-gradient(135deg,#e2c362,#63594b 40%,#252321 65%,#c9a34e);
+}
+.kingdoms-ui.realm-remaster .champion-row .player-link small { margin-top: 1px; }
+.kingdoms-ui.realm-remaster .champion-row .champion-name small { display: inline; margin-left: 4px; }
+.kingdoms-ui.realm-remaster .champion-row .champion-level { color: #d6ccba; font-size: 11px; }
+.kingdoms-ui.realm-remaster .market-purchase-feedback {
+  margin: 3px 0; border-left: 2px solid #b39150; background: #29251eef;
+  font: 11px/1.35 system-ui,sans-serif; color: #f0daa5;
+}
+.market-purchase-feedback a { display: flex; flex-direction: column; justify-content: center; min-height: 44px; min-width: 44px; padding: 3px 6px; color: inherit; }
+.market-purchase-feedback a span { font-size: 10px; color: #d5c5a0; }
 .kingdoms-ui.screen-land.signed-in .market-catalog .property-art-frame .property-art-49 {
   width: 100%; height: 100%; transform: none;
   filter: saturate(.82) brightness(.9) contrast(1.04);
