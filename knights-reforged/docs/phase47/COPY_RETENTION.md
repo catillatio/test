@@ -5,6 +5,10 @@ controller, worker, release protocol/proofs, migrations, startup, backup storage
 or gameplay. No production inventory, deletion, deployment, or configuration
 change was performed. The existing release process continues to retain copies.
 
+[The minimum integration proposal](COPY_RETENTION_INTEGRATION.md) separates future
+automatic registration, scheduled reporting and destructive authorization. The
+current default-off tooling alone does not achieve automatic storage control.
+
 ## Findings and storage accounting
 
 `worker.mjs` creates one `copyName(jobId)` database for each successful preparation.
@@ -64,7 +68,7 @@ or schedules them from the release path. They require explicit enablement.
   workflow states must be empty, and the exact originating protected release
   run/attempt/SHA must be completed. Unavailable/denied/malformed evidence blocks
   deletion; no retries, dispatches, provider writes or response logging occur.
-* Cleanup requires a separate, dedicated Ed25519 owner signature over the exact
+* Cleanup requires a separately registered database permit **and** a dedicated Ed25519 owner signature over the exact
   dry-run plan hash, current-state hash, scope and approval ID. Public-key DER
   fingerprints must match the configured retention key and differ from the release
   key. Private PEMs are rejected in verification configuration. The authorization
@@ -125,12 +129,17 @@ the production release workflow. Creating an execution channel needs owner revie
    Confirm its target before executing. Installation is transactional and refuses
    an existing installation instead of silently replacing guards. It is not
    idempotent bootstrap; reruns require inspection. No game DB is touched.
-3. Set the `kc_retention_runtime` password through the trusted channel's secure
+3. Set separate `kc_retention_runtime` and `kc_retention_authorizer` passwords
+   through the trusted channel's secure
    password facility. Grant no server-file, superuser, CREATEDB, CREATEROLE,
    replication, bypass-RLS, pg_monitor or broad data-reader roles. Use a separate
    privileged bootstrap/import credential, never the runtime password for setup.
 4. `kc_retention_owner` owns the catalog, append-only tables and functions;
-   runtime cannot own, replace, alter, truncate or rewrite them. The runtime can
+   runtime cannot own, replace, alter, truncate or rewrite them. The separate
+   `kc_retention_authorizer` is also non-owning: it may SELECT metadata and INSERT
+   only permit input columns; it cannot DROP databases, modify audit rows,
+   register provenance, pin/unpin, change guards or set registration actor/time.
+   The runtime can
    SELECT metadata and execute only the append-event function. The command verifies
    installed guard bodies, owners, trigger flags and effective role/table/schema
    privileges before use.
@@ -208,7 +217,8 @@ The clean runtime environment supplies `NODE_ENV=production`,
 `RAILWAY_SERVICE_ID`, `KINGDOM_RETENTION_PG_SERVICE_ID`,
 `KINGDOM_RETENTION_WORKER_ADMIN_DATABASE`,
 `KINGDOM_RETENTION_DATABASE_URL` (private admin database, `kc_retention_runtime`),
-and the retention public key. Cleanup also requires an ephemeral `GH_TOKEN` with
+and the retention public key. Runtime rejects both bootstrap and authorizer
+connection variables. Cleanup also requires an ephemeral `GH_TOKEN` with
 read-only Actions access to this repository; it is sent only to fixed GitHub
 read endpoints, never to the public health endpoint. No Railway API token is
 needed by retention. No `DATABASE_URL`, release signing secret, restore
@@ -237,7 +247,26 @@ node deployment/release/retention/authorize.mjs \
 ```
 
 Transfer only the short-lived approval and public metadata through the trusted
-channel. Then, before the state/signature expires:
+channel. **Before runtime cleanup**, a separately isolated, trusted authorizer
+session uses only `KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL` (private maintenance
+database, login `kc_retention_authorizer`), the public verification key and the
+same scope/execution identity variables. It must receive neither runtime nor
+bootstrap credentials, release/owner signing keys, or source database URLs:
+
+```bash
+node deployment/release/retention/permit.mjs \
+  --scope scope.json --state state.json --plan approved-plan.json \
+  --approval approval.txt
+```
+
+This command validates the signature before connecting and again before COMMIT.
+It registers permissions only; it never changes database ownership or drops a
+database. Do not place its credential on the cleanup service/runner and merely
+remove an environment variable in the child: the isolation must be real. Withhold
+that credential from normal runtime. If no trusted separate channel is available,
+stop and keep cleanup inactive. Then, in the runtime-only session and before the
+same state/signature expires (arrange approvals/execution readiness before signing;
+never extend the validity window to accommodate provisioning or queue delays):
 
 ```bash
 node deployment/release/retention/cli.mjs cleanup \
@@ -251,14 +280,73 @@ are suppressed. Database names/sizes/reasons are in the restricted JSON report.
 Changing the plan/state requires a new owner approval. This signature cannot
 satisfy any release/backup/recovery/promotion gate.
 
+## Audit hardening and its limits
+
+At `99d2eaa`, runtime could call `record_event` with arbitrary approval IDs,
+`deleted`/`absent` outcomes and byte figures, without a signature or intent. The
+rows were append-only but were not authenticated deletion evidence. This revision
+closes that path with an additional **non-destructive permit registration** step:
+
+* A separate restricted authorizer validates the exact Ed25519 signature and scope
+  in `permit.mjs`, rechecks current target eligibility and inserts immutable
+  permits with their exact target plans transactionally. Concurrent identical
+  registrations are idempotent; mismatches roll back. The normal runtime cannot insert, edit, extend
+  or replace these permits. Registration actors/times are database defaults.
+* The permit stores the complete signed envelope, canonical plan/state hashes,
+  original plan/state, actual cluster identifier, maintenance database, expiry,
+  exact names/OIDs and evidence hashes. An auditor can independently validate the
+  retained signature and target bindings after expiry. Do not publish these
+  short-lived capabilities or private operator reports.
+* SQL requires a registered exact permit/target and the same maintenance-database
+  exclusive advisory lock (a shared lock is rejected). Guard functions explicitly put
+  `pg_catalog` before `pg_temp`; temporary catalog shadows cannot fake locks or
+  database absence. New intents require an unexpired grant, the exact existing
+  owner/name/OID, no connections and no durable/current/pending pin. Outcomes require a
+  preceding durable intent. Only one terminal outcome is permitted per target;
+  conflicting or out-of-order events fail. A refusal is terminal: a fresh owner
+  authorization is required to attempt again.
+* `deleted`/`absent` are accepted only when **both** the original OID and name are
+  absent. Rename/replacement/still-existing cases fail. A refused outcome requires
+  the original database to remain present. Repeated compatible terminal requests
+  return the stored observation without adding rows or new reclaimed-byte credit.
+  The same original database OID may receive deletion credit only once across all
+  approvals; competing old intents must reconcile as zero-byte absence.
+* The byte argument has been removed. PostgreSQL measures `pg_database_size` at
+  intent; `deleted` carries that recorded measurement, and `absent`/`refused` carry
+  zero. Input plan estimates cannot become audit byte figures. SQL outcomes may
+  finish observing an existing intent after expiry; they cannot start a new one.
+  The normal CLI independently enforces current signature/state freshness.
+
+This is still a **database-state observation journal**, not complete proof of
+causality, execution of the approved application path, or physical volume bytes
+reclaimed. `refused` records a caller-reported abandonment/failure with the database
+still present, not independent proof that PostgreSQL rejected DROP. PostgreSQL
+without an added cryptographic verifier does not check Ed25519 inside SQL: the
+separate authorizer is trusted to validate it. A compromised authorizer could
+insert invalid grants; their stored envelopes would fail independent signature
+validation. Bootstrap/database superusers can also alter guard definitions and
+are outside the restricted-runtime threat boundary.
+
+Most importantly, runtime still inherits **native database ownership**. It can
+issue DROP directly on any database owned by `kc_release_copy_owner`, bypassing
+this CLI, permit check and journal. Append-only SQL cannot compel database owners
+to use a wrapper, and DROP DATABASE cannot be executed inside a transactional
+security-definer function. This patch does not claim otherwise. Do not automatically
+grant it ownership of every new/pending/current copy. Owner acceptance of this
+residual risk is required; if unacceptable, remove ownership from the ordinary
+runtime and design a separate constrained privileged executor/broker. That is an
+additional architecture review, not implemented here. Existing player/source
+cluster access and release/backup authorities are not granted to either role.
+
 ## Retry, recovery and space reporting
 
 An autocommitted intent is written **before** each PostgreSQL DROP, followed by an
 immutable outcome. DROP DATABASE is not transactional with the journal. No claim
 of transactional rollback or undelete is made. If a process dies after DROP but
-before its outcome, retry within the same authorization window reconciles only an
-absent database with a matching exact-plan/OID intent. It records `absent` and
-reports zero newly measured reclaimed bytes. A reappeared/different-OID database
+before its outcome, retry within the same authorization window and registered
+permit reconciles only an absent database with a matching exact-plan/OID intent. It records `absent` and
+reports zero newly measured reclaimed bytes. A completed terminal event is never
+replaced by a second outcome. A reappeared/different-OID database
 fails closed. If authorization expires, stop and inspect the journal before
 requesting a fresh reviewed plan; never extend or bypass a signature.
 
@@ -277,8 +365,10 @@ or point production at a guessed replacement.
 Focused tests cover selection, conservative limits/age, public manifest evidence,
 exact key/plan/state scope, active connections, failed/unclosed jobs, unknown
 metadata, adversarial PostgreSQL grants/guard replacement, wrong cluster,
-simultaneous locks, late-connection DROP refusal, lost permissions, interrupted
-DROP/outcome retry, and source preservation (450 synthetic bots plus two humans,
+exclusive versus shared locks, temporary-catalog spoofing, unregistered/forged
+permits, ordered terminal outcomes, server-measured bytes, duplicate-credit
+rejection, isolated authorizer grants, transaction rollback, late-connection DROP
+refusal, lost permissions, interrupted DROP/outcome retry, and source preservation (450 synthetic bots plus two humans,
 saved wallets, Vault, sessions, holdings and history). Existing comprehensive CI
 also runs the real populated-game migration/replay, encrypted backup, independent
 restore, release/controller, browser and container regressions.
@@ -299,3 +389,13 @@ new execution service, workflow dispatch or automatic cleanup is included here.
 Automatic provenance collection/finalization, shared-concurrency execution and
 unattended deletion require a
 separately reviewed integration; current release behavior remains untouched.
+
+The catalog format changed during draft review. If a previous review version was
+installed in any test environment, use a fresh disposable fixture or prepare a
+separately reviewed catalog upgrade. Do not rerun bootstrap over an existing
+installation or replace guards in production as part of ordinary deployment.
+
+Older append-only rows from the pre-hardening review format must not be relabeled
+as authenticated observations. Preserve their original trust classification if
+an upgrade is ever reviewed. Arrange private execution readiness and approvals
+before signing; do not extend expiration windows to accommodate job setup.

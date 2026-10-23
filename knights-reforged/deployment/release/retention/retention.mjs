@@ -6,7 +6,7 @@ import {checkScope,checkState,checkApproval,policy,hash,copyPattern,evidenceReco
 // The SAME session-level lock as worker.mjs. Never terminate connections or
 // use DROP ... FORCE. A concurrently opened connection makes PostgreSQL refuse.
 export const releaseLock=61824087;
-const roles=['kc_retention_runtime','kc_release_copy_owner','kc_retention_owner'];
+const roles=['kc_retention_runtime','kc_release_copy_owner','kc_retention_owner','kc_retention_authorizer'];
 const qname=name=>{assert.match(name,copyPattern);return '"'+name+'"';};
 const bytes=value=>{assert.match(String(value),/^(0|[1-9][0-9]*)$/);return BigInt(value);};
 
@@ -24,8 +24,8 @@ export async function checkCatalog(client){
  const tables=(await client.query(`SELECT c.relname,r.rolname AS owner,
   has_table_privilege(current_user,c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') AS writable
   FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_roles r ON r.oid=c.relowner
-  WHERE n.nspname='release_retention' AND c.relkind='r' ORDER BY c.relname`)).rows;
- assert.deepEqual(tables,[{relname:'audit',owner:roles[2],writable:false},{relname:'copies',owner:roles[2],writable:false},{relname:'pins',owner:roles[2],writable:false}]);
+  WHERE n.nspname='release_retention' AND c.relkind='r' ORDER BY c.relname COLLATE "C"`)).rows;
+ assert.deepEqual(tables,[{relname:'audit',owner:roles[2],writable:false},{relname:'copies',owner:roles[2],writable:false},{relname:'permits',owner:roles[2],writable:false},{relname:'pins',owner:roles[2],writable:false}]);
  // Verify installed guard bodies and attributes against the reviewed source,
  // not merely that functions with familiar names happen to exist.
  const sql=await readFile(new URL('./bootstrap.sql',import.meta.url),'utf8');
@@ -34,17 +34,18 @@ export async function checkCatalog(client){
   WHERE n.nspname='release_retention' ORDER BY p.proname`)).rows;
  assert.equal(functions.length,2);
  for(const f of functions){
-  assert.equal(f.owner,roles[2]);assert.equal(f.prosecdef,f.proname==='record_event');assert.deepEqual(f.proconfig,['search_path=pg_catalog']);
+  assert.equal(f.owner,roles[2]);assert.equal(f.prosecdef,f.proname==='record_event');assert.deepEqual(f.proconfig,['search_path=pg_catalog, pg_temp']);
   const match=sql.match(new RegExp('CREATE FUNCTION release_retention\\.'+f.proname+'\\([^]*? AS \\$\\$([^]*?)\\$\\$;'));
   assert.ok(match);assert.equal(f.prosrc,match[1]);
  }
  const triggers=(await client.query(`SELECT t.tgname,t.tgenabled,t.tgtype,p.proname FROM pg_trigger t
   JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_proc p ON p.oid=t.tgfoid
-  WHERE n.nspname='release_retention' AND NOT t.tgisinternal ORDER BY t.tgname`)).rows;
- assert.deepEqual(triggers,['audit_immutable','copies_immutable','pins_immutable'].map(tgname=>({tgname,tgenabled:'O',tgtype:58,proname:'no_rewrite'})));
+  WHERE n.nspname='release_retention' AND NOT t.tgisinternal ORDER BY t.tgname COLLATE "C"`)).rows;
+ assert.deepEqual(triggers,['audit_immutable','copies_immutable','permits_immutable','pins_immutable'].map(tgname=>({tgname,tgenabled:'O',tgtype:58,proname:'no_rewrite'})));
 }
 export async function lockCluster(client,scope){
  checkScope(scope);
+ await client.query('SET search_path=pg_catalog,pg_temp');
  const row=(await client.query(`SELECT current_database() AS database,(SELECT system_identifier::text FROM pg_control_system()) AS cluster`)).rows[0];
  assert.equal(row.database,scope.adminDatabase);
  assert.equal(createHash('sha256').update(row.cluster).digest('hex'),scope.clusterDigest);
@@ -103,13 +104,15 @@ export function makePlan(snapshot,state,scope,limits={}){
 }
 export async function inspect(client,state,scope,limits){return makePlan(await snapshot(client),state,scope,limits);}
 export async function cleanup(client,{scope,state,plan,approval:encoded,verifyKey,beforeDelete,now=()=>Date.now()}){
- assert.equal((await client.query('SELECT EXISTS(SELECT 1 FROM pg_locks WHERE locktype=\'advisory\' AND classid=0 AND objid=61824087 AND objsubid=1 AND pid=pg_backend_pid() AND granted) AS held')).rows[0].held,true);
+ assert.equal((await client.query('SELECT EXISTS(SELECT 1 FROM pg_locks WHERE locktype=\'advisory\' AND classid=0 AND objid=61824087 AND objsubid=1 AND mode=\'ExclusiveLock\' AND pid=pg_backend_pid() AND granted) AS held')).rows[0].held,true);
  await checkCatalog(client);
  assert.equal(typeof beforeDelete,'function','Live release coordination is required.');
  const approval=checkApproval(encoded,verifyKey,plan,state,scope,{now:now()});
  assert.equal(plan.protocol,retentionProtocol);assert.deepEqual(plan.scope,scope);policy(plan.policy);
  assert.equal(plan.stateSha256,hash(state));assert.ok(Array.isArray(plan.rows)&&plan.rows.length<=10000);
  assert.equal(new Set(plan.rows.map(row=>row.name)).size,plan.rows.length);
+ const grant=(await client.query('SELECT encoded_approval,plan_sha256,state_sha256,plan,state FROM release_retention.permits WHERE approval_id=$1',[approval.id])).rows[0];
+ assert.ok(grant);assert.equal(grant.encoded_approval,encoded);assert.equal(grant.plan_sha256,hash(plan));assert.equal(grant.state_sha256,hash(state));assert.equal(hash(grant.plan),hash(plan));assert.equal(hash(grant.state),hash(state));
  const result={protocol:retentionProtocol,approvalId:approval.id,planSha256:hash(plan),dropped:[],alreadyAbsent:[],measuredDatabaseBytesRemoved:'0'};
  let removed=0n;
  for(const target of plan.rows.filter(row=>row.eligible)){
@@ -120,10 +123,10 @@ export async function cleanup(client,{scope,state,plan,approval:encoded,verifyKe
   const current=await inspect(client,state,scope,plan.policy),row=current.rows.find(row=>row.name===target.name);
   const prior=(await client.query(`SELECT event,plan_sha256,database_oid::text AS oid FROM release_retention.audit WHERE approval_id=$1 AND name=$2`,[approval.id,target.name])).rows;
   assert.ok(prior.every(event=>event.plan_sha256===hash(plan)&&event.oid===target.oid));
-  const record=async(event,amount)=>client.query('SELECT release_retention.record_event($1,$2,$3,$4,$5,$6)',[approval.id,hash(plan),target.name,target.oid,event,amount]);
+  const record=async event=>(await client.query('SELECT release_retention.record_event($1,$2,$3,$4,$5) AS bytes',[approval.id,hash(plan),target.name,target.oid,event])).rows[0].bytes;
   if(!row){
    assert.ok(prior.some(event=>event.event==='intent'),'Never infer a deletion without a matching durable intent.');
-   await record('absent','0');result.alreadyAbsent.push(target.name);continue;
+   await record('absent');result.alreadyAbsent.push(target.name);continue;
   }
   assert.equal(row.eligible,true);assert.equal(row.oid,target.oid);assert.equal(row.evidenceSha256,target.evidenceSha256);
   assert.ok(!prior.some(event=>['deleted','absent'].includes(event.event)),'A completed target must not reappear.');
@@ -131,12 +134,12 @@ export async function cleanup(client,{scope,state,plan,approval:encoded,verifyKe
   await beforeDelete({jobId:provenance.evidence.request.jobId,evidence:provenance.evidence},state);
   // Recheck connections after the external read-only guards, immediately before DROP.
   assert.equal((await client.query('SELECT count(*)::int AS n FROM pg_stat_activity WHERE datname=$1',[row.name])).rows[0].n,0);
-  await record('intent',row.bytes); // Autocommit BEFORE the nontransactional DROP.
+  await record('intent'); // Autocommit BEFORE the nontransactional DROP.
   checkApproval(encoded,verifyKey,plan,state,scope,{now:now()});
   try{await client.query('DROP DATABASE '+qname(row.name));}
-  catch{await record('refused','0');throw new Error('Retention deletion refused.');}
+  catch{await record('refused');throw new Error('Retention deletion refused.');}
   assert.equal((await client.query('SELECT count(*)::int AS n FROM pg_database WHERE datname=$1',[row.name])).rows[0].n,0);
-  await record('deleted',row.bytes);removed+=bytes(row.bytes);result.dropped.push(row.name);
+  const measured=await record('deleted');removed+=bytes(measured);result.dropped.push(row.name);
  }
  result.measuredDatabaseBytesRemoved=removed.toString();
  return result;

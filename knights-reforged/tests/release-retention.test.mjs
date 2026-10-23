@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {generateKeyPairSync,randomUUID} from 'node:crypto';
-import {policy,hash,checkScope,checkEnvironment,checkApproval,evidenceRecord,retentionProtocol} from '../deployment/release/retention/protocol.mjs';
+import {policy,hash,checkScope,checkEnvironment,checkAuthorizerEnvironment,checkApproval,evidenceRecord,retentionProtocol} from '../deployment/release/retention/protocol.mjs';
 import {makePlan} from '../deployment/release/retention/retention.mjs';
 import {copyName} from '../deployment/release/protocol.mjs';
 
@@ -67,11 +67,20 @@ test('authorization binds exact plan, live-state attestation, target and indepen
 test('environment accepts only the exact private administrative target and runtime role',()=>{
  const env={NODE_ENV:'production',KINGDOM_RETENTION_ENABLED:'1',RAILWAY_PROJECT_ID:scope.projectId,RAILWAY_ENVIRONMENT_ID:scope.environmentId,RAILWAY_SERVICE_ID:scope.operatorServiceId,KINGDOM_RETENTION_PG_SERVICE_ID:scope.verificationServiceId,KINGDOM_RETENTION_WORKER_ADMIN_DATABASE:scope.workerAdminDatabase,KINGDOM_RETENTION_DATABASE_URL:'postgres://kc_retention_runtime:fixture@copy.railway.internal/kingdom_release_retention'};
  assert.ok(checkEnvironment(env,scope));
- for(const overrides of [{DATABASE_URL:'anything'},{KINGDOM_RELEASE_SIGNING_KEY:'anything'},{KINGDOM_RETENTION_ENABLED:'0'},{RAILWAY_SERVICE_ID:scope.gameServiceId},{NODE_TLS_REJECT_UNAUTHORIZED:'0'},{KINGDOM_RETENTION_DATABASE_URL:'postgres://kc_retention_runtime:x@game.railway.internal/kingdom_release_retention'},{KINGDOM_RETENTION_DATABASE_URL:'postgres://postgres:x@copy.railway.internal/kingdom_release_retention'}])assert.throws(()=>checkEnvironment({...env,...overrides},scope));
+ for(const overrides of [{KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL:'anything'},{KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL:'anything'},{DATABASE_URL:'anything'},{KINGDOM_RELEASE_SIGNING_KEY:'anything'},{KINGDOM_RETENTION_ENABLED:'0'},{RAILWAY_SERVICE_ID:scope.gameServiceId},{NODE_TLS_REJECT_UNAUTHORIZED:'0'},{KINGDOM_RETENTION_DATABASE_URL:'postgres://kc_retention_runtime:x@game.railway.internal/kingdom_release_retention'},{KINGDOM_RETENTION_DATABASE_URL:'postgres://postgres:x@copy.railway.internal/kingdom_release_retention'}])assert.throws(()=>checkEnvironment({...env,...overrides},scope));
 });
 test('manifest identity and independent recovery checks cannot be bypassed',()=>{
  const data=fixture(1);assert.equal(evidenceRecord(data.catalog.evidence,scope).name,data.database.name);
  for(const change of [x=>x.report.restoreClusterDigest=scope.sourceClusterDigest,x=>x.request.urls={},x=>x.request.gameServiceId=randomUUID(),x=>x.report.backup.exportRoundTripVerified=false,x=>x.backupKey+='other']){
   const evidence=structuredClone(data.catalog.evidence);change(evidence);assert.throws(()=>evidenceRecord(evidence,scope));
  }
+});
+
+test('permit authorizer has a separate private credential and cannot share runtime/bootstrap secrets',()=>{
+ const env={NODE_ENV:'production',KINGDOM_RETENTION_ENABLED:'1',RAILWAY_PROJECT_ID:scope.projectId,RAILWAY_ENVIRONMENT_ID:scope.environmentId,RAILWAY_SERVICE_ID:scope.operatorServiceId,
+  KINGDOM_RETENTION_PG_SERVICE_ID:scope.verificationServiceId,KINGDOM_RETENTION_WORKER_ADMIN_DATABASE:scope.workerAdminDatabase,
+  KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL:'postgres://kc_retention_authorizer:fixture@copy.railway.internal/kingdom_release_retention'};
+ assert.ok(checkAuthorizerEnvironment(env,scope));
+ for(const overrides of [{KINGDOM_RETENTION_DATABASE_URL:'anything'},{KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL:'anything'},{DATABASE_URL:'anything'},
+  {KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL:env.KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL.replace('kc_retention_authorizer','kc_retention_runtime')}])assert.throws(()=>checkAuthorizerEnvironment({...env,...overrides},scope));
 });

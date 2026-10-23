@@ -27,16 +27,24 @@ export function checkScope(scope){
  assert.equal(scope.adminDatabase,scope.workerAdminDatabase,'Retention must use the SAME maintenance database as the release worker advisory lock.');httpsOrigin(scope.origin);
  return scope;
 }
-export function checkEnvironment(env,scope){
+function connection(env,scope,variable,role){
  checkScope(scope);
  assert.equal(env.KINGDOM_RETENTION_ENABLED,'1');assert.equal(env.NODE_ENV,'production');
  assert.notEqual(env.NODE_TLS_REJECT_UNAUTHORIZED,'0');
  for(const key of ['DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL','KINGDOM_RELEASE_SIGNING_KEY','KINGDOM_RELEASE_JOB_REQUEST','KINGDOM_ALPHA_INITIALIZE','RUN_MIGRATIONS','PGHOST','PGPORT','PGDATABASE','PGUSER','PGPASSWORD','PGSERVICE','PGSERVICEFILE','PGOPTIONS','PGSSLMODE'])assert.ok(!env[key]);
  for(const [key,variable] of [['projectId','RAILWAY_PROJECT_ID'],['environmentId','RAILWAY_ENVIRONMENT_ID'],['operatorServiceId','RAILWAY_SERVICE_ID'],['verificationServiceId','KINGDOM_RETENTION_PG_SERVICE_ID'],['workerAdminDatabase','KINGDOM_RETENTION_WORKER_ADMIN_DATABASE']])assert.equal(env[variable],scope[key]);
- const target=privateDatabase(env.KINGDOM_RETENTION_DATABASE_URL);
+ const target=privateDatabase(env[variable]);
  assert.equal(target.host,scope.host);assert.equal(target.name,scope.adminDatabase);
- assert.equal(decodeURIComponent(target.url.username),'kc_retention_runtime');
+ assert.equal(decodeURIComponent(target.url.username),role);
  return target.url.href;
+}
+export function checkEnvironment(env,scope){
+ assert.ok(!env.KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL&&!env.KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL);
+ return connection(env,scope,'KINGDOM_RETENTION_DATABASE_URL','kc_retention_runtime');
+}
+export function checkAuthorizerEnvironment(env,scope){
+ assert.ok(!env.KINGDOM_RETENTION_DATABASE_URL&&!env.KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL);
+ return connection(env,scope,'KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL','kc_retention_authorizer');
 }
 export function evidenceRecord(evidence,scope){
  checkScope(scope);
