@@ -1,0 +1,9 @@
+# Original alpha branding and tool provenance
+
+`app/src/main/res/drawable/kingdom_crest.xml` is an original geometric crown-and-K shield authored for this repository. It supplies the adaptive launcher icon, native opening panel and Android 12+ system splash. No Storm8, Knights Reforged APK, game-runtime artwork, third-party recording, downloaded font or historical screenshot is bundled. Text uses Android's system fonts; the native splash has no audio.
+
+The standard Gradle wrapper scripts/JAR come from Gradle `v8.13.0` (Apache License 2.0); upstream copyright/license headers are retained in the scripts. Wrapper JAR SHA-256: `81a82aaea5abcc8ff68b3dfcb58b3c3c429378efd98e7433460610fecd7ae45f`. The wrapper properties pin Gradle 8.13 and its distribution SHA-256. The upstream license is retained in `LICENSES/gradle-Apache-2.0.txt`.
+
+Build-only dependencies: Android Gradle Plugin 8.13.2, Android API 36 / build-tools 36.0.0, JUnit 4.13.2 (Eclipse Public License 1.0), and its Hamcrest 1.3 test dependency (BSD). No third-party Android library is packaged in the application; the app uses platform Activity/WebView/widgets. SDK tools remain build tools, not bundled app content. CI pins all GitHub actions by full commit, Temurin JDK `17.0.20.1+1`, command-line tools archive `16111833`, AGP, Gradle and the requested SDK/build-tools versions. SDK platform patch revisions can be refreshed by Google's package repository; this is not a byte-reproducible SDK image or APK claim.
+
+The exact Temurin 17.0.20.1+1 JDK archive is downloaded from the official Adoptium GitHub release and verified **before extraction** against SHA-256 `3808d1d15e3ec6bd5b84057fb5d84c33d8a1536a258146bcea2e603fc726e08e`. This avoids the setup action’s inability to parse four-part Java patch versions. The JDK is build-only and never enters the APK.
