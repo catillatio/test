@@ -138,13 +138,20 @@ export async function createApp(options: { db: Database; config: Config; logger?
       notice = receipt?.result?.kind==='attack'?'Your battle is recorded. View it in Battles.':receipt?.result?.kind==='profile'?String(receipt.result.message).replace(/\b(Freeblade|Warden|Spellward)\b/g,key=>callingName(key)):receipt?.result?.message ?? null;
       actionResult = receipt?.result ?? null;
     }
+    // Confirmation is derived only from this account's durable receipt. Missing
+    // legacy metadata keeps the existing generic notice rather than invented data.
+    const purchaseData=actionResult?.data as {itemId?:string;propertyId?:string;itemName?:string;quantity?:number;goldSpent?:number}|undefined;
+    const purchaseEntry=screen==='armory'&&actionResult?.kind==='buy'?alpha.items.find(i=>i.id===purchaseData?.itemId):
+      screen==='land'&&actionResult?.kind==='land_buy'?alpha.properties.find(p=>p.id===purchaseData?.propertyId):null;
+    const purchaseFeedback=purchaseEntry&&Number.isSafeInteger(purchaseData?.quantity)&&Number(purchaseData?.quantity)>0&&Number.isSafeInteger(purchaseData?.goldSpent)&&Number(purchaseData?.goldSpent)>=0?
+      {id:purchaseEntry.id,name:purchaseData?.itemName??purchaseEntry.name,quantity:purchaseData!.quantity,goldSpent:purchaseData!.goldSpent,commandId:actionResult!.commandId}:null;
     const playerExperience=state?await experienceView(db,state.id):null;
     const board=data.bountyBoard as {activeCount?:number;nextExpiryAt?:string|null}|undefined;
     const counts=state&&['battle','bounties','bounty-new','bounty-confirm'].includes(screen)?board?.activeCount!==undefined?{count:board.activeCount,nextExpiryAt:board.nextExpiryAt??null}:await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):{count:0,nextExpiryAt:null};
     const chosenRegion=regionFilter(query.area);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', {
-      screen, state,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,
+      screen, state,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,
@@ -226,15 +233,16 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const id=(request.params as {id:string}).id.toLowerCase();if(!uuid.safeParse(id).success)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
     const accountId=request.realmSession!.account_id!;
     const receipt=(await db.query("SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2 AND kind IN ('buy','land_buy')",[accountId,id])).rows[0]?.result;
-    if(!receipt?.data)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
+    if(!receipt)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
+    const saved=receipt.data??{};
     const state=await getState(db,accountId,config),land=receipt.kind==='land_buy';
-    const entry=land?state.land.properties.find(p=>p.id===receipt.data.propertyId):alpha.items.find(i=>i.id===receipt.data.itemId);
-    if(!entry)throw new GameError('PURCHASE_NOT_FOUND','This historical purchase has no current catalog entry. Its saved transaction remains intact.',404);
+    const entry=land?state.land.properties.find(p=>p.id===saved.propertyId):alpha.items.find(i=>i.id===saved.itemId);
+    if(!entry)return render(request,reply,'purchase',{title:'Saved purchase',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry:null,category:['weapon','armor','spell'].includes(saved.category)?saved.category:'weapon'}});
     const owned=land?(entry as CharacterState['land']['properties'][number]).owned:state.inventory.find(i=>i.id===entry.id)?.quantity??0;
     const available=state.level<entry.level?0:land?(entry as CharacterState['land']['properties'][number]).maxAffordable:Math.min(alpha.limits.transaction,alpha.limits.inventory-owned,Math.floor(state.gold/entry.price));
     const steps=land?(entry as CharacterState['land']['properties'][number]).priceSteps:Array.from({length:Math.max(1,available)},()=>entry.price);
     const costSteps=steps.map((_,i)=>steps.slice(0,i+1).reduce((n,p)=>n+p,0));
-    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry,receiptName:receipt.data.itemName??(land?alpha.properties.find(p=>p.id===entry.id)!.name:entry.name),owned,available,costSteps}});
+    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry,receiptName:saved.itemName??(land?alpha.properties.find(p=>p.id===entry.id)!.name:entry.name),owned,available,costSteps}});
   });
   app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config);
@@ -304,10 +312,17 @@ export async function createApp(options: { db: Database; config: Config; logger?
         if(route.kind==='quest_buy'&&!wantsJson(request))return reply.redirect('/game/quests/'+result.data!.questId+'/requirements?command='+result.commandId,303);
         if (wantsJson(request)) return { ...result, state: await getState(db, request.realmSession!.account_id!,config) };
         if(route.kind==='tutorial')return reply.redirect((input.action==='skip'?'/game/home':'/game/tutorial')+'?command='+result.commandId,303);
-        if((route.kind==='buy'&&result.data?.itemId&&typeof result.data.quantity==='number')||(route.kind==='land_buy'&&result.data?.propertyId&&typeof result.data.quantity==='number'))
-          return reply.redirect('/game/purchases/'+result.commandId,303);
-        // Replayed pre-4.3 receipts can lack item/quantity metadata. Preserve
-        // their original catalog confirmation instead of creating a broken receipt URL.
+        // Ordinary and bulk purchases return to their actual catalog item. The
+        // saved receipt remains separately accessible; API responses are unchanged.
+        if(route.kind==='buy'){
+          const item=alpha.items.find(i=>i.id===result.data?.itemId);
+          const category=item?.category??(['weapon','armor','spell'].includes(String(result.data?.category))?String(result.data!.category):'weapon');
+          return reply.redirect('/game/armory?category='+category+'&command='+result.commandId+(item?'#item-'+item.id:''),303);
+        }
+        if(route.kind==='land_buy'){
+          const property=alpha.properties.find(p=>p.id===result.data?.propertyId);
+          return reply.redirect('/game/land?command='+result.commandId+(property?'#property-'+property.id:''),303);
+        }
         if(route.kind==='comment')return reply.redirect('/game/players/'+result.data!.profileId+'?tab=comments&command='+result.commandId,303);
         if(route.kind==='social_report'||route.kind==='social_remove'){
           const location=result.data?.channel==='comment'&&result.data.profileId?'/game/players/'+result.data.profileId+'?tab=comments':'/game/home?feed=broadcasts';

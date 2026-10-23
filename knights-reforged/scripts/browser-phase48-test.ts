@@ -29,7 +29,7 @@ try{
  assert.equal(await page.locator('.market-catalog form[data-market-form] [name=quantity][value="1"]').count(),40);
  await shot('390-armory');const before=await me(),beforePosts=posts;
  await page.evaluate(()=>{const f=document.querySelector<HTMLFormElement>('#item-squires-blade form');f!.requestSubmit();f!.requestSubmit();});
- await page.waitForURL('**/game/purchases/**');const after=await me();assert.equal(after.gold,before.gold-5);assert.equal(posts-beforePosts,1);
+ await page.waitForURL('**/game/armory?category=weapon&command=*');const after=await me();assert.equal(after.gold,before.gold-5);assert.equal(posts-beforePosts,1);
  await page.reload();assert.equal((await me()).gold,after.gold);await shot('390-equipment-receipt');
  checks.push('Single-item purchase submits once, spends the catalog price, and receipt refresh awards nothing.');
  await visit('/game/armory?category=weapon&bulk=squires-blade#bulk-trade');const bulk=page.locator('.bulk-trades form').first();
@@ -40,7 +40,7 @@ try{
  let lost=false;await page.route('**/game/armory/buy',async route=>{if(!lost){lost=true;await route.fetch();await route.abort();}else await route.continue();});
  const beforeLost=await me();await bulk.getByRole('button',{name:"Buy selected Squire's Blade",exact:true}).click();await bulk.locator('.market-retry:not([hidden])').waitFor();
  const charged=await me();assert.equal(charged.gold,beforeLost.gold-25);assert.equal(await page.locator('#item-squires-blade form').first().getByRole('button',{name:"Buy Squire's Blade",exact:true}).isDisabled(),true);
- await bulk.locator('.market-retry').click();await page.waitForURL('**/game/purchases/**');assert.equal((await me()).gold,charged.gold);await page.unroute('**/game/armory/buy');
+ await bulk.locator('.market-retry').click();await page.waitForURL('**/game/armory?category=weapon&command=*');assert.equal((await me()).gold,charged.gold);await page.unroute('**/game/armory/buy');
  checks.push('Bulk intent survives simulated three-hour idle, online/visibility events and reload; lost committed response retries one receipt without another charge.');
  await visit('/game/land');await shot('390-land');
  const flow=page.locator('.gold-flow'),flowToggle=page.locator('.land-flow-head');
@@ -50,9 +50,9 @@ try{
  await flowToggle.blur();await shot('390-land-compact');await flowToggle.focus();await page.keyboard.press('Enter');assert.notEqual(await flow.getAttribute('open'),null);await flowToggle.blur();
  checks.push('Gold Flow can be opened and closed with the keyboard; its compact state shows at least four complete property rows at 390px.');
  const landBefore=await me();
- await page.getByRole('button',{name:'Buy Smallholding',exact:true}).click();await page.waitForURL('**/game/purchases/**');
+ await page.getByRole('button',{name:'Buy Smallholding',exact:true}).click();await page.waitForURL('**/game/land?command=*');
  assert.equal((await me()).land.properties.find((p:any)=>p.id==='smallholding').owned,4);assert.ok((await me()).gold<landBefore.gold);
- await shot('390-land-receipt');await page.getByRole('link',{name:'Return to Land',exact:true}).click();await page.waitForURL('**/game/land');
+ await shot('390-land-success');await page.locator('.market-purchase-feedback a').click();await page.waitForURL('**/game/purchases/**');await page.getByRole('link',{name:'Return to Land',exact:true}).click();await page.waitForURL('**/game/land');
  await page.getByRole('link',{name:'Bulk buy or sell Smallholding',exact:true}).click();await page.locator('#bulk-trade').waitFor();await shot('390-land-bulk');
  const sale=page.locator('.bulk-trades form').last();await sale.getByRole('button',{name:'Select 1 Smallholding',exact:true}).click();
  const quoted=await me(),refund=quoted.land.properties.find((p:any)=>p.id==='smallholding').saleRefundSteps[0];

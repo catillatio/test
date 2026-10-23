@@ -14,7 +14,13 @@ export function ownedProperties(state:CharacterState){
     const entry=old??{id:holding.propertyId,name:propertyName(holding.propertyId,holding.name),quantity:0,grossIncome:0,upkeep:0,illustration:catalog?.illustration,art:catalog?.art??'fields'};
     entry.quantity+=holding.quantity;entry.grossIncome+=holding.hourlyIncome;entry.upkeep+=holding.hourlyUpkeep;groups.set(holding.propertyId,entry);
   }
-  return [...groups.values()].sort((a,b)=>a.grossIncome-b.grossIncome||a.name.localeCompare(b.name));
+  const order=new Map(alpha.properties.map((property,index)=>[property.id,{level:property.level,index}]));
+  // Presentation only. Unknown historical IDs follow the catalog in stable ID
+  // order; their saved names, quantities and financial rates remain intact.
+  return [...groups.values()].sort((a,b)=>
+    (order.get(a.id)?.level??Number.MAX_SAFE_INTEGER)-(order.get(b.id)?.level??Number.MAX_SAFE_INTEGER)||
+    (order.get(a.id)?.index??Number.MAX_SAFE_INTEGER)-(order.get(b.id)?.index??Number.MAX_SAFE_INTEGER)||
+    (a.id<b.id?-1:a.id>b.id?1:0));
 }
 export async function publicProfile(db:Database,characterId:string,runtime:GameRuntime={}){
   return transaction(db,async sql=>{

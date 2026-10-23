@@ -100,7 +100,7 @@ try{
   await a.goto(config.origin+'/game/armory?category=spell');
   await a.locator('[data-trade-mode="buy"][data-definition-id="ember-word"]').getByRole('button',{name:'Increase quantity for Ember Word',exact:true}).click();
   await action(a,a.getByRole('button',{name:'Buy Ember Word',exact:true}));
-  assert.ok(new URL(a.url()).pathname.startsWith('/game/purchases/'));
+  assert.equal(new URL(a.url()).pathname,'/game/armory');assert.equal(new URL(a.url()).searchParams.get('category'),'spell');
   await a.goto(config.origin+'/game/armory?category=spell');
   assert.equal((await state(a)).inventory.find(item=>item.id==='ember-word')?.quantity,2);
   await action(a,a.getByRole('button',{name:'Sell Ember Word',exact:true}));

@@ -1,0 +1,149 @@
+KINGDOM COME — MASTER CODEX BACKLOG AND VISION
+Compiled October 21, 2026. Planning reference, NOT authorization to merge, deploy or change production.
+
+NORTH STAR
+Faithful evolution of Storm8 Kingdoms Live / Knights Reforged: simple, persistent, competitive. Five fixed tabs: Home, Quests, Battle, Armory, Recruit. Army size matters strongly alongside gear and skills; an 80-member army should not routinely beat a comparable 150-member army. Keep original Kingdom Come artwork and charcoal/bronze/gold styling. Compact, legible, information-dense mobile UX. Make actions consequential, rivalries memorable and information immediately accessible. Avoid elaborate skill trees, battle passes, crafting, chore overload and feature creep. Human rivalry should eventually dominate; bots keep the early realm active without pretending to be humans.
+
+1. UPKEEP / HOURLY INCOME — IMPORTANT NEW ECONOMY CHANGE
+When a player's exposed wallet is below equipment upkeep due, use actually earned hourly Land income at the ordinary 60-minute settlement to cover upkeep before paying out the remainder. If legitimate available funds suffice, equipment should not remain suspended merely because the wallet was low before the income tick. No advances, Vault withdrawal, free upkeep, negative balances or duplicate charges. Inspect existing maintenance reserve, suspension/resume, income cursor, fractional credits, offline catch-up and ledger semantics first. Determine exact auto-resume timing; user expects no need to manually press Resume Upkeep every hour. Test insufficient income, combined wallet+income, purchases, raids, concurrency, restart, rollback and exact-once receipts. Requires separately reviewed financial behavior change, not casual UI patch.
+
+2. VICTORY / BATTLE RESULT POLISH
+Phase 4.9.1 result redesign is approved. Preserve real equipment snapshots, both armies, expanded details, Attack Again/Revenge eligibility and current formulas. Tighten Gold Won and XP Gained panels; +182/+318 alone looks barren. Use existing coin and XP icons, concise labels and restrained motion respecting reduced-motion. Distinguish 0 gold and reduced XP honestly. Shorten repeated Attack Again explanatory text. Add compact level-up Congratulations banner integrated into result, not disruptive modal. Visually separate actual bounty claim and amount from ordinary loot. Fix ambiguous battle/bounty wording; preserve historical reports with missing snapshots gracefully. No changes to rewards without separate decision.
+
+3. BULK BUY/SELL AND ARMORY DENSITY
+Bulk dialog is too tall. Aim for ~20–25% less vertical space, keeping ~44px usable mobile touch targets, readable totals and confirmation. Show REAL existing item art beside title for weapons/armor/spells and relevant other items, including Stormglass Pike. Compact +/- controls, 1/5/10/Max presets, buy/sell columns, labels and spacing. Handle narrow phones and large quantities. Keep price, ownership, upkeep and transactions unchanged. Display more equipment per screen without tiny illegible text.
+
+4. LEGACY VISUAL CLEANUP
+Eliminate generic bright green bubble/pill/button styling in favor of consistent charcoal/bronze/gold and restrained neutral UI. Keep teal Health/Mana/Spirit resource bars and semantic status colors. Preserve original art, existing five-tab navigation and medieval identity; don't copy old Storm8 artwork or layouts pixel-for-pixel. Reduce excessive padding, huge cards, wasted vertical space and unnecessary scrolling.
+
+5. PLAYER PROFILES / IDENTITY
+Compact profile should immediately show level, Calling, victories/losses, tracked kills/deaths, quests, account age ('playing for X days'), equipment and earned accomplishments. Do not invent missing stats. Make gross income, upkeep and net/hour clear; expose meaningful paused-upkeep status. Use expandable secondary details, not an oversized new screen. Preserve Player/Skills/Comments/Battles structure. Add distinctive small ORIGINAL framed emblems for Tank, Barbarian, Mage; user rejected earlier generic fantasy emblem proposals. Review art direction before adoption. Reputation should emerge from actual stats/achievements, not new currency or rankings. Existing achievements can receive meaningful one-time milestones.
+
+6. SOCIAL FLOW / RIVALRIES / BOUNTIES
+Optimize attack -> result -> opponent profile -> comments/bounty/revenge -> battle, with few taps. Home Recent Activity must contain ONLY events relevant to the logged-in player; no global bot-to-bot events. Compact personal All/Battles/Comments entries with truthful outcomes, timestamps, opponent, Attack/Revenge/Profile actions. Head-to-head rivalry summary belongs in existing profile Battles tab, not new large panel. Bounty List already IS the bounty board; don't duplicate. Show bounty placement, claim, escrow, payout and claimant distinctly. Review repeated placement/claim farming and target-pressure limits. Preserve legitimate transactions and history. Profile comments: clear author/time, readable Unicode and emoji, compact wall, report/block actions and rate limiting. Blocking should not silently grant PvP immunity. Original screenshots show spam and contradictory 'slain but WON' language; do not replicate.
+
+7. SKILLS / PROGRESSION
+Keep straightforward point allocation with clear descriptions for resource capacities, Attack and Defense. Preserve viable offensive, defensive and balanced strategies; do not introduce skill trees. Test extremes at levels 100 and 200 before changing formulas. Army size remains a major factor but gear and skills also matter. Future content to level 100 then 200 requires proper quests, Land, gear, XP and economic testing; not authorized by reference screenshots alone. Avoid arbitrary army caps in future design, but removal/scaling is not currently authorized. Wealthy kingdoms should not automatically become defenseless farm targets.
+
+8. MOBILE UX / ONBOARDING / AUDIO
+Test small and large Android portrait sizes, safe areas, font scaling, fixed bottom tabs, scroll, keyboard, WebView and real-device audio. Navigation honk was confirmed gone after 4.9.1; do not reintroduce. New players default muted, existing preferences persist, orchestral cues remain. Tutorial/onboarding overhaul explicitly SHELVED. When reconsidered: comprehensive but very fast and non-overbearing, never a 10-minute chore.
+
+9. PHASE 5 AUTONOMOUS REALM — STATUS
+PR #16 merged into release/production at ab451b77302927450bdcaf70ee7f79f68431ec08. As last verified, Railway still served prior 4.9.1 commit 127a6849134403d569c2bc217db9d04da2886fae because Phase 5 protected deployment failed at WORKER_VARIABLE_STAGING during Railway API/deployment outage. VERIFY live commit before claiming deployment.
+Implemented in code, both default OFF: real saved-gold bot Land/equipment purchases, and genuine bot-vs-bot duels using ordinary Health/Spirit, combat, gold transfers, 65% XP and persisted records. Settlement SQL calls reduced 43.8–62.9% in synthetic tests without dropping receipts. Journal growth remains concern (6.69M settlement rows in synthetic month). 489/489 final Phase 5 CI tests passed; this is not proof of production capacity.
+Future rollout: resolve Railway incident and diagnostic, protected release with flags OFF, ~24h baseline, authorized private read-only monitoring and storage/latency headroom, then purchases-only observation, then duels separately. Startup flags require protected redeploy to disable; completed purchases and battles must not be undone by reset. PR #13 moderation/operator system remains draft/inactive; username correction withdrawn and Gray moderation unnecessary.
+
+10. LATER AUTONOMOUS GAMEPLAY — NOT AUTHORIZED YET
+Bots eventually initiate SPARSE attacks against humans, including offline, with actual exposed-wallet theft, Vault protected, new-player grace, rate/daily-loss/target-pressure limits, truthful personal activity and Revenge. Avoid harassment or fake events. Gradual real bot progression, no fake grants or reseeding. Modest growing 7-day login-streak gold rewards, balanced against hourly income, not chore-heavy. Future quest loot/purchasable currency only if later approved; no monetization now. Revisit starter bot affordability stalls and offense-heavy gear selection using gameplay evidence, not arbitrary global buffs. Human PvP and 65% bot XP policies unchanged until separate review.
+
+11. ANDROID APK — NEXT DISTINCT PROJECT
+User wants sideloadable APK for Galaxy Android, not Play Store. Minimal reviewed Android WebView/Capacitor wrapper for existing HTTPS game; dedicated icon, splash, standalone full-screen, stable sessions, back handling, links, audio, safe areas, lifecycle, keyboard and orientation. Server-authoritative online game, not offline. Most hosted UI updates may appear without reinstall; native wrapper updates need new APK. Reproducible signed GitHub artifact, stable owner-controlled signing key, no embedded secrets or public DB. Separate branch/PR from gameplay and Railway production release. Test on actual phone.
+
+12. EXTERNAL TESTERS / SECURITY / COMMUNITY
+Start with small trusted cohort (~5–15) after focused deployed-version checks, not immediate mass Reddit advertising. Review auth, session, CSRF/XSS/SQLi, IDOR, economic duplication, rate limits, comment/report/block moderation, private DB and secrets, backup and recovery. Public Railway URL is not secret; authentication/authorization must hold. Eventually Reddit and appropriate community outreach; avoid claiming Storm8 affiliation or copying proprietary assets. Monetization possible only after meaningful playerbase/retention, not in upcoming refinement. User contacted Bluepaw previously without response.
+
+13. REFERENCE PHOTOS AND VIDEOS — LESSONS
+User supplied roughly three large sets of Knights Reforged remake screenshots (dozens) and three videos: RPReplay_Final1586285950.MP4, RPReplay_Final1586285962.MP4, RPReplay_Final1586285907.MP4. They depict compact profiles and stats, extreme Attack/Defense builds, account age, gross/upkeep/net income, equipment quantities, bounties, rewards, level-up banners, personal feeds, comment walls and fast five-tab navigation.
+Takeaways: actions feel consequential; rivalry/bounty loops drive return play; direct profile/comment/battle navigation; small dense equipment and stats; visible long-term accomplishments; distinct bounty claim and level-up celebration; social identity. Don't reproduce broken equipment thumbnails, garbled names, spam, tiny targets, old blue gradients, confusing battle narration or copyrighted visuals. Screenshots do NOT establish original backend combat formulas, economic balance or real reward policy.
+
+14. DEVELOPMENT PROCESS / CODEX HANDOFF
+Maintain thorough research and preservation/security testing (user values it), but avoid duplicated full suites and endless decision gates. Focused tests during implementation, one complete exact-head suite at checkpoint, long simulations only when material. Build coherent reviewable slices from this master spec, with before/after mobile screenshots, quantified density/scroll changes, tests, clear non-goals. Separate UI changes from financial/combat changes. Don't ask owner to approve every routine technical choice; do require explicit authorization for merges, production deployments, data mutations, autonomous activation, major gameplay/economic policy changes. Preserve exact-commit push CI, protected Railway release, fresh encrypted backup, independent restore, signing and owner gate; never bypass failed controls. Preserve player accounts/sessions, Vaults, equipment, bot identities, Land, receipts and history. No arbitrary SQL, secret disclosure, reseeding or history deletion.
+
+15. SUGGESTED ORDER (NOT AUTOMATIC AUTHORIZATION)
+A. Recover Railway availability/auth diagnostic and deploy Phase 5 OFF safely.
+B. Build separate sideloadable Android APK.
+C. Independently design/test hourly-income-funded upkeep behavior.
+D. Phase 5.1 cohesive visual/social polish: battle rewards and level-ups; Bulk density/art; green styling; profile identity/stats; personal activity/rivalries/bounties; real mobile layouts.
+E. Separately activate/observe bot purchases and duels when monitoring ready.
+F. Phase 5.2 comprehensive baseline regression, mobile testing, security review and small trusted external alpha.
+G. Later: bot-human attacks, login rewards, high-level content, achievements/Calling art, wider audience.
+
+FUTURE TASK START CHECKLIST
+[ ] Verify current repo branch, PRs, live commit and implemented features; do not trust this dated status blindly.
+[ ] Choose ONE coherent slice; list requirements, explicit non-goals and dependencies.
+[ ] Preserve original Storm8-inspired formula and Kingdom Come original art.
+[ ] Distinguish UI-only changes from economic/transactional policy changes.
+[ ] Require realistic mobile tests, security, concurrency, restart and preservation where relevant.
+[ ] Keep inactive bot flags, PR #13 and protected release safeguards untouched unless separately authorized.
+[ ] Record owner decisions and update this master backlog with done/deferred/new items after each milestone.
+
+END OF MASTER REFERENCE
+
+======================================================================
+ADDENDUM — OCTOBER 23, 2026 — OWNER NOTES / NEXT DEVELOPMENT SLICES
+======================================================================
+Status: planning reference only. User screenshots/notes are design requests, not permission to merge, deploy, delete players or change the production economy. Verify exact repository/deployment status before implementation. Preserve existing 15 sections above.
+
+UPDATED PROJECT STATE (supersedes dated status in section 9):
+- Protected Phase 5 release eventually succeeded after one Railway snapshot-fetch failure. Observed production purchases and autonomous bot-versus-bot battles in live PostgreSQL command receipts/battles. Identity check confirmed 11/11 then-observed automated duels were registered bot versus bot, zero nonbots. This is an early functional verification, not long-term economy/pressure certification.
+- PR #20 Android alpha wrapper remains draft/open as last reviewed; coordinate rather than creating duplicate wrapper.
+- PR #25 independent recovery-copy retention remains draft/open. Verified-copy registration is implemented but default off; no cleanup or scheduling in production. 16 retained recovery databases found on the separate KingdomReleaseCopy service. Active recovery copy confirmed: kc_f453dd065708e9ef15916a9a3706eec2_restore_test. No deletion authorized. Keep retention work separate from game UX.
+- PR #13 operator hardening remains a separate draft. No owner/admin capability should be activated from these notes.
+
+A. NEAR-TERM, LOW-RISK PLAYER UI / FRICTION CLEANUP (PROPOSED FIRST SLICE)
+1. Identify remaining conspicuous bright green backgrounds/bubbles, especially tutorial, quest-complete and achievement surfaces. An earlier neutral/charcoal styling pass is already implemented; patch only remaining offending surfaces. Preserve meaningful green success semantics and teal resource-bar meanings where appropriate.
+2. Sort owned Land on Player/Profile holdings by required unlock level (ascending, like Land marketplace), with deterministic secondary ordering; do not change economic totals or actual holdings.
+3. After a successful Land or Armory purchase, return to the relevant list/item with a small nonblocking confirmation and refreshed gold/ownership; remove the redundant standalone post-purchase confirmation stop, NOT necessary pre-transaction confirmation or price validation. Preserve same-command idempotency, bookmarks and historical purchase receipts.
+4. Display player level immediately under name in the Hall of Champions top ten, if not already displayed. Preserve score/rank and actual server-derived data.
+5. Profile equipment (weapons/armor/spells) should disclose actual saved/current stats on hover/focus, with an accessible tap-to-open version for phones; no hover-only essential information.
+6. Rename *visible* 'Spirit' to 'Stamina' consistently in UI/help/accessibility text while preserving data-model identifiers, historical transaction keys, API contracts, values/costs and mechanics. Review exceptions before touching old records or code symbols.
+7. Reduce unnecessary card/padding height while retaining readable names, roughly 44px touch targets and existing 5-tab UI. Prioritize screenshots on 320/390/430px phones and desktop.
+
+B. ART DIRECTION — SEPARATE OWNER VISUAL REVIEW, NOT AUTOMATIC REMASTER
+8. Low-level Land and spells should be visually more modest (less saturation/ornamentation) so tiers communicate beginner-to-endgame progression. Higher-level art may be richer.
+9. Make progression-tier silhouettes genuinely distinct: current sword designs (Oathbound, Eclipse, etc.) read too similarly; higher-tier Eclipse should feel more prestigious. Current armor shares repetitive frames/shape; vary distinctive material, silhouette and motifs. Beginner spells (e.g. Ember Word, Hearth Ward, Lantern Mote, Thorn Hex) currently look too magical/high-status. Later spells may remain elaborate. Tempest Port and Crown Harbor need far more differentiated architectural/environmental imagery proportional to their economic tiers.
+10. Keep original commissioned/approved artwork, coherent charcoal/bronze/gold style, provenance, and asset-to-catalog mapping. Do not blindly recolor the same thumbnail or replace with unattributed copyrighted imagery. Mock up representative before/after proposals for approval before production art swaps.
+
+C. ONBOARDING / SOCIAL / DISCOVERY (LATER DISTINCT SLICES)
+11. Make selecting a Calling a brief optional tutorial step for new players, without extending onboarding to a chore or resetting existing tutorial progress. Existing Home Calling menu already exists. Verify change cooldown and privilege paths, make Skip/Resume work.
+12. Rotate/refill Battle opponent listings after an attack so the same highest-ranked users cannot be repeatedly farmed merely due to list ordering. Preserve legitimate opponent visibility, eligibility and paginated accessibility; do not fabricate opponents or make matchmaking promises.
+13. Add real event-driven unread notification counts (small red '1' badges on applicable fixed bottom tabs): Recruit for alliance requests; Home/other appropriate tab for personal attacks or comments. Distinguish read/unread on server; no fake counts or global bot-versus-bot spam. Reduced motion/accessible labels.
+14. Suppress global broadcasts from the player's personal All activity feed; retain a dedicated Broadcasts view where appropriate. Keep actual personal events and archived history intact.
+15. Provide general profanity handling for player-visible names/comments/messages, with Unicode normalization/anti-evasion/rate-limiting considerations and a documented moderation policy. Do not indiscriminately overwrite existing persisted history.
+16. Permit a wider range of safe Unicode player names, including normal accents, symbols and appropriate emoji where security/UX allow. Reject invisible/bidi-control spoofing, unsafe markup, confusing impersonation, overlong grapheme sequences and database/collation edge cases. Test browser, session, profile and game routes.
+17. Replace current 'Knights Reforged' **user-facing** brand references with Kingdom Come where reviewed. Audit public title, splash, notices, readme/distribution metadata and docs separately. Preserve historical references/source provenance and do not assume rebranding removes trademark/copyright risk. Do not rename internal identifiers or published artifacts without checking compatibility.
+
+D. MAJOR GAMEPLAY / ECONOMY POLICY (SEPARATE DESIGN AND APPROVAL)
+18. When an attacking player loses, proposed policy: transfer appropriate exposed-wallet gold from attacker to defender and award defender XP. Requires full design of caps, resource/health, zero-gold, defensive rewards, bot-vs-human interactions, prevention of defensive farming, Vault protection, simultaneous attacks, journaling and preservation. NOT a UI-only change; no implementation without separate owner signoff.
+19. Bounties: proposal to allow placing a bounty on any user/bot irrespective of level; proposals about who can claim when a bountied target reaches zero Health (including defender/attacker outcomes). Analyze existing anti-farming, level eligibility, escrow, payouts and invalid/conflicting scenarios first. Do not loosen live safety/economic gates as a quick change.
+20. Important older separate economics request still open: settled earned hourly Land income can fund ordinary equipment upkeep before the remaining income is paid, auto-resuming when legitimately affordable. Thorough transaction/income/replay tests required; separate reviewed financial slice.
+21. Profile name changes and purchasing Mana/Stamina refills are exploratory owner-only future features, deliberately NOT live. Do not add deceptively functional dead buttons or permission bypass. Design only for future authorization.
+22. User requested removal of a specific account, 'mosslikesbbc' (profile character ID af025047-1c77-437a-8d5a-dd51eba71840). Treat as an independent sensitive administrative task: verify exact identity, authority/consent, legal/retention needs, consequences for battles/transactions/bounties and proper auditable deletion/anonymization procedure. DO NOT delete account or data as part of UX milestone.
+
+PROPOSED ORDER OF WORK FROM THESE NOTES:
+1. Phase 5.1A: UI friction cleanup (A1-A7, potentially split if tests/screenshots become large). Existing Phase 4.9 neutral background styling and Calling work must be inspected first to avoid reimplementation.
+2. Phase 5.1B: visual-art direction approval and selected tier-contrast assets (B8-B10).
+3. Phase 5.1C: tutorial/social/discovery flow (C11-C14); security-sensitive Unicode/profanity/branding work in separate reviewable patches (C15-C17).
+4. Dedicated economy/combat rules proposal and simulations for D18-D20, followed by approval before implementation.
+5. Android PR #20 review and sideloaded device QA around the selected stable UI milestone; never duplicate wrapper.
+6. Small trusted external tester program; actual feedback should guide future changes.
+
+CODEX DELIVERY CONTRACT FOR EACH SLICE:
+- Audit current exact source and deployed state; list which items already exist.
+- Implement one coherent scope; separate cosmetics from balance, account actions, data/authorization changes.
+- No production mutation, merge, release dispatch or automatic activation.
+- Focused tests during coding, ONE exact-head full CI at checkpoint (not repetitive huge suites), mobile/desktop before-after screenshots, explicit limits/known deviations.
+- Preserve protected release, bot flags, current recovery evidence, database history, player assets and owner approval process.
+- Update done/deferred statuses; do not claim these notes as deployment permission.
+
+
+PHASE 5.1A DEVELOPMENT CHECKPOINT — OCTOBER 23, 2026
+Scope is the four-item owner request and specific Phase 5.1A engineering brief,
+not automatic authorization for all addendum A1-A7 items.
+A1 IMPLEMENTED FOR REVIEW: remaining tutorial/reward panel fills and achievement
+emblems neutralized; semantic success text and teal resource bars preserved.
+A2 IMPLEMENTED FOR REVIEW: grouped Profile holdings ordered by catalog unlock
+level/catalog order, historical unknown IDs retained last in stable ID order.
+Saved names, quantities and financial rates are not changed.
+A3 IMPLEMENTED FOR REVIEW: native and enhanced purchases return to catalog/item;
+compact owner-scoped saved confirmation links to the original historical receipt.
+Existing retry, pre-transaction validation and accounting are preserved.
+A4 IMPLEMENTED FOR REVIEW: actual attained levels shown below champion names in
+all four categories; top twenty, scores, eligibility and ranking order preserved.
+A5 equipment tap/hover details and A6 Stamina terminology remain DEFERRED.
+A7 was observed as a constraint on the four changes, not a general redesign.
+Art, audio, tutorial restructuring, combat/economy, notifications, Unicode,
+Android and administration remain separate milestones.
+Evidence: docs/phase51a/README.md and before/after-browser.json; final exact-head
+normal CI results are recorded on the draft PR. No production mutation, migration,
+release workflow dispatch, autonomous flag change, merge or deployment performed.

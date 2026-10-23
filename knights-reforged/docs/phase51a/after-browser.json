@@ -1,0 +1,665 @@
+{
+  "passed": true,
+  "stage": "after",
+  "views": [
+    {
+      "width": 320,
+      "name": "tutorial",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel guide-lesson",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "guide-done",
+          "background": "rgba(41, 37, 30, 0.94) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(182, 208, 149)"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "quest-completion",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "guide-done",
+          "background": "rgba(41, 37, 30, 0.94) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(182, 208, 149)"
+        },
+        {
+          "class": "achievement-toast reward-celebration",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel quest-result reward-celebration",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "achievements",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-earned",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-earned",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "champions",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "profile-holdings",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "public-holdings",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "armory-purchase",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "land-purchase",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "tutorial",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel guide-lesson",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "guide-done",
+          "background": "rgba(41, 37, 30, 0.94) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(182, 208, 149)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "quest-completion",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "guide-done",
+          "background": "rgba(41, 37, 30, 0.94) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(182, 208, 149)"
+        },
+        {
+          "class": "achievement-toast reward-celebration",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel quest-result reward-celebration",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "achievements",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-earned",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-earned",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "champions",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "profile-holdings",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "public-holdings",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "armory-purchase",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "land-purchase",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "tutorial",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel guide-lesson",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "guide-done",
+          "background": "rgba(41, 37, 30, 0.94) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(182, 208, 149)"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "quest-completion",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "guide-done",
+          "background": "rgba(41, 37, 30, 0.94) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(182, 208, 149)"
+        },
+        {
+          "class": "achievement-toast reward-celebration",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel quest-result reward-celebration",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "achievements",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-earned",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-earned",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "champions",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "profile-holdings",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "public-holdings",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "armory-purchase",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "land-purchase",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "tutorial",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel guide-lesson",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "guide-done",
+          "background": "rgba(41, 37, 30, 0.94) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(182, 208, 149)"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "quest-completion",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "guide-done",
+          "background": "rgba(41, 37, 30, 0.94) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(182, 208, 149)"
+        },
+        {
+          "class": "achievement-toast reward-celebration",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel quest-result reward-celebration",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "achievements",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-earned",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-earned",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(110deg, rgba(38, 36, 33, 0.93), rgba(17, 17, 17, 0.95)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "achievement-row is-locked",
+          "background": "rgba(21, 21, 21, 0.91) none repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "champions",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "profile-holdings",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "public-holdings",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "armory-purchase",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "land-purchase",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "tutorial-complete",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel tutorial-complete reward-celebration",
+          "background": "radial-gradient(at 50% 0%, rgba(149, 113, 45, 0.25), rgba(0, 0, 0, 0) 75%) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(41, 38, 34, 0.973), rgba(17, 17, 17, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "tutorial-complete",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel tutorial-complete reward-celebration",
+          "background": "radial-gradient(at 50% 0%, rgba(149, 113, 45, 0.25), rgba(0, 0, 0, 0) 75%) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(41, 38, 34, 0.973), rgba(17, 17, 17, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "tutorial-complete",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel tutorial-complete reward-celebration",
+          "background": "radial-gradient(at 50% 0%, rgba(149, 113, 45, 0.25), rgba(0, 0, 0, 0) 75%) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(41, 38, 34, 0.973), rgba(17, 17, 17, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-complete",
+      "styles": [
+        {
+          "class": "resource-lower",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgb(35, 135, 121) 0%, rgb(21, 116, 104) 12%, rgb(20, 94, 83) 45%, rgb(13, 59, 49) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        },
+        {
+          "class": "panel tutorial-complete reward-celebration",
+          "background": "radial-gradient(at 50% 0%, rgba(149, 113, 45, 0.25), rgba(0, 0, 0, 0) 75%) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(41, 38, 34, 0.973), rgba(17, 17, 17, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+          "color": "rgb(244, 240, 229)"
+        }
+      ]
+    }
+  ],
+  "noJavaScriptPurchase": true,
+  "productionContacted": false,
+  "errors": []
+}
