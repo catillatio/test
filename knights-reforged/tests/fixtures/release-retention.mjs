@@ -20,7 +20,7 @@ export function fixture(number,{now=epoch,age=48,verifiedAge=age,connections=0,o
 export function scenario(copies,now=epoch){
  copies??=[fixture(1,{now}),fixture(2,{now,age:47}),fixture(3,{now,age:46}),fixture(4,{now,age:45})];
  const state={protocol:retentionProtocol,scope,observedAt:new Date(now).toISOString(),releaseQuiescent:true,activeSha:'f'.repeat(40),currentRecoveryCopy:copies.at(-1).database.name,pinnedCopies:[],pendingCopies:[],closedJobIds:copies.filter(c=>c.closed).map(c=>c.jobId)};
- return {snapshot:{now:new Date(now).toISOString(),databases:copies.map(c=>c.database),catalog:copies.map(c=>c.catalog)},state};
+ return {snapshot:{now:new Date(now).toISOString(),databases:copies.map(c=>c.database),catalog:copies.map(c=>c.catalog),pins:[]},state};
 }
 export function approve(plan,state,{now=epoch,...overrides}={}){
  const approval={protocol:retentionProtocol,action:'drop-obsolete-verification-copies',id:randomUUID(),scope,planSha256:hash(plan),stateSha256:hash(state),issuedAt:new Date(now).toISOString(),expiresAt:new Date(now+240000).toISOString(),releaseConcurrencyHeld:true,...overrides};

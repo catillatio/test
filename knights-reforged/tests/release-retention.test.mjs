@@ -25,6 +25,7 @@ for(const [label,change,reason]of[
  ['changed evidence',x=>x.snapshot.catalog[0].evidence.report.bots=449,'unproven-provenance'],
  ['changed OID',x=>x.snapshot.databases[0].oid='999','ownership-or-identity-mismatch'],
  ['changed owner',x=>x.snapshot.databases[0].owner='postgres','ownership-or-identity-mismatch'],
+ ['durable pin',x=>x.snapshot.pins.push({name:x.snapshot.databases[0].name,pinned:true}),'durably-pinned'],
  ['pinned',x=>x.state.pinnedCopies.push(x.snapshot.databases[0].name),'pinned'],
  ['pending',x=>x.state.pendingCopies.push(x.snapshot.databases[0].name),'pending-release'],
  ['unclosed or failed release',x=>x.state.closedJobIds.shift(),'release-not-confirmed-closed'],

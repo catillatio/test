@@ -18,6 +18,15 @@ CREATE TABLE release_retention.copies (
  evidence jsonb NOT NULL,
  evidence_sha256 text NOT NULL CHECK (evidence_sha256 ~ '^[a-f0-9]{64}$')
 );
+CREATE TABLE release_retention.pins (
+ sequence bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ at timestamptz NOT NULL DEFAULT clock_timestamp(),
+ actor name NOT NULL DEFAULT session_user,
+ name text NOT NULL REFERENCES release_retention.copies(name),
+ pinned boolean NOT NULL,
+ reason text NOT NULL CHECK (length(reason) BETWEEN 1 AND 500)
+);
+CREATE INDEX pins_latest ON release_retention.pins(name,sequence DESC);
 CREATE TABLE release_retention.audit (
  sequence bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  at timestamptz NOT NULL DEFAULT clock_timestamp(),
@@ -33,6 +42,7 @@ CREATE TABLE release_retention.audit (
 CREATE FUNCTION release_retention.no_rewrite() RETURNS trigger
 LANGUAGE plpgsql SET search_path = pg_catalog AS $$ BEGIN RAISE EXCEPTION 'Retention history is append-only'; END $$;
 CREATE TRIGGER copies_immutable BEFORE UPDATE OR DELETE OR TRUNCATE ON release_retention.copies FOR EACH STATEMENT EXECUTE FUNCTION release_retention.no_rewrite();
+CREATE TRIGGER pins_immutable BEFORE UPDATE OR DELETE OR TRUNCATE ON release_retention.pins FOR EACH STATEMENT EXECUTE FUNCTION release_retention.no_rewrite();
 CREATE TRIGGER audit_immutable BEFORE UPDATE OR DELETE OR TRUNCATE ON release_retention.audit FOR EACH STATEMENT EXECUTE FUNCTION release_retention.no_rewrite();
 CREATE FUNCTION release_retention.record_event(a text,p text,n text,o oid,e text,b bigint) RETURNS void
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog AS $$
@@ -47,7 +57,7 @@ REVOKE ALL ON ALL TABLES IN SCHEMA release_retention FROM PUBLIC;
 REVOKE ALL ON ALL SEQUENCES IN SCHEMA release_retention FROM PUBLIC;
 REVOKE ALL ON ALL FUNCTIONS IN SCHEMA release_retention FROM PUBLIC;
 GRANT USAGE ON SCHEMA release_retention TO kc_retention_runtime;
-GRANT SELECT ON release_retention.copies,release_retention.audit TO kc_retention_runtime;
+GRANT SELECT ON release_retention.copies,release_retention.pins,release_retention.audit TO kc_retention_runtime;
 GRANT EXECUTE ON FUNCTION release_retention.record_event(text,text,text,oid,text,bigint) TO kc_retention_runtime;
 RESET ROLE;
 DO $$ BEGIN EXECUTE format('GRANT CONNECT ON DATABASE %I TO kc_retention_runtime',current_database()); END $$;

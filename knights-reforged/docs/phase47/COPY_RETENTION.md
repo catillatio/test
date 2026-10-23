@@ -50,6 +50,9 @@ or schedules them from the release path. They require explicit enablement.
 * Always keep the current production recovery reference, every registered copy
   matching the live game commit, pins, pending copies,
   jobs not explicitly confirmed closed, and copies with any connection.
+* Persistent pins are append-only catalog events. Omitting a pin from a later
+  state file cannot remove it; unpinning requires a separate privileged, audited
+  event. The runtime can neither pin/unpin nor rewrite pin history.
 * Missing/corrupted provenance, mismatched cluster/service/owner/OID, failed
   verification evidence, and uncertain timestamps prevent selection.
 * `--keep` accepts 2–100; `--min-age-hours` accepts 24–8760. Limits can only be
@@ -169,7 +172,17 @@ node deployment/release/retention/register.mjs \
 Its separately supplied `KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL` must target the
 same private admin database and cluster. The import credential must be authorized
 to `SET ROLE kc_retention_owner`. Revoke/withhold it from normal runtime. Retain
-original evidence and operator ownership-change audit separately.
+original evidence and operator ownership-change audit separately. For a registered
+copy, a separately authorized privileged operator can append a durable pin:
+
+```sql
+INSERT INTO release_retention.pins(name,pinned,reason)
+VALUES ('<reviewed exact copy name>',true,'<owner-reviewed reason>');
+```
+
+Unpinning is another explicitly reviewed INSERT with `pinned=false`, never UPDATE
+or DELETE. Both events retain database-server time and operator identity. Fresh
+state-file pins are additional protections, not replacements for this catalog.
 
 ## Scope, fresh state and commands
 

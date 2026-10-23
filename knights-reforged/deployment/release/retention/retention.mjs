@@ -25,7 +25,7 @@ export async function checkCatalog(client){
   has_table_privilege(current_user,c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') AS writable
   FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_roles r ON r.oid=c.relowner
   WHERE n.nspname='release_retention' AND c.relkind='r' ORDER BY c.relname`)).rows;
- assert.deepEqual(tables,[{relname:'audit',owner:roles[2],writable:false},{relname:'copies',owner:roles[2],writable:false}]);
+ assert.deepEqual(tables,[{relname:'audit',owner:roles[2],writable:false},{relname:'copies',owner:roles[2],writable:false},{relname:'pins',owner:roles[2],writable:false}]);
  // Verify installed guard bodies and attributes against the reviewed source,
  // not merely that functions with familiar names happen to exist.
  const sql=await readFile(new URL('./bootstrap.sql',import.meta.url),'utf8');
@@ -41,7 +41,7 @@ export async function checkCatalog(client){
  const triggers=(await client.query(`SELECT t.tgname,t.tgenabled,t.tgtype,p.proname FROM pg_trigger t
   JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_proc p ON p.oid=t.tgfoid
   WHERE n.nspname='release_retention' AND NOT t.tgisinternal ORDER BY t.tgname`)).rows;
- assert.deepEqual(triggers,['audit_immutable','copies_immutable'].map(tgname=>({tgname,tgenabled:'O',tgtype:58,proname:'no_rewrite'})));
+ assert.deepEqual(triggers,['audit_immutable','copies_immutable','pins_immutable'].map(tgname=>({tgname,tgenabled:'O',tgtype:58,proname:'no_rewrite'})));
 }
 export async function lockCluster(client,scope){
  checkScope(scope);
@@ -59,10 +59,14 @@ export async function snapshot(client){
   (SELECT count(*)::int FROM pg_stat_activity a WHERE a.datid=d.oid) AS connections
   FROM pg_database d JOIN pg_roles r ON r.oid=d.datdba ORDER BY d.datname`)).rows;
  const catalog=(await client.query('SELECT name,database_oid::text AS oid,owner_name AS owner,verified_at,first_observed_at,evidence,evidence_sha256 FROM release_retention.copies ORDER BY name')).rows;
- return {now:new Date(now).toISOString(),databases,catalog};
+ const pins=(await client.query('SELECT DISTINCT ON(name) name,pinned FROM release_retention.pins ORDER BY name,sequence DESC')).rows;
+ return {now:new Date(now).toISOString(),databases,catalog,pins};
 }
 export function makePlan(snapshot,state,scope,limits={}){
- checkState(state,scope,{now:Date.parse(snapshot.now)});const settings=policy(limits),known=new Map();
+ checkState(state,scope,{now:Date.parse(snapshot.now)});assert.ok(Array.isArray(snapshot.pins));
+ for(const pin of snapshot.pins){assert.match(pin.name,copyPattern);assert.equal(typeof pin.pinned,'boolean');}
+ const durablePins=new Set(snapshot.pins.filter(pin=>pin.pinned).map(pin=>pin.name));
+ const settings=policy(limits),known=new Map();
  for(const row of snapshot.catalog){
   try{
    const evidence=evidenceRecord(row.evidence,scope);
@@ -85,6 +89,7 @@ export function makePlan(snapshot,state,scope,limits={}){
   if(row.owner!=='kc_release_copy_owner'||record&&(record.oid!==row.oid||record.owner!==row.owner))reasons.push('ownership-or-identity-mismatch');
   if(row.name===state.currentRecoveryCopy)reasons.push('current-recovery');
   if(record&&record.evidence.request.sha===state.activeSha)reasons.push('active-release-candidate');
+  if(durablePins.has(row.name))reasons.push('durably-pinned');
   if(state.pinnedCopies.includes(row.name))reasons.push('pinned');
   if(state.pendingCopies.includes(row.name))reasons.push('pending-release');
   if(record&&!state.closedJobIds.includes(record.jobId))reasons.push('release-not-confirmed-closed');

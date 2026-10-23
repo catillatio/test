@@ -109,6 +109,14 @@ test('disposable PostgreSQL retention, append-only permissions, concurrency and 
    await assert.rejects(cleanup(runtime,{scope,state,plan:single,approval:signed.encoded,verifyKey:publicKey,beforeDelete:async()=>{}}));
    assert.equal((await root.query('SELECT count(*)::int AS n FROM pg_database WHERE datname=$1',[copies[0].database.name])).rows[0].n,1);
   });
+  await t.test('durable pins survive omission from the owner state; only privileged append-only unpin releases them',async()=>{
+   await admin.query('INSERT INTO release_retention.pins(name,pinned,reason) VALUES($1,true,$2)',[copies[5].database.name,'Synthetic recovery pin']);
+   assert.ok((await inspect(runtime,state,scope)).rows.find(row=>row.name===copies[5].database.name).reasons.includes('durably-pinned'));
+   await assert.rejects(runtime.query('INSERT INTO release_retention.pins(name,pinned,reason) VALUES($1,false,$2)',[copies[5].database.name,'Unauthorized']));
+   await assert.rejects(runtime.query('TRUNCATE release_retention.pins'));
+   await admin.query('INSERT INTO release_retention.pins(name,pinned,reason) VALUES($1,false,$2)',[copies[5].database.name,'Separately reviewed synthetic unpin']);
+   assert.equal((await inspect(runtime,state,scope)).rows.find(row=>row.name===copies[5].database.name).eligible,true);
+  });
   await t.test('eligible copies are dropped once; current, pinned, pending and populated source survive',async()=>{
    const fresh=await inspect(runtime,state,scope),signed=approve(fresh,state,{scope,now:Date.now()});
    const result=await cleanup(runtime,{scope,state,plan:fresh,approval:signed.encoded,verifyKey:publicKey,beforeDelete:async()=>{}});assert.equal(result.dropped.length,2);assert.ok(BigInt(result.measuredDatabaseBytesRemoved)>0n);

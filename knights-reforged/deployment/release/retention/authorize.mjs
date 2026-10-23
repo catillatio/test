@@ -14,8 +14,9 @@ try{
  assert.deepEqual(plan.scope,scope);assert.equal(plan.stateSha256,hash(state));
  const key=createPrivateKey(await readFile(values['private-key'],'utf8'));assert.equal(key.asymmetricKeyType,'ed25519');
  const pub=createPublicKey(key);assert.equal(createHash('sha256').update(pub.export({type:'spki',format:'der'})).digest('hex'),scope.approvalKeyDigest);
+ const now=Date.now();
  const payload=Buffer.from(JSON.stringify({protocol:retentionProtocol,action:'drop-obsolete-verification-copies',id:randomUUID(),scope,planSha256:hash(plan),stateSha256:hash(state),
-  issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+240000).toISOString(),releaseConcurrencyHeld:true}));
+  issuedAt:new Date(now).toISOString(),expiresAt:new Date(now+240000).toISOString(),releaseConcurrencyHeld:true}));
  const approval=Buffer.from(JSON.stringify({payload:payload.toString('base64url'),signature:sign(null,payload,key).toString('base64url')})).toString('base64url');
  checkApproval(approval,pub.export({type:'spki',format:'pem'}),plan,state,scope);
  await writeFile(values.out,approval+'\n',{mode:0o600,flag:'wx'});console.log('COPY_RETENTION_AUTHORIZATION: PASS');
