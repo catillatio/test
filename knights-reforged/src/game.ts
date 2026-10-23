@@ -1,3 +1,4 @@
+import {createHash} from 'node:crypto';
 import {callingDescription} from './calling-presentation.js';
 import {upcomingPayment} from './payment.js';
 import {healingQuote} from './gameplay-rules.js';
@@ -141,7 +142,7 @@ export async function getState(db:Database,accountId:string,runtime:GameRuntime=
     const now=await clock(client);return stateFrom(client,await materialize(client,row,now),now,runtime);
   });
 }
-export async function listOpponents(db:Database,characterId:string,cursor?:string,developmentBotsEnabled=false,developmentBotRecruitmentEnabled=false) {
+async function chronologicalOpponents(db:Database,characterId:string,cursor?:string,developmentBotsEnabled=false,developmentBotRecruitmentEnabled=false) {
   let after:string|null=null,afterId:string|null=null;
   if (cursor!==undefined) {
     if(typeof cursor!=='string') throw new GameError('INVALID_CURSOR','Invalid rival page.');
@@ -165,6 +166,42 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
     botTier:row.bot_tier as string|null,
     cursor:row.cursor_at+'~'+row.id}));
   return {opponents,nextCursor:more?opponents.at(-1)!.cursor:null};
+}
+/** Cyclic indexed UUID seeks. Cursors bind the pivot and half for a complete,
+ * duplicate-free traversal, even when another attack changes the next-page seed.
+ * Old timestamp cursors remain valid for clients using chronological pagination. */
+export async function listOpponents(db:Database,characterId:string,cursor?:string,developmentBotsEnabled=false,developmentBotRecruitmentEnabled=false,rotation?:unknown){
+ const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
+ if(cursor!==undefined&&typeof cursor!=='string')throw new GameError('INVALID_CURSOR','Invalid rival page.');
+ if(cursor!==undefined&&cursor.split('~').length===2)return chronologicalOpponents(db,characterId,cursor,developmentBotsEnabled,developmentBotRecruitmentEnabled);
+ if(rotation!==undefined&&(typeof rotation!=='string'||!uuid.test(rotation)))throw new GameError('INVALID_CURSOR','Invalid rival refresh.');
+ const actor=(await db.query('SELECT attained_level FROM characters WHERE id=$1',[characterId])).rows[0]!;
+ const now=await clock(db);let pivot:string,after:string|null=null,phase=0,lastTarget:string|null=null;
+ if(cursor!==undefined){const parts=cursor.split('~');if(parts.length!==4||parts[0]!=='r1'||!uuid.test(parts[1]!)||!['0','1'].includes(parts[2]!)||!uuid.test(parts[3]!))throw new GameError('INVALID_CURSOR','Invalid rival page.');pivot=parts[1]!.toLowerCase();phase=Number(parts[2]);after=parts[3]!.toLowerCase();
+  if(phase===0&&after<=pivot||phase===1&&after>pivot)throw new GameError('INVALID_CURSOR','Invalid rival page.');
+ }else{
+  const latest=(await db.query('SELECT id,defender_id FROM battles WHERE attacker_id=$1 ORDER BY created_at DESC,id DESC LIMIT 1',[characterId])).rows[0];lastTarget=latest?.defender_id??null;
+  const hex=createHash('sha256').update(characterId+'|'+(latest?.id??'new')+'|'+now.toISOString().slice(0,10)+'|'+(rotation??'default')).digest('hex').slice(0,32);
+  pivot=[hex.slice(0,8),hex.slice(8,12),hex.slice(12,16),hex.slice(16,20),hex.slice(20)].join('-');
+ }
+ const range=Math.max(2,Math.ceil(actor.attained_level*0.2));
+ const seek=async(half:number,last:string|null,limit:number)=>(await db.query(`SELECT c.*,b.tier AS bot_tier,$9::int AS rotation_phase,
+  (SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
+  (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted' AND (NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END) OR ($8 AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END AND d.active)))) AS allies
+  FROM characters c JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots b ON b.character_id=c.id
+  WHERE c.id<>$1 AND (NOT a.login_disabled OR b.character_id IS NOT NULL)
+  AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
+  AND (b.character_id IS NULL OR ($7 AND b.active))
+  AND (($9=0 AND c.id>$4::uuid) OR ($9=1 AND c.id<=$4::uuid)) AND ($5::uuid IS NULL OR c.id>$5::uuid)
+  ORDER BY c.id LIMIT $10`,[characterId,actor.attained_level-range,actor.attained_level+range,pivot, last,actor.attained_level,developmentBotsEnabled,developmentBotRecruitmentEnabled,half,limit])).rows;
+ const rows=await seek(phase,after,21);if(phase===0&&rows.length<21)rows.push(...await seek(1,null,21-rows.length));
+ const opponents=rows.slice(0,20).map(row=>({id:row.id as string,name:row.name as string,level:row.attained_level as number,className:row.profile_class as string,
+  units:row.units as number,armySize:Math.min(row.bot_tier?refinements.bots.armyCap:Number.MAX_SAFE_INTEGER,activeArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor).participants),maxHealth:row.max_health as number,
+  health:regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value,
+  botTier:row.bot_tier as string|null,cursor:'r1~'+pivot+'~'+row.rotation_phase+'~'+row.id}));
+ const nextCursor=rows.length>20?opponents.at(-1)!.cursor:null;
+ if(cursor===undefined&&opponents.length>1&&opponents[0]!.id===lastTarget)[opponents[0],opponents[1]]=[opponents[1]!,opponents[0]!];
+ return {opponents,nextCursor};
 }
 export async function recentBattles(db:Database,characterId:string) {
   return (await db.query(`SELECT id,result||jsonb_build_object('attackerId',attacker_id,'defenderId',defender_id,'winnerId',CASE WHEN outcome='attacker_win' THEN attacker_id ELSE defender_id END) AS result,created_at FROM battles WHERE attacker_id=$1 OR defender_id=$1 ORDER BY created_at DESC,id DESC LIMIT 10`,[characterId])).rows;

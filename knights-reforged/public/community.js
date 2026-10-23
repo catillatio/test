@@ -24,7 +24,7 @@ if(target){
       target.querySelector('[data-target-health]').textContent=String(combat.health);target.querySelector('[data-target-max-health]').textContent=String(combat.maxHealth);
       const meter=target.querySelector('[data-target-meter]');meter.max=combat.maxHealth;meter.value=combat.health;
       button.dataset.attackReady=combat.eligible?'true':'false';button.disabled=!combat.allowed;
-      target.querySelector('[data-combat-restriction]').textContent=combat.reason||'Ready. Each attack costs 1 Spirit. Attack again immediately after the result.';
+      target.querySelector('[data-combat-restriction]').textContent=combat.reason||(target.closest('.resolved-battle')?'Ready to attack.':'Ready. Each attack costs 1 Stamina.');
       document.dispatchEvent(new CustomEvent('realm-state',{detail:payload.state}));
     }catch{/* Resource refresh displays connection failures; never guess eligibility. */}
     finally{clearTimeout(timeout);pending=false;}

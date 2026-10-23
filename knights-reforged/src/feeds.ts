@@ -44,7 +44,7 @@ export async function activityFeed(sql:Sql,viewerId:string,category:FeedCategory
     jsonb_build_object('authorId',m.author_id,'authorName',a.name,'profileId',m.profile_id,'profileName',p.name,'body',m.body,
     'reported',EXISTS(SELECT 1 FROM social_reports r WHERE r.message_id=m.id AND r.reporter_id=$1)) AS data
     FROM realm_messages m JOIN characters a ON a.id=m.author_id LEFT JOIN characters p ON p.id=m.profile_id WHERE m.status='visible' AND
-    ${profileId?"m.channel='comment' AND m.profile_id=$4::uuid":category==='comments'?"m.channel='comment' AND (m.profile_id=$1 OR m.author_id=$1)":category==='broadcasts'?"m.channel='broadcast'":"(m.channel='broadcast' OR m.profile_id=$1 OR m.author_id=$1)"}`);
+    ${profileId?"m.channel='comment' AND m.profile_id=$4::uuid":category==='comments'?"m.channel='comment' AND (m.profile_id=$1 OR m.author_id=$1)":category==='broadcasts'?"m.channel='broadcast'":"m.channel='comment' AND (m.profile_id=$1 OR m.author_id=$1)"}`);
   if(category==='all'){
     queries.push(`SELECT e.id,e.created_at,'bounty' AS kind,jsonb_build_object('event',e.kind,'amount',e.amount,'targetId',b.target_id,'targetName',t.name,
       'sponsorId',b.sponsor_id,'sponsorName',s.name,'claimantId',b.claimant_id,'battleId',CASE WHEN $1 IN (b.target_id,b.claimant_id) THEN b.battle_id ELSE NULL END) AS data

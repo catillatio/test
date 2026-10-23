@@ -27,7 +27,7 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       if (!areRivals(actor.attained_level,target.attained_level)) throw new GameError('RIVAL_LEVEL_RANGE','Choose an opponent nearer your level.',409);
       if(actor.health<alpha.combat.minimumHealth)throw new GameError('NEEDS_RECOVERY','You need at least '+alpha.combat.minimumHealth+' Health to attack.',409);
       if(target.health<community.combat.defenderMinimumHealth)throw new GameError('OPPONENT_DEFEATED','This opponent has been defeated (0 Health). They must recover before another attack.',409);
-      if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Spirit to recover before attacking.',409);
+      if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Stamina to recover before attacking.',409);
       const targetState=await stateFrom(sql,target,now,runtime);
       if(!targetIsBot)await syncExperience(sql,target.id,now);
       // Bot rewards depend on this pair and the real purse, never on victories

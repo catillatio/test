@@ -1,7 +1,8 @@
 <div class="activity-feed" aria-label="Recent activity">
 <% if(!feed.entries.length) { %><p class="feed-empty">No activity yet. Quest, meet another player, or leave a message to begin your realm's story.</p><% } %>
 <% for(const entry of feed.entries) { const data=entry.data; %>
-<article class="activity-entry activity-<%= entry.kind %>" id="activity-<%= entry.id %>">
+<% const attention=typeof notifications!=='undefined'?notifications.events.find(event=>event.id===entry.id&&event.kind===(entry.kind==='battle'?'attack':'comment')):null; %>
+<article<% if(attention) { %> data-notification-event="<%= JSON.stringify(attention) %>"<% } %> class="activity-entry activity-<%= entry.kind %>" id="activity-<%= entry.id %>">
 <% if(entry.kind==='battle') { const attacking=data.attackerId===state.id,opponentId=attacking?data.defenderId:data.attackerId,won=data.winnerId===state.id; %>
   <h3><%- include('outcome',{won}) %> <%= attacking?'You attacked':'You were attacked by' %> <a class="player-link" href="/game/players/<%= opponentId %>"><%= attacking?data.defenderName:data.attackerName %></a></h3>
   <p><span class="gold"><%= won?'+':'−' %><%= data.loot??0 %> gold</span> · +<%= attacking?(data.xp??0):(data.defenderXp??0) %> XP · <%= attacking?data.defenderDamage:data.attackerDamage %> damage dealt · <%= attacking?data.attackerDamage:data.defenderDamage %> received</p>
@@ -20,3 +21,5 @@
 </article><% } %>
 <% if(feed.nextCursor) { %><a class="button button-outline older-activity" href="<%= pageBase %><%= pageBase.includes('?')?'&':'?' %>after=<%= encodeURIComponent(feed.nextCursor) %>">Older activity</a><% } %>
 </div>
+
+<%- include('notification-read') %>
