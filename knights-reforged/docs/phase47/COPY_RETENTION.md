@@ -1,12 +1,14 @@
 # Independent verification-copy retention (review only)
 
-This change is **not activated**. It does not change `production-release.yml`, the
-controller, worker, release protocol/proofs, migrations, startup, backup storage,
-or gameplay. No production inventory, deletion, deployment, or configuration
+This change is **not activated**. Optional verified-copy observation is integrated
+into the worker; the controller's only change is its explicit metadata-helper
+bundle allowlist. `production-release.yml`, release gates/protocol/proofs,
+migrations, startup, backup storage and gameplay are unchanged. No production inventory, deletion, deployment, or configuration
 change was performed. The existing release process continues to retain copies.
 
-[The minimum integration proposal](COPY_RETENTION_INTEGRATION.md) separates future
-automatic registration, scheduled reporting and destructive authorization. The
+[The integration status and setup guide](COPY_RETENTION_INTEGRATION.md) separates
+completed default-OFF observation integration, future scheduled reporting and
+destructive authorization. The
 current default-off tooling alone does not achieve automatic storage control.
 
 ## Findings and storage accounting
@@ -20,7 +22,8 @@ The worker's session advisory lock is `61824087`.
 
 PostgreSQL does not provide a trustworthy database creation timestamp. Existing
 names, OIDs, filesystem modification times, and successful builds do not establish
-creation date or verification success. Existing copies have no retention catalog.
+creation date or verification success. Legacy copies have no trusted entry in
+this new catalog until separately reviewed and imported.
 **Every unregistered copy therefore remains protected**, including failed or
 partially restored jobs. Never mass-adopt names from a listing.
 
@@ -42,8 +45,9 @@ removes PostgreSQL-managed files.
 
 ## Exact selection and authorization
 
-New independent commands live in `deployment/release/retention/`. Nothing imports
-or schedules them from the release path. They require explicit enablement.
+Independent cleanup commands live in `deployment/release/retention/`. The worker
+imports only the non-destructive observation helper. Cleanup is never imported or
+scheduled from the release path. All registration/cleanup enablement is separate.
 
 * Keep at least two newest **present, successfully verified** registered copies,
   ordered by owner-verified worker completion time, then database name ascending
@@ -108,8 +112,8 @@ avoids pretending the existing API supplies a complete lifecycle registry.
 Use only a trusted private operator channel in the correct Railway project and
 environment. There is no public endpoint, public database proxy, new Railway
 service, SSH workaround, or automatic infrastructure provisioning in this PR.
-These commands are deliberately absent from the existing game and release-worker
-image allowlists. An approved private execution channel needs the exact reviewed
+Destructive cleanup, permit issuance and privileged import commands are absent
+from game and release-worker image allowlists. An approved private execution channel needs the exact reviewed
 repository snapshot and locked Node/pg dependencies, installed before credentials
 are exposed. Do not hot-patch a running game container.
 If that channel is unavailable, stop: do not improvise connectivity or repurpose
@@ -386,9 +390,10 @@ fresh authenticated active/pending/live-reference evidence and executing through
 an approved private channel with restricted credentials. Keep it independent of
 release success and never use `always()` cleanup in the release job. No schedule,
 new execution service, workflow dispatch or automatic cleanup is included here.
-Automatic provenance collection/finalization, shared-concurrency execution and
-unattended deletion require a
-separately reviewed integration; current release behavior remains untouched.
+Automatic observation is implemented but default-OFF; it does not populate the
+cleanup-adopted registry. Shared-concurrency execution, scheduled reporting and
+unattended deletion still require separate review. Mandatory release behavior
+remains unchanged.
 
 The catalog format changed during draft review. If a previous review version was
 installed in any test environment, use a fresh disposable fixture or prepare a

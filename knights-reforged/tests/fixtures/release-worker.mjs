@@ -78,6 +78,15 @@ const fixture={
   if(options){assert.deepEqual(options,{verifyExisting:true});record('conditional-upload');}else record('encrypted-upload');
  },
  async getFile(url,path,expected){record('encrypted-download');assert.equal(url,request.urls.backupGet);assert.equal(path,temporary+'/downloaded.dump.age');assert.deepEqual(expected,cipher);},
+ async captureCopyIdentity(client,q,report){
+  record('registration-identity');assert.deepEqual(q,request);assert.equal(report.restoredCopy.passed,true);
+  if(mode==='registration_identity_failure')return fail();
+  return {oid:'12345',owner:'postgres',maintenanceDatabase:'railway',clusterDigest:report.restoreClusterDigest};
+ },
+ async registerVerifiedCopy(manifest){
+  record('registration-write');assert.equal(manifest.report.verifiedCopyIdentity.oid,'12345');
+  if(mode==='registration_failure')return fail();
+ },
  async putReport(url,report){
   record('report-upload');assert.equal(url,request.urls.reportPut);checkJobReport(report,request);assert.equal(Object.hasOwn(report,'urls'),false);
   if(mode==='report_failure')return fail();
@@ -100,8 +109,10 @@ const fixture={
    assert.deepEqual(args,['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+request.copy,temporary+'/restored.dump']);
   }else if(executable===process.execPath&&args[0]==='deployment/check-upgrade.mjs'){
    record('copy-migration-check');assert.equal(options.env.KINGDOM_RESTORE_TEST_DATABASE,request.copy);
-   output=JSON.stringify({passed:true,accounts:452,bots:450,existingTablesVerified:64,migrationReplay:'unchanged',liveDatabaseConnected:false,restoredDatabase:request.copy,restoredHost:request.restoreHost,sha256:'3'.repeat(64)});
+   if(mode==='migration_failure')failed=true;
+   output=JSON.stringify({passed:mode!=='invalid_migration_report',accounts:452,bots:450,existingTablesVerified:64,migrationReplay:'unchanged',liveDatabaseConnected:false,restoredDatabase:request.copy,restoredHost:request.restoreHost,sha256:'3'.repeat(64)});
   }else return block();
+  assert.equal(options.env.KINGDOM_COPY_REGISTRATION_DATABASE_URL,undefined,'Registrar credentials must not enter backup/migration subprocesses');
   const task=new EventEmitter();task.stdout=new PassThrough();task.stderr=new PassThrough();task.stdin=new PassThrough();task.kill=()=>task.emit('close',1);
   queueMicrotask(()=>{task.stdout.end(failed?secret:output);task.stderr.end(secret);task.emit('close',failed?1:0);});
   return task;
@@ -113,6 +124,7 @@ const mocks={
  'node:fs/promises':['mkdtemp','readFile','writeFile','rm','statfs'].map(name=>'export const '+name+'=(...args)=>globalThis.releaseWorkerFixture.'+name+'(...args);').join('\n'),
  '../../dist/db.js':'export const createDatabase=(...args)=>globalThis.releaseWorkerFixture.createDatabase(...args);',
  './candidate.mjs':"export const candidateDigest=async()=>(process.env.FIXTURE_MODE==='bad_candidate'?'e':'d').repeat(64);",
+ './retention/observation.mjs':['captureCopyIdentity','registerVerifiedCopy'].map(name=>'export const '+name+'=(...args)=>globalThis.releaseWorkerFixture.'+name+'(...args);').join('\n'),
  './transfer.mjs':['fileDigest','putFile','getFile','putReport'].map(name=>'export const '+name+'=(...args)=>globalThis.releaseWorkerFixture.'+name+'(...args);').join('\n')
 };
 const sources=new Map(Object.entries(mocks).map(([name,source])=>['worker-fixture:'+encodeURIComponent(name),source]));

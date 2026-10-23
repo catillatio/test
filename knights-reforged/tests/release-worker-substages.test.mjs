@@ -82,3 +82,33 @@ test('post-deployment verification stays read-only and skips all restore prerequ
  const result=run('success',{jobMode:'verify'});assert.equal(result.status,0);assert.equal(result.stderr,'');
  assert.equal(result.stdout,'Private release verification completed. No source database was changed.\n');assert.deepEqual(result.trace,[...source,'report-upload']);
 });
+
+for(const [mode,expected,events]of[
+ ['success','PASS',['registration-identity','report-upload','registration-write']],
+ ['registration_failure','FAIL',['registration-identity','report-upload','registration-write']],
+ ['registration_identity_failure','FAIL',['registration-identity','report-upload']]
+])test('opt-in registration is ordered after verified report upload and failure is metadata-only: '+mode,()=>{
+ const result=run(mode,{overrides:{KINGDOM_COPY_REGISTRATION_ENABLED:'1',KINGDOM_COPY_REGISTRATION_DATABASE_URL:'synthetic-credential-must-not-leak'}});
+ assert.equal(result.status,0);assert.equal(result.stderr,expected==='FAIL'?'COPY_REGISTRATION: FAIL\n':'');assert.equal(result.stdout,(expected==='PASS'?'COPY_REGISTRATION: PASS\n':'')+'Private release verification completed. No source database was changed.\n');
+ assert.deepEqual(result.trace,[...successTrace.slice(0,successTrace.indexOf('report-upload')),...events,...cleanup]);
+});
+test('an opt-in report upload failure cannot register or be swallowed by optional error handling',()=>{
+ const result=run('report_failure',{overrides:{KINGDOM_COPY_REGISTRATION_ENABLED:'1'}});assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.stderr,'Private release verification failed at verified-recovery-report'+suffix);
+ assert.deepEqual(result.trace,[...successTrace.slice(0,successTrace.indexOf('report-upload')),'registration-identity','report-upload',...cleanup]);
+});
+test('an opt-in migration failure cannot capture identity, upload success or register metadata',()=>{
+ const result=run('migration_failure',{overrides:{KINGDOM_COPY_REGISTRATION_ENABLED:'1'}});assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.stderr,'Private release verification failed at copy-migrations-and-preservation'+suffix);
+ assert.ok(!result.trace.some(event=>event.startsWith('registration-')||event==='report-upload'));
+});
+test('post-deployment verify skips registration even if its future opt-in is enabled',()=>{
+ const result=run('success',{jobMode:'verify',overrides:{KINGDOM_COPY_REGISTRATION_ENABLED:'1'}});
+ assert.equal(result.status,0);assert.equal(result.stdout,'Private release verification completed. No source database was changed.\n');assert.deepEqual(result.trace,[...source,'report-upload']);
+});
+
+test('an invalid verification report cannot be certified by the optional registration catch',()=>{
+ const result=run('invalid_migration_report',{overrides:{KINGDOM_COPY_REGISTRATION_ENABLED:'1'}});assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.stderr,'COPY_REGISTRATION: FAIL\nPrivate release verification failed at verified-recovery-report'+suffix);
+ assert.ok(!result.trace.includes('report-upload'));assert.ok(!result.trace.includes('registration-write'));
+});

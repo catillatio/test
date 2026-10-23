@@ -1,110 +1,180 @@
-# Minimum integration proposal — not implemented or activated
+# Verified-copy registration — implementation and activation status
 
-Review of PR #25 at `99d2eaa` confirms that it cannot yet prevent indefinite
-accumulation: nothing calls registration automatically, and no execution channel
-or schedule is installed. Registration and reporting alone also do not reclaim
-space. A recurring **authorized cleanup** is necessary. The existing release
-controller, worker, workflow, signing, recovery and migration gates remain unchanged
-in this revision. This document proposes their smallest next integration patch;
-it is not permission to install, schedule or execute it.
+PR #25 now implements the **non-destructive observation integration** proposed at
+`aff9142`. It is default-OFF and has not been installed or activated. Automatic
+registration does not reclaim space. Scheduled reporting, cleanup execution and
+exclusive release/restore coordination remain separate, unimplemented work.
 
-## 1. Automatic provenance registration — non-destructive
+## Completed integration
 
-Reuse the existing verification worker, its validated independent-cluster
-connection, and its already-held advisory lock. After all mandatory backup,
-restore, migration/replay, preservation and report validation have passed, and
-successful report upload is confirmed, append one verified-copy observation.
+For a `prepare` job only, after mandatory encryption, independent round-trip,
+restoration, migration/replay and preservation succeed, the opt-in worker captures
+the copy's actual name/OID, observed owner, maintenance database and verified
+cluster digest through its existing locked verification connection. It adds
+`verifiedCopyIdentity` to the normal successful report. All existing report checks
+and successful report upload must then finish **before** registration begins.
 
-The observation must bind job/run/attempt, exact candidate and worker deployment,
-project/environment/services, actual cluster identity, actual database name/OID,
-observed creator owner, the cleaned public manifest/report hash, and **server-side**
-first-observed/verified timestamps. Never store temporary grant URLs or secrets.
-Use a registration-only append function/role; no schema ownership, permit issuance,
-pinning/unpinning, DROP or production access. No tables are installed at startup.
+Registration uses a separate `kc_copy_registrar` login to the **same private
+verification maintenance database**. It appends to
+`release_observations.verified_copies`, owned by the existing NOLOGIN catalog owner
+`kc_retention_owner`. It neither changes ownership nor writes to
+`release_retention.copies`, permits, pins or cleanup history. The unchanged cleanup
+planner treats observations alone as unknown/unadopted and protects them.
+A first observation is rejected if its database is already cleanup-owned/adopted.
+The optional identity read uses a short read-only transaction with local 5-second
+statement and 2-second lock limits; rollback preserves the existing session lock.
 
-Do **not** automatically transfer every new database to `kc_release_copy_owner`.
-That would give the cleanup credential native ownership of fresh, pending and
-current recovery databases. The current `copies.owner_name` assumes prior cleanup
-adoption, so this needs a small explicit schema change: separate observed creator
-ownership from required cleanup ownership/adoption (or append observations to a
-separate table). Unadopted copies remain protected. Observations are provenance,
-not deletion eligibility or a claim that the GitHub release is terminal.
+Recorded metadata:
 
-Make registration opt-in after separately reviewed bootstrap and identity setup.
-Add only its explicit helper paths to the worker bundle/image allowlists. Keep
-all existing mandatory assertions and reports intact. A bounded metadata-only
-failure must leave the copy protected, emit a fixed failure category and raise
-an operational alert; it must never turn a failed backup/restore into success.
-The independently retained public manifest is the replay/outbox source for an
-idempotent registration retry, without creating another restore. Catch only this
-optional registration boundary; never widen an existing release catch.
+* Exact name, actual database OID and observed owner, actual cluster digest and
+  maintenance database. "Observed owner" is not inferred historical ownership.
+* Exact release SHA/candidate digest, project/environment/game/worker identities,
+  original worker deployment ID, release job ID and derived GitHub run/attempt.
+* Validated passed result, account/bot counts, migration replay/preservation facts,
+  plaintext/ciphertext/preservation hashes, canonical public report/evidence hashes.
+* PostgreSQL-derived `first_observed_at` and `verified_at`, plus session identity.
+  Both times describe **server observation of a verified report**, not an invented
+  database creation time or backdated worker-completion time. Original request
+  timestamps are explicitly request evidence and never set those server columns.
 
-This removes routine manual manifest import for **future** verified copies. It
-does not authorize inferred/backdated adoption of legacy or failed copies.
+Only 30 constrained scalar fields are retained. No raw request/report, presigned
+URLs, arbitrary JSON, credentials or private keys are stored. The canonical
+whitelisted public evidence hash is independently reproducible; it is not a
+signature or a substitute for retained-artifact authentication.
 
-## 2. Scheduling — inventory/report only
+The helper verifies installed guard bodies, owners, trigger state and effective
+registrar privileges. SQL rechecks actual cluster/name/OID/owner, forbids arbitrary
+fields, serializes same-copy writes and inserts atomically. Identical concurrent
+or restarted requests return the original timestamps. Conflicting identity,
+metadata, replacement database or ownership changes fail closed. Registration
+uses a distinct per-copy transaction lock, never a second attempt to acquire the
+worker's already-held session lock on another connection.
 
-First run manually; later schedule a bounded, separate private inventory/report
-job using a **read-only observer credential**, without cleanup ownership, permit
-INSERT or the retention private key. Reuse registered observations and exact
-GitHub run/attempt terminal-state reads. Unknown/pending states remain protected.
-Collect fresh active/staged recovery references and durable pins through a reviewed,
-authenticated read path. If that cannot establish references, report a blocker.
+## Mandatory gates and optional failures
 
-Keep this outside mandatory release gates. A missed report or registration alert
-must not silently fail open or certify a release. Report database/WAL/volume
-measurements with their existing uncertainty; alert on copy counts, unregistered
-copies and 70/85/95% volume usage. Define an owner cleanup cadence before enabling
-registration: automatic registration plus an unattended report alone will still
-allow storage to grow forever.
+Unset or `0` `KINGDOM_COPY_REGISTRATION_ENABLED` causes **no** identity queries,
+registrar connection or metadata writes, and requires no retention catalog.
+Only the explicit value `1` enables recording. Invalid nonempty enablement fails
+the optional boundary.
 
-Do not reserve the production concurrency group indefinitely while a scheduled
-job awaits owner approval. The admission/approval/execution ordering and bounded
-timeouts need a concrete test before scheduling is enabled. Do not reuse the
-DROP-capable runtime credential merely because the command is called dry-run.
+Failure during OID capture emits fixed `COPY_REGISTRATION: FAIL` on stderr; the
+mandatory report still follows its original checks/upload. Failure after upload
+also emits that fixed category and preserves the already verified recovery.
+Success emits `COPY_REGISTRATION: PASS`. Neither prints exception/provider details.
+Monitor that fixed failure category during any later activation; no alerting
+infrastructure or polling is provisioned here.
 
-## 3. Cleanup authorization and exclusive coordination — separately reviewed
+All optional catches are narrow. Failed backup, migration, preservation or report
+upload still fails the worker and cannot register success. Post-deployment
+`verify` jobs never register a copy. Optional registration cannot supply a backup
+proof, signing authorization, retained artifact or promotion gate. The private
+registrar has 5-second connection/query/statement limits, a 2-second lock limit and
+a 20-second overall connection bound. Registrar credentials are removed from
+backup/age/migration subprocess environments.
 
-Initially retain manual, exact-batch owner approval. After reviewing the plan and
-fresh references, the owner signs it. A separate limited authorizer validates that
-signature and registers immutable permits with their exact target plans; it has no database ownership.
-Only a separately isolated cleanup execution receives the DROP-capable credential.
-Obsolete-copy ownership adoption, where necessary, is a distinct privileged,
-audited action bound to the same reviewed OIDs. Never mass-transfer current,
-pending, pinned or unknown copies to the cleanup role.
+## Required separately authorized setup — not performed
 
-Before any unattended destructive execution, implement and review all of:
+1. Through an already trusted private administrative channel, verify the existing
+   verification PostgreSQL service, actual independent cluster and **exact worker
+   maintenance database**. Never install in the game/source database or a copy.
+2. Review/install the existing `retention/bootstrap.sql` catalog if not already
+   installed. Then separately review/install `retention/observations.sql` in that
+   same maintenance database. Neither file is a game migration or startup command.
+   Do not rerun either bootstrap over an existing installation. A previously
+   installed review format requires its own reviewed upgrade procedure.
+3. Set a dedicated strong `kc_copy_registrar` password through the trusted channel.
+   The role receives CONNECT, USAGE on `release_observations`, and EXECUTE on its
+   guarded append function only. It has no role memberships, DDL, table writes,
+   audit/permit access, database ownership, CREATEDB or DROP authority. Do not grant
+   it privileges on source, game tables, restored-copy business tables or cleanup.
+4. Independently review the installed owner/functions/triggers/permissions. The
+   existing worker already needs administrative access to create/restore the
+   independent copies; this change does not broaden that pre-existing authority.
+   Privileged catalog owners/database superusers can still alter metadata/guards.
+   The registrar's declaration of report verification is trusted; SQL does not
+   independently download reports or authenticate GitHub. Observations alone
+   never make a copy eligible for cleanup.
+5. On the **existing private verification worker only**, separately approve the
+   following future variables; do not add any to GitHub, game or source services:
 
-* Exclusive coordination across the **whole** protected release (prepare through
-  promotion/post-verification), retention staging/execution, and every manual
-  restore entry point. The worker's database-local lock alone does not cover the
-  controller between jobs. Share `kingdom-come-production`, disable cancellation,
-  and test admission order, pending releases, failed jobs and runner interruption.
-* Fresh authenticated active/staged recovery references, pins and exact terminal
-  run/attempt identities. Unavailable evidence means no deletion. Retain the
-  existing conservative protection of all copies for the active game commit.
-* A private execution transport with exact Railway service/cluster identity,
-  no accidental service restart/autodeploy, no game startup/migration command,
-  no public endpoint/database, and real credential separation between observer,
-  authorizer and cleanup. Do not place the authorizer credential on the cleanup
-  service and merely hide it from a child process.
-* No restore/deletion concurrency, connection termination, FORCE, artifact/archive
-  deletion, automatic unpin or signature/proof substitution. Bound retries and
-  preserve the journal for interrupted operations.
+   * `KINGDOM_COPY_REGISTRATION_DATABASE_URL`: private verification URL, exact
+     maintenance DB, login `kc_copy_registrar`; no query overrides. Never print it.
+   * `KINGDOM_COPY_REGISTRATION_SCOPE`: JSON with exactly `projectId`,
+     `environmentId`, `gameServiceId`, `workerServiceId`,
+     `verificationDatabaseServiceId`, `maintenanceDatabase`, `clusterDigest`,
+     `sourceClusterDigest`. Review authenticated resource identities/private host
+     mapping and actual cluster digests; this helper does not call Railway APIs
+     to discover services. Source and restore clusters must differ.
+   * `KINGDOM_COPY_REGISTRATION_ENABLED=1`: enable **last**, after setup review.
 
-The private executor can reuse existing verification infrastructure **only if**
-its entire staging/execution lifecycle is exclusive and its configuration and
-credential boundaries can be verified. Otherwise keep manual operation through
-an already trusted private channel. This proposal creates no new service, broad
-API token, administration system or production workflow.
+   No cleanup/bootstrap credential, retention/release private signing key or
+   additional Railway token belongs in this registration configuration. Persistent
+   worker variables are not forwarded by GitHub or stored in the image. Applying
+   Railway variables can trigger deployments: installation/activation must have
+   separate owner approval and use the established controlled procedure.
+6. During separately approved testing, verify the fixed outcome and private row,
+   exact OID, unchanged ownership, empty cleanup adoption and preserved source.
+   Disabling registration affects only future observations; existing immutable
+   records remain. This PR runs no protected release or activation workflow.
 
-## Decision before owner approval
+## Retry without another backup or restore
 
-The current PR is a default-off tooling/security foundation, **not a completed
-automatic storage-control rollout**. Recommended next approval is the narrow
-non-destructive registration integration above, with a reviewed schema/adoption
-contract and focused worker/backup regressions. Reporting and destructive execution
-must have separate review/enablement. Unattended cleanup remains blocked until
-exclusive coordination and private execution are implemented and independently
-validated. Native database-owner bypass remains a separate risk requiring owner
-acceptance or a future ownership/broker redesign; see `COPY_RETENTION.md`.
+If identity capture and report upload succeeded but registration failed, use the
+**independently retained** `backup-manifest.json`, which includes
+`report.verifiedCopyIdentity`. Never rerun `prepare` merely to register metadata.
+After verifying the exact retained artifact/hash, successful original worker
+identity and verification result, the owner may authorize registration-only replay
+through an already trusted private worker execution channel:
+
+```sh
+node deployment/release/retention/register-verified.mjs \
+  --owner-reviewed \
+  --manifest /private/backup-manifest.json \
+  --expected-sha256 '<independently verified SHA-256 of this exact manifest file>'
+```
+
+Use only the restricted registrar credential and reviewed registration scope,
+production-mode worker identity and explicit enablement. Replay requires no source
+or restore-admin connection, S3 access, private signing key, archive plaintext,
+backup or restore. It may run under a later worker deployment; the **original**
+report deployment/run/attempt remains recorded. No new execution channel is
+provisioned by this PR. If none exists, replay is operationally blocked until its
+private execution is separately approved; do not improvise SSH trust or a public
+endpoint.
+
+Old successful evidence may be replayed after its request expiry because it is
+historical provenance, not fresh release authorization. Its exact OID must still
+exist with the expected owner/cluster. No name/OID guessing or overwriting is
+allowed. If capture never succeeded or the retained manifest lacks identity, this
+command refuses; retain protection and arrange separately reviewed manual evidence
+reconciliation. A lost response can be retried with the same manifest, and a
+transaction interrupted before commit leaves no partial row. Outputs are fixed
+`COPY_REGISTRATION_REPLAY: PASS|FAIL`; all errors remain non-sensitive.
+
+## Still required for storage control
+
+* **Ownership adoption:** a separate privileged, audited, exact-OID review before
+  inserting into the cleanup registry. Never automatically transfer fresh,
+  current, pending, pinned or unknown copies. Observation does not authorize
+  adoption, reuse a signature, age a copy into eligibility, or relax the 24-hour
+  hold, newest-copy rules or protected live-commit references.
+* **Inventory/report scheduling:** a separately reviewed bounded private read-only
+  observer, fresh active/staged references and exact terminal run/attempt evidence,
+  with no DROP ownership, permit INSERT or signing key. Missing evidence blocks
+  cleanup. Alerts/review cadence are necessary: registration alone permits storage
+  to grow indefinitely.
+* **Destructive execution:** retain manual exact-batch signatures and isolated
+  authorizer/runtime credentials. Before unattended cleanup, review and test
+  exclusive `kingdom-come-production` coordination across the **entire** release
+  lifecycle, staging, verification, promotion and all manual restores; no
+  cancellation or indefinite lock reservation while awaiting approval. The
+  worker-local lock alone is insufficient between jobs. Require fresh references
+  and exact service/cluster identity through a reviewed private execution channel.
+* No FORCE, connection termination, archive/artifact deletion, automatic unpin,
+  ownership mass-transfer or proof/signature substitution. Native database-owner
+  bypass remains documented in `COPY_RETENTION.md` and needs owner risk acceptance
+  or a future constrained executor review.
+
+Registration integration is implemented and tested, pending code review, merge
+approval and separately authorized installation/activation. No schedule,
+unattended deletion or production infrastructure has been implemented or enabled.
