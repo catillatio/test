@@ -55,11 +55,13 @@ export async function getReport(url,{wait=false,deadline=Date.now()+1200000,sign
   let response;
   try{response=await fetch(url,{redirect:'error',cache:'no-store',signal:signal?AbortSignal.any([signal,attempt]):attempt});}
   catch{check();fail('TRANSPORT_FAILURE');}
-  if(response.status!==200){
+  const httpStatus=response.status;
+  if(httpStatus!==200){
    await response.body?.cancel();
-   status([401,403,404,429,500,502,503,504].includes(response.status)?'HTTP_'+response.status:'HTTP_OTHER');
+   // Only a captured integer can enter diagnostics: never coerce provider data.
+   status(Number.isInteger(httpStatus)&&httpStatus>=100&&httpStatus<=599?'HTTP_'+httpStatus:'HTTP_OTHER');
    check();
-   if(wait&&(response.status===403||response.status===404)){
+   if(wait&&(httpStatus===403||httpStatus===404)){
     // Keep the existing 3-second cadence and 20-minute maximum. Reuse the
     // original grant; never extend its lifetime, re-sign, or inspect error bodies.
     try{await timers.setTimeout(Math.min(3000,end-Date.now()),undefined,{signal});}

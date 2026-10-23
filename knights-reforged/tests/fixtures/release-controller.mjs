@@ -52,7 +52,7 @@ const fixture={
  fileDigest:async()=>{record('digest');return {sha256:(mode==='retained_corrupt'?'0':'4').repeat(64),bytes:200500};},
  getReport:async(url,options)=>{
   record('report');if(mode==='report_failure')throw new Error(secret);
-  if(mode==='report_readiness'||mode==='report_denied')return readReport(url,{...options,...(mode==='report_denied'?{deadline:Date.now()+500}:{})});
+  if(mode==='report_readiness'||mode==='report_denied'||mode==='report_bad_status')return readReport(url,{...options,...(mode==='report_denied'?{deadline:Date.now()+500}:{})});
   const report=reportFor(request);
   if(mode==='restore_failure')report.restoredCopy.passed=false;
   if(mode==='report_identity')report.workerDeploymentId=ids[3];
@@ -85,11 +85,11 @@ const fixture={
 globalThis.releaseFixture=fixture;
 let reportReads=0;
 globalThis.fetch=async(url,options)=>{
- if(url.startsWith('https://recovery.fixture.invalid/object?')&&(mode==='report_readiness'||mode==='report_denied')){
+ if(url.startsWith('https://recovery.fixture.invalid/object?')&&(mode==='report_readiness'||mode==='report_denied'||mode==='report_bad_status')){
   if(options.redirect!=='error'||options.cache!=='no-store')return block();
-  const status=++reportReads===1||mode==='report_denied'?403:200;
+  const status=mode==='report_bad_status'?400:(++reportReads===1||mode==='report_denied'?403:200);
   record('report_get_'+status);
-  return status===403?new Response(secret,{status}):Response.json(reportFor(request));
+  return status!==200?new Response(secret,{status}):Response.json(reportFor(request));
  }
  if(url!=='https://backboard.railway.com/graphql/v2'||options.method!=='POST'||options.redirect!=='error')return block();
  const body=JSON.parse(options.body);if(body.variables.id!==deploymentId||!/^query KingdomReleaseDeploymentIdentity/.test(body.query))return block();
