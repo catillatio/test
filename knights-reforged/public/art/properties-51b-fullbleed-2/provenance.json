@@ -24,7 +24,7 @@
   "crownHarbourChanged": false,
   "equipmentOrSpellsChanged": false,
   "version": "properties-51b-fullbleed-2",
-  "status": "Corrected full-bleed checkpoint; prior contain/matte treatment rejected by owner. No deployment authorization.",
+  "status": "Owner-approved full-bleed compositions at c764e19, frozen for final integration. No deployment authorization.",
   "method": "image_gen scene extension/recomposition of each owner-selected portrait to a 1536\u00d71024 landscape. Existing identifying architecture retained by visual review; generated edits are not pixel-identical outpaints. Runtime encoded 768\u00d7512 WebP quality 92; review masters WebP quality 96. No stretching, mirrored/blurred sidebars, black padding or compositing.",
   "policy": "All Kingdom Come artwork must be full bleed: no letterbox, pillarbox, artificial matte or empty gutters. Fit by composition/scene extension and undistorted cropping; retain defining landmarks.",
   "assets": [
@@ -250,5 +250,7 @@
       ],
       "landmarkDescription": "Both beacon flames, towers, sea arch and main ship"
     }
-  ]
+  ],
+  "approvedReferenceCommit": "c764e1913501148cc58a2fe582742efab9eeed97",
+  "scope": "This manifest describes the Land pack only. The separately selected CURRENT equipment overrides are recorded in equipment-51b-current-1/provenance.json."
 }

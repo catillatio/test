@@ -128,3 +128,16 @@
   width: 100%; height: 100%; transform: none; filter: none;
   border: 0; border-radius: 0; box-shadow: none;
 }
+/* Owner-selected CURRENT equipment reference pixels, already color processed in
+   their source capture. Keep native dimensions, proportional fill and no second
+   filter or review-frame edges. Original atlases and all other items stay. */
+.kingdoms-ui.realm-remaster.signed-in .catalog-art.equipment-art-51b {
+  display: block; background-size: cover; background-position: center;
+  background-repeat: no-repeat; background-color: transparent; filter: none;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.equipment-art-51b-0 { background-image: url('art/equipment-51b-current-1/oathbound-greatsword.webp'); }
+.equipment-art-51b-1 { background-image: url('art/equipment-51b-current-1/crown-of-ash-blade.webp'); }
+.equipment-art-51b-2 { background-image: url('art/equipment-51b-current-1/eclipse-greatsword.webp'); }
+.equipment-art-51b-3 { background-image: url('art/equipment-51b-current-1/sovereigns-bastion.webp'); }
+.equipment-art-51b-4 { background-image: url('art/equipment-51b-current-1/eclipse-citadel-plate.webp'); }

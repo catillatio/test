@@ -1,6 +1,6 @@
 # Phase 5.1B — corrected full-bleed artwork checkpoint
 
-**Framing checkpoint 2; awaiting owner review.** Work continues from `985171b` on `feature/kingdom-come-phase-5-1b-selected-land-art`. The first portrait-contain/matte treatment is **rejected**, not approved or available as a runtime fallback. No full CI, final PR, merge, deployment or production operation has occurred.
+**Owner-approved Land framing at `c764e19`, frozen for final Phase 5.1B integration.** See the [final integration report](FINAL_REVIEW.md) and [five selected CURRENT equipment references](../phase51b-selected-equipment/README.md). The original checkpoint evidence follows. Work continues from `985171b` on `feature/kingdom-come-phase-5-1b-selected-land-art`. The first portrait-contain/matte treatment is **rejected**, not approved or available as a runtime fallback. Checkpoint statements below describe the earlier focused visual review; final exact-head CI and draft PR status are recorded in the final integration report/PR. No merge, deployment or production operation is authorized.
 
 ## Review the result
 
@@ -41,16 +41,16 @@ The later [owner framing correction](OWNER_FRAMING_CORRECTION.md) supersedes con
 ## Preservation and focused verification
 
 - Same shared per-property rendering partial for Land, owned/public Profiles and saved receipts; same six property IDs. No catalog, names, levels, prices, income, upkeep, holdings, financial records or transaction code changes.
-- **Crown Harbour, all equipment/spells and every unselected property are unchanged.** Existing atlas files still match their provenance hashes. The earlier subdued equipment/spell proposals remain rejected.
+- **Crown Harbour, all spells and every unselected property are unchanged.** The separately authorized five CURRENT equipment overrides are documented in the final integration report; no other equipment changes. Existing atlas files still match their provenance hashes. The earlier subdued equipment/spell proposals remain rejected.
 - **Four focused asset/mapping tests passed:** source/output provenance, geometric landmark-safe crops at all six sizes, all 81 catalog bindings plus legacy/small variants, unchanged atlas hashes and the no-matte policy.
 - **TypeScript check passed.**
 - [Browser evidence](visual-checks.json): four viewport groups, **96 real-route artwork bindings**, **36 exact-size samples** and 18 review captures. Checks include decoded image dimensions, proportional viewport coverage, transparent CSS background, zero image/frame borders and shadows, opaque nonuniform source edges, expected URLs, accessible labels, no overflow, five tabs and ≥44px marketplace controls.
 - All six native-size sheets and the four rendered Land widths were visually inspected. Cathedral tips/window, full ring/orb silhouette, both crescent tips, magma-window apex and sea-gate beacons/arch remain visible. Tiny masonry detail naturally reduces at 68×49; no claim is made that every detail survives at that scale.
 
-Landmark rectangles are manually identified from the generated masters; geometry checks confirm their retention but cannot automatically certify semantic identity, painted quality, or the absence of every possible content artifact. Source-edge tests reject uniform embedded strips; visual inspection checks the actual scenery. **Owner visual approval is still required.** No physical-device or full regression-suite claim is made at this checkpoint.
+Landmark rectangles are manually identified from the generated masters; geometry checks confirm their retention but cannot automatically certify semantic identity, painted quality, or the absence of every possible content artifact. Source-edge tests reject uniform embedded strips; visual inspection checks the actual scenery. **The owner approved these Land compositions at `c764e19`; their images and framing are frozen.** No physical-device or full regression-suite claim is made at this checkpoint.
 
 [Runtime provenance](../../public/art/properties-51b-fullbleed-2/provenance.json) records original owner-source hashes, edit/output hashes, master references, encoded sizes and landmark bounds. [Edit prompts](full-bleed-generation.json) document the six source-bound scene extensions. Original generated PNGs remain in the workspace; full-size WebP review masters are linked above. No commercial historical-game assets or third-party stock were used. The source package's [manifest](SOURCE_MANIFEST.txt) and [original crops](source-crops/) remain unchanged.
 
 All game/database activity used disposable local synthetic fixtures. Protected release files and production resources remain untouched. Reproduce the focused checks from `knights-reforged/` with `node --test tests/phase51b-art.test.mjs`, `npm run typecheck`, then `TEST_DATABASE_URL=<local disposable *_test fixture> npx tsx scripts/browser-phase51b-art.ts`.
 
-**Pause here for corrected-visual approval before final PR preparation and full CI.**
+**Land visual approval is complete. Finalization proceeds under the owner's subsequent instruction; no new Land artwork or framing changes.**

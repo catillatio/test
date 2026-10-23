@@ -9,7 +9,8 @@ import {createApp} from '../src/app.js';
 import {loadConfig} from '../src/config.js';
 import {alpha,levelRequirement} from '../src/alpha-rules.js';
 if(!testDatabaseUrl)throw new Error('Use a designated disposable local *_test database.');
-const out='docs/phase51b-selected-art/screenshots';await mkdir(out,{recursive:true});
+const verifyOnly=process.argv.includes('--verify-only');
+const out=verifyOnly?'test-results/phase47-browser/phase51b-land':'docs/phase51b-selected-art/screenshots';await mkdir(out,{recursive:true});
 const manifest=JSON.parse(readFileSync('public/art/properties-51b-fullbleed-2/provenance.json','utf8'));
 const selected:string[]=manifest.assets.map((a:any)=>a.id);
 const sizes=[{name:'Narrow Land',width:68,height:49},{name:'Standard Land',width:80,height:58},{name:'Wide phone Land',width:90,height:60},{name:'Desktop Land',width:198,height:116},{name:'Profile',width:60,height:60},{name:'Receipt',width:64,height:72}];
@@ -94,6 +95,6 @@ try{
  }
  checks.push('36 native-size full-bleed samples: all six properties at every required dimension, with landmark bounds, edge coverage and no embedded uniform strips');
  assert.deepEqual(errors,[]);
- await writeFile('docs/phase51b-selected-art/visual-checks.json',JSON.stringify({passed:true,checkpoint:'full-bleed-2',base:'985171bc40700d4a91009059eefd79d2afaace67',productionContacted:false,checks,details,samples,errors,limitations:'Landmark bounds are manually identified from the scene masters. Geometry confirms their retention, not automatic semantic identity. Native PNGs and game captures require owner visual review.'},null,2)+'\n');
+ await writeFile(verifyOnly?'test-results/phase47-phase51b-land.json':'docs/phase51b-selected-art/visual-checks.json',JSON.stringify({passed:true,checkpoint:'full-bleed-2',base:'985171bc40700d4a91009059eefd79d2afaace67',productionContacted:false,checks,details,samples,errors,limitations:'Landmark bounds are manually identified from the scene masters. Geometry confirms their retention, not automatic semantic identity. Native PNGs and game captures require owner visual review.'},null,2)+'\n');
  console.log('PASS focused full-bleed check: 4 viewport groups, 96 real-route bindings, 36 native samples, 18 review captures, no production contact');
 }finally{await browser.close();await app.close();await r.close();}
