@@ -107,3 +107,37 @@
   width: 100%; height: 100%; transform: none;
   filter: saturate(.82) brightness(.9) contrast(1.04);
 }
+/* Full-bleed scene compositions. Artwork must never use letterboxing, empty
+   gutters or artificial mattes. Landmark-safe landscape masters support every
+   existing frame using proportional cover, with the high spires kept in view. */
+.kingdoms-ui.realm-remaster.signed-in .catalog-art.property-art-51b {
+  display: block; background-size: cover; background-position: 50% 0%;
+  background-repeat: no-repeat; background-color: transparent; filter: none;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.property-art-51b-0 { background-image: url('art/properties-51b-fullbleed-2/dawnspire-cathedral.webp'); }
+.property-art-51b-1 { background-image: url('art/properties-51b-fullbleed-2/wyrmcrest-keep.webp'); }
+.property-art-51b-2 { background-image: url('art/properties-51b-fullbleed-2/astral-observatory.webp'); }
+.property-art-51b-3 { background-image: url('art/properties-51b-fullbleed-2/throne-of-ash.webp'); }
+.property-art-51b-4 { background-image: url('art/properties-51b-fullbleed-2/eclipse-citadel.webp'); }
+.property-art-51b-5 { background-image: url('art/properties-51b-fullbleed-2/tempest-port.webp'); }
+.kingdoms-ui.screen-land .property-art-frame:has(.property-art-51b) {
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.kingdoms-ui.screen-land.signed-in .market-catalog .property-art-frame .property-art-51b {
+  width: 100%; height: 100%; transform: none; filter: none;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+/* Owner-selected CURRENT equipment reference pixels, already color processed in
+   their source capture. Keep native dimensions, proportional fill and no second
+   filter or review-frame edges. Original atlases and all other items stay. */
+.kingdoms-ui.realm-remaster.signed-in .catalog-art.equipment-art-51b {
+  display: block; background-size: cover; background-position: center;
+  background-repeat: no-repeat; background-color: transparent; filter: none;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.equipment-art-51b-0 { background-image: url('art/equipment-51b-current-1/oathbound-greatsword.webp'); }
+.equipment-art-51b-1 { background-image: url('art/equipment-51b-current-1/crown-of-ash-blade.webp'); }
+.equipment-art-51b-2 { background-image: url('art/equipment-51b-current-1/eclipse-greatsword.webp'); }
+.equipment-art-51b-3 { background-image: url('art/equipment-51b-current-1/sovereigns-bastion.webp'); }
+.equipment-art-51b-4 { background-image: url('art/equipment-51b-current-1/eclipse-citadel-plate.webp'); }

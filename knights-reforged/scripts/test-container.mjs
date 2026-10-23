@@ -122,6 +122,20 @@ try{
   const healthy=()=>docker(['exec',web,'node','-e',"fetch('http://127.0.0.1:"+port+"/healthz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]);
   await ready(healthy);
   check('production server binds port '+port+' and passes database healthcheck');
+  const selectedArtwork=[];
+  for(const pack of ['properties-51b-fullbleed-2','equipment-51b-current-1']){
+    const manifest=JSON.parse(await readFile('public/art/'+pack+'/provenance.json','utf8'));
+    for(const asset of manifest.assets)selectedArtwork.push({path:'/assets/art/'+pack+'/'+asset.asset,sha256:asset.sha256});
+  }
+  result.selectedArtwork=runtimeCode(`
+    import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {existsSync} from 'node:fs';
+    const assets=${JSON.stringify(selectedArtwork)};
+    for(const asset of assets){const r=await fetch('http://127.0.0.1:${port}'+asset.path);assert.equal(r.status,200);assert.equal(createHash('sha256').update(Buffer.from(await r.arrayBuffer())).digest('hex'),asset.sha256);}
+    assert.equal(existsSync('/app/docs/phase51b-selected-equipment'),false);assert.equal(existsSync('/app/docs/phase51b-selected-art'),false);
+    console.log(JSON.stringify({verified:assets.length,referenceCropsExcluded:true}));
+  `);
+  assert.equal(result.selectedArtwork.verified,11);
+  check('production container serves all eleven approved artwork assets with exact hashes and excludes review/reference crops');
   const played=runtimeCode(client+`
     async function player(user='image_'+randomUUID().replaceAll('-','').slice(0,12)){
       const form=await fetch(base+'/register'),html=await form.text();assert.equal(form.status,200);

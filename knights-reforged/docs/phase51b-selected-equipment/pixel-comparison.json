@@ -1,0 +1,286 @@
+{
+  "sourceFinding": "All five are the same underlying illustrations already in the current atlases, not visually different substitute designs. Current native game frames are not pixel-identical to the source screenshots: atlas scaling uses different frame ratios, some views have no filter, Armory applies its filter and image border. Overrides use the selected reference pixels without a second color filter and use proportional cover at the existing dimensions.",
+  "runtimeRgbMatchesSelectedCrops": true,
+  "nativeComparisons": [
+    {
+      "id": "oathbound-greatsword",
+      "view": "armory",
+      "beforeSize": [
+        68,
+        61
+      ],
+      "afterSize": [
+        68,
+        61
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 20.161
+    },
+    {
+      "id": "oathbound-greatsword",
+      "view": "owned-profile",
+      "beforeSize": [
+        59,
+        59
+      ],
+      "afterSize": [
+        59,
+        59
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 13.928
+    },
+    {
+      "id": "oathbound-greatsword",
+      "view": "saved-battle-loadout",
+      "beforeSize": [
+        49,
+        49
+      ],
+      "afterSize": [
+        49,
+        49
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 6.431
+    },
+    {
+      "id": "oathbound-greatsword",
+      "view": "saved-receipt",
+      "beforeSize": [
+        64,
+        73
+      ],
+      "afterSize": [
+        64,
+        73
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 20.155
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "view": "armory",
+      "beforeSize": [
+        68,
+        61
+      ],
+      "afterSize": [
+        68,
+        61
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 13.395
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "view": "owned-profile",
+      "beforeSize": [
+        59,
+        59
+      ],
+      "afterSize": [
+        59,
+        59
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 11.326
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "view": "saved-battle-loadout",
+      "beforeSize": [
+        49,
+        49
+      ],
+      "afterSize": [
+        49,
+        49
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 3.973
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "view": "saved-receipt",
+      "beforeSize": [
+        64,
+        73
+      ],
+      "afterSize": [
+        64,
+        73
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 14.566
+    },
+    {
+      "id": "eclipse-greatsword",
+      "view": "armory",
+      "beforeSize": [
+        68,
+        61
+      ],
+      "afterSize": [
+        68,
+        61
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 18.839
+    },
+    {
+      "id": "eclipse-greatsword",
+      "view": "owned-profile",
+      "beforeSize": [
+        59,
+        59
+      ],
+      "afterSize": [
+        59,
+        59
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 14.362
+    },
+    {
+      "id": "eclipse-greatsword",
+      "view": "saved-battle-loadout",
+      "beforeSize": [
+        49,
+        49
+      ],
+      "afterSize": [
+        49,
+        49
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 5.855
+    },
+    {
+      "id": "eclipse-greatsword",
+      "view": "saved-receipt",
+      "beforeSize": [
+        64,
+        73
+      ],
+      "afterSize": [
+        64,
+        73
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 19.721
+    },
+    {
+      "id": "sovereigns-bastion",
+      "view": "armory",
+      "beforeSize": [
+        68,
+        61
+      ],
+      "afterSize": [
+        68,
+        61
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 20.692
+    },
+    {
+      "id": "sovereigns-bastion",
+      "view": "owned-profile",
+      "beforeSize": [
+        59,
+        59
+      ],
+      "afterSize": [
+        59,
+        59
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 18.893
+    },
+    {
+      "id": "sovereigns-bastion",
+      "view": "saved-battle-loadout",
+      "beforeSize": [
+        49,
+        49
+      ],
+      "afterSize": [
+        49,
+        49
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 6.142
+    },
+    {
+      "id": "sovereigns-bastion",
+      "view": "saved-receipt",
+      "beforeSize": [
+        64,
+        73
+      ],
+      "afterSize": [
+        64,
+        73
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 24.73
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "view": "armory",
+      "beforeSize": [
+        68,
+        61
+      ],
+      "afterSize": [
+        68,
+        61
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 25.002
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "view": "owned-profile",
+      "beforeSize": [
+        59,
+        59
+      ],
+      "afterSize": [
+        59,
+        59
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 24.78
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "view": "saved-battle-loadout",
+      "beforeSize": [
+        49,
+        49
+      ],
+      "afterSize": [
+        49,
+        49
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 7.098
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "view": "saved-receipt",
+      "beforeSize": [
+        64,
+        73
+      ],
+      "afterSize": [
+        64,
+        73
+      ],
+      "pixelIdentical": false,
+      "meanAbsoluteRgbDifference": 29.076
+    }
+  ]
+}

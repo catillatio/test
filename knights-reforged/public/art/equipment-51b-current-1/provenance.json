@@ -1,0 +1,177 @@
+{
+  "version": "equipment-51b-current-1",
+  "selection": "CURRENT, not PROPOSED",
+  "sourceReferenceCommit": "df0b4dc9bfd1dbed533487d5aabe0b5357d8fdec",
+  "sourceGenerationBase": "2e05e1c15b50018607e906db0e2ad33866e95aac",
+  "rights": "Existing original project-generated fantasy illustrations. Selected reference tiles are browser captures of the existing fantasy-0.2 atlases; no new painting, stock, historical commercial-game or rejected PROPOSED art is introduced. Applicable original project/OpenAI output terms apply; no exclusivity asserted.",
+  "processing": "Extract exact selected PNGs from df0b4dc. Remove only the browser-captured review-frame edges using the per-tile crop rectangles; encode lossless WebP. No repaint, generation, padding, blur, scene extension, tone change or stretching. Decoded RGB equals each source crop.",
+  "referencePresentation": "The original reference renderer used square 210px atlas rendering and baked contrast(1.02) saturate(.85). Actual saved PNGs are 211px because the capture rectangle crosses fractional device coordinates. Insets vary by one x pixel; crop coordinates exclude the review border.",
+  "comparisonFinding": "All five are the same underlying illustrations already in the current atlases, not visually different substitute designs. Current native game frames are not pixel-identical to the source screenshots: atlas scaling uses different frame ratios, some views have no filter, Armory applies its filter and image border. Overrides use the selected reference pixels without a second color filter and use proportional cover at the existing dimensions.",
+  "status": "Owner-selected CURRENT references, integrated for final verification; no deployment authorization.",
+  "assets": [
+    {
+      "id": "oathbound-greatsword",
+      "name": "Oathbound Greatsword",
+      "category": "weapon",
+      "classIndex": 0,
+      "asset": "oathbound-greatsword.webp",
+      "source": "docs/phase51b-selected-equipment/source-tiles/oathbound-greatsword.png",
+      "sourceReferencePath": "knights-reforged/docs/phase51b/artwork-review/tiles/oathbound-greatsword.png",
+      "sourceSha256": "b9403b9582587ccb406f9508e81c52c558171d5b15abd923700035426625399f",
+      "sourceSize": [
+        211,
+        211
+      ],
+      "crop": [
+        1,
+        2,
+        208,
+        208
+      ],
+      "width": 208,
+      "height": 208,
+      "sha256": "50e937d5f392cdee1171a960aea0a77c4b9f6b79a275942c706c18c72a000815",
+      "bytes": 47216,
+      "decodedRgbSha256": "6c04e9d71b6333f640dcfccc21087cdcf7eb06d8f131b1e76992730a1467d666",
+      "originalAtlas": "public/art/fantasy-0.2/weapons.webp",
+      "originalAtlasSha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030",
+      "originalCatalogIllustration": {
+        "atlas": "weapons",
+        "column": 1,
+        "row": 3
+      }
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "name": "Crown of Ash Blade",
+      "category": "weapon",
+      "classIndex": 1,
+      "asset": "crown-of-ash-blade.webp",
+      "source": "docs/phase51b-selected-equipment/source-tiles/crown-of-ash-blade.png",
+      "sourceReferencePath": "knights-reforged/docs/phase51b/artwork-review/tiles/crown-of-ash-blade.png",
+      "sourceSha256": "c5e289c75868a98b0d2f0a30bb4bfa8ad3f87be734b87e5b5adf1a7242955e5e",
+      "sourceSize": [
+        211,
+        211
+      ],
+      "crop": [
+        2,
+        2,
+        208,
+        208
+      ],
+      "width": 208,
+      "height": 208,
+      "sha256": "ef5ad5697d6070b42ddf9b9c8ff321c512ff1452e183a2b4bb2a105738739eb8",
+      "bytes": 43354,
+      "decodedRgbSha256": "c3d994981a33c2ed3ba780174dbc4715a0a6e5bd0295faee2f7ec92a585dc163",
+      "originalAtlas": "public/art/fantasy-0.2/weapons.webp",
+      "originalAtlasSha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030",
+      "originalCatalogIllustration": {
+        "atlas": "weapons",
+        "column": 2,
+        "row": 4
+      }
+    },
+    {
+      "id": "eclipse-greatsword",
+      "name": "Eclipse Greatsword",
+      "category": "weapon",
+      "classIndex": 2,
+      "asset": "eclipse-greatsword.webp",
+      "source": "docs/phase51b-selected-equipment/source-tiles/eclipse-greatsword.png",
+      "sourceReferencePath": "knights-reforged/docs/phase51b/artwork-review/tiles/eclipse-greatsword.png",
+      "sourceSha256": "2fe97a01fd3e12f5226d2fe322b09e8350a34f9bf98a1cacd5daf37a7278b8d9",
+      "sourceSize": [
+        211,
+        211
+      ],
+      "crop": [
+        1,
+        2,
+        208,
+        208
+      ],
+      "width": 208,
+      "height": 208,
+      "sha256": "67374ab63c7057af66bf8ccb17e7a164dda07b976cf17527f98930c9f7181752",
+      "bytes": 45208,
+      "decodedRgbSha256": "744d02b8a01982be1cc4de336553ba61eb01044fcfd721693c72a4d31b15641d",
+      "originalAtlas": "public/art/fantasy-0.2/weapons.webp",
+      "originalAtlasSha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030",
+      "originalCatalogIllustration": {
+        "atlas": "weapons",
+        "column": 3,
+        "row": 4
+      }
+    },
+    {
+      "id": "sovereigns-bastion",
+      "name": "Sovereign's Bastion",
+      "category": "armor",
+      "classIndex": 3,
+      "asset": "sovereigns-bastion.webp",
+      "source": "docs/phase51b-selected-equipment/source-tiles/sovereigns-bastion.png",
+      "sourceReferencePath": "knights-reforged/docs/phase51b/artwork-review/tiles/sovereigns-bastion.png",
+      "sourceSha256": "0fc82aae2ed9fb41e37d43a8c2c24b87cbb18a140997b3609d4daf28425dcea7",
+      "sourceSize": [
+        211,
+        211
+      ],
+      "crop": [
+        1,
+        2,
+        208,
+        208
+      ],
+      "width": 208,
+      "height": 208,
+      "sha256": "8cc9291c0dc3dda6c704c84439144bf761391ff2f0eea9550f4b9bc92ee19822",
+      "bytes": 53656,
+      "decodedRgbSha256": "d7b1264448903dfa217e9fa3702df53517a6c4e3ecfb2e778f262537c8db7f70",
+      "originalAtlas": "public/art/fantasy-0.2/armor.webp",
+      "originalAtlasSha256": "1210ae0ce0be9f37a613c754533738dceee3a4b63f43094bdd526d2998149fd1",
+      "originalCatalogIllustration": {
+        "atlas": "armor",
+        "column": 1,
+        "row": 4
+      }
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "name": "Eclipse Citadel Plate",
+      "category": "armor",
+      "classIndex": 4,
+      "asset": "eclipse-citadel-plate.webp",
+      "source": "docs/phase51b-selected-equipment/source-tiles/eclipse-citadel-plate.png",
+      "sourceReferencePath": "knights-reforged/docs/phase51b/artwork-review/tiles/eclipse-citadel-plate.png",
+      "sourceSha256": "204bfc9c4c0b05ff460bf62d5e0422b02cf9792506fec98352d6636a3a8919e0",
+      "sourceSize": [
+        211,
+        211
+      ],
+      "crop": [
+        1,
+        2,
+        208,
+        208
+      ],
+      "width": 208,
+      "height": 208,
+      "sha256": "5f55f676806db52c4f844f4bd2afe4dbcfc4253e7a1f69dba3e1724aed7a1fec",
+      "bytes": 49660,
+      "decodedRgbSha256": "7f74bad9dbda2ca3e342415a6f0d0b5cba7edff3771183fa5ab203315ea9be5d",
+      "originalAtlas": "public/art/fantasy-0.2/armor.webp",
+      "originalAtlasSha256": "1210ae0ce0be9f37a613c754533738dceee3a4b63f43094bdd526d2998149fd1",
+      "originalCatalogIllustration": {
+        "atlas": "armor",
+        "column": 3,
+        "row": 4
+      }
+    }
+  ],
+  "catalogChanged": false,
+  "originalAtlasesChanged": false,
+  "spellsChanged": false,
+  "landArtChanged": false
+}
