@@ -1,0 +1,254 @@
+{
+  "rights": "Owner-provided original fantasy illustrations, identified as original in the supplied integration brief. No historical-game, third-party stock or rejected equipment/spell concepts used. No independent high-resolution source masters were supplied; no exclusivity or copyright protection asserted. Scene extensions are original OpenAI-generated project output subject to applicable OpenAI terms.",
+  "sourcePackage": "KINGDOM_COME_6_SELECTED_LAND_ART_ASSETS.zip",
+  "sourcePackageSha256": "6a26e467287999b37cd3db9098d4f042c48502e5ee0def9992df253290b44de2",
+  "referenceSheets": [
+    {
+      "file": "source_sheets/5-new-properties.png",
+      "sha256": "958b4671cf01ed23dc7cbf695a9b7fb1e7765d0afab7354bf3cba0bafd8308c3",
+      "runtime": false
+    },
+    {
+      "file": "source_sheets/current-gear-keep-unchanged.png",
+      "sha256": "2b4be2ee2e8e9bd7d3bce039f8666c22c570481c9f719f0b681a5576e415500e",
+      "runtime": false
+    },
+    {
+      "file": "source_sheets/harbour-variants.png",
+      "sha256": "8c228348ed51c4dae8d2658cbca6fedc87d24537754283a86416112fb7fbea4a",
+      "runtime": false
+    }
+  ],
+  "stablePropertyIds": true,
+  "economicCatalogChanged": false,
+  "crownHarbourChanged": false,
+  "equipmentOrSpellsChanged": false,
+  "version": "properties-51b-fullbleed-2",
+  "status": "Corrected full-bleed checkpoint; prior contain/matte treatment rejected by owner. No deployment authorization.",
+  "method": "image_gen scene extension/recomposition of each owner-selected portrait to a 1536\u00d71024 landscape. Existing identifying architecture retained by visual review; generated edits are not pixel-identical outpaints. Runtime encoded 768\u00d7512 WebP quality 92; review masters WebP quality 96. No stretching, mirrored/blurred sidebars, black padding or compositing.",
+  "policy": "All Kingdom Come artwork must be full bleed: no letterbox, pillarbox, artificial matte or empty gutters. Fit by composition/scene extension and undistorted cropping; retain defining landmarks.",
+  "assets": [
+    {
+      "id": "dawnspire-cathedral",
+      "classIndex": 0,
+      "asset": "dawnspire-cathedral.webp",
+      "source": "docs/phase51b-selected-art/source-crops/dawnspire-cathedral.png",
+      "sourceSha256": "d2e596871e0f2927b7b84f81e6885ec6bf82345133f5c1a331d00084f8b62af0",
+      "sourceSize": [
+        345,
+        490
+      ],
+      "landscapeMaster": "docs/phase51b-selected-art/landscape-masters/dawnspire-cathedral.webp",
+      "landscapeMasterSha256": "15b6f95634a2f8d08d6abea3ebf251ce3895d7ef996eff7465cc15fd2f65b13b",
+      "generatedPngSha256": "bd1469492d75e5d1a1965891338a5a1c07a1d382d0e4c96b9b6a1e23f4f0f16d",
+      "generatedPngWorkspacePath": "/workspace/generated_images/exec-2315a7eb-e9d4-4090-a35a-a86f2434266a.png",
+      "width": 768,
+      "height": 512,
+      "bytes": 188040,
+      "sha256": "567469aab78e14e17dfc1216d2139857e851c5ed39a3b551fc9583f8fb347523",
+      "framing": "cover, center top; full scene reaches every viewport edge, no matte",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "landmarkBoundsMaster": [
+        350,
+        35,
+        700,
+        705
+      ],
+      "landmarkBounds": [
+        175.0,
+        17.5,
+        350.0,
+        352.5
+      ],
+      "landmarkDescription": "Main clustered spires, rose window and portal"
+    },
+    {
+      "id": "wyrmcrest-keep",
+      "classIndex": 1,
+      "asset": "wyrmcrest-keep.webp",
+      "source": "docs/phase51b-selected-art/source-crops/wyrmcrest-keep.png",
+      "sourceSha256": "3e4bfeb10258461004c79fc0b5c48bc2cf8ee49230c0eb5381f36020c58e180c",
+      "sourceSize": [
+        351,
+        490
+      ],
+      "landscapeMaster": "docs/phase51b-selected-art/landscape-masters/wyrmcrest-keep.webp",
+      "landscapeMasterSha256": "8a4c86bf571c2220bbe657bb97b911f4758cd183cce3c18e35e43a4011818517",
+      "generatedPngSha256": "d93ffd51695fc5dabecccd9fbcd7e728d799fa510d54775f80640ddf8a182005",
+      "generatedPngWorkspacePath": "/workspace/generated_images/exec-f47d6e8f-ef2c-45ad-bf16-2e3dad4261e2.png",
+      "width": 768,
+      "height": 512,
+      "bytes": 211988,
+      "sha256": "78b07fde97546de72087d278d3b69997d0aa76f2a582cc4a775a4b1cbcfa682b",
+      "framing": "cover, center top; full scene reaches every viewport edge, no matte",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "landmarkBoundsMaster": [
+        395,
+        95,
+        615,
+        580
+      ],
+      "landmarkBounds": [
+        197.5,
+        47.5,
+        307.5,
+        290.0
+      ],
+      "landmarkDescription": "Main tower tops, red banners and fortress gate"
+    },
+    {
+      "id": "astral-observatory",
+      "classIndex": 2,
+      "asset": "astral-observatory.webp",
+      "source": "docs/phase51b-selected-art/source-crops/astral-observatory.png",
+      "sourceSha256": "3cdb6cec128fa7d9997cf76be556b9357788a9f92868e2ee06fc69860c558d46",
+      "sourceSize": [
+        346,
+        490
+      ],
+      "landscapeMaster": "docs/phase51b-selected-art/landscape-masters/astral-observatory.webp",
+      "landscapeMasterSha256": "105976e1e680a0b1401284a9e9277446de1858a5fdeeb12ce70587399cf180c6",
+      "generatedPngSha256": "35852e063336d8d8f3231f73ca58f1d5b1b79f1e0b24fdc1f07ac73748af427a",
+      "generatedPngWorkspacePath": "/workspace/generated_images/exec-bc128c63-83d8-42ee-a11f-e854228e4481.png",
+      "width": 768,
+      "height": 512,
+      "bytes": 189018,
+      "sha256": "c26f1b4fb3573892b877f6e70cab353d453e32d7a89c5a6bbc4f425a3b424934",
+      "framing": "cover, center top; full scene reaches every viewport edge, no matte",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "landmarkBoundsMaster": [
+        440,
+        90,
+        620,
+        570
+      ],
+      "landmarkBounds": [
+        220.0,
+        45.0,
+        310.0,
+        285.0
+      ],
+      "landmarkDescription": "Complete armillary rings, orb, main arch and upright supports"
+    },
+    {
+      "id": "throne-of-ash",
+      "classIndex": 3,
+      "asset": "throne-of-ash.webp",
+      "source": "docs/phase51b-selected-art/source-crops/throne-of-ash.png",
+      "sourceSha256": "115733dde9c0422c50391df7b3846298cb919afd5191ed37ab9ee699926a7a69",
+      "sourceSize": [
+        348,
+        490
+      ],
+      "landscapeMaster": "docs/phase51b-selected-art/landscape-masters/throne-of-ash.webp",
+      "landscapeMasterSha256": "c5c7efbfe745e6ba1204f908c0a841e4cd72cfff20ebe5306b3d2c59dc1c1799",
+      "generatedPngSha256": "3b18af82e05b2d00b7b214ccbfffa24f4e418234962b99d1d81092d1fdb50dab",
+      "generatedPngWorkspacePath": "/workspace/generated_images/exec-6cf2870f-1507-4d55-92b3-2b99e7536efd.png",
+      "width": 768,
+      "height": 512,
+      "bytes": 158042,
+      "sha256": "20164ec090bc5b4a1a6aaa8e77b8702d4994676028f34931612ee1f1c71d8091",
+      "framing": "cover, center top; full scene reaches every viewport edge, no matte",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "landmarkBoundsMaster": [
+        425,
+        32,
+        675,
+        650
+      ],
+      "landmarkBounds": [
+        212.5,
+        16.0,
+        337.5,
+        325.0
+      ],
+      "landmarkDescription": "Main apex, magma window and entrance terraces"
+    },
+    {
+      "id": "eclipse-citadel",
+      "classIndex": 4,
+      "asset": "eclipse-citadel.webp",
+      "source": "docs/phase51b-selected-art/source-crops/eclipse-citadel.png",
+      "sourceSha256": "29652e4a2c7082c09e016a9677971b20f9102c649dffc37281b4d255c1031218",
+      "sourceSize": [
+        341,
+        490
+      ],
+      "landscapeMaster": "docs/phase51b-selected-art/landscape-masters/eclipse-citadel.webp",
+      "landscapeMasterSha256": "ad2a07eb716ec4116d9026e8db2885cd5308f03bb192536918f57237e101da20",
+      "generatedPngSha256": "cff6c9253a91ae5115bd53df984b2cb2e39d818c7db83c896b229de41e2f3f2c",
+      "generatedPngWorkspacePath": "/workspace/generated_images/exec-66a6a2bb-b2ed-46b0-a2ec-425d978f8f12.png",
+      "width": 768,
+      "height": 512,
+      "bytes": 153214,
+      "sha256": "7e68dfe43c55196026df772acbf5e8ed2a7eac98fec1abaf63c2f3465b99f6c9",
+      "framing": "cover, center top; full scene reaches every viewport edge, no matte",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "landmarkBoundsMaster": [
+        385,
+        88,
+        665,
+        555
+      ],
+      "landmarkBounds": [
+        192.5,
+        44.0,
+        332.5,
+        277.5
+      ],
+      "landmarkDescription": "Both crescent tips, eclipse moon and principal spires"
+    },
+    {
+      "id": "tempest-port",
+      "classIndex": 5,
+      "asset": "tempest-port.webp",
+      "source": "docs/phase51b-selected-art/source-crops/tempest-port.png",
+      "sourceSha256": "09d979eb3b1d50a782f9d761016e3f57b8eeee02670c24414b567f01ae57963d",
+      "sourceSize": [
+        342,
+        478
+      ],
+      "landscapeMaster": "docs/phase51b-selected-art/landscape-masters/tempest-port.webp",
+      "landscapeMasterSha256": "fcb89c7c8ad5b6dcbc8c277a61d3ee18e48f5ccb2cbe41a014b27a480f4d63a4",
+      "generatedPngSha256": "a3925a0be24e282599d1a35bb977ebe19f3a2f68fd56db8ca188f697b8b58d53",
+      "generatedPngWorkspacePath": "/workspace/generated_images/exec-e2de10bd-2a6f-481a-adba-c6136b241dac.png",
+      "width": 768,
+      "height": 512,
+      "bytes": 183202,
+      "sha256": "03d6b7f4f72bbbaac29b0f597d1b63b7b1fab5722d0ab1134c87358ce93fc8cf",
+      "framing": "cover, center top; full scene reaches every viewport edge, no matte",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "landmarkBoundsMaster": [
+        395,
+        110,
+        655,
+        745
+      ],
+      "landmarkBounds": [
+        197.5,
+        55.0,
+        327.5,
+        372.5
+      ],
+      "landmarkDescription": "Both beacon flames, towers, sea arch and main ship"
+    }
+  ]
+}

@@ -1,47 +1,56 @@
-# Phase 5.1B — selected Land artwork: first visual checkpoint
+# Phase 5.1B — corrected full-bleed artwork checkpoint
 
-**Owner-selected images integrated for framing review; not deployed.** Branch `feature/kingdom-come-phase-5-1b-selected-land-art`, based on `release/production` at `2e05e1c`. This checkpoint precedes visual approval, the final draft PR and the full CI run.
+**Framing checkpoint 2; awaiting owner review.** Work continues from `985171b` on `feature/kingdom-come-phase-5-1b-selected-land-art`. The first portrait-contain/matte treatment is **rejected**, not approved or available as a runtime fallback. No full CI, final PR, merge, deployment or production operation has occurred.
 
-## Review the actual size and mobile captures
+## Review the result
 
-- **[390×844 Land — five later properties](screenshots/390-land-selected.png)**
-- **[390×844 Land — Tempest Port / Storm Gate](screenshots/390-land-storm-gate.png)** — same marketplace, different scroll position.
-- [390×844 owned Profile holdings](screenshots/390-profile-holdings.png)
+**[390px Land — five later properties](screenshots/390-land-selected.png)** · **[390px Storm Gate](screenshots/390-land-storm-gate.png)** · [390px Profile](screenshots/390-profile-holdings.png)
 
-Each sheet below shows the supplied portrait beside **native-size before/after samples** at **68×49, 80×58, 90×60 and 198×116**, plus the actual **60×60 Profile** and **64×72 receipt** dimensions measured in the local application. View at 100% zoom for the intended size; these sheets are labeled review galleries, while the Land/Profile captures above are actual game pages.
+Every sheet shows the owner's selected portrait identity at left and **corrected full-bleed samples at native CSS pixel sizes**: 68×49, 80×58, 90×60, 198×116, 60×60 and 64×72. View at 100% zoom. These are comparison galleries; the Land and Profile screenshots are actual local game pages. No rejected letterboxed treatment is shown as the current result.
 
-| Exact selected property | Native-size comparison |
-|---|---|
-| Dawnspire Cathedral `dawnspire-cathedral` | [Before / selected](screenshots/thumbnails-dawnspire-cathedral.png) |
-| Wyrmcrest Keep `wyrmcrest-keep` | [Before / selected](screenshots/thumbnails-wyrmcrest-keep.png) |
-| Astral Observatory `astral-observatory` | [Before / selected](screenshots/thumbnails-astral-observatory.png) |
-| Throne of Ash `throne-of-ash` | [Before / selected](screenshots/thumbnails-throne-of-ash.png) |
-| Eclipse Citadel `eclipse-citadel` | [Before / selected](screenshots/thumbnails-eclipse-citadel.png) |
-| Tempest Port — Concept A, The Storm Gate `tempest-port` | [Before / selected](screenshots/thumbnails-tempest-port.png) |
+| Selected identity | Corrected native-size sheet | Full landscape scene |
+|---|---|---|
+| Dawnspire Cathedral `dawnspire-cathedral` | [Six sizes](screenshots/thumbnails-dawnspire-cathedral.png) | [Landscape](landscape-masters/dawnspire-cathedral.webp) |
+| Wyrmcrest Keep `wyrmcrest-keep` | [Six sizes](screenshots/thumbnails-wyrmcrest-keep.png) | [Landscape](landscape-masters/wyrmcrest-keep.webp) |
+| Astral Observatory `astral-observatory` | [Six sizes](screenshots/thumbnails-astral-observatory.png) | [Landscape](landscape-masters/astral-observatory.webp) |
+| Throne of Ash `throne-of-ash` | [Six sizes](screenshots/thumbnails-throne-of-ash.png) | [Landscape](landscape-masters/throne-of-ash.webp) |
+| Eclipse Citadel `eclipse-citadel` | [Six sizes](screenshots/thumbnails-eclipse-citadel.png) | [Landscape](landscape-masters/eclipse-citadel.webp) |
+| Tempest Port — Concept A, The Storm Gate `tempest-port` | [Six sizes](screenshots/thumbnails-tempest-port.png) | [Landscape](landscape-masters/tempest-port.webp) |
 
-**Framing tradeoff for approval:** the images remain portraits. Full-portrait `contain` preserves the Cathedral's spires, Observatory rings, Eclipse crescent and Storm Gate without stretching structures or inventing scenery. Wide frames therefore have dark side space, and the painted area is narrower than before—approximately 40px wide within the 80×58 mobile frame, and 82px within 198×116. Fine masonry detail is less readable at the smallest sizes. No aggressive wide crop was substituted to hide this limitation. Review this framing before further testing/adoption.
+| Viewport | Land / later properties | Storm Gate scroll position | Owned Profile |
+|---|---|---|---|
+| 320×844 | [Land](screenshots/320-land-selected.png) | [Gate](screenshots/320-land-storm-gate.png) | [Profile](screenshots/320-profile-holdings.png) |
+| 390×844 | [Land](screenshots/390-land-selected.png) | [Gate](screenshots/390-land-storm-gate.png) | [Profile](screenshots/390-profile-holdings.png) |
+| 430×844 | [Land](screenshots/430-land-selected.png) | [Gate](screenshots/430-land-storm-gate.png) | [Profile](screenshots/430-profile-holdings.png) |
+| 1024×1536 | [Land](screenshots/1024-land-selected.png) | [Gate](screenshots/1024-land-storm-gate.png) | [Profile](screenshots/1024-profile-holdings.png) |
 
-## Integration and preservation
+The individual `screenshots/native-<property-id>-<width>x<height>.png` files are exactly the six required viewport dimensions, without gallery scaling.
 
-Only the six selected IDs receive `properties-51b` overrides in the existing shared `catalog-art.ejs` partial. Land delegates to that partial, as do owned/public Profiles and purchase receipts. Existing square/wide frame sizes and compact controls are unchanged. The new CSS preserves source colors without additional filters and does not restyle other illustrations. The existing stylesheet cache suffix is updated.
+## What changed
 
-**Crown Harbour remains exactly on its old atlas/slot. All weapons, armor and spells are unchanged.** The earlier subdued concepts are rejected and are not present in this integration branch. Every other property, including Oathbound Citadel and Gold Mine, retains its previous mapping/artwork. Old atlases and the earlier Wyrmcrest asset remain intact as historical source assets; the new shared override selects the snowbound Keep.
+Each selected scene was extended/recomposed into a **1536×1024 landscape**, using the exact selected portrait as the edit reference. Added space contains actual painted scenery: cliffs, mountains, snow, waterfalls, volcanic terrain or storm coast. No black padding, empty matte, blurred sides, mirrored edges or pasted portrait panels.
 
-Catalog IDs/names, levels, prices, income, upkeep, saved financial rates, quantities, receipts and transactions are untouched. No migration, seed, bot logic, game-rule, release-infrastructure or production change was made. Displayed screenshot prices reflect the synthetic character's actual holdings and authoritative successive prices.
+The defining identities remain: radiant rose-window Cathedral and clustered spires; snowbound fortified Keep and red banners; monumental armillary rings/orb; volcanic magma-window citadel; paired lunar crescents and eclipse moon; and the fortified sea gate, blue banners, beacons and ship. These are generated scene edits, **not pixel-identical copies or guaranteed preservation of every masonry detail**. Context and some architectural details differ; source-versus-corrected comparisons are supplied for owner acceptance.
 
-## Source and checks
+Runtime art uses a new immutable URL namespace, **`properties-51b-fullbleed-2`**, encoded at 768×512 WebP quality 92. The six images total **1,083,504 bytes**, versus 1,430,532 in the rejected portrait pack. The rejected runtime files are removed; source crops and the rejected commit remain in history for traceability.
 
-The supplied [integration brief](OWNER_INTEGRATION_BRIEF.md) and [source manifest](SOURCE_MANIFEST.txt) are preserved as owner-provided requirements/provenance. The six [source PNG crops](source-crops/) are byte-identical to the package. The full source comparison sheets are retained only in the local input package, not distributed as runtime art. Independent high-resolution masters were not supplied.
+Proportional `cover` rendering fills the artwork viewport. Top alignment protects high spires; reviewed landmark regions remain visible across every required shape. The selected image spans and their Land frames have no borders, rounding, shadows or background mattes. Existing frame dimensions and row layout are preserved. Full bleed comes from proper scene content and safe composition, not stretching or merely forcing portrait crops to cover.
 
-[Versioned runtime provenance](../../public/art/properties-51b/provenance.json) records source-package/source/output SHA-256 hashes, dimensions and each crop. Processing removes only a **2px comparison-frame edge on each side**, then losslessly encodes WebP. Decoded output pixels were verified identical to those trimmed source pixels. No generation, repainting, rescaling, recoloring or scene extension. Six runtime images total **1,430,532 bytes**; this checkpoint favors exact source fidelity over lossy compression. No reference-sheet UI or labels are served as artwork.
+The later [owner framing correction](OWNER_FRAMING_CORRECTION.md) supersedes conflicting instructions in the historical [attached brief](OWNER_INTEGRATION_BRIEF.md). The permanent rule is recorded in [ARTWORK_REQUIREMENTS.md](../ARTWORK_REQUIREMENTS.md); this correction does not authorize unrelated art redesigns.
 
-Focused verification:
+## Preservation and focused verification
 
-- **3 asset/mapping regression tests passed:** exact source/output hashes, all 81 catalog bindings plus legacy/small variants, safe labels, and existing atlas hashes. Only the six approved mappings change.
+- Same shared per-property rendering partial for Land, owned/public Profiles and saved receipts; same six property IDs. No catalog, names, levels, prices, income, upkeep, holdings, financial records or transaction code changes.
+- **Crown Harbour, all equipment/spells and every unselected property are unchanged.** Existing atlas files still match their provenance hashes. The earlier subdued equipment/spell proposals remain rejected.
+- **Four focused asset/mapping tests passed:** source/output provenance, geometric landmark-safe crops at all six sizes, all 81 catalog bindings plus legacy/small variants, unchanged atlas hashes and the no-matte policy.
 - **TypeScript check passed.**
-- [Local browser evidence](visual-checks.json): real 390px Land, owned/public Profile and all six private receipt routes; expected selected URLs, accessible labels, `contain` framing, no added filters, no horizontal overflow, five tabs and existing ≥44px marketplace controls. Six native-size before/after sheets generated; no browser script errors.
-- Catalog, gameplay, transaction, migration and release files remain unchanged. All database activity was confined to a disposable local synthetic fixture.
+- [Browser evidence](visual-checks.json): four viewport groups, **96 real-route artwork bindings**, **36 exact-size samples** and 18 review captures. Checks include decoded image dimensions, proportional viewport coverage, transparent CSS background, zero image/frame borders and shadows, opaque nonuniform source edges, expected URLs, accessible labels, no overflow, five tabs and ≥44px marketplace controls.
+- All six native-size sheets and the four rendered Land widths were visually inspected. Cathedral tips/window, full ring/orb silhouette, both crescent tips, magma-window apex and sea-gate beacons/arch remain visible. Tiny masonry detail naturally reduces at 68×49; no claim is made that every detail survives at that scale.
 
-**Pending:** owner approval of the thumbnail framing, then final draft PR and one full exact-head CI checkpoint. No full regression/preservation suite or physical-device claim is made at this stage. No PR has been opened, and nothing has been merged or deployed.
+Landmark rectangles are manually identified from the generated masters; geometry checks confirm their retention but cannot automatically certify semantic identity, painted quality, or the absence of every possible content artifact. Source-edge tests reject uniform embedded strips; visual inspection checks the actual scenery. **Owner visual approval is still required.** No physical-device or full regression-suite claim is made at this checkpoint.
 
-To reproduce with existing development dependencies and a designated local `*_test` database: `node --test tests/phase51b-art.test.mjs`, `npm run typecheck`, then `TEST_DATABASE_URL=<local disposable fixture> npx tsx scripts/browser-phase51b-art.ts`. This script has no live connection or production operator path.
+[Runtime provenance](../../public/art/properties-51b-fullbleed-2/provenance.json) records original owner-source hashes, edit/output hashes, master references, encoded sizes and landmark bounds. [Edit prompts](full-bleed-generation.json) document the six source-bound scene extensions. Original generated PNGs remain in the workspace; full-size WebP review masters are linked above. No commercial historical-game assets or third-party stock were used. The source package's [manifest](SOURCE_MANIFEST.txt) and [original crops](source-crops/) remain unchanged.
+
+All game/database activity used disposable local synthetic fixtures. Protected release files and production resources remain untouched. Reproduce the focused checks from `knights-reforged/` with `node --test tests/phase51b-art.test.mjs`, `npm run typecheck`, then `TEST_DATABASE_URL=<local disposable *_test fixture> npx tsx scripts/browser-phase51b-art.ts`.
+
+**Pause here for corrected-visual approval before final PR preparation and full CI.**

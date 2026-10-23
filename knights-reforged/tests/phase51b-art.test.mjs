@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import ejs from 'ejs';
 const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root)),json=p=>JSON.parse(read(p));
-const manifest=json('public/art/properties-51b/provenance.json'),catalog=json('rulesets/alpha-0.3/rules.json');
+const manifest=json('public/art/properties-51b-fullbleed-2/provenance.json'),catalog=json('rulesets/alpha-0.3/rules.json');
 const ids=['dawnspire-cathedral','wyrmcrest-keep','astral-observatory','throne-of-ash','eclipse-citadel','tempest-port'];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 
@@ -14,9 +14,15 @@ test('six owner-selected assets have exact source provenance and bounded, versio
  for(const [index,a] of manifest.assets.entries()){
   assert.equal(a.classIndex,index);assert.ok(catalog.properties.some(p=>p.id===a.id));assert.equal(a.asset,a.id+'.webp');
   assert.equal(hash(read(a.source)),a.sourceSha256);
-  const bytes=read('public/art/properties-51b/'+a.asset);assert.equal(hash(bytes),a.sha256);assert.equal(bytes.length,a.bytes);
+  const bytes=read('public/art/properties-51b-fullbleed-2/'+a.asset);assert.equal(hash(bytes),a.sha256);assert.equal(bytes.length,a.bytes);
   assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');assert.ok(a.bytes<300000);
-  assert.deepEqual(a.crop,[2,2,a.sourceSize[0]-4,a.sourceSize[1]-4]);assert.equal(a.width,a.crop[2]);assert.equal(a.height,a.crop[3]);
+  assert.equal(a.width,768);assert.equal(a.height,512);assert.equal(hash(read(a.landscapeMaster)),a.landscapeMasterSha256);
+  assert.deepEqual(a.focalPosition,[0.5,0]);
+  for(const [w,h] of [[68,49],[80,58],[90,60],[198,116],[60,60],[64,72]]){
+   const scale=Math.max(w/a.width,h/a.height),visibleW=w/scale,visibleH=h/scale,left=(a.width-visibleW)/2;
+   const [x,y,bw,bh]=a.landmarkBounds;
+   assert.ok(x>=left&&x+bw<=left+visibleW&&y>=0&&y+bh<=visibleH,a.id+' landmark loss at '+w+'x'+h);
+  }
  }
 });
 
@@ -41,4 +47,11 @@ test('preserved equipment, spell and Land atlases still match their existing man
  }
  // Crown Harbour retains its original slot in the unchanged simplified atlas.
  const crown=catalog.properties.find(p=>p.id==='crown-harbour');assert.deepEqual(crown.illustration,{atlas:'properties',column:2,row:1});
+});
+
+test('full-bleed policy rejects the earlier contain/matte treatment',()=>{
+ const css=read('public/phase49.css').toString(),selected=css.slice(css.indexOf('/* Full-bleed scene compositions.'));
+ assert.match(selected,/background-size: cover/);assert.doesNotMatch(selected,/background-size: contain|background-color: #0c0b0a/);
+ assert.match(selected,/background-color: transparent/);assert.match(selected,/border: 0/);
+ assert.match(read('docs/ARTWORK_REQUIREMENTS.md').toString(),/Applies permanently/);
 });

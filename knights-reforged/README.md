@@ -14,6 +14,8 @@ Previously Knights Reforged. The application directory, database identifiers and
 
 A server-rendered medieval multiplayer RPG inspired by Storm8 Kingdoms Live. Five original-style tabs connect repeatable quests, Mana, quantity equipment, automatically equipped armies, Spirit-based PvP, Land income and character progression. All gameplay calculations run on the server.
 
+**Permanent artwork requirement:** all game artwork is full bleed at every supported size. No letterboxing, pillarboxing, empty gutters, black borders or artificial mattes; preserve defining landmarks without distortion. Follow [artwork requirements](docs/ARTWORK_REQUIREMENTS.md), using proper scene composition/extension when a crop alone is insufficient.
+
 **Active rules: `game-feel-1` for equipment resale and the narrow XP refinement, `gameplay-refinement-1` for retained healing/loot policy, `alpha-0.3` content, `strategy-0.2` specializations/rewards, `passive-rivals-5` development population, `community-0.1` social policy and `refinements-0.1`, `pvp-economy-0.1` and `progression-economy-0.2` combat/economic rules.** The content, economic policy and combat formulas are reconstructed Kingdom Come rules. No original Storm8 server formulas are claimed as recovered. Earlier immutable catalogs remain installed.
 
 Application: `knights-reforged/` in `catillatio/test`. Development branch: `feature/kingdom-come-phase-4-7-game-feel-and-polish`, based on deployed Phase 4.6, retaining the Codespaces Origin fix. No branches are merged and nothing is deployed automatically.
