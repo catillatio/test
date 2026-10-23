@@ -54,7 +54,7 @@ try{
  if(!before){
   // Scrolling acknowledges only genuinely visible incoming records. A later view
   // refreshes badges from persisted state; no timers fabricate notifications.
-  await login(a.cookie);await visit('/game/home');for(const entry of await page.locator('[data-notification-event]').elementHandles()){await entry.evaluate(e=>e.scrollIntoView({block:'center'}));await page.waitForTimeout(550);}
+  await login(a.cookie);await visit('/game/home');for(const entry of await page.locator('[data-notification-event]').elementHandles()){await entry.evaluate(e=>{if(e instanceof Element)e.scrollIntoView({block:'center'});});await page.waitForTimeout(550);}
   const attention=await r.app.inject({url:'/api/v1/notifications',headers:{cookie:a.cookie}});assert.equal(attention.json().home,0);assert.equal(attention.json().army,1);
   await visit('/game/armory?category=weapon');assert.equal(await page.locator('[data-notification-badge=home]').isVisible(),false);assert.equal(await page.locator('[data-notification-badge=army]').isVisible(),true);
   // New mode controls preserve real submission and progressive revalidation.
