@@ -82,3 +82,11 @@ test('persistent report denial emits fixed HTTP/deadline diagnostics and cannot 
  assert.equal(result.stdout,queued+'PRIVATE_REPORT_READ: HTTP_403\nPRIVATE_REPORT_READ: DEADLINE\n');
  assert.deepEqual(result.trace,[...identified,'report','report_get_403','store_close']);
 });
+
+
+test('an unexpected HTTP 400 emits its exact fixed category and cannot reach export or promotion',()=>{
+ const result=run('report_bad_status');assert.equal(result.status,1);
+ assert.equal(result.stderr,'BACKUP_RESTORE_VERIFICATION: FAIL\n'+generic);
+ assert.equal(result.stdout,queued+'PRIVATE_REPORT_READ: HTTP_400\nPRIVATE_REPORT_READ: HTTP_REJECTED\n');
+ assert.deepEqual(result.trace,[...identified,'report','report_get_400','store_close']);
+});

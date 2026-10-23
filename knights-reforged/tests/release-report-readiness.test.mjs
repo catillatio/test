@@ -95,7 +95,7 @@ test('untrusted error bodies/headers are never inspected or logged',async t=>{
 for(const code of [401,429,500,502,503,504,301,418])test('HTTP '+code+' is not reclassified as report readiness',async t=>{
  const h=harness(t,()=>pending(code));
  assert.ok((await capture(h.read())).error);assert.equal(h.requests.length,1);
- assert.deepEqual(h.statuses,[[401,429,500,502,503,504].includes(code)?'HTTP_'+code:'HTTP_OTHER','HTTP_REJECTED']);
+ assert.deepEqual(h.statuses,['HTTP_'+code,'HTTP_REJECTED']);
 });
 
 for(const code of [403,404])test('non-polling report reads still reject '+code+' immediately',async t=>{
@@ -221,4 +221,53 @@ test('a stalled body is aborted at the remaining overall deadline',async t=>{
  t.mock.method(AbortSignal,'timeout',ms=>{const controller=new AbortController();setTimeout(()=>controller.abort(),ms);return controller.signal;});
  const result=capture(h.read({deadline:epoch+7000}));await flush();t.mock.timers.tick(7000);await flush();
  assert.ok((await result).error);assert.equal(h.requests.length,1);assert.deepEqual(h.statuses,['DEADLINE']);
+});
+
+
+test('every non-200 integer HTTP status from 100 to 599 is exact and fails closed without retry',async t=>{
+ let code=100,canceled=0;
+ const h=harness(t,()=>({status:code,body:{cancel:async()=>{canceled++;}}}));
+ for(code=100;code<=599;code++){
+  if(code===200)continue; // Success remains JSON_RECEIVED, covered above.
+  const previous=h.requests.length;h.statuses.length=0;
+  const {error}=await capture(h.read({wait:false}));
+  assert.ok(error);assert.equal(h.requests.length,previous+1);
+  assert.deepEqual(h.statuses,['HTTP_'+code,'HTTP_REJECTED']);
+ }
+ assert.equal(canceled,499);
+});
+
+for(const code of [201,204,206,299,300,302,307,308,400,405,408,409,418,422,451,499,501,505,520,599])test('HTTP '+code+' previously hidden as HTTP_OTHER is exact and fatal even in polling mode',async t=>{
+ const h=harness(t,()=>({status:code,body:{cancel:async()=>{}}}));
+ const {error}=await capture(h.read());assert.ok(error);
+ t.mock.timers.tick(30000);await flush();assert.equal(h.requests.length,1);
+ assert.deepEqual(h.statuses,['HTTP_'+code,'HTTP_REJECTED']);
+});
+
+test('invalid status values are never coerced or inserted into diagnostics',async t=>{
+ let code;
+ const poison={toString(){throw new Error(secret);},valueOf(){throw new Error(secret);}};
+ const h=harness(t,()=>({status:code,body:{cancel:async()=>{}},get text(){throw new Error(secret);},get headers(){throw new Error(secret);}}));
+ for(code of [undefined,null,true,false,0,99,600,-1,400.5,NaN,Infinity,-Infinity,400n,'400',secret,Symbol(secret),poison]){
+  const previous=h.requests.length;h.statuses.length=0;
+  const {error}=await capture(h.read());assert.ok(error);assert.doesNotMatch(error.message,/synthetic-provider/);
+  assert.equal(h.requests.length,previous+1);assert.deepEqual(h.statuses,['HTTP_OTHER','HTTP_REJECTED']);
+ }
+});
+
+test('capture the numeric status once so a changing getter cannot inject provider text',async t=>{
+ let reads=0,canceled=0;
+ const h=harness(t,()=>({get status(){return ++reads===1?400:secret;},body:{cancel:async()=>{canceled++;}},get headers(){throw new Error(secret);},get text(){throw new Error(secret);}}));
+ const {error}=await capture(h.read());assert.ok(error);assert.equal(reads,1);assert.equal(canceled,1);
+ assert.equal(h.requests.length,1);assert.deepEqual(h.statuses,['HTTP_400','HTTP_REJECTED']);
+ assert.doesNotMatch(JSON.stringify(h.statuses)+error.message,/synthetic-provider/);
+});
+
+
+test('404 followed by an unexpected status stops immediately and never consumes a later success',async t=>{
+ const h=harness(t,n=>n===1?pending(404):n===2?pending(400):Response.json({passed:true}));
+ const result=capture(h.read());await flush();t.mock.timers.tick(3000);await flush();
+ assert.ok((await result).error);assert.equal(h.requests.length,2);
+ assert.deepEqual(h.statuses,['HTTP_404','HTTP_400','HTTP_REJECTED']);
+ t.mock.timers.tick(30000);await flush();assert.equal(h.requests.length,2);
 });
