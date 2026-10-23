@@ -1,0 +1,262 @@
+{
+  "passed": true,
+  "base": "2e05e1c15b50018607e906db0e2ad33866e95aac",
+  "productionContacted": false,
+  "checks": [
+    "390px real Land: six exact bindings, full portrait contain, no color filters, unchanged Crown Harbour, no overflow, five tabs, 44px controls",
+    "Owned/public Profile: six exact illustration bindings and accessible labels",
+    "Six saved purchase receipts use the shared mapping without changing saved receipt names",
+    "Six native-size before/after sheets: 68×49, 80×58, 90×60, 198×116 plus actual Profile/receipt dimensions"
+  ],
+  "profileSize": {
+    "width": 60,
+    "height": 60
+  },
+  "receiptSize": {
+    "width": 64,
+    "height": 72
+  },
+  "details": [
+    {
+      "id": "dawnspire-cathedral",
+      "selector": "[data-land-property=\"dawnspire-cathedral\"] .catalog-art",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/dawnspire-cathedral.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 78,
+      "height": 56,
+      "label": "Dawnspire Cathedral illustration"
+    },
+    {
+      "id": "wyrmcrest-keep",
+      "selector": "[data-land-property=\"wyrmcrest-keep\"] .catalog-art",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/wyrmcrest-keep.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 78,
+      "height": 56,
+      "label": "Wyrmcrest Keep illustration"
+    },
+    {
+      "id": "astral-observatory",
+      "selector": "[data-land-property=\"astral-observatory\"] .catalog-art",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/astral-observatory.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 78,
+      "height": 56,
+      "label": "Astral Observatory illustration"
+    },
+    {
+      "id": "throne-of-ash",
+      "selector": "[data-land-property=\"throne-of-ash\"] .catalog-art",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/throne-of-ash.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 78,
+      "height": 56,
+      "label": "Throne of Ash illustration"
+    },
+    {
+      "id": "eclipse-citadel",
+      "selector": "[data-land-property=\"eclipse-citadel\"] .catalog-art",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/eclipse-citadel.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 78,
+      "height": 56,
+      "label": "Eclipse Citadel illustration"
+    },
+    {
+      "id": "tempest-port",
+      "selector": "[data-land-property=\"tempest-port\"] .catalog-art",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/tempest-port.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 78,
+      "height": 56,
+      "label": "Tempest Port illustration"
+    },
+    {
+      "id": "dawnspire-cathedral",
+      "selector": ".profile-estate .property-art-51b-0",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/dawnspire-cathedral.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Dawnspire Cathedral illustration"
+    },
+    {
+      "id": "wyrmcrest-keep",
+      "selector": ".profile-estate .property-art-51b-1",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/wyrmcrest-keep.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Wyrmcrest Keep illustration"
+    },
+    {
+      "id": "astral-observatory",
+      "selector": ".profile-estate .property-art-51b-2",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/astral-observatory.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Astral Observatory illustration"
+    },
+    {
+      "id": "throne-of-ash",
+      "selector": ".profile-estate .property-art-51b-3",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/throne-of-ash.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Throne of Ash illustration"
+    },
+    {
+      "id": "eclipse-citadel",
+      "selector": ".profile-estate .property-art-51b-4",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/eclipse-citadel.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Eclipse Citadel illustration"
+    },
+    {
+      "id": "tempest-port",
+      "selector": ".profile-estate .property-art-51b-5",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/tempest-port.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Tempest Port illustration"
+    },
+    {
+      "id": "dawnspire-cathedral",
+      "selector": ".profile-estate .property-art-51b-0",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/dawnspire-cathedral.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Dawnspire Cathedral illustration"
+    },
+    {
+      "id": "wyrmcrest-keep",
+      "selector": ".profile-estate .property-art-51b-1",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/wyrmcrest-keep.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Wyrmcrest Keep illustration"
+    },
+    {
+      "id": "astral-observatory",
+      "selector": ".profile-estate .property-art-51b-2",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/astral-observatory.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Astral Observatory illustration"
+    },
+    {
+      "id": "throne-of-ash",
+      "selector": ".profile-estate .property-art-51b-3",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/throne-of-ash.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Throne of Ash illustration"
+    },
+    {
+      "id": "eclipse-citadel",
+      "selector": ".profile-estate .property-art-51b-4",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/eclipse-citadel.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Eclipse Citadel illustration"
+    },
+    {
+      "id": "tempest-port",
+      "selector": ".profile-estate .property-art-51b-5",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/tempest-port.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 60,
+      "height": 60,
+      "label": "Tempest Port illustration"
+    },
+    {
+      "id": "dawnspire-cathedral",
+      "selector": ".purchase-receipt .property-art-51b-0",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/dawnspire-cathedral.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 64,
+      "height": 72,
+      "label": "Dawnspire Cathedral illustration"
+    },
+    {
+      "id": "wyrmcrest-keep",
+      "selector": ".purchase-receipt .property-art-51b-1",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/wyrmcrest-keep.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 64,
+      "height": 72,
+      "label": "Wyrmcrest Keep illustration"
+    },
+    {
+      "id": "astral-observatory",
+      "selector": ".purchase-receipt .property-art-51b-2",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/astral-observatory.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 64,
+      "height": 72,
+      "label": "Astral Observatory illustration"
+    },
+    {
+      "id": "throne-of-ash",
+      "selector": ".purchase-receipt .property-art-51b-3",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/throne-of-ash.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 64,
+      "height": 72,
+      "label": "Throne of Ash illustration"
+    },
+    {
+      "id": "eclipse-citadel",
+      "selector": ".purchase-receipt .property-art-51b-4",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/eclipse-citadel.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 64,
+      "height": 72,
+      "label": "Eclipse Citadel illustration"
+    },
+    {
+      "id": "tempest-port",
+      "selector": ".purchase-receipt .property-art-51b-5",
+      "image": "url(\"http://127.0.0.1:42933/assets/art/properties-51b/tempest-port.webp\")",
+      "size": "contain",
+      "filter": "none",
+      "width": 64,
+      "height": 72,
+      "label": "Tempest Port illustration"
+    }
+  ],
+  "errors": []
+}

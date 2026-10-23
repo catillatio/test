@@ -107,3 +107,19 @@
   width: 100%; height: 100%; transform: none;
   filter: saturate(.82) brightness(.9) contrast(1.04);
 }
+/* Owner-selected portrait illustrations. Contain preserves the defining spires,
+   rings and Storm Gate in all existing wide/square frames; no scene is invented
+   to fill the dark sides. Only these six property IDs opt into this treatment. */
+.kingdoms-ui.realm-remaster.signed-in .catalog-art.property-art-51b {
+  display: block; background-size: contain; background-position: center;
+  background-repeat: no-repeat; background-color: #0c0b0a; filter: none;
+}
+.property-art-51b-0 { background-image: url('art/properties-51b/dawnspire-cathedral.webp'); }
+.property-art-51b-1 { background-image: url('art/properties-51b/wyrmcrest-keep.webp'); }
+.property-art-51b-2 { background-image: url('art/properties-51b/astral-observatory.webp'); }
+.property-art-51b-3 { background-image: url('art/properties-51b/throne-of-ash.webp'); }
+.property-art-51b-4 { background-image: url('art/properties-51b/eclipse-citadel.webp'); }
+.property-art-51b-5 { background-image: url('art/properties-51b/tempest-port.webp'); }
+.kingdoms-ui.screen-land.signed-in .market-catalog .property-art-frame .property-art-51b {
+  width: 100%; height: 100%; transform: none; filter: none;
+}
