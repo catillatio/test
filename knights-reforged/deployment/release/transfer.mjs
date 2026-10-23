@@ -4,6 +4,7 @@ import {createReadStream,createWriteStream} from 'node:fs';
 import {pipeline} from 'node:stream/promises';
 import {Readable,Transform} from 'node:stream';
 import {stat} from 'node:fs/promises';
+import timers from 'node:timers/promises';
 const httpsOnly=url=>{const target=new URL(url);assert.equal(target.protocol,'https:');assert.ok(!target.username&&!target.password);};
 
 export async function fileDigest(path){
@@ -38,14 +39,49 @@ export async function getFile(url,path,expected){
  await pipeline(Readable.fromWeb(response.body),bounded,createWriteStream(path,{flags:'wx',mode:0o600}));
  assert.equal(size,expected.bytes);assert.equal(hash.digest('hex'),expected.sha256,'Independent recovery checksum mismatch.');
 }
-export async function getReport(url,{wait=false,deadline=Date.now()+1200000}={}){
+// S3 can return 403 for an absent key when ListBucket is not granted. A 403
+// alone cannot distinguish readiness from denied access or an invalid signature.
+// Only this exact report GET may wait on it; it never counts as evidence.
+export async function getReport(url,{wait=false,deadline=Date.now()+1200000,signal,onStatus=()=>{}}={}){
  httpsOnly(url);
+ assert.ok(Number.isFinite(deadline));
+ const end=Math.min(deadline,Date.now()+1200000),seen=new Set();
+ const status=code=>{if(!seen.has(code)){seen.add(code);onStatus(code);}};
+ const fail=code=>{status(code);throw new Error('The private verification report could not be retrieved.');};
+ const check=()=>{if(signal?.aborted)fail('ABORTED');if(Date.now()>=end)fail('DEADLINE');};
  for(;;){
-  const response=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(15000)});
-  if(response.status===404&&wait&&Date.now()<deadline){await response.body?.cancel();await new Promise(resolve=>setTimeout(resolve,3000));continue;}
-  assert.equal(response.status,200,'The private verification job did not produce a successful report.');
+  check();
+  const attempt=AbortSignal.timeout(Math.min(15000,end-Date.now()));
+  let response;
+  try{response=await fetch(url,{redirect:'error',cache:'no-store',signal:signal?AbortSignal.any([signal,attempt]):attempt});}
+  catch{check();fail('TRANSPORT_FAILURE');}
+  if(response.status!==200){
+   await response.body?.cancel();
+   status([401,403,404,429,500,502,503,504].includes(response.status)?'HTTP_'+response.status:'HTTP_OTHER');
+   check();
+   if(wait&&(response.status===403||response.status===404)){
+    // Keep the existing 3-second cadence and 20-minute maximum. Reuse the
+    // original grant; never extend its lifetime, re-sign, or inspect error bodies.
+    try{await timers.setTimeout(Math.min(3000,end-Date.now()),undefined,{signal});}
+    catch{check();fail('TRANSPORT_FAILURE');}
+    continue;
+   }
+   fail('HTTP_REJECTED');
+  }
   const pieces=[];let bytes=0;
-  for await(const chunk of response.body){bytes+=chunk.length;assert.ok(bytes<=100000,'Verification report is too large.');pieces.push(chunk);}
-  return JSON.parse(Buffer.concat(pieces).toString('utf8'));
+  try{
+   check();
+   for await(const chunk of response.body){
+    check();bytes+=chunk.length;
+    if(bytes>100000)fail('REPORT_TOO_LARGE');
+    pieces.push(chunk);
+   }
+  }catch{check();fail('BODY_REJECTED');}
+  check();
+  let report;try{report=JSON.parse(Buffer.concat(pieces).toString('utf8'));}catch{fail('INVALID_JSON');}
+  status('JSON_RECEIVED');
+  // Parsing is not approval. The controller still requires checkJobReport,
+  // independent deployment identity, ciphertext export and every later gate.
+  return report;
  }
 }

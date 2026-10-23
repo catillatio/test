@@ -68,3 +68,17 @@ for(const [mode,category,trace]of[
 ])test('promotion preserves backup gates and does not mislabel game operations: '+mode,()=>{
  const result=run(mode,'promote');assert.equal(result.status,1);assert.equal(result.stderr,category+': FAIL\n'+generic);assert.equal(result.stdout,'');assert.deepEqual(result.trace,trace);
 });
+
+
+test('a delayed S3 report returning 403 then 200 still requires real controller validation, export and retention',()=>{
+ const result=run('report_readiness');assert.equal(result.status,0);assert.equal(result.stderr,'');
+ assert.equal(result.stdout,queued+'PRIVATE_REPORT_READ: HTTP_403\nPRIVATE_REPORT_READ: JSON_RECEIVED\n'+complete);
+ assert.deepEqual(result.trace,[...identified,'report','report_get_403','report_get_200','download','manifest','store_close']);
+});
+
+test('persistent report denial emits fixed HTTP/deadline diagnostics and cannot reach recovery export or promotion',()=>{
+ const result=run('report_denied');assert.equal(result.status,1);
+ assert.equal(result.stderr,'BACKUP_RESTORE_VERIFICATION: FAIL\n'+generic);
+ assert.equal(result.stdout,queued+'PRIVATE_REPORT_READ: HTTP_403\nPRIVATE_REPORT_READ: DEADLINE\n');
+ assert.deepEqual(result.trace,[...identified,'report','report_get_403','store_close']);
+});
