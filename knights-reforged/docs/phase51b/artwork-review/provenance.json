@@ -1,0 +1,117 @@
+{
+  "status": "Unapproved design concepts. No runtime asset adoption.",
+  "source": "Original OpenAI image_gen.imagegen output created for this Phase 5.1B review, 2026-10-23. No historical-game images or third-party stock supplied as references.",
+  "rights": "Original project-generated output, subject to applicable OpenAI terms. No exclusivity or copyright protection asserted. No third-party asset license required for these newly generated concepts; owner acceptance and final asset QA still required.",
+  "prompts": "concepts/prompts.json",
+  "concepts": [
+    {
+      "path": "docs/phase51b/artwork-review/concepts/equipment.webp",
+      "sha256": "db8ca9abec044107c21954b6b2bc906e9c66c10f4109cb346c1f52441b3d8fa9",
+      "bytes": 342652,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "masterPngSha256": "376842716f30da8b35f13609e076d9dc7ecbfb826128055084dc998fb68f2ccc",
+      "masterWorkspacePath": "/workspace/generated_images/exec-7ccbbdfc-2f49-4642-b1c0-239d066c2b2a.png",
+      "observedRowBounds": [
+        0,
+        461,
+        1024
+      ],
+      "columnBounds": [
+        0,
+        512,
+        1024,
+        1536
+      ],
+      "processing": "FFmpeg libwebp quality 90 encoding only. Comparisons clip source rectangles and scale with aspect preserved; no repainting."
+    },
+    {
+      "path": "docs/phase51b/artwork-review/concepts/magic-and-port.webp",
+      "sha256": "7fa3459e15adedfb541e5ffd8f2fbf046269178b1a022cebc02c6a8cbc6cab1d",
+      "bytes": 380442,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "masterPngSha256": "6afddd4cd90a0e24f77047a3aad400612de9df0446a62b6d6418e7187d92c952",
+      "masterWorkspacePath": "/workspace/generated_images/exec-ed9087a1-5913-460b-81ce-503a53b5bab0.png",
+      "observedRowBounds": [
+        0,
+        512,
+        1024
+      ],
+      "columnBounds": [
+        0,
+        512,
+        1024,
+        1536
+      ],
+      "processing": "FFmpeg libwebp quality 90 encoding only. Comparisons clip source rectangles and scale with aspect preserved; no repainting."
+    }
+  ],
+  "currentRuntimeAssetChecks": [
+    {
+      "path": "public/art/fantasy-0.2/weapons.webp",
+      "manifest": "public/art/fantasy-0.2/provenance.json",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030",
+      "matchesManifest": true
+    },
+    {
+      "path": "public/art/fantasy-0.2/armor.webp",
+      "manifest": "public/art/fantasy-0.2/provenance.json",
+      "sha256": "1210ae0ce0be9f37a613c754533738dceee3a4b63f43094bdd526d2998149fd1",
+      "matchesManifest": true
+    },
+    {
+      "path": "public/art/fantasy-0.2/spells.webp",
+      "manifest": "public/art/fantasy-0.2/provenance.json",
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67",
+      "matchesManifest": true
+    },
+    {
+      "path": "public/art/fantasy-0.2/properties.webp",
+      "manifest": "public/art/fantasy-0.2/provenance.json",
+      "sha256": "cbce02b53f639b98f1b9761fd021c3e2bc7763b2ffda691cc114d78c783982b1",
+      "matchesManifest": true
+    },
+    {
+      "path": "public/art/land-simple-0.1/properties.webp",
+      "manifest": "public/art/land-simple-0.1/provenance.json",
+      "sha256": "343c5c7e128b27a98e12102b4d4b7ba0354d5e109491ecf0e97040f098682ea2",
+      "matchesManifest": true
+    },
+    {
+      "path": "public/art/land-review/painted-properties.webp",
+      "manifest": "public/art/land-review/provenance.json",
+      "sha256": "74180fb5be6813543797ec8de021de15cc436e7efa0da9f2ea1b7c4998f23b7b",
+      "matchesManifest": true
+    },
+    {
+      "path": "public/art/land-review/castle-landscape.webp",
+      "manifest": "public/art/land-review/provenance.json",
+      "sha256": "b76d1107f7d35dc1fdc22f671f36ee4775ba20a8f1fedc5d7199949ce67f7057",
+      "matchesManifest": true
+    },
+    {
+      "path": "public/art/land-review/interface-icons.webp",
+      "manifest": "public/art/land-review/provenance.json",
+      "sha256": "9e6bf5a2bac61b5991d4acd67e6e8ec51d5d47c717e8df4e9cfea9ba9cc166b1",
+      "matchesManifest": true
+    },
+    {
+      "path": "public/art/properties-49/wyrmcrest-keep.webp",
+      "manifest": "public/art/properties-49/provenance.json",
+      "sha256": "94d833a312ef80d1a36a5afb0f854988af113b93b6843a0791f55482195596a2",
+      "matchesManifest": true
+    },
+    {
+      "path": "public/art/properties-49/gold-mine.webp",
+      "manifest": "public/art/properties-49/provenance.json",
+      "sha256": "c997008b7854f2031b06a02ba04935aca0e032b90d61d90fb12a6cd17e1580fa",
+      "matchesManifest": true
+    }
+  ],
+  "currentProvenanceScope": "Verifies current runtime WebP bytes against repository provenance. Does not independently authenticate old workspace-only PNG masters or establish legal exclusivity. The older fantasy property sheet is preserved but overridden at runtime."
+}

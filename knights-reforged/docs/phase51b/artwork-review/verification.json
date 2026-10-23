@@ -1,0 +1,12 @@
+{
+  "base": "2e05e1c15b50018607e906db0e2ad33866e95aac",
+  "checks": [
+    "81 unique catalog IDs, unlock levels, mappings and normalized 76px samples PASS",
+    "10 current manifest hashes and 2 concept board hashes PASS",
+    "Relative review links PASS",
+    "Tracked runtime, catalogs, gameplay, assets, release infrastructure unchanged PASS"
+  ],
+  "fullCi": "Not run: design-only checkpoint requested",
+  "productionAccess": false,
+  "runtimeChanges": false
+}

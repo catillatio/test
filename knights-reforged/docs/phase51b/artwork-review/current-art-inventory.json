@@ -1,0 +1,1700 @@
+{
+  "base": "2e05e1c15b50018607e906db0e2ad33866e95aac",
+  "note": "Review-only EJS/CSS gallery; not game screenshots. 76px normalized samples, not literal mobile row geometry.",
+  "groups": [
+    {
+      "kind": "weapon",
+      "count": 20,
+      "entries": [
+        {
+          "id": "squires-blade",
+          "name": "Squire's Blade",
+          "level": 1,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 0,
+            "row": 0
+          },
+          "price": 5
+        },
+        {
+          "id": "ash-spear",
+          "name": "Ash Spear",
+          "level": 1,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 1,
+            "row": 0
+          },
+          "price": 12
+        },
+        {
+          "id": "iron-sword",
+          "name": "Iron sword",
+          "level": 1,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 2,
+            "row": 0
+          },
+          "price": 40
+        },
+        {
+          "id": "hazeltwig-longbow",
+          "name": "Hazeltwig Longbow",
+          "level": 2,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 3,
+            "row": 0
+          },
+          "price": 22
+        },
+        {
+          "id": "ransackers-axe",
+          "name": "Ransacker's Axe",
+          "level": 3,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 0,
+            "row": 1
+          },
+          "price": 75
+        },
+        {
+          "id": "wardens-halberd",
+          "name": "Warden's Halberd",
+          "level": 5,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 1,
+            "row": 1
+          },
+          "price": 110
+        },
+        {
+          "id": "sunsteel-glaive",
+          "name": "Sunsteel Glaive",
+          "level": 6,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 2,
+            "row": 1
+          },
+          "price": 150
+        },
+        {
+          "id": "kingsguard-longsword",
+          "name": "Kingsguard Longsword",
+          "level": 8,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 3,
+            "row": 1
+          },
+          "price": 240
+        },
+        {
+          "id": "briarheart-bow",
+          "name": "Briarheart Bow",
+          "level": 10,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 0,
+            "row": 2
+          },
+          "price": 360
+        },
+        {
+          "id": "runescar-saber",
+          "name": "Runescar Saber",
+          "level": 12,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 1,
+            "row": 2
+          },
+          "price": 520
+        },
+        {
+          "id": "stormglass-pike",
+          "name": "Stormglass Pike",
+          "level": 15,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 2,
+            "row": 2
+          },
+          "price": 760
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "name": "Cinderwyrm Cleaver",
+          "level": 18,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 3,
+            "row": 2
+          },
+          "price": 1100
+        },
+        {
+          "id": "moonthorn-recurve",
+          "name": "Moonthorn Recurve",
+          "level": 21,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 0,
+            "row": 3
+          },
+          "price": 1450
+        },
+        {
+          "id": "oathbound-greatsword",
+          "name": "Oathbound Greatsword",
+          "level": 24,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 1,
+            "row": 3
+          },
+          "price": 1950
+        },
+        {
+          "id": "gravewarden-scythe",
+          "name": "Gravewarden Scythe",
+          "level": 28,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 2,
+            "row": 3
+          },
+          "price": 2600
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Sun-etched Warhammer",
+          "level": 32,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 3,
+            "row": 3
+          },
+          "price": 3400
+        },
+        {
+          "id": "dragonwake-falchion",
+          "name": "Dragonwake Falchion",
+          "level": 36,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 0,
+            "row": 4
+          },
+          "price": 4400
+        },
+        {
+          "id": "astral-conductor",
+          "name": "Astral Conductor",
+          "level": 40,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 1,
+            "row": 4
+          },
+          "price": 5700
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "name": "Crown of Ash Blade",
+          "level": 45,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 2,
+            "row": 4
+          },
+          "price": 7200
+        },
+        {
+          "id": "eclipse-greatsword",
+          "name": "Eclipse Greatsword",
+          "level": 50,
+          "illustration": {
+            "atlas": "weapons",
+            "column": 3,
+            "row": 4
+          },
+          "price": 9000
+        }
+      ],
+      "rendering": [
+        {
+          "id": "squires-blade",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 512.82%",
+          "position": "0% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "ash-spear",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 512.82%",
+          "position": "33.3333% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "iron-sword",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 512.82%",
+          "position": "66.6667% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "hazeltwig-longbow",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 512.82%",
+          "position": "100% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "ransackers-axe",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 508.475%",
+          "position": "0% 24.2739%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "wardens-halberd",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 508.475%",
+          "position": "33.3333% 24.2739%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "sunsteel-glaive",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 508.475%",
+          "position": "66.6667% 24.2739%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "kingsguard-longsword",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 508.475%",
+          "position": "100% 24.2739%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "briarheart-bow",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 528.634%",
+          "position": "0% 48.3042%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "runescar-saber",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 528.634%",
+          "position": "33.3333% 48.3042%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "stormglass-pike",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 528.634%",
+          "position": "66.6667% 48.3042%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 528.634%",
+          "position": "100% 48.3042%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "moonthorn-recurve",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 515.021%",
+          "position": "0% 72.0786%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "oathbound-greatsword",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 515.021%",
+          "position": "33.3333% 72.0786%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "gravewarden-scythe",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 515.021%",
+          "position": "66.6667% 72.0786%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 515.021%",
+          "position": "100% 72.0786%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "dragonwake-falchion",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 444.444%",
+          "position": "0% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "astral-conductor",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 444.444%",
+          "position": "33.3333% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 444.444%",
+          "position": "66.6667% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "eclipse-greatsword",
+          "url": "url(\"/assets/art/fantasy-0.2/weapons.webp\")",
+          "size": "400% 444.444%",
+          "position": "100% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        }
+      ]
+    },
+    {
+      "kind": "armor",
+      "count": 20,
+      "entries": [
+        {
+          "id": "wicker-buckler",
+          "name": "Wicker Buckler",
+          "level": 1,
+          "illustration": {
+            "atlas": "armor",
+            "column": 0,
+            "row": 0
+          },
+          "price": 6
+        },
+        {
+          "id": "tanned-leather-jerkin",
+          "name": "Tanned Leather Jerkin",
+          "level": 1,
+          "illustration": {
+            "atlas": "armor",
+            "column": 1,
+            "row": 0
+          },
+          "price": 12
+        },
+        {
+          "id": "padded-coat",
+          "name": "Padded Coat",
+          "level": 1,
+          "illustration": {
+            "atlas": "armor",
+            "column": 2,
+            "row": 0
+          },
+          "price": 18
+        },
+        {
+          "id": "warden-mail",
+          "name": "Warden Mail",
+          "level": 3,
+          "illustration": {
+            "atlas": "armor",
+            "column": 3,
+            "row": 0
+          },
+          "price": 65
+        },
+        {
+          "id": "gateward-kite-shield",
+          "name": "Gateward Kite Shield",
+          "level": 5,
+          "illustration": {
+            "atlas": "armor",
+            "column": 0,
+            "row": 1
+          },
+          "price": 100
+        },
+        {
+          "id": "castellan-helm",
+          "name": "Castellan Helm",
+          "level": 6,
+          "illustration": {
+            "atlas": "armor",
+            "column": 1,
+            "row": 1
+          },
+          "price": 140
+        },
+        {
+          "id": "runebound-hauberk",
+          "name": "Runebound Hauberk",
+          "level": 8,
+          "illustration": {
+            "atlas": "armor",
+            "column": 2,
+            "row": 1
+          },
+          "price": 220
+        },
+        {
+          "id": "verdant-aegis",
+          "name": "Verdant Aegis",
+          "level": 10,
+          "illustration": {
+            "atlas": "armor",
+            "column": 3,
+            "row": 1
+          },
+          "price": 330
+        },
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Argent Sentinel Plate",
+          "level": 12,
+          "illustration": {
+            "atlas": "armor",
+            "column": 0,
+            "row": 2
+          },
+          "price": 480
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "level": 15,
+          "illustration": {
+            "atlas": "armor",
+            "column": 1,
+            "row": 2
+          },
+          "price": 720
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Embercrest Bulwark",
+          "level": 18,
+          "illustration": {
+            "atlas": "armor",
+            "column": 2,
+            "row": 2
+          },
+          "price": 1000
+        },
+        {
+          "id": "nightwatch-carapace",
+          "name": "Nightwatch Carapace",
+          "level": 21,
+          "illustration": {
+            "atlas": "armor",
+            "column": 3,
+            "row": 2
+          },
+          "price": 1350
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "name": "Oathkeeper's Cuirass",
+          "level": 24,
+          "illustration": {
+            "atlas": "armor",
+            "column": 0,
+            "row": 3
+          },
+          "price": 1800
+        },
+        {
+          "id": "ossuary-raiment",
+          "name": "Ossuary Raiment",
+          "level": 28,
+          "illustration": {
+            "atlas": "armor",
+            "column": 1,
+            "row": 3
+          },
+          "price": 2400
+        },
+        {
+          "id": "dawnforge-panoply",
+          "name": "Dawnforge Panoply",
+          "level": 32,
+          "illustration": {
+            "atlas": "armor",
+            "column": 2,
+            "row": 3
+          },
+          "price": 3200
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Wyrmscale Aegis",
+          "level": 36,
+          "illustration": {
+            "atlas": "armor",
+            "column": 3,
+            "row": 3
+          },
+          "price": 4100
+        },
+        {
+          "id": "astral-archon-robes",
+          "name": "Astral Archon Robes",
+          "level": 40,
+          "illustration": {
+            "atlas": "armor",
+            "column": 0,
+            "row": 4
+          },
+          "price": 5300
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Sovereign's Bastion",
+          "level": 44,
+          "illustration": {
+            "atlas": "armor",
+            "column": 1,
+            "row": 4
+          },
+          "price": 6700
+        },
+        {
+          "id": "seraphic-vestment",
+          "name": "Seraphic Vestment",
+          "level": 47,
+          "illustration": {
+            "atlas": "armor",
+            "column": 2,
+            "row": 4
+          },
+          "price": 7800
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Eclipse Citadel Plate",
+          "level": 50,
+          "illustration": {
+            "atlas": "armor",
+            "column": 3,
+            "row": 4
+          },
+          "price": 8800
+        }
+      ],
+      "rendering": [
+        {
+          "id": "wicker-buckler",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 524.017%",
+          "position": "0% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "tanned-leather-jerkin",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 524.017%",
+          "position": "33.3333% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "padded-coat",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 524.017%",
+          "position": "66.6667% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "warden-mail",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 524.017%",
+          "position": "100% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "gateward-kite-shield",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 521.739%",
+          "position": "0% 23.6082%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "castellan-helm",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 521.739%",
+          "position": "33.3333% 23.6082%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "runebound-hauberk",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 521.739%",
+          "position": "66.6667% 23.6082%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "verdant-aegis",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 521.739%",
+          "position": "100% 23.6082%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "argent-sentinel-plate",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 521.739%",
+          "position": "0% 47.3196%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "frostweave-mantle",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 521.739%",
+          "position": "33.3333% 47.3196%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "embercrest-bulwark",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 521.739%",
+          "position": "66.6667% 47.3196%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "nightwatch-carapace",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 521.739%",
+          "position": "100% 47.3196%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 517.241%",
+          "position": "0% 71.1777%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "ossuary-raiment",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 517.241%",
+          "position": "33.3333% 71.1777%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "dawnforge-panoply",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 517.241%",
+          "position": "66.6667% 71.1777%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 517.241%",
+          "position": "100% 71.1777%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "astral-archon-robes",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 430.108%",
+          "position": "0% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "sovereigns-bastion",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 430.108%",
+          "position": "33.3333% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "seraphic-vestment",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 430.108%",
+          "position": "66.6667% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "url": "url(\"/assets/art/fantasy-0.2/armor.webp\")",
+          "size": "400% 430.108%",
+          "position": "100% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        }
+      ]
+    },
+    {
+      "kind": "spell",
+      "count": 20,
+      "entries": [
+        {
+          "id": "ember-word",
+          "name": "Ember Word",
+          "level": 1,
+          "illustration": {
+            "atlas": "spells",
+            "column": 0,
+            "row": 0
+          },
+          "price": 8
+        },
+        {
+          "id": "hearth-ward",
+          "name": "Hearth Ward",
+          "level": 1,
+          "illustration": {
+            "atlas": "spells",
+            "column": 1,
+            "row": 0
+          },
+          "price": 15
+        },
+        {
+          "id": "lantern-mote",
+          "name": "Lantern Mote",
+          "level": 2,
+          "illustration": {
+            "atlas": "spells",
+            "column": 2,
+            "row": 0
+          },
+          "price": 14
+        },
+        {
+          "id": "thorn-hex",
+          "name": "Thorn Hex",
+          "level": 3,
+          "illustration": {
+            "atlas": "spells",
+            "column": 3,
+            "row": 0
+          },
+          "price": 55
+        },
+        {
+          "id": "stonebinding",
+          "name": "Stonebinding",
+          "level": 5,
+          "illustration": {
+            "atlas": "spells",
+            "column": 0,
+            "row": 1
+          },
+          "price": 90
+        },
+        {
+          "id": "storm-sigil",
+          "name": "Storm Sigil",
+          "level": 6,
+          "illustration": {
+            "atlas": "spells",
+            "column": 1,
+            "row": 1
+          },
+          "price": 130
+        },
+        {
+          "id": "tempest-lance",
+          "name": "Tempest Lance",
+          "level": 8,
+          "illustration": {
+            "atlas": "spells",
+            "column": 2,
+            "row": 1
+          },
+          "price": 200
+        },
+        {
+          "id": "silverroot-ward",
+          "name": "Silverroot Ward",
+          "level": 10,
+          "illustration": {
+            "atlas": "spells",
+            "column": 3,
+            "row": 1
+          },
+          "price": 300
+        },
+        {
+          "id": "runic-convergence",
+          "name": "Runic Convergence",
+          "level": 12,
+          "illustration": {
+            "atlas": "spells",
+            "column": 0,
+            "row": 2
+          },
+          "price": 460
+        },
+        {
+          "id": "winters-judgment",
+          "name": "Winter's Judgment",
+          "level": 15,
+          "illustration": {
+            "atlas": "spells",
+            "column": 1,
+            "row": 2
+          },
+          "price": 680
+        },
+        {
+          "id": "ashen-revenant",
+          "name": "Ashen Revenant",
+          "level": 18,
+          "illustration": {
+            "atlas": "spells",
+            "column": 2,
+            "row": 2
+          },
+          "price": 950
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "level": 21,
+          "illustration": {
+            "atlas": "spells",
+            "column": 3,
+            "row": 2
+          },
+          "price": 1250
+        },
+        {
+          "id": "oathfire-nova",
+          "name": "Oathfire Nova",
+          "level": 24,
+          "illustration": {
+            "atlas": "spells",
+            "column": 0,
+            "row": 3
+          },
+          "price": 1700
+        },
+        {
+          "id": "grave-tide",
+          "name": "Grave Tide",
+          "level": 28,
+          "illustration": {
+            "atlas": "spells",
+            "column": 1,
+            "row": 3
+          },
+          "price": 2250
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Dawnstar Benediction",
+          "level": 32,
+          "illustration": {
+            "atlas": "spells",
+            "column": 2,
+            "row": 3
+          },
+          "price": 3000
+        },
+        {
+          "id": "dragons-last-breath",
+          "name": "Dragon's Last Breath",
+          "level": 36,
+          "illustration": {
+            "atlas": "spells",
+            "column": 3,
+            "row": 3
+          },
+          "price": 3900
+        },
+        {
+          "id": "astral-tempest",
+          "name": "Astral Tempest",
+          "level": 40,
+          "illustration": {
+            "atlas": "spells",
+            "column": 0,
+            "row": 4
+          },
+          "price": 5000
+        },
+        {
+          "id": "voidbound-chain",
+          "name": "Voidbound Chain",
+          "level": 44,
+          "illustration": {
+            "atlas": "spells",
+            "column": 1,
+            "row": 4
+          },
+          "price": 6300
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Seraph's Rebuke",
+          "level": 47,
+          "illustration": {
+            "atlas": "spells",
+            "column": 2,
+            "row": 4
+          },
+          "price": 7500
+        },
+        {
+          "id": "eclipse-invocation",
+          "name": "Eclipse Invocation",
+          "level": 50,
+          "illustration": {
+            "atlas": "spells",
+            "column": 3,
+            "row": 4
+          },
+          "price": 8600
+        }
+      ],
+      "rendering": [
+        {
+          "id": "ember-word",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 506.329%",
+          "position": "0% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "hearth-ward",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 506.329%",
+          "position": "33.3333% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "lantern-mote",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 506.329%",
+          "position": "66.6667% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "thorn-hex",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 506.329%",
+          "position": "100% 0%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "stonebinding",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 497.925%",
+          "position": "0% 24.7132%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "storm-sigil",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 497.925%",
+          "position": "33.3333% 24.7132%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "tempest-lance",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 497.925%",
+          "position": "66.6667% 24.7132%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "silverroot-ward",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 497.925%",
+          "position": "100% 24.7132%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "runic-convergence",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 493.827%",
+          "position": "0% 49.9478%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "winters-judgment",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 493.827%",
+          "position": "33.3333% 49.9478%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "ashen-revenant",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 493.827%",
+          "position": "66.6667% 49.9478%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "moonwell-veil",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 493.827%",
+          "position": "100% 49.9478%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "oathfire-nova",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 528.634%",
+          "position": "0% 74.1007%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "grave-tide",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 528.634%",
+          "position": "33.3333% 74.1007%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "dawnstar-benediction",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 528.634%",
+          "position": "66.6667% 74.1007%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "dragons-last-breath",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 528.634%",
+          "position": "100% 74.1007%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "astral-tempest",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 476.19%",
+          "position": "0% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "voidbound-chain",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 476.19%",
+          "position": "33.3333% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "seraphs-rebuke",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 476.19%",
+          "position": "66.6667% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        },
+        {
+          "id": "eclipse-invocation",
+          "url": "url(\"/assets/art/fantasy-0.2/spells.webp\")",
+          "size": "400% 476.19%",
+          "position": "100% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "contrast(1.02) saturate(0.85)"
+        }
+      ]
+    },
+    {
+      "kind": "property",
+      "count": 21,
+      "entries": [
+        {
+          "id": "smallholding",
+          "name": "Smallholding",
+          "level": 1,
+          "illustration": {
+            "atlas": "properties",
+            "column": 0,
+            "row": 0
+          },
+          "price": 45,
+          "hourlyIncome": 8,
+          "hourlyUpkeep": 1
+        },
+        {
+          "id": "woodland",
+          "name": "Woodland",
+          "level": 2,
+          "illustration": {
+            "atlas": "properties",
+            "column": 1,
+            "row": 0
+          },
+          "price": 90,
+          "hourlyIncome": 18,
+          "hourlyUpkeep": 3
+        },
+        {
+          "id": "copper-workshop",
+          "name": "Copper Workshop",
+          "level": 2,
+          "illustration": {
+            "atlas": "properties",
+            "column": 2,
+            "row": 0
+          },
+          "price": 160,
+          "hourlyIncome": 25,
+          "hourlyUpkeep": 3
+        },
+        {
+          "id": "watchtower",
+          "name": "Watchtower",
+          "level": 3,
+          "illustration": {
+            "atlas": "properties",
+            "column": 3,
+            "row": 0
+          },
+          "price": 180,
+          "hourlyIncome": 38,
+          "hourlyUpkeep": 8
+        },
+        {
+          "id": "river-mill",
+          "name": "River Mill",
+          "level": 4,
+          "illustration": {
+            "atlas": "properties",
+            "column": 0,
+            "row": 1
+          },
+          "price": 350,
+          "hourlyIncome": 55,
+          "hourlyUpkeep": 0
+        },
+        {
+          "id": "hearthstead-hamlet",
+          "name": "Hearthstead Hamlet",
+          "level": 5,
+          "illustration": {
+            "atlas": "properties",
+            "column": 1,
+            "row": 1
+          },
+          "price": 650,
+          "hourlyIncome": 75,
+          "hourlyUpkeep": 5
+        },
+        {
+          "id": "crown-harbour",
+          "name": "Crown Harbour",
+          "level": 7,
+          "illustration": {
+            "atlas": "properties",
+            "column": 2,
+            "row": 1
+          },
+          "price": 900,
+          "hourlyIncome": 120,
+          "hourlyUpkeep": 0
+        },
+        {
+          "id": "granite-quarry",
+          "name": "Granite Quarry",
+          "level": 8,
+          "illustration": {
+            "atlas": "properties",
+            "column": 3,
+            "row": 1
+          },
+          "price": 1500,
+          "hourlyIncome": 165,
+          "hourlyUpkeep": 15
+        },
+        {
+          "id": "bannerhold-manor",
+          "name": "Bannerhold Manor",
+          "level": 10,
+          "illustration": {
+            "atlas": "properties",
+            "column": 0,
+            "row": 2
+          },
+          "price": 2400,
+          "hourlyIncome": 225,
+          "hourlyUpkeep": 25
+        },
+        {
+          "id": "silver-vein-mine",
+          "name": "Silver Vein Mine",
+          "level": 12,
+          "illustration": {
+            "atlas": "properties",
+            "column": 1,
+            "row": 2
+          },
+          "price": 3600,
+          "hourlyIncome": 310,
+          "hourlyUpkeep": 35
+        },
+        {
+          "id": "moonwell-sanctuary",
+          "name": "Gold Mine",
+          "level": 15,
+          "illustration": {
+            "atlas": "properties",
+            "column": 2,
+            "row": 2
+          },
+          "price": 5400,
+          "hourlyIncome": 420,
+          "hourlyUpkeep": 55
+        },
+        {
+          "id": "ironwood-fort",
+          "name": "Ironwood Fort",
+          "level": 18,
+          "illustration": {
+            "atlas": "properties",
+            "column": 3,
+            "row": 2
+          },
+          "price": 7800,
+          "hourlyIncome": 550,
+          "hourlyUpkeep": 80
+        },
+        {
+          "id": "tempest-port",
+          "name": "Tempest Port",
+          "level": 21,
+          "illustration": {
+            "atlas": "properties",
+            "column": 0,
+            "row": 3
+          },
+          "price": 11000,
+          "hourlyIncome": 700,
+          "hourlyUpkeep": 100
+        },
+        {
+          "id": "runekeeper-academy",
+          "name": "Runekeeper Academy",
+          "level": 24,
+          "illustration": {
+            "atlas": "properties",
+            "column": 1,
+            "row": 3
+          },
+          "price": 15000,
+          "hourlyIncome": 900,
+          "hourlyUpkeep": 140
+        },
+        {
+          "id": "oathbound-citadel",
+          "name": "Oathbound Citadel",
+          "level": 28,
+          "illustration": {
+            "atlas": "properties",
+            "column": 2,
+            "row": 3
+          },
+          "price": 21000,
+          "hourlyIncome": 1130,
+          "hourlyUpkeep": 180
+        },
+        {
+          "id": "dawnspire-cathedral",
+          "name": "Dawnspire Cathedral",
+          "level": 32,
+          "illustration": {
+            "atlas": "properties",
+            "column": 3,
+            "row": 3
+          },
+          "price": 30000,
+          "hourlyIncome": 1420,
+          "hourlyUpkeep": 220
+        },
+        {
+          "id": "wyrmcrest-keep",
+          "name": "Wyrmcrest Keep",
+          "level": 36,
+          "illustration": {
+            "atlas": "properties",
+            "column": 0,
+            "row": 4
+          },
+          "price": 42000,
+          "hourlyIncome": 1750,
+          "hourlyUpkeep": 280
+        },
+        {
+          "id": "astral-observatory",
+          "name": "Astral Observatory",
+          "level": 40,
+          "illustration": {
+            "atlas": "properties",
+            "column": 1,
+            "row": 4
+          },
+          "price": 58000,
+          "hourlyIncome": 2120,
+          "hourlyUpkeep": 340
+        },
+        {
+          "id": "throne-of-ash",
+          "name": "Throne of Ash",
+          "level": 45,
+          "illustration": {
+            "atlas": "properties",
+            "column": 2,
+            "row": 4
+          },
+          "price": 80000,
+          "hourlyIncome": 2550,
+          "hourlyUpkeep": 400
+        },
+        {
+          "id": "eclipse-citadel",
+          "name": "Eclipse Citadel",
+          "level": 50,
+          "illustration": {
+            "atlas": "properties",
+            "column": 3,
+            "row": 4
+          },
+          "price": 120000,
+          "hourlyIncome": 3100,
+          "hourlyUpkeep": 500
+        },
+        {
+          "id": "worldroot-bastion",
+          "name": "Worldroot Bastion",
+          "level": 55,
+          "illustration": {
+            "atlas": "properties",
+            "column": 0,
+            "row": 5
+          },
+          "price": 140000,
+          "hourlyIncome": 3400,
+          "hourlyUpkeep": 600
+        }
+      ],
+      "rendering": [
+        {
+          "id": "smallholding",
+          "url": "url(\"/assets/art/land-review/painted-properties.webp\")",
+          "size": "auto 300%",
+          "position": "-22.75px 0px",
+          "width": 76,
+          "height": 54,
+          "filter": "saturate(0.82) brightness(0.9) contrast(1.04)"
+        },
+        {
+          "id": "woodland",
+          "url": "url(\"/assets/art/land-review/painted-properties.webp\")",
+          "size": "auto 300%",
+          "position": "-144.25px 0px",
+          "width": 76,
+          "height": 54,
+          "filter": "saturate(0.82) brightness(0.9) contrast(1.04)"
+        },
+        {
+          "id": "copper-workshop",
+          "url": "url(\"/assets/art/land-review/painted-properties.webp\")",
+          "size": "auto 300%",
+          "position": "-22.75px -54px",
+          "width": 76,
+          "height": 54,
+          "filter": "saturate(0.82) brightness(0.9) contrast(1.04)"
+        },
+        {
+          "id": "watchtower",
+          "url": "url(\"/assets/art/land-review/painted-properties.webp\")",
+          "size": "auto 300%",
+          "position": "-144.25px -54px",
+          "width": 76,
+          "height": 54,
+          "filter": "saturate(0.82) brightness(0.9) contrast(1.04)"
+        },
+        {
+          "id": "river-mill",
+          "url": "url(\"/assets/art/land-review/painted-properties.webp\")",
+          "size": "auto 300%",
+          "position": "-22.75px -108px",
+          "width": 76,
+          "height": 54,
+          "filter": "saturate(0.82) brightness(0.9) contrast(1.04)"
+        },
+        {
+          "id": "hearthstead-hamlet",
+          "url": "url(\"/assets/art/land-review/painted-properties.webp\")",
+          "size": "auto 300%",
+          "position": "-144.25px -108px",
+          "width": 76,
+          "height": 54,
+          "filter": "saturate(0.82) brightness(0.9) contrast(1.04)"
+        },
+        {
+          "id": "crown-harbour",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 676.652%",
+          "position": "66.6667% 19.6333%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "granite-quarry",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 676.652%",
+          "position": "100% 19.6333%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "bannerhold-manor",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 662.069%",
+          "position": "0% 37.1166%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "silver-vein-mine",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 662.069%",
+          "position": "33.3333% 37.1166%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "moonwell-sanctuary",
+          "url": "url(\"/assets/art/properties-49/gold-mine.webp\")",
+          "size": "cover",
+          "position": "50% 50%",
+          "width": 76,
+          "height": 54,
+          "filter": "saturate(0.82) brightness(0.9) contrast(1.04)"
+        },
+        {
+          "id": "ironwood-fort",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 662.069%",
+          "position": "100% 37.1166%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "tempest-port",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 656.41%",
+          "position": "0% 54.9923%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "runekeeper-academy",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 656.41%",
+          "position": "33.3333% 54.9923%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "oathbound-citadel",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 656.41%",
+          "position": "66.6667% 54.9923%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "dawnspire-cathedral",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 656.41%",
+          "position": "100% 54.9923%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "wyrmcrest-keep",
+          "url": "url(\"/assets/art/properties-49/wyrmcrest-keep.webp\")",
+          "size": "cover",
+          "position": "50% 50%",
+          "width": 76,
+          "height": 54,
+          "filter": "saturate(0.82) brightness(0.9) contrast(1.04)"
+        },
+        {
+          "id": "astral-observatory",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 588.506%",
+          "position": "33.3333% 74.5098%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "throne-of-ash",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 588.506%",
+          "position": "66.6667% 74.5098%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "eclipse-citadel",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 588.506%",
+          "position": "100% 74.5098%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        },
+        {
+          "id": "worldroot-bastion",
+          "url": "url(\"/assets/art/land-simple-0.1/properties.webp\")",
+          "size": "400% 472.615%",
+          "position": "0% 100%",
+          "width": 76,
+          "height": 76,
+          "filter": "saturate(0.78) brightness(0.82) contrast(1.07)"
+        }
+      ]
+    }
+  ]
+}

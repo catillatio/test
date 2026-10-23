@@ -1,0 +1,6 @@
+{
+  "branch": "release/production",
+  "commit": "2e05e1c15b50018607e906db0e2ad33866e95aac",
+  "catalog": "alpha-0.3",
+  "status": "Design review only; no production access or runtime changes"
+}
