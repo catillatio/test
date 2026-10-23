@@ -2,6 +2,8 @@
 
 The original category-only change described below changed failure reporting in `deployment/release/run.mjs` only. [Issue #21 report-readiness handling](REPORT_READINESS.md) subsequently added bounded 403/404 report polling and fixed `PRIVATE_REPORT_READ` diagnostics; the existing terminal failure categories and all approval/evidence gates remain unchanged.
 
+The subsequent [worker-completion gate](WORKER_REPORT_COORDINATION.md) adds bounded, read-only metadata polling before report retrieval; it introduces no staging/upload/deployment retries or new HTTP-error retries. The existing terminal categories and all recovery/approval requirements remain.
+
 For the original category-only change: No workflow, approval, credential, Railway command/argument, request count, retry policy, worker, encryption, backup gate, signature, migration, or promotion order changes. No additional provider operation is performed to test permissions.
 
 When the controller fails, stderr includes exactly one of these fixed category lines, followed by the existing generic safety message. The process still exits unsuccessfully. Success output is unchanged; no extra PASS markers or diagnostic values are emitted.

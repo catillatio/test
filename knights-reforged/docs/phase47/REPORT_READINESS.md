@@ -2,7 +2,7 @@
 
 ## Diagnosis and evidence
 
-The controller starts polling immediately after independently establishing the queued worker deployment's identity. The worker conditionally uploads `prepare.json` **after** backup, encryption, export/download verification, isolated restore, migrations and preservation checks. A successful worker completion message is printed only after its report PUT succeeds and cleanup finishes. It does not prove the controller could GET that report.
+The original controller started polling immediately after independently establishing the queued worker deployment's identity. The [worker-completion follow-up](WORKER_REPORT_COORDINATION.md) now gates the first report GET on exact, authenticated completion while preserving the report checks and existing retry rules. The worker conditionally uploads `prepare.json` **after** backup, encryption, export/download verification, isolated restore, migrations and preservation checks. A successful worker completion message is printed only after its report PUT succeeds and cleanup finishes. It does not prove the controller could GET that report.
 
 Historical GitHub evidence from [run 39874021235](https://github.com/catillatio/test/actions/runs/39874021235) (attempt 1, release #15):
 

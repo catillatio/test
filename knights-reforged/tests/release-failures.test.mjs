@@ -20,6 +20,7 @@ const env={PATH:process.env.PATH,GITHUB_REF:'refs/heads/release/production',GITH
  GITHUB_WORKSPACE:fileURLToPath(new URL('../../',import.meta.url)),RUNNER_TEMP:folder,KINGDOM_BACKUP_KEY_VERIFIED:'true',KINGDOM_RECOVERY_ARTIFACT_ID:'123456'};
 const generic='Release safety check failed. Production promotion stopped; provider output and credentials are not logged.\n';
 const queued='Private verification job queued through the authenticated Railway deployment API.\n';
+const ready=queued+'PRIVATE_WORKER_COMPLETION: COMPLETED\n';
 const complete='Encrypted recovery independently exported and verified; isolated restored-copy migration/replay passed.\n';
 let number=0;
 function run(mode,command='prepare',overrides={}){
@@ -31,26 +32,26 @@ function run(mode,command='prepare',overrides={}){
  assert.equal(existsSync(forbidden),false,'No unmocked network, subprocess, or additional provider operation is allowed.');
  return {...result,trace:readFileSync(trace,'utf8').trim().split('\n').filter(Boolean)};
 }
-const uploaded=['stage','bundle','upload'],identified=[...uploaded,'metadata','cleanup'];
+const uploaded=['stage','bundle','upload'],identified=[...uploaded,'metadata','cleanup'],completed=[...identified,'worker_completion'];
 for(const [mode,category,trace,stdout]of[
  ['stage_failure','WORKER_VARIABLE_STAGING',['stage','store_close'],''],
  ['upload_failure','WORKER_UPLOAD',[...uploaded,'cleanup','store_close'],''],
  ['invalid_json','DEPLOYMENT_IDENTITY',[...uploaded,'cleanup','store_close'],''],
  ['missing_id','DEPLOYMENT_IDENTITY',[...uploaded,'cleanup','store_close'],''],
  ['metadata_failure','DEPLOYMENT_IDENTITY',[...identified,'store_close'],''],
- ['report_failure','BACKUP_RESTORE_VERIFICATION',[...identified,'report','store_close'],queued],
- ['restore_failure','BACKUP_RESTORE_VERIFICATION',[...identified,'report','store_close'],queued],
- ['report_identity','DEPLOYMENT_IDENTITY',[...identified,'report','store_close'],queued],
- ['download_failure','BACKUP_RESTORE_VERIFICATION',[...identified,'report','download','store_close'],queued],
- ['manifest_failure','BACKUP_RESTORE_VERIFICATION',[...identified,'report','download','manifest','store_close'],queued],
+ ['report_failure','BACKUP_RESTORE_VERIFICATION',[...completed,'report','store_close'],ready],
+ ['restore_failure','BACKUP_RESTORE_VERIFICATION',[...completed,'report','store_close'],ready],
+ ['report_identity','DEPLOYMENT_IDENTITY',[...completed,'report','store_close'],ready],
+ ['download_failure','BACKUP_RESTORE_VERIFICATION',[...completed,'report','download','store_close'],ready],
+ ['manifest_failure','BACKUP_RESTORE_VERIFICATION',[...completed,'report','download','manifest','store_close'],ready],
  ['bundle_failure','RELEASE_SAFETY',['stage','bundle','cleanup','store_close'],'']
 ])test('controller stops and reports only the fixed failure category: '+mode,()=>{
  const result=run(mode);assert.equal(result.status,1);assert.equal(result.stderr,category+': FAIL\n'+generic);assert.equal(result.stdout,stdout);assert.deepEqual(result.trace,trace);
 });
 
-test('successful prepare keeps the same operations and evidence ordering, without failure output',()=>{
- const result=run('success');assert.equal(result.status,0);assert.equal(result.stderr,'');assert.equal(result.stdout,queued+complete);
- assert.deepEqual(result.trace,[...identified,'report','download','manifest','store_close']);
+test('successful prepare waits for the exact worker and preserves recovery evidence ordering',()=>{
+ const result=run('success');assert.equal(result.status,0);assert.equal(result.stderr,'');assert.equal(result.stdout,ready+complete);
+ assert.deepEqual(result.trace,[...completed,'report','download','manifest','store_close']);
 });
 
 test('precondition errors cannot spoof a category or leak exception details before any provider operation',()=>{
@@ -72,21 +73,40 @@ for(const [mode,category,trace]of[
 
 test('a delayed S3 report returning 403 then 200 still requires real controller validation, export and retention',()=>{
  const result=run('report_readiness');assert.equal(result.status,0);assert.equal(result.stderr,'');
- assert.equal(result.stdout,queued+'PRIVATE_REPORT_READ: HTTP_403\nPRIVATE_REPORT_READ: JSON_RECEIVED\n'+complete);
- assert.deepEqual(result.trace,[...identified,'report','report_get_403','report_get_200','download','manifest','store_close']);
+ assert.equal(result.stdout,ready+'PRIVATE_REPORT_READ: HTTP_403\nPRIVATE_REPORT_READ: JSON_RECEIVED\n'+complete);
+ assert.deepEqual(result.trace,[...completed,'report','report_get_403','report_get_200','download','manifest','store_close']);
 });
 
 test('persistent report denial emits fixed HTTP/deadline diagnostics and cannot reach recovery export or promotion',()=>{
  const result=run('report_denied');assert.equal(result.status,1);
  assert.equal(result.stderr,'BACKUP_RESTORE_VERIFICATION: FAIL\n'+generic);
- assert.equal(result.stdout,queued+'PRIVATE_REPORT_READ: HTTP_403\nPRIVATE_REPORT_READ: DEADLINE\n');
- assert.deepEqual(result.trace,[...identified,'report','report_get_403','store_close']);
+ assert.equal(result.stdout,ready+'PRIVATE_REPORT_READ: HTTP_403\nPRIVATE_REPORT_READ: DEADLINE\n');
+ assert.deepEqual(result.trace,[...completed,'report','report_get_403','store_close']);
 });
 
 
 test('an unexpected HTTP 400 emits its exact fixed category and cannot reach export or promotion',()=>{
  const result=run('report_bad_status');assert.equal(result.status,1);
  assert.equal(result.stderr,'BACKUP_RESTORE_VERIFICATION: FAIL\n'+generic);
- assert.equal(result.stdout,queued+'PRIVATE_REPORT_READ: HTTP_400\nPRIVATE_REPORT_READ: HTTP_REJECTED\n');
- assert.deepEqual(result.trace,[...identified,'report','report_get_400','store_close']);
+ assert.equal(result.stdout,ready+'PRIVATE_REPORT_READ: HTTP_400\nPRIVATE_REPORT_READ: HTTP_REJECTED\n');
+ assert.deepEqual(result.trace,[...completed,'report','report_get_400','store_close']);
+});
+
+
+for(const [mode,code]of[['worker_failed','TERMINATED'],['worker_api_failure','API_REJECTED'],['worker_wrong_service','IDENTITY_REJECTED']])test('worker completion gate stops before any report or backup GET: '+mode,()=>{
+ const result=run(mode);assert.equal(result.status,1);assert.equal(result.stderr,'BACKUP_RESTORE_VERIFICATION: FAIL\n'+generic);
+ assert.equal(result.stdout,queued+'PRIVATE_WORKER_COMPLETION: '+code+'\n');
+ assert.deepEqual(result.trace,[...completed,'store_close']);
+});
+
+test('the controller waits for the exact running worker to exit before its first report GET',()=>{
+ const result=run('worker_delayed');assert.equal(result.status,0);assert.equal(result.stderr,'');
+ assert.equal(result.stdout,queued+'PRIVATE_WORKER_COMPLETION: WAITING\nPRIVATE_WORKER_COMPLETION: COMPLETED\n'+complete);
+ assert.deepEqual(result.trace,[...identified,'worker_running','worker_completion','report','download','manifest','store_close']);
+});
+
+test('HTTP 408 after verified worker completion still fails immediately without downloading recovery',()=>{
+ const result=run('report_timeout_status');assert.equal(result.status,1);assert.equal(result.stderr,'BACKUP_RESTORE_VERIFICATION: FAIL\n'+generic);
+ assert.equal(result.stdout,ready+'PRIVATE_REPORT_READ: HTTP_408\nPRIVATE_REPORT_READ: HTTP_REJECTED\n');
+ assert.deepEqual(result.trace,[...completed,'report','report_get_408','store_close']);
 });
