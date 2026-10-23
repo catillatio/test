@@ -11,7 +11,7 @@ import {checkRequest,checkJobReport,copyName,protocol} from './protocol.mjs';
 import {getFile,getReport,fileDigest} from './transfer.mjs';
 import {recoveryStore} from './store.mjs';
 import {signProof} from './proof.mjs';
-import {verifyQueuedDeployment} from './deployment.mjs';
+import {verifyQueuedDeployment,waitForWorkerCompletion} from './deployment.mjs';
 
 const base=new URL('../../',import.meta.url).pathname;
 const failureCategories=new WeakMap();
@@ -82,7 +82,11 @@ async function main(){
    deploymentId=await deploy(settings.workerServiceId,bundle);
   }finally{await rm(bundle,{recursive:true,force:true});}
   console.log('Private verification job queued through the authenticated Railway deployment API.');
-  const report=await during('BACKUP_RESTORE_VERIFICATION',async()=>checkJobReport(await getReport(reportGet,{wait:true,onStatus:code=>console.log('PRIVATE_REPORT_READ: '+code)}),request));
+  // One shared budget: waiting must not extend the report window or job expiry.
+  const deadline=Math.min(Date.now()+1200000,Date.parse(request.expiresAt));
+  await during('BACKUP_RESTORE_VERIFICATION',()=>waitForWorkerCompletion(deploymentId,{projectId:settings.projectId,environmentId:settings.environmentId,serviceId:settings.workerServiceId},
+   {token:process.env.RAILWAY_TOKEN,deadline,onStatus:code=>console.log('PRIVATE_WORKER_COMPLETION: '+code)}));
+  const report=await during('BACKUP_RESTORE_VERIFICATION',async()=>checkJobReport(await getReport(reportGet,{wait:true,deadline,onStatus:code=>console.log('PRIVATE_REPORT_READ: '+code)}),request));
   await during('DEPLOYMENT_IDENTITY',()=>assert.equal(report.workerDeploymentId,deploymentId,'Evidence came from a different worker deployment.'));
   return {request,report,backupKey};
  }

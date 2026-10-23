@@ -15,8 +15,8 @@ fixture.mkdir=async(path,options)=>path===out?mkdir(path,options):previous.mkdir
 fixture.writeFile=async(path,text)=>{
  assert.equal(path,join(out,'backup-manifest.json'));await previous.writeFile(path,text);await writeFile(path,text);
 };
-fixture.getReport=async()=>{
- const report=await previous.getReport();report.backup.encryptedSha256=digest;return report;
+fixture.getReport=async(...args)=>{
+ const report=await previous.getReport(...args);report.backup.encryptedSha256=digest;return report;
 };
 fixture.getFile=async(url,path,expected)=>{
  assert.equal(path,join(out,'realm.dump.age'));assert.deepEqual(expected,{sha256:digest,bytes:ciphertext.length});

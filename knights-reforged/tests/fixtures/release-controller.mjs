@@ -41,7 +41,7 @@ function saved(){
   origin:'https://realm.fixture.invalid',backupOrigin:'https://recovery.fixture.invalid',backupRecipient:process.env.KINGDOM_BACKUP_RECIPIENT,copy:copyName(jobId)};
  return {request,report:reportFor(request),backupKey:'kingdom-releases/'+request.sha+'/'+jobId+'/realm.dump.age'};
 }
-let request;
+let request,workerCompleted=false,completionReads=0,completionStarted;
 const fixture={
  store:()=>({grant:async(key,method)=>grant(method),close:()=>record('store_close')}),
  readFile:async()=>{record('read_retained');if(mode==='retained_missing')throw new Error(secret);return JSON.stringify(saved());},
@@ -51,8 +51,9 @@ const fixture={
  cp:async()=>{if(mode==='bundle_failure')throw new Error(secret);},rm:async()=>record('cleanup'),
  fileDigest:async()=>{record('digest');return {sha256:(mode==='retained_corrupt'?'0':'4').repeat(64),bytes:200500};},
  getReport:async(url,options)=>{
+  if(!workerCompleted||!Number.isFinite(options?.deadline)||options.deadline>Date.parse(request.expiresAt)||options.deadline>completionStarted+1200000)return block();
   record('report');if(mode==='report_failure')throw new Error(secret);
-  if(mode==='report_readiness'||mode==='report_denied'||mode==='report_bad_status')return readReport(url,{...options,...(mode==='report_denied'?{deadline:Date.now()+500}:{})});
+  if(mode==='report_readiness'||mode==='report_denied'||mode==='report_bad_status'||mode==='report_timeout_status')return readReport(url,{...options,...(mode==='report_denied'?{deadline:Date.now()+500}:{})});
   const report=reportFor(request);
   if(mode==='restore_failure')report.restoredCopy.passed=false;
   if(mode==='report_identity')report.workerDeploymentId=ids[3];
@@ -85,14 +86,25 @@ const fixture={
 globalThis.releaseFixture=fixture;
 let reportReads=0;
 globalThis.fetch=async(url,options)=>{
- if(url.startsWith('https://recovery.fixture.invalid/object?')&&(mode==='report_readiness'||mode==='report_denied'||mode==='report_bad_status')){
+ if(url.startsWith('https://recovery.fixture.invalid/object?')&&(mode==='report_readiness'||mode==='report_denied'||mode==='report_bad_status'||mode==='report_timeout_status')){
   if(options.redirect!=='error'||options.cache!=='no-store')return block();
-  const status=mode==='report_bad_status'?400:(++reportReads===1||mode==='report_denied'?403:200);
+  const status=mode==='report_bad_status'?400:mode==='report_timeout_status'?408:(++reportReads===1||mode==='report_denied'?403:200);
   record('report_get_'+status);
   return status!==200?new Response(secret,{status}):Response.json(reportFor(request));
  }
  if(url!=='https://backboard.railway.com/graphql/v2'||options.method!=='POST'||options.redirect!=='error')return block();
- const body=JSON.parse(options.body);if(body.variables.id!==deploymentId||!/^query KingdomReleaseDeploymentIdentity/.test(body.query))return block();
+ const body=JSON.parse(options.body);if(body.variables.id!==deploymentId)return block();
+ if(/^query KingdomReleaseWorkerCompletion/.test(body.query)){
+  if(completionStarted===undefined)completionStarted=Date.now();
+  const running=mode==='worker_delayed'&&++completionReads===1;
+  record(running?'worker_running':'worker_completion');
+  if(mode==='worker_api_failure')throw new Error(secret);
+  const status=mode==='worker_failed'?'CRASHED':'SUCCESS';
+  workerCompleted=!running&&status==='SUCCESS';
+  return {ok:true,json:async()=>({data:{deployment:{id:deploymentId,projectId:ids[0],environmentId:ids[1],serviceId:mode==='worker_wrong_service'?ids[2]:ids[4],status,
+   deploymentStopped:!running,instances:[{id:'fixture-worker-instance',status:running?'RUNNING':status==='CRASHED'?'CRASHED':'EXITED'}]}}})};
+ }
+ if(!/^query KingdomReleaseDeploymentIdentity/.test(body.query))return block();
  record('metadata');if(mode==='metadata_failure')throw new Error(secret);
  const serviceId=mode.startsWith('game_')?ids[2]:ids[4];
  return {ok:true,json:async()=>({data:{deployment:{id:deploymentId,projectId:ids[0],environmentId:ids[1],serviceId:mode==='game_identity'?ids[4]:serviceId}}})};
