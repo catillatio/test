@@ -9,7 +9,7 @@ import {inspect,lockCluster} from '../deployment/release/retention/retention.mjs
 const target=process.env.TEST_DATABASE_URL;
 test('append-only registration with real restricted PostgreSQL, concurrency, restart and preservation',{skip:!target,timeout:120000},async t=>{
  const rootUrl=new URL(target);assert.ok(['localhost','127.0.0.1'].includes(rootUrl.hostname));
- const root=new pg.Client({connectionString:target});await root.connect();const name='kingdom_registration_test',u=new URL(target);u.pathname='/'+name;
+ const root=new pg.Client({connectionString:target});await root.connect();const creator=(await root.query('SELECT current_user AS name')).rows[0].name;const name='kingdom_registration_test',u=new URL(target);u.pathname='/'+name;
  const created=[];let admin,registrar,runtime,data;
  const connect=async role=>{const c=new pg.Client({connectionString:u.href});await c.connect();if(role)await c.query('SET SESSION AUTHORIZATION '+role);return c;};
  try{
@@ -23,7 +23,7 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
   m.report.restoreClusterDigest=cluster;
   await root.query('CREATE DATABASE "'+copy.database.name+'"');created.push(copy.database.name);
   const oid=(await root.query('SELECT oid::text FROM pg_database WHERE datname=$1',[copy.database.name])).rows[0].oid;
-  m.report.verifiedCopyIdentity={oid,owner:'postgres',maintenanceDatabase:name,clusterDigest:cluster};
+  m.report.verifiedCopyIdentity={oid,owner:creator,maintenanceDatabase:name,clusterDigest:cluster};
   const payload=observationPayload(m);
   // Populated synthetic realm in the independent copy: no source URL is provided.
   const dataUrl=new URL(target);dataUrl.pathname='/'+copy.database.name;
@@ -39,8 +39,8 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
    try{const results=await Promise.all([recordObservation(registrar,payload),recordObservation(second,payload)]);receipt=results[0];assert.deepEqual(results[0],results[1]);}finally{await second.end();}
    assert.ok(+new Date(receipt.first_observed_at)>=Date.now()-30000);
    const row=(await admin.query('SELECT * FROM release_observations.verified_copies')).rows[0];
-   assert.equal(row.registered_by,'kc_copy_registrar');assert.equal(row.github_run_id,'91');assert.equal(row.github_run_attempt,1);assert.equal(row.observed_owner,'postgres');assert.equal(row.worker_deployment_id,m.report.workerDeploymentId);assert.deepEqual(row.details,payload);
-   assert.equal((await root.query('SELECT r.rolname FROM pg_database d JOIN pg_roles r ON r.oid=d.datdba WHERE d.datname=$1',[copy.database.name])).rows[0].rolname,'postgres');
+   assert.equal(row.registered_by,'kc_copy_registrar');assert.equal(row.github_run_id,'91');assert.equal(row.github_run_attempt,1);assert.equal(row.observed_owner,creator);assert.equal(row.worker_deployment_id,m.report.workerDeploymentId);assert.deepEqual(row.details,payload);
+   assert.equal((await root.query('SELECT r.rolname FROM pg_database d JOIN pg_roles r ON r.oid=d.datdba WHERE d.datname=$1',[copy.database.name])).rows[0].rolname,creator);
    assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_retention.copies')).rows[0].n,0);
   });
   await t.test('restart or retry after lost acknowledgement returns original server timestamps and no extra row',async()=>{
@@ -69,7 +69,7 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
    meta.report={...m.report,...other.catalog.evidence.report,restoreClusterDigest:cluster};meta.backupKey=other.catalog.evidence.backupKey;
    await root.query('CREATE DATABASE "'+other.database.name+'"');created.push(other.database.name);
    const newOid=(await root.query('SELECT oid::text FROM pg_database WHERE datname=$1',[other.database.name])).rows[0].oid;
-   meta.report.verifiedCopyIdentity={oid:newOid,owner:'postgres',maintenanceDatabase:name,clusterDigest:cluster};
+   meta.report.verifiedCopyIdentity={oid:newOid,owner:creator,maintenanceDatabase:name,clusterDigest:cluster};
    const another=observationPayload(meta);
    await registrar.query('BEGIN');await recordObservation(registrar,another);await registrar.query('ROLLBACK');
    assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_observations.verified_copies')).rows[0].n,1);
@@ -79,7 +79,7 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
    const another=fixture(93,{now:Date.now()}),old=structuredClone(m);old.request={...m.request,...another.catalog.evidence.request};old.report={...m.report,...another.catalog.evidence.report,restoreClusterDigest:cluster};old.backupKey=another.catalog.evidence.backupKey;
    await root.query('CREATE DATABASE "'+another.database.name+'"');created.push(another.database.name);
    const oldOid=(await root.query('SELECT oid::text FROM pg_database WHERE datname=$1',[another.database.name])).rows[0].oid;
-   old.report.verifiedCopyIdentity={oid:oldOid,owner:'postgres',maintenanceDatabase:name,clusterDigest:cluster};
+   old.report.verifiedCopyIdentity={oid:oldOid,owner:creator,maintenanceDatabase:name,clusterDigest:cluster};
    const oldPayload=observationPayload(old);await recordObservation(registrar,oldPayload);
    const renamed='registration_renamed_test';await root.query('ALTER DATABASE "'+another.database.name+'" RENAME TO '+renamed);created.push(renamed);
    await root.query('CREATE DATABASE "'+another.database.name+'"');await assert.rejects(recordObservation(registrar,oldPayload));
