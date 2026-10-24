@@ -1,11 +1,15 @@
 # King Hudson reference artwork — review branch only
 
-These are visual references supplied by the project owner to help finish the level-100 expansion, not approved production assets.
+The project owner supplied original reference illustrations of a sword, shield and meteor spell.
 
-- `king-hudsons-shield-reference.jpg`: diamond steel-and-gold shield, circular rainbow gemstone
-- `king-hudsons-sword-reference.jpg`: gold-hilt sword with prismatic rainbow blade
-- `king-hudsons-meteor-shower-reference.jpg`: rainbow cosmic vortex and meteors
+## Lightweight previews (unapproved)
 
-The source images were larger; the reference copies here are compact previews intentionally reduced to avoid Codex attachment size limits. Do not treat these downscaled files as final game icons, or merge/deploy merely because they exist.
+- [King Hudson's Sword](king-hudsons-sword-reference.jpg): ornate gold hilt, prismatic blade
+- [King Hudson's Shield](king-hudsons-shield-reference.jpg): diamond steel shield, circular rainbow gemstone
+- [King Hudson's Meteor Shower](king-hudsons-meteor-shower-reference.jpg): cosmic rainbow vortex and descending meteors
 
-Codex should adapt, crop or produce correctly licensed game-ready artwork in the repository’s actual asset sizes with full-bleed framing, keep the item identities stable, and include a separate final artwork review. No live E2b/E3 activation, game data changes, Hudson provisioner execution, bot seeding, or Railway deployment is authorized by this reference branch.
+**Important:** These files are tiny ~160-pixel transfer previews, not original-quality artwork, and an independent byte-for-byte comparison with the locally downsized versions did not match. Before using one, **verify that it decodes and visually matches the intended illustration**. If any image is broken or fidelity is insufficient, do not use it as a production source: request the owner-provided compressed reference ZIP (under 0.4 MB) instead.
+
+The final game visuals must be adapted as original/correctly licensed, premium, painterly dark-fantasy equipment and spell illustrations; respect existing icon sizes and mappings, legibility, preservation, and full-bleed/no-gutter art rules. No placeholder or unapproved image is authorized as a production asset.
+
+This is an isolated review branch; do not merge, deploy, activate E2b/E3, provision 450 bots, credit Hudson, or alter player data merely because references are present.
