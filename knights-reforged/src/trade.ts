@@ -4,7 +4,9 @@ import {GameError} from './errors.js';
 import {propertyName} from './property-presentation.js';
 import {propertyById,alpha,propertyQuote} from './alpha-rules.js';
 import {clock,lockCharacters,materialize,stateFrom} from './game.js';
+import {realmPolicy} from './realm-policy.js';import {contentCatalog} from './expansion-content.js';
 export async function propertyTrade(sql:Sql,characterId:string,kind:'land_buy'|'land_sell',propertyId:string,quantity:number,gold:number,level:number,currentNet:number){
+ const alpha=contentCatalog((await realmPolicy(sql)).catalogId),propertyById=new Map(alpha.properties.map(p=>[p.id,p]));
  const property=propertyById.get(propertyId);if(!property)throw new GameError('PROPERTY_NOT_FOUND','That property is not available.',404);
  if(!Number.isSafeInteger(quantity)||quantity<1||quantity>alpha.limits.landTransaction)throw new GameError('INVALID_QUANTITY','Choose 1–25 properties.');
  const owned=(await sql.query('SELECT COALESCE(sum(quantity),0)::int AS n FROM land_holdings WHERE character_id=$1 AND property_id=$2',[characterId,propertyId])).rows[0]!.n as number;
@@ -12,7 +14,7 @@ export async function propertyTrade(sql:Sql,characterId:string,kind:'land_buy'|'
  if(kind==='land_buy'){
   if(level<property.level)throw new GameError('LEVEL_REQUIRED','Reach level '+property.level+' first.',409);
   if(owned+quantity>alpha.limits.property)throw new GameError('LAND_LIMIT','The ownership limit has been reached.',409);
-  amount=propertyQuote(property.price,owned,quantity).reduce((n,p)=>n+p,0);
+  try{amount=propertyQuote(property.price,owned,quantity).reduce((n,p)=>n+p,0);}catch(error){if(!(error instanceof RangeError))throw error;throw new GameError('TRANSACTION_LIMIT','That progressive purchase exceeds the carried-gold transaction limit.',409);}
   if(!Number.isSafeInteger(amount)||amount>2147483647)throw new GameError('TRANSACTION_LIMIT','Choose a smaller batch.',409);
   if(amount>gold)throw new GameError('INSUFFICIENT_GOLD','You need '+(amount-gold)+' more gold for this purchase.',409);
  }else{

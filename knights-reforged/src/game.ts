@@ -20,6 +20,9 @@ import {strategy,callingFor,callingPower,recoverySeconds} from './strategy-rules
 import {readArmyRoster,type ArmyLink} from './army-roster.js';
 import {activeEquipmentCatalog} from './catalog-compatibility.js';
 import {requirementForEpoch,readProgressionEpoch} from './progression-policy.js';
+import {realmPolicy} from './realm-policy.js';
+import {contentCatalog,equipmentCatalogFor} from './expansion-content.js';
+import {resolveArmy} from './compatibility-rules.js';
 
 export interface CharacterRow {
   development_bot?:boolean;id:string;account_id:string;name:string;xp:number;health:number;energy:number;
@@ -33,7 +36,7 @@ export interface CharacterRow {
 export interface GameRuntime{developmentBotRecruitmentEnabled?:boolean;}
 export type {ArmyLink} from './army-roster.js';
 export interface CharacterState {
-  incomeReceipt:{id:string;gold:number;createdAt:string}|null;healing:ReturnType<typeof healingQuote>;payment:ReturnType<typeof upcomingPayment>;nextUnlock:{level:number;names:string[]}|null;invitationCode:string;id:string;name:string;xp:number;level:number;levelXp:number;levelRequirement:number;xpToNext:number;
+  rareEquipmentEnabled?:boolean;equipmentDiscoveries?:{itemId:string;name:string;quantity:number;createdAt:string}[];incomeReceipt:{id:string;gold:number;createdAt:string}|null;healing:ReturnType<typeof healingQuote>;payment:ReturnType<typeof upcomingPayment>;nextUnlock:{level:number;names:string[]}|null;invitationCode:string;id:string;name:string;xp:number;level:number;levelXp:number;levelRequirement:number;xpToNext:number;
   health:number;maxHealth:number;mana:number;maxMana:number;spirit:number;maxSpirit:number;energy:number;
   bankedGold:number;gold:number;units:number;attack:number;defense:number;equipped:boolean;inventoryId:string|null;
   inventory:OwnedItem[];questsCompleted:number;stateVersion:number;skillPoints:number;className:string;
@@ -74,21 +77,23 @@ export async function armyLinks(sql:Sql,characterId:string,runtime:GameRuntime={
   return (await readArmyRoster(sql,characterId,runtime)).links;
 }
 export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRuntime={}):Promise<CharacterState> {
+  const world=await realmPolicy(sql),alpha=contentCatalog(world.catalogId),equipmentCatalog=equipmentCatalogFor(world.catalogId);
+  const lootById=new Map(alpha.quests.filter(q=>q.loot).map(q=>[q.loot!.id,q.loot!]));
   const wallet=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[row.id])).rows[0]!;
   const units=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM army_stacks WHERE character_id=$1',[row.id])).rows[0]!.quantity as number;
   const roster=await readArmyRoster(sql,row.id,runtime),links=roster.links,allies=roster.accepted;
   const isBot=row.development_bot??!!(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[row.id])).rows.length;
-  const projection=activeArmy(row.attained_level,isBot?Math.min(units,refinements.bots.armyCap-1):units,isBot?0:allies,isBot?Math.min(row.legacy_army_floor,refinements.bots.armyCap):row.legacy_army_floor);
+  const projection=isBot?activeArmy(row.attained_level,Math.min(units,refinements.bots.armyCap-1),0,Math.min(row.legacy_army_floor,refinements.bots.armyCap)):resolveArmy(row.attained_level,units,allies,row.legacy_army_floor,world.armyPolicy);
   if(isBot){projection.participants=Math.min(refinements.bots.armyCap,projection.participants);projection.capacity=Math.min(refinements.bots.armyCap,projection.capacity);projection.total=Math.min(refinements.bots.armyCap,projection.total);}
   const army={...projection,allies,mercenaries:units,links,incoming:roster.incoming,outgoing:roster.outgoing,nextCursor:roster.nextCursor};
   const inventory=await readInventory(sql,row.id);const upkeep=await maintenanceAccount(sql,row.id,now);
-  const attackEquipment=selectEquipment(inventory,army.participants,'attack',!upkeep.paused);
-  const defenseEquipment=selectEquipment(inventory,army.participants,'defense',!upkeep.paused);
+  const attackEquipment=selectEquipment(inventory,army.participants,'attack',!upkeep.paused,isBot?'army-legacy-1':world.armyPolicy);
+  const defenseEquipment=selectEquipment(inventory,army.participants,'defense',!upkeep.paused,isBot?'army-legacy-1':world.armyPolicy);
   const progress=(await sql.query('SELECT quest_id,completions FROM character_quest_progress WHERE character_id=$1',[row.id])).rows;
   const loot=(await sql.query('SELECT loot_id AS id,name FROM character_loot WHERE character_id=$1 ORDER BY acquired_at,loot_id',[row.id])).rows as {id:string;name:string}[];
   const awards=(await sql.query('SELECT award_id AS id,points FROM progression_awards WHERE character_id=$1 ORDER BY created_at,award_id',[row.id])).rows as {id:string;points:number}[];
   const quests=alpha.quests.map(quest=>{
-    const {missing,missingCost}=activeEquipmentCatalog.requirements(quest.items,inventory,row.attained_level);
+    const {missing,missingCost}=equipmentCatalog.requirements(quest.items,inventory,row.attained_level);
     const requiresLootName=quest.requiresLoot?lootById.get(quest.requiresLoot)!.name:null;
     const lockReason=row.attained_level<quest.level?'Level '+quest.level+' required':Object.keys(missing).length?'Equipment required':quest.requiresLoot&&!loot.some(l=>l.id===quest.requiresLoot)?requiresLootName+' required':army.participants<quest.army?'Army of '+quest.army+' required':row.mana<quest.mana?'More Mana required':null;
     return {...quest,missing,missingCost,completions:progress.find(p=>p.quest_id===quest.id)?.completions??0,ready:!lockReason,lockReason,requiresLootName};
@@ -114,7 +119,8 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   const nextUnlock=Number.isFinite(nextLevel)?{level:nextLevel,names:[...alpha.items,...alpha.quests,...alpha.properties].filter(item=>item.level===nextLevel).map(item=>propertyName(item.id,item.name))}:null;
   const incomeReceipt=(await sql.query('SELECT transaction_id AS id,gold,created_at AS "createdAt" FROM character_income_feedback WHERE character_id=$1',[row.id])).rows[0] as {id:string;gold:number;createdAt:string}|undefined;
   const requirement=requirementForEpoch(row.attained_level,await readProgressionEpoch(sql,row.id));
-  return {incomeReceipt:incomeReceipt??null,healing:healingQuote(row.health,row.max_health,row.attained_level,wallet.balance),payment:upcomingPayment(land,upkeep,wallet.balance,now,!isBot),nextUnlock,invitationCode:await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:requirement,xpToNext:requirement-row.level_xp,
+  const equipmentDiscoveries=world.expanded?(await sql.query(`SELECT e.item_id,e.quantity,e.created_at FROM inventory_acquisition_events e WHERE e.character_id=$1 AND e.source_kind='quest_drop' ORDER BY e.created_at DESC,e.id DESC LIMIT 8`,[row.id])).rows.map(e=>({itemId:e.item_id,name:equipmentCatalog.definition(e.item_id)!.name,quantity:e.quantity,createdAt:new Date(e.created_at).toISOString()})):[];
+  return {...(world.expanded?{equipmentDiscoveries,rareEquipmentEnabled:world.rareDrops}:{}),incomeReceipt:incomeReceipt??null,healing:healingQuote(row.health,row.max_health,row.attained_level,wallet.balance),payment:upcomingPayment(land,upkeep,wallet.balance,now,!isBot),nextUnlock,invitationCode:await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:requirement,xpToNext:requirement-row.level_xp,
     health:row.health,maxHealth:row.max_health,mana:row.mana,maxMana:row.max_mana,spirit:row.spirit,maxSpirit:row.max_spirit,energy:row.mana,
     bankedGold:(await sql.query('SELECT balance FROM vault_accounts WHERE character_id=$1',[row.id])).rows[0]?.balance??0,gold:wallet.balance,units,attack:callingPower(trainedPower(untrainedAttack,row.attack_training),calling.attackPercent),defense:callingPower(trainedPower(untrainedDefense,row.defense_training),calling.defensePercent),
     equipped:Boolean(sword),inventoryId:sword?.inventoryId??null,inventory,questsCompleted:progress.reduce((n,p)=>n+p.completions,0),quests,loot,awards,
@@ -147,7 +153,8 @@ async function chronologicalOpponents(db:Database,characterId:string,cursor?:str
     const parts=cursor.split('~');after=parts[0]??'';afterId=parts[1]??null;
     if (parts.length!==2||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/.test(after)||!Number.isFinite(Date.parse(after))||!afterId||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(afterId)) throw new GameError('INVALID_CURSOR','Invalid rival page.');
   }
-  const actor=(await db.query('SELECT attained_level FROM characters WHERE id=$1',[characterId])).rows[0]!;
+  const world=await realmPolicy(db);
+ const actor=(await db.query('SELECT attained_level FROM characters WHERE id=$1',[characterId])).rows[0]!;
   const range=Math.max(2,Math.ceil(actor.attained_level*0.2));
   const rows=(await db.query(`SELECT c.*,b.tier AS bot_tier,b.recovered_at AS bot_recovered_at,to_char(c.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_at,
     (SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
@@ -159,7 +166,7 @@ async function chronologicalOpponents(db:Database,characterId:string,cursor?:str
   const eligible=rows.filter(row=>areRivals(actor.attained_level,row.attained_level));const more=eligible.length>20;
   const now=await clock(db);
   const opponents=eligible.slice(0,20).map(row=>({id:row.id as string,name:row.name as string,level:row.attained_level as number,className:row.profile_class as string,
-    units:row.units as number,armySize:Math.min(row.bot_tier?refinements.bots.armyCap:Number.MAX_SAFE_INTEGER,activeArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor).participants),maxHealth:row.max_health as number,
+    units:row.units as number,armySize:Math.min(row.bot_tier?refinements.bots.armyCap:Number.MAX_SAFE_INTEGER,resolveArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor,row.bot_tier?'army-legacy-1':world.armyPolicy).participants),maxHealth:row.max_health as number,
     health:regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value,
     botTier:row.bot_tier as string|null,
     cursor:row.cursor_at+'~'+row.id}));
@@ -173,6 +180,7 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
  if(cursor!==undefined&&typeof cursor!=='string')throw new GameError('INVALID_CURSOR','Invalid rival page.');
  if(cursor!==undefined&&cursor.split('~').length===2)return chronologicalOpponents(db,characterId,cursor,developmentBotsEnabled,developmentBotRecruitmentEnabled);
  if(rotation!==undefined&&(typeof rotation!=='string'||!uuid.test(rotation)))throw new GameError('INVALID_CURSOR','Invalid rival refresh.');
+ const world=await realmPolicy(db);
  const actor=(await db.query('SELECT attained_level FROM characters WHERE id=$1',[characterId])).rows[0]!;
  const now=await clock(db);let pivot:string,after:string|null=null,phase=0,lastTarget:string|null=null;
  if(cursor!==undefined){const parts=cursor.split('~');if(parts.length!==4||parts[0]!=='r1'||!uuid.test(parts[1]!)||!['0','1'].includes(parts[2]!)||!uuid.test(parts[3]!))throw new GameError('INVALID_CURSOR','Invalid rival page.');pivot=parts[1]!.toLowerCase();phase=Number(parts[2]);after=parts[3]!.toLowerCase();
@@ -194,7 +202,7 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
   ORDER BY c.id LIMIT $10`,[characterId,actor.attained_level-range,actor.attained_level+range,pivot, last,actor.attained_level,developmentBotsEnabled,developmentBotRecruitmentEnabled,half,limit])).rows;
  const rows=await seek(phase,after,21);if(phase===0&&rows.length<21)rows.push(...await seek(1,null,21-rows.length));
  const opponents=rows.slice(0,20).map(row=>({id:row.id as string,name:row.name as string,level:row.attained_level as number,className:row.profile_class as string,
-  units:row.units as number,armySize:Math.min(row.bot_tier?refinements.bots.armyCap:Number.MAX_SAFE_INTEGER,activeArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor).participants),maxHealth:row.max_health as number,
+  units:row.units as number,armySize:Math.min(row.bot_tier?refinements.bots.armyCap:Number.MAX_SAFE_INTEGER,resolveArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor,row.bot_tier?'army-legacy-1':world.armyPolicy).participants),maxHealth:row.max_health as number,
   health:regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value,
   botTier:row.bot_tier as string|null,cursor:'r1~'+pivot+'~'+row.rotation_phase+'~'+row.id}));
  const nextCursor=rows.length>20?opponents.at(-1)!.cursor:null;

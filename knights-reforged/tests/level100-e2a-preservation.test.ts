@@ -34,13 +34,13 @@ test('E2a populated 022-to-023 rollback, upgrade, replay and restart preserve ev
   const fault:Database={query:db.query.bind(db),end:()=>Promise.resolve(),connect:async()=>{const c=await db.connect();return {release:()=>c.release(),query:async<T extends QueryResultRow>(statement:string,values?:unknown[])=>{const result=await c.query<T>(statement,values);if(statement.includes('CREATE TABLE character_progression_epochs'))throw new Error('synthetic migration interruption');return result;}};}};
   await assert.rejects(migrate(fault),/synthetic migration interruption/);assert.deepEqual(await snapshot(db),before,'DDL and all rows roll back together');
   assert.match((await db.query("SELECT pg_get_constraintdef(oid) AS definition FROM pg_constraint WHERE conrelid='inventory_entries'::regclass AND conname='inventory_entries_quantity_check'")).rows[0]!.definition,/1000/);
-  await migrate(db);const after=await snapshot(db);
+  await migrate(db,{through:'023_expansion_compatibility.sql'});const after=await snapshot(db);
   for(const [table,rows]of Object.entries(before))if(['schema_migrations','rulesets'].includes(table))assert.ok(rows.every(row=>after[table]!.includes(row)),table);else assert.deepEqual(after[table],rows,table+' remains byte-identical');
   assert.equal(after.accounts!.length,453);assert.equal(after.development_bots!.length,450);assert.deepEqual((await db.query('SELECT character_id FROM development_bots ORDER BY character_id')).rows,botIds);
   assert.equal(after.character_progression_epochs!.length,0);assert.equal((await db.query('SELECT name FROM schema_migrations ORDER BY name DESC LIMIT 1')).rows[0]!.name,'023_expansion_compatibility.sql');
   assert.equal(after.schema_migrations!.length,23,'compiled container and populated upgrade agree on the exact installed migration count');
   assert.match((await db.query("SELECT pg_get_constraintdef(oid) AS definition FROM pg_constraint WHERE conrelid='inventory_entries'::regclass AND conname='inventory_entries_quantity_check'")).rows[0]!.definition,/5000/);
-  await migrate(db);assert.deepEqual(await snapshot(db),after,'migration replay is unchanged');
+  await migrate(db,{through:'023_expansion_compatibility.sql'});assert.deepEqual(await snapshot(db),after,'migration replay is unchanged');
   const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',DATABASE_URL:url.href});
   const first=await createApp({db,config});await first.close();const restarted=await createApp({db,config});
   try{const response=await restarted.inject({method:'GET',url:'/api/v1/me',headers:{cookie:'kr_session='+session.token}});assert.equal(response.statusCode,200);assert.equal(response.json().state.id,a.characterId);assert.equal(response.json().state.army.capacity,9);assert.equal(response.json().state.levelRequirement,45);}

@@ -6,19 +6,22 @@ import { alpha,propertyById,propertyPrice,propertyQuote } from './alpha-rules.js
 import { getLandState,accrueHolding,type LandState,type HoldingRow } from './land.js';
 import { ledger,creditGold } from './economy.js';
 import {propertyName} from './property-presentation.js';
+import {realmPolicy} from './realm-policy.js';import {contentCatalog} from './expansion-content.js';
 
 export type EstateState = Omit<LandState,'properties'> & {
   equipmentUpkeep:number; totalUpkeep:number;
-  properties:(LandState['properties'][number]&{level:number;unlocked:boolean;art:string;basePrice:number;priceSteps:number[];saleRefundSteps:number[];saleNetIncomeSteps:number[];maxSell:number;projectedBuyNetSteps:number[];projectedSaleNetSteps:number[]})[];
+  properties:(Omit<LandState['properties'][number],'price'>&{price:number|null;quoteUnavailable?:string;level:number;unlocked:boolean;art:string;basePrice:number;priceSteps:number[];saleRefundSteps:number[];saleNetIncomeSteps:number[];maxSell:number;projectedBuyNetSteps:number[];projectedSaleNetSteps:number[]})[];
 };
 export async function estateState(sql:Sql,characterId:string,gold:number,equipmentUpkeep:number,level:number):Promise<EstateState> {
+  const alpha=contentCatalog((await realmPolicy(sql)).catalogId);
   const state=await getLandState(sql,characterId,gold);
   const saleLots=(await sql.query('SELECT property_id,quantity,unit_price,hourly_income,hourly_upkeep FROM land_holdings WHERE character_id=$1 AND quantity>0 ORDER BY acquired_at,purchase_order,id',[characterId])).rows;
   const properties=alpha.properties.map(property=> {
     const owned=state.holdings.filter(holding=>holding.propertyId===property.id).reduce((n,holding)=>n+holding.quantity,0);
     const remaining=Math.max(0,alpha.limits.property-owned);
-    const maxPurchase=Math.min(remaining,alpha.limits.landTransaction);
-    const priceSteps=Array.from({length:maxPurchase},(_,i)=>propertyPrice(property.price,owned+i));
+    const priceSteps:number[]=[];
+    for(let i=0;i<Math.min(remaining,alpha.limits.landTransaction);i++){try{priceSteps.push(propertyPrice(property.price,owned+i));}catch(error){if(error instanceof RangeError)break;throw error;}}
+    const maxPurchase=priceSteps.length;
     let total=0,maxAffordable=0;
     for (const price of priceSteps) { if (total+price>gold) break;total+=price;maxAffordable++; }
     const lots=saleLots.filter(holding=>holding.property_id===property.id);
@@ -27,19 +30,22 @@ export async function estateState(sql:Sql,characterId:string,gold:number,equipme
     const saleIncome=lots.flatMap(holding=>Array.from({length:Math.min(holding.quantity,alpha.limits.landTransaction)},()=>holding.hourly_income-holding.hourly_upkeep)).slice(0,alpha.limits.landTransaction);
     const saleNetIncomeSteps=saleIncome.map((_,i)=>saleIncome.slice(0,i+1).reduce((n,p)=>n+p,0));
     const net=state.hourlyIncome-state.hourlyUpkeep-equipmentUpkeep;
-    return {...property,name:propertyName(property.id,property.name),projectedBuyNetSteps:priceSteps.map((_,i)=>net+(i+1)*(property.hourlyIncome-property.hourlyUpkeep)),projectedSaleNetSteps:saleNetIncomeSteps.map(n=>net-n),saleRefundSteps,saleNetIncomeSteps,maxSell:Math.min(owned,alpha.limits.landTransaction),unlocked:level>=property.level,basePrice:property.price,price:propertyPrice(property.price,owned),owned,remaining,maxPurchase,maxAffordable,priceSteps};
+    let price:number|null;try{price=propertyPrice(property.price,owned);}catch(error){if(!(error instanceof RangeError))throw error;price=null;}
+    // Null is an explicit unavailable quote, never a clamped substitute price.
+    return {...property,name:propertyName(property.id,property.name),projectedBuyNetSteps:priceSteps.map((_,i)=>net+(i+1)*(property.hourlyIncome-property.hourlyUpkeep)),projectedSaleNetSteps:saleNetIncomeSteps.map(n=>net-n),saleRefundSteps,saleNetIncomeSteps,maxSell:Math.min(owned,alpha.limits.landTransaction),unlocked:level>=property.level,basePrice:property.price,price,owned,remaining,maxPurchase,maxAffordable,priceSteps,...(!maxPurchase&&remaining>0?{quoteUnavailable:'The next progressive price exceeds the carried-gold transaction limit.'}:{})};
   });
   return {...state,holdings:state.holdings.map(h=>({...h,name:propertyName(h.propertyId,h.name)})),rulesetId:alpha.id,properties,equipmentUpkeep,totalUpkeep:state.hourlyUpkeep+equipmentUpkeep,
     netHourlyIncome:state.hourlyIncome-state.hourlyUpkeep-equipmentUpkeep};
 }
 
 export async function buyEstate(sql:Sql,characterId:string,level:number,propertyId:string,quantity:number,commandId:string,now:Date) {
+  const alpha=contentCatalog((await realmPolicy(sql)).catalogId),propertyById=new Map(alpha.properties.map(p=>[p.id,p]));
   const property=propertyById.get(propertyId);
   if (!property) throw new GameError('PROPERTY_NOT_FOUND','That property is not available.',404);
   if (level<property.level) throw new GameError('LEVEL_REQUIRED',`${propertyName(property.id,property.name)} unlocks at level ${property.level}.`,409);
   const owned=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM land_holdings WHERE character_id=$1 AND property_id=$2',[characterId,propertyId])).rows[0]!.quantity as number;
   if (owned+quantity>alpha.limits.property) throw new GameError('LAND_LIMIT','The property ownership limit has been reached.',409);
-  const prices=propertyQuote(property.price,owned,quantity);const cost=prices.reduce((n,price)=>n+price,0);
+  let prices:number[];try{prices=propertyQuote(property.price,owned,quantity);}catch(error){if(!(error instanceof RangeError))throw error;throw new GameError('TRANSACTION_LIMIT','That progressive purchase exceeds the carried-gold transaction limit. Choose a smaller available quantity.',409);}const cost=prices.reduce((n,price)=>n+price,0);
   if(!Number.isSafeInteger(cost)||cost>2147483647)throw new GameError('TRANSACTION_LIMIT','That batch exceeds the carried-gold transaction limit. Buy a smaller quantity.',409);
   await ledger(sql,commandId,'land_purchase',[{characterId,amount:-cost}],alpha.id);
   await sql.query('INSERT INTO income_cycles(character_id,next_payment_at) VALUES($1,$2) ON CONFLICT DO NOTHING',[characterId,new Date(+now+3600000)]);
@@ -55,6 +61,7 @@ export async function buyEstate(sql:Sql,characterId:string,level:number,property
 }
 
 export async function sellEstate(sql:Sql,characterId:string,propertyId:string,quantity:number,commandId:string,now:Date) {
+  const alpha=contentCatalog((await realmPolicy(sql)).catalogId);
   const batches=(await sql.query<HoldingRow>('SELECT * FROM land_holdings WHERE character_id=$1 AND property_id=$2 AND quantity>0 ORDER BY acquired_at,purchase_order,id FOR UPDATE',[characterId,propertyId])).rows;
   if (batches.reduce((n,batch)=>n+batch.quantity,0)<quantity) throw new GameError('PROPERTY_NOT_OWNED','You do not own that many properties.',409);
   let left=quantity;let refund=0;let earned=0n;

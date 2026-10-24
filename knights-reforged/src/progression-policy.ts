@@ -1,6 +1,7 @@
 import {alpha,levelRequirement} from './alpha-rules.js';
 import {compatibility,safeCount,type ProgressionPolicy} from './compatibility-rules.js';
 import type {Sql} from './db.js';
+import {realmPolicy} from './realm-policy.js';
 
 export interface ProgressionEpoch {policyId:ProgressionPolicy;boundaryLevel:number;boundaryRequirement:number;startingProgress:number;}
 export function progressionRequirement(level:number,id:ProgressionPolicy=compatibility.active.progression){
@@ -19,7 +20,8 @@ export function requirementForEpoch(level:number,epoch?:ProgressionEpoch){
  safeCount(epoch.startingProgress,0,epoch.boundaryRequirement-1);if(level<epoch.boundaryLevel)throw new RangeError('Progression epoch precedes attained level.');
  return level===epoch.boundaryLevel?epoch.boundaryRequirement:progressionRequirement(level,epoch.policyId);
 }
-export async function readProgressionEpoch(sql:Sql,characterId:string,policy:ProgressionPolicy=compatibility.active.progression):Promise<ProgressionEpoch|undefined>{
+export async function readProgressionEpoch(sql:Sql,characterId:string,policy?:ProgressionPolicy):Promise<ProgressionEpoch|undefined>{
+ if(!policy){const world=await realmPolicy(sql);policy=world.progressionPolicy;if(world.expanded&&(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[characterId])).rows.length)policy='xp-legacy-1';}
  progressionRequirement(1,policy);
  // Legacy execution never initializes or consumes a future epoch. Compatible
  // binaries can read explicit future metadata, but no runtime switch is exposed.

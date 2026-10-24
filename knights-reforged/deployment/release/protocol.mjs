@@ -75,7 +75,7 @@ export function checkJobReport(report,expected){
   assert.match(report.restoredCopy.sha256??'',digest);assert.match(report.restoreClusterDigest??'',digest);
   assert.notEqual(report.sourceClusterDigest,report.restoreClusterDigest,'Restore target must be a different PostgreSQL cluster.');
  }else{
-  assert.equal(report.schemaHead,'023_expansion_compatibility.sql');assert.equal(report.active_bots,450);assert.equal(report.initialized,true);
+  assert.equal(report.schemaHead,'024_level100_expansion.sql');assert.equal(report.active_bots,450);assert.equal(report.initialized,true);
  }
  return report;
 }

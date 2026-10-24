@@ -1,0 +1,25 @@
+{
+  "id": "quest-equipment-rarities-1",
+  "provenance": "Owner-review proposal only. No pity, guaranteed drops, boosts or retroactive awards. Ordinary eligible quest costs apply.",
+  "reviewStatus": "pending",
+  "scale": 1000000,
+  "minimumLevel": 71,
+  "quantity": 1,
+  "proposedPpm": 500,
+  "quests": {
+    "storm-the-river-fortress": [
+      "king-hudsons-sword"
+    ],
+    "settle-the-war-of-crowns": [
+      "king-hudsons-shield"
+    ],
+    "breach-the-imperial-walls": [
+      "king-hudsons-meteor-shower"
+    ],
+    "defend-the-hundred-kingdoms": [
+      "king-hudsons-sword",
+      "king-hudsons-shield",
+      "king-hudsons-meteor-shower"
+    ]
+  }
+}

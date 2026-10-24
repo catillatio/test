@@ -3,6 +3,7 @@ import { hash, verify, Algorithm } from '@node-rs/argon2';
 import { z } from 'zod';
 import { type Database, transaction, type Sql } from './db.js';
 import { GameError } from './errors.js';
+import {initializeProgressionEpoch} from './expansion-activation.js';
 import { rules } from './rules.js';
 import { alpha } from './alpha-rules.js';
 import {normalizeDisplayName,checkNewContent,ContentPolicyError,recordContentRejection} from './content-policy.js';
@@ -34,6 +35,7 @@ export async function registerAccount(db: Database, input: unknown, options:{sou
       // New humans opt into action sounds, subject to the browser gesture gate.
       // Existing preference rows and the legacy muted fallback remain untouched.
       if(options.soundEnabled)await client.query('INSERT INTO sound_preferences(character_id,enabled,volume) VALUES($1,true,55)', [characterId]);
+      await initializeProgressionEpoch(client,characterId);
       const ledgerId = randomUUID();
       await client.query('INSERT INTO economy_transactions(id,reason,ruleset_id) VALUES($1,$2,$3)', [ledgerId, 'starting_grant', alpha.id]);
       await client.query('INSERT INTO economy_entries(id,transaction_id,character_id,amount,balance_after) VALUES($1,$2,$3,$4,$4)',

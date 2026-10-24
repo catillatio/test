@@ -57,11 +57,11 @@ if (root) {
         if (!card) continue;
         card.querySelector('[data-land-owned]').textContent = String(property.owned);
         const price = card.querySelector('[data-land-unit-price]');
-        if (price) price.textContent = number(property.price);
+        if (price) price.textContent = property.price === null ? 'Quote unavailable' : number(property.price);
         if (property.priceSteps) card.dataset.priceSteps = JSON.stringify(property.priceSteps);
         card.querySelector('[data-land-buy-hint]').textContent = property.remaining === 0 ? 'Ownership limit reached.' :
           property.unlocked === false ? 'Unlocks at level ' + property.level + '.' :
-          property.maxAffordable === 0 ? 'Earn more gold to buy this property.' : 'Joins the shared hourly cycle; first partial period is prorated.';
+          property.maxAffordable === 0 ? (property.quoteUnavailable || 'Earn more gold to buy this property.') : 'Joins the shared hourly cycle; first partial period is prorated.';
       }
       for (const holding of state.land.holdings) {
         const time = [...root.querySelectorAll('[data-holding-payment]')].find(element => element.dataset.holdingPayment === holding.id);

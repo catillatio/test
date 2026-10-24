@@ -18,7 +18,6 @@ export async function hallOfChampions(db:Database,viewerId:string,selection?:unk
  const filter='s.eligible'+(level?'':` AND s.${column}>0`);
  const order=`s.${column} DESC,${level?'s.xp DESC,':''}s.created_at,s.character_id`;
  return transaction(db,async sql=>{
-  await sql.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY');
   const rows=(await sql.query(`SELECT s.character_id AS id,c.name,c.attained_level AS level,s.${column}::text AS score${level?',s.xp::text AS xp':''}
    FROM champion_standings s JOIN characters c ON c.id=s.character_id WHERE ${filter} ORDER BY ${order} LIMIT 20`)).rows;
   const mine=(await sql.query(`SELECT s.${column}::text AS score${level?',s.xp::text AS xp':''},s.created_at::text AS created_at,s.character_id
@@ -31,7 +30,7 @@ export async function hallOfChampions(db:Database,viewerId:string,selection?:unk
   }
   return {category,entries:rows.map((row,index)=>({id:row.id as string,name:row.name as string,level:Number(row.level),score:row.score as string,xp:row.xp as string|undefined,rank:index+1,self:row.id===viewerId})),
    own:mine&&ownRank?{rank:ownRank,score:mine.score as string,xp:mine.xp as string|undefined}:null};
- });
+ },{mode:'repeatable-read-only'});
 }
 export async function visibleHuman(sql:Sql,id:string){
  return !!(await sql.query(`SELECT 1 FROM champion_standings WHERE character_id=$1 AND eligible`,[id])).rows.length;
