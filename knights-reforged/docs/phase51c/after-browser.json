@@ -1,0 +1,180 @@
+{
+  "passed": true,
+  "stage": "after",
+  "views": [
+    {
+      "width": 320,
+      "name": "battle-rivals"
+    },
+    {
+      "width": 320,
+      "name": "armory-bulk"
+    },
+    {
+      "width": 320,
+      "name": "land-bulk"
+    },
+    {
+      "width": 320,
+      "name": "profile-preview"
+    },
+    {
+      "width": 320,
+      "name": "battle-victory"
+    },
+    {
+      "width": 320,
+      "name": "battle-defeat"
+    },
+    {
+      "width": 320,
+      "name": "personal-feed"
+    },
+    {
+      "width": 320,
+      "name": "tutorial-calling"
+    },
+    {
+      "width": 390,
+      "name": "battle-rivals"
+    },
+    {
+      "width": 390,
+      "name": "armory-bulk"
+    },
+    {
+      "width": 390,
+      "name": "land-bulk"
+    },
+    {
+      "width": 390,
+      "name": "profile-preview"
+    },
+    {
+      "width": 390,
+      "name": "battle-victory"
+    },
+    {
+      "width": 390,
+      "name": "battle-defeat"
+    },
+    {
+      "width": 390,
+      "name": "personal-feed"
+    },
+    {
+      "width": 390,
+      "name": "tutorial-calling"
+    },
+    {
+      "width": 430,
+      "name": "battle-rivals"
+    },
+    {
+      "width": 430,
+      "name": "armory-bulk"
+    },
+    {
+      "width": 430,
+      "name": "land-bulk"
+    },
+    {
+      "width": 430,
+      "name": "profile-preview"
+    },
+    {
+      "width": 430,
+      "name": "battle-victory"
+    },
+    {
+      "width": 430,
+      "name": "battle-defeat"
+    },
+    {
+      "width": 430,
+      "name": "personal-feed"
+    },
+    {
+      "width": 430,
+      "name": "tutorial-calling"
+    },
+    {
+      "width": 1024,
+      "name": "battle-rivals"
+    },
+    {
+      "width": 1024,
+      "name": "armory-bulk"
+    },
+    {
+      "width": 1024,
+      "name": "land-bulk"
+    },
+    {
+      "width": 1024,
+      "name": "profile-preview"
+    },
+    {
+      "width": 1024,
+      "name": "battle-victory"
+    },
+    {
+      "width": 1024,
+      "name": "battle-defeat"
+    },
+    {
+      "width": 1024,
+      "name": "personal-feed"
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-calling"
+    }
+  ],
+  "bulk": [
+    {
+      "width": 320,
+      "type": "equipment",
+      "height": 347.859375
+    },
+    {
+      "width": 320,
+      "type": "land",
+      "height": 351.25
+    },
+    {
+      "width": 390,
+      "type": "equipment",
+      "height": 281.0625
+    },
+    {
+      "width": 390,
+      "type": "land",
+      "height": 302.25
+    },
+    {
+      "width": 430,
+      "type": "equipment",
+      "height": 281.0625
+    },
+    {
+      "width": 430,
+      "type": "land",
+      "height": 302.25
+    },
+    {
+      "width": 1024,
+      "type": "equipment",
+      "height": 287.0625
+    },
+    {
+      "width": 1024,
+      "type": "land",
+      "height": 311.25
+    }
+  ],
+  "errors": [],
+  "readOnlyViewsPreserveSavedBattleAndFinancialRows": true,
+  "explicitPurchaseAndAcknowledgementChecks": true,
+  "productionContacted": false
+}

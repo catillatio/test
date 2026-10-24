@@ -231,7 +231,7 @@ check('Original five destinations, accessible original vector icons, Home-only L
  const expected=[['/game/home','Home'],['/game/quests','Quests'],['/game/battle','Battle'],['/game/armory','Armory'],['/game/army','Recruit']];
 
  for(const example of cases){
-  const links=navigationLinks(rendered.get(example.name),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
+  const links=navigationLinks(rendered.get(example.name).replace(/<span class="nav-unread"[\s\S]*?<\/span><\/span>/g,''),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
   if(!example.data.state)continue;
   const selected=example.data.screen==='land'?'home':example.data.screen==='purchase'?(example.data.purchase.type==='equipment'?'armory':'home'):['report','bounties','bounty-confirm','bounty-new','champions'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
   for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,null);assert.ok(rendered.get(example.name).includes('/assets/art/remaster-ui/icons.svg?v=phase48-finish1#'+id));}
@@ -274,7 +274,7 @@ check('Upgraded pages bypass cached pre-expansion income clients',()=>{
     assert.ok(html.includes('/assets/realm-theme.css?v=phase48-finish1'));
     assert.ok(html.includes('/assets/sound.js?v=phase491-quiet1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
-    if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase48-shared1'));
+    if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase51c-1'));
     if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase48-land-polish1'));
   }
 });

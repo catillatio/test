@@ -52,7 +52,7 @@ test('reported broadcasts stay visible to others; one audited operator hide remo
   const other=randomUUID();await r.db.query("INSERT INTO realm_messages(id,author_id,channel,body,status,ruleset_id,command_id,created_at) VALUES($1,$2,'broadcast','Unrelated synthetic broadcast','visible','community-0.1',$3,now())",[other,author.id,randomUUID()]);
   const accounts=(await r.db.query('SELECT * FROM accounts ORDER BY id')).rows;
   await moderateMessage(r.db,{action:'hide',messageId:id,operator:'test-owner',reason:'Explicit synthetic single-record authorization'});
-  for(const feed of['all','broadcasts']){const response=await r.app.inject({url:'/api/v1/feed?feed='+feed,headers:{cookie:reporter.cookie}});assert.equal(response.statusCode,200);assert.ok(!response.json().entries.some((e:any)=>e.id===id));assert.ok(response.json().entries.some((e:any)=>e.id===other));}
+  for(const feed of['all','broadcasts']){const response=await r.app.inject({url:'/api/v1/feed?feed='+feed,headers:{cookie:reporter.cookie}});assert.equal(response.statusCode,200);assert.ok(!response.json().entries.some((e:any)=>e.id===id));assert.equal(response.json().entries.some((e:any)=>e.id===other),feed==='broadcasts');}
   assert.equal((await r.db.query('SELECT status FROM realm_messages WHERE id=$1',[id])).rows[0]!.status,'hidden');
   assert.equal((await r.db.query("SELECT count(*)::int n FROM social_moderation WHERE message_id=$1 AND action='operator_hide'",[id])).rows[0]!.n,1);assert.deepEqual((await r.db.query('SELECT * FROM accounts ORDER BY id')).rows,accounts);
  }finally{await r.close();}

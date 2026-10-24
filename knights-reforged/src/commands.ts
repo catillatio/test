@@ -183,7 +183,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       result.message='Sold '+intent.quantity+' properties for '+refund+' gold. Earned time was settled first; the shared payment clock is unchanged.';result.data={goldReceived:refund};
     } else if (kind==='skill') {
       const allocation=await allocateSkill(sql,actorId,intent.resource as 'health'|'mana'|'spirit'|'attack'|'defense',key,now);
-      result.message=intent.resource==='attack'||intent.resource==='defense'?intent.resource+' training increased to '+allocation.capacity+' (+ '+allocation.capacity+'%).':'Maximum '+intent.resource+' increased by '+allocation.delta+'.';result.data=allocation;
+      result.message=intent.resource==='attack'||intent.resource==='defense'?intent.resource+' training increased to '+allocation.capacity+' (+ '+allocation.capacity+'%).':'Maximum '+(intent.resource==='spirit'?'Stamina':intent.resource)+' increased by '+allocation.delta+'.';result.data=allocation;
     } else if (kind==='maintain') {
       await fundMaintenance(sql,actorId,key,now);
       result.message='Upkeep is funded. Maintained equipment is available to your army.';

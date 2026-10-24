@@ -1,3 +1,4 @@
+import {notificationSummary,acknowledgeNotifications} from './notifications.js';
 import {mutedSound,soundPreferences,soundFeedback} from './sound.js';
 import {callingName,callingDescription} from './calling-presentation.js';
 import Fastify, { type FastifyRequest, type FastifyReply } from 'fastify';
@@ -74,7 +75,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   await app.register(fastifyStatic, { root: join(projectRoot, 'public'), prefix: '/assets/', maxAge: '1h',dotfiles:'deny',index:false,list:false });
   // Rules used by shared/nested views are application constants, not optional
   // page locals. This also covers direct views and error rendering contexts.
-  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { callingName,callingDescription,sound:mutedSound,soundEvent:null, champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,bountyCount:0,nextBountyExpiry:null,gameplay,experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
+  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { callingName,callingDescription,notifications:{home:0,army:0,events:[]},sound:mutedSound,soundEvent:null, champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,bountyCount:0,nextBountyExpiry:null,gameplay,experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
   app.decorateRequest('realmSession', null);
 
   const setSessionCookie = (reply: FastifyReply, token: string, authenticated: boolean) => reply.setCookie('kr_session', token, {
@@ -140,6 +141,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     }
     // Confirmation is derived only from this account's durable receipt. Missing
     // legacy metadata keeps the existing generic notice rather than invented data.
+    if(notice)notice=notice.replace(/^Maximum spirit increased by /,'Maximum Stamina increased by ');
     const purchaseData=actionResult?.data as {itemId?:string;propertyId?:string;itemName?:string;quantity?:number;goldSpent?:number}|undefined;
     const purchaseEntry=screen==='armory'&&actionResult?.kind==='buy'?alpha.items.find(i=>i.id===purchaseData?.itemId):
       screen==='land'&&actionResult?.kind==='land_buy'?alpha.properties.find(p=>p.id===purchaseData?.propertyId):null;
@@ -148,14 +150,18 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const playerExperience=state?await experienceView(db,state.id):null;
     const board=data.bountyBoard as {activeCount?:number;nextExpiryAt?:string|null}|undefined;
     const counts=state&&['battle','bounties','bounty-new','bounty-confirm'].includes(screen)?board?.activeCount!==undefined?{count:board.activeCount,nextExpiryAt:board.nextExpiryAt??null}:await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):{count:0,nextExpiryAt:null};
+    const notificationFeed=[...((data.feed as {entries:any[]}|undefined)?.entries??[])];
+    const shownBattle=data.battle as {id?:string;defenderId?:string}|undefined;
+    if(screen==='report'&&state&&shownBattle?.id&&shownBattle.defenderId===state.id)notificationFeed.push({id:shownBattle.id,kind:'battle',data:{defenderId:state.id}});
     const chosenRegion=regionFilter(query.area);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', {
-      screen, state,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
+      screen, state,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,
       questArea:chosenRegion??playerExperience?.region??'all',
+      notifications:state?await notificationSummary(db,state.id,notificationFeed):{home:0,army:0,events:[]},
       showCalling:query.calling==='1',profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
       recruitment:{allowed:false,reason:'Review this army request in Recruit.',status:'none',automatic:false},publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
       feedTab:feedCategory((request.query as {feed?:string}).feed),feed:{entries:[],nextCursor:null},
@@ -205,8 +211,8 @@ export async function createApp(options: { db: Database; config: Config; logger?
         ...(screen==='home'?{feed:await activityFeed(db,state.id,feedCategory((request.query as {feed?:string}).feed),(request.query as {after?:string}).after)}:{}),
         ...(screen==='army'?{armyEvents:await armyDashboard(db,state.id)}:{}),
         ...(screen === 'battle' ? await (async () => {
-          const query=request.query as {after?:string};
-          const page=await listOpponents(db,state.id,query.after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled);
+          const query=request.query as {after?:string;rotation?:unknown};
+          const page=await listOpponents(db,state.id,query.after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled,query.rotation);
           return {opponents:page.opponents,nextOpponentCursor:page.nextCursor};
         })() : {}),
       });
@@ -331,6 +337,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
         if(route.kind==='broadcast')return reply.redirect('/game/home?feed=broadcasts&command='+result.commandId,303);
         // A fixed destination only; existing Calling authorization/costs and
         // command idempotency remain in the shared command handler.
+        if(route.kind==='profile'&&body.returnTo==='tutorial')return reply.redirect('/game/tutorial?command='+result.commandId,303);
         if(route.kind==='profile'&&body.returnTo==='home')return reply.redirect('/game/home?calling=1&command='+result.commandId+'#calling',303);
         return reply.redirect(result.battleId ? '/game/battles/' + result.battleId :
           '/game/' + destination[route.kind] + '?command=' + result.commandId +
@@ -339,6 +346,17 @@ export async function createApp(options: { db: Database; config: Config; logger?
       });
     }
   }
+  app.get('/api/v1/notifications',{preHandler:requireAccount},async request=>{
+    const id=(await db.query('SELECT id FROM characters WHERE account_id=$1',[request.realmSession!.account_id!])).rows[0]!.id;
+    return notificationSummary(db,id);
+  });
+  for(const url of ['/api/v1/notifications/read','/game/notifications/read'])app.post(url,{preHandler:requireAccount},async(request,reply)=>{
+    const id=(await db.query('SELECT id FROM characters WHERE account_id=$1',[request.realmSession!.account_id!])).rows[0]!.id;
+    const result=await acknowledgeNotifications(db,id,asBody(request).events);
+    if(wantsJson(request))return result;
+    const destination=asBody(request).returnTo;
+    return reply.redirect(typeof destination==='string'&&(destination==='/game/profile?tab=comments'||/^\/game\/battles\/[a-f0-9-]{36}$/.test(destination))?destination:'/game/home',303);
+  });
   app.get('/api/v1/me', { preHandler: requireAccount }, async request => {
     const state=await getState(db,request.realmSession!.account_id!,config);
     const counts=(request.query as {bounties?:string}).bounties==='1'?await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):undefined;
@@ -346,7 +364,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.get('/api/v1/opponents', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!,config);
-    return listOpponents(db,state.id,(request.query as {after?:string}).after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled);
+    return listOpponents(db,state.id,(request.query as {after?:string}).after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled,(request.query as {rotation?:unknown}).rotation);
   });
   app.get('/api/v1/bounties/quote',{preHandler:requireAccount},async request=>{
     const query=z.object({targetCharacterId:uuid,amount:z.coerce.number().int().min(bountyRules.minimum).max(bountyRules.maximum)}).safeParse(request.query);

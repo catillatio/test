@@ -1,0 +1,58 @@
+[
+  {
+    "width": 320,
+    "type": "equipment",
+    "height": 347.859375,
+    "beforeHeight": 351.96875,
+    "reductionPercent": 1.2
+  },
+  {
+    "width": 320,
+    "type": "land",
+    "height": 351.25,
+    "beforeHeight": 376.96875,
+    "reductionPercent": 6.8
+  },
+  {
+    "width": 390,
+    "type": "equipment",
+    "height": 281.0625,
+    "beforeHeight": 351.96875,
+    "reductionPercent": 20.1
+  },
+  {
+    "width": 390,
+    "type": "land",
+    "height": 302.25,
+    "beforeHeight": 376.96875,
+    "reductionPercent": 19.8
+  },
+  {
+    "width": 430,
+    "type": "equipment",
+    "height": 281.0625,
+    "beforeHeight": 351.96875,
+    "reductionPercent": 20.1
+  },
+  {
+    "width": 430,
+    "type": "land",
+    "height": 302.25,
+    "beforeHeight": 376.96875,
+    "reductionPercent": 19.8
+  },
+  {
+    "width": 1024,
+    "type": "equipment",
+    "height": 287.0625,
+    "beforeHeight": 351.96875,
+    "reductionPercent": 18.4
+  },
+  {
+    "width": 1024,
+    "type": "land",
+    "height": 311.25,
+    "beforeHeight": 376.96875,
+    "reductionPercent": 17.4
+  }
+]

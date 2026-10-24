@@ -1,0 +1,5 @@
+<% const definition=alpha.items.find(entry=>entry.id===item.id); %>
+<details class="inventory-figure equipment-preview" data-equipment-preview>
+<summary aria-label="Inspect <%= item.name %>, owned <%= item.quantity %>"><%- include('catalog-art',{entry:item,small:false}) %><strong>×<%= item.quantity %></strong><span><%= item.name %></span></summary>
+<div class="equipment-preview-content"><h4><%= item.name %></h4><% if(definition) { %><dl><div><dt>Attack</dt><dd><%= definition.attack %></dd></div><div><dt>Defense</dt><dd><%= definition.defense %></dd></div><div><dt>Upkeep</dt><dd><%= definition.upkeep.toLocaleString('en') %> gold/hr</dd></div><div><dt>Unlock level</dt><dd><%= definition.level %></dd></div><div><dt>Owned</dt><dd><%= item.quantity %></dd></div></dl><% } else { %><p>Historical equipment. Current stats are not available.</p><% } %><div class="equipment-preview-actions"><a href="/game/armory?category=<%= category.id %>#item-<%= item.id %>">View in Armory</a><button type="button" data-equipment-close>Close</button></div></div>
+</details>
