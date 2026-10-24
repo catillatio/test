@@ -66,6 +66,32 @@ try{
  const report=checkJobReport(JSON.parse(await readFile(fileFor(reportKey),'utf8')),first);
  assert.equal(report.restoredCopy.bots,450);assert.deepEqual(snapshot(),before);assert.equal(sql(source,'railway_test','SELECT count(*) FROM pg_database WHERE datname=\''+first.copy+'\''),'0');
  check('read-only source role exports age-encrypted data over verified HTTPS and restores only to the separate PostgreSQL cluster');
+ assert.equal(Object.hasOwn(report,'verifiedCopyIdentity'),false);check('registration defaults OFF and needs no retention catalog, credentials or additional database writes');
+ // Optional registration uses a separately installed catalog and a restricted
+ // credential only on this script's disposable verification PostgreSQL.
+ sql(restore,'railway_test',await readFile('deployment/release/retention/bootstrap.sql','utf8'));
+ sql(restore,'railway_test',await readFile('deployment/release/retention/observations.sql','utf8'));
+ const registrarPassword=randomUUID();
+ docker(['exec','-i',restore,'psql','-U','postgres','-d','railway_test','-X','-v','ON_ERROR_STOP=1','-c','\\password kc_copy_registrar'],{input:registrarPassword+'\n'+registrarPassword+'\n'});
+ const registrationScope={projectId,environmentId,gameServiceId,workerServiceId,verificationDatabaseServiceId:randomUUID(),maintenanceDatabase:'railway_test',clusterDigest:report.restoreClusterDigest,sourceClusterDigest:report.sourceClusterDigest};
+ const registrationSettings={KINGDOM_COPY_REGISTRATION_ENABLED:'1',KINGDOM_COPY_REGISTRATION_SCOPE:JSON.stringify(registrationScope),KINGDOM_COPY_REGISTRATION_DATABASE_URL:'postgres://kc_copy_registrar:'+registrarPassword+'@'+restoreHost+'/railway_test'};
+ const observed=await request(),registeredOutput=await runWorker(observed,{overrides:registrationSettings});assert.match(registeredOutput,/COPY_REGISTRATION: PASS/);assert.doesNotMatch(registeredOutput,/COPY_REGISTRATION: FAIL/);
+ const observedKey='kingdom-releases/'+observed.sha+'/'+observed.jobId+'/prepare.json',observedReport=checkJobReport(JSON.parse(await readFile(fileFor(observedKey),'utf8')),observed);
+ const actualOid=sql(restore,'railway_test',"SELECT oid FROM pg_database WHERE datname='"+observed.copy+"'");assert.equal(observedReport.verifiedCopyIdentity.oid,actualOid);
+ assert.equal(sql(restore,'railway_test','SELECT count(*) FROM release_observations.verified_copies'),'1');assert.equal(sql(restore,'railway_test','SELECT count(*) FROM release_retention.copies'),'0');
+ assert.equal(sql(restore,'railway_test',"SELECT r.rolname FROM pg_database d JOIN pg_roles r ON r.oid=d.datdba WHERE d.datname='"+observed.copy+"'"),'postgres');assert.deepEqual(snapshot(),before);
+ check('opt-in registration follows genuine encrypted restoration/report upload and preserves unadopted ownership and every source row');
+ const {urls:ignoredGrants,...publicObserved}=observed;
+ const manifestBytes=Buffer.from(JSON.stringify({request:publicObserved,report:observedReport,backupKey:observedKey.replace('prepare.json','realm.dump.age')}));
+ await writeFile(join(folder,'registration-manifest.json'),manifestBytes,{mode:0o644});
+ const retryEnv=await envFile('registration.env',{NODE_ENV:'production',KINGDOM_RELEASE_WORKER:'1',RAILWAY_PROJECT_ID:projectId,RAILWAY_ENVIRONMENT_ID:environmentId,RAILWAY_SERVICE_ID:workerServiceId,RAILWAY_DEPLOYMENT_ID:randomUUID(),...registrationSettings});
+ const receipt=sql(restore,'railway_test','SELECT first_observed_at::text,verified_at::text,evidence_sha256 FROM release_observations.verified_copies');
+ for(let n=0;n<2;n++){
+  const output=docker(['run','--rm','--network',network,'--env-file',retryEnv,'--mount','type=bind,src='+join(folder,'registration-manifest.json')+',dst=/manifest.json,readonly',image,'node','deployment/release/retention/register-verified.mjs','--owner-reviewed','--manifest','/manifest.json','--expected-sha256',createHash('sha256').update(manifestBytes).digest('hex')]);
+  assert.equal(output,'COPY_REGISTRATION_REPLAY: PASS\n');
+ }
+ assert.equal(sql(restore,'railway_test','SELECT first_observed_at::text,verified_at::text,evidence_sha256 FROM release_observations.verified_copies'),receipt);assert.deepEqual(snapshot(),before);
+ check('a restarted restricted registration-only process replays retained metadata idempotently without source credentials, backup or restore');
  check('the provider actually rejects a second conditional write of identical ciphertext before authorizing recovery');
  check('downloaded ciphertext decrypts with an ephemeral key, restores all old business rows, migrates the exact candidate and replays unchanged');
  await mkdir(join(folder,'recovery'));
