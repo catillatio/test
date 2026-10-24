@@ -6,7 +6,7 @@ import {settleBotFinance} from './bot-finance.js';
 import { type Database, transaction, type Sql } from './db.js';
 import { GameError } from './errors.js';
 import { rules, regenerate } from './rules.js';
-import { alpha,levelRequirement,selectEquipment,activeArmy,areRivals,lootById,trainedPower,type QuestDefinition,type OwnedItem } from './alpha-rules.js';
+import { alpha,selectEquipment,activeArmy,areRivals,lootById,trainedPower,type QuestDefinition,type OwnedItem } from './alpha-rules.js';
 import {progressionEconomy} from './progression-economy-rules.js';
 import { settleLand } from './land.js';
 import { estateState,type EstateState } from './estate.js';
@@ -17,6 +17,9 @@ import {lockBountyEscrow,settleExpiredBounties} from './bounties.js';
 import {refinements} from './refinement-rules.js';
 import {invitationCode} from './community.js';
 import {strategy,callingFor,callingPower,recoverySeconds} from './strategy-rules.js';
+import {readArmyRoster,type ArmyLink} from './army-roster.js';
+import {activeEquipmentCatalog} from './catalog-compatibility.js';
+import {requirementForEpoch,readProgressionEpoch} from './progression-policy.js';
 
 export interface CharacterRow {
   development_bot?:boolean;id:string;account_id:string;name:string;xp:number;health:number;energy:number;
@@ -28,7 +31,7 @@ export interface CharacterRow {
   calling_changed_at:Date|null;
 }
 export interface GameRuntime{developmentBotRecruitmentEnabled?:boolean;}
-export interface ArmyLink { characterId:string;name:string;level:number;className:string;status:string;incoming:boolean; }
+export type {ArmyLink} from './army-roster.js';
 export interface CharacterState {
   incomeReceipt:{id:string;gold:number;createdAt:string}|null;healing:ReturnType<typeof healingQuote>;payment:ReturnType<typeof upcomingPayment>;nextUnlock:{level:number;names:string[]}|null;invitationCode:string;id:string;name:string;xp:number;level:number;levelXp:number;levelRequirement:number;xpToNext:number;
   health:number;maxHealth:number;mana:number;maxMana:number;spirit:number;maxSpirit:number;energy:number;
@@ -42,7 +45,7 @@ export interface CharacterState {
   training:{attack:number;defense:number;attackBonusPercent:number;defenseBonusPercent:number;untrainedAttack:number;untrainedDefense:number};
   calling:{rulesetId:string;attackPercent:number;defensePercent:number;description:string;healthSeconds:number;manaSeconds:number;spiritSeconds:number;changeReadyAt:string|null;changeCost:number};
   maintenance:{hourlyRate:number;reserveGold:string;arrearsGold:string;paused:boolean;resumeCost:number};
-  army:ReturnType<typeof activeArmy>&{allies:number;mercenaries:number;links:ArmyLink[]};
+  army:ReturnType<typeof activeArmy>&{allies:number;mercenaries:number;links:ArmyLink[];incoming:number;outgoing:number;nextCursor:string|null};
   attackEquipment:ReturnType<typeof selectEquipment>;defenseEquipment:ReturnType<typeof selectEquipment>;
   quests:(QuestDefinition&{completions:number;missing:Record<string,number>;missingCost:number;ready:boolean;lockReason:string|null;requiresLootName:string|null})[];
   loot:{id:string;name:string}[];awards:{id:string;points:number}[];
@@ -68,22 +71,16 @@ export async function materialize(sql:Sql,row:CharacterRow,now:Date):Promise<Cha
   return {...updated,development_bot:isBot};
 }
 export async function armyLinks(sql:Sql,characterId:string,runtime:GameRuntime={}):Promise<ArmyLink[]> {
-  return (await sql.query(`SELECT c.id,c.name,c.attained_level,c.profile_class,l.status,l.inviter_id FROM army_links l
-    JOIN characters c ON c.id=CASE WHEN l.low_id=$1 THEN l.high_id ELSE l.low_id END
-    WHERE $1 IN (l.low_id,l.high_id) AND l.status<>'declined'
-    AND NOT EXISTS(SELECT 1 FROM development_bots self WHERE self.character_id=$1)
-    AND (NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=c.id) OR ($2 AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=c.id AND d.active)))
-    ORDER BY l.status,c.name,c.id`,[characterId,!!runtime.developmentBotRecruitmentEnabled])).rows
-    .map(row=>({characterId:row.id,name:row.name,level:row.attained_level,className:row.profile_class,status:row.status,incoming:row.inviter_id!==characterId}));
+  return (await readArmyRoster(sql,characterId,runtime)).links;
 }
 export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRuntime={}):Promise<CharacterState> {
   const wallet=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[row.id])).rows[0]!;
   const units=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM army_stacks WHERE character_id=$1',[row.id])).rows[0]!.quantity as number;
-  const links=await armyLinks(sql,row.id,runtime);const allies=links.filter(link=>link.status==='accepted').length;
+  const roster=await readArmyRoster(sql,row.id,runtime),links=roster.links,allies=roster.accepted;
   const isBot=row.development_bot??!!(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[row.id])).rows.length;
   const projection=activeArmy(row.attained_level,isBot?Math.min(units,refinements.bots.armyCap-1):units,isBot?0:allies,isBot?Math.min(row.legacy_army_floor,refinements.bots.armyCap):row.legacy_army_floor);
   if(isBot){projection.participants=Math.min(refinements.bots.armyCap,projection.participants);projection.capacity=Math.min(refinements.bots.armyCap,projection.capacity);projection.total=Math.min(refinements.bots.armyCap,projection.total);}
-  const army={...projection,allies,mercenaries:units,links};
+  const army={...projection,allies,mercenaries:units,links,incoming:roster.incoming,outgoing:roster.outgoing,nextCursor:roster.nextCursor};
   const inventory=await readInventory(sql,row.id);const upkeep=await maintenanceAccount(sql,row.id,now);
   const attackEquipment=selectEquipment(inventory,army.participants,'attack',!upkeep.paused);
   const defenseEquipment=selectEquipment(inventory,army.participants,'defense',!upkeep.paused);
@@ -91,8 +88,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   const loot=(await sql.query('SELECT loot_id AS id,name FROM character_loot WHERE character_id=$1 ORDER BY acquired_at,loot_id',[row.id])).rows as {id:string;name:string}[];
   const awards=(await sql.query('SELECT award_id AS id,points FROM progression_awards WHERE character_id=$1 ORDER BY created_at,award_id',[row.id])).rows as {id:string;points:number}[];
   const quests=alpha.quests.map(quest=>{
-    const missing=Object.fromEntries(Object.entries(quest.items).map(([id,n])=>[id,Math.max(0,n-(inventory.find(i=>i.id===id)?.quantity??0))]).filter(([,n])=>Number(n)>0)) as Record<string,number>;
-    const missingCost=Object.entries(missing).reduce((n,[id,q])=>n+alpha.items.find(i=>i.id===id)!.price*q,0);
+    const {missing,missingCost}=activeEquipmentCatalog.requirements(quest.items,inventory,row.attained_level);
     const requiresLootName=quest.requiresLoot?lootById.get(quest.requiresLoot)!.name:null;
     const lockReason=row.attained_level<quest.level?'Level '+quest.level+' required':Object.keys(missing).length?'Equipment required':quest.requiresLoot&&!loot.some(l=>l.id===quest.requiresLoot)?requiresLootName+' required':army.participants<quest.army?'Army of '+quest.army+' required':row.mana<quest.mana?'More Mana required':null;
     return {...quest,missing,missingCost,completions:progress.find(p=>p.quest_id===quest.id)?.completions??0,ready:!lockReason,lockReason,requiresLootName};
@@ -117,7 +113,8 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   const nextLevel=[...alpha.items,...alpha.quests,...alpha.properties].filter(item=>item.level>row.attained_level).reduce((n,item)=>Math.min(n,item.level),Infinity);
   const nextUnlock=Number.isFinite(nextLevel)?{level:nextLevel,names:[...alpha.items,...alpha.quests,...alpha.properties].filter(item=>item.level===nextLevel).map(item=>propertyName(item.id,item.name))}:null;
   const incomeReceipt=(await sql.query('SELECT transaction_id AS id,gold,created_at AS "createdAt" FROM character_income_feedback WHERE character_id=$1',[row.id])).rows[0] as {id:string;gold:number;createdAt:string}|undefined;
-  return {incomeReceipt:incomeReceipt??null,healing:healingQuote(row.health,row.max_health,row.attained_level,wallet.balance),payment:upcomingPayment(land,upkeep,wallet.balance,now,!isBot),nextUnlock,invitationCode:await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:levelRequirement(row.attained_level),xpToNext:levelRequirement(row.attained_level)-row.level_xp,
+  const requirement=requirementForEpoch(row.attained_level,await readProgressionEpoch(sql,row.id));
+  return {incomeReceipt:incomeReceipt??null,healing:healingQuote(row.health,row.max_health,row.attained_level,wallet.balance),payment:upcomingPayment(land,upkeep,wallet.balance,now,!isBot),nextUnlock,invitationCode:await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:requirement,xpToNext:requirement-row.level_xp,
     health:row.health,maxHealth:row.max_health,mana:row.mana,maxMana:row.max_mana,spirit:row.spirit,maxSpirit:row.max_spirit,energy:row.mana,
     bankedGold:(await sql.query('SELECT balance FROM vault_accounts WHERE character_id=$1',[row.id])).rows[0]?.balance??0,gold:wallet.balance,units,attack:callingPower(trainedPower(untrainedAttack,row.attack_training),calling.attackPercent),defense:callingPower(trainedPower(untrainedDefense,row.defense_training),calling.defensePercent),
     equipped:Boolean(sword),inventoryId:sword?.inventoryId??null,inventory,questsCompleted:progress.reduce((n,p)=>n+p.completions,0),quests,loot,awards,

@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import {resolveArmy,armyPolicy,safeCount,compatibility,type ArmyPolicy} from './compatibility-rules.js';
 
 export type Category = 'weapon' | 'armor' | 'spell';
 export interface Illustration { atlas:'weapons'|'armor'|'spells'|'properties';column:number;row:number; }
@@ -52,8 +53,8 @@ export function advanceLevel(level: number, progress: number, award: number) {
 }
 export interface OwnedItem extends ItemDefinition {resaleSteps?:number[];maxSell?:number; inventoryId: string; quantity: number; }
 export interface SelectedItem { itemId: string; name: string; category: Category; quantity: number; attack: number; defense: number; }
-export function selectEquipment(inventory: OwnedItem[], participants: number, mode: 'attack' | 'defense', maintained = true) {
-  if (!safe(participants,1,alpha.limits.participants)) throw new RangeError('Invalid army participation.');
+export function selectEquipment(inventory: OwnedItem[], participants: number, mode: 'attack' | 'defense', maintained = true, policy:ArmyPolicy=compatibility.active.army) {
+  if (!safe(participants,1,armyPolicy(policy).selectionLimit)) throw new RangeError('Invalid army participation.');
   const secondary = mode === 'attack' ? 'defense' : 'attack';
   const selected: SelectedItem[] = [];
   for (const category of ['weapon','armor','spell'] as const) {
@@ -65,11 +66,10 @@ export function selectEquipment(inventory: OwnedItem[], participants: number, mo
       selected.push({ itemId:item.id,name:item.name,category,quantity,attack:item.attack,defense:item.defense }); left -= quantity;
     }
   }
-  return { selected, attack: selected.reduce((n,item) => n+item.attack*item.quantity,0), defense: selected.reduce((n,item) => n+item.defense*item.quantity,0) };
+  return { selected, attack: safeCount(selected.reduce((n,item) => n+item.attack*item.quantity,0)), defense: safeCount(selected.reduce((n,item) => n+item.defense*item.quantity,0)) };
 }
 export function activeArmy(level: number, militia: number, allies: number, legacyFloor = 1) {
-  const capacity = Math.min(alpha.limits.participants,Math.max(1+2*level,legacyFloor));
-  return { capacity, participants: Math.min(capacity,1+militia+allies), total: 1+militia+allies };
+  return resolveArmy(level,militia,allies,legacyFloor);
 }
 export function rivalRange(level: number) { return Math.max(2,Math.ceil(level*0.2)); }
 export function areRivals(a: number,b: number) { return Math.abs(a-b) <= Math.min(rivalRange(a),rivalRange(b)); }

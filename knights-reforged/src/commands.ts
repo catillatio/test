@@ -1,3 +1,4 @@
+import {armyPolicy} from './compatibility-rules.js';
 import {resolveBattle} from './combat.js';
 import { createHash,randomInt,randomUUID } from 'node:crypto';
 import { z } from 'zod';
@@ -216,7 +217,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         if(targetIsBot&&state.army.total>=state.army.capacity)throw new GameError('ARMY_FULL','Your active army is full. Increase your level or release a member first.',409);
         for (const member of (targetIsBot?[actorId]:pair)) {
           const count=(await sql.query("SELECT count(*)::int AS n FROM army_links WHERE $1 IN (low_id,high_id) AND status<>'declined'",[member])).rows[0]!.n;
-          if (count>=100) throw new GameError('ROSTER_LIMIT','That army roster is full.',409);
+          if (count>=armyPolicy().rosterLimit) throw new GameError('ROSTER_LIMIT','That army roster is full.',409);
         }
         await sql.query("INSERT INTO army_links(low_id,high_id,inviter_id,status) VALUES($1,$2,$3,'pending') ON CONFLICT(low_id,high_id) DO UPDATE SET inviter_id=EXCLUDED.inviter_id,status='pending',updated_at=$4",
           [pair[0],pair[1],actorId,now]);
