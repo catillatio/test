@@ -61,13 +61,30 @@ test('precondition errors cannot spoof a category or leak exception details befo
 });
 
 for(const [mode,category,trace]of[
- ['retained_missing','BACKUP_RESTORE_VERIFICATION',['read_retained','store_close']],
- ['retained_corrupt','BACKUP_RESTORE_VERIFICATION',['read_retained','digest','store_close']],
- ['game_stage','RELEASE_SAFETY',['read_retained','digest','game_stage','store_close']],
- ['game_upload','RELEASE_SAFETY',['read_retained','digest','game_stage','game_upload','store_close']],
- ['game_identity','DEPLOYMENT_IDENTITY',['read_retained','digest','game_stage','game_upload','metadata','store_close']]
+ ['retained_missing','RECOVERY_PROOF_PREPARATION',['read_retained','store_close']],
+ ['retained_wrong_commit','RECOVERY_PROOF_PREPARATION',['read_retained','store_close']],
+ ['retained_wrong_candidate','RECOVERY_PROOF_PREPARATION',['read_retained','store_close']],
+ ['retained_failed_restore','RECOVERY_PROOF_PREPARATION',['read_retained','store_close']],
+ ['retained_corrupt','RECOVERY_PROOF_PREPARATION',['read_retained','digest','store_close']],
+ ['proof_failure','RECOVERY_PROOF_PREPARATION',['read_retained','digest','proof','store_close']],
+ ['proof_spoof','RECOVERY_PROOF_PREPARATION',['read_retained','digest','proof','store_close']],
+ ['game_stage','GAME_VARIABLE_STAGING',['read_retained','digest','proof','game_stage','store_close']],
+ ['game_upload','GAME_UPLOAD',['read_retained','digest','proof','game_stage','game_upload','store_close']],
+ ['game_invalid_json','GAME_DEPLOYMENT_IDENTITY',['read_retained','digest','proof','game_stage','game_upload','store_close']],
+ ['game_missing_id','GAME_DEPLOYMENT_IDENTITY',['read_retained','digest','proof','game_stage','game_upload','store_close']],
+ ['game_metadata_failure','GAME_DEPLOYMENT_IDENTITY',['read_retained','digest','proof','game_stage','game_upload','metadata','store_close']],
+ ['game_identity','GAME_DEPLOYMENT_IDENTITY',['read_retained','digest','proof','game_stage','game_upload','metadata','store_close']]
 ])test('promotion preserves backup gates and does not mislabel game operations: '+mode,()=>{
  const result=run(mode,'promote');assert.equal(result.status,1);assert.equal(result.stderr,category+': FAIL\n'+generic);assert.equal(result.stdout,'');assert.deepEqual(result.trace,trace);
+});
+
+test('promotion owner attestation and artifact ID remain mandatory before signing or provider operations',()=>{
+ for(const changed of [{KINGDOM_BACKUP_KEY_VERIFIED:undefined},{KINGDOM_BACKUP_KEY_VERIFIED:'false'},
+  {KINGDOM_RECOVERY_ARTIFACT_ID:undefined},{KINGDOM_RECOVERY_ARTIFACT_ID:'0'},{KINGDOM_RECOVERY_ARTIFACT_ID:'invalid'}]){
+  const result=run('success','promote',changed);assert.equal(result.status,1);
+  assert.equal(result.stderr,'RECOVERY_PROOF_PREPARATION: FAIL\n'+generic);assert.equal(result.stdout,'');
+  assert.deepEqual(result.trace,['store_close']);
+ }
 });
 
 

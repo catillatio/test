@@ -15,7 +15,8 @@ import {verifyQueuedDeployment,waitForWorkerCompletion} from './deployment.mjs';
 
 const base=new URL('../../',import.meta.url).pathname;
 const failureCategories=new WeakMap();
-const categories=new Set(['WORKER_VARIABLE_STAGING','WORKER_UPLOAD','DEPLOYMENT_IDENTITY','BACKUP_RESTORE_VERIFICATION']);
+const categories=new Set(['WORKER_VARIABLE_STAGING','WORKER_UPLOAD','DEPLOYMENT_IDENTITY','BACKUP_RESTORE_VERIFICATION',
+ 'RECOVERY_PROOF_PREPARATION','GAME_VARIABLE_STAGING','GAME_UPLOAD','GAME_DEPLOYMENT_IDENTITY']);
 async function during(category,operation){
  if(!categories.has(category))throw new Error('Unknown release operation.');
  try{return await operation();}
@@ -48,13 +49,12 @@ async function main(){
  const railwayArgs=['--project',settings.projectId,'--environment',settings.environmentId];
  const deploy=async(service,root=process.env.GITHUB_WORKSPACE)=>{
   const upload=()=>command('railway',['up',root,...railwayArgs,'--service',service,'--detach','--json',...(service===settings.workerServiceId?['--path-as-root']:[]),'--message','Kingdom Come '+settings.sha],{cwd:root});
-  const queued=service===settings.workerServiceId?await during('WORKER_UPLOAD',upload):await upload();
-  return during('DEPLOYMENT_IDENTITY',()=>verifyQueuedDeployment(queued,{projectId:settings.projectId,environmentId:settings.environmentId,serviceId:service},{token:process.env.RAILWAY_TOKEN}));
+  const queued=await during(service===settings.workerServiceId?'WORKER_UPLOAD':'GAME_UPLOAD',upload);
+  return during(service===settings.workerServiceId?'DEPLOYMENT_IDENTITY':'GAME_DEPLOYMENT_IDENTITY',()=>verifyQueuedDeployment(queued,{projectId:settings.projectId,environmentId:settings.environmentId,serviceId:service},{token:process.env.RAILWAY_TOKEN}));
  };
  const stage=async(service,values)=>{
   const apply=()=>command('railway',['variable','set',...railwayArgs,'--service',service,'--skip-deploys',...Object.entries(values).map(([key,value])=>key+'='+value)]);
-  if(service===settings.workerServiceId)await during('WORKER_VARIABLE_STAGING',apply);
-  else await apply();
+  await during(service===settings.workerServiceId?'WORKER_VARIABLE_STAGING':'GAME_VARIABLE_STAGING',apply);
  };
  async function requestJob(jobMode){
   const jobId=settings.id+'_'+randomBytes(16).toString('hex'),prefix='kingdom-releases/'+settings.sha+'/'+jobId+'/';
@@ -101,10 +101,10 @@ async function main(){
    console.log('Encrypted recovery independently exported and verified; isolated restored-copy migration/replay passed.');
    return;
   }
-  assert.equal(process.env.KINGDOM_BACKUP_KEY_VERIFIED,'true','Verify owner-key decryption during a rehearsal before promotion.');
-  assert.match(process.env.KINGDOM_RECOVERY_ARTIFACT_ID??'',/^[1-9][0-9]{0,24}$/);
-  const downloaded=process.env.RUNNER_TEMP+'/verified-backup';
-  const {request,report,backupKey}=await during('BACKUP_RESTORE_VERIFICATION',async()=>{
+  const {request,report,proof}=await during('RECOVERY_PROOF_PREPARATION',async()=>{
+   assert.equal(process.env.KINGDOM_BACKUP_KEY_VERIFIED,'true','Verify owner-key decryption during a rehearsal before promotion.');
+   assert.match(process.env.KINGDOM_RECOVERY_ARTIFACT_ID??'',/^[1-9][0-9]{0,24}$/);
+   const downloaded=process.env.RUNNER_TEMP+'/verified-backup';
    const saved=JSON.parse(await readFile(downloaded+'/backup-manifest.json','utf8'));
    const {request,report,backupKey}=saved;
    assert.equal(request.sha,settings.sha);assert.equal(request.projectId,settings.projectId);assert.equal(request.environmentId,settings.environmentId);
@@ -113,13 +113,13 @@ async function main(){
    assert.equal(request.candidateDigest,await candidateDigest());assert.equal(request.backupRecipient,process.env.KINGDOM_BACKUP_RECIPIENT);
    assert.equal(backupKey,'kingdom-releases/'+settings.sha+'/'+request.jobId+'/realm.dump.age');checkJobReport(report,request);
    assert.deepEqual(await fileDigest(downloaded+'/realm.dump.age'),{sha256:report.backup.encryptedSha256,bytes:report.backup.encryptedBytes},'The retained Actions artifact differs from the verified recovery object.');
-   return saved;
+   const proof=signProof({protocol:'kingdom-release-proof-v2',repository:'catillatio/test',branch:'release/production',approvalEnvironment:'production',
+    ...Object.fromEntries(['jobId','sha','candidateDigest','projectId','environmentId','gameServiceId','sourceHost','sourceDatabase','restoreHost','copy','origin'].map(key=>[key,request[key]])),
+    backupSha256:report.backup.sha256,backupBytes:report.backup.bytes,encryptedSha256:report.backup.encryptedSha256,preservationSha256:report.restoredCopy.sha256,
+    artifactId:process.env.KINGDOM_RECOVERY_ARTIFACT_ID,independentRecoveryVerified:true,backupKeyVerified:true,
+    issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+3600000).toISOString()},privateKey);
+   return {request,report,proof};
   });
-  const proof=signProof({protocol:'kingdom-release-proof-v2',repository:'catillatio/test',branch:'release/production',approvalEnvironment:'production',
-   ...Object.fromEntries(['jobId','sha','candidateDigest','projectId','environmentId','gameServiceId','sourceHost','sourceDatabase','restoreHost','copy','origin'].map(key=>[key,request[key]])),
-   backupSha256:report.backup.sha256,backupBytes:report.backup.bytes,encryptedSha256:report.backup.encryptedSha256,preservationSha256:report.restoredCopy.sha256,
-   artifactId:process.env.KINGDOM_RECOVERY_ARTIFACT_ID,independentRecoveryVerified:true,backupKeyVerified:true,
-   issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+3600000).toISOString()},privateKey);
   await stage(settings.gameServiceId,{KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_SHA:settings.sha,KINGDOM_RESTORE_TEST_DATABASE:request.copy,KINGDOM_RELEASE_BACKUP_PROOF:proof});
   const deploymentId=await deploy(settings.gameServiceId);let healthy=false;
   for(let attempt=0;attempt<120;attempt++){
