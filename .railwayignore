@@ -1,0 +1,23 @@
+# The CLI uploads before Docker reads .dockerignore. Preserve the existing
+# /knights-reforged service root while uploading only its production inputs.
+/*
+!/knights-reforged/
+/knights-reforged/*
+!/knights-reforged/Dockerfile
+!/knights-reforged/.dockerignore
+!/knights-reforged/railway.json
+!/knights-reforged/package.json
+!/knights-reforged/package-lock.json
+!/knights-reforged/tsconfig.json
+!/knights-reforged/src/
+!/knights-reforged/views/
+!/knights-reforged/public/
+!/knights-reforged/rulesets/
+!/knights-reforged/migrations/
+!/knights-reforged/deployment/
+/knights-reforged/deployment/*
+!/knights-reforged/deployment/*.mjs
+!/knights-reforged/deployment/release/
+/knights-reforged/deployment/release/*
+!/knights-reforged/deployment/release/*.mjs
+!/knights-reforged/deployment/release/Dockerfile
