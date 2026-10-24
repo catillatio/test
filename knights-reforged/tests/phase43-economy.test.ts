@@ -65,9 +65,10 @@ test('a full shared cycle pays the displayed 3591 net after distinct property an
   await r.db.query('UPDATE maintenance_accounts SET hourly_rate=209,reserve_gold=209,settled_at=$2 WHERE character_id=$1',[a.id,start]);
   const before=await r.me(a);assert.equal(before.economy.netHourlyIncome,3591);
   now=new Date(+start+3600000);const first=await r.me(a);
-  assert.equal(first.gold-before.gold,3800,'First upkeep bill is prepaid, not deducted twice from the wallet.');
+  assert.equal(first.gold-before.gold,3591,'The prepaid bill is consumed once and 209 moves into next-hour reserve, not a second expense.');
+  assert.equal(first.maintenance.reserveGold,'209');assert.equal(before.payment.automaticReserve,209);
   assert.equal(first.gold+Number(first.maintenance.reserveGold)-before.gold-Number(before.maintenance.reserveGold),3591);
-  now=new Date(+start+7200000);const next=await r.me(a);assert.equal(next.gold-first.gold,3591);
+  now=new Date(+start+7200000);const next=await r.me(a);assert.equal(next.gold-first.gold,3591);assert.equal(next.maintenance.reserveGold,'209');
   assert.equal((await r.me(a)).gold,next.gold);
   const charges=(await r.db.query("SELECT sum(charged_gold)::text AS n FROM maintenance_events WHERE character_id=$1 AND reason='accrual'",[a.id])).rows[0]!.n;assert.equal(charges,'418');
  }finally{await r.close();}
