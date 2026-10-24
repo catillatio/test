@@ -38,10 +38,12 @@ test('E2a paged 2540-member fixture uses complete counts and owner-bound cursors
    FROM unnest($2::uuid[]) WITH ORDINALITY AS x(cid,n)`,[a.id,ids]);
   await r.db.query('UPDATE characters SET attained_level=500 WHERE id=$1',[a.id]);
   const state=await r.me(a);assert.equal(state.army.allies,2500);assert.equal(state.army.total,2501);assert.equal(state.army.participants,101);assert.equal(state.army.links.length,rosterPageSize);assert.equal(state.army.incoming,20);assert.equal(state.army.outgoing,20);
-  const seen=new Set<string>();let cursor:string|undefined;do{const page=await readArmyRoster(r.db,a.id,{},cursor);for(const link of page.links){assert.ok(!seen.has(link.characterId));seen.add(link.characterId);}cursor=page.nextCursor??undefined;}while(cursor);
+  const seen=new Set<string>();let cursor:string|undefined,escapedCursor:string|undefined;let escapedFound=false;do{const page=await readArmyRoster(r.db,a.id,{},cursor);if(page.links.some(l=>l.name==='<b>Rune🜁')){escapedCursor=cursor;escapedFound=true;}for(const link of page.links){assert.ok(!seen.has(link.characterId));seen.add(link.characterId);}cursor=page.nextCursor??undefined;}while(cursor);
   assert.equal(seen.size,2540);
   const incoming=await readArmyRoster(r.db,a.id,{},undefined,'incoming');assert.equal(incoming.links.length,20);assert.ok(incoming.links.every(l=>l.incoming&&l.status==='pending'));
-  const html=await r.app.inject({method:'GET',url:'/game/army?tab=army',headers:{cookie:a.cookie}});assert.equal(html.statusCode,200);assert.match(html.body,/Next members/);assert.match(html.body,/&lt;b&gt;Rune/);assert.doesNotMatch(html.body,/<b>Rune/);
+  const html=await r.app.inject({method:'GET',url:'/game/army?tab=army',headers:{cookie:a.cookie}});assert.equal(html.statusCode,200);assert.match(html.body,/Next members/);assert.ok(escapedFound,'the escaped-name member must appear in the complete paginated traversal');
+  // RETURNING order and collation need not put this fixture on the first page.
+  const escaped=escapedCursor?await r.app.inject({method:'GET',url:'/game/army?tab=army&after='+encodeURIComponent(escapedCursor),headers:{cookie:a.cookie}}):html;assert.equal(escaped.statusCode,200);assert.match(escaped.body,/&lt;b&gt;Rune/);assert.doesNotMatch(escaped.body,/<b>Rune/);
   const pending=await r.app.inject({method:'GET',url:'/game/army?tab=army&roster=incoming',headers:{cookie:a.cookie}});assert.equal(pending.statusCode,200);assert.match(pending.body,/Incoming invitation/);
   await assert.rejects(readArmyRoster(r.db,b.id,{},state.army.nextCursor!),{code:'INVALID_CURSOR'});await assert.rejects(readArmyRoster(r.db,a.id,{},'not-json'),{code:'INVALID_CURSOR'});
   const limited=await r.command(a,'/api/v1/army/invitations',{targetCharacterId:b.id,armyPolicy:'army-five-per-level-1'});assert.equal(limited.json().error.code,'ROSTER_LIMIT');
