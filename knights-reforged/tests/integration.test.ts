@@ -79,7 +79,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
       const primary = /<nav\b[^>]*aria-label="Primary navigation"[^>]*>([\s\S]*?)<\/nav>/.exec(response.body)?.[1];
       assert.ok(primary);
       assert.deepEqual([...primary.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(match => match[1]),
-        ['/game/home', '/game/quests', '/game/battle', '/game/armory', '/game/army']);
+        ['/game/home', '/game/quests', '/game/battle', '/game/armory', '/game/army?tab=dashboard']);
       assert.match(primary, /<span>Recruit<\/span>/);
       assert.ok(!primary.includes('/game/land'));
       const secondary = /<nav\b[^>]*aria-label="Secondary navigation"[^>]*>([\s\S]*?)<\/nav>/.exec(response.body)?.[1];

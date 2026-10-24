@@ -228,13 +228,13 @@ check('Rendered links, asset references, unique IDs, labels, CSRF and command co
  assert.deepEqual([...covered].sort(),commandRoutes.filter(r=>r.kind!=='equip').map(r=>r.kind).sort());
 });
 check('Original five destinations, accessible original vector icons, Home-only Land and profile Home selection',()=>{
- const expected=[['/game/home','Home'],['/game/quests','Quests'],['/game/battle','Battle'],['/game/armory','Armory'],['/game/army','Recruit']];
+ const expected=[['/game/home','Home'],['/game/quests','Quests'],['/game/battle','Battle'],['/game/armory','Armory'],['/game/army?tab=dashboard','Recruit']];
 
  for(const example of cases){
   const links=navigationLinks(rendered.get(example.name).replace(/<span class="nav-unread"[\s\S]*?<\/span><\/span>/g,''),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
   if(!example.data.state)continue;
   const selected=example.data.screen==='land'?'home':example.data.screen==='purchase'?(example.data.purchase.type==='equipment'?'armory':'home'):['report','bounties','bounty-confirm','bounty-new','champions'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
-  for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,null);assert.ok(rendered.get(example.name).includes('/assets/art/remaster-ui/icons.svg?v=phase48-finish1#'+id));}
+  for(const link of links){const id=new URL(link.href,'http://check.invalid').pathname.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,null);assert.ok(rendered.get(example.name).includes('/assets/art/remaster-ui/icons.svg?v=phase48-finish1#'+id));}
   assert.ok(!navigationLinks(rendered.get(example.name),'Secondary navigation').some(l=>l.href==='/game/land'));
   assert.equal((rendered.get(example.name).match(/href="\/game\/land"/g)||[]).length,example.data.screen==='home'||(example.data.screen==='purchase'&&example.data.purchase.type==='land')?1:0);
  }

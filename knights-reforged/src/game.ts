@@ -12,7 +12,7 @@ import { settleLand } from './land.js';
 import { estateState,type EstateState } from './estate.js';
 import {propertyName} from './property-presentation.js';
 import { readInventory } from './inventory.js';
-import { settleMaintenance,maintenanceAccount } from './maintenance.js';
+import { settleMaintenance,maintenanceAccount,automaticallyFundMaintenance } from './maintenance.js';
 import {lockBountyEscrow,settleExpiredBounties} from './bounties.js';
 import {refinements} from './refinement-rules.js';
 import {invitationCode} from './community.js';
@@ -57,11 +57,12 @@ export async function materialize(sql:Sql,row:CharacterRow,now:Date):Promise<Cha
   const landChanged=await settleLand(sql,row.id,now,progressionEconomy.id);
   const upkeepChanged=await settleMaintenance(sql,row.id,now);
   const isBot=row.development_bot??!!(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[row.id])).rows.length;
+  const automaticallyFunded=!isBot&&await automaticallyFundMaintenance(sql,row.id,now,landChanged);
   const botChanged=isBot?await settleBotFinance(sql,row.id,now):false;
   const hp=regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount);
   const mana=regenerate(row.mana,row.max_mana,new Date(row.mana_updated_at),now,recoverySeconds(row.profile_class,'mana',alpha.resources.manaSeconds));
   const spirit=regenerate(row.spirit,row.max_spirit,new Date(row.spirit_updated_at),now,recoverySeconds(row.profile_class,'spirit',alpha.resources.spiritSeconds));
-  const changed=landChanged||upkeepChanged||botChanged||hp.value!==row.health||mana.value!==row.mana||spirit.value!==row.spirit;
+  const changed=landChanged||upkeepChanged||automaticallyFunded||botChanged||hp.value!==row.health||mana.value!==row.mana||spirit.value!==row.spirit;
   const updated=(await sql.query<CharacterRow>(`UPDATE characters SET health=$2,mana=$3,spirit=$4,health_updated_at=$5,mana_updated_at=$6,spirit_updated_at=$7,
     state_version=state_version+$8 WHERE id=$1 RETURNING *`,[row.id,hp.value,mana.value,spirit.value,hp.updated,mana.updated,spirit.updated,changed?1:0])).rows[0]!;
   return {...updated,development_bot:isBot};
@@ -116,7 +117,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   const nextLevel=[...alpha.items,...alpha.quests,...alpha.properties].filter(item=>item.level>row.attained_level).reduce((n,item)=>Math.min(n,item.level),Infinity);
   const nextUnlock=Number.isFinite(nextLevel)?{level:nextLevel,names:[...alpha.items,...alpha.quests,...alpha.properties].filter(item=>item.level===nextLevel).map(item=>propertyName(item.id,item.name))}:null;
   const incomeReceipt=(await sql.query('SELECT transaction_id AS id,gold,created_at AS "createdAt" FROM character_income_feedback WHERE character_id=$1',[row.id])).rows[0] as {id:string;gold:number;createdAt:string}|undefined;
-  return {incomeReceipt:incomeReceipt??null,healing:healingQuote(row.health,row.max_health,row.attained_level,wallet.balance),payment:upcomingPayment(land,upkeep,wallet.balance,now),nextUnlock,invitationCode:await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:levelRequirement(row.attained_level),xpToNext:levelRequirement(row.attained_level)-row.level_xp,
+  return {incomeReceipt:incomeReceipt??null,healing:healingQuote(row.health,row.max_health,row.attained_level,wallet.balance),payment:upcomingPayment(land,upkeep,wallet.balance,now,!isBot),nextUnlock,invitationCode:await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:levelRequirement(row.attained_level),xpToNext:levelRequirement(row.attained_level)-row.level_xp,
     health:row.health,maxHealth:row.max_health,mana:row.mana,maxMana:row.max_mana,spirit:row.spirit,maxSpirit:row.max_spirit,energy:row.mana,
     bankedGold:(await sql.query('SELECT balance FROM vault_accounts WHERE character_id=$1',[row.id])).rows[0]?.balance??0,gold:wallet.balance,units,attack:callingPower(trainedPower(untrainedAttack,row.attack_training),calling.attackPercent),defense:callingPower(trainedPower(untrainedDefense,row.defense_training),calling.defensePercent),
     equipped:Boolean(sword),inventoryId:sword?.inventoryId??null,inventory,questsCompleted:progress.reduce((n,p)=>n+p.completions,0),quests,loot,awards,

@@ -5,10 +5,11 @@ import { type Database, transaction, type Sql } from './db.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
 import { alpha } from './alpha-rules.js';
+import {normalizeDisplayName,checkNewContent,ContentPolicyError,recordContentRejection} from './content-policy.js';
 
 export const registration = z.object({
   username: z.string().trim().toLowerCase().regex(/^[a-z0-9_]{3,24}$/, 'Use 3–24 lowercase letters, numbers, or underscores.'),
-  name: z.string().trim().min(2).max(28).regex(/^[\p{L}\p{N} '\-]+$/u, 'Use letters, numbers, spaces, hyphens, or apostrophes.'),
+  name: z.string().max(512).transform((value,context)=>{try{return normalizeDisplayName(value);}catch(error){context.addIssue({code:'custom',message:(error as Error).message});return z.NEVER;}}),
   password: z.string().min(12, 'Use at least 12 characters.').max(128),
 });
 const passwordOptions = { algorithm: Algorithm.Argon2id, memoryCost: 19456, timeCost: 2, parallelism: 1 };
@@ -20,6 +21,7 @@ export async function registerAccount(db: Database, input: unknown, options:{sou
   const parsed = registration.safeParse(input);
   if (!parsed.success) throw new GameError('INVALID_ACCOUNT', parsed.error.issues[0]?.message ?? 'Invalid account.');
   const { username, name, password } = parsed.data;
+  try{checkNewContent(name,'name');}catch(error){if(error instanceof ContentPolicyError)await recordContentRejection(db,null,error);throw error;}
   const passwordHash = await hashPassword(password);
   const accountId = randomUUID();
   const characterId = randomUUID();

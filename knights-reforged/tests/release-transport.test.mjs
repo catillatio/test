@@ -82,18 +82,18 @@ test('a successful job report requires the real exported-object round trip, exac
  }finally{await rm(folder,{recursive:true,force:true});}
 });
 test('post-deployment verification is aggregate read-only status, not a provisioning operation',()=>{
- const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'021_player_attention.sql',active_bots:450,initialized:true};
+ const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'022_player_foundations.sql',active_bots:450,initialized:true};
  assert.equal(checkJobReport(r,expected),r);
  for(const changed of [{active_bots:0},{initialized:false}])assert.throws(()=>checkJobReport({...r,...changed},expected));
 });
 test('post-deployment verification rejects stale, unexpected and missing schema heads',async t=>{
- const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'021_player_attention.sql',active_bots:450,initialized:true};
- for(const [label,schemaHead]of [['historical 019','019_champions_and_rivalries.sql'],['stale 020','020_game_feel.sql'],['unexpected 022','022_unexpected.sql'],['missing',undefined],['null',null]]){
-  await t.test(label,()=>assert.throws(()=>checkJobReport({...r,schemaHead},expected),{code:'ERR_ASSERTION',actual:schemaHead,expected:'021_player_attention.sql'}));
+ const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'022_player_foundations.sql',active_bots:450,initialized:true};
+ for(const [label,schemaHead]of [['historical 019','019_champions_and_rivalries.sql'],['stale 020','020_game_feel.sql'],['stale 021','021_player_attention.sql'],['unexpected 023','023_unexpected.sql'],['missing',undefined],['null',null]]){
+  await t.test(label,()=>assert.throws(()=>checkJobReport({...r,schemaHead},expected),{code:'ERR_ASSERTION',actual:schemaHead,expected:'022_player_foundations.sql'}));
  }
 });
-test('a current 021 report still rejects mismatched commits and invalid total or active bot counts',async t=>{
- const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'021_player_attention.sql',active_bots:450,initialized:true};
+test('a current 022 report still rejects mismatched commits and invalid total or active bot counts',async t=>{
+ const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'022_player_foundations.sql',active_bots:450,initialized:true};
  for(const [label,changed]of [['wrong commit',{sha:'f'.repeat(40)}],['missing bot',{bots:449}],['extra bot',{bots:451}],['missing bot count',{bots:undefined}],['inactive bot',{active_bots:449}],['extra active bot',{active_bots:451}],['missing active count',{active_bots:undefined}]]){
   await t.test(label,()=>assert.throws(()=>checkJobReport({...r,...changed},expected),{code:'ERR_ASSERTION'}));
  }

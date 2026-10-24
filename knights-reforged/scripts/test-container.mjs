@@ -94,8 +94,8 @@ try{
     assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'19');
     check('native Phase 4.6 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals');
   }
-  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'21');
-  check('separate compiled pre-deploy runner installs all 21 migrations without initialization');
+  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'22');
+  check('separate compiled pre-deploy runner installs all 22 migrations without initialization');
   if(alphaMode){
     assert.equal(sql('railway_test','SELECT count(*) FROM private_alpha_initializations'),'1');
     assert.equal(sql('railway_test','SELECT count(*) FROM accounts'),'451');
@@ -103,7 +103,7 @@ try{
     assert.equal(sql('railway_test',"SELECT w.balance||':'||(s.quantity+1) FROM accounts a JOIN characters c ON c.account_id=a.id JOIN wallets w ON w.character_id=c.id JOIN army_stacks s ON s.character_id=c.id WHERE a.username='dev'"),'50000:10');
     check('Phase 4.7 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.6 rivals');
     const status=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/status.mjs']));
-    assert.equal(status.release,'phase4.7');assert.equal(status.schemaHead,'021_player_attention.sql');assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
+    assert.equal(status.release,'phase4.7');assert.equal(status.schemaHead,'022_player_foundations.sql');assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
     assert.equal(status.dev.username,'dev');assert.equal(status.dev.gold,50000);assert.equal(status.dev.recruited_army,10);
     assert.equal(status.maximum_bot_army,10);assert.equal(status.minimum_bot_plots,3);assert.equal(status.population.length,50);
     for(const level of status.population)assert.equal(level.rivals,9);

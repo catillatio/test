@@ -55,10 +55,10 @@ test('upcoming payment matches authoritative purse movement with prepaid, wallet
  const start=new Date('2046-01-03T00:00:00Z');let now=start;const r=await realm({isolated:true,clock:()=>now});try{
   const a=await r.player();await r.prepare(a,10000);await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
   await r.db.query('UPDATE maintenance_accounts SET hourly_rate=100,reserve_gold=100,settled_at=$2 WHERE character_id=$1',[a.id,start]);
-  const prepaid=await r.me(a);assert.equal(prepaid.payment.gold,7);assert.equal(prepaid.payment.prepaidUpkeep,100);assert.equal(prepaid.payment.economicNet,-93);
+  const prepaid=await r.me(a);assert.equal(prepaid.payment.gold,-93);assert.equal(prepaid.payment.automaticReserve,100);assert.equal(prepaid.payment.prepaidUpkeep,100);assert.equal(prepaid.payment.economicNet,-93);
   now=new Date(+start+3600000);const paid=await r.me(a);assert.equal(paid.gold-prepaid.gold,prepaid.payment.gold);assert.equal(paid.payment.gold,-93);
   now=new Date(+now+3600000);const next=await r.me(a);assert.equal(next.gold-paid.gold,-93);
-  await r.db.query('UPDATE maintenance_accounts SET paused=true WHERE character_id=$1',[a.id]);assert.equal((await r.me(a)).payment.gold,7);
+  await r.db.query('UPDATE maintenance_accounts SET paused=true WHERE character_id=$1',[a.id]);const recovered=await r.me(a);assert.equal(recovered.maintenance.paused,false);assert.equal(recovered.payment.gold,-93);
  }finally{await r.close();}
 });
 test('versioned healing, exposed-gold loot and meaningful-victory XP scale without retroactive changes',()=>{

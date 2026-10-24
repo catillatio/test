@@ -2,6 +2,7 @@ import {randomBytes,randomUUID} from 'node:crypto';
 import {type Sql,type Database,transaction} from './db.js';
 import {GameError} from './errors.js';
 import {community} from './community-rules.js';
+import {checkNewContent} from './content-policy.js';
 
 export async function invitationCode(sql:Sql,characterId:string):Promise<string>{
   const existing=(await sql.query('SELECT code FROM army_invitation_codes WHERE character_id=$1',[characterId])).rows[0];
@@ -24,6 +25,7 @@ export function cleanMessage(value:string){
 // Hidden/deleted records still count, so deletion cannot reset a posting limit.
 export async function postMessage(sql:Sql,actorId:string,profileId:string|null,raw:string,key:string,now:Date,level:number,quests:number){
   const channel=profileId?'comment':'broadcast',body=cleanMessage(raw),limits=community.social;
+  checkNewContent(body,channel);
   if(body.length>(profileId?limits.commentCharacters:limits.broadcastCharacters))throw new GameError('MESSAGE_TOO_LONG','That message is too long.');
   if((await sql.query('SELECT 1 FROM social_mutes WHERE character_id=$1 AND until_at>$2',[actorId,now])).rows.length)
     throw new GameError('SOCIAL_MUTED','Posting is temporarily restricted by realm moderation.',403);

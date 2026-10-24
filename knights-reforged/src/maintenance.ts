@@ -4,6 +4,7 @@ import { alpha,maintenanceBill } from './alpha-rules.js';
 import { ledger,creditGold } from './economy.js';
 import { GameError } from './errors.js';
 import { readInventory } from './inventory.js';
+import {automaticUpkeep} from './upkeep-policy.js';
 
 export interface MaintenanceRow { hourly_rate:number;reserve_gold:string;arrears_gold:string;remainder:string;paused:boolean;settled_at:Date; }
 export async function maintenanceAccount(sql:Sql,characterId:string,now:Date):Promise<MaintenanceRow> {
@@ -38,6 +39,31 @@ export async function fundMaintenance(sql:Sql,characterId:string,commandId:strin
   await sql.query('UPDATE maintenance_accounts SET reserve_gold=reserve_gold+$2,arrears_gold=0,paused=false,settled_at=$3 WHERE character_id=$1',[characterId,topup.toString(),now]);
   if (cost) await sql.query(`INSERT INTO maintenance_events(id,character_id,reason,period_start_at,period_end_at,charged_gold,reserve_after,arrears_after,command_id,hourly_rate,ruleset_id)
     VALUES($1,$2,'fund',$3,$3,$4,$5,0,$6,$7,$8)`,[randomUUID(),characterId,now,arrears.toString(),(credit+topup).toString(),commandId,row.hourly_rate,alpha.id]);
+  return true;
+}
+
+// Existing reserves pay old liabilities first; only actual carried funds can
+// clear the remainder and restore the same one-hour buffer used by Resume.
+export function automaticFunding(rate:number,reserve:bigint,arrears:bigint,wallet:number){
+  if(!Number.isSafeInteger(rate)||rate<0||reserve<0n||arrears<0n||!Number.isSafeInteger(wallet)||wallet<0)throw new RangeError('Invalid maintenance funding state.');
+  const fromReserve=reserve<arrears?reserve:arrears,remainingReserve=reserve-fromReserve;
+  const topup=BigInt(rate)>remainingReserve?BigInt(rate)-remainingReserve:0n;
+  const cost=arrears-fromReserve+topup;
+  return {affordable:cost<=BigInt(wallet),cost,reserveAfter:remainingReserve+topup,arrearsPaid:arrears,fromReserve,topup};
+}
+// Caller holds the character lock, after the ordinary Land and maintenance
+// settlement. No timer, income, future payment, Vault debit or bot policy lives
+// here. Active equipment tops up only when that shared settlement ran.
+export async function automaticallyFundMaintenance(sql:Sql,characterId:string,now:Date,hourlySettlement=false){
+  const row=await maintenanceAccount(sql,characterId,now);
+  if(!row.paused&&!hourlySettlement)return false;
+  const wallet=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[characterId])).rows[0]!;
+  const plan=automaticFunding(row.hourly_rate,BigInt(row.reserve_gold),BigInt(row.arrears_gold),wallet.balance);
+  if(!plan.affordable||(!row.paused&&!plan.cost&&!plan.arrearsPaid))return false;
+  if(plan.cost)await ledger(sql,null,'maintenance_funding',[{characterId,amount:-Number(plan.cost)}],automaticUpkeep.id);
+  await sql.query('UPDATE maintenance_accounts SET reserve_gold=$2,arrears_gold=0,paused=false,settled_at=GREATEST(settled_at,$3) WHERE character_id=$1',[characterId,plan.reserveAfter.toString(),now]);
+  await sql.query(`INSERT INTO maintenance_events(id,character_id,reason,period_start_at,period_end_at,charged_gold,reserve_after,arrears_after,command_id,hourly_rate,ruleset_id)
+    VALUES($1,$2,'fund',$3,$3,$4,$5,0,NULL,$6,$7)`,[randomUUID(),characterId,now,plan.arrearsPaid.toString(),plan.reserveAfter.toString(),row.hourly_rate,automaticUpkeep.id]);
   return true;
 }
 

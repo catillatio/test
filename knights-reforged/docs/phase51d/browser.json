@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "views": [
+    {
+      "width": 320,
+      "screen": "acceptance-home"
+    },
+    {
+      "width": 320,
+      "screen": "army-dashboard"
+    },
+    {
+      "width": 390,
+      "screen": "acceptance-home"
+    },
+    {
+      "width": 390,
+      "screen": "army-dashboard"
+    },
+    {
+      "width": 430,
+      "screen": "acceptance-home"
+    },
+    {
+      "width": 430,
+      "screen": "army-dashboard"
+    },
+    {
+      "width": 1024,
+      "screen": "acceptance-home"
+    },
+    {
+      "width": 1024,
+      "screen": "army-dashboard"
+    },
+    {
+      "width": 390,
+      "screen": "upkeep-before-payment"
+    },
+    {
+      "width": 390,
+      "screen": "upkeep-payment-breakdown"
+    },
+    {
+      "width": 390,
+      "screen": "upkeep-after-payment"
+    }
+  ],
+  "errors": [],
+  "productionContacted": false,
+  "realHumanAcceptance": true,
+  "realViewedAndNativeAcknowledgements": true,
+  "pendingRecruitBadgePreserved": true,
+  "actualHourlyUpkeepRecovery": true,
+  "keyboardAndReducedMotion": true
+}

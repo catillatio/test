@@ -11,7 +11,7 @@ if(statusRoot){
   version=state.stateVersion;latest=stamp;const hp=state.healing,p=state.payment;if(!hp||!p)return;
   put('[data-heal-current]',hp.health);put('[data-heal-maximum]',hp.maxHealth);put('[data-heal-missing]',hp.missing);put('[data-heal-cost]',number(hp.cost));put('[data-heal-unit]',hp.unitCost);
   if(form){form.querySelector('[name="maxCost"]').value=String(hp.cost);form.querySelector('[type="submit"]').disabled=!hp.missing||!hp.affordable;}
-  for(const [selector,value] of [['gross',p.gross],['property-upkeep',p.propertyUpkeep],['equipment-upkeep',p.equipmentUpkeep],['prepaid',p.prepaidUpkeep],['net',p.gold],['economic-net',p.economicNet]])put('[data-payment-'+selector+']',number(value));
+  for(const [selector,value] of [['gross',p.gross],['property-upkeep',p.propertyUpkeep],['equipment-upkeep',p.equipmentUpkeep],['prepaid',p.prepaidUpkeep],['reserve',p.automaticReserve??0],['arrears',p.arrearsPayment??0],['net',p.gold],['economic-net',p.economicNet]])put('[data-payment-'+selector+']',number(value));
   put('[data-payment-retained]',p.retainedGold);put('[data-payment-partial]',p.partial?'New holdings earn a prorated first period.':'');
   const time=statusRoot.querySelector('[data-payment-time]');if(time){time.dateTime=p.nextAt||'';time.textContent=p.nextAt?new Date(p.nextAt).toLocaleString('en-GB',{timeZone:'UTC'}):'No Land owned';}
   const empty=statusRoot.querySelector('[data-payment-no-land]');if(empty)empty.hidden=!!p.nextAt;

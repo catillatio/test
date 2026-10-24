@@ -62,7 +62,7 @@ test('020 preserves every populated Phase 4.6 business row, all 450 bots, sessio
    else assert.deepEqual(after[table],rows,table);
   }
   assert.equal(after.development_bots!.length,450);assert.equal(after.accounts!.length,454);assert.equal(after.champion_standings!.length,454);assert.equal(after.tutorial_guides!.length,3);
-  const head=(await db.query('SELECT name FROM schema_migrations ORDER BY name DESC LIMIT 1')).rows[0]!.name;assert.equal(head,'021_player_attention.sql');
+  const head=(await db.query('SELECT name FROM schema_migrations ORDER BY name DESC LIMIT 1')).rows[0]!.name;assert.equal(head,'022_player_foundations.sql');
   assert.equal((await db.query("SELECT count(*)::int n FROM rulesets WHERE id='game-feel-1'")).rows[0]!.n,1);
   const aRivalry=(await rivalryHistory(db,a.characterId,b.characterId))!;assert.equal(aRivalry.wins,'1');assert.equal(aRivalry.losses,'2');assert.equal(aRivalry.goldTaken,'20');assert.equal(aRivalry.goldLost,'5');assert.equal(aRivalry.unrecordedGold,'1');
   const bountyHall=await hallOfChampions(db,c.characterId,'bounties');assert.equal(bountyHall.entries[0]!.id,c.characterId);assert.equal(bountyHall.own!.score,'1');

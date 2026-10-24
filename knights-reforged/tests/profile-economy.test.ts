@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {realm,testDatabaseUrl} from './helpers.js';
 
 describe('Profile and authoritative active hourly gold',{skip:!testDatabaseUrl},()=>{
-  let r:Awaited<ReturnType<typeof realm>>;before(async()=>{r=await realm();});after(async()=>{if(r)await r.close();});
+  const now=new Date('2038-05-01T00:00:00Z');
+  let r:Awaited<ReturnType<typeof realm>>;before(async()=>{r=await realm({isolated:true,clock:()=>now});});after(async()=>{if(r)await r.close();});
   test('header shows the upcoming purse payment and Profile retains accurate net rates; prepaid and paused equipment are distinguished',async()=>{
     const p=await r.player();assert.equal((await r.me(p)).economy.netHourlyIncome,0);
     let page=await r.app.inject({method:'GET',url:'/game/home',headers:{cookie:p.cookie}});assert.match(page.body,/data-payment-gold[^>]*>0<\/span> Gold/);
@@ -11,9 +12,10 @@ describe('Profile and authoritative active hourly gold',{skip:!testDatabaseUrl},
     assert.equal((await r.me(p)).economy.netHourlyIncome,7);
     await r.ok(p,'/api/v1/inventory/purchases',{itemId:'ransackers-axe',quantity:8});
     let state=await r.me(p);assert.equal(state.economy.netHourlyIncome,-1);assert.equal(state.economy.equipmentUpkeep,8);
-    page=await r.app.inject({method:'GET',url:'/game/home',headers:{cookie:p.cookie}});assert.match(page.body,/data-payment-gold[^>]*>\+7<\/span> Gold/);assert.match(page.body,/data-flow="positive"/);
+    assert.equal(state.payment.prepaidUpkeep,8);assert.equal(state.payment.automaticReserve,8);assert.equal(state.payment.economicNet,-1);
+    page=await r.app.inject({method:'GET',url:'/game/home',headers:{cookie:p.cookie}});assert.match(page.body,/data-payment-gold[^>]*>-1<\/span> Gold/);assert.match(page.body,/data-flow="negative"/);
     await r.db.query('UPDATE wallets SET balance=0 WHERE character_id=$1',[p.id]);
-    await r.db.query("UPDATE maintenance_accounts SET settled_at=clock_timestamp()-interval '100 hours' WHERE character_id=$1",[p.id]);
+    await r.db.query('UPDATE maintenance_accounts SET settled_at=$2 WHERE character_id=$1',[p.id,new Date(+now-100*3600000)]);
     state=await r.me(p);assert.equal(state.maintenance.paused,true);assert.equal(state.economy.equipmentUpkeep,0);assert.equal(state.economy.scheduledEquipmentUpkeep,8);assert.equal(state.economy.netHourlyIncome,7);
     page=await r.app.inject({method:'GET',url:'/game/land',headers:{cookie:p.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/data-payment-gold[^>]*>\+7<\/span> Gold/);assert.match(page.body,/data-land-net(?:\s[^>]*)?>7</);
     await r.prepare(p,16);state=(await r.ok(p,'/api/v1/maintenance')).state;assert.equal(state.economy.netHourlyIncome,-1);
