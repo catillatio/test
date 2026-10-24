@@ -1,0 +1,47 @@
+{
+  "baseline": "7cf9a3a48284c96afe922b3473cce429339bd7e4",
+  "headSchema": "022_player_foundations.sql",
+  "researchOnly": true,
+  "productionContacted": false,
+  "installed": false,
+  "sources": {
+    "rulesets/alpha-0.3/rules.json": "7de8535440e873ddad9effb66bf870af07c45fef42c015361a8ae840746835f1",
+    "rulesets/recreation-0.1/rules.json": "835b4ff9f8344981aee94e3c5fed7d38c67e1099319457a8d02cb13695dc99bb",
+    "rulesets/strategy-0.2/rules.json": "a15397eaf3f9477744602c65346dfc444bca3e211328f02f10eeb7f8fa77985f",
+    "rulesets/passive-rivals-5/rules.json": "6973dfcd0ec54bf023afe5c3eb98d0196631d868c706c4f725ab77d6bd78e478",
+    "rulesets/gameplay-refinement-1/rules.json": "110d5878dea0188a67b8bb88b3523e744e81db1f853b4f3af12593229aa279dd",
+    "rulesets/game-feel-1/rules.json": "6fa7fa2a4e86d57dfc538d7ad43c5ed1018b15a0550c3e63202034e7655f98ef",
+    "rulesets/bot-combat-rewards-2/rules.json": "e176f56976206712a5c4abf12fde9d8802dfe76751209e225601c469f64eaa7d",
+    "rulesets/automatic-upkeep-1/rules.json": "535e31bab12676403f54fea7ab7500e0eebba943aedcf5c1bfa075632d0c18a5",
+    "rulesets/community-0.1/rules.json": "3416c944fb728b0e7365efb319aea9b201218aff4166af43625166e79a12a81a",
+    "rulesets/pvp-economy-0.1/rules.json": "deacda01aed70e8ab23509cd4845cb9653511221d1a066e058f9ba337847533f",
+    "migrations/022_player_foundations.sql": "992cdd5a74e2d6d71da3a1dcde0d6d6105a3910bfca333f7dfbf90961a4a8aa9",
+    "src/alpha-rules.ts": "a7d643da012ddd578005fdf519cd10be38775a66557e029c0b58f722c1bc0305",
+    "src/progression.ts": "ce02692f28c1d96f409c65d56c881a67d89cb79c728cfae7a3ccd2214d60d834",
+    "src/maintenance.ts": "c8e8b6054c0e84ca1c5f2d3a8a98c8b189b647b0624757f1c3c032564d8c6efe",
+    "src/bot-economy.ts": "d0efcc5f6c08773cb40acb422d2ba8f95b3eb1bf6ee55fed8a04871aed9078e2",
+    "src/bot-combat.ts": "0fedc49777360257c2646bb15be7710f2a020d3eb4be135f9f9c52aa09518f85",
+    "src/bot-income.ts": "bd50ca3e7a600450865a54ae8337787165e6112cc8aa721361ae9caf10d46f4a",
+    "src/development.ts": "9559fe678eb41273700181ed00470db074b375a58f2a1e3bfca4fe0a04c425da",
+    "src/inventory.ts": "f4a6d1a4d854b97cc0210c829207da30e24e59864e12fb7e48342fe356f0c27e",
+    "src/estate.ts": "2765925ec75157f3d64d6f11b990a8c32b3b4298b437fc0769ca1d169da93b84",
+    "src/land.ts": "6ba170eb6c8bc2d445382793a4aadd7c42474e050ed941e7e34c84d02f72e209",
+    "deployment/release/protocol.mjs": "27288804b14d36b993378bcf4d928732ff96f89e7d0fa375c9a7b2ec2b6408e9",
+    "docs/level100-e1/proposed-content.json": "e45eb92df0003ba167ca21330efafe9f3c4a1a4cbfc37de6ce2d142e15182ca0",
+    "scripts/simulation/level100-e1.ts": "fce47c81f0a5b13a4e867734dec39a83701c5d15a593dc4d64df6af73c6c0530",
+    "scripts/level100-e1.ts": "b57e7b3411a018233608870c48839c814ac005aac264e14eff8e27b7bce4790d"
+  },
+  "oldCatalogCounts": {
+    "equipment": 60,
+    "quests": 40,
+    "properties": 21
+  },
+  "proposedCounts": {
+    "regions": 6,
+    "equipment": 43,
+    "upperEquipment": 36,
+    "compatibilityMirrors": 7,
+    "quests": 18,
+    "properties": 6
+  }
+}
