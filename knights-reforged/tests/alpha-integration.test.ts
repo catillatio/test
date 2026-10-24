@@ -130,7 +130,7 @@ describe('Phase 3 authoritative alpha systems',{skip:!testDatabaseUrl},()=>{
     await r.db.query("UPDATE land_holdings SET acquired_at=clock_timestamp()-interval '1 hour',accrued_through=clock_timestamp()-interval '1 hour' WHERE character_id=$1",[p.id]);
     await r.db.query('DELETE FROM income_cycles WHERE character_id=$1',[p.id]);
     await r.db.query("UPDATE maintenance_accounts SET settled_at=clock_timestamp()-interval '1 hour',remainder=0 WHERE character_id=$1",[p.id]);
-    const after=await r.me(p);assert.equal(after.gold,before.gold+7);assert.equal(after.maintenance.reserveGold,'0');
+    const after=await r.me(p);assert.equal(after.gold,before.gold+7-8);assert.equal(after.maintenance.reserveGold,'8');
     const sold=await r.ok(p,'/api/v1/land/sales',{propertyId:'smallholding',quantity:1});
     assert.equal(sold.state.land.netHourlyIncome,-8);assert.equal(sold.state.maintenance.paused,false);
   });

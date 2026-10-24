@@ -14,7 +14,8 @@ import { ledger,creditGold } from './economy.js';
 import { purchaseItems,sellItem,readInventory } from './inventory.js';
 import {propertyName} from './property-presentation.js';
 import { grantExperience,awardMilestones,allocateSkill } from './progression.js';
-import { refreshMaintenance,fundMaintenance } from './maintenance.js';
+import { refreshMaintenance,fundMaintenance,automaticallyFundMaintenance } from './maintenance.js';
+import {ContentPolicyError,recordContentRejection} from './content-policy.js';
 import { buyEstate,sellEstate } from './estate.js';
 import {strategy} from './strategy-rules.js';
 import {prepareBot} from './development.js';
@@ -239,6 +240,9 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     } else if (kind==='attack'&&target) {
       await resolveBattle(sql,{actor,target,state,now,key,targetIsBot,runtime,result});
     }
+    // A quest, sale or other legitimate wallet credit can recover paused human
+    // equipment in this same transaction. Bot command paths are separate.
+    await automaticallyFundMaintenance(sql,actorId,now);
     const experience=await syncExperience(sql,actorId,now,'gameplay');
     const final=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[actorId])).rows[0]!;
     result.data={...result.data,newAchievements:experience.awarded,celebration:levelCelebration(state.level,final.attained_level,final.skill_points-state.skillPoints),...(experience.tutorialCompleted?{tutorialCompleted:true}:{})};
@@ -250,5 +254,11 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);
     await sql.query('UPDATE command_receipts SET result=$3 WHERE account_id=$1 AND command_id=$2',[accountId,key,result]);
     return result;
+  }).catch(async error=>{
+    if(error instanceof ContentPolicyError){
+      const actor=(await db.query('SELECT id FROM characters WHERE account_id=$1',[accountId])).rows[0];
+      await recordContentRejection(db,actor?.id??null,error,key);
+    }
+    throw error;
   });
 }

@@ -1,0 +1,11 @@
+{
+ "id":"automatic-upkeep-1",
+ "provenance":"Phase 5.1D human funding policy. Existing income, rates, accrual, pause and one-hour reserve rules are unchanged.",
+ "reserveHours":1,
+ "paymentOrder":["earned_land_income","existing_accrued_maintenance","arrears","one_hour_reserve","remaining_wallet"],
+ "pausedRecovery":"At materialization after sufficient legitimate funds exist; never retroactively reactivate suspended equipment.",
+ "vaultFunding":false,
+ "futureIncomeAdvance":false,
+ "newIncomeClock":false,
+ "bots":"Keep existing bot-finance policy unchanged."
+}
