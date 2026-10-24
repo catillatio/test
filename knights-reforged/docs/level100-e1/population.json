@@ -1,0 +1,612 @@
+{
+  "current": {
+    "bots": 450,
+    "existing": 450,
+    "proposed": 0,
+    "cashAndReserves": "129996616",
+    "newCashAndReserves": "0",
+    "newAssetCapital": "0",
+    "propertyNetPerHour": 3409887,
+    "equipmentUpkeepPerHour": 126082,
+    "netAfterUpkeepPerHour": 3283805,
+    "newMaximumInitialLots": 0,
+    "initialPaidLots": 3603,
+    "nominalHourlyLotRows30Days": 2594160,
+    "samples": [
+      {
+        "level": 51,
+        "bots": []
+      },
+      {
+        "level": 60,
+        "bots": []
+      },
+      {
+        "level": 75,
+        "bots": []
+      },
+      {
+        "level": 100,
+        "bots": []
+      }
+    ],
+    "availability": [
+      {
+        "level": 1,
+        "eligible": 27
+      },
+      {
+        "level": 10,
+        "eligible": 45
+      },
+      {
+        "level": 25,
+        "eligible": 90
+      },
+      {
+        "level": 50,
+        "eligible": 90
+      },
+      {
+        "level": 75,
+        "eligible": 0
+      },
+      {
+        "level": 100,
+        "eligible": 0
+      },
+      {
+        "level": 200,
+        "eligible": 0
+      },
+      {
+        "level": 500,
+        "eligible": 0
+      }
+    ]
+  },
+  "proposed": {
+    "bots": 900,
+    "existing": 450,
+    "proposed": 450,
+    "cashAndReserves": "1652559508",
+    "newCashAndReserves": "1522562892",
+    "newAssetCapital": "8658396919",
+    "propertyNetPerHour": 38477432,
+    "equipmentUpkeepPerHour": 11859085,
+    "netAfterUpkeepPerHour": 26618347,
+    "newMaximumInitialLots": 37,
+    "initialPaidLots": 8243,
+    "nominalHourlyLotRows30Days": 5934960,
+    "samples": [
+      {
+        "level": 51,
+        "bots": [
+          {
+            "id": "synthetic-proposed:upper:51:0",
+            "army": 51,
+            "equipmentCopies": 93,
+            "landLots": 4,
+            "landCapital": 556920,
+            "equipmentCapital": 325500,
+            "propertyNet": 10400,
+            "upkeep": 2976,
+            "wallet": 65346,
+            "reserve": "142848"
+          },
+          {
+            "id": "synthetic-proposed:upper:51:1",
+            "army": 51,
+            "equipmentCopies": 93,
+            "landLots": 4,
+            "landCapital": 556920,
+            "equipmentCapital": 325500,
+            "propertyNet": 10400,
+            "upkeep": 2976,
+            "wallet": 65346,
+            "reserve": "142848"
+          },
+          {
+            "id": "synthetic-proposed:upper:51:2",
+            "army": 51,
+            "equipmentCopies": 93,
+            "landLots": 4,
+            "landCapital": 556920,
+            "equipmentCapital": 325500,
+            "propertyNet": 10400,
+            "upkeep": 2976,
+            "wallet": 65346,
+            "reserve": "142848"
+          },
+          {
+            "id": "synthetic-proposed:upper:51:3",
+            "army": 114,
+            "equipmentCopies": 291,
+            "landLots": 13,
+            "landCapital": 2942731,
+            "equipmentCapital": 1493800,
+            "propertyNet": 33800,
+            "upkeep": 11737,
+            "wallet": 240732,
+            "reserve": "563376"
+          },
+          {
+            "id": "synthetic-proposed:upper:51:4",
+            "army": 114,
+            "equipmentCopies": 291,
+            "landLots": 13,
+            "landCapital": 2942731,
+            "equipmentCapital": 1493800,
+            "propertyNet": 33800,
+            "upkeep": 11737,
+            "wallet": 240732,
+            "reserve": "563376"
+          },
+          {
+            "id": "synthetic-proposed:upper:51:5",
+            "army": 114,
+            "equipmentCopies": 291,
+            "landLots": 13,
+            "landCapital": 2942731,
+            "equipmentCapital": 1493800,
+            "propertyNet": 33800,
+            "upkeep": 11737,
+            "wallet": 240732,
+            "reserve": "563376"
+          },
+          {
+            "id": "synthetic-proposed:upper:51:6",
+            "army": 153,
+            "equipmentCopies": 459,
+            "landLots": 22,
+            "landCapital": 8568339,
+            "equipmentCapital": 3457800,
+            "propertyNet": 57200,
+            "upkeep": 19278,
+            "wallet": 500568,
+            "reserve": "925344"
+          },
+          {
+            "id": "synthetic-proposed:upper:51:7",
+            "army": 204,
+            "equipmentCopies": 612,
+            "landLots": 29,
+            "landCapital": 17835724,
+            "equipmentCapital": 4610400,
+            "propertyNet": 75400,
+            "upkeep": 25704,
+            "wallet": 662924,
+            "reserve": "1233792"
+          }
+        ]
+      },
+      {
+        "level": 60,
+        "bots": [
+          {
+            "id": "synthetic-proposed:upper:60:0",
+            "army": 60,
+            "equipmentCopies": 108,
+            "landLots": 3,
+            "landCapital": 993000,
+            "equipmentCapital": 716400,
+            "propertyNet": 15300,
+            "upkeep": 5220,
+            "wallet": 115060,
+            "reserve": "250560"
+          },
+          {
+            "id": "synthetic-proposed:upper:60:1",
+            "army": 60,
+            "equipmentCopies": 108,
+            "landLots": 3,
+            "landCapital": 993000,
+            "equipmentCapital": 716400,
+            "propertyNet": 15300,
+            "upkeep": 5220,
+            "wallet": 115060,
+            "reserve": "250560"
+          },
+          {
+            "id": "synthetic-proposed:upper:60:2",
+            "army": 60,
+            "equipmentCopies": 108,
+            "landLots": 3,
+            "landCapital": 993000,
+            "equipmentCapital": 716400,
+            "propertyNet": 15300,
+            "upkeep": 5220,
+            "wallet": 115060,
+            "reserve": "250560"
+          },
+          {
+            "id": "synthetic-proposed:upper:60:3",
+            "army": 135,
+            "equipmentCopies": 345,
+            "landLots": 9,
+            "landCapital": 4073845,
+            "equipmentCapital": 2599000,
+            "propertyNet": 45900,
+            "upkeep": 14490,
+            "wallet": 388640,
+            "reserve": "695520"
+          },
+          {
+            "id": "synthetic-proposed:upper:60:4",
+            "army": 135,
+            "equipmentCopies": 345,
+            "landLots": 9,
+            "landCapital": 4073845,
+            "equipmentCapital": 2599000,
+            "propertyNet": 45900,
+            "upkeep": 14490,
+            "wallet": 388640,
+            "reserve": "695520"
+          },
+          {
+            "id": "synthetic-proposed:upper:60:5",
+            "army": 135,
+            "equipmentCopies": 345,
+            "landLots": 9,
+            "landCapital": 4073845,
+            "equipmentCapital": 2599000,
+            "propertyNet": 45900,
+            "upkeep": 14490,
+            "wallet": 388640,
+            "reserve": "695520"
+          },
+          {
+            "id": "synthetic-proposed:upper:60:6",
+            "army": 180,
+            "equipmentCopies": 540,
+            "landLots": 16,
+            "landCapital": 10784925,
+            "equipmentCapital": 5634000,
+            "propertyNet": 81600,
+            "upkeep": 27720,
+            "wallet": 782020,
+            "reserve": "1330560"
+          },
+          {
+            "id": "synthetic-proposed:upper:60:7",
+            "army": 240,
+            "equipmentCopies": 720,
+            "landLots": 21,
+            "landCapital": 19200758,
+            "equipmentCapital": 7512000,
+            "propertyNet": 107100,
+            "upkeep": 36960,
+            "wallet": 1034860,
+            "reserve": "1774080"
+          }
+        ]
+      },
+      {
+        "level": 75,
+        "bots": [
+          {
+            "id": "synthetic-proposed:upper:75:0",
+            "army": 75,
+            "equipmentCopies": 135,
+            "landLots": 3,
+            "landCapital": 1655000,
+            "equipmentCapital": 1408500,
+            "propertyNet": 22800,
+            "upkeep": 6930,
+            "wallet": 207430,
+            "reserve": "332640"
+          },
+          {
+            "id": "synthetic-proposed:upper:75:1",
+            "army": 75,
+            "equipmentCopies": 135,
+            "landLots": 3,
+            "landCapital": 1655000,
+            "equipmentCapital": 1408500,
+            "propertyNet": 22800,
+            "upkeep": 6930,
+            "wallet": 207430,
+            "reserve": "332640"
+          },
+          {
+            "id": "synthetic-proposed:upper:75:2",
+            "army": 75,
+            "equipmentCopies": 135,
+            "landLots": 3,
+            "landCapital": 1655000,
+            "equipmentCapital": 1408500,
+            "propertyNet": 22800,
+            "upkeep": 6930,
+            "wallet": 207430,
+            "reserve": "332640"
+          },
+          {
+            "id": "synthetic-proposed:upper:75:3",
+            "army": 168,
+            "equipmentCopies": 429,
+            "landLots": 11,
+            "landCapital": 9265586,
+            "equipmentCapital": 6620900,
+            "propertyNet": 83600,
+            "upkeep": 28600,
+            "wallet": 885190,
+            "reserve": "1372800"
+          },
+          {
+            "id": "synthetic-proposed:upper:75:4",
+            "army": 168,
+            "equipmentCopies": 429,
+            "landLots": 11,
+            "landCapital": 9265586,
+            "equipmentCapital": 6620900,
+            "propertyNet": 83600,
+            "upkeep": 28600,
+            "wallet": 885190,
+            "reserve": "1372800"
+          },
+          {
+            "id": "synthetic-proposed:upper:75:5",
+            "army": 168,
+            "equipmentCopies": 429,
+            "landLots": 11,
+            "landCapital": 9265586,
+            "equipmentCapital": 6620900,
+            "propertyNet": 83600,
+            "upkeep": 28600,
+            "wallet": 885190,
+            "reserve": "1372800"
+          },
+          {
+            "id": "synthetic-proposed:upper:75:6",
+            "army": 225,
+            "equipmentCopies": 675,
+            "landLots": 17,
+            "landCapital": 20272358,
+            "equipmentCapital": 10417500,
+            "propertyNet": 129200,
+            "upkeep": 45000,
+            "wallet": 1381650,
+            "reserve": "2160000"
+          },
+          {
+            "id": "synthetic-proposed:upper:75:7",
+            "army": 300,
+            "equipmentCopies": 900,
+            "landLots": 23,
+            "landCapital": 39771521,
+            "equipmentCapital": 13890000,
+            "propertyNet": 174800,
+            "upkeep": 60000,
+            "wallet": 1851300,
+            "reserve": "2880000"
+          }
+        ]
+      },
+      {
+        "level": 100,
+        "bots": [
+          {
+            "id": "synthetic-proposed:upper:100:0",
+            "army": 100,
+            "equipmentCopies": 180,
+            "landLots": 2,
+            "landCapital": 4620000,
+            "equipmentCapital": 4098000,
+            "propertyNet": 44400,
+            "upkeep": 14820,
+            "wallet": 531220,
+            "reserve": "711360"
+          },
+          {
+            "id": "synthetic-proposed:upper:100:1",
+            "army": 100,
+            "equipmentCopies": 180,
+            "landLots": 2,
+            "landCapital": 4620000,
+            "equipmentCapital": 4098000,
+            "propertyNet": 44400,
+            "upkeep": 14820,
+            "wallet": 531220,
+            "reserve": "711360"
+          },
+          {
+            "id": "synthetic-proposed:upper:100:2",
+            "army": 100,
+            "equipmentCopies": 180,
+            "landLots": 2,
+            "landCapital": 4620000,
+            "equipmentCapital": 4098000,
+            "propertyNet": 44400,
+            "upkeep": 14820,
+            "wallet": 531220,
+            "reserve": "711360"
+          },
+          {
+            "id": "synthetic-proposed:upper:100:3",
+            "army": 225,
+            "equipmentCopies": 576,
+            "landLots": 8,
+            "landCapital": 25158955,
+            "equipmentCapital": 19065600,
+            "propertyNet": 177600,
+            "upkeep": 56256,
+            "wallet": 2395036,
+            "reserve": "2700288"
+          },
+          {
+            "id": "synthetic-proposed:upper:100:4",
+            "army": 225,
+            "equipmentCopies": 576,
+            "landLots": 8,
+            "landCapital": 25158955,
+            "equipmentCapital": 19065600,
+            "propertyNet": 177600,
+            "upkeep": 56256,
+            "wallet": 2395036,
+            "reserve": "2700288"
+          },
+          {
+            "id": "synthetic-proposed:upper:100:5",
+            "army": 225,
+            "equipmentCopies": 576,
+            "landLots": 8,
+            "landCapital": 25158955,
+            "equipmentCapital": 19065600,
+            "propertyNet": 177600,
+            "upkeep": 56256,
+            "wallet": 2395036,
+            "reserve": "2700288"
+          },
+          {
+            "id": "synthetic-proposed:upper:100:6",
+            "army": 300,
+            "equipmentCopies": 900,
+            "landLots": 14,
+            "landCapital": 61544967,
+            "equipmentCapital": 41400000,
+            "propertyNet": 310800,
+            "upkeep": 102000,
+            "wallet": 4978300,
+            "reserve": "4896000"
+          },
+          {
+            "id": "synthetic-proposed:upper:100:7",
+            "army": 400,
+            "equipmentCopies": 1200,
+            "landLots": 18,
+            "landCapital": 100318186,
+            "equipmentCapital": 55200000,
+            "propertyNet": 399600,
+            "upkeep": 136000,
+            "wallet": 6577500,
+            "reserve": "6528000"
+          }
+        ]
+      }
+    ],
+    "availability": [
+      {
+        "level": 1,
+        "eligible": 27
+      },
+      {
+        "level": 10,
+        "eligible": 50
+      },
+      {
+        "level": 25,
+        "eligible": 100
+      },
+      {
+        "level": 50,
+        "eligible": 185
+      },
+      {
+        "level": 75,
+        "eligible": 232
+      },
+      {
+        "level": 100,
+        "eligible": 144
+      },
+      {
+        "level": 200,
+        "eligible": 0
+      },
+      {
+        "level": 500,
+        "eligible": 0
+      }
+    ]
+  },
+  "schedules": [
+    {
+      "population": 450,
+      "maximumPerTick": 5,
+      "nominated": 900,
+      "selected": 848,
+      "missed": 52,
+      "maximumSlot": 9,
+      "botsWithoutOpportunity": 5,
+      "atMostTwoOpportunities": true,
+      "uniqueCommandsWithThreeWorkers": 848,
+      "duplicateInvocationsWithThreeWorkers": 1696,
+      "nominalPopulationRowsReadPerDayOneWorker": 259200
+    },
+    {
+      "population": 450,
+      "maximumPerTick": 10,
+      "nominated": 900,
+      "selected": 900,
+      "missed": 0,
+      "maximumSlot": 9,
+      "botsWithoutOpportunity": 0,
+      "atMostTwoOpportunities": true,
+      "uniqueCommandsWithThreeWorkers": 900,
+      "duplicateInvocationsWithThreeWorkers": 1800,
+      "nominalPopulationRowsReadPerDayOneWorker": 259200
+    },
+    {
+      "population": 450,
+      "maximumPerTick": 12,
+      "nominated": 900,
+      "selected": 900,
+      "missed": 0,
+      "maximumSlot": 9,
+      "botsWithoutOpportunity": 0,
+      "atMostTwoOpportunities": true,
+      "uniqueCommandsWithThreeWorkers": 900,
+      "duplicateInvocationsWithThreeWorkers": 1800,
+      "nominalPopulationRowsReadPerDayOneWorker": 259200
+    },
+    {
+      "population": 900,
+      "maximumPerTick": 5,
+      "nominated": 1800,
+      "selected": 1302,
+      "missed": 498,
+      "maximumSlot": 14,
+      "botsWithoutOpportunity": 105,
+      "atMostTwoOpportunities": true,
+      "uniqueCommandsWithThreeWorkers": 1302,
+      "duplicateInvocationsWithThreeWorkers": 2604,
+      "nominalPopulationRowsReadPerDayOneWorker": 518400
+    },
+    {
+      "population": 900,
+      "maximumPerTick": 10,
+      "nominated": 1800,
+      "selected": 1776,
+      "missed": 24,
+      "maximumSlot": 14,
+      "botsWithoutOpportunity": 3,
+      "atMostTwoOpportunities": true,
+      "uniqueCommandsWithThreeWorkers": 1776,
+      "duplicateInvocationsWithThreeWorkers": 3552,
+      "nominalPopulationRowsReadPerDayOneWorker": 518400
+    },
+    {
+      "population": 900,
+      "maximumPerTick": 12,
+      "nominated": 1800,
+      "selected": 1792,
+      "missed": 8,
+      "maximumSlot": 14,
+      "botsWithoutOpportunity": 1,
+      "atMostTwoOpportunities": true,
+      "uniqueCommandsWithThreeWorkers": 1792,
+      "duplicateInvocationsWithThreeWorkers": 3584,
+      "nominalPopulationRowsReadPerDayOneWorker": 518400
+    }
+  ],
+  "incomeSweep": {
+    "batchSize": 25,
+    "maximumBatchesPerCall": 18,
+    "capacityPerCall": 450,
+    "callsFor900Due": 2,
+    "retainsHourlyRows": true,
+    "source": "src/bot-income.ts"
+  },
+  "notProductionMetrics": true,
+  "measuredLatency": null
+}
