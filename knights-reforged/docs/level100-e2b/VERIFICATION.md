@@ -4,6 +4,7 @@ The final exact-head GitHub **Kingdom Come checks** run and full result are link
 
 ## Focused development checks
 
+- Read-only audit and repeatable-read Hall transactions establish isolation in `BEGIN`, before cutover-barrier queries; writes stay rejected and ranking semantics stay unchanged.
 - TypeScript check/build and the established static rendering/asset/provenance checks.
 - Dormant policy/catalog behavior; unchanged historical item/quest/property definitions; immutable manifest and 45 pending asset gates.
 - Exact integer rare-draw boundary (all one million outcomes: exactly 500 hits), min-level/quest/source authorization, misses/hits/full outcomes, concurrency, retry, injected rollback and zero paid-cost/FIFO resale.
