@@ -20,6 +20,8 @@ import { type Database } from './db.js';
 import { authenticate, registerAccount, createSession, findSession, type Session } from './auth.js';
 import { getState, getBattle, recentBattles, listOpponents, type CharacterState } from './game.js';
 import { executeCommand, type CommandKind } from './commands.js';
+import {realmPolicy} from './realm-policy.js';
+import {contentCatalog,approvedExpansionArt,questRarities} from './expansion-content.js';
 import {experienceView,regionFilter,rememberRegion} from './experience.js';
 import {experienceRules} from './experience-rules.js';
 import {gameplay} from './gameplay-rules.js';
@@ -132,6 +134,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     if (!allowedScreens.has(screen)) throw new Error('Unknown server-selected template.');
     const session = request.realmSession;
     const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id,config) : null);
+    const alpha=contentCatalog(state?.rulesetId);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
     const query = request.query as { command?: string; category?: string;area?:string;tab?:string;bulk?:unknown;calling?:string;roster?:string };
@@ -156,10 +159,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
       notificationFeed.push({id:event.id,kind:'army',data:{event:event.kind,actorId:event.actor_id,targetId:event.target_id}});
     const shownBattle=data.battle as {id?:string;defenderId?:string}|undefined;
     if(screen==='report'&&state&&shownBattle?.id&&shownBattle.defenderId===state.id)notificationFeed.push({id:shownBattle.id,kind:'battle',data:{defenderId:state.id}});
-    const chosenRegion=regionFilter(query.area);
+    const chosenRegion=regionFilter(query.area,alpha.id);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', {
-      screen, state,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
+      screen, state,approvedExpansionArt,rareQuestPolicy:state?.rareEquipmentEnabled?questRarities:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,
@@ -239,7 +242,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/game/quests/:id/requirements',{preHandler:requireAccount},async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config),quest=state.quests.find(q=>q.id===(request.params as {id:string}).id);
     if(!quest)throw new GameError('QUEST_NOT_FOUND','That quest is not available.',404);
-    const missing=Object.entries(quest.missing).map(([id,quantity])=>({item:alpha.items.find(item=>item.id===id)!,quantity,cost:alpha.items.find(item=>item.id===id)!.price*quantity}));
+    const missing=Object.entries(quest.missing).map(([id,quantity])=>({item:contentCatalog(state.rulesetId).items.find(item=>item.id===id)!,quantity,cost:contentCatalog(state.rulesetId).items.find(item=>item.id===id)!.price*quantity}));
     return render(request,reply,'quest-equipment',{title:'Quest requirements',state,questEquipment:{quest,missing,total:quest.missingCost,shortfall:Math.max(0,quest.missingCost-state.gold)}});
   });
   app.get('/game/purchases/:id',{preHandler:requireAccount},async(request,reply)=>{
@@ -249,13 +252,13 @@ export async function createApp(options: { db: Database; config: Config; logger?
     if(!receipt)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
     const saved=receipt.data??{};
     const state=await getState(db,accountId,config),land=receipt.kind==='land_buy';
-    const entry=land?state.land.properties.find(p=>p.id===saved.propertyId):alpha.items.find(i=>i.id===saved.itemId);
+    const entry=land?state.land.properties.find(p=>p.id===saved.propertyId):contentCatalog(state.rulesetId).items.find(i=>i.id===saved.itemId);
     if(!entry)return render(request,reply,'purchase',{title:'Saved purchase',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry:null,category:['weapon','armor','spell'].includes(saved.category)?saved.category:'weapon'}});
     const owned=land?(entry as CharacterState['land']['properties'][number]).owned:state.inventory.find(i=>i.id===entry.id)?.quantity??0;
-    const available=state.level<entry.level?0:land?(entry as CharacterState['land']['properties'][number]).maxAffordable:Math.min(alpha.limits.transaction,alpha.limits.inventory-owned,Math.floor(state.gold/entry.price));
-    const steps=land?(entry as CharacterState['land']['properties'][number]).priceSteps:Array.from({length:Math.max(1,available)},()=>entry.price);
+    const available=state.level<entry.level?0:land?(entry as CharacterState['land']['properties'][number]).maxAffordable:Math.min(alpha.limits.transaction,contentCatalog(state.rulesetId).limits.inventory-owned,Math.floor(state.gold/(entry.price??Infinity)));
+    const steps=land?(entry as CharacterState['land']['properties'][number]).priceSteps:Array.from({length:Math.max(1,available)},()=>entry.price??0);
     const costSteps=steps.map((_,i)=>steps.slice(0,i+1).reduce((n,p)=>n+p,0));
-    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry,receiptName:saved.itemName??(land?alpha.properties.find(p=>p.id===entry.id)!.name:entry.name),owned,available,costSteps}});
+    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry,receiptName:saved.itemName??(land?contentCatalog(state.rulesetId).properties.find(p=>p.id===entry.id)!.name:entry.name),owned,available,costSteps}});
   });
   app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config);
@@ -328,12 +331,12 @@ export async function createApp(options: { db: Database; config: Config; logger?
         // Ordinary and bulk purchases return to their actual catalog item. The
         // saved receipt remains separately accessible; API responses are unchanged.
         if(route.kind==='buy'){
-          const item=alpha.items.find(i=>i.id===result.data?.itemId);
+          const item=contentCatalog((await realmPolicy(db)).catalogId).items.find(i=>i.id===result.data?.itemId);
           const category=item?.category??(['weapon','armor','spell'].includes(String(result.data?.category))?String(result.data!.category):'weapon');
           return reply.redirect('/game/armory?category='+category+'&command='+result.commandId+(item?'#item-'+item.id:''),303);
         }
         if(route.kind==='land_buy'){
-          const property=alpha.properties.find(p=>p.id===result.data?.propertyId);
+          const property=contentCatalog((await realmPolicy(db)).catalogId).properties.find(p=>p.id===result.data?.propertyId);
           return reply.redirect('/game/land?command='+result.commandId+(property?'#property-'+property.id:''),303);
         }
         if(route.kind==='comment')return reply.redirect('/game/players/'+result.data!.profileId+'?tab=comments&command='+result.commandId,303);

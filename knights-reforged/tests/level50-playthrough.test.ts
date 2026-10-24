@@ -40,7 +40,7 @@ test('a fresh player reaches level 50 and completes its finale through actual qu
       }
       await command('/api/v1/quests/'+goal.id+'/runs');runs++;visited.add(goal.area);
       if(runs%5===0){
-        const investment=state.land.properties.filter(property=>property.unlocked&&property.owned<3&&property.price*3<=state.gold)
+        const investment=state.land.properties.filter(property=>property.unlocked&&property.owned<3&&property.price!==null&&property.price*3<=state.gold)
           .sort((a,b)=>b.level-a.level||b.hourlyIncome-a.hourlyIncome)[0];
         if(investment)await command('/api/v1/land/purchases',{propertyId:investment.id,quantity:1});
       }

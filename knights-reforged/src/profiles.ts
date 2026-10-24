@@ -4,8 +4,10 @@ import {alpha,areRivals} from './alpha-rules.js';
 import {community} from './community-rules.js';
 import {GameError} from './errors.js';
 import {propertyName} from './property-presentation.js';
+import {contentCatalog} from './expansion-content.js';
 
 export function ownedProperties(state:CharacterState){
+  const alpha=contentCatalog(state.rulesetId);
   // Sum saved holding rates, not today's catalog rates. Legacy purchases retain
   // their actual economics even when the current catalog has different values.
   const groups=new Map<string,{id:string;name:string;quantity:number;grossIncome:number;upkeep:number;illustration?:{atlas:string;row:number;column:number};art:string}>();

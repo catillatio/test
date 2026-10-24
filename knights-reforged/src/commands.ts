@@ -1,3 +1,6 @@
+import {contentCatalog} from './expansion-content.js';
+import {realmPolicy} from './realm-policy.js';
+import {questEquipmentDrops} from './quest-equipment.js';
 import {armyPolicy} from './compatibility-rules.js';
 import {resolveBattle} from './combat.js';
 import { createHash,randomInt,randomUUID } from 'node:crypto';
@@ -116,6 +119,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     }
     if (target&&kind==='attack') target=await materialize(sql,target,now);
     const state=await stateFrom(sql,actor,now,runtime);
+    const alpha=contentCatalog(state.rulesetId),itemById=new Map(alpha.items.map(i=>[i.id,i])),questById=new Map(alpha.quests.map(q=>[q.id,q])),propertyById=new Map(alpha.properties.map(p=>[p.id,p])),lootById=new Map(alpha.quests.flatMap(q=>q.loot?[q.loot]:[]).map(l=>[l.id,l]));
     if((kind==='land_buy'||kind==='land_sell')&&typeof intent.quoteId==='string')await validateTradeQuote(sql,intent.quoteId,accountId,actorId,kind,intent.propertyId as string,intent.quantity as number,now,state.gold,state.level,state.economy.netHourlyIncome,key);
     await syncExperience(sql,actorId,now);
     const result:CommandResult={commandId:key,kind,message:''};
@@ -155,9 +159,12 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
             [actorId,quest.loot.id,quest.loot.name,quest.id,alpha.id,now]);
           if (insertedLoot.rows.length) lootName=quest.loot.name;
         }
+        const questRunId=randomUUID();
         const details={gold,xp:progression.xpAwarded,mana:quest.mana,levelGained:progression.gained,loot:lootName,questId:quest.id,questName:quest.name};
         await sql.query('INSERT INTO quest_runs(id,character_id,quest_id,ruleset_id,energy_spent,gold_reward,xp_reward,reward_details,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
-          [randomUUID(),actorId,quest.id,alpha.id,quest.mana,gold,progression.xpAwarded,details,now]);
+          [questRunId,actorId,quest.id,alpha.id,quest.mana,gold,progression.xpAwarded,details,now]);
+        const equipmentDrops=await questEquipmentDrops(sql,actorId,questRunId,key,now);
+        if(equipmentDrops.length){Object.assign(details,{equipmentDrops});await sql.query('UPDATE quest_runs SET reward_details=$2 WHERE id=$1',[questRunId,details]);await refreshMaintenance(sql,actorId,key,now);}
         await sql.query('INSERT INTO character_quest_progress(character_id,quest_id,completions) VALUES($1,$2,1) ON CONFLICT(character_id,quest_id) DO UPDATE SET completions=character_quest_progress.completions+1',[actorId,quest.id]);
         const milestones=await awardMilestones(sql,actorId);
         result.data={...details,milestones};result.message='Quest complete: '+gold+' gold, '+progression.xpAwarded+' XP; '+quest.mana+' Mana used.'+(progression.gained?' Level '+progression.level+' reached!':'')+(lootName?' Loot: '+lootName+'.':'');
@@ -217,7 +224,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         if(targetIsBot&&state.army.total>=state.army.capacity)throw new GameError('ARMY_FULL','Your active army is full. Increase your level or release a member first.',409);
         for (const member of (targetIsBot?[actorId]:pair)) {
           const count=(await sql.query("SELECT count(*)::int AS n FROM army_links WHERE $1 IN (low_id,high_id) AND status<>'declined'",[member])).rows[0]!.n;
-          if (count>=armyPolicy().rosterLimit) throw new GameError('ROSTER_LIMIT','That army roster is full.',409);
+          if (count>=armyPolicy((await realmPolicy(sql)).armyPolicy).rosterLimit) throw new GameError('ROSTER_LIMIT','That army roster is full.',409);
         }
         await sql.query("INSERT INTO army_links(low_id,high_id,inviter_id,status) VALUES($1,$2,$3,'pending') ON CONFLICT(low_id,high_id) DO UPDATE SET inviter_id=EXCLUDED.inviter_id,status='pending',updated_at=$4",
           [pair[0],pair[1],actorId,now]);
@@ -246,10 +253,10 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     await automaticallyFundMaintenance(sql,actorId,now);
     const experience=await syncExperience(sql,actorId,now,'gameplay');
     const final=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[actorId])).rows[0]!;
-    result.data={...result.data,newAchievements:experience.awarded,celebration:levelCelebration(state.level,final.attained_level,final.skill_points-state.skillPoints),...(experience.tutorialCompleted?{tutorialCompleted:true}:{})};
+    result.data={...result.data,newAchievements:experience.awarded,celebration:levelCelebration(state.level,final.attained_level,final.skill_points-state.skillPoints,state.rulesetId),...(experience.tutorialCompleted?{tutorialCompleted:true}:{})};
     if(kind==='attack'&&result.battleId){
       let defenderExperience=null;
-      if(target&&!targetIsBot){const gained=await syncExperience(sql,target.id,now,'gameplay');const finalDefender=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[target.id])).rows[0]!;defenderExperience={newAchievements:gained.awarded,celebration:levelCelebration(target.attained_level,finalDefender.attained_level,finalDefender.skill_points-target.skill_points)};}
+      if(target&&!targetIsBot){const gained=await syncExperience(sql,target.id,now,'gameplay');const finalDefender=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[target.id])).rows[0]!;defenderExperience={newAchievements:gained.awarded,celebration:levelCelebration(target.attained_level,finalDefender.attained_level,finalDefender.skill_points-target.skill_points,state.rulesetId)};}
       await sql.query("UPDATE battles SET result=result||jsonb_build_object('playerExperience',jsonb_build_object($2::text,$3::jsonb)||CASE WHEN $4::text IS NULL THEN '{}'::jsonb ELSE jsonb_build_object($4::text,$5::jsonb) END) WHERE id=$1",[result.battleId,actorId,JSON.stringify(result.data),target&&!targetIsBot?target.id:null,JSON.stringify(defenderExperience)]);
     }
     await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);

@@ -1,3 +1,5 @@
+import {contentCatalog,expansionAchievement} from './expansion-content.js';
+import {realmPolicy} from './realm-policy.js';
 import {propertyName} from './property-presentation.js';
 import {type Database,type Sql,transaction} from './db.js';
 import {experienceRules,type AchievementMetric} from './experience-rules.js';
@@ -26,10 +28,11 @@ export async function experienceMetrics(sql:Sql,id:string){
 export async function syncExperience(sql:Sql,id:string,now:Date,evidence:'retroactive'|'gameplay'='retroactive'){
  const metrics=await experienceMetrics(sql,id);const awarded:string[]=[];
  if(metrics.bot)return {awarded,metrics};
- for(const definition of experienceRules.achievements){
+ const expanded=(await realmPolicy(sql)).expanded;
+ for(const definition of [...experienceRules.achievements,...(expanded?expansionAchievement.achievements:[])]){
   if(Number(metrics[definition.metric])<definition.threshold)continue;
   const saved=await sql.query(`INSERT INTO character_achievements(character_id,achievement_id,ruleset_id,metric_at_unlock,earned_at,evidence)
-   VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING RETURNING achievement_id`,[id,definition.id,experienceRules.id,String(metrics[definition.metric]),now,evidence]);
+   VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING RETURNING achievement_id`,[id,definition.id,definition.id==='level100-summit'?expansionAchievement.id:experienceRules.id,String(metrics[definition.metric]),now,evidence]);
   if(saved.rows.length)awarded.push(definition.id);
  }
  const facts:Record<string,boolean>={quest:metrics.quests>0,rewards:metrics.quests>0,equipment:metrics.bought,automatic:metrics.bought&&metrics.equipped,attack:metrics.attacked,victory:metrics.wins>0,land:metrics.landPurchased>0,skills:metrics.trained};
@@ -61,7 +64,7 @@ export async function experienceView(db:Database,id:string){
   return {rulesetId:experienceRules.id,region:preferences?.quest_region??'all',
    tutorial:{status:preferences?.tutorial_status??'not_started',completed:guideSteps.filter(step=>done.has(step.id)).length,position,replaying:guide?.replaying??false,completedAt:guide?.completed_at?new Date(guide.completed_at).toISOString():null,
     steps:guideSteps.map(step=>({...step,done:done.has(step.id)}))},
-   achievements:experienceRules.achievements.map(definition=>{const award=awards.find(row=>row.achievement_id===definition.id);return {...definition,progress:Math.min(definition.threshold,Math.max(0,Number(metrics[definition.metric]))),earnedAt:award?new Date(award.earned_at).toISOString():null,evidence:award?.evidence??null};})};
+   achievements:[...experienceRules.achievements,...((await realmPolicy(sql)).expanded?expansionAchievement.achievements:[])].map(definition=>{const award=awards.find(row=>row.achievement_id===definition.id);return {...definition,progress:Math.min(definition.threshold,Math.max(0,Number(metrics[definition.metric]))),earnedAt:award?new Date(award.earned_at).toISOString():null,evidence:award?.evidence??null};})};
  });
 }
 export async function tutorialAction(sql:Sql,id:string,action:string,now:Date){
@@ -82,12 +85,13 @@ export async function tutorialAction(sql:Sql,id:string,action:string,now:Date){
  await sql.query(`INSERT INTO player_preferences(character_id,tutorial_status,updated_at) VALUES($1,$2,$3)
  ON CONFLICT(character_id) DO UPDATE SET tutorial_status=CASE WHEN player_preferences.tutorial_status='completed' THEN 'completed' ELSE EXCLUDED.tutorial_status END,updated_at=$3`,[id,nextStatus,now]);
 }
-export function regionFilter(value:unknown){return typeof value==='string'&&(value==='all'||value==='nearby'||alpha.content!.areas.some(area=>area.id===value))?value:null;}
+export function regionFilter(value:unknown,catalogId=alpha.id){const alpha=contentCatalog(catalogId);return typeof value==='string'&&(value==='all'||value==='nearby'||alpha.content!.areas.some(area=>area.id===value))?value:null;}
 export async function rememberRegion(sql:Sql,id:string,region:string){
  await sql.query(`INSERT INTO player_preferences(character_id,quest_region) VALUES($1,$2) ON CONFLICT(character_id)
  DO UPDATE SET quest_region=$2,updated_at=clock_timestamp() WHERE player_preferences.quest_region IS DISTINCT FROM $2`,[id,region]);
 }
-export function levelCelebration(before:number,after:number,points:number){
+export function levelCelebration(before:number,after:number,points:number,catalogId=alpha.id){
+ const alpha=contentCatalog(catalogId);
  if(after<=before)return null;
  return {before,level:after,points:Math.max(0,points),equipment:alpha.items.filter(item=>item.level>before&&item.level<=after).map(item=>item.name),
  quests:alpha.quests.filter(item=>item.level>before&&item.level<=after).map(item=>item.name),land:alpha.properties.filter(item=>item.level>before&&item.level<=after).map(item=>propertyName(item.id,item.name))};

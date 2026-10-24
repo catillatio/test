@@ -87,3 +87,6 @@
 .kingdoms-ui .history-panel .empty-state { padding:10px 0; }.kingdoms-ui .history-panel .empty-symbol { display:none; }.kingdoms-ui .history-panel h3 { font-size:13px; }.kingdoms-ui .history-panel .section-heading { margin-bottom:4px; }.kingdoms-ui .history-panel h2 { font-size:17px; }
 .kingdoms-ui .notice { padding:9px; font-size:12px; }.kingdoms-ui .page-footer { margin-top:15px; }.connection-status { font-size:10px; color:#e5bb7d; margin:0; }
 @media(max-width:380px) { .catalog-row { grid-template-columns:58px minmax(0,1fr) 123px; gap:5px; }.catalog-art { width:58px; height:70px; }.catalog-description h2 { font-size:14px; }.catalog-description>span { font-size:10px; }.price-owned>.gold { font-size:11px; }.price-owned { font-size:9px; }.flow-grid { grid-template-columns:1fr; gap:3px; }.category-tabs>a { padding-inline:11px; font-size:13px; }.resource-lower { gap:3px; padding-inline:6px; }.realm-resource { gap:3px; }.realm-resource strong { font-size:11px; }.stat-icon { font-size:17px; } }
+
+/* Explicit nonproduction content preview; approved art never uses this class. */
+.catalog-art.pending-art{display:inline-flex;align-items:center;justify-content:center;text-align:center;font:11px/1.1 sans-serif;color:#c8bea5;background:transparent;overflow:hidden}.catalog-art.pending-art.art-small{font-size:8px}

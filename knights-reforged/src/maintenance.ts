@@ -70,7 +70,7 @@ export async function automaticallyFundMaintenance(sql:Sql,characterId:string,no
 // Called only after the old rate has accrued, then inventory changes atomically.
 // Buying equipment is never conditioned on income or maintenance affordability.
 export async function refreshMaintenance(sql:Sql,characterId:string,commandId:string,now:Date) {
-  const rate=(await readInventory(sql,characterId)).reduce((n,item)=>n+item.quantity*item.upkeep,0);
+  const rate=(await readInventory(sql,characterId)).reduce((n,item)=>n+item.quantity*(item.effectiveUpkeep??item.upkeep),0);
   const old=await maintenanceAccount(sql,characterId,now);
   await sql.query('UPDATE maintenance_accounts SET hourly_rate=$2 WHERE character_id=$1',[characterId,rate]);
   if(rate>0&&BigInt(old.reserve_gold)>BigInt(rate)) {

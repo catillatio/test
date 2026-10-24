@@ -1,0 +1,1189 @@
+{
+  "id": "level100-artwork-1",
+  "provenance": "Specifications only. No images adopted, generated or substituted. All existing approved art is unchanged.",
+  "status": "pending-owner-assets",
+  "entries": [
+    {
+      "id": "marcher-greatsword",
+      "name": "Marcher Greatsword",
+      "kind": "weapon",
+      "level": 51,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Marcher Greatsword: Long two-handed cruciform blade with clearly separated guard and pommel. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Marcher Greatsword; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "fortress-glaive",
+      "name": "Fortress Glaive",
+      "kind": "weapon",
+      "level": 51,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Fortress Glaive: Long shaft and single broad polearm blade, visibly distinct from a sword. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Fortress Glaive; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "captains-brigandine",
+      "name": "Captain's Brigandine",
+      "kind": "armor",
+      "level": 51,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Captain's Brigandine: Riveted layered torso armor with textile understructure. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Captain's Brigandine; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "siegeguard-plate",
+      "name": "Siegeguard Plate",
+      "kind": "armor",
+      "level": 51,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Siegeguard Plate: Segmented forged plate with articulated shoulders and identifiable breastplate. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Siegeguard Plate; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "battlebrand",
+      "name": "Battlebrand",
+      "kind": "spell",
+      "level": 51,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Battlebrand: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Battlebrand; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "rampart-ward",
+      "name": "Rampart Ward",
+      "kind": "spell",
+      "level": 51,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Rampart Ward: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Rampart Ward; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "royal-warblade",
+      "name": "Royal Warblade",
+      "kind": "weapon",
+      "level": 60,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Royal Warblade: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Royal Warblade; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "guard-captains-halberd",
+      "name": "Guard-Captain's Halberd",
+      "kind": "weapon",
+      "level": 60,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Guard-Captain's Halberd: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Guard-Captain's Halberd; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "kings-marshal-harness",
+      "name": "King's Marshal Harness",
+      "kind": "armor",
+      "level": 60,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "King's Marshal Harness: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. King's Marshal Harness; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "citadel-harness",
+      "name": "Citadel Harness",
+      "kind": "armor",
+      "level": 60,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Citadel Harness: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Citadel Harness; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "banner-of-embers",
+      "name": "Banner of Embers",
+      "kind": "spell",
+      "level": 60,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Banner of Embers: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Banner of Embers; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "stonewall-oath",
+      "name": "Stonewall Oath",
+      "kind": "spell",
+      "level": 60,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Stonewall Oath: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Stonewall Oath; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "sovereigns-zweihander",
+      "name": "Sovereign's Zweihander",
+      "kind": "weapon",
+      "level": 70,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Sovereign's Zweihander: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Sovereign's Zweihander; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "march-wardens-poleaxe",
+      "name": "March Warden's Poleaxe",
+      "kind": "weapon",
+      "level": 70,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "March Warden's Poleaxe: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. March Warden's Poleaxe; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "ducal-warplate",
+      "name": "Ducal Warplate",
+      "kind": "armor",
+      "level": 70,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Ducal Warplate: Segmented forged plate with articulated shoulders and identifiable breastplate. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Ducal Warplate; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "fortress-bastion-plate",
+      "name": "Fortress Bastion Plate",
+      "kind": "armor",
+      "level": 70,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Fortress Bastion Plate: Segmented forged plate with articulated shoulders and identifiable breastplate. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Fortress Bastion Plate; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "royal-battlefire",
+      "name": "Royal Battlefire",
+      "kind": "spell",
+      "level": 70,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Royal Battlefire: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Royal Battlefire; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "ironwall-covenant",
+      "name": "Ironwall Covenant",
+      "kind": "spell",
+      "level": 70,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Ironwall Covenant: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Ironwall Covenant; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "imperial-greatblade",
+      "name": "Imperial Greatblade",
+      "kind": "weapon",
+      "level": 80,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Imperial Greatblade: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Imperial Greatblade; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "high-castellans-hammer",
+      "name": "High Castellan's Hammer",
+      "kind": "weapon",
+      "level": 80,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "High Castellan's Hammer: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. High Castellan's Hammer; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "imperial-assault-harness",
+      "name": "Imperial Assault Harness",
+      "kind": "armor",
+      "level": 80,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Imperial Assault Harness: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Imperial Assault Harness; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "crownwall-bastion-plate",
+      "name": "Crownwall Bastion Plate",
+      "kind": "armor",
+      "level": 80,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Crownwall Bastion Plate: Segmented forged plate with articulated shoulders and identifiable breastplate. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Crownwall Bastion Plate; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "astral-siegefire",
+      "name": "Astral Siegefire",
+      "kind": "spell",
+      "level": 80,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Astral Siegefire: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Astral Siegefire; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "sanctuary-of-banners",
+      "name": "Sanctuary of Banners",
+      "kind": "spell",
+      "level": 80,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Sanctuary of Banners: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Sanctuary of Banners; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "ash-crowned-warblade",
+      "name": "Ash-Crowned Warblade",
+      "kind": "weapon",
+      "level": 90,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Ash-Crowned Warblade: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Ash-Crowned Warblade; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "throneguard-polehammer",
+      "name": "Throneguard Polehammer",
+      "kind": "weapon",
+      "level": 90,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Throneguard Polehammer: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Throneguard Polehammer; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "ashen-marshal-harness",
+      "name": "Ashen Marshal Harness",
+      "kind": "armor",
+      "level": 90,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Ashen Marshal Harness: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Ashen Marshal Harness; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "sovereigns-war-bastion",
+      "name": "Sovereign's War Bastion",
+      "kind": "armor",
+      "level": 90,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Sovereign's War Bastion: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Sovereign's War Bastion; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "ashen-coronation",
+      "name": "Ashen Coronation",
+      "kind": "spell",
+      "level": 90,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Ashen Coronation: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Ashen Coronation; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "crown-of-wards",
+      "name": "Crown of Wards",
+      "kind": "spell",
+      "level": 90,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Crown of Wards: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Crown of Wards; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "imperial-eclipse-greatsword",
+      "name": "Imperial Eclipse Greatsword",
+      "kind": "weapon",
+      "level": 100,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Imperial Eclipse Greatsword: Long two-handed cruciform blade with clearly separated guard and pommel. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Imperial Eclipse Greatsword; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "name": "Eclipse Gatehammer",
+      "kind": "weapon",
+      "level": 100,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Eclipse Gatehammer: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Eclipse Gatehammer; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "eclipse-war-marshal-plate",
+      "name": "Eclipse War-Marshal Plate",
+      "kind": "armor",
+      "level": 100,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Eclipse War-Marshal Plate: Segmented forged plate with articulated shoulders and identifiable breastplate. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Eclipse War-Marshal Plate; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "imperial-eclipse-bastion",
+      "name": "Imperial Eclipse Bastion",
+      "kind": "armor",
+      "level": 100,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Imperial Eclipse Bastion: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Imperial Eclipse Bastion; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "astral-war-invocation",
+      "name": "Astral War Invocation",
+      "kind": "spell",
+      "level": 100,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Astral War Invocation: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Astral War Invocation; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "eclipse-aegis",
+      "name": "Eclipse Aegis",
+      "kind": "spell",
+      "level": 100,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Eclipse Aegis: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Eclipse Aegis; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "king-hudsons-sword",
+      "name": "King Hudson's Sword",
+      "kind": "weapon",
+      "level": 71,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Regal golden hilt with carved royal metalwork, distinct physical cruciform sword and rainbow-infused blade. Controlled prismatic facets within the blade, not a particle cloud or featureless glow; painterly dark-fantasy steel and warm gold. Entire hilt, pommel and tip legible in the safe composition.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "king-hudsons-shield",
+      "name": "King Hudson's Shield",
+      "kind": "armor",
+      "level": 71,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Diamond-shaped forged steel shield, strong perimeter construction and rich golden fittings; a single circular rainbow-crystal centerpiece. Attack-oriented prestige conveyed by angular silhouette and craftsmanship, not a new slot or particle spray. Keep all four diamond points legible.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "king-hudsons-meteor-shower",
+      "name": "King Hudson's Meteor Shower",
+      "kind": "spell",
+      "level": 71,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Massive physical meteors converging on a rainbow gravitational vortex above a dark medieval battlefield. Readable meteor trajectories, luminous central lensing ring and grounded silhouette below; dramatic, carefully mixed colors with dark separation, not random sparkles.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "marcher-stronghold",
+      "name": "Marcher Stronghold",
+      "kind": "property",
+      "level": 56,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Stone-and-timber frontier fort on a low hill, square watchtower, simple outer palisade and a guarded dirt causeway. Slate, weathered limestone and pine-green fields; compact defensible settlement, no grand palace.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "royal-border-fortress",
+      "name": "Royal Border Fortress",
+      "kind": "property",
+      "level": 60,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Broad royal stone fortress with twin gate towers, crenellated curtain walls, soldiers' barracks and a defended bridge; cold gray masonry and restrained red banners. Visibly larger and more permanent than the marcher fort.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "crown-river-port",
+      "name": "Crown River Port",
+      "kind": "property",
+      "level": 70,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Busy fortified inland river port: stone quay walls, a toll bridge, cargo barges, warehouses and a modest castle above the bend. Blue-gray river and muted ochre roofs. Distinct inland waterway composition rather than Tempest Port's sea gate.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "imperial-siegeworks",
+      "name": "Imperial Siegeworks",
+      "kind": "property",
+      "level": 80,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Working imperial siege estate: large enclosed workshops, timber cranes, trebuchet frames and stacked cut stone inside low fortified walls. Warm worked oak, iron and limestone. Clear industrial medieval silhouette with no modern factories.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "sovereign-castle",
+      "name": "Sovereign Castle",
+      "kind": "property",
+      "level": 90,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Prestigious occupied royal castle with layered stone walls, tall but grounded keep, terraced gardens and inhabited courtyards. Subtle aged-gold details and natural dusk; depict architectural wealth rather than magical effects.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    },
+    {
+      "id": "eclipse-crown-citadel",
+      "name": "Eclipse Crown Citadel",
+      "kind": "property",
+      "level": 100,
+      "status": "unapproved",
+      "path": null,
+      "sha256": null,
+      "ownerApproval": null,
+      "brief": "Monumental final-tier fortress with nested basalt ramparts, pale central royal keep and restrained crescent masonry beneath a subtle eclipse. Broad approach and complete towers; no fiery haze or repeating spire silhouette.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": null,
+      "provenanceEvidence": null,
+      "framingApproval": null
+    }
+  ]
+}

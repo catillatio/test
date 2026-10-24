@@ -22,11 +22,12 @@ function browser(fetch, nextPayment = '2026-10-17T13:00:00.000Z') {
   const selectors = new Map(['countdown', 'status', 'gross', 'upkeep', 'net', 'payment-time', 'pending', 'pending-gold', 'summary-countdown', 'summary-net']
     .map(name => ['[data-land-' + name + ']', element()]));
   const owned = element();
+  const unitPrice = element();
   const input = element({ value: '1', disabled: true });
   const button = element({ disabled: true });
   const hint = element();
   const card = element({ dataset: { landProperty: 'smallholding' }, querySelector(selector) {
-    return { '[data-land-owned]': owned, 'input[name="quantity"]': input,
+    return { '[data-land-unit-price]': unitPrice, '[data-land-owned]': owned, 'input[name="quantity"]': input,
       'button[type="submit"]': button, '[data-land-buy-hint]': hint }[selector];
   } });
   const holding = element({ dataset: { holdingPayment: 'holding-1' } });
@@ -45,7 +46,7 @@ function browser(fetch, nextPayment = '2026-10-17T13:00:00.000Z') {
     CustomEvent: class { constructor(type,detail) { this.type=type;Object.assign(this,detail); } },
     setInterval: (callback, delay) => intervals.push({ callback, delay }),
     setTimeout: () => 1, clearTimeout: () => {} });
-  return { events, selectors, document, listeners, windowListeners, requests, wallet, input, button, holding,
+  return { events, selectors, document, listeners, windowListeners, requests, wallet, input, button, holding, unitPrice, hint,
     tick(milliseconds) { elapsed += milliseconds; intervals.find(timer => timer.delay === 1000).callback(); },
     poll() { intervals.find(timer => timer.delay === 60000).callback(); } };
 }
@@ -163,4 +164,8 @@ test('collapsed empty Land summary does not promise a payment or generate a requ
   page.tick(7200000);
   assert.equal(page.requests.length, 0);
   assert.equal(page.wallet.textContent, '15');
+});
+
+test('an overflowing progressive price remains unavailable through polling, never displayed as zero or a clamped base price',async()=>{
+ const page=browser(async()=>response({properties:[{id:'smallholding',owned:70,remaining:30,price:null,priceSteps:[],maxAffordable:0,quoteUnavailable:'The next progressive price exceeds the carried-gold transaction limit.'}]}));page.poll();await flush();assert.equal(page.unitPrice.textContent,'Quote unavailable');assert.match(page.hint.textContent,/exceeds/);assert.equal(page.button.disabled,true);assert.equal(page.wallet.textContent,'22');
 });

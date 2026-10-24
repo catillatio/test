@@ -38,7 +38,7 @@ test('E2a legacy XP is identical and future epochs freeze the current entitlemen
  assert.deepEqual(advanceProgression(level,old-2,0,epoch),{level:100,progress:old-2,points:0,gained:0});
  assert.throws(()=>advanceProgression(99,0,1,epoch));assert.throws(()=>requirementForEpoch(level,{...epoch,boundaryRequirement:1}));
  const sql={query:async()=>{throw new Error('Legacy progression must not create/read future metadata.');}};
- assert.equal(await readProgressionEpoch(sql,'unused'),undefined);await assert.rejects(readProgressionEpoch(sql,'unused','xp-post50-150-1'));
+ assert.equal(await readProgressionEpoch(sql,'unused','xp-legacy-1'),undefined);await assert.rejects(readProgressionEpoch(sql,'unused','xp-post50-150-1'));
 });
 test('E2a catalog separates purchase unlocks, ownership, history and explicit nonoverlapping equivalents',()=>{
  const classic=structuredClone(alpha.items.find(i=>i.id==='eclipse-greatsword')!),mirror={...classic,id:'fixture-grounded',name:'Grounded blade'},retired={...classic,id:'fixture-retired'};
