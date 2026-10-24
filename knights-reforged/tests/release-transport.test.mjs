@@ -66,6 +66,7 @@ test('a successful job report requires the real exported-object round trip, exac
  checkJobReport(report(),request());
  for(const changed of [{passed:false},{sha:'f'.repeat(40)},{bots:449},{accounts:0},{workerDeploymentId:'fake'},{restoreClusterDigest:'1'.repeat(64)},
   {backup:{...report().backup,conditionalWriteVerified:false}},{backup:{...report().backup,exportRoundTripVerified:false}},{backup:{...report().backup,encryptedBytes:888}},
+  {restoredCopy:{...report().restoredCopy,passed:false}},{restoredCopy:{...report().restoredCopy,bots:449}},
   {restoredCopy:{...report().restoredCopy,migrationReplay:'changed'}},{restoredCopy:{...report().restoredCopy,liveDatabaseConnected:true}},
   {restoredCopy:{...report().restoredCopy,restoredHost:valid.KINGDOM_DATABASE_HOST}},{restoredCopy:{...report().restoredCopy,existingTablesVerified:2}}])assert.throws(()=>checkJobReport({...report(),...changed},request()));
  const folder=await mkdtemp(join(tmpdir(),'retained-recovery-'));
@@ -81,8 +82,21 @@ test('a successful job report requires the real exported-object round trip, exac
  }finally{await rm(folder,{recursive:true,force:true});}
 });
 test('post-deployment verification is aggregate read-only status, not a provisioning operation',()=>{
- const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'020_game_feel.sql',active_bots:450,initialized:true};checkJobReport(r,expected);
- for(const changed of [{schemaHead:'019_champions_and_rivalries.sql'},{active_bots:0},{initialized:false}])assert.throws(()=>checkJobReport({...r,...changed},expected));
+ const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'021_player_attention.sql',active_bots:450,initialized:true};
+ assert.equal(checkJobReport(r,expected),r);
+ for(const changed of [{active_bots:0},{initialized:false}])assert.throws(()=>checkJobReport({...r,...changed},expected));
+});
+test('post-deployment verification rejects stale, unexpected and missing schema heads',async t=>{
+ const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'021_player_attention.sql',active_bots:450,initialized:true};
+ for(const [label,schemaHead]of [['historical 019','019_champions_and_rivalries.sql'],['stale 020','020_game_feel.sql'],['unexpected 022','022_unexpected.sql'],['missing',undefined],['null',null]]){
+  await t.test(label,()=>assert.throws(()=>checkJobReport({...r,schemaHead},expected),{code:'ERR_ASSERTION',actual:schemaHead,expected:'021_player_attention.sql'}));
+ }
+});
+test('a current 021 report still rejects mismatched commits and invalid total or active bot counts',async t=>{
+ const expected={...request(),mode:'verify'},r={...report(),mode:'verify',schemaHead:'021_player_attention.sql',active_bots:450,initialized:true};
+ for(const [label,changed]of [['wrong commit',{sha:'f'.repeat(40)}],['missing bot',{bots:449}],['extra bot',{bots:451}],['missing bot count',{bots:undefined}],['inactive bot',{active_bots:449}],['extra active bot',{active_bots:451}],['missing active count',{active_bots:undefined}]]){
+  await t.test(label,()=>assert.throws(()=>checkJobReport({...r,...changed},expected),{code:'ERR_ASSERTION'}));
+ }
 });
 test('signed migration approval binds exact code, source, separate restored copy, recovery artifact and target service',()=>{
  const p=proof();assert.equal(verifyProof(signProof(p,privatePem),publicPem,gameEnv,p.candidateDigest).sha,p.sha);
