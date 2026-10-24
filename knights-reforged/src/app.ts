@@ -1,4 +1,5 @@
 import {notificationSummary,acknowledgeNotifications} from './notifications.js';
+import {readArmyRoster,type RosterFilter} from './army-roster.js';
 import {mutedSound,soundPreferences,soundFeedback} from './sound.js';
 import {callingName,callingDescription} from './calling-presentation.js';
 import Fastify, { type FastifyRequest, type FastifyReply } from 'fastify';
@@ -133,7 +134,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id,config) : null);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
-    const query = request.query as { command?: string; category?: string;area?:string;tab?:string;bulk?:unknown;calling?:string };
+    const query = request.query as { command?: string; category?: string;area?:string;tab?:string;bulk?:unknown;calling?:string;roster?:string };
     if (session?.account_id && uuid.safeParse(query?.command).success) {
       const receipt = (await db.query('SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2', [session.account_id, query.command])).rows[0];
       notice = receipt?.result?.kind==='attack'?'Your battle is recorded. View it in Battles.':receipt?.result?.kind==='profile'?String(receipt.result.message).replace(/\b(Freeblade|Warden|Spellward)\b/g,key=>callingName(key)):receipt?.result?.message ?? null;
@@ -167,7 +168,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       showCalling:query.calling==='1',profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
       recruitment:{allowed:false,reason:'Review this army request in Recruit.',status:'none',automatic:false},publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
       feedTab:feedCategory((request.query as {feed?:string}).feed),feed:{entries:[],nextCursor:null},
-      armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],
+      armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],rosterFilter:['accepted','incoming','outgoing'].includes(query.roster??'')?query.roster:'all',
       csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
       commandId: randomUUID, notice, error: null, opponents: [], nextOpponentCursor:null, battles: [], battle: null,
       sound:state?await soundPreferences(db,state.id):mutedSound,soundEvent:soundFeedback(data.actionResult??actionResult,data.battle,state?.id),experience:playerExperience,title: 'Kingdom Come', authMode: 'login', returnTo:safeReturn((request.query as {returnTo?:string}).returnTo??asBody(request).returnTo),formValues: { username: '', name: '' }, ...data,
@@ -208,6 +209,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
   for (const { id: screen, label: title } of nav) {
     app.get('/game/' + screen, { preHandler: requireAccount }, async (request, reply) => {
       const state = await getState(db, request.realmSession!.account_id!,config);
+      if(screen==='army'){
+        const query=request.query as {after?:string;roster?:RosterFilter};
+        if(query.after||query.roster){const page=await readArmyRoster(db,state.id,config,query.after,query.roster??'all');state.army={...state.army,links:page.links,nextCursor:page.nextCursor};}
+      }
       return render(request, reply, screen, { title, state,
         ...(screen === 'battle' ? { battles: await recentBattles(db, state.id) } : {}),
         ...(screen==='home'?{feed:await activityFeed(db,state.id,feedCategory((request.query as {feed?:string}).feed),(request.query as {after?:string}).after)}:{}),

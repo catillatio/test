@@ -1,11 +1,13 @@
-import {alpha} from './alpha-rules.js';
+// Installed player-experience-1 must retain its level-50 award and tutorial
+// meaning when a later active content catalog extends the authored horizon.
+const legacyContentSummit=50;
 export type AchievementMetric='level'|'wins'|'bounties'|'quests'|'landPurchased'|'landOwned'|'netIncome'|'recruits';
 export interface AchievementDefinition{id:string;name:string;category:string;metric:AchievementMetric;threshold:number;rank:number;emblem:string;description:string;}
 const entry=(id:string,name:string,category:string,metric:AchievementMetric,threshold:number,rank:number,emblem:string,description:string):AchievementDefinition=>({id,name,category,metric,threshold,rank,emblem,description});
 export const experienceRules={id:'player-experience-1',provenance:'Kingdom Come cosmetic achievements and tutorial; reference-inspired presentation, not recovered Storm8 rules.',
  achievements:[
  ...[5,10,25,50].map((level,index)=>entry('level-'+level,['First Ascendant','Knight of Renown','Realm Veteran','Legend of the Realm'][index]!,'Character','level',level,index+1,'crown','Reach character level '+level+'.')),
- entry('content-summit','Crown of the Current Age','Character','level',alpha.content!.maxContentLevel,5,'crown','Reach the current authored content summit, level '+alpha.content!.maxContentLevel+'. Character progression has no hard level cap.'),
+ entry('content-summit','Crown of the Current Age','Character','level',legacyContentSummit,5,'crown','Reach the current authored content summit, level '+legacyContentSummit+'. Character progression has no hard level cap.'),
  ...[1,10,100,1000].map((n,i)=>entry('victories-'+n,['First Triumph','Proven in Battle','Field Commander','Thousandfold Victor'][i]!,'Combat','wins',n,i+1,'swords','Win '+n+' battle'+(n===1?'':'s')+'.')),
  ...[1,10].map((n,i)=>entry('bounties-'+n,i?'Royal Bounty Hunter':'The Finishing Blade','Combat','bounties',n,i+1,'shield','Successfully claim '+n+' funded bount'+(n===1?'y':'ies')+'.')),
  ...[1,25,100,500].map((n,i)=>entry('quests-'+n,['A First Deed','Village Champion','Tireless Adventurer','Keeper of Legends'][i]!,'Quests','quests',n,i+1,'scroll','Complete '+n+' repeatable quest'+(n===1?'':'s')+'.')),

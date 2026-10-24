@@ -1,0 +1,40 @@
+{
+  "id": "expansion-compatibility-1",
+  "provenance": "E2a compatibility only. Future policies are dormant; activation requires a separately reviewed immutable policy/cutover.",
+  "active": {
+    "army": "army-legacy-1",
+    "inventory": "inventory-legacy-1",
+    "progression": "xp-legacy-1",
+    "catalog": "alpha-0.3"
+  },
+  "army": {
+    "army-legacy-1": {
+      "perLevel": 2,
+      "leader": 1,
+      "ceiling": 101,
+      "selectionLimit": 101,
+      "rosterLimit": 100
+    },
+    "army-five-per-level-1": {
+      "perLevel": 5,
+      "leader": 0,
+      "ceiling": null,
+      "selectionLimit": 5000,
+      "rosterLimit": 5000
+    }
+  },
+  "inventory": {
+    "inventory-legacy-1": 1000,
+    "inventory-large-1": 5000
+  },
+  "progression": {
+    "xp-legacy-1": {
+      "afterLevel": 50,
+      "increment": 0
+    },
+    "xp-post50-150-1": {
+      "afterLevel": 50,
+      "increment": 150
+    }
+  }
+}

@@ -21,13 +21,13 @@ test('populated 021-to-022 upgrade preserves every old row and old read state, w
   await db.query("INSERT INTO notification_reads(character_id,kind,event_id) VALUES($1,'comment',$2)",[a.characterId,historical]);
   await db.query("INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result) VALUES($1,$2,$3,'alpha-0.3','attacker_win','{}','{}')",[randomUUID(),b.characterId,a.characterId]);
   await provisionBots(db,{nodeEnv:'test',allowProvisioning:true});await transaction(db,reconcileLevelMilestones);
-  const before=await snapshot(db);await migrate(db);const after=await snapshot(db);
+  const before=await snapshot(db);await migrate(db,{through:'022_player_foundations.sql'});const after=await snapshot(db);
   for(const [table,rows]of Object.entries(before))if(['schema_migrations','rulesets'].includes(table))assert.ok(rows.every(row=>after[table]!.includes(row)),table);else assert.deepEqual(after[table],rows,table+' must remain byte-identical');
   assert.equal(after.accounts!.length,453);assert.equal(after.development_bots!.length,450);assert.equal(after.army_attention_starts!.length,453);assert.equal(after.content_policy_rejections!.length,0);
   assert.equal((await notificationSummary(db,a.characterId)).home,1,'only the existing unread attack; old acceptance is not new');
   assert.equal((await notificationSummary(db,b.characterId)).home,0,'acceptor does not notify themself');
   assert.equal((await db.query("SELECT character_maximum_length n FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='characters' AND column_name='name'")).rows[0]!.n,96);
-  await migrate(db);assert.deepEqual(await snapshot(db),after,'repeat migration changes nothing');
+  await migrate(db,{through:'022_player_foundations.sql'});assert.deepEqual(await snapshot(db),after,'repeat migration changes nothing');
   await mkdir('test-results',{recursive:true});await writeFile('test-results/phase47-phase51d-preservation.json',JSON.stringify({passed:true,base:'021_player_attention.sql',head:'022_player_foundations.sql',accounts:453,bots:450,oldRowsUnchanged:true,oldReadStateUnchanged:true,noHistoricalAcceptanceBacklog:true,migrationReplay:'unchanged',productionContacted:false,
    beforeHashes:Object.fromEntries(Object.entries(before).map(([t,rows])=>[t,createHash('sha256').update(JSON.stringify(rows)).digest('hex')]))},null,2)+'\n');
  }finally{await db.end();await admin.query('DROP SCHEMA '+schema+' CASCADE');await admin.end();}
