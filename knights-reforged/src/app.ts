@@ -151,6 +151,8 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const board=data.bountyBoard as {activeCount?:number;nextExpiryAt?:string|null}|undefined;
     const counts=state&&['battle','bounties','bounty-new','bounty-confirm'].includes(screen)?board?.activeCount!==undefined?{count:board.activeCount,nextExpiryAt:board.nextExpiryAt??null}:await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):{count:0,nextExpiryAt:null};
     const notificationFeed=[...((data.feed as {entries:any[]}|undefined)?.entries??[])];
+    if(screen==='army'&&query.tab==='dashboard')for(const event of (data.armyEvents as any[]|undefined)??[])
+      notificationFeed.push({id:event.id,kind:'army',data:{event:event.kind,actorId:event.actor_id,targetId:event.target_id}});
     const shownBattle=data.battle as {id?:string;defenderId?:string}|undefined;
     if(screen==='report'&&state&&shownBattle?.id&&shownBattle.defenderId===state.id)notificationFeed.push({id:shownBattle.id,kind:'battle',data:{defenderId:state.id}});
     const chosenRegion=regionFilter(query.area);
@@ -355,7 +357,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const result=await acknowledgeNotifications(db,id,asBody(request).events);
     if(wantsJson(request))return result;
     const destination=asBody(request).returnTo;
-    return reply.redirect(typeof destination==='string'&&(destination==='/game/profile?tab=comments'||/^\/game\/battles\/[a-f0-9-]{36}$/.test(destination))?destination:'/game/home',303);
+    return reply.redirect(typeof destination==='string'&&(destination==='/game/profile?tab=comments'||destination==='/game/army?tab=dashboard'||/^\/game\/battles\/[a-f0-9-]{36}$/.test(destination))?destination:'/game/home',303);
   });
   app.get('/api/v1/me', { preHandler: requireAccount }, async request => {
     const state=await getState(db,request.realmSession!.account_id!,config);
@@ -425,7 +427,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
         return await render(request, reply.code(status), 'auth', {
           authMode, title: authMode === 'register' ? 'Raise your banner' : 'Enter the realm', error: message,
           formValues: { username: typeof body.username === 'string' ? body.username.slice(0, 24) : '',
-            name: typeof body.name === 'string' ? body.name.slice(0, 28) : '' },
+            name: typeof body.name === 'string' ? body.name.slice(0, 192) : '' },
         });
       }
       return await render(request, reply.code(status), 'error', { title: 'Action not completed', error: message,soundEvent:uuid.safeParse(asBody(request).commandId).success?{id:asBody(request).commandId,cue:'error'}:null });
