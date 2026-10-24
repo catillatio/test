@@ -1,3 +1,4 @@
+import {expansionBots,expansionBotCombat,expansionBotIds,partitionBotSchedule,installedCohort} from './expansion-bot-rules.js';
 import {createHash} from 'node:crypto';
 import {type Database,transaction} from './db.js';
 import {GameError} from './errors.js';
@@ -15,15 +16,15 @@ export const livingCombat=Object.freeze({id:'living-bot-duels-1',intervalMs:3000
 type Candidate={id:string;account_id:string;level:number;active:boolean;disabled:boolean};
 export const duelWindow=(now:Date)=>Math.floor(+now/livingCombat.intervalMs);
 export const duelSlot=(id:string)=>scheduledNumber(livingCombat.id+':'+id)%livingCombat.slotsPerDecision;
-export const duelCommand=(id:string,window:number)=>scheduledCommand(livingCombat.id,id,window);
-export const duelCandidates=(ids:string[],window:number)=>scheduledCandidates(ids,window,{slots:livingCombat.slotsPerDecision,maximum:livingCombat.maximumBotsPerTick,population:livingCombat.maximumPopulation,salt:livingCombat.id+':'});
+export const duelCommand=(id:string,window:number)=>scheduledCommand(expansionBotIds.has(id)?expansionBotCombat.id:livingCombat.id,id,window);
+export const duelCandidates=(ids:string[],window:number)=>{const {legacy,added}=partitionBotSchedule(ids);return [...scheduledCandidates(legacy,window,{slots:144,maximum:5,population:450,salt:livingCombat.id+':'}),...scheduledCandidates(added,window,{slots:144,maximum:5,population:450,salt:expansionBotCombat.id+':'})];};
 const validId=(id:unknown):id is string=>typeof id==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(id);
 const fingerprint=(actor:string,target:string,window:number)=>createHash('sha256').update([livingCombat.id,actor,target,window].join(':')).digest('hex');
 async function population(db:Pick<Database,'query'>){
  const rows=(await db.query<Candidate>(`SELECT c.id,c.account_id,c.attained_level AS level,b.active,a.login_disabled AS disabled
   FROM development_bots b JOIN characters c ON c.id=b.character_id JOIN accounts a ON a.id=c.account_id
-  ORDER BY c.id LIMIT $1`,[livingCombat.maximumPopulation+1])).rows;
- if(rows.length>livingCombat.maximumPopulation)throw new Error('Unexpected rival population; autonomous duels stopped.');
+  ORDER BY c.id LIMIT $1`,[901])).rows;
+ if(rows.length>450&&(!await installedCohort(db)||rows.length!==900))throw new Error('Unexpected rival population; autonomous duels stopped.');
  return rows;
 }
 export function duelTarget(rows:Candidate[],actor:Candidate,window:number){
@@ -42,6 +43,7 @@ export async function attemptBotDuel(db:Database,enabled:boolean,actorId:string,
  try{return await transaction(db,async sql=>{
   const now=await clock(sql),bots=await population(sql),actor=bots.find(b=>b.id===actorId);
   if(!actor||!duelCandidates(bots.map(b=>b.id),window).includes(actorId))return {status:'ineligible',reason:'schedule'};
+  if(expansionBotIds.has(actorId)&&(await installedCohort(sql))?.autonomyMode!=='enabled')return {status:'ineligible',reason:'expansion_autonomy_off'};
   const current=duelWindow(now)===window;
   // Serialize the first receipt read with competing new duels. This closes
   // the read-before-commit race without another provider/database operation.
@@ -50,7 +52,7 @@ export async function attemptBotDuel(db:Database,enabled:boolean,actorId:string,
   const previous=(await sql.query('SELECT kind,intent_hash,result FROM command_receipts WHERE account_id=$1 AND command_id=$2',[actor.account_id,key])).rows[0];
   if(previous){
    const old=previous.result;
-   if(previous.kind!=='bot_duel'||old?.policy!==livingCombat.id||old.actorId!==actorId||old.window!==window||!validId(old.targetId)||!validId(old.battleId)||
+   if(previous.kind!=='bot_duel'||old?.policy!==(expansionBotIds.has(actorId)?expansionBotCombat.id:livingCombat.id)||old.actorId!==actorId||old.window!==window||!validId(old.targetId)||!validId(old.battleId)||
     requestedTarget!==undefined&&requestedTarget!==old.targetId||previous.intent_hash!==fingerprint(actorId,old.targetId,window))throw new Error('Autonomous duel receipt identity mismatch.');
    return {status:'replayed',battleId:old.battleId,actorId,targetId:old.targetId};
   }
@@ -81,7 +83,7 @@ export async function attemptBotDuel(db:Database,enabled:boolean,actorId:string,
   result.data={newAchievements:[],celebration:levelCelebration(state.level,final.attained_level,final.skill_points-state.skillPoints)};
   await sql.query("UPDATE battles SET result=result||jsonb_build_object('playerExperience',jsonb_build_object($2::text,$3::jsonb)) WHERE id=$1",[result.battleId,actorId,JSON.stringify(result.data)]);
   await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);
-  await sql.query('UPDATE command_receipts SET result=$3 WHERE account_id=$1 AND command_id=$2',[a.account_id,key,{policy:livingCombat.id,window,actorId,targetId,battleId:result.battleId,result}]);
+  await sql.query('UPDATE command_receipts SET result=$3 WHERE account_id=$1 AND command_id=$2',[a.account_id,key,{policy:expansionBotIds.has(actorId)?expansionBotCombat.id:livingCombat.id,window,actorId,targetId,battleId:result.battleId,result}]);
   return {status:'battled',battleId:result.battleId,actorId,targetId};
  });}catch(error){
   if(error instanceof GameError&&['RIVAL_LEVEL_RANGE','NEEDS_RECOVERY','OPPONENT_DEFEATED','INSUFFICIENT_SPIRIT'].includes(error.code))return {status:'ineligible',reason:error.code};

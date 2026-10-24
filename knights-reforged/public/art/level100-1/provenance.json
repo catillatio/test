@@ -1,0 +1,1656 @@
+{
+  "version": "level100-1",
+  "date": "2026-10-24",
+  "reviewStatus": "pending-owner-approval",
+  "processing": "Proportional Lanczos downsampling and WebP encoding. No padding, mattes, filters, stretching or changes to legacy images.",
+  "manifest": "rulesets/level100-artwork-2/rules.json",
+  "assets": [
+    {
+      "id": "marcher-greatsword",
+      "name": "Marcher Greatsword",
+      "kind": "weapon",
+      "level": 51,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/marcher-greatsword.webp",
+      "sha256": "0d71173211af563ef75c20593c6c61b43cf4a1f854015462d3e923f49d86fa8d",
+      "ownerApproval": null,
+      "brief": "Marcher Greatsword: Long two-handed cruciform blade with clearly separated guard and pommel. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Marcher Greatsword; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "091be19a4ad8a85a2f8ef7763d8251fef47111a0beea04e5e07be6d8ab4c2835",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "91ccc311cbf4db68cf35bd71f5c53bc7151e1bc53680f515a4c85a554f87aa18"
+    },
+    {
+      "id": "fortress-glaive",
+      "name": "Fortress Glaive",
+      "kind": "weapon",
+      "level": 51,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/fortress-glaive.webp",
+      "sha256": "067faec6a9014f21cbfdb3f90ffbf1e74b71be19cb5a2e8907c6454e599ac604",
+      "ownerApproval": null,
+      "brief": "Fortress Glaive: Long shaft and single broad polearm blade, visibly distinct from a sword. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Fortress Glaive; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "3c280506f1a3a1cf8f160a3451c7a2844eb8da9b190dc8fc8c168d18ae44ab45",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "f904970d426453d89b6c3cf02a287b91402366ee6366c81b8c2f116f432ed5b7"
+    },
+    {
+      "id": "captains-brigandine",
+      "name": "Captain's Brigandine",
+      "kind": "armor",
+      "level": 51,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/captains-brigandine.webp",
+      "sha256": "209ba6d178c3499aecdc0d8d45c0e4b5235f87aa6c9d6c495ddcfc032bd44782",
+      "ownerApproval": null,
+      "brief": "Captain's Brigandine: Riveted layered torso armor with textile understructure. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Captain's Brigandine; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "e2a2713d75dd3e87e8a570a65345c07696e535ba8c69d989087c9f2e280910cd",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "702bbbe2058f0150e62b18f62f3aa55b40d2541bf980f20e1daeb5f100bac0f8"
+    },
+    {
+      "id": "siegeguard-plate",
+      "name": "Siegeguard Plate",
+      "kind": "armor",
+      "level": 51,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/siegeguard-plate.webp",
+      "sha256": "25a4d7ea69eea67254c293c745042c385d09b8f92d743ae8e9492bec3ade6d64",
+      "ownerApproval": null,
+      "brief": "Siegeguard Plate: Segmented forged plate with articulated shoulders and identifiable breastplate. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Siegeguard Plate; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "c37a584118e64e0834450739358a6c3a3edea4508a0dc8894584f65c7b9dc15c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "0f96d5e3a705c18157d378efbcc569d9b6192e6b4fb0c98fc51aabe3882d1de7"
+    },
+    {
+      "id": "battlebrand",
+      "name": "Battlebrand",
+      "kind": "spell",
+      "level": 51,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/battlebrand.webp",
+      "sha256": "8973c5d7192e608ee905ec29badcc50e0a361969f4e0e709700f4b84baf80914",
+      "ownerApproval": null,
+      "brief": "Battlebrand: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Battlebrand; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "fc9fad5e51c087aa973c1786be36b25b3d2a3f77da184cdfab9253c21f4f91c1",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "be2858c0acb359ce8946e6789ba3101d8da45c05b335873761ec7764a6ca6f86"
+    },
+    {
+      "id": "rampart-ward",
+      "name": "Rampart Ward",
+      "kind": "spell",
+      "level": 51,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/rampart-ward.webp",
+      "sha256": "41f4afe439d63885afabed3222e0fefb7fee1b8964909adbd251f972b934d5ae",
+      "ownerApproval": null,
+      "brief": "Rampart Ward: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Rampart Ward; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "4db3bcab7197b0b26a6791277669e469d5154b892fa785df837ad19b166c1e3f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "4ecd18d3a3fe6fda5c26b2f514db1c10d38089cf514146a6cb4aaf321fcb7845"
+    },
+    {
+      "id": "royal-warblade",
+      "name": "Royal Warblade",
+      "kind": "weapon",
+      "level": 60,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/royal-warblade.webp",
+      "sha256": "5a4bb7a5db669c6ba444745df02276cbde6045d2c894f4b63a94ab9dd95a2189",
+      "ownerApproval": null,
+      "brief": "Royal Warblade: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Royal Warblade; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "d847bac3ce90bb76919512584c201f9c9ef4d8545667825fc74a316c658ce276",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "126ea9cbe8e4c09c8679465a2fd691c1e3424ae4fd9958a283918fd007a98880"
+    },
+    {
+      "id": "guard-captains-halberd",
+      "name": "Guard-Captain's Halberd",
+      "kind": "weapon",
+      "level": 60,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/guard-captains-halberd.webp",
+      "sha256": "3e28dfd0cb29267e6c6f0c75e871ef50e35470da92e80cae26fd5a7baf009384",
+      "ownerApproval": null,
+      "brief": "Guard-Captain's Halberd: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Guard-Captain's Halberd; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "893bc7bf55e9a4477c8890315530d77a042892dd9b57511d464f72ddfa307b6e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "7a614bcae53babb2cd01cb044e70143ce09db1285603bff2a3d0cbc7057b1a54"
+    },
+    {
+      "id": "kings-marshal-harness",
+      "name": "King's Marshal Harness",
+      "kind": "armor",
+      "level": 60,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/kings-marshal-harness.webp",
+      "sha256": "ad7b0c83d252837adc64813dbde48e24665ab8f6e07eb307b7ccb9bd8393c019",
+      "ownerApproval": null,
+      "brief": "King's Marshal Harness: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. King's Marshal Harness; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "1963688bb5a1e7ec91c24dcefe7889612f70be34ff82df2848fdd9415b8923a0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "f09280cda07e6a370f10b4270cd888cb660dfee744a8cfa8c6651d145f0a979d"
+    },
+    {
+      "id": "citadel-harness",
+      "name": "Citadel Harness",
+      "kind": "armor",
+      "level": 60,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/citadel-harness.webp",
+      "sha256": "7608fafac7f52d9bfabd9ad18157ef79ef4c0306248343b3285d4c37f4cdc5ba",
+      "ownerApproval": null,
+      "brief": "Citadel Harness: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Citadel Harness; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "ca57ef6e9f564ccd1b943a2a30ceb6701cd78235dd35e52dc0f27f76fbe399fb",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "cef137cb5ec0d17f8859d7efdb49999299a90ac59337dea0508167b419c6cb3d"
+    },
+    {
+      "id": "banner-of-embers",
+      "name": "Banner of Embers",
+      "kind": "spell",
+      "level": 60,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/banner-of-embers.webp",
+      "sha256": "0013a5c8349c4c4d72f1a88e294895769a33a6d4fa3e8e8a7952ea4be066eae0",
+      "ownerApproval": null,
+      "brief": "Banner of Embers: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Banner of Embers; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "c6675f3859e112b49c26c85af862f916727c3a86ff862786f5adf77203343a88",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "34755a21ae78e743e47755d14c0cd9e14bde84291d439fe65a56b800f9d406fc"
+    },
+    {
+      "id": "stonewall-oath",
+      "name": "Stonewall Oath",
+      "kind": "spell",
+      "level": 60,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/stonewall-oath.webp",
+      "sha256": "1587c1d90aa6ea0ccc9efd9646ac02f82d668fad6431f326a5368e6468339cd0",
+      "ownerApproval": null,
+      "brief": "Stonewall Oath: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Stonewall Oath; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "b90b8b10e9da380850ac44d2c235a6fd912c950cd446dc19d0d2d06dcdb0529a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "d72aafeabbd212a5b157f5f194642030e8001d622d0b2120ad843af4d20537e8"
+    },
+    {
+      "id": "sovereigns-zweihander",
+      "name": "Sovereign's Zweihander",
+      "kind": "weapon",
+      "level": 70,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/sovereigns-zweihander.webp",
+      "sha256": "850e88a2a6b31b62124c43e1d93cb571dab526cf91b067d52dbd79276aad8c15",
+      "ownerApproval": null,
+      "brief": "Sovereign's Zweihander: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Sovereign's Zweihander; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "66ec6f4722e5d5a5670a54df767c9f299eb346dd818a76bd3f8e203603ea9e79",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "d17c4e0528b23d4e9078ee1b9be146cb7642d019c2095909cf36d4793e1a9105"
+    },
+    {
+      "id": "march-wardens-poleaxe",
+      "name": "March Warden's Poleaxe",
+      "kind": "weapon",
+      "level": 70,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/march-wardens-poleaxe.webp",
+      "sha256": "a651e8e066c9f6c08f3fc598d4059f2af454837a8f94306f2c1fc95b1cf952d1",
+      "ownerApproval": null,
+      "brief": "March Warden's Poleaxe: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. March Warden's Poleaxe; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "68a2b7a241e9810c452f1c8bdb6525dca86d9568b0f3f3c35c4c18a49bfb1ebb",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "9197e8b7223e08aece4b4b1a2039458fcde9251f8084e6b385470ea29d3fa45f"
+    },
+    {
+      "id": "ducal-warplate",
+      "name": "Ducal Warplate",
+      "kind": "armor",
+      "level": 70,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/ducal-warplate.webp",
+      "sha256": "7604fff126abc5f4eaf4450db38a2d758935b5a9546e02c83bbaa35c2b11fe23",
+      "ownerApproval": null,
+      "brief": "Ducal Warplate: Segmented forged plate with articulated shoulders and identifiable breastplate. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Ducal Warplate; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "c20be1a1ed6b58340aaa3582c93de088904d4d8879d8e4c9141460685fe14d62",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "1d58fa661c7b62532273ac28129aa8da1728fe09c6929a0e8fb3cd2d589448c5"
+    },
+    {
+      "id": "fortress-bastion-plate",
+      "name": "Fortress Bastion Plate",
+      "kind": "armor",
+      "level": 70,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/fortress-bastion-plate.webp",
+      "sha256": "b88a5a8fb0aed2bdc68f3ae505eaaea6c4d762f9000cad0459c83aed895704d8",
+      "ownerApproval": null,
+      "brief": "Fortress Bastion Plate: Segmented forged plate with articulated shoulders and identifiable breastplate. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Fortress Bastion Plate; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "6dd637c504632a58ab38aba33982e0789bce2191d538d51f3d210669bdda10d4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "346bc11762b9b17487828deaad3646f16c1f6931ace832b06e3243af96f2e825"
+    },
+    {
+      "id": "royal-battlefire",
+      "name": "Royal Battlefire",
+      "kind": "spell",
+      "level": 70,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/royal-battlefire.webp",
+      "sha256": "a223a0720db90d7ba18f0b62c0c257095dfd90fd1e68d9964f5117feae42b194",
+      "ownerApproval": null,
+      "brief": "Royal Battlefire: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Royal Battlefire; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "03a036889ddada022dfa5931c00f7b80377a49c524c6f6313344f90adb5fd9c4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "22d81fadb491c5c6cb12a778a8aba5f6bc79b5e35c26186912ea0a6e9334f39a"
+    },
+    {
+      "id": "ironwall-covenant",
+      "name": "Ironwall Covenant",
+      "kind": "spell",
+      "level": 70,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/ironwall-covenant.webp",
+      "sha256": "c716ac3412ddd5f49348555bbf6be60004ee38e166b69f938046e167931bcb6f",
+      "ownerApproval": null,
+      "brief": "Ironwall Covenant: Distinct readable central silhouette reflecting the named object or magical action. Practical medieval steel, leather, wool and aged bronze; visible construction and tool marks, restrained natural colors. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Ironwall Covenant; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "88302c3ec76bb2321e07635c4185cca309339161fca59530b36805a326ceb200",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "269c8670d1eccd8ccd378be27988a7a5858a764e7bfd63adecb0ea6de7708d9e"
+    },
+    {
+      "id": "imperial-greatblade",
+      "name": "Imperial Greatblade",
+      "kind": "weapon",
+      "level": 80,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/imperial-greatblade.webp",
+      "sha256": "c227e343fbe3767063b2e2334cba68b0483c464f2b86f3e898653bb0fbd1db50",
+      "ownerApproval": null,
+      "brief": "Imperial Greatblade: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Imperial Greatblade; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "9aad7930366cdfe470b432d206d2f8c73e3a02a4098c1f199b97033c5d61ac56",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "a61ee57f7b92573cd8fe90024efc73e4bc333375bb7a520a6675e8a10f7aa689"
+    },
+    {
+      "id": "high-castellans-hammer",
+      "name": "High Castellan's Hammer",
+      "kind": "weapon",
+      "level": 80,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/high-castellans-hammer.webp",
+      "sha256": "0e846ad987e75f2a736d3956e22795dc2aa78b1bd22654582ea9db5f1ae922ce",
+      "ownerApproval": null,
+      "brief": "High Castellan's Hammer: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. High Castellan's Hammer; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "2a1a1511f5d4f7100a3b7ba1f9875ffbd585b5b6e638c5f95c00e32db37cc8c6",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "ddc7d0f50f0470e80ddb9f76ae3fc176ba69e34aae4fb6a60b2fc050e9dc3ad7"
+    },
+    {
+      "id": "imperial-assault-harness",
+      "name": "Imperial Assault Harness",
+      "kind": "armor",
+      "level": 80,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/imperial-assault-harness.webp",
+      "sha256": "9630ee447abaa1348bb90c34dbc797728337ef2eab669571a4fc8322134af066",
+      "ownerApproval": null,
+      "brief": "Imperial Assault Harness: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Imperial Assault Harness; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "1ad864c25ac3c64be816066fb5dddeddff93b03de903d6a7dfa34059fe45e55d",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "dd5c37295439d75c42d2cbdb2eeb5df0105bd7919a9e8caac16f57fc833acb30"
+    },
+    {
+      "id": "crownwall-bastion-plate",
+      "name": "Crownwall Bastion Plate",
+      "kind": "armor",
+      "level": 80,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/crownwall-bastion-plate.webp",
+      "sha256": "208a74524d0bdb0a5faf72cb4583c616762560c28761e7a11b6aac3043f31a66",
+      "ownerApproval": null,
+      "brief": "Crownwall Bastion Plate: Segmented forged plate with articulated shoulders and identifiable breastplate. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Crownwall Bastion Plate; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "8edfb0959bcaa05c3a3ac1facce785d9fc49d28fb5ac34ff36ed578bbe2685c9",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "2c6ff0fa953be27bbf0ffa5e090d6b5e0d03e83fcba2d44d337e4f6d3131826b"
+    },
+    {
+      "id": "astral-siegefire",
+      "name": "Astral Siegefire",
+      "kind": "spell",
+      "level": 80,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/astral-siegefire.webp",
+      "sha256": "02f140a03173f7e6662a61fac8733072d387e1c88ae63fa594dbc8268c8d73e0",
+      "ownerApproval": null,
+      "brief": "Astral Siegefire: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Astral Siegefire; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "dcfc1c6feae1cf9ce080aed31205b7912159ae0a7e923394dd86d3ea6ececa13",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "598ddbacbf49149d6f8a89d5b40009e607cf87ff038eec00d1b716d0061b2fc6"
+    },
+    {
+      "id": "sanctuary-of-banners",
+      "name": "Sanctuary of Banners",
+      "kind": "spell",
+      "level": 80,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/sanctuary-of-banners.webp",
+      "sha256": "b4d4d280b9139be90e1f696066e4f28e71de7092d7c305964baf99d4826fe7e7",
+      "ownerApproval": null,
+      "brief": "Sanctuary of Banners: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Sanctuary of Banners; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "004da917a4e6c151cfefa11866def906da959b33616a301c5551949108984a75",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "b04570953125abf69ec6c75dbc8f9b6241fa109b3faba521d98c10f20c9a3280"
+    },
+    {
+      "id": "ash-crowned-warblade",
+      "name": "Ash-Crowned Warblade",
+      "kind": "weapon",
+      "level": 90,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/ash-crowned-warblade.webp",
+      "sha256": "fde64dfcd1cbd8b6c4441482dde927269f4c800cd90b05a5d3fe34c0197c55fc",
+      "ownerApproval": null,
+      "brief": "Ash-Crowned Warblade: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Ash-Crowned Warblade; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "154f46441f01cb0e1702ace0b7b401cfa0e9c74f88abc8b6f910149751c89fb0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "a3081b3c71373aaef9694c511c30350293b3a756c37d9ab8338eaa25c7e288af"
+    },
+    {
+      "id": "throneguard-polehammer",
+      "name": "Throneguard Polehammer",
+      "kind": "weapon",
+      "level": 90,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/throneguard-polehammer.webp",
+      "sha256": "2b5becd7ae766bc427336092ad74dda7a623fe179e5be045534ae69f60cc0720",
+      "ownerApproval": null,
+      "brief": "Throneguard Polehammer: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Throneguard Polehammer; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "f200fd62761393c4551e5bd9dac5308b4635969cfe1b87cc5592245ece62f608",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "d662139da000507f059e3542a007835c4e207fd58f674756f1354d45df3de64e"
+    },
+    {
+      "id": "ashen-marshal-harness",
+      "name": "Ashen Marshal Harness",
+      "kind": "armor",
+      "level": 90,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/ashen-marshal-harness.webp",
+      "sha256": "726b83ebb842cede2edf03e305c8effc54bf97ad86706cf7ab4a78789680b633",
+      "ownerApproval": null,
+      "brief": "Ashen Marshal Harness: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Ashen Marshal Harness; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "06053dbe32b067404d2e94907f6c6508a7e82d79104b992ecb8f09d65ab5de72",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "5d993a563e501450ae4acb60c4371d4b6613746f51f2d82fb64dc114edec0169"
+    },
+    {
+      "id": "sovereigns-war-bastion",
+      "name": "Sovereign's War Bastion",
+      "kind": "armor",
+      "level": 90,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/sovereigns-war-bastion.webp",
+      "sha256": "c00c3aaed103ac3ac612619ccdcda290138fd36402d4fe9c9fb8782c2a7038d5",
+      "ownerApproval": null,
+      "brief": "Sovereign's War Bastion: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Sovereign's War Bastion; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "2d054558017018e1d91e060d10f03eed22e12e1b643de129a7b946b5ed8acedd",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "f08042d92fa770f6043df806ee2dc61883f40f09bcd9ace362d48b38454fb27e"
+    },
+    {
+      "id": "ashen-coronation",
+      "name": "Ashen Coronation",
+      "kind": "spell",
+      "level": 90,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/ashen-coronation.webp",
+      "sha256": "4cf15346a51ac5cb370e62db4a12a7c7490076a396cea0e8ac8f84bebd6be8a8",
+      "ownerApproval": null,
+      "brief": "Ashen Coronation: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Ashen Coronation; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "dc997524f9d2bdf5b74502bad065cee15778a4256afb0ce878d75217a0f68f60",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "3fdfcbaad5056de17911a237db2cb048845479b110577454e42569a65a0e203c"
+    },
+    {
+      "id": "crown-of-wards",
+      "name": "Crown of Wards",
+      "kind": "spell",
+      "level": 90,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/crown-of-wards.webp",
+      "sha256": "a76030e924ca5d3017609f662bb4b8e3544454f62128ad4a08ed278a736fa25d",
+      "ownerApproval": null,
+      "brief": "Crown of Wards: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Crown of Wards; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "7a4bd6ebaec0cccf3c8577c0d9ce7aa4b05fc4980fd4eddb311b24c41165c139",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "3838434becf0d8f08d50ffdc77b579c9ad94b62fcab0d48bd79175af80077fcd"
+    },
+    {
+      "id": "imperial-eclipse-greatsword",
+      "name": "Imperial Eclipse Greatsword",
+      "kind": "weapon",
+      "level": 100,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/imperial-eclipse-greatsword.webp",
+      "sha256": "4802ab0c1e03a1bad49916d40d309014cebedf341b791abdd7c722630d39928e",
+      "ownerApproval": null,
+      "brief": "Imperial Eclipse Greatsword: Long two-handed cruciform blade with clearly separated guard and pommel. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Imperial Eclipse Greatsword; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "ad14a97a9e204d481ec6503fcd16e5c9ae32044078a7a4a8b42b0231bdf16091",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "e855b31a48da3249b1950177593e53459989b27f3c5a5a590b7425782183aa4d"
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "name": "Eclipse Gatehammer",
+      "kind": "weapon",
+      "level": 100,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/eclipse-gatehammer.webp",
+      "sha256": "bde7429d9f44f122aabbb433e734579ea5c6e2cf51a4f42509988bf5acfece12",
+      "ownerApproval": null,
+      "brief": "Eclipse Gatehammer: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Eclipse Gatehammer; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "a8e338d094576595b0ca8e62b51d50e36d33f5aefdd3eb8c99f8434380ac5420",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "55c60b4ff138429da5ef810858110f808bc0c194c09b1ffc3f6610477a53f451"
+    },
+    {
+      "id": "eclipse-war-marshal-plate",
+      "name": "Eclipse War-Marshal Plate",
+      "kind": "armor",
+      "level": 100,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/eclipse-war-marshal-plate.webp",
+      "sha256": "7382d3cc933b18e38d807faeb5e0fe0d54088040cefd74cfd6f99918122469ad",
+      "ownerApproval": null,
+      "brief": "Eclipse War-Marshal Plate: Segmented forged plate with articulated shoulders and identifiable breastplate. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Eclipse War-Marshal Plate; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "8a6d427ff888ba00a6d914f890f60b31a4e230a54adaa97ca321b57f5340cee2",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "54ba8d1d375bd2a974f673c83398f3b3a958b4b87a1dfb7a359212ace4dd718f"
+    },
+    {
+      "id": "imperial-eclipse-bastion",
+      "name": "Imperial Eclipse Bastion",
+      "kind": "armor",
+      "level": 100,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/imperial-eclipse-bastion.webp",
+      "sha256": "53fe3b48df7d79466da89ab065797cb6412439e0dd0a82ff372a4a13299f2e05",
+      "ownerApproval": null,
+      "brief": "Imperial Eclipse Bastion: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Read the whole item at 76px; no particles or oversized bloom replacing construction details. Imperial Eclipse Bastion; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "55e3896035dafdd780fc7bd0500669bb074dc7010a78e777d1c1f7943c721a37",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "aa36f715be3bc7fe55d4040d52fea3af2664efbc550e6cac9bf054c18619cb1d"
+    },
+    {
+      "id": "astral-war-invocation",
+      "name": "Astral War Invocation",
+      "kind": "spell",
+      "level": 100,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/astral-war-invocation.webp",
+      "sha256": "a37f7f6180e645501d683dd99ffb65b6a1ab6fa0bdc880a71c70329fb701c53c",
+      "ownerApproval": null,
+      "brief": "Astral War Invocation: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Astral War Invocation; offensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "351f0e7c2ca5fcba60a453671f5b2e3071913e390a4ad64aa98422d83bf87775",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "c2d277e51d2a320db30b67742dc32df1f01b0aedb2d0da332d590dd856c8a75b"
+    },
+    {
+      "id": "eclipse-aegis",
+      "name": "Eclipse Aegis",
+      "kind": "spell",
+      "level": 100,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/eclipse-aegis.webp",
+      "sha256": "bfd7503f1386e33a73f610ab74a34f86a3c827e4204d4685b3a1d495ff401f73",
+      "ownerApproval": null,
+      "brief": "Eclipse Aegis: Distinct readable central silhouette reflecting the named object or magical action. Prestige royal craftsmanship with identifiable Astral/Ash/Eclipse detailing; dark steel, aged gold and a restrained single focal accent. Spell composition shows a specific magical action, strong focal geometry and limited secondary particles; do not reuse weapon silhouettes. Eclipse Aegis; defensive equipment for the royal campaigns.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "1d2fcfe0ac8687c028b7d65101c4e0c8fe16bbbcfd248c3428b020b47ef55eed",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "85fb71e0c08aa68b0bfc3d0caa742bdd185c3fb1617fdb32e9f1d2c27330c92f"
+    },
+    {
+      "id": "king-hudsons-sword",
+      "name": "King Hudson's Sword",
+      "kind": "weapon",
+      "level": 71,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/king-hudsons-sword.webp",
+      "sha256": "4454c62eaba848ac0e0efa6b1b492d843d5148927c8db5b9705549aac029f883",
+      "ownerApproval": "Owner exact-source selection, 2026-10-24; final in-frame review remains pending.",
+      "brief": "Regal golden hilt with carved royal metalwork, distinct physical cruciform sword and rainbow-infused blade. Controlled prismatic facets within the blade, not a particle cloud or featureless glow; painterly dark-fantasy steel and warm gold. Entire hilt, pommel and tip legible in the safe composition.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Owner-supplied original artwork explicitly selected for project integration. No third-party stock license or exclusivity claim.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "eff1393d4ae5787c237965a6cca5f7c402ab064b3aafd7bbac6e0c6f4576a3d3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "86c7bc236c6a4dfc0ba6c1e53e905b3b7f425b0dbe1ab5af97787eb2b6f06425",
+      "masterRgbSha256": "81a6e52cbec125662cf06edf4f200ed38fbaff5a95189852a476dc89dc4f79e5",
+      "ownerOriginal": "docs/level100-launch/art/owner-originals/ccb25e5e-239c-4194-b1e7-23d913641f44.png",
+      "ownerReferenceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+      "ownerSelection": "Owner requested these exact randomized-name PNGs on 2026-10-24.",
+      "processing": "Exact owner PNG preserved byte-for-byte. Lossless WebP master retains original RGB pixels; proportional 512x512 Lanczos runtime resize encoded losslessly. No repaint, filter, scene extension or substitute."
+    },
+    {
+      "id": "king-hudsons-shield",
+      "name": "King Hudson's Shield",
+      "kind": "armor",
+      "level": 71,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/king-hudsons-shield.webp",
+      "sha256": "0df78f3f548e07e15e6e1df55040502bad9fc93772f37f9b21c264306afcf6b0",
+      "ownerApproval": "Owner exact-source selection, 2026-10-24; final in-frame review remains pending.",
+      "brief": "Diamond-shaped forged steel shield, strong perimeter construction and rich golden fittings; a single circular rainbow-crystal centerpiece. Attack-oriented prestige conveyed by angular silhouette and craftsmanship, not a new slot or particle spray. Keep all four diamond points legible.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Owner-supplied original artwork explicitly selected for project integration. No third-party stock license or exclusivity claim.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "ff71f02557c909086a010a1f8b045d95ffd10d9e2039c9442d780d577234943a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "629e1a8a512529404e94e05ed5a4904dfb458ebd68bee08c90a8faf436eb59a1",
+      "masterRgbSha256": "70277ab3c6b86183c62bf135795a86df9d220d7b9286585172fe12d68324592a",
+      "ownerOriginal": "docs/level100-launch/art/owner-originals/1df90978-1cde-4080-8bba-dc25fd86b9df.png",
+      "ownerReferenceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+      "ownerSelection": "Owner requested these exact randomized-name PNGs on 2026-10-24.",
+      "processing": "Exact owner PNG preserved byte-for-byte. Lossless WebP master retains original RGB pixels; proportional 512x512 Lanczos runtime resize encoded losslessly. No repaint, filter, scene extension or substitute."
+    },
+    {
+      "id": "king-hudsons-meteor-shower",
+      "name": "King Hudson's Meteor Shower",
+      "kind": "spell",
+      "level": 71,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/king-hudsons-meteor-shower.webp",
+      "sha256": "f2e3a6038d78fef26f7ba923fca1362869c36263826d52c4f7772b1bacc3d8b7",
+      "ownerApproval": "Owner exact-source selection, 2026-10-24; final in-frame review remains pending.",
+      "brief": "Massive physical meteors converging on a rainbow gravitational vortex above a dark medieval battlefield. Readable meteor trajectories, luminous central lensing ring and grounded silhouette below; dramatic, carefully mixed colors with dark separation, not random sparkles.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1024,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "76x76",
+        "60x60",
+        "64x72",
+        "36x36"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Owner-supplied original artwork explicitly selected for project integration. No third-party stock license or exclusivity claim.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0.5
+      ],
+      "sourceSha256": "8dd0c069a6f118507d7bc0ba8736e33a4f633aa4550ae387e90d3729586178a8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "a2e76cc99251219c7761aa4d4a9569f83e846bc9b6282848f7cf11c8780db874",
+      "masterRgbSha256": "788587e27c02ee267d6013ae25b9258c8489e0abbbf9718022cb2659f1a04dbb",
+      "ownerOriginal": "docs/level100-launch/art/owner-originals/2e7522e3-4f93-40d6-84c6-5e6cfbbce96c.png",
+      "ownerReferenceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+      "ownerSelection": "Owner requested these exact randomized-name PNGs on 2026-10-24.",
+      "processing": "Exact owner PNG preserved byte-for-byte. Lossless WebP master retains original RGB pixels; proportional 512x512 Lanczos runtime resize encoded losslessly. No repaint, filter, scene extension or substitute."
+    },
+    {
+      "id": "marcher-stronghold",
+      "name": "Marcher Stronghold",
+      "kind": "property",
+      "level": 56,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/marcher-stronghold.webp",
+      "sha256": "28e09909739f052c11dceba408ca08b15f4d6b27b34c8b546f257e7263aaa546",
+      "ownerApproval": null,
+      "brief": "Stone-and-timber frontier fort on a low hill, square watchtower, simple outer palisade and a guarded dirt causeway. Slate, weathered limestone and pine-green fields; compact defensible settlement, no grand palace.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "sourceSha256": "6a6ca36f6d2eb3ebcfad3ea51df3774ce063cfc68fc65ec5cba3f5923de8230e",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "masterSha256": "3a03ca0fad90928ead92cac43534e8091818b1d309f2418e01d730a981ca83d9"
+    },
+    {
+      "id": "royal-border-fortress",
+      "name": "Royal Border Fortress",
+      "kind": "property",
+      "level": 60,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/royal-border-fortress.webp",
+      "sha256": "a2456c263c5a50efab5a2b0719e0f4af50585755354e06dfea2b0e6035b0d015",
+      "ownerApproval": null,
+      "brief": "Broad royal stone fortress with twin gate towers, crenellated curtain walls, soldiers' barracks and a defended bridge; cold gray masonry and restrained red banners. Visibly larger and more permanent than the marcher fort.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "sourceSha256": "d905ba0dfaf9a9ebc9f3e0116d84990cfe5c2b9c264962bd790dd25e88c5a918",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "masterSha256": "62da0a771da7cb7ea6666e12d553406c828230df7705c7f408ecb71db157096e"
+    },
+    {
+      "id": "crown-river-port",
+      "name": "Crown River Port",
+      "kind": "property",
+      "level": 70,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/crown-river-port.webp",
+      "sha256": "6caabdf36937a527028a5da30a83f23d35728c60342e3e838f2d2a3ac237f7cf",
+      "ownerApproval": null,
+      "brief": "Busy fortified inland river port: stone quay walls, a toll bridge, cargo barges, warehouses and a modest castle above the bend. Blue-gray river and muted ochre roofs. Distinct inland waterway composition rather than Tempest Port's sea gate.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "sourceSha256": "517955851f74d6cc53b7007fdc04e2684908d18607b48324cf9f775a4f89105e",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "masterSha256": "58b8a63c84c8fa342b50f93fe38c2ab7702f85f5d81076b302c6befa7fc63153"
+    },
+    {
+      "id": "imperial-siegeworks",
+      "name": "Imperial Siegeworks",
+      "kind": "property",
+      "level": 80,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/imperial-siegeworks.webp",
+      "sha256": "e66c6a3d8066ccef201920cd3cfb22bc1cfa6f25b93fc41dc53d9e2eb75f27f2",
+      "ownerApproval": null,
+      "brief": "Working imperial siege estate: large enclosed workshops, timber cranes, trebuchet frames and stacked cut stone inside low fortified walls. Warm worked oak, iron and limestone. Clear industrial medieval silhouette with no modern factories.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "sourceSha256": "57665c5b216e0594c5d0a190327ef9f0d5c048079c8b7d51e99419bc1171f439",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "masterSha256": "ee194c62802c5212d9ab41c205b20f6fbdd49a0a142d8abc65397566f1be4f08"
+    },
+    {
+      "id": "sovereign-castle",
+      "name": "Sovereign Castle",
+      "kind": "property",
+      "level": 90,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/sovereign-castle.webp",
+      "sha256": "c9f928a3783ec51ddddf920cc71173a91b898779a25dd0dbc5c4b38558b4ad02",
+      "ownerApproval": null,
+      "brief": "Prestigious occupied royal castle with layered stone walls, tall but grounded keep, terraced gardens and inhabited courtyards. Subtle aged-gold details and natural dusk; depict architectural wealth rather than magical effects.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "sourceSha256": "de489de59742c277aace0b16edd42d6b63ac4b5639cfb314b148517b339090de",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "masterSha256": "94c02e0eaf3719920f72d8eb692b27d0e5075aef784ab86cab0f8c11c052af63"
+    },
+    {
+      "id": "eclipse-crown-citadel",
+      "name": "Eclipse Crown Citadel",
+      "kind": "property",
+      "level": 100,
+      "status": "prepared",
+      "path": "/assets/art/level100-1/eclipse-crown-citadel.webp",
+      "sha256": "933d49991e4199a0f79bdbfed3e558fd4dba8c307fa3987d16dc167eb22f983a",
+      "ownerApproval": null,
+      "brief": "Monumental final-tier fortress with nested basalt ramparts, pale central royal keep and restrained crescent masonry beneath a subtle eclipse. Broad approach and complete towers; no fiery haze or repeating spire silhouette.",
+      "fullBleedRequired": true,
+      "sourceMinimum": {
+        "width": 1536,
+        "height": 1024
+      },
+      "requiredCrops": [
+        "68x49",
+        "80x58",
+        "90x60",
+        "198x116",
+        "60x60",
+        "64x72"
+      ],
+      "framing": "Edge-to-edge painted scene; no embedded or CSS black borders, letterboxing, mirror/blur gutters, padding or stretch. Preserve key architecture/item silhouette in every listed crop.",
+      "license": "Original project-generated artwork; applicable OpenAI output terms; no exclusivity claimed.",
+      "provenanceEvidence": "docs/level100-launch/art/PROVENANCE.md",
+      "framingApproval": null,
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "sourceSha256": "a15a8a1491957c99a8df3508eeabf03fc1e65997f2e1f4519473c5c562eb1459",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "masterSha256": "2ef97199537b14d40a2f9d30b68e20d92344112cd84fe263ad59e5260fc16cc6"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import {expansionBotIds,installedCohort} from './expansion-bot-rules.js';
 import {type Database,transaction} from './db.js';
 import {clock,lockCharacters,materialize,stateFrom,type CharacterState,type GameRuntime} from './game.js';
 import {alpha,areRivals} from './alpha-rules.js';
@@ -26,6 +27,7 @@ export function ownedProperties(state:CharacterState){
 }
 export async function publicProfile(db:Database,characterId:string,runtime:GameRuntime={}){
   return transaction(db,async sql=>{
+    if(expansionBotIds.has(characterId)&&!(await installedCohort(sql))?.active)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
     const identity=(await sql.query(`SELECT a.login_disabled,EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS bot
       FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.id=$1`,[characterId])).rows[0];
     if(!identity||identity.login_disabled&&!identity.bot)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);

@@ -1,0 +1,9 @@
+// Offline authoring only; no database or production connection.
+import {mkdir,readFile,writeFile} from 'node:fs/promises';import assert from 'node:assert/strict';import {definitionDigest} from '../src/expansion-content.js';import {buildCohort,cohortId} from './level100-cohort-blueprints.js';
+const manifest=buildCohort(),body=JSON.stringify(manifest,null,2)+'\n',path='rulesets/'+cohortId+'/rules.json';
+await mkdir('rulesets/'+cohortId,{recursive:true});if(process.argv.includes('--check'))assert.equal(await readFile(path,'utf8'),body);else await writeFile(path,body);
+await mkdir('docs/level100-launch',{recursive:true});
+const alternatives=[.75,1,1.5,2].map(multiplier=>{const cohort=buildCohort(multiplier);return {multiplier,bots:cohort.entries.length,capital:cohort.entries.reduce((n,e)=>n+e.capital,0),wallet:cohort.entries.reduce((n,e)=>n+e.wallet,0),reserve:cohort.entries.reduce((n,e)=>n+e.reserve,0),equipment:cohort.entries.reduce((n,e)=>n+e.equipmentCost,0),land:cohort.entries.reduce((n,e)=>n+e.landCost,0),propertyLots:cohort.entries.reduce((n,e)=>n+e.land.prices.length,0),grossNetPropertyPerHour:cohort.entries.reduce((n,e)=>n+e.propertyNet,0),equipmentUpkeepPerHour:cohort.entries.reduce((n,e)=>n+e.upkeep,0),members:cohort.entries.reduce((n,e)=>n+e.members+1,0)};});
+const report=JSON.stringify({proposedOnly:true,productionContacted:false,oldProposalGoldEquivalent:10180959811,manifestDigest:definitionDigest(manifest),selectedMultiplier:1.5,financialApprovalRequired:true,alternatives},null,2)+'\n';
+if(process.argv.includes('--check'))assert.equal(await readFile('docs/level100-launch/capitalization.json','utf8'),report);else await writeFile('docs/level100-launch/capitalization.json',report);
+console.log('PASS: immutable new-identity cohort and finite-capital alternatives.');

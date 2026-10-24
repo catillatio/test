@@ -19,9 +19,10 @@ import {phase4BotCatalog} from './strategy-rules.js';
 import {automaticUpkeep} from './upkeep-policy.js';
 import {compatibility} from './compatibility-rules.js';
 
-import {expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,expansionArtwork} from './expansion-content.js';
+import {expansionBots,expansionBotEconomy,expansionBotCombat} from './expansion-bot-rules.js';
+import {expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,expansionArtwork,legacyExpansionArtwork} from './expansion-content.js';
 
-const definitions=[expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,expansionArtwork,compatibility,automaticUpkeep,previousBotCombat,botCombat,gameFeel,gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
+const definitions=[legacyExpansionArtwork,expansionBots,expansionBotEconomy,expansionBotCombat,expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,expansionArtwork,compatibility,automaticUpkeep,previousBotCombat,botCombat,gameFeel,gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 

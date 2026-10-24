@@ -1,3 +1,5 @@
+import {populationEvidence} from '../../dist/expansion-population.js';
+import {checkPopulationEvidence} from './protocol.mjs';
 // A private, single-use Railway start command, not an HTTP/SSH endpoint.
 // Only PostgreSQL backups leave this service, encrypted to the owner plus an
 // ephemeral restore key. No S3 credentials or owner private key enter the job.
@@ -38,7 +40,7 @@ async function readStatus(url){
    EXISTS(SELECT 1 FROM private_alpha_initializations WHERE id='railway-phase43-private-alpha-v1') AS initialized,
    pg_database_size(current_database())::text AS "sourceBytes",
    (SELECT system_identifier::text FROM pg_control_system()) AS "clusterId"`)).rows[0];
-  assert.equal(row.bots,450);assert.ok(row.accounts>=451);assert.equal(row.initialized,true);
+  row.population=await populationEvidence(client);const bots=checkPopulationEvidence(row.population);assert.equal(row.bots,bots);assert.ok(row.accounts>=bots+1);assert.equal(row.initialized,true);
   return row;
  }finally{await client.query('ROLLBACK').catch(()=>{});client.release();await db.end();}
 }
@@ -52,7 +54,7 @@ async function main(){
  const sourceStatus=await readStatus(source.url);
  const sourceClusterDigest=createHash('sha256').update(sourceStatus.clusterId).digest('hex');
  const report={...Object.fromEntries(['jobId','mode','sha','candidateDigest','projectId','environmentId','gameServiceId','workerServiceId','sourceHost','sourceDatabase','restoreHost','copy'].map(key=>[key,request[key]])),
-  protocol,passed:true,workerDeploymentId:process.env.RAILWAY_DEPLOYMENT_ID,sourceClusterDigest,accounts:sourceStatus.accounts,bots:sourceStatus.bots};
+  protocol,passed:true,workerDeploymentId:process.env.RAILWAY_DEPLOYMENT_ID,sourceClusterDigest,accounts:sourceStatus.accounts,bots:sourceStatus.bots,population:sourceStatus.population};
  if(request.mode==='verify'){
   Object.assign(report,{schemaHead:sourceStatus.schemaHead,active_bots:sourceStatus.active_bots,initialized:sourceStatus.initialized});
   gate='post-deployment-report';checkJobReport(report,request);await putReport(request.urls.reportPut,report);return;

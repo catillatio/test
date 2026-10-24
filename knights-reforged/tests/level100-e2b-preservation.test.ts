@@ -32,15 +32,15 @@ test('E2b populated 023-to-024 rollback, upgrade, replay and restart preserve ev
   for(const id of ['level100-content-1','level100-expansion-1','level100-artwork-1','level100-achievements-1','quest-equipment-rarities-1','hudson-equipment-grant-1'])await db.query('DELETE FROM rulesets WHERE id=$1',[id]);
   const before=await snapshot(db),botIds=(await db.query('SELECT character_id FROM development_bots ORDER BY character_id')).rows;
   const fault:Database={query:db.query.bind(db),end:()=>Promise.resolve(),connect:async()=>{const c=await db.connect();return {release:()=>c.release(),query:async<T extends QueryResultRow>(statement:string,values?:unknown[])=>{const result=await c.query<T>(statement,values);if(statement.includes('CREATE TABLE realm_expansion_state'))throw new Error('synthetic migration interruption');return result;}};}};
-  await assert.rejects(migrate(fault),/synthetic migration interruption/);assert.deepEqual(await snapshot(db),before,'DDL and all rows roll back together');
+  await assert.rejects(migrate(fault,{through:'024_level100_expansion.sql'}),/synthetic migration interruption/);assert.deepEqual(await snapshot(db),before,'DDL and all rows roll back together');
   assert.match((await db.query("SELECT pg_get_constraintdef(oid) AS definition FROM pg_constraint WHERE conrelid='inventory_entries'::regclass AND conname='inventory_entries_quantity_check'")).rows[0]!.definition,/5000/);
-  await migrate(db);const after=await snapshot(db);
+  await migrate(db,{through:'024_level100_expansion.sql'});const after=await snapshot(db);
   for(const [table,rows]of Object.entries(before))if(['schema_migrations','rulesets'].includes(table))assert.ok(rows.every(row=>after[table]!.includes(row)),table);else assert.deepEqual(after[table],rows,table+' remains byte-identical');
   assert.equal(after.accounts!.length,453);assert.equal(after.development_bots!.length,450);assert.deepEqual((await db.query('SELECT character_id FROM development_bots ORDER BY character_id')).rows,botIds);
   for(const table of ['realm_expansion_state','realm_expansion_events','hudson_equipment_grants','equipment_upkeep_entitlements','inventory_acquisition_events','quest_equipment_outcomes'])assert.equal(after[table]!.length,0,table+' defaults empty');assert.equal(after.character_progression_epochs!.length,0);assert.equal((await db.query('SELECT name FROM schema_migrations ORDER BY name DESC LIMIT 1')).rows[0]!.name,'024_level100_expansion.sql');
   assert.equal(after.schema_migrations!.length,24,'compiled container and populated upgrade agree on the exact installed migration count');
   assert.match((await db.query("SELECT pg_get_constraintdef(oid) AS definition FROM pg_constraint WHERE conrelid='inventory_entries'::regclass AND conname='inventory_entries_quantity_check'")).rows[0]!.definition,/5000/);
-  await migrate(db);assert.deepEqual(await snapshot(db),after,'migration replay is unchanged');
+  await migrate(db,{through:'024_level100_expansion.sql'});assert.deepEqual(await snapshot(db),after,'migration replay is unchanged');
   const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',DATABASE_URL:url.href});
   const first=await createApp({db,config});await first.close();const restarted=await createApp({db,config});
   try{const response=await restarted.inject({method:'GET',url:'/api/v1/me',headers:{cookie:'kr_session='+session.token}});assert.equal(response.statusCode,200);assert.equal(response.json().state.id,a.characterId);assert.equal(response.json().state.army.capacity,9);assert.equal(response.json().state.levelRequirement,45);}
