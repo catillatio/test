@@ -38,6 +38,7 @@ test('E2a populated 022-to-023 rollback, upgrade, replay and restart preserve ev
   for(const [table,rows]of Object.entries(before))if(['schema_migrations','rulesets'].includes(table))assert.ok(rows.every(row=>after[table]!.includes(row)),table);else assert.deepEqual(after[table],rows,table+' remains byte-identical');
   assert.equal(after.accounts!.length,453);assert.equal(after.development_bots!.length,450);assert.deepEqual((await db.query('SELECT character_id FROM development_bots ORDER BY character_id')).rows,botIds);
   assert.equal(after.character_progression_epochs!.length,0);assert.equal((await db.query('SELECT name FROM schema_migrations ORDER BY name DESC LIMIT 1')).rows[0]!.name,'023_expansion_compatibility.sql');
+  assert.equal(after.schema_migrations!.length,23,'compiled container and populated upgrade agree on the exact installed migration count');
   assert.match((await db.query("SELECT pg_get_constraintdef(oid) AS definition FROM pg_constraint WHERE conrelid='inventory_entries'::regclass AND conname='inventory_entries_quantity_check'")).rows[0]!.definition,/5000/);
   await migrate(db);assert.deepEqual(await snapshot(db),after,'migration replay is unchanged');
   const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',DATABASE_URL:url.href});
