@@ -1,0 +1,141 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "syntheticOnly": true,
+  "ownerArtApprovalPending": true,
+  "artworkDigest": "f44d2d021a38f964417477ed9d98701bf1a687c704300ad7f07a08645014909d",
+  "widths": [
+    320,
+    390,
+    430,
+    1024
+  ],
+  "horizontalOverflow": false,
+  "browserErrors": [],
+  "fullBleedChecks": {
+    "checked": 309,
+    "failures": []
+  },
+  "views": [
+    {
+      "width": 390,
+      "name": "approved-current-weapon"
+    },
+    {
+      "width": 390,
+      "name": "approved-current-armor"
+    },
+    {
+      "width": 390,
+      "name": "approved-current-spell"
+    },
+    {
+      "width": 320,
+      "name": "armory-weapon"
+    },
+    {
+      "width": 320,
+      "name": "armory-armor"
+    },
+    {
+      "width": 320,
+      "name": "armory-spell"
+    },
+    {
+      "width": 320,
+      "name": "land"
+    },
+    {
+      "width": 320,
+      "name": "quests"
+    },
+    {
+      "width": 320,
+      "name": "hudson-public"
+    },
+    {
+      "width": 390,
+      "name": "armory-weapon"
+    },
+    {
+      "width": 390,
+      "name": "armory-armor"
+    },
+    {
+      "width": 390,
+      "name": "armory-spell"
+    },
+    {
+      "width": 390,
+      "name": "land"
+    },
+    {
+      "width": 390,
+      "name": "quests"
+    },
+    {
+      "width": 390,
+      "name": "hudson-public"
+    },
+    {
+      "width": 430,
+      "name": "armory-weapon"
+    },
+    {
+      "width": 430,
+      "name": "armory-armor"
+    },
+    {
+      "width": 430,
+      "name": "armory-spell"
+    },
+    {
+      "width": 430,
+      "name": "land"
+    },
+    {
+      "width": 430,
+      "name": "quests"
+    },
+    {
+      "width": 430,
+      "name": "hudson-public"
+    },
+    {
+      "width": 1024,
+      "name": "armory-weapon"
+    },
+    {
+      "width": 1024,
+      "name": "armory-armor"
+    },
+    {
+      "width": 1024,
+      "name": "armory-spell"
+    },
+    {
+      "width": 1024,
+      "name": "land"
+    },
+    {
+      "width": 1024,
+      "name": "quests"
+    },
+    {
+      "width": 1024,
+      "name": "hudson-public"
+    },
+    {
+      "width": 390,
+      "name": "receipt"
+    },
+    {
+      "width": 390,
+      "name": "battle-art"
+    },
+    {
+      "width": 390,
+      "name": "hudson-profile"
+    }
+  ]
+}

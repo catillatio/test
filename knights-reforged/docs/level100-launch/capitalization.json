@@ -1,0 +1,62 @@
+{
+  "proposedOnly": true,
+  "productionContacted": false,
+  "oldProposalGoldEquivalent": 10180959811,
+  "manifestDigest": "a19d53de3afe393ca6999ddb6e721bee8944195716f2a95f102dfabdb5cb5ae0",
+  "selectedMultiplier": 1.5,
+  "financialApprovalRequired": true,
+  "alternatives": [
+    {
+      "multiplier": 0.75,
+      "bots": 450,
+      "capital": 1665990124,
+      "wallet": 11707928,
+      "reserve": 4531703,
+      "equipment": 1157512655,
+      "land": 492237838,
+      "propertyLots": 4527,
+      "grossNetPropertyPerHour": 7453675,
+      "equipmentUpkeepPerHour": 4531703,
+      "members": 25757
+    },
+    {
+      "multiplier": 1,
+      "bots": 450,
+      "capital": 2317181943,
+      "wallet": 15580648,
+      "reserve": 6048403,
+      "equipment": 1544839400,
+      "land": 750713492,
+      "propertyLots": 4436,
+      "grossNetPropertyPerHour": 9939410,
+      "equipmentUpkeepPerHour": 6048403,
+      "members": 34444
+    },
+    {
+      "multiplier": 1.5,
+      "bots": 450,
+      "capital": 3701553498,
+      "wallet": 24013536,
+      "reserve": 9071344,
+      "equipment": 2317207570,
+      "land": 1351261048,
+      "propertyLots": 4605,
+      "grossNetPropertyPerHour": 15072095,
+      "equipmentUpkeepPerHour": 9071344,
+      "members": 51740
+    },
+    {
+      "multiplier": 2,
+      "bots": 450,
+      "capital": 5220395641,
+      "wallet": 32308080,
+      "reserve": 12101973,
+      "equipment": 3091404785,
+      "land": 2084580803,
+      "propertyLots": 4825,
+      "grossNetPropertyPerHour": 20176705,
+      "equipmentUpkeepPerHour": 12101973,
+      "members": 69096
+    }
+  ]
+}

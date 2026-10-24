@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "originalBots": 450,
+  "addedBots": 450,
+  "manifestDigest": "a19d53de3afe393ca6999ddb6e721bee8944195716f2a95f102dfabdb5cb5ae0",
+  "schema": "025_level100_population.sql",
+  "migrationSha256": "99d35af658c23361f540b5028b27356860ad425bf1bd600f1530482b9fc44e52",
+  "oldBusinessRowsPreserved": true,
+  "migrationReplay": "unchanged",
+  "independentClusters": true,
+  "archiveSha256": "a6e493ef682a0312ad75fb56d8dd7753a6e627e8b4fd26dbc331a91abfdb372a",
+  "archiveBytes": 1808393,
+  "sourceBytes": 25518607,
+  "dumpMs": 397,
+  "restoreMs": 510,
+  "appendMs": 15896,
+  "defaultInactive": true,
+  "hudsonGranted": false,
+  "existingSessionPreserved": true,
+  "catchup": {
+    "syntheticOnly": true,
+    "actors": 900,
+    "hours": 24,
+    "sweeps": [
+      {
+        "settled": 450,
+        "batches": 18
+      },
+      {
+        "settled": 450,
+        "batches": 18
+      },
+      {
+        "settled": 0,
+        "batches": 0
+      }
+    ],
+    "settledMs": 8028,
+    "repeatPaid": false,
+    "journalRows": 8208,
+    "journalBytes": 1302528
+  },
+  "measuredOn": "Disposable local PostgreSQL 18; not a production capacity guarantee."
+}

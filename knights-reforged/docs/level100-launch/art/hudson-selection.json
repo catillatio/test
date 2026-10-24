@@ -1,0 +1,58 @@
+{
+  "sourceBranch": "assets/king-hudson-reference-art-20261024",
+  "sourceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+  "items": [
+    {
+      "id": "king-hudsons-shield",
+      "sha256": "0df78f3f548e07e15e6e1df55040502bad9fc93772f37f9b21c264306afcf6b0",
+      "sourceSha256": "ff71f02557c909086a010a1f8b045d95ffd10d9e2039c9442d780d577234943a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "629e1a8a512529404e94e05ed5a4904dfb458ebd68bee08c90a8faf436eb59a1",
+      "masterRgbSha256": "70277ab3c6b86183c62bf135795a86df9d220d7b9286585172fe12d68324592a",
+      "ownerOriginal": "docs/level100-launch/art/owner-originals/1df90978-1cde-4080-8bba-dc25fd86b9df.png",
+      "ownerReferenceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+      "ownerSelection": "Owner requested these exact randomized-name PNGs on 2026-10-24.",
+      "processing": "Exact owner PNG preserved byte-for-byte. Lossless WebP master retains original RGB pixels; proportional 512x512 Lanczos runtime resize encoded losslessly. No repaint, filter, scene extension or substitute.",
+      "license": "Owner-supplied original artwork explicitly selected for project integration. No third-party stock license or exclusivity claim.",
+      "ownerApproval": "Owner exact-source selection, 2026-10-24; final in-frame review remains pending."
+    },
+    {
+      "id": "king-hudsons-meteor-shower",
+      "sha256": "f2e3a6038d78fef26f7ba923fca1362869c36263826d52c4f7772b1bacc3d8b7",
+      "sourceSha256": "8dd0c069a6f118507d7bc0ba8736e33a4f633aa4550ae387e90d3729586178a8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "a2e76cc99251219c7761aa4d4a9569f83e846bc9b6282848f7cf11c8780db874",
+      "masterRgbSha256": "788587e27c02ee267d6013ae25b9258c8489e0abbbf9718022cb2659f1a04dbb",
+      "ownerOriginal": "docs/level100-launch/art/owner-originals/2e7522e3-4f93-40d6-84c6-5e6cfbbce96c.png",
+      "ownerReferenceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+      "ownerSelection": "Owner requested these exact randomized-name PNGs on 2026-10-24.",
+      "processing": "Exact owner PNG preserved byte-for-byte. Lossless WebP master retains original RGB pixels; proportional 512x512 Lanczos runtime resize encoded losslessly. No repaint, filter, scene extension or substitute.",
+      "license": "Owner-supplied original artwork explicitly selected for project integration. No third-party stock license or exclusivity claim.",
+      "ownerApproval": "Owner exact-source selection, 2026-10-24; final in-frame review remains pending."
+    },
+    {
+      "id": "king-hudsons-sword",
+      "sha256": "4454c62eaba848ac0e0efa6b1b492d843d5148927c8db5b9705549aac029f883",
+      "sourceSha256": "eff1393d4ae5787c237965a6cca5f7c402ab064b3aafd7bbac6e0c6f4576a3d3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "masterSha256": "86c7bc236c6a4dfc0ba6c1e53e905b3b7f425b0dbe1ab5af97787eb2b6f06425",
+      "masterRgbSha256": "81a6e52cbec125662cf06edf4f200ed38fbaff5a95189852a476dc89dc4f79e5",
+      "ownerOriginal": "docs/level100-launch/art/owner-originals/ccb25e5e-239c-4194-b1e7-23d913641f44.png",
+      "ownerReferenceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+      "ownerSelection": "Owner requested these exact randomized-name PNGs on 2026-10-24.",
+      "processing": "Exact owner PNG preserved byte-for-byte. Lossless WebP master retains original RGB pixels; proportional 512x512 Lanczos runtime resize encoded losslessly. No repaint, filter, scene extension or substitute.",
+      "license": "Owner-supplied original artwork explicitly selected for project integration. No third-party stock license or exclusivity claim.",
+      "ownerApproval": "Owner exact-source selection, 2026-10-24; final in-frame review remains pending."
+    }
+  ],
+  "otherArtworkChanged": false
+}
