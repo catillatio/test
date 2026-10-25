@@ -1,0 +1,290 @@
+{
+  "sourceCommit": "4b82971dd16cad531f6b24c8747af4732aaddc3b",
+  "entries": [
+    {
+      "id": "stormglass-pike",
+      "category": "weapon",
+      "level": 15,
+      "name": "Marchwatch Spear",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Marchwatch Spear (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Short northern war spear, broad ridged leaf iron head, tiny downward hooked lugs, single knotwork collar, ash shaft and oxblood leather. Restrained level-15 practical fantasy craftsmanship, no gems or magic.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Marchwatch Spear, level 15, Northern Marches. Short northern war spear, broad ridged leaf iron head, tiny downward hooked lugs, single knotwork collar, ash shaft and oxblood leather. Restrained level-15 practical fantasy craftsmanship, no gems or magic."
+    },
+    {
+      "id": "gravewarden-scythe",
+      "category": "weapon",
+      "level": 28,
+      "name": "Fenwarden Billhook",
+      "region": "Moonfen",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Fenwarden Billhook (Moonfen). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "A formidable marsh billhook, hooked forward-curving crescent cutting blade with distinct concave inner edge, squared narrow rear spike, scalloped silver-riveted socket, moss-dark yew haft with woven green wraps. NOT a scythe, not a sword. Ancient forest-order organic silver tracery, no glowing skull.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Fenwarden Billhook, level 28, Moonfen. A formidable marsh billhook, hooked forward-curving crescent cutting blade with distinct concave inner edge, squared narrow rear spike, scalloped silver-riveted socket, moss-dark yew haft with woven green wraps. NOT a scythe, not a sword. Ancient forest-order organic silver tracery, no glowing skull."
+    },
+    {
+      "id": "sun-etched-warhammer",
+      "category": "weapon",
+      "level": 32,
+      "name": "Sunscar Maul",
+      "region": "Sunscar Reach",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Sunscar Maul (Sunscar Reach). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Sunscar two-handed maul with a thick hexagonal copper-and-black-iron striking block, asymmetrical long square beak on its rear, sandstone-colored leather grip and incised desert geometric panels. Compact heavy head, broad block silhouette, not an axe. Prestigious sun-disc brass inlay, no flame or aura.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Sunscar Maul, level 32, Sunscar Reach. Sunscar two-handed maul with a thick hexagonal copper-and-black-iron striking block, asymmetrical long square beak on its rear, sandstone-colored leather grip and incised desert geometric panels. Compact heavy head, broad block silhouette, not an axe. Prestigious sun-disc brass inlay, no flame or aura."
+    },
+    {
+      "id": "dragonwake-falchion",
+      "category": "weapon",
+      "level": 36,
+      "name": "Frontier Falchion",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Frontier Falchion (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "A broad single-edged frontier falchion: deep clipped hatchet-like point, convex cutting belly, deliberately thick spine, blackened steel with repaired riveted edge plates, angular dark-iron guard and burnt umber grip. Battle-scarred elite military fantasy craftsmanship, embossed border-kingdom sigils, NOT flaming dragon jaw.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Frontier Falchion, level 36, Ashen Frontier. A broad single-edged frontier falchion: deep clipped hatchet-like point, convex cutting belly, deliberately thick spine, blackened steel with repaired riveted edge plates, angular dark-iron guard and burnt umber grip. Battle-scarred elite military fantasy craftsmanship, embossed border-kingdom sigils, NOT flaming dragon jaw."
+    },
+    {
+      "id": "astral-conductor",
+      "category": "weapon",
+      "level": 40,
+      "name": "Crownlands War Staff",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Crownlands War Staff (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Crownlands martial staff, not a sword: stout ribbed ebony shaft, elaborate openwork steel-and-ivory heraldic cage head enclosing a polished white moonstone, three short architectural crown points, long reinforced ferrule. War staff has mace-like weight but slim readable head. Noble established order, intricate hand engraved scrollwork; no floating planets or particle cloud.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Crownlands War Staff, level 40, Crownlands. Crownlands martial staff, not a sword: stout ribbed ebony shaft, elaborate openwork steel-and-ivory heraldic cage head enclosing a polished white moonstone, three short architectural crown points, long reinforced ferrule. War staff has mace-like weight but slim readable head. Noble established order, intricate hand engraved scrollwork; no floating planets or particle cloud."
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "category": "weapon",
+      "level": 45,
+      "name": "Blacksteel Warblade",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Blacksteel Warblade (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Blacksteel Warblade, broad unusually angular single-piece blade with a clearly broken-back seax point and a wide central fuller, layered black steel, silver zigzag edge seams, cruciform guard turned toward the blade, red-black leather two-hand hilt. Armor-breaker from war-ravaged frontier; fine dark craftsmanship and old scars. NOT another narrow longsword, no orange lava cracks or flames.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Blacksteel Warblade, level 45, Ashen Frontier. Blacksteel Warblade, broad unusually angular single-piece blade with a clearly broken-back seax point and a wide central fuller, layered black steel, silver zigzag edge seams, cruciform guard turned toward the blade, red-black leather two-hand hilt. Armor-breaker from war-ravaged frontier; fine dark craftsmanship and old scars. NOT another narrow longsword, no orange lava cracks or flames."
+    },
+    {
+      "id": "eclipse-greatsword",
+      "category": "weapon",
+      "level": 50,
+      "name": "Order Marshal Greatsword",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Order Marshal Greatsword (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Order Marshal Greatsword: broad two-handed straight blade with a long triangular taper, pronounced hollow central fuller, two sculpted steel parrying lugs immediately above a long ivory-colored ricasso, sweeping wing-shaped silver guard, navy cloth hilt. Silver and ivory order seals; finely engraved gilded tiny heraldic medallion only. Substantial prestigious military-order fantasy, no magical beam. Distinguish from thin early longswords.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Order Marshal Greatsword, level 50, Crownlands. Order Marshal Greatsword: broad two-handed straight blade with a long triangular taper, pronounced hollow central fuller, two sculpted steel parrying lugs immediately above a long ivory-colored ricasso, sweeping wing-shaped silver guard, navy cloth hilt. Silver and ivory order seals; finely engraved gilded tiny heraldic medallion only. Substantial prestigious military-order fantasy, no magical beam. Distinguish from thin early longswords."
+    },
+    {
+      "id": "marcher-greatsword",
+      "category": "weapon",
+      "level": 51,
+      "name": "Highland Claymore",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Highland Claymore (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Highland Claymore: unusually wide leaf-tipped blade, four-lobed quatrefoil terminals on strongly down-sloping long crossguard, deep blue cold-forged steel with silver knotwork inlay concentrated at broad shoulders, oxblood two-hand leather hilt, steel ring pommel. A prized level-51 northern heirloom with rich sharp fantasy engraving, not museum photography. No generic golden longsword.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Highland Claymore, level 51, Northern Marches. Highland Claymore: unusually wide leaf-tipped blade, four-lobed quatrefoil terminals on strongly down-sloping long crossguard, deep blue cold-forged steel with silver knotwork inlay concentrated at broad shoulders, oxblood two-hand leather hilt, steel ring pommel. A prized level-51 northern heirloom with rich sharp fantasy engraving, not museum photography. No generic golden longsword."
+    },
+    {
+      "id": "fortress-glaive",
+      "category": "weapon",
+      "level": 51,
+      "name": "Marshguard Glaive",
+      "region": "Moonfen",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Marshguard Glaive (Moonfen). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Marshguard Glaive: tall asymmetrical curved blade resembling a willow leaf with three deep ribbed silver flutes, hooked rear root-shaped spur and offset steel socket; black alder shaft, braided muted jade cord and silver fern clasp. Prestigious forgotten marsh order. Broad distinctive blade silhouette, not spear, axe or scythe; no tree branches obscuring weapon.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Marshguard Glaive, level 51, Moonfen. Marshguard Glaive: tall asymmetrical curved blade resembling a willow leaf with three deep ribbed silver flutes, hooked rear root-shaped spur and offset steel socket; black alder shaft, braided muted jade cord and silver fern clasp. Prestigious forgotten marsh order. Broad distinctive blade silhouette, not spear, axe or scythe; no tree branches obscuring weapon."
+    },
+    {
+      "id": "royal-warblade",
+      "category": "weapon",
+      "level": 60,
+      "name": "Sunscar Officer’s Saber",
+      "region": "Sunscar Reach",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Sunscar Officer’s Saber (Sunscar Reach). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Sunscar Officer Saber: dramatic forward-swept kilij with enlarged flared yelman tip, subtle layered watered-steel bands, exquisitely pierced copper basket half-guard, small lapis cabochon at knuckle junction, leather-and-ivory pistol grip. Desert royal military craftsmanship, copper rather than all gold, legible bold curved silhouette. Tier60 beauty must surpass level36 workmanship, no colored glow.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Sunscar Officer’s Saber, level 60, Sunscar Reach. Sunscar Officer Saber: dramatic forward-swept kilij with enlarged flared yelman tip, subtle layered watered-steel bands, exquisitely pierced copper basket half-guard, small lapis cabochon at knuckle junction, leather-and-ivory pistol grip. Desert royal military craftsmanship, copper rather than all gold, legible bold curved silhouette. Tier60 beauty must surpass level36 workmanship, no colored glow."
+    },
+    {
+      "id": "guard-captains-halberd",
+      "category": "weapon",
+      "level": 60,
+      "name": "Crown Captain’s Halberd",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Crown Captain’s Halberd (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Crown Captain Halberd: ornate slender long spear crown above a wide crescent axe wing, very small squared rear beak, pierced heraldic lion cutout in axe wing, polished blue-black steel edged with silver, navy leather haft with short ivory bands. Elaborate noble kingdom officer insignia, not generic oversized gold axe. Each blade function readable at 76px.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Crown Captain’s Halberd, level 60, Crownlands. Crown Captain Halberd: ornate slender long spear crown above a wide crescent axe wing, very small squared rear beak, pierced heraldic lion cutout in axe wing, polished blue-black steel edged with silver, navy leather haft with short ivory bands. Elaborate noble kingdom officer insignia, not generic oversized gold axe. Each blade function readable at 76px."
+    },
+    {
+      "id": "sovereigns-zweihander",
+      "category": "weapon",
+      "level": 70,
+      "name": "Mountain Warden’s Zweihander",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Mountain Warden’s Zweihander (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Mountain Warden Zweihander: towering robust flamberge blade with TWO broad controlled undulations on each edge, long textured unsharpened ricasso and imposing swept double-loop guard, cold silver with dark indigo inlaid knotwork, black-wrapped long grip and sculpted wolf-head steel pommel. Elite level70 northern fantasy masterwork, richly worked but grounded, no gold coating, flames or excess glow.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Mountain Warden’s Zweihander, level 70, Northern Marches. Mountain Warden Zweihander: towering robust flamberge blade with TWO broad controlled undulations on each edge, long textured unsharpened ricasso and imposing swept double-loop guard, cold silver with dark indigo inlaid knotwork, black-wrapped long grip and sculpted wolf-head steel pommel. Elite level70 northern fantasy masterwork, richly worked but grounded, no gold coating, flames or excess glow."
+    },
+    {
+      "id": "march-wardens-poleaxe",
+      "category": "weapon",
+      "level": 70,
+      "name": "Frontier Marshal’s Poleaxe",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Frontier Marshal’s Poleaxe (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Frontier Marshal Poleaxe: short brutal broad axe head with stepped hooked lower beard, massive ribbed square hammer face opposite, long diamond armor-piercing top spike; black laminated iron reinforced by silver rivet strips, maroon leather steel haft. Distinct asymmetrical silhouette and exceptionally detailed battle-repaired elite construction, no identical halberd head, no fire.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Frontier Marshal’s Poleaxe, level 70, Ashen Frontier. Frontier Marshal Poleaxe: short brutal broad axe head with stepped hooked lower beard, massive ribbed square hammer face opposite, long diamond armor-piercing top spike; black laminated iron reinforced by silver rivet strips, maroon leather steel haft. Distinct asymmetrical silhouette and exceptionally detailed battle-repaired elite construction, no identical halberd head, no fire."
+    },
+    {
+      "id": "throneguard-polehammer",
+      "category": "weapon",
+      "level": 90,
+      "name": "Imperial Thronehammer",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Imperial Thronehammer (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Imperial Thronehammer, level90: exceptional large octagonal hollow hammer cage of dark imperial steel, three architectural flying ribs enclosing carved pale stone, sharply hooked narrow opposing raven-beak pick, ivory-grey fluted socket, long dark shaft with imperial silver relief panels. Ancient imperial prestige and unusually complex physical construction; tiny wine-red inset stones only, NO cosmic explosions, no floating components, not the level32 solid copper maul.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Imperial Thronehammer, level 90, Eclipse Bastion. Imperial Thronehammer, level90: exceptional large octagonal hollow hammer cage of dark imperial steel, three architectural flying ribs enclosing carved pale stone, sharply hooked narrow opposing raven-beak pick, ivory-grey fluted socket, long dark shaft with imperial silver relief panels. Ancient imperial prestige and unusually complex physical construction; tiny wine-red inset stones only, NO cosmic explosions, no floating components, not the level32 solid copper maul."
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "category": "weapon",
+      "level": 100,
+      "name": "Eclipse Gatehammer",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Eclipse Gatehammer (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "oldPath": "/assets/art/level100-beta-1/weapon.webp",
+      "design": "Eclipse Gatehammer, level100: apex imperial warhammer with dramatic dark-steel crescent-shaped split head clasping a solid moonstone striking cylinder, twin swept horn-like structural braces, strongly tapered black iron shaft with tiny silver eclipse seals, angled crescent counterweight pommel. Distinct engineered architectural silhouette, masterfully layered dark metal and fine silver filigree. Restrained pinpoint cool edge gleam, no fire, no neon beam, no celestial scenery. Equivalent prestige to approved Eclipse Greatsword, not beyond it.",
+      "prompt": "ONE original finished square Kingdom Come equipment illustration, not a grid. Primary style authority is supplied approved weapon atlas and Oathbound art: painterly medieval-fantasy illustration with beautifully forged highlights, dense material detail and smoky charcoal, umber and muted olive textured backdrop. NOT photoreal museum/studio weapon photography, NOT a flat vector or generic game icon. Use a new original silhouette and construction; do not copy any referenced weapon. Full object runs diagonally lower-left to upper-right, dominant yet wholly inside central 76% of canvas (all blade points, tips, pommels and side projections at least 12% from every edge). Fill every edge with organic dark painted texture, no plain black mattes. No UI, frame, borders, floor line, pedestal, extra items, text, labels or logos. Silhouette readable at 76px and safe for 64x72 portrait cover crops. Match approved fantasy polish and background, not their actual object design. No particles as a substitute for design. Item Eclipse Gatehammer, level 100, Eclipse Bastion. Eclipse Gatehammer, level100: apex imperial warhammer with dramatic dark-steel crescent-shaped split head clasping a solid moonstone striking cylinder, twin swept horn-like structural braces, strongly tapered black iron shaft with tiny silver eclipse seals, angled crescent counterweight pommel. Distinct engineered architectural silhouette, masterfully layered dark metal and fine silver filigree. Restrained pinpoint cool edge gleam, no fire, no neon beam, no celestial scenery. Equivalent prestige to approved Eclipse Greatsword, not beyond it."
+    },
+    {
+      "id": "marcher-stronghold",
+      "name": "Marcher Stronghold",
+      "level": 56,
+      "category": "property",
+      "region": "Northern Marches",
+      "oldPath": "/assets/art/level100-beta-1/land.webp",
+      "design": "a rugged squat asymmetrical cold-iron and granite border keep, three unequal watchtowers with steep slate caps, timber galleries and a mountain switchback approach, weathered oxblood banners, misty highland pines, first winter snow in gullies. Clearly less elaborate than the later royal fortress; no giant bridge or copying the reference castle.",
+      "prompt": "ONE finished original landscape 3:2 Kingdom Come property painting. Use the supplied approved Wyrmcrest property illustration as primary reference for painterly detailed medieval-fantasy quality, environmental density, textured natural foreground, subdued natural sky and professional small-thumbnail readability. Do not copy its castle or layout. New property Marcher Stronghold, level 56, Northern Marches. a rugged squat asymmetrical cold-iron and granite border keep, three unequal watchtowers with steep slate caps, timber galleries and a mountain switchback approach, weathered oxblood banners, misty highland pines, first winter snow in gullies. Clearly less elaborate than the later royal fortress; no giant bridge or copying the reference castle. Full-bleed coherent painted scenery at every edge, no borders, black/white vignette, empty gutters, blurred padding, matte, text, UI or logo. Keep ALL essential signature architecture within the central 48% of the landscape width and central 74% of height; natural nonessential scenery continues on both sides so the landmark survives center square AND 64x72 portrait crops. Strong large readable massing; do not make the landmark distant or tiny. Dark charcoal-toned natural rock/vegetation framing like live property art, no black studio background behind buildings. Muted believable lighting, painterly rather than photography or cinematic poster; small warm windows only. All structures whole, central geometry fully visible, no clipped spires."
+    },
+    {
+      "id": "royal-border-fortress",
+      "name": "Royal Border Fortress",
+      "level": 60,
+      "category": "property",
+      "region": "Crownlands",
+      "oldPath": "/assets/art/level100-beta-1/land.webp",
+      "design": "a broad low concentric fortress with five readable stout round curtain towers, a proud central square gatehouse, blue-and-ivory noble pennants, limestone and black oak bridges over a narrow moat; rolling kingdom hills at cool dusk. Elaborate heraldic stone carving and iron portcullis, distinctive horizontal military plan rather than a tall fairy palace.",
+      "prompt": "ONE finished original landscape 3:2 Kingdom Come property painting. Use the supplied approved Wyrmcrest property illustration as primary reference for painterly detailed medieval-fantasy quality, environmental density, textured natural foreground, subdued natural sky and professional small-thumbnail readability. Do not copy its castle or layout. New property Royal Border Fortress, level 60, Crownlands. a broad low concentric fortress with five readable stout round curtain towers, a proud central square gatehouse, blue-and-ivory noble pennants, limestone and black oak bridges over a narrow moat; rolling kingdom hills at cool dusk. Elaborate heraldic stone carving and iron portcullis, distinctive horizontal military plan rather than a tall fairy palace. Full-bleed coherent painted scenery at every edge, no borders, black/white vignette, empty gutters, blurred padding, matte, text, UI or logo. Keep ALL essential signature architecture within the central 48% of the landscape width and central 74% of height; natural nonessential scenery continues on both sides so the landmark survives center square AND 64x72 portrait crops. Strong large readable massing; do not make the landmark distant or tiny. Dark charcoal-toned natural rock/vegetation framing like live property art, no black studio background behind buildings. Muted believable lighting, painterly rather than photography or cinematic poster; small warm windows only. All structures whole, central geometry fully visible, no clipped spires."
+    },
+    {
+      "id": "crown-river-port",
+      "name": "Crown River Port",
+      "level": 70,
+      "category": "property",
+      "region": "Moonfen",
+      "oldPath": "/assets/art/level100-beta-1/land.webp",
+      "design": "an atmospheric fortified river customs port built where two misty marsh channels meet, a single prominent silver-grey arched river gate under a steep dark timber roof, curving stone quays, clustered low stilt warehouses and two small moored medieval river barges. Silver-and-muted-jade order banners, ancient alder trees and wet natural banks. Gate-and-harbor silhouette remains readable in a 60px square crop. No modern ships or ocean storm gate copy.",
+      "prompt": "ONE finished original landscape 3:2 Kingdom Come property painting. Use the supplied approved Wyrmcrest property illustration as primary reference for painterly detailed medieval-fantasy quality, environmental density, textured natural foreground, subdued natural sky and professional small-thumbnail readability. Do not copy its castle or layout. New property Crown River Port, level 70, Moonfen. an atmospheric fortified river customs port built where two misty marsh channels meet, a single prominent silver-grey arched river gate under a steep dark timber roof, curving stone quays, clustered low stilt warehouses and two small moored medieval river barges. Silver-and-muted-jade order banners, ancient alder trees and wet natural banks. Gate-and-harbor silhouette remains readable in a 60px square crop. No modern ships or ocean storm gate copy. Full-bleed coherent painted scenery at every edge, no borders, black/white vignette, empty gutters, blurred padding, matte, text, UI or logo. Keep ALL essential signature architecture within the central 48% of the landscape width and central 74% of height; natural nonessential scenery continues on both sides so the landmark survives center square AND 64x72 portrait crops. Strong large readable massing; do not make the landmark distant or tiny. Dark charcoal-toned natural rock/vegetation framing like live property art, no black studio background behind buildings. Muted believable lighting, painterly rather than photography or cinematic poster; small warm windows only. All structures whole, central geometry fully visible, no clipped spires."
+    },
+    {
+      "id": "imperial-siegeworks",
+      "name": "Imperial Siegeworks",
+      "level": 80,
+      "category": "property",
+      "region": "Sunscar Reach",
+      "oldPath": "/assets/art/level100-beta-1/land.webp",
+      "design": "an immense copper-roofed sandstone siege arsenal, two enormous timber traction trebuchets folded beside an arched forge hall, tiered crenellated workshop walls and geometric desert buttresses, stacked dressed stone, elegant curved ramps. Muted copper, terracotta, charcoal and pale sandstone under dusty blue twilight. Warm modest working-forge windows, not a fiery volcano. Workshop/engine silhouette unlike any castle or harbor.",
+      "prompt": "ONE finished original landscape 3:2 Kingdom Come property painting. Use the supplied approved Wyrmcrest property illustration as primary reference for painterly detailed medieval-fantasy quality, environmental density, textured natural foreground, subdued natural sky and professional small-thumbnail readability. Do not copy its castle or layout. New property Imperial Siegeworks, level 80, Sunscar Reach. an immense copper-roofed sandstone siege arsenal, two enormous timber traction trebuchets folded beside an arched forge hall, tiered crenellated workshop walls and geometric desert buttresses, stacked dressed stone, elegant curved ramps. Muted copper, terracotta, charcoal and pale sandstone under dusty blue twilight. Warm modest working-forge windows, not a fiery volcano. Workshop/engine silhouette unlike any castle or harbor. Full-bleed coherent painted scenery at every edge, no borders, black/white vignette, empty gutters, blurred padding, matte, text, UI or logo. Keep ALL essential signature architecture within the central 48% of the landscape width and central 74% of height; natural nonessential scenery continues on both sides so the landmark survives center square AND 64x72 portrait crops. Strong large readable massing; do not make the landmark distant or tiny. Dark charcoal-toned natural rock/vegetation framing like live property art, no black studio background behind buildings. Muted believable lighting, painterly rather than photography or cinematic poster; small warm windows only. All structures whole, central geometry fully visible, no clipped spires."
+    },
+    {
+      "id": "sovereign-castle",
+      "name": "Sovereign Castle",
+      "level": 90,
+      "category": "property",
+      "region": "Ashen Frontier",
+      "oldPath": "/assets/art/level100-beta-1/land.webp",
+      "design": "a prestigious rebuilt royal fortress of deep blackened basalt and pale repaired stone, three uneven very high square bastions surrounding one broad vaulted keep, slate roofs and restrained wine-red royal banners, battle-scarred curtain wall integrated into an old cliff. Charcoal hills, sparse autumn woodland and soft muted late-evening light. Exceptional regal masonry and defensible scale, NOT a burning castle, no lava, no spires everywhere.",
+      "prompt": "ONE finished original landscape 3:2 Kingdom Come property painting. Use the supplied approved Wyrmcrest property illustration as primary reference for painterly detailed medieval-fantasy quality, environmental density, textured natural foreground, subdued natural sky and professional small-thumbnail readability. Do not copy its castle or layout. New property Sovereign Castle, level 90, Ashen Frontier. a prestigious rebuilt royal fortress of deep blackened basalt and pale repaired stone, three uneven very high square bastions surrounding one broad vaulted keep, slate roofs and restrained wine-red royal banners, battle-scarred curtain wall integrated into an old cliff. Charcoal hills, sparse autumn woodland and soft muted late-evening light. Exceptional regal masonry and defensible scale, NOT a burning castle, no lava, no spires everywhere. Full-bleed coherent painted scenery at every edge, no borders, black/white vignette, empty gutters, blurred padding, matte, text, UI or logo. Keep ALL essential signature architecture within the central 48% of the landscape width and central 74% of height; natural nonessential scenery continues on both sides so the landmark survives center square AND 64x72 portrait crops. Strong large readable massing; do not make the landmark distant or tiny. Dark charcoal-toned natural rock/vegetation framing like live property art, no black studio background behind buildings. Muted believable lighting, painterly rather than photography or cinematic poster; small warm windows only. All structures whole, central geometry fully visible, no clipped spires."
+    },
+    {
+      "id": "eclipse-crown-citadel",
+      "name": "Eclipse Crown Citadel",
+      "level": 100,
+      "category": "property",
+      "region": "Eclipse Bastion",
+      "oldPath": "/assets/art/level100-beta-1/land.webp",
+      "design": "an ancient imperial monumental citadel with a distinctive broad stepped central keep, an architectural crescent lintel spanning two inward-swept dark steel gate towers, carved pale moonstone accents, layered massive black-stone terraces and tiny silver standards. Substantial medieval imperial engineering, muted silver and charcoal, highest level100 prestige without cosmic spectacle. Rocky ancient valley and low cloud, discreet pale moonlight. Entire signature crescent and gate survive square and portrait thumbnail crops; no floating rocks or neon portals.",
+      "prompt": "ONE finished original landscape 3:2 Kingdom Come property painting. Use the supplied approved Wyrmcrest property illustration as primary reference for painterly detailed medieval-fantasy quality, environmental density, textured natural foreground, subdued natural sky and professional small-thumbnail readability. Do not copy its castle or layout. New property Eclipse Crown Citadel, level 100, Eclipse Bastion. an ancient imperial monumental citadel with a distinctive broad stepped central keep, an architectural crescent lintel spanning two inward-swept dark steel gate towers, carved pale moonstone accents, layered massive black-stone terraces and tiny silver standards. Substantial medieval imperial engineering, muted silver and charcoal, highest level100 prestige without cosmic spectacle. Rocky ancient valley and low cloud, discreet pale moonlight. Entire signature crescent and gate survive square and portrait thumbnail crops; no floating rocks or neon portals. Full-bleed coherent painted scenery at every edge, no borders, black/white vignette, empty gutters, blurred padding, matte, text, UI or logo. Keep ALL essential signature architecture within the central 48% of the landscape width and central 74% of height; natural nonessential scenery continues on both sides so the landmark survives center square AND 64x72 portrait crops. Strong large readable massing; do not make the landmark distant or tiny. Dark charcoal-toned natural rock/vegetation framing like live property art, no black studio background behind buildings. Muted believable lighting, painterly rather than photography or cinematic poster; small warm windows only. All structures whole, central geometry fully visible, no clipped spires."
+    }
+  ]
+}
