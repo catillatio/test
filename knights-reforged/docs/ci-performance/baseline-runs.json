@@ -1,0 +1,1041 @@
+{
+  "source": "Read-only GitHub Actions successful-run/job timestamps; no live records or recovery manifests downloaded",
+  "records": [
+    {
+      "runId": 40238730053,
+      "url": "https://github.com/catillatio/test/actions/runs/40238730053",
+      "workflow": "checks.yml",
+      "sha": "9b9a08172d5c2f8b1c598a309d7f2f982db9f0e5",
+      "event": "push",
+      "createdAt": "2026-10-25T22:07:47Z",
+      "startedAt": "2026-10-25T22:07:47Z",
+      "completedAt": "2026-10-25T22:27:12Z",
+      "queueSeconds": 0.0,
+      "executionSeconds": 1165.0,
+      "jobs": [
+        {
+          "name": "checks",
+          "jobId": 121305752410,
+          "seconds": 1161.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize containers",
+              "seconds": 21.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 17.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --no-audit --no-fund",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/check-browser-audio.mjs",
+              "seconds": 18.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run typecheck && npm run build && npm run check:static",
+              "seconds": 8.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm test",
+              "seconds": 959.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm audit --omit=dev --audit-level=high",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm audit --omit=dev --audit-level=high --prefix deployment/release",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:browser:phase47",
+              "seconds": 29.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run docker build -t kingdom-come:checked .",
+              "seconds": 13.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:container",
+              "seconds": 30.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/test-release-worker.mjs",
+              "seconds": 42.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Stop containers",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "runId": 40237300498,
+      "url": "https://github.com/catillatio/test/actions/runs/40237300498",
+      "workflow": "checks.yml",
+      "sha": "1f5c22491e6fd78597c7d73ac7aeec409d8c4dd4",
+      "event": "pull_request",
+      "createdAt": "2026-10-25T21:49:37Z",
+      "startedAt": "2026-10-25T21:49:37Z",
+      "completedAt": "2026-10-25T22:05:00Z",
+      "queueSeconds": 0.0,
+      "executionSeconds": 923.0,
+      "jobs": [
+        {
+          "name": "checks",
+          "jobId": 121301486511,
+          "seconds": 920.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize containers",
+              "seconds": 18.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 15.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --no-audit --no-fund",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/check-browser-audio.mjs",
+              "seconds": 23.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run typecheck && npm run build && npm run check:static",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm test",
+              "seconds": 741.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm audit --omit=dev --audit-level=high",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm audit --omit=dev --audit-level=high --prefix deployment/release",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:browser:phase47",
+              "seconds": 25.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run docker build -t kingdom-come:checked .",
+              "seconds": 14.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:container",
+              "seconds": 24.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/test-release-worker.mjs",
+              "seconds": 30.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Stop containers",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "runId": 40234663784,
+      "url": "https://github.com/catillatio/test/actions/runs/40234663784",
+      "workflow": "checks.yml",
+      "sha": "094c3c9ee2f5f8b23650ca0e735646ee1e583019",
+      "event": "push",
+      "createdAt": "2026-10-25T21:15:51Z",
+      "startedAt": "2026-10-25T21:15:51Z",
+      "completedAt": "2026-10-25T21:40:58Z",
+      "queueSeconds": 0.0,
+      "executionSeconds": 1507.0,
+      "jobs": [
+        {
+          "name": "checks",
+          "jobId": 121293535274,
+          "seconds": 1505.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize containers",
+              "seconds": 14.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 17.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --no-audit --no-fund",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/check-browser-audio.mjs",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run typecheck && npm run build && npm run check:static",
+              "seconds": 11.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm test",
+              "seconds": 1295.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm audit --omit=dev --audit-level=high",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm audit --omit=dev --audit-level=high --prefix deployment/release",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:browser:phase47",
+              "seconds": 37.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run docker build -t kingdom-come:checked .",
+              "seconds": 16.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:container",
+              "seconds": 35.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .",
+              "seconds": 12.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/test-release-worker.mjs",
+              "seconds": 46.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Stop containers",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "runId": 40232610740,
+      "url": "https://github.com/catillatio/test/actions/runs/40232610740",
+      "workflow": "checks.yml",
+      "sha": "33e5c21706db3394a06f21fbb40a7478bc9b39d1",
+      "event": "pull_request",
+      "createdAt": "2026-10-25T20:50:00Z",
+      "startedAt": "2026-10-25T20:50:00Z",
+      "completedAt": "2026-10-25T21:14:32Z",
+      "queueSeconds": 0.0,
+      "executionSeconds": 1472.0,
+      "jobs": [
+        {
+          "name": "checks",
+          "jobId": 121287357326,
+          "seconds": 1470.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize containers",
+              "seconds": 15.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 15.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --no-audit --no-fund",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/check-browser-audio.mjs",
+              "seconds": 22.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run typecheck && npm run build && npm run check:static",
+              "seconds": 11.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm test",
+              "seconds": 1250.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm audit --omit=dev --audit-level=high",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm audit --omit=dev --audit-level=high --prefix deployment/release",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:browser:phase47",
+              "seconds": 36.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run docker build -t kingdom-come:checked .",
+              "seconds": 14.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:container",
+              "seconds": 35.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .",
+              "seconds": 11.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/test-release-worker.mjs",
+              "seconds": 44.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Stop containers",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "runId": 40236713862,
+      "url": "https://github.com/catillatio/test/actions/runs/40236713862",
+      "workflow": "production-release.yml",
+      "sha": "094c3c9ee2f5f8b23650ca0e735646ee1e583019",
+      "event": "workflow_dispatch",
+      "createdAt": "2026-10-25T21:42:04Z",
+      "startedAt": "2026-10-25T21:42:04Z",
+      "completedAt": "2026-10-25T22:04:46Z",
+      "queueSeconds": 0.0,
+      "executionSeconds": 1362.0,
+      "jobs": [
+        {
+          "name": "safety",
+          "jobId": 121299748263,
+          "seconds": 25.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 15.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify protected branch, owner approval rule and successful exact-commit checks",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "release",
+          "jobId": 121299851352,
+          "seconds": 630.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 30.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install locked game and pinned provider tooling before exposing secrets",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build exact candidate with locked compiler",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run private backup and isolated restored-copy job; independently export encrypted recovery",
+              "seconds": 289.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain encrypted recovery backup before any deployment",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Independently download and verify retained recovery artifact",
+              "seconds": 16.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify retained ciphertext even for a backup-only rehearsal",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Promote only after every backup gate; verify health and saved realm",
+              "seconds": 255.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "runId": 40164678377,
+      "url": "https://github.com/catillatio/test/actions/runs/40164678377",
+      "workflow": "production-release.yml",
+      "sha": "4b82971dd16cad531f6b24c8747af4732aaddc3b",
+      "event": "workflow_dispatch",
+      "createdAt": "2026-10-25T05:12:23Z",
+      "startedAt": "2026-10-25T05:12:23Z",
+      "completedAt": "2026-10-25T05:16:45Z",
+      "queueSeconds": 0.0,
+      "executionSeconds": 262.0,
+      "jobs": [
+        {
+          "name": "safety",
+          "jobId": 121083186694,
+          "seconds": 16.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify protected branch, owner approval rule and successful exact-commit checks",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "release",
+          "jobId": 121083238569,
+          "seconds": 234.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install locked game and pinned provider tooling before exposing secrets",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build exact candidate with locked compiler",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run private backup and isolated restored-copy job; independently export encrypted recovery",
+              "seconds": 201.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain encrypted recovery backup before any deployment",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Independently download and verify retained recovery artifact",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify retained ciphertext even for a backup-only rehearsal",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Promote only after every backup gate; verify health and saved realm",
+              "seconds": 0.0,
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "runId": 40162401278,
+      "url": "https://github.com/catillatio/test/actions/runs/40162401278",
+      "workflow": "production-release.yml",
+      "sha": "4b82971dd16cad531f6b24c8747af4732aaddc3b",
+      "event": "workflow_dispatch",
+      "createdAt": "2026-10-25T04:34:51Z",
+      "startedAt": "2026-10-25T04:34:51Z",
+      "completedAt": "2026-10-25T04:46:34Z",
+      "queueSeconds": 0.0,
+      "executionSeconds": 703.0,
+      "jobs": [
+        {
+          "name": "safety",
+          "jobId": 121076516170,
+          "seconds": 19.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify protected branch, owner approval rule and successful exact-commit checks",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "release",
+          "jobId": 121076581222,
+          "seconds": 671.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install locked game and pinned provider tooling before exposing secrets",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build exact candidate with locked compiler",
+              "seconds": 8.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run private backup and isolated restored-copy job; independently export encrypted recovery",
+              "seconds": 291.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain encrypted recovery backup before any deployment",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Independently download and verify retained recovery artifact",
+              "seconds": 36.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify retained ciphertext even for a backup-only rehearsal",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Promote only after every backup gate; verify health and saved realm",
+              "seconds": 300.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "runId": 40154962981,
+      "url": "https://github.com/catillatio/test/actions/runs/40154962981",
+      "workflow": "production-release.yml",
+      "sha": "e61258c0e0f8e0f6ff9ca265cddb6e72dbe83ff1",
+      "event": "workflow_dispatch",
+      "createdAt": "2026-10-25T02:34:30Z",
+      "startedAt": "2026-10-25T02:34:30Z",
+      "completedAt": "2026-10-25T02:43:32Z",
+      "queueSeconds": 0.0,
+      "executionSeconds": 542.0,
+      "jobs": [
+        {
+          "name": "safety",
+          "jobId": 121054268912,
+          "seconds": 18.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify protected branch, owner approval rule and successful exact-commit checks",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "release",
+          "jobId": 121054335533,
+          "seconds": 480.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install locked game and pinned provider tooling before exposing secrets",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build exact candidate with locked compiler",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run private backup and isolated restored-copy job; independently export encrypted recovery",
+              "seconds": 250.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain encrypted recovery backup before any deployment",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Independently download and verify retained recovery artifact",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify retained ciphertext even for a backup-only rehearsal",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Promote only after every backup gate; verify health and saved realm",
+              "seconds": 193.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

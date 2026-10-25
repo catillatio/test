@@ -19,7 +19,7 @@
     "db:reset-demo": "tsx scripts/seed.ts --reset-demo",
     "dev:bots": "tsx scripts/development.ts bots",
     "dev:account": "tsx scripts/development.ts account",
-    "test": "tsx --test --test-concurrency=1 tests/*.test.ts tests/*.test.mjs",
+    "test": "node scripts/ci/run-tests.mjs",
     "test:land:offline": "node --experimental-transform-types --import ./scripts/register-typescript.mjs tests/land-rules.test.ts",
     "test:land:client": "node tests/land-client.test.mjs",
     "test:postgres": "TEST_ENGINE=postgres tsx --test --test-concurrency=1 tests/integration.test.ts tests/alpha-integration.test.ts tests/migration.test.ts tests/profile-economy.test.ts tests/fantasy-integration.test.ts tests/phase35-migration.test.ts tests/level50-playthrough.test.ts tests/training.test.ts tests/training-migration.test.ts tests/codespaces-origin.test.ts tests/strategy.test.ts tests/bounties.test.ts tests/strategy-migration.test.ts tests/community-combat.test.ts tests/community-social.test.ts tests/community-army-profile.test.ts tests/community-migration.test.ts tests/refinements.test.ts tests/refinements-migration.test.ts tests/rendering.test.ts tests/pvp-economy.test.ts tests/pvp-migration.test.ts tests/fantasy-rivals.test.ts tests/phase43-economy.test.ts tests/phase43-shopping.test.ts tests/phase43-recruitment.test.ts tests/phase43-migration.test.ts tests/private-alpha.test.ts tests/phase44-experience.test.ts tests/phase44-trade.test.ts tests/phase44-security.test.ts tests/phase44-migration.test.ts tests/phase45-core.test.ts tests/phase45-economy.test.ts tests/phase45-migration.test.ts tests/phase46-competition.test.ts tests/phase46-guide-moderation.test.ts tests/phase46-migration.test.ts tests/phase47-core.test.ts tests/phase47-economy.test.ts tests/phase47-migration.test.ts",
@@ -37,7 +37,9 @@
     "balance:phase49:xp": "tsx scripts/phase49-xp-comparison.ts",
     "test:browser:phase46": "tsx scripts/browser-phase46-test.ts",
     "test:browser:phase47": "tsx scripts/browser-phase47-test.ts",
-    "test:browser:phase48": "tsx scripts/browser-phase48-test.ts"
+    "test:browser:phase48": "tsx scripts/browser-phase48-test.ts",
+    "test:serial": "tsx --test --test-concurrency=1 tests/*.test.ts tests/*.test.mjs",
+    "test:ci": "node scripts/ci/run-tests.mjs"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
