@@ -1,3 +1,4 @@
+import {presentationCatalog} from './equipment-presentation.js';
 import {cohortMembers,botArmy} from './expansion-bot-rules.js';
 import {createHash} from 'node:crypto';
 import {callingDescription} from './calling-presentation.js';
@@ -42,7 +43,7 @@ export interface CharacterState {
   bankedGold:number;gold:number;units:number;attack:number;defense:number;equipped:boolean;inventoryId:string|null;
   inventory:OwnedItem[];questsCompleted:number;stateVersion:number;skillPoints:number;className:string;
   attackReadyAt:string;serverTime:string;energyNextAt:string|null;manaNextAt:string|null;spiritNextAt:string|null;healthNextAt:string|null;
-  land:EstateState;rulesetId:string;
+  land:EstateState;rulesetId:string;presentationId?:string;
   economy:{grossHourlyIncome:number;propertyUpkeep:number;equipmentUpkeep:number;scheduledEquipmentUpkeep:number;otherUpkeep:number;totalUpkeep:number;netHourlyIncome:number;maintenancePaused:boolean};
   battleStats:{wins:number;losses:number;total:number;kills:number;deaths:number;legacyKnockouts:number};
   accountCreatedAt:string;accountAgeDays:number;
@@ -78,7 +79,7 @@ export async function armyLinks(sql:Sql,characterId:string,runtime:GameRuntime={
   return (await readArmyRoster(sql,characterId,runtime)).links;
 }
 export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRuntime={}):Promise<CharacterState> {
-  const world=await realmPolicy(sql),alpha=contentCatalog(world.catalogId),equipmentCatalog=equipmentCatalogFor(world.catalogId);
+  const world=await realmPolicy(sql),alpha=presentationCatalog(contentCatalog(world.catalogId),world.presentationId),equipmentCatalog=equipmentCatalogFor(world.catalogId);
   const lootById=new Map(alpha.quests.filter(q=>q.loot).map(q=>[q.loot!.id,q.loot!]));
   const wallet=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[row.id])).rows[0]!;
   const units=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM army_stacks WHERE character_id=$1',[row.id])).rows[0]!.quantity as number;
@@ -131,7 +132,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
     healthNextAt:next(row.health,row.max_health,row.health_updated_at,healthSeconds),
     calling:{rulesetId:strategy.id,description:callingDescription(row.profile_class),attackPercent:calling.attackPercent,defensePercent:calling.defensePercent,healthSeconds,manaSeconds,spiritSeconds,
       changeReadyAt:row.calling_changed_at?new Date(+new Date(row.calling_changed_at)+strategy.callingChange.cooldownSeconds*1000).toISOString():null,changeCost:row.calling_changed_at?strategy.callingChange.laterCost:0},
-    land,economy,battleStats,rulesetId:alpha.id,army,attackEquipment,defenseEquipment,
+    land,economy,battleStats,...(world.presentationId?{presentationId:world.presentationId}:{}),rulesetId:alpha.id,army,attackEquipment,defenseEquipment,
     accountCreatedAt:accountCreated.toISOString(),accountAgeDays:Math.max(0,Math.floor((+now-+accountCreated)/86400000)),
     training:{attack:row.attack_training,defense:row.defense_training,attackBonusPercent:row.attack_training*alpha.combatSkills.percentPerRating,defenseBonusPercent:row.defense_training*alpha.combatSkills.percentPerRating,untrainedAttack,untrainedDefense},
     maintenance:{hourlyRate:upkeep.hourly_rate,reserveGold:upkeep.reserve_gold,arrearsGold:upkeep.arrears_gold,paused:upkeep.paused,

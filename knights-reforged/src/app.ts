@@ -1,3 +1,4 @@
+import {presentationCatalog,presentationArt,recordedEquipment,presentedItem} from './equipment-presentation.js';
 import {notificationSummary,acknowledgeNotifications} from './notifications.js';
 import {readArmyRoster,type RosterFilter} from './army-roster.js';
 import {mutedSound,soundPreferences,soundFeedback} from './sound.js';
@@ -134,7 +135,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     if (!allowedScreens.has(screen)) throw new Error('Unknown server-selected template.');
     const session = request.realmSession;
     const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id,config) : null);
-    const alpha=contentCatalog(state?.rulesetId);
+    const alpha=presentationCatalog(contentCatalog(state?.rulesetId),state?.presentationId);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
     const query = request.query as { command?: string; category?: string;area?:string;tab?:string;bulk?:unknown;calling?:string;roster?:string };
@@ -162,7 +163,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const chosenRegion=regionFilter(query.area,alpha.id);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', {
-      screen, state,approvedExpansionArt,preparedExpansionArt,expansionArtUse,rareQuestPolicy:state?.rareEquipmentEnabled?questRarities:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
+      screen, state,presentationArt,recordedEquipment,authoritativeItems:contentCatalog(state?.rulesetId).items,approvedExpansionArt,preparedExpansionArt,expansionArtUse,rareQuestPolicy:state?.rareEquipmentEnabled?questRarities:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,
@@ -242,7 +243,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/game/quests/:id/requirements',{preHandler:requireAccount},async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config),quest=state.quests.find(q=>q.id===(request.params as {id:string}).id);
     if(!quest)throw new GameError('QUEST_NOT_FOUND','That quest is not available.',404);
-    const missing=Object.entries(quest.missing).map(([id,quantity])=>({item:contentCatalog(state.rulesetId).items.find(item=>item.id===id)!,quantity,cost:contentCatalog(state.rulesetId).items.find(item=>item.id===id)!.price*quantity}));
+    const missing=Object.entries(quest.missing).map(([id,quantity])=>({item:presentedItem(contentCatalog(state.rulesetId).items.find(item=>item.id===id)!,state.presentationId),quantity,cost:contentCatalog(state.rulesetId).items.find(item=>item.id===id)!.price*quantity}));
     return render(request,reply,'quest-equipment',{title:'Quest requirements',state,questEquipment:{quest,missing,total:quest.missingCost,shortfall:Math.max(0,quest.missingCost-state.gold)}});
   });
   app.get('/game/purchases/:id',{preHandler:requireAccount},async(request,reply)=>{
@@ -258,7 +259,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const available=state.level<entry.level?0:land?(entry as CharacterState['land']['properties'][number]).maxAffordable:Math.min(alpha.limits.transaction,contentCatalog(state.rulesetId).limits.inventory-owned,Math.floor(state.gold/(entry.price??Infinity)));
     const steps=land?(entry as CharacterState['land']['properties'][number]).priceSteps:Array.from({length:Math.max(1,available)},()=>entry.price??0);
     const costSteps=steps.map((_,i)=>steps.slice(0,i+1).reduce((n,p)=>n+p,0));
-    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry,receiptName:saved.itemName??(land?contentCatalog(state.rulesetId).properties.find(p=>p.id===entry.id)!.name:entry.name),owned,available,costSteps}});
+    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry:land?entry:recordedEquipment(entry as import('./alpha-rules.js').ItemDefinition,{name:saved.itemName,presentationId:saved.presentationId}),receiptName:saved.itemName??(land?contentCatalog(state.rulesetId).properties.find(p=>p.id===entry.id)!.name:entry.name),owned,available,costSteps}});
   });
   app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config);

@@ -1,3 +1,5 @@
+> Superseded activation detail: use [the final beta sequence](../level100-beta/ACTIVATION.md), including exact presentation ID/digest and `presentationReviewed=true`. All original recovery and financial gates below remain required.
+
 # Future owner sequence — not authorization to execute
 
 Nothing in this PR runs automatically. The owner permits lightweight functional

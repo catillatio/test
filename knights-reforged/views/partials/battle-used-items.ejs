@@ -1,3 +1,3 @@
 <div class="report-equipment" aria-label="<%= heading %>">
-<% for(const used of entries) { const art=alpha.items.find(item=>item.id===used.itemId); %><figure class="inventory-figure"><% if(art) { %><%- include('catalog-art',{entry:art,small:false}) %><% } else { %><span class="unknown-equipment" aria-hidden="true">⚔</span><% } %><strong>×<%= used.quantity %></strong><figcaption><%= used.name %></figcaption></figure><% } %>
+<% for(const used of entries) { const source=(typeof authoritativeItems!=='undefined'?authoritativeItems:alpha.items).find(item=>item.id===used.itemId);const art=source&&(typeof recordedEquipment==='function'?recordedEquipment(source,used):source); %><figure class="inventory-figure"><% if(art) { %><%- include('catalog-art',{entry:art,small:false}) %><% } else { %><span class="unknown-equipment" aria-hidden="true">⚔</span><% } %><strong>×<%= used.quantity %></strong><figcaption><%= used.name %></figcaption></figure><% } %>
 </div>

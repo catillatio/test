@@ -1,0 +1,77 @@
+{
+  "observedAt": "2026-10-25T03:15:48.181Z",
+  "readOnly": true,
+  "provider": "Railway OAuth metadata and DISK_USAGE_GB only",
+  "metrics": [
+    {
+      "service": {
+        "id": "b1ed38da-992e-4396-8e70-be61806666b1",
+        "name": "KingdomReleaseCopy"
+      },
+      "environment": {
+        "id": "8ced8aef-352e-4ea9-931d-8963ff352c1c",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "DISK_USAGE_GB",
+          "current": 2.895003648,
+          "average": 2.7170859645901633,
+          "min": 0,
+          "max": 2.956312576,
+          "sampleCount": 61
+        }
+      ]
+    },
+    {
+      "service": {
+        "id": "b3a6e152-76c2-45d4-8152-2201b74741da",
+        "name": "Postgres"
+      },
+      "environment": {
+        "id": "8ced8aef-352e-4ea9-931d-8963ff352c1c",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "DISK_USAGE_GB",
+          "current": 0.855908352,
+          "average": 0.8402223506885249,
+          "min": 0,
+          "max": 0.855908352,
+          "sampleCount": 61
+        }
+      ]
+    }
+  ],
+  "volumes": [
+    {
+      "id": "5782ac6e-df3d-4063-a746-d4169d602744",
+      "name": "kingdomreleasecopy-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 5000,
+      "mountedOn": {
+        "serviceId": "b1ed38da-992e-4396-8e70-be61806666b1",
+        "serviceName": "KingdomReleaseCopy",
+        "mountPath": "/var/lib/postgresql"
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "0eaa08f9-8983-4cc4-9ca5-7c04d9f19324",
+      "name": "postgres-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 5000,
+      "mountedOn": {
+        "serviceId": "b3a6e152-76c2-45d4-8152-2201b74741da",
+        "serviceName": "Postgres",
+        "mountPath": "/var/lib/postgresql/data"
+      },
+      "stagedChangeCount": 0
+    }
+  ],
+  "sqlQueried": false,
+  "mutationsPerformed": false
+}

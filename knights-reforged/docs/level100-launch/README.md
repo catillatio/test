@@ -1,3 +1,5 @@
+> Latest beta refinement: [equipment progression, current storage and exact activation requirements](../level100-beta/README.md). The new presentation policy is dormant and requires exact cutover review in addition to the gates below.
+
 # Level-100 launch preparation — inactive, owner review required
 
 Base: merged PR #34, `36367d340a561e575e4af7e098d3c2cdedf5579f`.

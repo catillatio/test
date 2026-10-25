@@ -1,8 +1,9 @@
+import {equipmentPresentation,presentationDigest} from './equipment-presentation.js';
 import {knownArtworkDigest} from './expansion-artwork.js';
 import type {Sql} from './db.js';import {transactionMemo,clearTransactionMemo} from './db.js';
 import {compatibility,type ArmyPolicy,type InventoryPolicy,type ProgressionPolicy} from './compatibility-rules.js';
 import {alpha} from './alpha-rules.js';import {expandedContent,expansionEngine,definitionDigest,questRarities} from './expansion-content.js';
-export interface RealmPolicy {expanded:boolean;catalogId:string;armyPolicy:ArmyPolicy;inventoryPolicy:InventoryPolicy;progressionPolicy:ProgressionPolicy;rareDrops:boolean;activationId:string|null;}
+export interface RealmPolicy {expanded:boolean;presentationId?:string;catalogId:string;armyPolicy:ArmyPolicy;inventoryPolicy:InventoryPolicy;progressionPolicy:ProgressionPolicy;rareDrops:boolean;activationId:string|null;}
 export const legacyRealm:Readonly<RealmPolicy>=Object.freeze({expanded:false,catalogId:alpha.id,armyPolicy:compatibility.active.army,inventoryPolicy:compatibility.active.inventory,progressionPolicy:compatibility.active.progression,rareDrops:false,activationId:null});
 const key=Symbol('realm-policy');
 export function invalidateRealmPolicy(sql:Sql){clearTransactionMemo(sql,key);}
@@ -13,5 +14,8 @@ export function realmPolicy(sql:Sql):Promise<Readonly<RealmPolicy>>{return trans
  const row=(await sql.query('SELECT * FROM realm_expansion_state WHERE singleton=true')).rows[0];if(!row)return legacyRealm;
  if(row.policy_id!==expansionEngine.id||row.catalog_id!==expandedContent.id||row.catalog_digest!==definitionDigest(expandedContent)||row.writer_version!==expansionEngine.writer||!knownArtworkDigest(row.artwork_digest))throw new Error('Invalid expansion activation identity.');
  if(row.rarity_policy_id!==null&&row.rarity_policy_id!==questRarities.id)throw new Error('Invalid rare reward activation.');
- return Object.freeze({expanded:true,catalogId:expandedContent.id,armyPolicy:expansionEngine.armyPolicy,inventoryPolicy:expansionEngine.inventoryPolicy,progressionPolicy:expansionEngine.progressionPolicy,rareDrops:row.rarity_policy_id===questRarities.id,activationId:row.id});
+ const evidence=(await sql.query("SELECT details,manifest_id,approval_digest FROM realm_expansion_events WHERE id=$1 AND kind='activate'",[row.id])).rows[0];
+ const presentation=evidence?.details?.equipmentPresentation;
+ if(presentation&&(evidence.manifest_id!==row.policy_id||evidence.approval_digest!==row.approval_digest||presentation.id!==equipmentPresentation.id||presentation.digest!==presentationDigest()||presentation.reviewed!==true))throw new Error('Invalid equipment presentation authorization.');
+ return Object.freeze({...(presentation?{presentationId:equipmentPresentation.id}:{}),expanded:true,catalogId:expandedContent.id,armyPolicy:expansionEngine.armyPolicy,inventoryPolicy:expansionEngine.inventoryPolicy,progressionPolicy:expansionEngine.progressionPolicy,rareDrops:row.rarity_policy_id===questRarities.id,activationId:row.id});
 });}

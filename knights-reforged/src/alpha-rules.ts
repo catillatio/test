@@ -3,7 +3,7 @@ import {resolveArmy,armyPolicy,safeCount,compatibility,type ArmyPolicy} from './
 
 export type Category = 'weapon' | 'armor' | 'spell';
 export interface Illustration { atlas:'weapons'|'armor'|'spells'|'properties';column:number;row:number; }
-export interface ItemDefinition { id: string; name: string; category: Category; description: string; price: number; attack: number; defense: number; upkeep: number; level: number; art: string;tier?:string;illustration?:Illustration;acquisition?:'quest-exclusive'; }
+export interface ItemDefinition { presentationId?:string; id: string; name: string; category: Category; description: string; price: number; attack: number; defense: number; upkeep: number; level: number; art: string;tier?:string;illustration?:Illustration;acquisition?:'quest-exclusive'; }
 export interface QuestDefinition { id: string; name: string; area: string; description: string; level: number; mana: number; goldMin: number; goldMax: number; xp: number; army: number; items: Record<string, number>; requiresLoot?: string; loot?: { id: string; name: string; chance: number; firstGuaranteed: boolean }; }
 export interface PropertyDefinition { id: string; name: string; description: string; price: number; hourlyIncome: number; hourlyUpkeep: number; level: number; art: string;tier?:string;illustration?:Illustration; }
 export interface AlphaRules {
@@ -52,7 +52,7 @@ export function advanceLevel(level: number, progress: number, award: number) {
   return { level, progress: remaining, points: (level-before)*alpha.progression.pointsPerLevel, gained: level-before };
 }
 export interface OwnedItem extends ItemDefinition {resaleSteps?:number[];maxSell?:number; inventoryId: string; quantity: number;effectiveUpkeep?:number;maintenanceExempt?:boolean; }
-export interface SelectedItem { itemId: string; name: string; category: Category; quantity: number; attack: number; defense: number; }
+export interface SelectedItem { presentationId?:string; itemId: string; name: string; category: Category; quantity: number; attack: number; defense: number; }
 export function selectEquipment(inventory: OwnedItem[], participants: number, mode: 'attack' | 'defense', maintained = true, policy:ArmyPolicy=compatibility.active.army) {
   if (!safe(participants,1,armyPolicy(policy).selectionLimit)) throw new RangeError('Invalid army participation.');
   const secondary = mode === 'attack' ? 'defense' : 'attack';
@@ -63,7 +63,7 @@ export function selectEquipment(inventory: OwnedItem[], participants: number, mo
       .sort((a,b) => b[mode]-a[mode] || b[secondary]-a[secondary] || a.upkeep-b.upkeep || a.id.localeCompare(b.id));
     for (const item of candidates) {
       const quantity = Math.min(left,item.quantity); if (!quantity) break;
-      selected.push({ itemId:item.id,name:item.name,category,quantity,attack:item.attack,defense:item.defense }); left -= quantity;
+      selected.push({ ...(item.presentationId?{presentationId:item.presentationId}:{}),itemId:item.id,name:item.name,category,quantity,attack:item.attack,defense:item.defense }); left -= quantity;
     }
   }
   return { selected, attack: safeCount(selected.reduce((n,item) => n+item.attack*item.quantity,0)), defense: safeCount(selected.reduce((n,item) => n+item.defense*item.quantity,0)) };
