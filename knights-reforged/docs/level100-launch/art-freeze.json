@@ -1,0 +1,270 @@
+{
+  "ownerDecision": "2026-10-25: Stop all artwork revisions. Owner will supply separately approved original equipment artwork.",
+  "artworkFrozen": true,
+  "generationAllowed": false,
+  "newArtworkAdopted": false,
+  "mandatoryBackgroundRule": "Dark textured background for every item at every level; no bright higher-tier exception.",
+  "existingManifest": "level100-artwork-2",
+  "activationRemainsBlocked": true,
+  "entries": [
+    {
+      "id": "marcher-greatsword",
+      "sha256": "0d71173211af563ef75c20593c6c61b43cf4a1f854015462d3e923f49d86fa8d",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "fortress-glaive",
+      "sha256": "067faec6a9014f21cbfdb3f90ffbf1e74b71be19cb5a2e8907c6454e599ac604",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "captains-brigandine",
+      "sha256": "209ba6d178c3499aecdc0d8d45c0e4b5235f87aa6c9d6c495ddcfc032bd44782",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "siegeguard-plate",
+      "sha256": "25a4d7ea69eea67254c293c745042c385d09b8f92d743ae8e9492bec3ade6d64",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "battlebrand",
+      "sha256": "8973c5d7192e608ee905ec29badcc50e0a361969f4e0e709700f4b84baf80914",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "rampart-ward",
+      "sha256": "41f4afe439d63885afabed3222e0fefb7fee1b8964909adbd251f972b934d5ae",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "royal-warblade",
+      "sha256": "5a4bb7a5db669c6ba444745df02276cbde6045d2c894f4b63a94ab9dd95a2189",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "guard-captains-halberd",
+      "sha256": "3e28dfd0cb29267e6c6f0c75e871ef50e35470da92e80cae26fd5a7baf009384",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "kings-marshal-harness",
+      "sha256": "ad7b0c83d252837adc64813dbde48e24665ab8f6e07eb307b7ccb9bd8393c019",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "citadel-harness",
+      "sha256": "7608fafac7f52d9bfabd9ad18157ef79ef4c0306248343b3285d4c37f4cdc5ba",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "banner-of-embers",
+      "sha256": "0013a5c8349c4c4d72f1a88e294895769a33a6d4fa3e8e8a7952ea4be066eae0",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "stonewall-oath",
+      "sha256": "1587c1d90aa6ea0ccc9efd9646ac02f82d668fad6431f326a5368e6468339cd0",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "sovereigns-zweihander",
+      "sha256": "850e88a2a6b31b62124c43e1d93cb571dab526cf91b067d52dbd79276aad8c15",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "march-wardens-poleaxe",
+      "sha256": "a651e8e066c9f6c08f3fc598d4059f2af454837a8f94306f2c1fc95b1cf952d1",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "ducal-warplate",
+      "sha256": "7604fff126abc5f4eaf4450db38a2d758935b5a9546e02c83bbaa35c2b11fe23",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "fortress-bastion-plate",
+      "sha256": "b88a5a8fb0aed2bdc68f3ae505eaaea6c4d762f9000cad0459c83aed895704d8",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "royal-battlefire",
+      "sha256": "a223a0720db90d7ba18f0b62c0c257095dfd90fd1e68d9964f5117feae42b194",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "ironwall-covenant",
+      "sha256": "c716ac3412ddd5f49348555bbf6be60004ee38e166b69f938046e167931bcb6f",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "imperial-greatblade",
+      "sha256": "c227e343fbe3767063b2e2334cba68b0483c464f2b86f3e898653bb0fbd1db50",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "high-castellans-hammer",
+      "sha256": "0e846ad987e75f2a736d3956e22795dc2aa78b1bd22654582ea9db5f1ae922ce",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "imperial-assault-harness",
+      "sha256": "9630ee447abaa1348bb90c34dbc797728337ef2eab669571a4fc8322134af066",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "crownwall-bastion-plate",
+      "sha256": "208a74524d0bdb0a5faf72cb4583c616762560c28761e7a11b6aac3043f31a66",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "astral-siegefire",
+      "sha256": "02f140a03173f7e6662a61fac8733072d387e1c88ae63fa594dbc8268c8d73e0",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "sanctuary-of-banners",
+      "sha256": "b4d4d280b9139be90e1f696066e4f28e71de7092d7c305964baf99d4826fe7e7",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "ash-crowned-warblade",
+      "sha256": "fde64dfcd1cbd8b6c4441482dde927269f4c800cd90b05a5d3fe34c0197c55fc",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "throneguard-polehammer",
+      "sha256": "2b5becd7ae766bc427336092ad74dda7a623fe179e5be045534ae69f60cc0720",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "ashen-marshal-harness",
+      "sha256": "726b83ebb842cede2edf03e305c8effc54bf97ad86706cf7ab4a78789680b633",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "sovereigns-war-bastion",
+      "sha256": "c00c3aaed103ac3ac612619ccdcda290138fd36402d4fe9c9fb8782c2a7038d5",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "ashen-coronation",
+      "sha256": "4cf15346a51ac5cb370e62db4a12a7c7490076a396cea0e8ac8f84bebd6be8a8",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "crown-of-wards",
+      "sha256": "a76030e924ca5d3017609f662bb4b8e3544454f62128ad4a08ed278a736fa25d",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "imperial-eclipse-greatsword",
+      "sha256": "4802ab0c1e03a1bad49916d40d309014cebedf341b791abdd7c722630d39928e",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "sha256": "bde7429d9f44f122aabbb433e734579ea5c6e2cf51a4f42509988bf5acfece12",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "eclipse-war-marshal-plate",
+      "sha256": "7382d3cc933b18e38d807faeb5e0fe0d54088040cefd74cfd6f99918122469ad",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "imperial-eclipse-bastion",
+      "sha256": "53fe3b48df7d79466da89ab065797cb6412439e0dd0a82ff372a4a13299f2e05",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "astral-war-invocation",
+      "sha256": "a37f7f6180e645501d683dd99ffb65b6a1ab6fa0bdc880a71c70329fb701c53c",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "eclipse-aegis",
+      "sha256": "bfd7503f1386e33a73f610ab74a34f86a3c827e4204d4685b3a1d495ff401f73",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "king-hudsons-sword",
+      "sha256": "4454c62eaba848ac0e0efa6b1b492d843d5148927c8db5b9705549aac029f883",
+      "status": "exact-owner-source-preserved-final-framing-unapproved"
+    },
+    {
+      "id": "king-hudsons-shield",
+      "sha256": "0df78f3f548e07e15e6e1df55040502bad9fc93772f37f9b21c264306afcf6b0",
+      "status": "exact-owner-source-preserved-final-framing-unapproved"
+    },
+    {
+      "id": "king-hudsons-meteor-shower",
+      "sha256": "f2e3a6038d78fef26f7ba923fca1362869c36263826d52c4f7772b1bacc3d8b7",
+      "status": "exact-owner-source-preserved-final-framing-unapproved"
+    },
+    {
+      "id": "marcher-stronghold",
+      "sha256": "28e09909739f052c11dceba408ca08b15f4d6b27b34c8b546f257e7263aaa546",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "royal-border-fortress",
+      "sha256": "a2456c263c5a50efab5a2b0719e0f4af50585755354e06dfea2b0e6035b0d015",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "crown-river-port",
+      "sha256": "6caabdf36937a527028a5da30a83f23d35728c60342e3e838f2d2a3ac237f7cf",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "imperial-siegeworks",
+      "sha256": "e66c6a3d8066ccef201920cd3cfb22bc1cfa6f25b93fc41dc53d9e2eb75f27f2",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "sovereign-castle",
+      "sha256": "c9f928a3783ec51ddddf920cc71173a91b898779a25dd0dbc5c4b38558b4ad02",
+      "status": "rejected-frozen-not-for-adoption"
+    },
+    {
+      "id": "eclipse-crown-citadel",
+      "sha256": "933d49991e4199a0f79bdbfed3e558fd4dba8c307fa3987d16dc167eb22f983a",
+      "status": "rejected-frozen-not-for-adoption"
+    }
+  ],
+  "lastUnadoptedTrials": [
+    {
+      "id": "royal-warblade",
+      "path": "docs/level100-launch/art/frozen-trials-20261025/royal-warblade.png",
+      "sha256": "ce5f8099c85c02d6ea00e282999adba9389dfa63b5fbc3b7c5654a5fb2f7c684",
+      "status": "unapproved-frozen-reference-only",
+      "runtimeAdopted": false,
+      "processing": "Byte-identical PNG archive; no resize, crop, recolor, reframe or repaint."
+    },
+    {
+      "id": "guard-captains-halberd",
+      "path": "docs/level100-launch/art/frozen-trials-20261025/guard-captains-halberd.png",
+      "sha256": "cd37e8fe5f2606aeba36977d6d1fe2773e6d669626c8b0c7b8e113b373d087da",
+      "status": "unapproved-frozen-reference-only",
+      "runtimeAdopted": false,
+      "processing": "Byte-identical PNG archive; no resize, crop, recolor, reframe or repaint."
+    },
+    {
+      "id": "kings-marshal-harness",
+      "path": "docs/level100-launch/art/frozen-trials-20261025/kings-marshal-harness.png",
+      "sha256": "a96d5d1846a8212cae46eff5416319eb415c7fff1300eba8e0bb7eafc74acf83",
+      "status": "unapproved-frozen-reference-only",
+      "runtimeAdopted": false,
+      "processing": "Byte-identical PNG archive; no resize, crop, recolor, reframe or repaint."
+    },
+    {
+      "id": "banner-of-embers",
+      "path": "docs/level100-launch/art/frozen-trials-20261025/banner-of-embers.png",
+      "sha256": "efad06049f084b1f496b3b1620346a6ec562556bb9b58feecb30b44abd60a0a5",
+      "status": "unapproved-frozen-reference-only",
+      "runtimeAdopted": false,
+      "processing": "Byte-identical PNG archive; no resize, crop, recolor, reframe or repaint."
+    }
+  ]
+}

@@ -6,8 +6,9 @@ been inspected. Do not run these operations during this review.
 
 ## Gates, in order
 
-1. Review the comparison gallery; select any targeted redraws and approve final
-   full-bleed bytes/rights in a new immutable artwork version. Approve the exact
+1. Honor the artwork freeze; await separately owner-supplied original artwork and
+   approve final full-bleed bytes/rights in a new immutable artwork version. No
+   further generated alternatives are authorized. Approve the exact
    450-new-identity manifest, 3.702B capital and proposed new-cohort policies.
    Approve rare probability separately, or launch with rare drops off. Do not
    edit an already-installed ruleset to smuggle an approval or new economics.

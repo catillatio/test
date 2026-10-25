@@ -1,5 +1,10 @@
 # Prepared art provenance — approval remains separate
 
+**Current decision: [artwork frozen](../ART_FREEZE.md).** The prior ordinary
+draft selection is rejected. Everything below is preserved provenance, not
+approval to generate, recycle or adopt it. Four later unadopted PNG trials are
+archived without transformations; their hashes are in `../art-freeze.json`.
+
 Classic atlases, six approved Phase 5.1B Land overrides, five approved equipment
 overrides, Crown Harbour and all other pre-existing artwork are unchanged.
 

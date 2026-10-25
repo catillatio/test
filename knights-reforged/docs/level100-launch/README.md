@@ -2,8 +2,10 @@
 
 Base: merged PR #34, `36367d340a561e575e4af7e098d3c2cdedf5579f`.
 This work completes the new-only population/operations wiring and launch studies;
-it does **not** authorize launch. The latest art correction pauses further
-generation/adoption pending the [comparison gallery](ART_DIRECTION_REVIEW.md).
+it does **not** authorize launch. Artwork is [frozen and unapproved](ART_FREEZE.md).
+The owner will supply original equipment art; no more generation, recoloring,
+reframing or recycling. The [comparison gallery](ART_DIRECTION_REVIEW.md) is
+historical evidence. Non-artwork engineering continues independently.
 No Railway, live database, protected workflow, production grant or deployment was used.
 
 ## Implemented and still inactive
@@ -13,7 +15,7 @@ No Railway, live database, protected workflow, production grant or deployment wa
   Classic catalog definitions, prices, combat rewards and artwork are unchanged.
 - Prepares full-bleed versioned images and consistent shared rendering. The three
   Hudson images use the exact owner-selected randomized-name PNGs. Other new images
-  remain **pending drafts**, not accepted final art. No rejected charcoal study is
+  remain **frozen, rejected drafts**, not accepted final art. No rejected charcoal study is
   a game asset. [Provenance and hashes](art/PROVENANCE.md).
 - Adds an immutable manifest of **450 new identities**, never regenerating the
   existing 450. Real declared capital funds saved equipment, FIFO lots, Land,
@@ -110,6 +112,9 @@ and Hudson's unrelated items remain chargeable. No live account was inspected or
 
 ## Verification and remaining launch blockers
 
+- [Completed non-artwork engineering checkpoint](ENGINEERING_READINESS.md)
+- [Actual paginated opponent availability at every level 1–100](matchmaking.json):
+  minimum 27 eligible bots, 20 rows/page, all eligible bots reachable without duplicates.
 - [Preservation, capacity limits and recovery](PRESERVATION_AND_STORAGE.md)
 - [Future owner-only sequence and retry behavior](OPERATIONS.md)
 - [Native independent PostgreSQL restore evidence](independent-restore.json)
@@ -121,7 +126,7 @@ and Hudson's unrelated items remain chargeable. No live account was inspected or
   [Hudson Profile](screenshots/390-hudson-profile.png), [battle equipment](screenshots/390-battle-art.png).
   These are synthetic future-catalog previews, **not an approved visual direction**.
 
-Before launch: approve selective equipment art correction and final asset rights/
+Before launch: integrate separately owner-supplied approved artwork and final rights/
 framing; review 3.702B capitalization and new bot policies; approve rarity separately;
 verify current production/recovery storage headroom and physical devices; separately
 authorize protected deployment, private population append, coordinated cutover,

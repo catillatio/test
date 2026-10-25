@@ -1,5 +1,11 @@
 # Equipment style checkpoint — owner review required
 
+**Superseded by the [owner artwork freeze](ART_FREEZE.md), 2026-10-25.**
+All prior pending ordinary designs are rejected and preserved only as reference.
+Do not execute the redraw suggestions below. The owner will supply original art;
+continue non-artwork engineering independently. Historical gallery labels remain
+unchanged so the original evidence is preserved.
+
 The existing approved equipment is the primary authority. The latest museum-like
 charcoal studies are rejected. No further artwork has been generated for this
 checkpoint, and none of those studies has replaced a runtime asset. The expansion

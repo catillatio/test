@@ -19,3 +19,8 @@ test('all 45 new illustrations have immutable byte provenance, real WebP payload
  for(const old of [...alpha.items,...alpha.properties])assert.equal(preparedExpansionArt(old.id),null,'legacy art must not be overridden');
  assert.equal(expandedContent.items.filter(i=>i.acquisition==='quest-exclusive').length,3);
 });
+test('owner freeze preserves rejected references without adopting trials or granting artwork approval',()=>{
+ const freeze=JSON.parse(read('docs/level100-launch/art-freeze.json').toString());assert.equal(freeze.artworkFrozen,true);assert.equal(freeze.generationAllowed,false);assert.equal(freeze.newArtworkAdopted,false);assert.equal(freeze.activationRemainsBlocked,true);assert.equal(freeze.entries.length,45);assert.equal(freeze.entries.filter((e:{status:string})=>e.status==='rejected-frozen-not-for-adoption').length,42);
+ const historic=JSON.parse(read('rulesets/level100-artwork-2/rules.json').toString());for(const entry of freeze.entries){assert.equal(entry.sha256,historic.entries.find((e:{id:string})=>e.id===entry.id).sha256);assert.equal(approvedExpansionArt(entry.id),null);}
+ assert.equal(freeze.lastUnadoptedTrials.length,4);for(const trial of freeze.lastUnadoptedTrials){assert.equal(trial.runtimeAdopted,false);const bytes=read(trial.path);assert.equal(hash(bytes),trial.sha256);assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.ok(historic.entries.every((e:{sourceSha256:string})=>e.sourceSha256!==trial.sha256),'frozen trial must not replace an existing runtime asset');}
+});
