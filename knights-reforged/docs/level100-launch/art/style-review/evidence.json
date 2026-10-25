@@ -1,0 +1,212 @@
+{
+  "reviewOnly": true,
+  "newArtGeneratedForGallery": false,
+  "productionArtworkChangedByGallery": false,
+  "sourcePolicy": "Approved in-game project artwork is the authority. Drafts and rejected studies are clearly labelled and never promoted by this script. Normalized proportional square source thumbnails, including unfiltered atlas tiles; separate real browser captures document native UI framing.",
+  "sources": [
+    {
+      "id": "cinderwyrm-cleaver",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/weapons.webp",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "id": "moonthorn-recurve",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/weapons.webp",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "id": "oathbound-greatsword",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/equipment-51b-current-1/oathbound-greatsword.webp",
+      "sha256": "50e937d5f392cdee1171a960aea0a77c4b9f6b79a275942c706c18c72a000815"
+    },
+    {
+      "id": "gravewarden-scythe",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/weapons.webp",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "id": "sun-etched-warhammer",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/weapons.webp",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "id": "dragonwake-falchion",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/weapons.webp",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "id": "astral-conductor",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/weapons.webp",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/equipment-51b-current-1/crown-of-ash-blade.webp",
+      "sha256": "ef5ad5697d6070b42ddf9b9c8ff321c512ff1452e183a2b4bb2a105738739eb8"
+    },
+    {
+      "id": "eclipse-greatsword",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/equipment-51b-current-1/eclipse-greatsword.webp",
+      "sha256": "67374ab63c7057af66bf8ccb17e7a164dda07b976cf17527f98930c9f7181752"
+    },
+    {
+      "id": "sovereigns-bastion",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/equipment-51b-current-1/sovereigns-bastion.webp",
+      "sha256": "8cc9291c0dc3dda6c704c84439144bf761391ff2f0eea9550f4b9bc92ee19822"
+    },
+    {
+      "id": "astral-archon-robes",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/armor.webp",
+      "sha256": "1210ae0ce0be9f37a613c754533738dceee3a4b63f43094bdd526d2998149fd1"
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/equipment-51b-current-1/eclipse-citadel-plate.webp",
+      "sha256": "5f55f676806db52c4f844f4bd2afe4dbcfc4253e7a1f69dba3e1724aed7a1fec"
+    },
+    {
+      "id": "oathfire-nova",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/spells.webp",
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67"
+    },
+    {
+      "id": "moonwell-veil",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/spells.webp",
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67"
+    },
+    {
+      "id": "astral-tempest",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/spells.webp",
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67"
+    },
+    {
+      "id": "seraphs-rebuke",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/spells.webp",
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67"
+    },
+    {
+      "id": "eclipse-invocation",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/spells.webp",
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67"
+    },
+    {
+      "id": "wyrmscale-aegis",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/armor.webp",
+      "sha256": "1210ae0ce0be9f37a613c754533738dceee3a4b63f43094bdd526d2998149fd1"
+    },
+    {
+      "id": "oathbound-greatsword",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/equipment-51b-current-1/oathbound-greatsword.webp",
+      "sha256": "50e937d5f392cdee1171a960aea0a77c4b9f6b79a275942c706c18c72a000815"
+    },
+    {
+      "id": "marcher-greatsword",
+      "role": "REJECTED_STUDY",
+      "sourceSha256": "450fe70b3d24a00d95bdc7d39d88a2c2c8522fa097597f9964c650e34e038e7a",
+      "publicAssetAdopted": false
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/equipment-51b-current-1/crown-of-ash-blade.webp",
+      "sha256": "ef5ad5697d6070b42ddf9b9c8ff321c512ff1452e183a2b4bb2a105738739eb8"
+    },
+    {
+      "id": "royal-warblade",
+      "role": "REJECTED_STUDY",
+      "sourceSha256": "bbaf84cae2ab69c075cddbc9e9bae726e9ba7388068cc1ec15d3c3e23255a4b8",
+      "publicAssetAdopted": false
+    },
+    {
+      "id": "gravewarden-scythe",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/weapons.webp",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "id": "fortress-glaive",
+      "role": "REJECTED_STUDY",
+      "sourceSha256": "1b0157dd048d641eb5e738d4dbbdd8fa4d441d691c365895c408b638a5e30f45",
+      "publicAssetAdopted": false
+    },
+    {
+      "id": "dragonwake-falchion",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/weapons.webp",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "id": "guard-captains-halberd",
+      "role": "REJECTED_STUDY",
+      "sourceSha256": "a344cf48ec29ca2312d68ffe1ca69dcd5bf15d8840f403116ff17d7c3cbf2ca0",
+      "publicAssetAdopted": false
+    },
+    {
+      "id": "sovereigns-bastion",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/equipment-51b-current-1/sovereigns-bastion.webp",
+      "sha256": "8cc9291c0dc3dda6c704c84439144bf761391ff2f0eea9550f4b9bc92ee19822"
+    },
+    {
+      "id": "captains-brigandine",
+      "role": "REJECTED_STUDY",
+      "sourceSha256": "aa37f3a2f778fbe9a02e5844f5436e707e5cb1dca4770e531f7d5ae518dfc446",
+      "publicAssetAdopted": false
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/equipment-51b-current-1/eclipse-citadel-plate.webp",
+      "sha256": "5f55f676806db52c4f844f4bd2afe4dbcfc4253e7a1f69dba3e1724aed7a1fec"
+    },
+    {
+      "id": "siegeguard-plate",
+      "role": "REJECTED_STUDY",
+      "sourceSha256": "1c34f06ebdf697318e54de23b48b331be835285dfafe6306d303bc34f02da49a",
+      "publicAssetAdopted": false
+    },
+    {
+      "id": "oathfire-nova",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/spells.webp",
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67"
+    },
+    {
+      "id": "battlebrand",
+      "role": "REJECTED_STUDY",
+      "sourceSha256": "8e3df4c341b01fd4548b804add6193cb58ea63b96fee5a89295f41f3eb6ebf5d",
+      "publicAssetAdopted": false
+    },
+    {
+      "id": "moonwell-veil",
+      "role": "APPROVED_CURRENT",
+      "source": "public/art/fantasy-0.2/spells.webp",
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67"
+    },
+    {
+      "id": "rampart-ward",
+      "role": "REJECTED_STUDY",
+      "sourceSha256": "efd0e0b02bd3b8eadfcc495b3ce316e896476e91cd1e133542c9ff3885295e5c",
+      "publicAssetAdopted": false
+    }
+  ]
+}

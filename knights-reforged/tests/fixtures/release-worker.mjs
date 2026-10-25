@@ -22,7 +22,7 @@ for(const [module,names]of[[http,['request','get']],[https,['request','get']],[n
  [child,['spawn','exec','execFile','fork','spawnSync','execSync','execFileSync']],[workers,['Worker']]])for(const name of names)module[name]=block;
 syncBuiltinESMExports();globalThis.fetch=block;
 
-const status={accounts:452,bots:450,active_bots:450,schemaHead:'024_level100_expansion.sql',initialized:true,sourceBytes:'2000000',clusterId:'1234567890'};
+const status={accounts:452,bots:450,active_bots:450,schemaHead:'025_level100_population.sql',initialized:true,sourceBytes:'2000000',clusterId:'1234567890'};
 const plain={sha256:'1'.repeat(64),bytes:200000},cipher={sha256:'2'.repeat(64),bytes:200500};
 const temporary='/offline-worker-only/kingdom-release-fixture';
 const source={
@@ -112,6 +112,9 @@ const mocks={
  'node:child_process':'export const spawn=(...args)=>globalThis.releaseWorkerFixture.spawn(...args);',
  'node:fs/promises':['mkdtemp','readFile','writeFile','rm','statfs'].map(name=>'export const '+name+'=(...args)=>globalThis.releaseWorkerFixture.'+name+'(...args);').join('\n'),
  '../../dist/db.js':'export const createDatabase=(...args)=>globalThis.releaseWorkerFixture.createDatabase(...args);',
+ // This historical 450-bot fixture has no installed cohort. The real 900
+ // provenance SQL is exercised separately against disposable PostgreSQL.
+ '../../dist/expansion-population.js':'export const populationEvidence=async()=>null;',
  './candidate.mjs':"export const candidateDigest=async()=>(process.env.FIXTURE_MODE==='bad_candidate'?'e':'d').repeat(64);",
  './transfer.mjs':['fileDigest','putFile','getFile','putReport'].map(name=>'export const '+name+'=(...args)=>globalThis.releaseWorkerFixture.'+name+'(...args);').join('\n')
 };

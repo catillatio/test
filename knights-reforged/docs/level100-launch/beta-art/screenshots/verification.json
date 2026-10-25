@@ -1,0 +1,2947 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "syntheticOnly": true,
+  "temporaryBetaArt": true,
+  "finalArtApprovalClaimed": false,
+  "totalPlaceholderBytes": 4000,
+  "artworkDigest": "3b1cb2c25578af2c8211ca85d8fac88283da0d6a2d8d329c2a631ecf7bfbf935",
+  "widths": [
+    320,
+    390,
+    430,
+    1024
+  ],
+  "horizontalOverflow": false,
+  "browserErrors": [],
+  "fullBleedChecks": [
+    {
+      "width": 320,
+      "checked": 309,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "checked": 309,
+      "failures": []
+    },
+    {
+      "width": 430,
+      "checked": 309,
+      "failures": []
+    },
+    {
+      "width": 1024,
+      "checked": 309,
+      "failures": []
+    }
+  ],
+  "bindings": [
+    {
+      "width": 320,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "royal-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "captains-brigandine",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "kings-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "banner-of-embers",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "marcher-stronghold",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "royal-border-fortress",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "crown-river-port",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-siegeworks",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "sovereign-castle",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "eclipse-crown-citadel",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "royal-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/level100-beta-1/shield.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "kings-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "captains-brigandine",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "banner-of-embers",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "marcher-stronghold",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "royal-border-fortress",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "crown-river-port",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "imperial-siegeworks",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "sovereign-castle",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 320,
+      "id": "eclipse-crown-citadel",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "captains-brigandine",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "kings-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "banner-of-embers",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "marcher-stronghold",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-border-fortress",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crown-river-port",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-siegeworks",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereign-castle",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-crown-citadel",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/level100-beta-1/shield.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "kings-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "captains-brigandine",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "banner-of-embers",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "marcher-stronghold",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-border-fortress",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crown-river-port",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-siegeworks",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereign-castle",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-crown-citadel",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "royal-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "captains-brigandine",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "kings-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "banner-of-embers",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "marcher-stronghold",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "royal-border-fortress",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "crown-river-port",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-siegeworks",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "sovereign-castle",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "eclipse-crown-citadel",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "royal-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/level100-beta-1/shield.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "kings-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "captains-brigandine",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "banner-of-embers",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "marcher-stronghold",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "royal-border-fortress",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "crown-river-port",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "imperial-siegeworks",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "sovereign-castle",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 430,
+      "id": "eclipse-crown-citadel",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "royal-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "captains-brigandine",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "kings-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "banner-of-embers",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "marcher-stronghold",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "royal-border-fortress",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "crown-river-port",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-siegeworks",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "sovereign-castle",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "eclipse-crown-citadel",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "royal-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/level100-beta-1/shield.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "kings-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "captains-brigandine",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "banner-of-embers",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "marcher-stronghold",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "royal-border-fortress",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "crown-river-port",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "imperial-siegeworks",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "sovereign-castle",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 1024,
+      "id": "eclipse-crown-citadel",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/level100-beta-1/shield.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ash-crowned-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "fortress-glaive",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-gatehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "high-castellans-hammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "throneguard-polehammer",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "marcher-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereigns-zweihander",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-greatblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "march-wardens-poleaxe",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "guard-captains-halberd",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-warblade",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-greatsword",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/level100-beta-1/shield.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ducal-warplate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "fortress-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "citadel-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "siegeguard-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ashen-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-war-marshal-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "kings-marshal-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-assault-harness",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "captains-brigandine",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-eclipse-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereigns-war-bastion",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crownwall-bastion-plate",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ashen-coronation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-aegis",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "banner-of-embers",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sanctuary-of-banners",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "astral-siegefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "rampart-ward",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "battlebrand",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "stonewall-oath",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "astral-war-invocation",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "ironwall-covenant",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crown-of-wards",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-battlefire",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "marcher-stronghold",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "royal-border-fortress",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "crown-river-port",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "imperial-siegeworks",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "sovereign-castle",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    },
+    {
+      "width": 390,
+      "id": "eclipse-crown-citadel",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "use": "temporary-beta"
+    }
+  ],
+  "views": [
+    {
+      "width": 390,
+      "name": "approved-current-weapon"
+    },
+    {
+      "width": 390,
+      "name": "approved-current-armor"
+    },
+    {
+      "width": 390,
+      "name": "approved-current-spell"
+    },
+    {
+      "width": 320,
+      "name": "armory-weapon"
+    },
+    {
+      "width": 320,
+      "name": "armory-armor"
+    },
+    {
+      "width": 320,
+      "name": "armory-spell"
+    },
+    {
+      "width": 320,
+      "name": "land"
+    },
+    {
+      "width": 320,
+      "name": "quests"
+    },
+    {
+      "width": 320,
+      "name": "hudson-public"
+    },
+    {
+      "width": 390,
+      "name": "armory-weapon"
+    },
+    {
+      "width": 390,
+      "name": "armory-armor"
+    },
+    {
+      "width": 390,
+      "name": "armory-spell"
+    },
+    {
+      "width": 390,
+      "name": "land"
+    },
+    {
+      "width": 390,
+      "name": "quests"
+    },
+    {
+      "width": 390,
+      "name": "hudson-public"
+    },
+    {
+      "width": 430,
+      "name": "armory-weapon"
+    },
+    {
+      "width": 430,
+      "name": "armory-armor"
+    },
+    {
+      "width": 430,
+      "name": "armory-spell"
+    },
+    {
+      "width": 430,
+      "name": "land"
+    },
+    {
+      "width": 430,
+      "name": "quests"
+    },
+    {
+      "width": 430,
+      "name": "hudson-public"
+    },
+    {
+      "width": 1024,
+      "name": "armory-weapon"
+    },
+    {
+      "width": 1024,
+      "name": "armory-armor"
+    },
+    {
+      "width": 1024,
+      "name": "armory-spell"
+    },
+    {
+      "width": 1024,
+      "name": "land"
+    },
+    {
+      "width": 1024,
+      "name": "quests"
+    },
+    {
+      "width": 1024,
+      "name": "hudson-public"
+    },
+    {
+      "width": 390,
+      "name": "receipt"
+    },
+    {
+      "width": 390,
+      "name": "battle-art"
+    },
+    {
+      "width": 390,
+      "name": "hudson-profile"
+    }
+  ]
+}

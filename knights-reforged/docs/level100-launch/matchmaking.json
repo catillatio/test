@@ -1,0 +1,620 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "syntheticOnly": true,
+  "manifestDigest": "a19d53de3afe393ca6999ddb6e721bee8944195716f2a95f102dfabdb5cb5ae0",
+  "levelsTested": [
+    1,
+    100
+  ],
+  "rowsPerPageMaximum": 20,
+  "minimumActualEligibleBots": 27,
+  "maximumPages": 13,
+  "fullTraversalMilliseconds": 24965,
+  "allEligibleBotsReachable": true,
+  "duplicates": false,
+  "actualSavedArmyCounts": true,
+  "unpublishedCohortExcluded": true,
+  "levels": [
+    {
+      "level": 1,
+      "opponents": 27,
+      "pages": 2,
+      "milliseconds": 61
+    },
+    {
+      "level": 2,
+      "opponents": 36,
+      "pages": 2,
+      "milliseconds": 58
+    },
+    {
+      "level": 3,
+      "opponents": 45,
+      "pages": 3,
+      "milliseconds": 88
+    },
+    {
+      "level": 4,
+      "opponents": 45,
+      "pages": 3,
+      "milliseconds": 88
+    },
+    {
+      "level": 5,
+      "opponents": 45,
+      "pages": 3,
+      "milliseconds": 157
+    },
+    {
+      "level": 6,
+      "opponents": 45,
+      "pages": 3,
+      "milliseconds": 82
+    },
+    {
+      "level": 7,
+      "opponents": 45,
+      "pages": 3,
+      "milliseconds": 93
+    },
+    {
+      "level": 8,
+      "opponents": 50,
+      "pages": 3,
+      "milliseconds": 92
+    },
+    {
+      "level": 9,
+      "opponents": 50,
+      "pages": 3,
+      "milliseconds": 83
+    },
+    {
+      "level": 10,
+      "opponents": 50,
+      "pages": 3,
+      "milliseconds": 90
+    },
+    {
+      "level": 11,
+      "opponents": 59,
+      "pages": 3,
+      "milliseconds": 86
+    },
+    {
+      "level": 12,
+      "opponents": 64,
+      "pages": 4,
+      "milliseconds": 116
+    },
+    {
+      "level": 13,
+      "opponents": 59,
+      "pages": 3,
+      "milliseconds": 118
+    },
+    {
+      "level": 14,
+      "opponents": 68,
+      "pages": 4,
+      "milliseconds": 178
+    },
+    {
+      "level": 15,
+      "opponents": 68,
+      "pages": 4,
+      "milliseconds": 134
+    },
+    {
+      "level": 16,
+      "opponents": 82,
+      "pages": 5,
+      "milliseconds": 165
+    },
+    {
+      "level": 17,
+      "opponents": 82,
+      "pages": 5,
+      "milliseconds": 181
+    },
+    {
+      "level": 18,
+      "opponents": 82,
+      "pages": 5,
+      "milliseconds": 156
+    },
+    {
+      "level": 19,
+      "opponents": 77,
+      "pages": 4,
+      "milliseconds": 118
+    },
+    {
+      "level": 20,
+      "opponents": 86,
+      "pages": 5,
+      "milliseconds": 147
+    },
+    {
+      "level": 21,
+      "opponents": 100,
+      "pages": 5,
+      "milliseconds": 160
+    },
+    {
+      "level": 22,
+      "opponents": 100,
+      "pages": 5,
+      "milliseconds": 168
+    },
+    {
+      "level": 23,
+      "opponents": 100,
+      "pages": 5,
+      "milliseconds": 143
+    },
+    {
+      "level": 24,
+      "opponents": 100,
+      "pages": 5,
+      "milliseconds": 139
+    },
+    {
+      "level": 25,
+      "opponents": 100,
+      "pages": 5,
+      "milliseconds": 140
+    },
+    {
+      "level": 26,
+      "opponents": 118,
+      "pages": 6,
+      "milliseconds": 176
+    },
+    {
+      "level": 27,
+      "opponents": 118,
+      "pages": 6,
+      "milliseconds": 168
+    },
+    {
+      "level": 28,
+      "opponents": 118,
+      "pages": 6,
+      "milliseconds": 177
+    },
+    {
+      "level": 29,
+      "opponents": 123,
+      "pages": 7,
+      "milliseconds": 202
+    },
+    {
+      "level": 30,
+      "opponents": 123,
+      "pages": 7,
+      "milliseconds": 195
+    },
+    {
+      "level": 31,
+      "opponents": 127,
+      "pages": 7,
+      "milliseconds": 197
+    },
+    {
+      "level": 32,
+      "opponents": 136,
+      "pages": 7,
+      "milliseconds": 196
+    },
+    {
+      "level": 33,
+      "opponents": 141,
+      "pages": 8,
+      "milliseconds": 223
+    },
+    {
+      "level": 34,
+      "opponents": 141,
+      "pages": 8,
+      "milliseconds": 226
+    },
+    {
+      "level": 35,
+      "opponents": 141,
+      "pages": 8,
+      "milliseconds": 221
+    },
+    {
+      "level": 36,
+      "opponents": 150,
+      "pages": 8,
+      "milliseconds": 230
+    },
+    {
+      "level": 37,
+      "opponents": 150,
+      "pages": 8,
+      "milliseconds": 227
+    },
+    {
+      "level": 38,
+      "opponents": 159,
+      "pages": 8,
+      "milliseconds": 249
+    },
+    {
+      "level": 39,
+      "opponents": 159,
+      "pages": 8,
+      "milliseconds": 222
+    },
+    {
+      "level": 40,
+      "opponents": 164,
+      "pages": 9,
+      "milliseconds": 328
+    },
+    {
+      "level": 41,
+      "opponents": 178,
+      "pages": 9,
+      "milliseconds": 390
+    },
+    {
+      "level": 42,
+      "opponents": 177,
+      "pages": 9,
+      "milliseconds": 338
+    },
+    {
+      "level": 43,
+      "opponents": 171,
+      "pages": 9,
+      "milliseconds": 257
+    },
+    {
+      "level": 44,
+      "opponents": 179,
+      "pages": 9,
+      "milliseconds": 263
+    },
+    {
+      "level": 45,
+      "opponents": 178,
+      "pages": 9,
+      "milliseconds": 288
+    },
+    {
+      "level": 46,
+      "opponents": 185,
+      "pages": 10,
+      "milliseconds": 281
+    },
+    {
+      "level": 47,
+      "opponents": 184,
+      "pages": 10,
+      "milliseconds": 284
+    },
+    {
+      "level": 48,
+      "opponents": 183,
+      "pages": 10,
+      "milliseconds": 287
+    },
+    {
+      "level": 49,
+      "opponents": 177,
+      "pages": 9,
+      "milliseconds": 256
+    },
+    {
+      "level": 50,
+      "opponents": 185,
+      "pages": 10,
+      "milliseconds": 277
+    },
+    {
+      "level": 51,
+      "opponents": 192,
+      "pages": 10,
+      "milliseconds": 288
+    },
+    {
+      "level": 52,
+      "opponents": 191,
+      "pages": 10,
+      "milliseconds": 277
+    },
+    {
+      "level": 53,
+      "opponents": 190,
+      "pages": 10,
+      "milliseconds": 287
+    },
+    {
+      "level": 54,
+      "opponents": 189,
+      "pages": 10,
+      "milliseconds": 281
+    },
+    {
+      "level": 55,
+      "opponents": 183,
+      "pages": 10,
+      "milliseconds": 296
+    },
+    {
+      "level": 56,
+      "opponents": 199,
+      "pages": 10,
+      "milliseconds": 318
+    },
+    {
+      "level": 57,
+      "opponents": 198,
+      "pages": 10,
+      "milliseconds": 296
+    },
+    {
+      "level": 58,
+      "opponents": 197,
+      "pages": 10,
+      "milliseconds": 290
+    },
+    {
+      "level": 59,
+      "opponents": 191,
+      "pages": 10,
+      "milliseconds": 282
+    },
+    {
+      "level": 60,
+      "opponents": 190,
+      "pages": 10,
+      "milliseconds": 286
+    },
+    {
+      "level": 61,
+      "opponents": 192,
+      "pages": 10,
+      "milliseconds": 358
+    },
+    {
+      "level": 62,
+      "opponents": 200,
+      "pages": 10,
+      "milliseconds": 275
+    },
+    {
+      "level": 63,
+      "opponents": 200,
+      "pages": 10,
+      "milliseconds": 301
+    },
+    {
+      "level": 64,
+      "opponents": 200,
+      "pages": 10,
+      "milliseconds": 299
+    },
+    {
+      "level": 65,
+      "opponents": 200,
+      "pages": 10,
+      "milliseconds": 353
+    },
+    {
+      "level": 66,
+      "opponents": 208,
+      "pages": 11,
+      "milliseconds": 368
+    },
+    {
+      "level": 67,
+      "opponents": 208,
+      "pages": 11,
+      "milliseconds": 370
+    },
+    {
+      "level": 68,
+      "opponents": 216,
+      "pages": 11,
+      "milliseconds": 305
+    },
+    {
+      "level": 69,
+      "opponents": 216,
+      "pages": 11,
+      "milliseconds": 301
+    },
+    {
+      "level": 70,
+      "opponents": 216,
+      "pages": 11,
+      "milliseconds": 317
+    },
+    {
+      "level": 71,
+      "opponents": 224,
+      "pages": 12,
+      "milliseconds": 330
+    },
+    {
+      "level": 72,
+      "opponents": 224,
+      "pages": 12,
+      "milliseconds": 325
+    },
+    {
+      "level": 73,
+      "opponents": 224,
+      "pages": 12,
+      "milliseconds": 344
+    },
+    {
+      "level": 74,
+      "opponents": 232,
+      "pages": 12,
+      "milliseconds": 386
+    },
+    {
+      "level": 75,
+      "opponents": 232,
+      "pages": 12,
+      "milliseconds": 330
+    },
+    {
+      "level": 76,
+      "opponents": 240,
+      "pages": 12,
+      "milliseconds": 336
+    },
+    {
+      "level": 77,
+      "opponents": 240,
+      "pages": 12,
+      "milliseconds": 337
+    },
+    {
+      "level": 78,
+      "opponents": 240,
+      "pages": 12,
+      "milliseconds": 343
+    },
+    {
+      "level": 79,
+      "opponents": 240,
+      "pages": 12,
+      "milliseconds": 353
+    },
+    {
+      "level": 80,
+      "opponents": 248,
+      "pages": 13,
+      "milliseconds": 377
+    },
+    {
+      "level": 81,
+      "opponents": 256,
+      "pages": 13,
+      "milliseconds": 370
+    },
+    {
+      "level": 82,
+      "opponents": 256,
+      "pages": 13,
+      "milliseconds": 366
+    },
+    {
+      "level": 83,
+      "opponents": 256,
+      "pages": 13,
+      "milliseconds": 384
+    },
+    {
+      "level": 84,
+      "opponents": 248,
+      "pages": 13,
+      "milliseconds": 375
+    },
+    {
+      "level": 85,
+      "opponents": 240,
+      "pages": 12,
+      "milliseconds": 342
+    },
+    {
+      "level": 86,
+      "opponents": 240,
+      "pages": 12,
+      "milliseconds": 343
+    },
+    {
+      "level": 87,
+      "opponents": 232,
+      "pages": 12,
+      "milliseconds": 344
+    },
+    {
+      "level": 88,
+      "opponents": 224,
+      "pages": 12,
+      "milliseconds": 340
+    },
+    {
+      "level": 89,
+      "opponents": 216,
+      "pages": 11,
+      "milliseconds": 307
+    },
+    {
+      "level": 90,
+      "opponents": 208,
+      "pages": 11,
+      "milliseconds": 313
+    },
+    {
+      "level": 91,
+      "opponents": 200,
+      "pages": 10,
+      "milliseconds": 279
+    },
+    {
+      "level": 92,
+      "opponents": 200,
+      "pages": 10,
+      "milliseconds": 286
+    },
+    {
+      "level": 93,
+      "opponents": 192,
+      "pages": 10,
+      "milliseconds": 288
+    },
+    {
+      "level": 94,
+      "opponents": 184,
+      "pages": 10,
+      "milliseconds": 284
+    },
+    {
+      "level": 95,
+      "opponents": 176,
+      "pages": 9,
+      "milliseconds": 254
+    },
+    {
+      "level": 96,
+      "opponents": 168,
+      "pages": 9,
+      "milliseconds": 252
+    },
+    {
+      "level": 97,
+      "opponents": 160,
+      "pages": 8,
+      "milliseconds": 250
+    },
+    {
+      "level": 98,
+      "opponents": 160,
+      "pages": 8,
+      "milliseconds": 298
+    },
+    {
+      "level": 99,
+      "opponents": 152,
+      "pages": 8,
+      "milliseconds": 238
+    },
+    {
+      "level": 100,
+      "opponents": 144,
+      "pages": 8,
+      "milliseconds": 244
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "temporaryBetaImages": 5,
+  "imageBytes": 4000,
+  "obsoleteImagesExcluded": 45,
+  "rejectedOrdinaryDrafts": 42,
+  "archivedHudsonRenderings": 3,
+  "archivedImageBytes": 4870646,
+  "imageBytesSaved": 4866646,
+  "archivedBytesPreserved": true,
+  "classicAssetsUnchanged": true,
+  "schema": "025_level100_population.sql",
+  "runtimeDirectoryBytes": 6934
+}

@@ -1,0 +1,123 @@
+{
+  "policy": {
+    "id": "quest-equipment-rarities-1",
+    "provenance": "Owner-review proposal only. No pity, guaranteed drops, boosts or retroactive awards. Ordinary eligible quest costs apply.",
+    "reviewStatus": "pending",
+    "scale": 1000000,
+    "minimumLevel": 71,
+    "quantity": 1,
+    "proposedPpm": 500,
+    "quests": {
+      "storm-the-river-fortress": [
+        "king-hudsons-sword"
+      ],
+      "settle-the-war-of-crowns": [
+        "king-hudsons-shield"
+      ],
+      "breach-the-imperial-walls": [
+        "king-hudsons-meteor-shower"
+      ],
+      "defend-the-hundred-kingdoms": [
+        "king-hudsons-sword",
+        "king-hudsons-shield",
+        "king-hudsons-meteor-shower"
+      ]
+    }
+  },
+  "recommendationPpm": 500,
+  "ownerApprovalRequired": true,
+  "liveEnabled": false,
+  "minimumCharacterLevel": 71,
+  "firstEligibleQuestLevel": 74,
+  "explanation": "One non-pity independent 0.05% draw per listed item on eligible confirmed quests; exact integer draw uses cryptographic randomness. No paid purchase or zero-cost sale windfall.",
+  "rows": [
+    {
+      "days": 21,
+      "dailyEligibleCompletions": 5,
+      "trials": 105,
+      "expectedCopiesPerItem": 0.0525,
+      "probabilityAny": 0.05115813672817038
+    },
+    {
+      "days": 21,
+      "dailyEligibleCompletions": 10,
+      "trials": 210,
+      "expectedCopiesPerItem": 0.105,
+      "probabilityAny": 0.09969911850284263
+    },
+    {
+      "days": 21,
+      "dailyEligibleCompletions": 15,
+      "trials": 315,
+      "expectedCopiesPerItem": 0.1575,
+      "probabilityAny": 0.14575683409496665
+    },
+    {
+      "days": 60,
+      "dailyEligibleCompletions": 5,
+      "trials": 300,
+      "expectedCopiesPerItem": 0.15,
+      "probabilityAny": 0.1393243102813484
+    },
+    {
+      "days": 60,
+      "dailyEligibleCompletions": 10,
+      "trials": 600,
+      "expectedCopiesPerItem": 0.3,
+      "probabilityAny": 0.2592373571273233
+    },
+    {
+      "days": 60,
+      "dailyEligibleCompletions": 15,
+      "trials": 900,
+      "expectedCopiesPerItem": 0.45,
+      "probabilityAny": 0.3624436014277478
+    },
+    {
+      "days": 90,
+      "dailyEligibleCompletions": 5,
+      "trials": 450,
+      "expectedCopiesPerItem": 0.225,
+      "probabilityAny": 0.20152871149160778
+    },
+    {
+      "days": 90,
+      "dailyEligibleCompletions": 10,
+      "trials": 900,
+      "expectedCopiesPerItem": 0.45,
+      "probabilityAny": 0.3624436014277478
+    },
+    {
+      "days": 90,
+      "dailyEligibleCompletions": 15,
+      "trials": 1350,
+      "expectedCopiesPerItem": 0.675,
+      "probabilityAny": 0.49092952093524367
+    },
+    {
+      "days": 180,
+      "dailyEligibleCompletions": 5,
+      "trials": 900,
+      "expectedCopiesPerItem": 0.45,
+      "probabilityAny": 0.3624436014277478
+    },
+    {
+      "days": 180,
+      "dailyEligibleCompletions": 10,
+      "trials": 1800,
+      "expectedCopiesPerItem": 0.9,
+      "probabilityAny": 0.5935218386395795
+    },
+    {
+      "days": 180,
+      "dailyEligibleCompletions": 15,
+      "trials": 2700,
+      "expectedCopiesPerItem": 1.35,
+      "probabilityAny": 0.7408472473447796
+    }
+  ],
+  "meanEligibleQuestsPerItem": 2000,
+  "medianEligibleQuests": 1386,
+  "expectedGoldCreatedByDrop": 0,
+  "hudsonOriginalGrantPerItem": 15
+}

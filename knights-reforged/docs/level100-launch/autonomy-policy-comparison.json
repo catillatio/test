@@ -1,0 +1,58 @@
+{
+  "proposedOnly": true,
+  "earlierCandidate": "New-cohort 70% upkeep guard and tier-aware price ceiling, before recency/minimum-gain filters. Original 450 policy is unaffected.",
+  "earlierResults": [
+    {
+      "days": 7,
+      "humanAccounts": 0,
+      "equipmentPurchases": 1714,
+      "landPurchases": 2648,
+      "estimatedLandJournalRows": 1000601,
+      "unimprovedEquipmentBots": 75,
+      "sources": {
+        "land": "2538453030",
+        "upkeep": "1524765860",
+        "purchases": "2249654"
+      }
+    },
+    {
+      "days": 30,
+      "humanAccounts": 0,
+      "equipmentPurchases": 7831,
+      "landPurchases": 11338,
+      "estimatedLandJournalRows": 7406987,
+      "unimprovedEquipmentBots": 75,
+      "sources": {
+        "land": "10991718918",
+        "upkeep": "6546574161",
+        "purchases": "10943918"
+      }
+    },
+    {
+      "days": 30,
+      "humanAccounts": 10,
+      "equipmentPurchases": 7831,
+      "landPurchases": 11338,
+      "estimatedLandJournalRows": 7406987,
+      "unimprovedEquipmentBots": 75,
+      "sources": {
+        "land": "10991718918",
+        "upkeep": "6546574161",
+        "purchases": "10943918"
+      }
+    },
+    {
+      "days": 30,
+      "humanAccounts": 50,
+      "equipmentPurchases": 7281,
+      "landPurchases": 10610,
+      "estimatedLandJournalRows": 6668846,
+      "unimprovedEquipmentBots": 75,
+      "sources": {
+        "land": "10976304442",
+        "upkeep": "6545031651",
+        "purchases": "10030216"
+      }
+    }
+  ]
+}

@@ -141,3 +141,12 @@
 .equipment-art-51b-2 { background-image: url('art/equipment-51b-current-1/eclipse-greatsword.webp'); }
 .equipment-art-51b-3 { background-image: url('art/equipment-51b-current-1/sovereigns-bastion.webp'); }
 .equipment-art-51b-4 { background-image: url('art/equipment-51b-current-1/eclipse-citadel-plate.webp'); }
+
+/* Original level-100 paintings use the same native artwork slots. The source
+   fills the frame proportionally; no atlas offset, filter or contain matte. */
+.kingdoms-ui.realm-remaster.signed-in .catalog-art.expansion-art {
+  object-fit: cover; object-position: center; filter: none;
+}
+.kingdoms-ui.realm-remaster.signed-in .property-art-frame .catalog-art.expansion-art {
+  width: 100%; height: 100%; transform: none; border: 0; border-radius: 0; object-position: 50% 0%;
+}

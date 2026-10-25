@@ -1,3 +1,4 @@
+import {cohortMembers,botArmy} from './expansion-bot-rules.js';
 import {createHash} from 'node:crypto';
 import {callingDescription} from './calling-presentation.js';
 import {upcomingPayment} from './payment.js';
@@ -83,12 +84,12 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   const units=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM army_stacks WHERE character_id=$1',[row.id])).rows[0]!.quantity as number;
   const roster=await readArmyRoster(sql,row.id,runtime),links=roster.links,allies=roster.accepted;
   const isBot=row.development_bot??!!(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[row.id])).rows.length;
-  const projection=isBot?activeArmy(row.attained_level,Math.min(units,refinements.bots.armyCap-1),0,Math.min(row.legacy_army_floor,refinements.bots.armyCap)):resolveArmy(row.attained_level,units,allies,row.legacy_army_floor,world.armyPolicy);
-  if(isBot){projection.participants=Math.min(refinements.bots.armyCap,projection.participants);projection.capacity=Math.min(refinements.bots.armyCap,projection.capacity);projection.total=Math.min(refinements.bots.armyCap,projection.total);}
-  const army={...projection,allies,mercenaries:units,links,incoming:roster.incoming,outgoing:roster.outgoing,nextCursor:roster.nextCursor};
+  const contingent=world.expanded&&isBot?(await cohortMembers(sql,[row.id])).get(row.id):undefined;
+  const projection=isBot?botArmy(row.attained_level,units,allies,row.legacy_army_floor,contingent):resolveArmy(row.attained_level,units,allies,row.legacy_army_floor,world.armyPolicy);
+  const army={...projection,allies,mercenaries:units+(contingent??0),links,incoming:roster.incoming,outgoing:roster.outgoing,nextCursor:roster.nextCursor};
   const inventory=await readInventory(sql,row.id);const upkeep=await maintenanceAccount(sql,row.id,now);
-  const attackEquipment=selectEquipment(inventory,army.participants,'attack',!upkeep.paused,isBot?'army-legacy-1':world.armyPolicy);
-  const defenseEquipment=selectEquipment(inventory,army.participants,'defense',!upkeep.paused,isBot?'army-legacy-1':world.armyPolicy);
+  const attackEquipment=selectEquipment(inventory,army.participants,'attack',!upkeep.paused,isBot&&contingent===undefined?'army-legacy-1':world.armyPolicy);
+  const defenseEquipment=selectEquipment(inventory,army.participants,'defense',!upkeep.paused,isBot&&contingent===undefined?'army-legacy-1':world.armyPolicy);
   const progress=(await sql.query('SELECT quest_id,completions FROM character_quest_progress WHERE character_id=$1',[row.id])).rows;
   const loot=(await sql.query('SELECT loot_id AS id,name FROM character_loot WHERE character_id=$1 ORDER BY acquired_at,loot_id',[row.id])).rows as {id:string;name:string}[];
   const awards=(await sql.query('SELECT award_id AS id,points FROM progression_awards WHERE character_id=$1 ORDER BY created_at,award_id',[row.id])).rows as {id:string;points:number}[];
@@ -165,8 +166,9 @@ async function chronologicalOpponents(db:Database,characterId:string,cursor?:str
     ORDER BY c.created_at DESC,c.id DESC LIMIT 21`,[characterId,actor.attained_level-range,actor.attained_level+range,after,afterId,actor.attained_level,developmentBotsEnabled,developmentBotRecruitmentEnabled])).rows;
   const eligible=rows.filter(row=>areRivals(actor.attained_level,row.attained_level));const more=eligible.length>20;
   const now=await clock(db);
+  const contingents=world.expanded?await cohortMembers(db,eligible.map(r=>r.id)):new Map<string,number>();
   const opponents=eligible.slice(0,20).map(row=>({id:row.id as string,name:row.name as string,level:row.attained_level as number,className:row.profile_class as string,
-    units:row.units as number,armySize:Math.min(row.bot_tier?refinements.bots.armyCap:Number.MAX_SAFE_INTEGER,resolveArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor,row.bot_tier?'army-legacy-1':world.armyPolicy).participants),maxHealth:row.max_health as number,
+    units:row.units as number,armySize:(row.bot_tier?botArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor,contingents.get(row.id)):resolveArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor,world.armyPolicy)).participants,maxHealth:row.max_health as number,
     health:regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value,
     botTier:row.bot_tier as string|null,
     cursor:row.cursor_at+'~'+row.id}));
@@ -201,8 +203,9 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
   AND (($9=0 AND c.id>$4::uuid) OR ($9=1 AND c.id<=$4::uuid)) AND ($5::uuid IS NULL OR c.id>$5::uuid)
   ORDER BY c.id LIMIT $10`,[characterId,actor.attained_level-range,actor.attained_level+range,pivot, last,actor.attained_level,developmentBotsEnabled,developmentBotRecruitmentEnabled,half,limit])).rows;
  const rows=await seek(phase,after,21);if(phase===0&&rows.length<21)rows.push(...await seek(1,null,21-rows.length));
+ const contingents=world.expanded?await cohortMembers(db,rows.map(r=>r.id)):new Map<string,number>();
  const opponents=rows.slice(0,20).map(row=>({id:row.id as string,name:row.name as string,level:row.attained_level as number,className:row.profile_class as string,
-  units:row.units as number,armySize:Math.min(row.bot_tier?refinements.bots.armyCap:Number.MAX_SAFE_INTEGER,resolveArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor,row.bot_tier?'army-legacy-1':world.armyPolicy).participants),maxHealth:row.max_health as number,
+  units:row.units as number,armySize:(row.bot_tier?botArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor,contingents.get(row.id)):resolveArmy(row.attained_level,row.units,row.allies,row.legacy_army_floor,world.armyPolicy)).participants,maxHealth:row.max_health as number,
   health:regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount).value,
   botTier:row.bot_tier as string|null,cursor:'r1~'+pivot+'~'+row.rotation_phase+'~'+row.id}));
  const nextCursor=rows.length>20?opponents.at(-1)!.cursor:null;

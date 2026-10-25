@@ -1,3 +1,5 @@
+import {populationEvidence} from '../dist/expansion-population.js';
+import {checkPopulationEvidence} from './release/protocol.mjs';
 // Upgrade ONLY an already restored, separately named test database. Never connect
 // to the live database to test migrations. No dump/restore/reset is performed here.
 import assert from 'node:assert/strict';
@@ -41,7 +43,7 @@ async function snapshot(){
 }
 try{
  const counts=(await db.query('SELECT (SELECT count(*) FROM accounts)::int AS accounts,(SELECT count(*) FROM development_bots)::int AS bots')).rows[0];
- assert.equal(counts.bots,450,'The restored private-alpha copy must retain all 450 existing rivals.');
+ const population=await populationEvidence(db);assert.equal(counts.bots,checkPopulationEvidence(population),'The exact original and registered bot identities must be retained.');
  assert.ok(counts.accounts>0,'The restored copy has no accounts; this is not a verified game backup.');
  const before=await snapshot();await migrate(db);const after=await snapshot();
  for(const [table,rows] of Object.entries(before)){
@@ -49,6 +51,6 @@ try{
   else assert.deepEqual(after[table],rows,table+' changed existing data');
  }
  const stable=JSON.stringify(after);await migrate(db);assert.equal(JSON.stringify(await snapshot()),stable,'Migration replay changed data.');
- upgradeReport={passed:true,restoredDatabase:target,restoredHost:url.hostname,accounts:counts.accounts,bots:counts.bots,existingTablesVerified:Object.keys(before).length,sha256:createHash('sha256').update(stable).digest('hex'),migrationReplay:'unchanged',liveDatabaseConnected:false};
+ upgradeReport={passed:true,restoredDatabase:target,restoredHost:url.hostname,accounts:counts.accounts,bots:counts.bots,population,existingTablesVerified:Object.keys(before).length,sha256:createHash('sha256').update(stable).digest('hex'),migrationReplay:'unchanged',liveDatabaseConnected:false};
  console.log(JSON.stringify(upgradeReport,null,2));
 }finally{await db.end();}

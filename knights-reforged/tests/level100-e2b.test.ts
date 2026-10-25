@@ -6,7 +6,7 @@ test('E2b definitions are immutable, dormant, additive and retain all classic de
  for(const key of ['items','quests','properties'] as const)for(const old of alpha[key])assert.deepEqual(expandedContent[key].find(i=>i.id===old.id),old);
  assert.equal(expandedContent.content!.areas.length,alpha.content!.areas.length+6);assert.notEqual(expansionAchievement.id,'player-experience-1');
  assert.throws(()=>{expandedContent.items[0]!.attack=0;});assert.throws(()=>contentCatalog('forged'));
- const readiness=await expansionAssetReadiness();assert.equal(readiness.ready,false);assert.equal(readiness.missing.length,45);assert.equal(expansionArtwork.entries.length,45);
+ const readiness=await expansionAssetReadiness();assert.equal(readiness.ready,true);assert.equal(readiness.use,'temporary-beta');assert.equal(readiness.temporaryEntries,45);assert.equal(readiness.missing.length,0);assert.equal(expansionArtwork.entries.length,45);
  assert.equal(hudsonGrant.characterId,'55742e75-70c9-4792-8136-fe6ead2b83e0');assert.equal(hudsonGrant.items.reduce((s,i)=>s+i.quantity,0),45);
  for(const id of hudsonGrant.upkeepExemptItemIds){const item=equipmentCatalogFor(expandedContent.id).definition(id)!;assert.equal(item.acquisition,'quest-exclusive');assert.ok(item.level>=71&&item.upkeep>0);assert.equal(equipmentCatalogFor(expandedContent.id).canPurchase(id,500),false);}
  assert.equal(questRarities.reviewStatus,'pending');assert.match(definitionDigest(expandedContent),/^[a-f0-9]{64}$/);

@@ -1,3 +1,5 @@
+import {expansionBots} from '../../src/expansion-bot-rules.js';
+import {buildCohort} from '../level100-cohort-blueprints.js';
 // E2b OFFLINE MODEL ONLY. No database, HTTP, seed, migration, runtime flag or grants.
 import {readFileSync} from 'node:fs';
 import {alpha,activeArmy,selectEquipment,propertyPrice,levelRequirement,trainedPower,areRivals,resolveAlphaCombat,maintenanceBill,type ItemDefinition,type QuestDefinition,type PropertyDefinition,type OwnedItem} from '../../src/alpha-rules.js';
@@ -90,10 +92,14 @@ function makeResearchBots(expanded:boolean){
  }
  return list;
 }
-export interface PaceOptions {name:string;expanded:boolean;extraXpPerLevel:number;sessionMinutes:number[];starts:number[];days:number;seed:number;availability?:number;acceptance?:number;calling?:string;shop?:boolean;armyModel?:ArmyModel;population?:'legacy450'|'proposed900';}
+export function launchResearchBots(scale?:number):Fighter[]{
+ const cohort=scale===undefined?expansionBots:buildCohort(scale);
+ return [...researchBots(false),...cohort.entries.map(e=>({id:e.characterId,level:e.level,inventory:e.equipment.map(g=>({...catalogItems(true).find(i=>i.id===g.itemId)!,inventoryId:g.itemId,quantity:g.quantity})),n:e.members+1,calling:e.calling,training:e.training,health:e.health,maxHealth:e.health,hpAt:0,spirit:e.spirit,maxSpirit:e.spirit,spAt:0,landUnits:e.land.prices.length,landCapital:e.landCost,equipmentCapital:e.equipmentCost,wallet:e.wallet,vault:0n,retained:0n,reserve:BigInt(e.reserve),arrears:0n,remainder:0n,paused:false,rate:e.upkeep,net:e.propertyNet,nextHour:H,maintenanceAt:0}))];
+}
+export interface PaceOptions {name:string;expanded:boolean;extraXpPerLevel:number;sessionMinutes:number[];starts:number[];days:number;seed:number;availability?:number;acceptance?:number;calling?:string;shop?:boolean;armyModel?:ArmyModel;cohortScale?:number;population?:'legacy450'|'proposed900'|'launch900';}
 export function pace(o:PaceOptions){
  if(o.starts.length!==o.sessionMinutes.length||o.days<1||o.days>240||o.starts.some((s,i)=>!Number.isInteger(s)||s<0||s+o.sessionMinutes[i]!>1440||o.sessionMinutes[i]!<=0)||(o.availability??1)<0||(o.availability??1)>1||(o.acceptance??1)<0||(o.acceptance??1)>1)throw new Error('Invalid study schedule.');
- const model=o.armyModel??(o.expanded?'historical-5x':'current'),bots=researchBots(o.population?o.population==='proposed900':o.expanded),byLevel=new Map<number,Fighter[]>();for(const b of bots)byLevel.set(b.level,[...(byLevel.get(b.level)??[]),b]);
+ const model=o.armyModel??(o.expanded?'historical-5x':'current'),bots=o.population==='launch900'?launchResearchBots(o.cohortScale):researchBots(o.population?o.population==='proposed900':o.expanded),byLevel=new Map<number,Fighter[]>();for(const b of bots)byLevel.set(b.level,[...(byLevel.get(b.level)??[]),b]);
  const estimates=new Map(bots.map(b=>[b.id,power(b.level,b.n,b.inventory,'defense',0,b.calling)])),defenses=new Map(bots.map(b=>[b.id,power(b.level,b.n,b.inventory,'defense',b.training,b.calling)]));
  let rng=o.seed>>>0;const random=()=>((rng=(Math.imul(rng,1664525)+1013904223)>>>0)/4294967296),roll=()=>Math.floor(random()*21)-10;
  const a={wallet:alpha.startingGold,vault:0n,retained:0n,reserve:0n,arrears:0n,remainder:0n,paused:false,rate:0,net:0,nextHour:Infinity,maintenanceAt:0,adjustments:[] as {boundary:number;deduct:bigint;fraction:bigint}[],landFractions:[] as bigint[],level:1,progress:0,health:100,maxHealth:100,hpAt:0,mana:20,maxMana:20,mpAt:0,spirit:3,maxSpirit:3,spAt:0,calling:o.calling??'Freeblade',training:0,inventory:[] as OwnedItem[],allies:0,points:0};

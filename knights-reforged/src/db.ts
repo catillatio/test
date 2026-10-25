@@ -27,7 +27,7 @@ export async function transaction<T>(db: Database, work: (client: Connection) =>
       await client.query(options.mode==='repeatable-read-only'?'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY':options.mode==='read-only'?'BEGIN READ ONLY':'BEGIN');
       if(options.expansionLock==='exclusive')await client.query("SET LOCAL lock_timeout='10s'");
       await client.query(options.expansionLock==='exclusive'?'SELECT pg_advisory_xact_lock($1)':'SELECT pg_advisory_xact_lock_shared($1)',[expansionLock]);
-      await client.query("SELECT set_config('kingdom.expansion_writer',$1,true)",[expansionWriter]);
+      await client.query("SELECT set_config('kingdom.expansion_writer',$1,true),set_config('kingdom.population_writer','level100-cohort-engine-1',true)",[expansionWriter]);
       const result = await work(scoped);
       await client.query('COMMIT');
       return result;

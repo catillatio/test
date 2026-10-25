@@ -40,6 +40,10 @@ test('game upload excludes recovery, credentials, local dependencies, research, 
   ...['.env','node_modules/fixture.js','dist/server.js','test-results/fixture.json','docs/phase51c/screenshots/after/390-home.png',
    'original-reference/fixture.png','android/app/build/fixture.apk','tests/fixture.test.mjs','scripts/seed.ts','saved-backup.dump','private.pem'].map(p=>app+p)];
  assert.equal(ignored(forbidden).size,forbidden.length);
+ const archived=tracked.filter(p=>p.startsWith(app+'docs/level100-launch/art/archived-runtime-level100-1/')&&p.endsWith('.webp'));
+ assert.equal(archived.length,45);assert.equal(ignored(archived).size,45,'all rejected/Hudson renderings stay outside the runtime bundle');
+ assert.ok(!selected.some(p=>p.startsWith(app+'public/art/level100-1/')));
+ const placeholders=selected.filter(p=>p.startsWith(app+'public/art/level100-beta-1/')&&p.endsWith('.webp'));assert.equal(placeholders.length,5);assert.equal(placeholders.reduce((n,p)=>n+statSync(join(root,p)).size,0),4000);
 });
 
 test('game upload stays bounded instead of accumulating review documents and reference artwork',()=>{
