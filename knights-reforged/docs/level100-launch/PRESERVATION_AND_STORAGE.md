@@ -18,9 +18,9 @@ append. Legitimate subsequent bot name/level/financial changes are not reset.
 
 `independent-restore.json` records a disposable PostgreSQL 18 source, a completely
 fresh second cluster, custom archive validation, restore, complete row equality,
-replayed migrations, retained session and exact 900 identities. The latest local
-run measured approximately 25.5 MB source, 1.81 MB archive, 397 ms dump, 510 ms restore
-and 15.9 seconds append while other local checks were running. These are fixture
+replayed migrations, retained session and exact 900 identities. The latest beta-registry local
+run measured approximately 25.9 MB source, 1.81 MB archive, 298 ms dump, 500 ms restore
+and 7.7 seconds append. These are fixture
 measurements, **not a production SLA or volume-capacity test**.
 
 The existing container verification also exercises actual age encryption, HTTPS
@@ -94,3 +94,15 @@ Retain the database and forward-fix using a compatible binary. Disaster restorat
 is a separate owner-authorized maintenance operation using the latest independently
 verified encrypted backup, with explicit acknowledgement of any later lost writes.
 There is no routine automatic data rollback or bot deletion.
+
+## Lightweight beta-art revision
+
+Final illustrations are not required for the functional beta. Five temporary
+WebPs (4,000 bytes) replace 45 obsolete runtime images, all preserved under docs
+and excluded by the existing source/Docker allowlists. Original approved art and
+Hudson PNGs are unchanged. The new immutable policy/registry definitions are
+additive metadata only: no schema migration or schema-pin change beyond 025.
+Startup and cutover retain exact manifest/hash/path validation and reject missing,
+altered or outside-root files. Temporary beta consent defaults false in the exact
+owner cutover plan and is recorded in the immutable activation audit. None of
+the capitalization, population, autonomy, XP, encryption or recovery gates changes.

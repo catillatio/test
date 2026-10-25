@@ -8,7 +8,7 @@ async function run(r:Awaited<ReturnType<typeof realm>>,id:string,questId:string,
 test('E2b installation leaves legacy behavior and all activation/grant gates closed',{skip:!testDatabaseUrl},async()=>{const r=await realm({isolated:true});try{
  const a=await r.player();assert.equal((await realmPolicy(r.db)).expanded,false);assert.equal((await r.me(a)).rulesetId,'alpha-0.3');
  assert.equal((await r.command(a,'/api/v1/inventory/purchases',{itemId:'king-hudsons-sword',quantity:1})).statusCode,404);
- const plan=await inspectExpansion(r.db,{storageReviewed:true,recoveryReviewed:true,opponentPlanReviewed:true,rareDrops:false});await assert.rejects(activateExpansion(r.db,plan,definitionDigest(plan)),/Approved expansion assets/);assert.equal((await r.db.query('SELECT count(*)::int n FROM character_progression_epochs')).rows[0]!.n,0);
+ const plan=await inspectExpansion(r.db,{storageReviewed:true,recoveryReviewed:true,opponentPlanReviewed:true,rareDrops:false});await assert.rejects(activateExpansion(r.db,plan,definitionDigest(plan)),/temporary beta artwork/);assert.equal((await r.db.query('SELECT count(*)::int n FROM character_progression_epochs')).rows[0]!.n,0);
  await assert.rejects(activateExpansion(r.db,{...plan,catalogDigest:'f'.repeat(64)},definitionDigest(plan)),/Exact reviewed/);
  assert.equal((await r.db.query('SELECT count(*)::int n FROM realm_expansion_state')).rows[0]!.n,0);
  }finally{await r.close();}});

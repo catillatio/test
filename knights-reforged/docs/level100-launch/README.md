@@ -2,10 +2,10 @@
 
 Base: merged PR #34, `36367d340a561e575e4af7e098d3c2cdedf5579f`.
 This work completes the new-only population/operations wiring and launch studies;
-it does **not** authorize launch. Artwork is [frozen and unapproved](ART_FREEZE.md).
-The owner will supply original equipment art; no more generation, recoloring,
-reframing or recycling. The [comparison gallery](ART_DIRECTION_REVIEW.md) is
-historical evidence. Non-artwork engineering continues independently.
+it does **not** authorize launch. The functional beta now uses [five temporary
+placeholders](beta-art/README.md), totaling **4,000 WebP bytes**, through an explicitly
+owner-authorized beta policy. Final illustrations are not required for this beta.
+All rejected drafts and references remain archived; none is active runtime art.
 No Railway, live database, protected workflow, production grant or deployment was used.
 
 ## Implemented and still inactive
@@ -13,10 +13,11 @@ No Railway, live database, protected workflow, production grant or deployment wa
 - Reuses E2b's six regions, 18 quests, 36 shop items, six Land properties, three
   quest-exclusive Hudson definitions, coordinated 5× army/XP epochs and exact grant.
   Classic catalog definitions, prices, combat rewards and artwork are unchanged.
-- Prepares full-bleed versioned images and consistent shared rendering. The three
-  Hudson images use the exact owner-selected randomized-name PNGs. Other new images
-  remain **frozen, rejected drafts**, not accepted final art. No rejected charcoal study is
-  a game asset. [Provenance and hashes](art/PROVENANCE.md).
+- Maps all 45 expansion-art entries to five original project vector-derived beta
+  images, without catalog or financial changes. A separate exact-plan beta-art
+  acknowledgement is required. All 45 obsolete runtime images (42 rejected
+  drafts + three Hudson renderings) are preserved outside the production package;
+  the original Hudson PNGs remain unchanged. [Policy, hashes and previews](beta-art/README.md).
 - Adds an immutable manifest of **450 new identities**, never regenerating the
   existing 450. Real declared capital funds saved equipment, FIFO lots, Land,
   wallet and existing upkeep reserve. All new accounts have disabled logins.
@@ -118,25 +119,25 @@ and Hudson's unrelated items remain chargeable. No live account was inspected or
 - [Preservation, capacity limits and recovery](PRESERVATION_AND_STORAGE.md)
 - [Future owner-only sequence and retry behavior](OPERATIONS.md)
 - [Native independent PostgreSQL restore evidence](independent-restore.json)
-- [Browser verification](screenshots/verification.json): 320/390/430/1024,
-  309 full-bleed aspect checks, no overflow/errors, five tabs retained.
-- [320](screenshots/320-armory-weapon.png), [390](screenshots/390-armory-weapon.png),
-  [430](screenshots/430-armory-weapon.png), [1024](screenshots/1024-armory-weapon.png)
-  prepared Armory; [Land](screenshots/390-land.png), [quests](screenshots/390-quests.png),
-  [Hudson Profile](screenshots/390-hudson-profile.png), [battle equipment](screenshots/390-battle-art.png).
-  These are synthetic future-catalog previews, **not an approved visual direction**.
+- [Browser verification](beta-art/screenshots/verification.json): 320/390/430/1024,
+  1,236 full-bleed crop checks, no overflow/errors, five tabs retained.
+- [320](beta-art/screenshots/320-armory-weapon.png), [390](beta-art/screenshots/390-armory-weapon.png),
+  [430](beta-art/screenshots/430-armory-weapon.png), [1024](beta-art/screenshots/1024-armory-weapon.png)
+  prepared Armory; [Land](beta-art/screenshots/390-land.png), [quests](beta-art/screenshots/390-quests.png),
+  [Hudson Profile](beta-art/screenshots/390-hudson-profile.png), [battle equipment](beta-art/screenshots/390-battle-art.png).
+  These are synthetic beta previews: temporary-use approval is distinct from final illustration approval.
 
-Before launch: integrate separately owner-supplied approved artwork and final rights/
-framing; review 3.702B capitalization and new bot policies; approve rarity separately;
-verify current production/recovery storage headroom and physical devices; separately
-authorize protected deployment, private population append, coordinated cutover,
-autonomy stages and Hudson grant. The art guard currently rejects **all 45** entries.
-No live activation is possible merely by merging or installing this branch.
+Before beta activation: explicitly review the temporary-art registry in the exact
+cutover plan; review 3.702B capitalization and new bot policies; approve rarity
+separately or leave rare drops off; verify current production/recovery headroom;
+separately authorize protected deployment, population append, cutover and autonomy.
+The beta registry's file checks pass, but its plan acknowledgement defaults false.
+Hudson's grant remains a separate, unexecuted operation. Final image integration
+and any content remapping are later reviewed work, not functional-beta blockers.
 
 Reproduction (development only): `npx tsx scripts/level100-cohort-manifest.ts --check`,
 `npx tsx scripts/level100-launch-models.ts --check`,
 `npx tsx scripts/level100-autonomy.ts --check`,
-`python scripts/package-level100-art.py --previews-only`,
-`python scripts/level100-style-gallery.py`. Local restore/browser scripts require
+`npx tsx scripts/build-beta-placeholders.ts` (immutable authoring/reproduction only). Local restore/browser scripts require
 explicit disposable localhost `_test` databases. Final normal exact-head CI is
 recorded on the draft PR; no protected release is dispatched.

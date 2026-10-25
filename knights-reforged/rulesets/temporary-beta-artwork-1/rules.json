@@ -1,0 +1,10 @@
+{
+  "id": "temporary-beta-artwork-1",
+  "use": "temporary-beta",
+  "ownerAuthorization": "Owner explicitly requested reusable temporary beta placeholders for PR #35; final-art approval is not claimed. Production activation still requires a separate reviewed exact-target plan.",
+  "maximumAssets": 6,
+  "maximumTotalBytes": 32768,
+  "maximumAssetBytes": 8192,
+  "prestigeCeiling": "existing-approved-level-50",
+  "provenance": "Five original project SVG silhouettes, mechanically rasterized on full-bleed dark charcoal texture. No new illustrations, rejected-design reuse or third-party artwork."
+}

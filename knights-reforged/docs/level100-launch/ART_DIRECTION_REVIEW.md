@@ -1,5 +1,10 @@
 # Equipment style checkpoint — owner review required
 
+**Current functional-beta exception:** the owner now permits five original-vector
+placeholders under the [temporary beta policy](beta-art/README.md). Final draft
+illustrations remain frozen/unapproved; their hashes and historical decisions
+below remain intact. Final illustrations are not a functional-beta prerequisite.
+
 **Superseded by the [owner artwork freeze](ART_FREEZE.md), 2026-10-25.**
 All prior pending ordinary designs are rejected and preserved only as reference.
 Do not execute the redraw suggestions below. The owner will supply original art;

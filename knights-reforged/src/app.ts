@@ -21,7 +21,7 @@ import { authenticate, registerAccount, createSession, findSession, type Session
 import { getState, getBattle, recentBattles, listOpponents, type CharacterState } from './game.js';
 import { executeCommand, type CommandKind } from './commands.js';
 import {realmPolicy} from './realm-policy.js';
-import {contentCatalog,approvedExpansionArt,preparedExpansionArt,questRarities} from './expansion-content.js';
+import {contentCatalog,approvedExpansionArt,preparedExpansionArt,expansionArtUse,questRarities} from './expansion-content.js';
 import {experienceView,regionFilter,rememberRegion} from './experience.js';
 import {experienceRules} from './experience-rules.js';
 import {gameplay} from './gameplay-rules.js';
@@ -162,7 +162,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const chosenRegion=regionFilter(query.area,alpha.id);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', {
-      screen, state,approvedExpansionArt,preparedExpansionArt,rareQuestPolicy:state?.rareEquipmentEnabled?questRarities:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
+      screen, state,approvedExpansionArt,preparedExpansionArt,expansionArtUse,rareQuestPolicy:state?.rareEquipmentEnabled?questRarities:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,

@@ -1,5 +1,10 @@
 # Prepared art provenance — approval remains separate
 
+**Historical illustrations only.** Current runtime art is the [temporary beta
+registry](../beta-art/README.md). All 45 former runtime images are now archived in
+`archived-runtime-level100-1/` with identical bytes; no rejected illustration or
+Hudson rendering is shipped. Original owner PNGs and existing masters remain intact.
+
 **Current decision: [artwork frozen](../ART_FREEZE.md).** The prior ordinary
 draft selection is rejected. Everything below is preserved provenance, not
 approval to generate, recycle or adopt it. Four later unadopted PNG trials are

@@ -14,7 +14,7 @@ def approved(id):
  else:
   i=items[id];a=i['illustration'];p=root/'public/art/fantasy-0.2'/(a['atlas']+'.webp');atlas=Image.open(p).convert('RGB');w=atlas.width//4;bounds=atlas_bounds[a['atlas']];image=atlas.crop((a['column']*w,bounds[a['row']],(a['column']+1)*w,bounds[a['row']+1]))
  evidence.append({'id':id,'role':'APPROVED_CURRENT','source':str(p.relative_to(root)),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()});return image
-def pending(id):return Image.open(root/'public/art/level100-1'/(id+'.webp')).convert('RGB')
+def pending(id):return Image.open(root/'docs/level100-launch/art/archived-runtime-level100-1'/(id+'.webp')).convert('RGB')
 def label(d,xy,text,fill='#ddcfb4'):
  x,y=xy
  for line in textwrap.wrap(text,40):d.text((x,y),line,font=small,fill=fill);y+=15

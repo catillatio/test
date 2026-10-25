@@ -6,16 +6,17 @@ The path map is local build input and never committed or read by the game.
 import hashlib,json,pathlib,sys,shutil
 from PIL import Image,ImageOps,ImageDraw,ImageFont
 root=pathlib.Path(__file__).resolve().parents[1]
+if sys.argv[1:]!=['--previews-only']:raise SystemExit('Frozen historical art: runtime packaging is disabled. Use the reviewed beta registry or a new approved artwork version.')
 previews_only=sys.argv[1]=='--previews-only'
 if previews_only:
- runtime=root/'public/art/level100-1';previews=root/'docs/level100-launch/art/previews';previews.mkdir(parents=True,exist_ok=True)
+ runtime=root/'docs/level100-launch/art/archived-runtime-level100-1';previews=root/'docs/level100-launch/art/previews';previews.mkdir(parents=True,exist_ok=True)
  entries=json.loads((root/'rulesets/level100-artwork-2/rules.json').read_text())['entries']
 else:
  from_masters=sys.argv[1]=='--from-masters'
  sources={} if from_masters else json.loads(pathlib.Path(sys.argv[1]).read_text())
  previous=json.loads((root/'rulesets/level100-artwork-2/rules.json').read_text()) if from_masters else None
  old=json.loads((root/'rulesets/level100-artwork-1/rules.json').read_text())
- runtime=root/'public/art/level100-1';masters=root/'docs/level100-launch/art/masters';previews=root/'docs/level100-launch/art/previews'
+ runtime=root/'docs/level100-launch/art/archived-runtime-level100-1';masters=root/'docs/level100-launch/art/masters';previews=root/'docs/level100-launch/art/previews'
  for p in [runtime,masters,previews,root/'rulesets/level100-artwork-2']:p.mkdir(parents=True,exist_ok=True)
  sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
  entries=[]

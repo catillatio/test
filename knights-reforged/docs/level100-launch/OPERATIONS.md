@@ -1,17 +1,17 @@
 # Future owner sequence — not authorization to execute
 
-Nothing in this PR runs automatically. Art approval is currently failing, fiscal
-and rarity approval are pending, and current production storage/access has not
-been inspected. Do not run these operations during this review.
+Nothing in this PR runs automatically. The owner permits lightweight functional
+beta placeholders, not production activation or final-art approval. Financial,
+rarity and current storage/access review remain separate. No action was run here.
+See [the temporary beta policy](beta-art/README.md).
 
 ## Gates, in order
 
-1. Honor the artwork freeze; await separately owner-supplied original artwork and
-   approve final full-bleed bytes/rights in a new immutable artwork version. No
-   further generated alternatives are authorized. Approve the exact
-   450-new-identity manifest, 3.702B capital and proposed new-cohort policies.
-   Approve rare probability separately, or launch with rare drops off. Do not
-   edit an already-installed ruleset to smuggle an approval or new economics.
+1. Review the five temporary icons, the exact `level100-beta-artwork-1` registry
+   and `temporary-beta-artwork-1` policy. Final illustrations are not required.
+   Approve the exact 450-new-identity manifest, 3.702B capital and proposed new-only
+   policies separately. Approve rarity separately or keep rare drops off. Retain
+   immutable versions and all archived art; do not label temporary pictures final.
 2. Obtain fresh storage/recovery inventory and adequate growth/restore headroom.
    Rehearse physical iPhone Safari and Android Chrome as well as automated widths.
    Separately approve merge after exact-head normal CI and then follow the
@@ -43,17 +43,21 @@ been inspected. Do not run these operations during this review.
    level/XP snapshot, policy/catalog/art/population digests, actual eligible
    opponent bands, storage/recovery review and bot policy review. Set `rareDrops`
    only if its immutable probability definition has separately been approved.
+   The plan must pin `artworkRegistryId=level100-beta-artwork-1` and its exact
+   digest, and explicitly set `temporaryBetaArtworkReviewed=true` after owner
+   review; its default is false. This is temporary-beta approval, not final art.
    The transaction freezes attained human transitions, installs epochs, publishes
    the exact cohort and enables 5× capacity/content/post-50 XP together. No
    legitimate recruited member or earned level is manufactured/recomputed.
-   Changed human progress, expired plan or pending art aborts without partial writes.
+   Changed human progress, expired plan, missing beta review or failed image integrity aborts without partial writes.
 7. Verify the new catalog, real equipment/army participation, finite gold/XP
    reports and old sessions/records. Authorize a separate **purchases-only**
    autonomy plan first. Observe wallet/upkeep/arrears, useful purchases, pressure,
    latency, WAL and storage. Only after a reviewed observation window authorize
    `enabled` for new-cohort bot-versus-bot combat. Human attacks are never initiated
    by bots. `paused` is available through another exact plan, without deleting data.
-8. Separately inspect Hudson's exact UUID/account/name and approve the 15/15/15
+8. Hudson's grant is **not part of beta authorization**. Only if separately
+   authorized later, inspect Hudson's exact UUID/account/name and approve the 15/15/15
    manifest, then run the existing exact grant once. Verify three zero-cost
    acquisitions and three upkeep entitlements; ordinary players and unrelated
    gear retain upkeep. No username matching or copied-name exemption exists.

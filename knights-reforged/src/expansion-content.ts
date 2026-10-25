@@ -1,4 +1,4 @@
-import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';
+import {readFileSync} from 'node:fs';
 import {alpha,type AlphaRules,type ItemDefinition} from './alpha-rules.js';
 import {deepFreeze,safeCount} from './compatibility-rules.js';
 import {equipmentCatalog,activeEquipmentCatalog} from './catalog-compatibility.js';
@@ -6,12 +6,10 @@ const read=(id:string)=>JSON.parse(readFileSync(new URL('../rulesets/'+id+'/rule
 export const expandedContent=deepFreeze(read('level100-content-1') as AlphaRules);
 export const questRarities=deepFreeze(read('quest-equipment-rarities-1') as {id:string;reviewStatus:string;scale:number;minimumLevel:number;quantity:number;proposedPpm:number;quests:Record<string,string[]>;provenance:string});
 export const hudsonGrant=deepFreeze(read('hudson-equipment-grant-1') as {id:string;characterId:string;operationId:string;catalogId:string;items:{itemId:string;quantity:number}[];upkeepExemptItemIds:string[];unitAcquisitionCost:number;retroactiveCharges:boolean;provenance:string});
-export const legacyExpansionArtwork=deepFreeze(read('level100-artwork-1') as {id:string;status:string;provenance:string;entries:{id:string;name:string;kind:string;level:number;status:string;path:string|null;sha256:string|null;ownerApproval:string|null;brief:string;fullBleedRequired:boolean;license:string|null;provenanceEvidence:string|null;framingApproval:string|null}[]});
-export const expansionArtwork=deepFreeze(read('level100-artwork-2') as typeof legacyExpansionArtwork);
+import {expansionArtwork,artworkRegistries,definitionDigest,validateArtworkReplacement} from './expansion-artwork.js';
+export {expansionArtwork,rejectedExpansionArtwork,legacyExpansionArtwork,betaArtworkPolicy,artworkRegistries,definitionDigest,preparedExpansionArt,approvedExpansionArt,expansionArtUse} from './expansion-artwork.js';
 export const expansionAchievement=deepFreeze({id:'level100-achievements-1',provenance:'Expansion-only cosmetic achievement; does not replace any installed tutorial or level-50 award.',achievements:[{id:'level100-summit',name:'Sovereign of a Hundred Kingdoms',category:'Character',metric:'level' as const,threshold:100,rank:6,emblem:'crown',description:'Reach character level 100. Earlier summit awards remain earned.'}]});
 export const expansionEngine=deepFreeze({id:'level100-expansion-1',writer:'level100-engine-1',activationDefault:false,catalogId:expandedContent.id,armyPolicy:'army-five-per-level-1' as const,inventoryPolicy:'inventory-large-1' as const,progressionPolicy:'xp-post50-150-1' as const,legacyBotProgression:'xp-legacy-1' as const,expectedBots:450,opponentLevels:[51,60,70,80,90,100],minimumOpponentsPerBand:5,provenance:'Explicit coordinated owner cutover only. Existing bot policies, population and financial records are not provisioned or rewritten.'});
-function normalized(v:unknown):unknown{return Array.isArray(v)?v.map(normalized):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).sort().map(([k,x])=>[k,normalized(x)])):v;}
-export const definitionDigest=(v:unknown)=>createHash('sha256').update(JSON.stringify(normalized(v))).digest('hex');
 const regular=expandedContent.items.filter(i=>i.acquisition!=='quest-exclusive'),exclusive=expandedContent.items.filter(i=>i.acquisition==='quest-exclusive');
 const expandedEquipment=equipmentCatalog({id:expandedContent.id,items:regular,historicalItems:exclusive});
 export function contentCatalog(id=alpha.id){if(id===alpha.id)return alpha;if(id===expandedContent.id)return expandedContent;throw new Error('Unknown installed content catalog.');}
@@ -28,11 +26,8 @@ export const catalogDefinition=(id:string,catalogId=alpha.id):Readonly<ItemDefin
 
 if(hudsonGrant.characterId!=='55742e75-70c9-4792-8136-fe6ead2b83e0'||hudsonGrant.operationId!=='db21b413-31bb-4165-bb0c-c07e767c5be1'||hudsonGrant.items.length!==3||hudsonGrant.items.some(i=>i.quantity!==15||!exclusive.some(e=>e.id===i.itemId))||new Set(hudsonGrant.items.map(i=>i.itemId)).size!==3||definitionDigest([...hudsonGrant.upkeepExemptItemIds].sort())!==definitionDigest(exclusive.map(i=>i.id).sort())||hudsonGrant.unitAcquisitionCost!==0||hudsonGrant.retroactiveCharges)throw new Error('Invalid exact Hudson grant manifest.');
 
-export function approvedExpansionArt(id:string){const e=expansionArtwork.entries.find(e=>e.id===id);return e?.status==='approved'&&e.ownerApproval&&e.license&&e.provenanceEvidence&&e.framingApproval&&e.path&&/^\/assets\/[a-z0-9/_.-]+$/.test(e.path)?e.path:null;}
-
-// Availability is distinct from approval. These future-catalog images can be
-// rendered for review, but prepared status never satisfies activation readiness.
-export function preparedExpansionArt(id:string){const e=expansionArtwork.entries.find(e=>e.id===id);return e&&['prepared','approved'].includes(e.status)&&e.license&&e.provenanceEvidence&&e.sha256&&/^[a-f0-9]{64}$/.test(e.sha256)&&e.path&&/^\/assets\/art\/level100-1\/[a-z0-9-]+\.webp$/.test(e.path)?e.path:null;}
-
 const expectedArt=[...expandedContent.items.filter(i=>!alpha.items.some(old=>old.id===i.id)),...expandedContent.properties.filter(p=>!alpha.properties.some(old=>old.id===p.id))];
 if(expansionArtwork.entries.length!==45||new Set(expansionArtwork.entries.map(e=>e.id)).size!==45||expectedArt.some(i=>!expansionArtwork.entries.some(e=>e.id===i.id&&e.name===i.name&&e.level===i.level&&e.fullBleedRequired&&e.brief.length>=50)))throw new Error('Incomplete expansion artwork specifications.');
+
+const artworkPredecessor=artworkRegistries.find(m=>m.id===expansionArtwork.predecessorId);if(!artworkPredecessor)throw new Error('Unknown artwork predecessor.');
+validateArtworkReplacement(expansionArtwork,artworkPredecessor,expectedArt.map(i=>({id:i.id,name:i.name,kind:'category' in i?i.category:'property',level:i.level})));

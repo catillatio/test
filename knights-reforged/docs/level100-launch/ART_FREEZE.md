@@ -1,5 +1,10 @@
 # Owner artwork freeze — 2026-10-25
 
+**Current functional-beta exception:** the owner now permits five original-vector
+placeholders under the [temporary beta policy](beta-art/README.md). Final draft
+illustrations remain frozen/unapproved; their hashes and historical decisions
+below remain intact. Final illustrations are not a functional-beta prerequisite.
+
 Stop generation, recoloring, reframing and recycling of expansion designs.
 The owner will provide separately approved, original equipment artwork later.
 Engineering, population validation and release compatibility continue independently.

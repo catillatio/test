@@ -2,7 +2,8 @@
 
 The E3 implementation is complete for owner review. It is installed **inactive**;
 this document is not authorization to merge, deploy, create bots or activate it.
-Artwork remains a separate [frozen launch dependency](ART_FREEZE.md).
+Functional beta art uses [five explicitly temporary placeholders](beta-art/README.md).
+Final artwork remains frozen and is not a functional-beta blocker.
 
 | Area | Implemented and verified | Remaining owner/operational decision |
 | --- | --- | --- |
@@ -10,7 +11,7 @@ Artwork remains a separate [frozen launch dependency](ART_FREEZE.md).
 | Capital and economy | Reconciles every initial unit/lot to 3,701,553,498 Gold-equivalent; 7/30-day conserved finance, raids/outages, separate bounded original/new schedules; no original-bot reset or policy change | Review substantial income/inflation and new-only autonomy policy; do not assume candidate capital approved |
 | Combat and opponents | Existing resolver/rewards, real saved participants, varied green/seasoned/elite gear, 65% XP/tapers unchanged; real bot-versus-bot transactions/retries; actual paginated rival traversal through every level 1–100 | Approve publication/cutover and later autonomy stages; never bot-initiated attacks on humans |
 | Performance and storage | Bounded 5+5 scheduling lanes, 20-row rival pages, 900-actor hourly catch-up with zero repeat payout; source/archive/restore/WAL measurements and projected journal growth | Fresh private production/recovery-volume inventory and adequate growth/restore headroom; no deletion or retention activation |
-| Human expansion | Existing coordinated 5× capacity, large inventory, frozen XP transition epochs and post-50 curve; six regions/18 quests/36 shop items/six properties preserved | Exact owner plan, current human snapshot, approved final art and fresh recovery evidence required |
+| Human expansion | Existing coordinated 5× capacity, large inventory, frozen XP transition epochs and post-50 curve; six regions/18 quests/36 shop items/six properties preserved | Exact owner plan, current human snapshot, explicit temporary-beta-art review and fresh recovery evidence required |
 | Rare equipment | Server-authoritative quest-only acquisition, idempotent hit/miss receipts and normal upkeep; 500 ppm proposal simulated | Probability approval remains separate; no live rare drops enabled |
 | Hudson | Exact UUID/account/database-bound 15/15/15 grant, audited zero-cost acquisitions, exact three-item upkeep exemption, rollback and repeated/concurrent grant tests | Future exact account inspection and separate owner grant approval; no live account access or grant |
 | Release safety | Literal 025 pin, exact 450-or-known-900 provenance, matching independent restored-copy identity; existing signature, encryption, exact candidate and owner gates preserved | Ordinary protected deployment and later private operations require separate authorization |
@@ -43,8 +44,8 @@ not permission to silently increase spending or delete history.
 Current storage headroom and physical device behavior have not been verified in
 production. No live realm, account, key, service, secret, database or deployment
 was accessed. Other pending infrastructure/retention/operator PRs remain untouched.
-After art is supplied, integration and final frame/provenance checks are still
-required; no new combat or economic implementation is deferred behind that art.
+Future final-art integration still requires a reviewed new immutable registry
+and frame/provenance checks; no new combat or economic implementation is deferred behind that art.
 
 Follow [OPERATIONS.md](OPERATIONS.md) only after the required separate approvals.
 Registration, publication, purchases-only autonomy, full autonomy and Hudson grant

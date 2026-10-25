@@ -1,3 +1,4 @@
+import {verifyExpansionArtwork} from './expansion-artwork.js';
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { type Database, type Sql, transaction } from './db.js';
@@ -20,15 +21,16 @@ import {automaticUpkeep} from './upkeep-policy.js';
 import {compatibility} from './compatibility-rules.js';
 
 import {expansionBots,expansionBotEconomy,expansionBotCombat} from './expansion-bot-rules.js';
-import {expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,expansionArtwork,legacyExpansionArtwork} from './expansion-content.js';
+import {expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,artworkRegistries,betaArtworkPolicy} from './expansion-content.js';
 
-const definitions=[legacyExpansionArtwork,expansionBots,expansionBotEconomy,expansionBotCombat,expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,expansionArtwork,compatibility,automaticUpkeep,previousBotCombat,botCombat,gameFeel,gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
+const definitions=[...artworkRegistries,betaArtworkPolicy,expansionBots,expansionBotEconomy,expansionBotCombat,expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,compatibility,automaticUpkeep,previousBotCombat,botCombat,gameFeel,gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 
 // Read-only validation at both migration and runtime startup. Skipping migration
 // must not let edited JSON silently redefine an already installed ruleset ID.
 export async function assertInstalledRulesets(sql:Sql) {
+  if(!(await verifyExpansionArtwork()).ready)throw new Error('Exact deployed artwork registry verification failed.');
   for(const definition of definitions) {
     const stored=(await sql.query('SELECT definition FROM rulesets WHERE id=$1',[definition.id])).rows[0]?.definition;
     if(!stored)throw new Error('Ruleset '+definition.id+' is not installed. Run npm run db:migrate.');
