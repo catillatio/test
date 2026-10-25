@@ -1,3 +1,4 @@
+import {presentedItem} from './equipment-presentation.js';
 import { randomUUID } from 'node:crypto';
 import { type Sql } from './db.js';
 import { GameError } from './errors.js';
@@ -32,7 +33,7 @@ export async function readInventory(sql:Sql,characterId:string):Promise<OwnedIte
   return rows.map(row=> {
     const definition=catalog.definition(row.item_definition_id);
     if (!definition) throw new GameError('CATALOG_MISSING','An owned item definition is unavailable; ownership is preserved.',503);
-    return {...definition,...(exempt.has(definition.id)?{maintenanceExempt:true,effectiveUpkeep:0}:{}),resaleSteps:fifoResaleSteps(byEntry.get(row.id)??[]),maxSell:Math.min(row.quantity,alpha.limits.transaction),inventoryId:row.id as string,quantity:row.quantity as number};
+    return {...presentedItem(definition,world.presentationId),...(exempt.has(definition.id)?{maintenanceExempt:true,effectiveUpkeep:0}:{}),resaleSteps:fifoResaleSteps(byEntry.get(row.id)??[]),maxSell:Math.min(row.quantity,alpha.limits.transaction),inventoryId:row.id as string,quantity:row.quantity as number};
   });
 }
 
@@ -46,7 +47,7 @@ export async function purchaseItems(sql:Sql,characterId:string,level:number,requ
     const item=catalog.purchasableDefinition(id);
     if(catalog.definition(id)?.acquisition==='quest-exclusive')throw new GameError('QUEST_EXCLUSIVE','This equipment can only be discovered in eligible quests.',409);
     if (!item) throw new GameError('ITEM_NOT_FOUND','That item is not in the active catalog.',404);
-    if (!catalog.canPurchase(id,level)) throw new GameError('LEVEL_REQUIRED',`${item.name} unlocks at level ${catalog.purchaseLevel(id)}.`,409);
+    if (!catalog.canPurchase(id,level)) throw new GameError('LEVEL_REQUIRED',`${presentedItem(item,world.presentationId).name} unlocks at level ${catalog.purchaseLevel(id)}.`,409);
     if (!Number.isSafeInteger(quantity)||quantity<1||quantity>alpha.limits.transaction) throw new GameError('INVALID_QUANTITY','Choose a valid whole quantity.');
     if ((inventory.find(i=>i.id===id)?.quantity??0)+quantity>inventoryLimit(bot?'inventory-legacy-1':world.inventoryPolicy)) throw new GameError('INVENTORY_LIMIT','You cannot own more copies of that item.',409);
     cost+=quantity*item.price;

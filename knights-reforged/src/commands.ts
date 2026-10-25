@@ -1,3 +1,4 @@
+import {presentedItem} from './equipment-presentation.js';
 import {contentCatalog} from './expansion-content.js';
 import {realmPolicy} from './realm-policy.js';
 import {questEquipmentDrops} from './quest-equipment.js';
@@ -172,8 +173,9 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     } else if (kind==='buy') {
       const purchase=await purchaseItems(sql,actorId,actor.attained_level,{[intent.itemId as string]:intent.quantity as number},key,now);
       result.inventoryEntryId=purchase.acquired[intent.itemId as string];await refreshMaintenance(sql,actorId,key,now);
-      result.message='Purchased '+intent.quantity+' '+itemById.get(intent.itemId as string)!.name+' for '+purchase.cost+' gold. Your army selects its best equipment automatically.';
-      result.data={goldSpent:purchase.cost,quantity:intent.quantity,itemId:intent.itemId,category:itemById.get(intent.itemId as string)!.category};
+      const displayed=presentedItem(itemById.get(intent.itemId as string)!,state.presentationId);
+      result.message='Purchased '+intent.quantity+' '+displayed.name+' for '+purchase.cost+' gold. Your army selects its best equipment automatically.';
+      result.data={goldSpent:purchase.cost,quantity:intent.quantity,itemId:intent.itemId,category:itemById.get(intent.itemId as string)!.category,...(state.presentationId?{itemName:displayed.name,presentationId:state.presentationId}:{})};
     } else if (kind==='sell') {
       const refund=await sellItem(sql,actorId,intent.itemId as string,intent.quantity as number,key);
       await refreshMaintenance(sql,actorId,key,now);
