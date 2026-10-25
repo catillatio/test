@@ -1,15 +1,68 @@
 name: Kingdom Come checks
 on:
   pull_request:
-    paths: ['knights-reforged/**', '.github/workflows/**']
   push:
     branches: ['feature/kingdom-come-phase-4-7-game-feel-and-polish', 'release/production']
 permissions:
   contents: read
+# Superseded PR revisions can stop; exact production candidates always finish.
+concurrency:
+  group: kingdom-checks-${{ github.event_name }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
-  checks:
+  plan:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 5
+    outputs:
+      profile: ${{ steps.plan.outputs.profile }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+      recovery: ${{ steps.plan.outputs.recovery }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - id: plan
+        run: node knights-reforged/scripts/ci/classify.mjs
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CI_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+  validation:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: knights-reforged
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, ref: '${{ github.event.pull_request.head.sha || github.sha }}'}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.22.0'
+          cache: npm
+          cache-dependency-path: |
+            knights-reforged/package-lock.json
+            knights-reforged/deployment/release/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release
+      - run: npm run typecheck && npm run build && npm run check:static
+      - run: npm audit --omit=dev --audit-level=high
+      - run: npm audit --omit=dev --audit-level=high --prefix deployment/release
+      # Test-only compiler output from this run; never a deployment input.
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: checked-compiler-output
+          path: knights-reforged/dist/
+          if-no-files-found: error
+          retention-days: 1
+  tests:
+    needs: [plan, validation]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
     services:
       postgres:
         image: postgres:18-bookworm
@@ -26,34 +79,90 @@ jobs:
         working-directory: knights-reforged
     env:
       TEST_DATABASE_URL: postgres://knights:disposable-ci-only@127.0.0.1:5432/kingdom_come_ci_test
-      # The runner also has an unbranded Chromium snapshot. Use its installed
-      # Google Chrome explicitly so the AAC test exercises a shipping codec.
       BROWSER_EXECUTABLE: /usr/bin/google-chrome
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with: {persist-credentials: false}
+        with: {persist-credentials: false, ref: '${{ github.event.pull_request.head.sha || github.sha }}'}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
-        with: {node-version: '24.22.0'}
+        with:
+          node-version: '24.22.0'
+          cache: npm
+          cache-dependency-path: knights-reforged/package-lock.json
       - run: npm ci --no-audit --no-fund
-      - run: npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release
-      - run: node scripts/check-browser-audio.mjs
-      - run: npm run typecheck && npm run build && npm run check:static
-      - run: npm test
-      - run: npm audit --omit=dev --audit-level=high
-      - run: npm audit --omit=dev --audit-level=high --prefix deployment/release
-      - run: npm run test:browser:phase47
-      - run: docker build -t kingdom-come:checked .
-      - run: npm run test:container
-        env: {KINGDOM_CONTAINER_IMAGE: 'kingdom-come:checked', KINGDOM_TEST_PRIVATE_ALPHA: '1'}
-      - run: docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .
-      - run: node scripts/test-release-worker.mjs
-        env: {KINGDOM_CONTAINER_IMAGE: 'kingdom-come:checked', KINGDOM_RELEASE_WORKER_IMAGE: 'kingdom-come:release-worker-checked'}
+      - if: matrix.lane == 'unit'
+        run: npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: checked-compiler-output
+          path: knights-reforged/dist/
+      - if: matrix.lane == 'browser'
+        run: node scripts/check-browser-audio.mjs
+      - run: node scripts/ci/run-tests.mjs --profile="$CI_PROFILE" --lane="$CI_LANE" --shard="$CI_SHARD/$CI_SHARDS" --workers="$CI_WORKERS"
+        env:
+          CI_PROFILE: ${{ needs.plan.outputs.profile }}
+          CI_LANE: ${{ matrix.lane }}
+          CI_SHARD: ${{ matrix.shard }}
+          CI_SHARDS: ${{ matrix.shards }}
+          CI_WORKERS: ${{ matrix.workers }}
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: kingdom-check-evidence
+          name: kingdom-test-evidence-${{ matrix.lane }}-${{ matrix.shard }}
+          path: |
+            knights-reforged/test-results/**/*.json
+            knights-reforged/test-results/ci-*/
+            knights-reforged/test-results/phase47-browser/
+            knights-reforged/test-results/coordinated-art-browser/
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+  recovery:
+    needs: [plan, validation]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, ref: '${{ github.event.pull_request.head.sha || github.sha }}'}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        if: needs.plan.outputs.recovery == 'true'
+        with: {node-version: '24.22.0', cache: npm, cache-dependency-path: knights-reforged/package-lock.json}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        if: needs.plan.outputs.recovery == 'true'
+        with:
+          name: checked-compiler-output
+          path: knights-reforged/dist/
+      - if: needs.plan.outputs.recovery == 'true'
+        working-directory: knights-reforged
+        run: |
+          npm ci --no-audit --no-fund
+          npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release
+          docker build -t kingdom-come:checked .
+          docker pull postgres:18-bookworm
+          KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_TEST_PRIVATE_ALPHA=1 npm run test:container
+          docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .
+          KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_RELEASE_WORKER_IMAGE=kingdom-come:release-worker-checked node scripts/test-release-worker.mjs
+      - if: needs.plan.outputs.recovery != 'true'
+        run: echo 'Container recovery rehearsal not required by this narrow PR profile; exact production push always requires it.'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && needs.plan.outputs.recovery == 'true'
+        with:
+          name: kingdom-recovery-evidence
           path: |
             knights-reforged/test-results/phase47-*.json
-            knights-reforged/test-results/phase47-browser/
             knights-reforged/test-results/release-worker-verification.json
+          if-no-files-found: error
           retention-days: 14
+  checks:
+    name: checks
+    needs: [plan, validation, tests, recovery]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, ref: '${{ github.event.pull_request.head.sha || github.sha }}'}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - run: node knights-reforged/scripts/ci/aggregate.mjs
+        env:
+          CI_NEEDS: ${{ toJSON(needs) }}
