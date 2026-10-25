@@ -1,0 +1,151 @@
+{
+  "project": "Kingdom Come",
+  "purpose": "codex handoff; proposed replacement weapons; no production activation",
+  "items": [
+    {
+      "id": "marchwatch-spear",
+      "name": "Marchwatch Spear",
+      "level": 15,
+      "region": "Northern Marches",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/marchwatch-spear.png",
+      "webp": "original10/webp_512/marchwatch-spear.webp",
+      "sha256": "01b6245a8a66130169479ec36425de04960e30c8744104043ec0382995f76868"
+    },
+    {
+      "id": "fenwarden-billhook",
+      "name": "Fenwarden Billhook",
+      "level": 28,
+      "region": "Moonfen",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/fenwarden-billhook.png",
+      "webp": "original10/webp_512/fenwarden-billhook.webp",
+      "sha256": "27fe1b914c1d7de237dac7d6efc84710f4d9b8375cb6c02a7861b0141f936415"
+    },
+    {
+      "id": "sunscar-maul",
+      "name": "Sunscar Maul",
+      "level": 32,
+      "region": "Sunscar Reach",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/sunscar-maul.png",
+      "webp": "original10/webp_512/sunscar-maul.webp",
+      "sha256": "156cd97c73cf3cdcd154b19586f7d34f2e6ae0bdf45b27c23ae7fdbb3d56b2cb"
+    },
+    {
+      "id": "frontier-falchion",
+      "name": "Frontier Falchion",
+      "level": 36,
+      "region": "Ashen Frontier",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/frontier-falchion.png",
+      "webp": "original10/webp_512/frontier-falchion.webp",
+      "sha256": "aaf6e811b46f5ddcc0659e4efb8dec0d292eead3ab14c6294394dab4752b075f"
+    },
+    {
+      "id": "crownlands-war-staff",
+      "name": "Crownlands War Staff",
+      "level": 40,
+      "region": "Crownlands",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/crownlands-war-staff.png",
+      "webp": "original10/webp_512/crownlands-war-staff.webp",
+      "sha256": "4e13a04f9454223643225faf5b413507b6616d57d394c4145abef04db2cd3a2e"
+    },
+    {
+      "id": "blacksteel-warblade",
+      "name": "Blacksteel Warblade",
+      "level": 45,
+      "region": "Ashen Frontier",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/blacksteel-warblade.png",
+      "webp": "original10/webp_512/blacksteel-warblade.webp",
+      "sha256": "9d807f5b382f7a3aab2f770ad07838a644d01e153d401fb0013d4b8dfe3fa4ed"
+    },
+    {
+      "id": "order-marshal-greatsword",
+      "name": "Order Marshal Greatsword",
+      "level": 50,
+      "region": "Crownlands",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/order-marshal-greatsword.png",
+      "webp": "original10/webp_512/order-marshal-greatsword.webp",
+      "sha256": "a17c4df5bd52ab156bf9fe2ec03f060c34ecdbe33a52b503eeec979196675619"
+    },
+    {
+      "id": "marshguard-glaive",
+      "name": "Marshguard Glaive",
+      "level": 51,
+      "region": "Moonfen",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/marshguard-glaive.png",
+      "webp": "original10/webp_512/marshguard-glaive.webp",
+      "sha256": "da47455c8d28fa31fb2c8bd5f04b82cac84c01994b1b2a802ae7eda13e783e45"
+    },
+    {
+      "id": "highland-claymore",
+      "name": "Highland Claymore",
+      "level": 51,
+      "region": "Northern Marches",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/highland-claymore.png",
+      "webp": "original10/webp_512/highland-claymore.webp",
+      "sha256": "97f12f71d75069e0b02aa4729816f1a5105818f6f3253d448fb0f1b1d844904e"
+    },
+    {
+      "id": "crown-captains-halberd",
+      "name": "Crown Captain\u2019s Halberd",
+      "level": 60,
+      "region": "Crownlands",
+      "status": "original standalone image generated in ChatGPT; candidate for owner review",
+      "source_png": "original10/png_sources/crown-captains-halberd.png",
+      "webp": "original10/webp_512/crown-captains-halberd.webp",
+      "sha256": "f6b35070d68ba16ef70e0071bfece674b0db51e5cc2e6df106b805224cc96e52"
+    },
+    {
+      "id": "sunscar-officers-saber",
+      "name": "Sunscar Officer\u2019s Saber",
+      "level": 60,
+      "region": "Sunscar Reach",
+      "status": "CONCEPT ONLY: cropped from five-in-row gallery; needs standalone full-resolution generation and owner review",
+      "webp": "last5/concept_crops/sunscar-officers-saber-SHEET-CROP-ONLY.webp",
+      "sha256": "1b7998afbd001f2ffff27ad637e35a80e22b33aa35d8bd8313a11687098f62b1"
+    },
+    {
+      "id": "frontier-marshals-poleaxe",
+      "name": "Frontier Marshal\u2019s Poleaxe",
+      "level": 70,
+      "region": "Ashen Frontier",
+      "status": "CONCEPT ONLY: cropped from five-in-row gallery; needs standalone full-resolution generation and owner review",
+      "webp": "last5/concept_crops/frontier-marshals-poleaxe-SHEET-CROP-ONLY.webp",
+      "sha256": "7da05cffec7c4393da7e2164e54c941a3a985f99cdf04d288d5ac4a014f9203c"
+    },
+    {
+      "id": "mountain-wardens-zweihander",
+      "name": "Mountain Warden\u2019s Zweihander",
+      "level": 70,
+      "region": "Northern Marches",
+      "status": "CONCEPT ONLY: cropped from five-in-row gallery; needs standalone full-resolution generation and owner review",
+      "webp": "last5/concept_crops/mountain-wardens-zweihander-SHEET-CROP-ONLY.webp",
+      "sha256": "c8750614e4fc0021acd7ee6c1d4b5f8c253cfbc9a1f20ba9a8f36da3981a4904"
+    },
+    {
+      "id": "imperial-thronehammer",
+      "name": "Imperial Thronehammer",
+      "level": 90,
+      "region": "Eclipse Bastion",
+      "status": "CONCEPT ONLY: cropped from five-in-row gallery; needs standalone full-resolution generation and owner review",
+      "webp": "last5/concept_crops/imperial-thronehammer-SHEET-CROP-ONLY.webp",
+      "sha256": "4c4f2b2db9009f18bfeaace448b8ea4b5120512721abfb61bfd16b6bf5f635da"
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "name": "Eclipse Gatehammer",
+      "level": 100,
+      "region": "Eclipse Bastion",
+      "status": "CONCEPT ONLY: cropped from five-in-row gallery; needs standalone full-resolution generation and owner review",
+      "webp": "last5/concept_crops/eclipse-gatehammer-SHEET-CROP-ONLY.webp",
+      "sha256": "bad882c120b145551bb6b327503b3d9b09e227e05cb3e3226b51fd32b2d7f688"
+    }
+  ]
+}
