@@ -54,7 +54,7 @@ records or credentials. `bash scripts/ci/benchmark.sh` reproduces the workload.
 | Same six files at4workers | — | 23.138s median | Slower than2; rejected as default |
 | 42-file unit sample | 43.029s at1worker | **31.716s at2workers** | **26.3%**, one trial each |
 | Artwork profile, real browsers + integrity | No old scoped profile | **252.223s local** | All14 files passed; local single browser, not hosted two-shard CI |
-| UI profile, real browsers + security/transactions | No old scoped profile | Final measured result in PR | Local single browser; hosted profile has two separate browser runners |
+| UI profile, real browsers + security/transactions | No old scoped profile | **431.625s local** | All34 files/125 TAP tests plus standalone browser passed; hosted profile has two separate browser runners |
 | Full hosted CI | 21m58.5s median /25m07s slowest | Exact final run linked in PR | Calculate from actual hosted run; no synthetic timing claim |
 | Protected production release | 630s median full release job | **Unverified** | Recovery unchanged; no protected dispatch permitted |
 
@@ -69,6 +69,12 @@ existing10s lock timeout. That noisy failed trial is excluded from speedup
 calculations and led to exclusive scheduling for heavyweight fixtures. We did not
 increase production lock timeouts, weaken assertions or add automatic retries.
 An independent run of that full900-bot fixture passed, as did cancellation cleanup.
+
+The first split hosted run correctly failed closed because the isolated recovery
+job no longer inherited a PostgreSQL image pull from the old shared service.
+The correction explicitly pulls the same `postgres:18-bookworm` image before
+container testing. No test, backup or restoration assertion was relaxed. The
+complete corrected exact-head run is linked in the PR.
 
 ## Remaining limits
 

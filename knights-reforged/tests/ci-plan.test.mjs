@@ -70,6 +70,7 @@ test('file completion requires real test evidence and rejects failure, interrupt
 });
 test('fixture database access cannot follow remote hosts, query overrides or unsafe database names',async()=>{
   for(const url of [undefined,'postgres://x@realm.internal/live_test','postgres://x@127.0.0.1/live','postgres://x@localhost/live_test?host=remote','postgres://x@localhost/live_test?options=-csearch_path=public','postgres://x@localhost/live_test#ignored','https://localhost/x_test'])assert.throws(()=>fixtureUrl(url));
+  assert.throws(()=>fixtureUrl('postgres://fixture:must-not-print@'),error=>!String(error).includes('must-not-print'));
   let calls=0;const pool={query:async()=>{calls++;}};
   await assert.rejects(databaseLease(pool,'postgres://x@remote/db_test'));
   await assert.rejects(databaseLease(pool,'postgres://x@localhost/db_test','bad;DROP DATABASE x'));

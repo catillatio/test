@@ -1,7 +1,8 @@
 import {randomUUID} from 'node:crypto';
 export function fixtureUrl(value) {
   if(!value)throw Error('Disposable PostgreSQL fixture required');
-  const url=new URL(value);
+  let url;
+  try {url=new URL(value);}catch {throw Error('Invalid disposable PostgreSQL fixture');}
   if(!['postgres:','postgresql:'].includes(url.protocol)||!['localhost','127.0.0.1','[::1]'].includes(url.hostname)||!/^\/[a-zA-Z0-9_]+_test$/.test(url.pathname)||url.search||url.hash) throw Error('Only local disposable *_test databases without overrides are allowed');
   return url;
 }

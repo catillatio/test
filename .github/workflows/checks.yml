@@ -131,6 +131,7 @@ jobs:
         run: |
           npm ci --no-audit --no-fund
           docker build -t kingdom-come:checked .
+          docker pull postgres:18-bookworm
           KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_TEST_PRIVATE_ALPHA=1 npm run test:container
           docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .
           KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_RELEASE_WORKER_IMAGE=kingdom-come:release-worker-checked node scripts/test-release-worker.mjs

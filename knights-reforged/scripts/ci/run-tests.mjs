@@ -52,7 +52,7 @@ async function run(entry){
     const {passed,...counts}=testResult(entry,output,status,signal,{overflow});
     await writeFile(directory+'/'+key+'.log',output);
     results.push({file:entry.file,lane:entry.lane,seconds:Number(((performance.now()-start)/1000).toFixed(3)),passed,...counts});
-    console.log(`${passed?'PASS':'FAIL'} ${entry.file} ${results.at(-1).seconds}s`);
+    console.log(`${passed?'PASS':'FAIL'} ${entry.file} ${results.at(-1).seconds}s ${entry.script?'browser-script':`tests=${counts.tests??0} skipped=${counts.skipped??0}`}`);
     if(!passed)console.error(output.slice(-16000));
   } catch {
     results.push({file:entry.file,lane:entry.lane,seconds:Number(((performance.now()-start)/1000).toFixed(3)),passed:false});
