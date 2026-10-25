@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "baseCommit": "42140e13b8278747e3f806e39f1b6e116207eeef",
+  "existingArtRulesetReleaseBlobsUnchanged": 193,
+  "preservedPropertyEntries": 6,
+  "preservedHudsonEntries": 1,
+  "oldManifestsUnchanged": true,
+  "productionMutations": false,
+  "registryActive": false
+}

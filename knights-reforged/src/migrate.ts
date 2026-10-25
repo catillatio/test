@@ -1,3 +1,4 @@
+import {verifyActiveCoordinatedArtwork} from './coordinated-artwork.js';
 import {equipmentPresentation,verifyPresentationAssets} from './equipment-presentation.js';
 import {verifyExpansionArtwork} from './expansion-artwork.js';
 import { readdir, readFile } from 'node:fs/promises';
@@ -31,6 +32,7 @@ const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normaliz
 // Read-only validation at both migration and runtime startup. Skipping migration
 // must not let edited JSON silently redefine an already installed ruleset ID.
 export async function assertInstalledRulesets(sql:Sql) {
+  await verifyActiveCoordinatedArtwork();
   await verifyPresentationAssets();
   if(!(await verifyExpansionArtwork()).ready)throw new Error('Exact deployed artwork registry verification failed.');
   for(const definition of definitions) {

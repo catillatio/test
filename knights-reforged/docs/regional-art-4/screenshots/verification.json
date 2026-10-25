@@ -1,0 +1,1834 @@
+{
+  "passed": true,
+  "previewOnly": true,
+  "productionContacted": false,
+  "renderer": "Actual local HTTP templates; candidate-only image substitution; production selector remains null",
+  "registryId": "regional-weapon-land-art-3",
+  "registryDigest": "10f766b92c08cc050b89b202075159ed7083590827402e0135872cfe31ea133c",
+  "widths": [
+    320,
+    390,
+    430,
+    1024
+  ],
+  "cropChecks": {
+    "checked": 116,
+    "sourceChecks": 22,
+    "sharedBackgroundChecks": 15,
+    "negativeMatteFixtures": 2,
+    "naturalCharcoalFixture": true,
+    "errors": []
+  },
+  "checks": [
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-upper-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-land",
+      "id": "marcher-stronghold",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-land",
+      "id": "royal-border-fortress",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-land",
+      "id": "crown-river-port",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-land",
+      "id": "imperial-siegeworks",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-land",
+      "id": "sovereign-castle",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 320,
+      "screen": "after-land",
+      "id": "eclipse-crown-citadel",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-upper-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-land",
+      "id": "marcher-stronghold",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-land",
+      "id": "royal-border-fortress",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-land",
+      "id": "crown-river-port",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-land",
+      "id": "imperial-siegeworks",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-land",
+      "id": "sovereign-castle",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "after-land",
+      "id": "eclipse-crown-citadel",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-upper-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-land",
+      "id": "marcher-stronghold",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-land",
+      "id": "royal-border-fortress",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-land",
+      "id": "crown-river-port",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-land",
+      "id": "imperial-siegeworks",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-land",
+      "id": "sovereign-castle",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 430,
+      "screen": "after-land",
+      "id": "eclipse-crown-citadel",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-upper-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-land",
+      "id": "marcher-stronghold",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-land",
+      "id": "royal-border-fortress",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-land",
+      "id": "crown-river-port",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-land",
+      "id": "imperial-siegeworks",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-land",
+      "id": "sovereign-castle",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "after-land",
+      "id": "eclipse-crown-citadel",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "original-candidate-upper-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 1024,
+      "screen": "original-candidate-upper-weapons",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "sun-etched-warhammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "marcher-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "eclipse-gatehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "eclipse-greatsword",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "fortress-glaive",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "crown-of-ash-blade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "stormglass-pike",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "march-wardens-poleaxe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "sovereigns-zweihander",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "royal-warblade",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "throneguard-polehammer",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "astral-conductor",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "gravewarden-scythe",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "dragonwake-falchion",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "guard-captains-halberd",
+      "width": 512,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "marcher-stronghold",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "royal-border-fortress",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "crown-river-port",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "imperial-siegeworks",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "sovereign-castle",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    },
+    {
+      "viewport": 390,
+      "screen": "profile-preview",
+      "id": "eclipse-crown-citadel",
+      "width": 768,
+      "height": 512,
+      "fit": "cover"
+    }
+  ],
+  "hudson": "Exact owner-source derivative prepared separately; portrait tip framing still requires specific owner review.",
+  "integrity": {
+    "readyForVisualReview": true,
+    "approvedForActivation": false,
+    "registryId": "regional-weapon-land-art-3",
+    "digest": "10f766b92c08cc050b89b202075159ed7083590827402e0135872cfe31ea133c",
+    "entries": 22,
+    "bytes": 1723582,
+    "backgroundBytes": 31578
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "registryId": "regional-weapon-land-art-2",
+  "registryDigest": "5bd372f620b3fd83c56030a2b2e1b4860d2a4877b9841545e1cd6b39c726452e",
+  "supersedesCandidateDigest": "a831fd9784e007489ddcb7c15a7e71eaa26b949e4029cb46a4028090ab07341f",
+  "entries": 22,
+  "redesignedWeapons": 15,
+  "unchangedProperties": 6,
+  "unchangedHudson": 1,
+  "newRuntimeImageBytes": 601294,
+  "selectedImageBytes": 2015840,
+  "active": false
+}

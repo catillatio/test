@@ -1,0 +1,551 @@
+{
+  "tool": "OpenAI image_gen.imagegen",
+  "newDesigns": 12,
+  "adaptedProofDesigns": 3,
+  "transparentBackground": true,
+  "backgroundOrigin": "Exact public live-atlas source pixels, single shared crop; not image-generated.",
+  "sourceRights": "Original project-approved art and OpenAI-generated foreground outputs under applicable terms. No historical commercial-game/stock art, no exclusivity claim.",
+  "processing": "Image generation, optional alpha-only tiny edge-speck cleanup, proportional scaling and background alpha composite. No RGB recolor/filter or procedural weapon drawing.",
+  "sources": [
+    {
+      "id": "stormglass-pike",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/stormglass-pike.png",
+      "sha256": "7f1308ef77534e28600d9ca4f53b64ef276c923b18891a3351b278a60d4ebe7c",
+      "bytes": 602304,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          9,
+          6,
+          1242,
+          1244
+        ],
+        "physicalBounds": [
+          10,
+          7,
+          1241,
+          1243
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          428,
+          430
+        ],
+        "offset": [
+          42,
+          41
+        ],
+        "scale": 0.3473344103392569
+      },
+      "composite": "docs/regional-art-4/composites/stormglass-pike.png",
+      "compositeSha256": "50821172476c837dec6b79e39c23cf052cca4d31cce19eaacb37bf5c6a395ed8",
+      "runtimeSha256": "4cffadc32b21244edfeab30637280c37ed70ce646dce82df931ff490ade5f11f"
+    },
+    {
+      "id": "gravewarden-scythe",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/gravewarden-scythe.png",
+      "sha256": "7db15878870bfc428368755a3b3d1655c512cfaa7925876fc3f58f802e1510d8",
+      "bytes": 753237,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          31,
+          44,
+          1238,
+          1211
+        ],
+        "physicalBounds": [
+          32,
+          45,
+          1238,
+          1210
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          430,
+          416
+        ],
+        "offset": [
+          41,
+          48
+        ],
+        "scale": 0.35625517812758906
+      },
+      "composite": "docs/regional-art-4/composites/gravewarden-scythe.png",
+      "compositeSha256": "b1353fbf8894e42d855051a158d008a772d80aab8ee35b9c18ec4fdbcad38c1b",
+      "runtimeSha256": "712d19fd8217d0149b2c724226cb9ab2b40a0f900393173cbad28ef03e7e554d"
+    },
+    {
+      "id": "sun-etched-warhammer",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/sun-etched-warhammer.png",
+      "sha256": "c3bd8f70562535e0fe39ac4dd1cd30176c89728089d58c29c3fdbe0676bdd685",
+      "bytes": 1041028,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          65,
+          6,
+          1245,
+          1231
+        ],
+        "physicalBounds": [
+          66,
+          8,
+          1244,
+          1230
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          414,
+          430
+        ],
+        "offset": [
+          49,
+          41
+        ],
+        "scale": 0.3510204081632653
+      },
+      "composite": "docs/regional-art-4/composites/sun-etched-warhammer.png",
+      "compositeSha256": "18e8fb081f0aa88d77c82187f2ccada9a6a0d300629466aba0e44dbfe5f3b7ce",
+      "runtimeSha256": "a8b59dc0a4b47d6956853d176d4307f9b3299df29f336aaf1393919e5faf579e"
+    },
+    {
+      "id": "dragonwake-falchion",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/dragonwake-falchion.png",
+      "sha256": "63063ccd6f20c75c3c32db050bca85a6e8a242b89d765cf92c96fda5db151607",
+      "bytes": 982260,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          16,
+          8,
+          1242,
+          1234
+        ],
+        "physicalBounds": [
+          17,
+          9,
+          1241,
+          1234
+        ],
+        "removedEdgeSpeckPixels": 66,
+        "placedSize": [
+          430,
+          430
+        ],
+        "offset": [
+          41,
+          41
+        ],
+        "scale": 0.35073409461663946
+      },
+      "composite": "docs/regional-art-4/composites/dragonwake-falchion.png",
+      "compositeSha256": "8c69f416ef97262aa9fc867a1d32fe40bb98ca6e0bbeeda30c4194846909423d",
+      "runtimeSha256": "7528c45a020a256c44ea5e6c60ee781d0f25eb75d44498556c942d2b018430f5"
+    },
+    {
+      "id": "astral-conductor",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/astral-conductor.png",
+      "sha256": "c1994f101018cbe43f078bddfc3a2200524578199439fc7f3313558c02619f99",
+      "bytes": 697267,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          134,
+          8,
+          1248,
+          1246
+        ],
+        "physicalBounds": [
+          136,
+          9,
+          1245,
+          1245
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          387,
+          430
+        ],
+        "offset": [
+          62,
+          41
+        ],
+        "scale": 0.3473344103392569
+      },
+      "composite": "docs/regional-art-4/composites/astral-conductor.png",
+      "compositeSha256": "fa94b53fc5f0079238af5d7251d780bddf4a58a4cf7aea36637862c33b8dad03",
+      "runtimeSha256": "a85d79f399653ddcaa5d269fbc9b1e69a5bf744bff67a6380d444f72843155aa"
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/crown-of-ash-blade.png",
+      "sha256": "663f8c5831057ac4b004b2aa1e7e9a1e57f64d75be766f13d72740ba4f4c7b8b",
+      "bytes": 1082463,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          10,
+          10,
+          1247,
+          1241
+        ],
+        "physicalBounds": [
+          11,
+          11,
+          1246,
+          1238
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          430,
+          428
+        ],
+        "offset": [
+          41,
+          42
+        ],
+        "scale": 0.34761519805982216
+      },
+      "composite": "docs/regional-art-4/composites/crown-of-ash-blade.png",
+      "compositeSha256": "9e30ad04988d095262b827ae5e6613a5af0f47584c39a0f57c679e89698c1e41",
+      "runtimeSha256": "d3d111eeb8d4600129dbcd7f7d1de67770785513413facd9308804baaa8d5338"
+    },
+    {
+      "id": "eclipse-greatsword",
+      "kind": "adapted approved-direction proof",
+      "source": "docs/regional-art-4/foreground/eclipse-greatsword.png",
+      "sha256": "366ca7c42aad50cd3d5aecb28681811c41384eecf342f78e4a62453f7b4fc0d4",
+      "bytes": 729268,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          50,
+          19,
+          1220,
+          1228
+        ],
+        "physicalBounds": [
+          50,
+          21,
+          1219,
+          1227
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          416,
+          430
+        ],
+        "offset": [
+          48,
+          41
+        ],
+        "scale": 0.3556658395368073
+      },
+      "composite": "docs/regional-art-4/composites/eclipse-greatsword.png",
+      "compositeSha256": "aaca838f07cc31e48fa21c19ba87fae859c61e5ca3460efc9394ad698182dd12",
+      "runtimeSha256": "22fc84d637a3f8a7c567734617cc82c6d94692f0725bfcea068d3e660a06e156"
+    },
+    {
+      "id": "marcher-greatsword",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/marcher-greatsword.png",
+      "sha256": "c4766eb4da31c66261fa8254578ab8b3b980c32df1040b9727339e58a9c77e8f",
+      "bytes": 772543,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          54,
+          9,
+          1241,
+          1243
+        ],
+        "physicalBounds": [
+          55,
+          10,
+          1239,
+          1241
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          414,
+          430
+        ],
+        "offset": [
+          49,
+          41
+        ],
+        "scale": 0.34846029173419774
+      },
+      "composite": "docs/regional-art-4/composites/marcher-greatsword.png",
+      "compositeSha256": "f86b5f23649ee82905d60dac56467360ecd4f94a1f4fbc56718d91aebcb13ccd",
+      "runtimeSha256": "4ba1b4b2d5165daaf76a930ecbed9325290d0919c222aaee0b179bfb7ea902d0"
+    },
+    {
+      "id": "fortress-glaive",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/fortress-glaive.png",
+      "sha256": "f8724cf52f2c760d021a5f01fc5acc24e9e1830be353899fd9970ddb2802c9ba",
+      "bytes": 634727,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          15,
+          10,
+          1238,
+          1239
+        ],
+        "physicalBounds": [
+          16,
+          11,
+          1237,
+          1238
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          428,
+          430
+        ],
+        "offset": [
+          42,
+          41
+        ],
+        "scale": 0.3498779495524817
+      },
+      "composite": "docs/regional-art-4/composites/fortress-glaive.png",
+      "compositeSha256": "94b2da7a7e4d782b06601074524c181798ef2734f0e7f5856f49f023f3f75ae9",
+      "runtimeSha256": "472d64a854276dd5d51650b8cb280c99c46dac7e517aeb8cde463d7633b1c18d"
+    },
+    {
+      "id": "royal-warblade",
+      "kind": "adapted approved-direction proof",
+      "source": "docs/regional-art-4/foreground/royal-warblade.png",
+      "sha256": "f52e6d86e502d1ffaf6ae60f62c4d03b43616ca292ac85dda1e009feb4bc7a8c",
+      "bytes": 836643,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          28,
+          17,
+          1233,
+          1203
+        ],
+        "physicalBounds": [
+          29,
+          18,
+          1232,
+          1201
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          430,
+          423
+        ],
+        "offset": [
+          41,
+          44
+        ],
+        "scale": 0.35684647302904565
+      },
+      "composite": "docs/regional-art-4/composites/royal-warblade.png",
+      "compositeSha256": "c89c6a946af985b4e17b9d1947741b6528ce1c02a80b387f34a756ade7b34be7",
+      "runtimeSha256": "db3698a95343a455569bdb32607ee92092087e077ebc6db36fae0f9171952e0f"
+    },
+    {
+      "id": "guard-captains-halberd",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/guard-captains-halberd.png",
+      "sha256": "74a1d2f5cd1d7e18e5cf6e9aed723edf427af903b27f0f6601b169c5aaf07990",
+      "bytes": 742861,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          65,
+          13,
+          1240,
+          1235
+        ],
+        "physicalBounds": [
+          66,
+          14,
+          1239,
+          1234
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          413,
+          430
+        ],
+        "offset": [
+          49,
+          41
+        ],
+        "scale": 0.3518821603927987
+      },
+      "composite": "docs/regional-art-4/composites/guard-captains-halberd.png",
+      "compositeSha256": "d4b17941fa8b73c5f8079eb5268d32a8e714c8acf22688de7e41c96c5672772b",
+      "runtimeSha256": "6e393810463f30751574555c3141ec69a87b59f2df823165a8c42b6c312a170b"
+    },
+    {
+      "id": "sovereigns-zweihander",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/sovereigns-zweihander.png",
+      "sha256": "d551ebfa5c40e6f39f8627aaeebf3c696fa8618437a49b74ee568caac232c130",
+      "bytes": 807932,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          15,
+          13,
+          1239,
+          1241
+        ],
+        "physicalBounds": [
+          16,
+          14,
+          1238,
+          1240
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          429,
+          430
+        ],
+        "offset": [
+          41,
+          41
+        ],
+        "scale": 0.3501628664495114
+      },
+      "composite": "docs/regional-art-4/composites/sovereigns-zweihander.png",
+      "compositeSha256": "0688ed738c706ca3443013e80527c13555ef921a3e02204255f8d91291f71c69",
+      "runtimeSha256": "288c70816019bfd60ecc91de776269f8a3f530d161355ee6a2d7a4bb30f1c736"
+    },
+    {
+      "id": "march-wardens-poleaxe",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/march-wardens-poleaxe.png",
+      "sha256": "806bef7d8a49be0e87997768d4a51684108b4faabbacd48efec1b5066f6af942",
+      "bytes": 852177,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          13,
+          4,
+          1247,
+          1243
+        ],
+        "physicalBounds": [
+          14,
+          5,
+          1246,
+          1241
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          428,
+          430
+        ],
+        "offset": [
+          42,
+          41
+        ],
+        "scale": 0.3470540758676352
+      },
+      "composite": "docs/regional-art-4/composites/march-wardens-poleaxe.png",
+      "compositeSha256": "b5df076a120c22e5125bff152c32885d784aa8cd134f5890a7d1e1aae5237398",
+      "runtimeSha256": "ea7159815f650ac8c5725d369fea11a4fa71b17b814b98753c1482a61645c857"
+    },
+    {
+      "id": "throneguard-polehammer",
+      "kind": "new original illustration",
+      "source": "docs/regional-art-4/foreground/throneguard-polehammer.png",
+      "sha256": "a5a9c9539829226de8bae3bdb0c3b75f413283ca6fa87128b6be0ddeec8bfee3",
+      "bytes": 949720,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          76,
+          8,
+          1242,
+          1226
+        ],
+        "physicalBounds": [
+          77,
+          9,
+          1241,
+          1225
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          412,
+          430
+        ],
+        "offset": [
+          50,
+          41
+        ],
+        "scale": 0.3530377668308703
+      },
+      "composite": "docs/regional-art-4/composites/throneguard-polehammer.png",
+      "compositeSha256": "387a76fcb3db6a61c3b5aeb35730d0088298a92d9ad42316e38bfef8574cffa1",
+      "runtimeSha256": "1c5bacf402370c551c50868a181e224464fc1204f5f3bac03e0e65846929d3ad"
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "kind": "adapted approved-direction proof",
+      "source": "docs/regional-art-4/foreground/eclipse-gatehammer.png",
+      "sha256": "db519a2a906f5deb62f9776a79cff40ea9053f555b8d9d1ee45046d9d7b4a076",
+      "bytes": 942374,
+      "rawRGBA": true,
+      "transform": {
+        "alphaBoundsThreshold": 8,
+        "bounds": [
+          17,
+          22,
+          1247,
+          1204
+        ],
+        "physicalBounds": [
+          18,
+          23,
+          1246,
+          1203
+        ],
+        "removedEdgeSpeckPixels": 0,
+        "placedSize": [
+          430,
+          413
+        ],
+        "offset": [
+          41,
+          49
+        ],
+        "scale": 0.34959349593495936
+      },
+      "composite": "docs/regional-art-4/composites/eclipse-gatehammer.png",
+      "compositeSha256": "b51a12e9fe0912b9f1a761c75f6eea0efc4b70b045e8c1b677df7d0369dc2809",
+      "runtimeSha256": "198a03b2a729969c72cfe7b410695131e18ca63b539831a90d818c9cccb92dcf"
+    }
+  ]
+}

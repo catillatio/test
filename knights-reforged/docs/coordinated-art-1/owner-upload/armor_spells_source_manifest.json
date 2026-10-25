@@ -1,0 +1,552 @@
+{
+  "purpose": "Codex candidate-art handoff; no production approval or deployment",
+  "source_policy": "All armor from original standalone image generations; NOT supplied preview screenshot; spell tiles extracted from image-generated sheets, NOT from screenshots",
+  "armor": [
+    {
+      "id": "",
+      "presentation_slug": "marchwatch-hauberk",
+      "level": 12,
+      "region": "Northern Marches",
+      "source_original": "frostforged_chainmail_hauberk.png",
+      "png": "armor/png/marchwatch-hauberk.png",
+      "webp": "armor/webp/marchwatch-hauberk.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "76801ab49f62a0bc80c760d7b1ce4351af8c1c5918ee912be900af0d41699f09",
+      "webp_sha256": "469641f7d8ee939b2a954f60cf35fa28943c50333becff204cc3e4ecb737a88f"
+    },
+    {
+      "id": "",
+      "presentation_slug": "fenwarden-lamellar",
+      "level": 28,
+      "region": "Moonfen",
+      "source_original": "enchanted_swamp_lamellar_armor.png",
+      "png": "armor/png/fenwarden-lamellar.png",
+      "webp": "armor/webp/fenwarden-lamellar.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "b801e829433e2a709bc3907a0c89688670dccfcda8e2240f5a2f5131a6588bc7",
+      "webp_sha256": "827e55aff614ca452c63cab9535b12af9415dd90d11e7eda4c07d63df0a16d62"
+    },
+    {
+      "id": "",
+      "presentation_slug": "sunscar-scale-harness",
+      "level": 32,
+      "region": "Sunscar Reach",
+      "source_original": "sunlit_bronze_lamellar_cuirass.png",
+      "png": "armor/png/sunscar-scale-harness.png",
+      "webp": "armor/webp/sunscar-scale-harness.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "5485b7f8191bd0eaf4a6fd1820360c05342cc35b426f0da90888cc176e508e9b",
+      "webp_sha256": "8ac314cdfb816aa643f571143d13df7d1a19baee54f9a80ab2904cc323a4db20"
+    },
+    {
+      "id": "",
+      "presentation_slug": "frontier-siege-harness",
+      "level": 36,
+      "region": "Ashen Frontier",
+      "source_original": "emberforged_warlord_armor.png",
+      "png": "armor/png/frontier-siege-harness.png",
+      "webp": "armor/webp/frontier-siege-harness.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "11e058f5086964f4a0505dd358cc5e65b9cf02c027181e296c916a014cda9742",
+      "webp_sha256": "ebd05f925e636117bd2242c276e7306c036e5d14ad3871a3380bf0b4dac82b1b"
+    },
+    {
+      "id": "",
+      "presentation_slug": "crownlands-marshal-coat",
+      "level": 40,
+      "region": "Crownlands",
+      "source_original": "headless_royal_mage_knight_regalia.png",
+      "png": "armor/png/crownlands-marshal-coat.png",
+      "webp": "armor/webp/crownlands-marshal-coat.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "7a111ee038eab5563cd912f44e0ed028bbaa8e890f92a9ae92fb7a0d5b0d988b",
+      "webp_sha256": "25677089d26f4fc8dd0fc15a300277afe1586390045163daf0c4b240424811f4"
+    },
+    {
+      "id": "",
+      "presentation_slug": "order-bastion-plate",
+      "level": 44,
+      "region": "Crownlands",
+      "source_original": "enchanted_royal_paladin_armor.png",
+      "png": "armor/png/order-bastion-plate.png",
+      "webp": "armor/webp/order-bastion-plate.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "49cffb777ec27ffefc42c6507b3639952d32b27e0be0018a1c594b84fa4bc3df",
+      "webp_sha256": "7bc23e1b2f431d6ef23d06207a612e16f87a98c5c67a147e12b153100867cd3b"
+    },
+    {
+      "id": "",
+      "presentation_slug": "moonfen-warden-mantle",
+      "level": 47,
+      "region": "Moonfen",
+      "source_original": "enchanted_teal_warden_mantle.png",
+      "png": "armor/png/moonfen-warden-mantle.png",
+      "webp": "armor/webp/moonfen-warden-mantle.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "af208f1609fb8ab31dc982692ff7faf0a5a8234d872b31ea29f579e677562382",
+      "webp_sha256": "f110436237d99b35f89ad23658bc64067b7d8e6ae714218b9830625f67004072"
+    },
+    {
+      "id": "",
+      "presentation_slug": "royal-garrison-plate",
+      "level": 50,
+      "region": "Crownlands",
+      "source_original": "celestial_sapphire_paladin_armor.png",
+      "png": "armor/png/royal-garrison-plate.png",
+      "webp": "armor/webp/royal-garrison-plate.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "f82e120cc1a6c8542dc516076dc147afb1372a72417054c1c0ec6268d61f95f7",
+      "webp_sha256": "ec633f2575b9f283ec941bce729b2054bb5606a40bb32b5aa1592c7e23aae472"
+    },
+    {
+      "id": "",
+      "presentation_slug": "highland-captains-brigandine",
+      "level": 51,
+      "region": "Northern Marches",
+      "source_original": "nordic_rune_worn_captain_s_armor.png",
+      "png": "armor/png/highland-captains-brigandine.png",
+      "webp": "armor/webp/highland-captains-brigandine.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "2147953b7354ba80defae6dd3d394a2494bb25c451e9b939a0f5a1d29724381d",
+      "webp_sha256": "d507e1e40ad8280f08c1fb39b61aff0eb36216e83d6f0391d68e33ea1f28c093"
+    },
+    {
+      "id": "",
+      "presentation_slug": "blacksteel-siegeguard-plate",
+      "level": 51,
+      "region": "Ashen Frontier",
+      "source_original": "emberforged_knight_of_the_ruined_fortress.png",
+      "png": "armor/png/blacksteel-siegeguard-plate.png",
+      "webp": "armor/webp/blacksteel-siegeguard-plate.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "9a0efdfe468fa684c4886ab2b15eb45bfd3a504616cf48c218661f3bac59cfc0",
+      "webp_sha256": "c5708a6cbcd2d7aea77da9412040b4beb41d55f6ac8c673b6c3f1986556e4f79"
+    },
+    {
+      "id": "",
+      "presentation_slug": "sunscar-marshal-harness",
+      "level": 60,
+      "region": "Sunscar Reach",
+      "source_original": "sunscar_solar_marshal_cuirass.png",
+      "png": "armor/png/sunscar-marshal-harness.png",
+      "webp": "armor/webp/sunscar-marshal-harness.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "a6b709827e580aff5fd9ff40bd232cfd9dc584528111d733acffcef26ff62ea2",
+      "webp_sha256": "3aa641016829e64aca80b2ad3438f8bb953bbdbc9916505b8d2013b25f48b66d"
+    },
+    {
+      "id": "",
+      "presentation_slug": "crownlands-citadel-harness",
+      "level": 60,
+      "region": "Crownlands",
+      "source_original": "regal_sapphire_paladin_armor.png",
+      "png": "armor/png/crownlands-citadel-harness.png",
+      "webp": "armor/webp/crownlands-citadel-harness.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "1d97fb70947f8b1623ddf092541aaf5a068626c86815fa11f1593eb0985160d4",
+      "webp_sha256": "646bf5174dec423bea59bf5c9f7fe5e3318ad6268c44b0788d1c3c28f423cef4"
+    },
+    {
+      "id": "",
+      "presentation_slug": "northern-thanes-warplate",
+      "level": 70,
+      "region": "Northern Marches",
+      "source_original": "frostbound_thane_armor_emblem.png",
+      "png": "armor/png/northern-thanes-warplate.png",
+      "webp": "armor/webp/northern-thanes-warplate.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "18ed26b5ca048f7f6cf11674660cc86182dd3dfc60f07af49d4fddf7462d2f34",
+      "webp_sha256": "91302c28aebc890b9d1185b3c33cc8d8319885800902995c26fcbb43b1415630"
+    },
+    {
+      "id": "",
+      "presentation_slug": "moonfen-sentinel-harness",
+      "level": 70,
+      "region": "Moonfen",
+      "source_original": "haunted_marsh_sentinel_armor.png",
+      "png": "armor/png/moonfen-sentinel-harness.png",
+      "webp": "armor/webp/moonfen-sentinel-harness.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "869c63f0a1d7c450d54ada91e0fdac848d591f4a6db582616a247423e377d274",
+      "webp_sha256": "205b28386ae958ff8baf3d3871ce37b799e2a5cd692ee222602c7cff4d7fb862"
+    },
+    {
+      "id": "",
+      "presentation_slug": "eclipse-war-marshal-plate",
+      "level": 100,
+      "region": "Eclipse Bastion",
+      "source_original": "eclipsed_void_paladin_armor.png",
+      "png": "armor/png/eclipse-war-marshal-plate.png",
+      "webp": "armor/webp/eclipse-war-marshal-plate.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "78acabf8d5b4ec23950c4b4ce825bb3cbf4d1ec8ff6561f9fa558b0f402300b9",
+      "webp_sha256": "14e14ed8f48e2527f90d29a22c6ec7bb59e1a106391a2f45073fd35f2a032919"
+    }
+  ],
+  "spells": [
+    {
+      "id": "",
+      "presentation_slug": "watchfire-covenant",
+      "level": 12,
+      "region": "Crownlands",
+      "source_generated_sheet": "reference/spell_batch_1_original_sheet.png",
+      "tile_position": {
+        "row": 1,
+        "column": 1
+      },
+      "png": "spells/png/watchfire-covenant.png",
+      "webp": "spells/webp/watchfire-covenant.webp",
+      "source_size": [
+        357,
+        366
+      ],
+      "png_sha256": "aa11e2c4872daa9d5d5ee1edc8f7c392ba3d62e1c3ec97b90ae8d2a92fe0a52a",
+      "webp_sha256": "dbd68f569ad18e481e3a32633d903326acb4e65086fe9e0371e424b0af3a6813",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "fenwardens-undertow",
+      "level": 28,
+      "region": "Moonfen",
+      "source_generated_sheet": "reference/spell_batch_1_original_sheet.png",
+      "tile_position": {
+        "row": 1,
+        "column": 2
+      },
+      "png": "spells/png/fenwardens-undertow.png",
+      "webp": "spells/webp/fenwardens-undertow.webp",
+      "source_size": [
+        358,
+        366
+      ],
+      "png_sha256": "a4d1e366c3d985cdc00bed80ef8c1ebc63678bef0133efb6093f691ff90d5526",
+      "webp_sha256": "3c4d53e01b6f610d7ac7626ddd3a9b6f3f987efda3855d858aab72819abec715",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "sunscar-benediction",
+      "level": 32,
+      "region": "Sunscar Reach",
+      "source_generated_sheet": "reference/spell_batch_1_original_sheet.png",
+      "tile_position": {
+        "row": 1,
+        "column": 3
+      },
+      "png": "spells/png/sunscar-benediction.png",
+      "webp": "spells/webp/sunscar-benediction.webp",
+      "source_size": [
+        360,
+        366
+      ],
+      "png_sha256": "c7c048552813c06d51281426dd5295bebb96bf12d16ae27f6c99e5fe66253349",
+      "webp_sha256": "a89a65d10cf045f07527830c41c6a2f391f6ba53785a4df6f8000e9124abcee9",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "frontier-breachfire",
+      "level": 36,
+      "region": "Ashen Frontier",
+      "source_generated_sheet": "reference/spell_batch_1_original_sheet.png",
+      "tile_position": {
+        "row": 1,
+        "column": 4
+      },
+      "png": "spells/png/frontier-breachfire.png",
+      "webp": "spells/webp/frontier-breachfire.webp",
+      "source_size": [
+        361,
+        366
+      ],
+      "png_sha256": "39dfcfdba0e6bfa08727ec24d6e5a5bfd5e40c278a6b7aaff3152726dcf61266",
+      "webp_sha256": "099a3c73433aecd9d34d9b9d005604ede7dc2858fc06b66bbd51b0d17afacc74",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "crownlands-stormcall",
+      "level": 40,
+      "region": "Crownlands",
+      "source_generated_sheet": "reference/spell_batch_1_original_sheet.png",
+      "tile_position": {
+        "row": 2,
+        "column": 1
+      },
+      "png": "spells/png/crownlands-stormcall.png",
+      "webp": "spells/webp/crownlands-stormcall.webp",
+      "source_size": [
+        357,
+        369
+      ],
+      "png_sha256": "4a4bd1402b3b3c62c40b5a6323779b46f97fc8ee0ef9fc53e7088eda5a67843d",
+      "webp_sha256": "b0502e7c883143175c3920da85d7836a78681d743147b7c26c8ded7776eda251",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "blacksteel-binding",
+      "level": 44,
+      "region": "Ashen Frontier",
+      "source_generated_sheet": "reference/spell_batch_1_original_sheet.png",
+      "tile_position": {
+        "row": 2,
+        "column": 2
+      },
+      "png": "spells/png/blacksteel-binding.png",
+      "webp": "spells/webp/blacksteel-binding.webp",
+      "source_size": [
+        358,
+        369
+      ],
+      "png_sha256": "3263333fd1e9fa721b359b71726a4543648538622b2e38d41a164fa111e80445",
+      "webp_sha256": "1523862070b83e99a079a07b983c3dc06affb9881d8459ce80ea52dfd75a0c99",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "orders-rebuke",
+      "level": 47,
+      "region": "Crownlands",
+      "source_generated_sheet": "reference/spell_batch_1_original_sheet.png",
+      "tile_position": {
+        "row": 2,
+        "column": 3
+      },
+      "png": "spells/png/orders-rebuke.png",
+      "webp": "spells/webp/orders-rebuke.webp",
+      "source_size": [
+        360,
+        369
+      ],
+      "png_sha256": "01edd8eee6850e7d30d0484aaf006f52041080e710fa43150d38919102227b80",
+      "webp_sha256": "47c238b4cdf13a028215795afb31beba0e58f74d723a5ce51c5890559fd68747",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "royal-war-invocation",
+      "level": 50,
+      "region": "Crownlands",
+      "source_generated_sheet": "reference/spell_batch_1_original_sheet.png",
+      "tile_position": {
+        "row": 2,
+        "column": 4
+      },
+      "png": "spells/png/royal-war-invocation.png",
+      "webp": "spells/webp/royal-war-invocation.webp",
+      "source_size": [
+        361,
+        369
+      ],
+      "png_sha256": "a5724fe09256e21c45b0da46be72477b3387215fb1571e1bf62ff363ee38c802",
+      "webp_sha256": "d477f07d6443f40edb2085b7d92c321332c7df7e94a95824ed4cf9c8a818e038",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "moonfen-rampart-ward",
+      "level": 51,
+      "region": "Moonfen",
+      "source_generated_sheet": "standalone Moonfen Rampart Ward image (later user revision)",
+      "tile_position": null,
+      "png": "spells/png/moonfen-rampart-ward.png",
+      "webp": "spells/webp/moonfen-rampart-ward.webp",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "png_sha256": "4aa0768265cab61a3b2b38c04e8865a2ca05afcd35e6d19dd46855475199b7fe",
+      "webp_sha256": "34ac0468e9dcb02614ba968966c592483347f101b0b0a2ef556f4dda39cc3d70",
+      "note": "Final Moonfen Rampart Ward uses later individually generated replacement, not batch-sheet tile.",
+      "alternative_original_tile_webp": "spells/webp/moonfen-rampart-ward.webp",
+      "alternative_original_tile_png": "spells/png/moonfen-rampart-ward.png"
+    },
+    {
+      "id": "",
+      "presentation_slug": "highland-battlebrand",
+      "level": 51,
+      "region": "Northern Marches",
+      "source_generated_sheet": "reference/spell_batch_2_original_sheet.png",
+      "tile_position": {
+        "row": 1,
+        "column": 2
+      },
+      "png": "spells/png/highland-battlebrand.png",
+      "webp": "spells/webp/highland-battlebrand.webp",
+      "source_size": [
+        358,
+        366
+      ],
+      "png_sha256": "797d647b97868327a1ef7639685b6a4eec015467931563b0c99d5ae82778f6d8",
+      "webp_sha256": "a2bfc308eb3307354e8edacbcd39e6a845b60b9763545c6d1254c19d9d950d77",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "crownlands-stonewall-oath",
+      "level": 60,
+      "region": "Crownlands",
+      "source_generated_sheet": "reference/spell_batch_2_original_sheet.png",
+      "tile_position": {
+        "row": 1,
+        "column": 3
+      },
+      "png": "spells/png/crownlands-stonewall-oath.png",
+      "webp": "spells/webp/crownlands-stonewall-oath.webp",
+      "source_size": [
+        360,
+        366
+      ],
+      "png_sha256": "bb32c8f15d539fe95a6f895c530051d492d3095e7222241347bd1b7f85873ffe",
+      "webp_sha256": "aa27c35e336db69a69e286e60972f9815d8c30cd0abdce0678c1975735f7b7c8",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "sunscar-bannerfire",
+      "level": 60,
+      "region": "Sunscar Reach",
+      "source_generated_sheet": "reference/spell_batch_2_original_sheet.png",
+      "tile_position": {
+        "row": 1,
+        "column": 4
+      },
+      "png": "spells/png/sunscar-bannerfire.png",
+      "webp": "spells/webp/sunscar-bannerfire.webp",
+      "source_size": [
+        361,
+        366
+      ],
+      "png_sha256": "009bca08c3afe7c2c91065b034dc0ca04978ded48d771871506514b0a5712a9f",
+      "webp_sha256": "7bab7e6da74826e7f31f9d996887560bc6a871451e106ee71e56646a656015a5",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "northern-ironwall-covenant",
+      "level": 70,
+      "region": "Northern Marches",
+      "source_generated_sheet": "reference/spell_batch_2_original_sheet.png",
+      "tile_position": {
+        "row": 2,
+        "column": 1
+      },
+      "png": "spells/png/northern-ironwall-covenant.png",
+      "webp": "spells/webp/northern-ironwall-covenant.webp",
+      "source_size": [
+        357,
+        369
+      ],
+      "png_sha256": "3585320061e865b4fad48fdef4c9b54dfd47fc81202d2bf32de44558f5dd1bb2",
+      "webp_sha256": "9c64175789ff9926ff4eab5487a35d0323d26c953a97f5152f433601e996ffde",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "frontier-marshals-battlefire",
+      "level": 70,
+      "region": "Ashen Frontier",
+      "source_generated_sheet": "reference/spell_batch_2_original_sheet.png",
+      "tile_position": {
+        "row": 2,
+        "column": 2
+      },
+      "png": "spells/png/frontier-marshals-battlefire.png",
+      "webp": "spells/webp/frontier-marshals-battlefire.webp",
+      "source_size": [
+        358,
+        369
+      ],
+      "png_sha256": "7a3df691eeee43f40880bc66c12289ca3cb48003188a5c82e573bb01685717aa",
+      "webp_sha256": "94ef88fce78945a9d4a4427ddd181f22845b3f7421f6a91ef098ae4ce2085640",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "imperial-crown-ward",
+      "level": 90,
+      "region": "Eclipse Bastion",
+      "source_generated_sheet": "reference/spell_batch_2_original_sheet.png",
+      "tile_position": {
+        "row": 2,
+        "column": 3
+      },
+      "png": "spells/png/imperial-crown-ward.png",
+      "webp": "spells/webp/imperial-crown-ward.webp",
+      "source_size": [
+        360,
+        369
+      ],
+      "png_sha256": "be2c0cd7ee9c95bf69ccbf4a8090e8b24f6bbf5c16bf9a61d1618dbfdbc0a973",
+      "webp_sha256": "936be7563c3eae0c46f6c9f334dbe57bb64adf54081712150a406cc65b21ac6b",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    },
+    {
+      "id": "",
+      "presentation_slug": "eclipse-aegis",
+      "level": 100,
+      "region": "Eclipse Bastion",
+      "source_generated_sheet": "reference/spell_batch_2_original_sheet.png",
+      "tile_position": {
+        "row": 2,
+        "column": 4
+      },
+      "png": "spells/png/eclipse-aegis.png",
+      "webp": "spells/webp/eclipse-aegis.webp",
+      "source_size": [
+        361,
+        369
+      ],
+      "png_sha256": "8fde8ecfcb27c8aa51a7e6b1afb0b8d194e849d55f55a580eac7b085db9e01ad",
+      "webp_sha256": "c0a9f1a6c1c577cf32f6a8411949a56a6965f38162f09e48758e004ccbc45569",
+      "note": "Individual tile extracted from an image-generation sheet; not a separately generated full-resolution source"
+    }
+  ]
+}

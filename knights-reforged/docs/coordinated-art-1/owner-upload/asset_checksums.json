@@ -1,0 +1,235 @@
+{
+  "note": "Original 10 weapons and 15 armor/16 spells are production-format WebPs. Five weapons in weapon_concepts are sheet crops only; do not treat as full-resolution final art. Preserve PR #37 six Land files byte-for-byte. No deployment without owner approval.",
+  "files": [
+    {
+      "path": "weapons/blacksteel-warblade.webp",
+      "sha256": "9d807f5b382f7a3aab2f770ad07838a644d01e153d401fb0013d4b8dfe3fa4ed",
+      "bytes": 49160
+    },
+    {
+      "path": "weapons/crown-captains-halberd.webp",
+      "sha256": "f6b35070d68ba16ef70e0071bfece674b0db51e5cc2e6df106b805224cc96e52",
+      "bytes": 36448
+    },
+    {
+      "path": "weapons/crownlands-war-staff.webp",
+      "sha256": "4e13a04f9454223643225faf5b413507b6616d57d394c4145abef04db2cd3a2e",
+      "bytes": 40472
+    },
+    {
+      "path": "weapons/fenwarden-billhook.webp",
+      "sha256": "27fe1b914c1d7de237dac7d6efc84710f4d9b8375cb6c02a7861b0141f936415",
+      "bytes": 41172
+    },
+    {
+      "path": "weapons/frontier-falchion.webp",
+      "sha256": "aaf6e811b46f5ddcc0659e4efb8dec0d292eead3ab14c6294394dab4752b075f",
+      "bytes": 46894
+    },
+    {
+      "path": "weapons/highland-claymore.webp",
+      "sha256": "97f12f71d75069e0b02aa4729816f1a5105818f6f3253d448fb0f1b1d844904e",
+      "bytes": 45812
+    },
+    {
+      "path": "weapons/marchwatch-spear.webp",
+      "sha256": "01b6245a8a66130169479ec36425de04960e30c8744104043ec0382995f76868",
+      "bytes": 32526
+    },
+    {
+      "path": "weapons/marshguard-glaive.webp",
+      "sha256": "da47455c8d28fa31fb2c8bd5f04b82cac84c01994b1b2a802ae7eda13e783e45",
+      "bytes": 42866
+    },
+    {
+      "path": "weapons/order-marshal-greatsword.webp",
+      "sha256": "a17c4df5bd52ab156bf9fe2ec03f060c34ecdbe33a52b503eeec979196675619",
+      "bytes": 43792
+    },
+    {
+      "path": "weapons/sunscar-maul.webp",
+      "sha256": "156cd97c73cf3cdcd154b19586f7d34f2e6ae0bdf45b27c23ae7fdbb3d56b2cb",
+      "bytes": 53060
+    },
+    {
+      "path": "weapon_concepts/eclipse-gatehammer-SHEET-CROP-ONLY.webp",
+      "sha256": "bad882c120b145551bb6b327503b3d9b09e227e05cb3e3226b51fd32b2d7f688",
+      "bytes": 24786
+    },
+    {
+      "path": "weapon_concepts/frontier-marshals-poleaxe-SHEET-CROP-ONLY.webp",
+      "sha256": "7da05cffec7c4393da7e2164e54c941a3a985f99cdf04d288d5ac4a014f9203c",
+      "bytes": 26718
+    },
+    {
+      "path": "weapon_concepts/imperial-thronehammer-SHEET-CROP-ONLY.webp",
+      "sha256": "4c4f2b2db9009f18bfeaace448b8ea4b5120512721abfb61bfd16b6bf5f635da",
+      "bytes": 26442
+    },
+    {
+      "path": "weapon_concepts/mountain-wardens-zweihander-SHEET-CROP-ONLY.webp",
+      "sha256": "c8750614e4fc0021acd7ee6c1d4b5f8c253cfbc9a1f20ba9a8f36da3981a4904",
+      "bytes": 34376
+    },
+    {
+      "path": "weapon_concepts/sunscar-officers-saber-SHEET-CROP-ONLY.webp",
+      "sha256": "1b7998afbd001f2ffff27ad637e35a80e22b33aa35d8bd8313a11687098f62b1",
+      "bytes": 25884
+    },
+    {
+      "path": "armor/blacksteel-siegeguard-plate.webp",
+      "sha256": "c5708a6cbcd2d7aea77da9412040b4beb41d55f6ac8c673b6c3f1986556e4f79",
+      "bytes": 276582
+    },
+    {
+      "path": "armor/crownlands-citadel-harness.webp",
+      "sha256": "646bf5174dec423bea59bf5c9f7fe5e3318ad6268c44b0788d1c3c28f423cef4",
+      "bytes": 316436
+    },
+    {
+      "path": "armor/crownlands-marshal-coat.webp",
+      "sha256": "25677089d26f4fc8dd0fc15a300277afe1586390045163daf0c4b240424811f4",
+      "bytes": 210908
+    },
+    {
+      "path": "armor/eclipse-war-marshal-plate.webp",
+      "sha256": "14e14ed8f48e2527f90d29a22c6ec7bb59e1a106391a2f45073fd35f2a032919",
+      "bytes": 308922
+    },
+    {
+      "path": "armor/fenwarden-lamellar.webp",
+      "sha256": "827e55aff614ca452c63cab9535b12af9415dd90d11e7eda4c07d63df0a16d62",
+      "bytes": 267630
+    },
+    {
+      "path": "armor/frontier-siege-harness.webp",
+      "sha256": "ebd05f925e636117bd2242c276e7306c036e5d14ad3871a3380bf0b4dac82b1b",
+      "bytes": 241816
+    },
+    {
+      "path": "armor/highland-captains-brigandine.webp",
+      "sha256": "d507e1e40ad8280f08c1fb39b61aff0eb36216e83d6f0391d68e33ea1f28c093",
+      "bytes": 308436
+    },
+    {
+      "path": "armor/marchwatch-hauberk.webp",
+      "sha256": "469641f7d8ee939b2a954f60cf35fa28943c50333becff204cc3e4ecb737a88f",
+      "bytes": 306192
+    },
+    {
+      "path": "armor/moonfen-sentinel-harness.webp",
+      "sha256": "205b28386ae958ff8baf3d3871ce37b799e2a5cd692ee222602c7cff4d7fb862",
+      "bytes": 343864
+    },
+    {
+      "path": "armor/moonfen-warden-mantle.webp",
+      "sha256": "f110436237d99b35f89ad23658bc64067b7d8e6ae714218b9830625f67004072",
+      "bytes": 272294
+    },
+    {
+      "path": "armor/northern-thanes-warplate.webp",
+      "sha256": "91302c28aebc890b9d1185b3c33cc8d8319885800902995c26fcbb43b1415630",
+      "bytes": 422186
+    },
+    {
+      "path": "armor/order-bastion-plate.webp",
+      "sha256": "7bc23e1b2f431d6ef23d06207a612e16f87a98c5c67a147e12b153100867cd3b",
+      "bytes": 360512
+    },
+    {
+      "path": "armor/royal-garrison-plate.webp",
+      "sha256": "ec633f2575b9f283ec941bce729b2054bb5606a40bb32b5aa1592c7e23aae472",
+      "bytes": 383348
+    },
+    {
+      "path": "armor/sunscar-marshal-harness.webp",
+      "sha256": "3aa641016829e64aca80b2ad3438f8bb953bbdbc9916505b8d2013b25f48b66d",
+      "bytes": 340932
+    },
+    {
+      "path": "armor/sunscar-scale-harness.webp",
+      "sha256": "8ac314cdfb816aa643f571143d13df7d1a19baee54f9a80ab2904cc323a4db20",
+      "bytes": 261496
+    },
+    {
+      "path": "spells/blacksteel-binding.webp",
+      "sha256": "1523862070b83e99a079a07b983c3dc06affb9881d8459ce80ea52dfd75a0c99",
+      "bytes": 35524
+    },
+    {
+      "path": "spells/crownlands-stonewall-oath.webp",
+      "sha256": "aa27c35e336db69a69e286e60972f9815d8c30cd0abdce0678c1975735f7b7c8",
+      "bytes": 41128
+    },
+    {
+      "path": "spells/crownlands-stormcall.webp",
+      "sha256": "b0502e7c883143175c3920da85d7836a78681d743147b7c26c8ded7776eda251",
+      "bytes": 44982
+    },
+    {
+      "path": "spells/eclipse-aegis.webp",
+      "sha256": "c0a9f1a6c1c577cf32f6a8411949a56a6965f38162f09e48758e004ccbc45569",
+      "bytes": 34262
+    },
+    {
+      "path": "spells/fenwardens-undertow.webp",
+      "sha256": "3c4d53e01b6f610d7ac7626ddd3a9b6f3f987efda3855d858aab72819abec715",
+      "bytes": 49556
+    },
+    {
+      "path": "spells/frontier-breachfire.webp",
+      "sha256": "099a3c73433aecd9d34d9b9d005604ede7dc2858fc06b66bbd51b0d17afacc74",
+      "bytes": 43996
+    },
+    {
+      "path": "spells/frontier-marshals-battlefire.webp",
+      "sha256": "94ef88fce78945a9d4a4427ddd181f22845b3f7421f6a91ef098ae4ce2085640",
+      "bytes": 38052
+    },
+    {
+      "path": "spells/highland-battlebrand.webp",
+      "sha256": "a2bfc308eb3307354e8edacbcd39e6a845b60b9763545c6d1254c19d9d950d77",
+      "bytes": 37294
+    },
+    {
+      "path": "spells/imperial-crown-ward.webp",
+      "sha256": "936be7563c3eae0c46f6c9f334dbe57bb64adf54081712150a406cc65b21ac6b",
+      "bytes": 40844
+    },
+    {
+      "path": "spells/moonfen-rampart-ward.webp",
+      "sha256": "34ac0468e9dcb02614ba968966c592483347f101b0b0a2ef556f4dda39cc3d70",
+      "bytes": 395022
+    },
+    {
+      "path": "spells/northern-ironwall-covenant.webp",
+      "sha256": "9c64175789ff9926ff4eab5487a35d0323d26c953a97f5152f433601e996ffde",
+      "bytes": 43596
+    },
+    {
+      "path": "spells/orders-rebuke.webp",
+      "sha256": "47c238b4cdf13a028215795afb31beba0e58f74d723a5ce51c5890559fd68747",
+      "bytes": 46568
+    },
+    {
+      "path": "spells/royal-war-invocation.webp",
+      "sha256": "d477f07d6443f40edb2085b7d92c321332c7df7e94a95824ed4cf9c8a818e038",
+      "bytes": 42244
+    },
+    {
+      "path": "spells/sunscar-bannerfire.webp",
+      "sha256": "7bab7e6da74826e7f31f9d996887560bc6a871451e106ee71e56646a656015a5",
+      "bytes": 43988
+    },
+    {
+      "path": "spells/sunscar-benediction.webp",
+      "sha256": "a89a65d10cf045f07527830c41c6a2f391f6ba53785a4df6f8000e9124abcee9",
+      "bytes": 37772
+    },
+    {
+      "path": "spells/watchfire-covenant.webp",
+      "sha256": "dbd68f569ad18e481e3a32633d903326acb4e65086fe9e0371e424b0af3a6813",
+      "bytes": 46436
+    }
+  ]
+}

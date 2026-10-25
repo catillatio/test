@@ -1,0 +1,426 @@
+{
+  "method": "Visual inspection of actual generated full-resolution assets and actual-size collection sheets; editorial judgements, not automated image scoring or owner approval.",
+  "finalKnownFailures": [],
+  "reviewedWeapons": [
+    {
+      "id": "stormglass-pike",
+      "name": "Marchwatch Spear",
+      "level": 15,
+      "region": "Northern Marches",
+      "element": "Glacial Frost",
+      "construction": "A broad ice-leaf spearhead made from two unequal cold-iron wings clasping a frosted crystal wedge. One projecting lower tine and a short transverse frost-rune collar create a memorable asymmetric partizan silhouette. Dark wrapped shaft, carved mountain-iron ferrule. Fine ice-blue rune seams within the head, restrained white-cold edge lighting, no large aura. A desirable first regional magical weapon, clearly simpler than the elite artifacts.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "gravewarden-scythe",
+      "name": "Fenwarden Billhook",
+      "level": 28,
+      "region": "Moonfen",
+      "element": "Ethereal Fenlight",
+      "construction": "A compact eerie billhook, NOT a scythe: one exaggerated inward hooked cutting blade curves from a gnarled ancient-metal ferrule into a claw-shaped silver crescent. An open teardrop recess is bridged by tiny root-like metal ribs clasping a spectral teal fenstone. Tarnished silver and black bog iron, flowing fen-runes on the inner edge. Concentrated emerald-teal light shines through the rootwork and cutting throat; the hooked physical outline must remain readable without any glow.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "sun-etched-warhammer",
+      "name": "Sunscar Maul",
+      "level": 32,
+      "region": "Sunscar Reach",
+      "element": "Solar Gold",
+      "construction": "An imposing short-handled copper-and-black maul with a broad angular stepped hammerhead shaped as a truncated desert sun pyramid. Two offset solid bronze striking cheeks lock around a narrow molten-amber core, exposed through deeply engraved zigzag channels. A small blunt back-beak and angular wrapped handle distinguish it from a generic rectangular hammer. Geometric desert relief, dark oxidized bronze flats, bright amber reflecting onto copper bevels, never a solid-gold weapon.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "dragonwake-falchion",
+      "name": "Frontier Falchion",
+      "level": 36,
+      "region": "Ashen Frontier",
+      "element": "Emberforged Ruin",
+      "construction": "An aggressive sharply forward-swept falchion, with a cleaver-like flared hooked tip and a deep concave back. Charred forged steel has overlapping black-iron scale construction along the spine; an ember-red seam is trapped BETWEEN structural plates, meeting a glowing red-orange cutting edge. The guard resembles two unequal shattered battlement teeth, dark leather and soot-scarred rivets. A war-torn magical forged weapon, not an ordinary curved sword surrounded by fire.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "astral-conductor",
+      "name": "Crownlands War Staff",
+      "level": 40,
+      "region": "Crownlands",
+      "element": "Royal Sapphire",
+      "construction": "An unmistakable royal battle staff with a commanding seven-sided lantern-crown head of silver arches, three long blade-like heraldic ribs and a deep sapphire disk suspended inside its open central chamber. A long dark-steel shaft with widely spaced silver collars and an armored pointed butt. Head is broad enough to read at 60px; no mace-ball shape, no ordinary stick. Royal geometric engravings conduct a single deep sapphire-blue light through the head ribs and the upper shaft, disciplined and noble.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "name": "Blacksteel Warblade",
+      "level": 45,
+      "region": "Ashen Frontier",
+      "element": "Emberforged Ruin",
+      "construction": "A brutally prestigious broad blacksteel warblade with a stepped seax-like forward point, a thick bowed spine, two deep triangular cut-outs near the hilt and a split forge-channel opening along only its lower cutting bevel. Layered black plates overlap like broken fortress armor, ember-red heat visible inside their joins. A heavy broken-crown iron guard sweeps forward to protect the hand. Internal crimson glow and heated scarlet-orange edge interact with charred metal, no all-over flames or generic straight longsword geometry.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "eclipse-greatsword",
+      "name": "Order Marshal Greatsword",
+      "level": 50,
+      "region": "Crownlands",
+      "element": "Royal Sapphire",
+      "construction": "A noble broad two-handed greatsword with a disciplined tapering silver blade built from two strong outer cutting rails bridged over a recessed sapphire-blue central fuller. Its sculpted heraldic wing crossguard has a prominent downward lion-mask center, blue enamel inlays, a long dark grip and silver crown pommel. The negative channel is a physical forged feature with blue energy flowing beneath silver bridges, not a faint painted outline. Polished cool silver highlights, restrained but valuable royal-blue light; original balanced monumental silhouette.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "marcher-greatsword",
+      "name": "Highland Claymore",
+      "level": 51,
+      "region": "Northern Marches",
+      "element": "Glacial Frost",
+      "construction": "An elite fantasy Highland claymore whose wide leaf-shaped dark-steel blade has a prominent central angular ice ridge rather than a conventional smooth fuller. Long downward-angled quillons terminate in squared raven-beak iron shapes, a broad frost-carved mountain-knot guard and a blocky dark pommel. A cold-white glacial shard is locked into the guard and feeds branching ice-blue engraved channels through the blade. Rugged forged planes, frozen condensed edge-light, meaningful magical construction without a snowstorm.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "fortress-glaive",
+      "name": "Marshguard Glaive",
+      "level": 51,
+      "region": "Moonfen",
+      "element": "Ethereal Fenlight",
+      "construction": "An elite tall fen glaive with an unusually long flowing crescent blade and a separate smaller hooked root-spur that creates an open eye-shaped gap at its base. Black ancient metal and tarnished silver are woven into organic rootlike reinforcement, holding a luminous spectral-teal oval core off-center inside that eye. The blade has a scalloped inner cutting edge and a tall narrow sweeping tip; the shaft is black iron with silver vine collars. Eerie elegant construction, concentrated emerald-teal channels and mist-touched engraved surfaces, no generic green aura.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "royal-warblade",
+      "name": "Sunscar Officer’s Saber",
+      "level": 60,
+      "region": "Sunscar Reach",
+      "element": "Solar Gold",
+      "construction": "A prestigious desert officer's fantasy saber with a dramatically forward-curving dark-steel kilij blade and a wide flaring yelman tip. A pierced copper sun-wheel knuckle guard curls as a protective half-cage, joined to a hooked bronze pommel and black wrapped hilt. Solar amber is forged into three geometric incised channels following the blade's curvature and a small core inside the wheel guard. Deep dark-steel flats contrast copper ornament and molten-gold edge-light. Architectural desert craftsmanship, a very distinct saber silhouette.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "guard-captains-halberd",
+      "name": "Crown Captain’s Halberd",
+      "level": 60,
+      "region": "Crownlands",
+      "element": "Royal Sapphire",
+      "construction": "A tall regal silver-and-black halberd with a sweeping heraldic banner-shaped axe blade on one side, a long three-faceted armor-piercing spear above, and a compact forked beak behind. The axes and point meet around an open royal shield-shaped sapphire reliquary. Broad polished steel faces are engraved with narrow luminous deep-blue heraldic channels and fine silver relief. A long square dark shaft and articulated silver collars. Disciplined royal prestige and substantial integrated magical machinery, not a mundane halberd with a blue outline.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "sovereigns-zweihander",
+      "name": "Mountain Warden’s Zweihander",
+      "level": 70,
+      "region": "Northern Marches",
+      "element": "Glacial Frost",
+      "construction": "A genuinely different massive northern ZWEIHANDER: a narrow-waisted, dramatically WAVY FLAMBERGE blade made of dark iron, with exactly three broad asymmetric S-shaped waves on its cutting outline. Long exposed blunt ricasso with two blocky forward parrying lugs. STRAIGHT horizontal iron crossbar guard ending in square hammer-like blocks, no curved horns, no crescent quillons. A cylindrical TWO-HANDED BLACK GRIP with a heavy octagonal iron pommel, no gemstone pommel. A concentrated icy-blue cylindrical glacial core is pinned across the ricasso, feeding irregular frozen fractures into only one of the dark blade's cutting edges. The other edge remains heavy weathered steel, making asymmetry structural. Rigid bolted mountain-iron plates, mist clinging tightly to the metal. Level70 elite magical craftsmanship. Absolutely NOT a broad leaf blade, NOT a central long column of crystals, NOT a diamond crossguard gem, NOT the Highland Claymore or Hudson sword body.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "march-wardens-poleaxe",
+      "name": "Frontier Marshal’s Poleaxe",
+      "level": 70,
+      "region": "Ashen Frontier",
+      "element": "Emberforged Ruin",
+      "construction": "An elite savage poleaxe with a large split hooked axe wing made from three articulated black-iron blade plates; the opposite side is a brutal short angular pick, and a long diamond-shaped spear rises above. A fractured furnace-red core is visible BETWEEN pinned plates at the weapon's junction, with ember channels leading into the hooked cutting faces. Dark riveted shaft armor and a short rear counterweight, aggressive battlefield construction, asymmetry and meaningful negative spaces. Controlled crimson/orange forging light reflects from the soot-scarred black metal, no blanket flames.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "throneguard-polehammer",
+      "name": "Imperial Thronehammer",
+      "level": 90,
+      "region": "Eclipse Bastion",
+      "element": "Void Violet",
+      "construction": "A severe imperial artifact polehammer with an enormous stepped triangular anvil-head, a broad faceted obsidian striking face, and a long downward-swept needle pick on the rear. The head is constructed as interlocking blackened imperial steel terraces, dark-silver buttresses and deep violet arcane fractures around a recessed vertical void prism. Ancient imperial glyphs are structural incisions, not decorative floating runes. A thick armored shaft, weighty dark pommel and sharply defined edges create endgame status. Powerful concentrated violet light from within the head, restrained corona only near the artifact; no particle cloud.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "name": "Eclipse Gatehammer",
+      "level": 100,
+      "region": "Eclipse Bastion",
+      "element": "Void Violet",
+      "construction": "A monumental level-100 void-forged gatehammer with a uniquely huge asymmetric crescent-shaped obsidian head. Three nested structural black-steel arcs form a broken eclipse aperture, enclosing a suspended concentrated violet void heart; one arc broadens into a massive angular striking face, the opposite ends as a long curved counter-spike. Ancient dark-silver imperial braces clamp the separated arc sections together. Thick tapering armored haft and crescent counterweight, exceptional physical construction visible without glow. Deep violet illumination from INSIDE the opening and fractures, elegant controlled corona, crisp silver-black rim highlights. Legendary quality approaching Hudson's polish, entirely different silhouette and single violet family, never rainbow.",
+      "reviewedAt": [
+        "full source resolution",
+        "512x512 derivative",
+        "76x76",
+        "60x60",
+        "64x72",
+        "90x60"
+      ],
+      "internalEditorialGates": {
+        "A_style": "pass",
+        "B_silhouette": "pass",
+        "C_region": "pass",
+        "D_integratedElement": "pass",
+        "E_level": "pass",
+        "F_iconReadability": "pass",
+        "G_desirability": "pass — subjective internal assessment, owner review pending",
+        "H_noRainbowDuplication": "pass"
+      },
+      "ownerApproved": false,
+      "knownFinalFailure": null
+    }
+  ]
+}

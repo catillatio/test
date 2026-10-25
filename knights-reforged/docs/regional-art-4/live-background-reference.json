@@ -1,0 +1,36 @@
+{
+  "observedAtUtc": "2026-10-25T16:16:21.657589+00:00",
+  "method": "Unauthenticated read-only public asset GET; exact bytes compared with project approved assets. No private records, credentials or Railway operations.",
+  "assets": [
+    {
+      "path": "/assets/art/fantasy-0.2/weapons.webp",
+      "http": 200,
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030",
+      "matchesCheckout": true
+    },
+    {
+      "path": "/assets/art/equipment-51b-current-1/oathbound-greatsword.webp",
+      "http": 200,
+      "sha256": "50e937d5f392cdee1171a960aea0a77c4b9f6b79a275942c706c18c72a000815",
+      "matchesCheckout": true
+    },
+    {
+      "path": "/assets/art/equipment-51b-current-1/eclipse-greatsword.webp",
+      "http": 200,
+      "sha256": "67374ab63c7057af66bf8ccb17e7a164dda07b976cf17527f98930c9f7181752",
+      "matchesCheckout": true
+    }
+  ],
+  "background": {
+    "source": "public/art/fantasy-0.2/weapons.webp",
+    "crop": [
+      8,
+      8,
+      108,
+      108
+    ],
+    "sourcePixels": "Unoccupied upper-left corner of first approved weapon tile; no weapon pixels",
+    "output": "docs/regional-art-4/references/shared-live-background.png",
+    "processing": "Proportional Lanczos scaling of actual live background pixels only; no painting, recolor, tint, blur bars, mirroring or synthetic backdrop."
+  }
+}

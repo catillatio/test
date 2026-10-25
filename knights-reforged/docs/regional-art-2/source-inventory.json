@@ -1,0 +1,255 @@
+{
+  "tool": "OpenAI image_gen.imagegen",
+  "sourceImages": [
+    {
+      "path": "docs/regional-art-2/sources/astral-conductor-initial.png",
+      "sha256": "8641eda459167397071d19a1da7a498efc4befb6c119c8bd97a9e545c7218588",
+      "bytes": 2079133,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/astral-conductor.png",
+      "sha256": "6964de6e94c07760510c91956fb6d88fff22585c01c775badd9c63faed7d100e",
+      "bytes": 2201179,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/crown-of-ash-blade-initial.png",
+      "sha256": "10b2b5e7bc2cfed86d7fb9f5d7beb313ea2b61bfafc81a6d27f8ba943784e4df",
+      "bytes": 2033360,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/crown-of-ash-blade.png",
+      "sha256": "fdbcfdc423a713b78ca59db270d9759413e37495809f4ad1cf5eb0c8b5088a2e",
+      "bytes": 2048699,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/dragonwake-falchion-initial.png",
+      "sha256": "c8b0df2e7d46deafd0ffdfefed1faf2f5b96473055999def4f2c3d2e9634b43a",
+      "bytes": 2131251,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/dragonwake-falchion.png",
+      "sha256": "72b4dac6b6ddf568ced5124168ad889e5b999174878a6e81e9df1cfed432ede9",
+      "bytes": 2098144,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/eclipse-gatehammer-initial.png",
+      "sha256": "0c0e74dd72c850c505a046469543a427cf937e41a3159f8b8bf66b4f97e0566c",
+      "bytes": 2311894,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/eclipse-gatehammer.png",
+      "sha256": "37ef8dee2c25233eb9836df202224b3cc3e044720f6fa326f36f64bf1fb1652d",
+      "bytes": 2258759,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/eclipse-greatsword-initial.png",
+      "sha256": "2928e6b5510cc7e56bdbd4d4dca4c4260d1d7c1728ae72a29580be4b3dee89a2",
+      "bytes": 2135990,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/eclipse-greatsword.png",
+      "sha256": "7d216b969b67b6903db63caa23557066562ab67b42be71a2258c4da2f6409dab",
+      "bytes": 2053653,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/fortress-glaive-initial.png",
+      "sha256": "01fd9fd7cd16519de35350f74b3b39fbb08638be15ba3ec2fada312819c2c445",
+      "bytes": 1946606,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/fortress-glaive.png",
+      "sha256": "0d7804dfd80d9304f391194d089450d48a77cd5b646d3ace9380dcdad040626e",
+      "bytes": 1996249,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/gravewarden-scythe-initial.png",
+      "sha256": "1c869245a2e4d7ce20d64a6b7b6157d6a68d63eae42ed54dd99761000d4761aa",
+      "bytes": 2095258,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/gravewarden-scythe.png",
+      "sha256": "cea27214bfc0626106919a3fceb147bbca6e4d9569204e0555095797df2749a2",
+      "bytes": 2086856,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/guard-captains-halberd-initial.png",
+      "sha256": "1ec30c4c43787c32b5c484806c35ef3d7992d6a394e4a5aa38c23159fd5cadc4",
+      "bytes": 2206717,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/guard-captains-halberd.png",
+      "sha256": "76a7291cecf1a23b35dbedd7f26299fcc455cb1c469b549c4fdb78562375c887",
+      "bytes": 2138058,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/march-wardens-poleaxe-initial.png",
+      "sha256": "5956ad8858155f7239dc9176459e012612749faa3081ac5c4b452cdb828b7424",
+      "bytes": 2148946,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/march-wardens-poleaxe.png",
+      "sha256": "5c92f28f976b9d4e916950f4c63773bf11f735619e2f63514cb2047c8180bfd5",
+      "bytes": 2231948,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/marcher-greatsword-initial.png",
+      "sha256": "d98da5a671bca99e14b7c334c618fd01a3ad8d9777a044527da50e53a4fe7d24",
+      "bytes": 2284440,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/marcher-greatsword.png",
+      "sha256": "5634bd7cac7b88fe4f3190a00fd4af66acf3f7f9d8cd2cb93eace012adb76517",
+      "bytes": 2330157,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/royal-warblade-initial.png",
+      "sha256": "0e5dd1fd00c3f14a90e141a49ba4110705724adeffa8678d85858fc8f4204016",
+      "bytes": 2230041,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/royal-warblade.png",
+      "sha256": "4ee3b6ec1178884a1616be9632b7441fe3478e7fd9143916206c19805840aaeb",
+      "bytes": 2262149,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/sovereigns-zweihander-initial.png",
+      "sha256": "6b2680b9626f3238180fdb2b2e04bb73fcea6e9346cc528951a1fb286d67ac1c",
+      "bytes": 2327158,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/sovereigns-zweihander-rejected-similar.png",
+      "sha256": "50c605d0843ec6170ad9eb2d035cec85d362f7ccbd68f99e025a343a96005849",
+      "bytes": 2287511,
+      "width": 1254,
+      "height": 1254,
+      "stage": "rejected-similar-construction"
+    },
+    {
+      "path": "docs/regional-art-2/sources/sovereigns-zweihander.png",
+      "sha256": "6ed564adcc05dc0eaaeb8a43172361bbb9068b6648933bc592a764e7ff9fb07b",
+      "bytes": 2248629,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/stormglass-pike-initial.png",
+      "sha256": "5308819aa82a2fe74ab7aa6196d05cec2f2bcdc66cb65e7780730595508970a9",
+      "bytes": 2027712,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/stormglass-pike.png",
+      "sha256": "fd94c526a310bd18a0a4aaecfa8c88102af95e9b66f12c5728180888931c3075",
+      "bytes": 2035026,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/sun-etched-warhammer-initial.png",
+      "sha256": "7a487dad780bca644457b709c6040fcf37565364a2b4ac7a2481b0af9fb85080",
+      "bytes": 2153761,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/sun-etched-warhammer.png",
+      "sha256": "68f24a0963423408c23e003540eb5a271627a93f88106b3ae949f61c397be218",
+      "bytes": 2147806,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    },
+    {
+      "path": "docs/regional-art-2/sources/throneguard-polehammer-initial.png",
+      "sha256": "49879f85a70ffc7d89079da902d4f9043a49ca11185b26e559d031118e844838",
+      "bytes": 2204117,
+      "width": 1254,
+      "height": 1254,
+      "stage": "initial-framing"
+    },
+    {
+      "path": "docs/regional-art-2/sources/throneguard-polehammer.png",
+      "sha256": "38f7482294dcd87371f445fcbbf1a1d93337733e65d86f8c13d55809153a03d0",
+      "bytes": 2170305,
+      "width": 1254,
+      "height": 1254,
+      "stage": "finished-redesign"
+    }
+  ],
+  "artworkMethod": "Genuine image generation and image-generation refinements. No procedural weapon drawing, stock shapes, recolor or CSS filters.",
+  "referenceRights": "Previously approved project equipment artwork. Hudson retained solely as a quality benchmark, never a rainbow design template. Applicable OpenAI output terms; no third-party stock/APK assets or exclusivity claim."
+}
