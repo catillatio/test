@@ -1,0 +1,90 @@
+{
+  "package": "kingdom-come-final-five-weapons",
+  "targets": [
+    {
+      "slug": "sunscar-officers-saber",
+      "display_name": "Sunscar Officer\u2019s Saber",
+      "level": 60,
+      "region": "Sunscar Reach",
+      "source_png": "emberforged_sunblade.png",
+      "source_sha256": "23209fb6367e5b7133a2adb581149155ef8c3ea1de2072f3a9ef8954079dafad",
+      "file": "assets/sunscar-officers-saber.webp",
+      "webp_sha256": "00994dcf07ba4839d4c422df7ad2752c60fb98236af220a00906f058b2b1f295",
+      "image_size": [
+        1254,
+        1254
+      ],
+      "bytes": 271126,
+      "source_is_individual_full_resolution": true,
+      "approval": "owner said ship it; final mapping/release safeguards required"
+    },
+    {
+      "slug": "frontier-marshals-poleaxe",
+      "display_name": "Frontier Marshal\u2019s Poleaxe",
+      "level": 70,
+      "region": "Ashen Frontier",
+      "source_png": "molten_gothic_poleaxe_against_smoke.png",
+      "source_sha256": "ce5ab207b38aac95521b2498fc8d03da5cc90207383eb7da8ebd82bc8b8f683b",
+      "file": "assets/frontier-marshals-poleaxe.webp",
+      "webp_sha256": "944921b6019eca35c784652c8f1f861c1c5976cd62e5ba80fdcf562f049e0f06",
+      "image_size": [
+        1254,
+        1254
+      ],
+      "bytes": 168016,
+      "source_is_individual_full_resolution": true,
+      "approval": "owner said ship it; final mapping/release safeguards required"
+    },
+    {
+      "slug": "mountain-wardens-zweihander",
+      "display_name": "Mountain Warden\u2019s Zweihander",
+      "level": 70,
+      "region": "Northern Marches",
+      "source_png": "frostbound_runeblade_in_the_shadows.png",
+      "source_sha256": "e397ae464290d63fa0b91e7f00d4826a65211dbac7ccac8590f2a8d9571b0ec7",
+      "file": "assets/mountain-wardens-zweihander.webp",
+      "webp_sha256": "b28bbf028c03f75ba7f75ea1a060e90e9059dfa82c1dabe3765674bc8c8fad6d",
+      "image_size": [
+        1254,
+        1254
+      ],
+      "bytes": 244096,
+      "source_is_individual_full_resolution": true,
+      "approval": "owner said ship it; final mapping/release safeguards required"
+    },
+    {
+      "slug": "imperial-thronehammer",
+      "display_name": "Imperial Thronehammer",
+      "level": 90,
+      "region": "Eclipse Bastion",
+      "source_png": "gothic_purple_void_warhammer.png",
+      "source_sha256": "cb5a7fcfbebb2ea5b91952a31e80c9106933927716a1d2eaaaece02c887dc229",
+      "file": "assets/imperial-thronehammer.webp",
+      "webp_sha256": "f33f8f876f8a098a88624516cc56e52516f860cbea7e5d96f7f7842dfbce0f6d",
+      "image_size": [
+        1254,
+        1254
+      ],
+      "bytes": 230508,
+      "source_is_individual_full_resolution": true,
+      "approval": "owner said ship it; final mapping/release safeguards required"
+    },
+    {
+      "slug": "eclipse-gatehammer",
+      "display_name": "Eclipse Gatehammer",
+      "level": 100,
+      "region": "Eclipse Bastion",
+      "source_png": "void_eclipse_warhammer.png",
+      "source_sha256": "20ee0dc4ac644b960ee65ab97941eca630bed47f70ad8defcef3bca40aaa1454",
+      "file": "assets/eclipse-gatehammer.webp",
+      "webp_sha256": "1e8887ae301a15eb1096e67d54f262f9b54a99fe89b6f15309c5f673745e8d4b",
+      "image_size": [
+        1254,
+        1254
+      ],
+      "bytes": 219578,
+      "source_is_individual_full_resolution": true,
+      "approval": "owner said ship it; final mapping/release safeguards required"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import {coordinatedArt} from './coordinated-artwork.js';
+import {coordinatedArt,coordinatedArtworkStatus} from './coordinated-artwork.js';
 import {regionalArt} from './regional-artwork.js';
 import {presentationCatalog,presentationArt,recordedEquipment,presentedItem} from './equipment-presentation.js';
 import {notificationSummary,acknowledgeNotifications} from './notifications.js';
@@ -181,7 +181,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     });
   }
 
-  app.get('/healthz', async () => { await db.query('SELECT 1'); return { status: 'ready', ruleset: alpha.id,release:'phase4.7',commit:/^[a-f0-9]{40}$/.test(process.env.KINGDOM_RELEASE_SHA??'')?process.env.KINGDOM_RELEASE_SHA:null }; });
+  app.get('/healthz', async () => { await db.query('SELECT 1'); return { status: 'ready', artwork:coordinatedArtworkStatus(),ruleset: alpha.id,release:'phase4.7',commit:/^[a-f0-9]{40}$/.test(process.env.KINGDOM_RELEASE_SHA??'')?process.env.KINGDOM_RELEASE_SHA:null }; });
   app.get('/', async (request, reply) => reply.redirect(request.realmSession?.account_id ? '/game/home' : '/login'));
   for (const mode of ['login', 'register'] as const) {
     app.get('/' + mode, async (request, reply) => request.realmSession?.account_id ? reply.redirect(safeReturn((request.query as {returnTo?:string}).returnTo)) :

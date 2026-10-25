@@ -5,15 +5,17 @@ import {join,dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
 import ejs from 'ejs';
-import {coordinatedArtwork,coordinatedArtworkDigest,validateCoordinatedArtwork,verifyCoordinatedArtwork,requireCoordinatedAdoption,activeCoordinatedArtwork,coordinatedArt,previewCoordinatedArt} from '../src/coordinated-artwork.js';
+import {previousCoordinatedArtwork as coordinatedArtwork,previousCoordinatedArtworkDigest as coordinatedArtworkDigest,validateCoordinatedArtwork,verifyCoordinatedArtwork,requireCoordinatedAdoption,activeCoordinatedArtwork,approvedCoordinatedSelection,rendererForInstalledSelection,previewCoordinatedArt as previewAnyCoordinatedArt} from '../src/coordinated-artwork.js';
 import {equipmentPresentation,presentationArt,presentedItem} from '../src/equipment-presentation.js';
 import {expandedContent,definitionDigest,preparedExpansionArt,expansionArtUse} from '../src/expansion-content.js';
 import {previousRegionalArtwork} from '../src/regional-artwork.js';
+const coordinatedArt=rendererForInstalledSelection(null);
+const previewCoordinatedArt=(entry:Parameters<typeof previewAnyCoordinatedArt>[0])=>previewAnyCoordinatedArt(entry,coordinatedArtwork);
 const hash=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
 
 test('coordinated upload pins all 52 exact slots; 47 production-format images and five explicit concept blockers',async()=>{
- validateCoordinatedArtwork();assert.equal(definitionDigest(coordinatedArtwork),coordinatedArtworkDigest);
- const verified=await verifyCoordinatedArtwork();assert.equal(verified.integrated,47);assert.equal(verified.expected,52);assert.equal(verified.bytes,3773728);assert.equal(verified.approvedForAdoption,false);
+ validateCoordinatedArtwork(coordinatedArtwork);assert.equal(definitionDigest(coordinatedArtwork),coordinatedArtworkDigest);
+ const verified=await verifyCoordinatedArtwork(coordinatedArtwork);assert.equal(verified.integrated,47);assert.equal(verified.expected,52);assert.equal(verified.bytes,3773728);assert.equal(verified.approvedForAdoption,false);
  assert.deepEqual(verified.blocked,['royal-warblade','march-wardens-poleaxe','sovereigns-zweihander','throneguard-polehammer','eclipse-gatehammer']);
  const sourceChecks=JSON.parse(await readFile('docs/coordinated-art-1/owner-upload/asset_checksums.json','utf8'));
  for(const file of sourceChecks.files){const prefix=file.path.startsWith('weapon_concepts/')?'concepts':'owner-upload';const source=await readFile('docs/coordinated-art-1/'+prefix+'/'+file.path);assert.equal(hash(source),file.sha256);assert.equal(source.length,file.bytes);}
@@ -31,7 +33,7 @@ test('new preview changes only selected current presentation slots, with old raw
   if(replacement){changed++;assert.match(preview,/data-art-use="owner-supplied-preview"/);assert.ok(preview.includes(replacement.path!));}else assert.equal(preview,before);
   if('category'in raw){assert.equal(previewCoordinatedArt(raw),null,'unmarked historical identity remains unchanged');assert.equal(previewCoordinatedArt({...entry,name:'<script>bad</script>'}),null);assert.equal(previewCoordinatedArt({...entry,category:'wrong'}),null);}
  }
- assert.equal(changed,47);assert.equal(activeCoordinatedArtwork,null);
+ assert.equal(changed,47);if(activeCoordinatedArtwork)assert.deepEqual(activeCoordinatedArtwork,approvedCoordinatedSelection);
  for(const id of ['crown-harbour','tempest-port','king-hudsons-sword','king-hudsons-shield','king-hudsons-meteor-shower','imperial-eclipse-greatsword'])assert.equal(coordinatedArtwork.entries.some(e=>e.id===id),false);
 });
 
