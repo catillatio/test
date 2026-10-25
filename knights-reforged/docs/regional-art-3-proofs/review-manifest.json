@@ -1,0 +1,99 @@
+{
+  "scope": "Three owner-review proofs only; not an installable artwork registry",
+  "baseCommit": "b95c1566f234dbbd2b2264210ed1061a3a6a7ae2",
+  "active": false,
+  "registryModified": false,
+  "runtimeFilesModified": false,
+  "otherTwelveGenerated": false,
+  "preservedExistingFiles": 334,
+  "preservedLandEntries": 6,
+  "preservedHudsonSha256": "4454c62eaba848ac0e0efa6b1b492d843d5148927c8db5b9705549aac029f883",
+  "preservedCandidate1Sha256": "8ab565c624913efadd1372c482e7db14596508980d650ae240602b47b6a7de3f",
+  "preservedCandidate2Sha256": "195399e28d09d2422b316945c641794e5209cbb6633969f0fb01de2f28a9859d",
+  "entries": [
+    {
+      "id": "eclipse-greatsword",
+      "name": "Order Marshal Greatsword",
+      "level": 50,
+      "region": "Crownlands",
+      "proof": "docs/regional-art-3-proofs/eclipse-greatsword.webp",
+      "proofSha256": "70695b040e2abf3aa4a88bf0309e40cc081b6616f67847ebf78fdc20d294b01c",
+      "bytes": 36742,
+      "width": 512,
+      "height": 512,
+      "source": "docs/regional-art-3-proofs/sources/eclipse-greatsword.png",
+      "sourceSha256": "47124e52b45b7d8c16e084bd29b08b7ba9930ea53fa9d6f62abe01b44f332181",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "originalCandidate": "public/art/regional-weapon-land-1/eclipse-greatsword.webp",
+      "originalSha256": "bc2dceccc9b60a66e168c337bc1153a0237a9ceecca03946ff53e3157f1ddec9",
+      "elementalCandidate": "public/art/regional-weapon-land-2/eclipse-greatsword.webp",
+      "elementalSha256": "f810cc5c383817b196f3f74ad4273cd4ac6bd77744a9ec5937acbbf065c237dd",
+      "ownerApproved": false
+    },
+    {
+      "id": "royal-warblade",
+      "name": "Sunscar Officer’s Saber",
+      "level": 60,
+      "region": "Sunscar Reach",
+      "proof": "docs/regional-art-3-proofs/royal-warblade.webp",
+      "proofSha256": "de69b7ae4f920715cc63a77032d28368b32bb57f289bbe65c4d7c9c3ebb7ff8a",
+      "bytes": 44076,
+      "width": 512,
+      "height": 512,
+      "source": "docs/regional-art-3-proofs/sources/royal-warblade.png",
+      "sourceSha256": "441237db1d8d2c676e0d9c6353b4d8d6d77a9a7310b4d847e6fd4b1fb0ea3a1a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "originalCandidate": "public/art/regional-weapon-land-1/royal-warblade.webp",
+      "originalSha256": "27b3f302742c91c976f21d309c515dddecb4e273c5edbd0b229aeec7b6b61799",
+      "elementalCandidate": "public/art/regional-weapon-land-2/royal-warblade.webp",
+      "elementalSha256": "318d3cdbf97b4210ae9c811b49f5910ce4f3a1230e430b7a7e9ecf97b2aa8ae0",
+      "ownerApproved": false
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "name": "Eclipse Gatehammer",
+      "level": 100,
+      "region": "Eclipse Bastion",
+      "proof": "docs/regional-art-3-proofs/eclipse-gatehammer.webp",
+      "proofSha256": "09fb8877daabdf5ddad70ff26d0c4ea2added4d81611067c11f0a9457cd16bb7",
+      "bytes": 41478,
+      "width": 512,
+      "height": 512,
+      "source": "docs/regional-art-3-proofs/sources/eclipse-gatehammer.png",
+      "sourceSha256": "a8d02e5e8c0881b2658deb876214210105246a9b83252ac66d1d62069ddf7e29",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "originalCandidate": "public/art/regional-weapon-land-1/eclipse-gatehammer.webp",
+      "originalSha256": "10230a6339967ffa13b9c1489f6b9d08d7cfb97ba2c5e2d75c38849d6d046752",
+      "elementalCandidate": "public/art/regional-weapon-land-2/eclipse-gatehammer.webp",
+      "elementalSha256": "a61094ee2ab774d0debb903519e549b7520ec83f85da29241705d33ab04c3cf8",
+      "ownerApproved": false
+    }
+  ],
+  "provenance": {
+    "tool": "OpenAI image_gen.imagegen",
+    "method": "Three newly illustrated designs; no old-image filtering/recolor, no procedural weapon drawing. Proportional resize/WebP encoding and labeled comparison sheets only.",
+    "rights": "Approved project references; original OpenAI-generated output under applicable terms. No stock/APK art; no exclusivity claim."
+  },
+  "verification": {
+    "passed": true,
+    "sources": 3,
+    "decodedWebPs": 3,
+    "actualSquareThumbnailSizes": [
+      60,
+      76
+    ],
+    "allExistingGameAndArtFilesUnchanged": true,
+    "productionContacted": false,
+    "allAspectRatiosCertified": false,
+    "limits": "This is a square-icon style proof, not final runtime integration or owner approval. Other in-game frame ratios must be verified after direction approval."
+  }
+}
