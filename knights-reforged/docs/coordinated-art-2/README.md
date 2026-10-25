@@ -49,7 +49,9 @@ Installation first also ensures old serving instances already have the exact ass
 3. Owner: open **Actions → Owner approved Railway release → Run workflow** ([workflow page](https://github.com/catillatio/test/actions/workflows/production-release.yml)). Choose **release/production**, set **Deploy after all gates? = true**, and run. When the protected job waits, use **Review deployments → production → Approve and deploy**. Do not modify secrets, variables or protections. One environment approval is required for each release run.
 4. The existing workflow performs a fresh encrypted backup, isolated independent restore, preservation/migration checks, retained artifact upload/download, exact-candidate proof signing, private game upload, deployment identity and health/private status verification. If any guard fails, stop. Never direct-redeploy Railway or reuse expired proof.
 5. Verify complete installation using the read-only public checker below with the successful production commit and stage `installed`. Its health evidence must report `adoptedId: null`, and every one of the 52 public image hashes must match. This stage does not replace placeholders in the UI yet.
-6. From that successfully installed production revision, prepare the separate adoption code change:
+6. Use the prepared [adoption PR #38](https://github.com/catillatio/test/pull/38) after that successful installation. It contains the one runtime pin below and a test-process-only isolation of the earlier presentation-policy-1 browser fixture; all96 original slot/source assertions remain intact, while the dedicated current-art browser verifies all52 adopted images. This avoids confusing retained historical source-role expectations with the new skin. The patch remains a one-runtime-pin reference, not a replacement for PR #38's complete reviewed test delta.
+
+   For reference, the runtime pin change is:
 
    ```sh
    git switch -c feature/kingdom-come-coordinated-artwork-adoption release/production

@@ -1,7 +1,14 @@
+import ejs from 'ejs';
 // Disposable local HTTP proof: no external requests, live accounts or production SQL.
 import assert from 'node:assert/strict';import {mkdir,writeFile} from 'node:fs/promises';import {randomUUID} from 'node:crypto';import {chromium} from 'playwright-core';
 import {realm,testDatabaseUrl} from '../tests/helpers.js';import {syntheticCutover} from '../tests/level100-e2b-fixture.js';import {transaction} from '../src/db.js';import {createApp} from '../src/app.js';import {loadConfig} from '../src/config.js';import {expandedContent} from '../src/expansion-content.js';import {equipmentPresentation as policy,presentationDigest,presentedItem,presentationArt} from '../src/equipment-presentation.js';import {purchaseItems} from '../src/inventory.js';
 if(!testDatabaseUrl)throw new Error('Local disposable fixture required.');
+// This fixture freezes presentation-policy-1's names, source roles and historical
+// records. Isolate it from the later code-selected artwork skin, without relaxing
+// any original binding assertion. browser-coordinated-art.ts verifies all52
+// current adopted images through the real resolver in a separate test process.
+const originalCompile=ejs.compile;
+ejs.compile=((template:string,options:ejs.Options)=>{const render=originalCompile(template,options);return(data:ejs.Data)=>render({...data,coordinatedArt:()=>null});})as typeof ejs.compile;
 const out=process.env.EQUIPMENT_PRESENTATION_REVIEW_DIR??'docs/level100-beta/screenshots';await mkdir(out,{recursive:true});let now=new Date();const r=await realm({isolated:true,clock:()=>now});const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://127.0.0.1:3000'}),app=await createApp({db:r.db,config});const origin=await app.listen({host:'127.0.0.1',port:0});config.origin=origin;
 const browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTABLE??'/usr/bin/chromium',args:['--no-sandbox']}),context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,reducedMotion:'reduce'});await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());const page=await context.newPage(),errors:string[]=[],checks:unknown[]=[];page.on('pageerror',e=>errors.push(e.message));
 async function shot(width:number,name:string,path:string,selector?:string){await page.setViewportSize({width,height:width===1024?1536:844});await page.goto(origin+path);if(selector)await page.locator(selector).scrollIntoViewIfNeeded();await page.evaluate(()=>document.fonts.ready);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,name+' overflow');assert.equal(await page.locator('.primary-nav a').count(),5);await page.screenshot({path:out+'/'+width+'-'+name+'.jpg',type:'jpeg',quality:88,animations:'disabled'});}
@@ -19,4 +26,4 @@ try{
   for(const [name,path,selector]of [['profile','/game/profile','.profile-inventory'],['public-profile','/game/players/'+b.id,'.profile-inventory'],['quest-region','/game/quests?area=iron-marches','.quest-area'],['receipt','/game/purchases/'+receiptId,'.purchase-result'],['battle','/game/battles/'+report.battleId,'.battle-armies'],['historical-battle','/game/battles/'+oldReport.battleId,'.battle-armies']]as const)await shot(width,name,path,selector==='.purchase-result'?undefined:selector);
  }
  assert.deepEqual(errors,[]);await writeFile(out+'/verification.json',JSON.stringify({passed:true,syntheticOnly:true,productionContacted:false,policyId:policy.id,presentationDigest:presentationDigest(),widths:[320,390,430,1024],checked:checks.length,checks,browserErrors:errors},null,2)+'\n');console.log('EQUIPMENT_PRESENTATION_BROWSER: PASS; 96 shop slots at four widths; legacy receipts/reports preserved.');
-}finally{await browser.close();await app.close();await r.close();}
+}finally{ejs.compile=originalCompile;await browser.close();await app.close();await r.close();}
