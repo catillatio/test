@@ -8,5 +8,7 @@
   "focusedTestsPassed": true,
   "focusedTests": 25,
   "installationSourceRestoredExactly": true,
-  "liveAdoptionExecuted": false
+  "liveAdoptionExecuted": false,
+  "historicalBetaBrowserWithActualAdoptedPinPassed": true,
+  "historicalBetaFixtureIsolated": true
 }
