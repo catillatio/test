@@ -73,7 +73,10 @@ An independent run of that full900-bot fixture passed, as did cancellation clean
 The first split hosted run correctly failed closed because the isolated recovery
 job no longer inherited a PostgreSQL image pull from the old shared service.
 The correction explicitly pulls the same `postgres:18-bookworm` image before
-container testing. No test, backup or restoration assertion was relaxed. The
+container testing. The next rehearsal passed container checks and exposed the
+harness's separate host SDK dependency. The final job explicitly installs that
+SDK and downloads validation's same-run compiled candidate for fingerprint
+comparison. No test, backup or restoration assertion was relaxed. The
 complete corrected exact-head run is linked in the PR.
 
 ## Remaining limits

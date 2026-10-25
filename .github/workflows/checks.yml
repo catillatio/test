@@ -117,7 +117,7 @@ jobs:
           retention-days: 14
           compression-level: 0
   recovery:
-    needs: plan
+    needs: [plan, validation]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -126,10 +126,16 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         if: needs.plan.outputs.recovery == 'true'
         with: {node-version: '24.22.0', cache: npm, cache-dependency-path: knights-reforged/package-lock.json}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        if: needs.plan.outputs.recovery == 'true'
+        with:
+          name: checked-compiler-output
+          path: knights-reforged/dist/
       - if: needs.plan.outputs.recovery == 'true'
         working-directory: knights-reforged
         run: |
           npm ci --no-audit --no-fund
+          npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release
           docker build -t kingdom-come:checked .
           docker pull postgres:18-bookworm
           KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_TEST_PRIVATE_ALPHA=1 npm run test:container
