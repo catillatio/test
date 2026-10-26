@@ -41,6 +41,44 @@ metadata is hashed for the public review pin. No database connection is made.
 
 ## Failures, retries and concurrency limit
 
+### Inspection #54: read-only encrypted-shape diagnostic
+
+[#54 / run 40410711691](https://github.com/catillatio/test/actions/runs/40410711691)
+at `346d823042653a24276b886f2761b8334eac7005` passed the preceding metadata and
+worker guards, then stopped at `PATCH_ENCRYPTED_SHAPE`. The release job was
+skipped. Independent Railway summaries still show the three approved variable
+additions, but omit their raw objects. That evidence does not identify which
+encrypted-shape assertion failed. Railway's GraphQL `EnvironmentConfig` scalar
+does not define its internal JSON shape; no acceptance-rule correction is justified
+from these summaries alone.
+
+On this failure only, **registrar-config-inspect** now also prints one
+`REGISTRAR_CONFIG_SHAPE` JSON line containing:
+
+- The top-level staged-patch key names.
+- The worker patch object's key names, without its service ID.
+- Each approved variable's own key names and JSON types, without nested content.
+
+Only recognized metadata key names can appear. Unexpected provider keys are
+represented by `<REDACTED_KEY>` because a key itself could contain an ID or
+credential. Their types are withheld too; no arbitrary names are echoed. There
+are no values, ciphertext, lengths, fingerprints, IDs, secret hashes or response
+bodies. No encrypted-value contents or decrypted fields are traversed for this
+report. The existing acceptance rules, failure category and nonzero exit status
+are unchanged. Commit mode never prints this shape diagnostic. A failing
+inspection emits no review pins and authorizes no mutation or retry.
+
+**Next owner action:** after reviewing/merging this diagnostic and its exact-head
+checks, perform only step 2 above: a new `registrar-config-inspect`, promotion OFF,
+blank patch inputs, with the existing production approval. Return only the fixed
+failure category and `REGISTRAR_CONFIG_SHAPE` line. Do not proceed to the commit
+step, enable registration or start recovery. Use that observed structure to make
+one evidence-based API-shape correction, with regression tests; do not relax the
+scope checks speculatively. The existing catalog/permission validation remains
+applicable and need not be repeated.
+
+### Earlier metadata and transport investigations
+
 Inspection [#53 / run 40406048608](https://github.com/catillatio/test/actions/runs/40406048608)
 at `5427755` exposed an API-contract bug: the helper asserted
 `environment.unmergedChangesCount === 3`. The official Railway schema defines
@@ -75,7 +113,7 @@ identity as the cause. Read-only Railway metadata still shows the three-variable
 staged patch and unchanged original worker. Do not rotate credentials, broaden
 permissions or edit the staged values based on that opaque message.
 
-The follow-up diagnostic emits only `REGISTRAR_CONFIG_FAILURE: <FIXED_CATEGORY>`.
+The earlier follow-up diagnostic emits `REGISTRAR_CONFIG_FAILURE: <FIXED_CATEGORY>`.
 It distinguishes HTTP/GraphQL authentication and permission codes, query rejection,
 transport/response failures, target/worker checks, encrypted/decrypted patch shape,
 disabled flag, registrar URL and scope. Missing/unknown GraphQL codes remain

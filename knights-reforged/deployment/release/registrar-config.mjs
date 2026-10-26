@@ -17,8 +17,10 @@ const categories=new Set(['WORKFLOW_REQUEST','TARGET_CONFIG','API_TRANSPORT','AP
  'TARGET_IDENTITY','WORKER_IDENTITY','WORKER_STOPPED_STATE','WORKER_HISTORY','PATCH_ID','PATCH_ENVIRONMENT','PATCH_STATUS','PATCH_APPLIED_AT','PATCH_LAST_APPLIED_ERROR','PATCH_CREATED_AT','PATCH_UPDATED_AT','PATCH_ENCRYPTED_SHAPE','PATCH_CLEAR_SHAPE','REGISTRATION_NOT_DISABLED','REGISTRAR_URL','REGISTRAR_SCOPE',
  'PATCH_BINDING','PRECOMMIT_WORKER_CHANGED','COMMIT_UNCONFIRMED','POST_COMMIT_WORKER_CHANGED','CONFIG_WORKFLOW_STATE','PATCH_NOT_CLEARED','POST_COMMIT_TIMEOUT','SUMMARY_WRITE','UNCLASSIFIED']);
 const failures=new WeakMap();
+const encryptedShapes=new WeakMap();
 function fail(category){assert.ok(categories.has(category));const error=new Error('Registrar configuration check failed.');failures.set(error,category);throw error;}
 export function failureCategory(error){return failures.get(error)??'UNCLASSIFIED';}
+export function failureShape(error){return encryptedShapes.get(error);}
 function checked(category,operation){try{return operation();}catch(error){if(failures.has(error))throw error;fail(category);}}
 async function during(category,operation){try{return await operation();}catch(error){if(failures.has(error))throw error;fail(category);}}
 const endpoint='https://backboard.railway.com/graphql/v2';
@@ -112,6 +114,25 @@ export function checkWorker(data,target){
  });
  return hash({worker,deployments:data.deployments.edges.map(e=>e.node)});
 }
+// Diagnostic metadata only. Do not recurse into encrypted/decrypted values or
+// print arbitrary provider keys (which could themselves contain an ID/secret).
+export function encryptedShape(patch,target){
+ const kind=v=>v===null?'null':Array.isArray(v)?'array':typeof v;
+ const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+ const safeKeys=(v,allowed)=>object(v)?[...new Set(Object.keys(v).map(k=>allowed.includes(k)?k:'<REDACTED_KEY>'))].sort():['<NON_OBJECT>'];
+ const rootKeys=['services','sharedVariables','volumes','buckets','privateNetworkDisabled'];
+ const workerKeys=['variables','source','networking','configFile','deploy','build','volumeMounts','isDeleted','isCreated','parentServiceId','clusterRole','groupId','haTemplateCode','revertsToTemplateCode','haActiveVariable','clusterWiring'];
+ const entryKeys=['encryptedValue','value','defaultValue','description','isOptional','isSealed','generator','createdAt','updatedAt','lastUpdatedAt'];
+ const worker=object(patch)&&object(patch.services)?patch.services[target.workerId]:undefined;
+ const variables=object(worker)&&object(worker.variables)?worker.variables:undefined;
+ return {
+  patchKeys:safeKeys(patch,rootKeys),workerKeys:safeKeys(worker,workerKeys),
+  variables:Object.fromEntries(registrationKeys.map(name=>{
+   const entry=variables?.[name];
+   return [name,object(entry)?Object.fromEntries(safeKeys(entry,entryKeys).map(k=>[k,k==='<REDACTED_KEY>'?'<REDACTED>':kind(entry[k])])):{'<ENTRY_TYPE>':kind(entry)}];
+  }))
+ };
+}
 function definitions(patch,target,encrypted){
  keys(patch,['services']);keys(patch.services,[target.workerId]);keys(patch.services[target.workerId],['variables']);
  const vars=patch.services[target.workerId].variables;keys(vars,registrationKeys);
@@ -137,7 +158,8 @@ export function checkPatch(data,target){
  // environment.unmergedChangesCount is nullable and counts forked-environment
  // differences, NOT staged variable edits. The exact patch itself is authoritative:
  // definitions requires one service, only variables, and precisely our three keys.
- checked('PATCH_ENCRYPTED_SHAPE',()=>definitions(p.patch,target,true));
+ try{checked('PATCH_ENCRYPTED_SHAPE',()=>definitions(p.patch,target,true));}
+ catch(error){encryptedShapes.set(error,encryptedShape(p.patch,target));throw error;}
  const clear=checked('PATCH_CLEAR_SHAPE',()=>definitions(p.clear,target,false));
  // This action can install disabled configuration only. Activation is separate.
  checked('REGISTRATION_NOT_DISABLED',()=>assert.equal(clear.KINGDOM_COPY_REGISTRATION_ENABLED.value,'0'));
@@ -223,6 +245,8 @@ async function main(){
    'Registrar configuration '+result.kind+' (registration remains OFF)\n\n'+
    'Patch ID: `'+result.patchId+'`\n\nPatch digest: `'+result.patchDigest+'`\n\n'+
    'Worker unchanged: `'+result.workerDeploymentId+'`\n\nNo recovery, deployment, activation or cleanup was requested.\n'));
- }catch(error){console.error('REGISTRAR_CONFIG_FAILURE: '+failureCategory(error));console.error('REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.');process.exitCode=1;}
+ }catch(error){console.error('REGISTRAR_CONFIG_FAILURE: '+failureCategory(error));
+  if(process.env.REGISTRAR_CONFIG_OPERATION==='registrar-config-inspect'&&failureShape(error))console.error('REGISTRAR_CONFIG_SHAPE: '+JSON.stringify(failureShape(error)));
+  console.error('REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.');process.exitCode=1;}
 }
 if(process.argv[1]&&pathToFileURL(process.argv[1]).href===import.meta.url)await main();
