@@ -1,5 +1,12 @@
 # Recovery-copy retention — owner review
 
+**Phase 2:** PR #25 is merged at `9ae9a15`; its post-merge CI passed.
+The [registration implementation and enablement review](registration-phase2/README.md)
+records the exact live/source divergence, restricted read-only preflight,
+unchanged installed SQL and first-observation acceptance plan. This earlier
+retention assessment remains reference material; no registration or retirement
+enablement is authorized by the merge or catalog validation.
+
 **Current status: empty catalogs INSTALLED and READ-ONLY VALIDATED by the owner.**
 Both SQL hashes/install postchecks passed. The subsequent owner summary confirms
 matching target/cluster, definitions, roles, explicit grants and effective

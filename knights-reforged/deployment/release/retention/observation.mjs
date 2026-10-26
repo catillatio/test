@@ -8,8 +8,8 @@ const hash=value=>createHash('sha256').update(JSON.stringify(value,(_key,item)=>
 const pick=(value,keys)=>Object.fromEntries(keys.map(key=>[key,value[key]]));
 export const registrationFields=['name','oid','owner','maintenanceDatabase','clusterDigest','sourceClusterDigest','jobId','workerDeploymentId','projectId','environmentId','gameServiceId','workerServiceId','sha','candidateDigest','sourceHost','sourceDatabase','restoreHost','createdAt','expiresAt','backupSha256','encryptedSha256','preservationSha256','reportSha256','evidenceSha256','populationSha256','accounts','bots','existingTablesVerified','passed','migrationReplay','liveDatabaseConnected'];
 
-export function registrationConfig(env,request,report,{replay=false}={}){
- assert.equal(env.KINGDOM_COPY_REGISTRATION_ENABLED,'1');assert.equal(env.NODE_ENV,'production');assert.equal(env.KINGDOM_RELEASE_WORKER,'1');
+function registrarTarget(env){
+ assert.equal(env.NODE_ENV,'production');assert.equal(env.KINGDOM_RELEASE_WORKER,'1');
  assert.notEqual(env.NODE_TLS_REJECT_UNAUTHORIZED,'0');
  for(const key of ['PGHOST','PGPORT','PGDATABASE','PGUSER','PGPASSWORD','PGSERVICE','PGSERVICEFILE','PGOPTIONS','PGSSLMODE','KINGDOM_RETENTION_DATABASE_URL','KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL','KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL','KINGDOM_RELEASE_SIGNING_KEY'])assert.ok(!env[key]);
  const scope=JSON.parse(env.KINGDOM_COPY_REGISTRATION_SCOPE);
@@ -19,13 +19,27 @@ export function registrationConfig(env,request,report,{replay=false}={}){
  for(const key of ['clusterDigest','sourceClusterDigest'])assert.match(scope[key]??'',digest);assert.notEqual(scope.clusterDigest,scope.sourceClusterDigest);
  const target=privateDatabase(env.KINGDOM_COPY_REGISTRATION_DATABASE_URL);
  assert.equal(decodeURIComponent(target.url.username),'kc_copy_registrar');assert.ok(target.url.password);
- assert.equal(target.host,request.restoreHost);assert.equal(target.name,scope.maintenanceDatabase);
- assert.notEqual(target.host,request.sourceHost);
+ assert.equal(target.name,scope.maintenanceDatabase);
  assert.equal(env.RAILWAY_PROJECT_ID,scope.projectId);assert.equal(env.RAILWAY_ENVIRONMENT_ID,scope.environmentId);assert.equal(env.RAILWAY_SERVICE_ID,scope.workerServiceId);
  assert.match(env.RAILWAY_DEPLOYMENT_ID??'',uuid);
+ return {scope,target};
+}
+export function registrationConfig(env,request,report,{replay=false}={}){
+ assert.equal(env.KINGDOM_COPY_REGISTRATION_ENABLED,'1');
+ const {scope,target}=registrarTarget(env);
+ assert.equal(target.host,request.restoreHost);assert.notEqual(target.host,request.sourceHost);
  for(const key of ['projectId','environmentId','gameServiceId','workerServiceId'])assert.equal(request[key],scope[key]);
  assert.equal(request.mode,'prepare');assert.equal(report.restoreClusterDigest,scope.clusterDigest);assert.equal(report.sourceClusterDigest,scope.sourceClusterDigest);
  if(!replay)assert.equal(report.workerDeploymentId,env.RAILWAY_DEPLOYMENT_ID);
+ return {scope,url:target.url.href};
+}
+export function registrarPreflightConfig(env,{expectedHost}={}){
+ assert.ok(env.KINGDOM_COPY_REGISTRATION_ENABLED==null||env.KINGDOM_COPY_REGISTRATION_ENABLED===''||env.KINGDOM_COPY_REGISTRATION_ENABLED==='0');
+ // This process must not receive the worker's source/restore-admin credentials
+ // or expiring job grants. Unset them for this command only, never on the service.
+ for(const key of ['DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL','KINGDOM_RELEASE_JOB_REQUEST'])assert.ok(!env[key]);
+ const {scope,target}=registrarTarget(env);
+ assert.match(expectedHost??'',/^[a-z0-9.-]+\.railway\.internal$/);assert.equal(target.host,expectedHost);
  return {scope,url:target.url.href};
 }
 export async function captureCopyIdentity(client,request,report,env){
@@ -77,17 +91,22 @@ export function observationPayload(manifest){
 export async function checkObservationCatalog(client){
  await client.query('SET search_path=pg_catalog,pg_temp');
  const row=(await client.query(`SELECT current_user AS actor,
+  (SELECT rolcanlogin FROM pg_roles WHERE rolname=current_user) AS login,
+  (SELECT rolinherit FROM pg_roles WHERE rolname=current_user) AS inherits,
+  (SELECT rolcanlogin FROM pg_roles WHERE rolname='kc_retention_owner') AS owner_login,
   EXISTS(SELECT 1 FROM pg_roles WHERE rolname IN (current_user,'kc_retention_owner') AND (rolsuper OR rolcreatedb OR rolcreaterole OR rolreplication OR rolbypassrls)) AS privileged,
   EXISTS(SELECT 1 FROM pg_roles WHERE rolname<>current_user AND pg_has_role(current_user,oid,'MEMBER')) AS member,
   has_schema_privilege(current_user,'release_observations','CREATE') AS ddl,
   has_database_privilege(current_user,current_database(),'CREATE') AS database_ddl,
-  has_table_privilege(current_user,'release_observations.verified_copies','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') AS writable,
-  has_any_column_privilege(current_user,'release_observations.verified_copies','INSERT,UPDATE') AS column_write,
+  has_schema_privilege(current_user,'public','CREATE') AS public_ddl,
+  has_table_privilege(current_user,'release_observations.verified_copies','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER,REFERENCES,MAINTAIN') AS writable,
+  has_any_column_privilege(current_user,'release_observations.verified_copies','INSERT,UPDATE,REFERENCES') AS column_write,
   has_schema_privilege(current_user,'release_retention','USAGE') AS cleanup_schema,
   has_function_privilege(current_user,(SELECT p.oid FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='release_retention' AND p.proname='record_event'),'EXECUTE') AS cleanup,
   has_table_privilege(current_user,(SELECT c.oid FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='release_retention' AND c.relname='permits'),'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') AS authorizes,
   has_any_column_privilege(current_user,(SELECT c.oid FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='release_retention' AND c.relname='permits'),'INSERT,UPDATE') AS column_authorizes`)).rows[0];
- assert.equal(row.actor,'kc_copy_registrar');for(const [key,value] of Object.entries(row))if(key!=='actor')assert.equal(value,false);
+ assert.equal(row.actor,'kc_copy_registrar');assert.equal(row.login,true);
+ for(const [key,value] of Object.entries(row))if(!['actor','login'].includes(key))assert.equal(value,false);
  const sql=await readFile(new URL('./observations.sql',import.meta.url),'utf8');
  const functions=(await client.query(`SELECT p.proname,p.prosrc,p.prosecdef,p.proconfig,r.rolname AS owner FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace JOIN pg_roles r ON r.oid=p.proowner WHERE n.nspname='release_observations' ORDER BY p.proname`)).rows;
  assert.deepEqual(functions.map(f=>f.proname),['no_rewrite','record_verified_copy']);
@@ -95,22 +114,45 @@ export async function checkObservationCatalog(client){
   assert.equal(f.owner,'kc_retention_owner');assert.equal(f.prosecdef,f.proname==='record_verified_copy');assert.deepEqual(f.proconfig,['search_path=pg_catalog, pg_temp']);
   const match=sql.match(new RegExp('CREATE FUNCTION release_observations\\.'+f.proname+'\\([^]*? AS \\$\\$([^]*?)\\$\\$;'));assert.ok(match);assert.equal(f.prosrc,match[1]);
  }
- const tables=(await client.query(`SELECT c.relname,r.rolname AS owner FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_roles r ON r.oid=c.relowner WHERE n.nspname='release_observations' AND c.relkind='r'`)).rows;
- assert.deepEqual(tables,[{relname:'verified_copies',owner:'kc_retention_owner'}]);
+ const tables=(await client.query(`SELECT c.relname,r.rolname AS owner,c.relpersistence,c.relrowsecurity,c.relforcerowsecurity FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_roles r ON r.oid=c.relowner WHERE n.nspname='release_observations' AND c.relkind='r'`)).rows;
+ assert.deepEqual(tables,[{relname:'verified_copies',owner:'kc_retention_owner',relpersistence:'p',relrowsecurity:false,relforcerowsecurity:false}]);
+ // These exact durable unique identities are part of idempotency, not optional
+ // performance indexes. Missing/invalid/partial replacements must stop writes.
+ const indexes=(await client.query(`SELECT i.indkey::text AS keys,i.indisprimary AS "primary",i.indisunique AS "unique",i.indisvalid AS valid,i.indisready AS ready,
+  i.indpred IS NULL AND i.indexprs IS NULL AND i.indnkeyatts=1 AND i.indnatts=1 AS plain
+  FROM pg_index i JOIN pg_class c ON c.oid=i.indrelid JOIN pg_namespace n ON n.oid=c.relnamespace
+  WHERE n.nspname='release_observations' AND c.relname='verified_copies' ORDER BY i.indkey::text COLLATE "C"`)).rows;
+ assert.deepEqual(indexes,['1','2','5'].map(keys=>({keys,primary:keys==='1',unique:true,valid:true,ready:true,plain:true})));
  const triggers=(await client.query(`SELECT t.tgname,t.tgenabled,t.tgtype,p.proname FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_proc p ON p.oid=t.tgfoid WHERE n.nspname='release_observations' AND NOT t.tgisinternal`)).rows;
  assert.deepEqual(triggers,[{tgname:'observations_immutable',tgenabled:'O',tgtype:58,proname:'no_rewrite'}]);
+}
+export async function inspectRegistrar(client,{scope}){
+ await client.query('BEGIN READ ONLY');
+ try{
+  await client.query("SET LOCAL statement_timeout='5s'; SET LOCAL lock_timeout='2s'");
+  const row=(await client.query("SELECT current_database() AS database,current_setting('transaction_read_only') AS read_only")).rows[0];
+  assert.equal(row.database,scope.maintenanceDatabase);assert.equal(row.read_only,'on');
+  await checkObservationCatalog(client);
+ }finally{await client.query('ROLLBACK');}
 }
 export async function recordObservation(client,payload){
  await checkObservationCatalog(client);
  const result=(await client.query('SELECT * FROM release_observations.record_verified_copy($1)',[payload])).rows[0];
  assert.equal(String(result.database_oid),payload.oid);assert.ok(Number.isFinite(+new Date(result.first_observed_at)));assert.equal(+new Date(result.first_observed_at),+new Date(result.verified_at));return result;
 }
+async function withRegistrarClient(url,{readOnly=false}={},operation){
+ const client=new pg.Client({connectionString:url,connectionTimeoutMillis:5000,query_timeout:5000,options:'-c statement_timeout=5000 -c lock_timeout=2000'+(readOnly?' -c default_transaction_read_only=on':''),application_name:readOnly?'kingdom-registrar-preflight':'kingdom-copy-registration'});
+ let disconnected=false;client.on('error',()=>{disconnected=true;});
+ const timeout=setTimeout(()=>{disconnected=true;client.end().catch(()=>{});},20000);timeout.unref();
+ try{await client.connect();const result=await operation(client);assert.equal(disconnected,false);return result;}
+ finally{clearTimeout(timeout);await client.end().catch(()=>{});}
+}
+export async function preflightRegistrar(env,options){
+ const {scope,url}=registrarPreflightConfig(env,options);
+ return withRegistrarClient(url,{readOnly:true},client=>inspectRegistrar(client,{scope}));
+}
 export async function registerVerifiedCopy(manifest,env,{replay=false}={}){
  const payload=observationPayload(manifest),{url,scope}=registrationConfig(env,manifest.request,manifest.report,{replay});
  assert.equal(payload.maintenanceDatabase,scope.maintenanceDatabase);
- const client=new pg.Client({connectionString:url,connectionTimeoutMillis:5000,query_timeout:5000,options:'-c statement_timeout=5000 -c lock_timeout=2000',application_name:'kingdom-copy-registration'});
- let disconnected=false;client.on('error',()=>{disconnected=true;});
- const timeout=setTimeout(()=>{disconnected=true;client.end().catch(()=>{});},20000);timeout.unref();
- try{await client.connect();const result=await recordObservation(client,payload);assert.equal(disconnected,false);return result;}
- finally{clearTimeout(timeout);await client.end().catch(()=>{});}
+ return withRegistrarClient(url,{},client=>recordObservation(client,payload));
 }

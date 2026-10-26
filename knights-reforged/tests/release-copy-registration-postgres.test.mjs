@@ -5,7 +5,7 @@ import {createHash,randomUUID} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {hash} from '../deployment/release/retention/protocol.mjs';
 import {fixture,scope as baseScope} from './fixtures/release-retention.mjs';
-import {observationPayload,recordObservation,checkObservationCatalog} from '../deployment/release/retention/observation.mjs';
+import {observationPayload,recordObservation,checkObservationCatalog,inspectRegistrar} from '../deployment/release/retention/observation.mjs';
 import {inspect,lockCluster} from '../deployment/release/retention/retention.mjs';
 const target=process.env.TEST_DATABASE_URL;
 test('append-only registration with real restricted PostgreSQL, concurrency, restart and preservation',{skip:!target,timeout:120000},async t=>{
@@ -26,6 +26,7 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
   const oid=(await root.query('SELECT oid::text FROM pg_database WHERE datname=$1',[copy.database.name])).rows[0].oid;
   m.report.verifiedCopyIdentity={oid,owner:creator,maintenanceDatabase:name,clusterDigest:cluster};
   const payload=observationPayload(m);
+  const preservedIdentity=(await root.query('SELECT d.datname AS name,d.oid::text AS oid,r.rolname AS owner FROM pg_database d JOIN pg_roles r ON r.oid=d.datdba WHERE d.datname=$1',[copy.database.name])).rows;
   // Populated synthetic realm in the independent copy: no source URL is provided.
   const dataUrl=new URL(target);dataUrl.pathname='/'+copy.database.name;
   data=new pg.Client({connectionString:dataUrl.href});await data.connect();
@@ -35,6 +36,21 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
   const snapshot=async()=>JSON.stringify((await data.query('SELECT (SELECT jsonb_agg(a ORDER BY id) FROM accounts a) AS accounts,(SELECT jsonb_agg(p ORDER BY id) FROM progress p) AS progress')).rows);
   const before=await snapshot();registrar=await connect('kc_copy_registrar');
   let receipt;
+  await t.test('restricted registrar preflight is read-only and leaves all metadata and business data untouched',async()=>{
+   // PostgreSQL installations can expose this read-only function through PUBLIC.
+   // Deny it explicitly in this disposable database to prove preflight does not
+   // depend on it. The installed production catalogs/permissions are unchanged.
+   await admin.query('REVOKE EXECUTE ON FUNCTION pg_control_system() FROM PUBLIC');
+   await inspectRegistrar(registrar,{scope:{maintenanceDatabase:name}});
+   assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_observations.verified_copies')).rows[0].n,0);
+   assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_retention.audit')).rows[0].n,0);
+   assert.equal(await snapshot(),before);
+   // No extra cluster permission is granted merely to make inspection succeed.
+   await assert.rejects(registrar.query('SELECT * FROM pg_control_system()'));
+   await registrar.query('BEGIN READ ONLY');
+   try{await assert.rejects(recordObservation(registrar,payload));}finally{await registrar.query('ROLLBACK');}
+   assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_observations.verified_copies')).rows[0].n,0);
+  });
   await t.test('server identity and timestamps are recorded once; concurrent identical requests are idempotent',async()=>{
    const second=await connect('kc_copy_registrar');
    try{const results=await Promise.all([recordObservation(registrar,payload),recordObservation(second,payload)]);receipt=results[0];assert.deepEqual(results[0],results[1]);}finally{await second.end();}
@@ -47,6 +63,23 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
   await t.test('restart or retry after lost acknowledgement returns original server timestamps and no extra row',async()=>{
    await registrar.end();registrar=await connect('kc_copy_registrar');assert.deepEqual(await recordObservation(registrar,payload),receipt);
    assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_observations.verified_copies')).rows[0].n,1);
+  });
+  await t.test('first-observation read-only review binds the exact manifest, receipt and existing database identity',async()=>{
+   const source=await readFile(new URL('../docs/retention/registration-phase2/VERIFY_FIRST_OBSERVATION.sql',import.meta.url),'utf8');
+   const literal=value=>"'"+JSON.stringify(value).replaceAll("'","''")+"'";
+   const review=async expected=>{
+    const results=await admin.query(source.replaceAll(":'expected_observation'",literal(expected)).replaceAll(":'before_inventory'",literal(preservedIdentity)));
+    return results.find(result=>result.rows[0]?.owner_summary).rows[0].owner_summary;
+   };
+   const result=await review(payload);
+   for(const key of ['read_only','maintenance_matches','exactly_one_observation','exact_manifest_binding','live_identity_matches','server_receipt_matches','baseline_identities_preserved','no_cleanup_catalog_writes','no_managed_role_owns_database'])assert.equal(result[key],true,key);
+   // This synthetic fixture deliberately has one baseline copy, not 23 live copies.
+   assert.equal(result.baseline_count,1);assert.equal(result.baseline_minimum_present,false);
+   assert.equal(result.retirement_authorized,false);
+   assert.equal((await review({...payload,oid:String(Number(oid)+1)})).exact_manifest_binding,false);
+   assert.equal((await review({...payload,evidenceSha256:'0'.repeat(64)})).exact_manifest_binding,false);
+   assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_observations.verified_copies')).rows[0].n,1);
+   assert.equal(await snapshot(),before);
   });
   await t.test('mismatch, fake OID, wrong cluster, failed verification and secret-bearing extra fields fail closed',async()=>{
    for(const patch of [{oid:String(Number(oid)+1)},{clusterDigest:'f'.repeat(64)},{workerDeploymentId:randomUUID()},{passed:false},{evidenceSha256:'f'.repeat(64)},{maintenanceDatabase:'wrong'},{secret:'unretained-synthetic-secret'},{name:'postgres'},{bots:449}])await assert.rejects(recordObservation(registrar,{...payload,...patch}));
@@ -98,6 +131,18 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
    await root.query('CREATE DATABASE "'+another.database.name+'"');await assert.rejects(recordObservation(registrar,oldPayload));
   });
   await t.test('altered installed guard definitions and accidental elevated membership prevent registration',async()=>{
+   await admin.query('ALTER TABLE release_observations.verified_copies DROP CONSTRAINT verified_copies_job_id_key');
+   try{await assert.rejects(checkObservationCatalog(registrar));}
+   finally{await admin.query('ALTER TABLE release_observations.verified_copies ADD CONSTRAINT verified_copies_job_id_key UNIQUE(job_id)');}
+   await admin.query('ALTER TABLE release_observations.verified_copies SET UNLOGGED');
+   try{await assert.rejects(checkObservationCatalog(registrar));}
+   finally{await admin.query('ALTER TABLE release_observations.verified_copies SET LOGGED');}
+   await admin.query('ALTER ROLE kc_copy_registrar INHERIT');
+   try{await assert.rejects(checkObservationCatalog(registrar));}
+   finally{await admin.query('ALTER ROLE kc_copy_registrar NOINHERIT');}
+   await admin.query('GRANT MAINTAIN ON release_observations.verified_copies TO kc_copy_registrar');
+   try{await assert.rejects(checkObservationCatalog(registrar));}
+   finally{await admin.query('REVOKE MAINTAIN ON release_observations.verified_copies FROM kc_copy_registrar');}
    await admin.query('GRANT INSERT(name) ON release_observations.verified_copies TO kc_copy_registrar');
    try{await assert.rejects(checkObservationCatalog(registrar));}finally{await admin.query('REVOKE INSERT(name) ON release_observations.verified_copies FROM kc_copy_registrar');}
    await admin.query('GRANT INSERT(approval_id) ON release_retention.permits TO kc_copy_registrar');
