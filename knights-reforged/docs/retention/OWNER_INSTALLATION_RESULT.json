@@ -1,0 +1,29 @@
+{
+  "kind": "owner-observed-empty-catalog-installation-not-activation",
+  "source": "Owner's explicit report of authorized Railway Console execution; not SQL executed by Codex",
+  "reported_date": "2026-10-26",
+  "server_execution_timestamp_supplied": false,
+  "service": "KingdomReleaseCopy",
+  "maintenance_database": "Railway",
+  "reviewed_preparation_commit": "d0e9cd577a362f0d5ba3ff28bc158e14555ff932",
+  "source_sql_commit": "3d69b093c6edf1992d22598cb092f89090f7e793",
+  "console_result": "EMPTY_CATALOGS_INSTALLED; identities preserved; no adoption or activation",
+  "owner_reports": {
+    "both_sql_sha256_checks_passed": true,
+    "all_installation_postchecks_passed": true,
+    "metadata_catalogs_installed": true,
+    "database_identities_preserved": true,
+    "no_database_adoption": true,
+    "no_activation": true
+  },
+  "sql_sha256": {
+    "bootstrap.sql": "fb58be5fd5a254859b8bc30bb4e6d0907486bfad9b90b0166fe7404d8a9030cb",
+    "observations.sql": "6a4a7eb08bcf8adf98c8646aeaf53ab3c9c4e119b99ccf9cc0b9f8837304b225"
+  },
+  "protected_existing_recovery_copies": 23,
+  "protected_emergency_oids": ["106971", "129180"],
+  "full_catalog_definition_and_effective_permission_validation": "Prepared; owner Console result not yet supplied",
+  "registration_enablement": "Not authorized by this result",
+  "credentials_or_ownership_changes": "Not authorized",
+  "cleanup_scheduling_merge_deployment": "Not authorized"
+}

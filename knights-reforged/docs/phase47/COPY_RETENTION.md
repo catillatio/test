@@ -12,7 +12,8 @@ into the worker; the controller's only change is its explicit metadata-helper
 bundle allowlist. `production-release.yml`, release gates/protocol/proofs,
 migrations, startup, backup storage and gameplay are unchanged. Codex performed no
 production SQL, deletion, deployment or configuration change. The owner
-subsequently supplied the read-only inventory recorded below. The existing release
+subsequently supplied inventory and completed the separately approved empty
+metadata installation. No registration/adoption/retirement was activated. The existing release
 process continues to retain copies.
 
 [The integration status and setup guide](COPY_RETENTION_INTEGRATION.md) separates
@@ -29,21 +30,21 @@ owned by `postgres` and with zero recovery-copy connections at inspection time.
 Recovery copies total approximately 6.3 GB on a 20 GB volume (largest 495 MB,
 smallest approximately 8 MB). Emergency OIDs 106971 (235 MB) and 129180 (304 MB)
 exist and remain protected. The inspected database is exactly `Railway` (capital
-R), PostgreSQL 18.6, user `postgres`. Neither retention schema nor any of the five
-roles exists. Owner-measured WAL is 960 MB; the shared data/WAL filesystem reports
+R), PostgreSQL 18.6, user `postgres`. Both catalogs and all five roles were subsequently installed
+by the owner, with hashes/postchecks passed; the earlier absence is historical. Owner-measured WAL is 960 MB; the shared data/WAL filesystem reports
 18 GiB size, 7.1 GiB used, 11 GiB available and 41% usage. No copy is currently
 eligible under this PR. The owner has now confirmed that the worker restore URL
 names `Railway` exactly. The owner summary also confirms the cluster match,
 17 live-name associations and current-reference presence. Six names remain
 unmatched; legacy historical OIDs and external holds remain unresolved. No
-installation or retirement is authorized.
+repeated installation or retirement is authorized.
 [Historical manifest/deployment reconciliation](../retention/PROVENANCE_RECONCILIATION.md)
 identifies the active release reference but cannot supply a missing original OID
 or independently prove the worker's maintenance name; that name is now
 confirmed by the owner. [Private comparison handoff](../retention/PRIVATE_COMPARISON_HANDOFF.md).
 
-[Current assessment and precise next read-only checks / unexecuted fresh-install
-procedure](../retention/OWNER_INVENTORY_FOLLOWUP.md). Names, sizes and zero
+[Owner installation evidence and next read-only validation / future registration
+plan](../retention/POST_INSTALL_VALIDATION_AND_REGISTRATION.md). Names, sizes and zero
 connections confer no provenance or deletion permission. Filesystem space is now
 owner-observed; original-OID/unknown-copy evidence and external holds remain unresolved. The older
 capacity figures below are historical only.

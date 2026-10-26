@@ -1,7 +1,8 @@
 # Verified-copy registration — implementation and activation status
 
 PR #25 now implements the **non-destructive observation integration** proposed at
-`aff9142`. It is default-OFF and has not been installed or activated. Automatic
+`aff9142`. The worker integration remains default-OFF; the owner has
+installed only the empty metadata catalogs. No registration is activated. Automatic
 registration does not reclaim space. Scheduled reporting, cleanup execution and
 exclusive release/restore coordination remain separate authorization boundaries.
 Job-scoped execution and interruption reconciliation are now implemented as
@@ -10,22 +11,19 @@ unattended authorization remain unimplemented and disabled.
 
 ## Owner-observed production catalog status
 
-The owner directly checked KingdomReleaseCopy: both `release_retention.copies`
-and `release_observations.verified_copies` returned NULL in the connected
-maintenance database. None of its 23 recovery copies is cleanup-adopted; all
-owners displayed as `postgres`. No production eligibility is established.
-[Read-only follow-up and prepared fresh-install procedure](../retention/OWNER_INVENTORY_FOLLOWUP.md)
-record completed owner observations: exact Console DB `Railway`, PostgreSQL
-18.6, neither schema nor any of the five roles present, 960 MB WAL and 11 GiB
-available. The owner has now confirmed the existing worker restore URL names
-`Railway` exactly, matching the Console. No credential was fetched by Codex.
-[Existing manifest/deployment evidence](../retention/PROVENANCE_RECONCILIATION.md)
-contains no maintenance-name/OID capture. The owner has now confirmed the name
-and [private cluster match](../retention/PRIVATE_COMPARISON_HANDOFF.md), plus 17
-live-name associations. Six live names remain unmatched. Separate owner approval
-remains an installation gate; legacy original-OID evidence, external holds and
-exact authorization remain additional adoption/retirement gates.
-The inventory does not enable registration, ownership adoption or cleanup.
+The owner first confirmed absent catalogs/roles, exact maintenance DB `Railway`,
+PostgreSQL 18.6, matching private cluster and 23 protected copies. The owner then
+completed the separately approved metadata installation with both SQL hashes and
+all postchecks passing: `EMPTY_CATALOGS_INSTALLED; identities preserved; no adoption or activation`.
+[Attributed result](../retention/OWNER_INSTALLATION_RESULT.json) and
+[next read-only definition/permission validation and future registration plan](../retention/POST_INSTALL_VALIDATION_AND_REGISTRATION.md)
+supersede the earlier absence findings. Do not repeat installation.
+
+No existing copy is adopted. All 23, both emergency OIDs and the six unmatched
+names remain protected. Original legacy OIDs/external holds remain unresolved.
+Code delivery, full effective-permission validation, registrar credentials/scope
+and optional enablement are separate future gates; no worker activation, credential
+setup, ownership adoption or cleanup is authorized by the installation result.
 
 ## Completed integration
 
@@ -96,14 +94,11 @@ backup/age/migration subprocess environments.
 
 ## Required separately authorized setup — not performed
 
-1. Through an already trusted private administrative channel, verify the existing
-   verification PostgreSQL service, actual independent cluster and **exact worker
-   maintenance database**. Never install in the game/source database or a copy.
-2. Review/install the existing `retention/bootstrap.sql` catalog if not already
-   installed. Then separately review/install `retention/observations.sql` in that
-   same maintenance database. Neither file is a game migration or startup command.
-   Do not rerun either bootstrap over an existing installation. A previously
-   installed review format requires its own reviewed upgrade procedure.
+1. The owner has confirmed the existing private target and installed both exact
+   metadata catalogs. Do not repeat bootstrap/observations or create a new target.
+2. Complete the prepared read-only definition/effective-permission validation in
+   the existing owner Console. Installation postchecks are recorded; full catalog
+   validation remains pending. Any mismatch requires separate correction review.
 3. Set a dedicated strong `kc_copy_registrar` password through the trusted channel.
    The role receives CONNECT, USAGE on `release_observations`, and EXECUTE on its
    guarded append function only. It has no role memberships, DDL, table writes,
@@ -198,7 +193,8 @@ transaction interrupted before commit leaves no partial row. Outputs are fixed
   or a future constrained executor review.
 
 Registration integration is implemented and tested, pending code review, merge
-approval and separately authorized installation/activation. An inactive, manually dispatched job template has been implemented; it is not
+approval and separately authorized credential setup/activation. Empty metadata
+installation alone is owner-reported complete. An inactive, manually dispatched job template has been implemented; it is not
 installed in `.github/workflows`. No schedule, unattended deletion or production
 infrastructure is enabled/provisioned. Its exact owner-gated shared-mutex and
 private execution requirements are documented in the current readiness guide.

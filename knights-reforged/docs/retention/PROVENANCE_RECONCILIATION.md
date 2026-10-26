@@ -74,8 +74,10 @@ reference or count it as another retained database.
 **Owner-confirmed.** The owner confirmed KingdomReleaseCheck's existing
 `KINGDOM_RESTORE_DATABASE_URL` uses **`Railway`** (capital R), matching the exact
 Console `current_database()` result on KingdomReleaseCopy. PostgreSQL is 18.6 and
-the Console user is `postgres`. Neither retention schema nor any of the five
-expected roles exists in the inspected database/cluster. No URL or credential
+the Console user is `postgres`. The initial inspection found neither retention schema nor the five roles.
+The owner subsequently [installed the empty metadata catalogs](OWNER_INSTALLATION_RESULT.json)
+with SQL hashes/postchecks passed. This supersedes absence only; no original-OID
+evidence, adoption or cleanup authority is created. No URL or credential
 was fetched or disclosed to obtain this confirmation.
 
 The owner subsequently completed the [summary-only private comparison](PRIVATE_COMPARISON_HANDOFF.md).
@@ -126,7 +128,7 @@ authorized. All 23 remain protected and there is no reclaimable-space estimate.
 `original_oid_captured=false`, `retirement_authorized=false` and
 `eligible_copy_count=0` are deliberate comparison-summary constants; the query
 never runs the retirement planner. Retirement is independently blocked by the
-missing installation/adoption/authorization gates. Do not present those constants
+remaining adoption/authorization gates. Do not present those constants
 as a successful eligibility or historical-integrity audit.
 
 ## Exact remaining owner attention

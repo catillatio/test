@@ -1,15 +1,19 @@
 # Recovery-copy retention — owner review
 
-**Latest preparation:** the official Railway integration can inspect the live
-copy service but exposes no private SQL/Console execution tool. The owner approved
-preparing the [exact empty-catalog installation plan](CATALOG_INSTALLATION_PLAN.md),
-not executing it. Exact reviewed SQL, a no-SQL Console staging packet, role grants,
-target/freshness guards and rollback limits are ready for separate owner review.
+**Current status: empty catalogs INSTALLED by the owner; no adoption or activation.**
+The owner reports both SQL hashes verified and all installation postchecks passed:
+`EMPTY_CATALOGS_INSTALLED; identities preserved; no adoption or activation`.
+[Attributed installation evidence](OWNER_INSTALLATION_RESULT.json) supersedes the
+earlier absent-schema/role findings. **Do not repeat installation.** Next is
+[read-only definition/permission validation and future registration planning](POST_INSTALL_VALIDATION_AND_REGISTRATION.md);
+that full production validation result has not yet been supplied. The official
+integration still exposes no private SQL/Console execution tool.
 
 This revision resumes PR #25 from `cf22204`, integrating the current protected
 production baseline (`d48ab91`, schema 026 and exact 450/900 population evidence).
 No gameplay changes, production SQL, deletion, installation, workflow dispatch,
-volume/configuration/credential change, PR merge or deployment was performed.
+volume/configuration/credential change, PR merge or deployment was performed by
+Codex. The separate owner-executed metadata installation is recorded above.
 
 ## Implemented and inactive
 
@@ -77,7 +81,7 @@ identity listing was not supplied here.
 | Emergency OID 106971 | Exists; approximately 235 MB; protected |
 | Advertised volume capacity | 20 GB |
 | Exact inspected maintenance DB / user / version | `Railway` (capital R) / `postgres` / PostgreSQL 18.6 |
-| Retention schemas / five expected roles | Neither schema nor any of the five roles exists (owner-observed) |
+| Retention schemas / five expected roles | Installed by owner; pre-install absence is historical |
 | Worker maintenance name | Owner confirmed existing worker restore URL names `Railway` exactly |
 | Cluster digest | Owner Console comparison matches the retained restore-cluster evidence |
 | Owner summary comparison | 17 live names match retained prepares; six remain unmatched; 18 historical names not currently matched |
@@ -86,11 +90,11 @@ identity listing was not supplied here.
 | Data directory | `/var/lib/postgresql/18/docker` |
 | Filesystem / mount | `/dev/zd28000` at `/var/lib/postgresql`; data and WAL share it |
 | Filesystem snapshot | 18 GiB size; 7.1 GiB used; 11 GiB available; 41% usage (reported rounded values) |
-| `release_retention.copies` | NULL lookup: absent in the connected database |
-| `release_observations.verified_copies` | NULL lookup: absent in the connected database |
+| `release_retention.copies` | Owner-reported installed and empty; previously NULL |
+| `release_observations.verified_copies` | Owner-reported installed and empty; previously NULL |
 
 **No copy is currently eligible under PR #25. All 23 remain protected.** There is
-no installed provenance/adoption catalog in that connection, and no existing copy
+no adopted provenance in the installed empty catalog, and no existing copy
 is owned by the restricted cleanup owner. Zero connections, a matching name or a
 small database is not successful verification, lifecycle closure or retirement
 permission. The four remaining databases are also preserved; their identities
@@ -127,20 +131,19 @@ The current release reference is present. The two most recent verified prepares
 among the matched evidence are runs **40270052123/1** and **40261837458/1**; keep
 both. The emergency OIDs remain unconditional exclusions, potentially overlapping
 these groups. The other 15 matched names and all six unknown names also remain
-protected: there is no installed adoption catalog, reviewed legacy-OID binding,
+protected: there is no adopted catalog provenance, reviewed legacy-OID binding,
 restricted-copy ownership or signed retirement approval.
 
-**Read-only target/cluster checks are complete; installation remains unexecuted
-and requires separate owner authorization.** An empty catalog can be prepared
-without adopting the six unknown copies. Their unknown provenance does not
+**The owner reports completed metadata installation; no reinstall is authorized.**
+An empty catalog does not adopt the six unknown copies. Their unknown provenance does not
 justify deleting them or blocking unrelated safe development. External holds and
 legacy identity review remain additional gates before any adoption/retirement.
 Do not repeat completed schema/role/capacity/cluster reads solely for this report.
 
 [The owner-inventory follow-up](OWNER_INVENTORY_FOLLOWUP.md) preserves the
-read-only checks and fresh-install procedure **for later separate approval only**.
+historical read-only checks and archived installation procedure.
 All 23 current copies, both emergency OIDs, current/pending/pinned/unknown and
-rollback references remain protected. No catalog installation, ownership change,
+rollback references remain protected. No repeated installation, ownership change,
 credential setup, retirement enablement or deployment is authorized.
 
 ## Dry-run evidence
@@ -171,12 +174,11 @@ No live reclaimable-space estimate is reported without live evidence.
    approved normal protected release may deploy only the non-destructive optional
    registration helpers; registration remains OFF. Never dispatch a release for
    cleanup or repurpose the verification worker for arbitrary SQL.
-3. Separately review/install `bootstrap.sql`, then `observations.sql` in the exact
-   existing worker maintenance DB on the independent copy cluster. These are
-   **not game migrations** and do not alter schema 026. Fresh bootstrap refuses an
-   existing installation. If any earlier draft was installed, first obtain its
-   definitions/grants and prepare a separately reviewed upgrade; do not overwrite
-   installed guards automatically. SQL and JavaScript must match exactly.
+3. **Owner reports both metadata installations complete. Do not rerun them.**
+   They are not game migrations and do not alter schema 026. Validate the exact
+   installed definitions and effective permissions with the prepared read-only
+   packet. Any mismatch needs separate review, never automatic guard overwrites,
+   grant repairs or bootstrap replay. SQL and JavaScript must match exactly.
 4. Separately supply registrar, runtime and authorizer credentials to their
    respective isolated execution boundaries. Bootstrap/catalog ownership remains
    privileged and withheld from all three. No release private key, archive key,

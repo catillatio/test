@@ -1,10 +1,17 @@
-# Empty retention catalog installation — prepared, not authorized to execute
+# Empty retention catalog installation — historical plan, COMPLETED BY OWNER
 
-Owner authorization covers **preparation only**. This plan installs metadata in
-the existing independent copy service; it does not adopt, retire or alter any
-recovery database. All 23 copies and emergency OIDs **106971 / 129180** remain
-protected. Do not run the installation block until the owner explicitly approves
-these exact SQL files and this scope.
+The owner reports the separately approved installation completed with both SQL
+hashes verified and every postcheck passing. Console result:
+`EMPTY_CATALOGS_INSTALLED; identities preserved; no adoption or activation`.
+[Owner-observed result](OWNER_INSTALLATION_RESULT.json) ·
+[Next read-only validation and future registration plan](POST_INSTALL_VALIDATION_AND_REGISTRATION.md).
+
+**Do not repeat either SQL installation.** All 23 copies and emergency OIDs
+106971 / 129180 remain protected. Full definition/effective-permission validation
+is pending; no registration, credential setup, adoption or cleanup is authorized.
+The remainder preserves the exact historical plan and pre-install observations;
+its former authorization boundary has been satisfied only for that completed
+installation, not for a rerun, upgrade or further production action.
 
 ## Official Railway access result, 2026-10-26
 

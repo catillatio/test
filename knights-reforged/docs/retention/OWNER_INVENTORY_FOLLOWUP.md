@@ -1,5 +1,12 @@
 # Owner-observed production inventory and next checks
 
+**Status update:** the owner subsequently completed the exact metadata installation
+with both SQL hashes and all postchecks passing. Both catalogs are installed and
+empty; no adoption/activation occurred. [Installation evidence](OWNER_INSTALLATION_RESULT.json)
+and [next read-only validation / future registration plan](POST_INSTALL_VALIDATION_AND_REGISTRATION.md).
+The absent-schema/role observations below are **pre-install history**. Do not
+repeat installation or treat this status update as permission for another write.
+
 Evidence source: the owner's read-only KingdomReleaseCopy production Console
 inspection, reported on 2026-10-26. The exact server inspection timestamp and full
 private name/OID listing were not supplied to this session. These are **owner
@@ -34,7 +41,7 @@ Current, pending, pinned, rollback/emergency and uncertain copies must remain
 protected even after historical evidence is collected. The two newest verified
 copies and minimum 24-hour hold remain mandatory.
 
-The owner has now also confirmed absence of both schemas and all five expected
+The owner initially confirmed absence of both schemas and all five expected
 roles in the inspected database/cluster, and supplied WAL and filesystem usage.
 These checks are complete as owner observations; do not rerun them merely for
 this report. The original read-only instructions below remain a reference for
@@ -199,7 +206,11 @@ working space and operating margin. The historical 495 MB maximum alone cannot
 certify future restore headroom. WAL/slot diagnosis is additional work only if
 these minimal measurements reveal material unexplained usage.
 
-## Fresh-catalog installation procedure — PREPARED, DO NOT EXECUTE
+## Archived fresh-catalog installation procedure — COMPLETED BY OWNER, DO NOT REPEAT
+
+The following is the preserved pre-install procedure, not a current instruction.
+Its execution was subsequently authorized and completed by the owner; current
+work is read-only validation, with registration/credentials/adoption still OFF.
 
 The owner has now approved **preparation**, not production SQL execution. The
 [exact Console installation plan](CATALOG_INSTALLATION_PLAN.md) records official
