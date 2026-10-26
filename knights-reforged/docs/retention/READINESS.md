@@ -54,52 +54,48 @@ volume/configuration/credential change, PR merge or deployment was performed.
   It may reconcile an expired original authorization but can never renew it or
   start/resume a deletion. Current owner-approved job coordination is still needed.
 
-## Actual inventory status: UNVERIFIED
+## Actual inventory: owner-observed; retirement BLOCKED
 
-Read-only authenticated Railway metadata confirms project `merry-patience`,
-production service `KingdomReleaseCopy`, live/successful deployment, **20,000 MB
-volume capacity**, and no public PostgreSQL TCP proxy. No credential values were
-retrieved. The available connector has no private Console/SQL execution method.
-Consequently **no actual database listing, OIDs, owners, sizes, live recovery
-references, WAL usage, free space or production retirement candidates are
-certified by this revision**. Earlier 5 GB / 2.33 GB figures are historical,
-owner-supplied measurements and must not be substituted for current inventory.
+The owner ran read-only SQL in the production KingdomReleaseCopy Console and
+reported the following on 2026-10-26. These are owner-observed results; Codex did
+not execute new production SQL. The exact inspection timestamp/full private
+identity listing was not supplied here.
 
-The smallest next step is the owner's **existing authenticated private Console**
-for KingdomReleaseCopy. No new service/proxy/credentials are needed for that read.
-Open its existing PostgreSQL session, or use its existing local authentication:
+| Finding | Owner-observed result |
+| --- | --- |
+| Total / recovery-copy databases | 27 / 23 |
+| Owners | All displayed as `postgres` |
+| Recovery-copy connections | All 23 had zero at inspection time |
+| Recovery-copy total / largest / smallest | Approximately 6.3 GB / 495 MB / approximately 8 MB |
+| Emergency OID 129180 | Exists; approximately 304 MB; protected |
+| Emergency OID 106971 | Exists; approximately 235 MB; protected |
+| Volume capacity | 20 GB; actual used/free space and WAL remain unknown |
+| `release_retention.copies` | NULL lookup: absent in the connected database |
+| `release_observations.verified_copies` | NULL lookup: absent in the connected database |
 
-```sh
-psql -X --no-password -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"
-```
+**No copy is currently eligible under PR #25. All 23 remain protected.** There is
+no installed provenance/adoption catalog in that connection, and no existing copy
+is owned by the restricted cleanup owner. Zero connections, a matching name or a
+small database is not successful verification, lifecycle closure or retirement
+permission. The four remaining databases are also preserved; their identities
+and roles must not be guessed. The two emergency copies are already included in
+the 6.3 GB aggregate, not additional storage.
 
-Paste [inventory.sql](../../deployment/release/retention/inventory.sql). If local
-existing authentication is unavailable, stop; do not reset passwords or expose a
-proxy. Run the optional WAL SELECT separately only if existing permission allows.
-Keep full output private (restricted owner file, directory 0700/file 0600). Match
-its actual maintenance DB/cluster to the worker's existing restore connection,
-then collect catalog rows and retained public backup manifests through existing
-trusted channels. PostgreSQL has no reliable database creation timestamp.
+The earlier 5 GB / 2.33 GB figures are superseded historical observations. The
+6.3 GB logical recovery-database total is neither reclaimable storage nor a basis
+to calculate free space as 20 minus 6.3 GB. Actual OID-to-release provenance,
+current/staged/pending/rollback references, WAL, filesystem available bytes and
+restoration headroom remain unresolved.
 
-For installed catalogs, read-only provenance queries in that same session are:
-
-```sql
-BEGIN READ ONLY;
-SELECT to_regclass('release_retention.copies'),
-       to_regclass('release_observations.verified_copies');
-COMMIT;
--- Only if the corresponding table exists and existing access permits:
-SELECT name,database_oid::text,owner_name,verified_at,first_observed_at,
-       evidence_sha256,evidence->'request'->>'jobId' AS release_job
-FROM release_retention.copies ORDER BY name;
-SELECT name,database_oid::text,observed_owner,cluster_digest,job_id,
-       worker_deployment_id,evidence_sha256,first_observed_at
-FROM release_observations.verified_copies ORDER BY name;
-```
-
-Every missing/failed/ambiguous reconciliation remains protected. The inventory's
-logical database total and WAL do **not** establish filesystem free space or
-physical reclaimable bytes. No database is eligible merely from its `kc_` name.
+[The owner-inventory follow-up](OWNER_INVENTORY_FOLLOWUP.md) gives the minimum
+additional **read-only** checks, the missing external provenance evidence, and a
+fresh-catalog installation procedure **prepared for separate approval only**.
+Reuse the owner's existing private inventory output where sufficient. Confirm the
+exact worker maintenance database/cluster and check schema/cluster-wide role
+collisions before choosing fresh bootstrap: two NULL table lookups alone do not
+prove there are no partial objects or catalogs in another database. No ownership
+change, catalog installation, credential setup, feature activation or deployment
+is authorized by the new findings.
 
 ## Dry-run evidence
 
@@ -119,7 +115,8 @@ No live reclaimable-space estimate is reported without live evidence.
 
 ## Minimum production setup, in order — NOT authorized here
 
-1. Obtain the existing Console inventory above and reconcile **each exact OID**
+1. Preserve the owner-observed Console inventory above, complete only the missing
+   [read-only checks](OWNER_INVENTORY_FOLLOWUP.md), and reconcile **each exact OID**
    with retained release manifests/run attempts/deployments and independently
    retained encrypted recovery evidence. Verify current **active and staged**
    deployment recovery references and pending/manual recovery work. Pin ambiguous

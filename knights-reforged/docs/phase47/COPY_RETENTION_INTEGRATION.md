@@ -8,6 +8,17 @@ Job-scoped execution and interruption reconciliation are now implemented as
 inactive tooling: see [current readiness](../retention/READINESS.md). Scheduling and
 unattended authorization remain unimplemented and disabled.
 
+## Owner-observed production catalog status
+
+The owner directly checked KingdomReleaseCopy: both `release_retention.copies`
+and `release_observations.verified_copies` returned NULL in the connected
+maintenance database. None of its 23 recovery copies is cleanup-adopted; all
+owners displayed as `postgres`. No production eligibility is established.
+[Read-only follow-up and prepared fresh-install procedure](../retention/OWNER_INVENTORY_FOLLOWUP.md)
+require confirmation of the worker's exact maintenance DB/cluster and absence of
+partial schemas/cluster-wide roles before any separately authorized installation.
+The inventory does not enable registration, ownership adoption or cleanup.
+
 ## Completed integration
 
 For a `prepare` job only, after mandatory encryption, independent round-trip,

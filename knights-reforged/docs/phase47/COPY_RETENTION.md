@@ -10,8 +10,10 @@ preservation; no game migration is introduced.
 This change is **not activated**. Optional verified-copy observation is integrated
 into the worker; the controller's only change is its explicit metadata-helper
 bundle allowlist. `production-release.yml`, release gates/protocol/proofs,
-migrations, startup, backup storage and gameplay are unchanged. No production inventory, deletion, deployment, or configuration
-change was performed. The existing release process continues to retain copies.
+migrations, startup, backup storage and gameplay are unchanged. Codex performed no
+production SQL, deletion, deployment or configuration change. The owner
+subsequently supplied the read-only inventory recorded below. The existing release
+process continues to retain copies.
 
 [The integration status and setup guide](COPY_RETENTION_INTEGRATION.md) separates
 completed default-OFF observation integration, future scheduled reporting and
@@ -19,6 +21,21 @@ destructive authorization. The
 default-off tooling does not reclaim space until separately installed, adopted and
 explicitly authorized. The job-scoped executor is now implemented as an inactive
 workflow template; no schedule or unattended authorization is installed.
+
+## Latest owner-observed production findings
+
+The owner reports 27 databases, including 23 recovery copies, all displayed as
+owned by `postgres` and with zero recovery-copy connections at inspection time.
+Recovery copies total approximately 6.3 GB on a 20 GB volume (largest 495 MB,
+smallest approximately 8 MB). Emergency OIDs 106971 (235 MB) and 129180 (304 MB)
+exist and remain protected. Both retention relation lookups returned NULL in the
+connected maintenance database. No copy is currently eligible under this PR.
+
+[Current assessment and precise next read-only checks / unexecuted fresh-install
+procedure](../retention/OWNER_INVENTORY_FOLLOWUP.md). Names, sizes and zero
+connections confer no provenance or deletion permission. Filesystem free space
+and live recovery references remain unresolved; the older capacity figures below
+are historical only.
 
 ## Findings and storage accounting
 
