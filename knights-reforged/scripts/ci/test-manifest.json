@@ -631,6 +631,37 @@
       "lane": "database",
       "weight": 1,
       "exclusive": true
+    },
+    {
+      "file": "tests/phase6-combat.test.ts",
+      "lane": "database",
+      "weight": 1
+    },
+    {
+      "file": "tests/phase6-experience.test.ts",
+      "lane": "database",
+      "weight": 1
+    },
+    {
+      "file": "tests/phase6-rarity.test.ts",
+      "lane": "database",
+      "weight": 1
+    },
+    {
+      "file": "tests/phase6-preservation.test.ts",
+      "lane": "database",
+      "weight": 5,
+      "exclusive": true
+    },
+    {
+      "file": "tests/phase6-browser.test.mjs",
+      "lane": "browser",
+      "weight": 2
+    },
+    {
+      "file": "tests/phase6-models.test.ts",
+      "lane": "unit",
+      "weight": 1
     }
   ]
 }

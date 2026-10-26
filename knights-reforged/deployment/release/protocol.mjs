@@ -87,7 +87,7 @@ export function checkJobReport(report,expected){
   assert.match(report.restoredCopy.sha256??'',digest);assert.match(report.restoreClusterDigest??'',digest);
   assert.notEqual(report.sourceClusterDigest,report.restoreClusterDigest,'Restore target must be a different PostgreSQL cluster.');
  }else{
-  assert.equal(report.schemaHead,'025_level100_population.sql');assert.equal(report.active_bots,450+(report.population?.activeAddedBots??0));assert.equal(report.initialized,true);
+  assert.equal(report.schemaHead,'026_living_competition.sql');assert.equal(report.active_bots,450+(report.population?.activeAddedBots??0));assert.equal(report.initialized,true);
  }
  return report;
 }

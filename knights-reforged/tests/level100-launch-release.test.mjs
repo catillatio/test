@@ -9,5 +9,5 @@ test('release population verification accepts only the exact installed 450+450 m
 });
 test('900 evidence cannot substitute for restoration, exact candidate, signature or schema verification',()=>{
  // Incomplete/forged recovery material remains rejected even with valid cohort metadata.
- for(const mode of ['prepare','verify'])assert.throws(()=>checkJobReport({protocol:'wrong',passed:true,bots:900,population:evidence,accounts:901,schemaHead:'025_level100_population.sql'},{mode}));
+ for(const mode of ['prepare','verify'])assert.throws(()=>checkJobReport({protocol:'wrong',passed:true,bots:900,population:evidence,accounts:901,schemaHead:'026_living_competition.sql'},{mode}));
 });

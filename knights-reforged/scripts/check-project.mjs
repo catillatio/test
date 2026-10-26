@@ -173,7 +173,7 @@ const cases=[
  {name:'home-comments',data:fixture('home',{feedTab:'comments',feed:{entries:[comment],nextCursor:null}})},
  {name:'home-broadcasts',data:fixture('home',{feedTab:'broadcasts',feed:{entries:[{...comment,kind:'broadcast',data:{...comment.data,profileId:null}}],nextCursor:null}})},
  {name:'home-own-comment',data:fixture('home',{feedTab:'comments',feed:{entries:[{...comment,data:{...comment.data,authorId:playerId}}],nextCursor:null}})},
- ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'bounties-empty',data:fixture('bounties')},{name:'bounties-own',data:fixture('bounties',{bountyBoard:{eligible:true,active:[contract],history:[contract,...['claimed','expired','canceled'].map(status=>({...contract,id:randomUUID(),status}))]}})},{name:'bounties-hunt',data:fixture('bounties',{bountyBoard:{eligible:true,active:[{...contract,sponsor_id:randomUUID(),claimBlockedReason:null}],history:[]}})},{name:'profile',data:fixture('profile')},{name:'profile-skills',data:fixture('profile',{profileTab:'skills'})},{name:'profile-battles',data:fixture('profile',{profileTab:'battles',battles:[{id:battleId,result:newBattle,created_at:now}]})},
+ ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'bounties-empty',data:fixture('bounties')},{name:'bounties-own',data:fixture('bounties',{bountyBoard:{eligible:true,active:[contract],history:[contract,...['claimed','expired','canceled'].map(status=>({...contract,id:randomUUID(),status,...(status==='claimed'?{claimant_id:targetId,claimant_name:'Morgan',settled_at:now,battle_id:battleId,battle_outcome:'attacker_win',verified_death:true}:{})}))]}})},{name:'bounties-hunt',data:fixture('bounties',{bountyBoard:{eligible:true,active:[{...contract,sponsor_id:randomUUID(),claimBlockedReason:null}],history:[]}})},{name:'profile',data:fixture('profile')},{name:'profile-skills',data:fixture('profile',{profileTab:'skills'})},{name:'profile-battles',data:fixture('profile',{profileTab:'battles',battles:[{id:battleId,result:newBattle,created_at:now}]})},
  {name:'armory-armor',data:fixture('armory',{category:'armor'})},{name:'armory-spells',data:fixture('armory',{category:'spell'})},
  {name:'armory-paused',data:fixture('armory',{state:{...state,maintenance:{hourlyRate:3,reserveGold:'0',arrearsGold:'3',paused:true,resumeCost:6}}})},
  {name:'quests-missing',data:fixture('quests',{state:{...state,quests:state.quests.map(q=>({...q,missing:{'squires-blade':1},missingCost:5,ready:false,lockReason:'Equipment required'}))}})},
@@ -271,10 +271,10 @@ check('Upgraded pages bypass cached pre-expansion income clients',()=>{
     assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1-phase48-mockup2'));
     assert.ok(html.includes('/assets/kingdoms-live.css?v=phase48-mockup2'));assert.ok(html.includes('/assets/alpha.css?v=phase48-mockup2'));
     assert.ok(html.includes('/assets/remaster.css?v=phase48-mockup2'));
-    assert.ok(html.includes('/assets/realm-theme.css?v=phase48-finish1'));
+    assert.ok(html.includes('/assets/realm-theme.css?v=phase6-competition1'));
     assert.ok(html.includes('/assets/sound.js?v=phase491-quiet1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
-    if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase51c-1'));
+    if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase6-competition1'));
     if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase48-land-polish1'));
   }
 });

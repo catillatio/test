@@ -13,7 +13,7 @@ export async function readRarityAuthorization(sql:Sql){
  if(!(await sql.query("SELECT to_regclass('rare_equipment_authorizations') AS installed")).rows[0]?.installed)return null;
  const row=(await sql.query('SELECT * FROM rare_equipment_authorizations ORDER BY sequence DESC LIMIT 1')).rows[0];if(!row)return null;
  const plan=row.plan as RarityPlan;
- if(row.policy_id!==questRarities.id||row.policy_digest!==definitionDigest(questRarities)||row.probability_ppm!==questRarities.proposedPpm||!plan||definitionDigest(plan)!==row.approval_digest||plan.policyDigest!==row.policy_digest||plan.enabled!==row.enabled||!plan.rateReviewed||!plan.equipmentReviewed)throw new Error('Invalid immutable rarity authorization.');
+ if(row.policy_id!==questRarities.id||row.policy_digest!==definitionDigest(questRarities)||row.probability_ppm!==questRarities.proposedPpm||!plan||definitionDigest(plan)!==row.approval_digest||plan.kind!=='quest-rarity-authorization'||plan.policyId!==row.policy_id||plan.probabilityPpm!==row.probability_ppm||plan.policyDigest!==row.policy_digest||plan.enabled!==row.enabled||!plan.rateReviewed||!plan.equipmentReviewed)throw new Error('Invalid immutable rarity authorization.');
  return {id:String(row.id),enabled:row.enabled as boolean,effectiveAt:new Date(row.created_at).toISOString()};
 }
 export async function inspectRarity(db:Database,recovery:RecoveryReference):Promise<RarityPlan>{

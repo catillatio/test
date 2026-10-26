@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';
 import {realm,testDatabaseUrl} from './helpers.js';import {syntheticCutover} from './level100-e2b-fixture.js';import {transaction} from '../src/db.js';import {realmPolicy} from '../src/realm-policy.js';import {definitionDigest,expandedContent,questRarities} from '../src/expansion-content.js';import {inspectRarity,setRarityAuthorization,type RecoveryReference} from '../src/rarity-activation.js';import {questEquipmentDrops,rareRoll} from '../src/quest-equipment.js';import {acquireQuestEquipment} from '../src/equipment-acquisition.js';import {refreshMaintenance} from '../src/maintenance.js';import {readInventory} from '../src/inventory.js';
 const skip=!testDatabaseUrl;
-import {syntheticRecovery} from './phase6-fixtures.js';
+import {syntheticRecovery,prepareRareQuest,withQuestDraw} from './phase6-fixtures.js';
 test('Phase 6 rarity authorization is separate, default-off, exact-target, concurrent-idempotent and append-only; no old quest becomes a new draw',{skip},async()=>{const r=await realm({isolated:true});try{
  const a=await r.player('Careful Discoverer');await r.prepare(a,100000);await r.db.query('UPDATE characters SET attained_level=100 WHERE id=$1',[a.id]);await syntheticCutover(r.db,false);
  const activation=(await r.db.query('SELECT row_to_json(s)::text AS row FROM realm_expansion_state s')).rows[0]!.row;
@@ -28,3 +28,15 @@ test('Phase 6 rarity authorization is separate, default-off, exact-target, concu
 test('Phase 6 proposed draw remains exactly 500 per million; no rarity change or activation is implicit',()=>{
  let hits=0;for(let n=0;n<1000000;n++)if(rareRoll(n))hits++;assert.equal(hits,500);assert.equal(questRarities.minimumLevel,71);assert.equal(questRarities.reviewStatus,'pending');assert.ok(expandedContent.quests.filter(q=>questRarities.quests[q.id]).every(q=>q.level>=74&&q.requiresLoot&&q.army>0));
 });
+
+test('Real quest commands ignore forged draws, award saved rare discovery once and preserve upkeep through retries',{skip},async()=>{const r=await realm({isolated:true});try{
+ const actor=await r.player('Actual Quest Discoverer');await r.db.query('UPDATE characters SET attained_level=100 WHERE id=$1',[actor.id]);await syntheticCutover(r.db,false);
+ const plan={...await inspectRarity(r.db,syntheticRecovery()),enabled:true,rateReviewed:true,equipmentReviewed:true};await setRarityAuthorization(r.db,plan,definitionDigest(plan));
+ const quest=await prepareRareQuest(r,actor);const url='/api/v1/quests/'+quest.id+'/runs';
+ const miss=await withQuestDraw(999999,()=>r.ok(actor,url,{draw:0,rareRoll:0,rewards:[{id:'king-hudsons-sword',quantity:15}]}));assert.equal(miss.data.equipmentDrops,undefined);
+ await transaction(r.db,sql=>sql.query('UPDATE characters SET mana=max_mana WHERE id=$1',[actor.id]));const key=randomUUID();
+ const hit=await withQuestDraw(0,()=>r.ok(actor,url,{},key));assert.equal(hit.data.equipmentDrops[0].id,'king-hudsons-sword');assert.equal(hit.data.equipmentDrops[0].quantity,1);
+ const repeated=await withQuestDraw(999999,()=>r.ok(actor,url,{},key));assert.deepEqual(repeated.data,hit.data);assert.equal((await readInventory(r.db,actor.id)).find(i=>i.id==='king-hudsons-sword')?.quantity,1);
+ assert.ok((await readInventory(r.db,actor.id)).find(i=>i.id==='king-hudsons-sword')!.upkeep>0);
+ const receipt=await r.app.inject({url:'/game/quests?command='+key,headers:{cookie:actor.cookie}});assert.equal(receipt.statusCode,200,receipt.body);assert.match(receipt.body,/Rare equipment discovered/);
+ }finally{await r.close();}});

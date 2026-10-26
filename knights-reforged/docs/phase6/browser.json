@@ -1,0 +1,93 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "views": [
+    {
+      "width": 320,
+      "name": "champions"
+    },
+    {
+      "width": 320,
+      "name": "rival-profile"
+    },
+    {
+      "width": 320,
+      "name": "bounty-history"
+    },
+    {
+      "width": 320,
+      "name": "bounty-report"
+    },
+    {
+      "width": 320,
+      "name": "rare-discovery"
+    },
+    {
+      "width": 390,
+      "name": "champions"
+    },
+    {
+      "width": 390,
+      "name": "rival-profile"
+    },
+    {
+      "width": 390,
+      "name": "bounty-history"
+    },
+    {
+      "width": 390,
+      "name": "bounty-report"
+    },
+    {
+      "width": 390,
+      "name": "rare-discovery"
+    },
+    {
+      "width": 430,
+      "name": "champions"
+    },
+    {
+      "width": 430,
+      "name": "rival-profile"
+    },
+    {
+      "width": 430,
+      "name": "bounty-history"
+    },
+    {
+      "width": 430,
+      "name": "bounty-report"
+    },
+    {
+      "width": 430,
+      "name": "rare-discovery"
+    },
+    {
+      "width": 1024,
+      "name": "champions"
+    },
+    {
+      "width": 1024,
+      "name": "rival-profile"
+    },
+    {
+      "width": 1024,
+      "name": "bounty-history"
+    },
+    {
+      "width": 1024,
+      "name": "bounty-report"
+    },
+    {
+      "width": 1024,
+      "name": "rare-discovery"
+    }
+  ],
+  "errors": [],
+  "actualCrossLevelHTMLHunts": true,
+  "exactContractPolling": true,
+  "actualSavedRareQuest": true,
+  "visibleAcknowledgementsPersistent": true,
+  "noDuplicateFinishingBadge": true,
+  "keyboardReducedMotionAnd44pxNavigation": true
+}

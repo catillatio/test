@@ -376,7 +376,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const result=await acknowledgeNotifications(db,id,asBody(request).events);
     if(wantsJson(request))return result;
     const destination=asBody(request).returnTo;
-    return reply.redirect(typeof destination==='string'&&(destination==='/game/profile?tab=comments'||destination==='/game/army?tab=dashboard'||/^\/game\/battles\/[a-f0-9-]{36}$/.test(destination))?destination:'/game/home',303);
+    return reply.redirect(typeof destination==='string'&&(destination==='/game/bounties'||destination==='/game/profile?tab=comments'||destination==='/game/army?tab=dashboard'||/^\/game\/battles\/[a-f0-9-]{36}$/.test(destination))?destination:'/game/home',303);
   });
   app.get('/api/v1/me', { preHandler: requireAccount }, async request => {
     const state=await getState(db,request.realmSession!.account_id!,config);
