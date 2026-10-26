@@ -12,7 +12,7 @@ import {syncExperience} from './experience.js';
 import {grantExperience,awardMilestones} from './progression.js';
 import {recordVictory} from './pvp-economy.js';
 import {ledger,creditGold} from './economy.js';
-import {claimBounty} from './bounties.js';
+import {claimBounty,authorizeBountyHunt} from './bounties.js';
 import {strategy} from './strategy-rules.js';
 import {community} from './community-rules.js';
 import {refinements} from './refinement-rules.js';
@@ -21,10 +21,13 @@ export interface BattleRuntime {developmentBotsEnabled?:boolean;developmentBotBo
 // One authoritative normal-battle path. Callers own the transaction, escrow
 // ordering and both character locks, and have materialized the saved resources.
 // The autonomous wrapper separately verifies both registered bot identities.
-export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:CharacterRow;state:CharacterState;now:Date;key:string;targetIsBot:boolean;runtime:BattleRuntime;result:CommandResult;autonomousPolicy?:string}){
- const {actor,target,state,now,key,targetIsBot,runtime,result,autonomousPolicy}=context,actorId=actor.id;
+export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:CharacterRow;state:CharacterState;now:Date;key:string;targetIsBot:boolean;runtime:BattleRuntime;result:CommandResult;autonomousPolicy?:string;bountyId?:string}){
+ const {actor,target,state,now,key,targetIsBot,runtime,result,autonomousPolicy,bountyId}=context,actorId=actor.id;
  if(autonomousPolicy&&(!actor.development_bot||!target.development_bot||!targetIsBot))throw new Error('Invalid autonomous combat identities.');
-      if (!areRivals(actor.attained_level,target.attained_level)) throw new GameError('RIVAL_LEVEL_RANGE','Choose an opponent nearer your level.',409);
+      if(bountyId){
+        if(autonomousPolicy)throw new Error('Autonomous bounty hunting is not authorized.');
+        await authorizeBountyHunt(sql,actorId,target.id,bountyId,now,!!runtime.developmentBotsEnabled&&!!runtime.developmentBotBountiesEnabled);
+      }else if (!areRivals(actor.attained_level,target.attained_level)) throw new GameError('RIVAL_LEVEL_RANGE','Choose an opponent nearer your level.',409);
       if(actor.health<alpha.combat.minimumHealth)throw new GameError('NEEDS_RECOVERY','You need at least '+alpha.combat.minimumHealth+' Health to attack.',409);
       if(target.health<community.combat.defenderMinimumHealth)throw new GameError('OPPONENT_DEFEATED','This opponent has been defeated (0 Health). They must recover before another attack.',409);
       if (actor.spirit<alpha.combat.spiritCost) throw new GameError('INSUFFICIENT_SPIRIT','Wait for Stamina to recover before attacking.',409);
@@ -71,7 +74,7 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       }
       const after=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[actorId])).rows[0]!;
       result.battleId=randomUUID();
-      const battle={...combat,...(autonomousPolicy?{botDuelPolicyId:autonomousPolicy}:{}),id:result.battleId,rulesetId:alpha.id,attackerId:actorId,defenderId:target.id,attackerName:actor.name,defenderName:target.name,
+      const battle={...combat,...(bountyId?{bountyHuntId:bountyId}:{}),...(autonomousPolicy?{botDuelPolicyId:autonomousPolicy}:{}),id:result.battleId,rulesetId:alpha.id,attackerId:actorId,defenderId:target.id,attackerName:actor.name,defenderName:target.name,
         winnerId,winnerName:winnerId===actorId?actor.name:target.name,attackerHealthBefore:actor.health,defenderHealthBefore:target.health,
         attackerHealthAfterDamage:combat.attackerHealthAfter,attackerHealthAfter:after.health,attackerMaxHealth:actor.max_health,defenderMaxHealth:target.max_health,
         defenderXp:defenderProgression?.xpAwarded??0,defenderXpDetails,defenderFullXp:defenderXpDetails?!defenderXpDetails.reduced:false,defenderLevelGained:defenderProgression?.gained??0,defenderLevelAfter:defenderProgression?.level??target.attained_level,attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,

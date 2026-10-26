@@ -17,7 +17,8 @@ if(target){
     if(pending||document.hidden)return;pending=true;
     const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),10000);
     try{
-      const response=await fetch('/api/v1/players/'+encodeURIComponent(target.dataset.combatTarget)+'/combat',{credentials:'same-origin',cache:'no-store',signal:controller.signal});
+      const bounty=target.querySelector('input[name="bountyId"]')?.value;
+      const response=await fetch('/api/v1/players/'+encodeURIComponent(target.dataset.combatTarget)+'/combat'+(bounty?'?bountyId='+encodeURIComponent(bounty):''),{credentials:'same-origin',cache:'no-store',signal:controller.signal});
       if(!response.ok)return;
       const payload=await response.json(),combat=payload.combatTarget;
       const button=target.querySelector('button[data-attack-ready]');
