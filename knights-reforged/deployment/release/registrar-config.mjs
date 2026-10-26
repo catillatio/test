@@ -14,7 +14,7 @@ const keys=(value,expected)=>assert.deepEqual(Object.keys(value??{}).sort(),expe
 // Only these fixed categories may leave the process. Never log exception
 // messages/stacks, provider messages, response bodies or secret-bearing values.
 const categories=new Set(['WORKFLOW_REQUEST','TARGET_CONFIG','API_TRANSPORT','API_AUTHENTICATION','API_PERMISSION','API_HTTP','API_RESPONSE','API_QUERY_REJECTED','API_GRAPHQL_REJECTED','API_READ',
- 'TARGET_IDENTITY','WORKER_IDENTITY','WORKER_STOPPED_STATE','WORKER_HISTORY','PATCH_ID','PATCH_ENVIRONMENT','PATCH_STATUS','PATCH_APPLIED_AT','PATCH_LAST_APPLIED_ERROR','PATCH_CREATED_AT','PATCH_UPDATED_AT','PATCH_ENCRYPTED_SHAPE','PATCH_CLEAR_SHAPE','REGISTRATION_NOT_DISABLED','REGISTRAR_URL','REGISTRAR_SCOPE',
+ 'TARGET_IDENTITY','WORKER_IDENTITY','WORKER_STOPPED_STATE','WORKER_HISTORY','PATCH_ID','PATCH_ENVIRONMENT','PATCH_STATUS','PATCH_APPLIED_AT','PATCH_LAST_APPLIED_ERROR','PATCH_CREATED_AT','PATCH_UPDATED_AT','PATCH_ENCRYPTED_SHAPE','PATCH_CLEAR_SHAPE','PATCH_ENCRYPTION_SEMANTICS','REGISTRATION_NOT_DISABLED','REGISTRAR_URL','REGISTRAR_SCOPE',
  'PATCH_BINDING','PRECOMMIT_WORKER_CHANGED','COMMIT_UNCONFIRMED','POST_COMMIT_WORKER_CHANGED','CONFIG_WORKFLOW_STATE','PATCH_NOT_CLEARED','POST_COMMIT_TIMEOUT','SUMMARY_WRITE','UNCLASSIFIED']);
 const failures=new WeakMap();
 const encryptedShapes=new WeakMap();
@@ -133,18 +133,39 @@ export function encryptedShape(patch,target){
   }))
  };
 }
-function definitions(patch,target,encrypted){
+function definitions(patch,target){
  keys(patch,['services']);keys(patch.services,[target.workerId]);keys(patch.services[target.workerId],['variables']);
  const vars=patch.services[target.workerId].variables;keys(vars,registrationKeys);
  for(const item of Object.values(vars)){
   assert.ok(item&&typeof item==='object'&&!Array.isArray(item));
-  const valueKey=encrypted?'encryptedValue':'value';
-  assert.ok(Object.keys(item).every(k=>[valueKey,'isSealed','isOptional'].includes(k)));
-  assert.ok(typeof item[valueKey]==='string'&&item[valueKey].length>0&&item[valueKey].length<=30000);
+  // EnvironmentConfig uses `value` in BOTH views. The literal GraphQL
+  // decryptVariables flag determines the contents, not a different JSON key.
+  assert.ok(Object.keys(item).every(k=>['value','isSealed','isOptional'].includes(k)));
+  assert.ok(typeof item.value==='string'&&item.value.length>0&&item.value.length<=30000);
   if(item.isSealed!==undefined)assert.equal(typeof item.isSealed,'boolean');
   if(item.isOptional!==undefined)assert.equal(item.isOptional,false);
  }
  return vars;
+}
+function checkEncryption(encrypted,clear){
+ // Railway's documented envelope: https://blog.railway.com/p/envelope-encryption
+ // Require this envelope; no opaque-string or plaintext fallback for approval.
+ // This verifies the representation, not a cryptographic decryption: only
+ // Railway holds the DEK. A changed/legacy envelope requires separate review.
+ const plaintext=Object.values(clear).map(item=>item.value);
+ const ciphertext=[];
+ for(const name of registrationKeys){
+  const item=encrypted[name],envelope=JSON.parse(item.value);
+  keys(envelope,['encryptedDek','cipherText']);
+  for(const key of ['encryptedDek','cipherText']){
+   assert.ok(typeof envelope[key]==='string'&&envelope[key].length>0);
+   assert.ok(!/^(?:\*+|<redacted>|<sealed>|redacted|masked)$/i.test(envelope[key]));
+   assert.ok(!plaintext.includes(envelope[key]));
+  }
+  assert.ok(!plaintext.includes(item.value));
+  ciphertext.push(item.value);
+ }
+ assert.equal(new Set(ciphertext).size,registrationKeys.length);
 }
 export function checkPatch(data,target){
  const p=data.staged;
@@ -158,9 +179,11 @@ export function checkPatch(data,target){
  // environment.unmergedChangesCount is nullable and counts forked-environment
  // differences, NOT staged variable edits. The exact patch itself is authoritative:
  // definitions requires one service, only variables, and precisely our three keys.
- try{checked('PATCH_ENCRYPTED_SHAPE',()=>definitions(p.patch,target,true));}
+ let encrypted;
+ try{encrypted=checked('PATCH_ENCRYPTED_SHAPE',()=>definitions(p.patch,target));}
  catch(error){encryptedShapes.set(error,encryptedShape(p.patch,target));throw error;}
- const clear=checked('PATCH_CLEAR_SHAPE',()=>definitions(p.clear,target,false));
+ const clear=checked('PATCH_CLEAR_SHAPE',()=>definitions(p.clear,target));
+ checked('PATCH_ENCRYPTION_SEMANTICS',()=>checkEncryption(encrypted,clear));
  // This action can install disabled configuration only. Activation is separate.
  checked('REGISTRATION_NOT_DISABLED',()=>assert.equal(clear.KINGDOM_COPY_REGISTRATION_ENABLED.value,'0'));
  checked('REGISTRAR_URL',()=>{
@@ -214,7 +237,12 @@ export async function runConfig(env,{api,wait=delay,now=Date.now}={}){
  checked('PATCH_BINDING',()=>{assert.equal(plan.patchId,env.REGISTRAR_CONFIG_PATCH_ID);assert.equal(plan.patchDigest,env.REGISTRAR_CONFIG_PATCH_DIGEST);});
  // Re-read immediately before the single write. Shared workflow concurrency
  // serializes releases; owner must freeze all other Railway editors separately.
- const second=await during('API_READ',()=>api(inspectQuery,vars));checked('PRECOMMIT_WORKER_CHANGED',()=>assert.equal(checkWorker(second,target),workerDigest));checked('PATCH_BINDING',()=>assert.deepEqual(checkPatch(second,target),plan));
+ const second=await during('API_READ',()=>api(inspectQuery,vars));checked('PRECOMMIT_WORKER_CHANGED',()=>assert.equal(checkWorker(second,target),workerDigest));
+ checked('PATCH_BINDING',()=>{
+  assert.deepEqual(checkPatch(second,target),plan);
+  // Compare the private decrypted views only in memory; never hash/export them.
+  assert.equal(canonical(second.staged.clear),canonical(first.staged.clear));
+ });
  let workflowId;
  try{
   const result=await api(commitMutation,{environmentId:target.environmentId,commitMessage:'Registrar configuration only; run '+env.GITHUB_RUN_ID+'; patch '+plan.patchId});

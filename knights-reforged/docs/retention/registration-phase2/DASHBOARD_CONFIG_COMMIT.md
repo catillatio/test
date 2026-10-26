@@ -18,7 +18,8 @@ existing encrypted recovery chain. Do not reinstall or survey recovery databases
    for the reviewed exact source commit. This run reads metadata only. Copy the
    **Patch ID** and **Patch digest** from its job summary; these contain no values,
    URLs, cluster digests or credentials.
-3. Run that same workflow again on the same reviewed production commit, choosing
+3. With separate owner authorization to commit the configuration, run that same
+   workflow again on the same reviewed production commit, choosing
    **registrar-config-commit**, promotion OFF, and paste those exact two pins.
    Check **registrar_exclusive_window** only if the change freeze still holds.
    Approve the production gate. This action commits the exact disabled registrar
@@ -40,6 +41,60 @@ maintenance database/scope, or an enabled flag. Only stored-ciphertext patch
 metadata is hashed for the public review pin. No database connection is made.
 
 ## Failures, retries and concurrency limit
+
+### Inspection #55: `value` contains the non-decrypted representation
+
+[#55 / run 40415542879](https://github.com/catillatio/test/actions/runs/40415542879)
+at `15cd413951a71f20f23e606d0f3b9367ba7a0761` confirms the precise failure:
+the patch contains only `services`, the worker object only `variables`, and each
+of the three approved entries contains exactly `value: string`. The helper's
+`encryptedValue` requirement was incorrect. The run's query explicitly requested
+`patch(decryptVariables:false)` separately from `clear:patch(decryptVariables:true)`.
+No review pins were emitted and no mutation was reached.
+
+Encryption semantics and evidence:
+
+- The pinned [Railway CLI Variable definition](https://github.com/railwayapp/cli/blob/5ba0b00c62d7fd5cdade53f0c3869ed4ba1de2e1/src/controllers/config/environment.rs)
+  uses `value`; the [GraphQL schema](https://github.com/railwayapp/cli/blob/5ba0b00c62d7fd5cdade53f0c3869ed4ba1de2e1/src/gql/schema.json)
+  exposes a `decryptVariables` argument on the opaque `EnvironmentConfig` patch.
+- Railway's [published encryption design](https://blog.railway.com/p/envelope-encryption)
+  describes stored encrypted values as JSON strings with `encryptedDek` and
+  `cipherText`, distinct from the database-model field named `encryptedValue`.
+  That internal field name is not the serialized config key.
+- Railway's [public support guidance](https://station.railway.com/questions/staged-environment-patch-returned-by-api-aea33512)
+  describes the non-decrypted patch as retaining encrypted values. The indexed
+  answer is an automated Railway reply; direct access currently redirects to
+  Railway status. This guidance is not independent cryptographic proof. The
+  [CLI's live environment-config code](https://github.com/railwayapp/cli/blob/5ba0b00c62d7fd5cdade53f0c3869ed4ba1de2e1/src/commands/database/mod.rs)
+  also warns that non-decrypted **live config** may be masked. Do not assume any
+  arbitrary string is ciphertext merely because decryption was disabled.
+
+The corrected helper requires `value` in each view and preserves both literal
+GraphQL flags. Before hashing, it requires the non-decrypted strings to decode as
+exactly the documented envelope, with nonempty string members, no plaintext
+substitution and distinct envelopes for these three different values. Masked,
+plaintext, unknown or legacy representations fail with the fixed category
+`PATCH_ENCRYPTION_SEMANTICS`; there is no plaintext or metadata-only fallback.
+The decrypted view still undergoes the original URL, scope and disabled-flag
+checks. Only the validated encrypted patch and exact revision enter the digest.
+The two decrypted pre-commit reads are compared privately in memory as well.
+Receipt verification still binds the original encrypted bytes; no normalization,
+re-encryption tolerance, identity relaxation or retry is added.
+
+**Limit:** #55 established keys and types only; no production envelope contents
+were disclosed or independently inspected. This implementation verifies the
+documented representation through the authenticated API, not the cryptography
+or DEK (which remains Railway's responsibility). If Railway returns a different
+representation, the action must remain blocked pending authoritative review.
+Do not fix that failure by permitting arbitrary strings or hashing clear values.
+
+**Next owner action after separate reviewed merge and exact-head checks:** run
+only step 2, `registrar-config-inspect`, promotion OFF and blank patch inputs.
+Require `REGISTRAR_CONFIG_INSPECTION: PASS` before considering any separate commit
+authorization. If it fails, return only the fixed failure category and any
+existing safe shape line. Do not commit, deploy, enable registration, change
+credentials or start recovery as part of this correction. Existing catalog and
+recovery validation evidence remains applicable.
 
 ### Inspection #54: read-only encrypted-shape diagnostic
 
@@ -68,7 +123,7 @@ report. The existing acceptance rules, failure category and nonzero exit status
 are unchanged. Commit mode never prints this shape diagnostic. A failing
 inspection emits no review pins and authorizes no mutation or retry.
 
-**Next owner action:** after reviewing/merging this diagnostic and its exact-head
+**Historical #54 diagnostic procedure:** after reviewing/merging that diagnostic and its exact-head
 checks, perform only step 2 above: a new `registrar-config-inspect`, promotion OFF,
 blank patch inputs, with the existing production approval. Return only the fixed
 failure category and `REGISTRAR_CONFIG_SHAPE` line. Do not proceed to the commit
