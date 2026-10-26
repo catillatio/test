@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import {hash} from '../deployment/release/retention/protocol.mjs';
 import {randomUUID} from 'node:crypto';
 import {fixture,scope} from './fixtures/release-retention.mjs';
 import {observationPayload,registrationConfig,captureCopyIdentity,registrationFields} from '../deployment/release/retention/observation.mjs';
@@ -45,4 +46,14 @@ test('worker bundles explicitly include metadata helpers without including destr
   for(const file of ['observation.mjs','observations.sql','register-verified.mjs'])assert.ok(text.includes(file));
   assert.doesNotMatch(text,/retention\/(?:cli|permit|register)\.mjs|retention\/bootstrap\.sql/);
  }
+});
+
+test('900-bot observations require the exact installed population manifest and restored population evidence',()=>{
+ const rules=JSON.parse(readFileSync(new URL('../rulesets/level100-rivals-1/rules.json',import.meta.url),'utf8'));
+ const m=structuredClone(manifest),population={manifestId:'level100-rivals-1',manifestDigest:hash(rules),legacyDigest:'f'.repeat(64),originalBots:450,addedBots:450,totalBots:900,activeAddedBots:450,autonomyMode:'enabled'};
+ Object.assign(m.report,{accounts:902,bots:900,population});Object.assign(m.report.restoredCopy,{accounts:902,bots:900,population});
+ const payload=observationPayload(m);assert.equal(payload.bots,900);assert.equal(payload.populationSha256,hash(population));
+ m.report.population={...population,secret:'must-not-be-retained'};m.report.restoredCopy.population=m.report.population;
+ assert.deepEqual(observationPayload(m),payload);
+ for(const change of [x=>x.report.population.manifestDigest='0'.repeat(64),x=>x.report.restoredCopy.population=null,x=>x.report.bots=901]){const bad=structuredClone(m);change(bad);assert.throws(()=>observationPayload(bad));}
 });

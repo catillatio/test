@@ -32,15 +32,15 @@ BEGIN
  IF jsonb_typeof(p)<>'object' OR p IS NULL THEN RAISE EXCEPTION 'Invalid copy observation'; END IF;
  -- No arbitrary JSON, URLs or provider payloads are retained, including through
  -- direct function calls. Every accepted field has a constrained scalar shape.
- IF (SELECT count(*) FROM jsonb_object_keys(p))<>30 THEN RAISE EXCEPTION 'Invalid observation fields'; END IF;
+ IF (SELECT count(*) FROM jsonb_object_keys(p))<>31 THEN RAISE EXCEPTION 'Invalid observation fields'; END IF;
  FOR k IN SELECT jsonb_object_keys(p) LOOP
   IF k NOT IN ('name','oid','owner','maintenanceDatabase','clusterDigest','sourceClusterDigest','jobId','workerDeploymentId',
    'projectId','environmentId','gameServiceId','workerServiceId','sha','candidateDigest','sourceHost','sourceDatabase','restoreHost',
    'createdAt','expiresAt','backupSha256','encryptedSha256','preservationSha256','reportSha256','evidenceSha256',
-   'accounts','bots','existingTablesVerified','passed','migrationReplay','liveDatabaseConnected') OR p->k='null'::jsonb
+   'populationSha256','accounts','bots','existingTablesVerified','passed','migrationReplay','liveDatabaseConnected') OR p->k='null'::jsonb
   THEN RAISE EXCEPTION 'Invalid observation fields'; END IF;
  END LOOP;
- FOR k IN SELECT unnest(ARRAY['clusterDigest','sourceClusterDigest','candidateDigest','backupSha256','encryptedSha256','preservationSha256','reportSha256','evidenceSha256']) LOOP
+ FOR k IN SELECT unnest(ARRAY['clusterDigest','sourceClusterDigest','candidateDigest','backupSha256','encryptedSha256','preservationSha256','reportSha256','evidenceSha256','populationSha256']) LOOP
   IF (p->>k) !~ '^[a-f0-9]{64}$' THEN RAISE EXCEPTION 'Invalid observation digest'; END IF;
  END LOOP;
  FOR k IN SELECT unnest(ARRAY['projectId','environmentId','gameServiceId','workerServiceId','workerDeploymentId']) LOOP
@@ -55,7 +55,7 @@ BEGIN
  OR p->>'sourceHost'=p->>'restoreHost' OR p->>'sourceClusterDigest'=p->>'clusterDigest'
  OR p->>'maintenanceDatabase'<>current_database()
  OR p->'passed'<>'true'::jsonb OR p->'liveDatabaseConnected'<>'false'::jsonb OR p->>'migrationReplay'<>'unchanged'
- OR (p->>'bots')::int<>450 OR (p->>'accounts')::int<451 OR (p->>'existingTablesVerified')::int<60
+ OR (p->>'bots')::int NOT IN (450,900) OR (p->>'accounts')::int<(p->>'bots')::int+1 OR (p->>'existingTablesVerified')::int<60
  OR p->>'createdAt' !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$'
  OR p->>'expiresAt' !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$'
  OR (p->>'expiresAt')::timestamptz<=(p->>'createdAt')::timestamptz
@@ -85,6 +85,8 @@ REVOKE ALL ON ALL TABLES IN SCHEMA release_observations FROM PUBLIC;
 REVOKE ALL ON ALL FUNCTIONS IN SCHEMA release_observations FROM PUBLIC;
 GRANT USAGE ON SCHEMA release_observations TO kc_copy_registrar;
 GRANT EXECUTE ON FUNCTION release_observations.record_verified_copy(jsonb) TO kc_copy_registrar;
+GRANT USAGE ON SCHEMA release_observations TO kc_retention_runtime,kc_retention_authorizer;
+GRANT SELECT ON release_observations.verified_copies TO kc_retention_runtime,kc_retention_authorizer;
 RESET ROLE;
 DO $$ BEGIN EXECUTE format('GRANT CONNECT ON DATABASE %I TO kc_copy_registrar',current_database()); END $$;
 COMMIT;

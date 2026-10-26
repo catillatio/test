@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {checkScope} from './protocol.mjs';
+import {checkScope,checkCoordinator} from './protocol.mjs';
 import {httpsOrigin,sha} from '../protocol.mjs';
 
 const repository='catillatio/test';
@@ -26,9 +26,31 @@ export function liveGuards(scope,{githubToken,fetcher=globalThis.fetch}={}){
   assert.ok(typeof githubToken==='string'&&githubToken&&!/[^\x21-\x7e]/.test(githubToken));
   return json('https://api.github.com/repos/'+repository+path,{authorization:'Bearer '+githubToken,accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'});
  }
- return {
+ const guards={
   health,
+  async coordinated(state,env){
+   const c=checkCoordinator(state.coordinator);
+   if(env){
+    assert.equal(env.GITHUB_REPOSITORY,c.repository);assert.equal(env.GITHUB_RUN_ID,c.runId);
+    assert.equal(env.GITHUB_RUN_ATTEMPT,String(c.runAttempt));assert.equal(env.GITHUB_SHA,c.headSha);
+    assert.equal(env.GITHUB_JOB,c.job);assert.equal(env.GITHUB_REF,'refs/heads/release/production');
+    assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');
+   }
+   const run=await github('/actions/runs/'+c.runId+'/attempts/'+c.runAttempt);
+   assert.equal(String(run.id),c.runId);assert.equal(run.run_attempt,c.runAttempt);
+   assert.equal(run.path,c.workflow);assert.equal(run.head_sha,c.headSha);assert.equal(run.head_branch,'release/production');
+   assert.equal(run.head_repository?.full_name,repository);assert.equal(run.event,'workflow_dispatch');assert.equal(run.status,'in_progress');
+   const result=await github('/actions/runs/'+c.runId+'/attempts/'+c.runAttempt+'/jobs?per_page=100');
+   // No incomplete pagination or duplicate job names. Owner gate precedes the
+   // job holding the SAME repository concurrency group as protected release.
+   assert.ok(Array.isArray(result.jobs)&&result.total_count===result.jobs.length&&result.total_count<=100);
+   const gate=result.jobs.filter(j=>j.name==='owner-approval'),job=result.jobs.filter(j=>j.name===c.job);
+   assert.equal(gate.length,1);assert.equal(job.length,1);
+   assert.equal(gate[0].status,'completed');assert.equal(gate[0].conclusion,'success');assert.equal(gate[0].run_attempt,c.runAttempt);
+   assert.equal(job[0].status,'in_progress');assert.equal(job[0].run_attempt,c.runAttempt);
+  },
   async beforeDelete(record,state){
+   await guards.coordinated(state);
    assert.equal(await health(),state.activeSha);
    const statuses=['queued','in_progress','waiting','pending','requested'];
    const checks=await Promise.all(statuses.map(status=>github('/actions/workflows/production-release.yml/runs?status='+status+'&per_page=1')));
@@ -40,4 +62,5 @@ export function liveGuards(scope,{githubToken,fetcher=globalThis.fetch}={}){
    assert.equal(run.head_repository?.full_name,repository);assert.equal(run.head_sha,record.evidence.request.sha);
   }
  };
+ return guards;
 }

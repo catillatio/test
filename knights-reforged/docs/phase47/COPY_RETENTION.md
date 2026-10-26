@@ -1,5 +1,12 @@
 # Independent verification-copy retention (review only)
 
+**Current revision:** [implementation, live-inventory limitations, job-scoped
+coordination and installation order](../retention/READINESS.md). No production
+retirement is enabled. Emergency OIDs 106971 and 129180 are protected without an
+override. The current production baseline is schema 026 with exact 450/900 bot
+preservation; no game migration is introduced.
+
+
 This change is **not activated**. Optional verified-copy observation is integrated
 into the worker; the controller's only change is its explicit metadata-helper
 bundle allowlist. `production-release.yml`, release gates/protocol/proofs,
@@ -9,7 +16,9 @@ change was performed. The existing release process continues to retain copies.
 [The integration status and setup guide](COPY_RETENTION_INTEGRATION.md) separates
 completed default-OFF observation integration, future scheduled reporting and
 destructive authorization. The
-current default-off tooling alone does not achieve automatic storage control.
+default-off tooling does not reclaim space until separately installed, adopted and
+explicitly authorized. The job-scoped executor is now implemented as an inactive
+workflow template; no schedule or unattended authorization is installed.
 
 ## Findings and storage accounting
 
@@ -93,19 +102,15 @@ scheduled from the release path. All registration/cleanup enablement is separate
   before each DROP. PostgreSQL itself rejects a connection race: no FORCE,
   connection termination, disabling connections or filesystem deletion is used.
 
-**Coordination is a required external precondition**, not something a Boolean can
-prove: the owner must reserve the existing `kingdom-come-production` GitHub
-concurrency group (or establish an exclusive, trusted maintenance window covering
-all release/restore entry points) and verify that there is no running, waiting,
-queued or approval-pending protected release, or unrelated manual restore. Keep it
-reserved until cleanup exits. `releaseQuiescent` and the signed
-`releaseConcurrencyHeld` are explicit owner attestations of that review. The
-GitHub read guards reject observed active/pending protected runs. The cluster lock
-covers cooperating verification workers; those observations do not reserve a
-future scheduling window or coordinate an idle connection-free manual restore.
-**Unattended scheduling is not authorized or ready until this coordination and
-fresh reference collection have an authenticated implementation.** This deliberately
-avoids pretending the existing API supplies a complete lifecycle registry.
+**Coordination is now a required authenticated job boundary.** The inactive
+retirement template uses the existing `kingdom-come-production` group for its
+execution job, after the protected owner gate. Signed state binds the exact
+retirement workflow/run/attempt/job/head SHA; fixed GitHub reads and local job
+context must agree. The PostgreSQL session lock remains mandatory in the worker's
+same maintenance database. Manual recovery must use that lock too. A Boolean or
+idle connection listing cannot substitute. See the [current guide](../retention/READINESS.md)
+for the bounded private handoff, interruption handling and uninstalled runner/
+workflow prerequisites. Unattended scheduling/authorization is not implemented.
 
 ## Roles and one-time setup — separately authorized, never a release migration
 
@@ -210,7 +215,10 @@ independently checked resources at activation. Do not copy synthetic fixture IDs
 
 `state.json` contains `protocol`, identical `scope`, fresh ISO `observedAt`,
 `releaseQuiescent: true`, `activeSha` (current healthy game commit), `currentRecoveryCopy`, `pinnedCopies`, `pendingCopies`,
-and `closedJobIds`. All arrays must be explicit, unique and exhaustive for their
+and `closedJobIds`, plus `coordinator` with exactly `repository`, `workflow`,
+`runId`, numeric `runAttempt`, `job` and `headSha`. The repository is catillatio/test,
+workflow `.github/workflows/recovery-copy-retention.yml`, job `retire`; bind the
+actual owner-approved execution. All arrays must be explicit, unique and exhaustive for their
 purpose. Only terminal jobs independently checked through GitHub/Railway belong
 in `closedJobIds`. Do not infer closure from elapsed time or a missing connection.
 Keep failed-release copies pinned unless their successful restore evidence and
@@ -352,7 +360,10 @@ permit reconciles only an absent database with a matching exact-plan/OID intent.
 reports zero newly measured reclaimed bytes. A completed terminal event is never
 replaced by a second outcome. A reappeared/different-OID database
 fails closed. If authorization expires, stop and inspect the journal before
-requesting a fresh reviewed plan; never extend or bypass a signature.
+requesting a fresh reviewed plan; never extend or bypass a signature. The new
+non-destructive `reconcile` command can verify original expired permits and append
+only zero-byte absence observations under a fresh owner-approved coordinated job.
+It never resumes an expired deletion.
 
 `measuredDatabaseBytesRemoved` is the measured pre-DROP database size for confirmed
 deletions in this invocation, not a promise of an equal instant reduction in
@@ -372,7 +383,7 @@ metadata, adversarial PostgreSQL grants/guard replacement, wrong cluster,
 exclusive versus shared locks, temporary-catalog spoofing, unregistered/forged
 permits, ordered terminal outcomes, server-measured bytes, duplicate-credit
 rejection, isolated authorizer grants, transaction rollback, late-connection DROP
-refusal, lost permissions, interrupted DROP/outcome retry, and source preservation (450 synthetic bots plus two humans,
+refusal, lost permissions, interrupted DROP/outcome retry, and source preservation (900 synthetic bots plus two humans,
 saved wallets, Vault, sessions, holdings and history). Existing comprehensive CI
 also runs the real populated-game migration/replay, encrypted backup, independent
 restore, release/controller, browser and container regressions.
@@ -384,16 +395,11 @@ retention runs, and reclaimed database bytes. Alert before 70/85/95% volume usag
 ensure the next source restore plus WAL and temporary space can fit. Owner review
 is needed if unverified copies accumulate; never auto-delete uncertainty.
 
-Safe scheduling progression: manual explicit approval first; then a separate
-protected, default-disabled workflow sharing `kingdom-come-production`, collecting
-fresh authenticated active/pending/live-reference evidence and executing through
-an approved private channel with restricted credentials. Keep it independent of
-release success and never use `always()` cleanup in the release job. No schedule,
-new execution service, workflow dispatch or automatic cleanup is included here.
-Automatic observation is implemented but default-OFF; it does not populate the
-cleanup-adopted registry. Shared-concurrency execution, scheduled reporting and
-unattended deletion still require separate review. Mandatory release behavior
-remains unchanged.
+The inactive execution template now supplies reviewed shared-concurrency
+coordination; it is deliberately outside `.github/workflows`. No schedule, new
+execution service or workflow dispatch is installed/performed. Automatic
+observation remains default-OFF and does not adopt ownership. See the current
+readiness guide for exact prerequisites and residual owner privileges.
 
 The catalog format changed during draft review. If a previous review version was
 installed in any test environment, use a fresh disposable fixture or prepare a

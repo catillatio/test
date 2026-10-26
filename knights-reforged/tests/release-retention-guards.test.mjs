@@ -19,6 +19,10 @@ function mock(mode){
   if(url.includes('/workflows/production-release.yml/runs?')){
    const status=new URL(url).searchParams.get('status');return Response.json({total_count:mode===status?1:0,workflow_runs:mode===status?[{id:1}]:[]});
   }
+  if(url.includes('/actions/runs/999/attempts/1')){
+   if(url.endsWith('/jobs?per_page=100'))return Response.json({total_count:2,jobs:[{name:'owner-approval',status:'completed',conclusion:mode==='gate-failed'?'failure':'success',run_attempt:1},{name:'retire',status:mode==='cancelled-job'?'completed':'in_progress',run_attempt:1}]});
+   return Response.json({...run,id:999,path:'.github/workflows/recovery-copy-retention.yml',head_sha:state.coordinator.headSha,status:mode==='cancelled-coordinator'?'completed':'in_progress'});
+  }
   assert.equal(url,'https://api.github.com/repos/catillatio/test/actions/runs/1/attempts/1');
   if(mode==='malformed')return new Response('{');
   const data=structuredClone(run);
@@ -29,15 +33,23 @@ function mock(mode){
  return {calls,guards:liveGuards(scope,{githubToken:'fixture-only',fetcher})};
 }
 test('live coordination uses only fixed read endpoints, exact completed run/attempt/SHA and current health',async()=>{
- const {calls,guards}=mock('success');await guards.beforeDelete(record,state);assert.equal(calls.length,7);
+ const {calls,guards}=mock('success');await guards.beforeDelete(record,state);assert.equal(calls.length,9);
  assert.equal(calls.filter(call=>new URL(call.url).origin===scope.origin).length,1);
  assert.ok(calls.every(call=>call.options.method===undefined));
 });
-for(const mode of ['queued','in_progress','waiting','pending','requested','unhealthy','changed-commit','wrong-attempt','wrong-run','wrong-sha','not-completed','wrong-repository','wrong-workflow','wrong-branch','malformed','http','transport'])test('coordination fails closed: '+mode,async()=>{
+for(const mode of ['queued','in_progress','waiting','pending','requested','unhealthy','changed-commit','wrong-attempt','wrong-run','wrong-sha','not-completed','wrong-repository','wrong-workflow','wrong-branch','malformed','http','transport','gate-failed','cancelled-job','cancelled-coordinator'])test('coordination fails closed: '+mode,async()=>{
  const {guards}=mock(mode);await assert.rejects(guards.beforeDelete(record,state));
 });
 test('no credential fallback or arbitrary endpoint; invalid input prevents reads',async()=>{
  assert.throws(()=>liveGuards({...scope,origin:'http://unsafe.test'}));
  let read=false;const guards=liveGuards(scope,{fetcher:async()=>{read=true;return Response.json({status:'ready',release:'phase4.7',commit:state.activeSha});}});
- await assert.rejects(guards.beforeDelete(record,state));assert.equal(read,true); // Public health may be read; no authenticated request is made without a token.
+ await assert.rejects(guards.beforeDelete(record,state));assert.equal(read,false); // No authenticated coordination request without a token.
+});
+
+test('exact signed job and local runner context cannot be replaced by a live unrelated job',async()=>{
+ const {guards}=mock('success');
+ const env={GITHUB_REPOSITORY:'catillatio/test',GITHUB_RUN_ID:'999',GITHUB_RUN_ATTEMPT:'1',GITHUB_SHA:state.coordinator.headSha,GITHUB_JOB:'retire',GITHUB_REF:'refs/heads/release/production',GITHUB_EVENT_NAME:'workflow_dispatch'};
+ await guards.coordinated(state,env);
+ for(const key of Object.keys(env))await assert.rejects(guards.coordinated(state,{...env,[key]:'wrong'}));
+ for(const coordinator of [undefined,{...state.coordinator,runId:'1/../../secrets'},{...state.coordinator,workflow:'.github/workflows/checks.yml'},{...state.coordinator,job:'release'},{...state.coordinator,repository:'other/repo'}])await assert.rejects(guards.coordinated({...state,coordinator}));
 });

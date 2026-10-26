@@ -78,6 +78,7 @@ BEGIN
  SELECT g.* INTO permit FROM release_retention.permits g WHERE g.approval_id=a FOR UPDATE;
  SELECT item.value INTO target FROM jsonb_array_elements(permit.plan->'rows') AS item(value)
  WHERE item.value->>'name'=n AND item.value->>'oid'=o::text AND item.value->'eligible'='true'::jsonb;
+ IF o IN (106971,129180) THEN RAISE EXCEPTION 'Emergency recovery OID is protected'; END IF;
  IF target IS NULL OR permit IS NULL OR permit.plan_sha256<>p
  OR permit.maintenance_database<>current_database()
  OR permit.cluster_identifier<>(SELECT system_identifier::text FROM pg_control_system())
@@ -100,6 +101,14 @@ BEGIN
    OR coalesce((SELECT h.pinned FROM release_retention.pins h WHERE h.name=n ORDER BY h.sequence DESC LIMIT 1),false)
    OR permit.state->>'currentRecoveryCopy'=n
    OR permit.state->'pinnedCopies' ? n OR permit.state->'pendingCopies' ? n
+   OR NOT EXISTS(SELECT 1 FROM release_retention.copies c WHERE c.name=n
+    AND c.first_observed_at<=clock_timestamp()-make_interval(hours=>greatest(24,(permit.plan->'policy'->>'minAgeHours')::int))
+    AND c.evidence->'request'->>'sha'<>permit.state->>'activeSha'
+    AND permit.state->'closedJobIds' ? (c.evidence->'request'->>'jobId'))
+   OR n IN (SELECT c.name FROM release_retention.copies c JOIN pg_database d ON d.datname=c.name AND d.oid=c.database_oid
+    JOIN pg_roles r ON r.oid=d.datdba AND r.rolname=c.owner_name
+    WHERE NOT d.datistemplate ORDER BY c.verified_at DESC,c.name COLLATE "C"
+    LIMIT greatest(2,(permit.plan->'policy'->>'keep')::int))
   THEN RAISE EXCEPTION 'Retention intent is not eligible'; END IF;
   IF intended IS NOT NULL THEN RETURN intended.measured_bytes; END IF;
   amount:=pg_database_size(o); -- Never accept caller-supplied byte figures.

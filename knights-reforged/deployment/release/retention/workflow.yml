@@ -1,0 +1,50 @@
+# INACTIVE TEMPLATE, deliberately OUTSIDE .github/workflows.
+# Installation/runner group policy/environment approval require separate review.
+# No schedule. No deploy, checkout token persistence, artifacts or provider token.
+name: Reviewed recovery copy retirement
+on:
+  workflow_dispatch:
+    inputs:
+      request_id:
+        description: Private spool request UUID (never a plan, secret or URL)
+        type: string
+        required: true
+permissions: {}
+jobs:
+  owner-approval:
+    if: github.repository == 'catillatio/test' && github.ref == 'refs/heads/release/production'
+    environment: production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - run: echo RETENTION_OWNER_GATE_PASS
+  retire:
+    needs: owner-approval
+    # Exactly the existing protected release mutex, held across all retirement.
+    concurrency:
+      group: kingdom-come-production
+      cancel-in-progress: false
+    # Dedicated EPHEMERAL runner restricted to THIS workflow at the protected
+    # production ref; private network only. Never a PR/general-purpose runner.
+    runs-on:
+      group: kingdom-copy-retention
+      labels: self-hosted
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: '${{ github.sha }}'
+          persist-credentials: false
+      # Approved ephemeral image contains Node 24 and ONLY the restricted runtime
+      # credential; install locked dependencies without executing package scripts.
+      # Plans/permits are privately pre-staged by independent trusted channels.
+      - name: Install locked dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts --omit=dev --no-audit --no-fund --prefix knights-reforged
+      - name: Execute exact privately signed batch
+        run: node knights-reforged/deployment/release/retention/job.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RETENTION_REQUEST_ID: ${{ inputs.request_id }}

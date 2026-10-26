@@ -3,6 +3,14 @@ import {createHash,createPublicKey,verify} from 'node:crypto';
 import {checkJobReport,copyName,uuid,digest,privateDatabase,httpsOrigin} from '../protocol.mjs';
 
 export const retentionProtocol='kingdom-copy-retention-v1';
+export const emergencyOids=Object.freeze(['106971','129180']);
+export const retirementWorkflow='.github/workflows/recovery-copy-retention.yml';
+export function checkCoordinator(value){
+ assert.deepEqual(Object.keys(value??{}).sort(),['headSha','job','repository','runAttempt','runId','workflow']);
+ assert.equal(value.repository,'catillatio/test');assert.equal(value.workflow,retirementWorkflow);assert.equal(value.job,'retire');
+ assert.match(value.runId??'',/^[1-9][0-9]{0,19}$/);assert.ok(Number.isInteger(value.runAttempt)&&value.runAttempt>=1&&value.runAttempt<=99999);
+ assert.match(value.headSha??'',/^[a-f0-9]{40}$/);return value;
+}
 export const copyPattern=/^kc_[a-f0-9]{32}_restore_test$/;
 // PostgreSQL jsonb reorders object keys; evidence hashes must survive storage.
 export const hash=value=>createHash('sha256').update(JSON.stringify(value,(_key,item)=>item&&typeof item==='object'&&!Array.isArray(item)?Object.fromEntries(Object.keys(item).sort().map(key=>[key,item[key]])):item)).digest('hex');
@@ -15,6 +23,7 @@ export function policy(value={}){
  return result;
 }
 export function checkScope(scope){
+ assert.deepEqual(Object.keys(scope).sort(),['protocol','projectId','environmentId','operatorServiceId','verificationServiceId','productionServiceId','gameServiceId','verificationWorkerServiceId','approvalKeyDigest','releaseKeyDigest','clusterDigest','sourceClusterDigest','host','sourceHost','adminDatabase','workerAdminDatabase','origin'].sort());
  assert.equal(scope.protocol,retentionProtocol);
  for(const key of ['projectId','environmentId','operatorServiceId','verificationServiceId','productionServiceId','gameServiceId','verificationWorkerServiceId'])assert.match(scope[key]??'',uuid);
  assert.equal(new Set([scope.verificationServiceId,scope.productionServiceId,scope.gameServiceId,scope.verificationWorkerServiceId]).size,4);
@@ -63,6 +72,7 @@ export function evidenceRecord(evidence,scope){
  return {name:request.copy,jobId:request.jobId,evidenceSha256:hash(evidence)};
 }
 export function checkState(state,scope,{now=Date.now()}={}){
+ for(const key of Object.keys(state))assert.ok(['protocol','scope','releaseQuiescent','observedAt','currentRecoveryCopy','activeSha','pinnedCopies','pendingCopies','closedJobIds','coordinator'].includes(key));
  assert.equal(state.protocol,retentionProtocol);assert.deepEqual(state.scope,checkScope(scope));
  // This is an explicit owner attestation from current protected-release and
  // live deployment evidence, never an inference from an expired release proof.
@@ -91,5 +101,7 @@ export function checkApproval(encoded,pem,plan,state,scope,{now=Date.now()}={}){
  assert.ok(Number.isFinite(Date.parse(approval.issuedAt))&&Date.parse(approval.issuedAt)<=now&&Date.parse(approval.expiresAt)>now);
  assert.ok(Date.parse(approval.expiresAt)-Date.parse(approval.issuedAt)<=300000&&Date.parse(approval.expiresAt)>Date.parse(approval.issuedAt));
  assert.equal(approval.releaseConcurrencyHeld,true);
+ // Signed exact job binding; a boolean is never sufficient for execution.
+ checkCoordinator(state.coordinator);
  return approval;
 }

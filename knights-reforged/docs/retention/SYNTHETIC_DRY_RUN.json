@@ -1,0 +1,117 @@
+{
+  "evidence": "SYNTHETIC; NOT PRODUCTION INVENTORY OR AUTHORIZATION",
+  "executionEnabled": false,
+  "plan": {
+    "protocol": "kingdom-copy-retention-v1",
+    "scope": {
+      "protocol": "kingdom-copy-retention-v1",
+      "projectId": "00000000-0000-4000-8000-000000000001",
+      "environmentId": "00000000-0000-4000-8000-000000000002",
+      "operatorServiceId": "00000000-0000-4000-8000-000000000003",
+      "verificationServiceId": "00000000-0000-4000-8000-000000000004",
+      "productionServiceId": "00000000-0000-4000-8000-000000000005",
+      "gameServiceId": "00000000-0000-4000-8000-000000000006",
+      "verificationWorkerServiceId": "00000000-0000-4000-8000-000000000007",
+      "origin": "https://realm.fixture.invalid",
+      "clusterDigest": "1111111111111111111111111111111111111111111111111111111111111111",
+      "sourceClusterDigest": "2222222222222222222222222222222222222222222222222222222222222222",
+      "host": "copy.railway.internal",
+      "sourceHost": "game.railway.internal",
+      "adminDatabase": "kingdom_release_retention",
+      "workerAdminDatabase": "kingdom_release_retention",
+      "approvalKeyDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "releaseKeyDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "policy": {
+      "keep": 2,
+      "minAgeHours": 24
+    },
+    "observedAt": "2026-10-23T12:00:00.000Z",
+    "stateSha256": "75905835bbb1b45b4256142f9d81a8834fc561fd764dde7e98a4223e2ff41119",
+    "rows": [
+      {
+        "name": "kc_1c37e068d1afc9c4121e937e7201bb7a_restore_test",
+        "oid": "20001",
+        "bytes": "1048576",
+        "eligible": true,
+        "reasons": [
+          "obsolete-verified-copy"
+        ],
+        "evidenceSha256": "08ed4c4d9bfd73ef9700ab35e750a12a4627338f196dd73d8537a594fdbcc459"
+      },
+      {
+        "name": "kc_0a5a2b910deeb0e1e75ce0d626f0f37e_restore_test",
+        "oid": "106971",
+        "bytes": "1048576",
+        "eligible": false,
+        "reasons": [
+          "emergency-recovery-oid"
+        ],
+        "evidenceSha256": "578b0788f87f35540706a9476f55f7b12a0cbf2e9d558b4419ca53b19491b18f"
+      },
+      {
+        "name": "kc_a03f36291a287c59c13064c50f538887_restore_test",
+        "oid": "20003",
+        "bytes": "1048576",
+        "eligible": false,
+        "reasons": [
+          "pending-release"
+        ],
+        "evidenceSha256": "1f52c758c7369c79f8e8b9d30f4ac34d359d5ad2ef1383cfebf3c97e6c589e74"
+      },
+      {
+        "name": "kc_5366a0ecb14a95ed4393dcf522ac8ed1_restore_test",
+        "oid": "20004",
+        "bytes": "1048576",
+        "eligible": false,
+        "reasons": [
+          "pinned"
+        ],
+        "evidenceSha256": "34a3cee84b41ac88db85ae7213194abfe654acb55c62c4989f592686ad636603"
+      },
+      {
+        "name": "kc_ac6be306d350903b04c5f0749ae2d0ef_restore_test",
+        "oid": "20005",
+        "bytes": "1048576",
+        "eligible": false,
+        "reasons": [
+          "unproven-provenance"
+        ],
+        "evidenceSha256": null
+      },
+      {
+        "name": "kc_2f2c70f2a0962ce0c191451749e7be5a_restore_test",
+        "oid": "20006",
+        "bytes": "1048576",
+        "eligible": false,
+        "reasons": [
+          "within-age-window"
+        ],
+        "evidenceSha256": "af5296f759d71b560bfe7617d663c092936c8a2b8c0d9528727c8cc6d6d93f3c"
+      },
+      {
+        "name": "kc_6c38d973740168a9953bb44671fb6076_restore_test",
+        "oid": "20007",
+        "bytes": "1048576",
+        "eligible": false,
+        "reasons": [
+          "newest-verified"
+        ],
+        "evidenceSha256": "2b29a88971a04feb738f8b20efd16e0656d16649a8c0b2fa40015f57b1ec3e7e"
+      },
+      {
+        "name": "kc_b9e2ebf1f9df4c3587ba66cdb5865f15_restore_test",
+        "oid": "20008",
+        "bytes": "1048576",
+        "eligible": false,
+        "reasons": [
+          "current-recovery",
+          "newest-verified"
+        ],
+        "evidenceSha256": "4432095e5a459e21be9a37f512fe40fe170b17b9d90b64b0ff539bad0f61d881"
+      }
+    ],
+    "reclaimableBytes": "1048576"
+  },
+  "planSha256": "ae7e761464abe90995c80609eca4ce8e6383513abc82b0823ffac1c137a0be66"
+}

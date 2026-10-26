@@ -4,6 +4,8 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import pg from 'pg';
 import {lockCluster,inspect,cleanup,checkCatalog} from '../deployment/release/retention/retention.mjs';
+import {reconcileInterrupted} from '../deployment/release/retention/reconcile.mjs';
+import {inventory} from '../deployment/release/retention/inventory.mjs';
 import {installPermit} from '../deployment/release/retention/permit.mjs';
 import {randomUUID} from 'node:crypto';
 import {hash} from '../deployment/release/retention/protocol.mjs';
@@ -36,7 +38,7 @@ test('disposable PostgreSQL retention, append-only permissions, concurrency and 
   const sourceUrl=new URL(target);sourceUrl.pathname='/'+source;
   const preserved=new pg.Client({connectionString:sourceUrl.href});await preserved.connect();
   await preserved.query(`CREATE TABLE accounts(id int PRIMARY KEY,kind text,wallet bigint,vault bigint,session text);
-   INSERT INTO accounts SELECT n,CASE WHEN n<=450 THEN 'bot' ELSE 'human' END,10000+n,25000+n,'saved-session-'||n FROM generate_series(1,452)n;
+   INSERT INTO accounts SELECT n,CASE WHEN n<=900 THEN 'bot' ELSE 'human' END,10000+n,25000+n,'saved-session-'||n FROM generate_series(1,902)n;
    CREATE TABLE holdings AS SELECT id,2 AS land,3 AS equipment,4 AS army FROM accounts;
    CREATE TABLE history AS SELECT id,'durable-history'::text AS event FROM accounts;`);
   const before=JSON.stringify((await preserved.query("SELECT (SELECT jsonb_agg(a ORDER BY id) FROM accounts a) AS accounts,(SELECT jsonb_agg(h ORDER BY id) FROM holdings h) AS holdings,(SELECT jsonb_agg(h ORDER BY id) FROM history h) AS history")).rows);
@@ -50,6 +52,16 @@ test('disposable PostgreSQL retention, append-only permissions, concurrency and 
   await t.test('dry-run is read-only and explains sizes, pinned, pending, unresolved, newest and current copies',async()=>{
    plan=await inspect(runtime,state,scope);assert.deepEqual(plan.rows.filter(row=>row.eligible).map(row=>row.name).sort(),[copies[0],copies[1],copies[5]].map(c=>c.database.name).sort());
    assert.ok(BigInt(plan.reclaimableBytes)>0n);assert.equal((await runtime.query('SELECT count(*)::int AS n FROM release_retention.audit')).rows[0].n,0);
+  });
+  await t.test('read-only inventory reconciles real names/OIDs/owners/sizes without assigning cleanup eligibility',async()=>{
+   const report=await inventory(admin);assert.equal(report.identity.cluster_digest,scope.clusterDigest);assert.equal(report.rows.filter(r=>r.classification==='adopted-requires-fresh-plan').length,8);
+   assert.ok(report.rows.every(r=>r.eligible===false));assert.ok(BigInt(report.databaseBytes)>0n);assert.equal(report.reclaimableBytes,null);
+   assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_retention.audit')).rows[0].n,0);
+   const ordinary=new pg.Client({connectionString:sourceUrl.href});await ordinary.connect();
+   try{const noCatalog=await inventory(ordinary);assert.ok(noCatalog.rows.every(r=>r.eligible===false&&r.provenance===null));}finally{await ordinary.end();}
+  });
+  await t.test('SQL protects emergency OIDs even when called directly',async()=>{
+   for(const oid of ['106971','129180'])await assert.rejects(runtime.query('SELECT release_retention.record_event($1,$2,$3,$4,$5)',[randomUUID(),'f'.repeat(64),copies[0].database.name,oid,'intent']),/Emergency recovery OID is protected/);
   });
   await t.test('unregistered signatures and fabricated IDs, outcomes or bytes cannot enter the audit',async()=>{
    const single={...plan,rows:plan.rows.filter(row=>row.name===copies[0].database.name)};
@@ -98,11 +110,25 @@ test('disposable PostgreSQL retention, append-only permissions, concurrency and 
    }
    assert.equal((await runtime.query('SELECT count(*)::int AS n FROM release_retention.audit')).rows[0].n,0);
   });
+  await t.test('SQL independently rejects a permit fabricated by a privileged installer for a newest retained copy',async()=>{
+   const newest=plan.rows.find(r=>r.name===copies.at(-2).database.name);
+   const forged={...plan,rows:[{...newest,eligible:true,reasons:['obsolete-verified-copy']}]},signed=approve(forged,state,{scope,now:Date.now()});
+   await admin.query(`INSERT INTO release_retention.permits(approval_id,expires_at,plan_sha256,state_sha256,encoded_approval,plan,state,cluster_identifier,maintenance_database) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,[signed.approval.id,signed.approval.expiresAt,hash(forged),hash(state),signed.encoded,forged,state,cluster,scope.adminDatabase]);
+   await assert.rejects(runtime.query('SELECT release_retention.record_event($1,$2,$3,$4,$5)',[signed.approval.id,hash(forged),newest.name,newest.oid,'intent']));
+  });
   await t.test('runtime cannot modify provenance, rewrite audit, replace guards, disable triggers or own the catalog',async()=>{
    for(const sql of ["UPDATE release_retention.copies SET owner_name='postgres'","DELETE FROM release_retention.audit",'TRUNCATE release_retention.audit',
     'ALTER TABLE release_retention.audit DISABLE TRIGGER ALL','ALTER TABLE release_retention.copies ADD COLUMN bad text',
     "CREATE OR REPLACE FUNCTION release_retention.no_rewrite() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RETURN NULL; END $$",
     'DROP FUNCTION release_retention.record_event(text,text,text,oid,text)','SET ROLE kc_retention_owner','CREATE SCHEMA attacker','CREATE ROLE attacker','DROP DATABASE kingdom_release_retention'])await assert.rejects(runtime.query(sql));
+   await checkCatalog(runtime);
+  });
+  await t.test('effective column grants, sequence privileges and owner login changes fail closed',async()=>{
+   for(const [grant,revoke] of [["GRANT INSERT(approval_id) ON release_retention.audit TO kc_retention_runtime","REVOKE INSERT(approval_id) ON release_retention.audit FROM kc_retention_runtime"],
+    ['GRANT USAGE ON SEQUENCE release_retention.audit_sequence_seq TO kc_retention_runtime','REVOKE USAGE ON SEQUENCE release_retention.audit_sequence_seq FROM kc_retention_runtime'],
+    ['ALTER ROLE kc_retention_owner LOGIN','ALTER ROLE kc_retention_owner NOLOGIN']]){
+    await admin.query(grant);try{await assert.rejects(checkCatalog(runtime));}finally{await admin.query(revoke);}
+   }
    await checkCatalog(runtime);
   });
   await t.test('concurrent verification or retention cannot acquire the same session advisory lock',async()=>{
@@ -194,15 +220,34 @@ test('disposable PostgreSQL retention, append-only permissions, concurrency and 
    await assert.rejects(event(otherGrants[1],'deleted'));
    assert.equal((await event(otherGrants[1],'absent')).rows[0].bytes,'0');
    assert.equal((await runtime.query("SELECT count(*)::int AS n FROM release_retention.audit WHERE database_oid=$1 AND event='deleted'",[copies[0].database.oid])).rows[0].n,1);
+   const reconciled=await reconcileInterrupted(runtime,{scope,approvalId:signed.approval.id,verifyKey:publicKey});
+   assert.deepEqual(reconciled.reconciledAbsent,[copies[0].database.name]);assert.equal(reconciled.measuredDatabaseBytesRemoved,'0');
+   assert.deepEqual((await reconcileInterrupted(runtime,{scope,approvalId:signed.approval.id,verifyKey:publicKey})).reconciledAbsent,[]);
    const result=await cleanup(runtime,{scope,state,plan:single,approval:signed.encoded,verifyKey:publicKey,beforeDelete:async()=>{}});
    assert.deepEqual(result.alreadyAbsent,[copies[0].database.name]);assert.equal(result.measuredDatabaseBytesRemoved,'0');
    const repeated=await cleanup(runtime,{scope,state,plan:single,approval:signed.encoded,verifyKey:publicKey,beforeDelete:async()=>{}});assert.deepEqual(repeated,result);
+  });
+  await t.test('expired historical intent can reconcile absence without renewing deletion authority',async()=>{
+   const past=Date.now()-600000,oldState={...state,observedAt:new Date(past).toISOString()};
+   const oldPlan={...plan,stateSha256:hash(oldState),rows:plan.rows.filter(r=>r.name===copies[0].database.name)},signed=approve(oldPlan,oldState,{scope,now:past});
+   // Privileged fixture models an authorization/intent durably committed before
+   // a crash, not permission for the runtime to forge historical timestamps.
+   await admin.query(`INSERT INTO release_retention.permits(approval_id,registered_at,expires_at,plan_sha256,state_sha256,encoded_approval,plan,state,cluster_identifier,maintenance_database) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,[signed.approval.id,new Date(past),signed.approval.expiresAt,hash(oldPlan),hash(oldState),signed.encoded,oldPlan,oldState,cluster,scope.adminDatabase]);
+   await admin.query(`INSERT INTO release_retention.audit(at,approval_id,plan_sha256,name,database_oid,event,measured_bytes) VALUES($1,$2,$3,$4,$5,'intent',1000)`,[new Date(past+1),signed.approval.id,hash(oldPlan),copies[0].database.name,copies[0].database.oid]);
+   await assert.rejects(cleanup(runtime,{scope,state:oldState,plan:oldPlan,approval:signed.encoded,verifyKey:publicKey,beforeDelete:async()=>{}}));
+   const reconciled=await reconcileInterrupted(runtime,{scope,approvalId:signed.approval.id,verifyKey:publicKey});
+   assert.deepEqual(reconciled.reconciledAbsent,[copies[0].database.name]);assert.equal(reconciled.measuredDatabaseBytesRemoved,'0');
+   assert.equal((await runtime.query("SELECT measured_bytes::text AS bytes FROM release_retention.audit WHERE approval_id=$1 AND event='absent'",[signed.approval.id])).rows[0].bytes,'0');
   });
   await t.test('a reappeared name with a new OID cannot be deleted by an old approval',async()=>{
    const single={...plan,rows:plan.rows.filter(row=>row.name===copies[0].database.name)},signed=interruptedApproval;
    await root.query('CREATE DATABASE '+database(copies[0].database.name)+' OWNER kc_release_copy_owner');
    await assert.rejects(cleanup(runtime,{scope,state,plan:single,approval:signed.encoded,verifyKey:publicKey,beforeDelete:async()=>{}}));
    assert.equal((await root.query('SELECT count(*)::int AS n FROM pg_database WHERE datname=$1',[copies[0].database.name])).rows[0].n,1);
+   // Privileged TEST repair only: a reused/uncatalogued DB must never remain
+   // owned by the restricted executor. Production would stop for owner review.
+   await assert.rejects(checkCatalog(runtime));
+   await root.query('ALTER DATABASE '+database(copies[0].database.name)+' OWNER TO CURRENT_USER');
   });
   await t.test('durable pins survive omission from the owner state; only privileged append-only unpin releases them',async()=>{
    await admin.query('INSERT INTO release_retention.pins(name,pinned,reason) VALUES($1,true,$2)',[copies[5].database.name,'Synthetic recovery pin']);

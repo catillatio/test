@@ -6,7 +6,7 @@ import pg from 'pg';
 import {checkJobReport,copyName,privateDatabase,uuid,digest,protocol,httpsOrigin} from '../protocol.mjs';
 const hash=value=>createHash('sha256').update(JSON.stringify(value,(_key,item)=>item&&typeof item==='object'&&!Array.isArray(item)?Object.fromEntries(Object.keys(item).sort().map(k=>[k,item[k]])):item)).digest('hex');
 const pick=(value,keys)=>Object.fromEntries(keys.map(key=>[key,value[key]]));
-export const registrationFields=['name','oid','owner','maintenanceDatabase','clusterDigest','sourceClusterDigest','jobId','workerDeploymentId','projectId','environmentId','gameServiceId','workerServiceId','sha','candidateDigest','sourceHost','sourceDatabase','restoreHost','createdAt','expiresAt','backupSha256','encryptedSha256','preservationSha256','reportSha256','evidenceSha256','accounts','bots','existingTablesVerified','passed','migrationReplay','liveDatabaseConnected'];
+export const registrationFields=['name','oid','owner','maintenanceDatabase','clusterDigest','sourceClusterDigest','jobId','workerDeploymentId','projectId','environmentId','gameServiceId','workerServiceId','sha','candidateDigest','sourceHost','sourceDatabase','restoreHost','createdAt','expiresAt','backupSha256','encryptedSha256','preservationSha256','reportSha256','evidenceSha256','populationSha256','accounts','bots','existingTablesVerified','passed','migrationReplay','liveDatabaseConnected'];
 
 export function registrationConfig(env,request,report,{replay=false}={}){
  assert.equal(env.KINGDOM_COPY_REGISTRATION_ENABLED,'1');assert.equal(env.NODE_ENV,'production');assert.equal(env.KINGDOM_RELEASE_WORKER,'1');
@@ -67,11 +67,12 @@ export function observationPayload(manifest){
  const publicRequest=pick(q,['protocol','mode','jobId','sha','candidateDigest','createdAt','expiresAt','projectId','environmentId','gameServiceId','workerServiceId','sourceHost','sourceDatabase','restoreHost','origin','backupRecipient','copy']);
  const publicReport={...pick(r,['protocol','mode','jobId','sha','candidateDigest','projectId','environmentId','gameServiceId','workerServiceId','sourceHost','sourceDatabase','restoreHost','copy','passed','workerDeploymentId','sourceClusterDigest','restoreClusterDigest','accounts','bots']),
   backup:pick(r.backup,['sha256','bytes','encryptedSha256','encryptedBytes','recipient','conditionalWriteVerified','exportRoundTripVerified']),
-  restoredCopy:pick(r.restoredCopy,['passed','accounts','bots','existingTablesVerified','migrationReplay','liveDatabaseConnected','restoredDatabase','restoredHost','sha256']),verifiedCopyIdentity:pick(i,['oid','owner','maintenanceDatabase','clusterDigest'])};
+  restoredCopy:pick(r.restoredCopy,['passed','accounts','bots','existingTablesVerified','migrationReplay','liveDatabaseConnected','restoredDatabase','restoredHost','sha256']),verifiedCopyIdentity:pick(i,['oid','owner','maintenanceDatabase','clusterDigest']),
+  population:r.population?pick(r.population,['manifestId','manifestDigest','legacyDigest','originalBots','addedBots','totalBots','activeAddedBots','autonomyMode']):null};
  return {name:q.copy,...pick(i,['oid','owner','maintenanceDatabase','clusterDigest']),sourceClusterDigest:r.sourceClusterDigest,
   ...pick(q,['jobId','projectId','environmentId','gameServiceId','workerServiceId','sha','candidateDigest','sourceHost','sourceDatabase','restoreHost','createdAt','expiresAt']),workerDeploymentId:r.workerDeploymentId,
   backupSha256:r.backup.sha256,encryptedSha256:r.backup.encryptedSha256,preservationSha256:r.restoredCopy.sha256,reportSha256:hash(publicReport),evidenceSha256:hash({request:publicRequest,report:publicReport,backupKey}),
-  accounts:r.accounts,bots:r.bots,existingTablesVerified:r.restoredCopy.existingTablesVerified,passed:true,migrationReplay:'unchanged',liveDatabaseConnected:false};
+  populationSha256:hash(publicReport.population),accounts:r.accounts,bots:r.bots,existingTablesVerified:r.restoredCopy.existingTablesVerified,passed:true,migrationReplay:'unchanged',liveDatabaseConnected:false};
 }
 export async function checkObservationCatalog(client){
  await client.query('SET search_path=pg_catalog,pg_temp');

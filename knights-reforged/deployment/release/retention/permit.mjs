@@ -2,11 +2,12 @@
 // permits or access this credential. No release signing key or DROP privilege.
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFile} from 'node:fs/promises';
+import {readFile,writeFile} from 'node:fs/promises';
 import {parseArgs} from 'node:util';
 import {pathToFileURL} from 'node:url';
 import pg from 'pg';
 import {checkApproval,checkAuthorizerEnvironment,hash,copyPattern,policy} from './protocol.mjs';
+import {liveGuards} from './guards.mjs';
 import {inspect} from './retention.mjs';
 
 export async function installPermit(client,{scope,state,plan,approval:encoded,verifyKey,now=()=>Date.now()}){
@@ -20,6 +21,10 @@ export async function installPermit(client,{scope,state,plan,approval:encoded,ve
   EXISTS(SELECT 1 FROM pg_roles WHERE rolname<>current_user AND pg_has_role(current_user,oid,'MEMBER')) AS member,
   has_schema_privilege(current_user,'release_retention','CREATE') AS schema_ddl,
   has_database_privilege(current_user,current_database(),'CREATE') AS database_ddl,
+  has_any_column_privilege(current_user,'release_retention.audit','INSERT,UPDATE') AS audit_columns,
+  has_any_column_privilege(current_user,'release_retention.copies','INSERT,UPDATE') AS provenance_columns,
+  has_any_column_privilege(current_user,'release_retention.pins','INSERT,UPDATE') AS pin_columns,
+  has_any_column_privilege(current_user,'release_retention.permits','UPDATE') AS permit_columns,
   has_table_privilege(current_user,'release_retention.audit','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') AS audit_write,
   has_table_privilege(current_user,'release_retention.copies','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') AS provenance_write,
   has_table_privilege(current_user,'release_retention.pins','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') AS pin_write,
@@ -59,7 +64,7 @@ async function main(){
  let client,disconnected=false;
  try{
   process.umask(0o077);
-  const {values}=parseArgs({options:{scope:{type:'string'},state:{type:'string'},plan:{type:'string'},approval:{type:'string'}}});
+  const {values}=parseArgs({options:{scope:{type:'string'},state:{type:'string'},plan:{type:'string'},approval:{type:'string'},'ready-out':{type:'string'}}});
   const read=async path=>{const text=await readFile(path,'utf8');assert.ok(Buffer.byteLength(text)<=2000000);return JSON.parse(text);};
   const scope=await read(values.scope),state=await read(values.state),plan=await read(values.plan),approval=(await readFile(values.approval,'utf8')).trim();
   const url=checkAuthorizerEnvironment(process.env,scope);
@@ -67,8 +72,15 @@ async function main(){
   checkApproval(approval,process.env.KINGDOM_RETENTION_VERIFY_KEY,plan,state,scope);
   client=new pg.Client({connectionString:url,connectionTimeoutMillis:5000,application_name:'kingdom-copy-permit'});
   client.on('error',()=>{disconnected=true;});await client.connect();
+  await liveGuards(scope,{githubToken:process.env.GH_TOKEN}).coordinated(state);
   await installPermit(client,{scope,state,plan,approval,verifyKey:process.env.KINGDOM_RETENTION_VERIFY_KEY});
-  assert.equal(disconnected,false);console.log('COPY_RETENTION_PERMIT: PASS');
+  assert.equal(disconnected,false);
+  if(values['ready-out']){
+   const hashes={};for(const [name,path] of [['scope.json',values.scope],['state.json',values.state],['plan.json',values.plan],['approval.txt',values.approval]])hashes[name]=createHash('sha256').update(await readFile(path)).digest('hex');
+   const text=JSON.stringify(hashes)+'\n';
+   try{await writeFile(values['ready-out'],text,{mode:0o600,flag:'wx'});}catch(error){assert.equal(error.code,'EEXIST');assert.equal(await readFile(values['ready-out'],'utf8'),text);}
+  }
+  console.log('COPY_RETENTION_PERMIT: PASS');
  }catch{console.error('COPY_RETENTION_PERMIT: FAIL');process.exitCode=1;}
  finally{if(client)await client.end().catch(()=>{});}
 }

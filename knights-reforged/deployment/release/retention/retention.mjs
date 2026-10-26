@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
-import {checkScope,checkState,checkApproval,policy,hash,copyPattern,evidenceRecord,retentionProtocol} from './protocol.mjs';
+import {checkScope,checkState,checkApproval,policy,hash,copyPattern,evidenceRecord,retentionProtocol,emergencyOids} from './protocol.mjs';
 
 // The SAME session-level lock as worker.mjs. Never terminate connections or
 // use DROP ... FORCE. A concurrently opened connection makes PostgreSQL refuse.
@@ -19,13 +19,20 @@ export async function checkCatalog(client){
   has_database_privilege(current_user,current_database(),'CREATE') AS database_ddl`,[roles])).rows[0];
  assert.equal(row.actor,roles[0]);assert.equal(row.privileged,false);assert.equal(row.owns_catalog,false);assert.equal(row.owns_copies,true);
  assert.equal(row.schema_ddl,false);assert.equal(row.database_ddl,false);
+ const logins=(await client.query('SELECT rolname,rolcanlogin FROM pg_roles WHERE rolname=ANY($1) ORDER BY rolname',[roles])).rows;
+ assert.deepEqual(logins,[{rolname:'kc_release_copy_owner',rolcanlogin:false},{rolname:'kc_retention_authorizer',rolcanlogin:true},{rolname:'kc_retention_owner',rolcanlogin:false},{rolname:'kc_retention_runtime',rolcanlogin:true}]);
  const memberships=(await client.query("SELECT rolname FROM pg_roles WHERE rolname<>current_user AND pg_has_role(current_user,oid,'MEMBER') ORDER BY rolname")).rows;
  assert.deepEqual(memberships,[{rolname:'kc_release_copy_owner'}]);
+ const unsafe=(await client.query(`SELECT d.oid FROM pg_database d WHERE pg_has_role(current_user,d.datdba,'USAGE')
+  AND (d.oid IN (106971,129180) OR NOT EXISTS(SELECT 1 FROM release_retention.copies c WHERE c.name=d.datname AND c.database_oid=d.oid AND c.owner_name='kc_release_copy_owner'))`)).rows;
+ assert.equal(unsafe.length,0,'Runtime must own only explicitly adopted, non-emergency copies.');
  const tables=(await client.query(`SELECT c.relname,r.rolname AS owner,
-  has_table_privilege(current_user,c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') AS writable
+  (has_table_privilege(current_user,c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') OR has_any_column_privilege(current_user,c.oid,'INSERT,UPDATE')) AS writable
   FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_roles r ON r.oid=c.relowner
   WHERE n.nspname='release_retention' AND c.relkind='r' ORDER BY c.relname COLLATE "C"`)).rows;
  assert.deepEqual(tables,[{relname:'audit',owner:roles[2],writable:false},{relname:'copies',owner:roles[2],writable:false},{relname:'permits',owner:roles[2],writable:false},{relname:'pins',owner:roles[2],writable:false}]);
+ const sequences=(await client.query("SELECT c.oid FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='release_retention' AND c.relkind='S' AND has_sequence_privilege(current_user,c.oid,'USAGE,UPDATE')")).rows;
+ assert.equal(sequences.length,0);
  // Verify installed guard bodies and attributes against the reviewed source,
  // not merely that functions with familiar names happen to exist.
  const sql=await readFile(new URL('./bootstrap.sql',import.meta.url),'utf8');
@@ -61,7 +68,9 @@ export async function snapshot(client){
   FROM pg_database d JOIN pg_roles r ON r.oid=d.datdba ORDER BY d.datname`)).rows;
  const catalog=(await client.query('SELECT name,database_oid::text AS oid,owner_name AS owner,verified_at,first_observed_at,evidence,evidence_sha256 FROM release_retention.copies ORDER BY name')).rows;
  const pins=(await client.query('SELECT DISTINCT ON(name) name,pinned FROM release_retention.pins ORDER BY name,sequence DESC')).rows;
- return {now:new Date(now).toISOString(),databases,catalog,pins};
+ const installed=(await client.query("SELECT to_regclass('release_observations.verified_copies') IS NOT NULL AS present")).rows[0].present;
+ const observations=installed?(await client.query('SELECT name,database_oid::text AS oid,cluster_digest FROM release_observations.verified_copies ORDER BY name')).rows:[];
+ return {now:new Date(now).toISOString(),databases,catalog,pins,observations};
 }
 export function makePlan(snapshot,state,scope,limits={}){
  checkState(state,scope,{now:Date.parse(snapshot.now)});assert.ok(Array.isArray(snapshot.pins));
@@ -85,8 +94,10 @@ export function makePlan(snapshot,state,scope,limits={}){
  assert.ok(present.has(state.currentRecoveryCopy),'The current recovery reference must exist.');
  const rows=snapshot.databases.map(row=>{
   const reasons=[],record=known.get(row.name);bytes(row.bytes);
+  if(emergencyOids.includes(row.oid))reasons.push('emergency-recovery-oid');
+  if(row.name===scope.adminDatabase)reasons.push('maintenance-database');
   if(!copyPattern.test(row.name)||row.template)reasons.push('outside-copy-scope');
-  if(!record)reasons.push('unproven-provenance');
+  if(!record)reasons.push((snapshot.observations??[]).some(o=>o.name===row.name&&o.oid===row.oid&&o.cluster_digest===scope.clusterDigest)?'observed-only-not-adopted':'unproven-provenance');
   if(row.owner!=='kc_release_copy_owner'||record&&(record.oid!==row.oid||record.owner!==row.owner))reasons.push('ownership-or-identity-mismatch');
   if(row.name===state.currentRecoveryCopy)reasons.push('current-recovery');
   if(record&&record.evidence.request.sha===state.activeSha)reasons.push('active-release-candidate');
@@ -119,7 +130,7 @@ export async function cleanup(client,{scope,state,plan,approval:encoded,verifyKe
   // Re-check freshness and all rules after every previous deletion; never rely
   // on the old dry-run's connections, ordering, ownership, OIDs or pin state.
   checkApproval(encoded,verifyKey,plan,state,scope,{now:now()});
-  assert.match(target.name,copyPattern);assert.match(target.oid,/^[1-9][0-9]*$/);
+  assert.match(target.name,copyPattern);assert.match(target.oid,/^[1-9][0-9]*$/);assert.ok(!emergencyOids.includes(target.oid));
   const current=await inspect(client,state,scope,plan.policy),row=current.rows.find(row=>row.name===target.name);
   const prior=(await client.query(`SELECT event,plan_sha256,database_oid::text AS oid FROM release_retention.audit WHERE approval_id=$1 AND name=$2`,[approval.id,target.name])).rows;
   assert.ok(prior.every(event=>event.plan_sha256===hash(plan)&&event.oid===target.oid));
@@ -129,6 +140,7 @@ export async function cleanup(client,{scope,state,plan,approval:encoded,verifyKe
    await record('absent');result.alreadyAbsent.push(target.name);continue;
   }
   assert.equal(row.eligible,true);assert.equal(row.oid,target.oid);assert.equal(row.evidenceSha256,target.evidenceSha256);
+  assert.ok(!prior.some(event=>event.event==='refused'),'A refused target needs a new owner-reviewed approval.');
   assert.ok(!prior.some(event=>['deleted','absent'].includes(event.event)),'A completed target must not reappear.');
   const provenance=(await client.query('SELECT evidence FROM release_retention.copies WHERE name=$1',[row.name])).rows[0];
   await beforeDelete({jobId:provenance.evidence.request.jobId,evidence:provenance.evidence},state);

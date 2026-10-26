@@ -84,3 +84,16 @@ test('permit authorizer has a separate private credential and cannot share runti
  for(const overrides of [{KINGDOM_RETENTION_DATABASE_URL:'anything'},{KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL:'anything'},{DATABASE_URL:'anything'},
   {KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL:env.KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL.replace('kc_retention_authorizer','kc_retention_runtime')}])assert.throws(()=>checkAuthorizerEnvironment({...env,...overrides},scope));
 });
+
+for(const oid of ['106971','129180'])test('emergency OID '+oid+' is protected even with valid evidence, age and ownership',()=>{
+ const data=scenario();data.snapshot.databases[0].oid=oid;data.snapshot.catalog[0].oid=oid;
+ const row=makePlan(data.snapshot,data.state,scope).rows[0];assert.equal(row.eligible,false);assert.ok(row.reasons.includes('emergency-recovery-oid'));
+});
+test('observation is provenance, never ownership adoption or cleanup eligibility',()=>{
+ const data=scenario(),d=data.snapshot.databases[0];data.snapshot.catalog.shift();data.snapshot.observations=[{name:d.name,oid:d.oid,cluster_digest:scope.clusterDigest}];
+ const row=makePlan(data.snapshot,data.state,scope).rows[0];assert.equal(row.eligible,false);assert.ok(row.reasons.includes('observed-only-not-adopted'));
+});
+test('a signed boolean without an exact cleanup job is insufficient authorization',()=>{
+ const data=scenario();delete data.state.coordinator;const plan=makePlan(data.snapshot,data.state,scope),signed=approve(plan,data.state);
+ assert.throws(()=>checkApproval(signed.encoded,publicKey,plan,data.state,scope,{now:epoch}));
+});

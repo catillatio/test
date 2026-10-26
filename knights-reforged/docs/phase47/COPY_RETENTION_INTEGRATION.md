@@ -3,7 +3,10 @@
 PR #25 now implements the **non-destructive observation integration** proposed at
 `aff9142`. It is default-OFF and has not been installed or activated. Automatic
 registration does not reclaim space. Scheduled reporting, cleanup execution and
-exclusive release/restore coordination remain separate, unimplemented work.
+exclusive release/restore coordination remain separate authorization boundaries.
+Job-scoped execution and interruption reconciliation are now implemented as
+inactive tooling: see [current readiness](../retention/READINESS.md). Scheduling and
+unattended authorization remain unimplemented and disabled.
 
 ## Completed integration
 
@@ -18,8 +21,8 @@ Registration uses a separate `kc_copy_registrar` login to the **same private
 verification maintenance database**. It appends to
 `release_observations.verified_copies`, owned by the existing NOLOGIN catalog owner
 `kc_retention_owner`. It neither changes ownership nor writes to
-`release_retention.copies`, permits, pins or cleanup history. The unchanged cleanup
-planner treats observations alone as unknown/unadopted and protects them.
+`release_retention.copies`, permits, pins or cleanup history. The cleanup
+planner treats observations alone as observed-only/unadopted and protects them.
 A first observation is rejected if its database is already cleanup-owned/adopted.
 The optional identity read uses a short read-only transaction with local 5-second
 statement and 2-second lock limits; rollback preserves the existing session lock.
@@ -37,7 +40,7 @@ Recorded metadata:
   database creation time or backdated worker-completion time. Original request
   timestamps are explicitly request evidence and never set those server columns.
 
-Only 30 constrained scalar fields are retained. No raw request/report, presigned
+Only 31 constrained scalar fields (including the sanitized population-evidence digest) are retained. No raw request/report, presigned
 URLs, arbitrary JSON, credentials or private keys are stored. The canonical
 whitelisted public evidence hash is independently reproducible; it is not a
 signature or a substitute for retained-artifact authentication.
@@ -176,5 +179,7 @@ transaction interrupted before commit leaves no partial row. Outputs are fixed
   or a future constrained executor review.
 
 Registration integration is implemented and tested, pending code review, merge
-approval and separately authorized installation/activation. No schedule,
-unattended deletion or production infrastructure has been implemented or enabled.
+approval and separately authorized installation/activation. An inactive, manually dispatched job template has been implemented; it is not
+installed in `.github/workflows`. No schedule, unattended deletion or production
+infrastructure is enabled/provisioned. Its exact owner-gated shared-mutex and
+private execution requirements are documented in the current readiness guide.

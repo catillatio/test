@@ -5,7 +5,7 @@ import pg from 'pg';
 import {readFile} from 'node:fs/promises';
 import {parseArgs} from 'node:util';
 import {createHash} from 'node:crypto';
-import {checkScope,evidenceRecord,hash} from './protocol.mjs';
+import {checkScope,evidenceRecord,hash,emergencyOids} from './protocol.mjs';
 import {privateDatabase} from '../protocol.mjs';
 let client,disconnected=false;
 try{
@@ -15,7 +15,7 @@ try{
  const evidence=JSON.parse(await readFile(values.manifest,'utf8')),record=evidenceRecord(evidence,scope);
  const target=privateDatabase(process.env.KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL);
  assert.equal(target.host,scope.host);assert.equal(target.name,scope.adminDatabase);
- assert.match(values['expected-oid']??'',/^[1-9][0-9]*$/);
+ assert.match(values['expected-oid']??'',/^[1-9][0-9]*$/);assert.ok(!emergencyOids.includes(values['expected-oid']));
  const verified=new Date(values['verified-at']);assert.ok(Number.isFinite(+verified)&&+verified<=Date.now()&&+verified>=Date.parse(evidence.request.createdAt)&&+verified<=Date.parse(evidence.request.expiresAt));
  client=new pg.Client({connectionString:target.url.href,connectionTimeoutMillis:5000,application_name:'kingdom-copy-provenance-import'});client.on('error',()=>{disconnected=true;});await client.connect();
  const cluster=(await client.query('SELECT system_identifier::text AS id FROM pg_control_system()')).rows[0].id;

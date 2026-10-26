@@ -9,7 +9,7 @@ import {checkApproval} from '../deployment/release/retention/protocol.mjs';
 import {makePlan} from '../deployment/release/retention/retention.mjs';
 
 test('entrypoints fail with fixed categories and never expose credentials, keys or parser exceptions',()=>{
- for(const [name,label,args]of[['cli','COPY_RETENTION',[]],['cli','COPY_RETENTION',['cleanup','--scope','missing-secret-file']],['register','COPY_PROVENANCE_IMPORT',[]],['authorize','COPY_RETENTION_AUTHORIZATION',[]],['permit','COPY_RETENTION_PERMIT',[]]]){
+ for(const [name,label,args]of[['cli','COPY_RETENTION',[]],['cli','COPY_RETENTION',['cleanup','--scope','missing-secret-file']],['register','COPY_PROVENANCE_IMPORT',[]],['authorize','COPY_RETENTION_AUTHORIZATION',[]],['permit','COPY_RETENTION_PERMIT',[]],['job','COPY_RETENTION_JOB',[]]]){
   const result=spawnSync(process.execPath,['deployment/release/retention/'+name+'.mjs',...args],{encoding:'utf8',env:{PATH:process.env.PATH,NODE_ENV:'production',DATABASE_URL:'SYNTHETIC_SECRET_MUST_NOT_APPEAR',KINGDOM_RETENTION_SIGNING_KEY:'SYNTHETIC_SECRET_MUST_NOT_APPEAR'},timeout:5000});
   assert.equal(result.error,undefined);assert.equal(result.status,1);assert.equal(result.stdout,'');assert.equal(result.stderr,label+': FAIL\n');
  }

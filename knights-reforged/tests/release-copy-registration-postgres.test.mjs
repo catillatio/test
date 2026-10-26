@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import pg from 'pg';
 import {createHash,randomUUID} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
+import {hash} from '../deployment/release/retention/protocol.mjs';
 import {fixture,scope as baseScope} from './fixtures/release-retention.mjs';
 import {observationPayload,recordObservation,checkObservationCatalog} from '../deployment/release/retention/observation.mjs';
 import {inspect,lockCluster} from '../deployment/release/retention/retention.mjs';
@@ -61,7 +62,7 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
    runtime=await connect('kc_retention_runtime');await lockCluster(runtime,scope);
    const state={protocol:scope.protocol,scope,observedAt:new Date().toISOString(),releaseQuiescent:true,activeSha:'f'.repeat(40),currentRecoveryCopy:copy.database.name,pinnedCopies:[],pendingCopies:[],closedJobIds:[m.request.jobId]};
    const plan=await inspect(runtime,state,scope),row=plan.rows.find(r=>r.name===copy.database.name);
-   assert.equal(row.eligible,false);assert.ok(row.reasons.includes('unproven-provenance'));assert.ok(row.reasons.includes('ownership-or-identity-mismatch'));assert.equal(plan.reclaimableBytes,'0');
+   assert.equal(row.eligible,false);assert.ok(row.reasons.includes('observed-only-not-adopted'));assert.ok(row.reasons.includes('ownership-or-identity-mismatch'));assert.equal(plan.reclaimableBytes,'0');
    await runtime.end();runtime=null;
   });
   await t.test('transaction interruption rolls back metadata; a retry does not touch any populated business row',async()=>{
@@ -74,6 +75,18 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
    await registrar.query('BEGIN');await recordObservation(registrar,another);await registrar.query('ROLLBACK');
    assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_observations.verified_copies')).rows[0].n,1);
    await recordObservation(registrar,another);assert.equal(await snapshot(),before);
+  });
+  await t.test('restricted SQL records the exact 900-bot evidence without weakening recovery checks',async()=>{
+   const extra=fixture(94,{now:Date.now()}),meta=extra.catalog.evidence;
+   const rules=JSON.parse(await readFile(new URL('../rulesets/level100-rivals-1/rules.json',import.meta.url),'utf8'));
+   const population={manifestId:'level100-rivals-1',manifestDigest:hash(rules),legacyDigest:'f'.repeat(64),originalBots:450,addedBots:450,totalBots:900,activeAddedBots:450,autonomyMode:'enabled'};
+   Object.assign(meta.report,{restoreClusterDigest:cluster,accounts:902,bots:900,population});Object.assign(meta.report.restoredCopy,{accounts:902,bots:900,population});
+   await root.query('CREATE DATABASE "'+extra.database.name+'"');created.push(extra.database.name);
+   const actual=(await root.query('SELECT oid::text FROM pg_database WHERE datname=$1',[extra.database.name])).rows[0].oid;
+   meta.report.verifiedCopyIdentity={oid:actual,owner:creator,maintenanceDatabase:name,clusterDigest:cluster};
+   const observed=observationPayload(meta);await recordObservation(registrar,observed);
+   assert.equal((await admin.query('SELECT details FROM release_observations.verified_copies WHERE name=$1',[extra.database.name])).rows[0].details.populationSha256,hash(population));
+   assert.equal(await snapshot(),before);
   });
   await t.test('name reuse or rename cannot attach an old report to a different database',async()=>{
    const another=fixture(93,{now:Date.now()}),old=structuredClone(m);old.request={...m.request,...another.catalog.evidence.request};old.report={...m.report,...another.catalog.evidence.report,restoreClusterDigest:cluster};old.backupKey=another.catalog.evidence.backupKey;
