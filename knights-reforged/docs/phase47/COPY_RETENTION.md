@@ -194,10 +194,16 @@ original evidence and operator ownership-change audit separately. For a register
 copy, a separately authorized privileged operator can append a durable pin:
 
 ```sql
+-- Same worker maintenance database/session; stop if acquired is false.
+SELECT pg_try_advisory_lock(61824087) AS acquired;
+-- Execute only after independently confirming acquired=true.
 INSERT INTO release_retention.pins(name,pinned,reason)
 VALUES ('<reviewed exact copy name>',true,'<owner-reviewed reason>');
+SELECT pg_advisory_unlock(61824087);
 ```
 
+The installed pin trigger rejects INSERTs without that exclusive session lock;
+concurrent cleanup/restore cannot be bypassed by pinning from another session.
 Unpinning is another explicitly reviewed INSERT with `pinned=false`, never UPDATE
 or DELETE. Both events retain database-server time and operator identity. Fresh
 state-file pins are additional protections, not replacements for this catalog.

@@ -63,6 +63,16 @@ CREATE UNIQUE INDEX audit_one_outcome ON release_retention.audit(approval_id,nam
 CREATE UNIQUE INDEX audit_single_deletion_credit ON release_retention.audit(database_oid) WHERE event='deleted';
 CREATE FUNCTION release_retention.no_rewrite() RETURNS trigger
 LANGUAGE plpgsql SET search_path = pg_catalog, pg_temp AS $$ BEGIN RAISE EXCEPTION 'Retention history is append-only'; END $$;
+-- Pin/unpin participates in the SAME session lock as release/restore/retirement.
+-- Otherwise a newly committed pin could race the intent-to-DROP gap.
+CREATE FUNCTION release_retention.pin_lock() RETURNS trigger
+LANGUAGE plpgsql SET search_path = pg_catalog, pg_temp AS $$
+BEGIN
+ IF NOT EXISTS(SELECT 1 FROM pg_locks WHERE locktype='advisory' AND classid=0 AND objid=61824087 AND objsubid=1 AND mode='ExclusiveLock' AND pid=pg_backend_pid() AND granted)
+ THEN RAISE EXCEPTION 'Retention session lock required for pin changes'; END IF;
+ RETURN NEW;
+END $$;
+CREATE TRIGGER pins_coordinated BEFORE INSERT ON release_retention.pins FOR EACH ROW EXECUTE FUNCTION release_retention.pin_lock();
 CREATE TRIGGER copies_immutable BEFORE UPDATE OR DELETE OR TRUNCATE ON release_retention.copies FOR EACH STATEMENT EXECUTE FUNCTION release_retention.no_rewrite();
 CREATE TRIGGER pins_immutable BEFORE UPDATE OR DELETE OR TRUNCATE ON release_retention.pins FOR EACH STATEMENT EXECUTE FUNCTION release_retention.no_rewrite();
 CREATE TRIGGER permits_immutable BEFORE UPDATE OR DELETE OR TRUNCATE ON release_retention.permits FOR EACH STATEMENT EXECUTE FUNCTION release_retention.no_rewrite();

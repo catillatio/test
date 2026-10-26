@@ -249,12 +249,20 @@ test('disposable PostgreSQL retention, append-only permissions, concurrency and 
    await assert.rejects(checkCatalog(runtime));
    await root.query('ALTER DATABASE '+database(copies[0].database.name)+' OWNER TO CURRENT_USER');
   });
-  await t.test('durable pins survive omission from the owner state; only privileged append-only unpin releases them',async()=>{
-   await admin.query('INSERT INTO release_retention.pins(name,pinned,reason) VALUES($1,true,$2)',[copies[5].database.name,'Synthetic recovery pin']);
+  await t.test('durable pin changes cannot race retirement; coordinated append-only unpin is explicit',async()=>{
+   await assert.rejects(admin.query('INSERT INTO release_retention.pins(name,pinned,reason) VALUES($1,true,$2)',[copies[5].database.name,'Uncoordinated pin']),/session lock required/);
+   assert.equal((await admin.query('SELECT pg_try_advisory_lock(61824087) AS acquired')).rows[0].acquired,false);
+   const pin=async(pinned,reason)=>{
+    await runtime.query('SELECT pg_advisory_unlock(61824087)');
+    assert.equal((await admin.query('SELECT pg_try_advisory_lock(61824087) AS acquired')).rows[0].acquired,true);
+    try{await admin.query('INSERT INTO release_retention.pins(name,pinned,reason) VALUES($1,$2,$3)',[copies[5].database.name,pinned,reason]);}
+    finally{await admin.query('SELECT pg_advisory_unlock(61824087)');assert.equal((await runtime.query('SELECT pg_try_advisory_lock(61824087) AS acquired')).rows[0].acquired,true);}
+   };
+   await pin(true,'Synthetic recovery pin');
    assert.ok((await inspect(runtime,state,scope)).rows.find(row=>row.name===copies[5].database.name).reasons.includes('durably-pinned'));
    await assert.rejects(runtime.query('INSERT INTO release_retention.pins(name,pinned,reason) VALUES($1,false,$2)',[copies[5].database.name,'Unauthorized']));
    await assert.rejects(runtime.query('TRUNCATE release_retention.pins'));
-   await admin.query('INSERT INTO release_retention.pins(name,pinned,reason) VALUES($1,false,$2)',[copies[5].database.name,'Separately reviewed synthetic unpin']);
+   await pin(false,'Separately reviewed synthetic unpin');
    assert.equal((await inspect(runtime,state,scope)).rows.find(row=>row.name===copies[5].database.name).eligible,true);
   });
   await t.test('eligible copies are dropped once; current, pinned, pending and populated source survive',async()=>{

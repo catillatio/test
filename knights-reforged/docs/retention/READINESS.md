@@ -40,6 +40,9 @@ volume/configuration/credential change, PR merge or deployment was performed.
   inventory/signature/permit preparation after the execution mutex is held. A
   separate authorizer publishes `ready.json` last; it contains SHA-256 of the four
   exact private input files. Expiry/queue delays fail; no automatic re-signing.
+- Durable pin/unpin INSERTs also require that same exclusive session lock in
+  an installed trigger, eliminating the intent-to-DROP pin race. A concurrent
+  pin fails instead of silently committing behind the running retirement.
 - The PostgreSQL session lock `61824087` in the **same maintenance database** is
   held throughout execution. Cooperating manual restores must acquire it too.
   No FORCE, connection termination, database connection disabling, filesystem
@@ -162,7 +165,8 @@ No live reclaimable-space estimate is reported without live evidence.
    Confirm emergency protection and retained/current/pending references. Arrange
    all prerequisites before an exact cleanup authorization; retain offline owner
    signing-key separation. No standing/unattended deletion approval is introduced.
-9. For an explicitly approved manual job, dispatch only that reviewed workflow,
+9. For an explicitly approved manual job, first verify there are no queued/pending
+    releases or recoveries, then dispatch only that reviewed workflow,
    approve its owner gate, then while its execution job holds the shared mutex:
    prepare fresh state/plan, sign exact targets, install the permit through the
    isolated authorizer, privately stage mode-0600 files and publish the raw-file
@@ -207,7 +211,11 @@ GitHub API observations do not themselves create a mutex. Exclusivity rests on
 the reviewed immutable workflow definition plus GitHub's shared repository group,
 verified exact current job, and the live PostgreSQL session lock. The runtime also
 checks originating release completion and no queued/running/waiting releases;
-this is conservative and may abort cleanup rather than delay a release. Manual
+this is conservative and may abort cleanup rather than delay a release. GitHub's
+concurrency facility is not a durable FIFO queue: newer pending work can replace
+older pending work. Quiescence must be checked before manual dispatch as well as
+during execution. Do not add scheduled/unattended dispatch without separately
+reviewing queue admission and cancellation behavior. Manual
 restore tools/operators must use the same maintenance-database lock for their
 **whole** operation. Superusers that ignore this contract cannot be constrained
 by advisory locks. Cancelling a job must terminate its private executor and close

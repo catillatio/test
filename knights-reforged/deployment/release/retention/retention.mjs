@@ -39,7 +39,7 @@ export async function checkCatalog(client){
  const functions=(await client.query(`SELECT p.proname,p.prosrc,p.prosecdef,p.proconfig,r.rolname AS owner
   FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace JOIN pg_roles r ON r.oid=p.proowner
   WHERE n.nspname='release_retention' ORDER BY p.proname`)).rows;
- assert.equal(functions.length,2);
+ assert.equal(functions.length,3);
  for(const f of functions){
   assert.equal(f.owner,roles[2]);assert.equal(f.prosecdef,f.proname==='record_event');assert.deepEqual(f.proconfig,['search_path=pg_catalog, pg_temp']);
   const match=sql.match(new RegExp('CREATE FUNCTION release_retention\\.'+f.proname+'\\([^]*? AS \\$\\$([^]*?)\\$\\$;'));
@@ -48,7 +48,7 @@ export async function checkCatalog(client){
  const triggers=(await client.query(`SELECT t.tgname,t.tgenabled,t.tgtype,p.proname FROM pg_trigger t
   JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_proc p ON p.oid=t.tgfoid
   WHERE n.nspname='release_retention' AND NOT t.tgisinternal ORDER BY t.tgname COLLATE "C"`)).rows;
- assert.deepEqual(triggers,['audit_immutable','copies_immutable','permits_immutable','pins_immutable'].map(tgname=>({tgname,tgenabled:'O',tgtype:58,proname:'no_rewrite'})));
+ assert.deepEqual(triggers,[...['audit_immutable','copies_immutable','permits_immutable'].map(tgname=>({tgname,tgenabled:'O',tgtype:58,proname:'no_rewrite'})),{tgname:'pins_coordinated',tgenabled:'O',tgtype:7,proname:'pin_lock'},{tgname:'pins_immutable',tgenabled:'O',tgtype:58,proname:'no_rewrite'}]);
 }
 export async function lockCluster(client,scope){
  checkScope(scope);
