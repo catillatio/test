@@ -3,10 +3,10 @@
   <h2 class="strip-title"><a class="player-link" href="/game/players/<%= target.targetId %>"><%= target.name %></a></h2>
   <% if(!target.unavailable) { %><p>Current Health <strong data-target-health><%= target.health %></strong> / <span data-target-max-health><%= target.maxHealth %></span></p>
   <meter data-target-meter min="0" max="<%= target.maxHealth %>" value="<%= target.health %>" aria-label="Opponent current Health"></meter><% } %>
-  <% if(screen==='report') { %><p class="battle-attack-cost"><%= alpha.combat.spiritCost %> Spirit per attack · At least <%= alpha.combat.minimumHealth %> Health required</p><% } %>
-  <form method="post" action="/game/battle/attack" data-combat-form><%- include('command-fields') %><input type="hidden" name="targetCharacterId" value="<%= target.targetId %>">
+  <% if(screen==='report') { %><p class="battle-attack-cost"><%= alpha.combat.spiritCost %> Stamina per attack · At least <%= alpha.combat.minimumHealth %> Health required</p><% } %>
+  <form method="post" action="/game/battle/attack" data-combat-form><%- include('command-fields') %><% if(target.bountyId) { %><input type="hidden" name="bountyId" value="<%= target.bountyId %>"><% } %><input type="hidden" name="targetCharacterId" value="<%= target.targetId %>">
     <button class="button button-gold attack-again" type="submit" data-attack-ready="<%= target.eligible?'true':'false' %>"<% if(!target.allowed) { %> disabled<% } %>><%= screen==='report'?(battle?.defenderId===state.id?'Revenge':'Attack Again'):'Attack' %></button>
   </form>
-  <p class="compact-help combat-restriction" role="status" data-combat-restriction><%= target.reason??'Ready. Each attack costs 1 Spirit. Attack again immediately after the result.' %></p>
-  <p class="field-hint"><%= screen==='report'&&battle?.defenderId===state.id?'Challenge your attacker. Revenge follows the usual battle rules.':'Each attack uses Spirit and creates a new battle report.' %></p>
+  <p class="compact-help combat-restriction" role="status" data-combat-restriction><%= target.reason??(screen==='report'?'Ready to attack.':'Ready. Each attack costs 1 Stamina.') %></p>
+  <% if(screen!=='report'||battle?.defenderId===state.id) { %><p class="field-hint"><%= screen==='report'&&battle?.defenderId===state.id?'Challenge your attacker. Revenge follows the usual battle rules.':'Each attack uses Stamina and creates a new battle report.' %></p><% } %>
 </section><% } %>

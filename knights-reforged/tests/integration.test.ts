@@ -79,7 +79,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
       const primary = /<nav\b[^>]*aria-label="Primary navigation"[^>]*>([\s\S]*?)<\/nav>/.exec(response.body)?.[1];
       assert.ok(primary);
       assert.deepEqual([...primary.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(match => match[1]),
-        ['/game/home', '/game/quests', '/game/battle', '/game/armory', '/game/army']);
+        ['/game/home', '/game/quests', '/game/battle', '/game/armory', '/game/army?tab=dashboard']);
       assert.match(primary, /<span>Recruit<\/span>/);
       assert.ok(!primary.includes('/game/land'));
       const secondary = /<nav\b[^>]*aria-label="Secondary navigation"[^>]*>([\s\S]*?)<\/nav>/.exec(response.body)?.[1];
@@ -283,12 +283,13 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
   });
 
   test('Land HTML form accepts a whole-number string and uses the shared command receipt', async () => {
-    const actor = await player();
+    const actor = await player(),commandId=randomUUID();
     const response = await app.inject({ method: 'POST', url: '/game/land/buy', headers: { cookie: actor.cookie, origin: config.origin,
       'content-type': 'application/x-www-form-urlencoded' }, payload: new URLSearchParams({ csrf: actor.csrf,
-      commandId: randomUUID(), propertyId: property.id, quantity: '1' }).toString() });
+      commandId, propertyId: property.id, quantity: '1' }).toString() });
     assert.equal(response.statusCode, 303, response.body);
-    assert.match(String(response.headers.location), /^\/game\/purchases\//);
+    assert.equal(response.headers.location,'/game/land?command='+commandId+'#property-'+property.id);
+    const receipt=await app.inject({url:'/game/purchases/'+commandId,headers:{cookie:actor.cookie}});assert.equal(receipt.statusCode,200,receipt.body);
     assert.equal((await me(actor)).land.properties[0].owned, 1);
   });
 

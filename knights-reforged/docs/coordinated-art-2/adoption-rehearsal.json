@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "actualCompiledSelectionRehearsed": true,
+  "activeAssetCount": 52,
+  "singlePinPatchOnly": true,
+  "typecheckPassed": true,
+  "focusedTestsPassed": true,
+  "focusedTests": 25,
+  "installationSourceRestoredExactly": true,
+  "liveAdoptionExecuted": false,
+  "historicalBetaBrowserWithActualAdoptedPinPassed": true,
+  "historicalBetaFixtureIsolated": true
+}

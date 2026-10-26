@@ -1,0 +1,20 @@
+{
+  "registryId": "regional-weapon-land-art-3",
+  "registryDigest": "10f766b92c08cc050b89b202075159ed7083590827402e0135872cfe31ea133c",
+  "redesignedWeapons": 15,
+  "newDesigns": 12,
+  "adaptedProofDesigns": 3,
+  "preservedProperties": 6,
+  "preservedHudson": 1,
+  "entries": 22,
+  "selectedImageBytes": 1723582,
+  "newWeaponBytes": 309036,
+  "sharedBackgroundBytes": 31578,
+  "newRuntimeImageBytes": 340614,
+  "slightGlowTargets": [
+    "sovereigns-zweihander",
+    "throneguard-polehammer",
+    "eclipse-gatehammer"
+  ],
+  "active": false
+}

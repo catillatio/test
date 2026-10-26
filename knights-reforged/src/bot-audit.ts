@@ -2,7 +2,6 @@ import {type Database,transaction} from './db.js';
 // Read-only, bounded by the existing passive population. No state materialization.
 export async function auditBotEconomy(db:Database){
  return transaction(db,async sql=>{
-  await sql.query('SET TRANSACTION READ ONLY');
   const bots=(await sql.query(`WITH estates AS (
    SELECT character_id,sum(quantity)::int plots,min(accrued_through) AS earliest_unpaid,sum(quantity*hourly_income)::bigint gross,
     sum(quantity*hourly_upkeep)::bigint property_upkeep FROM land_holdings WHERE quantity>0 AND character_id IN(SELECT character_id FROM development_bots) GROUP BY character_id
@@ -23,5 +22,5 @@ export async function auditBotEconomy(db:Database){
   ORDER BY c.attained_level,b.tier,b.variant,c.id LIMIT 1000`)).rows;
   return {readOnly:true,population:bots.length,dueBots:bots.filter(b=>b.due_hours>0).length,
    insufficientPortfolios:bots.filter(b=>b.plots<3||BigInt(b.fully_funded_net)<=0n).map(b=>b.id),bots};
- });
+ },{mode:'read-only'});
 }

@@ -1,0 +1,7 @@
+<details class="guide-calling"><summary>Optional: choose your Calling</summary>
+<p>A Calling gives your character a small specialty. You can choose now, keep your current Calling, or decide later on Home.</p>
+<ul class="calling-introduction"><% for(const key of Object.keys(strategy.callings)) { %><li><strong><%= callingName(key) %></strong> — <%= callingDescription(key) %></li><% } %></ul>
+<p>Current Calling: <strong><%= callingName(state.className) %></strong>. <%= state.calling.changeCost?'Another change costs '+state.calling.changeCost+' gold.':'Your first change is free.' %> Changes are limited to once every 24 hours.</p>
+<form method="post" action="/game/profile/calling"><%- include('command-fields') %><input type="hidden" name="returnTo" value="tutorial"><label for="tutorial-calling-choice">Choose a Calling (optional)</label><select id="tutorial-calling-choice" name="className"><% for(const key of Object.keys(strategy.callings)) { %><option value="<%= key %>"<% if(state.className===key) { %> selected<% } %>><%= callingName(key) %></option><% } %></select><button class="button button-outline" type="submit"<% if(state.calling.changeReadyAt&&Date.parse(state.calling.changeReadyAt)>Date.parse(state.serverTime)) { %> disabled<% } %>>Choose Calling</button></form>
+<p class="field-hint">Choosing is optional. Next Lesson works without changing Calling or spending gold.</p>
+</details>

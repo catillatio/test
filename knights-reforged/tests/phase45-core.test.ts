@@ -48,20 +48,20 @@ test('one-tap Land buys/sales and 1, 30, 59 minute purchases keep the saved hour
   const page=await r.app.inject({method:'GET',url:'/game/land',headers:{cookie:a.cookie}});assert.doesNotMatch(page.body,/name="preview"/);
   const key=randomUUID(),post={propertyId:'smallholding',quantity:'1',csrf:a.csrf,commandId:key};
   const responses=await Promise.all([r.app.inject({method:'POST',url:'/game/land/buy',headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:post}),r.app.inject({method:'POST',url:'/game/land/buy',headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:post})]);
-  assert.ok(responses.every(response=>response.statusCode===303));assert.ok(responses.every(response=>String(response.headers.location).includes('/game/purchases/')));assert.equal((await r.me(a)).land.properties[0]!.owned,5);
+  assert.ok(responses.every(response=>response.statusCode===303));assert.ok(responses.every(response=>String(response.headers.location).includes('/game/land?command=')));assert.equal((await r.me(a)).land.properties[0]!.owned,5);
  }finally{await r.close();}
 });
 test('upcoming payment matches authoritative purse movement with prepaid, wallet-funded, suspended and negative upkeep',{skip},async()=>{
  const start=new Date('2046-01-03T00:00:00Z');let now=start;const r=await realm({isolated:true,clock:()=>now});try{
   const a=await r.player();await r.prepare(a,10000);await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
   await r.db.query('UPDATE maintenance_accounts SET hourly_rate=100,reserve_gold=100,settled_at=$2 WHERE character_id=$1',[a.id,start]);
-  const prepaid=await r.me(a);assert.equal(prepaid.payment.gold,7);assert.equal(prepaid.payment.prepaidUpkeep,100);assert.equal(prepaid.payment.economicNet,-93);
+  const prepaid=await r.me(a);assert.equal(prepaid.payment.gold,-93);assert.equal(prepaid.payment.automaticReserve,100);assert.equal(prepaid.payment.prepaidUpkeep,100);assert.equal(prepaid.payment.economicNet,-93);
   now=new Date(+start+3600000);const paid=await r.me(a);assert.equal(paid.gold-prepaid.gold,prepaid.payment.gold);assert.equal(paid.payment.gold,-93);
   now=new Date(+now+3600000);const next=await r.me(a);assert.equal(next.gold-paid.gold,-93);
-  await r.db.query('UPDATE maintenance_accounts SET paused=true WHERE character_id=$1',[a.id]);assert.equal((await r.me(a)).payment.gold,7);
+  await r.db.query('UPDATE maintenance_accounts SET paused=true WHERE character_id=$1',[a.id]);const recovered=await r.me(a);assert.equal(recovered.maintenance.paused,false);assert.equal(recovered.payment.gold,-93);
  }finally{await r.close();}
 });
-test('versioned healing, exposed-gold loot and meaningful-victory XP scale without retroactive changes',()=>{
+test('historical Phase 4.5 healing, capped loot and XP definitions remain reproducible without retroactive changes',()=>{
  assert.equal(healingQuote(75,100,17,500).cost,50);assert.equal(healingQuote(100,100,50,0).cost,0);
  assert.equal(victoryLoot45(100000,1).amount,3000);assert.equal(victoryLoot45(1000000,1).amount,15000);assert.equal(victoryLoot45(0,1).amount,0);
  assert.deepEqual([1,2,3,4,5,6].map(n=>victoryLoot45(100000,n).multiplier),[100,75,50,25,10,10]);

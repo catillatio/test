@@ -1,0 +1,22 @@
+/* Player profile presentation only. Artwork, navigation and other screens keep
+   their established styling. Stats are a flat two-column list, never cards. */
+.screen-profile .profile-info{padding:0;overflow:hidden}
+.screen-profile .classic-profile-section>.profile-section-heading{margin:0;padding:6px 10px;font-size:17px;border-bottom:1px solid #827354}
+.screen-profile .classic-profile-section+.classic-profile-section{border-top:1px solid #655d4d}
+.screen-profile .classic-profile-stats{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:7px 14px;margin:0;padding:10px}
+.screen-profile .classic-profile-stats>div,.screen-profile .classic-profile-income>div{display:flex;align-items:baseline;justify-content:space-between;gap:6px;min-width:0;font:13px/1.35 Arial,sans-serif;font-variant-numeric:tabular-nums}
+.screen-profile .classic-profile-stats dt,.screen-profile .classic-profile-income dt{color:#d4cfc4}
+.screen-profile .classic-profile-stats dd,.screen-profile .classic-profile-income dd{margin:0;text-align:right;color:#f2ebde;overflow-wrap:anywhere}
+.screen-profile .classic-profile-stats dd{font-weight:600}
+.screen-profile .classic-profile-income{display:grid;gap:5px;margin:0;padding:9px 10px 11px;max-width:390px}
+.screen-profile .classic-profile-income>div{font-size:14px}
+.kingdoms-ui.screen-profile .classic-profile-income .gold,.kingdoms-ui.screen-profile .classic-profile-income [data-flow=positive]{color:#e8c77c}
+.kingdoms-ui.screen-profile .classic-profile-income .upkeep-cost,.kingdoms-ui.screen-profile .classic-profile-income [data-flow=negative]{color:#e6a28a}
+.screen-profile .profile-inventory>.profile-section-heading:first-child{margin-top:0}
+@media(min-width:700px){.screen-profile .classic-profile-stats>div,.screen-profile .classic-profile-income>div{font-size:16px}.screen-profile .classic-profile-stats{padding:12px;gap:8px 24px}.screen-profile .classic-profile-income{padding:12px}.screen-profile .classic-profile-section>.profile-section-heading{font-size:19px}}
+
+.screen-profile .profile-actions{padding:8px 10px}
+.screen-profile .profile-actions .opponent-health{margin:0 0 3px}
+.screen-profile .profile-actions meter{height:7px;margin:0 0 6px}
+.screen-profile .profile-actions .opponent-actions{margin:0;gap:7px}
+.screen-profile .profile-actions .combat-restriction,.screen-profile .profile-actions .bounty-eligibility{margin:5px 0 0;font-size:12px;line-height:1.35}

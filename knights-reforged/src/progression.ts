@@ -1,12 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { type Sql } from './db.js';
 import { GameError } from './errors.js';
-import { alpha,advanceLevel } from './alpha-rules.js';
+import { alpha } from './alpha-rules.js';
+import {advanceProgression,readProgressionEpoch} from './progression-policy.js';
 
 export async function grantExperience(sql:Sql,characterId:string,award:number,now:Date,restoreResources=true) {
-  const row=(await sql.query('SELECT attained_level,level_xp,xp FROM characters WHERE id=$1',[characterId])).rows[0]!;
+  const row=(await sql.query('SELECT attained_level,level_xp,xp FROM characters WHERE id=$1 FOR UPDATE',[characterId])).rows[0]!;
   const actual=Math.min(award,2147483647-row.xp);
-  const next=advanceLevel(row.attained_level,row.level_xp,actual);
+  const next=advanceProgression(row.attained_level,row.level_xp,actual,await readProgressionEpoch(sql,characterId));
   await sql.query(`UPDATE characters SET xp=xp+$2,attained_level=$3,level_xp=$4,skill_points=skill_points+$5,
     health=CASE WHEN $6 THEN max_health ELSE health END,mana=CASE WHEN $6 THEN max_mana ELSE mana END,spirit=CASE WHEN $6 THEN max_spirit ELSE spirit END,
     health_updated_at=CASE WHEN $6 THEN $7 ELSE health_updated_at END,mana_updated_at=CASE WHEN $6 THEN $7 ELSE mana_updated_at END,

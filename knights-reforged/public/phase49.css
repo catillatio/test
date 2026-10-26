@@ -76,7 +76,77 @@
 }
 .property-art-49-0 { background-image: url('art/properties-49/wyrmcrest-keep.webp'); }
 .property-art-49-1 { background-image: url('art/properties-49/gold-mine.webp'); }
+/* Phase 5.1A: only the remaining tutorial/reward surfaces. Resource bars,
+   semantic success/error text, motion preferences and approved layouts stay. */
+.kingdoms-ui.realm-remaster :is(.guide-welcome,.guide-lesson,.quest-result,.achievement-row,.achievement-toast) {
+  background: linear-gradient(110deg,#262421ed,#111111f2);
+}
+.kingdoms-ui.realm-remaster .achievement-row.is-locked { background: #151515e8; }
+.kingdoms-ui.realm-remaster .tutorial-complete {
+  background: radial-gradient(ellipse at top,#95712d40,transparent 75%),linear-gradient(#292622f8,#111111f5);
+}
+.kingdoms-ui.realm-remaster :is(.tutorial-success-note,.guide-done) {
+  background: #29251ef0; border-color: #a18b59;
+}
+.kingdoms-ui.realm-remaster .achievement-emblem {
+  background: linear-gradient(135deg,#c7ad60,#494038 35%,#202020 70%,#9c7939);
+}
+.kingdoms-ui.realm-remaster :is(.achievement-emblem.rank-3,.achievement-emblem.rank-4,.achievement-emblem.rank-5) {
+  background: linear-gradient(135deg,#e2c362,#63594b 40%,#252321 65%,#c9a34e);
+}
+.kingdoms-ui.realm-remaster .champion-row .player-link small { margin-top: 1px; }
+.kingdoms-ui.realm-remaster .champion-row .champion-name small { display: inline; margin-left: 4px; }
+.kingdoms-ui.realm-remaster .champion-row .champion-level { color: #d6ccba; font-size: 11px; }
+.kingdoms-ui.realm-remaster .market-purchase-feedback {
+  margin: 3px 0; border-left: 2px solid #b39150; background: #29251eef;
+  font: 11px/1.35 system-ui,sans-serif; color: #f0daa5;
+}
+.market-purchase-feedback a { display: flex; flex-direction: column; justify-content: center; min-height: 44px; min-width: 44px; padding: 3px 6px; color: inherit; }
+.market-purchase-feedback a span { font-size: 10px; color: #d5c5a0; }
 .kingdoms-ui.screen-land.signed-in .market-catalog .property-art-frame .property-art-49 {
   width: 100%; height: 100%; transform: none;
   filter: saturate(.82) brightness(.9) contrast(1.04);
+}
+/* Full-bleed scene compositions. Artwork must never use letterboxing, empty
+   gutters or artificial mattes. Landmark-safe landscape masters support every
+   existing frame using proportional cover, with the high spires kept in view. */
+.kingdoms-ui.realm-remaster.signed-in .catalog-art.property-art-51b {
+  display: block; background-size: cover; background-position: 50% 0%;
+  background-repeat: no-repeat; background-color: transparent; filter: none;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.property-art-51b-0 { background-image: url('art/properties-51b-fullbleed-2/dawnspire-cathedral.webp'); }
+.property-art-51b-1 { background-image: url('art/properties-51b-fullbleed-2/wyrmcrest-keep.webp'); }
+.property-art-51b-2 { background-image: url('art/properties-51b-fullbleed-2/astral-observatory.webp'); }
+.property-art-51b-3 { background-image: url('art/properties-51b-fullbleed-2/throne-of-ash.webp'); }
+.property-art-51b-4 { background-image: url('art/properties-51b-fullbleed-2/eclipse-citadel.webp'); }
+.property-art-51b-5 { background-image: url('art/properties-51b-fullbleed-2/tempest-port.webp'); }
+.kingdoms-ui.screen-land .property-art-frame:has(.property-art-51b) {
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.kingdoms-ui.screen-land.signed-in .market-catalog .property-art-frame .property-art-51b {
+  width: 100%; height: 100%; transform: none; filter: none;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+/* Owner-selected CURRENT equipment reference pixels, already color processed in
+   their source capture. Keep native dimensions, proportional fill and no second
+   filter or review-frame edges. Original atlases and all other items stay. */
+.kingdoms-ui.realm-remaster.signed-in .catalog-art.equipment-art-51b {
+  display: block; background-size: cover; background-position: center;
+  background-repeat: no-repeat; background-color: transparent; filter: none;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.equipment-art-51b-0 { background-image: url('art/equipment-51b-current-1/oathbound-greatsword.webp'); }
+.equipment-art-51b-1 { background-image: url('art/equipment-51b-current-1/crown-of-ash-blade.webp'); }
+.equipment-art-51b-2 { background-image: url('art/equipment-51b-current-1/eclipse-greatsword.webp'); }
+.equipment-art-51b-3 { background-image: url('art/equipment-51b-current-1/sovereigns-bastion.webp'); }
+.equipment-art-51b-4 { background-image: url('art/equipment-51b-current-1/eclipse-citadel-plate.webp'); }
+
+/* Original level-100 paintings use the same native artwork slots. The source
+   fills the frame proportionally; no atlas offset, filter or contain matte. */
+.kingdoms-ui.realm-remaster.signed-in .catalog-art.expansion-art {
+  object-fit: cover; object-position: center; filter: none;
+}
+.kingdoms-ui.realm-remaster.signed-in .property-art-frame .catalog-art.expansion-art {
+  width: 100%; height: 100%; transform: none; border: 0; border-radius: 0; object-position: 50% 0%;
 }

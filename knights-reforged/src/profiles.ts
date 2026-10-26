@@ -1,11 +1,14 @@
+import {expansionBotIds,installedCohort} from './expansion-bot-rules.js';
 import {type Database,transaction} from './db.js';
 import {clock,lockCharacters,materialize,stateFrom,type CharacterState,type GameRuntime} from './game.js';
 import {alpha,areRivals} from './alpha-rules.js';
 import {community} from './community-rules.js';
 import {GameError} from './errors.js';
 import {propertyName} from './property-presentation.js';
+import {contentCatalog} from './expansion-content.js';
 
 export function ownedProperties(state:CharacterState){
+  const alpha=contentCatalog(state.rulesetId);
   // Sum saved holding rates, not today's catalog rates. Legacy purchases retain
   // their actual economics even when the current catalog has different values.
   const groups=new Map<string,{id:string;name:string;quantity:number;grossIncome:number;upkeep:number;illustration?:{atlas:string;row:number;column:number};art:string}>();
@@ -14,10 +17,17 @@ export function ownedProperties(state:CharacterState){
     const entry=old??{id:holding.propertyId,name:propertyName(holding.propertyId,holding.name),quantity:0,grossIncome:0,upkeep:0,illustration:catalog?.illustration,art:catalog?.art??'fields'};
     entry.quantity+=holding.quantity;entry.grossIncome+=holding.hourlyIncome;entry.upkeep+=holding.hourlyUpkeep;groups.set(holding.propertyId,entry);
   }
-  return [...groups.values()].sort((a,b)=>a.grossIncome-b.grossIncome||a.name.localeCompare(b.name));
+  const order=new Map(alpha.properties.map((property,index)=>[property.id,{level:property.level,index}]));
+  // Presentation only. Unknown historical IDs follow the catalog in stable ID
+  // order; their saved names, quantities and financial rates remain intact.
+  return [...groups.values()].sort((a,b)=>
+    (order.get(a.id)?.level??Number.MAX_SAFE_INTEGER)-(order.get(b.id)?.level??Number.MAX_SAFE_INTEGER)||
+    (order.get(a.id)?.index??Number.MAX_SAFE_INTEGER)-(order.get(b.id)?.index??Number.MAX_SAFE_INTEGER)||
+    (a.id<b.id?-1:a.id>b.id?1:0));
 }
 export async function publicProfile(db:Database,characterId:string,runtime:GameRuntime={}){
   return transaction(db,async sql=>{
+    if(expansionBotIds.has(characterId)&&!(await installedCohort(sql))?.active)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
     const identity=(await sql.query(`SELECT a.login_disabled,EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS bot
       FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.id=$1`,[characterId])).rows[0];
     if(!identity||identity.login_disabled&&!identity.bot)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
@@ -36,13 +46,13 @@ export async function publicProfile(db:Database,characterId:string,runtime:GameR
   });
 }
 export type PublicProfile=Awaited<ReturnType<typeof publicProfile>>;
-export function attackAvailability(actor:CharacterState,target:Pick<PublicProfile,'id'|'name'|'level'|'health'|'maxHealth'|'temporaryRival'|'botActive'>,developmentBotsEnabled:boolean){
+export function attackAvailability(actor:CharacterState,target:Pick<PublicProfile,'id'|'name'|'level'|'health'|'maxHealth'|'temporaryRival'|'botActive'>,developmentBotsEnabled:boolean,bountyHunt=false){
   const reason=actor.id===target.id?'You cannot attack yourself.':target.temporaryRival&&(!developmentBotsEnabled||!target.botActive)?'This temporary rival is unavailable.':
-    !areRivals(actor.level,target.level)?'Choose an opponent nearer your level.':target.health<community.combat.defenderMinimumHealth?'Opponent defeated — 0 Health. They must recover before another attack.':
-    actor.health<alpha.combat.minimumHealth?'You need at least '+alpha.combat.minimumHealth+' Health to attack.':actor.spirit<alpha.combat.spiritCost?'Wait for Spirit to recover.':
+    !bountyHunt&&!areRivals(actor.level,target.level)?'Choose an opponent nearer your level.':target.health<community.combat.defenderMinimumHealth?'Opponent defeated — 0 Health. They must recover before another attack.':
+    actor.health<alpha.combat.minimumHealth?'You need at least '+alpha.combat.minimumHealth+' Health to attack.':actor.spirit<alpha.combat.spiritCost?'Wait for Stamina to recover.':
     null;
   return {targetId:target.id,name:target.name,health:target.health,maxHealth:target.maxHealth,allowed:!reason,reason,
-    eligible:actor.id!==target.id&&areRivals(actor.level,target.level)&&target.health>=community.combat.defenderMinimumHealth&&(!target.temporaryRival||(developmentBotsEnabled&&target.botActive))};
+    eligible:actor.id!==target.id&&(bountyHunt||areRivals(actor.level,target.level))&&target.health>=community.combat.defenderMinimumHealth&&(!target.temporaryRival||(developmentBotsEnabled&&target.botActive))};
 }
 
 export async function recruitmentAvailability(db:Database,actor:CharacterState,target:PublicProfile,botRecruitmentEnabled:boolean){

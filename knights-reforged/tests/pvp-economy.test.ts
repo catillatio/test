@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {realm,testDatabaseUrl,type Player} from './helpers.js';
 import {pvp,victoryLoot} from '../src/pvp-rules.js';
+import {humanPvpLoot,humanVictoryLoot} from '../src/human-pvp-loot.js';
 import {loadConfig} from '../src/config.js';
 import {createApp} from '../src/app.js';
 import {createSession} from '../src/auth.js';
@@ -27,7 +28,59 @@ async function setup(bots=false){
   return {...r,veteran,battle,ready,now:()=>now,advance:(s:number)=>{now=new Date(+now+s*1000);}};
 }
 
-test('approved loot arithmetic uses current unbanked gold, two floors, cap and all diminishing percentages',()=>{
+test('Uncapped victories preserve full gold at the wallet limit, roll back failed credits and retain pre-cutover pair restrictions',{skip},async()=>{
+ const r=await setup();try{
+  const a=await r.veteran('Large Loot Hunter',true),b=await r.veteran('Large Exposed Treasury');await r.ready(a,b);
+  await r.ok(b,'/api/v1/vault/deposits',{amount:100000});
+  await r.db.query('UPDATE wallets SET balance=2147483640 WHERE character_id=$1',[a.id]);await r.db.query('UPDATE wallets SET balance=2147483647 WHERE character_id=$1',[b.id]);
+  const before=(await r.me(a)),bank=(await r.me(b)).bankedGold,key=randomUUID();
+  const hit=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key),report=await r.battle(hit.battleId);
+  assert.equal(report.outcome,'attacker_win');assert.equal(report.loot,64424509);assert.equal(report.pvpRulesetId,humanPvpLoot.id);assert.equal(report.lootDetails.rulesetId,humanPvpLoot.id);
+  assert.equal(hit.state.gold,2147483647);assert.equal((await r.me(b)).gold,2083059138);assert.equal((await r.me(b)).bankedGold,bank);
+  const retained=BigInt((await r.db.query('SELECT pending_gold::text AS n FROM land_accounts WHERE character_id=$1',[a.id])).rows[0]!.n);
+  assert.equal(retained,64424502n);assert.equal(BigInt(hit.state.gold-before.gold)+retained,BigInt(report.loot),'the entire stolen amount belongs to the attacker');
+  const journal=(await r.db.query("SELECT sum(e.amount)::text AS n FROM economy_entries e JOIN economy_transactions t ON t.id=e.transaction_id WHERE t.reason='battle_loot'")).rows[0]!.n;
+  assert.equal(BigInt(journal)+retained,0n,'wallet and retained journals conserve gold together');
+  await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key);assert.equal((await r.db.query('SELECT count(*)::int n FROM battles')).rows[0]!.n,1);assert.equal((await r.db.query('SELECT pending_gold::text n FROM land_accounts WHERE character_id=$1',[a.id])).rows[0]!.n,retained.toString());
+  const snapshot=async()=>({characters:(await r.db.query('SELECT id,health,spirit,xp,state_version FROM characters ORDER BY id')).rows,wallets:(await r.db.query('SELECT * FROM wallets ORDER BY character_id')).rows,treasury:(await r.db.query('SELECT * FROM land_accounts ORDER BY character_id')).rows,sequences:(await r.db.query('SELECT * FROM pvp_loot_sequences ORDER BY attacker_id,defender_id')).rows,counts:(await r.db.query('SELECT (SELECT count(*) FROM battles) AS battles,(SELECT count(*) FROM command_receipts) AS receipts,(SELECT count(*) FROM economy_entries) AS entries,(SELECT count(*) FROM treasury_retained_events) AS retained')).rows});
+  const saved=await snapshot();
+  await r.db.query("CREATE FUNCTION fail_test_loot_credit() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NEW.reason='battle_loot' THEN RAISE EXCEPTION 'synthetic retained credit failure';END IF;RETURN NEW;END $$;CREATE TRIGGER fail_test_loot_credit BEFORE INSERT ON treasury_retained_events FOR EACH ROW EXECUTE FUNCTION fail_test_loot_credit()");
+  assert.equal((await r.command(a,'/api/v1/battles',{targetCharacterId:b.id})).statusCode,500);assert.deepEqual(await snapshot(),saved,'a failed retained credit rolls back debit, credit, damage, XP, resource and sequence changes');
+  await r.db.query('DROP TRIGGER fail_test_loot_credit ON treasury_retained_events');
+  const legacy=await r.veteran('Existing Pair Defender');await r.db.query('UPDATE wallets SET balance=1000000 WHERE character_id=$1',[legacy.id]);
+  const started=new Date(+r.now()-3600000);await r.db.query("INSERT INTO pvp_loot_sequences(attacker_id,defender_id,window_started_at,victories,ruleset_id) VALUES($1,$2,$3,4,'gameplay-refinement-1')",[a.id,legacy.id,started]);
+  const next=await r.battle((await r.ok(a,'/api/v1/battles',{targetCharacterId:legacy.id})).battleId);
+  assert.equal(next.loot,3000);assert.equal(next.lootDetails.victory,5);assert.equal(next.lootDetails.multiplier,10);assert.equal(next.lootDetails.windowStartedAt,started.toISOString());
+ }finally{await r.close();}
+});
+
+test('Concurrent maximum-balance wins conserve wallet plus retained gold and retry only once with no cap',{skip},async()=>{
+ const r=await setup();try{
+  const a=await r.veteran('First Large Hunter',true),b=await r.veteran('Second Large Hunter',true),target=await r.veteran('Large Shared Target');await r.ready(a,b,target);
+  await r.db.query('UPDATE wallets SET balance=2147483647 WHERE character_id=ANY($1::uuid[])',[[a.id,b.id,target.id]]);
+  const total=async()=>{const n=(await r.db.query('SELECT sum(w.balance::numeric+COALESCE(l.pending_gold,0))::text AS n FROM wallets w LEFT JOIN land_accounts l ON l.character_id=w.character_id')).rows[0]!.n;return BigInt(n);};
+  const before=await total(),key=randomUUID(),hits=await Promise.all([r.ok(a,'/api/v1/battles',{targetCharacterId:target.id},key),r.ok(a,'/api/v1/battles',{targetCharacterId:target.id},key),r.ok(b,'/api/v1/battles',{targetCharacterId:target.id})]);
+  assert.equal(hits[0].battleId,hits[1].battleId);const rows=(await r.db.query('SELECT snapshot,result FROM battles')).rows;assert.equal(rows.length,2);
+  assert.deepEqual(rows.map(r=>r.result.loot).sort((x,y)=>x-y),[62491774,64424509]);
+  for(const row of rows)assert.equal(row.result.loot,humanVictoryLoot(row.snapshot.defender.gold,1).amount);
+  assert.equal((await r.me(target)).gold,2020567364);assert.equal(await total(),before);
+ }finally{await r.close();}
+});
+
+test('Uncapped ordinary loot stays separate from exact bounty principal, listing fees, rewards and replay accounting',{skip},async()=>{
+ const r=await setup();try{
+  const sponsor=await r.veteran('Large Contract Sponsor'),hunter=await r.veteran('Large Contract Hunter',true),target=await r.veteran('Large Contract Target');await r.ready(sponsor,hunter,target);
+  await r.db.query('UPDATE wallets SET balance=1000000000 WHERE character_id=$1',[target.id]);
+  const total=async()=>BigInt((await r.db.query('SELECT sum(balance)::text AS n FROM wallets')).rows[0]!.n),before=await total();
+  const contract=await r.ok(sponsor,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1000});await r.db.query('UPDATE characters SET health=1,health_updated_at=$2 WHERE id=$1',[target.id,r.now()]);
+  const wallet=(await r.me(hunter)).gold,key=randomUUID(),payload={targetCharacterId:target.id,bountyId:contract.data.bountyId};
+  const hit=await r.ok(hunter,'/api/v1/battles',payload,key),report=await r.battle(hit.battleId);
+  assert.equal(report.loot,30000000);assert.equal(report.bountyClaim.reward,1000);assert.equal((await r.me(hunter)).gold,wallet+30000000+1000);assert.equal((await r.me(target)).gold,970000000);assert.equal(before-await total(),100n,'only the existing listing fee is removed');
+  await r.ok(hunter,'/api/v1/battles',payload,key);assert.equal((await r.db.query('SELECT count(*)::int n FROM bounty_kills')).rows[0]!.n,1);assert.equal(before-await total(),100n);
+ }finally{await r.close();}
+});
+
+test('Historical pvp-economy-0.1 capped arithmetic remains reproducible independently of current human rewards',()=>{
   let gold=100000;const stolen=[];
   for(let victory=1;victory<=6;victory++){const loot=victoryLoot(gold,victory);stolen.push(loot.amount);gold-=loot.amount;}
   assert.deepEqual(stolen,[3000,2182,1422,700,278,277]);
@@ -56,7 +109,7 @@ test('fixed-window victory sequence transfers exact gold through fifth+ hits, su
     const savedBank=(await r.me(b)).bankedGold,initialA=(await r.me(a)).gold;
     let expected=100000,total=0;
     for(let i=1;i<=6;i++){
-      const key=randomUUID(),before=await r.me(a),expectedLoot=victoryLoot(expected,i).amount;
+      const key=randomUUID(),before=await r.me(a),expectedLoot=humanVictoryLoot(expected,i).amount;
       const hit=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key),report=await r.battle(hit.battleId);
       assert.equal(report.outcome,'attacker_win');assert.equal(report.loot,expectedLoot);assert.equal(report.lootDetails.victory,i);
       assert.equal(report.lootDetails.windowStartedAt,'2041-01-01T23:00:00.000Z');
@@ -107,7 +160,7 @@ test('concurrent victories serialize remaining-wallet formulas and retries canno
     assert.equal(responses[0].battleId,responses[1].battleId);
     const reports=(await r.db.query('SELECT snapshot,result FROM battles ORDER BY created_at,id')).rows;
     assert.equal(reports.length,3);
-    let amount=0;for(const row of reports){const result=row.result;assert.equal(result.loot,victoryLoot(row.snapshot.defender.gold,result.lootDetails.victory).amount);amount+=result.loot;}
+    let amount=0;for(const row of reports){const result=row.result;assert.equal(result.loot,humanVictoryLoot(row.snapshot.defender.gold,result.lootDetails.victory).amount);amount+=result.loot;}
     assert.equal((await r.me(target)).gold,100000-amount);
     assert.equal((await r.me(a)).gold+(await r.me(b)).gold+(await r.me(target)).gold,sumBefore);
     assert.equal((await r.me(a)).spirit,98);assert.equal((await r.me(b)).spirit,99);

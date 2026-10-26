@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "stage": "before",
+  "views": [
+    {
+      "width": 320,
+      "own": true
+    },
+    {
+      "width": 320,
+      "own": false
+    },
+    {
+      "width": 390,
+      "own": true
+    },
+    {
+      "width": 390,
+      "own": false
+    },
+    {
+      "width": 430,
+      "own": true
+    },
+    {
+      "width": 430,
+      "own": false
+    },
+    {
+      "width": 1024,
+      "own": true
+    },
+    {
+      "width": 1024,
+      "own": false
+    }
+  ],
+  "errors": [],
+  "savedBusinessRowsPreserved": true,
+  "navigationAndEquipmentInteractions": true
+}

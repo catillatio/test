@@ -1,0 +1,61 @@
+{
+  "approvedCommit": "c764e1913501148cc58a2fe582742efab9eeed97",
+  "ownerApproval": "All six corrected full-bleed Land illustrations and mappings approved; no regeneration or reframing. No merge/deployment authorization.",
+  "landCssPrefixSha256": "d2cda876aa40240e2edb8883abc7f203ab1cc6e111b0ef183041ec8982bfc8c8",
+  "assets": [
+    {
+      "id": "dawnspire-cathedral",
+      "sha256": "567469aab78e14e17dfc1216d2139857e851c5ed39a3b551fc9583f8fb347523",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "classIndex": 0
+    },
+    {
+      "id": "wyrmcrest-keep",
+      "sha256": "78b07fde97546de72087d278d3b69997d0aa76f2a582cc4a775a4b1cbcfa682b",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "classIndex": 1
+    },
+    {
+      "id": "astral-observatory",
+      "sha256": "c26f1b4fb3573892b877f6e70cab353d453e32d7a89c5a6bbc4f425a3b424934",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "classIndex": 2
+    },
+    {
+      "id": "throne-of-ash",
+      "sha256": "20164ec090bc5b4a1a6aaa8e77b8702d4994676028f34931612ee1f1c71d8091",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "classIndex": 3
+    },
+    {
+      "id": "eclipse-citadel",
+      "sha256": "7e68dfe43c55196026df772acbf5e8ed2a7eac98fec1abaf63c2f3465b99f6c9",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "classIndex": 4
+    },
+    {
+      "id": "tempest-port",
+      "sha256": "03d6b7f4f72bbbaac29b0f597d1b63b7b1fab5722d0ab1134c87358ce93fc8cf",
+      "focalPosition": [
+        0.5,
+        0
+      ],
+      "classIndex": 5
+    }
+  ]
+}

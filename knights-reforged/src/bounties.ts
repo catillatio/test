@@ -97,10 +97,23 @@ async function claimBlockedReason(sql:Sql,claimantId:string,row:Record<string,an
   const bot=(await sql.query('SELECT active FROM development_bots WHERE character_id=$1',[row.target_id])).rows[0];
   if(bot&&(!botTargetsEnabled||!bot.active))return 'Temporary-target bounties require the development bounty flag.';
   if((battleLevels&&battleLevels[0]<rule.minimumLevel)||!await qualified(sql,claimantId))return 'Reach level 3 and complete five quests.';
-  const levels=battleLevels??(await sql.query('SELECT attained_level FROM characters WHERE id=ANY($1::uuid[]) ORDER BY id',[[claimantId,row.target_id]])).rows.map(r=>r.attained_level);
-  if(levels.length!==2||!areRivals(levels[0]!,levels[1]!))return 'Target is outside your rival level range.';
-  if(await allies(sql,claimantId,row.target_id)||await allies(sql,claimantId,row.sponsor_id))return 'Army allies of the sponsor or target cannot claim.';
+  // A bounty is an independently authorized hunt, never normal matchmaking.
+  // Level affects combat power, not contract eligibility.
+  // An accepted army relationship does not disqualify an eligible hunter.
+  // Sponsor/self restrictions and authoritative finishing evidence still apply.
   return null;
+}
+export async function bountyHuntAvailability(sql:Sql,claimantId:string,targetId:string,bountyId:string,now:Date,botTargetsEnabled=false){
+ const row=(await sql.query("SELECT * FROM bounties WHERE id=$1 AND target_id=$2 AND status='active' AND expires_at>$3",[bountyId,targetId,now])).rows[0];
+ if(!row)return {allowed:false,reason:'That exact bounty is no longer active.',bountyId};
+ const reason=await claimBlockedReason(sql,claimantId,row,now,undefined,botTargetsEnabled);
+ return {allowed:!reason,reason,bountyId};
+}
+// Caller holds the established escrow lock and both character locks. A supplied
+// closed/mismatched contract fails; it never falls back to an ordinary attack.
+export async function authorizeBountyHunt(sql:Sql,claimantId:string,targetId:string,bountyId:string,now:Date,botTargetsEnabled=false){
+ const eligibility=await bountyHuntAvailability(sql,claimantId,targetId,bountyId,now,botTargetsEnabled);
+ if(!eligibility.allowed)throw new GameError('BOUNTY_HUNT_UNAVAILABLE',eligibility.reason!,409);
 }
 export async function claimBounty(sql:Sql,claimantId:string,targetId:string,battleId:string,commandId:string,now:Date,botTargetsEnabled=false){
   const row=(await sql.query("SELECT * FROM bounties WHERE target_id=$1 AND status='active' AND expires_at>$2 FOR UPDATE",[targetId,now])).rows[0];
@@ -139,8 +152,10 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
       EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS temporary_rival, sponsor.name AS sponsor_name FROM bounties b JOIN characters c ON c.id=b.target_id JOIN characters sponsor ON sponsor.id=b.sponsor_id
       JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots d ON d.character_id=c.id
       WHERE ${visibleBounties} ORDER BY b.amount DESC,b.created_at,b.id LIMIT 100`,[now,botTargetsEnabled])).rows;
-    const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name FROM bounties b
-      JOIN characters c ON c.id=b.target_id JOIN characters s ON s.id=b.sponsor_id
+    const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name,h.name AS claimant_name,f.outcome AS battle_outcome,(d.battle_id IS NOT NULL) AS verified_death,(k.bounty_id IS NOT NULL) AS recorded_claim FROM bounties b
+      JOIN characters c ON c.id=b.target_id JOIN characters s ON s.id=b.sponsor_id LEFT JOIN characters h ON h.id=b.claimant_id LEFT JOIN battles f ON f.id=b.battle_id
+      LEFT JOIN competitive_deaths d ON d.battle_id=b.battle_id
+      LEFT JOIN bounty_kills k ON k.bounty_id=b.id AND b.status='claimed' AND k.claimant_id=b.claimant_id AND k.target_id=b.target_id AND k.battle_id=b.battle_id
       WHERE b.sponsor_id=$1 OR b.target_id=$1 OR b.claimant_id=$1 ORDER BY b.created_at DESC,b.id DESC LIMIT 50`,[characterId])).rows;
     // A transaction has one client; queued parallel reads add no SQL parallelism.
     const listings=[];for(const row of active){
@@ -150,6 +165,9 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
       listings.push({...row,health,armySize:Math.min(row.temporary_rival?10:Number.MAX_SAFE_INTEGER,activeArmy(row.level,row.units,row.allies,row.legacy_army_floor).participants),
         attackBlockedReason:health===0?'Opponent defeated — 0 Health. Wait for their recovery.':null,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now,undefined,botTargetsEnabled)});
     }
-    return {active:listings,activeCount:Number(active[0]?.visible_total??0),nextExpiryAt:active[0]?.next_expiry?new Date(active[0].next_expiry).toISOString():null,history,eligible:await qualified(sql,characterId),botTargetsEnabled,serverTime:now.toISOString(),rulesetId:pvp.id};
+    const attentionFeed=(await sql.query(`SELECT e.id,e.kind,b.id AS bounty_id,b.target_id,b.sponsor_id,b.claimant_id FROM bounty_events e JOIN bounties b ON b.id=e.bounty_id
+      WHERE b.id=ANY($1::uuid[]) AND e.kind IN ('placed','claimed') AND NOT EXISTS(SELECT 1 FROM notification_reads r WHERE r.character_id=$2 AND r.event_id=e.id AND r.kind='bounty_'||e.kind)
+      ORDER BY e.created_at DESC,e.id DESC LIMIT 40`,[[...active,...history].map(b=>b.id),characterId])).rows.map(e=>({id:e.id,kind:'bounty',data:{bountyId:e.bounty_id,event:e.kind,targetId:e.target_id,sponsorId:e.sponsor_id,claimantId:e.claimant_id}}));
+    return {attentionFeed,active:listings,activeCount:Number(active[0]?.visible_total??0),nextExpiryAt:active[0]?.next_expiry?new Date(active[0].next_expiry).toISOString():null,history,eligible:await qualified(sql,characterId),botTargetsEnabled,serverTime:now.toISOString(),rulesetId:pvp.id};
   });
 }

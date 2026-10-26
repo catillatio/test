@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "baseCommit": "e599cd0935b0f3782b559f89e1a7a08c2317e837",
+  "existingPublicArtFilesUnchanged": 83,
+  "existingRulesetFilesUnchanged": 33,
+  "deploymentMigrationsAndWorkflowsUnchanged": true,
+  "checkedExistingFiles": 176,
+  "method": "Compare every existing Git blob byte-for-byte against e599cd0; no live database or production access.",
+  "preservedPropertyEntries": 6,
+  "preservedHudsonEntries": 1,
+  "newRegistryActive": false
+}

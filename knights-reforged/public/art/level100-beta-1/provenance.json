@@ -1,0 +1,72 @@
+{
+  "policy": "temporary-beta-artwork-1",
+  "manifest": "level100-beta-artwork-1",
+  "totalImageBytes": 4000,
+  "assets": [
+    {
+      "role": "weapon",
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "sha256": "c574fb4c9ce3869a8f843d3f29f96b42fb264ca82d62a17909e7b8e42e8eb3fc",
+      "bytes": 508,
+      "width": 128,
+      "height": 128,
+      "source": "public/art/alpha/blade.svg",
+      "sourceSha256": "8ce94f4c1d2389fd555dac3648f6e3005f5f7f1b964b9621386cecc759d53531",
+      "vector": "docs/level100-launch/beta-art/sources/weapon.svg",
+      "vectorSha256": "a76700072e4b2d36fa35159803d292d7fc273373257fe291063c8170da00051e",
+      "use": "temporary-beta"
+    },
+    {
+      "role": "armor",
+      "path": "/assets/art/level100-beta-1/armor.webp",
+      "sha256": "6caccf3378dcd9352b33ce8a60930ffd5e5f820ec4c5c428c864f35d4c2eb21b",
+      "bytes": 882,
+      "width": 128,
+      "height": 128,
+      "source": "public/art/alpha/mail.svg",
+      "sourceSha256": "12c8446b1ee5a4dcbcb518a280bddfa3157d62bf3d12c7d5e68c7e7c904e8922",
+      "vector": "docs/level100-launch/beta-art/sources/armor.svg",
+      "vectorSha256": "834a7d62074593b69effb3380a13ddcdb55916cebdf38a614a3c7c0f48d94de1",
+      "use": "temporary-beta"
+    },
+    {
+      "role": "shield",
+      "path": "/assets/art/level100-beta-1/shield.webp",
+      "sha256": "de4924f6642d1c42c59e0c9f73dafc78a91d1b65b1fc5e3441de9aeffb6f4ccf",
+      "bytes": 1022,
+      "width": 128,
+      "height": 128,
+      "source": "public/art/alpha/buckler.svg",
+      "sourceSha256": "fa4e6f72cc70e89ca2d1220e125450a6a18a68619982652964afeb3a349bf564",
+      "vector": "docs/level100-launch/beta-art/sources/shield.svg",
+      "vectorSha256": "85a5fe4b28e446c74e8398c1ac10f7cf150ae52fc83f3a258797f9325d850a71",
+      "use": "temporary-beta"
+    },
+    {
+      "role": "spell",
+      "path": "/assets/art/level100-beta-1/spell.webp",
+      "sha256": "da2d2d89f104479c239dd254cde2984bb296941db01fa06b3e53333b20630c8a",
+      "bytes": 998,
+      "width": 128,
+      "height": 128,
+      "source": "public/art/alpha/storm.svg",
+      "sourceSha256": "f6fa291721d209781528e1f14ff93d7a890aba72ed5cb158bb3d61a8e37027f0",
+      "vector": "docs/level100-launch/beta-art/sources/spell.svg",
+      "vectorSha256": "f3c1fef7665a20eb0cae2cc12c8ba34da5fca87219c0295c4e2883eadfc9ed75",
+      "use": "temporary-beta"
+    },
+    {
+      "role": "land",
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "sha256": "86ed4f1ad1cd95429f31255f56ae25980073ade00631c4db391e4c70a1fd004d",
+      "bytes": 590,
+      "width": 192,
+      "height": 128,
+      "source": "public/art/alpha/tower.svg",
+      "sourceSha256": "a45c3b3710accb4febd8b91c4d9187a5492bd37c95e24b82009452e1354db0f1",
+      "vector": "docs/level100-launch/beta-art/sources/land.svg",
+      "vectorSha256": "de85e00ccf0bed3d14ea158f04d679499d036b63443b27d15275fe8a0955f3b8",
+      "use": "temporary-beta"
+    }
+  ]
+}

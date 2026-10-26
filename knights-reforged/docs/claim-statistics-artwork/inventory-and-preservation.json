@@ -1,0 +1,126 @@
+{
+  "baseline": "dd5841349056e2f6d8c0ae79018f91909b7dbffc",
+  "productionContacted": false,
+  "registry": "equipment-artwork-1",
+  "runtimeBytes": 1138080,
+  "integrated": [
+    {
+      "id": "king-hudsons-meteor-shower",
+      "name": "King Hudson's Meteor Shower",
+      "category": "spell",
+      "level": 71,
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "sha256": "f2e3a6038d78fef26f7ba923fca1362869c36263826d52c4f7772b1bacc3d8b7",
+      "bytes": 488002,
+      "width": 512,
+      "height": 512,
+      "fullBleed": true,
+      "source": "docs/level100-launch/art/archived-runtime-level100-1/king-hudsons-meteor-shower.webp",
+      "sourceSha256": "f2e3a6038d78fef26f7ba923fca1362869c36263826d52c4f7772b1bacc3d8b7",
+      "ownerOriginal": "docs/level100-launch/art/owner-originals/2e7522e3-4f93-40d6-84c6-5e6cfbbce96c.png",
+      "ownerOriginalSha256": "8dd0c069a6f118507d7bc0ba8736e33a4f633aa4550ae387e90d3729586178a8",
+      "sourceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+      "processing": "Byte-identical copy of the previously prepared lossless 512x512 WebP. No re-encoding, repainting or source-image edits.",
+      "license": "Owner-supplied original artwork explicitly selected for project integration. No third-party stock license or exclusivity claim."
+    },
+    {
+      "id": "king-hudsons-shield",
+      "name": "King Hudson's Shield",
+      "category": "armor",
+      "level": 71,
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "sha256": "0df78f3f548e07e15e6e1df55040502bad9fc93772f37f9b21c264306afcf6b0",
+      "bytes": 355466,
+      "width": 512,
+      "height": 512,
+      "fullBleed": true,
+      "source": "docs/level100-launch/art/archived-runtime-level100-1/king-hudsons-shield.webp",
+      "sourceSha256": "0df78f3f548e07e15e6e1df55040502bad9fc93772f37f9b21c264306afcf6b0",
+      "ownerOriginal": "docs/level100-launch/art/owner-originals/1df90978-1cde-4080-8bba-dc25fd86b9df.png",
+      "ownerOriginalSha256": "ff71f02557c909086a010a1f8b045d95ffd10d9e2039c9442d780d577234943a",
+      "sourceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+      "processing": "Byte-identical copy of the previously prepared lossless 512x512 WebP. No re-encoding, repainting or source-image edits.",
+      "license": "Owner-supplied original artwork explicitly selected for project integration. No third-party stock license or exclusivity claim."
+    },
+    {
+      "id": "king-hudsons-sword",
+      "name": "King Hudson's Sword",
+      "category": "weapon",
+      "level": 71,
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "sha256": "4454c62eaba848ac0e0efa6b1b492d843d5148927c8db5b9705549aac029f883",
+      "bytes": 294612,
+      "width": 512,
+      "height": 512,
+      "fullBleed": true,
+      "source": "docs/level100-launch/art/archived-runtime-level100-1/king-hudsons-sword.webp",
+      "sourceSha256": "4454c62eaba848ac0e0efa6b1b492d843d5148927c8db5b9705549aac029f883",
+      "ownerOriginal": "docs/level100-launch/art/owner-originals/ccb25e5e-239c-4194-b1e7-23d913641f44.png",
+      "ownerOriginalSha256": "eff1393d4ae5787c237965a6cca5f7c402ab064b3aafd7bbac6e0c6f4576a3d3",
+      "sourceCommit": "3721dc4595e237f6f5bf8632e70b60a0e6c157a7",
+      "processing": "Byte-identical copy of the previously prepared lossless 512x512 WebP. No re-encoding, repainting or source-image edits.",
+      "license": "Owner-supplied original artwork explicitly selected for project integration. No third-party stock license or exclusivity claim."
+    }
+  ],
+  "missingApprovedReplacements": [
+    {
+      "id": "eclipse-citadel-plate",
+      "name": "Royal Garrison Plate",
+      "requiredSource": "Distinctive fortress-inspired armor",
+      "currentPathPreserved": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp",
+      "currentSha256Preserved": "cc9ac29d255373bfbd1aa73512acbc1d4da79cfadc446169e0afe147b2233c85",
+      "substitutionMade": false
+    },
+    {
+      "id": "sovereigns-zweihander",
+      "name": "Mountain Warden’s Zweihander",
+      "requiredSource": "Approved revised standalone design, differentiated from Highland Claymore",
+      "currentPathPreserved": "/assets/art/coordinated-art-2/sovereigns-zweihander.webp",
+      "currentSha256Preserved": "6c260adac54855e520a38d334b54e4cd3605ceee1393bf1fad0bf655374d607c",
+      "substitutionMade": false
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "name": "Eclipse Gatehammer",
+      "requiredSource": "Approved white/gold version",
+      "currentPathPreserved": "/assets/art/coordinated-art-2/eclipse-gatehammer.webp",
+      "currentSha256Preserved": "bb6aa68bb47cfcc5cab9f26675b322ccae73994d8544d78d1196c31dda52ae41",
+      "substitutionMade": false
+    },
+    {
+      "id": "eclipse-aegis",
+      "name": "Eclipse Aegis",
+      "requiredSource": "Approved white/gold version",
+      "currentPathPreserved": "/assets/art/coordinated-art-1/eclipse-aegis.webp",
+      "currentSha256Preserved": "ec6eb7521ad2701225d3ea3a8666321304673415f4ddf95ce79811adca5d70e5",
+      "substitutionMade": false
+    }
+  ],
+  "unchangedFiles": {
+    "views/profile.ejs": "6bf76daf779b3cf706490a6637713ca48985de2ea354709fe04e02d12c25c84d",
+    "public/profile-classic.css": "9bc57d8a78c84e1506e293da73c7d5bf63dd955595769976f14613f867403c0f",
+    "rulesets/level100-content-1/rules.json": "e18b67f14a7374aef5eaa07d893d93935f6a2319da2b7d74d25c3216cf746844",
+    "rulesets/level100-equipment-presentation-1/rules.json": "dbf314cf4d922194b6b4fcb252607fcdc75011b8a68ccbd6238fb7105301ebc9",
+    "rulesets/coordinated-art-2/rules.json": "322ddd01a31df11f54b417353e2d5d12e5b7028e9ad547578ca0736933a596b5",
+    "src/hudson-provision.ts": "f175e08c3def731be43293bcde9e8b12a6409239a159baa79e0d0d7c79a1fe6a",
+    "src/equipment-entitlements.ts": "507a764fd09efedb45cb6e74b17539ff39595015a17e6870149918e1478b6011",
+    "deployment/release/protocol.mjs": "bc48ecdd21e19f68bcd133adb9d7f7d8965faf336a89369030752acc8fbcd7c8",
+    "src/alpha-rules.ts": "822fb29262aca659cf8bafb8e47ae79fcb09ef7dd8387e6bb269f8effe8bd5f2",
+    "src/bot-combat-rules.ts": "d61d3ef43d20bc3504b0d4c3cc9f3c9fc753e7bfd3e1f794f4471f4cf0b8379c",
+    "src/gameplay-rules.ts": "fd1c408727833f9478058203a5d3147be8200a9ec38e947bc8212e50c40afcc2",
+    "src/economy.ts": "8a623dd24781fe42a2bf561950a1868e517f86d66c7a0edaace975c6e6964933",
+    "src/pvp-economy.ts": "6b5e25d712673244992e7b615124c9113f0c2afa5d0397432273f41339fc539b",
+    "rulesets/gameplay-refinement-1/rules.json": "110d5878dea0188a67b8bb88b3523e744e81db1f853b4f3af12593229aa279dd",
+    "rulesets/bot-combat-rewards-2/rules.json": "e176f56976206712a5c4abf12fde9d8802dfe76751209e225601c469f64eaa7d"
+  },
+  "all52CoordinatedAssetsByteIdentical": true,
+  "authorizedHumanLootChange": {
+    "policyId": "human-pvp-loot-1",
+    "ordinaryHumanMaximum": null,
+    "percent": 3,
+    "historicalCombatSourceSha256": "d525505e4c0d0752c7ba9bc86e0e81af930bc6b1acbf138cb167ef9a31645ae5",
+    "currentCombatSourceSha256": "1f0b371a9fff0e8155dafdbde598767be0fe21ad65b86916e87163a12916ed41",
+    "noSqlMigration": true,
+    "botRewardsAndBountyMechanismUnchanged": true
+  }
+}

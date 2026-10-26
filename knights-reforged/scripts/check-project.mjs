@@ -136,7 +136,7 @@ const guideSource=stripTypeScriptTypes(read('src/guide.ts'),{mode:'transform'});
 const {guideSteps}=await import('data:text/javascript;base64,'+Buffer.from(guideSource).toString('base64'));
 const tutorialExperience=status=>({tutorial:{status,position:7,completed:6,replaying:false,completedAt:status==='completed'?now:null,steps:guideSteps.map(step=>({...step,done:step.id!=='land'&&step.id!=='skills'}))},achievements:[]});
 const cases=[
- {name:'champions',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[0],entries:[{id:playerId,name:'Arthur of the Vale',rank:1,score:'21',self:true}],own:{rank:'1',score:'21'}}})},
+ {name:'champions',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[0],entries:[{id:playerId,name:'Arthur of the Vale',level:3,rank:1,score:'21',self:true}],own:{rank:'1',score:'21'}}})},
  {name:'champions-empty',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[1],entries:[],own:null}})},
  {name:'tutorial-introduction',data:fixture('tutorial',{experience:tutorialExperience('not_started')})},
  {name:'tutorial-land-lesson',data:fixture('tutorial',{experience:tutorialExperience('active')})},
@@ -173,7 +173,7 @@ const cases=[
  {name:'home-comments',data:fixture('home',{feedTab:'comments',feed:{entries:[comment],nextCursor:null}})},
  {name:'home-broadcasts',data:fixture('home',{feedTab:'broadcasts',feed:{entries:[{...comment,kind:'broadcast',data:{...comment.data,profileId:null}}],nextCursor:null}})},
  {name:'home-own-comment',data:fixture('home',{feedTab:'comments',feed:{entries:[{...comment,data:{...comment.data,authorId:playerId}}],nextCursor:null}})},
- ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'bounties-empty',data:fixture('bounties')},{name:'bounties-own',data:fixture('bounties',{bountyBoard:{eligible:true,active:[contract],history:[contract,...['claimed','expired','canceled'].map(status=>({...contract,id:randomUUID(),status}))]}})},{name:'bounties-hunt',data:fixture('bounties',{bountyBoard:{eligible:true,active:[{...contract,sponsor_id:randomUUID(),claimBlockedReason:null}],history:[]}})},{name:'profile',data:fixture('profile')},{name:'profile-skills',data:fixture('profile',{profileTab:'skills'})},{name:'profile-battles',data:fixture('profile',{profileTab:'battles',battles:[{id:battleId,result:newBattle,created_at:now}]})},
+ ...navigation.map(n=>({name:n.id,data:fixture(n.id)})),{name:'bounties-empty',data:fixture('bounties')},{name:'bounties-own',data:fixture('bounties',{bountyBoard:{eligible:true,active:[contract],history:[contract,...['claimed','expired','canceled'].map(status=>({...contract,id:randomUUID(),status,...(status==='claimed'?{claimant_id:targetId,claimant_name:'Morgan',settled_at:now,battle_id:battleId,battle_outcome:'attacker_win',verified_death:true}:{})}))]}})},{name:'bounties-hunt',data:fixture('bounties',{bountyBoard:{eligible:true,active:[{...contract,sponsor_id:randomUUID(),claimBlockedReason:null}],history:[]}})},{name:'profile',data:fixture('profile')},{name:'profile-skills',data:fixture('profile',{profileTab:'skills'})},{name:'profile-battles',data:fixture('profile',{profileTab:'battles',battles:[{id:battleId,result:newBattle,created_at:now}]})},
  {name:'armory-armor',data:fixture('armory',{category:'armor'})},{name:'armory-spells',data:fixture('armory',{category:'spell'})},
  {name:'armory-paused',data:fixture('armory',{state:{...state,maintenance:{hourlyRate:3,reserveGold:'0',arrearsGold:'3',paused:true,resumeCost:6}}})},
  {name:'quests-missing',data:fixture('quests',{state:{...state,quests:state.quests.map(q=>({...q,missing:{'squires-blade':1},missingCost:5,ready:false,lockReason:'Equipment required'}))}})},
@@ -228,13 +228,13 @@ check('Rendered links, asset references, unique IDs, labels, CSRF and command co
  assert.deepEqual([...covered].sort(),commandRoutes.filter(r=>r.kind!=='equip').map(r=>r.kind).sort());
 });
 check('Original five destinations, accessible original vector icons, Home-only Land and profile Home selection',()=>{
- const expected=[['/game/home','Home'],['/game/quests','Quests'],['/game/battle','Battle'],['/game/armory','Armory'],['/game/army','Recruit']];
+ const expected=[['/game/home','Home'],['/game/quests','Quests'],['/game/battle','Battle'],['/game/armory','Armory'],['/game/army?tab=dashboard','Recruit']];
 
  for(const example of cases){
-  const links=navigationLinks(rendered.get(example.name),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
+  const links=navigationLinks(rendered.get(example.name).replace(/<span class="nav-unread"[\s\S]*?<\/span><\/span>/g,''),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
   if(!example.data.state)continue;
   const selected=example.data.screen==='land'?'home':example.data.screen==='purchase'?(example.data.purchase.type==='equipment'?'armory':'home'):['report','bounties','bounty-confirm','bounty-new','champions'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
-  for(const link of links){const id=link.href.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,null);assert.ok(rendered.get(example.name).includes('/assets/art/remaster-ui/icons.svg?v=phase48-finish1#'+id));}
+  for(const link of links){const id=new URL(link.href,'http://check.invalid').pathname.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,null);assert.ok(rendered.get(example.name).includes('/assets/art/remaster-ui/icons.svg?v=phase48-finish1#'+id));}
   assert.ok(!navigationLinks(rendered.get(example.name),'Secondary navigation').some(l=>l.href==='/game/land'));
   assert.equal((rendered.get(example.name).match(/href="\/game\/land"/g)||[]).length,example.data.screen==='home'||(example.data.screen==='purchase'&&example.data.purchase.type==='land')?1:0);
  }
@@ -271,10 +271,10 @@ check('Upgraded pages bypass cached pre-expansion income clients',()=>{
     assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1-phase48-mockup2'));
     assert.ok(html.includes('/assets/kingdoms-live.css?v=phase48-mockup2'));assert.ok(html.includes('/assets/alpha.css?v=phase48-mockup2'));
     assert.ok(html.includes('/assets/remaster.css?v=phase48-mockup2'));
-    assert.ok(html.includes('/assets/realm-theme.css?v=phase48-finish1'));
+    assert.ok(html.includes('/assets/realm-theme.css?v=phase6-competition1'));
     assert.ok(html.includes('/assets/sound.js?v=phase491-quiet1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
-    if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase48-shared1'));
+    if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase6-competition1'));
     if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase48-land-polish1'));
   }
 });

@@ -1,0 +1,6140 @@
+{
+  "productionContacted": false,
+  "fundingChanged": false,
+  "policyChanged": false,
+  "bots": [
+    {
+      "id": "6a8c5a73-3a76-58c2-850e-991d41d5fe76",
+      "level": 51,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8579,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "granite-quarry",
+          "cost": 4280,
+          "topup": 0,
+          "newRate": 8712,
+          "netIncrease": 150
+        },
+        "diagnosis": {
+          "candidateImprovements": 23,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 23
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "726",
+        "rate": 8712
+      },
+      "final": {
+        "candidateImprovements": 23,
+        "affordableImprovements": 22,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 22,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "b33aa11a-8ad0-5f88-a33d-dd33742792a0",
+      "level": 51,
+      "tier": "elite",
+      "last": {
+        "slot": 8598,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 14,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 14,
+            "noCombatGain": 9
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "8778",
+        "rate": 17556
+      },
+      "final": {
+        "candidateImprovements": 14,
+        "affordableImprovements": 13,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 13,
+          "noCombatGain": 9,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "7eb7c994-36ac-5ada-914d-fd9cd80f8c4e",
+      "level": 51,
+      "tier": "elite",
+      "last": {
+        "slot": 8591,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1397",
+        "rate": 16758
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "50afad81-7922-5d01-a025-f8f50e054735",
+      "level": 52,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8614,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 23,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 23
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1862",
+        "rate": 11169
+      },
+      "final": {
+        "candidateImprovements": 23,
+        "affordableImprovements": 22,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 22,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "f360cf3b-beb7-5738-9bf6-93e36b35ee29",
+      "level": 52,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8529,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 7717,
+          "topup": 0,
+          "newRate": 10585,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 23,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 23
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2647",
+        "rate": 10585
+      },
+      "final": {
+        "candidateImprovements": 23,
+        "affordableImprovements": 22,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 22,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "033d1e6f-2a7e-51e9-acbf-a48494b9d081",
+      "level": 52,
+      "tier": "elite",
+      "last": {
+        "slot": 8635,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 14,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 14,
+            "noCombatGain": 9
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "7480",
+        "rate": 17952
+      },
+      "final": {
+        "candidateImprovements": 14,
+        "affordableImprovements": 13,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 13,
+          "noCombatGain": 9,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "e74de982-36b1-5eea-a6f3-c1fa2e583a87",
+      "level": 52,
+      "tier": "elite",
+      "last": {
+        "slot": 8620,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "11424",
+        "rate": 17136
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "4855b09f-107c-5e0e-a784-2009ced778bb",
+      "level": 53,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8598,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "granite-quarry",
+          "cost": 3891,
+          "topup": 0,
+          "newRate": 10730,
+          "netIncrease": 150
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5365",
+        "rate": 10730
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "92a14e9d-ccd9-575c-aae8-1475894cb4e1",
+      "level": 53,
+      "tier": "elite",
+      "last": {
+        "slot": 8563,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "noCombatGain": 8,
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "7645",
+        "rate": 18348
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 9000,
+        "reasons": {
+          "noCombatGain": 8,
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "cba77744-528c-508d-8973-f74bc3fc7bee",
+      "level": 53,
+      "tier": "elite",
+      "last": {
+        "slot": 8625,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 16,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 16,
+            "noCombatGain": 4
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4379",
+        "rate": 17514
+      },
+      "final": {
+        "candidateImprovements": 16,
+        "affordableImprovements": 15,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 15,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 4
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "9d7c4a2f-9803-5f84-ab8f-31fc9aca992e",
+      "level": 54,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8638,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "granite-quarry",
+          "cost": 3537,
+          "topup": 0,
+          "newRate": 11020,
+          "netIncrease": 150
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1837",
+        "rate": 11020
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "aa23c955-ebca-50df-a746-243c61d0b381",
+      "level": 54,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8565,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2907",
+        "rate": 11628
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "39807d60-256d-56b3-9081-2ad85d114f21",
+      "level": 54,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8574,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 7717,
+          "topup": 0,
+          "newRate": 11020,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5510",
+        "rate": 11020
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "d680dd41-08a0-5bc2-8a5b-c0dc5fe7e1da",
+      "level": 55,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8314,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2002",
+        "rate": 12012
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "e5a12c2c-2cc7-598b-9cba-f72edb11524f",
+      "level": 55,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8574,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "bannerhold-manor",
+          "cost": 7533,
+          "topup": 0,
+          "newRate": 13398,
+          "netIncrease": 200
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "6699",
+        "rate": 13398
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "1dd47ed7-a01a-5380-b2ae-543dde0d0ef4",
+      "level": 55,
+      "tier": "elite",
+      "last": {
+        "slot": 8531,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "noCombatGain": 8,
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1584",
+        "rate": 19008
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 9000,
+        "reasons": {
+          "noCombatGain": 8,
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "0a02c75b-d6e7-5537-89f0-c98da7b290da",
+      "level": 55,
+      "tier": "elite",
+      "last": {
+        "slot": 8550,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 16,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 16,
+            "noCombatGain": 4
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9072",
+        "rate": 18144
+      },
+      "final": {
+        "candidateImprovements": 16,
+        "affordableImprovements": 15,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 15,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 4
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "fcb582e6-0d4f-5ca3-8182-83bb0f6a3553",
+      "level": 56,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8518,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "granite-quarry",
+          "cost": 3537,
+          "topup": 0,
+          "newRate": 9954,
+          "netIncrease": 150
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1659",
+        "rate": 9954
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "d3e03757-6395-570c-8cfc-e2d47587730f",
+      "level": 56,
+      "tier": "elite",
+      "last": {
+        "slot": 8562,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "noCombatGain": 8,
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9702",
+        "rate": 19404
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 9000,
+        "reasons": {
+          "noCombatGain": 8,
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "ac593c4a-8f6a-5c75-8148-54ac0e76718c",
+      "level": 57,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8514,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "granite-quarry",
+          "cost": 3216,
+          "topup": 0,
+          "newRate": 10080,
+          "netIncrease": 150
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5040",
+        "rate": 10080
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "fdf5df7b-39f0-52fe-953e-ac3e29520d1a",
+      "level": 57,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8590,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 7717,
+          "topup": 0,
+          "newRate": 10560,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1760",
+        "rate": 10560
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "447201d4-3f7e-5cc1-95c7-eef3ff0c9574",
+      "level": 57,
+      "tier": "elite",
+      "last": {
+        "slot": 8551,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 7016,
+          "topup": 0,
+          "newRate": 19668,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 12,
+            "noCombatGain": 5
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "8195",
+        "rate": 19668
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 5
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "ddef9f8b-0d97-5f32-8fb1-a88929d86a0e",
+      "level": 57,
+      "tier": "elite",
+      "last": {
+        "slot": 8576,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 14,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 14,
+            "noCombatGain": 3
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "6258",
+        "rate": 18774
+      },
+      "final": {
+        "candidateImprovements": 14,
+        "affordableImprovements": 13,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 13,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 3
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "96e99162-9219-5fcc-9e1f-c2fc8d48fcd6",
+      "level": 58,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8564,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "bannerhold-manor",
+          "cost": 5660,
+          "topup": 0,
+          "newRate": 10206,
+          "netIncrease": 200
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3402",
+        "rate": 10206
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "bcfb1add-928b-53a3-bd93-5c3d4e8281ae",
+      "level": 58,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8611,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4455",
+        "rate": 10692
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "b4c564df-8a9c-5ec2-bc19-8f017a11f391",
+      "level": 58,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8407,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 6534,
+          "topup": 0,
+          "newRate": 10206,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4253",
+        "rate": 10206
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "e5e02d5a-2bed-5447-b6f9-435fbc24903d",
+      "level": 58,
+      "tier": "elite",
+      "last": {
+        "slot": 8501,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 12,
+            "noCombatGain": 5
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "11704",
+        "rate": 20064
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 5
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "8b5f4fb1-32d9-54aa-a7ec-09c665daa7ef",
+      "level": 58,
+      "tier": "elite",
+      "last": {
+        "slot": 8565,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 14,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 14,
+            "noCombatGain": 3
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4788",
+        "rate": 19152
+      },
+      "final": {
+        "candidateImprovements": 14,
+        "affordableImprovements": 13,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 13,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 3
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "86599d17-8157-530a-b07f-68bb0d0643d5",
+      "level": 59,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8517,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "bannerhold-manor",
+          "cost": 5145,
+          "topup": 0,
+          "newRate": 10458,
+          "netIncrease": 200
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2615",
+        "rate": 10458
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "ec811017-c21a-5400-8824-5bf132d3bb05",
+      "level": 59,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8538,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "granite-quarry",
+          "cost": 4280,
+          "topup": 0,
+          "newRate": 10956,
+          "netIncrease": 150
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5478",
+        "rate": 10956
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "e1d80918-be46-59f9-8afc-71ca9d4aad0b",
+      "level": 59,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8525,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "ironwood-fort",
+          "cost": 8580,
+          "topup": 0,
+          "newRate": 10458,
+          "netIncrease": 470
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "6101",
+        "rate": 10458
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "1abd7bb8-3f12-5035-bf10-f3b2fa75965a",
+      "level": 59,
+      "tier": "elite",
+      "last": {
+        "slot": 8555,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 12,
+            "noCombatGain": 5
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1694",
+        "rate": 20328
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 5
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "e2d4b397-037b-5c45-b272-06b709ff117e",
+      "level": 59,
+      "tier": "elite",
+      "last": {
+        "slot": 8590,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 14,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 14,
+            "noCombatGain": 3
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3234",
+        "rate": 19404
+      },
+      "final": {
+        "candidateImprovements": 14,
+        "affordableImprovements": 13,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 13,
+          "conservativePurchaseBudget": 1,
+          "noCombatGain": 3
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "2e22e4ea-f0f8-52d6-83a4-2b12df2f9a8f",
+      "level": 60,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8407,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 23,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 23
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4675",
+        "rate": 11220
+      },
+      "final": {
+        "candidateImprovements": 23,
+        "affordableImprovements": 22,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 22,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "5b57236d-62bf-5422-b25a-8c16db454161",
+      "level": 61,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8552,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 6378,
+          "topup": 0,
+          "newRate": 10710,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3570",
+        "rate": 10710
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "c69d1007-eee3-5db8-8641-8acd756aefa9",
+      "level": 61,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8611,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4463",
+        "rate": 10710
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "38f84eef-7b7c-5281-b962-24b04a462533",
+      "level": 61,
+      "tier": "elite",
+      "last": {
+        "slot": 8507,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 10,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "noCombatGain": 10,
+            "conservativePurchaseBudget": 10
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2160",
+        "rate": 25920
+      },
+      "final": {
+        "candidateImprovements": 10,
+        "affordableImprovements": 9,
+        "policyBudget": 11500,
+        "reasons": {
+          "noCombatGain": 10,
+          "available": 9,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "f070a278-d151-5473-acde-741aaad44452",
+      "level": 61,
+      "tier": "elite",
+      "last": {
+        "slot": 8600,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 13,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 13,
+            "noCombatGain": 7
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "8214",
+        "rate": 24640
+      },
+      "final": {
+        "candidateImprovements": 13,
+        "affordableImprovements": 13,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 13,
+          "noCombatGain": 7
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "57547edd-14d0-55a9-b1d7-494ad34bb37f",
+      "level": 62,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8602,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1827",
+        "rate": 10962
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "392eb49f-a017-5df4-ae8c-d15e5da5ac6a",
+      "level": 62,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8527,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 7016,
+          "topup": 0,
+          "newRate": 11484,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4785",
+        "rate": 11484
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "600f3d55-9b73-56e9-92cb-b2add8b0a713",
+      "level": 62,
+      "tier": "elite",
+      "last": {
+        "slot": 8573,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 10,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "noCombatGain": 10,
+            "conservativePurchaseBudget": 10
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "15309",
+        "rate": 26244
+      },
+      "final": {
+        "candidateImprovements": 10,
+        "affordableImprovements": 9,
+        "policyBudget": 11500,
+        "reasons": {
+          "noCombatGain": 10,
+          "available": 9,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "37ab5250-5fa5-5caa-9de6-79d21a54340b",
+      "level": 62,
+      "tier": "elite",
+      "last": {
+        "slot": 8467,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 13,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 13,
+            "noCombatGain": 7
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "10395",
+        "rate": 24948
+      },
+      "final": {
+        "candidateImprovements": 13,
+        "affordableImprovements": 13,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 13,
+          "noCombatGain": 7
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "fe71f2ad-e542-554e-8871-8bfcaf160d49",
+      "level": 63,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8515,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 8697,
+          "topup": 0,
+          "newRate": 11088,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4620",
+        "rate": 11088
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "f7244ee1-f364-5f41-ab79-73f9f03ba8b0",
+      "level": 63,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8624,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 7016,
+          "topup": 0,
+          "newRate": 11616,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3872",
+        "rate": 11616
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "e62e023b-3141-5cff-9df3-7af42c5e13a3",
+      "level": 63,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8603,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 7016,
+          "topup": 0,
+          "newRate": 11088,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "924",
+        "rate": 11088
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "9948ee50-a41a-55cc-8ef3-39cc817943d4",
+      "level": 63,
+      "tier": "elite",
+      "last": {
+        "slot": 8554,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 10,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "noCombatGain": 10,
+            "conservativePurchaseBudget": 10
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4455",
+        "rate": 26730
+      },
+      "final": {
+        "candidateImprovements": 10,
+        "affordableImprovements": 9,
+        "policyBudget": 11500,
+        "reasons": {
+          "noCombatGain": 10,
+          "available": 9,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "da6b3305-1540-5a25-975a-b77741a5b9e0",
+      "level": 63,
+      "tier": "elite",
+      "last": {
+        "slot": 8547,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 13,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 13,
+            "noCombatGain": 7
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "19058",
+        "rate": 25410
+      },
+      "final": {
+        "candidateImprovements": 13,
+        "affordableImprovements": 13,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 13,
+          "noCombatGain": 7
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "0b0d576d-7f6e-5ce2-aec5-7126d52432ba",
+      "level": 64,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8541,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "granite-quarry",
+          "cost": 2416,
+          "topup": 0,
+          "newRate": 11340,
+          "netIncrease": 150
+        },
+        "diagnosis": {
+          "candidateImprovements": 20,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 20
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2835",
+        "rate": 11340
+      },
+      "final": {
+        "candidateImprovements": 20,
+        "affordableImprovements": 19,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 19,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "15b8be90-974a-5817-aea2-7c34d2cf0e03",
+      "level": 64,
+      "tier": "elite",
+      "last": {
+        "slot": 8519,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 10,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "noCombatGain": 10,
+            "conservativePurchaseBudget": 10
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2268",
+        "rate": 27216
+      },
+      "final": {
+        "candidateImprovements": 10,
+        "affordableImprovements": 9,
+        "policyBudget": 11500,
+        "reasons": {
+          "noCombatGain": 10,
+          "available": 9,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "439f99dd-b41a-57bc-9f8e-afb3c4471928",
+      "level": 64,
+      "tier": "elite",
+      "last": {
+        "slot": 8561,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 13,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 13,
+            "noCombatGain": 7
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "15092",
+        "rate": 25872
+      },
+      "final": {
+        "candidateImprovements": 13,
+        "affordableImprovements": 13,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 13,
+          "noCombatGain": 7
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "cff42039-c3fa-524b-9b09-1057d3bf846d",
+      "level": 65,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8609,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 9338,
+          "topup": 0,
+          "newRate": 14014,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 18,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 18
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "8175",
+        "rate": 14014
+      },
+      "final": {
+        "candidateImprovements": 18,
+        "affordableImprovements": 17,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 17,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "0e82ffb0-7f2b-5669-a4e9-23c1888b10b3",
+      "level": 65,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8550,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 18,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 18
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "7371",
+        "rate": 14742
+      },
+      "final": {
+        "candidateImprovements": 18,
+        "affordableImprovements": 17,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 17,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "8b9ddc18-128f-5591-8a87-533a4380d2c9",
+      "level": 65,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8612,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "ironwood-fort",
+          "cost": 11420,
+          "topup": 0,
+          "newRate": 14014,
+          "netIncrease": 470
+        },
+        "diagnosis": {
+          "candidateImprovements": 18,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 18
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4672",
+        "rate": 14014
+      },
+      "final": {
+        "candidateImprovements": 18,
+        "affordableImprovements": 17,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 17,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "2c68c7e0-91e4-51fd-b6a7-76c529a092b6",
+      "level": 65,
+      "tier": "elite",
+      "last": {
+        "slot": 8596,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 12,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "17454",
+        "rate": 26180
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 12,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 12,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "1802adf9-2564-53f8-9a20-46b3a1ed5cc4",
+      "level": 66,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8597,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "8265",
+        "rate": 14168
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "48cdb17d-60f0-59cb-8b2b-c1087b457348",
+      "level": 66,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8541,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 7016,
+          "topup": 0,
+          "newRate": 14904,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3726",
+        "rate": 14904
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "4b732280-c048-5f81-814a-33360ac90fc3",
+      "level": 66,
+      "tier": "elite",
+      "last": {
+        "slot": 8503,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 10,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 10,
+            "noCombatGain": 7
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "11678",
+        "rate": 28026
+      },
+      "final": {
+        "candidateImprovements": 10,
+        "affordableImprovements": 9,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 9,
+          "noCombatGain": 7,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "6addcefb-3999-56fe-83e3-99f17134968b",
+      "level": 66,
+      "tier": "elite",
+      "last": {
+        "slot": 8502,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 11,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 11,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "13321",
+        "rate": 26642
+      },
+      "final": {
+        "candidateImprovements": 11,
+        "affordableImprovements": 11,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 11,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "3148c758-e5f1-5707-a402-72eb7c3c52c4",
+      "level": 67,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8531,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "bannerhold-manor",
+          "cost": 5145,
+          "topup": 0,
+          "newRate": 14476,
+          "netIncrease": 200
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1207",
+        "rate": 14476
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "befdf481-9aac-5f6a-810c-6f005c79d68c",
+      "level": 67,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8636,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 11299,
+          "topup": 0,
+          "newRate": 15228,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5076",
+        "rate": 15228
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "58fe23c7-ab1d-54e4-9555-987bdadfc9f5",
+      "level": 67,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8632,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9651",
+        "rate": 14476
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "ae6de109-0aaa-51f9-a4e9-69dedf38204d",
+      "level": 67,
+      "tier": "elite",
+      "last": {
+        "slot": 8551,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 9567,
+          "topup": 0,
+          "newRate": 28350,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 10,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 10,
+            "noCombatGain": 7
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "11813",
+        "rate": 28350
+      },
+      "final": {
+        "candidateImprovements": 10,
+        "affordableImprovements": 9,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 9,
+          "noCombatGain": 7,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "7f7ff80e-b92e-528b-a5de-49fb3b12756b",
+      "level": 67,
+      "tier": "elite",
+      "last": {
+        "slot": 8606,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 11,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 11,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "22459",
+        "rate": 26950
+      },
+      "final": {
+        "candidateImprovements": 11,
+        "affordableImprovements": 11,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 11,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "abea0bdf-8a35-5eb0-a913-7c0451deb216",
+      "level": 68,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8579,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "bannerhold-manor",
+          "cost": 11028,
+          "topup": 0,
+          "newRate": 14784,
+          "netIncrease": 200
+        },
+        "diagnosis": {
+          "candidateImprovements": 15,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 15
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1232",
+        "rate": 14784
+      },
+      "final": {
+        "candidateImprovements": 15,
+        "affordableImprovements": 14,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 14,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "c2849dc1-c3af-5d5b-88d7-f9b369c88d78",
+      "level": 68,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8590,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "bannerhold-manor",
+          "cost": 8286,
+          "topup": 0,
+          "newRate": 14784,
+          "netIncrease": 200
+        },
+        "diagnosis": {
+          "candidateImprovements": 15,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 15
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2464",
+        "rate": 14784
+      },
+      "final": {
+        "candidateImprovements": 15,
+        "affordableImprovements": 14,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 14,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "f0098519-767e-588e-99fc-95e9ce4906db",
+      "level": 68,
+      "tier": "elite",
+      "last": {
+        "slot": 8615,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 9,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2403",
+        "rate": 28836
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 8,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 8,
+          "noCombatGain": 6,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "724d28bb-0284-5187-a20d-b775d10d4c08",
+      "level": 68,
+      "tier": "elite",
+      "last": {
+        "slot": 8538,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 9,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "13706",
+        "rate": 27412
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 9,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 9,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "37235f56-f02a-5f73-9fd0-ab00c1d897a2",
+      "level": 69,
+      "tier": "elite",
+      "last": {
+        "slot": 8539,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 9,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "12218",
+        "rate": 29322
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 8,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 8,
+          "noCombatGain": 6,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "3972def8-e41f-55e0-baae-2fe8b225af0b",
+      "level": 69,
+      "tier": "elite",
+      "last": {
+        "slot": 8542,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 11500,
+          "reasons": {
+            "conservativePurchaseBudget": 9,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4646",
+        "rate": 27874
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 9,
+        "policyBudget": 11500,
+        "reasons": {
+          "available": 9,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "e870ac8a-8869-5fe2-850f-684aa938b280",
+      "level": 70,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8529,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 21,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 21
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3773",
+        "rate": 15092
+      },
+      "final": {
+        "candidateImprovements": 21,
+        "affordableImprovements": 20,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 20,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "cfefa8d2-0b60-5c6f-b812-907328f15e02",
+      "level": 70,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8638,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 11576,
+          "topup": 0,
+          "newRate": 15092,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 21,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 21
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "2516",
+        "rate": 15092
+      },
+      "final": {
+        "candidateImprovements": 21,
+        "affordableImprovements": 20,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 20,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "65e2cd1a-6949-5931-9204-8ab7c2ea38d0",
+      "level": 71,
+      "tier": "elite",
+      "last": {
+        "slot": 8519,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "noCombatGain": 9,
+            "conservativePurchaseBudget": 9
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3193",
+        "rate": 38316
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 8,
+        "policyBudget": 17000,
+        "reasons": {
+          "noCombatGain": 9,
+          "available": 8,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "c84a4e36-9152-5edb-b078-f0da36ba1ba0",
+      "level": 71,
+      "tier": "elite",
+      "last": {
+        "slot": 8505,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 9,
+            "noCombatGain": 9
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9300",
+        "rate": 37200
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 9,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 9,
+          "noCombatGain": 9
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "c641844f-3d48-56e5-9407-a7bf4927df72",
+      "level": 72,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8540,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 10524,
+          "topup": 0,
+          "newRate": 16362,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5454",
+        "rate": 16362
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "79cf90fe-7214-53a4-bf71-b684d20a8bfe",
+      "level": 72,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8565,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 10524,
+          "topup": 0,
+          "newRate": 15554,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3889",
+        "rate": 15554
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "eeed6e6c-05f2-537d-9bdb-4e7a866638cd",
+      "level": 72,
+      "tier": "elite",
+      "last": {
+        "slot": 8601,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9682",
+        "rate": 38728
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 17000,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "4a98856a-2e71-5808-b3d0-fc7c98635376",
+      "level": 72,
+      "tier": "elite",
+      "last": {
+        "slot": 8564,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "12534",
+        "rate": 37600
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "dd881ac0-573c-57ea-a45d-a3ed802ea040",
+      "level": 73,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8599,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "tempest-port",
+          "cost": 14641,
+          "topup": 0,
+          "newRate": 16524,
+          "netIncrease": 600
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "6885",
+        "rate": 16524
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "7ff5c226-f1d0-5894-a764-25b17c6882b6",
+      "level": 73,
+      "tier": "elite",
+      "last": {
+        "slot": 8559,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "29510",
+        "rate": 39346
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 17000,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "fba98897-9189-5819-9d5c-661afa152d00",
+      "level": 73,
+      "tier": "elite",
+      "last": {
+        "slot": 8553,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9550",
+        "rate": 38200
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "0fd8bb2f-cd49-5c9e-ba15-c4cbda55e499",
+      "level": 74,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8612,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 10524,
+          "topup": 0,
+          "newRate": 16016,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5339",
+        "rate": 16016
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "85c33e99-a191-5cf2-9ecb-225aa3cc4010",
+      "level": 75,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8598,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 9567,
+          "topup": 0,
+          "newRate": 21000,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "10500",
+        "rate": 21000
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "59d0a514-4378-5c6f-8c8d-cb4a5c7d0631",
+      "level": 75,
+      "tier": "elite",
+      "last": {
+        "slot": 8541,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "10094",
+        "rate": 40376
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 17000,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "e2c389c6-bd26-5df6-ac96-42e931580555",
+      "level": 75,
+      "tier": "elite",
+      "last": {
+        "slot": 8524,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "26134",
+        "rate": 39200
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "414bf5f5-c16c-5210-9ae2-bdf871869110",
+      "level": 76,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8551,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "tempest-port",
+          "cost": 16106,
+          "topup": 0,
+          "newRate": 21400,
+          "netIncrease": 600
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "8917",
+        "rate": 21400
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "4b5bb84b-1a78-5445-8ddc-53284eed9b58",
+      "level": 76,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8526,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "11021",
+        "rate": 22042
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "344decde-7d99-5a26-819c-88bf77960ee2",
+      "level": 76,
+      "tier": "elite",
+      "last": {
+        "slot": 8535,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "30746",
+        "rate": 40994
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 17000,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "ff7fec19-0888-505d-8c10-d36a8a1c8bd1",
+      "level": 77,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8506,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 12429,
+          "topup": 0,
+          "newRate": 21600,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3600",
+        "rate": 21600
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "3cf70866-9700-5487-b67f-061b1c38e26e",
+      "level": 77,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8623,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 9338,
+          "topup": 0,
+          "newRate": 22248,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9270",
+        "rate": 22248
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "cbe62af0-95f8-535d-9c1e-0dd239077831",
+      "level": 77,
+      "tier": "elite",
+      "last": {
+        "slot": 8518,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "6936",
+        "rate": 41612
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 17000,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "576fd1b1-654d-5ba0-8f72-d24539d477c0",
+      "level": 78,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8585,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "12717",
+        "rate": 21800
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "d909a988-e2a7-5839-95b4-45eed4ec790a",
+      "level": 78,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8524,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 10272,
+          "topup": 0,
+          "newRate": 22454,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "14970",
+        "rate": 22454
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "b01efd72-cc94-5805-85f4-18c235d0a268",
+      "level": 78,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8503,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 15039,
+          "topup": 0,
+          "newRate": 21800,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9084",
+        "rate": 21800
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "a8283429-0bd1-5992-97de-e496e53a78ac",
+      "level": 78,
+      "tier": "elite",
+      "last": {
+        "slot": 8613,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "10506",
+        "rate": 42024
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 17000,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "056f162e-6140-521d-a47c-a70325378000",
+      "level": 78,
+      "tier": "elite",
+      "last": {
+        "slot": 8618,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "34000",
+        "rate": 40800
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "49480a9c-6d8b-5d60-9ba5-9760bfde72ed",
+      "level": 79,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8632,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "ironwood-fort",
+          "cost": 16720,
+          "topup": 0,
+          "newRate": 22200,
+          "netIncrease": 470
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "14800",
+        "rate": 22200
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "4e6c40b5-4ce8-5b66-97d4-e9997fd9c9db",
+      "level": 79,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8586,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "11433",
+        "rate": 22866
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "7350626c-8b34-5931-bfd8-1e0e637ba63a",
+      "level": 79,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8626,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 13671,
+          "topup": 0,
+          "newRate": 22200,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3700",
+        "rate": 22200
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "1178fa27-1fb9-5a25-b2b7-f839764b2fa5",
+      "level": 79,
+      "tier": "elite",
+      "last": {
+        "slot": 8572,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 17000,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "27600",
+        "rate": 41400
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 17000,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "b78a5a66-f002-54af-8ab8-67ae72a8f89b",
+      "level": 80,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8519,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 12733,
+          "topup": 0,
+          "newRate": 22600,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 18,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 18
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1884",
+        "rate": 22600
+      },
+      "final": {
+        "candidateImprovements": 18,
+        "affordableImprovements": 17,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 17,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "aaf5754c-e2e5-5684-b3a4-5b229ae17008",
+      "level": 80,
+      "tier": "elite",
+      "last": {
+        "slot": 8590,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 9,
+            "conservativePurchaseBudget": 9
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "8925",
+        "rate": 53550
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 8,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 9,
+          "available": 8,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "5bf0595a-eb0e-557a-bfae-cd64aebfd6ba",
+      "level": 80,
+      "tier": "elite",
+      "last": {
+        "slot": 8549,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 9,
+            "noCombatGain": 9
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "30258",
+        "rate": 51870
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 9,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 9,
+          "noCombatGain": 9
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "dca9da92-27fe-5bc2-af56-3f01d3e36458",
+      "level": 81,
+      "tier": "green",
+      "last": {
+        "slot": 8531,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "crown-harbour",
+          "cost": 2335,
+          "topup": 0,
+          "newRate": 6776,
+          "netIncrease": 120
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 20228,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "565",
+        "rate": 6776
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 6,
+        "policyBudget": 20468,
+        "reasons": {
+          "available": 6,
+          "conservativePurchaseBudget": 6
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "38128d19-5dec-5711-b174-cb4695175b44",
+      "level": 81,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8589,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "ironwood-fort",
+          "cost": 15200,
+          "topup": 0,
+          "newRate": 22800,
+          "netIncrease": 470
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5700",
+        "rate": 22800
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "a705453f-7a3c-5198-aef7-5e4b01c5a61c",
+      "level": 81,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8397,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5700",
+        "rate": 22800
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "081c2512-091f-513b-bcb8-1ff7a1f928ac",
+      "level": 81,
+      "tier": "elite",
+      "last": {
+        "slot": 8554,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9010",
+        "rate": 54060
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "a42ddaed-4916-5af5-99cb-ae9be89d8d8b",
+      "level": 81,
+      "tier": "elite",
+      "last": {
+        "slot": 8589,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "13091",
+        "rate": 52364
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "f4077a0d-2c99-5c80-b52c-2088da070743",
+      "level": 82,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8638,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "tempest-port",
+          "cost": 17716,
+          "topup": 0,
+          "newRate": 23000,
+          "netIncrease": 600
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3834",
+        "rate": 23000
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "c32470ea-8cc3-518d-9f04-5f77377a03a9",
+      "level": 82,
+      "tier": "elite",
+      "last": {
+        "slot": 8634,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "27413",
+        "rate": 54825
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "b842c5f4-e030-50f3-9388-30b31e5aa41d",
+      "level": 82,
+      "tier": "elite",
+      "last": {
+        "slot": 8543,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4426",
+        "rate": 53105
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "1e3bf4fb-8488-5214-b907-799268d28518",
+      "level": 83,
+      "tier": "elite",
+      "last": {
+        "slot": 8615,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4612",
+        "rate": 55335
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "c8fed24f-dd17-5617-b512-85974ef2e587",
+      "level": 83,
+      "tier": "elite",
+      "last": {
+        "slot": 8548,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "35733",
+        "rate": 53599
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "e1f56677-c152-5e4f-8069-ae6f40320328",
+      "level": 84,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8518,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 11576,
+          "topup": 0,
+          "newRate": 23600,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3934",
+        "rate": 23600
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "6ef787d6-2944-5d39-88c4-eb1c8a797c57",
+      "level": 84,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8538,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "11800",
+        "rate": 23600
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "fa3c4cd5-d97f-588b-b65c-cd2424257b1d",
+      "level": 84,
+      "tier": "elite",
+      "last": {
+        "slot": 8575,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "23375",
+        "rate": 56100
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "c3c6876d-844d-5d41-9d5b-a1df515f0221",
+      "level": 85,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8573,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "17702",
+        "rate": 30345
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "e336e5d6-fcc0-593a-951c-61928e5aa964",
+      "level": 85,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8576,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "ironwood-fort",
+          "cost": 18392,
+          "topup": 0,
+          "newRate": 29393,
+          "netIncrease": 470
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9798",
+        "rate": 29393
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "8e9bef43-0fef-5eb2-9d7c-bf05f85b8728",
+      "level": 85,
+      "tier": "elite",
+      "last": {
+        "slot": 8571,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "42649",
+        "rate": 56865
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "c8251302-a01b-5bff-ab8a-2cbdb5054e7a",
+      "level": 86,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8587,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "ironwood-fort",
+          "cost": 18392,
+          "topup": 0,
+          "newRate": 29640,
+          "netIncrease": 470
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "12350",
+        "rate": 29640
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "5dc7138c-1627-5a8b-859e-87448c86827e",
+      "level": 86,
+      "tier": "elite",
+      "last": {
+        "slot": 8637,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "14344",
+        "rate": 57375
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "00d419e2-10a3-5957-bf05-738ba2a08f3e",
+      "level": 86,
+      "tier": "elite",
+      "last": {
+        "slot": 8503,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "23157",
+        "rate": 55575
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "cb645546-ba20-5411-a905-f6e6091fa449",
+      "level": 87,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8573,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "18148",
+        "rate": 31110
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "2717ed24-7a70-50e7-9c6a-bc61236e03db",
+      "level": 87,
+      "tier": "elite",
+      "last": {
+        "slot": 8623,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "24225",
+        "rate": 58140
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "9fd56848-55fc-50d5-997d-0e4a5bdc1f57",
+      "level": 88,
+      "tier": "elite",
+      "last": {
+        "slot": 8622,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "29453",
+        "rate": 58905
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "14ee7337-8fd6-54ab-9624-257e2d5088b0",
+      "level": 89,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8263,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 8697,
+          "topup": 0,
+          "newRate": 31875,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "13282",
+        "rate": 31875
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "5fde5ed3-d92d-591b-ac0c-eacc05bcb5be",
+      "level": 89,
+      "tier": "elite",
+      "last": {
+        "slot": 8499,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "44562",
+        "rate": 59415
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 25500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "c6b47bc9-787e-5f38-9937-630510096fa2",
+      "level": 89,
+      "tier": "elite",
+      "last": {
+        "slot": 8554,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 25500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9592",
+        "rate": 57551
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 25500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "2b6334b3-9d7f-5e0f-9939-001ed96bd553",
+      "level": 90,
+      "tier": "elite",
+      "last": {
+        "slot": 8549,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 9,
+            "conservativePurchaseBudget": 9
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "41576",
+        "rate": 71272
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 8,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 9,
+          "available": 8,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "36a6ccf1-b09e-559f-a217-ea8fc6912a7b",
+      "level": 91,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8622,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "oathbound-citadel",
+          "cost": 33821,
+          "topup": 0,
+          "newRate": 32640,
+          "netIncrease": 950
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "16320",
+        "rate": 32640
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "b790218d-bc2f-5b26-ba8a-38a2b56b1a14",
+      "level": 91,
+      "tier": "elite",
+      "last": {
+        "slot": 8541,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "17969",
+        "rate": 71876
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "d7a967ad-cf5b-5acc-9d17-7579ed421bd2",
+      "level": 91,
+      "tier": "elite",
+      "last": {
+        "slot": 8609,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "40679",
+        "rate": 69734
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "9d4888a7-6025-5464-b9e8-a4c8652f6ed5",
+      "level": 92,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8502,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "tempest-port",
+          "cost": 21436,
+          "topup": 0,
+          "newRate": 31863,
+          "netIncrease": 600
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "15932",
+        "rate": 31863
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "eb25069c-e47e-51a9-a8a6-e71452ddc996",
+      "level": 92,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8574,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "16448",
+        "rate": 32895
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "e6bfdc20-d117-5e81-a61e-bf2c34362148",
+      "level": 92,
+      "tier": "elite",
+      "last": {
+        "slot": 8614,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "12131",
+        "rate": 72782
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "aefcabf2-22f3-5cd8-840f-b695119203a4",
+      "level": 92,
+      "tier": "elite",
+      "last": {
+        "slot": 8531,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "5885",
+        "rate": 70613
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "6db217b8-50ee-5115-ba00-6282e6102779",
+      "level": 93,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8565,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "ironwood-fort",
+          "cost": 18392,
+          "topup": 0,
+          "newRate": 32357,
+          "netIncrease": 470
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "8090",
+        "rate": 32357
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "da90f6ea-9cc2-5d32-958a-4056a9a60217",
+      "level": 93,
+      "tier": "elite",
+      "last": {
+        "slot": 8573,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "42985",
+        "rate": 73688
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "51332f66-1399-567c-bbeb-1af9f9a98c9a",
+      "level": 93,
+      "tier": "elite",
+      "last": {
+        "slot": 8625,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "17873",
+        "rate": 71492
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "cf6bab72-e037-5cc5-90c1-e89eb0959ade",
+      "level": 94,
+      "tier": "green",
+      "last": {
+        "slot": 8263,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "silver-vein-mine",
+          "cost": 5798,
+          "topup": 0,
+          "newRate": 13005,
+          "netIncrease": 275
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 1,
+          "policyBudget": 29290,
+          "reasons": {
+            "conservativePurchaseBudget": 11,
+            "available": 1
+          },
+          "plannerProbeEquipmentChoices": 52
+        },
+        "reserve": "5419",
+        "rate": 13005
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 6,
+        "policyBudget": 29840,
+        "reasons": {
+          "available": 6,
+          "conservativePurchaseBudget": 6
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "94897f88-c074-5305-a1cb-639b1705e675",
+      "level": 94,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8613,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "oathbound-citadel",
+          "cost": 30747,
+          "topup": 0,
+          "newRate": 32604,
+          "netIncrease": 950
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "8151",
+        "rate": 32604
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "44417fc3-b89a-5aa4-b3a4-9463dde81205",
+      "level": 94,
+      "tier": "elite",
+      "last": {
+        "slot": 8535,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "55719",
+        "rate": 74292
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "bc6d5c29-07cf-5e40-9671-11fca4ad7e4f",
+      "level": 94,
+      "tier": "elite",
+      "last": {
+        "slot": 8456,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "24026",
+        "rate": 72078
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "f2e38b51-d6d4-59d8-97f6-a650b487cd80",
+      "level": 95,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8625,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "runekeeper-academy",
+          "cost": 35370,
+          "topup": 0,
+          "newRate": 38969,
+          "netIncrease": 760
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "9743",
+        "rate": 38969
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "ef6f5ed5-f1fd-5fde-9236-ffccfe3c2f09",
+      "level": 95,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8622,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "20083",
+        "rate": 40166
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "7a78b975-0353-5eef-ab1b-356996d0a64d",
+      "level": 95,
+      "tier": "elite",
+      "last": {
+        "slot": 8611,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "31333",
+        "rate": 75198
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "765cd5ff-bdd8-54a1-95fd-c7f506e3eb22",
+      "level": 95,
+      "tier": "elite",
+      "last": {
+        "slot": 8603,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "6080",
+        "rate": 72957
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "4109c15a-2ebe-52a3-8203-0154d99d1691",
+      "level": 96,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8552,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "13185",
+        "rate": 39555
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "6a0e648d-4480-5fce-ba6c-8f2a211cfd00",
+      "level": 96,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8602,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "runekeeper-academy",
+          "cost": 21962,
+          "topup": 0,
+          "newRate": 40770,
+          "netIncrease": 760
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "6795",
+        "rate": 40770
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "b16c3805-4cb2-5970-9782-daaf184b3532",
+      "level": 96,
+      "tier": "elite",
+      "last": {
+        "slot": 8631,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "57078",
+        "rate": 76104
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "7fd423d0-7506-5c29-9e8b-a274060f00a1",
+      "level": 96,
+      "tier": "elite",
+      "last": {
+        "slot": 8571,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "55377",
+        "rate": 73836
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "6090e7e5-e7f2-5cb8-85e4-979c2b80f61e",
+      "level": 97,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8530,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "tempest-port",
+          "cost": 31385,
+          "topup": 0,
+          "newRate": 39848,
+          "netIncrease": 600
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "6642",
+        "rate": 39848
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "eb03c721-89de-5677-9385-053081db160e",
+      "level": 97,
+      "tier": "elite",
+      "last": {
+        "slot": 8515,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "31962",
+        "rate": 76708
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "12b57a9d-51a5-545e-a796-eb08f54ea0a2",
+      "level": 98,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8335,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "tempest-port",
+          "cost": 19488,
+          "topup": 0,
+          "newRate": 41374,
+          "netIncrease": 600
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "17240",
+        "rate": 41374
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "f26fedcb-d2ef-5d81-858b-d4a1f963add9",
+      "level": 98,
+      "tier": "elite",
+      "last": {
+        "slot": 8578,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "12936",
+        "rate": 77614
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "6e96b168-3a7b-54ec-90ed-7fe0c5d942d8",
+      "level": 98,
+      "tier": "elite",
+      "last": {
+        "slot": 8602,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "12551",
+        "rate": 75301
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "05d59036-47f8-5702-9491-1d6dc77b5fc8",
+      "level": 99,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8553,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "10182",
+        "rate": 40727
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "20ead606-f1fd-548a-b5b0-8239aaaed900",
+      "level": 99,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8479,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 12,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 12
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "17491",
+        "rate": 41978
+      },
+      "final": {
+        "candidateImprovements": 12,
+        "affordableImprovements": 11,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "041ee257-0004-5e85-847c-066370fb87db",
+      "level": 99,
+      "tier": "elite",
+      "last": {
+        "slot": 8584,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "noCombatGain": 6,
+            "conservativePurchaseBudget": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "52146",
+        "rate": 78218
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 5,
+        "policyBudget": 36500,
+        "reasons": {
+          "noCombatGain": 6,
+          "available": 5,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "c548a216-98ca-55d0-a7a2-63e4e4ca9c16",
+      "level": 99,
+      "tier": "elite",
+      "last": {
+        "slot": 8514,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 6,
+          "affordableImprovements": 0,
+          "policyBudget": 36500,
+          "reasons": {
+            "conservativePurchaseBudget": 6,
+            "noCombatGain": 6
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "37944",
+        "rate": 75887
+      },
+      "final": {
+        "candidateImprovements": 6,
+        "affordableImprovements": 6,
+        "policyBudget": 36500,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 6
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "afa15c40-84fa-5245-88fe-552b492f615f",
+      "level": 100,
+      "tier": "green",
+      "last": {
+        "slot": 8541,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving"
+        },
+        "diagnosis": {
+          "candidateImprovements": 18,
+          "affordableImprovements": 0,
+          "policyBudget": 29500,
+          "reasons": {
+            "conservativePurchaseBudget": 18
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3443",
+        "rate": 13770
+      },
+      "final": {
+        "candidateImprovements": 18,
+        "affordableImprovements": 6,
+        "policyBudget": 29500,
+        "reasons": {
+          "available": 6,
+          "conservativePurchaseBudget": 12
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "020bbaff-46ae-5b0b-88a7-f979d8ef1d51",
+      "level": 35,
+      "tier": "elite",
+      "last": {
+        "slot": 8587,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 5,
+          "affordableImprovements": 0,
+          "policyBudget": 5000,
+          "reasons": {
+            "noCombatGain": 13,
+            "conservativePurchaseBudget": 5
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3413",
+        "rate": 8190
+      },
+      "final": {
+        "candidateImprovements": 5,
+        "affordableImprovements": 5,
+        "policyBudget": 5000,
+        "reasons": {
+          "noCombatGain": 13,
+          "available": 5
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "1d445983-f3b2-563c-8f03-4fd1a314087a",
+      "level": 40,
+      "tier": "elite",
+      "last": {
+        "slot": 8611,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 7,
+          "affordableImprovements": 0,
+          "policyBudget": 5700,
+          "reasons": {
+            "conservativePurchaseBudget": 7,
+            "noCombatGain": 11
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4988",
+        "rate": 11970
+      },
+      "final": {
+        "candidateImprovements": 7,
+        "affordableImprovements": 6,
+        "policyBudget": 5700,
+        "reasons": {
+          "available": 6,
+          "noCombatGain": 11,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "47cc3c3c-f03d-59cf-ae99-7b335d8ea662",
+      "level": 45,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8542,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "granite-quarry",
+          "cost": 3891,
+          "topup": 0,
+          "newRate": 6804,
+          "netIncrease": 150
+        },
+        "diagnosis": {
+          "candidateImprovements": 15,
+          "affordableImprovements": 0,
+          "policyBudget": 7200,
+          "reasons": {
+            "conservativePurchaseBudget": 15
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1134",
+        "rate": 6804
+      },
+      "final": {
+        "candidateImprovements": 15,
+        "affordableImprovements": 14,
+        "policyBudget": 7200,
+        "reasons": {
+          "available": 14,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "fe466a99-724a-5030-88d0-dfebcefbdc27",
+      "level": 45,
+      "tier": "elite",
+      "last": {
+        "slot": 8528,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 8,
+          "affordableImprovements": 0,
+          "policyBudget": 7200,
+          "reasons": {
+            "noCombatGain": 7,
+            "conservativePurchaseBudget": 8
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "4760",
+        "rate": 14278
+      },
+      "final": {
+        "candidateImprovements": 8,
+        "affordableImprovements": 7,
+        "policyBudget": 7200,
+        "reasons": {
+          "noCombatGain": 7,
+          "available": 7,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "91c0d153-07cc-5b08-988f-4ae890e92330",
+      "level": 48,
+      "tier": "elite",
+      "last": {
+        "slot": 8631,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 5,
+          "affordableImprovements": 0,
+          "policyBudget": 7800,
+          "reasons": {
+            "noCombatGain": 12,
+            "conservativePurchaseBudget": 5
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "14459",
+        "rate": 19278
+      },
+      "final": {
+        "candidateImprovements": 5,
+        "affordableImprovements": 5,
+        "policyBudget": 7800,
+        "reasons": {
+          "noCombatGain": 12,
+          "available": 5
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "7a97db49-f53c-5379-9257-354306e8eac4",
+      "level": 50,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8516,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "granite-quarry",
+          "cost": 3537,
+          "topup": 0,
+          "newRate": 9870,
+          "netIncrease": 150
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3290",
+        "rate": 9870
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "0efc4f79-4dda-5745-8b97-139f936bc349",
+      "level": 50,
+      "tier": "seasoned",
+      "last": {
+        "slot": 8458,
+        "kind": "land",
+        "plan": {
+          "kind": "land",
+          "id": "moonwell-sanctuary",
+          "cost": 5400,
+          "topup": 0,
+          "newRate": 8470,
+          "netIncrease": 365
+        },
+        "diagnosis": {
+          "candidateImprovements": 17,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "conservativePurchaseBudget": 17
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "1412",
+        "rate": 8470
+      },
+      "final": {
+        "candidateImprovements": 17,
+        "affordableImprovements": 16,
+        "policyBudget": 9000,
+        "reasons": {
+          "available": 16,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 52
+      }
+    },
+    {
+      "id": "2569d045-c762-51b2-b4dd-5acb66c597a9",
+      "level": 50,
+      "tier": "elite",
+      "last": {
+        "slot": 8578,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 4,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "noCombatGain": 13,
+            "conservativePurchaseBudget": 4
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "3799",
+        "rate": 22794
+      },
+      "final": {
+        "candidateImprovements": 4,
+        "affordableImprovements": 4,
+        "policyBudget": 9000,
+        "reasons": {
+          "noCombatGain": 13,
+          "available": 4
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    },
+    {
+      "id": "d689ac2f-c908-516a-8405-510ce366e4b4",
+      "level": 50,
+      "tier": "elite",
+      "last": {
+        "slot": 8547,
+        "kind": "wait",
+        "plan": {
+          "kind": "wait",
+          "reason": "saving_for_affordable_upgrade"
+        },
+        "diagnosis": {
+          "candidateImprovements": 9,
+          "affordableImprovements": 0,
+          "policyBudget": 9000,
+          "reasons": {
+            "noCombatGain": 8,
+            "conservativePurchaseBudget": 9
+          },
+          "plannerProbeEquipmentChoices": 0
+        },
+        "reserve": "15327",
+        "rate": 20436
+      },
+      "final": {
+        "candidateImprovements": 9,
+        "affordableImprovements": 8,
+        "policyBudget": 9000,
+        "reasons": {
+          "noCombatGain": 8,
+          "available": 8,
+          "conservativePurchaseBudget": 1
+        },
+        "plannerProbeEquipmentChoices": 104
+      }
+    }
+  ]
+}

@@ -1,14 +1,15 @@
 <% const victory=battle.winnerId===state.id;const viewerAttacking=battle.attackerId===state.id;const modern=typeof battle.spiritSpent==='number'&&Array.isArray(battle.attackEquipment);const received=viewerAttacking?battle.attackerDamage:battle.defenderDamage;const dealt=viewerAttacking?battle.defenderDamage:battle.attackerDamage;const xp=viewerAttacking?(battle.attackerXp??null):modern?(battle.defenderXp??0):null;
 const rewardNotes=battleRewardNotes(battle,viewerAttacking);const goldReceived=battle.pvpRulesetId?viewerAttacking:victory; %>
 <article class="panel battle-result resolved-battle <%= victory?'victory-celebration reward-celebration '+(battle.victoryStyle==='decisive'?'decisive-victory':''):'defeat-result' %>" data-celebration-id="<%= battle.id??'historical' %>-battle" aria-labelledby="battle-outcome">
-<header class="battle-outcome-heading"><h2 id="battle-outcome"><%= victory?'VICTORY!':'DEFEAT' %></h2>
+<header class="battle-outcome-heading"<% const attention=typeof notifications!=='undefined'?notifications.events.find(event=>event.kind==='attack'&&event.id===battle.id||event.kind==='bounty_claimed'):null;if(attention) { %> data-notification-event="<%= JSON.stringify(attention) %>"<% } %>><h2 id="battle-outcome"><%= victory?'VICTORY!':'DEFEAT' %></h2>
 <p><% if(!viewerAttacking) { %><a class="player-link" href="/game/players/<%= battle.attackerId %>"><%= battle.attackerName %></a> attacked you. You <%= victory?'held your ground.':'lost the battle.' %><% } else { %>You <%= victory?'defeated':'were defeated by' %> <a class="player-link" href="/game/players/<%= battle.defenderId %>"><%= battle.defenderName %></a>.<% } %></p></header>
 <dl class="battle-rewards">
-<div><dt><%= goldReceived?'Gold won':'Gold lost' %></dt><dd class="gold"<% if(victory&&goldReceived&&typeof battle.loot==='number') { %> data-reward-count="<%= battle.loot %>" data-prefix="+"<% } %>><%= typeof battle.loot==='number'?(goldReceived?'+':battle.loot?'-':'')+battle.loot.toLocaleString('en'):'Not recorded' %></dd></div>
-<div><dt>XP gained</dt><dd<% if(victory&&xp!==null) { %> data-reward-count="<%= xp %>" data-prefix="+"<% } %>><%= xp===null?'Not recorded':'+'+xp.toLocaleString('en') %></dd></div></dl>
-<% if(battle.bountyClaim) { %><p class="bounty-reward"><strong>Bounty claimed!</strong> <a class="player-link" href="/game/players/<%= battle.attackerId %>"><%= viewerAttacking?'You':battle.attackerName %></a> received <strong class="gold"><%= battle.bountyClaim.reward.toLocaleString('en') %> bounty gold</strong>, separate from the ordinary battle loot above.</p><% } %>
+<div class="battle-gold-reward"><svg class="reward-coin" width="25" height="25" aria-hidden="true"><use href="/assets/art/remaster-ui/icons.svg?v=phase48-finish1#coins"></use></svg><dt><%= goldReceived?'Gold won':'Gold lost' %></dt><dd class="gold"<% if(victory&&goldReceived&&typeof battle.loot==='number') { %> data-reward-count="<%= battle.loot %>" data-prefix="+"<% } %>><%= typeof battle.loot==='number'?(goldReceived?'+':battle.loot?'-':'')+battle.loot.toLocaleString('en'):'Not recorded' %></dd></div>
+<div class="battle-xp-reward"><span class="reward-xp-mark" aria-hidden="true">XP</span><dt>XP gained</dt><dd<% if(victory&&xp!==null) { %> data-reward-count="<%= xp %>" data-prefix="+"<% } %>><%= xp===null?'Not recorded':'+'+xp.toLocaleString('en') %></dd></div></dl>
+<% if(battle.bountyClaim) { %><p class="bounty-reward"><strong>Bounty claimed — escrow payout</strong> <a class="player-link" href="/game/players/<%= battle.attackerId %>"><%= viewerAttacking?'You':battle.attackerName %></a> received <strong class="gold"><%= battle.bountyClaim.reward.toLocaleString('en') %> bounty gold</strong>, separate from the ordinary battle loot above.</p><% } %>
 <dl class="battle-damage"><div><dt>Damage dealt</dt><dd><%= dealt??'Not recorded' %></dd></div><div><dt>Damage received</dt><dd><%= received??'Not recorded' %></dd></div></dl>
 <div class="battle-progress"><span>Level <%= state.level %> · <%= state.xpToNext.toLocaleString('en') %> XP to next level</span><progress class="reward-progress" value="<%= state.levelXp %>" max="<%= state.levelRequirement %>" aria-label="Level progress"></progress></div>
+<%- include('partials/celebration',{reward:battle.playerExperience?.[state.id],identity:battle.id??'historical-battle',compact:true}) %>
 <div class="battle-armies">
 <%- include('partials/battle-equipment',{heading:'Your Equipment',ownerId:state.id,ownerName:viewerAttacking?battle.attackerName:battle.defenderName,equipment:viewerAttacking?battle.attackEquipment:battle.defenseEquipment,participants:viewerAttacking?battle.attackerArmy:battle.defenderArmy,enemy:false}) %>
 <%- include('partials/battle-equipment',{heading:'Enemy Equipment',ownerId:viewerAttacking?battle.defenderId:battle.attackerId,ownerName:viewerAttacking?battle.defenderName:battle.attackerName,equipment:viewerAttacking?battle.defenseEquipment:battle.attackEquipment,participants:viewerAttacking?battle.defenderArmy:battle.attackerArmy,enemy:true}) %>
@@ -16,10 +17,12 @@ const rewardNotes=battleRewardNotes(battle,viewerAttacking);const goldReceived=b
 <%- include('partials/attack-again') %>
 <details class="battle-record-details"><summary><%= rewardNotes.length?'Reward & battle details':'Battle details' %></summary>
 <% for(const note of rewardNotes) { %><p class="compact-help" data-reward-note><%= note %></p><% } %>
-<p class="compact-help"><%= viewerAttacking?(typeof battle.spiritSpent==='number'?battle.spiritSpent+' Spirit spent':'Spirit cost not recorded'):'Defending costs no Spirit' %></p>
+<p class="compact-help"><%= viewerAttacking?(typeof battle.spiritSpent==='number'?battle.spiritSpent+' Stamina spent':'Stamina cost not recorded'):'Defending costs no Stamina' %></p>
 <time datetime="<%= battle.createdAt %>"><%= new Date(battle.createdAt).toLocaleString('en-GB',{timeZone:'UTC'}) %> UTC</time>
 <% if(battle.temporaryRival) { %><p class="compact-help bot-label">Temporary computer-controlled rival</p><% } %>
 </details>
 </article>
-<%- include('partials/celebration',{reward:battle.playerExperience?.[state.id],identity:battle.id??'historical-battle'}) %>
+
 <div class="report-actions"><a href="/game/battle" class="button button-gold">Return to rivals</a><a href="/game/profile?tab=battles" class="button button-outline">My battles</a></div>
+
+<%- include('partials/notification-read') %>

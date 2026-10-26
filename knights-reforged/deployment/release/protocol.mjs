@@ -1,3 +1,4 @@
+import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 
@@ -59,23 +60,34 @@ export function checkWorkerEnvironment(env,request){
  assert.notEqual(source.host,restore.host);
  return {source,restore};
 }
+// Exact installed append manifest only; never an arbitrary count/range.
+export function checkPopulationEvidence(evidence){
+ if(evidence==null)return 450;
+ const manifest=JSON.parse(readFileSync(new URL('../../rulesets/level100-rivals-1/rules.json',import.meta.url),'utf8'));
+ const normalized=v=>Array.isArray(v)?v.map(normalized):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).sort().map(([k,x])=>[k,normalized(x)])):v;
+ const expected=createHash('sha256').update(JSON.stringify(normalized(manifest))).digest('hex');
+ assert.equal(evidence.manifestId,'level100-rivals-1');assert.equal(evidence.manifestDigest,expected);assert.match(evidence.legacyDigest,digest);
+ assert.equal(evidence.originalBots,450);assert.equal(evidence.addedBots,450);assert.equal(evidence.totalBots,900);assert.ok([0,450].includes(evidence.activeAddedBots));assert.ok(['paused','purchases-only','enabled'].includes(evidence.autonomyMode));if(evidence.activeAddedBots===0)assert.equal(evidence.autonomyMode,'paused');
+ return 900;
+}
 export function checkJobReport(report,expected){
  assert.equal(report.protocol,protocol);assert.equal(report.passed,true);
  for(const key of ['jobId','mode','sha','candidateDigest','projectId','environmentId','gameServiceId','workerServiceId','sourceHost','sourceDatabase','restoreHost','copy'])assert.equal(report[key],expected[key],'Private job evidence does not match this release.');
  assert.match(report.workerDeploymentId??'',uuid);assert.match(report.sourceClusterDigest??'',digest);
- assert.ok(report.accounts>=451&&report.bots===450,'The existing populated realm was not preserved.');
+ const expectedBots=checkPopulationEvidence(report.population);
+ assert.ok(report.accounts>=expectedBots+1&&report.bots===expectedBots,'The exact populated realm was not preserved.');
  if(expected.mode==='prepare'){
   const backup=report.backup;
   assert.match(backup.sha256,digest);assert.match(backup.encryptedSha256,digest);
   assert.ok(Number.isSafeInteger(backup.bytes)&&backup.bytes>100000&&Number.isSafeInteger(backup.encryptedBytes)&&backup.encryptedBytes>100000);
   assert.equal(backup.recipient,expected.backupRecipient);assert.equal(backup.conditionalWriteVerified,true);assert.equal(backup.exportRoundTripVerified,true);
-  assert.equal(report.restoredCopy.passed,true);assert.equal(report.restoredCopy.bots,450);assert.ok(report.restoredCopy.accounts>=report.accounts);
+  assert.equal(report.restoredCopy.passed,true);assert.equal(report.restoredCopy.bots,expectedBots);assert.deepEqual(report.restoredCopy.population??null,report.population??null);assert.ok(report.restoredCopy.accounts>=report.accounts);
   assert.ok(report.restoredCopy.existingTablesVerified>=60);assert.equal(report.restoredCopy.migrationReplay,'unchanged');assert.equal(report.restoredCopy.liveDatabaseConnected,false);
   assert.equal(report.restoredCopy.restoredDatabase,expected.copy);assert.equal(report.restoredCopy.restoredHost,expected.restoreHost);
   assert.match(report.restoredCopy.sha256??'',digest);assert.match(report.restoreClusterDigest??'',digest);
   assert.notEqual(report.sourceClusterDigest,report.restoreClusterDigest,'Restore target must be a different PostgreSQL cluster.');
  }else{
-  assert.equal(report.schemaHead,'020_game_feel.sql');assert.equal(report.active_bots,450);assert.equal(report.initialized,true);
+  assert.equal(report.schemaHead,'026_living_competition.sql');assert.equal(report.active_bots,450+(report.population?.activeAddedBots??0));assert.equal(report.initialized,true);
  }
  return report;
 }

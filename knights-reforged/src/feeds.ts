@@ -44,11 +44,11 @@ export async function activityFeed(sql:Sql,viewerId:string,category:FeedCategory
     jsonb_build_object('authorId',m.author_id,'authorName',a.name,'profileId',m.profile_id,'profileName',p.name,'body',m.body,
     'reported',EXISTS(SELECT 1 FROM social_reports r WHERE r.message_id=m.id AND r.reporter_id=$1)) AS data
     FROM realm_messages m JOIN characters a ON a.id=m.author_id LEFT JOIN characters p ON p.id=m.profile_id WHERE m.status='visible' AND
-    ${profileId?"m.channel='comment' AND m.profile_id=$4::uuid":category==='comments'?"m.channel='comment' AND (m.profile_id=$1 OR m.author_id=$1)":category==='broadcasts'?"m.channel='broadcast'":"(m.channel='broadcast' OR m.profile_id=$1 OR m.author_id=$1)"}`);
+    ${profileId?"m.channel='comment' AND m.profile_id=$4::uuid":category==='comments'?"m.channel='comment' AND (m.profile_id=$1 OR m.author_id=$1)":category==='broadcasts'?"m.channel='broadcast'":"m.channel='comment' AND (m.profile_id=$1 OR m.author_id=$1)"}`);
   if(category==='all'){
     queries.push(`SELECT e.id,e.created_at,'bounty' AS kind,jsonb_build_object('event',e.kind,'amount',e.amount,'targetId',b.target_id,'targetName',t.name,
-      'sponsorId',b.sponsor_id,'sponsorName',s.name,'claimantId',b.claimant_id,'battleId',CASE WHEN $1 IN (b.target_id,b.claimant_id) THEN b.battle_id ELSE NULL END) AS data
-      FROM bounty_events e JOIN bounties b ON b.id=e.bounty_id JOIN characters t ON t.id=b.target_id JOIN characters s ON s.id=b.sponsor_id
+      'sponsorId',b.sponsor_id,'sponsorName',s.name,'claimantId',b.claimant_id,'claimantName',h.name,'bountyId',b.id,'battleId',CASE WHEN $1 IN (b.target_id,b.claimant_id) THEN b.battle_id ELSE NULL END) AS data
+      FROM bounty_events e JOIN bounties b ON b.id=e.bounty_id JOIN characters t ON t.id=b.target_id JOIN characters s ON s.id=b.sponsor_id LEFT JOIN characters h ON h.id=b.claimant_id
       WHERE $1 IN (b.sponsor_id,b.target_id,b.claimant_id)`);
     queries.push(`SELECT e.id,e.created_at,'army' AS kind,jsonb_build_object('event',e.kind,'actorId',e.actor_id,'actorName',a.name,'targetId',e.target_id,'targetName',t.name) AS data
       FROM army_events e JOIN characters a ON a.id=e.actor_id JOIN characters t ON t.id=e.target_id WHERE $1 IN (e.actor_id,e.target_id)`);

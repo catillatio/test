@@ -44,7 +44,7 @@ try{
  }
  const hero=await playerPage(a),defender=await playerPage(b);
  await hero.goto(origin+'/game/champions');assert.equal(await hero.locator('.champion-row').nth(2).evaluate(el=>getComputedStyle(el).backgroundImage),'none','Champion row must not inherit achievement medal gradients.');await capture(hero,'390-hall-of-champions');
- await hero.goto(origin+'/game/players/'+b.id);await capture(hero,'390-rivalry-history');assert.equal(await hero.getByRole('heading',{name:'Your Rivalry',exact:true}).count(),1);assert.equal(await hero.locator('.rivalry-encounters>li').count(),5);
+ await hero.goto(origin+'/game/players/'+b.id+'?tab=battles');await capture(hero,'390-rivalry-history');assert.equal(await hero.getByRole('heading',{name:'Your Rivalry',exact:true}).count(),1);assert.equal(await hero.locator('.rivalry-encounters>li').count(),5);
  await defender.goto(origin+'/game/battles/'+lastBattle);assert.equal(await defender.getByRole('button',{name:'Revenge',exact:true}).isEnabled(),true);await capture(defender,'390-incoming-revenge');
  const spirit=(await state(defender)).spirit;await action(defender,defender.getByRole('button',{name:'Revenge',exact:true}));assert.equal((await state(defender)).spirit,spirit-1);checks.push('Native Revenge consumes ordinary Spirit and creates a normal report.');
  await hero.goto(origin+'/game/battles/'+lastBattle);assert.equal(await hero.locator('.enemy-equipment').evaluate(el=>el.hasAttribute('open')),true);assert.equal(await hero.locator('.enemy-equipment .inventory-figure').count(),3);await capture(hero,'390-victory-enemy-equipment');

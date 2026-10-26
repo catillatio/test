@@ -1,0 +1,28 @@
+{
+  "checkpoint": "full-bleed-2",
+  "focusedAssetTests": {
+    "tests": 4,
+    "pass": 4,
+    "fail": 0,
+    "skip": 0
+  },
+  "typescript": "PASS",
+  "browser": {
+    "viewportWidths": [
+      320,
+      390,
+      430,
+      1024
+    ],
+    "realRouteBindings": 96,
+    "nativeFrames": 36,
+    "reviewCaptures": 18,
+    "errors": []
+  },
+  "sourceAndRuntimeHashes": "PASS",
+  "preservedProtectedPaths": "PASS",
+  "manualReview": "All six native-size sheets and four rendered Land widths inspected; full-bleed scenes, key landmarks retained. Owner approval pending.",
+  "fullCI": "Not run, pending owner visual approval",
+  "productionAccess": false,
+  "finalPrCreated": false
+}

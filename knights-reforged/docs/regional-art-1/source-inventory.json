@@ -1,0 +1,228 @@
+{
+  "imageGenerationTool": "image_gen.imagegen",
+  "generation": "21 new independent designs: 15 weapons and six properties. 15 weapon framing-only image-generation edits; no rejected old catalog reused.",
+  "framingEdits": "Uniformly reduce the whole existing object and extend its original charcoal texture naturally. No border, matting, mirrored sides, blur, stretching or redesign.",
+  "references": [
+    "public/art/fantasy-0.2/weapons.webp",
+    "public/art/equipment-51b-current-1/oathbound-greatsword.webp",
+    "public/art/properties-51b-fullbleed-2/wyrmcrest-keep.webp"
+  ],
+  "files": [
+    {
+      "path": "docs/regional-art-1/sources/astral-conductor-initial.png",
+      "bytes": 2203874,
+      "sha256": "a513a8cbb54dbb17ecbddfa8f6623eb497d26a2a40794508a18a2f4707c2b07b",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/astral-conductor.png",
+      "bytes": 2087590,
+      "sha256": "05a4ecfe1c19d243744d76153946d6383167c82686b248e1b256bec2fd1c637d",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/crown-of-ash-blade-initial.png",
+      "bytes": 2301654,
+      "sha256": "6494d003048b13bb6aba29530961882e2266e480c6434491032ba32e76a667db",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/crown-of-ash-blade.png",
+      "bytes": 2478291,
+      "sha256": "0276f214eb07b5441e2323fcc8684f754211da36b025604fd02548f50f0bbfcb",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/crown-river-port.png",
+      "bytes": 3573183,
+      "sha256": "074d6784951926b858b8d6ad26ed345c476e153c0303b1c21aeca5202dae7726",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/dragonwake-falchion-initial.png",
+      "bytes": 2184448,
+      "sha256": "0f0bcfb8fff5db132445f32a807e12adc8e46955170a528fc0f32e8e25cfa2c2",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/dragonwake-falchion.png",
+      "bytes": 2130823,
+      "sha256": "92afec79b6cdceed8848bf177f46a15b2710bd4ecc15561da85dde309857f8c3",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/eclipse-crown-citadel.png",
+      "bytes": 3576402,
+      "sha256": "4014ebf634641d518d607d1711aab6ad86d367da50a5ad064d0fccaf69131a56",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/eclipse-gatehammer-initial.png",
+      "bytes": 2300565,
+      "sha256": "2a377594fc9576bfe65634e088e22a6987089a28615eb97fac0717ebf984826e",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/eclipse-gatehammer.png",
+      "bytes": 2399172,
+      "sha256": "d859b1d0897b3b594d78b05600fa077d0e8e8502dd0e844776eee78f376e6dc2",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/eclipse-greatsword-initial.png",
+      "bytes": 2328476,
+      "sha256": "235f35066145b60672780e77b54bb82676624c51d99de52bbd26661f48c70ce9",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/eclipse-greatsword.png",
+      "bytes": 2399972,
+      "sha256": "28c2f33415b0cb9e0e684bf926f814e5496fe4716a6ae3ccb21962813761d5da",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/fortress-glaive-initial.png",
+      "bytes": 2238576,
+      "sha256": "65499eb02ecfa66f2ff7aee93bc608df0fe15cf8984cbce603b754111203d6be",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/fortress-glaive.png",
+      "bytes": 2505847,
+      "sha256": "67f79716059f90f9c793ac43190a2b41deaea63c60b6563d2fbf7f0dd194816f",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/gravewarden-scythe-initial.png",
+      "bytes": 2214248,
+      "sha256": "ee75daaf063752d42c168e0402670a29b84b6c8e90e47ccf50bdbb9167f33380",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/gravewarden-scythe.png",
+      "bytes": 2039193,
+      "sha256": "f5da042e06dfd83790c8479d2c9f3d2766754391ea215e330f76b003716a2085",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/guard-captains-halberd-initial.png",
+      "bytes": 2162787,
+      "sha256": "b9c470525547c84704d51bcaf714e9970ce5893d1d0a9bf23108193e9cfe206d",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/guard-captains-halberd.png",
+      "bytes": 2300333,
+      "sha256": "5f02abb01b997ec3c9b326db97c54ec9a29ec77cc938fd88706545e77d7873da",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/imperial-siegeworks.png",
+      "bytes": 3431389,
+      "sha256": "c1e32b346bd186d26ac6dda2f093b8238a4b2e8eaf96fa8ef1c5b6f881571c79",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/march-wardens-poleaxe-initial.png",
+      "bytes": 2372399,
+      "sha256": "af5ca2358bb0d7ed12d715c51cd09800af08edfb2f387c44231c1d51df91fb73",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/march-wardens-poleaxe.png",
+      "bytes": 2512616,
+      "sha256": "7e7f80e897b32ea53f1ea371ee048da4864cc4094c4e2dd133dca34593156af6",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/marcher-greatsword-initial.png",
+      "bytes": 2214898,
+      "sha256": "aa6a1fbd809b9ac042fd74cfeb1a972887aab9c5d8f3aa0766b57c094572d1a9",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/marcher-greatsword.png",
+      "bytes": 2434417,
+      "sha256": "585e29d6fa8f8445807e57795c396f30765e0cb461ce34d288bfe59624775ec8",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/marcher-stronghold.png",
+      "bytes": 3744075,
+      "sha256": "9c280d48d605ebdfff19a619f495db37813caa37790adec2d4be7a2712a7627d",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/royal-border-fortress.png",
+      "bytes": 3484797,
+      "sha256": "c57b0f29f9448f38be6f0b046dafb71d5597b4eea9d019cc02421fd84670337b",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/royal-warblade-initial.png",
+      "bytes": 2359316,
+      "sha256": "0d5b5072bb897815b2fdbb8a42124721c8e7167d1ae71a4a07dae801141618e2",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/royal-warblade.png",
+      "bytes": 2414397,
+      "sha256": "d0115d770f3c2c13b8b40eec94968866cd980c485bc63e952dee9650163b2c1b",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/sovereign-castle.png",
+      "bytes": 3360517,
+      "sha256": "07998d55a157a746a0532787f65aa56e04ed0f081b8459845fc0579f667e2d13",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/sovereigns-zweihander-initial.png",
+      "bytes": 2330749,
+      "sha256": "604ec26956b98d5cf6c96549f3badd41278e8889bcf901bea953be86b317a0d6",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/sovereigns-zweihander.png",
+      "bytes": 2328548,
+      "sha256": "1675d08a41bd0de7838c97db28a8df51536a345b6949483342a8dad3351e2592",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/stormglass-pike-initial.png",
+      "bytes": 2135579,
+      "sha256": "939813f314efb9244850ff51cf921dc82f215116447df56ce919191905c6e077",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/stormglass-pike.png",
+      "bytes": 2161078,
+      "sha256": "bf31ed5cfffae24f743dcec6774d81b8748a432d443f29314f694fc4db83f0c0",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/sun-etched-warhammer-initial.png",
+      "bytes": 2307299,
+      "sha256": "9d4fd5d8bb71934f36e301dcf07e22868d4e33b9cb3b02f4547904439efd41ac",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/sun-etched-warhammer.png",
+      "bytes": 2157568,
+      "sha256": "f67bb913e89794bd55418f1b4695c95603303237b3268060afce8405bb8047d8",
+      "purpose": "final generated source"
+    },
+    {
+      "path": "docs/regional-art-1/sources/throneguard-polehammer-initial.png",
+      "bytes": 2443721,
+      "sha256": "f5676306dd0776b3a3ef2e1d6ecbdefcf1626ab9678ebfa75a7423e8ac043cb1",
+      "purpose": "initial framing retained"
+    },
+    {
+      "path": "docs/regional-art-1/sources/throneguard-polehammer.png",
+      "bytes": 2298696,
+      "sha256": "ca2a96364fdb7162a385c351ed671736d9252246f1a35211aa75726f49918e5c",
+      "purpose": "final generated source"
+    }
+  ]
+}

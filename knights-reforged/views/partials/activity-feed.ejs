@@ -1,7 +1,8 @@
 <div class="activity-feed" aria-label="Recent activity">
 <% if(!feed.entries.length) { %><p class="feed-empty">No activity yet. Quest, meet another player, or leave a message to begin your realm's story.</p><% } %>
 <% for(const entry of feed.entries) { const data=entry.data; %>
-<article class="activity-entry activity-<%= entry.kind %>" id="activity-<%= entry.id %>">
+<% const attention=typeof notifications!=='undefined'?notifications.events.find(event=>event.id===entry.id&&event.kind===(entry.kind==='battle'?'attack':entry.kind==='army'?'army_accepted':'comment')):null; %>
+<article<% if(attention) { %> data-notification-event="<%= JSON.stringify(attention) %>"<% } %> class="activity-entry activity-<%= entry.kind %>" id="activity-<%= entry.id %>">
 <% if(entry.kind==='battle') { const attacking=data.attackerId===state.id,opponentId=attacking?data.defenderId:data.attackerId,won=data.winnerId===state.id; %>
   <h3><%- include('outcome',{won}) %> <%= attacking?'You attacked':'You were attacked by' %> <a class="player-link" href="/game/players/<%= opponentId %>"><%= attacking?data.defenderName:data.attackerName %></a></h3>
   <p><span class="gold"><%= won?'+':'−' %><%= data.loot??0 %> gold</span> · +<%= attacking?(data.xp??0):(data.defenderXp??0) %> XP · <%= attacking?data.defenderDamage:data.attackerDamage %> damage dealt · <%= attacking?data.attackerDamage:data.defenderDamage %> received</p>
@@ -12,11 +13,13 @@
   <div class="feed-actions"><% if(own||host) { %><form method="post" action="/game/social/remove"><%- include('command-fields') %><input type="hidden" name="messageId" value="<%= entry.id %>"><button class="button button-outline button-small" type="submit"><%= own?'Remove':'Hide from profile' %></button></form><% } %>
   <% if(!own) { %><% if(data.reported) { %><small>Reported for review</small><% } else { %><details class="report-message"><summary>Report</summary><form method="post" action="/game/social/report"><%- include('command-fields') %><input type="hidden" name="messageId" value="<%= entry.id %>"><label for="report-<%= entry.id %>">Reason</label><select id="report-<%= entry.id %>" name="reason"><option value="spam">Spam</option><option value="abuse">Abuse</option><option value="other">Other</option></select><button class="button button-outline button-small" type="submit">Send report</button></form></details><% } %><% } %></div>
 <% } else if(entry.kind==='bounty') { %>
-  <h3>⚑ Bounty <%= data.event %></h3><p><a class="player-link" href="/game/players/<%= data.targetId %>"><%= data.targetName %></a> · <span class="gold"><%= data.amount %> gold</span> · sponsored by <a class="player-link" href="/game/players/<%= data.sponsorId %>"><%= data.sponsorName %></a></p><div class="feed-actions"><a href="/game/bounties" class="text-link">Bounty List ›</a><% if(data.battleId) { %><a href="/game/battles/<%= data.battleId %>" class="text-link">View Battle ›</a><% } %></div>
+  <h3>⚑ Bounty <%= data.event %></h3><% if(data.event==='claimed'&&data.claimantId) { %><p><a class="player-link" href="/game/players/<%= data.claimantId %>"><%= data.claimantName??'Bounty hunter' %></a> claimed the contract. Bounty gold is separate from battle loot.</p><% } %><p><a class="player-link" href="/game/players/<%= data.targetId %>"><%= data.targetName %></a> · <span class="gold"><%= data.amount %> gold</span> · sponsored by <a class="player-link" href="/game/players/<%= data.sponsorId %>"><%= data.sponsorName %></a></p><div class="feed-actions"><a href="/game/bounties" class="text-link">Bounty List ›</a><% if(data.battleId) { %><a href="/game/battles/<%= data.battleId %>" class="text-link">View Battle ›</a><% } %></div>
 <% } else if(entry.kind==='army') { %>
-  <h3>⚔ Army invitation <%= data.event %></h3><p><a class="player-link" href="/game/players/<%= data.actorId %>"><%= data.actorName %></a> and <a class="player-link" href="/game/players/<%= data.targetId %>"><%= data.targetName %></a></p><a class="text-link" href="/game/army?tab=dashboard">Army Dashboard ›</a>
+  <% if(data.event==='accepted'&&data.targetId===state.id) { %><h3><a class="player-link" href="/game/players/<%= data.actorId %>"><%= data.actorName %></a> accepted your army invitation.</h3><% } else { %><h3>⚔ Army invitation <%= data.event %></h3><p><a class="player-link" href="/game/players/<%= data.actorId %>"><%= data.actorName %></a> and <a class="player-link" href="/game/players/<%= data.targetId %>"><%= data.targetName %></a></p><% } %><a class="text-link" href="/game/army?tab=dashboard">Army Dashboard ›</a>
 <% } %>
   <time class="relative-time" datetime="<%= entry.createdAt %>" title="<%= new Date(entry.createdAt).toLocaleString('en-GB',{timeZone:'UTC'}) %> UTC"><%= relativeTime(entry.createdAt,state.serverTime) %></time>
 </article><% } %>
 <% if(feed.nextCursor) { %><a class="button button-outline older-activity" href="<%= pageBase %><%= pageBase.includes('?')?'&':'?' %>after=<%= encodeURIComponent(feed.nextCursor) %>">Older activity</a><% } %>
 </div>
+
+<%- include('notification-read') %>

@@ -1,3 +1,10 @@
+import {competitiveProfile} from './competitive-records.js';
+import {approvedEquipmentArt} from './equipment-artwork.js';
+import {coordinatedArt,coordinatedArtworkStatus} from './coordinated-artwork.js';
+import {regionalArt} from './regional-artwork.js';
+import {presentationCatalog,presentationArt,recordedEquipment,presentedItem} from './equipment-presentation.js';
+import {notificationSummary,acknowledgeNotifications} from './notifications.js';
+import {readArmyRoster,type RosterFilter} from './army-roster.js';
 import {mutedSound,soundPreferences,soundFeedback} from './sound.js';
 import {callingName,callingDescription} from './calling-presentation.js';
 import Fastify, { type FastifyRequest, type FastifyReply } from 'fastify';
@@ -18,6 +25,8 @@ import { type Database } from './db.js';
 import { authenticate, registerAccount, createSession, findSession, type Session } from './auth.js';
 import { getState, getBattle, recentBattles, listOpponents, type CharacterState } from './game.js';
 import { executeCommand, type CommandKind } from './commands.js';
+import {realmPolicy} from './realm-policy.js';
+import {contentCatalog,approvedExpansionArt,preparedExpansionArt,expansionArtUse,questRarities} from './expansion-content.js';
 import {experienceView,regionFilter,rememberRegion} from './experience.js';
 import {experienceRules} from './experience-rules.js';
 import {gameplay} from './gameplay-rules.js';
@@ -33,7 +42,7 @@ import {refinements} from './refinement-rules.js';
 import {pvp,bountyRules} from './pvp-rules.js';
 import {publicProfile,ownedProperties,attackAvailability,recruitmentAvailability} from './profiles.js';
 import {activityFeed,armyDashboard,feedCategory,relativeTime,battleTales} from './feeds.js';
-import {bountyBoard as loadBountyBoard,bountyQuote,bountyPlacementAvailability} from './bounties.js';
+import {bountyBoard as loadBountyBoard,bountyQuote,bountyPlacementAvailability,bountyHuntAvailability} from './bounties.js';
 import {activeBountyCount} from './bounties.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
 import {championCategories,formatStanding,hallOfChampions,rivalryHistory,opponentUnavailable} from './competition.js';
@@ -74,7 +83,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   await app.register(fastifyStatic, { root: join(projectRoot, 'public'), prefix: '/assets/', maxAge: '1h',dotfiles:'deny',index:false,list:false });
   // Rules used by shared/nested views are application constants, not optional
   // page locals. This also covers direct views and error rendering contexts.
-  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { callingName,callingDescription,sound:mutedSound,soundEvent:null, champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,bountyCount:0,nextBountyExpiry:null,gameplay,experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
+  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { callingName,callingDescription,notifications:{home:0,army:0,events:[]},sound:mutedSound,soundEvent:null, competitiveProfile:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,bountyCount:0,nextBountyExpiry:null,gameplay,experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
   app.decorateRequest('realmSession', null);
 
   const setSessionCookie = (reply: FastifyReply, token: string, authenticated: boolean) => reply.setCookie('kr_session', token, {
@@ -130,36 +139,55 @@ export async function createApp(options: { db: Database; config: Config; logger?
     if (!allowedScreens.has(screen)) throw new Error('Unknown server-selected template.');
     const session = request.realmSession;
     const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id,config) : null);
+    const alpha=presentationCatalog(contentCatalog(state?.rulesetId),state?.presentationId);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
-    const query = request.query as { command?: string; category?: string;area?:string;tab?:string;bulk?:unknown;calling?:string };
+    const query = request.query as { command?: string; category?: string;area?:string;tab?:string;bulk?:unknown;calling?:string;roster?:string };
     if (session?.account_id && uuid.safeParse(query?.command).success) {
       const receipt = (await db.query('SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2', [session.account_id, query.command])).rows[0];
       notice = receipt?.result?.kind==='attack'?'Your battle is recorded. View it in Battles.':receipt?.result?.kind==='profile'?String(receipt.result.message).replace(/\b(Freeblade|Warden|Spellward)\b/g,key=>callingName(key)):receipt?.result?.message ?? null;
       actionResult = receipt?.result ?? null;
     }
+    // Confirmation is derived only from this account's durable receipt. Missing
+    // legacy metadata keeps the existing generic notice rather than invented data.
+    if(notice)notice=notice.replace(/^Maximum spirit increased by /,'Maximum Stamina increased by ');
+    const purchaseData=actionResult?.data as {itemId?:string;propertyId?:string;itemName?:string;quantity?:number;goldSpent?:number}|undefined;
+    const purchaseEntry=screen==='armory'&&actionResult?.kind==='buy'?alpha.items.find(i=>i.id===purchaseData?.itemId):
+      screen==='land'&&actionResult?.kind==='land_buy'?alpha.properties.find(p=>p.id===purchaseData?.propertyId):null;
+    const purchaseFeedback=purchaseEntry&&Number.isSafeInteger(purchaseData?.quantity)&&Number(purchaseData?.quantity)>0&&Number.isSafeInteger(purchaseData?.goldSpent)&&Number(purchaseData?.goldSpent)>=0?
+      {id:purchaseEntry.id,name:purchaseData?.itemName??purchaseEntry.name,quantity:purchaseData!.quantity,goldSpent:purchaseData!.goldSpent,commandId:actionResult!.commandId}:null;
     const playerExperience=state?await experienceView(db,state.id):null;
     const board=data.bountyBoard as {activeCount?:number;nextExpiryAt?:string|null}|undefined;
     const counts=state&&['battle','bounties','bounty-new','bounty-confirm'].includes(screen)?board?.activeCount!==undefined?{count:board.activeCount,nextExpiryAt:board.nextExpiryAt??null}:await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):{count:0,nextExpiryAt:null};
-    const chosenRegion=regionFilter(query.area);
+    const notificationFeed=[...((data.feed as {entries:any[]}|undefined)?.entries??[]),...((data.bountyBoard as {attentionFeed:any[]}|undefined)?.attentionFeed??[])];
+    if(screen==='army'&&query.tab==='dashboard')for(const event of (data.armyEvents as any[]|undefined)??[])
+      notificationFeed.push({id:event.id,kind:'army',data:{event:event.kind,actorId:event.actor_id,targetId:event.target_id}});
+    const shownBattle=data.battle as {id?:string;defenderId?:string}|undefined;
+    if(screen==='report'&&state&&shownBattle?.id&&shownBattle.defenderId===state.id){
+      notificationFeed.push({id:shownBattle.id,kind:'battle',data:{defenderId:state.id}});
+      for(const event of(await db.query(`SELECT e.id,b.target_id,b.sponsor_id,b.claimant_id FROM bounty_events e JOIN bounties b ON b.id=e.bounty_id WHERE b.battle_id=$1 AND e.kind='claimed' AND b.target_id=$2`,[shownBattle.id,state.id])).rows)
+        notificationFeed.push({id:event.id,kind:'bounty',data:{event:'claimed',targetId:event.target_id,sponsorId:event.sponsor_id,claimantId:event.claimant_id}});
+    }
+    const chosenRegion=regionFilter(query.area,alpha.id);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', {
-      screen, state,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null, developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,
+      screen, state,approvedEquipmentArt,coordinatedArt,regionalArt,presentationArt,recordedEquipment,authoritativeItems:contentCatalog(state?.rulesetId).items,approvedExpansionArt,preparedExpansionArt,expansionArtUse,rareQuestPolicy:state?.rareEquipmentEnabled?questRarities:null,competitiveProfile:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,
       questArea:chosenRegion??playerExperience?.region??'all',
+      notifications:state?await notificationSummary(db,state.id,notificationFeed):{home:0,army:0,events:[]},
       showCalling:query.calling==='1',profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
       recruitment:{allowed:false,reason:'Review this army request in Recruit.',status:'none',automatic:false},publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
       feedTab:feedCategory((request.query as {feed?:string}).feed),feed:{entries:[],nextCursor:null},
-      armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],
+      armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],rosterFilter:['accepted','incoming','outgoing'].includes(query.roster??'')?query.roster:'all',
       csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
       commandId: randomUUID, notice, error: null, opponents: [], nextOpponentCursor:null, battles: [], battle: null,
       sound:state?await soundPreferences(db,state.id):mutedSound,soundEvent:soundFeedback(data.actionResult??actionResult,data.battle,state?.id),experience:playerExperience,title: 'Kingdom Come', authMode: 'login', returnTo:safeReturn((request.query as {returnTo?:string}).returnTo??asBody(request).returnTo),formValues: { username: '', name: '' }, ...data,
     });
   }
 
-  app.get('/healthz', async () => { await db.query('SELECT 1'); return { status: 'ready', ruleset: alpha.id,release:'phase4.7',commit:/^[a-f0-9]{40}$/.test(process.env.KINGDOM_RELEASE_SHA??'')?process.env.KINGDOM_RELEASE_SHA:null }; });
+  app.get('/healthz', async () => { await db.query('SELECT 1'); return { status: 'ready', artwork:coordinatedArtworkStatus(),ruleset: alpha.id,release:'phase4.7',commit:/^[a-f0-9]{40}$/.test(process.env.KINGDOM_RELEASE_SHA??'')?process.env.KINGDOM_RELEASE_SHA:null }; });
   app.get('/', async (request, reply) => reply.redirect(request.realmSession?.account_id ? '/game/home' : '/login'));
   for (const mode of ['login', 'register'] as const) {
     app.get('/' + mode, async (request, reply) => request.realmSession?.account_id ? reply.redirect(safeReturn((request.query as {returnTo?:string}).returnTo)) :
@@ -193,13 +221,17 @@ export async function createApp(options: { db: Database; config: Config; logger?
   for (const { id: screen, label: title } of nav) {
     app.get('/game/' + screen, { preHandler: requireAccount }, async (request, reply) => {
       const state = await getState(db, request.realmSession!.account_id!,config);
+      if(screen==='army'){
+        const query=request.query as {after?:string;roster?:RosterFilter};
+        if(query.after||query.roster){const page=await readArmyRoster(db,state.id,config,query.after,query.roster??'all');state.army={...state.army,links:page.links,nextCursor:page.nextCursor};}
+      }
       return render(request, reply, screen, { title, state,
         ...(screen === 'battle' ? { battles: await recentBattles(db, state.id) } : {}),
         ...(screen==='home'?{feed:await activityFeed(db,state.id,feedCategory((request.query as {feed?:string}).feed),(request.query as {after?:string}).after)}:{}),
         ...(screen==='army'?{armyEvents:await armyDashboard(db,state.id)}:{}),
         ...(screen === 'battle' ? await (async () => {
-          const query=request.query as {after?:string};
-          const page=await listOpponents(db,state.id,query.after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled);
+          const query=request.query as {after?:string;rotation?:unknown};
+          const page=await listOpponents(db,state.id,query.after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled,query.rotation);
           return {opponents:page.opponents,nextOpponentCursor:page.nextCursor};
         })() : {}),
       });
@@ -208,37 +240,38 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/game/achievements',{preHandler:requireAccount},async(request,reply)=>render(request,reply,'achievements',{title:'Achievements'}));
   app.get('/game/champions',{preHandler:requireAccount},async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config);
-    return render(request,reply,'champions',{title:'Hall of Champions',state,champions:await hallOfChampions(db,state.id,(request.query as {category?:unknown}).category)});
+    return render(request,reply,'champions',{title:'Hall of Champions',state,champions:await hallOfChampions(db,state.id,(request.query as {category?:unknown}).category,(request.query as {after?:unknown}).after)});
   });
   app.get('/api/v1/champions',{preHandler:requireAccount},async request=>{
     const id=(await db.query('SELECT id FROM characters WHERE account_id=$1',[request.realmSession!.account_id!])).rows[0]!.id;
-    return hallOfChampions(db,id,(request.query as {category?:unknown}).category);
+    return hallOfChampions(db,id,(request.query as {category?:unknown}).category,(request.query as {after?:unknown}).after);
   });
   app.get('/game/tutorial',{preHandler:requireAccount},async(request,reply)=>render(request,reply,'tutorial',{title:'Tutorial'}));
   app.get('/api/v1/achievements',{preHandler:requireAccount},async request=>{const state=await getState(db,request.realmSession!.account_id!,config);return experienceView(db,state.id);});
   app.get('/game/quests/:id/requirements',{preHandler:requireAccount},async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config),quest=state.quests.find(q=>q.id===(request.params as {id:string}).id);
     if(!quest)throw new GameError('QUEST_NOT_FOUND','That quest is not available.',404);
-    const missing=Object.entries(quest.missing).map(([id,quantity])=>({item:alpha.items.find(item=>item.id===id)!,quantity,cost:alpha.items.find(item=>item.id===id)!.price*quantity}));
+    const missing=Object.entries(quest.missing).map(([id,quantity])=>({item:presentedItem(contentCatalog(state.rulesetId).items.find(item=>item.id===id)!,state.presentationId),quantity,cost:contentCatalog(state.rulesetId).items.find(item=>item.id===id)!.price*quantity}));
     return render(request,reply,'quest-equipment',{title:'Quest requirements',state,questEquipment:{quest,missing,total:quest.missingCost,shortfall:Math.max(0,quest.missingCost-state.gold)}});
   });
   app.get('/game/purchases/:id',{preHandler:requireAccount},async(request,reply)=>{
     const id=(request.params as {id:string}).id.toLowerCase();if(!uuid.safeParse(id).success)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
     const accountId=request.realmSession!.account_id!;
     const receipt=(await db.query("SELECT result FROM command_receipts WHERE account_id=$1 AND command_id=$2 AND kind IN ('buy','land_buy')",[accountId,id])).rows[0]?.result;
-    if(!receipt?.data)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
+    if(!receipt)throw new GameError('PURCHASE_NOT_FOUND','That purchase was not found.',404);
+    const saved=receipt.data??{};
     const state=await getState(db,accountId,config),land=receipt.kind==='land_buy';
-    const entry=land?state.land.properties.find(p=>p.id===receipt.data.propertyId):alpha.items.find(i=>i.id===receipt.data.itemId);
-    if(!entry)throw new GameError('PURCHASE_NOT_FOUND','This historical purchase has no current catalog entry. Its saved transaction remains intact.',404);
+    const entry=land?state.land.properties.find(p=>p.id===saved.propertyId):contentCatalog(state.rulesetId).items.find(i=>i.id===saved.itemId);
+    if(!entry)return render(request,reply,'purchase',{title:'Saved purchase',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry:null,category:['weapon','armor','spell'].includes(saved.category)?saved.category:'weapon'}});
     const owned=land?(entry as CharacterState['land']['properties'][number]).owned:state.inventory.find(i=>i.id===entry.id)?.quantity??0;
-    const available=state.level<entry.level?0:land?(entry as CharacterState['land']['properties'][number]).maxAffordable:Math.min(alpha.limits.transaction,alpha.limits.inventory-owned,Math.floor(state.gold/entry.price));
-    const steps=land?(entry as CharacterState['land']['properties'][number]).priceSteps:Array.from({length:Math.max(1,available)},()=>entry.price);
+    const available=state.level<entry.level?0:land?(entry as CharacterState['land']['properties'][number]).maxAffordable:Math.min(alpha.limits.transaction,contentCatalog(state.rulesetId).limits.inventory-owned,Math.floor(state.gold/(entry.price??Infinity)));
+    const steps=land?(entry as CharacterState['land']['properties'][number]).priceSteps:Array.from({length:Math.max(1,available)},()=>entry.price??0);
     const costSteps=steps.map((_,i)=>steps.slice(0,i+1).reduce((n,p)=>n+p,0));
-    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry,receiptName:receipt.data.itemName??(land?alpha.properties.find(p=>p.id===entry.id)!.name:entry.name),owned,available,costSteps}});
+    return render(request,reply,'purchase',{title:'Purchase complete',state,actionResult:receipt,purchase:{type:land?'land':'equipment',entry:land?entry:recordedEquipment(entry as import('./alpha-rules.js').ItemDefinition,{name:saved.itemName,presentationId:saved.presentationId}),receiptName:saved.itemName??(land?contentCatalog(state.rulesetId).properties.find(p=>p.id===entry.id)!.name:entry.name),owned,available,costSteps}});
   });
   app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config);
-    return render(request,reply,'profile',{title:'Character',state,tales:await battleTales(db,state.id,state.id,(request.query as {after?:string}).after),
+    return render(request,reply,'profile',{title:'Character',state,competitiveProfile:await competitiveProfile(db,state.id),tales:await battleTales(db,state.id,state.id,(request.query as {after?:string}).after),
       feed:await activityFeed(db,state.id,'comments',(request.query as {after?:string}).after,state.id)});
   });
   app.get('/game/players/:id',{preHandler:requireAccount},async(request,reply)=>{
@@ -246,7 +279,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state=await getState(db,request.realmSession!.account_id!,config);
     if(id===state.id)return reply.redirect('/game/profile?tab='+(['skills','battles','comments'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player')+(uuid.safeParse((request.query as {command?:string}).command).success?'&command='+(request.query as {command:string}).command:''));
     const character=await publicProfile(db,id,config);
-    return render(request,reply,'profile',{title:character.name,state,publicCharacter:character,profileProperties:character.properties,profileTab:['comments','battles'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player',
+    return render(request,reply,'profile',{title:character.name,state,publicCharacter:character,competitiveProfile:await competitiveProfile(db,character.id),profileProperties:character.properties,profileTab:['comments','battles'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player',
       recruitment:await recruitmentAvailability(db,state,character,config.developmentBotRecruitmentEnabled),bountyPlacement:await bountyPlacementAvailability(db,state.id,id,new Date(state.serverTime),config.developmentBotBountiesEnabled),combatTarget:attackAvailability(state,character,config.developmentBotsEnabled),rivalry:await rivalryHistory(db,state.id,id),tales:await battleTales(db,id,state.id,(request.query as {after?:string}).after),
       feed:await activityFeed(db,state.id,'comments',(request.query as {after?:string}).after,id)});
   });
@@ -286,7 +319,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state=await getState(db,request.realmSession!.account_id!,config);
     const opponentId=battle.attacker_id===state.id?battle.defender_id:battle.attacker_id;
     let combatTarget;
-    try{combatTarget=attackAvailability(state,await publicProfile(db,opponentId,config),config.developmentBotsEnabled);}
+    try{
+      const hunt=battle.attacker_id===state.id&&typeof battle.result.bountyHuntId==='string'?await bountyHuntAvailability(db,state.id,opponentId,battle.result.bountyHuntId,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):null;
+      combatTarget={...attackAvailability(state,await publicProfile(db,opponentId,config),config.developmentBotsEnabled,!!hunt?.allowed),...(hunt?.allowed?{bountyId:hunt.bountyId}:{})};
+    }
     catch(error){if(!(error instanceof GameError)||error.code!=='CHARACTER_NOT_FOUND')throw error;combatTarget=opponentUnavailable(opponentId);}
     return render(request, reply, 'report', { state,combatTarget,battle: {...battle.result,id:battle.id,createdAt:battle.result.createdAt??new Date(battle.created_at).toISOString(),attackerId:battle.attacker_id,defenderId:battle.defender_id,winnerId:battle.outcome==='attacker_win'?battle.attacker_id:battle.defender_id}, title: 'Battle report' });
   });
@@ -304,10 +340,17 @@ export async function createApp(options: { db: Database; config: Config; logger?
         if(route.kind==='quest_buy'&&!wantsJson(request))return reply.redirect('/game/quests/'+result.data!.questId+'/requirements?command='+result.commandId,303);
         if (wantsJson(request)) return { ...result, state: await getState(db, request.realmSession!.account_id!,config) };
         if(route.kind==='tutorial')return reply.redirect((input.action==='skip'?'/game/home':'/game/tutorial')+'?command='+result.commandId,303);
-        if((route.kind==='buy'&&result.data?.itemId&&typeof result.data.quantity==='number')||(route.kind==='land_buy'&&result.data?.propertyId&&typeof result.data.quantity==='number'))
-          return reply.redirect('/game/purchases/'+result.commandId,303);
-        // Replayed pre-4.3 receipts can lack item/quantity metadata. Preserve
-        // their original catalog confirmation instead of creating a broken receipt URL.
+        // Ordinary and bulk purchases return to their actual catalog item. The
+        // saved receipt remains separately accessible; API responses are unchanged.
+        if(route.kind==='buy'){
+          const item=contentCatalog((await realmPolicy(db)).catalogId).items.find(i=>i.id===result.data?.itemId);
+          const category=item?.category??(['weapon','armor','spell'].includes(String(result.data?.category))?String(result.data!.category):'weapon');
+          return reply.redirect('/game/armory?category='+category+'&command='+result.commandId+(item?'#item-'+item.id:''),303);
+        }
+        if(route.kind==='land_buy'){
+          const property=contentCatalog((await realmPolicy(db)).catalogId).properties.find(p=>p.id===result.data?.propertyId);
+          return reply.redirect('/game/land?command='+result.commandId+(property?'#property-'+property.id:''),303);
+        }
         if(route.kind==='comment')return reply.redirect('/game/players/'+result.data!.profileId+'?tab=comments&command='+result.commandId,303);
         if(route.kind==='social_report'||route.kind==='social_remove'){
           const location=result.data?.channel==='comment'&&result.data.profileId?'/game/players/'+result.data.profileId+'?tab=comments':'/game/home?feed=broadcasts';
@@ -316,6 +359,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
         if(route.kind==='broadcast')return reply.redirect('/game/home?feed=broadcasts&command='+result.commandId,303);
         // A fixed destination only; existing Calling authorization/costs and
         // command idempotency remain in the shared command handler.
+        if(route.kind==='profile'&&body.returnTo==='tutorial')return reply.redirect('/game/tutorial?command='+result.commandId,303);
         if(route.kind==='profile'&&body.returnTo==='home')return reply.redirect('/game/home?calling=1&command='+result.commandId+'#calling',303);
         return reply.redirect(result.battleId ? '/game/battles/' + result.battleId :
           '/game/' + destination[route.kind] + '?command=' + result.commandId +
@@ -324,6 +368,17 @@ export async function createApp(options: { db: Database; config: Config; logger?
       });
     }
   }
+  app.get('/api/v1/notifications',{preHandler:requireAccount},async request=>{
+    const id=(await db.query('SELECT id FROM characters WHERE account_id=$1',[request.realmSession!.account_id!])).rows[0]!.id;
+    return notificationSummary(db,id);
+  });
+  for(const url of ['/api/v1/notifications/read','/game/notifications/read'])app.post(url,{preHandler:requireAccount},async(request,reply)=>{
+    const id=(await db.query('SELECT id FROM characters WHERE account_id=$1',[request.realmSession!.account_id!])).rows[0]!.id;
+    const result=await acknowledgeNotifications(db,id,asBody(request).events);
+    if(wantsJson(request))return result;
+    const destination=asBody(request).returnTo;
+    return reply.redirect(typeof destination==='string'&&(destination==='/game/bounties'||destination==='/game/profile?tab=comments'||destination==='/game/army?tab=dashboard'||/^\/game\/battles\/[a-f0-9-]{36}$/.test(destination))?destination:'/game/home',303);
+  });
   app.get('/api/v1/me', { preHandler: requireAccount }, async request => {
     const state=await getState(db,request.realmSession!.account_id!,config);
     const counts=(request.query as {bounties?:string}).bounties==='1'?await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):undefined;
@@ -331,7 +386,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.get('/api/v1/opponents', { preHandler: requireAccount }, async request => {
     const state = await getState(db, request.realmSession!.account_id!,config);
-    return listOpponents(db,state.id,(request.query as {after?:string}).after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled);
+    return listOpponents(db,state.id,(request.query as {after?:string}).after,config.developmentBotsEnabled,config.developmentBotRecruitmentEnabled,(request.query as {rotation?:unknown}).rotation);
   });
   app.get('/api/v1/bounties/quote',{preHandler:requireAccount},async request=>{
     const query=z.object({targetCharacterId:uuid,amount:z.coerce.number().int().min(bountyRules.minimum).max(bountyRules.maximum)}).safeParse(request.query);
@@ -349,7 +404,11 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/api/v1/players/:id/combat',{preHandler:requireAccount},async request=>{
     const id=(request.params as {id:string}).id.toLowerCase();if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);
     const state=await getState(db,request.realmSession!.account_id!,config);
-    return {combatTarget:attackAvailability(state,await publicProfile(db,id,config),config.developmentBotsEnabled),state};
+    const requested=(request.query as {bountyId?:unknown}).bountyId;
+    if(requested!==undefined&&!uuid.safeParse(requested).success)throw new GameError('BOUNTY_HUNT_UNAVAILABLE','Invalid bounty contract.',409);
+    const hunt=typeof requested==='string'?await bountyHuntAvailability(db,state.id,id,requested,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):null;
+    const combat=attackAvailability(state,await publicProfile(db,id,config),config.developmentBotsEnabled,!!hunt?.allowed);
+    return {combatTarget:hunt&&!hunt.allowed?{...combat,allowed:false,eligible:false,reason:hunt.reason}:{...combat,...(hunt?{bountyId:hunt.bountyId}:{})},state};
   });
   app.get('/api/v1/players/:id/tales',{preHandler:requireAccount},async request=>{
     const id=(request.params as {id:string}).id.toLowerCase();if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);
@@ -392,7 +451,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
         return await render(request, reply.code(status), 'auth', {
           authMode, title: authMode === 'register' ? 'Raise your banner' : 'Enter the realm', error: message,
           formValues: { username: typeof body.username === 'string' ? body.username.slice(0, 24) : '',
-            name: typeof body.name === 'string' ? body.name.slice(0, 28) : '' },
+            name: typeof body.name === 'string' ? body.name.slice(0, 192) : '' },
         });
       }
       return await render(request, reply.code(status), 'error', { title: 'Action not completed', error: message,soundEvent:uuid.safeParse(asBody(request).commandId).success?{id:asBody(request).commandId,cue:'error'}:null });

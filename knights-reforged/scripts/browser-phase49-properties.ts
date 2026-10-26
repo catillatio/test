@@ -26,8 +26,8 @@ try{
  for(const width of[320,390,430,1024]){
   await page.setViewportSize({width,height:width===1024?1536:844});await visit('/game/land');
   for(const id of['moonwell-sanctuary','wyrmcrest-keep']){
-   const row=page.locator('[data-land-property="'+id+'"]');await row.scrollIntoViewIfNeeded();assert.equal(await row.locator('[data-art-atlas=properties-49]').count(),1);
-   const art=row.locator('.property-art-49'),style=await art.evaluate(e=>({image:getComputedStyle(e).backgroundImage,w:e.getBoundingClientRect().width,h:e.getBoundingClientRect().height}));assert.ok(style.image.includes('/art/properties-49/'));assert.ok(style.w>40&&style.h>40);
+   const row=page.locator('[data-land-property="'+id+'"]');await row.scrollIntoViewIfNeeded();assert.equal(await row.locator('[data-art-atlas="'+(id==='wyrmcrest-keep'?'properties-51b':'properties-49')+'"]').count(),1);
+   const art=row.locator('.catalog-art'),style=await art.evaluate(e=>({image:getComputedStyle(e).backgroundImage,w:e.getBoundingClientRect().width,h:e.getBoundingClientRect().height}));assert.ok(style.image.includes('/art/'+(id==='wyrmcrest-keep'?'properties-51b-fullbleed-2/':'properties-49/')));assert.ok(style.w>40&&style.h>40);
    const targets=await row.locator('button,.market-bulk-link').evaluateAll(es=>es.filter(e=>e.getClientRects().length>0).map(e=>({text:e.textContent?.trim(),height:e.getBoundingClientRect().height})));assert.ok(targets.every(e=>e.height>=44),JSON.stringify({width,targets}));await shot(width+'-'+(id==='moonwell-sanctuary'?'gold-mine':'keep'));
   }
   await visit('/game/profile');await page.locator('.profile-estate').scrollIntoViewIfNeeded();assert.ok(await page.locator('.profile-estate').getByRole('heading',{name:'Gold Mine',exact:true}).isVisible());await shot(width+'-holdings');

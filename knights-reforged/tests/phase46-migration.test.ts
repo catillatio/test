@@ -79,7 +79,10 @@ test('Hall reads only indexed summaries with thousands of characters and twenty 
   const plans:unknown[]=[];const statements:string[]=[];
   const wrapped:Database={query:async(statement,values)=>{statements.push(statement);return r.db.query(statement,values);},connect:async()=>{const client=await r.db.connect();return {query:async(statement,values)=>{statements.push(statement);return client.query(statement,values);},release:()=>client.release()};},end:async()=>{}};
   const hall=await hallOfChampions(wrapped,a.id,'victories');assert.equal(hall.entries.length,20);assert.equal(hall.own!.score,'13334');assert.ok(!statements.some(sql=>/\bFROM battles\b/.test(sql)));
-  assert.ok(statements.length<=6,'Hall uses a fixed number of reads, not one per ranked player.');
+  const coordination=['SELECT pg_advisory_xact_lock_shared($1)',"SELECT set_config('kingdom.expansion_writer',$1,true),set_config('kingdom.population_writer','level100-cohort-engine-1',true)"];
+  assert.equal(statements.filter(q=>coordination.includes(q)).length,2,'exactly two fixed coordination reads');
+  assert.equal(statements.filter(q=>q.startsWith('SELECT ')&&!coordination.includes(q)).length,3,'Hall retains exactly three indexed business reads, not one per ranked player');
+  assert.equal(statements.length,7,'BEGIN, two coordination reads, three summary reads and COMMIT');
   for(const statement of ["SELECT character_id FROM champion_standings WHERE eligible AND battle_victories>0 ORDER BY battle_victories DESC,created_at,character_id LIMIT 20",
    'SELECT id FROM battles WHERE LEAST(attacker_id,defender_id)=$1 AND GREATEST(attacker_id,defender_id)=$2 ORDER BY created_at DESC,id DESC LIMIT 5']){
    const plan=(await r.db.query('EXPLAIN (ANALYZE,BUFFERS,FORMAT JSON) '+statement,statement.includes('$1')?[...[a.id,b.id].sort()]:undefined)).rows[0]!['QUERY PLAN'];plans.push(plan);

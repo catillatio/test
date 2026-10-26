@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "syntheticOnly": true,
+  "productionContacted": false,
+  "artworkApproved": false,
+  "missingArtLabelled": true,
+  "reducedMotion": true,
+  "widths": [
+    320,
+    390,
+    430,
+    1024
+  ],
+  "horizontalOverflow": false,
+  "browserErrors": [],
+  "views": [
+    {
+      "width": 320,
+      "name": "legacy-before"
+    },
+    {
+      "width": 390,
+      "name": "legacy-before"
+    },
+    {
+      "width": 430,
+      "name": "legacy-before"
+    },
+    {
+      "width": 1024,
+      "name": "legacy-before"
+    },
+    {
+      "width": 320,
+      "name": "armory-prepared"
+    },
+    {
+      "width": 320,
+      "name": "land-prepared"
+    },
+    {
+      "width": 320,
+      "name": "quests-prepared"
+    },
+    {
+      "width": 320,
+      "name": "profile-prepared"
+    },
+    {
+      "width": 390,
+      "name": "armory-prepared"
+    },
+    {
+      "width": 390,
+      "name": "land-prepared"
+    },
+    {
+      "width": 390,
+      "name": "quests-prepared"
+    },
+    {
+      "width": 390,
+      "name": "profile-prepared"
+    },
+    {
+      "width": 430,
+      "name": "armory-prepared"
+    },
+    {
+      "width": 430,
+      "name": "land-prepared"
+    },
+    {
+      "width": 430,
+      "name": "quests-prepared"
+    },
+    {
+      "width": 430,
+      "name": "profile-prepared"
+    },
+    {
+      "width": 1024,
+      "name": "armory-prepared"
+    },
+    {
+      "width": 1024,
+      "name": "land-prepared"
+    },
+    {
+      "width": 1024,
+      "name": "quests-prepared"
+    },
+    {
+      "width": 1024,
+      "name": "profile-prepared"
+    }
+  ]
+}

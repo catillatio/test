@@ -1,0 +1,32 @@
+{
+  "baseCommit": "b95c1566f234dbbd2b2264210ed1061a3a6a7ae2",
+  "scope": "Three proof-of-style images only; not an artwork registry or runtime assets",
+  "commonPrompt": "Create a genuinely NEW finished Kingdom Come weapon proof-of-style illustration. This is a physical redesign, NOT a filter, recolor or dimmed version of a prior candidate. The artistic target lies between ordinary medieval illustration and neon elemental fantasy. The WEAPON ITSELF must be beautiful: distinctive silhouette, sculpted guard/head, lavish but purposeful craftsmanship, real visible material planes, selective ornament and premium painterly rendering. Use the approved reference images for material richness and polished fantasy-game finish ONLY. DO NOT copy Hudson's sword body, hilt, rainbow treatment or colors. ABSOLUTELY NO rainbow, prism, multicolor gradient, lightning outlines, fully illuminated blade, glowing every surface, particle cloud, broad colored corona or neon background. At least 85–90 percent of the weapon should read as substantial NON-emissive steel/silver/bronze/obsidian/leather/ivory. Carefully placed reflected NEUTRAL ivory-white light reveals metal planes, engravings and texture; material highlights must NOT be mistaken for glowing energy outlines. Magic is one small incorporated accent whose emitted light barely spills onto nearby metal, not the whole image. Keep painterly video-game illustration, NOT museum photography or a realistic product render. Background: full-bleed dark neutral charcoal with soft cloudy/smoky organic texture, no bright warm-brown wash and no diagonal crosshatch/canvas stripes. It must support readable dark materials rather than swallowing them. No environment, pedestal, label, text, border, artificial matte, padding or extra object. One dominant weapon, complete all points and pommel, composed diagonally within central 76% of SQUARE image with natural atmosphere on every side. Crisp silhouette at 60px/76px, beautiful crafted details at full resolution.",
+  "styleReferences": [
+    "public/art/equipment-51b-current-1/oathbound-greatsword.webp",
+    "public/art/regional-weapon-land-1/king-hudsons-sword.webp"
+  ],
+  "entries": [
+    {
+      "id": "eclipse-greatsword",
+      "name": "Order Marshal Greatsword",
+      "level": 50,
+      "region": "Crownlands",
+      "brief": "A prestigious royal greatsword with a SOLID broad burnished silver-steel blade: long largely parallel planes, a short angular shoulder and a clean elongated diamond point. No skeletal open rails, no long glowing fuller, no crystal blade. Shallow etched laurel and small heraldic relief near the ricasso show masterwork craftsmanship. New hilt design: an elegant asymmetrical S-shaped silver crossguard formed as folded laurel branches, one quillon turns upward and the other downward, subtle pale-gold clasps and a small embossed royal shield rather than the previous huge winged lion guard. Long deep navy leather grip with visible wrapping, capped by a pierced but solid crown pommel. ONE small rich sapphire cabochon inset in the ricasso/guard junction has a softly lit blue interior. A few very short tiny blue rune inlays close to this stone, rest of blade is visibly METAL illuminated by reflected neutral studio-like painterly light. Noble refined and powerful because of proportions, silver craftsmanship and material quality, not energy. Its SOLID straight blade and S-guard must be clearly different from any triangular crystal Highland Claymore."
+    },
+    {
+      "id": "royal-warblade",
+      "name": "Sunscar Officer’s Saber",
+      "level": 60,
+      "region": "Sunscar Reach",
+      "brief": "A newly designed prestigious desert fantasy saber: a deep, graceful forward-curved blade of lustrous dark crucible STEEL with a distinct broadened yelman near the point, an angular false-edge step and delicate NON-glowing etched sun-map patterns across broad metal planes. Blade is solid and substantial, not a glowing gold channel or luminous rail. Strong contrasting materials: a segmented polished IVORY grip, sculpted aged BRONZE falcon-beak pommel, and a finely pierced COPPER half-basket knuckle guard shaped as overlapping architectural sun rays, with tiny engraved fasteners rather than the previous giant exposed solar wheel. The blade's silver cutting bevel and dark steel body catch generous neutral reflected light; copper and ivory remain visibly different. Magical treatment differs from the sword: just THREE small recessed amber-gold enchanted inscriptions near the blade shoulder/hilt, a restrained soft warm illumination confined to these glyphs and nearby copper. No glowing edge, no flame, no blanket gold color. The appeal comes primarily from sculptural desert craftsmanship, elegant curve, ivory/bronze contrast and confident material rendering. Sophisticated elite level60 artifact, not ordinary historical saber and not arcade neon."
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "name": "Eclipse Gatehammer",
+      "level": 100,
+      "region": "Eclipse Bastion",
+      "brief": "A monumental and beautiful imperial gate-breaking fantasy HAMMER with clear physical MASS. A huge oblique rectangular striking head of polished obsidian has a broad opaque dark faceted impact face, held by substantial carved DARK-SILVER buttresses and stepped imperial braces. One long crescent horn grows above the striking block and the rear forms a lower, narrower swept crescent pick: asymmetrical structural outline, not a circular energy-axe or black hole surrounded by floating fragments. Richly engraved moon-phase silver inlays, precise layered joinery and ancient imperial relief provide endgame prestige. A thick tapering octagonal black-steel shaft has sculpted silver collars, a long textured leather grip and a heavy architectural counterweight; no repetitive glowing shaft gems. The ONLY pronounced supernatural feature is a SMALL violet void core recessed deep inside a protected aperture at the head/haft junction, occupying less than one-tenth of the head. Its violet light is concentrated INSIDE the window and lightly touches adjacent silver. No purple lightning, purple edge outlines, floating rocks, particles or broad aura. Most obsidian and silver must be clearly visible in strong neutral reflected highlights and midtones, even if the violet core were mentally removed. Endgame awe from craftsmanship, material weight, severe elegant silhouette and unusual engineered structure, not stronger bloom."
+    }
+  ]
+}

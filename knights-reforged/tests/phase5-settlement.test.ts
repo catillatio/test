@@ -42,7 +42,7 @@ test('income sweep rechecks a stale joined candidate snapshot under its locks; a
   if(q==='SELECT clock_timestamp() AS now')rows=[{now:epoch}];
   else if(q.includes('JOIN development_bots'))rows=[{id}];
   else if(q.includes('WHERE c.id=ANY')){assert.deepEqual(values![1],[id]);if(fail)throw new Error('Synthetic eligibility read failure');}
-  else assert.ok(['BEGIN','COMMIT','ROLLBACK'].includes(q),'stale candidates must not reach materialization or any write');
+  else assert.ok(['BEGIN','COMMIT','ROLLBACK','SELECT pg_advisory_xact_lock_shared($1)',"SELECT set_config('kingdom.expansion_writer',$1,true),set_config('kingdom.population_writer','level100-cohort-engine-1',true)"].includes(q),'stale candidates must not reach materialization or any write');
   return {rows:rows as T[],rowCount:rows.length,command:'SELECT',oid:0,fields:[]};
  };
  const db:Database={query,connect:async()=>({query,release:()=>{}}),end:async()=>{}};

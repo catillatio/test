@@ -1,0 +1,1044 @@
+{
+  "researchOnly": true,
+  "installed": false,
+  "baseline": "7cf9a3a48284c96afe922b3473cce429339bd7e4",
+  "regions": [
+    {
+      "id": "proposal-iron-marches",
+      "name": "The Iron Marches",
+      "level": 51,
+      "through": 59
+    },
+    {
+      "id": "proposal-crown-frontier",
+      "name": "The Crown Frontier",
+      "level": 60,
+      "through": 69
+    },
+    {
+      "id": "proposal-warring-kingdoms",
+      "name": "The Warring Kingdoms",
+      "level": 70,
+      "through": 79
+    },
+    {
+      "id": "proposal-imperial-sieges",
+      "name": "The Imperial Sieges",
+      "level": 80,
+      "through": 89
+    },
+    {
+      "id": "proposal-ashen-crown",
+      "name": "The Ashen Crown",
+      "level": 90,
+      "through": 95
+    },
+    {
+      "id": "proposal-eclipse-reach",
+      "name": "The Eclipse Reach",
+      "level": 96,
+      "through": 100
+    }
+  ],
+  "items": [
+    {
+      "id": "proposal-marcher-greatsword",
+      "name": "Marcher Greatsword",
+      "level": 51,
+      "category": "weapon",
+      "role": "offense",
+      "attack": 115,
+      "defense": 36,
+      "price": 7500,
+      "upkeep": 43,
+      "region": "iron-marches",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-fortress-glaive",
+      "name": "Fortress Glaive",
+      "level": 51,
+      "category": "weapon",
+      "role": "defense",
+      "attack": 54,
+      "defense": 65,
+      "price": 7000,
+      "upkeep": 38,
+      "region": "iron-marches",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-captains-brigandine",
+      "name": "Captain's Brigandine",
+      "level": 51,
+      "category": "armor",
+      "role": "offense",
+      "attack": 46,
+      "defense": 78,
+      "price": 7400,
+      "upkeep": 45,
+      "region": "iron-marches",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-siegeguard-plate",
+      "name": "Siegeguard Plate",
+      "level": 51,
+      "category": "armor",
+      "role": "defense",
+      "attack": 24,
+      "defense": 116,
+      "price": 8200,
+      "upkeep": 45,
+      "region": "iron-marches",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-battlebrand",
+      "name": "Battlebrand",
+      "level": 51,
+      "category": "spell",
+      "role": "offense",
+      "attack": 98,
+      "defense": 44,
+      "price": 7600,
+      "upkeep": 44,
+      "region": "iron-marches",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-rampart-ward",
+      "name": "Rampart Ward",
+      "level": 51,
+      "category": "spell",
+      "role": "defense",
+      "attack": 38,
+      "defense": 92,
+      "price": 7400,
+      "upkeep": 43,
+      "region": "iron-marches",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-royal-warblade",
+      "name": "Royal Warblade",
+      "level": 60,
+      "category": "weapon",
+      "role": "offense",
+      "attack": 128,
+      "defense": 44,
+      "price": 10500,
+      "upkeep": 54,
+      "region": "crown-frontier",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-guard-captains-halberd",
+      "name": "Guard-Captain's Halberd",
+      "level": 60,
+      "category": "weapon",
+      "role": "defense",
+      "attack": 62,
+      "defense": 80,
+      "price": 9800,
+      "upkeep": 48,
+      "region": "crown-frontier",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-kings-marshal-harness",
+      "name": "King's Marshal Harness",
+      "level": 60,
+      "category": "armor",
+      "role": "offense",
+      "attack": 54,
+      "defense": 94,
+      "price": 10200,
+      "upkeep": 55,
+      "region": "crown-frontier",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-citadel-harness",
+      "name": "Citadel Harness",
+      "level": 60,
+      "category": "armor",
+      "role": "defense",
+      "attack": 29,
+      "defense": 134,
+      "price": 11500,
+      "upkeep": 56,
+      "region": "crown-frontier",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-banner-of-embers",
+      "name": "Banner of Embers",
+      "level": 60,
+      "category": "spell",
+      "role": "offense",
+      "attack": 110,
+      "defense": 52,
+      "price": 10800,
+      "upkeep": 53,
+      "region": "crown-frontier",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-stonewall-oath",
+      "name": "Stonewall Oath",
+      "level": 60,
+      "category": "spell",
+      "role": "defense",
+      "attack": 44,
+      "defense": 108,
+      "price": 10000,
+      "upkeep": 50,
+      "region": "crown-frontier",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-sovereigns-zweihander",
+      "name": "Sovereign's Zweihander",
+      "level": 70,
+      "category": "weapon",
+      "role": "offense",
+      "attack": 140,
+      "defense": 52,
+      "price": 15500,
+      "upkeep": 69,
+      "region": "warring-kingdoms",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-march-wardens-poleaxe",
+      "name": "March Warden's Poleaxe",
+      "level": 70,
+      "category": "weapon",
+      "role": "defense",
+      "attack": 72,
+      "defense": 96,
+      "price": 14500,
+      "upkeep": 62,
+      "region": "warring-kingdoms",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-ducal-warplate",
+      "name": "Ducal Warplate",
+      "level": 70,
+      "category": "armor",
+      "role": "offense",
+      "attack": 63,
+      "defense": 110,
+      "price": 15000,
+      "upkeep": 70,
+      "region": "warring-kingdoms",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-fortress-bastion-plate",
+      "name": "Fortress Bastion Plate",
+      "level": 70,
+      "category": "armor",
+      "role": "defense",
+      "attack": 35,
+      "defense": 153,
+      "price": 17000,
+      "upkeep": 73,
+      "region": "warring-kingdoms",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-royal-battlefire",
+      "name": "Royal Battlefire",
+      "level": 70,
+      "category": "spell",
+      "role": "offense",
+      "attack": 124,
+      "defense": 66,
+      "price": 15800,
+      "upkeep": 67,
+      "region": "warring-kingdoms",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-ironwall-covenant",
+      "name": "Ironwall Covenant",
+      "level": 70,
+      "category": "spell",
+      "role": "defense",
+      "attack": 51,
+      "defense": 125,
+      "price": 14800,
+      "upkeep": 65,
+      "region": "warring-kingdoms",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-imperial-greatblade",
+      "name": "Imperial Greatblade",
+      "level": 80,
+      "category": "weapon",
+      "role": "offense",
+      "attack": 148,
+      "defense": 62,
+      "price": 23000,
+      "upkeep": 85,
+      "region": "imperial-sieges",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-high-castellans-hammer",
+      "name": "High Castellan's Hammer",
+      "level": 80,
+      "category": "weapon",
+      "role": "defense",
+      "attack": 81,
+      "defense": 113,
+      "price": 21000,
+      "upkeep": 76,
+      "region": "imperial-sieges",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-imperial-assault-harness",
+      "name": "Imperial Assault Harness",
+      "level": 80,
+      "category": "armor",
+      "role": "offense",
+      "attack": 72,
+      "defense": 126,
+      "price": 22000,
+      "upkeep": 87,
+      "region": "imperial-sieges",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-crownwall-bastion-plate",
+      "name": "Crownwall Bastion Plate",
+      "level": 80,
+      "category": "armor",
+      "role": "defense",
+      "attack": 42,
+      "defense": 171,
+      "price": 25500,
+      "upkeep": 91,
+      "region": "imperial-sieges",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-astral-siegefire",
+      "name": "Astral Siegefire",
+      "level": 80,
+      "category": "spell",
+      "role": "offense",
+      "attack": 140,
+      "defense": 80,
+      "price": 23500,
+      "upkeep": 83,
+      "region": "imperial-sieges",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-sanctuary-of-banners",
+      "name": "Sanctuary of Banners",
+      "level": 80,
+      "category": "spell",
+      "role": "defense",
+      "attack": 58,
+      "defense": 141,
+      "price": 21800,
+      "upkeep": 80,
+      "region": "imperial-sieges",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-ash-crowned-warblade",
+      "name": "Ash-Crowned Warblade",
+      "level": 90,
+      "category": "weapon",
+      "role": "offense",
+      "attack": 159,
+      "defense": 72,
+      "price": 34000,
+      "upkeep": 103,
+      "region": "ashen-crown",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-throneguard-polehammer",
+      "name": "Throneguard Polehammer",
+      "level": 90,
+      "category": "weapon",
+      "role": "defense",
+      "attack": 90,
+      "defense": 131,
+      "price": 31000,
+      "upkeep": 92,
+      "region": "ashen-crown",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-ashen-marshal-harness",
+      "name": "Ashen Marshal Harness",
+      "level": 90,
+      "category": "armor",
+      "role": "offense",
+      "attack": 81,
+      "defense": 140,
+      "price": 33000,
+      "upkeep": 101,
+      "region": "ashen-crown",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-sovereigns-war-bastion",
+      "name": "Sovereign's War Bastion",
+      "level": 90,
+      "category": "armor",
+      "role": "defense",
+      "attack": 48,
+      "defense": 189,
+      "price": 36500,
+      "upkeep": 108,
+      "region": "ashen-crown",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-ashen-coronation",
+      "name": "Ashen Coronation",
+      "level": 90,
+      "category": "spell",
+      "role": "offense",
+      "attack": 156,
+      "defense": 95,
+      "price": 34500,
+      "upkeep": 98,
+      "region": "ashen-crown",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-crown-of-wards",
+      "name": "Crown of Wards",
+      "level": 90,
+      "category": "spell",
+      "role": "defense",
+      "attack": 65,
+      "defense": 156,
+      "price": 31800,
+      "upkeep": 93,
+      "region": "ashen-crown",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-imperial-eclipse-greatsword",
+      "name": "Imperial Eclipse Greatsword",
+      "level": 100,
+      "category": "weapon",
+      "role": "offense",
+      "attack": 180,
+      "defense": 82,
+      "price": 48000,
+      "upkeep": 120,
+      "region": "eclipse-reach",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-eclipse-gatehammer",
+      "name": "Eclipse Gatehammer",
+      "level": 100,
+      "category": "weapon",
+      "role": "defense",
+      "attack": 98,
+      "defense": 150,
+      "price": 44000,
+      "upkeep": 110,
+      "region": "eclipse-reach",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-eclipse-war-marshal-plate",
+      "name": "Eclipse War-Marshal Plate",
+      "level": 100,
+      "category": "armor",
+      "role": "offense",
+      "attack": 90,
+      "defense": 155,
+      "price": 45000,
+      "upkeep": 115,
+      "region": "eclipse-reach",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-imperial-eclipse-bastion",
+      "name": "Imperial Eclipse Bastion",
+      "level": 100,
+      "category": "armor",
+      "role": "defense",
+      "attack": 55,
+      "defense": 205,
+      "price": 50000,
+      "upkeep": 125,
+      "region": "eclipse-reach",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-astral-war-invocation",
+      "name": "Astral War Invocation",
+      "level": 100,
+      "category": "spell",
+      "role": "offense",
+      "attack": 165,
+      "defense": 110,
+      "price": 46000,
+      "upkeep": 110,
+      "region": "eclipse-reach",
+      "artStatus": "not commissioned; original project artwork required"
+    },
+    {
+      "id": "proposal-eclipse-aegis",
+      "name": "Eclipse Aegis",
+      "level": 100,
+      "category": "spell",
+      "role": "defense",
+      "attack": 72,
+      "defense": 170,
+      "price": 44000,
+      "upkeep": 105,
+      "region": "eclipse-reach",
+      "artStatus": "not commissioned; original project artwork required"
+    }
+  ],
+  "quests": [
+    {
+      "id": "proposal-scout-the-iron-marches",
+      "name": "Scout the Iron Marches",
+      "area": "proposal-iron-marches",
+      "level": 51,
+      "mana": 14,
+      "xp": 250,
+      "goldMin": 2000,
+      "goldMax": 2600,
+      "army": 25,
+      "items": {
+        "proposal-marcher-greatsword": 2,
+        "proposal-siegeguard-plate": 2,
+        "proposal-battlebrand": 1
+      },
+      "loot": {
+        "id": "proposal-region-seal-0",
+        "name": "The Iron Marches Seal",
+        "chance": 25,
+        "firstGuaranteed": true
+      },
+      "requiresLoot": "eclipse-key"
+    },
+    {
+      "id": "proposal-break-the-border-siege",
+      "name": "Break the Border Siege",
+      "area": "proposal-iron-marches",
+      "level": 55,
+      "mana": 14,
+      "xp": 275,
+      "goldMin": 2400,
+      "goldMax": 3120,
+      "army": 27,
+      "items": {
+        "proposal-marcher-greatsword": 2,
+        "proposal-siegeguard-plate": 2,
+        "proposal-battlebrand": 1
+      },
+      "requiresLoot": "proposal-region-seal-0"
+    },
+    {
+      "id": "proposal-raise-the-marcher-standard",
+      "name": "Raise the Marcher Standard",
+      "area": "proposal-iron-marches",
+      "level": 59,
+      "mana": 15,
+      "xp": 300,
+      "goldMin": 2900,
+      "goldMax": 3770,
+      "army": 29,
+      "items": {
+        "proposal-marcher-greatsword": 2,
+        "proposal-siegeguard-plate": 2,
+        "proposal-battlebrand": 1
+      },
+      "requiresLoot": "proposal-region-seal-0"
+    },
+    {
+      "id": "proposal-secure-the-kings-road",
+      "name": "Secure the King's Road",
+      "area": "proposal-crown-frontier",
+      "level": 60,
+      "mana": 15,
+      "xp": 310,
+      "goldMin": 3300,
+      "goldMax": 4290,
+      "army": 35,
+      "items": {
+        "proposal-royal-warblade": 3,
+        "proposal-citadel-harness": 3,
+        "proposal-banner-of-embers": 2
+      },
+      "loot": {
+        "id": "proposal-region-seal-1",
+        "name": "The Crown Frontier Seal",
+        "chance": 25,
+        "firstGuaranteed": true
+      },
+      "requiresLoot": "proposal-region-seal-0"
+    },
+    {
+      "id": "proposal-defend-the-frontier-keep",
+      "name": "Defend the Frontier Keep",
+      "area": "proposal-crown-frontier",
+      "level": 64,
+      "mana": 15,
+      "xp": 335,
+      "goldMin": 3900,
+      "goldMax": 5070,
+      "army": 37,
+      "items": {
+        "proposal-royal-warblade": 3,
+        "proposal-citadel-harness": 3,
+        "proposal-banner-of-embers": 2
+      },
+      "requiresLoot": "proposal-region-seal-1"
+    },
+    {
+      "id": "proposal-unite-the-border-garrisons",
+      "name": "Unite the Border Garrisons",
+      "area": "proposal-crown-frontier",
+      "level": 69,
+      "mana": 16,
+      "xp": 365,
+      "goldMin": 4600,
+      "goldMax": 5980,
+      "army": 39,
+      "items": {
+        "proposal-royal-warblade": 3,
+        "proposal-citadel-harness": 3,
+        "proposal-banner-of-embers": 2
+      },
+      "requiresLoot": "proposal-region-seal-1"
+    },
+    {
+      "id": "proposal-escort-the-royal-host",
+      "name": "Escort the Royal Host",
+      "area": "proposal-warring-kingdoms",
+      "level": 70,
+      "mana": 16,
+      "xp": 380,
+      "goldMin": 5500,
+      "goldMax": 7150,
+      "army": 45,
+      "items": {
+        "proposal-sovereigns-zweihander": 5,
+        "proposal-fortress-bastion-plate": 4,
+        "proposal-royal-battlefire": 3
+      },
+      "loot": {
+        "id": "proposal-region-seal-2",
+        "name": "The Warring Kingdoms Seal",
+        "chance": 25,
+        "firstGuaranteed": true
+      },
+      "requiresLoot": "proposal-region-seal-1"
+    },
+    {
+      "id": "proposal-storm-the-river-fortress",
+      "name": "Storm the River Fortress",
+      "area": "proposal-warring-kingdoms",
+      "level": 74,
+      "mana": 17,
+      "xp": 410,
+      "goldMin": 6500,
+      "goldMax": 8450,
+      "army": 47,
+      "items": {
+        "proposal-sovereigns-zweihander": 5,
+        "proposal-fortress-bastion-plate": 4,
+        "proposal-royal-battlefire": 3
+      },
+      "requiresLoot": "proposal-region-seal-2"
+    },
+    {
+      "id": "proposal-settle-the-war-of-crowns",
+      "name": "Settle the War of Crowns",
+      "area": "proposal-warring-kingdoms",
+      "level": 79,
+      "mana": 18,
+      "xp": 445,
+      "goldMin": 7600,
+      "goldMax": 9880,
+      "army": 49,
+      "items": {
+        "proposal-sovereigns-zweihander": 5,
+        "proposal-fortress-bastion-plate": 4,
+        "proposal-royal-battlefire": 3
+      },
+      "requiresLoot": "proposal-region-seal-2"
+    },
+    {
+      "id": "proposal-build-the-siege-lines",
+      "name": "Build the Siege Lines",
+      "area": "proposal-imperial-sieges",
+      "level": 80,
+      "mana": 18,
+      "xp": 460,
+      "goldMin": 8800,
+      "goldMax": 11440,
+      "army": 55,
+      "items": {
+        "proposal-imperial-greatblade": 7,
+        "proposal-crownwall-bastion-plate": 5,
+        "proposal-astral-siegefire": 3
+      },
+      "loot": {
+        "id": "proposal-region-seal-3",
+        "name": "The Imperial Sieges Seal",
+        "chance": 25,
+        "firstGuaranteed": true
+      },
+      "requiresLoot": "proposal-region-seal-2"
+    },
+    {
+      "id": "proposal-breach-the-imperial-walls",
+      "name": "Breach the Imperial Walls",
+      "area": "proposal-imperial-sieges",
+      "level": 84,
+      "mana": 18,
+      "xp": 490,
+      "goldMin": 10200,
+      "goldMax": 13260,
+      "army": 57,
+      "items": {
+        "proposal-imperial-greatblade": 7,
+        "proposal-crownwall-bastion-plate": 5,
+        "proposal-astral-siegefire": 3
+      },
+      "requiresLoot": "proposal-region-seal-3"
+    },
+    {
+      "id": "proposal-hold-the-crownwall",
+      "name": "Hold the Crownwall",
+      "area": "proposal-imperial-sieges",
+      "level": 89,
+      "mana": 19,
+      "xp": 525,
+      "goldMin": 11800,
+      "goldMax": 15340,
+      "army": 59,
+      "items": {
+        "proposal-imperial-greatblade": 7,
+        "proposal-crownwall-bastion-plate": 5,
+        "proposal-astral-siegefire": 3
+      },
+      "requiresLoot": "proposal-region-seal-3"
+    },
+    {
+      "id": "proposal-defend-the-ashen-throne",
+      "name": "Defend the Ashen Throne",
+      "area": "proposal-ashen-crown",
+      "level": 90,
+      "mana": 19,
+      "xp": 540,
+      "goldMin": 13600,
+      "goldMax": 17680,
+      "army": 70,
+      "items": {
+        "proposal-ash-crowned-warblade": 8,
+        "proposal-sovereigns-war-bastion": 6,
+        "proposal-ashen-coronation": 4
+      },
+      "loot": {
+        "id": "proposal-region-seal-4",
+        "name": "The Ashen Crown Seal",
+        "chance": 25,
+        "firstGuaranteed": true
+      },
+      "requiresLoot": "proposal-region-seal-3"
+    },
+    {
+      "id": "proposal-break-the-ember-host",
+      "name": "Break the Ember Host",
+      "area": "proposal-ashen-crown",
+      "level": 93,
+      "mana": 19,
+      "xp": 560,
+      "goldMin": 15100,
+      "goldMax": 19630,
+      "army": 72,
+      "items": {
+        "proposal-ash-crowned-warblade": 8,
+        "proposal-sovereigns-war-bastion": 6,
+        "proposal-ashen-coronation": 4
+      },
+      "requiresLoot": "proposal-region-seal-4"
+    },
+    {
+      "id": "proposal-restore-the-crown",
+      "name": "Restore the Crown",
+      "area": "proposal-ashen-crown",
+      "level": 95,
+      "mana": 20,
+      "xp": 580,
+      "goldMin": 16700,
+      "goldMax": 21710,
+      "army": 74,
+      "items": {
+        "proposal-ash-crowned-warblade": 8,
+        "proposal-sovereigns-war-bastion": 6,
+        "proposal-ashen-coronation": 4
+      },
+      "requiresLoot": "proposal-region-seal-4"
+    },
+    {
+      "id": "proposal-cross-the-eclipse-reach",
+      "name": "Cross the Eclipse Reach",
+      "area": "proposal-eclipse-reach",
+      "level": 96,
+      "mana": 20,
+      "xp": 590,
+      "goldMin": 18000,
+      "goldMax": 23400,
+      "army": 90,
+      "items": {
+        "proposal-ash-crowned-warblade": 10,
+        "proposal-sovereigns-war-bastion": 8,
+        "proposal-ashen-coronation": 5
+      },
+      "loot": {
+        "id": "proposal-region-seal-5",
+        "name": "The Eclipse Reach Seal",
+        "chance": 25,
+        "firstGuaranteed": true
+      },
+      "requiresLoot": "proposal-region-seal-4"
+    },
+    {
+      "id": "proposal-hold-the-last-citadel",
+      "name": "Hold the Last Citadel",
+      "area": "proposal-eclipse-reach",
+      "level": 98,
+      "mana": 20,
+      "xp": 605,
+      "goldMin": 20000,
+      "goldMax": 26000,
+      "army": 92,
+      "items": {
+        "proposal-ash-crowned-warblade": 10,
+        "proposal-sovereigns-war-bastion": 8,
+        "proposal-ashen-coronation": 5
+      },
+      "requiresLoot": "proposal-region-seal-5"
+    },
+    {
+      "id": "proposal-defend-the-hundred-kingdoms",
+      "name": "Defend the Hundred Kingdoms",
+      "area": "proposal-eclipse-reach",
+      "level": 100,
+      "mana": 20,
+      "xp": 625,
+      "goldMin": 22000,
+      "goldMax": 28600,
+      "army": 94,
+      "items": {
+        "proposal-imperial-eclipse-greatsword": 10,
+        "proposal-imperial-eclipse-bastion": 8,
+        "proposal-astral-war-invocation": 5
+      },
+      "requiresLoot": "proposal-region-seal-5"
+    }
+  ],
+  "properties": [
+    {
+      "id": "proposal-marcher-stronghold",
+      "name": "Marcher Stronghold",
+      "level": 56,
+      "price": 180000,
+      "hourlyIncome": 4200,
+      "hourlyUpkeep": 600,
+      "artStatus": "not commissioned; full-bleed original painterly medieval scene"
+    },
+    {
+      "id": "proposal-royal-border-fortress",
+      "name": "Royal Border Fortress",
+      "level": 60,
+      "price": 300000,
+      "hourlyIncome": 6000,
+      "hourlyUpkeep": 900,
+      "artStatus": "not commissioned; full-bleed original painterly medieval scene"
+    },
+    {
+      "id": "proposal-crown-river-port",
+      "name": "Crown River Port",
+      "level": 70,
+      "price": 500000,
+      "hourlyIncome": 9000,
+      "hourlyUpkeep": 1400,
+      "artStatus": "not commissioned; full-bleed original painterly medieval scene"
+    },
+    {
+      "id": "proposal-imperial-siegeworks",
+      "name": "Imperial Siegeworks",
+      "level": 80,
+      "price": 850000,
+      "hourlyIncome": 13500,
+      "hourlyUpkeep": 2200,
+      "artStatus": "not commissioned; full-bleed original painterly medieval scene"
+    },
+    {
+      "id": "proposal-sovereign-castle",
+      "name": "Sovereign Castle",
+      "level": 90,
+      "price": 1400000,
+      "hourlyIncome": 19000,
+      "hourlyUpkeep": 3200,
+      "artStatus": "not commissioned; full-bleed original painterly medieval scene"
+    },
+    {
+      "id": "proposal-eclipse-crown-citadel",
+      "name": "Eclipse Crown Citadel",
+      "level": 100,
+      "price": 2200000,
+      "hourlyIncome": 27000,
+      "hourlyUpkeep": 4800,
+      "artStatus": "not commissioned; full-bleed original painterly medieval scene"
+    }
+  ],
+  "legacyPolicy": "Recommended future proposal: move only future purchase unlocks for seven classic legendary IDs; preserve all owned use, stats, paid costs and history. Add grounded numerical-equivalent mirrors at their original levels and accept either identity for old quest requirements. No active catalog is changed.",
+  "repositionCandidates": [
+    {
+      "id": "astral-conductor",
+      "fromLevel": 40,
+      "possibleFuturePurchaseLevel": 80,
+      "ownedUse": "always retained; quantity and paid cost unchanged"
+    },
+    {
+      "id": "astral-archon-robes",
+      "fromLevel": 40,
+      "possibleFuturePurchaseLevel": 80,
+      "ownedUse": "always retained; quantity and paid cost unchanged"
+    },
+    {
+      "id": "astral-tempest",
+      "fromLevel": 40,
+      "possibleFuturePurchaseLevel": 80,
+      "ownedUse": "always retained; quantity and paid cost unchanged"
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "fromLevel": 45,
+      "possibleFuturePurchaseLevel": 90,
+      "ownedUse": "always retained; quantity and paid cost unchanged"
+    },
+    {
+      "id": "eclipse-greatsword",
+      "fromLevel": 50,
+      "possibleFuturePurchaseLevel": 100,
+      "ownedUse": "always retained; quantity and paid cost unchanged"
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "fromLevel": 50,
+      "possibleFuturePurchaseLevel": 100,
+      "ownedUse": "always retained; quantity and paid cost unchanged"
+    },
+    {
+      "id": "eclipse-invocation",
+      "fromLevel": 50,
+      "possibleFuturePurchaseLevel": 100,
+      "ownedUse": "always retained; quantity and paid cost unchanged"
+    }
+  ],
+  "midLevelMirrors": [
+    {
+      "level": 40,
+      "category": "weapon",
+      "price": 5700,
+      "attack": 74,
+      "defense": 54,
+      "upkeep": 42,
+      "id": "proposal-banner-marshals-sceptre",
+      "name": "Banner Marshals Sceptre",
+      "replaces": "astral-conductor",
+      "artStatus": "new grounded original illustration required; no replacement of approved legacy artwork"
+    },
+    {
+      "level": 40,
+      "category": "armor",
+      "price": 5300,
+      "attack": 34,
+      "defense": 72,
+      "upkeep": 42,
+      "id": "proposal-high-marshal-mail",
+      "name": "High Marshal Mail",
+      "replaces": "astral-archon-robes",
+      "artStatus": "new grounded original illustration required; no replacement of approved legacy artwork"
+    },
+    {
+      "level": 40,
+      "category": "spell",
+      "price": 5000,
+      "attack": 67,
+      "defense": 48,
+      "upkeep": 42,
+      "id": "proposal-royal-battle-invocation",
+      "name": "Royal Battle Invocation",
+      "replaces": "astral-tempest",
+      "artStatus": "new grounded original illustration required; no replacement of approved legacy artwork"
+    },
+    {
+      "level": 45,
+      "category": "weapon",
+      "price": 7200,
+      "attack": 95,
+      "defense": 44,
+      "upkeep": 50,
+      "id": "proposal-crownforged-greatblade",
+      "name": "Crownforged Greatblade",
+      "replaces": "crown-of-ash-blade",
+      "artStatus": "new grounded original illustration required; no replacement of approved legacy artwork"
+    },
+    {
+      "level": 50,
+      "category": "weapon",
+      "price": 9000,
+      "attack": 110,
+      "defense": 50,
+      "upkeep": 60,
+      "id": "proposal-imperial-steel-greatsword",
+      "name": "Imperial Steel Greatsword",
+      "replaces": "eclipse-greatsword",
+      "artStatus": "new grounded original illustration required; no replacement of approved legacy artwork"
+    },
+    {
+      "level": 50,
+      "category": "armor",
+      "price": 8800,
+      "attack": 32,
+      "defense": 106,
+      "upkeep": 60,
+      "id": "proposal-imperial-citadel-plate",
+      "name": "Imperial Citadel Plate",
+      "replaces": "eclipse-citadel-plate",
+      "artStatus": "new grounded original illustration required; no replacement of approved legacy artwork"
+    },
+    {
+      "level": 50,
+      "category": "spell",
+      "price": 8600,
+      "attack": 92,
+      "defense": 60,
+      "upkeep": 60,
+      "id": "proposal-royal-war-invocation",
+      "name": "Royal War Invocation",
+      "replaces": "eclipse-invocation",
+      "artStatus": "new grounded original illustration required; no replacement of approved legacy artwork"
+    }
+  ]
+}

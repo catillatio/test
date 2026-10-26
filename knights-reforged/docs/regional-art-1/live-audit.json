@@ -1,0 +1,36 @@
+{
+  "observedAtUtc": "2026-10-25T06:22:38.439100+00:00",
+  "healthHttp": 200,
+  "runtimeCommit": "4b82971dd16cad531f6b24c8747af4732aaddc3b",
+  "sourceCommit": "4b82971dd16cad531f6b24c8747af4732aaddc3b",
+  "ownerReportedExpansionLive": true,
+  "installedRegistryRowsDirectlyRead": false,
+  "discoveryBasis": "Owner-confirmed live expansion, matching runtime commit, its immutable presentation/artwork definitions and matching public asset bytes. No private Console or SQL used.",
+  "assets": [
+    {
+      "path": "/assets/art/level100-beta-1/weapon.webp",
+      "http": 200,
+      "sha256": "c574fb4c9ce3869a8f843d3f29f96b42fb264ca82d62a17909e7b8e42e8eb3fc",
+      "matchesCheckout": true
+    },
+    {
+      "path": "/assets/art/level100-beta-1/land.webp",
+      "http": 200,
+      "sha256": "86ed4f1ad1cd95429f31255f56ae25980073ade00631c4db391e4c70a1fd004d",
+      "matchesCheckout": true
+    },
+    {
+      "path": "/assets/art/equipment-51b-current-1/oathbound-greatsword.webp",
+      "http": 200,
+      "sha256": "50e937d5f392cdee1171a960aea0a77c4b9f6b79a275942c706c18c72a000815",
+      "matchesCheckout": true
+    },
+    {
+      "path": "/assets/art/properties-51b-fullbleed-2/wyrmcrest-keep.webp",
+      "http": 200,
+      "sha256": "78b07fde97546de72087d278d3b69997d0aa76f2a582cc4a775a4b1cbcfa682b",
+      "matchesCheckout": true
+    }
+  ],
+  "productionMutations": false
+}

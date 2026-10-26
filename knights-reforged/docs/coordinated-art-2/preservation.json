@@ -1,0 +1,1070 @@
+{
+  "baseline": "8c0f5a60b19871eccef71046c96ae7f1f1879e06",
+  "passed": true,
+  "allPrevious47EntriesIdentical": true,
+  "preservedEntryIds": [
+    "stormglass-pike",
+    "gravewarden-scythe",
+    "sun-etched-warhammer",
+    "dragonwake-falchion",
+    "astral-conductor",
+    "crown-of-ash-blade",
+    "eclipse-greatsword",
+    "fortress-glaive",
+    "marcher-greatsword",
+    "guard-captains-halberd",
+    "argent-sentinel-plate",
+    "ossuary-raiment",
+    "dawnforge-panoply",
+    "wyrmscale-aegis",
+    "astral-archon-robes",
+    "sovereigns-bastion",
+    "seraphic-vestment",
+    "eclipse-citadel-plate",
+    "captains-brigandine",
+    "siegeguard-plate",
+    "kings-marshal-harness",
+    "citadel-harness",
+    "ducal-warplate",
+    "fortress-bastion-plate",
+    "eclipse-war-marshal-plate",
+    "runic-convergence",
+    "grave-tide",
+    "dawnstar-benediction",
+    "dragons-last-breath",
+    "astral-tempest",
+    "voidbound-chain",
+    "seraphs-rebuke",
+    "eclipse-invocation",
+    "rampart-ward",
+    "battlebrand",
+    "stonewall-oath",
+    "banner-of-embers",
+    "ironwall-covenant",
+    "royal-battlefire",
+    "crown-of-wards",
+    "eclipse-aegis",
+    "marcher-stronghold",
+    "royal-border-fortress",
+    "crown-river-port",
+    "imperial-siegeworks",
+    "sovereign-castle",
+    "eclipse-crown-citadel"
+  ],
+  "oldManifestUnchanged": true,
+  "priorAssetRulesetMigrationDeploymentAndWorkflowFilesUnchanged": 253,
+  "files": [
+    {
+      "path": ".github/workflows/checks.yml",
+      "sha256": "12862ac4c713823f58dcea30abd597d636355500279735d20e62872cdbd1a248"
+    },
+    {
+      "path": ".github/workflows/production-release.yml",
+      "sha256": "ea3dce37b68adfbf14e972d9f9e31f34e37150dea42baca71075f61e13967315"
+    },
+    {
+      "path": ".github/workflows/railway-authorization-diagnostic.yml",
+      "sha256": "c43a2d3651c043e7ed876243513a14959d04014fa7e550bc56cf3fe35a78a99b"
+    },
+    {
+      "path": ".github/workflows/release-configuration-diagnostic-checks.yml",
+      "sha256": "eac7a6ce6a29a157ae205ab2918bdb591b3d8c95506e7b9adb5ace559e20a2cd"
+    },
+    {
+      "path": ".github/workflows/release-configuration-diagnostic.yml",
+      "sha256": "269b2dda86e892c30fb11edd43b777836b4bfc3ff5c60f97936899620d822a2c"
+    },
+    {
+      "path": "knights-reforged/deployment/audit-bots.mjs",
+      "sha256": "87011c02690bb2e6099eb02b87aa9adb91069de83a018d4d4ee5570ca2d43c07"
+    },
+    {
+      "path": "knights-reforged/deployment/check-upgrade.mjs",
+      "sha256": "8e0ec9b3ba92e3d04755e06c85580196309fef0cb4edf11a7c932bdc9319818d"
+    },
+    {
+      "path": "knights-reforged/deployment/environment.mjs",
+      "sha256": "7db45f10b9d8af87e6146c1307e7e2f8f788e4dc443a7118554f317ed83bbb93"
+    },
+    {
+      "path": "knights-reforged/deployment/expansion.mjs",
+      "sha256": "7cc835380c71f60ea24ab112769fd96ce29a0e20ba139cb4ed9c4b4504fe680f"
+    },
+    {
+      "path": "knights-reforged/deployment/grant-gray.mjs",
+      "sha256": "2aa845e3c52aaa710f1522e0d00b76e4e92982a1c433bc14ad5164b2183129b6"
+    },
+    {
+      "path": "knights-reforged/deployment/migrate.mjs",
+      "sha256": "35c70f7cfe897e9dd29b5cfff260e899bf49a9e11a8a4f52e538ca17188c8ef0"
+    },
+    {
+      "path": "knights-reforged/deployment/moderate.mjs",
+      "sha256": "81d749402dfe8abd726b8a880d7960b77cf9e89056b99e855820026f77f52c0c"
+    },
+    {
+      "path": "knights-reforged/deployment/preview.mjs",
+      "sha256": "3f2d68ca5a0f91f0d14bd550e0be9a92e63bc86cda6c3c694da9787cca283a8c"
+    },
+    {
+      "path": "knights-reforged/deployment/release/Dockerfile",
+      "sha256": "4053486bcc2dc7bc492b91462d1c8a414d64b350ed1a276bd7f03ad8ea3388b5"
+    },
+    {
+      "path": "knights-reforged/deployment/release/candidate.mjs",
+      "sha256": "bac2890691bf2fc5d0e32afba97f24b34d8de893fae10273016366aa4eeaa9ff"
+    },
+    {
+      "path": "knights-reforged/deployment/release/check-recovery.mjs",
+      "sha256": "64a0be5f1200092c5a04fa78c5cf2d9627d8bd3d6db323959c41f6e013f42644"
+    },
+    {
+      "path": "knights-reforged/deployment/release/create-signing-key.mjs",
+      "sha256": "dea5f44152a2270152846100ae71c104d99f93f764b58e7c5d30f326c90b5f19"
+    },
+    {
+      "path": "knights-reforged/deployment/release/deployment.mjs",
+      "sha256": "9850ec87cbfea5e17fa8c5101561b881646e8c8bde62cdc62ea00f1d86b9a16d"
+    },
+    {
+      "path": "knights-reforged/deployment/release/diagnose-railway.mjs",
+      "sha256": "a1120c516f01f33a5e4dd232f4cbdbdfe050e190ee067b528e19785c13242266"
+    },
+    {
+      "path": "knights-reforged/deployment/release/diagnose-railway.sh",
+      "sha256": "8798df9d5fa314da77458ec8740d2d35eeea2440077aca58df14733ad76cf1f5"
+    },
+    {
+      "path": "knights-reforged/deployment/release/diagnose.mjs",
+      "sha256": "31a52b735dfbb6988d1e7265083328cba1e4223fecf1431a3bade90cb4b4bb5f"
+    },
+    {
+      "path": "knights-reforged/deployment/release/diagnose.sh",
+      "sha256": "26f7b1fe9eb49cabfa4ef7055e036d38ba6374fddcf42b92009fdb7293157986"
+    },
+    {
+      "path": "knights-reforged/deployment/release/guard.mjs",
+      "sha256": "cf9704dc738916e972f3418e3268c98540619916bcfed5db1fc0978bb0709933"
+    },
+    {
+      "path": "knights-reforged/deployment/release/package-lock.json",
+      "sha256": "605a35e093b27608c27824b8d0bb717221c89998408e44b0377bdb796a091c44"
+    },
+    {
+      "path": "knights-reforged/deployment/release/package.json",
+      "sha256": "65c06ef942801f65f58c8c62d2c0ece8e200a1345508e2389b7795db3d7257a8"
+    },
+    {
+      "path": "knights-reforged/deployment/release/preflight.mjs",
+      "sha256": "71690304684dd0e821f6f8403bff99bfa0e597d4d404138057c0efbd01d82503"
+    },
+    {
+      "path": "knights-reforged/deployment/release/proof.mjs",
+      "sha256": "08010321c77b1b45dc188176a6de299337a2336ebc21bd9b47f552ac7f6fbf68"
+    },
+    {
+      "path": "knights-reforged/deployment/release/protocol.mjs",
+      "sha256": "f1f753f121a4b591829678b1c176fab784f124843b2ecd6e33f1ea6f925eb606"
+    },
+    {
+      "path": "knights-reforged/deployment/release/run.mjs",
+      "sha256": "0a439ca2828481ea8d5aa8d30b57f9e7b4f7ff9a1142c58fca82bb2359fa33d3"
+    },
+    {
+      "path": "knights-reforged/deployment/release/store.mjs",
+      "sha256": "a2ae95fb9c648f093d6719c950db1096a682931db8fdd4b815836c990f8489a9"
+    },
+    {
+      "path": "knights-reforged/deployment/release/transfer.mjs",
+      "sha256": "558d8c6f969fea85d2eeec9578609fe0ddb0e25086fd45d10244f3bdef0d3344"
+    },
+    {
+      "path": "knights-reforged/deployment/release/worker.mjs",
+      "sha256": "4aa13ae227869449fcfcd2ec17902972ed29c239c5c9ddbba5d9bed8eb7ec0f1"
+    },
+    {
+      "path": "knights-reforged/deployment/setup-development.mjs",
+      "sha256": "8bcfb26b7976f7a9208ed7f1baaefaa7b092dbfbaf2a961a3479f06e9010d0ca"
+    },
+    {
+      "path": "knights-reforged/deployment/start.mjs",
+      "sha256": "d0c722680195f0f80d6a0773dcdc6e315f590e5216b761419c9abe6f6029f825"
+    },
+    {
+      "path": "knights-reforged/deployment/status.mjs",
+      "sha256": "4672c644dc4265382bddf859606558e146d50e3e17870f5c74b4af73a20a4f3d"
+    },
+    {
+      "path": "knights-reforged/migrations/001_initial.sql",
+      "sha256": "40096563bb35db354736d73c0cb93cc4f5ca0aa5595171d3df99241adeaba1fb"
+    },
+    {
+      "path": "knights-reforged/migrations/002_land.sql",
+      "sha256": "312b98b552472ecb2957a05a7aa1eff1ecc0e14b9ae64ddb6c8740e272d5e06f"
+    },
+    {
+      "path": "knights-reforged/migrations/003_alpha.sql",
+      "sha256": "d81eaec91c74755dae0dbbd38dc6c879c1ba4647772cb398b52fb572c3226b18"
+    },
+    {
+      "path": "knights-reforged/migrations/004_retained_treasury.sql",
+      "sha256": "8217f1c80c21cc46d6b5f55143f4b376b97c0d1d5a39ae4d1fdfe829e37ceee3"
+    },
+    {
+      "path": "knights-reforged/migrations/005_maintenance_audit.sql",
+      "sha256": "1362901d0db4fb181fc7ec8f753dad0510cf495f59e3e0e3262ad0ccae247bc6"
+    },
+    {
+      "path": "knights-reforged/migrations/006_fantasy_progression.sql",
+      "sha256": "ab89b2dbac5da2ecf90543b2eb2510a7c4cc6c58519fa4f7136c5f0c3088ffc9"
+    },
+    {
+      "path": "knights-reforged/migrations/007_maintenance_event_identity.sql",
+      "sha256": "b858ae47d376f7daa6e9c1a083d0b6d0be2400befb93be23420076a6d1baec9d"
+    },
+    {
+      "path": "knights-reforged/migrations/008_land_purchase_order.sql",
+      "sha256": "d6fe143334fc9114a18f1d8581c66324a004a0b0f088c5bdec0610250c7c4eb8"
+    },
+    {
+      "path": "knights-reforged/migrations/009_combat_training.sql",
+      "sha256": "103e718c826c19bdfeac46f2f6f720599a5a852495fc61e773f79d8797261dc8"
+    },
+    {
+      "path": "knights-reforged/migrations/010_strategy_and_bounties.sql",
+      "sha256": "e69588496175a5c86e985871bec0efc6f28f5570098b1438d533eb7ca272fc84"
+    },
+    {
+      "path": "knights-reforged/migrations/011_community.sql",
+      "sha256": "7f64f50ecd08b15a2ca0c609fb9313d7d431ba21e992898acb530f47909d11e1"
+    },
+    {
+      "path": "knights-reforged/migrations/012_refinements.sql",
+      "sha256": "2dd0673ba8d36eff15c9b5d6dd53d111f6357d5d71c279de6620cb200b4f03b8"
+    },
+    {
+      "path": "knights-reforged/migrations/013_pvp_economy.sql",
+      "sha256": "735438a4d1a2727e07f28c20eccf952507df17995f5c548d8934d8d102ffc662"
+    },
+    {
+      "path": "knights-reforged/migrations/014_economy_and_progression.sql",
+      "sha256": "bd8b47b654649a6b7b7b95ff8b0766110495e20800ec57235b46591996fcb640"
+    },
+    {
+      "path": "knights-reforged/migrations/015_private_alpha_initialization.sql",
+      "sha256": "48dd5b9567577ae6965b5bd0b63f729aeecd4bb4612f36d8f98a1c77656dd79a"
+    },
+    {
+      "path": "knights-reforged/migrations/016_player_experience.sql",
+      "sha256": "8cce14e54e91540451773fc6a3baf049fe135db265adc443a9b829da469bfc18"
+    },
+    {
+      "path": "knights-reforged/migrations/017_security_and_operator_grants.sql",
+      "sha256": "e31bdd9f384cbbd65dc662da400e9eebaa8d7e82666074211d55a4e07703d224"
+    },
+    {
+      "path": "knights-reforged/migrations/018_gameplay_refinement.sql",
+      "sha256": "97d191da6b39ed61677538a86b8c0f7b75ab0a874e62774f0ad46a3e670ba43a"
+    },
+    {
+      "path": "knights-reforged/migrations/019_champions_and_rivalries.sql",
+      "sha256": "1e708a17c17419fa3798781b941f2a0f35add77347c5c2c28a966ee8e14aaf52"
+    },
+    {
+      "path": "knights-reforged/migrations/020_game_feel.sql",
+      "sha256": "af20ef2b364e98b271b802484820bcd2f6d088b88ef2cca56f88fe74784763a7"
+    },
+    {
+      "path": "knights-reforged/migrations/021_player_attention.sql",
+      "sha256": "3e3e7977cb77f49358aa885bb1720ec77d14ac30214b8741d226e2d1bf059c1d"
+    },
+    {
+      "path": "knights-reforged/migrations/022_player_foundations.sql",
+      "sha256": "992cdd5a74e2d6d71da3a1dcde0d6d6105a3910bfca333f7dfbf90961a4a8aa9"
+    },
+    {
+      "path": "knights-reforged/migrations/023_expansion_compatibility.sql",
+      "sha256": "a14bd828a3c5014b437dc7a8341459b2d4c18599c4bd73ca3bbfc7aae03f6c3a"
+    },
+    {
+      "path": "knights-reforged/migrations/024_level100_expansion.sql",
+      "sha256": "b74f7fbecd355bc3a9448b764aef3e928ee15687800881c8d4c5189a7b6329da"
+    },
+    {
+      "path": "knights-reforged/migrations/025_level100_population.sql",
+      "sha256": "99d35af658c23361f540b5028b27356860ad425bf1bd600f1530482b9fc44e52"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/axe.svg",
+      "sha256": "caf9559cd49225c56e665e23848089c8db6b555cf27bd4585cf34193f26e15f7"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/blade.svg",
+      "sha256": "8ce94f4c1d2389fd555dac3648f6e3005f5f7f1b964b9621386cecc759d53531"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/buckler.svg",
+      "sha256": "fa4e6f72cc70e89ca2d1220e125450a6a18a68619982652964afeb3a349bf564"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/coat.svg",
+      "sha256": "75fe33590d3b51d80eef1f4b31fdd7eee35dc19bd32da1a4c813c948287d8615"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/ember.svg",
+      "sha256": "f9f3993c21b98e3349d356350c8eb59c118a8cb4184467dfecc5e2a003481f2a"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/fields.svg",
+      "sha256": "81b19fc6f4d2238e9cc265ecf6ae9923280c274d031dbf7af10d281c437d4f1a"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/glaive.svg",
+      "sha256": "fa13496be86a02929c31ba51d2443cce07b4ceb9c0caeecd99c187f48cd00025"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/harbour.svg",
+      "sha256": "fecd1e912f2263a3bc134089487171fd5aefae4922b894529e09d8e7e98898b9"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/helm.svg",
+      "sha256": "d306a922bdc8d803d040e1aae3af2a6f63ad3cf790943ca14c7bd88bd0dcb534"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/mail.svg",
+      "sha256": "12c8446b1ee5a4dcbcb518a280bddfa3157d62bf3d12c7d5e68c7e7c904e8922"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/mill.svg",
+      "sha256": "d07093bfef21d6985adb945d32273c8a78095f3a4b4a3fa8283f177aa52ee97a"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/provenance.json",
+      "sha256": "73f85ce0f9dc7bb78a3882bfdccc8b139cf12280d409f4a270744ed0740f0ef6"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/spear.svg",
+      "sha256": "8c19ac0aca1bf1604ccea0aaeb25925c756a6fa58a41d432dee157c0ba046d68"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/storm.svg",
+      "sha256": "f6fa291721d209781528e1f14ff93d7a890aba72ed5cb158bb3d61a8e37027f0"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/sword.svg",
+      "sha256": "159ab836af585fefe69edb9f815cffac1c7c7db9c3c488d17218f6e1a0d104fc"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/thorn.svg",
+      "sha256": "9d35a2c3c29b645b1d0b554333e81f42c68f982d0e25fa0353da033838ee77fb"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/tower.svg",
+      "sha256": "a45c3b3710accb4febd8b91c4d9187a5492bd37c95e24b82009452e1354db0f1"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/ward.svg",
+      "sha256": "76399ae7acca0703e17746f6d8ccb6a32331c27d65b07787e1cf39ac4b8eae0b"
+    },
+    {
+      "path": "knights-reforged/public/art/alpha/woodland.svg",
+      "sha256": "a76f61f03ac0ccb295ead939d63b53a1ca57080e908c560a842901bf1d820656"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/argent-sentinel-plate.webp",
+      "sha256": "208ee8942c52b9c25284a84d292cc993b56a1bfa728c0121f4d90e9cddb67b39"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/astral-archon-robes.webp",
+      "sha256": "149ec27da31f4f5f68d361f875023b4ead9df6151fc531018ee5f45011ae9efa"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/astral-conductor.webp",
+      "sha256": "4e13a04f9454223643225faf5b413507b6616d57d394c4145abef04db2cd3a2e"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/astral-tempest.webp",
+      "sha256": "ae33ff07a02a2baa9b73644ed641e6258437ec58bcfb452bcd61088ca1d97de7"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/banner-of-embers.webp",
+      "sha256": "ade563eab919097ee81eb5c0c8a40731007f7cdf014933a4342befa10add0a56"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/battlebrand.webp",
+      "sha256": "0eebf2e9f1026c95f2f7b6c8f5215f8c4c1fcc851c6a12aea7f89d6895037fb5"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/captains-brigandine.webp",
+      "sha256": "78aa0ae3f7b00d19958b6d8ff4d29c8c8886d368ffdde7baa163f02452ed86a1"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/citadel-harness.webp",
+      "sha256": "a7b391613a60a33f1cbf59f6ef437dacb05d2d600327bdba1a3a6407b83376d1"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/crown-of-ash-blade.webp",
+      "sha256": "9d807f5b382f7a3aab2f770ad07838a644d01e153d401fb0013d4b8dfe3fa4ed"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/crown-of-wards.webp",
+      "sha256": "ade532dbf169074c902dcd0dc806031b3f721c4c0c5093ff62b0c65b446b5f63"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/dawnforge-panoply.webp",
+      "sha256": "2e2e92352e8d34fe447ffb773d2beb4f98c03ed6d244e4450fbd9162fb1e2f84"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/dawnstar-benediction.webp",
+      "sha256": "cf8fd0d22089b957eb189e7e921448fcde9ea3c694007b89352c7413a6e6d6d6"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/dragons-last-breath.webp",
+      "sha256": "5532eae89584774d0ca544ea0bc912089e51d526519fdb0f0665562734b1be03"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/dragonwake-falchion.webp",
+      "sha256": "aaf6e811b46f5ddcc0659e4efb8dec0d292eead3ab14c6294394dab4752b075f"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/ducal-warplate.webp",
+      "sha256": "87fd1eff02c93a46589e629a01f5a9547ed4ee076e67e04bd413d2b3325e9c02"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/eclipse-aegis.webp",
+      "sha256": "ec6eb7521ad2701225d3ea3a8666321304673415f4ddf95ce79811adca5d70e5"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/eclipse-citadel-plate.webp",
+      "sha256": "cc9ac29d255373bfbd1aa73512acbc1d4da79cfadc446169e0afe147b2233c85"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/eclipse-greatsword.webp",
+      "sha256": "a17c4df5bd52ab156bf9fe2ec03f060c34ecdbe33a52b503eeec979196675619"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/eclipse-invocation.webp",
+      "sha256": "f5ffd127d1d2870fcb1bd397c23bba95faa7ed03561f96284e253c4d75939fd4"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/eclipse-war-marshal-plate.webp",
+      "sha256": "80277c93c3ff079673428705a3e80238a800657526ee78233d5cd1a72e50a859"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/fortress-bastion-plate.webp",
+      "sha256": "fd6a53387e0e95612fe5043e5d3edf298b709ba9ad1a931dca189c153c8c644a"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/fortress-glaive.webp",
+      "sha256": "da47455c8d28fa31fb2c8bd5f04b82cac84c01994b1b2a802ae7eda13e783e45"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/grave-tide.webp",
+      "sha256": "0991cb5e97749c22830be935565ca5acd5081647e6a74d6701829fc43156f6a6"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/gravewarden-scythe.webp",
+      "sha256": "27fe1b914c1d7de237dac7d6efc84710f4d9b8375cb6c02a7861b0141f936415"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/guard-captains-halberd.webp",
+      "sha256": "f6b35070d68ba16ef70e0071bfece674b0db51e5cc2e6df106b805224cc96e52"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/ironwall-covenant.webp",
+      "sha256": "f18dcda4751479ac75d542d49cebd58121028e4577cffa0ccefa9bde737c923b"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/kings-marshal-harness.webp",
+      "sha256": "45d57ddf424dd34379c34a495feeb88cd97108bc4f8ee48bd1e2725939d4635b"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/marcher-greatsword.webp",
+      "sha256": "97f12f71d75069e0b02aa4729816f1a5105818f6f3253d448fb0f1b1d844904e"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/ossuary-raiment.webp",
+      "sha256": "a8ad3843da3a9449a5234c9cde954a142a99c6758152fd20f720a96ae418014a"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/rampart-ward.webp",
+      "sha256": "766fd79283d397091b4257a34321ec3ae5640b847f9335b60d586502f1b08094"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/royal-battlefire.webp",
+      "sha256": "e611ec6fca775cd46f55bf1fa882687d68cc2fc069c4feaa9adae49f9e5a806e"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/runic-convergence.webp",
+      "sha256": "501b7017183348a657b36e500ea0c0ceded1ac8142f2f7eef07b3d382ef49e48"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/seraphic-vestment.webp",
+      "sha256": "dd0ec1fb5b7f459532c242bc4d9b75e3d104e1e0cb546b6524bbe5ace5e2dd54"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/seraphs-rebuke.webp",
+      "sha256": "49890bcbfdfb3b94d874ff670f1de1cfd29e82214211e69ae283d39634a18185"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/siegeguard-plate.webp",
+      "sha256": "3b7545b4f70bcbdbb4183421dd80d1aad22ea6632aa34fcb3b10c2945c8e6cb6"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/sovereigns-bastion.webp",
+      "sha256": "5f13fc4f86f1764336810992246054372470467e4728238932e7a4bd3a26e324"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/stonewall-oath.webp",
+      "sha256": "373c2c985a6e4e0592b9cd331131dd45c786475c713df28ae087e0922fd42fe6"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/stormglass-pike.webp",
+      "sha256": "01b6245a8a66130169479ec36425de04960e30c8744104043ec0382995f76868"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/sun-etched-warhammer.webp",
+      "sha256": "156cd97c73cf3cdcd154b19586f7d34f2e6ae0bdf45b27c23ae7fdbb3d56b2cb"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/voidbound-chain.webp",
+      "sha256": "b559cd6721bc2c25a94a18a2ce4ff39205b566492cbed4e07c578a9a739eae4e"
+    },
+    {
+      "path": "knights-reforged/public/art/coordinated-art-1/wyrmscale-aegis.webp",
+      "sha256": "372070e823e3c902ad3dfb82ca7287fa6bfdde010e2691324dc80674199a377e"
+    },
+    {
+      "path": "knights-reforged/public/art/equipment-51b-current-1/crown-of-ash-blade.webp",
+      "sha256": "ef5ad5697d6070b42ddf9b9c8ff321c512ff1452e183a2b4bb2a105738739eb8"
+    },
+    {
+      "path": "knights-reforged/public/art/equipment-51b-current-1/eclipse-citadel-plate.webp",
+      "sha256": "5f55f676806db52c4f844f4bd2afe4dbcfc4253e7a1f69dba3e1724aed7a1fec"
+    },
+    {
+      "path": "knights-reforged/public/art/equipment-51b-current-1/eclipse-greatsword.webp",
+      "sha256": "67374ab63c7057af66bf8ccb17e7a164dda07b976cf17527f98930c9f7181752"
+    },
+    {
+      "path": "knights-reforged/public/art/equipment-51b-current-1/oathbound-greatsword.webp",
+      "sha256": "50e937d5f392cdee1171a960aea0a77c4b9f6b79a275942c706c18c72a000815"
+    },
+    {
+      "path": "knights-reforged/public/art/equipment-51b-current-1/provenance.json",
+      "sha256": "cc9d13d86f823e1614d6ac0b80a62a56e5bc0f7cc0c5342ea9ee126a2afd8cf5"
+    },
+    {
+      "path": "knights-reforged/public/art/equipment-51b-current-1/sovereigns-bastion.webp",
+      "sha256": "8cc9291c0dc3dda6c704c84439144bf761391ff2f0eea9550f4b9bc92ee19822"
+    },
+    {
+      "path": "knights-reforged/public/art/fantasy-0.2/armor.webp",
+      "sha256": "1210ae0ce0be9f37a613c754533738dceee3a4b63f43094bdd526d2998149fd1"
+    },
+    {
+      "path": "knights-reforged/public/art/fantasy-0.2/prompts.json",
+      "sha256": "3911ff21b3c021da2cae85bba67aed5b603731a4fa08794631ef7e21da1e1386"
+    },
+    {
+      "path": "knights-reforged/public/art/fantasy-0.2/properties.webp",
+      "sha256": "cbce02b53f639b98f1b9761fd021c3e2bc7763b2ffda691cc114d78c783982b1"
+    },
+    {
+      "path": "knights-reforged/public/art/fantasy-0.2/provenance.json",
+      "sha256": "6b8aa8e6cdabd7e757e3274fe32c5f60bc6d2bee1df87f1e60b359989b02f1ae"
+    },
+    {
+      "path": "knights-reforged/public/art/fantasy-0.2/spells.webp",
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67"
+    },
+    {
+      "path": "knights-reforged/public/art/fantasy-0.2/weapons.webp",
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "path": "knights-reforged/public/art/land-review/castle-landscape.webp",
+      "sha256": "b76d1107f7d35dc1fdc22f671f36ee4775ba20a8f1fedc5d7199949ce67f7057"
+    },
+    {
+      "path": "knights-reforged/public/art/land-review/interface-icons.webp",
+      "sha256": "9e6bf5a2bac61b5991d4acd67e6e8ec51d5d47c717e8df4e9cfea9ba9cc166b1"
+    },
+    {
+      "path": "knights-reforged/public/art/land-review/painted-properties.webp",
+      "sha256": "74180fb5be6813543797ec8de021de15cc436e7efa0da9f2ea1b7c4998f23b7b"
+    },
+    {
+      "path": "knights-reforged/public/art/land-review/provenance.json",
+      "sha256": "4997a0070badfc2923970decb1a7add41a4d9b58e0ca3d87cd672520274ab051"
+    },
+    {
+      "path": "knights-reforged/public/art/land-simple-0.1/properties.webp",
+      "sha256": "343c5c7e128b27a98e12102b4d4b7ba0354d5e109491ecf0e97040f098682ea2"
+    },
+    {
+      "path": "knights-reforged/public/art/land-simple-0.1/provenance.json",
+      "sha256": "c29ab123836df9650d0df715cab6442930300af49f53dc4431f7f31e85ad2459"
+    },
+    {
+      "path": "knights-reforged/public/art/level100-beta-1/armor.webp",
+      "sha256": "6caccf3378dcd9352b33ce8a60930ffd5e5f820ec4c5c428c864f35d4c2eb21b"
+    },
+    {
+      "path": "knights-reforged/public/art/level100-beta-1/land.webp",
+      "sha256": "86ed4f1ad1cd95429f31255f56ae25980073ade00631c4db391e4c70a1fd004d"
+    },
+    {
+      "path": "knights-reforged/public/art/level100-beta-1/provenance.json",
+      "sha256": "4351dbb29c1f0923739c3aeebe883ad58709fe5c8bfd4e949b5357e028574c1d"
+    },
+    {
+      "path": "knights-reforged/public/art/level100-beta-1/shield.webp",
+      "sha256": "de4924f6642d1c42c59e0c9f73dafc78a91d1b65b1fc5e3441de9aeffb6f4ccf"
+    },
+    {
+      "path": "knights-reforged/public/art/level100-beta-1/spell.webp",
+      "sha256": "da2d2d89f104479c239dd254cde2984bb296941db01fa06b3e53333b20630c8a"
+    },
+    {
+      "path": "knights-reforged/public/art/level100-beta-1/weapon.webp",
+      "sha256": "c574fb4c9ce3869a8f843d3f29f96b42fb264ca82d62a17909e7b8e42e8eb3fc"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-49/gold-mine.webp",
+      "sha256": "c997008b7854f2031b06a02ba04935aca0e032b90d61d90fb12a6cd17e1580fa"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-49/provenance.json",
+      "sha256": "e507eb513fed61fb601b9e967dc2644cdf00910930600b5e2fcaaf3bc2920edf"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-49/wyrmcrest-keep.webp",
+      "sha256": "94d833a312ef80d1a36a5afb0f854988af113b93b6843a0791f55482195596a2"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-51b-fullbleed-2/astral-observatory.webp",
+      "sha256": "c26f1b4fb3573892b877f6e70cab353d453e32d7a89c5a6bbc4f425a3b424934"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-51b-fullbleed-2/dawnspire-cathedral.webp",
+      "sha256": "567469aab78e14e17dfc1216d2139857e851c5ed39a3b551fc9583f8fb347523"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-51b-fullbleed-2/eclipse-citadel.webp",
+      "sha256": "7e68dfe43c55196026df772acbf5e8ed2a7eac98fec1abaf63c2f3465b99f6c9"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-51b-fullbleed-2/provenance.json",
+      "sha256": "f3a99916424a38047899d0d7df16295c55e879644a442487432dcbb8fd10907e"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-51b-fullbleed-2/tempest-port.webp",
+      "sha256": "03d6b7f4f72bbbaac29b0f597d1b63b7b1fab5722d0ab1134c87358ce93fc8cf"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-51b-fullbleed-2/throne-of-ash.webp",
+      "sha256": "20164ec090bc5b4a1a6aaa8e77b8702d4994676028f34931612ee1f1c71d8091"
+    },
+    {
+      "path": "knights-reforged/public/art/properties-51b-fullbleed-2/wyrmcrest-keep.webp",
+      "sha256": "78b07fde97546de72087d278d3b69997d0aa76f2a582cc4a775a4b1cbcfa682b"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/astral-conductor.webp",
+      "sha256": "47aa5980ed62f570691dd24b815ba12c600c9532d6348d638f3112b4eae23c55"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/crown-of-ash-blade.webp",
+      "sha256": "482a75454f41046baabf830a69a405381068a766e752af782134c656dfc7bba1"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/crown-river-port.webp",
+      "sha256": "b4ac7783def2f3a0c51af75451cd90d9aed75a79089659895d82c8ddc0c84432"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/dragonwake-falchion.webp",
+      "sha256": "3f8878c8ad52ca62d8837d3cd56c9832210c571f0672f916383a42c33b954184"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/eclipse-crown-citadel.webp",
+      "sha256": "c3d79bfa5e679c194b470ade107f12d0b227ac7b7e7096b5209a09d799356dcf"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/eclipse-gatehammer.webp",
+      "sha256": "10230a6339967ffa13b9c1489f6b9d08d7cfb97ba2c5e2d75c38849d6d046752"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/eclipse-greatsword.webp",
+      "sha256": "bc2dceccc9b60a66e168c337bc1153a0237a9ceecca03946ff53e3157f1ddec9"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/fortress-glaive.webp",
+      "sha256": "48618a9fdc040c8f38833002d6506b1fbc70a7b53875312b2251f6f3c4ea9e3e"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/gravewarden-scythe.webp",
+      "sha256": "09360678f3e430b2cd7f94a43fb0e3f80932d445d1cd903189be8aa0f87ac92f"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/guard-captains-halberd.webp",
+      "sha256": "a00a6f30fca9c606c68b212d6c54ef4a511edb14a1df651cefbccd44067050aa"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/imperial-siegeworks.webp",
+      "sha256": "3a2a16d7c6facddffa619b3e3f2bbcf654e94f035744c4dcde5e7e65e2ec3fc1"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/king-hudsons-sword.webp",
+      "sha256": "4454c62eaba848ac0e0efa6b1b492d843d5148927c8db5b9705549aac029f883"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/march-wardens-poleaxe.webp",
+      "sha256": "54016bcd2467ecb116cbdb6fdd1b432ff1a8f0ff02032ba4fea0f7979084bcfd"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/marcher-greatsword.webp",
+      "sha256": "c8c7e3a7c811bc6865058c5156a111d5cb26cbef4b217e2b10a86c9eb400bb9b"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/marcher-stronghold.webp",
+      "sha256": "19f33d4ef3fdaf07c667a0ed6cafb1bdda4217d512b238e2c9c7cf1e54981729"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/provenance.json",
+      "sha256": "8ab565c624913efadd1372c482e7db14596508980d650ae240602b47b6a7de3f"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/royal-border-fortress.webp",
+      "sha256": "04db525708f6c0e388363cdb7dc5db87b92300a64e3ec8bcdd96d81b1ff097bd"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/royal-warblade.webp",
+      "sha256": "27b3f302742c91c976f21d309c515dddecb4e273c5edbd0b229aeec7b6b61799"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/sovereign-castle.webp",
+      "sha256": "6df56e278fd8cb9aae1ca22ba3bb1fad1e61a781fa92212bb86c429ee39b7175"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/sovereigns-zweihander.webp",
+      "sha256": "263c6b1ec19fd7a78b1240ca23be81db39a4a5b8c215ef96c0a15eb8c0dfda9f"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/stormglass-pike.webp",
+      "sha256": "d502db25859727566b55ced8f3d97a35e669fbc00b5a53c114c9867da95bdc94"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/sun-etched-warhammer.webp",
+      "sha256": "4a28d7e6c4604f33e2f1a5f4e4adf879263a47c367e934098b212eb86c079739"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-1/throneguard-polehammer.webp",
+      "sha256": "894e53059e0c725508b7f50ca50c1a28795d8d881a341b1b952708f4f4f829e3"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/astral-conductor.webp",
+      "sha256": "f772f3ab2ddbc404edd6dffcb1a9a5d5e51802b91e5f9e78c8debb94bec6775e"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/crown-of-ash-blade.webp",
+      "sha256": "ce9fe08f49d6275eb0ecf1029a91bf165a65ba126b3723d911a436862a103e9f"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/dragonwake-falchion.webp",
+      "sha256": "237a5631ea03e0e8ff48427c909bf878b9f0ef9b35cb66fdebd407d4bc645052"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/eclipse-gatehammer.webp",
+      "sha256": "a61094ee2ab774d0debb903519e549b7520ec83f85da29241705d33ab04c3cf8"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/eclipse-greatsword.webp",
+      "sha256": "f810cc5c383817b196f3f74ad4273cd4ac6bd77744a9ec5937acbbf065c237dd"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/fortress-glaive.webp",
+      "sha256": "788b51c8f35db8eeec9cdcc6eaa9adb1e6b603183704744a30cc057973d57462"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/gravewarden-scythe.webp",
+      "sha256": "9b9307c73d1cfdbbb22d30b7b27875a1ad082f50d29fc0b5eb51e57216ee6761"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/guard-captains-halberd.webp",
+      "sha256": "7143883d2eb588ed378c43bd0add1303e10701f90527e86a00257e1b06c8c006"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/march-wardens-poleaxe.webp",
+      "sha256": "619c66deab3a750f12d6835f5645605d46318e8505027734c42127cce82aeab7"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/marcher-greatsword.webp",
+      "sha256": "06d704fff02335ebe12f7f75795d5cdae5545a6c52fe3ea375ba81ae2770afb5"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/provenance.json",
+      "sha256": "195399e28d09d2422b316945c641794e5209cbb6633969f0fb01de2f28a9859d"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/royal-warblade.webp",
+      "sha256": "318d3cdbf97b4210ae9c811b49f5910ce4f3a1230e430b7a7e9ecf97b2aa8ae0"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/sovereigns-zweihander.webp",
+      "sha256": "7de7f78b76bd07f5da99ea9922f758bcb7efcde5488be83d0ae3039e11089201"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/stormglass-pike.webp",
+      "sha256": "94930afd04a2f47acbd4be7c92d4e2e99dca834958617d5fa8522548c7a04402"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/sun-etched-warhammer.webp",
+      "sha256": "dd3ad8be3b51ee8c2cd9a64d0127f800f2c7c85e6be36d953b9878adbd8c7765"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-2/throneguard-polehammer.webp",
+      "sha256": "53cf8df0c81a9eeb8fb4cf13c026db3c13b7e66a33f1ce88190103c2e3b28157"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/astral-conductor.webp",
+      "sha256": "a85d79f399653ddcaa5d269fbc9b1e69a5bf744bff67a6380d444f72843155aa"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/background.webp",
+      "sha256": "1568be06e4dd7f04e1b7d0ad3017cc70f16c22e800d17d359457df4c0ddc2a7c"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/crown-of-ash-blade.webp",
+      "sha256": "d3d111eeb8d4600129dbcd7f7d1de67770785513413facd9308804baaa8d5338"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/dragonwake-falchion.webp",
+      "sha256": "7528c45a020a256c44ea5e6c60ee781d0f25eb75d44498556c942d2b018430f5"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/eclipse-gatehammer.webp",
+      "sha256": "198a03b2a729969c72cfe7b410695131e18ca63b539831a90d818c9cccb92dcf"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/eclipse-greatsword.webp",
+      "sha256": "22fc84d637a3f8a7c567734617cc82c6d94692f0725bfcea068d3e660a06e156"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/fortress-glaive.webp",
+      "sha256": "472d64a854276dd5d51650b8cb280c99c46dac7e517aeb8cde463d7633b1c18d"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/gravewarden-scythe.webp",
+      "sha256": "712d19fd8217d0149b2c724226cb9ab2b40a0f900393173cbad28ef03e7e554d"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/guard-captains-halberd.webp",
+      "sha256": "6e393810463f30751574555c3141ec69a87b59f2df823165a8c42b6c312a170b"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/march-wardens-poleaxe.webp",
+      "sha256": "ea7159815f650ac8c5725d369fea11a4fa71b17b814b98753c1482a61645c857"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/marcher-greatsword.webp",
+      "sha256": "4ba1b4b2d5165daaf76a930ecbed9325290d0919c222aaee0b179bfb7ea902d0"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/provenance.json",
+      "sha256": "e9c36bafdc644c56cd0a8f96499a219dda711c943891dee2f6d1d07365e72cdd"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/royal-warblade.webp",
+      "sha256": "db3698a95343a455569bdb32607ee92092087e077ebc6db36fae0f9171952e0f"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/sovereigns-zweihander.webp",
+      "sha256": "288c70816019bfd60ecc91de776269f8a3f530d161355ee6a2d7a4bb30f1c736"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/stormglass-pike.webp",
+      "sha256": "4cffadc32b21244edfeab30637280c37ed70ce646dce82df931ff490ade5f11f"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/sun-etched-warhammer.webp",
+      "sha256": "a8b59dc0a4b47d6956853d176d4307f9b3299df29f336aaf1393919e5faf579e"
+    },
+    {
+      "path": "knights-reforged/public/art/regional-weapon-land-3/throneguard-polehammer.webp",
+      "sha256": "1c5bacf402370c551c50868a181e224464fc1204f5f3bac03e0e65846929d3ad"
+    },
+    {
+      "path": "knights-reforged/public/art/remaster-ui/LICENSE.txt",
+      "sha256": "a9549ac9308cecdbe85eae2cbec261fa6a67439de82796e74438dde0ba487e57"
+    },
+    {
+      "path": "knights-reforged/public/art/remaster-ui/castle-illustration.webp",
+      "sha256": "05ca54a94af424951b533386b53d3d2def33e172d60094ea4539fc41ede5f754"
+    },
+    {
+      "path": "knights-reforged/public/art/remaster-ui/castle-provenance.json",
+      "sha256": "8658505eae37ee9f4b4f2af0a8e2acbae2d3b6b99a037940465e8b357da7efe9"
+    },
+    {
+      "path": "knights-reforged/public/art/remaster-ui/courtyard.svg",
+      "sha256": "943b99232d62f19902a8745e38153ad9c98d5d9bb5dab7198e1d4bb009327cec"
+    },
+    {
+      "path": "knights-reforged/public/art/remaster-ui/crest.svg",
+      "sha256": "349b1efacc3a5e79fafe89c7e4bd6b15d9ccade450e2045709b1cafae432dab8"
+    },
+    {
+      "path": "knights-reforged/public/art/remaster-ui/icons.svg",
+      "sha256": "05d766373a123142b33b2e9279dd44d81b2792deb2d49b60834f43b9a37719e0"
+    },
+    {
+      "path": "knights-reforged/public/art/remaster-ui/provenance.json",
+      "sha256": "0c9744d9e4c88c2068dc512c1c3fc90d11cdb4590ae6800051b1488b7a7382c1"
+    },
+    {
+      "path": "knights-reforged/rulesets/alpha-0.1/rules.json",
+      "sha256": "46d2a88c1eb118eb9ebd9a44d8f16fbe268ec74318e1e7e20c757bfa69400d8a"
+    },
+    {
+      "path": "knights-reforged/rulesets/alpha-0.2/rules.json",
+      "sha256": "bf943ab9cc19bf186b5788ddce301f890561893703056179d4f0d65aaccd0a18"
+    },
+    {
+      "path": "knights-reforged/rulesets/alpha-0.3/rules.json",
+      "sha256": "7de8535440e873ddad9effb66bf870af07c45fef42c015361a8ae840746835f1"
+    },
+    {
+      "path": "knights-reforged/rulesets/automatic-upkeep-1/rules.json",
+      "sha256": "535e31bab12676403f54fea7ab7500e0eebba943aedcf5c1bfa075632d0c18a5"
+    },
+    {
+      "path": "knights-reforged/rulesets/bot-combat-rewards-1/rules.json",
+      "sha256": "f4e0d0e6b9dc9ff64f8e94e3fb95d88b5ff412157248b39c5d64592510b461f0"
+    },
+    {
+      "path": "knights-reforged/rulesets/bot-combat-rewards-2/rules.json",
+      "sha256": "e176f56976206712a5c4abf12fde9d8802dfe76751209e225601c469f64eaa7d"
+    },
+    {
+      "path": "knights-reforged/rulesets/community-0.1/rules.json",
+      "sha256": "3416c944fb728b0e7365efb319aea9b201218aff4166af43625166e79a12a81a"
+    },
+    {
+      "path": "knights-reforged/rulesets/coordinated-art-1/rules.json",
+      "sha256": "33b891a96e1d82f93a1477d2f4e9262a32ff8b75b6b8bcf25a1cc816db42e7e2"
+    },
+    {
+      "path": "knights-reforged/rulesets/expansion-compatibility-1/rules.json",
+      "sha256": "af8420819363498b7a314f9aa19ede23ff97cf23e54db61f7c80908894c8b735"
+    },
+    {
+      "path": "knights-reforged/rulesets/game-feel-1/rules.json",
+      "sha256": "6fa7fa2a4e86d57dfc538d7ad43c5ed1018b15a0550c3e63202034e7655f98ef"
+    },
+    {
+      "path": "knights-reforged/rulesets/gameplay-refinement-1/rules.json",
+      "sha256": "110d5878dea0188a67b8bb88b3523e744e81db1f853b4f3af12593229aa279dd"
+    },
+    {
+      "path": "knights-reforged/rulesets/hudson-equipment-grant-1/rules.json",
+      "sha256": "f538f35be8f311eb0b5a0ace96cfe85ba21057d66bfe86b18c25a8b3c8f52733"
+    },
+    {
+      "path": "knights-reforged/rulesets/land-provisional-0.1/rules.json",
+      "sha256": "9d6f2cfad99ab8d9265bef0fca855900bf5931e1edd2e88aafda6e233d68fc9f"
+    },
+    {
+      "path": "knights-reforged/rulesets/level100-artwork-1/rules.json",
+      "sha256": "75b0eb15ae11f80a03258d0c594c805369198c01b2349d183a3f011ba2e0e52c"
+    },
+    {
+      "path": "knights-reforged/rulesets/level100-artwork-2/rules.json",
+      "sha256": "13fa23234ea897dbb7a8caeee4dba09b1611b8b4a82181bf5f07f8c9b4cc73e8"
+    },
+    {
+      "path": "knights-reforged/rulesets/level100-beta-artwork-1/rules.json",
+      "sha256": "0ed8c46775c1814e1f1ef0b509e930d49a4a00d78da60642aaf75d53eb521b6e"
+    },
+    {
+      "path": "knights-reforged/rulesets/level100-content-1/rules.json",
+      "sha256": "e18b67f14a7374aef5eaa07d893d93935f6a2319da2b7d74d25c3216cf746844"
+    },
+    {
+      "path": "knights-reforged/rulesets/level100-equipment-presentation-1/rules.json",
+      "sha256": "dbf314cf4d922194b6b4fcb252607fcdc75011b8a68ccbd6238fb7105301ebc9"
+    },
+    {
+      "path": "knights-reforged/rulesets/level100-rivals-1/rules.json",
+      "sha256": "809a719d7d8a103ab0b4869c7de028e0283a9210413902af9aa2a77495e8ae61"
+    },
+    {
+      "path": "knights-reforged/rulesets/passive-rivals-1/rules.json",
+      "sha256": "7dea522d7fe49cbcc8b6d39cfb3c7cca3027551ed20da070003127d5594f4a44"
+    },
+    {
+      "path": "knights-reforged/rulesets/passive-rivals-2/rules.json",
+      "sha256": "956e00200ee17ad1a5ced4dbdf3efad81f785c398541bc3a96d0bbf34759d6fa"
+    },
+    {
+      "path": "knights-reforged/rulesets/passive-rivals-3/rules.json",
+      "sha256": "8262420ec0e6b3821eb37c1617af58a2f74b006459ec197637fcd93e04611a02"
+    },
+    {
+      "path": "knights-reforged/rulesets/passive-rivals-4/rules.json",
+      "sha256": "a670919ade06eeba876d44e07bd007f7467ae220a0da20af4ef13d2fbe08a9a5"
+    },
+    {
+      "path": "knights-reforged/rulesets/passive-rivals-5/rules.json",
+      "sha256": "6973dfcd0ec54bf023afe5c3eb98d0196631d868c706c4f725ab77d6bd78e478"
+    },
+    {
+      "path": "knights-reforged/rulesets/progression-economy-0.1/rules.json",
+      "sha256": "4094443ee0c11a3f1af36fd40c28950e372e8914098530642e730cf8c6022fbd"
+    },
+    {
+      "path": "knights-reforged/rulesets/progression-economy-0.2/rules.json",
+      "sha256": "18f2b379c66108c9190b7ff888339c3f11f0ab42b726d4e8350326ddc289cf0a"
+    },
+    {
+      "path": "knights-reforged/rulesets/pvp-economy-0.1/rules.json",
+      "sha256": "deacda01aed70e8ab23509cd4845cb9653511221d1a066e058f9ba337847533f"
+    },
+    {
+      "path": "knights-reforged/rulesets/quest-equipment-rarities-1/rules.json",
+      "sha256": "565fd2c28f00f25e145843f709fe46142c03252576e6ebb455355efff3bfc348"
+    },
+    {
+      "path": "knights-reforged/rulesets/recreation-0.1/rules.json",
+      "sha256": "835b4ff9f8344981aee94e3c5fed7d38c67e1099319457a8d02cb13695dc99bb"
+    },
+    {
+      "path": "knights-reforged/rulesets/refinements-0.1/rules.json",
+      "sha256": "d40538cec6f96755546d86c1e60e9e857b993283c68cf15a6cb7c69ec6b0addd"
+    },
+    {
+      "path": "knights-reforged/rulesets/regional-weapon-land-art-1/rules.json",
+      "sha256": "8ab565c624913efadd1372c482e7db14596508980d650ae240602b47b6a7de3f"
+    },
+    {
+      "path": "knights-reforged/rulesets/regional-weapon-land-art-2/rules.json",
+      "sha256": "195399e28d09d2422b316945c641794e5209cbb6633969f0fb01de2f28a9859d"
+    },
+    {
+      "path": "knights-reforged/rulesets/regional-weapon-land-art-3/rules.json",
+      "sha256": "e9c36bafdc644c56cd0a8f96499a219dda711c943891dee2f6d1d07365e72cdd"
+    },
+    {
+      "path": "knights-reforged/rulesets/strategy-0.1/rules.json",
+      "sha256": "43af4cb8970c634caa21f3b3e9cb0fff774307a8376dd06961abdca95aec843a"
+    },
+    {
+      "path": "knights-reforged/rulesets/strategy-0.2/rules.json",
+      "sha256": "a15397eaf3f9477744602c65346dfc444bca3e211328f02f10eeb7f8fa77985f"
+    },
+    {
+      "path": "knights-reforged/rulesets/temporary-beta-artwork-1/rules.json",
+      "sha256": "c85edc90fe5a80251f8c1e063e4b35f69da149ead9a895c857db24b453ccd77b"
+    }
+  ]
+}

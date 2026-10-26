@@ -1,0 +1,1889 @@
+{
+  "policyId": "level100-equipment-presentation-1",
+  "digest": "25aba8f3c92bf28c96ec4e60d7d043d25611b2799dacffaa49721ea73415af53",
+  "catalogDigest": "af0acac1bcbfd5a799e76738f43663011215ee673810c566df51757ceb4e16d2",
+  "numericalChanges": false,
+  "rows": [
+    {
+      "id": "padded-coat",
+      "category": "armor",
+      "level": 1,
+      "name": "Padded Coat",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "padded-coat"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Padded Coat",
+      "attack": 1,
+      "defense": 4,
+      "price": 18,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "tanned-leather-jerkin",
+      "category": "armor",
+      "level": 1,
+      "name": "Tanned Leather Jerkin",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "tanned-leather-jerkin"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Tanned Leather Jerkin",
+      "attack": 1,
+      "defense": 3,
+      "price": 12,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "wicker-buckler",
+      "category": "armor",
+      "level": 1,
+      "name": "Wicker Buckler",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "wicker-buckler"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Wicker Buckler",
+      "attack": 0,
+      "defense": 2,
+      "price": 6,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "warden-mail",
+      "category": "armor",
+      "level": 3,
+      "name": "Warden Mail",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "warden-mail"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Warden Mail",
+      "attack": 3,
+      "defense": 11,
+      "price": 65,
+      "upkeep": 1,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "gateward-kite-shield",
+      "category": "armor",
+      "level": 5,
+      "name": "Gateward Kite Shield",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "gateward-kite-shield"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Gateward Kite Shield",
+      "attack": 2,
+      "defense": 14,
+      "price": 100,
+      "upkeep": 2,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "castellan-helm",
+      "category": "armor",
+      "level": 6,
+      "name": "Castellan Helm",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "castellan-helm"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Castellan Helm",
+      "attack": 6,
+      "defense": 17,
+      "price": 140,
+      "upkeep": 3,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "runebound-hauberk",
+      "category": "armor",
+      "level": 8,
+      "name": "Runebound Hauberk",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "runebound-hauberk"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Runebound Hauberk",
+      "attack": 8,
+      "defense": 22,
+      "price": 220,
+      "upkeep": 4,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "verdant-aegis",
+      "category": "armor",
+      "level": 10,
+      "name": "Verdant Aegis",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "verdant-aegis"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Verdant Aegis",
+      "attack": 5,
+      "defense": 27,
+      "price": 330,
+      "upkeep": 5,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "argent-sentinel-plate",
+      "category": "armor",
+      "level": 12,
+      "name": "Marchwatch Hauberk",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Marchwatch Hauberk (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Argent Sentinel Plate",
+      "attack": 10,
+      "defense": 31,
+      "price": 480,
+      "upkeep": 7,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "frostweave-mantle",
+      "category": "armor",
+      "level": 15,
+      "name": "Frostweave Mantle",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "frostweave-mantle"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Frostweave Mantle",
+      "attack": 13,
+      "defense": 35,
+      "price": 720,
+      "upkeep": 9,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "embercrest-bulwark",
+      "category": "armor",
+      "level": 18,
+      "name": "Embercrest Bulwark",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "embercrest-bulwark"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Embercrest Bulwark",
+      "attack": 8,
+      "defense": 45,
+      "price": 1000,
+      "upkeep": 12,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "nightwatch-carapace",
+      "category": "armor",
+      "level": 21,
+      "name": "Nightwatch Carapace",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "nightwatch-carapace"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Nightwatch Carapace",
+      "attack": 20,
+      "defense": 40,
+      "price": 1350,
+      "upkeep": 15,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "oathkeepers-cuirass",
+      "category": "armor",
+      "level": 24,
+      "name": "Oathkeeper's Cuirass",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "oathkeepers-cuirass"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Oathkeeper's Cuirass",
+      "attack": 17,
+      "defense": 52,
+      "price": 1800,
+      "upkeep": 19,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "ossuary-raiment",
+      "category": "armor",
+      "level": 28,
+      "name": "Fenwarden Lamellar",
+      "region": "Moonfen",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Fenwarden Lamellar (Moonfen). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Ossuary Raiment",
+      "attack": 28,
+      "defense": 46,
+      "price": 2400,
+      "upkeep": 24,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "dawnforge-panoply",
+      "category": "armor",
+      "level": 32,
+      "name": "Sunscar Scale Harness",
+      "region": "Sunscar Reach",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Sunscar Scale Harness (Sunscar Reach). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Dawnforge Panoply",
+      "attack": 24,
+      "defense": 65,
+      "price": 3200,
+      "upkeep": 30,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "wyrmscale-aegis",
+      "category": "armor",
+      "level": 36,
+      "name": "Frontier Siege Harness",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Frontier Siege Harness (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Wyrmscale Aegis",
+      "attack": 20,
+      "defense": 78,
+      "price": 4100,
+      "upkeep": 36,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "astral-archon-robes",
+      "category": "armor",
+      "level": 40,
+      "name": "Crownlands Marshal Coat",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Crownlands Marshal Coat (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Astral Archon Robes",
+      "attack": 34,
+      "defense": 72,
+      "price": 5300,
+      "upkeep": 42,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "sovereigns-bastion",
+      "category": "armor",
+      "level": 44,
+      "name": "Order Bastion Plate",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Order Bastion Plate (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Sovereign's Bastion",
+      "attack": 25,
+      "defense": 90,
+      "price": 6700,
+      "upkeep": 49,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "seraphic-vestment",
+      "category": "armor",
+      "level": 47,
+      "name": "Moonfen Warden Mantle",
+      "region": "Moonfen",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Moonfen Warden Mantle (Moonfen). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Seraphic Vestment",
+      "attack": 40,
+      "defense": 84,
+      "price": 7800,
+      "upkeep": 54,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "eclipse-citadel-plate",
+      "category": "armor",
+      "level": 50,
+      "name": "Royal Garrison Plate",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Royal Garrison Plate (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Eclipse Citadel Plate",
+      "attack": 32,
+      "defense": 106,
+      "price": 8800,
+      "upkeep": 60,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "captains-brigandine",
+      "category": "armor",
+      "level": 51,
+      "name": "Highland Captain’s Brigandine",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Highland Captain’s Brigandine (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Captain's Brigandine",
+      "attack": 46,
+      "defense": 78,
+      "price": 7400,
+      "upkeep": 45,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "siegeguard-plate",
+      "category": "armor",
+      "level": 51,
+      "name": "Blacksteel Siegeguard Plate",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Blacksteel Siegeguard Plate (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Siegeguard Plate",
+      "attack": 24,
+      "defense": 116,
+      "price": 8200,
+      "upkeep": 45,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "citadel-harness",
+      "category": "armor",
+      "level": 60,
+      "name": "Crownlands Citadel Harness",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Crownlands Citadel Harness (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Citadel Harness",
+      "attack": 29,
+      "defense": 134,
+      "price": 11500,
+      "upkeep": 56,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "kings-marshal-harness",
+      "category": "armor",
+      "level": 60,
+      "name": "Sunscar Marshal Harness",
+      "region": "Sunscar Reach",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Sunscar Marshal Harness (Sunscar Reach). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "King's Marshal Harness",
+      "attack": 54,
+      "defense": 94,
+      "price": 10200,
+      "upkeep": 55,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "ducal-warplate",
+      "category": "armor",
+      "level": 70,
+      "name": "Northern Thane’s Warplate",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Northern Thane’s Warplate (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Ducal Warplate",
+      "attack": 63,
+      "defense": 110,
+      "price": 15000,
+      "upkeep": 70,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "fortress-bastion-plate",
+      "category": "armor",
+      "level": 70,
+      "name": "Moonfen Sentinel Harness",
+      "region": "Moonfen",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Moonfen Sentinel Harness (Moonfen). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Fortress Bastion Plate",
+      "attack": 35,
+      "defense": 153,
+      "price": 17000,
+      "upkeep": 73,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "king-hudsons-shield",
+      "category": "armor",
+      "level": 71,
+      "name": "King Hudson's Shield",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "shield"
+      },
+      "brief": "Future original painterly medieval fantasy armor for King Hudson's Shield (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "King Hudson's Shield",
+      "attack": 112,
+      "defense": 100,
+      "price": 50000,
+      "upkeep": 170,
+      "acquisition": "quest-exclusive",
+      "newSlot": true
+    },
+    {
+      "id": "crownwall-bastion-plate",
+      "category": "armor",
+      "level": 80,
+      "name": "Argent Sentinel Plate",
+      "region": "Crownlands",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "argent-sentinel-plate"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Crownwall Bastion Plate",
+      "attack": 42,
+      "defense": 171,
+      "price": 25500,
+      "upkeep": 91,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "imperial-assault-harness",
+      "category": "armor",
+      "level": 80,
+      "name": "Astral Archon Robes",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "astral-archon-robes"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Imperial Assault Harness",
+      "attack": 72,
+      "defense": 126,
+      "price": 22000,
+      "upkeep": 87,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "ashen-marshal-harness",
+      "category": "armor",
+      "level": 90,
+      "name": "Seraphic Vestment",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "seraphic-vestment"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Ashen Marshal Harness",
+      "attack": 81,
+      "defense": 140,
+      "price": 33000,
+      "upkeep": 101,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "sovereigns-war-bastion",
+      "category": "armor",
+      "level": 90,
+      "name": "Sovereign’s Bastion",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "sovereigns-bastion"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Sovereign's War Bastion",
+      "attack": 48,
+      "defense": 189,
+      "price": 36500,
+      "upkeep": 108,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "eclipse-war-marshal-plate",
+      "category": "armor",
+      "level": 100,
+      "name": "Eclipse War-Marshal Plate",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "armor"
+      },
+      "brief": "Future original painterly medieval fantasy armor for Eclipse War-Marshal Plate (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Eclipse War-Marshal Plate",
+      "attack": 90,
+      "defense": 155,
+      "price": 45000,
+      "upkeep": 115,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "imperial-eclipse-bastion",
+      "category": "armor",
+      "level": 100,
+      "name": "Eclipse Citadel Plate",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "eclipse-citadel-plate"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Imperial Eclipse Bastion",
+      "attack": 55,
+      "defense": 205,
+      "price": 50000,
+      "upkeep": 125,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "ember-word",
+      "category": "spell",
+      "level": 1,
+      "name": "Ember Word",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "ember-word"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Ember Word",
+      "attack": 2,
+      "defense": 0,
+      "price": 8,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "hearth-ward",
+      "category": "spell",
+      "level": 1,
+      "name": "Hearth Ward",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "hearth-ward"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Hearth Ward",
+      "attack": 0,
+      "defense": 4,
+      "price": 15,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "lantern-mote",
+      "category": "spell",
+      "level": 2,
+      "name": "Lantern Mote",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "lantern-mote"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Lantern Mote",
+      "attack": 1,
+      "defense": 3,
+      "price": 14,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "thorn-hex",
+      "category": "spell",
+      "level": 3,
+      "name": "Thorn Hex",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "thorn-hex"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Thorn Hex",
+      "attack": 8,
+      "defense": 5,
+      "price": 55,
+      "upkeep": 1,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "stonebinding",
+      "category": "spell",
+      "level": 5,
+      "name": "Stonebinding",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "stonebinding"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Stonebinding",
+      "attack": 5,
+      "defense": 12,
+      "price": 90,
+      "upkeep": 2,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "storm-sigil",
+      "category": "spell",
+      "level": 6,
+      "name": "Storm Sigil",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "storm-sigil"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Storm Sigil",
+      "attack": 15,
+      "defense": 9,
+      "price": 130,
+      "upkeep": 3,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "tempest-lance",
+      "category": "spell",
+      "level": 8,
+      "name": "Tempest Lance",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "tempest-lance"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Tempest Lance",
+      "attack": 23,
+      "defense": 8,
+      "price": 200,
+      "upkeep": 4,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "silverroot-ward",
+      "category": "spell",
+      "level": 10,
+      "name": "Silverroot Ward",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "silverroot-ward"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Silverroot Ward",
+      "attack": 10,
+      "defense": 25,
+      "price": 300,
+      "upkeep": 5,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "runic-convergence",
+      "category": "spell",
+      "level": 12,
+      "name": "Watchfire Covenant",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Watchfire Covenant (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Runic Convergence",
+      "attack": 25,
+      "defense": 20,
+      "price": 460,
+      "upkeep": 7,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "winters-judgment",
+      "category": "spell",
+      "level": 15,
+      "name": "Winter's Judgment",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "winters-judgment"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Winter's Judgment",
+      "attack": 34,
+      "defense": 18,
+      "price": 680,
+      "upkeep": 9,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "ashen-revenant",
+      "category": "spell",
+      "level": 18,
+      "name": "Ashen Revenant",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "ashen-revenant"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Ashen Revenant",
+      "attack": 41,
+      "defense": 16,
+      "price": 950,
+      "upkeep": 12,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "moonwell-veil",
+      "category": "spell",
+      "level": 21,
+      "name": "Moonwell Veil",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "moonwell-veil"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Moonwell Veil",
+      "attack": 20,
+      "defense": 40,
+      "price": 1250,
+      "upkeep": 15,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "oathfire-nova",
+      "category": "spell",
+      "level": 24,
+      "name": "Oathfire Nova",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "oathfire-nova"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Oathfire Nova",
+      "attack": 48,
+      "defense": 26,
+      "price": 1700,
+      "upkeep": 19,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "grave-tide",
+      "category": "spell",
+      "level": 28,
+      "name": "Fenwarden’s Undertow",
+      "region": "Moonfen",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Fenwarden’s Undertow (Moonfen). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Grave Tide",
+      "attack": 57,
+      "defense": 21,
+      "price": 2250,
+      "upkeep": 24,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "dawnstar-benediction",
+      "category": "spell",
+      "level": 32,
+      "name": "Sunscar Benediction",
+      "region": "Sunscar Reach",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Sunscar Benediction (Sunscar Reach). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Dawnstar Benediction",
+      "attack": 29,
+      "defense": 60,
+      "price": 3000,
+      "upkeep": 30,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "dragons-last-breath",
+      "category": "spell",
+      "level": 36,
+      "name": "Frontier Breachfire",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Frontier Breachfire (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Dragon's Last Breath",
+      "attack": 70,
+      "defense": 30,
+      "price": 3900,
+      "upkeep": 36,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "astral-tempest",
+      "category": "spell",
+      "level": 40,
+      "name": "Crownlands Stormcall",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Crownlands Stormcall (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Astral Tempest",
+      "attack": 67,
+      "defense": 48,
+      "price": 5000,
+      "upkeep": 42,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "voidbound-chain",
+      "category": "spell",
+      "level": 44,
+      "name": "Blacksteel Binding",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Blacksteel Binding (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Voidbound Chain",
+      "attack": 78,
+      "defense": 39,
+      "price": 6300,
+      "upkeep": 49,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "seraphs-rebuke",
+      "category": "spell",
+      "level": 47,
+      "name": "Order’s Rebuke",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Order’s Rebuke (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Seraph's Rebuke",
+      "attack": 65,
+      "defense": 73,
+      "price": 7500,
+      "upkeep": 54,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "eclipse-invocation",
+      "category": "spell",
+      "level": 50,
+      "name": "Royal War Invocation",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Royal War Invocation (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Eclipse Invocation",
+      "attack": 92,
+      "defense": 60,
+      "price": 8600,
+      "upkeep": 60,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "battlebrand",
+      "category": "spell",
+      "level": 51,
+      "name": "Highland Battlebrand",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Highland Battlebrand (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Battlebrand",
+      "attack": 98,
+      "defense": 44,
+      "price": 7600,
+      "upkeep": 44,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "rampart-ward",
+      "category": "spell",
+      "level": 51,
+      "name": "Moonfen Rampart Ward",
+      "region": "Moonfen",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Moonfen Rampart Ward (Moonfen). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Rampart Ward",
+      "attack": 38,
+      "defense": 92,
+      "price": 7400,
+      "upkeep": 43,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "banner-of-embers",
+      "category": "spell",
+      "level": 60,
+      "name": "Sunscar Bannerfire",
+      "region": "Sunscar Reach",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Sunscar Bannerfire (Sunscar Reach). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Banner of Embers",
+      "attack": 110,
+      "defense": 52,
+      "price": 10800,
+      "upkeep": 53,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "stonewall-oath",
+      "category": "spell",
+      "level": 60,
+      "name": "Crownlands Stonewall Oath",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Crownlands Stonewall Oath (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Stonewall Oath",
+      "attack": 44,
+      "defense": 108,
+      "price": 10000,
+      "upkeep": 50,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "ironwall-covenant",
+      "category": "spell",
+      "level": 70,
+      "name": "Northern Ironwall Covenant",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Northern Ironwall Covenant (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Ironwall Covenant",
+      "attack": 51,
+      "defense": 125,
+      "price": 14800,
+      "upkeep": 65,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "royal-battlefire",
+      "category": "spell",
+      "level": 70,
+      "name": "Frontier Marshal’s Battlefire",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Frontier Marshal’s Battlefire (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Royal Battlefire",
+      "attack": 124,
+      "defense": 66,
+      "price": 15800,
+      "upkeep": 67,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "king-hudsons-meteor-shower",
+      "category": "spell",
+      "level": 71,
+      "name": "King Hudson's Meteor Shower",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for King Hudson's Meteor Shower (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "King Hudson's Meteor Shower",
+      "attack": 180,
+      "defense": 65,
+      "price": 50000,
+      "upkeep": 165,
+      "acquisition": "quest-exclusive",
+      "newSlot": true
+    },
+    {
+      "id": "astral-siegefire",
+      "category": "spell",
+      "level": 80,
+      "name": "Astral Tempest",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "astral-tempest"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Astral Siegefire",
+      "attack": 140,
+      "defense": 80,
+      "price": 23500,
+      "upkeep": 83,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "sanctuary-of-banners",
+      "category": "spell",
+      "level": 80,
+      "name": "Runic Convergence",
+      "region": "Moonfen",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "runic-convergence"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Sanctuary of Banners",
+      "attack": 58,
+      "defense": 141,
+      "price": 21800,
+      "upkeep": 80,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "ashen-coronation",
+      "category": "spell",
+      "level": 90,
+      "name": "Seraph’s Rebuke",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "seraphs-rebuke"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Ashen Coronation",
+      "attack": 156,
+      "defense": 95,
+      "price": 34500,
+      "upkeep": 98,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "crown-of-wards",
+      "category": "spell",
+      "level": 90,
+      "name": "Imperial Crown Ward",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Imperial Crown Ward (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Crown of Wards",
+      "attack": 65,
+      "defense": 156,
+      "price": 31800,
+      "upkeep": 93,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "astral-war-invocation",
+      "category": "spell",
+      "level": 100,
+      "name": "Eclipse Invocation",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "eclipse-invocation"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Astral War Invocation",
+      "attack": 165,
+      "defense": 110,
+      "price": 46000,
+      "upkeep": 110,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "eclipse-aegis",
+      "category": "spell",
+      "level": 100,
+      "name": "Eclipse Aegis",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "spell"
+      },
+      "brief": "Future original painterly medieval fantasy spell for Eclipse Aegis (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Eclipse Aegis",
+      "attack": 72,
+      "defense": 170,
+      "price": 44000,
+      "upkeep": 105,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "ash-spear",
+      "category": "weapon",
+      "level": 1,
+      "name": "Ash Spear",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "ash-spear"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Ash Spear",
+      "attack": 3,
+      "defense": 1,
+      "price": 12,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "iron-sword",
+      "category": "weapon",
+      "level": 1,
+      "name": "Iron sword",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "iron-sword"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Iron sword",
+      "attack": 8,
+      "defense": 1,
+      "price": 40,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "squires-blade",
+      "category": "weapon",
+      "level": 1,
+      "name": "Squire's Blade",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "squires-blade"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Squire's Blade",
+      "attack": 1,
+      "defense": 0,
+      "price": 5,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "hazeltwig-longbow",
+      "category": "weapon",
+      "level": 2,
+      "name": "Hazeltwig Longbow",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "hazeltwig-longbow"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Hazeltwig Longbow",
+      "attack": 5,
+      "defense": 2,
+      "price": 22,
+      "upkeep": 0,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "ransackers-axe",
+      "category": "weapon",
+      "level": 3,
+      "name": "Ransacker's Axe",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "ransackers-axe"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Ransacker's Axe",
+      "attack": 12,
+      "defense": 2,
+      "price": 75,
+      "upkeep": 1,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "wardens-halberd",
+      "category": "weapon",
+      "level": 5,
+      "name": "Warden's Halberd",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "wardens-halberd"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Warden's Halberd",
+      "attack": 11,
+      "defense": 9,
+      "price": 110,
+      "upkeep": 2,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "sunsteel-glaive",
+      "category": "weapon",
+      "level": 6,
+      "name": "Sunsteel Glaive",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "sunsteel-glaive"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Sunsteel Glaive",
+      "attack": 18,
+      "defense": 5,
+      "price": 150,
+      "upkeep": 3,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "kingsguard-longsword",
+      "category": "weapon",
+      "level": 8,
+      "name": "Kingsguard Longsword",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "kingsguard-longsword"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Kingsguard Longsword",
+      "attack": 22,
+      "defense": 8,
+      "price": 240,
+      "upkeep": 4,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "briarheart-bow",
+      "category": "weapon",
+      "level": 10,
+      "name": "Briarheart Bow",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "briarheart-bow"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Briarheart Bow",
+      "attack": 20,
+      "defense": 16,
+      "price": 360,
+      "upkeep": 5,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "runescar-saber",
+      "category": "weapon",
+      "level": 12,
+      "name": "Runescar Saber",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "runescar-saber"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Runescar Saber",
+      "attack": 30,
+      "defense": 12,
+      "price": 520,
+      "upkeep": 7,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "stormglass-pike",
+      "category": "weapon",
+      "level": 15,
+      "name": "Marchwatch Spear",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Marchwatch Spear (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Stormglass Pike",
+      "attack": 35,
+      "defense": 16,
+      "price": 760,
+      "upkeep": 9,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "cinderwyrm-cleaver",
+      "category": "weapon",
+      "level": 18,
+      "name": "Cinderwyrm Cleaver",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "cinderwyrm-cleaver"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Cinderwyrm Cleaver",
+      "attack": 43,
+      "defense": 14,
+      "price": 1100,
+      "upkeep": 12,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "moonthorn-recurve",
+      "category": "weapon",
+      "level": 21,
+      "name": "Moonthorn Recurve",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "moonthorn-recurve"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Moonthorn Recurve",
+      "attack": 38,
+      "defense": 31,
+      "price": 1450,
+      "upkeep": 15,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "oathbound-greatsword",
+      "category": "weapon",
+      "level": 24,
+      "name": "Oathbound Greatsword",
+      "region": "Legacy",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "oathbound-greatsword"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Oathbound Greatsword",
+      "attack": 54,
+      "defense": 25,
+      "price": 1950,
+      "upkeep": 19,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "gravewarden-scythe",
+      "category": "weapon",
+      "level": 28,
+      "name": "Fenwarden Billhook",
+      "region": "Moonfen",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Fenwarden Billhook (Moonfen). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Gravewarden Scythe",
+      "attack": 62,
+      "defense": 19,
+      "price": 2600,
+      "upkeep": 24,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "sun-etched-warhammer",
+      "category": "weapon",
+      "level": 32,
+      "name": "Sunscar Maul",
+      "region": "Sunscar Reach",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Sunscar Maul (Sunscar Reach). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Sun-etched Warhammer",
+      "attack": 64,
+      "defense": 39,
+      "price": 3400,
+      "upkeep": 30,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "dragonwake-falchion",
+      "category": "weapon",
+      "level": 36,
+      "name": "Frontier Falchion",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Frontier Falchion (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Dragonwake Falchion",
+      "attack": 79,
+      "defense": 29,
+      "price": 4400,
+      "upkeep": 36,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "astral-conductor",
+      "category": "weapon",
+      "level": 40,
+      "name": "Crownlands War Staff",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Crownlands War Staff (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Astral Conductor",
+      "attack": 74,
+      "defense": 54,
+      "price": 5700,
+      "upkeep": 42,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "crown-of-ash-blade",
+      "category": "weapon",
+      "level": 45,
+      "name": "Blacksteel Warblade",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Blacksteel Warblade (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Crown of Ash Blade",
+      "attack": 95,
+      "defense": 44,
+      "price": 7200,
+      "upkeep": 50,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "eclipse-greatsword",
+      "category": "weapon",
+      "level": 50,
+      "name": "Order Marshal Greatsword",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Order Marshal Greatsword (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Eclipse Greatsword",
+      "attack": 110,
+      "defense": 50,
+      "price": 9000,
+      "upkeep": 60,
+      "acquisition": "shop",
+      "newSlot": false
+    },
+    {
+      "id": "fortress-glaive",
+      "category": "weapon",
+      "level": 51,
+      "name": "Marshguard Glaive",
+      "region": "Moonfen",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Marshguard Glaive (Moonfen). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Fortress Glaive",
+      "attack": 54,
+      "defense": 65,
+      "price": 7000,
+      "upkeep": 38,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "marcher-greatsword",
+      "category": "weapon",
+      "level": 51,
+      "name": "Highland Claymore",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Highland Claymore (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Marcher Greatsword",
+      "attack": 115,
+      "defense": 36,
+      "price": 7500,
+      "upkeep": 43,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "guard-captains-halberd",
+      "category": "weapon",
+      "level": 60,
+      "name": "Crown Captain’s Halberd",
+      "region": "Crownlands",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Crown Captain’s Halberd (Crownlands). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Guard-Captain's Halberd",
+      "attack": 62,
+      "defense": 80,
+      "price": 9800,
+      "upkeep": 48,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "royal-warblade",
+      "category": "weapon",
+      "level": 60,
+      "name": "Sunscar Officer’s Saber",
+      "region": "Sunscar Reach",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Sunscar Officer’s Saber (Sunscar Reach). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Royal Warblade",
+      "attack": 128,
+      "defense": 44,
+      "price": 10500,
+      "upkeep": 54,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "march-wardens-poleaxe",
+      "category": "weapon",
+      "level": 70,
+      "name": "Frontier Marshal’s Poleaxe",
+      "region": "Ashen Frontier",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Frontier Marshal’s Poleaxe (Ashen Frontier). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "March Warden's Poleaxe",
+      "attack": 72,
+      "defense": 96,
+      "price": 14500,
+      "upkeep": 62,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "sovereigns-zweihander",
+      "category": "weapon",
+      "level": 70,
+      "name": "Mountain Warden’s Zweihander",
+      "region": "Northern Marches",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Mountain Warden’s Zweihander (Northern Marches). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Sovereign's Zweihander",
+      "attack": 140,
+      "defense": 52,
+      "price": 15500,
+      "upkeep": 69,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "king-hudsons-sword",
+      "category": "weapon",
+      "level": 71,
+      "name": "King Hudson's Sword",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for King Hudson's Sword (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "King Hudson's Sword",
+      "attack": 190,
+      "defense": 45,
+      "price": 50000,
+      "upkeep": 175,
+      "acquisition": "quest-exclusive",
+      "newSlot": true
+    },
+    {
+      "id": "high-castellans-hammer",
+      "category": "weapon",
+      "level": 80,
+      "name": "Stormglass Pike",
+      "region": "Northern Marches",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "stormglass-pike"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "High Castellan's Hammer",
+      "attack": 81,
+      "defense": 113,
+      "price": 21000,
+      "upkeep": 76,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "imperial-greatblade",
+      "category": "weapon",
+      "level": 80,
+      "name": "Astral Conductor",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "astral-conductor"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Imperial Greatblade",
+      "attack": 148,
+      "defense": 62,
+      "price": 23000,
+      "upkeep": 85,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "ash-crowned-warblade",
+      "category": "weapon",
+      "level": 90,
+      "name": "Crown of Ash Blade",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "crown-of-ash-blade"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Ash-Crowned Warblade",
+      "attack": 159,
+      "defense": 72,
+      "price": 34000,
+      "upkeep": 103,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "throneguard-polehammer",
+      "category": "weapon",
+      "level": 90,
+      "name": "Imperial Thronehammer",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Imperial Thronehammer (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Throneguard Polehammer",
+      "attack": 90,
+      "defense": 131,
+      "price": 31000,
+      "upkeep": 92,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "eclipse-gatehammer",
+      "category": "weapon",
+      "level": 100,
+      "name": "Eclipse Gatehammer",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "temporary-beta",
+        "role": "weapon"
+      },
+      "brief": "Future original painterly medieval fantasy weapon for Eclipse Gatehammer (Eclipse Bastion). Differentiate construction, material, proportions and silhouette; textured charcoal full-bleed setting; readable at 76px. Existing level-50 legendary prestige is the ceiling. No particle escalation or artificial matting.",
+      "originalName": "Eclipse Gatehammer",
+      "attack": 98,
+      "defense": 150,
+      "price": 44000,
+      "upkeep": 110,
+      "acquisition": "shop",
+      "newSlot": true
+    },
+    {
+      "id": "imperial-eclipse-greatsword",
+      "category": "weapon",
+      "level": 100,
+      "name": "Eclipse Greatsword",
+      "region": "Eclipse Bastion",
+      "art": {
+        "use": "approved-existing",
+        "sourceItemId": "eclipse-greatsword"
+      },
+      "brief": "Retain the exact approved original illustration; full-bleed shared compact frame, no recoloring.",
+      "originalName": "Imperial Eclipse Greatsword",
+      "attack": 180,
+      "defense": 82,
+      "price": 48000,
+      "upkeep": 120,
+      "acquisition": "shop",
+      "newSlot": true
+    }
+  ]
+}

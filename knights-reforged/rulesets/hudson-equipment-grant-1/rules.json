@@ -1,0 +1,28 @@
+{
+  "id": "hudson-equipment-grant-1",
+  "provenance": "Prepared only; production inspection, exact account binding and separate owner authorization are required before execution.",
+  "characterId": "55742e75-70c9-4792-8136-fe6ead2b83e0",
+  "operationId": "db21b413-31bb-4165-bb0c-c07e767c5be1",
+  "catalogId": "level100-content-1",
+  "items": [
+    {
+      "itemId": "king-hudsons-sword",
+      "quantity": 15
+    },
+    {
+      "itemId": "king-hudsons-shield",
+      "quantity": 15
+    },
+    {
+      "itemId": "king-hudsons-meteor-shower",
+      "quantity": 15
+    }
+  ],
+  "upkeepExemptItemIds": [
+    "king-hudsons-sword",
+    "king-hudsons-shield",
+    "king-hudsons-meteor-shower"
+  ],
+  "unitAcquisitionCost": 0,
+  "retroactiveCharges": false
+}

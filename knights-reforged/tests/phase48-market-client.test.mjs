@@ -35,7 +35,7 @@ async function fixture(t,options={}){
 test('single and bulk forms share an in-flight lock and preserve the original one-item intent',{skip},async t=>{
  const f=await fixture(t);
  await f.page.evaluate(()=>{document.querySelector('#single').requestSubmit();document.querySelector('#bulk').requestSubmit();document.querySelector('#single').requestSubmit();});
- await f.page.waitForURL('**/game/purchases/**');assert.equal(f.reads.length,1);assert.equal(f.posts.length,1);
+ await f.page.waitForURL('**/game/armory?category=weapon&command=*');assert.equal(f.reads.length,1);assert.equal(f.posts.length,1);
  assert.deepEqual(f.posts[0],{commandId:identity,itemId:'blade',quantity:'1',csrf:'fresh-token'});
 });
 test('ambiguous single-item response locks both controls; retry from bulk retains the original ID and quantity',{skip},async t=>{
@@ -43,7 +43,7 @@ test('ambiguous single-item response locks both controls; retry from bulk retain
  await f.page.locator('#single [type=submit]').click();await f.page.locator('#single .market-retry:not([hidden])').waitFor();
  assert.equal(await f.page.locator('#bulk [type=submit]').isDisabled(),true);
  await f.page.locator('#bulk [name=quantity]').fill('10');
- await f.page.locator('#bulk .market-retry').click();await f.page.waitForURL('**/game/purchases/**');
+ await f.page.locator('#bulk .market-retry').click();await f.page.waitForURL('**/game/armory?category=weapon&command=*');
  assert.equal(f.posts.length,2);assert.deepEqual(f.posts[1],f.posts[0]);assert.equal(f.posts[1].quantity,'1');
 });
 test('legacy Buy More controls retain bulk quantity and recoverable sign-in does not send a purchase',{skip},async t=>{

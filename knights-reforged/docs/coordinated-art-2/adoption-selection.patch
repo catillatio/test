@@ -1,0 +1,12 @@
+diff --git a/knights-reforged/src/coordinated-artwork.ts b/knights-reforged/src/coordinated-artwork.ts
+--- a/knights-reforged/src/coordinated-artwork.ts
++++ b/knights-reforged/src/coordinated-artwork.ts
+@@ -34,7 +34,7 @@
+ export const approvedCoordinatedSelection:Readonly<CoordinatedSelection>=Object.freeze({id:coordinatedArtwork.id,digest:coordinatedArtworkDigest,ownerApproval});
+ // Installation is separate from adoption. The one-line pin below changes only
+ // in a second reviewed, exact-head-tested protected release after installation.
+-export const activeCoordinatedArtwork:Readonly<CoordinatedSelection>|null=null;
++export const activeCoordinatedArtwork:Readonly<CoordinatedSelection>|null=approvedCoordinatedSelection;
+ const finalFiveIds=['royal-warblade','march-wardens-poleaxe','sovereigns-zweihander','throneguard-polehammer','eclipse-gatehammer'];
+ const hashPattern=/^[a-f0-9]{64}$/;
+ const equipmentTargets=equipmentPresentation.entries.filter(e=>e.art.use==='temporary-beta'&&!e.id.startsWith('king-hudsons-'));

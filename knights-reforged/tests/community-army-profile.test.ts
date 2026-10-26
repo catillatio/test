@@ -29,10 +29,10 @@ test('recipients can reject, senders can cancel, invitation spam and roster edit
     const a=await r.player(),b=await r.player(),c=await r.player();
     await r.ok(a,'/api/v1/army/code-invitations',{code:(await r.me(b)).invitationCode});
     assert.equal((await r.command(a,'/api/v1/army/rejections',{targetCharacterId:b.id})).statusCode,403);
-    assert.equal((await r.command(a,'/api/v1/army/code-invitations',{code:(await r.me(c)).invitationCode})).statusCode,429);
+    assert.equal((await r.command(a,'/api/v1/army/code-invitations',{code:(await r.me(c)).invitationCode})).statusCode,200);
     await r.ok(b,'/api/v1/army/rejections',{targetCharacterId:a.id});assert.equal((await r.me(a)).army.allies,0);
     r.advance(30);assert.equal((await r.command(a,'/api/v1/army/code-invitations',{code:(await r.me(b)).invitationCode})).json().error.code,'REINVITATION_COOLDOWN');
-    await r.ok(a,'/api/v1/army/code-invitations',{code:(await r.me(c)).invitationCode});await r.ok(a,'/api/v1/army/removals',{targetCharacterId:c.id});
+    assert.equal((await r.command(a,'/api/v1/army/code-invitations',{code:(await r.me(c)).invitationCode})).statusCode,409);await r.ok(a,'/api/v1/army/removals',{targetCharacterId:c.id});
     const events=(await r.db.query('SELECT kind FROM army_events ORDER BY created_at,id')).rows.map(e=>e.kind);assert.equal(events.filter(k=>k==='invited').length,2);assert.ok(events.includes('rejected')&&events.includes('canceled'));
     const feed=await activityFeed(r.db,b.id,'all');assert.ok(feed.entries.some(e=>e.kind==='army'&&e.data.event==='rejected'));
     for(const tab of ['recruit','army','dashboard']){const page=await r.app.inject({method:'GET',url:'/game/army?tab='+tab,headers:{cookie:a.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/aria-label="Army sections"/);}
