@@ -67,10 +67,8 @@ export async function armyEvent(sql:Sql,actorId:string,targetId:string,kind:stri
   await sql.query('INSERT INTO army_events(id,actor_id,target_id,kind,command_id,ruleset_id,created_at) VALUES($1,$2,$3,$4,$5,$6,$7)',[randomUUID(),actorId,targetId,kind,key,rulesetId,now]);
 }
 export async function validateInvitation(sql:Sql,actorId:string,targetId:string,now:Date){
-  const recent=(await sql.query("SELECT count(*)::int AS n FROM army_events WHERE actor_id=$1 AND (kind='invited' OR (kind='accepted' AND ruleset_id IN ('progression-economy-0.1','progression-economy-0.2'))) AND created_at>$2",[actorId,new Date(+now-86400000)])).rows[0]!;
-  // Distinct invitations need no artificial delay. Keep the existing rolling
-  // budget, same-player reinvitation guard and locked membership validation.
-  if(recent.n>=community.army.invitationsPerDay)throw new GameError('INVITATION_LIMIT','Your rolling 24-hour invitation limit has been reached.',429);
+  // No spacing or aggregate daily quota. Preserve the same-person guard and
+  // the command handler's authentication, membership and roster checks.
   const last=(await sql.query("SELECT 1 FROM army_events WHERE (kind='invited' OR (kind='accepted' AND ruleset_id IN ('progression-economy-0.1','progression-economy-0.2'))) AND ((actor_id=$1 AND target_id=$2) OR (actor_id=$2 AND target_id=$1)) AND created_at>$3 LIMIT 1",[actorId,targetId,new Date(+now-community.army.reinviteCooldownSeconds*1000)])).rows.length;
   if(last)throw new GameError('REINVITATION_COOLDOWN','Wait 24 hours before inviting the same player again.',409);
 }

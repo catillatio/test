@@ -99,7 +99,8 @@ async function claimBlockedReason(sql:Sql,claimantId:string,row:Record<string,an
   if((battleLevels&&battleLevels[0]<rule.minimumLevel)||!await qualified(sql,claimantId))return 'Reach level 3 and complete five quests.';
   // A bounty is an independently authorized hunt, never normal matchmaking.
   // Level affects combat power, not contract eligibility.
-  if(await allies(sql,claimantId,row.target_id)||await allies(sql,claimantId,row.sponsor_id))return 'Army allies of the sponsor or target cannot claim.';
+  // An accepted army relationship does not disqualify an eligible hunter.
+  // Sponsor/self restrictions and authoritative finishing evidence still apply.
   return null;
 }
 export async function bountyHuntAvailability(sql:Sql,claimantId:string,targetId:string,bountyId:string,now:Date,botTargetsEnabled=false){
