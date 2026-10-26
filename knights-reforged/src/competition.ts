@@ -38,7 +38,7 @@ export async function hallOfChampions(db:Database,viewerId:string,selection?:unk
   const mine=(await sql.query(`SELECT s.character_id AS id,${metric}::text AS score${level?',s.xp::text AS xp':''},
    to_char(s.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS at FROM ${from} WHERE s.character_id=$1 AND ${filter}`,[viewerId])).rows[0];
   const rank=async(row:Record<string,any>)=>String((await sql.query(`SELECT (count(*)+1)::text AS rank FROM ${from} WHERE ${filter} AND (${ahead})`,params(row as any))).rows[0]!.rank);
-  const first=rows[0]?Number(await rank(rows[0])):1;
+  const first=cursor&&rows[0]?Number(await rank(rows[0])):1;
   const page=rows.slice(0,20),last=page.at(-1);
   const nextCursor=rows.length>20&&last?Buffer.from(JSON.stringify({category:category.id,score:last.score,xp:last.xp??'0',at:last.at,id:last.id})).toString('base64url'):null;
   return {category,entries:page.map((row,index)=>({id:row.id as string,name:row.name as string,level:Number(row.level),score:row.score as string,xp:row.xp as string|undefined,rank:first+index,self:row.id===viewerId})),

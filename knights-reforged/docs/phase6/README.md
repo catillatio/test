@@ -55,6 +55,9 @@ separate rarity authorization journal. It only widens the existing notification
 kind check; no old business rows are rewritten. Migration uses the established
 transaction/locking/replay mechanism. Reliable historical deaths are derived;
 ambiguous old claims retain their original credit without invented deaths.
+Historical 019/022 read-only rehearsals retain their original schema baselines;
+readers omit uninstalled competitive additions, but an installed, incomplete 026
+fails closed. First-page halls use at most three bounded business queries.
 Append-only event guards reject rewrites and fabricated unsupported death facts.
 They do **not** defend against a database owner who replaces triggers/functions
 or fabricates all underlying trusted records. No public administrative endpoint
