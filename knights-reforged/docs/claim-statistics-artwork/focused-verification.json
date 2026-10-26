@@ -96,5 +96,42 @@
     "passed": 99,
     "failed": 0,
     "productionEjsFixtures": 77
-  }
+  },
+  "compatibilityFollowup": {
+    "profile": "full",
+    "lane": "all",
+    "shard": 1,
+    "shards": 1,
+    "workers": 2,
+    "seconds": 10.715,
+    "expected": 2,
+    "completed": 2,
+    "interrupted": false,
+    "results": [
+      {
+        "file": "tests/phase51a-interface.test.ts",
+        "lane": "database",
+        "seconds": 8.622,
+        "passed": true,
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/phase6-experience.test.ts",
+        "lane": "database",
+        "seconds": 10.702,
+        "passed": true,
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "uniqueTestFiles": 8,
+  "uniqueTestsPassed": 27
 }
