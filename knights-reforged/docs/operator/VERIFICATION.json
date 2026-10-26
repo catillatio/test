@@ -1,0 +1,170 @@
+{
+  "checkedAtUtc": "2026-10-20T22:42:30.766855+00:00",
+  "baseProductionCommit": "b305fa011d9428b7e00e68a7cc38026e0bcdb256",
+  "hardeningImplementationCommit": "d558c69cd033ea2fc0d20b3de4fe056a0a11d4f5",
+  "branch": "feature/kingdom-come-targeted-owner-operator",
+  "pullRequest": 13,
+  "draft": true,
+  "scope": "Development and synthetic verification only; no production execution authorization",
+  "fullAutomatedSuite": {
+    "tests": 454,
+    "pass": 453,
+    "fail": 0,
+    "skipped": 1,
+    "skipReason": "Existing real GitHub-hosted-runner network-namespace test requires GITHUB_ACTIONS=true and sudo."
+  },
+  "focusedProtocolTests": {
+    "tests": 12,
+    "pass": 12,
+    "fail": 0,
+    "skipped": 0
+  },
+  "focusedPostgresqlTests": {
+    "tests": 9,
+    "pass": 9,
+    "fail": 0,
+    "skipped": 0
+  },
+  "adversarialCoverage": [
+    "Non-owning LOGIN role cannot CREATE schema/table/temp, ALTER/DROP audit objects, change ownership, disable triggers, replace guards, update/delete/truncate history, SET owner role/replication mode or read credentials/sessions/wallets.",
+    "Actual no-op guard, wrong trigger timing, trigger attached to the wrong table, excess grants, schema CREATE and inherited roles fail closed.",
+    "Pre-existing TEMP access survives bootstrap; unexpected PUBLIC CREATE rolls back roles, audit tables and database ACL.",
+    "Public verification fields reject private PEMs and wrong algorithms; signing-pair and release-key separation remain required.",
+    "Private service source/autodeploy, commands, replicas, restart and public networking are verified before staging and before SQL.",
+    "Fresh exact Gray reversal requires original hide receipt, independent approval and new append-only audits; concurrent retries restore once."
+  ],
+  "privateWorkerContainer": {
+    "passed": true,
+    "checks": [
+      "Private image, actual age encryption/decryption and exact owner confirmation",
+      "Restricted runtime review changes no table; owner credential and unsafe service configuration rejected",
+      "Explicit isolated setup/replay preserves game schema head 020 and every business row",
+      "Two concurrent private workers correct the name exactly once",
+      "Gray-only hide and separately reviewed audited restoration; Development Knight untouched",
+      "Authenticated metadata denial fails before DB mutation",
+      "450 bots and three audit records preserved; raw restored permissions fail runtime readiness until reviewed rebind"
+    ],
+    "bots": 450,
+    "operatorReceipts": 3,
+    "gameSchemaHead": "020_game_feel.sql",
+    "actualRailwayOperations": 0,
+    "productionAccessed": false,
+    "scramPasswordAuthentication": true,
+    "wrongPasswordRejected": true,
+    "actualAgeEncryptionAndDecryption": true,
+    "runAs": "node",
+    "exposedPorts": [],
+    "workerCommand": [
+      "node",
+      "deployment/operator/worker.mjs"
+    ]
+  },
+  "preservation": {
+    "passed": true,
+    "accounts": 452,
+    "bots": 450,
+    "tablesChecked": 68,
+    "changedBusinessColumns": [
+      "accounts.username"
+    ],
+    "auditRowsAdded": 1,
+    "passwordAndSessionPreserved": true,
+    "duplicateAppliesOnce": true,
+    "productionAccessed": false
+  },
+  "staticChecks": {
+    "passed": 94,
+    "failed": 0,
+    "productionEjsCases": 73
+  },
+  "browserRegression": {
+    "passed": true,
+    "responsiveVisits": 64,
+    "viewports": [
+      320,
+      360,
+      375,
+      390,
+      393,
+      412,
+      430,
+      1366
+    ],
+    "screenshots": 11,
+    "browserErrors": [],
+    "limitations": [
+      "Chromium AAC/Web Audio and gesture gating verified; physical Android/iPhone audio quality and Safari policies still require owner acceptance.",
+      "Idle time is browser-clock simulation; background events are simulated, not mobile OS suspension."
+    ]
+  },
+  "typecheck": "PASS",
+  "productionTypescriptBuild": "PASS",
+  "actionlint": {
+    "versionsTested": [
+      "1.7.7",
+      "1.7.12"
+    ],
+    "allRepositoryWorkflows": true,
+    "passed": true,
+    "ciDownloadChecksumVerified": true
+  },
+  "dependencyAudits": {
+    "gameProductionVulnerabilities": 0,
+    "unchangedReleaseProductionVulnerabilities": 0
+  },
+  "sourceFileSha256": {
+    ".github/workflows/owner-operator-checks.yml": "dc65772f10afd39392a5b00cce1a0f6c4af1a8f0adcc9c1fa715b85b233f8bbf",
+    ".github/workflows/owner-operator.yml": "2e4e2826493dc74593faf4bcb3ca0300a1e98064ddc7eabde9ded5eaf89c2234",
+    "knights-reforged/deployment/operator/Dockerfile": "0c62af061422347b797282412dfcfac3c8300c73b9ebebcc7722939f505d46ad",
+    "knights-reforged/deployment/operator/audit.sql": "c400c1421e112ea7938db275327dec17abebf11a73d0bf5b8ead430ef64074f2",
+    "knights-reforged/deployment/operator/controller.mjs": "b371b8ef4804f5e486a7df99476cda9fe07d085be54bb5d2e33736a94b8204c0",
+    "knights-reforged/deployment/operator/preflight.mjs": "438192f12aad1ff648a1dba62a53d5e7f8a7ccc2d48d174a90471b029dee066e",
+    "knights-reforged/deployment/operator/protocol.mjs": "250cb083a6e914f3711478592f3819e82c0146eb9f99bda00ee62abc60c9ea1a",
+    "knights-reforged/deployment/operator/railway.mjs": "6e02df2e06c1f8804b9e4c1396a2fafe4dc4603ccf37f585bd8cada7d2606474",
+    "knights-reforged/deployment/operator/read-artifact.py": "2373756c3e07ab5cc6a685f215ffaa9878a4488a2719b206ead48c94479be4e5",
+    "knights-reforged/deployment/operator/worker.mjs": "aeed44c04dcdc741636dee4fd1febca9aad82b71b59aaa87d31b48209123c109",
+    "knights-reforged/docs/operator/README.md": "82b808e30d63f6a8dd73d1b339c273a0d9cc76f3db2562be942ddf8c4d41fbf7",
+    "knights-reforged/docs/operator/SECURITY_REVIEW.md": "25d46d3c76d9c0730ddd3d9fdbe0d60d9116e06c1d264e17ef64310dbea71d2e",
+    "knights-reforged/scripts/fixtures/owner-service-posture.mjs": "914df1a6600254558a7efd913672ad9b8455516d133e3d1e6da6ce3aeb6fdfcc",
+    "knights-reforged/scripts/fixtures/owner-worker-harness.mjs": "2e440f6bc53eb110894cefd6f5848969988c97193c7a9d220d65f3ad158266bc",
+    "knights-reforged/scripts/test-owner-operator.mjs": "61f9c281402203343c4a7a9fc0d86fe75cbc58b8ae046a3b52baadcf3c23c9e6",
+    "knights-reforged/src/owner-actions.ts": "019e13bfabcf3ae37c36e3eb23cffb480f04777ee74a6d2548e295973e6af273",
+    "knights-reforged/src/owner-audit.ts": "f4ac47927612f7fb1b7704e749baf8a7ece9ef76241f9a9658471e82b15bcda5",
+    "knights-reforged/src/owner-database.ts": "84b05777e4c688c5c94f21b14934a68ad4aa47353d964ae671520bfba7eeb585",
+    "knights-reforged/tests/owner-actions.test.ts": "8da2493ae2e14d871356616fcfe32ef4ea79a71596dcbfdbe3758112755a1c69",
+    "knights-reforged/tests/owner-operator.test.mjs": "1dff8f58b186069ae3530fc1bc453e5ad15a512cea407c6f3c18994cf8fbf7ec"
+  },
+  "safety": {
+    "existingProductionTrackedFilesModified": 0,
+    "gameMigrationFilesAdded": 0,
+    "gameSchemaHead": "020_game_feel.sql",
+    "newAuditTablesOnlyBySeparatelyApprovedBootstrap": 2,
+    "existingReleaseFilesChanged": 0,
+    "gameStartupChanges": 0,
+    "productionRecordsAccessed": false,
+    "productionMutations": 0,
+    "authenticatedRailwayOperations": 0,
+    "productionWorkflowsDispatched": 0,
+    "merged": false
+  },
+  "remainingOwnerDecisions": [
+    "Explicit acceptance of the project/environment Railway token scope; workers currently have broader provider permissions than their read-only code uses.",
+    "Separate approval of two empty private services, new operator key pair and privileged bootstrap database ACL/role changes.",
+    "Separate approval of fresh live-target inspection followed by individual exact-target mutations."
+  ],
+  "unverifiedUntilSeparateOwnerAuthorization": [
+    "Actual Railway service posture, source/autodeploy settings, token access, private host/database configuration and key correspondence.",
+    "Production bootstrap ownership, restricted runtime authentication and installed audit definitions.",
+    "Live username-versus-character-name target mapping, replacement availability and exact Gray message UUID/body/time/status.",
+    "Production rename, hide/restore, public feed verification and all live outcomes."
+  ],
+  "testEnvironmentNotes": [
+    "All PostgreSQL fixtures were disposable local PostgreSQL 18 databases; all 450 synthetic bots were preserved.",
+    "The final focused PostgreSQL run rechecked the final trigger-table binding guard after the broad suite loaded its operator cases.",
+    "Final worker container rebuilt from the final code; local CA trust used an ephemeral BuildKit secret, with TLS verification enabled.",
+    "Synthetic metadata fixtures are mounted outside the allowlisted production bundle; no real Railway or S3 calls occur.",
+    "Synthetic no-owner/no-acl dump/restore retains rows and guards but deliberately fails runtime readiness until a separately approved ownership/permission rebind.",
+    "No physical iPhone/Safari acceptance is claimed; existing Chromium browser regression is supplemental because operator has no browser UI."
+  ],
+  "githubCi": "Normal pull-request CI runs after push; local results do not claim production activation or live verification."
+}
