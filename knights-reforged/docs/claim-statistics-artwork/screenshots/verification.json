@@ -1,0 +1,917 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "registry": "equipment-artwork-1",
+  "digest": "2b43b9c93880f7235df8c533a27a58648e01b27ef9e6bf0c1c747918c1748c3a",
+  "views": [
+    {
+      "width": 320,
+      "name": "armory-weapon",
+      "images": 1
+    },
+    {
+      "width": 320,
+      "name": "armory-armor",
+      "images": 1
+    },
+    {
+      "width": 320,
+      "name": "armory-spell",
+      "images": 1
+    },
+    {
+      "width": 320,
+      "name": "self-profile",
+      "images": 3
+    },
+    {
+      "width": 320,
+      "name": "public-profile",
+      "images": 3
+    },
+    {
+      "width": 320,
+      "name": "ordinary-profile",
+      "images": 3
+    },
+    {
+      "width": 320,
+      "name": "saved-battle",
+      "images": 6
+    },
+    {
+      "width": 390,
+      "name": "armory-weapon",
+      "images": 1
+    },
+    {
+      "width": 390,
+      "name": "armory-armor",
+      "images": 1
+    },
+    {
+      "width": 390,
+      "name": "armory-spell",
+      "images": 1
+    },
+    {
+      "width": 390,
+      "name": "self-profile",
+      "images": 3
+    },
+    {
+      "width": 390,
+      "name": "public-profile",
+      "images": 3
+    },
+    {
+      "width": 390,
+      "name": "ordinary-profile",
+      "images": 3
+    },
+    {
+      "width": 390,
+      "name": "saved-battle",
+      "images": 6
+    },
+    {
+      "width": 430,
+      "name": "armory-weapon",
+      "images": 1
+    },
+    {
+      "width": 430,
+      "name": "armory-armor",
+      "images": 1
+    },
+    {
+      "width": 430,
+      "name": "armory-spell",
+      "images": 1
+    },
+    {
+      "width": 430,
+      "name": "self-profile",
+      "images": 3
+    },
+    {
+      "width": 430,
+      "name": "public-profile",
+      "images": 3
+    },
+    {
+      "width": 430,
+      "name": "ordinary-profile",
+      "images": 3
+    },
+    {
+      "width": 430,
+      "name": "saved-battle",
+      "images": 6
+    },
+    {
+      "width": 1024,
+      "name": "armory-weapon",
+      "images": 1
+    },
+    {
+      "width": 1024,
+      "name": "armory-armor",
+      "images": 1
+    },
+    {
+      "width": 1024,
+      "name": "armory-spell",
+      "images": 1
+    },
+    {
+      "width": 1024,
+      "name": "self-profile",
+      "images": 3
+    },
+    {
+      "width": 1024,
+      "name": "public-profile",
+      "images": 3
+    },
+    {
+      "width": 1024,
+      "name": "ordinary-profile",
+      "images": 3
+    },
+    {
+      "width": 1024,
+      "name": "saved-battle",
+      "images": 6
+    }
+  ],
+  "bindings": [
+    {
+      "viewport": 320,
+      "view": "armory-weapon",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "armory-armor",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "armory-spell",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "self-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "self-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "self-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "public-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "public-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "public-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "saved-battle",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "saved-battle",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "saved-battle",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "saved-battle",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "saved-battle",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 320,
+      "view": "saved-battle",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "armory-weapon",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "armory-armor",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "armory-spell",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "self-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "self-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "self-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "public-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "public-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "public-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "saved-battle",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "saved-battle",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "saved-battle",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "saved-battle",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "saved-battle",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 390,
+      "view": "saved-battle",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "armory-weapon",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "armory-armor",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "armory-spell",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "self-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "self-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "self-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "public-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "public-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "public-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "saved-battle",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "saved-battle",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "saved-battle",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "saved-battle",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "saved-battle",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 430,
+      "view": "saved-battle",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "armory-weapon",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "armory-armor",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "armory-spell",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "self-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "self-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "self-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "public-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "public-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "public-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "ordinary-profile",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "saved-battle",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "saved-battle",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "saved-battle",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "saved-battle",
+      "id": "king-hudsons-sword",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "saved-battle",
+      "id": "king-hudsons-shield",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "viewport": 1024,
+      "view": "saved-battle",
+      "id": "king-hudsons-meteor-shower",
+      "path": "/assets/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "fit": "cover",
+      "width": 512,
+      "height": 512
+    }
+  ],
+  "crops": {
+    "checks": [
+      {
+        "id": "king-hudsons-meteor-shower",
+        "width": 36,
+        "height": 36
+      },
+      {
+        "id": "king-hudsons-meteor-shower",
+        "width": 60,
+        "height": 60
+      },
+      {
+        "id": "king-hudsons-meteor-shower",
+        "width": 64,
+        "height": 72
+      },
+      {
+        "id": "king-hudsons-meteor-shower",
+        "width": 76,
+        "height": 76
+      },
+      {
+        "id": "king-hudsons-meteor-shower",
+        "width": 62,
+        "height": 60
+      },
+      {
+        "id": "king-hudsons-meteor-shower",
+        "width": 68,
+        "height": 61
+      },
+      {
+        "id": "king-hudsons-meteor-shower",
+        "width": 128,
+        "height": 112
+      },
+      {
+        "id": "king-hudsons-shield",
+        "width": 36,
+        "height": 36
+      },
+      {
+        "id": "king-hudsons-shield",
+        "width": 60,
+        "height": 60
+      },
+      {
+        "id": "king-hudsons-shield",
+        "width": 64,
+        "height": 72
+      },
+      {
+        "id": "king-hudsons-shield",
+        "width": 76,
+        "height": 76
+      },
+      {
+        "id": "king-hudsons-shield",
+        "width": 62,
+        "height": 60
+      },
+      {
+        "id": "king-hudsons-shield",
+        "width": 68,
+        "height": 61
+      },
+      {
+        "id": "king-hudsons-shield",
+        "width": 128,
+        "height": 112
+      },
+      {
+        "id": "king-hudsons-sword",
+        "width": 36,
+        "height": 36
+      },
+      {
+        "id": "king-hudsons-sword",
+        "width": 60,
+        "height": 60
+      },
+      {
+        "id": "king-hudsons-sword",
+        "width": 64,
+        "height": 72
+      },
+      {
+        "id": "king-hudsons-sword",
+        "width": 76,
+        "height": 76
+      },
+      {
+        "id": "king-hudsons-sword",
+        "width": 62,
+        "height": 60
+      },
+      {
+        "id": "king-hudsons-sword",
+        "width": 68,
+        "height": 61
+      },
+      {
+        "id": "king-hudsons-sword",
+        "width": 128,
+        "height": 112
+      }
+    ],
+    "failures": []
+  },
+  "errors": [],
+  "hudsonQuantities": [
+    15,
+    15,
+    15
+  ],
+  "hudsonUpkeep": 0,
+  "ordinaryUpkeep": 510,
+  "businessRowsUnchanged": true
+}

@@ -672,6 +672,16 @@
       "file": "tests/classic-profile-browser.test.mjs",
       "lane": "browser",
       "weight": 2
+    },
+    {
+      "file": "tests/equipment-artwork.test.ts",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/equipment-cleanup-browser.test.mjs",
+      "lane": "browser",
+      "weight": 2
     }
   ]
 }

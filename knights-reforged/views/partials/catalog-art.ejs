@@ -1,4 +1,4 @@
-<% const coordinated=typeof coordinatedArt==='function'?coordinatedArt(entry):null;const regional=coordinated??(typeof regionalArt==='function'?regionalArt(entry):null);const presentation=typeof presentationArt==='function'?presentationArt(entry):{entry,path:null,use:null};const artEntry=presentation.entry;
+<% const selected=typeof approvedEquipmentArt==='function'?approvedEquipmentArt(entry):null;const coordinated=selected??(typeof coordinatedArt==='function'?coordinatedArt(entry):null);const regional=coordinated??(typeof regionalArt==='function'?regionalArt(entry):null);const presentation=typeof presentationArt==='function'?presentationArt(entry):{entry,path:null,use:null};const artEntry=presentation.entry;
 const selectedEquipment=['oathbound-greatsword','crown-of-ash-blade','eclipse-greatsword','sovereigns-bastion','eclipse-citadel-plate'].indexOf(artEntry.id);
 const selectedProperty=['dawnspire-cathedral','wyrmcrest-keep','astral-observatory','throne-of-ash','eclipse-citadel','tempest-port'].indexOf(artEntry.id);
 const revisedProperty=['wyrmcrest-keep','moonwell-sanctuary'].indexOf(artEntry.id);
