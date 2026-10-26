@@ -1,0 +1,40 @@
+{
+  "kind": "SYNTHETIC_VALIDATION_NOT_PRODUCTION_EVIDENCE",
+  "sourceManifests": 35,
+  "tests": [
+    {
+      "name": "actual local target mismatch remains unauthorized",
+      "result": "PASS"
+    },
+    {
+      "name": "synthetic matching identity with seven matched and two unknown names",
+      "result": "PASS"
+    },
+    {
+      "name": "missing current-reference name is reported without repair or authorization",
+      "result": "PASS"
+    },
+    {
+      "name": "ownership changes are visible without exposing owner values",
+      "result": "PASS"
+    },
+    {
+      "name": "reused name with changed OID cannot certify original identity",
+      "result": "PASS"
+    },
+    {
+      "name": "cluster mismatch remains unauthorized despite synthetic name matches",
+      "result": "PASS"
+    },
+    {
+      "name": "missing emergency identity is reported rather than invented",
+      "result": "PASS"
+    },
+    {
+      "name": "read-only repeats preserve summary semantics with no duplicated history",
+      "result": "PASS"
+    }
+  ],
+  "sqlSha256": "b92c02ba833e8edc18434d841ea8f650f68e65ab08a2e064f10a007968eb16c4",
+  "productionEvidence": "Separate owner screenshot result; synthetic tests are not production attestation"
+}

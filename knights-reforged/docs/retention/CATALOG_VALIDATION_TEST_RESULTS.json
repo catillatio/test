@@ -1,0 +1,25 @@
+{
+  "kind": "synthetic-disposable-postgresql-only-not-production",
+  "serverVersion": "18.6 (Debian 18.6-1.pgdg12+2)",
+  "passed": 18,
+  "checks": [
+    "reviewed empty catalogs pass all four catalog/role/ACL/effective groups in READ ONLY",
+    "rejects changed function body",
+    "rejects unexpected catalog column",
+    "rejects disabled immutable trigger",
+    "rejects extra catalog object",
+    "rejects unlogged observation table",
+    "rejects direct registrar table write",
+    "rejects single-column registrar write",
+    "rejects registrar cleanup function access",
+    "rejects catalog-owner membership",
+    "rejects elevated role attributes",
+    "rejects PUBLIC schema access",
+    "rejects maintenance CREATE permission",
+    "rejects PUBLIC CREATE permission",
+    "rejects unexpected password assignment",
+    "rejects role configuration drift",
+    "wrong private cluster digest is reported false without authority",
+    "repeated read-only validations create no observations, permits or audit and preserve business rows"
+  ]
+}

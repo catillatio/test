@@ -30,3 +30,9 @@
 !deployment/release/
 !deployment/release/*.mjs
 !deployment/release/Dockerfile
+
+# Explicit non-destructive metadata helpers only; cleanup/bootstrap/keys excluded.
+!deployment/release/retention/
+!deployment/release/retention/observation.mjs
+!deployment/release/retention/observations.sql
+!deployment/release/retention/register-verified.mjs

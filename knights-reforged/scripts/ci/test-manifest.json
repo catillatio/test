@@ -687,6 +687,48 @@
       "file": "tests/human-pvp-loot.test.ts",
       "lane": "unit",
       "weight": 1
+    },
+    {
+      "file": "tests/release-retention.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-retention-postgres.test.mjs",
+      "lane": "database",
+      "weight": 2,
+      "exclusive": true
+    },
+    {
+      "file": "tests/release-retention-guards.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-retention-cli.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-copy-registration.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-copy-registration-postgres.test.mjs",
+      "lane": "database",
+      "weight": 2,
+      "exclusive": true
+    },
+    {
+      "file": "tests/release-retention-coordination.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-retention-spool.test.mjs",
+      "lane": "unit",
+      "weight": 1
     }
   ]
 }

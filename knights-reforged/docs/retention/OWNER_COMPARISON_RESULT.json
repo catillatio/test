@@ -1,0 +1,163 @@
+{
+  "kind": "OWNER_OBSERVED_READ_ONLY_RESULT_NOT_AUTHORIZATION",
+  "source": "Owner-provided KingdomReleaseCopy Console screenshot; not SQL executed by Codex",
+  "observed_at": "2026-10-26T07:12:51Z",
+  "timestamp_precision": "seconds; fractional seconds omitted from screenshot transcription",
+  "maintenance_name_matches": true,
+  "cluster_matches_retained_reports": true,
+  "live_recovery_database_count": 23,
+  "matched_manifest_name_count": 17,
+  "unmatched_live_name_count": 6,
+  "historical_names_not_present": 18,
+  "current_reference_name_present": true,
+  "emergency_106971_present": true,
+  "emergency_129180_present": true,
+  "all_live_owners_postgres": true,
+  "matched_manifest_runs": [
+    {
+      "run_id": 40270052123,
+      "attempt": 1
+    },
+    {
+      "run_id": 40261837458,
+      "attempt": 1
+    },
+    {
+      "run_id": 40257245783,
+      "attempt": 1
+    },
+    {
+      "run_id": 40253862750,
+      "attempt": 1
+    },
+    {
+      "run_id": 40245425491,
+      "attempt": 1
+    },
+    {
+      "run_id": 40240417370,
+      "attempt": 1
+    },
+    {
+      "run_id": 40236713862,
+      "attempt": 1
+    },
+    {
+      "run_id": 40164983897,
+      "attempt": 1
+    },
+    {
+      "run_id": 40164678377,
+      "attempt": 1
+    },
+    {
+      "run_id": 40162401278,
+      "attempt": 1
+    },
+    {
+      "run_id": 40154962981,
+      "attempt": 1
+    },
+    {
+      "run_id": 40132727953,
+      "attempt": 1
+    },
+    {
+      "run_id": 40057878928,
+      "attempt": 1
+    },
+    {
+      "run_id": 40052246466,
+      "attempt": 1
+    },
+    {
+      "run_id": 39890271419,
+      "attempt": 1
+    },
+    {
+      "run_id": 39536348303,
+      "attempt": 1
+    },
+    {
+      "run_id": 39353372794,
+      "attempt": 1
+    }
+  ],
+  "unmatched_historical_runs": [
+    {
+      "run_id": 40117614971,
+      "attempt": 1
+    },
+    {
+      "run_id": 40073780386,
+      "attempt": 1
+    },
+    {
+      "run_id": 40056021626,
+      "attempt": 1
+    },
+    {
+      "run_id": 40053999331,
+      "attempt": 1
+    },
+    {
+      "run_id": 40051712590,
+      "attempt": 1
+    },
+    {
+      "run_id": 40050472346,
+      "attempt": 1
+    },
+    {
+      "run_id": 40049209822,
+      "attempt": 1
+    },
+    {
+      "run_id": 40048297250,
+      "attempt": 1
+    },
+    {
+      "run_id": 40034412416,
+      "attempt": 1
+    },
+    {
+      "run_id": 40021306091,
+      "attempt": 1
+    },
+    {
+      "run_id": 39897943493,
+      "attempt": 1
+    },
+    {
+      "run_id": 39895042903,
+      "attempt": 1
+    },
+    {
+      "run_id": 39893379497,
+      "attempt": 1
+    },
+    {
+      "run_id": 39891244969,
+      "attempt": 1
+    },
+    {
+      "run_id": 39518120689,
+      "attempt": 1
+    },
+    {
+      "run_id": 39461055861,
+      "attempt": 1
+    },
+    {
+      "run_id": 39350735093,
+      "attempt": 1
+    },
+    {
+      "run_id": 39343986160,
+      "attempt": 1
+    }
+  ],
+  "original_oid_captured": false,
+  "retirement_authorized": false,
+  "eligible_copy_count": 0
+}

@@ -1,0 +1,37 @@
+{
+  "kind": "owner-observed-production-catalog-validation-not-activation",
+  "source": "Owner-provided read-only owner_summary from the existing KingdomReleaseCopy Console; not SQL executed by Codex",
+  "reported_date": "2026-10-26",
+  "server_observed_at": null,
+  "server_observed_at_note": "Exact server timestamp was not supplied; none is invented",
+  "service": "KingdomReleaseCopy",
+  "maintenance_database": "Railway",
+  "validation_packet_commit": "bbb2a01b15c123f96a91b60bfa9328703542eedf",
+  "validation_sql_sha256": "7fe622b561a1bfb216bc6f1142dc361ae1d16114080a8d89ab87afad0eb21510",
+  "owner_summary": {
+    "read_only": true,
+    "maintenance_name_matches": true,
+    "privileged_console_actor_matches": true,
+    "postgres_major_matches": true,
+    "cluster_matches": true,
+    "catalog_definitions_match": true,
+    "role_definitions_match": true,
+    "explicit_grants_match": true,
+    "effective_permissions_match": true,
+    "all_five_tables_empty": true,
+    "recovery_copy_count": 23,
+    "all_scoped_owners_postgres": true,
+    "emergency_106971_present": true,
+    "emergency_129180_present": true,
+    "no_managed_role_owns_database": true,
+    "registration_authorized": false,
+    "retirement_authorized": false
+  },
+  "interpretation": {
+    "definition_and_permission_validation": "Owner reports all observed checks passed",
+    "authorization_fields": "False constants in the read-only packet; not an executed eligibility planner or inspection of worker flags",
+    "copy_protection": "All 23 existing copies and emergency OIDs 106971 and 129180 remain protected; no legacy adoption or original-OID attestation",
+    "scope_limits": "Point-in-time metadata assessment; no new business-row, filesystem headroom or authentication-rule attestation",
+    "further_actions": "No credential setup, registration enablement, ownership change, deletion, scheduling, merge or deployment authorized"
+  }
+}

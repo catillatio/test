@@ -14,10 +14,12 @@ import {validateDeploymentEnvironment} from '../environment.mjs';
 import {candidateDigest} from './candidate.mjs';
 import {protocol,checkRequest,checkWorkerEnvironment,checkJobReport} from './protocol.mjs';
 import {fileDigest,putFile,getFile,putReport} from './transfer.mjs';
+import {captureCopyIdentity,registerVerifiedCopy} from './retention/observation.mjs';
 let gate='configuration';
 
 function execute(executable,args,{env=process.env,input,timeout=600000}={}){
  return new Promise((resolve,reject)=>{
+  env={...env};delete env.KINGDOM_COPY_REGISTRATION_DATABASE_URL;
   const child=spawn(executable,args,{env,stdio:['pipe','pipe','pipe'],timeout});let output='';
   child.stderr.resume();child.stdout.on('data',chunk=>{output+=chunk;if(output.length>1000000)child.kill();});
   child.once('error',()=>reject(new Error('Private verification tool failed.')));
@@ -97,7 +99,20 @@ async function main(){
   gate='copy-migrations-and-preservation';const result=await execute(process.execPath,['deployment/check-upgrade.mjs'],{env:{...process.env,KINGDOM_RESTORE_TEST_DATABASE:request.copy}});
   report.restoredCopy=JSON.parse(result);
   report.backup={sha256:plain.sha256,bytes:plain.bytes,encryptedSha256:cipher.sha256,encryptedBytes:cipher.bytes,recipient:request.backupRecipient,conditionalWriteVerified:true,exportRoundTripVerified:true};
+  // Optional metadata preparation is isolated from every mandatory safety gate.
+  // Capture OID before upload so independently retained evidence supports replay.
+  let registrationReady=false;
+  if(process.env.KINGDOM_COPY_REGISTRATION_ENABLED&&process.env.KINGDOM_COPY_REGISTRATION_ENABLED!=='0'){
+   try{report.verifiedCopyIdentity=await captureCopyIdentity(lock,request,report,process.env);registrationReady=true;}
+   catch{console.error('COPY_REGISTRATION: FAIL');}
+  }
   gate='verified-recovery-report';checkJobReport(report,request);await putReport(request.urls.reportPut,report);
+  if(registrationReady){
+   try{
+    await registerVerifiedCopy({request,report,backupKey:'kingdom-releases/'+request.sha+'/'+request.jobId+'/realm.dump.age'},process.env);
+    console.log('COPY_REGISTRATION: PASS');
+   }catch{console.error('COPY_REGISTRATION: FAIL');}
+  }
  }finally{
   // No database or durable backup is automatically deleted. Only this job's
   // temporary plaintext and ephemeral decryption key are removed.
