@@ -2,6 +2,11 @@
   "version": 1,
   "tests": [
     {
+      "file": "tests/release-registrar-config.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
       "file": "tests/alpha-integration.test.ts",
       "lane": "database",
       "weight": 1

@@ -86,6 +86,12 @@ protected. No unrestricted credential is used for registrar connections.
 
 ## Exact future enablement sequence — separate approval required
 
+For the existing staged, disabled three-variable patch, use the reviewed
+[dashboard-only configuration commit](DASHBOARD_CONFIG_COMMIT.md). It is a
+separate protected action and never starts activation or a recovery job. Its
+required exclusive owner change window and Railway's lack of atomic patch-version
+binding are documented explicitly.
+
 1. **Owner review and delivery authorization.** Review this draft and final exact-
    head CI, then separately authorize merge and the normal protected release of
    that resulting production SHA. Keep registration unset/0 during delivery.
