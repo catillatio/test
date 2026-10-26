@@ -73,7 +73,9 @@ identity listing was not supplied here.
 | Exact inspected maintenance DB / user / version | `Railway` (capital R) / `postgres` / PostgreSQL 18.6 |
 | Retention schemas / five expected roles | Neither schema nor any of the five roles exists (owner-observed) |
 | Worker maintenance name | Owner confirmed existing worker restore URL names `Railway` exactly |
-| Cluster digest | Obtained by owner; private equality comparison still pending |
+| Cluster digest | Owner Console comparison matches the retained restore-cluster evidence |
+| Owner summary comparison | 17 live names match retained prepares; six remain unmatched; 18 historical names not currently matched |
+| Current reference / emergency OIDs | Current reference and both emergency OIDs are present in owner summary |
 | WAL usage | 960 MB (owner-observed; included in filesystem usage) |
 | Data directory | `/var/lib/postgresql/18/docker` |
 | Filesystem / mount | `/dev/zd28000` at `/var/lib/postgresql`; data and WAL share it |
@@ -91,9 +93,9 @@ the 6.3 GB aggregate, not additional storage.
 
 The earlier 5 GB / 2.33 GB figures are superseded historical observations. The
 6.3 GB logical recovery-database total is neither reclaimable storage nor a basis
-to calculate free space as 20 minus 6.3 GB. Actual OID-to-release provenance and
-external/pending/rollback holds remain
-unresolved. WAL and filesystem space are now owner-observed: 960 MB WAL and
+to calculate free space as 20 minus 6.3 GB. Original-OID provenance for legacy copies, six unmatched names and
+external/pending/rollback holds remain unresolved. WAL and filesystem space are
+owner-observed: 960 MB WAL and
 11 GiB available on the shared data/WAL mount. Do not add WAL to the 7.1 GiB used
 or subtract it again from available bytes. Advertised GB and reported GiB are
 different units; preserve the rounded observations without inventing exact
@@ -103,20 +105,31 @@ byte accounting. This snapshot does not certify headroom for every future restor
 historical prepare manifests and archive digests across 51 protected runs. The
 latest retained post-deployment receipt matches the active game and latest worker
 verification deployments. No historical report captured a database OID or worker
-maintenance name, and the private live-name/OID join is not yet available.
+maintenance name. The owner has now supplied a privacy-safe live-name comparison;
+historical OIDs and the six unmatched names remain unresolved.
 
-The owner now confirms the worker's existing restore URL names **`Railway`**,
-with capital R, exactly matching the Console result. This closes the name gate;
-no credential or variable value was fetched by Codex. Equal names do not prove
-cluster identity. **Installation remains unexecuted and requires private cluster
-confirmation and separate owner authorization.**
+The owner has confirmed both the exact worker maintenance name **`Railway`**
+and the private cluster-digest equality. The summary-only Console result at
+**26 October 2026, 03:12:51 EDT** associates **17** live names with the verified
+prepare evidence, leaves **six** live names unmatched, and finds **18** historical
+names not currently matched. These are not proofs of deletion, rename/reuse
+absence or unchanged original OIDs. All owners remain `postgres`.
 
-[The private comparison handoff](PRIVATE_COMPARISON_HANDOFF.md) supplies a
-validated, READ ONLY packet for the existing Console: compare the cluster and
-join the 35 historical name fingerprints to live metadata without returning
-private identities in its summary. The production result is still pending; no
-comparison success or OID match is fabricated. Completed schema/role/capacity
-checks need not be repeated solely for this report.
+[The completed comparison handoff](PRIVATE_COMPARISON_HANDOFF.md) and
+[sanitized owner result](OWNER_COMPARISON_RESULT.json) preserve the evidence.
+The current release reference is present. The two most recent verified prepares
+among the matched evidence are runs **40270052123/1** and **40261837458/1**; keep
+both. The emergency OIDs remain unconditional exclusions, potentially overlapping
+these groups. The other 15 matched names and all six unknown names also remain
+protected: there is no installed adoption catalog, reviewed legacy-OID binding,
+restricted-copy ownership or signed retirement approval.
+
+**Read-only target/cluster checks are complete; installation remains unexecuted
+and requires separate owner authorization.** An empty catalog can be prepared
+without adopting the six unknown copies. Their unknown provenance does not
+justify deleting them or blocking unrelated safe development. External holds and
+legacy identity review remain additional gates before any adoption/retirement.
+Do not repeat completed schema/role/capacity/cluster reads solely for this report.
 
 [The owner-inventory follow-up](OWNER_INVENTORY_FOLLOWUP.md) preserves the
 read-only checks and fresh-install procedure **for later separate approval only**.

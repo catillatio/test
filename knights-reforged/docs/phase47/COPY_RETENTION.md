@@ -33,8 +33,10 @@ R), PostgreSQL 18.6, user `postgres`. Neither retention schema nor any of the fi
 roles exists. Owner-measured WAL is 960 MB; the shared data/WAL filesystem reports
 18 GiB size, 7.1 GiB used, 11 GiB available and 41% usage. No copy is currently
 eligible under this PR. The owner has now confirmed that the worker restore URL
-names `Railway` exactly. Private cluster comparison and the live identity join
-remain pending; no installation is authorized.
+names `Railway` exactly. The owner summary also confirms the cluster match,
+17 live-name associations and current-reference presence. Six names remain
+unmatched; legacy historical OIDs and external holds remain unresolved. No
+installation or retirement is authorized.
 [Historical manifest/deployment reconciliation](../retention/PROVENANCE_RECONCILIATION.md)
 identifies the active release reference but cannot supply a missing original OID
 or independently prove the worker's maintenance name; that name is now
@@ -43,7 +45,7 @@ confirmed by the owner. [Private comparison handoff](../retention/PRIVATE_COMPAR
 [Current assessment and precise next read-only checks / unexecuted fresh-install
 procedure](../retention/OWNER_INVENTORY_FOLLOWUP.md). Names, sizes and zero
 connections confer no provenance or deletion permission. Filesystem space is now
-owner-observed; the live OID join and external holds remain unresolved. The older
+owner-observed; original-OID/unknown-copy evidence and external holds remain unresolved. The older
 capacity figures below are historical only.
 
 ## Findings and storage accounting

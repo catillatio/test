@@ -20,10 +20,11 @@ record completed owner observations: exact Console DB `Railway`, PostgreSQL
 available. The owner has now confirmed the existing worker restore URL names
 `Railway` exactly, matching the Console. No credential was fetched by Codex.
 [Existing manifest/deployment evidence](../retention/PROVENANCE_RECONCILIATION.md)
-contains no maintenance-name/OID capture. The name is now owner-confirmed; the
-[private cluster comparison](../retention/PRIVATE_COMPARISON_HANDOFF.md) and
-separate owner authorization remain installation gates. Live identity reconciliation and external
-holds remain additional gates before any ownership adoption or retirement.
+contains no maintenance-name/OID capture. The owner has now confirmed the name
+and [private cluster match](../retention/PRIVATE_COMPARISON_HANDOFF.md), plus 17
+live-name associations. Six live names remain unmatched. Separate owner approval
+remains an installation gate; legacy original-OID evidence, external holds and
+exact authorization remain additional adoption/retirement gates.
 The inventory does not enable registration, ownership adoption or cleanup.
 
 ## Completed integration

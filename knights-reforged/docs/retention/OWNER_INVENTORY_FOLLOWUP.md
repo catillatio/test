@@ -17,7 +17,8 @@ observations**, not new production queries performed by Codex.
 | Emergency OID 106971 | Exists, approximately 235 MB | Unconditionally protected. |
 | Advertised volume capacity | 20 GB | Retain separately from GiB filesystem reporting. |
 | Maintenance DB / version / current user | `Railway` (capital R) / PostgreSQL 18.6 / `postgres` | Owner confirmed the existing worker URL uses `Railway` exactly. |
-| Cluster digest | Obtained by owner | Value not supplied; compare privately with retained reports. |
+| Cluster digest | Owner comparison matches retained report evidence | No raw fingerprint needs to be supplied or published. |
+| Summary-only name comparison | 17 matched live names; six unmatched; 18 historical names not matched | Name association only; no original-OID attestation or retirement permission. |
 | Schema / role checks | Neither schema nor any of the five expected roles exists | Fresh-install collision preconditions observed; not target or execution approval. |
 | WAL | 960 MB | Included in filesystem used bytes; do not double-count. |
 | Data directory | `/var/lib/postgresql/18/docker` | Owner-observed actual path. |
@@ -40,13 +41,15 @@ this report. The original read-only instructions below remain a reference for
 later freshness checks. [Retained-evidence reconciliation](PROVENANCE_RECONCILIATION.md)
 records 35 validated prepare manifests, exact run/attempt matching and the active
 deployment reference. None records the worker maintenance name or original OID.
-The live inventory join, private digest comparison and external holds remain open.
+The owner subsequently completed the private digest and name comparison.
+Six unmatched names, legacy original-OID evidence and external holds remain open.
 
 The owner has now confirmed both the precise Console name and the existing
 worker URL database component are **`Railway`**, with capital R. The name gate is
-closed. Private cluster comparison, live name/OID reconciliation and external
-holds remain unresolved. The [private comparison handoff](PRIVATE_COMPARISON_HANDOFF.md)
-prepares the remaining reads without requiring private identifiers in chat.
+closed, and the subsequent owner summary confirms cluster equality and 17 live
+name associations. The [completed comparison handoff](PRIVATE_COMPARISON_HANDOFF.md)
+records the result without raw private identifiers. Six unmatched names, legacy
+OID evidence and external holds remain unresolved.
 No catalog installation is authorized by the name confirmation.
 
 For interpreting the earlier result, NULL relation lookups alone do **not** prove
@@ -96,7 +99,7 @@ COMMIT;
 
 This reads no passwords. The owner has already completed these SQL observations;
 the worker-name match is now separately owner-confirmed. Private cluster
-equality is still required and is addressed by the comparison packet.
+equality is now confirmed by the owner summary; no repeat is needed for this report.
 If objects/roles exist at a later check, their definitions and grants
 need a separate read-only review; fresh bootstrap is not a repair mechanism.
 
@@ -200,9 +203,8 @@ these minimal measurements reveal material unexplained usage.
 
 Both tables, both schemas and all five expected roles are owner-confirmed absent
 in the inspected database/cluster. Fresh installation is the candidate path,
-**conditional on private cluster comparison and separate owner installation
-approval**; the owner has confirmed that `Railway` is the worker maintenance
-name. Recheck freshness when later authorized. No installation is authorized now.
+**conditional on separate owner installation approval**; the owner has now
+confirmed both the `Railway` maintenance name and cluster match. Recheck freshness when later authorized. No installation is authorized now.
 The existing [readiness guide](READINESS.md) retains all signing, job coordination,
 private execution, ownership-risk and later activation gates.
 

@@ -1,6 +1,6 @@
 {
   "kind": "historical-evidence-index-not-live-inventory-or-authorization",
-  "databaseIdentityJoin": "UNRESOLVED",
+  "databaseIdentityJoin": "OWNER_CONFIRMED_NAME_ASSOCIATIONS: 17 matched live names; six unmatched; original OIDs unverified",
   "maintenanceDatabaseMatch": "OWNER_CONFIRMED: worker restore URL and Console both name Railway (capital R)",
   "originalOidCaptured": false,
   "maintenanceNameCaptured": false,
@@ -19,7 +19,10 @@
       "bots": 900,
       "restoredBots": 900,
       "retainedTables": 85,
-      "currentLiveReference": true
+      "currentLiveReference": true,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40261837458,
@@ -35,7 +38,10 @@
       "bots": 900,
       "restoredBots": 900,
       "retainedTables": 85,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40257245783,
@@ -51,7 +57,10 @@
       "bots": 900,
       "restoredBots": 900,
       "retainedTables": 85,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40253862750,
@@ -67,7 +76,10 @@
       "bots": 900,
       "restoredBots": 900,
       "retainedTables": 81,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40245425491,
@@ -83,7 +95,10 @@
       "bots": 900,
       "restoredBots": 900,
       "retainedTables": 81,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40240417370,
@@ -99,7 +114,10 @@
       "bots": 900,
       "restoredBots": 900,
       "retainedTables": 81,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40236713862,
@@ -115,7 +133,10 @@
       "bots": 900,
       "restoredBots": 900,
       "retainedTables": 81,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40164983897,
@@ -131,7 +152,10 @@
       "bots": 900,
       "restoredBots": 900,
       "retainedTables": 81,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40164678377,
@@ -147,7 +171,10 @@
       "bots": 900,
       "restoredBots": 900,
       "retainedTables": 81,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40162401278,
@@ -163,7 +190,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 81,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40154962981,
@@ -179,7 +209,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 77,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40132727953,
@@ -195,7 +228,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 71,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40117614971,
@@ -211,7 +247,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 70,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40073780386,
@@ -227,7 +266,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 68,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40057878928,
@@ -243,7 +285,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40056021626,
@@ -259,7 +304,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40053999331,
@@ -275,7 +323,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40052246466,
@@ -291,7 +342,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40051712590,
@@ -307,7 +361,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40050472346,
@@ -323,7 +380,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40049209822,
@@ -339,7 +399,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40048297250,
@@ -355,7 +418,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40034412416,
@@ -371,7 +437,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 40021306091,
@@ -387,7 +456,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39897943493,
@@ -403,7 +475,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39895042903,
@@ -419,7 +494,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39893379497,
@@ -435,7 +513,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39891244969,
@@ -451,7 +532,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39890271419,
@@ -467,7 +551,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39536348303,
@@ -483,7 +570,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39518120689,
@@ -499,7 +589,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39461055861,
@@ -515,7 +608,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 66,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39353372794,
@@ -531,7 +627,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 64,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": true,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39350735093,
@@ -547,7 +646,10 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 64,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     },
     {
       "runId": 39343986160,
@@ -563,8 +665,206 @@
       "bots": 450,
       "restoredBots": 450,
       "retainedTables": 64,
-      "currentLiveReference": false
+      "currentLiveReference": false,
+      "ownerObservedLiveNameMatch": false,
+      "historicalOidVerified": false,
+      "retirementAuthorized": false
     }
   ],
-  "privateClusterComparison": "PENDING_OWNER_READ_ONLY_COMPARISON"
+  "privateClusterComparison": "OWNER_CONSOLE_MATCH_CONFIRMED",
+  "ownerComparisonResult": "OWNER_COMPARISON_RESULT.json",
+  "unlistedArtifactRunSteps": [
+    {
+      "runId": 40066168361,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 40013991024,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 40012254303,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 40009933853,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 40008285239,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39884323789,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39880006786,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39874021235,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39647183726,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39339826564,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "success",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "failure"
+    },
+    {
+      "runId": 39337788717,
+      "attempt": 1,
+      "workflowConclusion": "cancelled",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "cancelled",
+      "prepareStep": "cancelled",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39329878639,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39308121408,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39190333661,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39188854918,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "failure",
+      "prepareStep": "failure",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "skipped"
+    },
+    {
+      "runId": 39188631974,
+      "attempt": 1,
+      "workflowConclusion": "failure",
+      "metadata": "AVAILABLE",
+      "releaseJobPresent": true,
+      "releaseJobConclusion": "skipped",
+      "prepareStep": "NOT_IDENTIFIED",
+      "artifactListed": false,
+      "retirementAuthorized": false,
+      "retentionStep": "NOT_IDENTIFIED"
+    }
+  ]
 }
