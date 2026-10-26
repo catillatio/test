@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {validateRequest,targetConfig,checkWorker,checkPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys,failureCategory} from '../deployment/release/registrar-config.mjs';
+import {validateRequest,targetConfig,checkWorker,checkPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys,failureCategory,encryptedShape,failureShape} from '../deployment/release/registrar-config.mjs';
 
 const id=n=>String(n).repeat(8)+'-'+String(n).repeat(4)+'-4'+String(n).repeat(3)+'-8'+String(n).repeat(3)+'-'+String(n).repeat(12);
 const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'catillatio/test',GITHUB_JOB:'registrar-config',GITHUB_REF:'refs/heads/release/production',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1',
@@ -106,6 +106,70 @@ test('CLI prints only fixed failure diagnostics for credential-bearing provider 
  const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async()=>({ok:true,text:async()=>JSON.stringify({errors:[{message:"fixture-private-password"}]})});');
  const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...env},encoding:'utf8',timeout:5000});
  assert.equal(r.status,1);assert.equal(r.stdout,'');assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: API_GRAPHQL_REJECTED\nREGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');assert.doesNotMatch(r.stderr,/fixture-private-password|assert|stack|copy\.railway/);
+});
+test('encrypted diagnostic reports only requested key names and JSON types, without inspecting values',()=>{
+ const before=fixture(),patch=before.staged.patch,worker=patch.services[target.workerId];
+ patch.sharedVariables={unrelatedSecret:'fixture-private-password'};worker.deploy={startCommand:'fixture-private-password'};
+ worker.variables.KINGDOM_COPY_REGISTRATION_DATABASE_URL={encryptedValue:{ciphertext:'fixture-private-password',nonce:target.workerId},isSealed:null};
+ worker.variables.KINGDOM_COPY_REGISTRATION_ENABLED={encryptedValue:['fixture-private-password'],isOptional:false};
+ worker.variables.KINGDOM_COPY_REGISTRATION_SCOPE={encryptedValue:null,description:'fixture-private-password'};
+ const report=encryptedShape(patch,target);
+ assert.deepEqual(report,{
+  patchKeys:['services','sharedVariables'],workerKeys:['deploy','variables'],variables:{
+   KINGDOM_COPY_REGISTRATION_DATABASE_URL:{encryptedValue:'object',isSealed:'null'},
+   KINGDOM_COPY_REGISTRATION_ENABLED:{encryptedValue:'array',isOptional:'boolean'},
+   KINGDOM_COPY_REGISTRATION_SCOPE:{description:'string',encryptedValue:'null'}
+  }
+ });
+ assert.doesNotMatch(JSON.stringify(report),/fixture-private-password|ciphertext|nonce|startCommand|unrelatedSecret|length|count|digest|fingerprint/);
+ for(const identifier of [target.workerId,target.projectId,before.staged.id])assert.equal(JSON.stringify(report).includes(identifier),false);
+ // The diagnostic never accesses a nested encrypted value or decrypted entry.
+ const sealed=new Proxy({},{ownKeys:()=>{throw Error('must not enumerate ciphertext');},get:()=>{throw Error('must not read ciphertext');}});
+ worker.variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue=sealed;
+ Object.defineProperty(before.staged,'clear',{get:()=>{throw Error('must not read plaintext');}});
+ assert.equal(encryptedShape(patch,target).variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue,'object');
+});
+test('unexpected provider keys are redacted even when keys themselves contain credentials, IDs or hashes',()=>{
+ const patch=fixture().staged.patch,worker=patch.services[target.workerId],entry=worker.variables.KINGDOM_COPY_REGISTRATION_SCOPE;
+ for(const unsafe of ['postgres://fixture-private-password@copy.railway.internal/Railway',target.workerId,'c'.repeat(64),'::error::provider-message']){
+  patch[unsafe]='fixture-private-password';worker[unsafe]='fixture-private-password';entry[unsafe]='fixture-private-password';
+ }
+ const report=encryptedShape(patch,target),text=JSON.stringify(report);
+ assert.deepEqual(report.patchKeys,['<REDACTED_KEY>','services']);assert.deepEqual(report.workerKeys,['<REDACTED_KEY>','variables']);
+ assert.deepEqual(report.variables.KINGDOM_COPY_REGISTRATION_SCOPE,{'<REDACTED_KEY>':'<REDACTED>',encryptedValue:'string'});
+ for(const unsafe of ['fixture-private-password',target.workerId,'c'.repeat(64),'::error::provider-message'])assert.equal(text.includes(unsafe),false);
+ assert.doesNotMatch(text,/length|count|digest|fingerprint/);
+});
+test('shape diagnostics preserve all encrypted-shape rejections and make no mutation calls',async t=>{
+ const cases={
+  rootContainer:d=>{d.staged.patch.sharedVariables={};},workerContainer:d=>{d.staged.patch.services[target.workerId].build={};},
+  objectCipher:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue={ciphertext:'fixture-private-password'};},
+  nullMetadata:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.isSealed=null;},
+  missingEntry:d=>{delete d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE;},
+  nullEntry:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE=null;}
+ };
+ for(const [name,mutate] of Object.entries(cases))await t.test(name,async()=>{
+  const before=fixture();mutate(before);const p=provider({before});
+  await assert.rejects(runConfig(env,{api:p.api}),error=>{
+   assert.equal(failureCategory(error),'PATCH_ENCRYPTED_SHAPE');assert.deepEqual(failureShape(error),encryptedShape(before.staged.patch,target));
+   assert.doesNotMatch(JSON.stringify(failureShape(error)),/fixture-private-password|stored-ciphertext|postgres:|clusterDigest/);return true;
+  });
+  assert.equal(p.calls.length,1);assert.equal(p.writes().length,0);
+ });
+ assert.equal(failureShape(new Error('provider-secret')),undefined);
+});
+test('CLI emits the safe shape only for encrypted-shape inspection failure; commit mode stays closed and silent',()=>{
+ const before=fixture();before.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue={ciphertext:'fixture-private-password'};
+ const path=fileURLToPath(new URL('../deployment/release/registrar-config.mjs',import.meta.url));
+ const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async(_url,options)=>{if(JSON.parse(options.body).query.includes("mutation "))throw Error("unexpected write");return {ok:true,text:async()=>JSON.stringify({data:'+JSON.stringify(before)+'})};};');
+ for(const operation of [env,commitEnv()]){
+  const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...operation},encoding:'utf8',timeout:5000});
+  const diagnostic=operation.REGISTRAR_CONFIG_OPERATION==='registrar-config-inspect'?'REGISTRAR_CONFIG_SHAPE: '+JSON.stringify(encryptedShape(before.staged.patch,target))+'\n':'';
+  assert.equal(r.status,1);assert.equal(r.stdout,'');
+  assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: PATCH_ENCRYPTED_SHAPE\n'+diagnostic+'REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');
+  for(const privateValue of ['fixture-private-password','stored-ciphertext',target.workerId,before.staged.id,'c'.repeat(64),'d'.repeat(64)])assert.equal(r.stderr.includes(privateValue),false);
+  assert.doesNotMatch(r.stderr,/Patch digest|Patch ID|REGISTRAR_CONFIG: PASS|unexpected write/);
+ }
 });
 test('safe categories distinguish transport, authentication, permission and GraphQL rejection without messages or retries',async t=>{
  const cases={
