@@ -75,6 +75,13 @@ try{
  docker(['exec','-i',restore,'psql','-U','postgres','-d','railway_test','-X','-v','ON_ERROR_STOP=1','-c','\\password kc_copy_registrar'],{input:registrarPassword+'\n'+registrarPassword+'\n'});
  const registrationScope={projectId,environmentId,gameServiceId,workerServiceId,verificationDatabaseServiceId:randomUUID(),maintenanceDatabase:'railway_test',clusterDigest:report.restoreClusterDigest,sourceClusterDigest:report.sourceClusterDigest};
  const registrationSettings={KINGDOM_COPY_REGISTRATION_ENABLED:'1',KINGDOM_COPY_REGISTRATION_SCOPE:JSON.stringify(registrationScope),KINGDOM_COPY_REGISTRATION_DATABASE_URL:'postgres://kc_copy_registrar:'+registrarPassword+'@'+restoreHost+'/railway_test'};
+ const inspectionEnv=await envFile('registrar-preflight.env',{NODE_ENV:'production',KINGDOM_RELEASE_WORKER:'1',
+  RAILWAY_PROJECT_ID:projectId,RAILWAY_ENVIRONMENT_ID:environmentId,RAILWAY_SERVICE_ID:workerServiceId,
+  RAILWAY_DEPLOYMENT_ID:randomUUID(),...registrationSettings,KINGDOM_COPY_REGISTRATION_ENABLED:'0'});
+ const preflight=docker(['run','--rm','--network',network,'--env-file',inspectionEnv,image,'node','deployment/release/retention/inspect-registrar.mjs','--expected-host',restoreHost]);
+ assert.equal(preflight,'REGISTRAR_PREFLIGHT: PASS\nREGISTRAR_CLUSTER_CHECK: DEFERRED_TO_VERIFIED_WRITE\n');
+ assert.equal(sql(restore,'railway_test','SELECT count(*) FROM release_observations.verified_copies'),'0');assert.deepEqual(snapshot(),before);
+ check('disabled-only registrar preflight uses no administrative credentials, writes no observations and grants no cluster-inspection privilege');
  const observed=await request(),registeredOutput=await runWorker(observed,{overrides:registrationSettings});assert.match(registeredOutput,/COPY_REGISTRATION: PASS/);assert.doesNotMatch(registeredOutput,/COPY_REGISTRATION: FAIL/);
  const observedKey='kingdom-releases/'+observed.sha+'/'+observed.jobId+'/prepare.json',observedReport=checkJobReport(JSON.parse(await readFile(fileFor(observedKey),'utf8')),observed);
  const actualOid=sql(restore,'railway_test',"SELECT oid FROM pg_database WHERE datname='"+observed.copy+"'");assert.equal(observedReport.verifiedCopyIdentity.oid,actualOid);

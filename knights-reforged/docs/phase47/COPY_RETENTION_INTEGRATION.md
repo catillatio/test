@@ -1,5 +1,10 @@
 # Verified-copy registration — implementation and activation status
 
+PR #25 has merged. [Phase 2 registration readiness](../retention/registration-phase2/README.md)
+now distinguishes that merged source from the older live deployment and prepares
+restricted preflight/first-observation review. Installed SQL remains unchanged;
+do not repeat installation or enable registration without separate authorization.
+
 PR #25 now implements the **non-destructive observation integration** proposed at
 `aff9142`. The worker integration remains default-OFF; the owner has
 installed only the empty metadata catalogs. No registration is activated. Automatic

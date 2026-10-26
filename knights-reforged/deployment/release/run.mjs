@@ -76,7 +76,7 @@ async function main(){
    for(const path of ['package.json','package-lock.json','tsconfig.json','src','public','views','migrations','rulesets',
     'deployment/start.mjs','deployment/migrate.mjs','deployment/check-upgrade.mjs','deployment/environment.mjs',
     ...['worker','transfer','candidate','protocol','proof'].map(name=>'deployment/release/'+name+'.mjs'),
-    ...['observation.mjs','observations.sql','register-verified.mjs'].map(name=>'deployment/release/retention/'+name)]){
+    ...['observation.mjs','observations.sql','register-verified.mjs','inspect-registrar.mjs'].map(name=>'deployment/release/retention/'+name)]){
     await mkdir(dirname(join(bundle,path)),{recursive:true});await cp(join(base,path),join(bundle,path),{recursive:true,errorOnExist:true,force:false});
    }
    await cp(join(base,'deployment/release/Dockerfile'),join(bundle,'Dockerfile'),{errorOnExist:true,force:false});

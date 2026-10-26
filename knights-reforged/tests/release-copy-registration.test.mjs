@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {hash} from '../deployment/release/retention/protocol.mjs';
 import {randomUUID} from 'node:crypto';
 import {fixture,scope} from './fixtures/release-retention.mjs';
-import {observationPayload,registrationConfig,captureCopyIdentity,registrationFields} from '../deployment/release/retention/observation.mjs';
+import {observationPayload,registrationConfig,captureCopyIdentity,registrationFields,registrarPreflightConfig,inspectRegistrar} from '../deployment/release/retention/observation.mjs';
 const copy=fixture(70,{now:Date.now()}),manifest=copy.catalog.evidence;
 manifest.report.verifiedCopyIdentity={oid:copy.database.oid,owner:'postgres',maintenanceDatabase:scope.adminDatabase,clusterDigest:scope.clusterDigest};
 const config={projectId:scope.projectId,environmentId:scope.environmentId,gameServiceId:scope.gameServiceId,workerServiceId:scope.verificationWorkerServiceId,verificationDatabaseServiceId:scope.verificationServiceId,maintenanceDatabase:scope.adminDatabase,clusterDigest:scope.clusterDigest,sourceClusterDigest:scope.sourceClusterDigest};
@@ -43,9 +43,62 @@ test('historical metadata replay requires exact independently reviewed file hash
 test('worker bundles explicitly include metadata helpers without including destructive retention tools',()=>{
  const run=readFileSync(new URL('../deployment/release/run.mjs',import.meta.url),'utf8'),docker=readFileSync(new URL('../deployment/release/Dockerfile',import.meta.url),'utf8');
  for(const text of [run,docker]){
-  for(const file of ['observation.mjs','observations.sql','register-verified.mjs'])assert.ok(text.includes(file));
+  for(const file of ['observation.mjs','observations.sql','register-verified.mjs','inspect-registrar.mjs'])assert.ok(text.includes(file));
   assert.doesNotMatch(text,/retention\/(?:cli|permit|register)\.mjs|retention\/bootstrap\.sql/);
  }
+});
+
+test('registrar preflight is disabled-only and refuses administrative credentials, target drift and service impersonation',()=>{
+ const limited={...env,KINGDOM_COPY_REGISTRATION_ENABLED:'0'};delete limited.KINGDOM_RESTORE_DATABASE_URL;
+ assert.equal(registrarPreflightConfig(limited,{expectedHost:scope.host}).scope.maintenanceDatabase,scope.adminDatabase);
+ const unset={...limited};delete unset.KINGDOM_COPY_REGISTRATION_ENABLED;
+ assert.doesNotThrow(()=>registrarPreflightConfig(unset,{expectedHost:scope.host}));
+ for(const patch of [{KINGDOM_COPY_REGISTRATION_ENABLED:'1'},{KINGDOM_COPY_REGISTRATION_ENABLED:'true'},
+  {DATABASE_URL:'synthetic-admin-url'},{KINGDOM_RESTORE_DATABASE_URL:'synthetic-admin-url'},{KINGDOM_RELEASE_JOB_REQUEST:'synthetic-job-grants'},
+  {RAILWAY_SERVICE_ID:scope.gameServiceId},{NODE_TLS_REJECT_UNAUTHORIZED:'0'},
+  {KINGDOM_COPY_REGISTRATION_DATABASE_URL:limited.KINGDOM_COPY_REGISTRATION_DATABASE_URL.replace('kc_copy_registrar','postgres')}]){
+  assert.throws(()=>registrarPreflightConfig({...limited,...patch},{expectedHost:scope.host}));
+ }
+ for(const expectedHost of [undefined,'public.example','other.railway.internal'])assert.throws(()=>registrarPreflightConfig(limited,{expectedHost}));
+});
+
+function inspectionClient({database=scope.adminDatabase,mutateActor=()=>{},mutateIndexes=()=>{}}={}){
+ const calls=[],source=readFileSync(new URL('../deployment/release/retention/observations.sql',import.meta.url),'utf8');
+ return {calls,query:async sql=>{
+  calls.push(sql);
+  if(['BEGIN READ ONLY','ROLLBACK',"SET LOCAL statement_timeout='5s'; SET LOCAL lock_timeout='2s'",'SET search_path=pg_catalog,pg_temp'].includes(sql))return {rows:[]};
+  if(sql.includes("current_setting('transaction_read_only')"))return {rows:[{database,read_only:'on'}]};
+  if(sql.includes('current_user AS actor')){
+   const row={actor:'kc_copy_registrar',login:true,inherits:false,owner_login:false,privileged:false,member:false,ddl:false,database_ddl:false,public_ddl:false,writable:false,column_write:false,cleanup_schema:false,cleanup:false,authorizes:false,column_authorizes:false};mutateActor(row);return {rows:[row]};
+  }
+  if(sql.includes('p.prosrc'))return {rows:['no_rewrite','record_verified_copy'].map(proname=>({
+   proname,prosrc:source.match(new RegExp('CREATE FUNCTION release_observations\\.'+proname+'\\([^]*? AS \\$\\$([^]*?)\\$\\$;'))[1],
+   owner:'kc_retention_owner',prosecdef:proname==='record_verified_copy',proconfig:['search_path=pg_catalog, pg_temp']}))};
+  if(sql.includes('c.relpersistence'))return {rows:[{relname:'verified_copies',owner:'kc_retention_owner',relpersistence:'p',relrowsecurity:false,relforcerowsecurity:false}]};
+  if(sql.includes('FROM pg_index')){
+   const rows=['1','2','5'].map(keys=>({keys,primary:keys==='1',unique:true,valid:true,ready:true,plain:true}));mutateIndexes(rows);return {rows};
+  }
+  if(sql.includes('FROM pg_trigger'))return {rows:[{tgname:'observations_immutable',tgenabled:'O',tgtype:58,proname:'no_rewrite'}]};
+  throw new Error('Unexpected inspection query');
+ }};
+}
+test('preflight inspects in READ ONLY, always rolls back, never calls a writer or takes a release lock',async()=>{
+ const client=inspectionClient();await inspectRegistrar(client,{scope:{maintenanceDatabase:scope.adminDatabase}});
+ assert.equal(client.calls[0],'BEGIN READ ONLY');assert.equal(client.calls.at(-1),'ROLLBACK');
+ assert.doesNotMatch(client.calls.join('\n'),/pg_advisory|SELECT \* FROM release_observations\.record_verified_copy|INSERT INTO|DROP DATABASE/);
+ const wrong=inspectionClient({database:'wrong'});await assert.rejects(inspectRegistrar(wrong,{scope:{maintenanceDatabase:scope.adminDatabase}}));assert.equal(wrong.calls.at(-1),'ROLLBACK');
+});
+test('runtime and preflight refuse invalid idempotency indexes or elevated registrar attributes',async()=>{
+ for(const options of [
+  {mutateIndexes:rows=>rows.pop()},{mutateIndexes:rows=>{rows[0].valid=false;}},{mutateIndexes:rows=>{rows[2].plain=false;}},
+  {mutateActor:row=>{row.inherits=true;}},{mutateActor:row=>{row.owner_login=true;}},{mutateActor:row=>{row.writable=true;}}
+ ]){
+  const client=inspectionClient(options);await assert.rejects(inspectRegistrar(client,{scope:{maintenanceDatabase:scope.adminDatabase}}));assert.equal(client.calls.at(-1),'ROLLBACK');
+ }
+});
+test('preflight CLI rejects missing configuration without exposing values or provider errors',()=>{
+ const run=spawnSync(process.execPath,[fileURLToPath(new URL('../deployment/release/retention/inspect-registrar.mjs',import.meta.url))],{env:{PATH:process.env.PATH},encoding:'utf8'});
+ assert.equal(run.status,1);assert.equal(run.stdout,'');assert.equal(run.stderr,'REGISTRAR_PREFLIGHT: FAIL\n');
 });
 
 test('900-bot observations require the exact installed population manifest and restored population evidence',()=>{

@@ -1,0 +1,59 @@
+{
+  "kind": "read-only-source-and-railway-deployment-observations-not-enablement",
+  "recorded_at": "2026-10-26T17:42:18.881918+00:00",
+  "repository": "catillatio/test",
+  "production_branch": "release/production",
+  "merged_pr": 25,
+  "merged_pr_head": "4131243303d02a07f35500186d8213a2da3165c8",
+  "production_merge_commit": "9ae9a15ba7f9bdca4dcb3a161ba883891df5fb46",
+  "post_merge_ci": {
+    "run_id": 40364094133,
+    "conclusion": "success",
+    "successful_jobs": 10
+  },
+  "railway_project": "merry-patience",
+  "environment": "production",
+  "live_game": {
+    "service": "test",
+    "deployment_id": "83d7ac3f-2859-4997-9563-2337bea837bc",
+    "deployment_status": "SUCCESS",
+    "created_at": "2026-10-26T04:45:15.480Z",
+    "health_http": 200,
+    "health_status": "ready",
+    "health_commit": "d48ab91d14639252be847670caad8ec0bfdcb62a",
+    "registration_configuration_names_listed": []
+  },
+  "verification_worker": {
+    "service": "KingdomReleaseCheck",
+    "deployment_id": "ccd3f1b1-c1ba-4f47-9613-352c0b972304",
+    "deployment_status": "SUCCESS",
+    "created_at": "2026-10-26T04:48:38.275Z",
+    "source_commit": null,
+    "source_commit_limitation": "CLI-upload commit is absent from OAuth metadata; no exposed private shell/file execution tool",
+    "registration_delivery_status": "NOT_ATTESTED_FOR_MERGED_CODE",
+    "registration_configuration_names_listed": []
+  },
+  "copy_service": {
+    "name": "KingdomReleaseCopy",
+    "image": "postgres:18-bookworm",
+    "volume_mb": 20000,
+    "mount_path": "/var/lib/postgresql",
+    "public_postgresql_proxies": 0,
+    "catalog_validation_source": "../OWNER_CATALOG_VALIDATION_RESULT.json",
+    "existing_copy_count": 23,
+    "copy_count_source": "Prior owner Console evidence, not a new SQL inventory",
+    "emergency_oids": [
+      "106971",
+      "129180"
+    ]
+  },
+  "service_staged_changes": 0,
+  "variable_values_requested": false,
+  "production_sql_executed_by_codex": false,
+  "phase2_merged_deployed_or_enabled": false,
+  "limitations": [
+    "No private SQL/Console execution or credential-value access in exposed Railway integration",
+    "Current worker source bytes are not independently attested by OAuth metadata",
+    "No current-artifact byte revalidation claimed; live game SHA is confirmed independently through public health"
+  ]
+}
