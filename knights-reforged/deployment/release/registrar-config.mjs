@@ -11,6 +11,16 @@ export const oldWorker='ccd3f1b1-c1ba-4f47-9613-352c0b972304';
 const canonical=value=>JSON.stringify(value,(_key,item)=>item&&typeof item==='object'&&!Array.isArray(item)?Object.fromEntries(Object.keys(item).sort().map(k=>[k,item[k]])):item);
 const hash=value=>createHash('sha256').update(canonical(value)).digest('hex');
 const keys=(value,expected)=>assert.deepEqual(Object.keys(value??{}).sort(),expected.slice().sort());
+// Only these fixed categories may leave the process. Never log exception
+// messages/stacks, provider messages, response bodies or secret-bearing values.
+const categories=new Set(['WORKFLOW_REQUEST','TARGET_CONFIG','API_TRANSPORT','API_AUTHENTICATION','API_PERMISSION','API_HTTP','API_RESPONSE','API_QUERY_REJECTED','API_GRAPHQL_REJECTED','API_READ',
+ 'TARGET_IDENTITY','WORKER_IDENTITY','WORKER_STOPPED_STATE','WORKER_HISTORY','PATCH_METADATA','PATCH_ENCRYPTED_SHAPE','PATCH_CLEAR_SHAPE','REGISTRATION_NOT_DISABLED','REGISTRAR_URL','REGISTRAR_SCOPE',
+ 'PATCH_BINDING','PRECOMMIT_WORKER_CHANGED','COMMIT_UNCONFIRMED','POST_COMMIT_WORKER_CHANGED','CONFIG_WORKFLOW_STATE','PATCH_NOT_CLEARED','POST_COMMIT_TIMEOUT','SUMMARY_WRITE','UNCLASSIFIED']);
+const failures=new WeakMap();
+function fail(category){assert.ok(categories.has(category));const error=new Error('Registrar configuration check failed.');failures.set(error,category);throw error;}
+export function failureCategory(error){return failures.get(error)??'UNCLASSIFIED';}
+function checked(category,operation){try{return operation();}catch(error){if(failures.has(error))throw error;fail(category);}}
+async function during(category,operation){try{return await operation();}catch(error){if(failures.has(error))throw error;fail(category);}}
 const endpoint='https://backboard.railway.com/graphql/v2';
 const identity=`id projectId environmentId serviceId status createdAt updatedAt statusUpdatedAt deploymentStopped instances { id status }`;
 const context=`project(id:$projectId){id name}
@@ -54,19 +64,40 @@ export function targetConfig(env){
 }
 export function railwayClient(token,fetcher=globalThis.fetch){
  return async(query,variables)=>{
-  const response=await fetcher(endpoint,{method:'POST',redirect:'error',cache:'no-store',signal:AbortSignal.timeout(15000),
-   headers:{'content-type':'application/json','project-access-token':token},body:JSON.stringify({query,variables})});
-  assert.equal(response.ok,true);const bytes=await response.text();assert.ok(Buffer.byteLength(bytes)<=2_000_000);
-  const reply=JSON.parse(bytes);assert.ok(reply.errors===undefined||(Array.isArray(reply.errors)&&reply.errors.length===0));
-  assert.ok(reply.data&&typeof reply.data==='object');return reply.data;
+  const response=await during('API_TRANSPORT',()=>fetcher(endpoint,{method:'POST',redirect:'error',cache:'no-store',signal:AbortSignal.timeout(15000),
+   headers:{'content-type':'application/json','project-access-token':token},body:JSON.stringify({query,variables})}));
+  if(response.status===401)fail('API_AUTHENTICATION');if(response.status===403)fail('API_PERMISSION');
+  if(response.ok!==true&&response.status!==400)fail('API_HTTP');
+  const reply=await during('API_RESPONSE',async()=>{const bytes=await response.text();assert.ok(Buffer.byteLength(bytes)<=2_000_000);const parsed=JSON.parse(bytes);assert.ok(parsed&&typeof parsed==='object');return parsed;});
+  if(reply.errors!==undefined){
+   if(!Array.isArray(reply.errors))fail('API_RESPONSE');
+   if(reply.errors.length){
+    // Codes are allowlisted, never echoed. An unrecognized/absent code does not
+    // establish authentication or permission failure and stays indeterminate.
+    const codes=reply.errors.map(e=>e?.extensions?.code);
+    if(codes.includes('UNAUTHENTICATED'))fail('API_AUTHENTICATION');
+    if(codes.includes('FORBIDDEN'))fail('API_PERMISSION');
+    if(codes.includes('GRAPHQL_VALIDATION_FAILED')||codes.includes('GRAPHQL_PARSE_FAILED'))fail('API_QUERY_REJECTED');
+    fail('API_GRAPHQL_REJECTED');
+   }
+  }
+  if(response.ok!==true)fail('API_HTTP');
+  return checked('API_RESPONSE',()=>{assert.ok(reply.data&&typeof reply.data==='object');return reply.data;});
  };
 }
 export function checkWorker(data,target){
+ checked('TARGET_IDENTITY',()=>{
  assert.equal(data.project?.id,target.projectId);assert.equal(data.project.name,'merry-patience');
  assert.equal(data.environment?.id,target.environmentId);assert.equal(data.environment.projectId,target.projectId);assert.equal(data.environment.name,'production');
  const worker=data.worker;assert.equal(worker?.serviceId,target.workerId);assert.equal(worker.environmentId,target.environmentId);assert.equal(worker.serviceName,'KingdomReleaseCheck');
- const d=worker.latestDeployment;assert.equal(d?.id,oldWorker);assert.equal(d.status,'SUCCESS');assert.equal(d.deploymentStopped,true);
+ });
+ const worker=data.worker,d=worker.latestDeployment;
+ checked('WORKER_IDENTITY',()=>{assert.equal(d?.id,oldWorker);for(const key of ['projectId','environmentId','serviceId'])assert.equal(d[key],({projectId:target.projectId,environmentId:target.environmentId,serviceId:target.workerId})[key]);});
+ checked('WORKER_STOPPED_STATE',()=>{
+ assert.equal(d.status,'SUCCESS');assert.equal(d.deploymentStopped,true);
  assert.equal(d.instances?.length,1);assert.equal(d.instances[0].status,'EXITED');assert.ok(d.instances[0].id);
+ });
+ checked('WORKER_HISTORY',()=>{
  assert.ok(Array.isArray(worker.activeDeployments));assert.ok(worker.activeDeployments.length<=1);
  if(worker.activeDeployments.length)assert.deepEqual(worker.activeDeployments,[d]);
  const rows=data.deployments?.edges?.map(e=>e.node);assert.ok(Array.isArray(rows)&&rows.length>=1&&rows.length<=3);assert.deepEqual(rows[0],d);
@@ -75,7 +106,8 @@ export function checkWorker(data,target){
   for(const key of ['createdAt','updatedAt'])assert.ok(Number.isFinite(Date.parse(row[key])));
   assert.ok(!['QUEUED','WAITING','NEEDS_APPROVAL','INITIALIZING','BUILDING','DEPLOYING'].includes(row.status));
  }
- return hash({worker,deployments:rows});
+ });
+ return hash({worker,deployments:data.deployments.edges.map(e=>e.node)});
 }
 function definitions(patch,target,encrypted){
  keys(patch,['services']);keys(patch.services,[target.workerId]);keys(patch.services[target.workerId],['variables']);
@@ -91,64 +123,72 @@ function definitions(patch,target,encrypted){
  return vars;
 }
 export function checkPatch(data,target){
- const p=data.staged;assert.match(p?.id??'',uuid);assert.equal(p.environmentId,target.environmentId);assert.equal(p.status,'STAGED');
+ const p=data.staged;checked('PATCH_METADATA',()=>{
+ assert.match(p?.id??'',uuid);assert.equal(p.environmentId,target.environmentId);assert.equal(p.status,'STAGED');
  assert.equal(p.appliedAt,null);assert.equal(p.lastAppliedError,null);assert.equal(data.environment.unmergedChangesCount,3);
  for(const k of ['createdAt','updatedAt'])assert.ok(Number.isFinite(Date.parse(p[k])));
- definitions(p.patch,target,true);const clear=definitions(p.clear,target,false);
+ });
+ checked('PATCH_ENCRYPTED_SHAPE',()=>definitions(p.patch,target,true));
+ const clear=checked('PATCH_CLEAR_SHAPE',()=>definitions(p.clear,target,false));
  // This action can install disabled configuration only. Activation is separate.
- assert.equal(clear.KINGDOM_COPY_REGISTRATION_ENABLED.value,'0');
+ checked('REGISTRATION_NOT_DISABLED',()=>assert.equal(clear.KINGDOM_COPY_REGISTRATION_ENABLED.value,'0'));
+ checked('REGISTRAR_URL',()=>{
  const db=privateDatabase(clear.KINGDOM_COPY_REGISTRATION_DATABASE_URL.value);
  assert.equal(decodeURIComponent(db.url.username),'kc_copy_registrar');assert.ok(db.url.password);assert.equal(db.name,'Railway');
+ });
+ checked('REGISTRAR_SCOPE',()=>{
  const s=JSON.parse(clear.KINGDOM_COPY_REGISTRATION_SCOPE.value);
  keys(s,['projectId','environmentId','gameServiceId','workerServiceId','verificationDatabaseServiceId','maintenanceDatabase','clusterDigest','sourceClusterDigest']);
  for(const [k,v] of Object.entries({projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.gameId,workerServiceId:target.workerId,verificationDatabaseServiceId:target.copyId,maintenanceDatabase:'Railway'}))assert.equal(s[k],v);
  for(const k of ['clusterDigest','sourceClusterDigest'])assert.match(s[k]??'',digest);assert.notEqual(s.clusterDigest,s.sourceClusterDigest);
+ });
  // Never publish clear values, encrypted values, or a plaintext credential hash.
  // The digest commits to the stored ciphertext and patch revision, not p.clear.
  return {patchId:p.id,patchDigest:hash({id:p.id,environmentId:p.environmentId,createdAt:p.createdAt,updatedAt:p.updatedAt,patch:p.patch})};
 }
 export async function runConfig(env,{api,wait=delay,now=Date.now}={}){
- const operation=validateRequest(env);assert.notEqual(operation,'release');
+ const operation=checked('WORKFLOW_REQUEST',()=>{const op=validateRequest(env);assert.notEqual(op,'release');
  assert.equal(env.GITHUB_ACTIONS,'true');assert.equal(env.GITHUB_REPOSITORY,'catillatio/test');assert.equal(env.GITHUB_JOB,'registrar-config');
- const target=targetConfig(env);
+ return op;});
+ const target=checked('TARGET_CONFIG',()=>targetConfig(env));
  api??=railwayClient(env.RAILWAY_TOKEN);
  const vars={projectId:target.projectId,environmentId:target.environmentId,workerId:target.workerId};
- const first=await api(inspectQuery,vars),workerDigest=checkWorker(first,target),plan=checkPatch(first,target);
+ const first=await during('API_READ',()=>api(inspectQuery,vars)),workerDigest=checkWorker(first,target),plan=checkPatch(first,target);
  if(operation==='registrar-config-inspect')return {kind:'inspection',...plan,workerDeploymentId:oldWorker};
- assert.equal(plan.patchId,env.REGISTRAR_CONFIG_PATCH_ID);assert.equal(plan.patchDigest,env.REGISTRAR_CONFIG_PATCH_DIGEST);
+ checked('PATCH_BINDING',()=>{assert.equal(plan.patchId,env.REGISTRAR_CONFIG_PATCH_ID);assert.equal(plan.patchDigest,env.REGISTRAR_CONFIG_PATCH_DIGEST);});
  // Re-read immediately before the single write. Shared workflow concurrency
  // serializes releases; owner must freeze all other Railway editors separately.
- const second=await api(inspectQuery,vars);assert.equal(checkWorker(second,target),workerDigest);assert.deepEqual(checkPatch(second,target),plan);
+ const second=await during('API_READ',()=>api(inspectQuery,vars));checked('PRECOMMIT_WORKER_CHANGED',()=>assert.equal(checkWorker(second,target),workerDigest));checked('PATCH_BINDING',()=>assert.deepEqual(checkPatch(second,target),plan));
  let workflowId;
  try{
   const result=await api(commitMutation,{environmentId:target.environmentId,commitMessage:'Registrar configuration only; run '+env.GITHUB_RUN_ID+'; patch '+plan.patchId});
   workflowId=result.environmentPatchCommitStaged;assert.ok(typeof workflowId==='string'&&workflowId.length>0&&workflowId.length<500);
- }catch{throw new Error('REGISTRAR_CONFIG_COMMIT_UNCONFIRMED');}
+ }catch{fail('COMMIT_UNCONFIRMED');}
  // Only reads are polled. A timeout or lost acknowledgement NEVER retries write.
  const deadline=now()+60000;
  for(let n=0;n<30;n++){
-  const state=await api(statusQuery,{workflowId}),after=await api(verifyQuery,vars);
-  assert.equal(checkWorker(after,target),workerDigest);
-  const status=state.workflowStatus;assert.equal(status?.error,null);assert.ok(['Running','Complete'].includes(status.status));
+  const state=await during('API_READ',()=>api(statusQuery,{workflowId})),after=await during('API_READ',()=>api(verifyQuery,vars));
+  checked('POST_COMMIT_WORKER_CHANGED',()=>assert.equal(checkWorker(after,target),workerDigest));
+  const status=state.workflowStatus;checked('CONFIG_WORKFLOW_STATE',()=>{assert.equal(status?.error,null);assert.ok(['Running','Complete'].includes(status.status));});
   if(status.status==='Complete'){
-   assert.equal(after.environment.unmergedChangesCount,0);
+   checked('PATCH_NOT_CLEARED',()=>assert.equal(after.environment.unmergedChangesCount,0));
    return {kind:'committed',...plan,workerDeploymentId:oldWorker};
   }
-  assert.ok(now()<deadline);await wait(2000);
+  checked('POST_COMMIT_TIMEOUT',()=>assert.ok(now()<deadline));await wait(2000);
  }
- throw new Error('REGISTRAR_CONFIG_POSTCHECK_UNCONFIRMED');
+ fail('POST_COMMIT_TIMEOUT');
 }
 async function main(){
  try{
   process.umask(0o077);
-  if(process.argv.length!==3||!['validate-request','run'].includes(process.argv[2]))throw new Error('Invalid action');
-  if(process.argv[2]==='validate-request'){validateRequest(process.env);console.log('REGISTRAR_CONFIG_REQUEST: PASS');return;}
+  checked('WORKFLOW_REQUEST',()=>assert.ok(process.argv.length===3&&['validate-request','run'].includes(process.argv[2])));
+  if(process.argv[2]==='validate-request'){checked('WORKFLOW_REQUEST',()=>validateRequest(process.env));console.log('REGISTRAR_CONFIG_REQUEST: PASS');return;}
   const result=await runConfig(process.env);
   console.log(result.kind==='inspection'?'REGISTRAR_CONFIG_INSPECTION: PASS':'REGISTRAR_CONFIG_COMMIT: PASS');
-  if(process.env.GITHUB_STEP_SUMMARY)await appendFile(process.env.GITHUB_STEP_SUMMARY,
+  if(process.env.GITHUB_STEP_SUMMARY)await during('SUMMARY_WRITE',()=>appendFile(process.env.GITHUB_STEP_SUMMARY,
    'Registrar configuration '+result.kind+' (registration remains OFF)\n\n'+
    'Patch ID: `'+result.patchId+'`\n\nPatch digest: `'+result.patchDigest+'`\n\n'+
-   'Worker unchanged: `'+result.workerDeploymentId+'`\n\nNo recovery, deployment, activation or cleanup was requested.\n');
- }catch{console.error('REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.');process.exitCode=1;}
+   'Worker unchanged: `'+result.workerDeploymentId+'`\n\nNo recovery, deployment, activation or cleanup was requested.\n'));
+ }catch(error){console.error('REGISTRAR_CONFIG_FAILURE: '+failureCategory(error));console.error('REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.');process.exitCode=1;}
 }
 if(process.argv[1]&&pathToFileURL(process.argv[1]).href===import.meta.url)await main();

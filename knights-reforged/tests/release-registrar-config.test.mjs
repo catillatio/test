@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {validateRequest,targetConfig,checkWorker,checkPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys} from '../deployment/release/registrar-config.mjs';
+import {validateRequest,targetConfig,checkWorker,checkPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys,failureCategory} from '../deployment/release/registrar-config.mjs';
 
 const id=n=>String(n).repeat(8)+'-'+String(n).repeat(4)+'-4'+String(n).repeat(3)+'-8'+String(n).repeat(3)+'-'+String(n).repeat(12);
 const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'catillatio/test',GITHUB_JOB:'registrar-config',GITHUB_REF:'refs/heads/release/production',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1',
@@ -102,7 +102,40 @@ test('CLI prints only fixed failure diagnostics for credential-bearing provider 
  const path=fileURLToPath(new URL('../deployment/release/registrar-config.mjs',import.meta.url));
  const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async()=>({ok:true,text:async()=>JSON.stringify({errors:[{message:"fixture-private-password"}]})});');
  const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...env},encoding:'utf8',timeout:5000});
- assert.equal(r.status,1);assert.equal(r.stdout,'');assert.equal(r.stderr,'REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');assert.doesNotMatch(r.stderr,/fixture-private-password|assert|stack|copy\.railway/);
+ assert.equal(r.status,1);assert.equal(r.stdout,'');assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: API_GRAPHQL_REJECTED\nREGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');assert.doesNotMatch(r.stderr,/fixture-private-password|assert|stack|copy\.railway/);
+});
+test('safe categories distinguish transport, authentication, permission and GraphQL rejection without messages or retries',async t=>{
+ const cases={
+  API_TRANSPORT:async()=>{throw new Error('fixture-private-password TLS/provider detail');},
+  API_AUTHENTICATION:async()=>({ok:false,status:401,text:async()=>{throw new Error('body must not be read');}}),
+  API_PERMISSION:async()=>({ok:false,status:403,text:async()=>{throw new Error('body must not be read');}}),
+  API_HTTP:async()=>({ok:false,status:500,text:async()=>{throw new Error('body must not be read');}}),
+  API_RESPONSE:async()=>({ok:true,status:200,text:async()=>'<html>fixture-private-password</html>'}),
+  API_QUERY_REJECTED:async()=>({ok:false,status:400,text:async()=>JSON.stringify({errors:[{message:'fixture-private-password',extensions:{code:'GRAPHQL_VALIDATION_FAILED'}}]})}),
+  API_GRAPHQL_REJECTED:async()=>({ok:true,status:200,text:async()=>JSON.stringify({errors:[{message:'Unauthorized fixture-private-password',extensions:{code:'UNRECOGNIZED_SECRET_CODE'}}]})})
+ };
+ for(const [category,response] of Object.entries(cases))await t.test(category,async()=>{let calls=0;await assert.rejects(railwayClient('fixture',async()=>{calls++;return response();})('query Test{}',{}),e=>failureCategory(e)===category&&!e.message.includes('fixture-private-password'));assert.equal(calls,1);});
+ for(const [code,category] of [['UNAUTHENTICATED','API_AUTHENTICATION'],['FORBIDDEN','API_PERMISSION'],['GRAPHQL_PARSE_FAILED','API_QUERY_REJECTED']]){
+  await assert.rejects(railwayClient('fixture',async()=>({ok:true,text:async()=>JSON.stringify({errors:[{message:'fixture-private-password',extensions:{code}}]})}))('query Test{}',{}),e=>failureCategory(e)===category);
+ }
+ // An attacker-controlled error message cannot impersonate a classified error.
+ assert.equal(failureCategory(new Error('API_AUTHENTICATION fixture-private-password')),'UNCLASSIFIED');
+});
+test('inspection identifies the exact guard group while retaining rejection and zero mutation calls',async t=>{
+ const cases={
+  TARGET_IDENTITY:d=>{d.project.id=id(7);},
+  WORKER_IDENTITY:d=>{d.worker.latestDeployment.id=id(7);},
+  WORKER_STOPPED_STATE:d=>{d.worker.latestDeployment.deploymentStopped=false;},
+  WORKER_HISTORY:d=>{d.worker.activeDeployments=[{...d.worker.latestDeployment,updatedAt:'2026-10-26T06:00:00.000Z'}];},
+  PATCH_METADATA:d=>{d.environment.unmergedChangesCount=4;},
+  PATCH_ENCRYPTED_SHAPE:d=>{d.staged.patch.sharedVariables={};},
+  PATCH_CLEAR_SHAPE:d=>{vars(d).KINGDOM_COPY_REGISTRATION_SCOPE={encryptedValue:'not-decrypted'};},
+  REGISTRATION_NOT_DISABLED:d=>{vars(d).KINGDOM_COPY_REGISTRATION_ENABLED.value='1';},
+  REGISTRAR_URL:d=>{vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value='postgres://postgres:fixture-private-password@public.example/Railway';},
+  REGISTRAR_SCOPE:d=>{vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='fixture-private-password';}
+ };
+ for(const [category,mutate] of Object.entries(cases))await t.test(category,async()=>{const before=fixture();mutate(before);const p=provider({before});await assert.rejects(runConfig(env,{api:p.api}),e=>failureCategory(e)===category&&!e.message.includes('fixture-private-password'));assert.equal(p.writes().length,0);assert.equal(p.calls.length,1);});
+ const p=provider();await assert.rejects(runConfig({...env,GITHUB_JOB:'unexpected'},{api:p.api}),e=>failureCategory(e)==='WORKFLOW_REQUEST');assert.equal(p.calls.length,0);
 });
 test('workflow keeps one production mutex/owner gate and makes config and recovery mutually exclusive',()=>{
  const workflow=readFileSync(new URL('../../.github/workflows/production-release.yml',import.meta.url),'utf8');

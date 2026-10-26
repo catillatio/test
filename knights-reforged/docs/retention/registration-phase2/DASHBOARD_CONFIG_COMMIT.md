@@ -40,6 +40,25 @@ metadata is hashed for the public review pin. No database connection is made.
 
 ## Failures, retries and concurrency limit
 
+The first inspection at merged PR #46 (`e443605`) failed in
+[run 40401018436](https://github.com/catillatio/test/actions/runs/40401018436).
+The safety job passed and the release job was skipped. Its single generic error
+does **not** establish API authentication/permissions, patch validation or worker
+identity as the cause. Read-only Railway metadata still shows the three-variable
+staged patch and unchanged original worker. Do not rotate credentials, broaden
+permissions or edit the staged values based on that opaque message.
+
+The follow-up diagnostic emits only `REGISTRAR_CONFIG_FAILURE: <FIXED_CATEGORY>`.
+It distinguishes HTTP/GraphQL authentication and permission codes, query rejection,
+transport/response failures, target/worker checks, encrypted/decrypted patch shape,
+disabled flag, registrar URL and scope. Missing/unknown GraphQL codes remain
+`API_GRAPHQL_REJECTED`; provider message text is not evidence for an auth diagnosis.
+After separately reviewed merge and exact-head checks, run **only**
+`registrar-config-inspect` with promotion OFF and blank patch inputs, approve its
+existing production gate, and return only the fixed category if it fails. No
+commit/recovery retry or production configuration change is authorized by that
+diagnostic. Existing successful validation evidence remains applicable.
+
 - Missing/extra variables, unrelated services, volumes, networking, shared
   settings, deploy commands, unexpected patch state, wrong scope, changed patch
   ID/revision/ciphertext or worker drift stop before the mutation.
