@@ -37,6 +37,10 @@ test('append-only registration with real restricted PostgreSQL, concurrency, res
   const before=await snapshot();registrar=await connect('kc_copy_registrar');
   let receipt;
   await t.test('restricted registrar preflight is read-only and leaves all metadata and business data untouched',async()=>{
+   // PostgreSQL installations can expose this read-only function through PUBLIC.
+   // Deny it explicitly in this disposable database to prove preflight does not
+   // depend on it. The installed production catalogs/permissions are unchanged.
+   await admin.query('REVOKE EXECUTE ON FUNCTION pg_control_system() FROM PUBLIC');
    await inspectRegistrar(registrar,{scope:{maintenanceDatabase:name}});
    assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_observations.verified_copies')).rows[0].n,0);
    assert.equal((await admin.query('SELECT count(*)::int AS n FROM release_retention.audit')).rows[0].n,0);

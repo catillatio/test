@@ -67,8 +67,9 @@ REGISTRAR_PREFLIGHT: PASS
 REGISTRAR_CLUSTER_CHECK: DEFERRED_TO_VERIFIED_WRITE
 ```
 
-The registrar intentionally cannot execute `pg_control_system()`. Do not grant
-that permission to make preflight attest cluster identity. Preflight verifies
+Preflight intentionally does not require `pg_control_system()`. Its existing
+effective access can vary with PostgreSQL defaults and database policy; do not
+grant that permission to make preflight attest cluster identity. Preflight verifies
 connection identity, database and effective privileges; **PASS does not certify
 cluster equality, recovery, release approval or enablement**. The existing owner
 cluster validation/private host review supplies preparation evidence, and the
