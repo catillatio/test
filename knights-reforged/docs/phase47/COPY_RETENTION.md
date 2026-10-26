@@ -28,14 +28,20 @@ The owner reports 27 databases, including 23 recovery copies, all displayed as
 owned by `postgres` and with zero recovery-copy connections at inspection time.
 Recovery copies total approximately 6.3 GB on a 20 GB volume (largest 495 MB,
 smallest approximately 8 MB). Emergency OIDs 106971 (235 MB) and 129180 (304 MB)
-exist and remain protected. Both retention relation lookups returned NULL in the
-connected maintenance database. No copy is currently eligible under this PR.
+exist and remain protected. The inspected database is exactly `Railway` (capital
+R), PostgreSQL 18.6, user `postgres`. Neither retention schema nor any of the five
+roles exists. Owner-measured WAL is 960 MB; the shared data/WAL filesystem reports
+18 GiB size, 7.1 GiB used, 11 GiB available and 41% usage. No copy is currently
+eligible under this PR. The exact worker-maintenance URL match remains unconfirmed.
+[Historical manifest/deployment reconciliation](../retention/PROVENANCE_RECONCILIATION.md)
+identifies the active release reference but cannot supply a missing original OID
+or prove the worker's maintenance name.
 
 [Current assessment and precise next read-only checks / unexecuted fresh-install
 procedure](../retention/OWNER_INVENTORY_FOLLOWUP.md). Names, sizes and zero
-connections confer no provenance or deletion permission. Filesystem free space
-and live recovery references remain unresolved; the older capacity figures below
-are historical only.
+connections confer no provenance or deletion permission. Filesystem space is now
+owner-observed; the live OID join and external holds remain unresolved. The older
+capacity figures below are historical only.
 
 ## Findings and storage accounting
 

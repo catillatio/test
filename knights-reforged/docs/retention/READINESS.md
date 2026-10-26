@@ -69,7 +69,14 @@ identity listing was not supplied here.
 | Recovery-copy total / largest / smallest | Approximately 6.3 GB / 495 MB / approximately 8 MB |
 | Emergency OID 129180 | Exists; approximately 304 MB; protected |
 | Emergency OID 106971 | Exists; approximately 235 MB; protected |
-| Volume capacity | 20 GB; actual used/free space and WAL remain unknown |
+| Advertised volume capacity | 20 GB |
+| Exact inspected maintenance DB / user / version | `Railway` (capital R) / `postgres` / PostgreSQL 18.6 |
+| Retention schemas / five expected roles | Neither schema nor any of the five roles exists (owner-observed) |
+| Cluster digest | Obtained by owner; actual value not supplied for historical comparison |
+| WAL usage | 960 MB (owner-observed; included in filesystem usage) |
+| Data directory | `/var/lib/postgresql/18/docker` |
+| Filesystem / mount | `/dev/zd28000` at `/var/lib/postgresql`; data and WAL share it |
+| Filesystem snapshot | 18 GiB size; 7.1 GiB used; 11 GiB available; 41% usage (reported rounded values) |
 | `release_retention.copies` | NULL lookup: absent in the connected database |
 | `release_observations.verified_copies` | NULL lookup: absent in the connected database |
 
@@ -83,19 +90,34 @@ the 6.3 GB aggregate, not additional storage.
 
 The earlier 5 GB / 2.33 GB figures are superseded historical observations. The
 6.3 GB logical recovery-database total is neither reclaimable storage nor a basis
-to calculate free space as 20 minus 6.3 GB. Actual OID-to-release provenance,
-current/staged/pending/rollback references, WAL, filesystem available bytes and
-restoration headroom remain unresolved.
+to calculate free space as 20 minus 6.3 GB. Actual OID-to-release provenance and
+external/pending/rollback holds remain
+unresolved. WAL and filesystem space are now owner-observed: 960 MB WAL and
+11 GiB available on the shared data/WAL mount. Do not add WAL to the 7.1 GiB used
+or subtract it again from available bytes. Advertised GB and reported GiB are
+different units; preserve the rounded observations without inventing exact
+byte accounting. This snapshot does not certify headroom for every future restore.
 
-[The owner-inventory follow-up](OWNER_INVENTORY_FOLLOWUP.md) gives the minimum
-additional **read-only** checks, the missing external provenance evidence, and a
-fresh-catalog installation procedure **prepared for separate approval only**.
-Reuse the owner's existing private inventory output where sufficient. Confirm the
-exact worker maintenance database/cluster and check schema/cluster-wide role
-collisions before choosing fresh bootstrap: two NULL table lookups alone do not
-prove there are no partial objects or catalogs in another database. No ownership
-change, catalog installation, credential setup, feature activation or deployment
-is authorized by the new findings.
+[The retained-evidence reconciliation](PROVENANCE_RECONCILIATION.md) verifies 35
+historical prepare manifests and archive digests across 51 protected runs. The
+latest retained post-deployment receipt matches the active game and latest worker
+verification deployments. No historical report captured a database OID or worker
+maintenance name, and the private live-name/OID join is not yet available.
+
+The owner explicitly confirmed `current_database()` returns **`Railway`**, with
+capital R, and has not confirmed the worker URL's database component. Available
+manifests intentionally record source DB / restore host / created copy, not this
+maintenance name. **Installation remains blocked on the exact case-sensitive
+worker-maintenance match**, owner cluster-digest comparison and separate approval;
+do not infer it from source DB names or successful releases. The schema/role
+collision checks and capacity reads already supplied need not be repeated merely
+for documentation.
+
+[The owner-inventory follow-up](OWNER_INVENTORY_FOLLOWUP.md) preserves the
+read-only checks and fresh-install procedure **for later separate approval only**.
+All 23 current copies, both emergency OIDs, current/pending/pinned/unknown and
+rollback references remain protected. No catalog installation, ownership change,
+credential setup, retirement enablement or deployment is authorized.
 
 ## Dry-run evidence
 

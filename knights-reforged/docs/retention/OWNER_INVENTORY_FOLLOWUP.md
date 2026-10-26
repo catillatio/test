@@ -15,7 +15,14 @@ observations**, not new production queries performed by Codex.
 | Largest / smallest recovery database | 495 MB / approximately 8 MB | Size proves neither successful restoration nor disposability. |
 | Emergency OID 129180 | Exists, approximately 304 MB | Unconditionally protected. |
 | Emergency OID 106971 | Exists, approximately 235 MB | Unconditionally protected. |
-| Volume capacity | 20 GB | Used/free filesystem bytes, WAL and restore headroom remain unverified. |
+| Advertised volume capacity | 20 GB | Retain separately from GiB filesystem reporting. |
+| Maintenance DB / version / current user | `Railway` (capital R) / PostgreSQL 18.6 / `postgres` | Worker URL database-name match remains unconfirmed. |
+| Cluster digest | Obtained by owner | Value not supplied; compare privately with retained reports. |
+| Schema / role checks | Neither schema nor any of the five expected roles exists | Fresh-install collision preconditions observed; not target or execution approval. |
+| WAL | 960 MB | Included in filesystem used bytes; do not double-count. |
+| Data directory | `/var/lib/postgresql/18/docker` | Owner-observed actual path. |
+| Filesystem / mount | `/dev/zd28000` at `/var/lib/postgresql` | Data and pg_wal share this filesystem. |
+| Filesystem snapshot | 18 GiB size; 7.1 GiB used; 11 GiB available; 41% | Rounded owner-observed values; no exact byte reconstruction. |
 | `release_retention.copies` | `to_regclass` returned NULL | Absent in the connected database. No installed cleanup provenance there. |
 | `release_observations.verified_copies` | `to_regclass` returned NULL | Absent in the connected database. No installed observation provenance there. |
 
@@ -26,7 +33,22 @@ Current, pending, pinned, rollback/emergency and uncertain copies must remain
 protected even after historical evidence is collected. The two newest verified
 copies and minimum 24-hour hold remain mandatory.
 
-NULL relation lookups do **not** prove that schemas, partial objects or
+The owner has now also confirmed absence of both schemas and all five expected
+roles in the inspected database/cluster, and supplied WAL and filesystem usage.
+These checks are complete as owner observations; do not rerun them merely for
+this report. The original read-only instructions below remain a reference for
+later freshness checks. [Retained-evidence reconciliation](PROVENANCE_RECONCILIATION.md)
+records 35 validated prepare manifests, exact run/attempt matching and the active
+deployment reference. None records the worker maintenance name or original OID.
+The live inventory join, private digest comparison and external holds remain open.
+
+The precise `Railway` name is owner-confirmed. **Do not install anything until the
+worker's existing restore URL is independently confirmed to name `Railway`
+exactly.** PostgreSQL preserves case; `railway` is not interchangeable. The owner
+has not yet verified that setting. No new credential or service is needed.
+
+For interpreting the earlier result, NULL relation lookups alone do **not** prove
+that schemas, partial objects or
 cluster-wide role names are absent, or that another database has no catalog.
 First confirm this is the worker's exact existing maintenance database. Do not
 search by modifying databases or install a second catalog in a guessed location.
@@ -39,7 +61,7 @@ paths, deployment references and manifests in a restricted private owner file,
 not GitHub or public logs. Run each optional block separately; a denied optional
 query remains unknown and does not justify additional privileges.
 
-### 1. Confirm target, fresh-install preconditions and partial-install collisions
+### 1. Target match still open; namespace/role checks owner-completed
 
 Compare `maintenance_database` privately with the database component of the
 verification worker's existing restore connection; do not print its connection
@@ -70,7 +92,9 @@ ORDER BY rolname;
 COMMIT;
 ```
 
-This reads no passwords. If objects/roles exist, their definitions and grants
+This reads no passwords. The owner has already completed these SQL observations;
+the missing worker-configuration match cannot be inferred by repeating them.
+If objects/roles exist at a later check, their definitions and grants
 need a separate read-only review; fresh bootstrap is not a repair mechanism.
 
 ### 2. Preserve the missing exact name/OID map and complete database totals
@@ -120,9 +144,11 @@ expose full variables, signed proofs or credentials. A healthy commit or an
 expired historical proof alone does not establish the current reference. Until
 those references are complete, no actual retirement plan can be approved.
 
-### 4. Measure WAL and actual filesystem capacity
+### 4. WAL and filesystem capacity — owner-completed snapshot
 
-Run this separately only where existing permission allows:
+The owner measured 960 MB WAL and 11 GiB available on the shared data/WAL
+filesystem. Do not repeat this solely for documentation. For a later freshness
+check, run separately only where existing permission allows:
 
 ```sql
 BEGIN READ ONLY;
@@ -133,7 +159,11 @@ SELECT spcname,pg_tablespace_location(oid) AS location FROM pg_tablespace ORDER 
 COMMIT;
 ```
 
-If the WAL query is denied, roll back that block and obtain only the path metadata
+The measured WAL is already part of filesystem usage. Do not add it to 7.1 GiB
+used or subtract it again from 11 GiB available. Advertised 20 GB and rounded
+18 GiB filesystem size use different units; neither is an exact byte value.
+
+If a later WAL query is denied, roll back that block and obtain only the path metadata
 through a separate read-only `SHOW data_directory` / tablespace query if permitted.
 Do not grant monitoring/server-file roles. Default/global tablespaces have empty
 location strings and live under the data directory; retain any explicit external
@@ -165,9 +195,10 @@ these minimal measurements reveal material unexplained usage.
 
 ## Fresh-catalog installation procedure — PREPARED, DO NOT EXECUTE
 
-Both named tables are absent in the connected database. Fresh installation is
-therefore the candidate path, **conditional on step 1 confirming the exact target
-and absence of conflicting schemas/roles**. No installation is authorized now.
+Both tables, both schemas and all five expected roles are owner-confirmed absent
+in the inspected database/cluster. Fresh installation is the candidate path,
+**still conditional on independently confirming that `Railway` is exactly the
+worker maintenance database** and rechecking freshness when later authorized. No installation is authorized now.
 The existing [readiness guide](READINESS.md) retains all signing, job coordination,
 private execution, ownership-risk and later activation gates.
 

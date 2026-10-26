@@ -15,8 +15,13 @@ and `release_observations.verified_copies` returned NULL in the connected
 maintenance database. None of its 23 recovery copies is cleanup-adopted; all
 owners displayed as `postgres`. No production eligibility is established.
 [Read-only follow-up and prepared fresh-install procedure](../retention/OWNER_INVENTORY_FOLLOWUP.md)
-require confirmation of the worker's exact maintenance DB/cluster and absence of
-partial schemas/cluster-wide roles before any separately authorized installation.
+record completed owner observations: exact Console DB `Railway`, PostgreSQL
+18.6, neither schema nor any of the five roles present, 960 MB WAL and 11 GiB
+available. The worker URL name has **not** been independently matched to `Railway`.
+[Existing manifest/deployment evidence](../retention/PROVENANCE_RECONCILIATION.md)
+contains no maintenance-name/OID capture. Exact worker target and private cluster
+comparison remain installation gates. Live identity reconciliation and external
+holds remain additional gates before any ownership adoption or retirement.
 The inventory does not enable registration, ownership adoption or cleanup.
 
 ## Completed integration
