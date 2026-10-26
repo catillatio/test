@@ -1,0 +1,12 @@
+{
+  "id": "human-pvp-loot-1",
+  "provenance": "Owner-authorized removal of the ordinary human PvP 15,000-gold ceiling, 2026-10-26. Historical gameplay-refinement-1 and all bot reward policies remain immutable.",
+  "baseRuleset": "gameplay-refinement-1",
+  "target": "human",
+  "percent": 3,
+  "maximum": null,
+  "windowSeconds": 86400,
+  "victoryPercentages": [100, 75, 50, 25, 10],
+  "rounding": "base = floor(exposed wallet * 3 / 100); amount = floor(base * existing pair percentage / 100). Both floors use exact integer arithmetic.",
+  "transfer": "Deduct exactly the recorded amount from the defender; credit the entire amount through existing wallet and journaled retained-treasury accounting. Vault balances, bot rewards, bounty escrow, XP and combat eligibility are unchanged."
+}

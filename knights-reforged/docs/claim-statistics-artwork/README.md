@@ -1,6 +1,6 @@
-# Successful-claim statistics and Hudson equipment artwork
+# Successful-claim statistics, uncapped human PvP loot and Hudson artwork
 
-This draft corrects Kills/Deaths accounting and integrates the three available, owner-selected Hudson illustrations. **No profile layout, gameplay formula, grant, economic rule, production record or release workflow changes.** The experimental UI mockups at `b494730` are excluded.
+This draft corrects Kills/Deaths accounting, removes the ordinary human PvP gold ceiling and integrates the three available, owner-selected Hudson illustrations. **The additional authorized gameplay change removes only the ordinary human PvP gold ceiling.** Profile layouts, combat/damage/XP formulas, grants, bot policies, bounty economics, production records and release workflows are preserved. The experimental UI mockups at `b494730` are excluded.
 
 ## Accounting correction
 
@@ -31,6 +31,24 @@ Synthetic examples:
 | Active/expired/canceled contract, mismatched claim identity | Unsupported | Not counted |
 
 These are disposable fixture examples, not claims about inspected production totals. Successful historical bot-target claims also count; existing human-only leaderboard eligibility remains separate.
+
+## Ordinary human PvP — no fixed gold ceiling
+
+The owner additionally authorized removing the 15,000-gold ceiling. New attacking victories against human targets use immutable `human-pvp-loot-1`:
+
+```text
+base   = floor(exposed_wallet × 3 / 100)
+loot   = floor(base × existing_pair_percentage / 100)
+percentages = 100, 75, 50, 25, then 10
+```
+
+Both floors use BigInt arithmetic before safely returning the recorded integer amount. There is no replacement reward cap. The current safe wallet range and all balance protections remain intact. For example, a first win against 1,000,000 exposed gold transfers **30,000**; against 2,147,483,647 it transfers **64,424,509**. Vault, upkeep reserves and retained treasury are not exposed wallet funds.
+
+The existing transactional debit and `creditGold` remain the only payment path. If the attacker lacks wallet headroom, the rest is credited in full to the existing journaled retained treasury; nothing is discarded. For example, with seven gold of wallet room, a 64,424,509-gold reward credits seven to the wallet and 64,424,502 to retained funds. The combined attacker gain exactly equals the defender's debit. This reuses existing accounting, with no new income/payment mechanism.
+
+New battle/ledger/sequence records identify `human-pvp-loot-1`. Existing pair-window starts and victory counts continue without reset when their next victory uses the new policy. Historical capped rulesets, battle reports and receipts remain unchanged. All bot ceilings, 100/85/70/55/40 reductions and 65% XP remain unchanged. Human XP eligibility, damage, Health/Stamina costs, defeat behavior, normal matching and bounty authorization are unchanged. Bounty principal and listing fees remain separate from ordinary loot.
+
+Tests cover exact two-floor rounding, safe-integer arithmetic, full wallets, retained-credit rollback, concurrent rich-target wins, duplicate commands, pre-cutover pair sequences, Vault protection, and a 30,000,000-gold ordinary transfer alongside an unchanged 1,000-gold bounty. The Rules page describes the uncapped human policy; capped helper tests and older research are explicitly historical.
 
 ## Integrated artwork — exact existing files
 
@@ -73,6 +91,6 @@ Browser verification covers **28 actual views** at 320, 390, 430 and 1024px, plu
 
 Focused coverage includes legacy/missing-HP claims, unsupported evidence, self/public/API/ranking consistency, ordinary battle separation, concurrent/replayed claims, historical bot-target claims, asset identity/tampering/path rejection, 15/15/15 grant preservation and ordinary upkeep. A populated 450-bot upgrade/replay fixture preserves every existing business row and session. Historical beta-art tests keep their explicitly isolated old rendering assertions; current artwork is covered independently.
 
-**27 focused tests pass across eight files**, with zero failures or skips. TypeScript, build and static checks pass (99 checks, including 77 production EJS fixtures). [Focused results](focused-verification.json) · [450-bot populated preservation](populated-preservation.json). The exact-head GitHub CI run and aggregate result are linked in the draft PR, including the existing population, container, security, schema-026, encrypted recovery and restored-copy suites. No protected release workflow is dispatched.
+**46 focused tests pass across eleven files**, with zero failures or skips. TypeScript, build and static checks pass (99 checks, including 77 production EJS fixtures). [Focused results](focused-verification.json) · [450-bot populated preservation](populated-preservation.json). The exact-head GitHub CI run and aggregate result are linked in the draft PR, including the existing population, container, security, schema-026, encrypted recovery and restored-copy suites. No protected release workflow is dispatched.
 
-No database migration is introduced; the strict release pin stays `026_living_competition.sql`. This PR changes no protected workflow, backup/restore implementation, token, infrastructure configuration, bot identity, finances, XP, item definition or approved profile design. Merge and deployment remain subject to separate owner review. No Hudson grant or artwork-adoption production command is executed.
+The new immutable loot definition is installed by the existing ruleset-registration path; no SQL migration is introduced; the strict release pin stays `026_living_competition.sql`. This PR changes no protected workflow, backup/restore implementation, token, infrastructure configuration, bot identity, existing financial records, XP, item definition or approved profile design. Only the explicitly approved ordinary human gold ceiling is removed. Merge and deployment remain subject to separate owner review. No Hudson grant or artwork-adoption production command is executed.

@@ -1,8 +1,10 @@
 # Combat and bounty decisions — research only
 
+Current ordinary human attack loot is now versioned by human-pvp-loot-1: 3% of exposed gold, with no fixed per-victory cap, followed by the existing fixed-pair reductions. The 15,000-gold ceiling described in the historical baseline below is superseded for human targets. Bot ceilings and the unapproved future defensive-reward proposal are unchanged.
+
 No combat, rewards, bounty rules, catalogs, bot flags or production data were changed. Reproduce with `npx tsx scripts/phase51d-review.ts`; detailed numeric cases are in [the generated model](docs/phase51d/combat-bounty-model.json).
 
-## Current implementation
+## Historical Phase 5.1D baseline
 
 [Combat](src/combat.ts) already gives a successful **human defender XP**, using `victoryExperience47(defenderLevel,attackerLevel,fullWins<3,defenderDefense,attackerAttack)`. Three full defensive rewards per attacker in a rolling 24-hour window are followed by 1 XP. Defensive level-ups do **not** refill resources. Gold goes only to an attacking winner; defensive gold is currently zero. Attacker victories take 3% of exposed gold, capped at 15,000 before fixed-pair 100/75/50/25/10% reductions. Bot attackers/targets retain the approved bot policy: 65% difficulty XP and 100/85/70/55/40 repeats; this report does not replace it.
 

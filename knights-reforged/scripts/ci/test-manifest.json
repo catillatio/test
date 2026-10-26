@@ -682,6 +682,11 @@
       "file": "tests/equipment-cleanup-browser.test.mjs",
       "lane": "browser",
       "weight": 2
+    },
+    {
+      "file": "tests/human-pvp-loot.test.ts",
+      "lane": "unit",
+      "weight": 1
     }
   ]
 }

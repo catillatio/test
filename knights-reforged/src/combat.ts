@@ -3,7 +3,8 @@ import type {Sql} from './db.js';
 import type {CommandResult} from './commands.js';
 import {GameError} from './errors.js';
 import {alpha,areRivals,resolveAlphaCombat} from './alpha-rules.js';
-import {gameplay,victoryLoot45} from './gameplay-rules.js';
+import {gameplay} from './gameplay-rules.js';
+import {humanPvpLoot,humanVictoryLoot} from './human-pvp-loot.js';
 import {gameFeel,victoryExperience47} from './game-feel-rules.js';
 import {botCombat,botVictoryRewards} from './bot-combat-rules.js';
 import {battleRewardNotes} from './battle-reward-notes.js';
@@ -43,10 +44,10 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       const variation=alpha.combat.variation;
       const combat=resolveAlphaCombat(state,targetState,randomInt(-variation,variation+1),randomInt(-variation,variation+1),rewarded);
       if(targetIsBot&&combat.outcome!=='attacker_win')rewarded=false;
-      const rewardRulesetId=targetIsBot?botCombat.id:gameplay.id;
+      const rewardRulesetId=targetIsBot?botCombat.id:humanPvpLoot.id;
       const sequence=combat.outcome==='attacker_win'?await recordVictory(sql,actorId,target.id,now,rewardRulesetId):null;
       const botRewards=targetIsBot&&sequence?botVictoryRewards(targetState.gold,actor.attained_level,target.attained_level,sequence.victory,state.attack,targetState.defense):null;
-      const lootDetails=sequence?{...(botRewards?.loot??victoryLoot45(targetState.gold,sequence.victory,false,rewarded,target.attained_level)),...sequence}:null;
+      const lootDetails=sequence?{...(botRewards?.loot??humanVictoryLoot(targetState.gold,sequence.victory)),...sequence}:null;
       // Damage remains alpha-0.3. Only attacking victories transfer carried
       // gold; defensive wins never remove gold from the attacker. XP still
       // obeys the existing human budget or the bot-only pair reduction.

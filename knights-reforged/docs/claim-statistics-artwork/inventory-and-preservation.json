@@ -104,8 +104,23 @@
     "rulesets/coordinated-art-2/rules.json": "322ddd01a31df11f54b417353e2d5d12e5b7028e9ad547578ca0736933a596b5",
     "src/hudson-provision.ts": "f175e08c3def731be43293bcde9e8b12a6409239a159baa79e0d0d7c79a1fe6a",
     "src/equipment-entitlements.ts": "507a764fd09efedb45cb6e74b17539ff39595015a17e6870149918e1478b6011",
-    "src/combat.ts": "d525505e4c0d0752c7ba9bc86e0e81af930bc6b1acbf138cb167ef9a31645ae5",
-    "deployment/release/protocol.mjs": "bc48ecdd21e19f68bcd133adb9d7f7d8965faf336a89369030752acc8fbcd7c8"
+    "deployment/release/protocol.mjs": "bc48ecdd21e19f68bcd133adb9d7f7d8965faf336a89369030752acc8fbcd7c8",
+    "src/alpha-rules.ts": "822fb29262aca659cf8bafb8e47ae79fcb09ef7dd8387e6bb269f8effe8bd5f2",
+    "src/bot-combat-rules.ts": "d61d3ef43d20bc3504b0d4c3cc9f3c9fc753e7bfd3e1f794f4471f4cf0b8379c",
+    "src/gameplay-rules.ts": "fd1c408727833f9478058203a5d3147be8200a9ec38e947bc8212e50c40afcc2",
+    "src/economy.ts": "8a623dd24781fe42a2bf561950a1868e517f86d66c7a0edaace975c6e6964933",
+    "src/pvp-economy.ts": "6b5e25d712673244992e7b615124c9113f0c2afa5d0397432273f41339fc539b",
+    "rulesets/gameplay-refinement-1/rules.json": "110d5878dea0188a67b8bb88b3523e744e81db1f853b4f3af12593229aa279dd",
+    "rulesets/bot-combat-rewards-2/rules.json": "e176f56976206712a5c4abf12fde9d8802dfe76751209e225601c469f64eaa7d"
   },
-  "all52CoordinatedAssetsByteIdentical": true
+  "all52CoordinatedAssetsByteIdentical": true,
+  "authorizedHumanLootChange": {
+    "policyId": "human-pvp-loot-1",
+    "ordinaryHumanMaximum": null,
+    "percent": 3,
+    "historicalCombatSourceSha256": "d525505e4c0d0752c7ba9bc86e0e81af930bc6b1acbf138cb167ef9a31645ae5",
+    "currentCombatSourceSha256": "1f0b371a9fff0e8155dafdbde598767be0fe21ad65b86916e87163a12916ed41",
+    "noSqlMigration": true,
+    "botRewardsAndBountyMechanismUnchanged": true
+  }
 }

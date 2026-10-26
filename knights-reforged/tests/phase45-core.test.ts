@@ -61,7 +61,7 @@ test('upcoming payment matches authoritative purse movement with prepaid, wallet
   await r.db.query('UPDATE maintenance_accounts SET paused=true WHERE character_id=$1',[a.id]);const recovered=await r.me(a);assert.equal(recovered.maintenance.paused,false);assert.equal(recovered.payment.gold,-93);
  }finally{await r.close();}
 });
-test('versioned healing, exposed-gold loot and meaningful-victory XP scale without retroactive changes',()=>{
+test('historical Phase 4.5 healing, capped loot and XP definitions remain reproducible without retroactive changes',()=>{
  assert.equal(healingQuote(75,100,17,500).cost,50);assert.equal(healingQuote(100,100,50,0).cost,0);
  assert.equal(victoryLoot45(100000,1).amount,3000);assert.equal(victoryLoot45(1000000,1).amount,15000);assert.equal(victoryLoot45(0,1).amount,0);
  assert.deepEqual([1,2,3,4,5,6].map(n=>victoryLoot45(100000,n).multiplier),[100,75,50,25,10,10]);
