@@ -72,7 +72,8 @@ identity listing was not supplied here.
 | Advertised volume capacity | 20 GB |
 | Exact inspected maintenance DB / user / version | `Railway` (capital R) / `postgres` / PostgreSQL 18.6 |
 | Retention schemas / five expected roles | Neither schema nor any of the five roles exists (owner-observed) |
-| Cluster digest | Obtained by owner; actual value not supplied for historical comparison |
+| Worker maintenance name | Owner confirmed existing worker restore URL names `Railway` exactly |
+| Cluster digest | Obtained by owner; private equality comparison still pending |
 | WAL usage | 960 MB (owner-observed; included in filesystem usage) |
 | Data directory | `/var/lib/postgresql/18/docker` |
 | Filesystem / mount | `/dev/zd28000` at `/var/lib/postgresql`; data and WAL share it |
@@ -104,14 +105,18 @@ latest retained post-deployment receipt matches the active game and latest worke
 verification deployments. No historical report captured a database OID or worker
 maintenance name, and the private live-name/OID join is not yet available.
 
-The owner explicitly confirmed `current_database()` returns **`Railway`**, with
-capital R, and has not confirmed the worker URL's database component. Available
-manifests intentionally record source DB / restore host / created copy, not this
-maintenance name. **Installation remains blocked on the exact case-sensitive
-worker-maintenance match**, owner cluster-digest comparison and separate approval;
-do not infer it from source DB names or successful releases. The schema/role
-collision checks and capacity reads already supplied need not be repeated merely
-for documentation.
+The owner now confirms the worker's existing restore URL names **`Railway`**,
+with capital R, exactly matching the Console result. This closes the name gate;
+no credential or variable value was fetched by Codex. Equal names do not prove
+cluster identity. **Installation remains unexecuted and requires private cluster
+confirmation and separate owner authorization.**
+
+[The private comparison handoff](PRIVATE_COMPARISON_HANDOFF.md) supplies a
+validated, READ ONLY packet for the existing Console: compare the cluster and
+join the 35 historical name fingerprints to live metadata without returning
+private identities in its summary. The production result is still pending; no
+comparison success or OID match is fabricated. Completed schema/role/capacity
+checks need not be repeated solely for this report.
 
 [The owner-inventory follow-up](OWNER_INVENTORY_FOLLOWUP.md) preserves the
 read-only checks and fresh-install procedure **for later separate approval only**.

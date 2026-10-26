@@ -67,11 +67,18 @@ reference or count it as another retained database.
 
 ## Is `Railway` the correct maintenance database?
 
-**Unconfirmed.** The owner confirmed the exact result of `current_database()` is
-`Railway` (capital R), PostgreSQL 18.6, current user `postgres`. Neither retention
-schema nor any of the five expected roles exists in that inspected database/
-cluster. Those fresh-install preconditions are now owner-observed, but the
-worker-maintenance target match remains a required gate.
+**Owner-confirmed.** The owner confirmed KingdomReleaseCheck's existing
+`KINGDOM_RESTORE_DATABASE_URL` uses **`Railway`** (capital R), matching the exact
+Console `current_database()` result on KingdomReleaseCopy. PostgreSQL is 18.6 and
+the Console user is `postgres`. Neither retention schema nor any of the five
+expected roles exists in the inspected database/cluster. No URL or credential
+was fetched or disclosed to obtain this confirmation.
+
+The database-name gate is closed. The private cluster-digest comparison and live
+inventory join remain pending; neither follows merely from equal database names.
+[The prepared private comparison handoff](PRIVATE_COMPARISON_HANDOFF.md) obtains
+both inside the existing Console, returning a sanitized summary rather than
+private names, OIDs or fingerprints.
 
 | Evidence field | What it actually identifies |
 | --- | --- |
@@ -88,23 +95,21 @@ validated `KINGDOM_RESTORE_DATABASE_URL`; that connection holds advisory lock
 name's case: `Railway` and `railway` are different PostgreSQL names. Neither
 retained manifests nor the available non-secret service metadata exposes that
 URL's database component. Similar names, source DB fields, service branding and
-successful past releases cannot prove the match. **Do not install in `Railway`
-until the exact worker setting is independently confirmed.**
+successful past releases cannot independently prove the match. The owner
+subsequently confirmed the exact setting; no additional configuration read is
+needed for that name. **No installation is authorized.**
 
 ## Minimal evidence still requiring the owner
 
-1. In the **existing worker service's** private configuration view, confirm only
-   the decoded database component of its existing `KINGDOM_RESTORE_DATABASE_URL`
-   equals **`Railway`** exactly. If it is a service-variable reference, follow its
-   existing reference to the copy service's DB-name setting privately. Do not
-   share the URL/password, edit variables, start/redeploy the worker or substitute
-   the game service's setting. An already available trusted worker Console could
-   print only the database name, but no new execution access is needed/authorized.
+1. **Completed:** the owner confirmed the worker's existing restore URL names
+   `Railway` exactly. Do not request or disclose the URL, change configuration,
+   start/redeploy the worker or repeat this check solely for documentation.
 2. Privately compare the Console's already-obtained cluster digest to
    `report.restoreClusterDigest` in the latest retained prepare manifest. All 35
    reported historical restore digests agree with one another; equality to the
-   actual inspected cluster remains unconfirmed. Do not repeat SQL solely to
-   obtain a digest already retained, or publish it with the inventory.
+   actual inspected cluster remains unconfirmed. Use the private comparison
+   packet to obtain only an equality result and the inventory join, or compare
+   the already-retained values privately. Do not publish the fingerprints.
 3. Make the existing private name/OID/owner/size inventory available through the
    agreed private owner channel, or perform its join against the retained
    manifests privately. Refresh only when later action freshness requires it.
@@ -131,7 +136,8 @@ The owner's observed **960 MB WAL and 11 GiB available** are recorded in the
 [readiness assessment](READINESS.md). Refresh space and lifecycle evidence before
 any future operation; no capacity or observation finding authorizes installation.
 The prepared [fresh-install procedure](OWNER_INVENTORY_FOLLOWUP.md) remains
-**unexecuted and blocked on exact target confirmation and separate owner approval**.
+**unexecuted: the name is confirmed, while private cluster confirmation and
+separate owner installation approval remain outstanding**.
 
 [Machine-readable evidence index with exact artifact IDs/archive hashes](RETAINED_RELEASE_EVIDENCE.json)
 contains the same sanitized source facts; it is not a live inventory or approval.

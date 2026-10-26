@@ -17,10 +17,12 @@ owners displayed as `postgres`. No production eligibility is established.
 [Read-only follow-up and prepared fresh-install procedure](../retention/OWNER_INVENTORY_FOLLOWUP.md)
 record completed owner observations: exact Console DB `Railway`, PostgreSQL
 18.6, neither schema nor any of the five roles present, 960 MB WAL and 11 GiB
-available. The worker URL name has **not** been independently matched to `Railway`.
+available. The owner has now confirmed the existing worker restore URL names
+`Railway` exactly, matching the Console. No credential was fetched by Codex.
 [Existing manifest/deployment evidence](../retention/PROVENANCE_RECONCILIATION.md)
-contains no maintenance-name/OID capture. Exact worker target and private cluster
-comparison remain installation gates. Live identity reconciliation and external
+contains no maintenance-name/OID capture. The name is now owner-confirmed; the
+[private cluster comparison](../retention/PRIVATE_COMPARISON_HANDOFF.md) and
+separate owner authorization remain installation gates. Live identity reconciliation and external
 holds remain additional gates before any ownership adoption or retirement.
 The inventory does not enable registration, ownership adoption or cleanup.
 

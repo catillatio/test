@@ -1,7 +1,7 @@
 {
   "kind": "historical-evidence-index-not-live-inventory-or-authorization",
   "databaseIdentityJoin": "UNRESOLVED",
-  "maintenanceDatabaseMatch": "UNCONFIRMED: owner Console is Railway (capital R)",
+  "maintenanceDatabaseMatch": "OWNER_CONFIRMED: worker restore URL and Console both name Railway (capital R)",
   "originalOidCaptured": false,
   "maintenanceNameCaptured": false,
   "records": [
@@ -565,5 +565,6 @@
       "retainedTables": 64,
       "currentLiveReference": false
     }
-  ]
+  ],
+  "privateClusterComparison": "PENDING_OWNER_READ_ONLY_COMPARISON"
 }
