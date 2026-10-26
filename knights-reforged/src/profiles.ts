@@ -46,13 +46,13 @@ export async function publicProfile(db:Database,characterId:string,runtime:GameR
   });
 }
 export type PublicProfile=Awaited<ReturnType<typeof publicProfile>>;
-export function attackAvailability(actor:CharacterState,target:Pick<PublicProfile,'id'|'name'|'level'|'health'|'maxHealth'|'temporaryRival'|'botActive'>,developmentBotsEnabled:boolean){
+export function attackAvailability(actor:CharacterState,target:Pick<PublicProfile,'id'|'name'|'level'|'health'|'maxHealth'|'temporaryRival'|'botActive'>,developmentBotsEnabled:boolean,bountyHunt=false){
   const reason=actor.id===target.id?'You cannot attack yourself.':target.temporaryRival&&(!developmentBotsEnabled||!target.botActive)?'This temporary rival is unavailable.':
-    !areRivals(actor.level,target.level)?'Choose an opponent nearer your level.':target.health<community.combat.defenderMinimumHealth?'Opponent defeated — 0 Health. They must recover before another attack.':
+    !bountyHunt&&!areRivals(actor.level,target.level)?'Choose an opponent nearer your level.':target.health<community.combat.defenderMinimumHealth?'Opponent defeated — 0 Health. They must recover before another attack.':
     actor.health<alpha.combat.minimumHealth?'You need at least '+alpha.combat.minimumHealth+' Health to attack.':actor.spirit<alpha.combat.spiritCost?'Wait for Stamina to recover.':
     null;
   return {targetId:target.id,name:target.name,health:target.health,maxHealth:target.maxHealth,allowed:!reason,reason,
-    eligible:actor.id!==target.id&&areRivals(actor.level,target.level)&&target.health>=community.combat.defenderMinimumHealth&&(!target.temporaryRival||(developmentBotsEnabled&&target.botActive))};
+    eligible:actor.id!==target.id&&(bountyHunt||areRivals(actor.level,target.level))&&target.health>=community.combat.defenderMinimumHealth&&(!target.temporaryRival||(developmentBotsEnabled&&target.botActive))};
 }
 
 export async function recruitmentAvailability(db:Database,actor:CharacterState,target:PublicProfile,botRecruitmentEnabled:boolean){

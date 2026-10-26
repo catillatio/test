@@ -43,7 +43,7 @@ const intents={
   recruit:z.object({unitId:z.literal(rules.unit.id),quantity:quantity(alpha.limits.mercenaries)}),
   buy:z.object({itemId:id,quantity:quantity(alpha.limits.transaction).default(1)}),
   equip:z.object({inventoryEntryId:uuid}),
-  attack:z.object({targetCharacterId:uuid}),
+  attack:z.object({targetCharacterId:uuid,bountyId:uuid.optional()}),
   land_buy:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction),quoteId:uuid.optional()}),
   sell:z.object({itemId:id,quantity:quantity(alpha.limits.transaction).default(1)}),
   land_sell:z.object({propertyId:id,quantity:quantity(alpha.limits.landTransaction),quoteId:uuid.optional()}),
@@ -248,7 +248,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       await armyEvent(sql,actorId,target.id,eventKind,key,now,targetIsBot?progressionEconomy.id:undefined);
       await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[target.id]);
     } else if (kind==='attack'&&target) {
-      await resolveBattle(sql,{actor,target,state,now,key,targetIsBot,runtime,result});
+      await resolveBattle(sql,{actor,target,state,now,key,targetIsBot,runtime,result,bountyId:intent.bountyId as string|undefined});
     }
     // A quest, sale or other legitimate wallet credit can recover paused human
     // equipment in this same transaction. Bot command paths are separate.

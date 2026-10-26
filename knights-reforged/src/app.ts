@@ -1,3 +1,4 @@
+import {competitiveProfile} from './competitive-records.js';
 import {coordinatedArt,coordinatedArtworkStatus} from './coordinated-artwork.js';
 import {regionalArt} from './regional-artwork.js';
 import {presentationCatalog,presentationArt,recordedEquipment,presentedItem} from './equipment-presentation.js';
@@ -40,7 +41,7 @@ import {refinements} from './refinement-rules.js';
 import {pvp,bountyRules} from './pvp-rules.js';
 import {publicProfile,ownedProperties,attackAvailability,recruitmentAvailability} from './profiles.js';
 import {activityFeed,armyDashboard,feedCategory,relativeTime,battleTales} from './feeds.js';
-import {bountyBoard as loadBountyBoard,bountyQuote,bountyPlacementAvailability} from './bounties.js';
+import {bountyBoard as loadBountyBoard,bountyQuote,bountyPlacementAvailability,bountyHuntAvailability} from './bounties.js';
 import {activeBountyCount} from './bounties.js';
 import { navigation as nav, templateScreens, commandRoutes } from './http-contracts.js';
 import {championCategories,formatStanding,hallOfChampions,rivalryHistory,opponentUnavailable} from './competition.js';
@@ -81,7 +82,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   await app.register(fastifyStatic, { root: join(projectRoot, 'public'), prefix: '/assets/', maxAge: '1h',dotfiles:'deny',index:false,list:false });
   // Rules used by shared/nested views are application constants, not optional
   // page locals. This also covers direct views and error rendering contexts.
-  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { callingName,callingDescription,notifications:{home:0,army:0,events:[]},sound:mutedSound,soundEvent:null, champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,bountyCount:0,nextBountyExpiry:null,gameplay,experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
+  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { callingName,callingDescription,notifications:{home:0,army:0,events:[]},sound:mutedSound,soundEvent:null, competitiveProfile:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,bountyCount:0,nextBountyExpiry:null,gameplay,experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
   app.decorateRequest('realmSession', null);
 
   const setSessionCookie = (reply: FastifyReply, token: string, authenticated: boolean) => reply.setCookie('kr_session', token, {
@@ -157,15 +158,19 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const playerExperience=state?await experienceView(db,state.id):null;
     const board=data.bountyBoard as {activeCount?:number;nextExpiryAt?:string|null}|undefined;
     const counts=state&&['battle','bounties','bounty-new','bounty-confirm'].includes(screen)?board?.activeCount!==undefined?{count:board.activeCount,nextExpiryAt:board.nextExpiryAt??null}:await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):{count:0,nextExpiryAt:null};
-    const notificationFeed=[...((data.feed as {entries:any[]}|undefined)?.entries??[])];
+    const notificationFeed=[...((data.feed as {entries:any[]}|undefined)?.entries??[]),...((data.bountyBoard as {attentionFeed:any[]}|undefined)?.attentionFeed??[])];
     if(screen==='army'&&query.tab==='dashboard')for(const event of (data.armyEvents as any[]|undefined)??[])
       notificationFeed.push({id:event.id,kind:'army',data:{event:event.kind,actorId:event.actor_id,targetId:event.target_id}});
     const shownBattle=data.battle as {id?:string;defenderId?:string}|undefined;
-    if(screen==='report'&&state&&shownBattle?.id&&shownBattle.defenderId===state.id)notificationFeed.push({id:shownBattle.id,kind:'battle',data:{defenderId:state.id}});
+    if(screen==='report'&&state&&shownBattle?.id&&shownBattle.defenderId===state.id){
+      notificationFeed.push({id:shownBattle.id,kind:'battle',data:{defenderId:state.id}});
+      for(const event of(await db.query(`SELECT e.id,b.target_id,b.sponsor_id,b.claimant_id FROM bounty_events e JOIN bounties b ON b.id=e.bounty_id WHERE b.battle_id=$1 AND e.kind='claimed' AND b.target_id=$2`,[shownBattle.id,state.id])).rows)
+        notificationFeed.push({id:event.id,kind:'bounty',data:{event:'claimed',targetId:event.target_id,sponsorId:event.sponsor_id,claimantId:event.claimant_id}});
+    }
     const chosenRegion=regionFilter(query.area,alpha.id);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', {
-      screen, state,coordinatedArt,regionalArt,presentationArt,recordedEquipment,authoritativeItems:contentCatalog(state?.rulesetId).items,approvedExpansionArt,preparedExpansionArt,expansionArtUse,rareQuestPolicy:state?.rareEquipmentEnabled?questRarities:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
+      screen, state,coordinatedArt,regionalArt,presentationArt,recordedEquipment,authoritativeItems:contentCatalog(state?.rulesetId).items,approvedExpansionArt,preparedExpansionArt,expansionArtUse,rareQuestPolicy:state?.rareEquipmentEnabled?questRarities:null,competitiveProfile:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,
@@ -234,11 +239,11 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/game/achievements',{preHandler:requireAccount},async(request,reply)=>render(request,reply,'achievements',{title:'Achievements'}));
   app.get('/game/champions',{preHandler:requireAccount},async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config);
-    return render(request,reply,'champions',{title:'Hall of Champions',state,champions:await hallOfChampions(db,state.id,(request.query as {category?:unknown}).category)});
+    return render(request,reply,'champions',{title:'Hall of Champions',state,champions:await hallOfChampions(db,state.id,(request.query as {category?:unknown}).category,(request.query as {after?:unknown}).after)});
   });
   app.get('/api/v1/champions',{preHandler:requireAccount},async request=>{
     const id=(await db.query('SELECT id FROM characters WHERE account_id=$1',[request.realmSession!.account_id!])).rows[0]!.id;
-    return hallOfChampions(db,id,(request.query as {category?:unknown}).category);
+    return hallOfChampions(db,id,(request.query as {category?:unknown}).category,(request.query as {after?:unknown}).after);
   });
   app.get('/game/tutorial',{preHandler:requireAccount},async(request,reply)=>render(request,reply,'tutorial',{title:'Tutorial'}));
   app.get('/api/v1/achievements',{preHandler:requireAccount},async request=>{const state=await getState(db,request.realmSession!.account_id!,config);return experienceView(db,state.id);});
@@ -265,7 +270,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.get('/game/profile', {preHandler:requireAccount}, async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config);
-    return render(request,reply,'profile',{title:'Character',state,tales:await battleTales(db,state.id,state.id,(request.query as {after?:string}).after),
+    return render(request,reply,'profile',{title:'Character',state,competitiveProfile:await competitiveProfile(db,state.id),tales:await battleTales(db,state.id,state.id,(request.query as {after?:string}).after),
       feed:await activityFeed(db,state.id,'comments',(request.query as {after?:string}).after,state.id)});
   });
   app.get('/game/players/:id',{preHandler:requireAccount},async(request,reply)=>{
@@ -273,7 +278,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state=await getState(db,request.realmSession!.account_id!,config);
     if(id===state.id)return reply.redirect('/game/profile?tab='+(['skills','battles','comments'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player')+(uuid.safeParse((request.query as {command?:string}).command).success?'&command='+(request.query as {command:string}).command:''));
     const character=await publicProfile(db,id,config);
-    return render(request,reply,'profile',{title:character.name,state,publicCharacter:character,profileProperties:character.properties,profileTab:['comments','battles'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player',
+    return render(request,reply,'profile',{title:character.name,state,publicCharacter:character,competitiveProfile:await competitiveProfile(db,character.id),profileProperties:character.properties,profileTab:['comments','battles'].includes((request.query as {tab?:string}).tab??'')?(request.query as {tab:string}).tab:'player',
       recruitment:await recruitmentAvailability(db,state,character,config.developmentBotRecruitmentEnabled),bountyPlacement:await bountyPlacementAvailability(db,state.id,id,new Date(state.serverTime),config.developmentBotBountiesEnabled),combatTarget:attackAvailability(state,character,config.developmentBotsEnabled),rivalry:await rivalryHistory(db,state.id,id),tales:await battleTales(db,id,state.id,(request.query as {after?:string}).after),
       feed:await activityFeed(db,state.id,'comments',(request.query as {after?:string}).after,id)});
   });
@@ -313,7 +318,10 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state=await getState(db,request.realmSession!.account_id!,config);
     const opponentId=battle.attacker_id===state.id?battle.defender_id:battle.attacker_id;
     let combatTarget;
-    try{combatTarget=attackAvailability(state,await publicProfile(db,opponentId,config),config.developmentBotsEnabled);}
+    try{
+      const hunt=battle.attacker_id===state.id&&typeof battle.result.bountyHuntId==='string'?await bountyHuntAvailability(db,state.id,opponentId,battle.result.bountyHuntId,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):null;
+      combatTarget={...attackAvailability(state,await publicProfile(db,opponentId,config),config.developmentBotsEnabled,!!hunt?.allowed),...(hunt?.allowed?{bountyId:hunt.bountyId}:{})};
+    }
     catch(error){if(!(error instanceof GameError)||error.code!=='CHARACTER_NOT_FOUND')throw error;combatTarget=opponentUnavailable(opponentId);}
     return render(request, reply, 'report', { state,combatTarget,battle: {...battle.result,id:battle.id,createdAt:battle.result.createdAt??new Date(battle.created_at).toISOString(),attackerId:battle.attacker_id,defenderId:battle.defender_id,winnerId:battle.outcome==='attacker_win'?battle.attacker_id:battle.defender_id}, title: 'Battle report' });
   });
@@ -368,7 +376,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const result=await acknowledgeNotifications(db,id,asBody(request).events);
     if(wantsJson(request))return result;
     const destination=asBody(request).returnTo;
-    return reply.redirect(typeof destination==='string'&&(destination==='/game/profile?tab=comments'||destination==='/game/army?tab=dashboard'||/^\/game\/battles\/[a-f0-9-]{36}$/.test(destination))?destination:'/game/home',303);
+    return reply.redirect(typeof destination==='string'&&(destination==='/game/bounties'||destination==='/game/profile?tab=comments'||destination==='/game/army?tab=dashboard'||/^\/game\/battles\/[a-f0-9-]{36}$/.test(destination))?destination:'/game/home',303);
   });
   app.get('/api/v1/me', { preHandler: requireAccount }, async request => {
     const state=await getState(db,request.realmSession!.account_id!,config);
@@ -395,7 +403,11 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.get('/api/v1/players/:id/combat',{preHandler:requireAccount},async request=>{
     const id=(request.params as {id:string}).id.toLowerCase();if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);
     const state=await getState(db,request.realmSession!.account_id!,config);
-    return {combatTarget:attackAvailability(state,await publicProfile(db,id,config),config.developmentBotsEnabled),state};
+    const requested=(request.query as {bountyId?:unknown}).bountyId;
+    if(requested!==undefined&&!uuid.safeParse(requested).success)throw new GameError('BOUNTY_HUNT_UNAVAILABLE','Invalid bounty contract.',409);
+    const hunt=typeof requested==='string'?await bountyHuntAvailability(db,state.id,id,requested,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):null;
+    const combat=attackAvailability(state,await publicProfile(db,id,config),config.developmentBotsEnabled,!!hunt?.allowed);
+    return {combatTarget:hunt&&!hunt.allowed?{...combat,allowed:false,eligible:false,reason:hunt.reason}:{...combat,...(hunt?{bountyId:hunt.bountyId}:{})},state};
   });
   app.get('/api/v1/players/:id/tales',{preHandler:requireAccount},async request=>{
     const id=(request.params as {id:string}).id.toLowerCase();if(!uuid.safeParse(id).success)throw new GameError('CHARACTER_NOT_FOUND','That warrior was not found.',404);

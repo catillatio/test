@@ -361,3 +361,8 @@
      compact serif fits both values without smaller text or taller rows. */
   .kingdoms-ui.realm-remaster.screen-armory .market-catalog .catalog-row .catalog-description > span { font-family: Georgia, 'Times New Roman', serif; }
 }
+
+/* Phase 6: compact competitive records and actual quest discoveries. */
+.competitive-record{padding:10px 12px}.competitive-record .profile-section-heading{margin:0 0 8px}.rare-discovery{margin:10px 0;padding:10px;border:1px solid #947544;border-radius:5px;background:linear-gradient(135deg,#29251dd9,#111614);box-shadow:inset 0 1px #b5975726}.rare-discovery h3{margin:0 0 4px;color:#ead49e}.rare-discovery-item{display:flex;align-items:center;gap:10px;margin:8px 0}.rare-discovery-item>div{min-width:0}.rare-discovery-item small{display:block;color:#c4c2b9;font-size:13px}.rare-discovery .catalog-art{flex-shrink:0}.champion-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}.champions-panel+.button{margin-top:8px}
+
+@media(min-width:700px){.champion-tabs{grid-template-columns:repeat(7,minmax(0,1fr))}}

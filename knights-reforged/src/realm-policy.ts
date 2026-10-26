@@ -1,9 +1,10 @@
 import {equipmentPresentation,presentationDigest} from './equipment-presentation.js';
+import {readRarityAuthorization} from './rarity-activation.js';
 import {knownArtworkDigest} from './expansion-artwork.js';
 import type {Sql} from './db.js';import {transactionMemo,clearTransactionMemo} from './db.js';
 import {compatibility,type ArmyPolicy,type InventoryPolicy,type ProgressionPolicy} from './compatibility-rules.js';
 import {alpha} from './alpha-rules.js';import {expandedContent,expansionEngine,definitionDigest,questRarities} from './expansion-content.js';
-export interface RealmPolicy {expanded:boolean;presentationId?:string;catalogId:string;armyPolicy:ArmyPolicy;inventoryPolicy:InventoryPolicy;progressionPolicy:ProgressionPolicy;rareDrops:boolean;activationId:string|null;}
+export interface RealmPolicy {expanded:boolean;presentationId?:string;catalogId:string;armyPolicy:ArmyPolicy;inventoryPolicy:InventoryPolicy;progressionPolicy:ProgressionPolicy;rareDrops:boolean;rareEnabledAt?:string;rareAuthorizationId?:string;activationId:string|null;}
 export const legacyRealm:Readonly<RealmPolicy>=Object.freeze({expanded:false,catalogId:alpha.id,armyPolicy:compatibility.active.army,inventoryPolicy:compatibility.active.inventory,progressionPolicy:compatibility.active.progression,rareDrops:false,activationId:null});
 const key=Symbol('realm-policy');
 export function invalidateRealmPolicy(sql:Sql){clearTransactionMemo(sql,key);}
@@ -17,5 +18,6 @@ export function realmPolicy(sql:Sql):Promise<Readonly<RealmPolicy>>{return trans
  const evidence=(await sql.query("SELECT details,manifest_id,approval_digest FROM realm_expansion_events WHERE id=$1 AND kind='activate'",[row.id])).rows[0];
  const presentation=evidence?.details?.equipmentPresentation;
  if(presentation&&(evidence.manifest_id!==row.policy_id||evidence.approval_digest!==row.approval_digest||presentation.id!==equipmentPresentation.id||presentation.digest!==presentationDigest()||presentation.reviewed!==true))throw new Error('Invalid equipment presentation authorization.');
- return Object.freeze({...(presentation?{presentationId:equipmentPresentation.id}:{}),expanded:true,catalogId:expandedContent.id,armyPolicy:expansionEngine.armyPolicy,inventoryPolicy:expansionEngine.inventoryPolicy,progressionPolicy:expansionEngine.progressionPolicy,rareDrops:row.rarity_policy_id===questRarities.id,activationId:row.id});
+ const rarity=await readRarityAuthorization(sql);
+ return Object.freeze({...(presentation?{presentationId:equipmentPresentation.id}:{}),expanded:true,catalogId:expandedContent.id,armyPolicy:expansionEngine.armyPolicy,inventoryPolicy:expansionEngine.inventoryPolicy,progressionPolicy:expansionEngine.progressionPolicy,rareDrops:rarity?rarity.enabled:row.rarity_policy_id===questRarities.id,rareAuthorizationId:rarity?.id,rareEnabledAt:rarity?.effectiveAt??new Date(row.activated_at).toISOString(),activationId:row.id});
 });}

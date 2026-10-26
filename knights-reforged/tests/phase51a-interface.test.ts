@@ -95,7 +95,9 @@ test('self/public holdings use the same order and saved rates; all Hall categori
   await r.db.query('UPDATE champion_standings SET battle_victories=3,bounty_claims=2,land_value=100 WHERE character_id=ANY($1::uuid[])',[[a.id,b.id]]);
   for(const category of championCategories){
    const before=(await r.db.query('SELECT * FROM champion_standings ORDER BY character_id')).rows;
-   const hall=await hallOfChampions(r.db,a.id,category.id);assert.equal(hall.entries.length,2);
+   const hall=await hallOfChampions(r.db,a.id,category.id);
+   if(['kills','kd','wanted'].includes(category.id)){assert.equal(hall.entries.length,0,'ordinary victories and old claim totals never fabricate finishing or active-bounty records');assert.deepEqual((await r.db.query('SELECT * FROM champion_standings ORDER BY character_id')).rows,before);continue;}
+   assert.equal(hall.entries.length,2);
    const expected=(await r.db.query(`SELECT character_id FROM champion_standings WHERE eligible ORDER BY ${category.column} DESC,${category.id==='level'?'xp DESC,':''}created_at,character_id LIMIT 20`)).rows.map(x=>x.character_id);
    assert.deepEqual(hall.entries.map(x=>x.id),expected);assert.equal(hall.entries.find(x=>x.id===b.id)!.level,101);
    const page=await r.app.inject({url:'/game/champions?category='+category.id,headers:{cookie:a.cookie}});assert.equal(page.statusCode,200);assert.match(page.body,/class="champion-level">Level 101<\/small>/);

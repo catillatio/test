@@ -1,3 +1,6 @@
+import {z} from 'zod';
+import {GameError} from './errors.js';
+import {directedRivalry} from './competitive-records.js';
 import {type Database,type Sql,transaction} from './db.js';
 import {regenerate} from './rules.js';
 import {alpha} from './alpha-rules.js';
@@ -6,30 +9,40 @@ import {attackAvailability} from './profiles.js';
 import type {CharacterState} from './game.js';
 
 export const championCategories=[
- {id:'victories',name:'Battle Victories',column:'battle_victories',unit:'victories',help:'Actual attacking and defending victories, including eligible temporary-rival encounters. Only human champions are ranked.'},
- {id:'bounties',name:'Bounty Hunters',column:'bounty_claims',unit:'claims',help:'Completed, recorded bounty claims. Ordinary wins and knockouts do not count.'},
- {id:'land',name:'Wealthiest Kingdoms',column:'land_value',unit:'gold in Land',help:'Owned plots valued at their recorded purchase costs. Sold plots, carried gold and Vault savings do not count.'},
- {id:'level',name:'Highest Level',column:'attained_level',unit:'level',help:'Attained character level, then accumulated experience. Character levels remain uncapped.'},
+ {id:'victories',name:'Battle Victories',column:'battle_victories',unit:'victories',help:'Attacking and defending victories under the existing rules, including temporary-rival encounters. Only humans are ranked.'},
+ {id:'kills',name:'Player Kills',column:'player_kills',unit:'verified kills',help:'Human-versus-human bounty finishing actions with saved positive-to-zero Health evidence. Ordinary wins and unverified legacy claims do not invent kills.'},
+ {id:'kd',name:'Best K/D',column:'player_kills',unit:'K/D',help:'Verified player kills divided by verified deaths. At least one of each is required to rank; zero deaths are shown as undefeated on profiles, never infinity.'},
+ {id:'bounties',name:'Bounty Hunters',column:'bounty_claims',unit:'claims',help:'Completed recorded claims, including preserved historical claims. Claims and verified deaths are separate records.'},
+ {id:'wanted',name:'Most Wanted',column:'amount',unit:'active gold',help:'Current unexpired human-target bounty principal. Expired and settled contracts do not rank. Fees are not rewards.'},
+ {id:'land',name:'Wealthiest Kingdoms',column:'land_value',unit:'gold in Land',help:'Remaining Land at actual recorded acquisition costs; no wallet or Vault disclosure.'},
+ {id:'level',name:'Highest Level',column:'attained_level',unit:'level',help:'Attained level, then lifetime XP. Earned progression is never recomputed.'},
 ] as const;
 export function championCategory(value:unknown){return championCategories.find(category=>category.id===value)??championCategories[0];}
-export const formatStanding=(value:string|number)=>BigInt(value).toLocaleString('en');
-export async function hallOfChampions(db:Database,viewerId:string,selection?:unknown){
- const category=championCategory(selection),column=category.column,level=category.id==='level';
- const filter='s.eligible'+(level?'':` AND s.${column}>0`);
- const order=`s.${column} DESC,${level?'s.xp DESC,':''}s.created_at,s.character_id`;
+export function formatStanding(value:string|number){const [whole,fraction]=String(value).split('.');return BigInt(whole!).toLocaleString('en')+(fraction?'.'+fraction.slice(0,2).padEnd(2,'0'):'');}
+const boardCursor=z.object({category:z.string(),score:z.string().regex(/^\d{1,40}(\.\d{1,30})?$/),xp:z.string().regex(/^\d{1,20}$/),at:z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/),id:z.uuid()});
+export async function hallOfChampions(db:Database,viewerId:string,selection?:unknown,after?:unknown){
+ const category=championCategory(selection),level=category.id==='level',ratio=category.id==='kd',wanted=category.id==='wanted',kills=category.id==='kills';
+ let cursor:z.infer<typeof boardCursor>|null=null;
+ if(after!==undefined){try{if(typeof after!=='string'||after.length>800||!/^[A-Za-z0-9_-]+$/.test(after))throw 0;cursor=boardCursor.parse(JSON.parse(Buffer.from(after,'base64url').toString()));if(cursor.category!==category.id||!Number.isFinite(Date.parse(cursor.at)))throw 0;}catch{throw new GameError('INVALID_CURSOR','Invalid champion page.');}}
+ const metric=wanted?'b.amount':ratio?'(p.player_kills::numeric/NULLIF(p.player_deaths,0))':kills?'p.player_kills':`s.${category.column}`;
+ const from=`champion_standings s JOIN characters c ON c.id=s.character_id ${kills||ratio?'JOIN competitive_statistics p ON p.character_id=s.character_id':''} ${wanted?"JOIN bounties b ON b.target_id=s.character_id AND b.status='active' AND b.expires_at>transaction_timestamp()":''}`;
+ const filter=`s.eligible${level?'':` AND ${metric}>0`}${ratio?' AND p.player_deaths>0':''}`;
+ const order=`${metric} DESC,${level?'s.xp DESC,':''}s.created_at,s.character_id`;
+ const ahead=`${metric}>$1::numeric OR (${metric}=$1::numeric AND (${level?'s.xp>$4::bigint OR (s.xp=$4::bigint AND ':''}(s.created_at,s.character_id)<($2::timestamptz,$3::uuid)${level?')':''}))`;
+ const behind=`${metric}<$1::numeric OR (${metric}=$1::numeric AND (${level?'s.xp<$4::bigint OR (s.xp=$4::bigint AND ':''}(s.created_at,s.character_id)>($2::timestamptz,$3::uuid)${level?')':''}))`;
+ const params=(r:{score:string;at:string;id:string;xp?:string})=>level?[r.score,r.at,r.id,r.xp??'0']:[r.score,r.at,r.id];
  return transaction(db,async sql=>{
-  const rows=(await sql.query(`SELECT s.character_id AS id,c.name,c.attained_level AS level,s.${column}::text AS score${level?',s.xp::text AS xp':''}
-   FROM champion_standings s JOIN characters c ON c.id=s.character_id WHERE ${filter} ORDER BY ${order} LIMIT 20`)).rows;
-  const mine=(await sql.query(`SELECT s.${column}::text AS score${level?',s.xp::text AS xp':''},s.created_at::text AS created_at,s.character_id
-   FROM champion_standings s WHERE s.character_id=$1 AND ${filter}`,[viewerId])).rows[0];
-  let ownRank:string|null=null;
-  if(mine){
-   const ahead=`s.${column}>$1 OR (s.${column}=$1 AND ${level?'(s.xp>$4 OR (s.xp=$4 AND ':''}(s.created_at,s.character_id)<($2::timestamptz,$3::uuid)${level?'))':''})`;
-   ownRank=(await sql.query(`SELECT (count(*)+1)::text AS rank FROM champion_standings s WHERE ${filter} AND (${ahead})`,
-    level?[mine.score,mine.created_at,viewerId,mine.xp]:[mine.score,mine.created_at,viewerId])).rows[0]!.rank;
-  }
-  return {category,entries:rows.map((row,index)=>({id:row.id as string,name:row.name as string,level:Number(row.level),score:row.score as string,xp:row.xp as string|undefined,rank:index+1,self:row.id===viewerId})),
-   own:mine&&ownRank?{rank:ownRank,score:mine.score as string,xp:mine.xp as string|undefined}:null};
+  const rows=(await sql.query(`SELECT s.character_id AS id,c.name,c.attained_level AS level,${metric}::text AS score${level?',s.xp::text AS xp':''},
+   to_char(s.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS at
+   FROM ${from} WHERE ${filter}${cursor?` AND (${behind})`:''} ORDER BY ${order} LIMIT 21`,cursor?params(cursor):[])).rows;
+  const mine=(await sql.query(`SELECT s.character_id AS id,${metric}::text AS score${level?',s.xp::text AS xp':''},
+   to_char(s.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS at FROM ${from} WHERE s.character_id=$1 AND ${filter}`,[viewerId])).rows[0];
+  const rank=async(row:Record<string,any>)=>String((await sql.query(`SELECT (count(*)+1)::text AS rank FROM ${from} WHERE ${filter} AND (${ahead})`,params(row as any))).rows[0]!.rank);
+  const first=cursor&&rows[0]?Number(await rank(rows[0])):1;
+  const page=rows.slice(0,20),last=page.at(-1);
+  const nextCursor=rows.length>20&&last?Buffer.from(JSON.stringify({category:category.id,score:last.score,xp:last.xp??'0',at:last.at,id:last.id})).toString('base64url'):null;
+  return {category,entries:page.map((row,index)=>({id:row.id as string,name:row.name as string,level:Number(row.level),score:row.score as string,xp:row.xp as string|undefined,rank:first+index,self:row.id===viewerId})),
+   own:mine?{rank:await rank(mine),score:mine.score as string,xp:mine.xp as string|undefined}:null,nextCursor};
  },{mode:'repeatable-read-only'});
 }
 export async function visibleHuman(sql:Sql,id:string){
@@ -47,7 +60,7 @@ export async function rivalryHistory(sql:Sql,viewerId:string,opponentId:string){
   WHERE LEAST(b.attacker_id,b.defender_id)=$1 AND GREATEST(b.attacker_id,b.defender_id)=$2
   ORDER BY b.created_at DESC,b.id DESC LIMIT 5`,pair)).rows;
  const value=(key:string)=>String(total?.[(ownLow?'low_':'high_')+key]??0),other=(key:string)=>String(total?.[(ownLow?'high_':'low_')+key]??0);
- return {opponentId,wins:value('wins'),losses:other('wins'),goldTaken:value('gold'),goldLost:other('gold'),bountiesClaimed:value('bounties'),bountiesLost:other('bounties'),
+ return {...await directedRivalry(sql,viewerId,opponentId),opponentId,wins:value('wins'),losses:other('wins'),goldTaken:value('gold'),goldLost:other('gold'),bountiesClaimed:value('bounties'),bountiesLost:other('bounties'),
   unrecordedGold:String(total?.unrecorded_gold??0),
   battles:rows.map(row=>({id:row.id as string,createdAt:new Date(row.created_at).toISOString(),attackerId:row.attacker_id as string,defenderId:row.defender_id as string,
    attackerName:row.attacker_name as string,defenderName:row.defender_name as string,won:(row.outcome==='attacker_win'?row.attacker_id:row.defender_id)===viewerId,
