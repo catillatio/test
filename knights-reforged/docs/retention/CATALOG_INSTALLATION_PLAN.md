@@ -8,7 +8,7 @@ hashes verified and every postcheck passing. Console result:
 
 **Do not repeat either SQL installation.** All 23 copies and emergency OIDs
 106971 / 129180 remain protected. Full definition/effective-permission validation
-is pending; no registration, credential setup, adoption or cleanup is authorized.
+subsequently passed per the [owner summary](OWNER_CATALOG_VALIDATION_RESULT.json); no registration, credential setup, adoption or cleanup is authorized.
 The remainder preserves the exact historical plan and pre-install observations;
 its former authorization boundary has been satisfied only for that completed
 installation, not for a rerun, upgrade or further production action.

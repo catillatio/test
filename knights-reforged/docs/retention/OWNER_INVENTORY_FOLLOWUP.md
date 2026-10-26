@@ -3,7 +3,8 @@
 **Status update:** the owner subsequently completed the exact metadata installation
 with both SQL hashes and all postchecks passing. Both catalogs are installed and
 empty; no adoption/activation occurred. [Installation evidence](OWNER_INSTALLATION_RESULT.json)
-and [next read-only validation / future registration plan](POST_INSTALL_VALIDATION_AND_REGISTRATION.md).
+and [completed read-only validation / future registration readiness plan](POST_INSTALL_VALIDATION_AND_REGISTRATION.md).
+The owner subsequently [validated all catalog/permission checks](OWNER_CATALOG_VALIDATION_RESULT.json).
 The absent-schema/role observations below are **pre-install history**. Do not
 repeat installation or treat this status update as permission for another write.
 

@@ -16,13 +16,14 @@ PostgreSQL 18.6, matching private cluster and 23 protected copies. The owner the
 completed the separately approved metadata installation with both SQL hashes and
 all postchecks passing: `EMPTY_CATALOGS_INSTALLED; identities preserved; no adoption or activation`.
 [Attributed result](../retention/OWNER_INSTALLATION_RESULT.json) and
-[next read-only definition/permission validation and future registration plan](../retention/POST_INSTALL_VALIDATION_AND_REGISTRATION.md)
+[completed read-only definition/permission validation and future registration plan](../retention/POST_INSTALL_VALIDATION_AND_REGISTRATION.md)
 supersede the earlier absence findings. Do not repeat installation.
 
 No existing copy is adopted. All 23, both emergency OIDs and the six unmatched
 names remain protected. Original legacy OIDs/external holds remain unresolved.
-Code delivery, full effective-permission validation, registrar credentials/scope
-and optional enablement are separate future gates; no worker activation, credential
+Full definition/effective-permission validation has now passed per the
+[owner summary](../retention/OWNER_CATALOG_VALIDATION_RESULT.json). Code delivery,
+registrar credentials/scope and optional enablement remain separate future gates; no worker activation, credential
 setup, ownership adoption or cleanup is authorized by the installation result.
 
 ## Completed integration
@@ -96,9 +97,9 @@ backup/age/migration subprocess environments.
 
 1. The owner has confirmed the existing private target and installed both exact
    metadata catalogs. Do not repeat bootstrap/observations or create a new target.
-2. Complete the prepared read-only definition/effective-permission validation in
-   the existing owner Console. Installation postchecks are recorded; full catalog
-   validation remains pending. Any mismatch requires separate correction review.
+2. The owner has completed the prepared read-only definition/effective-permission
+   validation with all observed checks passing. Do not request another identical
+   survey. Any future drift requires separate review, not automatic correction.
 3. Set a dedicated strong `kc_copy_registrar` password through the trusted channel.
    The role receives CONNECT, USAGE on `release_observations`, and EXECUTE on its
    guarded append function only. It has no role memberships, DDL, table writes,

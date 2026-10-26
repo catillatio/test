@@ -16,8 +16,10 @@ timestamp was supplied. The former absent-schema/role findings are historical,
 superseded for installation status. **Do not repeat either installation.**
 
 Installation postchecks establish empty metadata, unchanged database identity
-tuples, no adopted ownership and the specified role attributes. Full definitions
-and effective privileges still need the read-only check below. All **23** copies,
+tuples, no adopted ownership and the specified role attributes. The owner has now
+also completed the full read-only definition and effective-permission assessment:
+[recorded owner summary](OWNER_CATALOG_VALIDATION_RESULT.json). All observed
+checks passed; registration/retirement authorization fields remain false. All **23** copies,
 including OIDs **106971 / 129180**, remain protected. Six unmatched legacy names,
 missing original-OID evidence and external recovery holds are unchanged.
 
@@ -26,13 +28,27 @@ import, cleanup, schedule, merge, deployment or protected release is authorized.
 The catalogs alone neither register copies nor reclaim storage. PR #25's worker
 integration remains a draft; installation does not prove it is deployed.
 
-## Next action: read-only Console validation
+## Completed owner-observed validation — do not repeat
+
+The owner reports `read_only`, target/actor/PostgreSQL-major/cluster matches,
+catalog/role definitions, explicit/effective grants, five empty tables and scoped
+`postgres` ownership all true. The recovery count is 23; both emergency OIDs are
+present and no managed role owns any database. No server timestamp/private
+identifiers were supplied or fabricated. The two false authorization fields are
+constants, not a live enablement or eligibility test. The owner's explicit
+instruction independently prohibits further production changes.
+
+The following packet is retained as reviewed evidence/reference, not another
+request to run it. Do not repeat installation or the completed Console survey.
+Revalidation after a later approved change needs a separately scoped review.
+
+### Preserved read-only packet
 
 The official Railway integration exposed here has no private SQL execution
 tool. Use the existing KingdomReleaseCopy Console as `postgres`, not the game
 service, source database or verification worker. No new credential is needed.
 
-Copy the complete [paste-ready read-only Console packet](VALIDATE_CATALOGS_CONSOLE.txt)
+For a separately requested future recheck only, copy the [read-only Console packet](VALIDATE_CATALOGS_CONSOLE.txt)
 into that existing shell. It stages the exact
 [reviewable SQL](VALIDATE_CATALOGS_READ_ONLY.sql) in private local files, verifies
 its SHA-256, prompts for the already privately confirmed restore-cluster digest,
@@ -85,11 +101,51 @@ object. Catalog owners/superusers can alter catalogs; the database-owner bypass
 limitations in [READINESS.md](READINESS.md) still apply. Read-only validation does
 not create an exclusive release/cleanup window or authorize a later write.
 
+## Registration readiness review — preparation only
+
+| Gate | Evidence / remaining requirement | Status |
+| --- | --- | --- |
+| Exact maintenance target and independent cluster | Prior comparison plus owner validation result | Complete, owner-observed |
+| Exact catalog definitions / role attributes / explicit and effective grants | All four match flags true | Complete, owner-observed |
+| Empty catalogs / protected baseline | Five empty tables; 23 copies; scoped owners postgres; emergency OIDs present; no managed database owner | Complete, owner-observed |
+| Code candidate and final tests | Draft PR #25; final exact-head CI linked in PR body | Review candidate only; no merge/deploy approval |
+| Registrar-only credential and exact worker scope | Existing private worker, same maintenance database, existing scoped role; values must remain private | Not configured; separate authorization required |
+| Registration enablement and first observation | Existing opt-in only after reviewed code delivery; next already-needed, separately approved prepare | Not enabled; separate authorization required |
+| Runtime/authorizer, legacy adoption, cleanup and schedule | Outside this registration phase | Remain prohibited/inactive |
+
+The next owner review can address **registration preparation/code delivery**, not
+legacy adoption or cleanup. Before any separately approved configuration write,
+privately record the exact reviewed candidate, worker/project/environment/copy
+service identities, maintenance name, distinct source/restore cluster digests,
+registrar role and authentication method. Review the existing eight-field scope
+in `registrationConfig`; do not publish connection strings or prepare secret values
+in the repository. No new runner, endpoint, administrative system or database is
+needed for future worker observation. A missing trusted private channel is a
+blocker to report, not permission to create one.
+
+Any later enablement approval must explicitly cover the setting change and its
+safe pause/revert procedure, including Railway's possibility of deployment on a
+variable change. Neither action is executed or preauthorized here. Optional failure
+should preserve the existing backup/report and release gates, emit only fixed
+categories, and leave the unregistered copy protected. Do not delete metadata or
+rerun backup/restore as a rollback. Replay is allowed only later with separately
+reviewed retained original identity/evidence and a trusted existing worker channel.
+
+The first future acceptance review must privately match actual name/OID/owner/
+cluster, original job/run/attempt/deployment, report and evidence digests, genuine
+verification and server timestamps. It must also establish unchanged ownership,
+no adopted-copy/permit/pin/audit writes, protected legacy copies/emergency OIDs,
+and exactly one observation under identical retries. A new copy may raise the
+inventory beyond 23; that does not rewrite this historical baseline. An observation
+does not backdate any later adoption's separate 24-hour hold or bypass the newest-
+two/current/pending/pinned/unknown protections.
+
 ## Future verified-copy registration — plan only, still OFF
 
-1. **Review the read-only result.** Confirm all intended role/guard/ACL checks
-   before any credential setup. A mismatch needs a separately reviewed correction,
-   not automatic GRANT/REVOKE or bootstrap replay. Preserve all copies meanwhile.
+1. **Completed: target/catalog/role/ACL result reviewed as owner-observed PASS.**
+   The recorded result closes this preparation gate; do not ask for the same
+   survey again. It grants no credential or feature-change approval. Any later
+   drift needs separate review, not automatic GRANT/REVOKE or bootstrap replay.
 2. **Separately approve code delivery.** Review PR #25 and its normal exact-head
    checks. Any merge/protected deployment requires explicit authorization and all
    existing encrypted backup, independent restore, exact-commit, signature,
