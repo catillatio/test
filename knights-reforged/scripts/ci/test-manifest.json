@@ -662,6 +662,16 @@
       "file": "tests/phase6-models.test.ts",
       "lane": "unit",
       "weight": 1
+    },
+    {
+      "file": "tests/classic-profile.test.ts",
+      "lane": "database",
+      "weight": 1
+    },
+    {
+      "file": "tests/classic-profile-browser.test.mjs",
+      "lane": "browser",
+      "weight": 2
     }
   ]
 }

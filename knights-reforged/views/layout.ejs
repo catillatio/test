@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="/assets/phase49.css?v=phase51b-final-art1">
   <% if(screen==='report') { %><link rel="stylesheet" href="/assets/phase491.css?v=phase491-report1"><% } %>
   <link rel="stylesheet" href="/assets/phase51c.css?v=phase51c-1">
+  <% if(screen==='profile') { %><link rel="stylesheet" href="/assets/profile-classic.css?v=classic-profile-1"><% } %>
 </head>
 <body data-sound-enabled="<%= soundConfig.enabled?'1':'0' %>" data-sound-volume="<%= soundConfig.volume %>" data-sound-event="<%= JSON.stringify(soundResult) %>" class="kingdoms-ui realm-remaster <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new','champions'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>

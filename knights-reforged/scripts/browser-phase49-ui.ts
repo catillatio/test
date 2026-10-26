@@ -7,6 +7,7 @@ import {realm,testDatabaseUrl} from '../tests/helpers.js';
 import {createApp} from '../src/app.js';
 import {loadConfig} from '../src/config.js';
 import {provisionBots} from '../src/development.js';
+import {championCategories} from '../src/competition.js';
 import {levelRequirement} from '../src/alpha-rules.js';
 
 if(!testDatabaseUrl)throw new Error('A designated disposable *_test database is required.');
@@ -40,15 +41,13 @@ try{
   if(width<500)await shot(width+'-home');
   await page.getByRole('link',{name:/^Calling/}).click();await page.waitForURL('**/game/home?calling=1#calling');await page.locator('#calling').scrollIntoViewIfNeeded();assert.equal(await page.locator('#calling-choice').inputValue(),'Freeblade');assert.ok(await page.getByRole('button',{name:'Choose calling',exact:true}).isVisible());if(width<500)await shot(width+'-calling');
   if(width===390){await page.locator('.calling-details>summary').click();await shot('390-calling-details');}
-  await visit('/game/profile');assert.equal(await page.locator('[data-profile-stats]').getAttribute('open'),null);assert.equal(await page.locator('[data-profile-income]').getAttribute('open'),null);assert.equal(await page.locator('#calling-choice').count(),0);if(width<500)await shot(width+'-profile');
-  const summary=page.locator('[data-profile-stats]>summary');await summary.focus();await page.keyboard.press('Enter');assert.notEqual(await page.locator('[data-profile-stats]').getAttribute('open'),null);
-  await page.locator('[data-profile-income]>summary').click();assert.ok(await page.getByText('Gross hourly income',{exact:true}).isVisible());if(width<500)await shot(width+'-profile-details');
+  await visit('/game/profile');assert.ok(await page.locator('[data-profile-stats]').isVisible());assert.ok(await page.locator('[data-profile-income]').isVisible());assert.equal(await page.locator('#calling-choice').count(),0);assert.ok(await page.getByText('Total Income',{exact:true}).isVisible());if(width<500)await shot(width+'-profile');
   for(const category of['victories','bounties','land','level']){
-   await visit('/game/champions?category='+category);assert.equal(await page.locator('.champion-tabs a').count(),4);assert.ok(await page.locator('.champion-row').count()<=20);
+   await visit('/game/champions?category='+category);assert.equal(await page.locator('.champion-tabs a').count(),championCategories.length);assert.ok(await page.locator('.champion-row').count()<=20);
    const targets=await page.locator('.champion-tabs a,.champion-row .player-link').evaluateAll(es=>es.map(e=>({w:e.getBoundingClientRect().width,h:e.getBoundingClientRect().height})));assert.ok(targets.every(e=>e.w>=44&&e.h>=44));
    if(category==='level'){assert.equal(await page.locator('.champion-row').count(),10);if(width<500)await shot(width+'-champions');}
   }
-  checks.push(width+'px: no overflow, five tabs, Calling beside Hall, keyboard disclosures, four categories, bounded rankings, 44px targets, unchanged teal row and Land density');
+  checks.push(width+'px: no overflow, five tabs, Calling beside Hall, compact visible profile statistics, champion categories, bounded rankings, 44px targets, unchanged teal row and Land density');
  }
  assert.deepEqual(await snapshot(),before,'UI navigation cannot alter protected gameplay data');
  await visit('/game/home');await page.getByRole('link',{name:/^Calling/}).click();await page.waitForURL('**/game/home?calling=1#calling');

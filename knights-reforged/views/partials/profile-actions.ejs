@@ -6,7 +6,7 @@
 <a class="button button-outline bounty-action" href="/game/bounties/new?target=<%= character.id %>">Add to Bounty List</a>
 </div>
 <p class="compact-help combat-restriction" role="status" data-combat-restriction><%= combatTarget?.reason??'Each attack costs 1 Stamina. No repeat-attack cooldown.' %></p>
-<% if(!bountyPlacement.allowed) { %><p class="field-hint bounty-eligibility">Bounty unavailable: <%= bountyPlacement.reason %></p><% } else { %><p class="field-hint">Bounty eligible · 1–10,000 unbanked gold plus the disclosed listing fee. Review before funding.</p><% } %>
+<% if(!bountyPlacement.allowed) { %><p class="field-hint bounty-eligibility">Bounty unavailable: <%= bountyPlacement.reason %></p><% } %>
 </section>
 
 <section class="profile-recruitment" aria-label="Army request">
