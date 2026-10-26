@@ -15,7 +15,7 @@ function fixture(){
  const values={KINGDOM_COPY_REGISTRATION_DATABASE_URL:'postgres://kc_copy_registrar:fixture-private-password@copy.railway.internal:5432/Railway',KINGDOM_COPY_REGISTRATION_ENABLED:'0',KINGDOM_COPY_REGISTRATION_SCOPE:JSON.stringify({projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.gameId,workerServiceId:target.workerId,verificationDatabaseServiceId:target.copyId,maintenanceDatabase:'Railway',clusterDigest:'c'.repeat(64),sourceClusterDigest:'d'.repeat(64)})};
  const patch={services:{[target.workerId]:{variables:Object.fromEntries(registrationKeys.map(k=>[k,{encryptedValue:'stored-ciphertext-'+k}]))}}};
  const clear={services:{[target.workerId]:{variables:Object.fromEntries(Object.entries(values).map(([k,value])=>[k,{value}]))}}};
- return {project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,name:'production',projectId:target.projectId,unmergedChangesCount:3},worker:{serviceId:target.workerId,environmentId:target.environmentId,serviceName:'KingdomReleaseCheck',latestDeployment:d,activeDeployments:[structuredClone(d)]},deployments:{edges:[{node:structuredClone(d)}]},
+ return {project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,name:'production',projectId:target.projectId,unmergedChangesCount:null},worker:{serviceId:target.workerId,environmentId:target.environmentId,serviceName:'KingdomReleaseCheck',latestDeployment:d,activeDeployments:[structuredClone(d)]},deployments:{edges:[{node:structuredClone(d)}]},
   staged:{id:id(6),environmentId:target.environmentId,status:'STAGED',createdAt:stamp,updatedAt:stamp,appliedAt:null,lastAppliedError:null,patch,clear}};
 }
 const vars=d=>d.staged.clear.services[target.workerId].variables;
@@ -27,7 +27,11 @@ function provider({before=fixture(),changeSecond=()=>{},changeAfter=()=>{},mutat
   if(query.includes('query RegistrarConfigInspect')){if(readError)throw new Error('provider-secret');const d=structuredClone(before);if(++inspected===2)changeSecond(d);return d;}
   if(query.includes('mutation RegistrarConfigCommit')){if(mutationError)throw new Error('provider-secret lost acknowledgement');return {environmentPatchCommitStaged:commitReply};}
   if(query.includes('query RegistrarConfigStatus'))return {workflowStatus:{status,error:statusError}};
-  if(query.includes('query RegistrarConfigVerify')){const d=structuredClone(before);d.environment.unmergedChangesCount=0;changeAfter(d);return d;}
+  if(query.includes('query RegistrarConfigVerify')){
+   assert.equal(variables.patchId,before.staged.id);
+   const d=structuredClone(before);d.receipt={...structuredClone(before.staged),status:'COMMITTED',appliedAt:'2026-10-26T05:00:00.000Z',updatedAt:'2026-10-26T05:00:00.000Z'};
+   delete d.receipt.clear;d.pending=structuredClone(d.receipt);changeAfter(d);return d;
+  }
   throw new Error('Unexpected provider operation');
  };
  return {api,calls,writes:()=>calls.filter(c=>c.query.includes('mutation '))};
@@ -64,8 +68,7 @@ test('only exact worker variable additions are accepted; unrelated or incomplete
   sameCluster:d=>{const s=JSON.parse(vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value);s.sourceClusterDigest=s.clusterDigest;vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify(s);},
   wrongPatchEnvironment:d=>{d.staged.environmentId=id(7);},
   applying:d=>{d.staged.status='APPLYING';},
-  committed:d=>{d.staged.status='COMMITTED';d.environment.unmergedChangesCount=0;},
-  otherChangeCount:d=>{d.environment.unmergedChangesCount=4;}
+  committed:d=>{d.staged.status='COMMITTED';}
  };
  for(const [name,mutate] of Object.entries(cases))await t.test(name,async()=>{const before=fixture();mutate(before);const p=provider({before});await assert.rejects(runConfig(commitEnv(),{api:p.api}));assert.equal(p.writes().length,0);});
 });
@@ -79,7 +82,7 @@ test('old worker must be the exact stopped deployment; target and queued/instanc
  for(const [name,mutate] of Object.entries(cases))await t.test(name,async()=>{const before=fixture();mutate(before);const p=provider({before});await assert.rejects(runConfig(commitEnv(),{api:p.api}));assert.equal(p.writes().length,0);});
 });
 test('postchecks detect same-deployment restarts, new deployments, altered instances and an uncleared patch',async t=>{
- const cases={restart:d=>{d.worker.latestDeployment.updatedAt='2026-10-26T05:00:00.000Z';},newDeployment:d=>{d.worker.latestDeployment.id=id(7);},newInstance:d=>{d.worker.latestDeployment.instances[0].id='replacement-instance';},queued:d=>{d.deployments.edges.unshift({node:{...d.worker.latestDeployment,id:id(7),status:'QUEUED'}});},pending:d=>{d.environment.unmergedChangesCount=3;}};
+ const cases={restart:d=>{d.worker.latestDeployment.updatedAt='2026-10-26T05:00:00.000Z';},newDeployment:d=>{d.worker.latestDeployment.id=id(7);},newInstance:d=>{d.worker.latestDeployment.instances[0].id='replacement-instance';},queued:d=>{d.deployments.edges.unshift({node:{...d.worker.latestDeployment,id:id(7),status:'QUEUED'}});},pending:d=>{d.pending=structuredClone(d.staged);}};
  for(const [name,changeAfter] of Object.entries(cases))await t.test(name,async()=>{const p=provider({changeAfter});await assert.rejects(runConfig(commitEnv(),{api:p.api}));assert.equal(p.writes().length,1);});
 });
 test('lost acknowledgements, failed workflows, read failures and timeouts never retry the mutation',async t=>{
@@ -127,7 +130,13 @@ test('inspection identifies the exact guard group while retaining rejection and 
   WORKER_IDENTITY:d=>{d.worker.latestDeployment.id=id(7);},
   WORKER_STOPPED_STATE:d=>{d.worker.latestDeployment.deploymentStopped=false;},
   WORKER_HISTORY:d=>{d.worker.activeDeployments=[{...d.worker.latestDeployment,updatedAt:'2026-10-26T06:00:00.000Z'}];},
-  PATCH_METADATA:d=>{d.environment.unmergedChangesCount=4;},
+  PATCH_ID:d=>{d.staged.id='invalid';},
+  PATCH_ENVIRONMENT:d=>{d.staged.environmentId=id(7);},
+  PATCH_STATUS:d=>{d.staged.status='APPLYING';},
+  PATCH_APPLIED_AT:d=>{d.staged.appliedAt=stamp;},
+  PATCH_LAST_APPLIED_ERROR:d=>{d.staged.lastAppliedError='fixture-private-password';},
+  PATCH_CREATED_AT:d=>{d.staged.createdAt='invalid';},
+  PATCH_UPDATED_AT:d=>{d.staged.updatedAt='invalid';},
   PATCH_ENCRYPTED_SHAPE:d=>{d.staged.patch.sharedVariables={};},
   PATCH_CLEAR_SHAPE:d=>{vars(d).KINGDOM_COPY_REGISTRATION_SCOPE={encryptedValue:'not-decrypted'};},
   REGISTRATION_NOT_DISABLED:d=>{vars(d).KINGDOM_COPY_REGISTRATION_ENABLED.value='1';},
@@ -136,6 +145,33 @@ test('inspection identifies the exact guard group while retaining rejection and 
  };
  for(const [category,mutate] of Object.entries(cases))await t.test(category,async()=>{const before=fixture();mutate(before);const p=provider({before});await assert.rejects(runConfig(env,{api:p.api}),e=>failureCategory(e)===category&&!e.message.includes('fixture-private-password'));assert.equal(p.writes().length,0);assert.equal(p.calls.length,1);});
  const p=provider();await assert.rejects(runConfig({...env,GITHUB_JOB:'unexpected'},{api:p.api}),e=>failureCategory(e)==='WORKFLOW_REQUEST');assert.equal(p.calls.length,0);
+});
+test('forked-environment counters do not determine exact staged scope or successful clearance',async t=>{
+ for(const count of [null,0,1,3,4,20])await t.test(String(count),async()=>{
+  const before=fixture();before.environment.unmergedChangesCount=count;const p=provider({before});
+  assert.equal((await runConfig(env,{api:p.api})).kind,'inspection');assert.equal(p.writes().length,0);
+  assert.equal((await runConfig(commitEnv(before),{api:p.api})).kind,'committed');assert.equal(p.writes().length,1);
+  assert.ok(p.calls.every(c=>!c.query.includes('unmergedChangesCount')));
+ });
+ // A zero fork counter cannot conceal unrelated staged changes.
+ const before=fixture();before.environment.unmergedChangesCount=0;before.staged.patch.sharedVariables={UNRELATED:{value:'fixture-private-password'}};
+ const p=provider({before});await assert.rejects(runConfig(commitEnv(),{api:p.api}));assert.equal(p.writes().length,0);
+});
+test('clearance binds the exact committed receipt and rejects pending, mismatched or unverifiable state',async t=>{
+ for(const patch of [{},{services:{},volumes:{},buckets:{},sharedVariables:{}}]){
+  const p=provider({changeAfter:d=>{d.pending={...structuredClone(d.staged),id:id(7),patch};}});
+  assert.equal((await runConfig(commitEnv(),{api:p.api})).kind,'committed');assert.equal(p.writes().length,1);
+ }
+ const cases={
+  wrongReceipt:d=>{d.receipt.id=id(7);},wrongEnvironment:d=>{d.receipt.environmentId=id(7);},
+  unapplied:d=>{d.receipt.status='STAGED';d.receipt.appliedAt=null;},missingAppliedAt:d=>{d.receipt.appliedAt=null;},
+  rewoundRevision:d=>{d.receipt.updatedAt='2026-10-25T00:00:00.000Z';},changedPayload:d=>{d.receipt.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue+='changed';},
+  error:d=>{d.receipt.lastAppliedError='fixture-private-password';},missingPending:d=>{delete d.pending;},
+  newNonempty:d=>{d.pending={...structuredClone(d.staged),id:id(7)};},differentCommitted:d=>{d.pending.id=id(7);},
+  unknownEmptyRoot:d=>{d.pending={...structuredClone(d.staged),id:id(7),patch:{unrelated:{}}};},
+  clearingNetwork:d=>{d.pending={...structuredClone(d.staged),id:id(7),patch:{privateNetworkDisabled:null}};}
+ };
+ for(const [name,changeAfter] of Object.entries(cases))await t.test(name,async()=>{const p=provider({changeAfter});await assert.rejects(runConfig(commitEnv(),{api:p.api}),e=>failureCategory(e)==='PATCH_NOT_CLEARED');assert.equal(p.writes().length,1);});
 });
 test('workflow keeps one production mutex/owner gate and makes config and recovery mutually exclusive',()=>{
  const workflow=readFileSync(new URL('../../.github/workflows/production-release.yml',import.meta.url),'utf8');

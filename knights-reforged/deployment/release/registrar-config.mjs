@@ -14,7 +14,7 @@ const keys=(value,expected)=>assert.deepEqual(Object.keys(value??{}).sort(),expe
 // Only these fixed categories may leave the process. Never log exception
 // messages/stacks, provider messages, response bodies or secret-bearing values.
 const categories=new Set(['WORKFLOW_REQUEST','TARGET_CONFIG','API_TRANSPORT','API_AUTHENTICATION','API_PERMISSION','API_HTTP','API_RESPONSE','API_QUERY_REJECTED','API_GRAPHQL_REJECTED','API_READ',
- 'TARGET_IDENTITY','WORKER_IDENTITY','WORKER_STOPPED_STATE','WORKER_HISTORY','PATCH_METADATA','PATCH_ENCRYPTED_SHAPE','PATCH_CLEAR_SHAPE','REGISTRATION_NOT_DISABLED','REGISTRAR_URL','REGISTRAR_SCOPE',
+ 'TARGET_IDENTITY','WORKER_IDENTITY','WORKER_STOPPED_STATE','WORKER_HISTORY','PATCH_ID','PATCH_ENVIRONMENT','PATCH_STATUS','PATCH_APPLIED_AT','PATCH_LAST_APPLIED_ERROR','PATCH_CREATED_AT','PATCH_UPDATED_AT','PATCH_ENCRYPTED_SHAPE','PATCH_CLEAR_SHAPE','REGISTRATION_NOT_DISABLED','REGISTRAR_URL','REGISTRAR_SCOPE',
  'PATCH_BINDING','PRECOMMIT_WORKER_CHANGED','COMMIT_UNCONFIRMED','POST_COMMIT_WORKER_CHANGED','CONFIG_WORKFLOW_STATE','PATCH_NOT_CLEARED','POST_COMMIT_TIMEOUT','SUMMARY_WRITE','UNCLASSIFIED']);
 const failures=new WeakMap();
 function fail(category){assert.ok(categories.has(category));const error=new Error('Registrar configuration check failed.');failures.set(error,category);throw error;}
@@ -24,13 +24,16 @@ async function during(category,operation){try{return await operation();}catch(er
 const endpoint='https://backboard.railway.com/graphql/v2';
 const identity=`id projectId environmentId serviceId status createdAt updatedAt statusUpdatedAt deploymentStopped instances { id status }`;
 const context=`project(id:$projectId){id name}
- environment(id:$environmentId,projectId:$projectId){id name projectId unmergedChangesCount}
+ environment(id:$environmentId,projectId:$projectId){id name projectId}
  worker:serviceInstance(environmentId:$environmentId,serviceId:$workerId){serviceId environmentId serviceName latestDeployment{${identity}} activeDeployments{${identity}}}
  deployments(input:{projectId:$projectId,environmentId:$environmentId,serviceId:$workerId},first:3){edges{node{${identity}}}}`;
 const variables=`$projectId:String!,$environmentId:String!,$workerId:String!`;
+const patchFields=`id environmentId status createdAt updatedAt appliedAt lastAppliedError patch(decryptVariables:false)`;
 const inspectQuery=`query RegistrarConfigInspect(${variables}){${context}
- staged:environmentStagedChanges(environmentId:$environmentId){id environmentId status createdAt updatedAt appliedAt lastAppliedError patch(decryptVariables:false) clear:patch(decryptVariables:true)}}`;
-const verifyQuery=`query RegistrarConfigVerify(${variables}){${context}}`;
+ staged:environmentStagedChanges(environmentId:$environmentId){${patchFields} clear:patch(decryptVariables:true)}}`;
+const verifyQuery=`query RegistrarConfigVerify(${variables},$patchId:String!){${context}
+ receipt:environmentPatch(id:$patchId){${patchFields}}
+ pending:environmentStagedChanges(environmentId:$environmentId){${patchFields}}}`;
 // Official pinned Railway CLI mutation. There is no expected-patch/CAS argument.
 export const commitMutation=`mutation RegistrarConfigCommit($environmentId:String!,$commitMessage:String!){
  environmentPatchCommitStaged(environmentId:$environmentId,commitMessage:$commitMessage,skipDeploys:true)}`;
@@ -123,11 +126,17 @@ function definitions(patch,target,encrypted){
  return vars;
 }
 export function checkPatch(data,target){
- const p=data.staged;checked('PATCH_METADATA',()=>{
- assert.match(p?.id??'',uuid);assert.equal(p.environmentId,target.environmentId);assert.equal(p.status,'STAGED');
- assert.equal(p.appliedAt,null);assert.equal(p.lastAppliedError,null);assert.equal(data.environment.unmergedChangesCount,3);
- for(const k of ['createdAt','updatedAt'])assert.ok(Number.isFinite(Date.parse(p[k])));
- });
+ const p=data.staged;
+ checked('PATCH_ID',()=>assert.match(p?.id??'',uuid));
+ checked('PATCH_ENVIRONMENT',()=>assert.equal(p.environmentId,target.environmentId));
+ checked('PATCH_STATUS',()=>assert.equal(p.status,'STAGED'));
+ checked('PATCH_APPLIED_AT',()=>assert.equal(p.appliedAt,null));
+ checked('PATCH_LAST_APPLIED_ERROR',()=>assert.equal(p.lastAppliedError,null));
+ checked('PATCH_CREATED_AT',()=>assert.ok(Number.isFinite(Date.parse(p.createdAt))));
+ checked('PATCH_UPDATED_AT',()=>assert.ok(Number.isFinite(Date.parse(p.updatedAt))));
+ // environment.unmergedChangesCount is nullable and counts forked-environment
+ // differences, NOT staged variable edits. The exact patch itself is authoritative:
+ // definitions requires one service, only variables, and precisely our three keys.
  checked('PATCH_ENCRYPTED_SHAPE',()=>definitions(p.patch,target,true));
  const clear=checked('PATCH_CLEAR_SHAPE',()=>definitions(p.clear,target,false));
  // This action can install disabled configuration only. Activation is separate.
@@ -145,6 +154,31 @@ export function checkPatch(data,target){
  // Never publish clear values, encrypted values, or a plaintext credential hash.
  // The digest commits to the stored ciphertext and patch revision, not p.clear.
  return {patchId:p.id,patchDigest:hash({id:p.id,environmentId:p.environmentId,createdAt:p.createdAt,updatedAt:p.updatedAt,patch:p.patch})};
+}
+function checkClearedPatch(data,original,target){
+ checked('PATCH_NOT_CLEARED',()=>{
+  const receipt=data.receipt,pending=data.pending;
+  assert.equal(receipt?.id,original.id);assert.equal(receipt.environmentId,target.environmentId);assert.equal(receipt.status,'COMMITTED');
+  assert.equal(receipt.lastAppliedError,null);assert.equal(receipt.createdAt,original.createdAt);
+  assert.ok(Number.isFinite(Date.parse(receipt.appliedAt))&&Date.parse(receipt.appliedAt)>=Date.parse(original.updatedAt));
+  assert.ok(Number.isFinite(Date.parse(receipt.updatedAt))&&Date.parse(receipt.updatedAt)>=Date.parse(original.updatedAt));
+  assert.equal(canonical(receipt.patch),canonical(original.patch));
+  assert.match(pending?.id??'',uuid);assert.equal(pending.environmentId,target.environmentId);
+  if(pending.id===receipt.id){
+   // Railway may return the just-committed record when nothing is staged.
+   for(const key of ['status','createdAt','updatedAt','appliedAt','lastAppliedError','patch'])assert.equal(canonical(pending[key]),canonical(receipt[key]));
+  }else{
+   // Or a fresh empty staged record. Never equate a missing/API-failed record,
+   // a null fork counter, or a new non-empty patch with successful clearance.
+   assert.equal(pending.status,'STAGED');assert.equal(pending.appliedAt,null);assert.equal(pending.lastAppliedError,null);
+   for(const key of ['createdAt','updatedAt'])assert.ok(Number.isFinite(Date.parse(pending[key])));
+   assert.ok(pending.patch&&typeof pending.patch==='object'&&!Array.isArray(pending.patch));
+   for(const [key,value] of Object.entries(pending.patch)){
+    assert.ok(['services','volumes','buckets','sharedVariables'].includes(key));
+    assert.ok(value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).length===0);
+   }
+  }
+ });
 }
 export async function runConfig(env,{api,wait=delay,now=Date.now}={}){
  const operation=checked('WORKFLOW_REQUEST',()=>{const op=validateRequest(env);assert.notEqual(op,'release');
@@ -167,11 +201,11 @@ export async function runConfig(env,{api,wait=delay,now=Date.now}={}){
  // Only reads are polled. A timeout or lost acknowledgement NEVER retries write.
  const deadline=now()+60000;
  for(let n=0;n<30;n++){
-  const state=await during('API_READ',()=>api(statusQuery,{workflowId})),after=await during('API_READ',()=>api(verifyQuery,vars));
+  const state=await during('API_READ',()=>api(statusQuery,{workflowId})),after=await during('API_READ',()=>api(verifyQuery,{...vars,patchId:plan.patchId}));
   checked('POST_COMMIT_WORKER_CHANGED',()=>assert.equal(checkWorker(after,target),workerDigest));
   const status=state.workflowStatus;checked('CONFIG_WORKFLOW_STATE',()=>{assert.equal(status?.error,null);assert.ok(['Running','Complete'].includes(status.status));});
   if(status.status==='Complete'){
-   checked('PATCH_NOT_CLEARED',()=>assert.equal(after.environment.unmergedChangesCount,0));
+   checkClearedPatch(after,first.staged,target);
    return {kind:'committed',...plan,workerDeploymentId:oldWorker};
   }
   checked('POST_COMMIT_TIMEOUT',()=>assert.ok(now()<deadline));await wait(2000);
