@@ -1,0 +1,37 @@
+{
+  "scope": "UI mockup checkpoint only",
+  "baseline": "dd5841349056e2f6d8c0ae79018f91909b7dbffc",
+  "productionContacted": false,
+  "typecheck": "PASS",
+  "static": {
+    "checksPassed": 99,
+    "checksFailed": 0,
+    "productionEjsFixtures": 77
+  },
+  "focusedServerRegression": {
+    "profile": "full",
+    "lane": "all",
+    "shard": 1,
+    "shards": 1,
+    "workers": 1,
+    "seconds": 12.278,
+    "expected": 1,
+    "completed": 1,
+    "interrupted": false,
+    "results": [
+      {
+        "file": "tests/phase6-combat.test.ts",
+        "lane": "database",
+        "seconds": 12.242,
+        "passed": true,
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "fullCiRun": false,
+  "protectedWorkflowDispatched": false
+}

@@ -1,0 +1,600 @@
+{
+  "id": "ui-polish-presentation-preview-1",
+  "status": "mockup-only-not-adopted",
+  "activationDefault": false,
+  "basePresentation": "level100-equipment-presentation-1",
+  "basePresentationDigest": "25aba8f3c92bf28c96ec4e60d7d043d25611b2799dacffaa49721ea73415af53",
+  "catalogDigest": "af0acac1bcbfd5a799e76738f43663011215ee673810c566df51757ceb4e16d2",
+  "method": "Move requested name/art pairs before the named anchor, preserve other pairs relative order, zip to the same ordered numeric slots.",
+  "changes": [
+    {
+      "slot": 11,
+      "category": "weapon",
+      "targetId": "cinderwyrm-cleaver",
+      "level": 18,
+      "previousName": "Cinderwyrm Cleaver",
+      "proposedName": "Fenwarden Billhook",
+      "sourceEntryId": "gravewarden-scythe",
+      "unchangedValues": {
+        "id": "cinderwyrm-cleaver",
+        "category": "weapon",
+        "level": 18,
+        "attack": 43,
+        "defense": 14,
+        "price": 1100,
+        "upkeep": 12,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 12,
+      "category": "weapon",
+      "targetId": "moonthorn-recurve",
+      "level": 21,
+      "previousName": "Moonthorn Recurve",
+      "proposedName": "Sunscar Maul",
+      "sourceEntryId": "sun-etched-warhammer",
+      "unchangedValues": {
+        "id": "moonthorn-recurve",
+        "category": "weapon",
+        "level": 21,
+        "attack": 38,
+        "defense": 31,
+        "price": 1450,
+        "upkeep": 15,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 13,
+      "category": "weapon",
+      "targetId": "oathbound-greatsword",
+      "level": 24,
+      "previousName": "Oathbound Greatsword",
+      "proposedName": "Frontier Falchion",
+      "sourceEntryId": "dragonwake-falchion",
+      "unchangedValues": {
+        "id": "oathbound-greatsword",
+        "category": "weapon",
+        "level": 24,
+        "attack": 54,
+        "defense": 25,
+        "price": 1950,
+        "upkeep": 19,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 14,
+      "category": "weapon",
+      "targetId": "gravewarden-scythe",
+      "level": 28,
+      "previousName": "Fenwarden Billhook",
+      "proposedName": "Crownlands War Staff",
+      "sourceEntryId": "astral-conductor",
+      "unchangedValues": {
+        "id": "gravewarden-scythe",
+        "category": "weapon",
+        "level": 28,
+        "attack": 62,
+        "defense": 19,
+        "price": 2600,
+        "upkeep": 24,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 15,
+      "category": "weapon",
+      "targetId": "sun-etched-warhammer",
+      "level": 32,
+      "previousName": "Sunscar Maul",
+      "proposedName": "Blacksteel Warblade",
+      "sourceEntryId": "crown-of-ash-blade",
+      "unchangedValues": {
+        "id": "sun-etched-warhammer",
+        "category": "weapon",
+        "level": 32,
+        "attack": 64,
+        "defense": 39,
+        "price": 3400,
+        "upkeep": 30,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 16,
+      "category": "weapon",
+      "targetId": "dragonwake-falchion",
+      "level": 36,
+      "previousName": "Frontier Falchion",
+      "proposedName": "Order Marshal Greatsword",
+      "sourceEntryId": "eclipse-greatsword",
+      "unchangedValues": {
+        "id": "dragonwake-falchion",
+        "category": "weapon",
+        "level": 36,
+        "attack": 79,
+        "defense": 29,
+        "price": 4400,
+        "upkeep": 36,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 17,
+      "category": "weapon",
+      "targetId": "astral-conductor",
+      "level": 40,
+      "previousName": "Crownlands War Staff",
+      "proposedName": "Marshguard Glaive",
+      "sourceEntryId": "fortress-glaive",
+      "unchangedValues": {
+        "id": "astral-conductor",
+        "category": "weapon",
+        "level": 40,
+        "attack": 74,
+        "defense": 54,
+        "price": 5700,
+        "upkeep": 42,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 18,
+      "category": "weapon",
+      "targetId": "crown-of-ash-blade",
+      "level": 45,
+      "previousName": "Blacksteel Warblade",
+      "proposedName": "Highland Claymore",
+      "sourceEntryId": "marcher-greatsword",
+      "unchangedValues": {
+        "id": "crown-of-ash-blade",
+        "category": "weapon",
+        "level": 45,
+        "attack": 95,
+        "defense": 44,
+        "price": 7200,
+        "upkeep": 50,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 19,
+      "category": "weapon",
+      "targetId": "eclipse-greatsword",
+      "level": 50,
+      "previousName": "Order Marshal Greatsword",
+      "proposedName": "Crown Captain’s Halberd",
+      "sourceEntryId": "guard-captains-halberd",
+      "unchangedValues": {
+        "id": "eclipse-greatsword",
+        "category": "weapon",
+        "level": 50,
+        "attack": 110,
+        "defense": 50,
+        "price": 9000,
+        "upkeep": 60,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 20,
+      "category": "weapon",
+      "targetId": "fortress-glaive",
+      "level": 51,
+      "previousName": "Marshguard Glaive",
+      "proposedName": "Sunscar Officer’s Saber",
+      "sourceEntryId": "royal-warblade",
+      "unchangedValues": {
+        "id": "fortress-glaive",
+        "category": "weapon",
+        "level": 51,
+        "attack": 54,
+        "defense": 65,
+        "price": 7000,
+        "upkeep": 38,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 21,
+      "category": "weapon",
+      "targetId": "marcher-greatsword",
+      "level": 51,
+      "previousName": "Highland Claymore",
+      "proposedName": "Frontier Marshal’s Poleaxe",
+      "sourceEntryId": "march-wardens-poleaxe",
+      "unchangedValues": {
+        "id": "marcher-greatsword",
+        "category": "weapon",
+        "level": 51,
+        "attack": 115,
+        "defense": 36,
+        "price": 7500,
+        "upkeep": 43,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 22,
+      "category": "weapon",
+      "targetId": "guard-captains-halberd",
+      "level": 60,
+      "previousName": "Crown Captain’s Halberd",
+      "proposedName": "Mountain Warden’s Zweihander",
+      "sourceEntryId": "sovereigns-zweihander",
+      "unchangedValues": {
+        "id": "guard-captains-halberd",
+        "category": "weapon",
+        "level": 60,
+        "attack": 62,
+        "defense": 80,
+        "price": 9800,
+        "upkeep": 48,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 23,
+      "category": "weapon",
+      "targetId": "royal-warblade",
+      "level": 60,
+      "previousName": "Sunscar Officer’s Saber",
+      "proposedName": "Cinderwyrm Cleaver",
+      "sourceEntryId": "cinderwyrm-cleaver",
+      "unchangedValues": {
+        "id": "royal-warblade",
+        "category": "weapon",
+        "level": 60,
+        "attack": 128,
+        "defense": 44,
+        "price": 10500,
+        "upkeep": 54,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 24,
+      "category": "weapon",
+      "targetId": "march-wardens-poleaxe",
+      "level": 70,
+      "previousName": "Frontier Marshal’s Poleaxe",
+      "proposedName": "Moonthorn Recurve",
+      "sourceEntryId": "moonthorn-recurve",
+      "unchangedValues": {
+        "id": "march-wardens-poleaxe",
+        "category": "weapon",
+        "level": 70,
+        "attack": 72,
+        "defense": 96,
+        "price": 14500,
+        "upkeep": 62,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 25,
+      "category": "weapon",
+      "targetId": "sovereigns-zweihander",
+      "level": 70,
+      "previousName": "Mountain Warden’s Zweihander",
+      "proposedName": "Oathbound Greatsword",
+      "sourceEntryId": "oathbound-greatsword",
+      "unchangedValues": {
+        "id": "sovereigns-zweihander",
+        "category": "weapon",
+        "level": 70,
+        "attack": 140,
+        "defense": 52,
+        "price": 15500,
+        "upkeep": 69,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 10,
+      "category": "armor",
+      "targetId": "embercrest-bulwark",
+      "level": 18,
+      "previousName": "Embercrest Bulwark",
+      "proposedName": "Fenwarden Lamellar",
+      "sourceEntryId": "ossuary-raiment",
+      "unchangedValues": {
+        "id": "embercrest-bulwark",
+        "category": "armor",
+        "level": 18,
+        "attack": 8,
+        "defense": 45,
+        "price": 1000,
+        "upkeep": 12,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 11,
+      "category": "armor",
+      "targetId": "nightwatch-carapace",
+      "level": 21,
+      "previousName": "Nightwatch Carapace",
+      "proposedName": "Sunscar Scale Harness",
+      "sourceEntryId": "dawnforge-panoply",
+      "unchangedValues": {
+        "id": "nightwatch-carapace",
+        "category": "armor",
+        "level": 21,
+        "attack": 20,
+        "defense": 40,
+        "price": 1350,
+        "upkeep": 15,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 12,
+      "category": "armor",
+      "targetId": "oathkeepers-cuirass",
+      "level": 24,
+      "previousName": "Oathkeeper's Cuirass",
+      "proposedName": "Frontier Siege Harness",
+      "sourceEntryId": "wyrmscale-aegis",
+      "unchangedValues": {
+        "id": "oathkeepers-cuirass",
+        "category": "armor",
+        "level": 24,
+        "attack": 17,
+        "defense": 52,
+        "price": 1800,
+        "upkeep": 19,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 13,
+      "category": "armor",
+      "targetId": "ossuary-raiment",
+      "level": 28,
+      "previousName": "Fenwarden Lamellar",
+      "proposedName": "Crownlands Marshal Coat",
+      "sourceEntryId": "astral-archon-robes",
+      "unchangedValues": {
+        "id": "ossuary-raiment",
+        "category": "armor",
+        "level": 28,
+        "attack": 28,
+        "defense": 46,
+        "price": 2400,
+        "upkeep": 24,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 14,
+      "category": "armor",
+      "targetId": "dawnforge-panoply",
+      "level": 32,
+      "previousName": "Sunscar Scale Harness",
+      "proposedName": "Order Bastion Plate",
+      "sourceEntryId": "sovereigns-bastion",
+      "unchangedValues": {
+        "id": "dawnforge-panoply",
+        "category": "armor",
+        "level": 32,
+        "attack": 24,
+        "defense": 65,
+        "price": 3200,
+        "upkeep": 30,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 15,
+      "category": "armor",
+      "targetId": "wyrmscale-aegis",
+      "level": 36,
+      "previousName": "Frontier Siege Harness",
+      "proposedName": "Moonfen Warden Mantle",
+      "sourceEntryId": "seraphic-vestment",
+      "unchangedValues": {
+        "id": "wyrmscale-aegis",
+        "category": "armor",
+        "level": 36,
+        "attack": 20,
+        "defense": 78,
+        "price": 4100,
+        "upkeep": 36,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 16,
+      "category": "armor",
+      "targetId": "astral-archon-robes",
+      "level": 40,
+      "previousName": "Crownlands Marshal Coat",
+      "proposedName": "Royal Garrison Plate",
+      "sourceEntryId": "eclipse-citadel-plate",
+      "unchangedValues": {
+        "id": "astral-archon-robes",
+        "category": "armor",
+        "level": 40,
+        "attack": 34,
+        "defense": 72,
+        "price": 5300,
+        "upkeep": 42,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 17,
+      "category": "armor",
+      "targetId": "sovereigns-bastion",
+      "level": 44,
+      "previousName": "Order Bastion Plate",
+      "proposedName": "Highland Captain’s Brigandine",
+      "sourceEntryId": "captains-brigandine",
+      "unchangedValues": {
+        "id": "sovereigns-bastion",
+        "category": "armor",
+        "level": 44,
+        "attack": 25,
+        "defense": 90,
+        "price": 6700,
+        "upkeep": 49,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 18,
+      "category": "armor",
+      "targetId": "seraphic-vestment",
+      "level": 47,
+      "previousName": "Moonfen Warden Mantle",
+      "proposedName": "Blacksteel Siegeguard Plate",
+      "sourceEntryId": "siegeguard-plate",
+      "unchangedValues": {
+        "id": "seraphic-vestment",
+        "category": "armor",
+        "level": 47,
+        "attack": 40,
+        "defense": 84,
+        "price": 7800,
+        "upkeep": 54,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 19,
+      "category": "armor",
+      "targetId": "eclipse-citadel-plate",
+      "level": 50,
+      "previousName": "Royal Garrison Plate",
+      "proposedName": "Sunscar Marshal Harness",
+      "sourceEntryId": "kings-marshal-harness",
+      "unchangedValues": {
+        "id": "eclipse-citadel-plate",
+        "category": "armor",
+        "level": 50,
+        "attack": 32,
+        "defense": 106,
+        "price": 8800,
+        "upkeep": 60,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 20,
+      "category": "armor",
+      "targetId": "captains-brigandine",
+      "level": 51,
+      "previousName": "Highland Captain’s Brigandine",
+      "proposedName": "Crownlands Citadel Harness",
+      "sourceEntryId": "citadel-harness",
+      "unchangedValues": {
+        "id": "captains-brigandine",
+        "category": "armor",
+        "level": 51,
+        "attack": 46,
+        "defense": 78,
+        "price": 7400,
+        "upkeep": 45,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 21,
+      "category": "armor",
+      "targetId": "siegeguard-plate",
+      "level": 51,
+      "previousName": "Blacksteel Siegeguard Plate",
+      "proposedName": "Northern Thane’s Warplate",
+      "sourceEntryId": "ducal-warplate",
+      "unchangedValues": {
+        "id": "siegeguard-plate",
+        "category": "armor",
+        "level": 51,
+        "attack": 24,
+        "defense": 116,
+        "price": 8200,
+        "upkeep": 45,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 22,
+      "category": "armor",
+      "targetId": "kings-marshal-harness",
+      "level": 60,
+      "previousName": "Sunscar Marshal Harness",
+      "proposedName": "Moonfen Sentinel Harness",
+      "sourceEntryId": "fortress-bastion-plate",
+      "unchangedValues": {
+        "id": "kings-marshal-harness",
+        "category": "armor",
+        "level": 60,
+        "attack": 54,
+        "defense": 94,
+        "price": 10200,
+        "upkeep": 55,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 23,
+      "category": "armor",
+      "targetId": "citadel-harness",
+      "level": 60,
+      "previousName": "Crownlands Citadel Harness",
+      "proposedName": "Embercrest Bulwark",
+      "sourceEntryId": "embercrest-bulwark",
+      "unchangedValues": {
+        "id": "citadel-harness",
+        "category": "armor",
+        "level": 60,
+        "attack": 29,
+        "defense": 134,
+        "price": 11500,
+        "upkeep": 56,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 24,
+      "category": "armor",
+      "targetId": "ducal-warplate",
+      "level": 70,
+      "previousName": "Northern Thane’s Warplate",
+      "proposedName": "Nightwatch Carapace",
+      "sourceEntryId": "nightwatch-carapace",
+      "unchangedValues": {
+        "id": "ducal-warplate",
+        "category": "armor",
+        "level": 70,
+        "attack": 63,
+        "defense": 110,
+        "price": 15000,
+        "upkeep": 70,
+        "acquisition": "shop"
+      }
+    },
+    {
+      "slot": 25,
+      "category": "armor",
+      "targetId": "fortress-bastion-plate",
+      "level": 70,
+      "previousName": "Moonfen Sentinel Harness",
+      "proposedName": "Oathkeeper's Cuirass",
+      "sourceEntryId": "oathkeepers-cuirass",
+      "unchangedValues": {
+        "id": "fortress-bastion-plate",
+        "category": "armor",
+        "level": 70,
+        "attack": 35,
+        "defense": 153,
+        "price": 17000,
+        "upkeep": 73,
+        "acquisition": "shop"
+      }
+    }
+  ]
+}

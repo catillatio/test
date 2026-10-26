@@ -1,0 +1,4406 @@
+{
+  "passed": true,
+  "productionContacted": false,
+  "mockupOnly": true,
+  "activeRegistriesChanged": false,
+  "sourcePolicy": "25aba8f3c92bf28c96ec4e60d7d043d25611b2799dacffaa49721ea73415af53",
+  "catalog": "af0acac1bcbfd5a799e76738f43663011215ee673810c566df51757ceb4e16d2",
+  "artRegistry": "de7b86048f4af97e53924d342c26489cc44afe9236db34c1a766a9d53e92f4ff",
+  "candidateDigest": "e6318c8e0402861534cc3970e07905eb5a9f90e6f24d9a73d92df09659ad2b77",
+  "changedPresentationSlots": 31,
+  "views": [
+    {
+      "width": 320,
+      "screen": "weapons",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        }
+      ],
+      "rows": [
+        98,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        98,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375
+      ],
+      "rendered": [
+        {
+          "id": "runescar-saber",
+          "name": "Runescar Saber",
+          "source": "runescar-saber",
+          "src": null
+        },
+        {
+          "id": "stormglass-pike",
+          "name": "Marchwatch Spear",
+          "source": "stormglass-pike",
+          "src": "/assets/art/coordinated-art-1/stormglass-pike.webp"
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "name": "Cinderwyrm Cleaver",
+          "source": "cinderwyrm-cleaver",
+          "src": null
+        },
+        {
+          "id": "moonthorn-recurve",
+          "name": "Moonthorn Recurve",
+          "source": "moonthorn-recurve",
+          "src": null
+        },
+        {
+          "id": "oathbound-greatsword",
+          "name": "Oathbound Greatsword",
+          "source": "oathbound-greatsword",
+          "src": null
+        },
+        {
+          "id": "gravewarden-scythe",
+          "name": "Fenwarden Billhook",
+          "source": "gravewarden-scythe",
+          "src": "/assets/art/coordinated-art-1/gravewarden-scythe.webp"
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Sunscar Maul",
+          "source": "sun-etched-warhammer",
+          "src": "/assets/art/coordinated-art-1/sun-etched-warhammer.webp"
+        },
+        {
+          "id": "dragonwake-falchion",
+          "name": "Frontier Falchion",
+          "source": "dragonwake-falchion",
+          "src": "/assets/art/coordinated-art-1/dragonwake-falchion.webp"
+        },
+        {
+          "id": "astral-conductor",
+          "name": "Crownlands War Staff",
+          "source": "astral-conductor",
+          "src": "/assets/art/coordinated-art-1/astral-conductor.webp"
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "name": "Blacksteel Warblade",
+          "source": "crown-of-ash-blade",
+          "src": "/assets/art/coordinated-art-1/crown-of-ash-blade.webp"
+        },
+        {
+          "id": "eclipse-greatsword",
+          "name": "Order Marshal Greatsword",
+          "source": "eclipse-greatsword",
+          "src": "/assets/art/coordinated-art-1/eclipse-greatsword.webp"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "screen": "armor",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        }
+      ],
+      "rows": [
+        103.59375,
+        103.59375,
+        98,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375
+      ],
+      "rendered": [
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Marchwatch Hauberk",
+          "source": "argent-sentinel-plate",
+          "src": "/assets/art/coordinated-art-1/argent-sentinel-plate.webp"
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "source": "frostweave-mantle",
+          "src": null
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Embercrest Bulwark",
+          "source": "embercrest-bulwark",
+          "src": null
+        },
+        {
+          "id": "nightwatch-carapace",
+          "name": "Nightwatch Carapace",
+          "source": "nightwatch-carapace",
+          "src": null
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "name": "Oathkeeper's Cuirass",
+          "source": "oathkeepers-cuirass",
+          "src": null
+        },
+        {
+          "id": "ossuary-raiment",
+          "name": "Fenwarden Lamellar",
+          "source": "ossuary-raiment",
+          "src": "/assets/art/coordinated-art-1/ossuary-raiment.webp"
+        },
+        {
+          "id": "dawnforge-panoply",
+          "name": "Sunscar Scale Harness",
+          "source": "dawnforge-panoply",
+          "src": "/assets/art/coordinated-art-1/dawnforge-panoply.webp"
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Frontier Siege Harness",
+          "source": "wyrmscale-aegis",
+          "src": "/assets/art/coordinated-art-1/wyrmscale-aegis.webp"
+        },
+        {
+          "id": "astral-archon-robes",
+          "name": "Crownlands Marshal Coat",
+          "source": "astral-archon-robes",
+          "src": "/assets/art/coordinated-art-1/astral-archon-robes.webp"
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Order Bastion Plate",
+          "source": "sovereigns-bastion",
+          "src": "/assets/art/coordinated-art-1/sovereigns-bastion.webp"
+        },
+        {
+          "id": "seraphic-vestment",
+          "name": "Moonfen Warden Mantle",
+          "source": "seraphic-vestment",
+          "src": "/assets/art/coordinated-art-1/seraphic-vestment.webp"
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Royal Garrison Plate",
+          "source": "eclipse-citadel-plate",
+          "src": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "screen": "spells",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        }
+      ],
+      "rows": [
+        103.59375,
+        103.59375,
+        98,
+        98,
+        98,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        98,
+        103.59375
+      ],
+      "rendered": [
+        {
+          "id": "runic-convergence",
+          "name": "Watchfire Covenant",
+          "source": "runic-convergence",
+          "src": "/assets/art/coordinated-art-1/runic-convergence.webp"
+        },
+        {
+          "id": "winters-judgment",
+          "name": "Winter's Judgment",
+          "source": "winters-judgment",
+          "src": null
+        },
+        {
+          "id": "ashen-revenant",
+          "name": "Ashen Revenant",
+          "source": "ashen-revenant",
+          "src": null
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "source": "moonwell-veil",
+          "src": null
+        },
+        {
+          "id": "oathfire-nova",
+          "name": "Oathfire Nova",
+          "source": "oathfire-nova",
+          "src": null
+        },
+        {
+          "id": "grave-tide",
+          "name": "Fenwarden’s Undertow",
+          "source": "grave-tide",
+          "src": "/assets/art/coordinated-art-1/grave-tide.webp"
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Sunscar Benediction",
+          "source": "dawnstar-benediction",
+          "src": "/assets/art/coordinated-art-1/dawnstar-benediction.webp"
+        },
+        {
+          "id": "dragons-last-breath",
+          "name": "Frontier Breachfire",
+          "source": "dragons-last-breath",
+          "src": "/assets/art/coordinated-art-1/dragons-last-breath.webp"
+        },
+        {
+          "id": "astral-tempest",
+          "name": "Crownlands Stormcall",
+          "source": "astral-tempest",
+          "src": "/assets/art/coordinated-art-1/astral-tempest.webp"
+        },
+        {
+          "id": "voidbound-chain",
+          "name": "Blacksteel Binding",
+          "source": "voidbound-chain",
+          "src": "/assets/art/coordinated-art-1/voidbound-chain.webp"
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Order’s Rebuke",
+          "source": "seraphs-rebuke",
+          "src": "/assets/art/coordinated-art-1/seraphs-rebuke.webp"
+        },
+        {
+          "id": "eclipse-invocation",
+          "name": "Royal War Invocation",
+          "source": "eclipse-invocation",
+          "src": "/assets/art/coordinated-art-1/eclipse-invocation.webp"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "screen": "rivals",
+      "stage": "before",
+      "icons": [],
+      "rows": [
+        88.375,
+        108.375,
+        88.375,
+        88.375,
+        88.375,
+        108.375,
+        108.375
+      ],
+      "rendered": []
+    },
+    {
+      "width": 320,
+      "screen": "land",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        }
+      ],
+      "rows": [
+        104,
+        104,
+        123.1875,
+        123.1875,
+        123.1875,
+        123.1875
+      ],
+      "rendered": []
+    },
+    {
+      "width": 320,
+      "screen": "weapons",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        }
+      ],
+      "rows": [
+        98,
+        103.59375,
+        103.59375,
+        98,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        122.59375
+      ],
+      "rendered": [
+        {
+          "id": "runescar-saber",
+          "name": "Runescar Saber",
+          "source": "runescar-saber",
+          "src": null
+        },
+        {
+          "id": "stormglass-pike",
+          "name": "Marchwatch Spear",
+          "source": "stormglass-pike",
+          "src": "/assets/art/coordinated-art-1/stormglass-pike.webp"
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "name": "Fenwarden Billhook",
+          "source": "gravewarden-scythe",
+          "src": "/assets/art/coordinated-art-1/gravewarden-scythe.webp"
+        },
+        {
+          "id": "moonthorn-recurve",
+          "name": "Sunscar Maul",
+          "source": "sun-etched-warhammer",
+          "src": "/assets/art/coordinated-art-1/sun-etched-warhammer.webp"
+        },
+        {
+          "id": "oathbound-greatsword",
+          "name": "Frontier Falchion",
+          "source": "dragonwake-falchion",
+          "src": "/assets/art/coordinated-art-1/dragonwake-falchion.webp"
+        },
+        {
+          "id": "gravewarden-scythe",
+          "name": "Crownlands War Staff",
+          "source": "astral-conductor",
+          "src": "/assets/art/coordinated-art-1/astral-conductor.webp"
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Blacksteel Warblade",
+          "source": "crown-of-ash-blade",
+          "src": "/assets/art/coordinated-art-1/crown-of-ash-blade.webp"
+        },
+        {
+          "id": "dragonwake-falchion",
+          "name": "Order Marshal Greatsword",
+          "source": "eclipse-greatsword",
+          "src": "/assets/art/coordinated-art-1/eclipse-greatsword.webp"
+        },
+        {
+          "id": "astral-conductor",
+          "name": "Marshguard Glaive",
+          "source": "fortress-glaive",
+          "src": "/assets/art/coordinated-art-1/fortress-glaive.webp"
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "name": "Highland Claymore",
+          "source": "marcher-greatsword",
+          "src": "/assets/art/coordinated-art-1/marcher-greatsword.webp"
+        },
+        {
+          "id": "eclipse-greatsword",
+          "name": "Crown Captain’s Halberd",
+          "source": "guard-captains-halberd",
+          "src": "/assets/art/coordinated-art-1/guard-captains-halberd.webp"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "screen": "armor",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        }
+      ],
+      "rows": [
+        103.59375,
+        103.59375,
+        98,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        122.59375,
+        122.59375,
+        122.59375
+      ],
+      "rendered": [
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Marchwatch Hauberk",
+          "source": "argent-sentinel-plate",
+          "src": "/assets/art/coordinated-art-1/argent-sentinel-plate.webp"
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "source": "frostweave-mantle",
+          "src": null
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Fenwarden Lamellar",
+          "source": "ossuary-raiment",
+          "src": "/assets/art/coordinated-art-1/ossuary-raiment.webp"
+        },
+        {
+          "id": "nightwatch-carapace",
+          "name": "Sunscar Scale Harness",
+          "source": "dawnforge-panoply",
+          "src": "/assets/art/coordinated-art-1/dawnforge-panoply.webp"
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "name": "Frontier Siege Harness",
+          "source": "wyrmscale-aegis",
+          "src": "/assets/art/coordinated-art-1/wyrmscale-aegis.webp"
+        },
+        {
+          "id": "ossuary-raiment",
+          "name": "Crownlands Marshal Coat",
+          "source": "astral-archon-robes",
+          "src": "/assets/art/coordinated-art-1/astral-archon-robes.webp"
+        },
+        {
+          "id": "dawnforge-panoply",
+          "name": "Order Bastion Plate",
+          "source": "sovereigns-bastion",
+          "src": "/assets/art/coordinated-art-1/sovereigns-bastion.webp"
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Moonfen Warden Mantle",
+          "source": "seraphic-vestment",
+          "src": "/assets/art/coordinated-art-1/seraphic-vestment.webp"
+        },
+        {
+          "id": "astral-archon-robes",
+          "name": "Royal Garrison Plate",
+          "source": "eclipse-citadel-plate",
+          "src": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp"
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Highland Captain’s Brigandine",
+          "source": "captains-brigandine",
+          "src": "/assets/art/coordinated-art-1/captains-brigandine.webp"
+        },
+        {
+          "id": "seraphic-vestment",
+          "name": "Blacksteel Siegeguard Plate",
+          "source": "siegeguard-plate",
+          "src": "/assets/art/coordinated-art-1/siegeguard-plate.webp"
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Sunscar Marshal Harness",
+          "source": "kings-marshal-harness",
+          "src": "/assets/art/coordinated-art-1/kings-marshal-harness.webp"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "screen": "spells",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        },
+        {
+          "width": 62,
+          "height": 60
+        }
+      ],
+      "rows": [
+        103.59375,
+        103.59375,
+        98,
+        98,
+        98,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        103.59375,
+        98,
+        103.59375
+      ],
+      "rendered": [
+        {
+          "id": "runic-convergence",
+          "name": "Watchfire Covenant",
+          "source": "runic-convergence",
+          "src": "/assets/art/coordinated-art-1/runic-convergence.webp"
+        },
+        {
+          "id": "winters-judgment",
+          "name": "Winter's Judgment",
+          "source": "winters-judgment",
+          "src": null
+        },
+        {
+          "id": "ashen-revenant",
+          "name": "Ashen Revenant",
+          "source": "ashen-revenant",
+          "src": null
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "source": "moonwell-veil",
+          "src": null
+        },
+        {
+          "id": "oathfire-nova",
+          "name": "Oathfire Nova",
+          "source": "oathfire-nova",
+          "src": null
+        },
+        {
+          "id": "grave-tide",
+          "name": "Fenwarden’s Undertow",
+          "source": "grave-tide",
+          "src": "/assets/art/coordinated-art-1/grave-tide.webp"
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Sunscar Benediction",
+          "source": "dawnstar-benediction",
+          "src": "/assets/art/coordinated-art-1/dawnstar-benediction.webp"
+        },
+        {
+          "id": "dragons-last-breath",
+          "name": "Frontier Breachfire",
+          "source": "dragons-last-breath",
+          "src": "/assets/art/coordinated-art-1/dragons-last-breath.webp"
+        },
+        {
+          "id": "astral-tempest",
+          "name": "Crownlands Stormcall",
+          "source": "astral-tempest",
+          "src": "/assets/art/coordinated-art-1/astral-tempest.webp"
+        },
+        {
+          "id": "voidbound-chain",
+          "name": "Blacksteel Binding",
+          "source": "voidbound-chain",
+          "src": "/assets/art/coordinated-art-1/voidbound-chain.webp"
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Order’s Rebuke",
+          "source": "seraphs-rebuke",
+          "src": "/assets/art/coordinated-art-1/seraphs-rebuke.webp"
+        },
+        {
+          "id": "eclipse-invocation",
+          "name": "Royal War Invocation",
+          "source": "eclipse-invocation",
+          "src": "/assets/art/coordinated-art-1/eclipse-invocation.webp"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "screen": "rivals",
+      "stage": "preview",
+      "icons": [],
+      "rows": [
+        88.375,
+        108.375,
+        88.375,
+        88.375,
+        88.375,
+        108.375,
+        108.375
+      ],
+      "rendered": []
+    },
+    {
+      "width": 320,
+      "screen": "land",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        },
+        {
+          "width": 66,
+          "height": 47
+        }
+      ],
+      "rows": [
+        104,
+        104,
+        123.1875,
+        123.1875,
+        123.1875,
+        123.1875
+      ],
+      "rendered": []
+    },
+    {
+      "width": 390,
+      "screen": "weapons",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "runescar-saber",
+          "name": "Runescar Saber",
+          "source": "runescar-saber",
+          "src": null
+        },
+        {
+          "id": "stormglass-pike",
+          "name": "Marchwatch Spear",
+          "source": "stormglass-pike",
+          "src": "/assets/art/coordinated-art-1/stormglass-pike.webp"
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "name": "Cinderwyrm Cleaver",
+          "source": "cinderwyrm-cleaver",
+          "src": null
+        },
+        {
+          "id": "moonthorn-recurve",
+          "name": "Moonthorn Recurve",
+          "source": "moonthorn-recurve",
+          "src": null
+        },
+        {
+          "id": "oathbound-greatsword",
+          "name": "Oathbound Greatsword",
+          "source": "oathbound-greatsword",
+          "src": null
+        },
+        {
+          "id": "gravewarden-scythe",
+          "name": "Fenwarden Billhook",
+          "source": "gravewarden-scythe",
+          "src": "/assets/art/coordinated-art-1/gravewarden-scythe.webp"
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Sunscar Maul",
+          "source": "sun-etched-warhammer",
+          "src": "/assets/art/coordinated-art-1/sun-etched-warhammer.webp"
+        },
+        {
+          "id": "dragonwake-falchion",
+          "name": "Frontier Falchion",
+          "source": "dragonwake-falchion",
+          "src": "/assets/art/coordinated-art-1/dragonwake-falchion.webp"
+        },
+        {
+          "id": "astral-conductor",
+          "name": "Crownlands War Staff",
+          "source": "astral-conductor",
+          "src": "/assets/art/coordinated-art-1/astral-conductor.webp"
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "name": "Blacksteel Warblade",
+          "source": "crown-of-ash-blade",
+          "src": "/assets/art/coordinated-art-1/crown-of-ash-blade.webp"
+        },
+        {
+          "id": "eclipse-greatsword",
+          "name": "Order Marshal Greatsword",
+          "source": "eclipse-greatsword",
+          "src": "/assets/art/coordinated-art-1/eclipse-greatsword.webp"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "armor",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Marchwatch Hauberk",
+          "source": "argent-sentinel-plate",
+          "src": "/assets/art/coordinated-art-1/argent-sentinel-plate.webp"
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "source": "frostweave-mantle",
+          "src": null
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Embercrest Bulwark",
+          "source": "embercrest-bulwark",
+          "src": null
+        },
+        {
+          "id": "nightwatch-carapace",
+          "name": "Nightwatch Carapace",
+          "source": "nightwatch-carapace",
+          "src": null
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "name": "Oathkeeper's Cuirass",
+          "source": "oathkeepers-cuirass",
+          "src": null
+        },
+        {
+          "id": "ossuary-raiment",
+          "name": "Fenwarden Lamellar",
+          "source": "ossuary-raiment",
+          "src": "/assets/art/coordinated-art-1/ossuary-raiment.webp"
+        },
+        {
+          "id": "dawnforge-panoply",
+          "name": "Sunscar Scale Harness",
+          "source": "dawnforge-panoply",
+          "src": "/assets/art/coordinated-art-1/dawnforge-panoply.webp"
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Frontier Siege Harness",
+          "source": "wyrmscale-aegis",
+          "src": "/assets/art/coordinated-art-1/wyrmscale-aegis.webp"
+        },
+        {
+          "id": "astral-archon-robes",
+          "name": "Crownlands Marshal Coat",
+          "source": "astral-archon-robes",
+          "src": "/assets/art/coordinated-art-1/astral-archon-robes.webp"
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Order Bastion Plate",
+          "source": "sovereigns-bastion",
+          "src": "/assets/art/coordinated-art-1/sovereigns-bastion.webp"
+        },
+        {
+          "id": "seraphic-vestment",
+          "name": "Moonfen Warden Mantle",
+          "source": "seraphic-vestment",
+          "src": "/assets/art/coordinated-art-1/seraphic-vestment.webp"
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Royal Garrison Plate",
+          "source": "eclipse-citadel-plate",
+          "src": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "spells",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "runic-convergence",
+          "name": "Watchfire Covenant",
+          "source": "runic-convergence",
+          "src": "/assets/art/coordinated-art-1/runic-convergence.webp"
+        },
+        {
+          "id": "winters-judgment",
+          "name": "Winter's Judgment",
+          "source": "winters-judgment",
+          "src": null
+        },
+        {
+          "id": "ashen-revenant",
+          "name": "Ashen Revenant",
+          "source": "ashen-revenant",
+          "src": null
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "source": "moonwell-veil",
+          "src": null
+        },
+        {
+          "id": "oathfire-nova",
+          "name": "Oathfire Nova",
+          "source": "oathfire-nova",
+          "src": null
+        },
+        {
+          "id": "grave-tide",
+          "name": "Fenwarden’s Undertow",
+          "source": "grave-tide",
+          "src": "/assets/art/coordinated-art-1/grave-tide.webp"
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Sunscar Benediction",
+          "source": "dawnstar-benediction",
+          "src": "/assets/art/coordinated-art-1/dawnstar-benediction.webp"
+        },
+        {
+          "id": "dragons-last-breath",
+          "name": "Frontier Breachfire",
+          "source": "dragons-last-breath",
+          "src": "/assets/art/coordinated-art-1/dragons-last-breath.webp"
+        },
+        {
+          "id": "astral-tempest",
+          "name": "Crownlands Stormcall",
+          "source": "astral-tempest",
+          "src": "/assets/art/coordinated-art-1/astral-tempest.webp"
+        },
+        {
+          "id": "voidbound-chain",
+          "name": "Blacksteel Binding",
+          "source": "voidbound-chain",
+          "src": "/assets/art/coordinated-art-1/voidbound-chain.webp"
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Order’s Rebuke",
+          "source": "seraphs-rebuke",
+          "src": "/assets/art/coordinated-art-1/seraphs-rebuke.webp"
+        },
+        {
+          "id": "eclipse-invocation",
+          "name": "Royal War Invocation",
+          "source": "eclipse-invocation",
+          "src": "/assets/art/coordinated-art-1/eclipse-invocation.webp"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "rivals",
+      "stage": "before",
+      "icons": [],
+      "rows": [
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375
+      ],
+      "rendered": []
+    },
+    {
+      "width": 390,
+      "screen": "land",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": []
+    },
+    {
+      "width": 390,
+      "screen": "weapons-progression",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "eclipse-greatsword",
+          "name": "Order Marshal Greatsword",
+          "source": "eclipse-greatsword",
+          "src": "/assets/art/coordinated-art-1/eclipse-greatsword.webp"
+        },
+        {
+          "id": "fortress-glaive",
+          "name": "Marshguard Glaive",
+          "source": "fortress-glaive",
+          "src": "/assets/art/coordinated-art-1/fortress-glaive.webp"
+        },
+        {
+          "id": "marcher-greatsword",
+          "name": "Highland Claymore",
+          "source": "marcher-greatsword",
+          "src": "/assets/art/coordinated-art-1/marcher-greatsword.webp"
+        },
+        {
+          "id": "guard-captains-halberd",
+          "name": "Crown Captain’s Halberd",
+          "source": "guard-captains-halberd",
+          "src": "/assets/art/coordinated-art-1/guard-captains-halberd.webp"
+        },
+        {
+          "id": "royal-warblade",
+          "name": "Sunscar Officer’s Saber",
+          "source": "royal-warblade",
+          "src": "/assets/art/coordinated-art-2/royal-warblade.webp"
+        },
+        {
+          "id": "march-wardens-poleaxe",
+          "name": "Frontier Marshal’s Poleaxe",
+          "source": "march-wardens-poleaxe",
+          "src": "/assets/art/coordinated-art-2/march-wardens-poleaxe.webp"
+        },
+        {
+          "id": "sovereigns-zweihander",
+          "name": "Mountain Warden’s Zweihander",
+          "source": "sovereigns-zweihander",
+          "src": "/assets/art/coordinated-art-2/sovereigns-zweihander.webp"
+        },
+        {
+          "id": "high-castellans-hammer",
+          "name": "Stormglass Pike",
+          "source": "stormglass-pike",
+          "src": null
+        },
+        {
+          "id": "imperial-greatblade",
+          "name": "Astral Conductor",
+          "source": "astral-conductor",
+          "src": null
+        },
+        {
+          "id": "throneguard-polehammer",
+          "name": "Imperial Thronehammer",
+          "source": "throneguard-polehammer",
+          "src": "/assets/art/coordinated-art-2/throneguard-polehammer.webp"
+        },
+        {
+          "id": "ash-crowned-warblade",
+          "name": "Crown of Ash Blade",
+          "source": "crown-of-ash-blade",
+          "src": null
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "armor-progression",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Royal Garrison Plate",
+          "source": "eclipse-citadel-plate",
+          "src": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp"
+        },
+        {
+          "id": "captains-brigandine",
+          "name": "Highland Captain’s Brigandine",
+          "source": "captains-brigandine",
+          "src": "/assets/art/coordinated-art-1/captains-brigandine.webp"
+        },
+        {
+          "id": "siegeguard-plate",
+          "name": "Blacksteel Siegeguard Plate",
+          "source": "siegeguard-plate",
+          "src": "/assets/art/coordinated-art-1/siegeguard-plate.webp"
+        },
+        {
+          "id": "kings-marshal-harness",
+          "name": "Sunscar Marshal Harness",
+          "source": "kings-marshal-harness",
+          "src": "/assets/art/coordinated-art-1/kings-marshal-harness.webp"
+        },
+        {
+          "id": "citadel-harness",
+          "name": "Crownlands Citadel Harness",
+          "source": "citadel-harness",
+          "src": "/assets/art/coordinated-art-1/citadel-harness.webp"
+        },
+        {
+          "id": "ducal-warplate",
+          "name": "Northern Thane’s Warplate",
+          "source": "ducal-warplate",
+          "src": "/assets/art/coordinated-art-1/ducal-warplate.webp"
+        },
+        {
+          "id": "fortress-bastion-plate",
+          "name": "Moonfen Sentinel Harness",
+          "source": "fortress-bastion-plate",
+          "src": "/assets/art/coordinated-art-1/fortress-bastion-plate.webp"
+        },
+        {
+          "id": "imperial-assault-harness",
+          "name": "Astral Archon Robes",
+          "source": "astral-archon-robes",
+          "src": null
+        },
+        {
+          "id": "crownwall-bastion-plate",
+          "name": "Argent Sentinel Plate",
+          "source": "argent-sentinel-plate",
+          "src": null
+        },
+        {
+          "id": "ashen-marshal-harness",
+          "name": "Seraphic Vestment",
+          "source": "seraphic-vestment",
+          "src": null
+        },
+        {
+          "id": "sovereigns-war-bastion",
+          "name": "Sovereign’s Bastion",
+          "source": "sovereigns-bastion",
+          "src": null
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "bounty-list",
+      "stage": "before",
+      "icons": [],
+      "rows": [],
+      "rendered": []
+    },
+    {
+      "width": 390,
+      "screen": "weapons",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "runescar-saber",
+          "name": "Runescar Saber",
+          "source": "runescar-saber",
+          "src": null
+        },
+        {
+          "id": "stormglass-pike",
+          "name": "Marchwatch Spear",
+          "source": "stormglass-pike",
+          "src": "/assets/art/coordinated-art-1/stormglass-pike.webp"
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "name": "Fenwarden Billhook",
+          "source": "gravewarden-scythe",
+          "src": "/assets/art/coordinated-art-1/gravewarden-scythe.webp"
+        },
+        {
+          "id": "moonthorn-recurve",
+          "name": "Sunscar Maul",
+          "source": "sun-etched-warhammer",
+          "src": "/assets/art/coordinated-art-1/sun-etched-warhammer.webp"
+        },
+        {
+          "id": "oathbound-greatsword",
+          "name": "Frontier Falchion",
+          "source": "dragonwake-falchion",
+          "src": "/assets/art/coordinated-art-1/dragonwake-falchion.webp"
+        },
+        {
+          "id": "gravewarden-scythe",
+          "name": "Crownlands War Staff",
+          "source": "astral-conductor",
+          "src": "/assets/art/coordinated-art-1/astral-conductor.webp"
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Blacksteel Warblade",
+          "source": "crown-of-ash-blade",
+          "src": "/assets/art/coordinated-art-1/crown-of-ash-blade.webp"
+        },
+        {
+          "id": "dragonwake-falchion",
+          "name": "Order Marshal Greatsword",
+          "source": "eclipse-greatsword",
+          "src": "/assets/art/coordinated-art-1/eclipse-greatsword.webp"
+        },
+        {
+          "id": "astral-conductor",
+          "name": "Marshguard Glaive",
+          "source": "fortress-glaive",
+          "src": "/assets/art/coordinated-art-1/fortress-glaive.webp"
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "name": "Highland Claymore",
+          "source": "marcher-greatsword",
+          "src": "/assets/art/coordinated-art-1/marcher-greatsword.webp"
+        },
+        {
+          "id": "eclipse-greatsword",
+          "name": "Crown Captain’s Halberd",
+          "source": "guard-captains-halberd",
+          "src": "/assets/art/coordinated-art-1/guard-captains-halberd.webp"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "armor",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Marchwatch Hauberk",
+          "source": "argent-sentinel-plate",
+          "src": "/assets/art/coordinated-art-1/argent-sentinel-plate.webp"
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "source": "frostweave-mantle",
+          "src": null
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Fenwarden Lamellar",
+          "source": "ossuary-raiment",
+          "src": "/assets/art/coordinated-art-1/ossuary-raiment.webp"
+        },
+        {
+          "id": "nightwatch-carapace",
+          "name": "Sunscar Scale Harness",
+          "source": "dawnforge-panoply",
+          "src": "/assets/art/coordinated-art-1/dawnforge-panoply.webp"
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "name": "Frontier Siege Harness",
+          "source": "wyrmscale-aegis",
+          "src": "/assets/art/coordinated-art-1/wyrmscale-aegis.webp"
+        },
+        {
+          "id": "ossuary-raiment",
+          "name": "Crownlands Marshal Coat",
+          "source": "astral-archon-robes",
+          "src": "/assets/art/coordinated-art-1/astral-archon-robes.webp"
+        },
+        {
+          "id": "dawnforge-panoply",
+          "name": "Order Bastion Plate",
+          "source": "sovereigns-bastion",
+          "src": "/assets/art/coordinated-art-1/sovereigns-bastion.webp"
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Moonfen Warden Mantle",
+          "source": "seraphic-vestment",
+          "src": "/assets/art/coordinated-art-1/seraphic-vestment.webp"
+        },
+        {
+          "id": "astral-archon-robes",
+          "name": "Royal Garrison Plate",
+          "source": "eclipse-citadel-plate",
+          "src": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp"
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Highland Captain’s Brigandine",
+          "source": "captains-brigandine",
+          "src": "/assets/art/coordinated-art-1/captains-brigandine.webp"
+        },
+        {
+          "id": "seraphic-vestment",
+          "name": "Blacksteel Siegeguard Plate",
+          "source": "siegeguard-plate",
+          "src": "/assets/art/coordinated-art-1/siegeguard-plate.webp"
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Sunscar Marshal Harness",
+          "source": "kings-marshal-harness",
+          "src": "/assets/art/coordinated-art-1/kings-marshal-harness.webp"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "spells",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "runic-convergence",
+          "name": "Watchfire Covenant",
+          "source": "runic-convergence",
+          "src": "/assets/art/coordinated-art-1/runic-convergence.webp"
+        },
+        {
+          "id": "winters-judgment",
+          "name": "Winter's Judgment",
+          "source": "winters-judgment",
+          "src": null
+        },
+        {
+          "id": "ashen-revenant",
+          "name": "Ashen Revenant",
+          "source": "ashen-revenant",
+          "src": null
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "source": "moonwell-veil",
+          "src": null
+        },
+        {
+          "id": "oathfire-nova",
+          "name": "Oathfire Nova",
+          "source": "oathfire-nova",
+          "src": null
+        },
+        {
+          "id": "grave-tide",
+          "name": "Fenwarden’s Undertow",
+          "source": "grave-tide",
+          "src": "/assets/art/coordinated-art-1/grave-tide.webp"
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Sunscar Benediction",
+          "source": "dawnstar-benediction",
+          "src": "/assets/art/coordinated-art-1/dawnstar-benediction.webp"
+        },
+        {
+          "id": "dragons-last-breath",
+          "name": "Frontier Breachfire",
+          "source": "dragons-last-breath",
+          "src": "/assets/art/coordinated-art-1/dragons-last-breath.webp"
+        },
+        {
+          "id": "astral-tempest",
+          "name": "Crownlands Stormcall",
+          "source": "astral-tempest",
+          "src": "/assets/art/coordinated-art-1/astral-tempest.webp"
+        },
+        {
+          "id": "voidbound-chain",
+          "name": "Blacksteel Binding",
+          "source": "voidbound-chain",
+          "src": "/assets/art/coordinated-art-1/voidbound-chain.webp"
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Order’s Rebuke",
+          "source": "seraphs-rebuke",
+          "src": "/assets/art/coordinated-art-1/seraphs-rebuke.webp"
+        },
+        {
+          "id": "eclipse-invocation",
+          "name": "Royal War Invocation",
+          "source": "eclipse-invocation",
+          "src": "/assets/art/coordinated-art-1/eclipse-invocation.webp"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "rivals",
+      "stage": "preview",
+      "icons": [],
+      "rows": [
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375
+      ],
+      "rendered": []
+    },
+    {
+      "width": 390,
+      "screen": "land",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": []
+    },
+    {
+      "width": 390,
+      "screen": "weapons-progression",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "eclipse-greatsword",
+          "name": "Crown Captain’s Halberd",
+          "source": "guard-captains-halberd",
+          "src": "/assets/art/coordinated-art-1/guard-captains-halberd.webp"
+        },
+        {
+          "id": "fortress-glaive",
+          "name": "Sunscar Officer’s Saber",
+          "source": "royal-warblade",
+          "src": "/assets/art/coordinated-art-2/royal-warblade.webp"
+        },
+        {
+          "id": "marcher-greatsword",
+          "name": "Frontier Marshal’s Poleaxe",
+          "source": "march-wardens-poleaxe",
+          "src": "/assets/art/coordinated-art-2/march-wardens-poleaxe.webp"
+        },
+        {
+          "id": "guard-captains-halberd",
+          "name": "Mountain Warden’s Zweihander",
+          "source": "sovereigns-zweihander",
+          "src": "/assets/art/coordinated-art-2/sovereigns-zweihander.webp"
+        },
+        {
+          "id": "royal-warblade",
+          "name": "Cinderwyrm Cleaver",
+          "source": "cinderwyrm-cleaver",
+          "src": null
+        },
+        {
+          "id": "march-wardens-poleaxe",
+          "name": "Moonthorn Recurve",
+          "source": "moonthorn-recurve",
+          "src": null
+        },
+        {
+          "id": "sovereigns-zweihander",
+          "name": "Oathbound Greatsword",
+          "source": "oathbound-greatsword",
+          "src": null
+        },
+        {
+          "id": "high-castellans-hammer",
+          "name": "Stormglass Pike",
+          "source": "stormglass-pike",
+          "src": null
+        },
+        {
+          "id": "imperial-greatblade",
+          "name": "Astral Conductor",
+          "source": "astral-conductor",
+          "src": null
+        },
+        {
+          "id": "throneguard-polehammer",
+          "name": "Imperial Thronehammer",
+          "source": "throneguard-polehammer",
+          "src": "/assets/art/coordinated-art-2/throneguard-polehammer.webp"
+        },
+        {
+          "id": "ash-crowned-warblade",
+          "name": "Crown of Ash Blade",
+          "source": "crown-of-ash-blade",
+          "src": null
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "armor-progression",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Sunscar Marshal Harness",
+          "source": "kings-marshal-harness",
+          "src": "/assets/art/coordinated-art-1/kings-marshal-harness.webp"
+        },
+        {
+          "id": "captains-brigandine",
+          "name": "Crownlands Citadel Harness",
+          "source": "citadel-harness",
+          "src": "/assets/art/coordinated-art-1/citadel-harness.webp"
+        },
+        {
+          "id": "siegeguard-plate",
+          "name": "Northern Thane’s Warplate",
+          "source": "ducal-warplate",
+          "src": "/assets/art/coordinated-art-1/ducal-warplate.webp"
+        },
+        {
+          "id": "kings-marshal-harness",
+          "name": "Moonfen Sentinel Harness",
+          "source": "fortress-bastion-plate",
+          "src": "/assets/art/coordinated-art-1/fortress-bastion-plate.webp"
+        },
+        {
+          "id": "citadel-harness",
+          "name": "Embercrest Bulwark",
+          "source": "embercrest-bulwark",
+          "src": null
+        },
+        {
+          "id": "ducal-warplate",
+          "name": "Nightwatch Carapace",
+          "source": "nightwatch-carapace",
+          "src": null
+        },
+        {
+          "id": "fortress-bastion-plate",
+          "name": "Oathkeeper's Cuirass",
+          "source": "oathkeepers-cuirass",
+          "src": null
+        },
+        {
+          "id": "imperial-assault-harness",
+          "name": "Astral Archon Robes",
+          "source": "astral-archon-robes",
+          "src": null
+        },
+        {
+          "id": "crownwall-bastion-plate",
+          "name": "Argent Sentinel Plate",
+          "source": "argent-sentinel-plate",
+          "src": null
+        },
+        {
+          "id": "ashen-marshal-harness",
+          "name": "Seraphic Vestment",
+          "source": "seraphic-vestment",
+          "src": null
+        },
+        {
+          "id": "sovereigns-war-bastion",
+          "name": "Sovereign’s Bastion",
+          "source": "sovereigns-bastion",
+          "src": null
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "bounty-list",
+      "stage": "preview",
+      "icons": [],
+      "rows": [],
+      "rendered": []
+    },
+    {
+      "width": 430,
+      "screen": "weapons",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "runescar-saber",
+          "name": "Runescar Saber",
+          "source": "runescar-saber",
+          "src": null
+        },
+        {
+          "id": "stormglass-pike",
+          "name": "Marchwatch Spear",
+          "source": "stormglass-pike",
+          "src": "/assets/art/coordinated-art-1/stormglass-pike.webp"
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "name": "Cinderwyrm Cleaver",
+          "source": "cinderwyrm-cleaver",
+          "src": null
+        },
+        {
+          "id": "moonthorn-recurve",
+          "name": "Moonthorn Recurve",
+          "source": "moonthorn-recurve",
+          "src": null
+        },
+        {
+          "id": "oathbound-greatsword",
+          "name": "Oathbound Greatsword",
+          "source": "oathbound-greatsword",
+          "src": null
+        },
+        {
+          "id": "gravewarden-scythe",
+          "name": "Fenwarden Billhook",
+          "source": "gravewarden-scythe",
+          "src": "/assets/art/coordinated-art-1/gravewarden-scythe.webp"
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Sunscar Maul",
+          "source": "sun-etched-warhammer",
+          "src": "/assets/art/coordinated-art-1/sun-etched-warhammer.webp"
+        },
+        {
+          "id": "dragonwake-falchion",
+          "name": "Frontier Falchion",
+          "source": "dragonwake-falchion",
+          "src": "/assets/art/coordinated-art-1/dragonwake-falchion.webp"
+        },
+        {
+          "id": "astral-conductor",
+          "name": "Crownlands War Staff",
+          "source": "astral-conductor",
+          "src": "/assets/art/coordinated-art-1/astral-conductor.webp"
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "name": "Blacksteel Warblade",
+          "source": "crown-of-ash-blade",
+          "src": "/assets/art/coordinated-art-1/crown-of-ash-blade.webp"
+        },
+        {
+          "id": "eclipse-greatsword",
+          "name": "Order Marshal Greatsword",
+          "source": "eclipse-greatsword",
+          "src": "/assets/art/coordinated-art-1/eclipse-greatsword.webp"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "screen": "armor",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Marchwatch Hauberk",
+          "source": "argent-sentinel-plate",
+          "src": "/assets/art/coordinated-art-1/argent-sentinel-plate.webp"
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "source": "frostweave-mantle",
+          "src": null
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Embercrest Bulwark",
+          "source": "embercrest-bulwark",
+          "src": null
+        },
+        {
+          "id": "nightwatch-carapace",
+          "name": "Nightwatch Carapace",
+          "source": "nightwatch-carapace",
+          "src": null
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "name": "Oathkeeper's Cuirass",
+          "source": "oathkeepers-cuirass",
+          "src": null
+        },
+        {
+          "id": "ossuary-raiment",
+          "name": "Fenwarden Lamellar",
+          "source": "ossuary-raiment",
+          "src": "/assets/art/coordinated-art-1/ossuary-raiment.webp"
+        },
+        {
+          "id": "dawnforge-panoply",
+          "name": "Sunscar Scale Harness",
+          "source": "dawnforge-panoply",
+          "src": "/assets/art/coordinated-art-1/dawnforge-panoply.webp"
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Frontier Siege Harness",
+          "source": "wyrmscale-aegis",
+          "src": "/assets/art/coordinated-art-1/wyrmscale-aegis.webp"
+        },
+        {
+          "id": "astral-archon-robes",
+          "name": "Crownlands Marshal Coat",
+          "source": "astral-archon-robes",
+          "src": "/assets/art/coordinated-art-1/astral-archon-robes.webp"
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Order Bastion Plate",
+          "source": "sovereigns-bastion",
+          "src": "/assets/art/coordinated-art-1/sovereigns-bastion.webp"
+        },
+        {
+          "id": "seraphic-vestment",
+          "name": "Moonfen Warden Mantle",
+          "source": "seraphic-vestment",
+          "src": "/assets/art/coordinated-art-1/seraphic-vestment.webp"
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Royal Garrison Plate",
+          "source": "eclipse-citadel-plate",
+          "src": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "screen": "spells",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "runic-convergence",
+          "name": "Watchfire Covenant",
+          "source": "runic-convergence",
+          "src": "/assets/art/coordinated-art-1/runic-convergence.webp"
+        },
+        {
+          "id": "winters-judgment",
+          "name": "Winter's Judgment",
+          "source": "winters-judgment",
+          "src": null
+        },
+        {
+          "id": "ashen-revenant",
+          "name": "Ashen Revenant",
+          "source": "ashen-revenant",
+          "src": null
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "source": "moonwell-veil",
+          "src": null
+        },
+        {
+          "id": "oathfire-nova",
+          "name": "Oathfire Nova",
+          "source": "oathfire-nova",
+          "src": null
+        },
+        {
+          "id": "grave-tide",
+          "name": "Fenwarden’s Undertow",
+          "source": "grave-tide",
+          "src": "/assets/art/coordinated-art-1/grave-tide.webp"
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Sunscar Benediction",
+          "source": "dawnstar-benediction",
+          "src": "/assets/art/coordinated-art-1/dawnstar-benediction.webp"
+        },
+        {
+          "id": "dragons-last-breath",
+          "name": "Frontier Breachfire",
+          "source": "dragons-last-breath",
+          "src": "/assets/art/coordinated-art-1/dragons-last-breath.webp"
+        },
+        {
+          "id": "astral-tempest",
+          "name": "Crownlands Stormcall",
+          "source": "astral-tempest",
+          "src": "/assets/art/coordinated-art-1/astral-tempest.webp"
+        },
+        {
+          "id": "voidbound-chain",
+          "name": "Blacksteel Binding",
+          "source": "voidbound-chain",
+          "src": "/assets/art/coordinated-art-1/voidbound-chain.webp"
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Order’s Rebuke",
+          "source": "seraphs-rebuke",
+          "src": "/assets/art/coordinated-art-1/seraphs-rebuke.webp"
+        },
+        {
+          "id": "eclipse-invocation",
+          "name": "Royal War Invocation",
+          "source": "eclipse-invocation",
+          "src": "/assets/art/coordinated-art-1/eclipse-invocation.webp"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "screen": "rivals",
+      "stage": "before",
+      "icons": [],
+      "rows": [
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375
+      ],
+      "rendered": []
+    },
+    {
+      "width": 430,
+      "screen": "land",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": []
+    },
+    {
+      "width": 430,
+      "screen": "weapons",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "runescar-saber",
+          "name": "Runescar Saber",
+          "source": "runescar-saber",
+          "src": null
+        },
+        {
+          "id": "stormglass-pike",
+          "name": "Marchwatch Spear",
+          "source": "stormglass-pike",
+          "src": "/assets/art/coordinated-art-1/stormglass-pike.webp"
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "name": "Fenwarden Billhook",
+          "source": "gravewarden-scythe",
+          "src": "/assets/art/coordinated-art-1/gravewarden-scythe.webp"
+        },
+        {
+          "id": "moonthorn-recurve",
+          "name": "Sunscar Maul",
+          "source": "sun-etched-warhammer",
+          "src": "/assets/art/coordinated-art-1/sun-etched-warhammer.webp"
+        },
+        {
+          "id": "oathbound-greatsword",
+          "name": "Frontier Falchion",
+          "source": "dragonwake-falchion",
+          "src": "/assets/art/coordinated-art-1/dragonwake-falchion.webp"
+        },
+        {
+          "id": "gravewarden-scythe",
+          "name": "Crownlands War Staff",
+          "source": "astral-conductor",
+          "src": "/assets/art/coordinated-art-1/astral-conductor.webp"
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Blacksteel Warblade",
+          "source": "crown-of-ash-blade",
+          "src": "/assets/art/coordinated-art-1/crown-of-ash-blade.webp"
+        },
+        {
+          "id": "dragonwake-falchion",
+          "name": "Order Marshal Greatsword",
+          "source": "eclipse-greatsword",
+          "src": "/assets/art/coordinated-art-1/eclipse-greatsword.webp"
+        },
+        {
+          "id": "astral-conductor",
+          "name": "Marshguard Glaive",
+          "source": "fortress-glaive",
+          "src": "/assets/art/coordinated-art-1/fortress-glaive.webp"
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "name": "Highland Claymore",
+          "source": "marcher-greatsword",
+          "src": "/assets/art/coordinated-art-1/marcher-greatsword.webp"
+        },
+        {
+          "id": "eclipse-greatsword",
+          "name": "Crown Captain’s Halberd",
+          "source": "guard-captains-halberd",
+          "src": "/assets/art/coordinated-art-1/guard-captains-halberd.webp"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "screen": "armor",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Marchwatch Hauberk",
+          "source": "argent-sentinel-plate",
+          "src": "/assets/art/coordinated-art-1/argent-sentinel-plate.webp"
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "source": "frostweave-mantle",
+          "src": null
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Fenwarden Lamellar",
+          "source": "ossuary-raiment",
+          "src": "/assets/art/coordinated-art-1/ossuary-raiment.webp"
+        },
+        {
+          "id": "nightwatch-carapace",
+          "name": "Sunscar Scale Harness",
+          "source": "dawnforge-panoply",
+          "src": "/assets/art/coordinated-art-1/dawnforge-panoply.webp"
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "name": "Frontier Siege Harness",
+          "source": "wyrmscale-aegis",
+          "src": "/assets/art/coordinated-art-1/wyrmscale-aegis.webp"
+        },
+        {
+          "id": "ossuary-raiment",
+          "name": "Crownlands Marshal Coat",
+          "source": "astral-archon-robes",
+          "src": "/assets/art/coordinated-art-1/astral-archon-robes.webp"
+        },
+        {
+          "id": "dawnforge-panoply",
+          "name": "Order Bastion Plate",
+          "source": "sovereigns-bastion",
+          "src": "/assets/art/coordinated-art-1/sovereigns-bastion.webp"
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Moonfen Warden Mantle",
+          "source": "seraphic-vestment",
+          "src": "/assets/art/coordinated-art-1/seraphic-vestment.webp"
+        },
+        {
+          "id": "astral-archon-robes",
+          "name": "Royal Garrison Plate",
+          "source": "eclipse-citadel-plate",
+          "src": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp"
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Highland Captain’s Brigandine",
+          "source": "captains-brigandine",
+          "src": "/assets/art/coordinated-art-1/captains-brigandine.webp"
+        },
+        {
+          "id": "seraphic-vestment",
+          "name": "Blacksteel Siegeguard Plate",
+          "source": "siegeguard-plate",
+          "src": "/assets/art/coordinated-art-1/siegeguard-plate.webp"
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Sunscar Marshal Harness",
+          "source": "kings-marshal-harness",
+          "src": "/assets/art/coordinated-art-1/kings-marshal-harness.webp"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "screen": "spells",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        },
+        {
+          "width": 68,
+          "height": 61
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": [
+        {
+          "id": "runic-convergence",
+          "name": "Watchfire Covenant",
+          "source": "runic-convergence",
+          "src": "/assets/art/coordinated-art-1/runic-convergence.webp"
+        },
+        {
+          "id": "winters-judgment",
+          "name": "Winter's Judgment",
+          "source": "winters-judgment",
+          "src": null
+        },
+        {
+          "id": "ashen-revenant",
+          "name": "Ashen Revenant",
+          "source": "ashen-revenant",
+          "src": null
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "source": "moonwell-veil",
+          "src": null
+        },
+        {
+          "id": "oathfire-nova",
+          "name": "Oathfire Nova",
+          "source": "oathfire-nova",
+          "src": null
+        },
+        {
+          "id": "grave-tide",
+          "name": "Fenwarden’s Undertow",
+          "source": "grave-tide",
+          "src": "/assets/art/coordinated-art-1/grave-tide.webp"
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Sunscar Benediction",
+          "source": "dawnstar-benediction",
+          "src": "/assets/art/coordinated-art-1/dawnstar-benediction.webp"
+        },
+        {
+          "id": "dragons-last-breath",
+          "name": "Frontier Breachfire",
+          "source": "dragons-last-breath",
+          "src": "/assets/art/coordinated-art-1/dragons-last-breath.webp"
+        },
+        {
+          "id": "astral-tempest",
+          "name": "Crownlands Stormcall",
+          "source": "astral-tempest",
+          "src": "/assets/art/coordinated-art-1/astral-tempest.webp"
+        },
+        {
+          "id": "voidbound-chain",
+          "name": "Blacksteel Binding",
+          "source": "voidbound-chain",
+          "src": "/assets/art/coordinated-art-1/voidbound-chain.webp"
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Order’s Rebuke",
+          "source": "seraphs-rebuke",
+          "src": "/assets/art/coordinated-art-1/seraphs-rebuke.webp"
+        },
+        {
+          "id": "eclipse-invocation",
+          "name": "Royal War Invocation",
+          "source": "eclipse-invocation",
+          "src": "/assets/art/coordinated-art-1/eclipse-invocation.webp"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "screen": "rivals",
+      "stage": "preview",
+      "icons": [],
+      "rows": [
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375
+      ],
+      "rendered": []
+    },
+    {
+      "width": 430,
+      "screen": "land",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        },
+        {
+          "width": 78,
+          "height": 56
+        }
+      ],
+      "rows": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "rendered": []
+    },
+    {
+      "width": 1024,
+      "screen": "weapons",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        }
+      ],
+      "rows": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ],
+      "rendered": [
+        {
+          "id": "runescar-saber",
+          "name": "Runescar Saber",
+          "source": "runescar-saber",
+          "src": null
+        },
+        {
+          "id": "stormglass-pike",
+          "name": "Marchwatch Spear",
+          "source": "stormglass-pike",
+          "src": "/assets/art/coordinated-art-1/stormglass-pike.webp"
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "name": "Cinderwyrm Cleaver",
+          "source": "cinderwyrm-cleaver",
+          "src": null
+        },
+        {
+          "id": "moonthorn-recurve",
+          "name": "Moonthorn Recurve",
+          "source": "moonthorn-recurve",
+          "src": null
+        },
+        {
+          "id": "oathbound-greatsword",
+          "name": "Oathbound Greatsword",
+          "source": "oathbound-greatsword",
+          "src": null
+        },
+        {
+          "id": "gravewarden-scythe",
+          "name": "Fenwarden Billhook",
+          "source": "gravewarden-scythe",
+          "src": "/assets/art/coordinated-art-1/gravewarden-scythe.webp"
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Sunscar Maul",
+          "source": "sun-etched-warhammer",
+          "src": "/assets/art/coordinated-art-1/sun-etched-warhammer.webp"
+        },
+        {
+          "id": "dragonwake-falchion",
+          "name": "Frontier Falchion",
+          "source": "dragonwake-falchion",
+          "src": "/assets/art/coordinated-art-1/dragonwake-falchion.webp"
+        },
+        {
+          "id": "astral-conductor",
+          "name": "Crownlands War Staff",
+          "source": "astral-conductor",
+          "src": "/assets/art/coordinated-art-1/astral-conductor.webp"
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "name": "Blacksteel Warblade",
+          "source": "crown-of-ash-blade",
+          "src": "/assets/art/coordinated-art-1/crown-of-ash-blade.webp"
+        },
+        {
+          "id": "eclipse-greatsword",
+          "name": "Order Marshal Greatsword",
+          "source": "eclipse-greatsword",
+          "src": "/assets/art/coordinated-art-1/eclipse-greatsword.webp"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "screen": "armor",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        }
+      ],
+      "rows": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ],
+      "rendered": [
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Marchwatch Hauberk",
+          "source": "argent-sentinel-plate",
+          "src": "/assets/art/coordinated-art-1/argent-sentinel-plate.webp"
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "source": "frostweave-mantle",
+          "src": null
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Embercrest Bulwark",
+          "source": "embercrest-bulwark",
+          "src": null
+        },
+        {
+          "id": "nightwatch-carapace",
+          "name": "Nightwatch Carapace",
+          "source": "nightwatch-carapace",
+          "src": null
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "name": "Oathkeeper's Cuirass",
+          "source": "oathkeepers-cuirass",
+          "src": null
+        },
+        {
+          "id": "ossuary-raiment",
+          "name": "Fenwarden Lamellar",
+          "source": "ossuary-raiment",
+          "src": "/assets/art/coordinated-art-1/ossuary-raiment.webp"
+        },
+        {
+          "id": "dawnforge-panoply",
+          "name": "Sunscar Scale Harness",
+          "source": "dawnforge-panoply",
+          "src": "/assets/art/coordinated-art-1/dawnforge-panoply.webp"
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Frontier Siege Harness",
+          "source": "wyrmscale-aegis",
+          "src": "/assets/art/coordinated-art-1/wyrmscale-aegis.webp"
+        },
+        {
+          "id": "astral-archon-robes",
+          "name": "Crownlands Marshal Coat",
+          "source": "astral-archon-robes",
+          "src": "/assets/art/coordinated-art-1/astral-archon-robes.webp"
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Order Bastion Plate",
+          "source": "sovereigns-bastion",
+          "src": "/assets/art/coordinated-art-1/sovereigns-bastion.webp"
+        },
+        {
+          "id": "seraphic-vestment",
+          "name": "Moonfen Warden Mantle",
+          "source": "seraphic-vestment",
+          "src": "/assets/art/coordinated-art-1/seraphic-vestment.webp"
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Royal Garrison Plate",
+          "source": "eclipse-citadel-plate",
+          "src": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "screen": "spells",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        }
+      ],
+      "rows": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ],
+      "rendered": [
+        {
+          "id": "runic-convergence",
+          "name": "Watchfire Covenant",
+          "source": "runic-convergence",
+          "src": "/assets/art/coordinated-art-1/runic-convergence.webp"
+        },
+        {
+          "id": "winters-judgment",
+          "name": "Winter's Judgment",
+          "source": "winters-judgment",
+          "src": null
+        },
+        {
+          "id": "ashen-revenant",
+          "name": "Ashen Revenant",
+          "source": "ashen-revenant",
+          "src": null
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "source": "moonwell-veil",
+          "src": null
+        },
+        {
+          "id": "oathfire-nova",
+          "name": "Oathfire Nova",
+          "source": "oathfire-nova",
+          "src": null
+        },
+        {
+          "id": "grave-tide",
+          "name": "Fenwarden’s Undertow",
+          "source": "grave-tide",
+          "src": "/assets/art/coordinated-art-1/grave-tide.webp"
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Sunscar Benediction",
+          "source": "dawnstar-benediction",
+          "src": "/assets/art/coordinated-art-1/dawnstar-benediction.webp"
+        },
+        {
+          "id": "dragons-last-breath",
+          "name": "Frontier Breachfire",
+          "source": "dragons-last-breath",
+          "src": "/assets/art/coordinated-art-1/dragons-last-breath.webp"
+        },
+        {
+          "id": "astral-tempest",
+          "name": "Crownlands Stormcall",
+          "source": "astral-tempest",
+          "src": "/assets/art/coordinated-art-1/astral-tempest.webp"
+        },
+        {
+          "id": "voidbound-chain",
+          "name": "Blacksteel Binding",
+          "source": "voidbound-chain",
+          "src": "/assets/art/coordinated-art-1/voidbound-chain.webp"
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Order’s Rebuke",
+          "source": "seraphs-rebuke",
+          "src": "/assets/art/coordinated-art-1/seraphs-rebuke.webp"
+        },
+        {
+          "id": "eclipse-invocation",
+          "name": "Royal War Invocation",
+          "source": "eclipse-invocation",
+          "src": "/assets/art/coordinated-art-1/eclipse-invocation.webp"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "screen": "rivals",
+      "stage": "before",
+      "icons": [],
+      "rows": [
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375
+      ],
+      "rendered": []
+    },
+    {
+      "width": 1024,
+      "screen": "land",
+      "stage": "before",
+      "icons": [
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        }
+      ],
+      "rows": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ],
+      "rendered": []
+    },
+    {
+      "width": 1024,
+      "screen": "weapons",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        }
+      ],
+      "rows": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ],
+      "rendered": [
+        {
+          "id": "runescar-saber",
+          "name": "Runescar Saber",
+          "source": "runescar-saber",
+          "src": null
+        },
+        {
+          "id": "stormglass-pike",
+          "name": "Marchwatch Spear",
+          "source": "stormglass-pike",
+          "src": "/assets/art/coordinated-art-1/stormglass-pike.webp"
+        },
+        {
+          "id": "cinderwyrm-cleaver",
+          "name": "Fenwarden Billhook",
+          "source": "gravewarden-scythe",
+          "src": "/assets/art/coordinated-art-1/gravewarden-scythe.webp"
+        },
+        {
+          "id": "moonthorn-recurve",
+          "name": "Sunscar Maul",
+          "source": "sun-etched-warhammer",
+          "src": "/assets/art/coordinated-art-1/sun-etched-warhammer.webp"
+        },
+        {
+          "id": "oathbound-greatsword",
+          "name": "Frontier Falchion",
+          "source": "dragonwake-falchion",
+          "src": "/assets/art/coordinated-art-1/dragonwake-falchion.webp"
+        },
+        {
+          "id": "gravewarden-scythe",
+          "name": "Crownlands War Staff",
+          "source": "astral-conductor",
+          "src": "/assets/art/coordinated-art-1/astral-conductor.webp"
+        },
+        {
+          "id": "sun-etched-warhammer",
+          "name": "Blacksteel Warblade",
+          "source": "crown-of-ash-blade",
+          "src": "/assets/art/coordinated-art-1/crown-of-ash-blade.webp"
+        },
+        {
+          "id": "dragonwake-falchion",
+          "name": "Order Marshal Greatsword",
+          "source": "eclipse-greatsword",
+          "src": "/assets/art/coordinated-art-1/eclipse-greatsword.webp"
+        },
+        {
+          "id": "astral-conductor",
+          "name": "Marshguard Glaive",
+          "source": "fortress-glaive",
+          "src": "/assets/art/coordinated-art-1/fortress-glaive.webp"
+        },
+        {
+          "id": "crown-of-ash-blade",
+          "name": "Highland Claymore",
+          "source": "marcher-greatsword",
+          "src": "/assets/art/coordinated-art-1/marcher-greatsword.webp"
+        },
+        {
+          "id": "eclipse-greatsword",
+          "name": "Crown Captain’s Halberd",
+          "source": "guard-captains-halberd",
+          "src": "/assets/art/coordinated-art-1/guard-captains-halberd.webp"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "screen": "armor",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        }
+      ],
+      "rows": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ],
+      "rendered": [
+        {
+          "id": "argent-sentinel-plate",
+          "name": "Marchwatch Hauberk",
+          "source": "argent-sentinel-plate",
+          "src": "/assets/art/coordinated-art-1/argent-sentinel-plate.webp"
+        },
+        {
+          "id": "frostweave-mantle",
+          "name": "Frostweave Mantle",
+          "source": "frostweave-mantle",
+          "src": null
+        },
+        {
+          "id": "embercrest-bulwark",
+          "name": "Fenwarden Lamellar",
+          "source": "ossuary-raiment",
+          "src": "/assets/art/coordinated-art-1/ossuary-raiment.webp"
+        },
+        {
+          "id": "nightwatch-carapace",
+          "name": "Sunscar Scale Harness",
+          "source": "dawnforge-panoply",
+          "src": "/assets/art/coordinated-art-1/dawnforge-panoply.webp"
+        },
+        {
+          "id": "oathkeepers-cuirass",
+          "name": "Frontier Siege Harness",
+          "source": "wyrmscale-aegis",
+          "src": "/assets/art/coordinated-art-1/wyrmscale-aegis.webp"
+        },
+        {
+          "id": "ossuary-raiment",
+          "name": "Crownlands Marshal Coat",
+          "source": "astral-archon-robes",
+          "src": "/assets/art/coordinated-art-1/astral-archon-robes.webp"
+        },
+        {
+          "id": "dawnforge-panoply",
+          "name": "Order Bastion Plate",
+          "source": "sovereigns-bastion",
+          "src": "/assets/art/coordinated-art-1/sovereigns-bastion.webp"
+        },
+        {
+          "id": "wyrmscale-aegis",
+          "name": "Moonfen Warden Mantle",
+          "source": "seraphic-vestment",
+          "src": "/assets/art/coordinated-art-1/seraphic-vestment.webp"
+        },
+        {
+          "id": "astral-archon-robes",
+          "name": "Royal Garrison Plate",
+          "source": "eclipse-citadel-plate",
+          "src": "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp"
+        },
+        {
+          "id": "sovereigns-bastion",
+          "name": "Highland Captain’s Brigandine",
+          "source": "captains-brigandine",
+          "src": "/assets/art/coordinated-art-1/captains-brigandine.webp"
+        },
+        {
+          "id": "seraphic-vestment",
+          "name": "Blacksteel Siegeguard Plate",
+          "source": "siegeguard-plate",
+          "src": "/assets/art/coordinated-art-1/siegeguard-plate.webp"
+        },
+        {
+          "id": "eclipse-citadel-plate",
+          "name": "Sunscar Marshal Harness",
+          "source": "kings-marshal-harness",
+          "src": "/assets/art/coordinated-art-1/kings-marshal-harness.webp"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "screen": "spells",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        },
+        {
+          "width": 128,
+          "height": 112
+        }
+      ],
+      "rows": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ],
+      "rendered": [
+        {
+          "id": "runic-convergence",
+          "name": "Watchfire Covenant",
+          "source": "runic-convergence",
+          "src": "/assets/art/coordinated-art-1/runic-convergence.webp"
+        },
+        {
+          "id": "winters-judgment",
+          "name": "Winter's Judgment",
+          "source": "winters-judgment",
+          "src": null
+        },
+        {
+          "id": "ashen-revenant",
+          "name": "Ashen Revenant",
+          "source": "ashen-revenant",
+          "src": null
+        },
+        {
+          "id": "moonwell-veil",
+          "name": "Moonwell Veil",
+          "source": "moonwell-veil",
+          "src": null
+        },
+        {
+          "id": "oathfire-nova",
+          "name": "Oathfire Nova",
+          "source": "oathfire-nova",
+          "src": null
+        },
+        {
+          "id": "grave-tide",
+          "name": "Fenwarden’s Undertow",
+          "source": "grave-tide",
+          "src": "/assets/art/coordinated-art-1/grave-tide.webp"
+        },
+        {
+          "id": "dawnstar-benediction",
+          "name": "Sunscar Benediction",
+          "source": "dawnstar-benediction",
+          "src": "/assets/art/coordinated-art-1/dawnstar-benediction.webp"
+        },
+        {
+          "id": "dragons-last-breath",
+          "name": "Frontier Breachfire",
+          "source": "dragons-last-breath",
+          "src": "/assets/art/coordinated-art-1/dragons-last-breath.webp"
+        },
+        {
+          "id": "astral-tempest",
+          "name": "Crownlands Stormcall",
+          "source": "astral-tempest",
+          "src": "/assets/art/coordinated-art-1/astral-tempest.webp"
+        },
+        {
+          "id": "voidbound-chain",
+          "name": "Blacksteel Binding",
+          "source": "voidbound-chain",
+          "src": "/assets/art/coordinated-art-1/voidbound-chain.webp"
+        },
+        {
+          "id": "seraphs-rebuke",
+          "name": "Order’s Rebuke",
+          "source": "seraphs-rebuke",
+          "src": "/assets/art/coordinated-art-1/seraphs-rebuke.webp"
+        },
+        {
+          "id": "eclipse-invocation",
+          "name": "Royal War Invocation",
+          "source": "eclipse-invocation",
+          "src": "/assets/art/coordinated-art-1/eclipse-invocation.webp"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "screen": "rivals",
+      "stage": "preview",
+      "icons": [],
+      "rows": [
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375,
+        88.375
+      ],
+      "rendered": []
+    },
+    {
+      "width": 1024,
+      "screen": "land",
+      "stage": "preview",
+      "icons": [
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        },
+        {
+          "width": 196,
+          "height": 114
+        }
+      ],
+      "rows": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ],
+      "rendered": []
+    }
+  ],
+  "assetHashes": {
+    "/assets/art/coordinated-art-1/argent-sentinel-plate.webp": "208ee8942c52b9c25284a84d292cc993b56a1bfa728c0121f4d90e9cddb67b39",
+    "/assets/art/coordinated-art-1/astral-archon-robes.webp": "149ec27da31f4f5f68d361f875023b4ead9df6151fc531018ee5f45011ae9efa",
+    "/assets/art/coordinated-art-1/astral-conductor.webp": "4e13a04f9454223643225faf5b413507b6616d57d394c4145abef04db2cd3a2e",
+    "/assets/art/coordinated-art-1/astral-tempest.webp": "ae33ff07a02a2baa9b73644ed641e6258437ec58bcfb452bcd61088ca1d97de7",
+    "/assets/art/coordinated-art-1/captains-brigandine.webp": "78aa0ae3f7b00d19958b6d8ff4d29c8c8886d368ffdde7baa163f02452ed86a1",
+    "/assets/art/coordinated-art-1/citadel-harness.webp": "a7b391613a60a33f1cbf59f6ef437dacb05d2d600327bdba1a3a6407b83376d1",
+    "/assets/art/coordinated-art-1/crown-of-ash-blade.webp": "9d807f5b382f7a3aab2f770ad07838a644d01e153d401fb0013d4b8dfe3fa4ed",
+    "/assets/art/coordinated-art-1/dawnforge-panoply.webp": "2e2e92352e8d34fe447ffb773d2beb4f98c03ed6d244e4450fbd9162fb1e2f84",
+    "/assets/art/coordinated-art-1/dawnstar-benediction.webp": "cf8fd0d22089b957eb189e7e921448fcde9ea3c694007b89352c7413a6e6d6d6",
+    "/assets/art/coordinated-art-1/dragons-last-breath.webp": "5532eae89584774d0ca544ea0bc912089e51d526519fdb0f0665562734b1be03",
+    "/assets/art/coordinated-art-1/dragonwake-falchion.webp": "aaf6e811b46f5ddcc0659e4efb8dec0d292eead3ab14c6294394dab4752b075f",
+    "/assets/art/coordinated-art-1/ducal-warplate.webp": "87fd1eff02c93a46589e629a01f5a9547ed4ee076e67e04bd413d2b3325e9c02",
+    "/assets/art/coordinated-art-1/eclipse-citadel-plate.webp": "cc9ac29d255373bfbd1aa73512acbc1d4da79cfadc446169e0afe147b2233c85",
+    "/assets/art/coordinated-art-1/eclipse-greatsword.webp": "a17c4df5bd52ab156bf9fe2ec03f060c34ecdbe33a52b503eeec979196675619",
+    "/assets/art/coordinated-art-1/eclipse-invocation.webp": "f5ffd127d1d2870fcb1bd397c23bba95faa7ed03561f96284e253c4d75939fd4",
+    "/assets/art/coordinated-art-1/fortress-bastion-plate.webp": "fd6a53387e0e95612fe5043e5d3edf298b709ba9ad1a931dca189c153c8c644a",
+    "/assets/art/coordinated-art-1/fortress-glaive.webp": "da47455c8d28fa31fb2c8bd5f04b82cac84c01994b1b2a802ae7eda13e783e45",
+    "/assets/art/coordinated-art-1/grave-tide.webp": "0991cb5e97749c22830be935565ca5acd5081647e6a74d6701829fc43156f6a6",
+    "/assets/art/coordinated-art-1/gravewarden-scythe.webp": "27fe1b914c1d7de237dac7d6efc84710f4d9b8375cb6c02a7861b0141f936415",
+    "/assets/art/coordinated-art-1/guard-captains-halberd.webp": "f6b35070d68ba16ef70e0071bfece674b0db51e5cc2e6df106b805224cc96e52",
+    "/assets/art/coordinated-art-1/kings-marshal-harness.webp": "45d57ddf424dd34379c34a495feeb88cd97108bc4f8ee48bd1e2725939d4635b",
+    "/assets/art/coordinated-art-1/marcher-greatsword.webp": "97f12f71d75069e0b02aa4729816f1a5105818f6f3253d448fb0f1b1d844904e",
+    "/assets/art/coordinated-art-1/ossuary-raiment.webp": "a8ad3843da3a9449a5234c9cde954a142a99c6758152fd20f720a96ae418014a",
+    "/assets/art/coordinated-art-1/runic-convergence.webp": "501b7017183348a657b36e500ea0c0ceded1ac8142f2f7eef07b3d382ef49e48",
+    "/assets/art/coordinated-art-1/seraphic-vestment.webp": "dd0ec1fb5b7f459532c242bc4d9b75e3d104e1e0cb546b6524bbe5ace5e2dd54",
+    "/assets/art/coordinated-art-1/seraphs-rebuke.webp": "49890bcbfdfb3b94d874ff670f1de1cfd29e82214211e69ae283d39634a18185",
+    "/assets/art/coordinated-art-1/siegeguard-plate.webp": "3b7545b4f70bcbdbb4183421dd80d1aad22ea6632aa34fcb3b10c2945c8e6cb6",
+    "/assets/art/coordinated-art-1/sovereigns-bastion.webp": "5f13fc4f86f1764336810992246054372470467e4728238932e7a4bd3a26e324",
+    "/assets/art/coordinated-art-1/stormglass-pike.webp": "01b6245a8a66130169479ec36425de04960e30c8744104043ec0382995f76868",
+    "/assets/art/coordinated-art-1/sun-etched-warhammer.webp": "156cd97c73cf3cdcd154b19586f7d34f2e6ae0bdf45b27c23ae7fdbb3d56b2cb",
+    "/assets/art/coordinated-art-1/voidbound-chain.webp": "b559cd6721bc2c25a94a18a2ce4ff39205b566492cbed4e07c578a9a739eae4e",
+    "/assets/art/coordinated-art-1/wyrmscale-aegis.webp": "372070e823e3c902ad3dfb82ca7287fa6bfdde010e2691324dc80674199a377e",
+    "/assets/art/coordinated-art-2/march-wardens-poleaxe.webp": "07136c231c3bc5e544362a5612710b7371dbfad5a2ba51d18082d0d8a566f4a7",
+    "/assets/art/coordinated-art-2/royal-warblade.webp": "4e6f3e3bc4bde3c89000b8cedd7114115b3d812c9a2fb7e4ba3627d89fb29d82",
+    "/assets/art/coordinated-art-2/sovereigns-zweihander.webp": "6c260adac54855e520a38d334b54e4cd3605ceee1393bf1fad0bf655374d607c",
+    "/assets/art/coordinated-art-2/throneguard-polehammer.webp": "cde93d738356bfe9e38fb35d94a6c64ce4ae67d004f65e8da0e39ef4b7d3b62b",
+    "/assets/art/equipment-51b-current-1/crown-of-ash-blade.webp": "ef5ad5697d6070b42ddf9b9c8ff321c512ff1452e183a2b4bb2a105738739eb8",
+    "/assets/art/equipment-51b-current-1/oathbound-greatsword.webp": "50e937d5f392cdee1171a960aea0a77c4b9f6b79a275942c706c18c72a000815",
+    "/assets/art/equipment-51b-current-1/sovereigns-bastion.webp": "8cc9291c0dc3dda6c704c84439144bf761391ff2f0eea9550f4b9bc92ee19822",
+    "/assets/art/fantasy-0.2/armor.webp": "1210ae0ce0be9f37a613c754533738dceee3a4b63f43094bdd526d2998149fd1",
+    "/assets/art/fantasy-0.2/spells.webp": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67",
+    "/assets/art/fantasy-0.2/weapons.webp": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030",
+    "/assets/art/land-review/castle-landscape.webp": "b76d1107f7d35dc1fdc22f671f36ee4775ba20a8f1fedc5d7199949ce67f7057",
+    "/assets/art/land-review/interface-icons.webp": "9e6bf5a2bac61b5991d4acd67e6e8ec51d5d47c717e8df4e9cfea9ba9cc166b1",
+    "/assets/art/regional-weapon-land-1/crown-river-port.webp": "b4ac7783def2f3a0c51af75451cd90d9aed75a79089659895d82c8ddc0c84432",
+    "/assets/art/regional-weapon-land-1/eclipse-crown-citadel.webp": "c3d79bfa5e679c194b470ade107f12d0b227ac7b7e7096b5209a09d799356dcf",
+    "/assets/art/regional-weapon-land-1/imperial-siegeworks.webp": "3a2a16d7c6facddffa619b3e3f2bbcf654e94f035744c4dcde5e7e65e2ec3fc1",
+    "/assets/art/regional-weapon-land-1/marcher-stronghold.webp": "19f33d4ef3fdaf07c667a0ed6cafb1bdda4217d512b238e2c9c7cf1e54981729",
+    "/assets/art/regional-weapon-land-1/royal-border-fortress.webp": "04db525708f6c0e388363cdb7dc5db87b92300a64e3ec8bcdd96d81b1ff097bd",
+    "/assets/art/regional-weapon-land-1/sovereign-castle.webp": "6df56e278fd8cb9aae1ca22ba3bb1fad1e61a781fa92212bb86c429ee39b7175",
+    "/assets/art/remaster-ui/crest.svg": "349b1efacc3a5e79fafe89c7e4bd6b15d9ccade450e2045709b1cafae432dab8",
+    "/assets/art/remaster-ui/icons.svg": "05d766373a123142b33b2e9279dd44d81b2792deb2d49b60834f43b9a37719e0"
+  },
+  "errors": [],
+  "actualFixturePurchase": true,
+  "actual100Versus5BountyClaim": true
+}
