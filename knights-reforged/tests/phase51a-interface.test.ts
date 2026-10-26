@@ -96,7 +96,7 @@ test('self/public holdings use the same order and saved rates; all Hall categori
   for(const category of championCategories){
    const before=(await r.db.query('SELECT * FROM champion_standings ORDER BY character_id')).rows;
    const hall=await hallOfChampions(r.db,a.id,category.id);
-   if(['kills','kd','wanted'].includes(category.id)){assert.equal(hall.entries.length,0,'ordinary victories and old claim totals never fabricate finishing or active-bounty records');assert.deepEqual((await r.db.query('SELECT * FROM champion_standings ORDER BY character_id')).rows,before);continue;}
+   if(['kd','wanted'].includes(category.id)){assert.equal(hall.entries.length,0,'K/D requires a death and Most Wanted requires an active bounty');assert.deepEqual((await r.db.query('SELECT * FROM champion_standings ORDER BY character_id')).rows,before);continue;}
    assert.equal(hall.entries.length,2);
    const expected=(await r.db.query(`SELECT character_id FROM champion_standings WHERE eligible ORDER BY ${category.column} DESC,${category.id==='level'?'xp DESC,':''}created_at,character_id LIMIT 20`)).rows.map(x=>x.character_id);
    assert.deepEqual(hall.entries.map(x=>x.id),expected);assert.equal(hall.entries.find(x=>x.id===b.id)!.level,101);

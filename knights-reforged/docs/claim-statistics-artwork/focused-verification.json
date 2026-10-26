@@ -1,0 +1,183 @@
+{
+  "productionContacted": false,
+  "focused": {
+    "profile": "full",
+    "lane": "all",
+    "shard": 1,
+    "shards": 1,
+    "workers": 2,
+    "seconds": 69.55,
+    "expected": 7,
+    "completed": 7,
+    "interrupted": false,
+    "results": [
+      {
+        "file": "tests/level100-e2b-integration.test.ts",
+        "lane": "database",
+        "seconds": 7.785,
+        "passed": true,
+        "tests": 7,
+        "pass": 7,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/phase6-preservation.test.ts",
+        "lane": "database",
+        "seconds": 10.024,
+        "passed": true,
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/classic-profile.test.ts",
+        "lane": "database",
+        "seconds": 8.484,
+        "passed": true,
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/equipment-artwork.test.ts",
+        "lane": "unit",
+        "seconds": 0.84,
+        "passed": true,
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/equipment-cleanup-browser.test.mjs",
+        "lane": "browser",
+        "seconds": 36.682,
+        "passed": true,
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/phase6-combat.test.ts",
+        "lane": "database",
+        "seconds": 30.533,
+        "passed": true,
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/phase6-experience.test.ts",
+        "lane": "database",
+        "seconds": 14.896,
+        "passed": true,
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "static": {
+    "passed": 99,
+    "failed": 0,
+    "productionEjsFixtures": 77
+  },
+  "compatibilityFollowup": {
+    "profile": "full",
+    "lane": "all",
+    "shard": 1,
+    "shards": 1,
+    "workers": 2,
+    "seconds": 10.715,
+    "expected": 2,
+    "completed": 2,
+    "interrupted": false,
+    "results": [
+      {
+        "file": "tests/phase51a-interface.test.ts",
+        "lane": "database",
+        "seconds": 8.622,
+        "passed": true,
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/phase6-experience.test.ts",
+        "lane": "database",
+        "seconds": 10.702,
+        "passed": true,
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "uniqueTestFiles": 11,
+  "uniqueTestsPassed": 46,
+  "uncappedPvp": {
+    "profile": "full",
+    "lane": "all",
+    "shard": 1,
+    "shards": 1,
+    "workers": 2,
+    "seconds": 87.096,
+    "expected": 3,
+    "completed": 3,
+    "interrupted": false,
+    "results": [
+      {
+        "file": "tests/human-pvp-loot.test.ts",
+        "lane": "unit",
+        "seconds": 1.013,
+        "passed": true,
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/phase45-economy.test.ts",
+        "lane": "database",
+        "seconds": 77.408,
+        "passed": true,
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests/pvp-economy.test.ts",
+        "lane": "database",
+        "seconds": 86.074,
+        "passed": true,
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    ]
+  }
+}

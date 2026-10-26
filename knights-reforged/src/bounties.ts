@@ -152,8 +152,10 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
       EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS temporary_rival, sponsor.name AS sponsor_name FROM bounties b JOIN characters c ON c.id=b.target_id JOIN characters sponsor ON sponsor.id=b.sponsor_id
       JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots d ON d.character_id=c.id
       WHERE ${visibleBounties} ORDER BY b.amount DESC,b.created_at,b.id LIMIT 100`,[now,botTargetsEnabled])).rows;
-    const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name,h.name AS claimant_name,f.outcome AS battle_outcome,(d.battle_id IS NOT NULL) AS verified_death FROM bounties b
-      JOIN characters c ON c.id=b.target_id JOIN characters s ON s.id=b.sponsor_id LEFT JOIN characters h ON h.id=b.claimant_id LEFT JOIN battles f ON f.id=b.battle_id LEFT JOIN competitive_deaths d ON d.battle_id=b.battle_id
+    const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name,h.name AS claimant_name,f.outcome AS battle_outcome,(d.battle_id IS NOT NULL) AS verified_death,(k.bounty_id IS NOT NULL) AS recorded_claim FROM bounties b
+      JOIN characters c ON c.id=b.target_id JOIN characters s ON s.id=b.sponsor_id LEFT JOIN characters h ON h.id=b.claimant_id LEFT JOIN battles f ON f.id=b.battle_id
+      LEFT JOIN competitive_deaths d ON d.battle_id=b.battle_id
+      LEFT JOIN bounty_kills k ON k.bounty_id=b.id AND b.status='claimed' AND k.claimant_id=b.claimant_id AND k.target_id=b.target_id AND k.battle_id=b.battle_id
       WHERE b.sponsor_id=$1 OR b.target_id=$1 OR b.claimant_id=$1 ORDER BY b.created_at DESC,b.id DESC LIMIT 50`,[characterId])).rows;
     // A transaction has one client; queued parallel reads add no SQL parallelism.
     const listings=[];for(const row of active){

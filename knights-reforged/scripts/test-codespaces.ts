@@ -26,6 +26,7 @@ import {ledger} from '../src/economy.js';
 import {grantExperience} from '../src/progression.js';
 import {lockCharacters,clock} from '../src/game.js';
 import {alpha,levelRequirement} from '../src/alpha-rules.js';
+import {humanPvpLoot,humanVictoryLoot} from '../src/human-pvp-loot.js';
 import {executeCommand} from '../src/commands.js';
 
 if(!testDatabaseUrl)throw new Error('Use TEST_DATABASE_URL for a disposable *_test database.');
@@ -197,7 +198,8 @@ try{
   assert.match(await hunterPage.locator('body').innerText(),/Bounty claimed!/);
   const claimedId=hunterPage.url().split('/').at(-1)!;
   const claimed=(await hunterPage.request.get(config.origin+'/api/v1/battles/'+claimedId).then(response=>response.json())).battle;
-  assert.equal(claimed.bountyClaim.reward,1000);assert.equal(claimed.loot,15000);assert.equal(claimed.pvpRulesetId,'gameplay-refinement-1');
+  const bountySnapshot=(await db.query('SELECT snapshot FROM battles WHERE id=$1',[claimedId])).rows[0]!.snapshot;
+  assert.equal(claimed.bountyClaim.reward,1000);assert.equal(claimed.loot,humanVictoryLoot(bountySnapshot.defender.gold,claimed.lootDetails.victory).amount);assert.ok(claimed.loot>15000);assert.equal(claimed.pvpRulesetId,humanPvpLoot.id);
   assert.equal((await sponsorPage.request.get(config.origin+'/api/v1/battles/'+claimedId)).status(),404);
   await hunterPage.screenshot({path:join(screenOut,'390-bounty-report.png'),fullPage:true});
   const bot=(await db.query("SELECT c.id,c.name FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=3 AND b.tier='green'")).rows[0]!;

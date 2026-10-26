@@ -43,7 +43,7 @@ test('actual poor, wealthy, high-bot and concurrent victories transfer only expo
   for(const [level,exposed,label] of [[8,300,'poor'],[17,1000000,'wealthy']] as const){
    const a=await fighter(level,'Realm Challenger '+level,10),b=await fighter(level,'Realm Keeper '+level,8);
    await r.ok(b,'/api/v1/vault/deposits',{amount:100000});await r.db.query('UPDATE wallets SET balance=$2 WHERE character_id=$1',[b.id,exposed]);
-   const example=await win(a,b);assert.equal(example.stolen,level===8?9:15000);examples.push({case:label,...example});
+   const example=await win(a,b);assert.equal(example.stolen,level===8?9:30000);examples.push({case:label,...example});
   }
   await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});
   const a=await fighter(25,'Rival Challenger',5),bot=(await r.db.query("SELECT c.id,c.account_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=29 AND b.tier='green' AND b.variant=0")).rows[0]!;

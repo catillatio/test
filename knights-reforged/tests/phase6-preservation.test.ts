@@ -1,6 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID,createHash} from 'node:crypto';import {mkdir,writeFile} from 'node:fs/promises';
 import {createDatabase,transaction,type Database} from '../src/db.js';import {migrate,reconcileLevelMilestones} from '../src/migrate.js';import {provisionBots} from '../src/development.js';import {registerAccount,createSession} from '../src/auth.js';import {ledger} from '../src/economy.js';import {purchaseItems} from '../src/inventory.js';import {buyEstate} from '../src/estate.js';import {vaultTransfer} from '../src/pvp-economy.js';import {notificationSummary} from '../src/notifications.js';import {testDatabaseUrl} from './helpers.js';
 async function snapshot(db:Database){const data:Record<string,string[]>={};for(const {table_name:t}of(await db.query("SELECT table_name FROM information_schema.tables WHERE table_schema=current_schema() AND table_type='BASE TABLE' ORDER BY table_name")).rows){assert.match(t,/^[a-z0-9_]+$/);data[t]=(await db.query(`SELECT row_to_json(t)::text AS row FROM "${t}" t ORDER BY row_to_json(t)::text`)).rows.map(r=>r.row);}return data;}
+import {competitiveProfile} from '../src/competitive-records.js';
+import {historicalClaim} from './phase6-fixtures.js';
 test('Phase 6 populated schema-025 upgrade/replay preserves every old business row, 450 immutable bots, sessions, finances and old notification markers',{skip:!testDatabaseUrl,timeout:180000},async()=>{
  const schema='phase6_'+randomUUID().replaceAll('-',''),admin=createDatabase(testDatabaseUrl!),url=new URL(testDatabaseUrl!);url.searchParams.set('options','-c search_path='+schema);await admin.query(`CREATE SCHEMA ${schema}`);const db=createDatabase(url.href);
  try{
@@ -16,11 +18,16 @@ test('Phase 6 populated schema-025 upgrade/replay preserves every old business r
    await db.query("INSERT INTO bounty_events(id,bounty_id,kind,character_id,amount,created_at) VALUES($1,$2,'claimed',$3,100,$4)",[randomUUID(),bounty,b.characterId,at]);
   }
   const oldRead=randomUUID();await db.query("INSERT INTO notification_reads(character_id,kind,event_id) VALUES($1,'comment',$2)",[a.characterId,oldRead]);
+  const bot=(await db.query('SELECT c.id,c.account_id FROM characters c JOIN development_bots d ON d.character_id=c.id ORDER BY c.id LIMIT 1')).rows[0]!;
+  await historicalClaim(db,{id:a.characterId,accountId:a.accountId,cookie:'',csrf:''},{id:bot.id,accountId:bot.account_id,cookie:'',csrf:''},{id:patron.characterId,accountId:patron.accountId,cookie:'',csrf:''});
   const before=await snapshot(db),originalBots=(await db.query('SELECT row_to_json(b)::text AS row FROM development_bots b ORDER BY character_id')).rows.map(r=>r.row);
   await migrate(db);const after=await snapshot(db);
   for(const [table,rows]of Object.entries(before)){if(table==='schema_migrations'||table==='rulesets'){const values=new Set(after[table]);assert.ok(rows.every(row=>values.has(row)),table);}else assert.deepEqual(after[table],rows,table+' changed a historical business row');}
   assert.equal((await db.query('SELECT count(*)::int n FROM development_bots')).rows[0]!.n,450);assert.deepEqual((await db.query('SELECT row_to_json(b)::text AS row FROM development_bots b ORDER BY character_id')).rows.map(r=>r.row),originalBots);
-  assert.equal((await db.query('SELECT count(*)::int n FROM competitive_deaths')).rows[0]!.n,1,'only explicit human finishing evidence becomes a death; ordinary knockouts and ambiguous old claims do not');
+  assert.equal((await db.query('SELECT count(*)::int n FROM competitive_deaths')).rows[0]!.n,1,'only explicit human finishing evidence enters the unchanged 026 evidence table');
+  assert.equal((await competitiveProfile(db,b.characterId))!.kills,'2','both authoritative successful claims count, independently of modern finishing fields');
+  assert.equal((await competitiveProfile(db,a.characterId))!.deaths,'2');
+  assert.equal((await competitiveProfile(db,a.characterId))!.kills,'1','a recorded successful historical bot-target claim also counts; bot leaderboard eligibility stays separate');
   assert.equal((await db.query('SELECT count(*)::int n FROM rare_equipment_authorizations')).rows[0]!.n,0);assert.equal((await db.query('SELECT count(*)::int n FROM hudson_equipment_grants')).rows[0]!.n,0);assert.equal((await db.query('SELECT count(*)::int n FROM expansion_bot_autonomy_events')).rows[0]!.n,0);
   const attention=await notificationSummary(db,a.characterId);assert.equal(attention.home,1,'existing incoming unread attack remains, with no historical bounty backlog');
   const installed=await snapshot(db);await migrate(db);assert.deepEqual(await snapshot(db),installed,'migration replay changes no saved business row');

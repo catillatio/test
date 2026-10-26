@@ -31,7 +31,7 @@ try{
   await page.setViewportSize({width,height:width===1024?900:844});
   await visit(page,'/game/champions?category=kills');assert.equal(await page.locator('.champion-tabs a').count(),7);assert.match(await page.locator('.champion-list').innerText(),/Marshal of the Crown/);await capture(page,width,'champions');
   await visit(page,'/game/players/'+target.id);assert.equal(await page.locator('.competitive-record').count(),0);assert.equal(await page.locator('[data-profile-stats]').count(),1);assert.ok(!(await page.locator('body').innerHTML()).includes(target.accountId));await capture(page,width,'rival-profile','[data-profile-stats]');
-  await visit(page,'/game/bounties');assert.match(await page.locator('main').innerText(),/verified human bounty death/);await capture(page,width,'bounty-history');
+  await visit(page,'/game/bounties');assert.match(await page.locator('main').innerText(),/successful bounty claim/);await capture(page,width,'bounty-history');
   await visit(page,finalReport);await capture(page,width,'bounty-report','.battle-result');
   await visit(page,'/game/quests?command='+key);assert.equal(await page.getByRole('status',{name:'Rare quest equipment discovered'}).count(),1);assert.match(await page.locator('.rare-discovery').innerText(),/King Hudson.*Sword/);await capture(page,width,'rare-discovery','.rare-discovery');
  }

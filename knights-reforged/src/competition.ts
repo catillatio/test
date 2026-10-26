@@ -10,9 +10,9 @@ import type {CharacterState} from './game.js';
 
 export const championCategories=[
  {id:'victories',name:'Battle Victories',column:'battle_victories',unit:'victories',help:'Attacking and defending victories under the existing rules, including temporary-rival encounters. Only humans are ranked.'},
- {id:'kills',name:'Player Kills',column:'player_kills',unit:'verified kills',help:'Human-versus-human bounty finishing actions with saved positive-to-zero Health evidence. Ordinary wins and unverified legacy claims do not invent kills.'},
- {id:'kd',name:'Best K/D',column:'player_kills',unit:'K/D',help:'Verified player kills divided by verified deaths. At least one of each is required to rank; zero deaths are shown as undefeated on profiles, never infinity.'},
- {id:'bounties',name:'Bounty Hunters',column:'bounty_claims',unit:'claims',help:'Completed recorded claims, including preserved historical claims. Claims and verified deaths are separate records.'},
+ {id:'kills',name:'Player Kills',column:'bounty_claims',unit:'kills',help:'Successful recorded bounty claims, including historical claims. Ordinary battle victories do not create kills.'},
+ {id:'kd',name:'Best K/D',column:'bounty_claims',unit:'K/D',help:'Successful bounty claims made divided by successful claims against you. At least one of each is required to rank; zero deaths never produce an infinite score.'},
+ {id:'bounties',name:'Bounty Hunters',column:'bounty_claims',unit:'claims',help:'Successful recorded bounty claims, including historical claims. Each completed contract counts once as a kill.'},
  {id:'wanted',name:'Most Wanted',column:'amount',unit:'active gold',help:'Current unexpired human-target bounty principal. Expired and settled contracts do not rank. Fees are not rewards.'},
  {id:'land',name:'Wealthiest Kingdoms',column:'land_value',unit:'gold in Land',help:'Remaining Land at actual recorded acquisition costs; no wallet or Vault disclosure.'},
  {id:'level',name:'Highest Level',column:'attained_level',unit:'level',help:'Attained level, then lifetime XP. Earned progression is never recomputed.'},
@@ -21,12 +21,12 @@ export function championCategory(value:unknown){return championCategories.find(c
 export function formatStanding(value:string|number){const [whole,fraction]=String(value).split('.');return BigInt(whole!).toLocaleString('en')+(fraction?'.'+fraction.slice(0,2).padEnd(2,'0'):'');}
 const boardCursor=z.object({category:z.string(),score:z.string().regex(/^\d{1,40}(\.\d{1,30})?$/),xp:z.string().regex(/^\d{1,20}$/),at:z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/),id:z.uuid()});
 export async function hallOfChampions(db:Database,viewerId:string,selection?:unknown,after?:unknown){
- const category=championCategory(selection),level=category.id==='level',ratio=category.id==='kd',wanted=category.id==='wanted',kills=category.id==='kills';
+ const category=championCategory(selection),level=category.id==='level',ratio=category.id==='kd',wanted=category.id==='wanted';
  let cursor:z.infer<typeof boardCursor>|null=null;
  if(after!==undefined){try{if(typeof after!=='string'||after.length>800||!/^[A-Za-z0-9_-]+$/.test(after))throw 0;cursor=boardCursor.parse(JSON.parse(Buffer.from(after,'base64url').toString()));if(cursor.category!==category.id||!Number.isFinite(Date.parse(cursor.at)))throw 0;}catch{throw new GameError('INVALID_CURSOR','Invalid champion page.');}}
- const metric=wanted?'b.amount':ratio?'(p.player_kills::numeric/NULLIF(p.player_deaths,0))':kills?'p.player_kills':`s.${category.column}`;
- const from=`champion_standings s JOIN characters c ON c.id=s.character_id ${kills||ratio?'JOIN competitive_statistics p ON p.character_id=s.character_id':''} ${wanted?"JOIN bounties b ON b.target_id=s.character_id AND b.status='active' AND b.expires_at>transaction_timestamp()":''}`;
- const filter=`s.eligible${level?'':` AND ${metric}>0`}${ratio?' AND p.player_deaths>0':''}`;
+ const metric=wanted?'b.amount':ratio?'(s.bounty_claims::numeric/NULLIF(s.bounty_deaths,0))':`s.${category.column}`;
+ const from=`champion_standings s JOIN characters c ON c.id=s.character_id ${wanted?"JOIN bounties b ON b.target_id=s.character_id AND b.status='active' AND b.expires_at>transaction_timestamp()":''}`;
+ const filter=`s.eligible${level?'':` AND ${metric}>0`}${ratio?' AND s.bounty_deaths>0':''}`;
  const order=`${metric} DESC,${level?'s.xp DESC,':''}s.created_at,s.character_id`;
  const ahead=`${metric}>$1::numeric OR (${metric}=$1::numeric AND (${level?'s.xp>$4::bigint OR (s.xp=$4::bigint AND ':''}(s.created_at,s.character_id)<($2::timestamptz,$3::uuid)${level?')':''}))`;
  const behind=`${metric}<$1::numeric OR (${metric}=$1::numeric AND (${level?'s.xp<$4::bigint OR (s.xp=$4::bigint AND ':''}(s.created_at,s.character_id)>($2::timestamptz,$3::uuid)${level?')':''}))`;

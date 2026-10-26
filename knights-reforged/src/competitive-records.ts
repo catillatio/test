@@ -10,7 +10,10 @@ export function killDeathRatio(kills:string,deaths:string){
 }
 export async function competitiveProfile(sql:Sql,id:string){
  if(!await competitionSchema(sql))return null;
- const row=(await sql.query(`SELECT p.player_kills::text AS kills,p.player_deaths::text AS deaths,
+ // 019's claim counters already reconcile exact settled bounty/claim identities,
+ // including legacy claims. 026's stricter HP evidence remains historical;
+ // it must not exclude a completed claim from the player's Kills or Deaths.
+ const row=(await sql.query(`SELECT s.bounty_claims::text AS kills,s.bounty_deaths::text AS deaths,
  p.bounties_received::text AS wanted,s.bounty_claims::text AS claims,
  s.battle_victories::text AS wins,s.battle_defeats::text AS losses
  FROM competitive_statistics p JOIN champion_standings s ON s.character_id=p.character_id
@@ -23,8 +26,10 @@ export async function directedRivalry(sql:Sql,viewer:string,opponent:string){
  count(*) FILTER(WHERE attacker_id=$3)::text AS attacks,
  count(*) FILTER(WHERE defender_id=$3)::text AS defenses
  FROM battles WHERE LEAST(attacker_id,defender_id)=$1 AND GREATEST(attacker_id,defender_id)=$2`,[...pair,viewer])).rows[0]!;
- const deaths=await competitionSchema(sql)?(await sql.query(`SELECT count(*) FILTER(WHERE killer_id=$1)::text AS kills,
- count(*) FILTER(WHERE victim_id=$1)::text AS deaths FROM competitive_deaths
- WHERE (killer_id=$1 AND victim_id=$2) OR(killer_id=$2 AND victim_id=$1)`,[viewer,opponent])).rows[0]!:{kills:'0',deaths:'0'};
+ const deaths=(await sql.query(`SELECT count(*) FILTER(WHERE k.claimant_id=$1)::text AS kills,
+ count(*) FILTER(WHERE k.target_id=$1)::text AS deaths FROM bounty_kills k
+ JOIN bounties b ON b.id=k.bounty_id AND b.status='claimed'
+ AND b.claimant_id=k.claimant_id AND b.target_id=k.target_id AND b.battle_id=k.battle_id
+ WHERE (k.claimant_id=$1 AND k.target_id=$2) OR(k.claimant_id=$2 AND k.target_id=$1)`,[viewer,opponent])).rows[0]!;
  return {encounters:String(result.encounters),attacksInitiated:String(result.attacks),defensiveEncounters:String(result.defenses),kills:String(deaths.kills),deaths:String(deaths.deaths)};
 }

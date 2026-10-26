@@ -25,3 +25,15 @@ export async function withQuestDraw<T>(draw:number,work:()=>Promise<T>){
  crypto.randomInt=((min:number,max?:number)=>max===undefined?Math.min(draw,min-1):min) as typeof crypto.randomInt;syncBuiltinESMExports();
  try{return await work();}finally{crypto.randomInt=original;syncBuiltinESMExports();}
 }
+
+// Disposable historical claim fixtures intentionally omit modern HP fields.
+export async function historicalClaim(db:import('../src/db.js').Database,claimant:Player,target:Player,sponsor:Player,source:'legacy_claim'|'finishing_claim'='legacy_claim'){
+ const battleId=randomUUID(),bountyId=randomUUID(),at=new Date('2020-02-01T12:00:00Z');
+ await transaction(db,async sql=>{
+  await sql.query("INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,created_at) VALUES($1,$2,$3,'alpha-0.3','defender_win','{}','{}',$4)",[battleId,claimant.id,target.id,at]);
+  await sql.query("INSERT INTO bounties(id,sponsor_id,target_id,amount,fee,status,ruleset_id,command_id,created_at,expires_at,settled_at,claimant_id,battle_id) VALUES($1,$2,$3,100,10,'claimed','alpha-0.3',$4,$5,$6,$7,$8,$9)",[bountyId,sponsor.id,target.id,randomUUID(),new Date(+at-1000),new Date(+at+3600000),at,claimant.id,battleId]);
+  await sql.query("INSERT INTO bounty_kills(bounty_id,battle_id,claimant_id,target_id,ruleset_id,source,awarded_at) VALUES($1,$2,$3,$4,'alpha-0.3',$5,$6)",[bountyId,battleId,claimant.id,target.id,source,at]);
+  await sql.query("INSERT INTO bounty_events(id,bounty_id,kind,character_id,amount,created_at) VALUES($1,$2,'claimed',$3,100,$4)",[randomUUID(),bountyId,claimant.id,at]);
+ });
+ return {battleId,bountyId};
+}
