@@ -1,5 +1,11 @@
 # Recovery-copy retention — owner review
 
+**Latest preparation:** the official Railway integration can inspect the live
+copy service but exposes no private SQL/Console execution tool. The owner approved
+preparing the [exact empty-catalog installation plan](CATALOG_INSTALLATION_PLAN.md),
+not executing it. Exact reviewed SQL, a no-SQL Console staging packet, role grants,
+target/freshness guards and rollback limits are ready for separate owner review.
+
 This revision resumes PR #25 from `cf22204`, integrating the current protected
 production baseline (`d48ab91`, schema 026 and exact 450/900 population evidence).
 No gameplay changes, production SQL, deletion, installation, workflow dispatch,

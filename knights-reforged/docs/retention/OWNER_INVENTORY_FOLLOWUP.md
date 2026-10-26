@@ -201,6 +201,14 @@ these minimal measurements reveal material unexplained usage.
 
 ## Fresh-catalog installation procedure — PREPARED, DO NOT EXECUTE
 
+The owner has now approved **preparation**, not production SQL execution. The
+[exact Console installation plan](CATALOG_INSTALLATION_PLAN.md) records official
+Railway service access, the unavailable private-SQL integration path, immutable
+source hashes, copy/paste file staging, explicit local-socket target checks and
+per-file failure handling. Its future execution block supersedes the earlier
+generic connection commands; no credentials, release or new execution channel
+is needed for preparation.
+
 Both tables, both schemas and all five expected roles are owner-confirmed absent
 in the inspected database/cluster. Fresh installation is the candidate path,
 **conditional on separate owner installation approval**; the owner has now
@@ -222,15 +230,10 @@ private execution, ownership-risk and later activation gates.
    confirmed worker maintenance database on KingdomReleaseCopy, never the game
    database, a restored copy or a newly created catalog database. Future commands:
 
-   ```sh
-   # MUTATING FUTURE STEP: separate exact owner approval required; not run here.
-   psql -X --no-password -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" \
-     -d '<confirmed existing worker maintenance database>' \
-     -f /private/reviewed/knights-reforged/deployment/release/retention/bootstrap.sql
-   psql -X --no-password -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" \
-     -d '<confirmed existing worker maintenance database>' \
-     -f /private/reviewed/knights-reforged/deployment/release/retention/observations.sql
-   ```
+   Use the [reviewed future execution block](CATALOG_INSTALLATION_PLAN.md) only
+   after separate authorization. It pins the local socket, port, `postgres` and
+   exact `Railway` database, checks the private cluster digest and freshness, and
+   holds the shared release/restore session lock across both files and postchecks.
 
    Each file has its own transaction. If the first succeeds and the second
    fails, the first remains installed. Stop and inspect; do not rerun bootstrap,
