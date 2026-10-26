@@ -3,11 +3,29 @@ name: Owner approved Railway release
 on:
   workflow_dispatch:
     inputs:
+      operation:
+        description: 'Release/rehearsal, inspect registrar patch, or commit disabled registrar configuration only.'
+        type: choice
+        options: [release, registrar-config-inspect, registrar-config-commit]
+        default: release
+        required: true
       promote:
         description: 'Deploy after all gates? Leave off for a backup/restore rehearsal.'
         type: boolean
         default: false
         required: true
+      registrar_patch_id:
+        description: 'Commit only: exact patch ID from the protected inspection summary.'
+        type: string
+        default: ''
+      registrar_patch_digest:
+        description: 'Commit only: exact patch digest from the protected inspection summary.'
+        type: string
+        default: ''
+      registrar_exclusive_window:
+        description: 'Commit only: owner guarantees no Railway/dashboard/API editors until this run finishes.'
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -34,8 +52,45 @@ jobs:
           KINGDOM_RELEASE_OWNER: ${{ vars.KINGDOM_RELEASE_OWNER }}
           KINGDOM_RELEASE_TRANSPORT: ${{ vars.KINGDOM_RELEASE_TRANSPORT }}
         run: node knights-reforged/deployment/release/preflight.mjs
+      - name: Validate configuration-only request separation
+        run: node knights-reforged/deployment/release/registrar-config.mjs validate-request
+        env:
+          REGISTRAR_CONFIG_OPERATION: ${{ inputs.operation }}
+          REGISTRAR_CONFIG_PROMOTE: ${{ inputs.promote }}
+          REGISTRAR_CONFIG_PATCH_ID: ${{ inputs.registrar_patch_id }}
+          REGISTRAR_CONFIG_PATCH_DIGEST: ${{ inputs.registrar_patch_digest }}
+          REGISTRAR_CONFIG_EXCLUSIVE_WINDOW: ${{ inputs.registrar_exclusive_window }}
+  registrar-config:
+    needs: safety
+    if: inputs.operation == 'registrar-config-inspect' || inputs.operation == 'registrar-config-commit'
+    environment: production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - name: Inspect or commit the exact disabled registrar patch without deployment
+        run: node knights-reforged/deployment/release/registrar-config.mjs run
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          KINGDOM_RELEASE_ENABLED: ${{ vars.KINGDOM_RELEASE_ENABLED }}
+          KINGDOM_RAILWAY_AUTODEPLOY_DISABLED: ${{ vars.KINGDOM_RAILWAY_AUTODEPLOY_DISABLED }}
+          KINGDOM_RELEASE_TRANSPORT: ${{ vars.KINGDOM_RELEASE_TRANSPORT }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+          RAILWAY_RELEASE_WORKER_SERVICE_ID: ${{ vars.RAILWAY_RELEASE_WORKER_SERVICE_ID }}
+          RAILWAY_GAME_SERVICE_ID: ${{ vars.RAILWAY_GAME_SERVICE_ID }}
+          RAILWAY_VERIFY_PG_SERVICE_ID: ${{ vars.RAILWAY_VERIFY_PG_SERVICE_ID }}
+          REGISTRAR_CONFIG_OPERATION: ${{ inputs.operation }}
+          REGISTRAR_CONFIG_PROMOTE: ${{ inputs.promote }}
+          REGISTRAR_CONFIG_PATCH_ID: ${{ inputs.registrar_patch_id }}
+          REGISTRAR_CONFIG_PATCH_DIGEST: ${{ inputs.registrar_patch_digest }}
+          REGISTRAR_CONFIG_EXCLUSIVE_WINDOW: ${{ inputs.registrar_exclusive_window }}
   release:
     needs: safety
+    if: inputs.operation == 'release' || inputs.operation == ''
     # Configure required reviewer = realm owner, and only release/production.
     # No Railway, bucket or signing secrets exist in the unapproved safety job.
     environment: production
