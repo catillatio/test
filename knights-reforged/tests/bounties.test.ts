@@ -97,15 +97,18 @@ test('refund overflow is retained exactly instead of destroyed or duplicated',{s
     assert.equal((await r.db.query('SELECT status FROM bounties WHERE id=$1',[placed.data.bountyId])).rows[0]!.status,'expired');
   }finally{await r.close();}
 });
-test('sponsor cannot collect its own contract, and accepted ally claims leave the contract available',{skip},async()=>{
+test('sponsor cannot collect its own contract, while its accepted ally can receive the finishing claim',{skip},async()=>{
   const r=await setup();try{
     const sponsor=await r.hunter(),target=await r.veteran(),ally=await r.hunter();
     await r.ok(sponsor,'/api/v1/army/invitations',{targetCharacterId:ally.id});await r.ok(ally,'/api/v1/army/acceptances',{targetCharacterId:sponsor.id});
     const placed=await r.ok(sponsor,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1000});
-    for(const actor of [sponsor,ally]){
-      const fight=await r.ok(actor,'/api/v1/battles',{targetCharacterId:target.id});assert.equal((await r.db.query('SELECT result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.result.bountyClaim,null);
-    }
+    assert.equal((await r.command(sponsor,'/api/v1/battles',{targetCharacterId:target.id,bountyId:placed.data.bountyId})).statusCode,409);
+    await r.db.query('UPDATE characters SET health=1,health_updated_at=$2 WHERE id=$1',[target.id,r.now()]);
+    const own=await r.ok(sponsor,'/api/v1/battles',{targetCharacterId:target.id});assert.equal((await r.db.query('SELECT result FROM battles WHERE id=$1',[own.battleId])).rows[0]!.result.bountyClaim,null);
     assert.equal((await r.db.query('SELECT status FROM bounties WHERE id=$1',[placed.data.bountyId])).rows[0]!.status,'active');
+    await r.db.query('UPDATE characters SET health=1,health_updated_at=$2 WHERE id=$1',[target.id,r.now()]);
+    const hit=await r.ok(ally,'/api/v1/battles',{targetCharacterId:target.id,bountyId:placed.data.bountyId});assert.equal((await r.db.query('SELECT result FROM battles WHERE id=$1',[hit.battleId])).rows[0]!.result.bountyClaim.reward,1000);
+    assert.equal((await r.me(ally)).battleStats.kills,1);assert.equal((await r.me(target)).battleStats.deaths,1);
   }finally{await r.close();}
 });
 test('concurrent placements cannot overspend or charge a losing sponsor for the same target',{skip},async()=>{

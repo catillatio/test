@@ -12,8 +12,9 @@ already-live 900 identities, XP epochs, 5× capacity and approved art remain.
    be **026_living_competition.sql**; stale 025 and unexpected 027 are rejected.
 2. After an authorized release, verify ordinary personal PvP, exact-contract
    cross-level hunts, private report access, accurate finishing records,
-   leaderboards and badge acknowledgements. Invitation spacing is removed;
-   existing other limits remain. These normal UI changes need no admin toggle.
+   leaderboards and badge acknowledgements. Army allies may hunt. Invitation
+   spacing and the daily quota are removed; same-person, roster and authorization
+   checks remain. These normal UI changes need no admin toggle.
 3. Separately authorize a trusted private game-service Console inspection. Use
    the existing scoped Railway authorization/private database checks. Never use
    public SQL, new endpoints, altered startup commands or release-worker reuse.

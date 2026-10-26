@@ -13,15 +13,16 @@ activation, 900 identities, catalogs, artwork and economic policies stay intact.
 | Hudson | PASS: existing exact 15/15/15 grant, item/UUID-specific entitlement, retries/rollback tests; CLI now requires current signed recovery | BLOCKED on private target inspection and exact owner approval; no grant executed |
 | Cross-level bounty hunts | PASS: explicit exact-contract intent; ordinary attacks/Revenge retain level limits | Functional after an approved protected deployment |
 | Competitive history/UI | PASS: verified human finishing deaths, directed rival records, seven paginated human halls, public profile statistics and deduplicated bounty notifications | Historical claims preserved; only reliable finishing evidence backfilled |
-| Invitation wait | PASS: different recipients may be invited immediately | Existing 20/day, 24-hour same-person reinvite, pending/membership/capacity/authentication checks remain |
+| Invitation wait | PASS: different recipients may be invited immediately | No daily quota; 24-hour same-person reinvite and pending/membership/capacity/authentication checks remain |
 | Recovery/release | Schema **026_living_competition.sql**, strict pin and rejection tests updated | Mandatory exact-head CI/recovery evidence is linked in the draft PR; no protected release dispatched |
 
 ## Player-facing changes
 
 - Bounty List attacks carry the exact active contract ID. Server authorization
   bypasses only ordinary rival-level matching, preserving costs, qualification,
-  ally/sponsor exclusions, bot flags, Health, Stamina, escrow and claim locks.
-  A 100→5 or 5→100 hunt is valid. An expired, mismatched or closed contract fails
+  sponsor/self exclusions, bot flags, Health, Stamina, escrow and claim locks.
+  Army allies of the sponsor or target may hunt; the placement rule against
+  posting on an ally remains unchanged. A 100→5 or 5→100 hunt is valid. An expired, mismatched or closed contract fails
   without turning into an ordinary attack. Attack Again polling retains that
   context only while valid. Revenge remains ordinary range-bound combat.
 - Human bounty finishing actions with saved positive-to-zero Health evidence
@@ -62,6 +63,10 @@ Append-only event guards reject rewrites and fabricated unsupported death facts.
 They do **not** defend against a database owner who replaces triggers/functions
 or fabricates all underlying trusted records. No public administrative endpoint
 or new privilege was added.
+
+Historical immutable community definitions retain their former invitation
+quota/spacing fields as evidence; runtime enforcement and current help no longer
+use those obsolete limits. The same-person reinvitation guard remains active.
 
 The original expansion activation and pending immutable rarity proposal are
 unchanged. Later enable/pause uses exact database/policy/plan identity, serialized
