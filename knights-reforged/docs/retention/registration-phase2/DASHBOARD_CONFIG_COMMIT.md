@@ -24,7 +24,8 @@ existing encrypted recovery chain. Do not reinstall or survey recovery databases
    Approve the production gate. This action commits the exact disabled registrar
    configuration with `skipDeploys: true`; it never starts the release job.
 4. Require `REGISTRAR_CONFIG_COMMIT: PASS`. The job verifies the configuration
-   workflow completed, the environment has zero unmerged changes, and the old
+   workflow completed, the exact original patch has a matching `COMMITTED`
+   receipt, no current non-empty staged patch remains, and the old
    stopped deployment `ccd3f1b1-c1ba-4f47-9613-352c0b972304` retains identical
    timestamps, exited instance identity/state, active-deployment list and recent
    deployment identities. The Railway dashboard should show no pending patch or
@@ -39,6 +40,32 @@ maintenance database/scope, or an enabled flag. Only stored-ciphertext patch
 metadata is hashed for the public review pin. No database connection is made.
 
 ## Failures, retries and concurrency limit
+
+Inspection [#53 / run 40406048608](https://github.com/catillatio/test/actions/runs/40406048608)
+at `5427755` exposed an API-contract bug: the helper asserted
+`environment.unmergedChangesCount === 3`. The official Railway schema defines
+that field as a **nullable Int**; the official integration describes it as changes
+not merged from a **forked environment**, unrelated to staging. Read-only
+`get-status` returned `null` for production while `get-staged-changes` showed the
+three expected variable leaves. Comparing `null` with `3` rejects this valid state.
+The same unrelated field was incorrectly used as a post-commit zero-count test.
+
+The corrected helper does not query/use this fork counter. Exact staged scope is
+established from the complete patch: only the worker service, only its variables,
+and exactly the three approved names. Postchecks instead read the exact original
+patch by ID, require a `COMMITTED` receipt with unchanged ciphertext/creation
+identity and valid applied/revision timestamps, then inspect the current staged
+record. Only that same committed receipt or an explicitly empty staged record is
+accepted. Missing/erroring data, another non-empty patch, wrong receipts and changed
+payloads fail closed, regardless of any fork counter.
+
+Patch ID, environment ID, status, nullable applied/error fields and each timestamp
+retain strict checks, now with individual fixed failure categories. No ID/date
+coercion, nullable-error bypass or fallback approval is added. The retained #53
+tag grouped these assertions, so no claim is made that nullable values absent
+from the integration were independently observed. The wrong fork-counter
+assertion is a confirmed blocker; additional mismatches, if any, remain rejected
+and will identify their exact field on the next approved read-only inspection.
 
 The first inspection at merged PR #46 (`e443605`) failed in
 [run 40401018436](https://github.com/catillatio/test/actions/runs/40401018436).
