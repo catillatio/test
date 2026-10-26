@@ -13,12 +13,16 @@ const target=targetConfig(env),stamp='2026-10-26T04:49:06.680Z';
 function fixture(){
  const d={id:oldWorker,projectId:target.projectId,environmentId:target.environmentId,serviceId:target.workerId,status:'SUCCESS',createdAt:stamp,updatedAt:stamp,statusUpdatedAt:stamp,deploymentStopped:true,instances:[{id:'original-exited-instance',status:'EXITED'}]};
  const values={KINGDOM_COPY_REGISTRATION_DATABASE_URL:'postgres://kc_copy_registrar:fixture-private-password@copy.railway.internal:5432/Railway',KINGDOM_COPY_REGISTRATION_ENABLED:'0',KINGDOM_COPY_REGISTRATION_SCOPE:JSON.stringify({projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.gameId,workerServiceId:target.workerId,verificationDatabaseServiceId:target.copyId,maintenanceDatabase:'Railway',clusterDigest:'c'.repeat(64),sourceClusterDigest:'d'.repeat(64)})};
- const patch={services:{[target.workerId]:{variables:Object.fromEntries(registrationKeys.map(k=>[k,{encryptedValue:'stored-ciphertext-'+k}]))}}};
+ // #55 confirmed `value` in decryptVariables:false as well as true. These
+ // synthetic strings use Railway's documented encrypted-envelope format.
+ const patch={services:{[target.workerId]:{variables:Object.fromEntries(registrationKeys.map(k=>[k,{value:JSON.stringify({encryptedDek:'fixture-encrypted-dek',cipherText:'stored-ciphertext-'+k})}]))}}};
  const clear={services:{[target.workerId]:{variables:Object.fromEntries(Object.entries(values).map(([k,value])=>[k,{value}]))}}};
  return {project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,name:'production',projectId:target.projectId,unmergedChangesCount:null},worker:{serviceId:target.workerId,environmentId:target.environmentId,serviceName:'KingdomReleaseCheck',latestDeployment:d,activeDeployments:[structuredClone(d)]},deployments:{edges:[{node:structuredClone(d)}]},
   staged:{id:id(6),environmentId:target.environmentId,status:'STAGED',createdAt:stamp,updatedAt:stamp,appliedAt:null,lastAppliedError:null,patch,clear}};
 }
 const vars=d=>d.staged.clear.services[target.workerId].variables;
+const cipherVars=d=>d.staged.patch.services[target.workerId].variables;
+function rotateCipher(d){const entry=cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE,envelope=JSON.parse(entry.value);envelope.cipherText+='changed';entry.value=JSON.stringify(envelope);}
 function commitEnv(data=fixture()){const plan=checkPatch(data,target);return {...env,REGISTRAR_CONFIG_OPERATION:'registrar-config-commit',REGISTRAR_CONFIG_PATCH_ID:plan.patchId,REGISTRAR_CONFIG_PATCH_DIGEST:plan.patchDigest,REGISTRAR_CONFIG_EXCLUSIVE_WINDOW:'true'};}
 function provider({before=fixture(),changeSecond=()=>{},changeAfter=()=>{},mutationError=false,commitReply='config-workflow',status='Complete',statusError=null,readError=false}={}){
  const calls=[];let inspected=0;
@@ -49,6 +53,65 @@ test('exact reviewed commit calls only the official mutation once with literal s
  assert.equal(p.calls.filter(c=>c.query.includes('query RegistrarConfigInspect')).length,2);
  assert.equal(p.calls.at(-1).query.includes('query RegistrarConfigVerify'),true);
 });
+test('#55 value-field shape accepts only the documented envelope and keeps GraphQL encrypted/decrypted views separate',async()=>{
+ const before=fixture();
+ assert.deepEqual(encryptedShape(before.staged.patch,target),{
+  patchKeys:['services'],workerKeys:['variables'],variables:Object.fromEntries(registrationKeys.map(k=>[k,{value:'string'}]))
+ });
+ const p=provider({before});assert.equal((await runConfig(env,{api:p.api})).kind,'inspection');assert.equal(p.writes().length,0);
+ assert.match(p.calls[0].query,/patch\(decryptVariables:false\)/);assert.match(p.calls[0].query,/clear:patch\(decryptVariables:true\)/);
+ const c=provider();await runConfig(commitEnv(),{api:c.api});
+ for(const call of c.calls.filter(x=>x.query.includes('query RegistrarConfigVerify'))){
+  assert.equal((call.query.match(/patch\(decryptVariables:false\)/g)||[]).length,2);assert.doesNotMatch(call.query,/decryptVariables:true/);
+ }
+ const oldShape=fixture();cipherVars(oldShape).KINGDOM_COPY_REGISTRATION_SCOPE={encryptedValue:'stored-ciphertext'};
+ assert.throws(()=>checkPatch(oldShape,target),error=>failureCategory(error)==='PATCH_ENCRYPTED_SHAPE');
+});
+test('approval digest binds ciphertext and revision, never the decrypted password; valid private-view drift stops commit',async()=>{
+ const before=fixture(),original=checkPatch(before,target);
+ vars(before).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value=vars(before).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value.replace('fixture-private-password','different-private-password');
+ assert.deepEqual(checkPatch(before,target),original);
+ rotateCipher(before);assert.notEqual(checkPatch(before,target).patchDigest,original.patchDigest);
+ const p=provider({changeSecond:d=>{vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value=vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value.replace('fixture-private-password','different-private-password');}});
+ await assert.rejects(runConfig(commitEnv(),{api:p.api}),error=>failureCategory(error)==='PATCH_BINDING');assert.equal(p.writes().length,0);
+});
+test('plaintext, masking, unknown encryption formats and cross-view substitution fail before hashing, pins or mutation',async t=>{
+ const cases={
+  plaintext:d=>{d.staged.patch=structuredClone(d.staged.clear);},
+  swapped:d=>{[d.staged.patch,d.staged.clear]=[d.staged.clear,d.staged.patch];},
+  masked:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='*****';},
+  redacted:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='<redacted>';},
+  arbitrary:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='opaque-not-established-as-ciphertext';},
+  legacy:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='undocumented-legacy-KMS';},
+  extraEnvelopeKey:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:'cipher',extra:'fixture-private-password'});},
+  missingDEK:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({cipherText:'cipher'});},
+  nullEnvelope:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='null';},
+  arrayEnvelope:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='[]';},
+  emptyDEK:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'',cipherText:'cipher'});},
+  emptyCipher:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:''});},
+  maskedMember:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:'<redacted>'});},
+  objectDEK:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:{key:'dek'},cipherText:'cipher'});},
+  numberCipher:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:1});},
+  copiedPlaintext:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value});},
+  sharedMask:d=>{for(const k of registrationKeys)cipherVars(d)[k].value=JSON.stringify({encryptedDek:'masked',cipherText:'masked'});}
+ };
+ for(const [name,mutate] of Object.entries(cases))await t.test(name,async()=>{
+  const before=fixture();mutate(before);const p=provider({before});
+  await assert.rejects(runConfig(env,{api:p.api}),error=>{
+   assert.equal(failureCategory(error),'PATCH_ENCRYPTION_SEMANTICS');assert.equal(failureShape(error),undefined);
+   assert.equal(error.message,'Registrar configuration check failed.');return true;
+  });assert.equal(p.calls.length,1);assert.equal(p.writes().length,0);
+ });
+});
+test('CLI encryption-semantics rejection prints no plaintext, provider payload, digest or exception detail',()=>{
+ const before=fixture();before.staged.patch=structuredClone(before.staged.clear);
+ const path=fileURLToPath(new URL('../deployment/release/registrar-config.mjs',import.meta.url));
+ const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async()=>({ok:true,text:async()=>JSON.stringify({data:'+JSON.stringify(before)+'})});');
+ const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...env},encoding:'utf8',timeout:5000});
+ assert.equal(r.status,1);assert.equal(r.stdout,'');assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: PATCH_ENCRYPTION_SEMANTICS\nREGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');
+ for(const secret of Object.values(vars(before)).map(item=>item.value))assert.equal(r.stderr.includes(secret),false);
+ assert.doesNotMatch(r.stderr,/Patch digest|Patch ID|REGISTRAR_CONFIG_SHAPE|SyntaxError|JSON|stack/);
+});
 test('only exact worker variable additions are accepted; unrelated or incomplete patch shapes fail before any write',async t=>{
  const cases={
   unrelatedService:d=>{d.staged.patch.services[target.gameId]={};},
@@ -73,7 +136,7 @@ test('only exact worker variable additions are accepted; unrelated or incomplete
  for(const [name,mutate] of Object.entries(cases))await t.test(name,async()=>{const before=fixture();mutate(before);const p=provider({before});await assert.rejects(runConfig(commitEnv(),{api:p.api}));assert.equal(p.writes().length,0);});
 });
 test('replacement patches, changed ciphertext/revisions and a worker change between reads are never committed',async t=>{
- const cases={replacement:d=>{d.staged.id=id(7);},revision:d=>{d.staged.updatedAt='2026-10-26T05:00:00.000Z';},ciphertext:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue+='changed';},activation:d=>{vars(d).KINGDOM_COPY_REGISTRATION_ENABLED.value='1';},unrelated:d=>{d.staged.patch.services[target.gameId]={};},restart:d=>{d.worker.latestDeployment.updatedAt='2026-10-26T05:00:00.000Z';}};
+ const cases={replacement:d=>{d.staged.id=id(7);},revision:d=>{d.staged.updatedAt='2026-10-26T05:00:00.000Z';},ciphertext:rotateCipher,activation:d=>{vars(d).KINGDOM_COPY_REGISTRATION_ENABLED.value='1';},unrelated:d=>{d.staged.patch.services[target.gameId]={};},restart:d=>{d.worker.latestDeployment.updatedAt='2026-10-26T05:00:00.000Z';}};
  for(const [name,changeSecond] of Object.entries(cases))await t.test(name,async()=>{const p=provider({changeSecond});await assert.rejects(runConfig(commitEnv(),{api:p.api}));assert.equal(p.writes().length,0);});
  for(const patch of [{REGISTRAR_CONFIG_PATCH_ID:id(7)},{REGISTRAR_CONFIG_PATCH_DIGEST:'0'.repeat(64)}]){const p=provider();await assert.rejects(runConfig({...commitEnv(),...patch},{api:p.api}));assert.equal(p.writes().length,0);}
 });
@@ -136,7 +199,7 @@ test('unexpected provider keys are redacted even when keys themselves contain cr
  }
  const report=encryptedShape(patch,target),text=JSON.stringify(report);
  assert.deepEqual(report.patchKeys,['<REDACTED_KEY>','services']);assert.deepEqual(report.workerKeys,['<REDACTED_KEY>','variables']);
- assert.deepEqual(report.variables.KINGDOM_COPY_REGISTRATION_SCOPE,{'<REDACTED_KEY>':'<REDACTED>',encryptedValue:'string'});
+ assert.deepEqual(report.variables.KINGDOM_COPY_REGISTRATION_SCOPE,{'<REDACTED_KEY>':'<REDACTED>',value:'string'});
  for(const unsafe of ['fixture-private-password',target.workerId,'c'.repeat(64),'::error::provider-message'])assert.equal(text.includes(unsafe),false);
  assert.doesNotMatch(text,/length|count|digest|fingerprint/);
 });
@@ -229,7 +292,7 @@ test('clearance binds the exact committed receipt and rejects pending, mismatche
  const cases={
   wrongReceipt:d=>{d.receipt.id=id(7);},wrongEnvironment:d=>{d.receipt.environmentId=id(7);},
   unapplied:d=>{d.receipt.status='STAGED';d.receipt.appliedAt=null;},missingAppliedAt:d=>{d.receipt.appliedAt=null;},
-  rewoundRevision:d=>{d.receipt.updatedAt='2026-10-25T00:00:00.000Z';},changedPayload:d=>{d.receipt.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue+='changed';},
+  rewoundRevision:d=>{d.receipt.updatedAt='2026-10-25T00:00:00.000Z';},changedPayload:d=>{rotateCipher({staged:d.receipt});},
   error:d=>{d.receipt.lastAppliedError='fixture-private-password';},missingPending:d=>{delete d.pending;},
   newNonempty:d=>{d.pending={...structuredClone(d.staged),id:id(7)};},differentCommitted:d=>{d.pending.id=id(7);},
   unknownEmptyRoot:d=>{d.pending={...structuredClone(d.staged),id:id(7),patch:{unrelated:{}}};},
