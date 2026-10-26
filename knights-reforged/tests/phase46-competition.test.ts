@@ -65,7 +65,8 @@ test('historical rivalry totals use stable identities, actual ordinary transfers
   const inverse=(await rivalryHistory(r.db,b.id,a.id))!;assert.equal(inverse.goldTaken,'30');assert.equal(inverse.goldLost,'108');
   assert.equal(await rivalryHistory(r.db,a.id,npc.id),null);assert.equal(await rivalryHistory(r.db,a.id,a.id),null);
   const recent=await recentHumanRivals(r.db,await r.me(a));assert.equal(recent.length,1);assert.equal(recent[0]!.id,b.id);assert.equal(recent[0]!.wins,'6');
-  const page=await r.app.inject({url:'/game/players/'+b.id,headers:{cookie:a.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/Your Rivalry/);assert.equal((await r.app.inject({url:'/game/players/'+a.id.toUpperCase(),headers:{cookie:a.cookie}})).statusCode,302);assert.match(page.body,/older encounter/);
+  const playerPage=await r.app.inject({url:'/game/players/'+b.id,headers:{cookie:a.cookie}});assert.equal(playerPage.statusCode,200);assert.doesNotMatch(playerPage.body,/Your Rivalry/);
+  const page=await r.app.inject({url:'/game/players/'+b.id+'?tab=battles',headers:{cookie:a.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/Your Rivalry/);assert.equal((await r.app.inject({url:'/game/players/'+a.id.toUpperCase(),headers:{cookie:a.cookie}})).statusCode,302);assert.match(page.body,/older encounter/);
   const botPage=await r.app.inject({url:'/game/players/'+npc.id,headers:{cookie:a.cookie}});assert.equal(botPage.statusCode,200);assert.doesNotMatch(botPage.body,/Your Rivalry/);
   await r.db.query('UPDATE accounts SET login_disabled=true WHERE id=$1',[b.accountId]);assert.equal(await rivalryHistory(r.db,a.id,b.id),null);assert.equal((await recentHumanRivals(r.db,await r.me(a))).length,0);
   assert.equal((await r.app.inject({url:'/game/players/'+b.id,headers:{cookie:a.cookie}})).statusCode,404);

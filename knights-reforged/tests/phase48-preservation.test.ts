@@ -20,7 +20,7 @@ test('registration introduces Tutorial once; skip/completion and sound choices p
   const before=await r.me(actor);await r.ok(actor,'/api/v1/tutorial',{action:'skip'});
   const profile=await r.app.inject({url:'/game/profile',headers:{cookie:actor.cookie}});
   const equipmentAt=profile.body.indexOf('class="panel profile-inventory"'),holdingsAt=profile.body.indexOf('class="panel profile-estate"');
-  assert.ok(equipmentAt>0&&holdingsAt>equipmentAt,'the actual rendered profile places Army and Equipment before Kingdom Holdings');
+  assert.ok(equipmentAt>0&&holdingsAt>equipmentAt,'the actual rendered profile places equipment before Kingdom Holdings');
   for(const url of ['/game/home','/game/quests','/game/armory','/game/land']){
    const response=await r.app.inject({url,headers:{cookie:actor.cookie}});assert.equal(response.statusCode,200);assert.equal(response.headers.location,undefined);
   }
