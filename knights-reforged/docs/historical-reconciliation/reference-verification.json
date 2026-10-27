@@ -1,0 +1,555 @@
+{
+  "pr": 44,
+  "referenceHead": "5e246718dd6410d410701ab1a5ad02f5bf97f771",
+  "files": 91,
+  "imageEntries": 86,
+  "distinctImageFilenames": 74,
+  "results": [
+    {
+      "path": "historical/knights-reforged/profiles/1000030967.png",
+      "expectedSha256": "748cbb1b74f4781c8bdd9e79d1ea901c76c05ce5e8b067e52e9976e74957590f",
+      "actualSha256": "748cbb1b74f4781c8bdd9e79d1ea901c76c05ce5e8b067e52e9976e74957590f",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000030968.png",
+      "expectedSha256": "88d21967e7f7f18770e8eeb2ad3fbf1cec88216527b24efc350aa3d27c733a2b",
+      "actualSha256": "88d21967e7f7f18770e8eeb2ad3fbf1cec88216527b24efc350aa3d27c733a2b",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000030969.png",
+      "expectedSha256": "73f9a470d363cbc885c72447f8657edd147e61b2457fb95f8dfb44a66f0300fa",
+      "actualSha256": "73f9a470d363cbc885c72447f8657edd147e61b2457fb95f8dfb44a66f0300fa",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/skills/1000030970.png",
+      "expectedSha256": "f4fcdbfe146a6e889e6becbf190af3b291c76af1f7d74a39ec9beb8cbea98c82",
+      "actualSha256": "f4fcdbfe146a6e889e6becbf190af3b291c76af1f7d74a39ec9beb8cbea98c82",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000030971.png",
+      "expectedSha256": "ee44ff1d119d4f05cb020e75baf9db6512552aa3ade8b24c79c2ceacfed50334",
+      "actualSha256": "ee44ff1d119d4f05cb020e75baf9db6512552aa3ade8b24c79c2ceacfed50334",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/social/1000030972.png",
+      "expectedSha256": "f931441afc43a22b6a8886effac4466dbbeae3f71f817eefd413d9d871deeefd",
+      "actualSha256": "f931441afc43a22b6a8886effac4466dbbeae3f71f817eefd413d9d871deeefd",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000030974.png",
+      "expectedSha256": "5330352c9fab741012afbb30045891977df7dae0b59913154f89a26d497bbf52",
+      "actualSha256": "5330352c9fab741012afbb30045891977df7dae0b59913154f89a26d497bbf52",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000031957.jpg",
+      "expectedSha256": "e3af8ece5fc9b4714f310e1063be4e00c88f591427d8a0dbf7530862effff5c8",
+      "actualSha256": "e3af8ece5fc9b4714f310e1063be4e00c88f591427d8a0dbf7530862effff5c8",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000031958.jpg",
+      "expectedSha256": "32669b6878e62fadb218c37e9a80ee70bbd26f5297eb3dcff678fddbc5961ce9",
+      "actualSha256": "32669b6878e62fadb218c37e9a80ee70bbd26f5297eb3dcff678fddbc5961ce9",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000031959.png",
+      "expectedSha256": "9e3736438e78486f9b61d4733a40a9322eba9dd1fa23f155268b2612aa3a6723",
+      "actualSha256": "9e3736438e78486f9b61d4733a40a9322eba9dd1fa23f155268b2612aa3a6723",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000031961.jpg",
+      "expectedSha256": "40d8c7274d9e12e3c62bb2f1663cdf0094431057e88218bead5d84f16ad2e116",
+      "actualSha256": "40d8c7274d9e12e3c62bb2f1663cdf0094431057e88218bead5d84f16ad2e116",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000031962.png",
+      "expectedSha256": "58447e3ce53122cba7662942ea81a02d1fde71aca46a07e2b75a3ea6d2ec1f82",
+      "actualSha256": "58447e3ce53122cba7662942ea81a02d1fde71aca46a07e2b75a3ea6d2ec1f82",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/home/1000031963.png",
+      "expectedSha256": "4e7e6e713a9f7dd3c0e1c807b82e4f623f0ee1dfa67813cdff7a08a1a78c057a",
+      "actualSha256": "4e7e6e713a9f7dd3c0e1c807b82e4f623f0ee1dfa67813cdff7a08a1a78c057a",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/social/1000031964.jpg",
+      "expectedSha256": "435f18e5a8889f6a4b140ff4904904ae934343268d9b171e4b261a1fa19faed7",
+      "actualSha256": "435f18e5a8889f6a4b140ff4904904ae934343268d9b171e4b261a1fa19faed7",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/skills/1000031965.png",
+      "expectedSha256": "5d8b35d6cbefefc5807486e07c1e4c2479dbdbfebbd1b5f020c650ab441bb57c",
+      "actualSha256": "5d8b35d6cbefefc5807486e07c1e4c2479dbdbfebbd1b5f020c650ab441bb57c",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000031966.png",
+      "expectedSha256": "e9b91b78f9d25ba8d2767480c377bcb19fb640dd97e3f886920012e2a38dc485",
+      "actualSha256": "e9b91b78f9d25ba8d2767480c377bcb19fb640dd97e3f886920012e2a38dc485",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/social/1000031968.jpg",
+      "expectedSha256": "a6f43c6813895b94e5bc481d57840a6327a21d757f26b0bffda17cf5927c5221",
+      "actualSha256": "a6f43c6813895b94e5bc481d57840a6327a21d757f26b0bffda17cf5927c5221",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000031969.png",
+      "expectedSha256": "a32b7ed8cce9a073643aba4614361448db87c35cc8b55ea779425918dda14604",
+      "actualSha256": "a32b7ed8cce9a073643aba4614361448db87c35cc8b55ea779425918dda14604",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032047.png",
+      "expectedSha256": "31f377c372d06a8e3428809b86d92ed111450a0013d7adbfb402ca3c6aabfe29",
+      "actualSha256": "31f377c372d06a8e3428809b86d92ed111450a0013d7adbfb402ca3c6aabfe29",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000032048.png",
+      "expectedSha256": "f3127b1b412281581411fb842c46a44b6e2140174757648f333959972aada4bc",
+      "actualSha256": "f3127b1b412281581411fb842c46a44b6e2140174757648f333959972aada4bc",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032049.png",
+      "expectedSha256": "bf11a2ce3fbc1f181bd728fe211dc00704d8cb2e5d101528b1c5c2b261792d65",
+      "actualSha256": "bf11a2ce3fbc1f181bd728fe211dc00704d8cb2e5d101528b1c5c2b261792d65",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000032050.png",
+      "expectedSha256": "34e9fbe3da5ed0b78598c08a763d185a26980bf973d18f0b59109887187f244f",
+      "actualSha256": "34e9fbe3da5ed0b78598c08a763d185a26980bf973d18f0b59109887187f244f",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000032051.png",
+      "expectedSha256": "88d21967e7f7f18770e8eeb2ad3fbf1cec88216527b24efc350aa3d27c733a2b",
+      "actualSha256": "88d21967e7f7f18770e8eeb2ad3fbf1cec88216527b24efc350aa3d27c733a2b",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000032053.png",
+      "expectedSha256": "91190af83d0e24f22b5612bf0bc0b8926efa25628be07a19170a03dfdbb9ca4d",
+      "actualSha256": "91190af83d0e24f22b5612bf0bc0b8926efa25628be07a19170a03dfdbb9ca4d",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/social/1000032054.png",
+      "expectedSha256": "eedd5421a98762f38d77d613a308d55a63900179b79b1cb22c97f14c9eed6986",
+      "actualSha256": "eedd5421a98762f38d77d613a308d55a63900179b79b1cb22c97f14c9eed6986",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/home/1000032055.png",
+      "expectedSha256": "aea246d40e9bcbbb1a90cc282934e74f3d6bc7fb138e3c4e224addd7de8922ed",
+      "actualSha256": "aea246d40e9bcbbb1a90cc282934e74f3d6bc7fb138e3c4e224addd7de8922ed",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032056.png",
+      "expectedSha256": "d65856b697d0c1270adfa933f8ecea1079813b4cd8b0fce7fcb6c378d27b32fc",
+      "actualSha256": "d65856b697d0c1270adfa933f8ecea1079813b4cd8b0fce7fcb6c378d27b32fc",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/home/1000032057.png",
+      "expectedSha256": "347899f68b27624b8b9ae4846693bc0193066752365c88ca419f6289ceb56b2c",
+      "actualSha256": "347899f68b27624b8b9ae4846693bc0193066752365c88ca419f6289ceb56b2c",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032058.png",
+      "expectedSha256": "840266691a6b2ee177f0e8c1730ca813c35803665ef064391292a4f0813d7aa6",
+      "actualSha256": "840266691a6b2ee177f0e8c1730ca813c35803665ef064391292a4f0813d7aa6",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000032059.png",
+      "expectedSha256": "44170c336af2b636ae301dadcace11894cba738129b8ac4e29f7d4102b00d4d2",
+      "actualSha256": "44170c336af2b636ae301dadcace11894cba738129b8ac4e29f7d4102b00d4d2",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032060.png",
+      "expectedSha256": "ac2ae271ccc9f6b6f2d8135e6a1cbb72e56526f6a0a5a07c4c5f55bf5bcb41db",
+      "actualSha256": "ac2ae271ccc9f6b6f2d8135e6a1cbb72e56526f6a0a5a07c4c5f55bf5bcb41db",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000032061.jpg",
+      "expectedSha256": "048b8ca5fec6f03bcd0558e880ced331fa124fce009e2869f464a8243b2cb703",
+      "actualSha256": "048b8ca5fec6f03bcd0558e880ced331fa124fce009e2869f464a8243b2cb703",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032062.png",
+      "expectedSha256": "c28951aa7e9e8576660709099ec8073081037b90984ae696f30f2a4b4fa5f2a9",
+      "actualSha256": "c28951aa7e9e8576660709099ec8073081037b90984ae696f30f2a4b4fa5f2a9",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000032063.png",
+      "expectedSha256": "b379a905a9d9dcd6e6a4cdb305c28f39b991128c2f74a95135c6d869c755f8c9",
+      "actualSha256": "b379a905a9d9dcd6e6a4cdb305c28f39b991128c2f74a95135c6d869c755f8c9",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000032064.png",
+      "expectedSha256": "6bb76b5a1a35d4c2f10bf0983cab66b79e7db9b31e0ec82d325847bc08ee6865",
+      "actualSha256": "6bb76b5a1a35d4c2f10bf0983cab66b79e7db9b31e0ec82d325847bc08ee6865",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032065.png",
+      "expectedSha256": "5935728808516531e980cbc70639f9b707baa7a9abe8441cbae586fef86120ed",
+      "actualSha256": "5935728808516531e980cbc70639f9b707baa7a9abe8441cbae586fef86120ed",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032066.png",
+      "expectedSha256": "4d1fa92a9ec538af3daba1d66dc9eb50170c0d941af068f54173bba3a24e9956",
+      "actualSha256": "4d1fa92a9ec538af3daba1d66dc9eb50170c0d941af068f54173bba3a24e9956",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032067.jpg",
+      "expectedSha256": "341322a0b074e6e9d216cb622a03a6e40b31c5075b19647ff096980cae71bb74",
+      "actualSha256": "341322a0b074e6e9d216cb622a03a6e40b31c5075b19647ff096980cae71bb74",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032068.png",
+      "expectedSha256": "9706a485def400e472350e4a4816bd44f394c2d80f46ee0eb50b160747128745",
+      "actualSha256": "9706a485def400e472350e4a4816bd44f394c2d80f46ee0eb50b160747128745",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounties/1000032069.jpg",
+      "expectedSha256": "3a7c480323c9296b5fae9e2f0c8d55f3ff5c671fb4761afa9f3c50ce04c39b71",
+      "actualSha256": "3a7c480323c9296b5fae9e2f0c8d55f3ff5c671fb4761afa9f3c50ce04c39b71",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/skills/1000032070.png",
+      "expectedSha256": "667871d8059286d8e6775c1000a922ba9790ccb52c6c77d4ad5551085ff063d7",
+      "actualSha256": "667871d8059286d8e6775c1000a922ba9790ccb52c6c77d4ad5551085ff063d7",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/profiles/1000032071.png",
+      "expectedSha256": "b4d99a75986940682911501a31071794cb245e03504ff0d0660373acf9ed100c",
+      "actualSha256": "b4d99a75986940682911501a31071794cb245e03504ff0d0660373acf9ed100c",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/social/1000032076.png",
+      "expectedSha256": "1385badbd70f87292049155970e21b1ddbcb5bf360cf082417e21029bded0330",
+      "actualSha256": "1385badbd70f87292049155970e21b1ddbcb5bf360cf082417e21029bded0330",
+      "manifestMatches": true
+    },
+    {
+      "path": "current-captures/kingdom-come/armory/1000032140.jpg",
+      "expectedSha256": "4e3398fa908f60dac1f9a143135b753a92d974f62e8ca11c6d1684ece0ce459e",
+      "actualSha256": "4e3398fa908f60dac1f9a143135b753a92d974f62e8ca11c6d1684ece0ce459e",
+      "manifestMatches": true
+    },
+    {
+      "path": "current-captures/kingdom-come/armory/1000032142.jpg",
+      "expectedSha256": "a9c909b0b566d0a7f5020fce4ad024036352830699cf7375ef448e20772ae830",
+      "actualSha256": "a9c909b0b566d0a7f5020fce4ad024036352830699cf7375ef448e20772ae830",
+      "manifestMatches": true
+    },
+    {
+      "path": "current-captures/kingdom-come/armory/1000032144.jpg",
+      "expectedSha256": "f6eb9e60bae7939efab8eb3ec7fc98087f89b1f28cd439aede9937530ee1c7d7",
+      "actualSha256": "f6eb9e60bae7939efab8eb3ec7fc98087f89b1f28cd439aede9937530ee1c7d7",
+      "manifestMatches": true
+    },
+    {
+      "path": "current-captures/kingdom-come/armory/1000032146.jpg",
+      "expectedSha256": "503921b9f76bc7d8652a8215be112e6facf4adbc5bcf8c342af5a5510dc49a19",
+      "actualSha256": "503921b9f76bc7d8652a8215be112e6facf4adbc5bcf8c342af5a5510dc49a19",
+      "manifestMatches": true
+    },
+    {
+      "path": "current-captures/kingdom-come/armory/1000032150.jpg",
+      "expectedSha256": "838bc6048052903c771b0ab97102d2ac811ba630ce18b0462cc93434344a850d",
+      "actualSha256": "838bc6048052903c771b0ab97102d2ac811ba630ce18b0462cc93434344a850d",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/home/1000032179.jpg",
+      "expectedSha256": "64353812db1e3279a84fbd1b5d0ac101c8e7b42d77518874f136824b6736e5db",
+      "actualSha256": "64353812db1e3279a84fbd1b5d0ac101c8e7b42d77518874f136824b6736e5db",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/home/1000032181.jpg",
+      "expectedSha256": "bef2aed0343de1aa24777a31bb12465e61f1aef967d620f904fb1a4aabd68da4",
+      "actualSha256": "bef2aed0343de1aa24777a31bb12465e61f1aef967d620f904fb1a4aabd68da4",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/land/1000032183.jpg",
+      "expectedSha256": "680f510a1ae19f62faddd625dd97bcb263a2abd072dd264bc4934886117c3c36",
+      "actualSha256": "680f510a1ae19f62faddd625dd97bcb263a2abd072dd264bc4934886117c3c36",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/home/1000032185.jpg",
+      "expectedSha256": "89d64c4abeee660e2736ffef738fa6d5b54cba7bc4c81d5b0923c9c9f455d841",
+      "actualSha256": "89d64c4abeee660e2736ffef738fa6d5b54cba7bc4c81d5b0923c9c9f455d841",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/land/1000032187.jpg",
+      "expectedSha256": "5735e4979882b7dc534089d775f0702c71bb8ac23a07d3d6c0f2954f91b3ec06",
+      "actualSha256": "5735e4979882b7dc534089d775f0702c71bb8ac23a07d3d6c0f2954f91b3ec06",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/pvp/1000032189.jpg",
+      "expectedSha256": "c55a8788f6e01c441815638217d919af855e61452bfb0d6adb6810e6c813352d",
+      "actualSha256": "c55a8788f6e01c441815638217d919af855e61452bfb0d6adb6810e6c813352d",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/pvp/1000032191.jpg",
+      "expectedSha256": "3d7204f289403e5752382c71383a535378511f3a3a3809f287c9dceeaef16c31",
+      "actualSha256": "3d7204f289403e5752382c71383a535378511f3a3a3809f287c9dceeaef16c31",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/pvp/1000032193.jpg",
+      "expectedSha256": "2676bcf3521dbad1799ed7f8ac004f53bf6cf68ccdd664d4ff9f1a081aaa8fe9",
+      "actualSha256": "2676bcf3521dbad1799ed7f8ac004f53bf6cf68ccdd664d4ff9f1a081aaa8fe9",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/pvp/1000032195.jpg",
+      "expectedSha256": "083c751dadc5298340bf7fae0b19b85a8033992ad047d636f5a15a24729a8733",
+      "actualSha256": "083c751dadc5298340bf7fae0b19b85a8033992ad047d636f5a15a24729a8733",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/pvp/1000032197.jpg",
+      "expectedSha256": "4583ddbbdf1b7bd94e3b33b7b6b4e3cce4a0cfee79f8b9c77766f50ea1f89e35",
+      "actualSha256": "4583ddbbdf1b7bd94e3b33b7b6b4e3cce4a0cfee79f8b9c77766f50ea1f89e35",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/pvp/1000032199.jpg",
+      "expectedSha256": "d1d2630623bf502eefe4201870f3e169db0083a8321d575bca4744a49e5c3369",
+      "actualSha256": "d1d2630623bf502eefe4201870f3e169db0083a8321d575bca4744a49e5c3369",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/quests/1000032201.jpg",
+      "expectedSha256": "70b93d3c03ab2f7eb90f0ffb42afa4a12083d72b7f3bfd62fb6decc06b13c9ba",
+      "actualSha256": "70b93d3c03ab2f7eb90f0ffb42afa4a12083d72b7f3bfd62fb6decc06b13c9ba",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/kingdoms-live/land/1000032203.jpg",
+      "expectedSha256": "6c1d456280355279cb251fd69259d36210cf094a7bc107d1981ea6d26015200d",
+      "actualSha256": "6c1d456280355279cb251fd69259d36210cf094a7bc107d1981ea6d26015200d",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/kingdoms-live/armory/1000032204.jpg",
+      "expectedSha256": "4cd3cc6032eae73ecc9614cf3d65febdff98da41c01ac342284e8b823dd97a0a",
+      "actualSha256": "4cd3cc6032eae73ecc9614cf3d65febdff98da41c01ac342284e8b823dd97a0a",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/kingdoms-live/pvp/1000032205.jpg",
+      "expectedSha256": "60ab4bffad2ba33ba266fe80462e60b343a5a35fbfd6b1eca749b11b3fcdc6a0",
+      "actualSha256": "60ab4bffad2ba33ba266fe80462e60b343a5a35fbfd6b1eca749b11b3fcdc6a0",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/kingdoms-live/quests/1000032206.jpg",
+      "expectedSha256": "2ea3704dfa597fe7cc3b60b5e126cc82e1c12e6a17048f4e7d3012211ea30e55",
+      "actualSha256": "2ea3704dfa597fe7cc3b60b5e126cc82e1c12e6a17048f4e7d3012211ea30e55",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/kingdoms-live/armory/1000032207.jpg",
+      "expectedSha256": "70e158c6104ab9d131274dc5847f35f5d628d85724c616a14bb31846ce5c24af",
+      "actualSha256": "70e158c6104ab9d131274dc5847f35f5d628d85724c616a14bb31846ce5c24af",
+      "manifestMatches": true
+    },
+    {
+      "path": "kingdom_come_master_context.md",
+      "expectedSha256": "47a6c91d9728aa686406d801b95e7b2edc1875d158072c205555d5a25bac3c98",
+      "actualSha256": "47a6c91d9728aa686406d801b95e7b2edc1875d158072c205555d5a25bac3c98",
+      "manifestMatches": true
+    },
+    {
+      "path": "VISUAL_REFERENCE_README.md",
+      "expectedSha256": "0e8b52db1e1886b26b6b4bac0b80e0aef9b21068a9a1f11e1b0c563e7b2d5f99",
+      "actualSha256": "0e8b52db1e1886b26b6b4bac0b80e0aef9b21068a9a1f11e1b0c563e7b2d5f99",
+      "manifestMatches": true
+    },
+    {
+      "path": "IMAGE_INDEX.csv",
+      "expectedSha256": "dfc49bde1455228420b6b4bb53c2b43c9f9d343a832d992b4605621628c404e3",
+      "actualSha256": "dfc49bde1455228420b6b4bb53c2b43c9f9d343a832d992b4605621628c404e3",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/HISTORICAL_BOUNTY_AND_SKILLS.md",
+      "expectedSha256": "76a38d72a609f654d37296c7368ad60e221a969ba9bb5105806e41a369559983",
+      "actualSha256": "fa4bb5a832c9ffe4161319ca66fbcf0d35d284fc537af1f504982da2330a0bec",
+      "manifestMatches": false
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/image_manifest.json",
+      "expectedSha256": "1ab1a6358cf3ab7eeb857c844eb34ebfcb471a7e42fdf683e88f1759d75aae6c",
+      "actualSha256": "1ab1a6358cf3ab7eeb857c844eb34ebfcb471a7e42fdf683e88f1759d75aae6c",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1793032179952.jpeg",
+      "expectedSha256": "7a10b0c6e7a30319655ec86328da37d23ee510fcc0a4e6f92498f352774ef974",
+      "actualSha256": "7a10b0c6e7a30319655ec86328da37d23ee510fcc0a4e6f92498f352774ef974",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1793032180058.jpeg",
+      "expectedSha256": "51c259e6d91d3d592424b3bbd9be4bcf75d701537b4542717412008de4bbc06b",
+      "actualSha256": "51c259e6d91d3d592424b3bbd9be4bcf75d701537b4542717412008de4bbc06b",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1793032180124.jpeg",
+      "expectedSha256": "18a5c6d96b0bea7b6ebd18eb3b691e341e6d9d28aab59a8162a0897ef4f0d0e0",
+      "actualSha256": "18a5c6d96b0bea7b6ebd18eb3b691e341e6d9d28aab59a8162a0897ef4f0d0e0",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1793032947574.jpeg",
+      "expectedSha256": "834738ab99a2c7d419149c2f964d72cb2a926d847e52d460d62c947a48e8ecd3",
+      "actualSha256": "834738ab99a2c7d419149c2f964d72cb2a926d847e52d460d62c947a48e8ecd3",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032230.jpg",
+      "expectedSha256": "7432e0ac49d2ba6f495bcce5e12df439dc8a004d586a91f99fe8d8fe432b719c",
+      "actualSha256": "7432e0ac49d2ba6f495bcce5e12df439dc8a004d586a91f99fe8d8fe432b719c",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032232.jpg",
+      "expectedSha256": "0101e809391f8fc27cf31216a5433b7df499f1b07cb401d5c9af6048565d3d31",
+      "actualSha256": "0101e809391f8fc27cf31216a5433b7df499f1b07cb401d5c9af6048565d3d31",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032234.jpg",
+      "expectedSha256": "589d8174f445275338747b4e2534f42d4a31685724a5e9f3167589ecb6650c50",
+      "actualSha256": "589d8174f445275338747b4e2534f42d4a31685724a5e9f3167589ecb6650c50",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032236.jpg",
+      "expectedSha256": "d9ea56be350d5f8475b0d8e6cf027fe9bb90241e7a29408141542e1078f259e6",
+      "actualSha256": "d9ea56be350d5f8475b0d8e6cf027fe9bb90241e7a29408141542e1078f259e6",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032238.jpg",
+      "expectedSha256": "bad3016072bbb07147917894f8dc117a35615bf57eab3480150c803cbcc3732a",
+      "actualSha256": "bad3016072bbb07147917894f8dc117a35615bf57eab3480150c803cbcc3732a",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032069.jpg",
+      "expectedSha256": "3a7c480323c9296b5fae9e2f0c8d55f3ff5c671fb4761afa9f3c50ce04c39b71",
+      "actualSha256": "3a7c480323c9296b5fae9e2f0c8d55f3ff5c671fb4761afa9f3c50ce04c39b71",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032068.png",
+      "expectedSha256": "9706a485def400e472350e4a4816bd44f394c2d80f46ee0eb50b160747128745",
+      "actualSha256": "9706a485def400e472350e4a4816bd44f394c2d80f46ee0eb50b160747128745",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032067.jpg",
+      "expectedSha256": "341322a0b074e6e9d216cb622a03a6e40b31c5075b19647ff096980cae71bb74",
+      "actualSha256": "341322a0b074e6e9d216cb622a03a6e40b31c5075b19647ff096980cae71bb74",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032066.png",
+      "expectedSha256": "4d1fa92a9ec538af3daba1d66dc9eb50170c0d941af068f54173bba3a24e9956",
+      "actualSha256": "4d1fa92a9ec538af3daba1d66dc9eb50170c0d941af068f54173bba3a24e9956",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032065.png",
+      "expectedSha256": "5935728808516531e980cbc70639f9b707baa7a9abe8441cbae586fef86120ed",
+      "actualSha256": "5935728808516531e980cbc70639f9b707baa7a9abe8441cbae586fef86120ed",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032064.png",
+      "expectedSha256": "6bb76b5a1a35d4c2f10bf0983cab66b79e7db9b31e0ec82d325847bc08ee6865",
+      "actualSha256": "6bb76b5a1a35d4c2f10bf0983cab66b79e7db9b31e0ec82d325847bc08ee6865",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032063.png",
+      "expectedSha256": "b379a905a9d9dcd6e6a4cdb305c28f39b991128c2f74a95135c6d869c755f8c9",
+      "actualSha256": "b379a905a9d9dcd6e6a4cdb305c28f39b991128c2f74a95135c6d869c755f8c9",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032062.png",
+      "expectedSha256": "c28951aa7e9e8576660709099ec8073081037b90984ae696f30f2a4b4fa5f2a9",
+      "actualSha256": "c28951aa7e9e8576660709099ec8073081037b90984ae696f30f2a4b4fa5f2a9",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032059.png",
+      "expectedSha256": "44170c336af2b636ae301dadcace11894cba738129b8ac4e29f7d4102b00d4d2",
+      "actualSha256": "44170c336af2b636ae301dadcace11894cba738129b8ac4e29f7d4102b00d4d2",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032058.png",
+      "expectedSha256": "840266691a6b2ee177f0e8c1730ca813c35803665ef064391292a4f0813d7aa6",
+      "actualSha256": "840266691a6b2ee177f0e8c1730ca813c35803665ef064391292a4f0813d7aa6",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032056.png",
+      "expectedSha256": "d65856b697d0c1270adfa933f8ecea1079813b4cd8b0fce7fcb6c378d27b32fc",
+      "actualSha256": "d65856b697d0c1270adfa933f8ecea1079813b4cd8b0fce7fcb6c378d27b32fc",
+      "manifestMatches": true
+    },
+    {
+      "path": "historical/knights-reforged/bounty-addendum/screenshots/1000032057.png",
+      "expectedSha256": "347899f68b27624b8b9ae4846693bc0193066752365c88ca419f6289ceb56b2c",
+      "actualSha256": "347899f68b27624b8b9ae4846693bc0193066752365c88ca419f6289ceb56b2c",
+      "manifestMatches": true
+    }
+  ]
+}

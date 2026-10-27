@@ -1,0 +1,409 @@
+{
+  "passed": true,
+  "stage": "before",
+  "productionContacted": false,
+  "views": [
+    {
+      "name": "weapons",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "armor",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "spells",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "inventory",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "profile-land",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "public-equipment",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "land-catalog",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "bulk",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "receipt",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "battle",
+      "width": 320,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "weapons",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "armor",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "spells",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "inventory",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "profile-land",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "public-equipment",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "land-catalog",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "bulk",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "receipt",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "battle",
+      "width": 390,
+      "dpr": 2,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "weapons",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "armor",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "spells",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "inventory",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "profile-land",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "public-equipment",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "land-catalog",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "bulk",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "receipt",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "battle",
+      "width": 430,
+      "dpr": 3,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "weapons",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "armor",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "spells",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "inventory",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "profile-land",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "public-equipment",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "land-catalog",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "bulk",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "receipt",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "battle",
+      "width": 1280,
+      "dpr": 1,
+      "textScale": 1,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "weapons",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "armor",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "spells",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "inventory",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "profile-land",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "public-equipment",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "land-catalog",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "bulk",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "receipt",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    },
+    {
+      "name": "battle",
+      "width": 320,
+      "dpr": 2,
+      "textScale": 1.25,
+      "frames": 0,
+      "overflow": 0
+    }
+  ],
+  "errors": [],
+  "businessRowsPreserved": true
+}
