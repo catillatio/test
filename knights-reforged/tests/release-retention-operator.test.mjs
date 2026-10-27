@@ -9,7 +9,7 @@ test('private executor payload is default-disabled, non-root and contains no gam
  const job=await readFile(new URL('../deployment/release/retention/job.mjs',import.meta.url),'utf8');
  assert.match(job,/KINGDOM_RETENTION_ENABLED,'1'/);
 });
-test('built private payload cannot start a job or contact a database under its disabled defaults',{skip:!process.env.KINGDOM_RETENTION_OPERATOR_IMAGE},()=>{
+if(process.env.KINGDOM_RETENTION_OPERATOR_IMAGE)test('built private payload cannot start a job or contact a database under its disabled defaults',()=>{
  const image=process.env.KINGDOM_RETENTION_OPERATOR_IMAGE;
  assert.match(image,/^kingdom-come:[a-z0-9-]+$/);
  const r=spawnSync('docker',['run','--rm','--network','none','--read-only',image],{encoding:'utf8',timeout:30000});
