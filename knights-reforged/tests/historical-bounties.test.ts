@@ -164,7 +164,14 @@ test('profile, placement page, API quote, HTML confirmation, board and help shar
   const quote=await r.app.inject({url:'/api/v1/bounties/quote?targetCharacterId='+target.id+'&amount=101',headers:{cookie:sponsor.cookie}});assert.equal(quote.statusCode,200);assert.equal(quote.json().quote.total,112);assert.equal(quote.json().quote.quotas.sponsorTarget.remaining,1);
   const confirmation=await r.command(sponsor,'/game/bounties/preview',{targetCharacterId:target.id,amount:101});assert.equal(confirmation.statusCode,200,confirmation.body);assert.match(confirmation.body,/1 \/ 25 remaining/);assert.match(confirmation.body,/Confirm bounty — 112 gold/);
   await r.ok(sponsor,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1});
-  for(const path of['/game/players/'+target.id,'/game/bounties/new?target='+target.id,'/game/bounties']){const page=await r.app.inject({url:path,headers:{cookie:sponsor.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/0 \/ 25 remaining/);assert.match(page.body,/225 \/ 250 remaining/);assert.match(page.body,/already has an active bounty|Your contract/);}
+  for(const path of['/game/players/'+target.id,'/game/bounties/new?target='+target.id]){const page=await r.app.inject({url:path,headers:{cookie:sponsor.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/0 \/ 25 remaining/);assert.match(page.body,/225 \/ 250 remaining/);assert.match(page.body,/already has an active bounty/);}
+  const board=await r.app.inject({url:'/game/bounties',headers:{cookie:sponsor.cookie}});assert.equal(board.statusCode,200,board.body);
+  const row=/<article class="bounty-row"[\s\S]*?<\/article>/.exec(board.body)![0];
+  assert.match(row,/UI Target/);assert.match(row,/Level 100 Freeblade/);assert.match(row,/>1 gold</);assert.match(row,/>Attack</);
+  assert.ok(!row.includes('data-bounty-quotas'));assert.ok(!row.includes('Posted by'));assert.ok(!row.includes('field-hint'));
+  assert.match(row,/disabled title="Sponsors cannot claim their own contracts/);
+  assert.match(board.body,/<details class="panel bounty-records">/);assert.match(board.body,/<details class="panel bounty-rules">/);
+  const current=await bountyPlacementStatus(r.db,sponsor.id,target.id,r.now());assert.equal(current.quotas.sponsorTarget.remaining,0);assert.equal(current.quotas.target.remaining,225,'removing visible counters never removes backend limits');
   const rules=await r.app.inject({url:'/rules',headers:{cookie:sponsor.cookie}});assert.match(rules.body,/at most 25 bounties on the same target/);assert.match(rules.body,/at most 250 placements/);assert.ok(!rules.body.includes('50 successful placements'));
  }finally{await r.close();}
 });
