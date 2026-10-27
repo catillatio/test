@@ -137,6 +137,7 @@ jobs:
           npm ci --no-audit --no-fund
           npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release
           docker build -t kingdom-come:checked .
+          KINGDOM_CONTAINER_IMAGE=kingdom-come:checked node scripts/test-release-image-preflight.mjs
           docker pull postgres:18-bookworm
           KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_TEST_PRIVATE_ALPHA=1 npm run test:container
           docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .
@@ -154,6 +155,7 @@ jobs:
           path: |
             knights-reforged/test-results/phase47-*.json
             knights-reforged/test-results/release-worker-verification.json
+            knights-reforged/test-results/release-image-preflight.json
             knights-reforged/test-results/retention-delivery-verification.json
           if-no-files-found: error
           retention-days: 14

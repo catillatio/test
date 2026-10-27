@@ -769,6 +769,11 @@
       "file": "tests/release-retention-delivery.test.mjs",
       "lane": "unit",
       "weight": 2
+    },
+    {
+      "file": "tests/release-upload-diagnostics.test.mjs",
+      "lane": "unit",
+      "weight": 1
     }
   ]
 }

@@ -94,14 +94,14 @@ const fixture={
    }
    else return block();
   }else if(args[0]==='up'){
-   if(!args.includes('--detach')||!args.includes('--json'))return block();
+   if(!args.includes('--detach')||!args.includes('--json')||!args.includes('--verbose'))return block();
    if(service===ids[4]){record('upload');failure=mode==='upload_failure';}
    else if(service===ids[2]){record('game_upload');failure=mode==='game_upload';}
    else return block();
    output=['invalid_json','game_invalid_json'].includes(mode)?secret:JSON.stringify({...(['missing_id','game_missing_id'].includes(mode)?{}:{deploymentId}),logsUrl:'https://provider.fixture.invalid/?secret=fixture'});
   }else return block();
   const task=new EventEmitter();task.stdout=new PassThrough();task.stderr=new PassThrough();task.kill=()=>task.emit('close',1);
-  queueMicrotask(()=>{task.stdout.end(failure?secret:output);task.stderr.end(secret);task.emit('close',failure?1:0);});
+  queueMicrotask(()=>{task.stdout.end(args[0]==='up'?'railway up\nservice: '+service+'\nenvironment: '+ids[1]+'\nbytes: 1024\n'+(failure?secret:output):failure?secret:output);task.stderr.end(secret);task.emit('close',failure?1:0);});
   return task;
  }
 };

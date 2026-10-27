@@ -12,6 +12,7 @@ import {getFile,getReport,fileDigest} from './transfer.mjs';
 import {recoveryStore} from './store.mjs';
 import {signProof} from './proof.mjs';
 import {verifyQueuedDeployment,waitForWorkerCompletion} from './deployment.mjs';
+import {uploadSource} from './upload.mjs';
 
 const base=new URL('../../',import.meta.url).pathname;
 const failureCategories=new WeakMap();
@@ -48,7 +49,8 @@ async function main(){
  await mkdir(out,{recursive:true,mode:0o700});
  const railwayArgs=['--project',settings.projectId,'--environment',settings.environmentId];
  const deploy=async(service,root=process.env.GITHUB_WORKSPACE)=>{
-  const upload=()=>command('railway',['up',root,...railwayArgs,'--service',service,'--detach','--json',...(service===settings.workerServiceId?['--path-as-root']:[]),'--message','Kingdom Come '+settings.sha],{cwd:root});
+  const upload=()=>uploadSource({spawn,root,projectId:settings.projectId,environmentId:settings.environmentId,serviceId:service,sha:settings.sha,worker:service===settings.workerServiceId,
+   log:event=>console.log('RELEASE_UPLOAD: '+JSON.stringify(event))});
   const queued=await during(service===settings.workerServiceId?'WORKER_UPLOAD':'GAME_UPLOAD',upload);
   return during(service===settings.workerServiceId?'DEPLOYMENT_IDENTITY':'GAME_DEPLOYMENT_IDENTITY',()=>verifyQueuedDeployment(queued,{projectId:settings.projectId,environmentId:settings.environmentId,serviceId:service},{token:process.env.RAILWAY_TOKEN}));
  };

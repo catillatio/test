@@ -30,7 +30,14 @@ function run(mode,command='prepare',overrides={}){
   encoding:'utf8',timeout:15000
  });
  assert.equal(existsSync(forbidden),false,'No unmocked network, subprocess, or additional provider operation is allowed.');
- return {...result,trace:readFileSync(trace,'utf8').trim().split('\n').filter(Boolean)};
+ const diagnostics=result.stdout.split('\n').filter(line=>line.startsWith('RELEASE_UPLOAD: ')).map(line=>JSON.parse(line.slice('RELEASE_UPLOAD: '.length)));
+ for(const event of diagnostics){
+  assert.ok(['GAME','WORKER'].includes(event.component));assert.ok(['START','CLI_COMPLETED','FAILED'].includes(event.event));
+  assert.doesNotMatch(JSON.stringify(event),/synthetic-private|https:|fixture@|signature|[a-f0-9]{32}/);
+ }
+ const traceLines=readFileSync(trace,'utf8').trim().split('\n').filter(Boolean),uploads=traceLines.filter(t=>t==='upload'||t==='game_upload').length;
+ assert.equal(diagnostics.length,uploads*2,'Every upload has exactly one safe start and completion/failure diagnostic.');
+ return {...result,stdout:result.stdout.split('\n').filter(line=>!line.startsWith('RELEASE_UPLOAD: ')).join('\n'),diagnostics,trace:traceLines};
 }
 const uploaded=['stage','bundle','upload'],identified=[...uploaded,'metadata','cleanup'],completed=[...identified,'worker_completion'];
 for(const [mode,category,trace,stdout]of[
