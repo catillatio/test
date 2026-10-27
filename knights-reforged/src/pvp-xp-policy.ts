@@ -3,13 +3,14 @@ import {levelRequirement} from './alpha-rules.js';
 import {victoryExperience47} from './game-feel-rules.js';
 import {scaleBotExperience} from './bot-experience.js';
 import {botCombat} from './bot-combat-rules.js';
+import {deepFreeze} from './compatibility-rules.js';
 
 // All new balance numbers live in this immutable version. Legacy helpers and
 // their installed JSON remain unchanged, including above-threshold rounding.
-export const pvpXp=JSON.parse(readFileSync(new URL('../rulesets/pvp-xp-hybrid-1/rules.json',import.meta.url),'utf8')) as {
+export const pvpXp=deepFreeze(JSON.parse(readFileSync(new URL('../rulesets/pvp-xp-hybrid-1/rules.json',import.meta.url),'utf8')) as {
  id:string;provenance:string;easyStrengthRatio:number;joiningStrengthPercent:number;easyVictoryPercentages:number[];
  windowSeconds:number;bonusRequirementPercent:number;maximumBonus:number;budgetUnits:number;
-};
+});
 if(pvpXp.id!=='pvp-xp-hybrid-1'||pvpXp.easyStrengthRatio!==.35||pvpXp.joiningStrengthPercent!==50||
  pvpXp.easyVictoryPercentages.join(',')!=='100,50,25,10,0'||pvpXp.windowSeconds!==86400||
  pvpXp.bonusRequirementPercent!==10||pvpXp.maximumBonus!==200||pvpXp.budgetUnits!==10000)throw new Error('Invalid PvP XP policy.');

@@ -7,7 +7,10 @@ interface SavedBattle {id:string;rewarded?:boolean;snapshot?:{attacker?:{level:n
  result:{outcome?:string;attackerXp?:number;temporaryRival?:boolean;xpDetails?:{reason?:string;amount?:number;trivial?:boolean;rulesetId?:string};lootDetails?:{victory?:number}};}
 export function explain(row:SavedBattle){
  const a=row.snapshot?.attacker,d=row.snapshot?.defender,r=row.result;
- if(r.outcome!=='attacker_win')return {id:row.id,recordedXp:r.attackerXp,primary:'attacking_loss',expectedXp:0};
+ if(r.outcome==='defender_win')return {id:row.id,recordedXp:r.attackerXp,primary:'attacking_loss',expectedXp:0};
+ if(r.outcome!=='attacker_win')return {id:row.id,recordedXp:r.attackerXp,primary:'unknown_missing_outcome'};
+ if(r.xpDetails?.rulesetId&&!['game-feel-1','bot-combat-rewards-2'].includes(r.xpDetails.rulesetId))return {
+  id:row.id,recordedXp:r.attackerXp,recordedPolicy:r.xpDetails.rulesetId,primary:r.xpDetails.reason??'unknown_policy',note:'Use the recorded policy; current baseline arithmetic is not a historical replay.'};
  if(!a||!d)return {id:row.id,recordedXp:r.attackerXp,primary:'unknown_missing_snapshot'};
  const old=victoryExperience47(a.level,d.level,row.rewarded!==false,a.attack,d.defense);
  const bot=r.temporaryRival===true,victory=r.lootDetails?.victory;
