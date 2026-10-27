@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {validateRequest,targetConfig,checkWorker,checkPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys,failureCategory,encryptedShape,failureShape} from '../deployment/release/registrar-config.mjs';
+import {validateRequest,targetConfig,checkWorker,checkPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys,failureCategory,encryptedShape,failureShape,classifyValues,failureValueClasses} from '../deployment/release/registrar-config.mjs';
 
 const id=n=>String(n).repeat(8)+'-'+String(n).repeat(4)+'-4'+String(n).repeat(3)+'-8'+String(n).repeat(3)+'-'+String(n).repeat(12);
 const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'catillatio/test',GITHUB_JOB:'registrar-config',GITHUB_REF:'refs/heads/release/production',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1',
@@ -108,9 +108,65 @@ test('CLI encryption-semantics rejection prints no plaintext, provider payload, 
  const path=fileURLToPath(new URL('../deployment/release/registrar-config.mjs',import.meta.url));
  const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async()=>({ok:true,text:async()=>JSON.stringify({data:'+JSON.stringify(before)+'})});');
  const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...env},encoding:'utf8',timeout:5000});
- assert.equal(r.status,1);assert.equal(r.stdout,'');assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: PATCH_ENCRYPTION_SEMANTICS\nREGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');
+ assert.equal(r.status,1);assert.equal(r.stdout,'');assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: PATCH_ENCRYPTION_SEMANTICS\nREGISTRAR_CONFIG_VALUE_CLASSES: {"database_url":"IDENTICAL_TO_DECRYPTED","enabled":"IDENTICAL_TO_DECRYPTED","scope":"IDENTICAL_TO_DECRYPTED"}\nREGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');
  for(const secret of Object.values(vars(before)).map(item=>item.value))assert.equal(r.stderr.includes(secret),false);
  assert.doesNotMatch(r.stderr,/Patch digest|Patch ID|REGISTRAR_CONFIG_SHAPE|SyntaxError|JSON|stack/);
+});
+test('read-only representation classifier emits exactly the six fixed classes, never provider metadata',async t=>{
+ const d=fixture(),encrypted=cipherVars(d),clear=vars(d),scope=registrationKeys[2];
+ const cases=[
+  ['VALID_DOCUMENTED_ENVELOPE',encrypted[scope].value],
+  ['OTHER_JSON_OBJECT',JSON.stringify({['postgres://fixture-private-password@copy.railway.internal/Railway']:{[target.workerId]:'c'.repeat(64)}})],
+  ['OTHER_JSON_OBJECT',JSON.stringify({encryptedDek:'dek',cipherText:'cipher',extra:'fixture-private-password'})],
+  ['OTHER_JSON_OBJECT',JSON.stringify({encryptedDek:'dek',cipherText:clear[scope].value})],
+  ['OPAQUE_STRING','opaque-provider-secret-fragment-\u001b[31m\n::error::fixture-private-password'],
+  ['OPAQUE_STRING','{invalid-json-with-fixture-private-password'],
+  ['MASKED_REDACTED','*****'],['MASKED_REDACTED','  <REDACTED>  '],['MASKED_REDACTED','[masked]'],
+  ['MASKED_REDACTED','«hidden»'],['MASKED_REDACTED','••••'],['MASKED_REDACTED',JSON.stringify('<sealed>')],
+  ['IDENTICAL_TO_DECRYPTED',clear[scope].value],
+  ['UNCLASSIFIED',null],['UNCLASSIFIED',undefined],['UNCLASSIFIED',123],['UNCLASSIFIED',{}],['UNCLASSIFIED',[]],
+  ['UNCLASSIFIED','null'],['UNCLASSIFIED','[]'],['UNCLASSIFIED','true'],['UNCLASSIFIED','42'],
+  ['UNCLASSIFIED',JSON.stringify('a JSON scalar string')],['UNCLASSIFIED','  ']
+ ];
+ for(const [expected,value] of cases)await t.test(expected,()=>{
+  const report=classifyValues({...encrypted,[scope]:{value}},clear);
+  assert.deepEqual(report,{database_url:'VALID_DOCUMENTED_ENVELOPE',enabled:'VALID_DOCUMENTED_ENVELOPE',scope:expected});
+  const text=JSON.stringify(report);
+  for(const forbidden of ['fixture-private-password','opaque-provider-secret','copy.railway',target.workerId,'c'.repeat(64),'length','digest','cipherText','encryptedDek','::error::'])assert.equal(text.includes(forbidden),false);
+ });
+ // Equality takes precedence over mask recognition; no plaintext is echoed.
+ assert.equal(classifyValues({...encrypted,[scope]:{value:'*****'}},{...clear,[scope]:{value:'*****'}}).scope,'IDENTICAL_TO_DECRYPTED');
+ assert.equal(failureValueClasses(new Error('provider-message')),undefined);
+});
+test('classification is diagnostic only: every existing encryption rejection remains a failure with zero writes',async()=>{
+ for(const [value,expected] of [[vars(fixture()).KINGDOM_COPY_REGISTRATION_SCOPE.value,'IDENTICAL_TO_DECRYPTED'],['*****','MASKED_REDACTED'],['opaque-ciphertext','OPAQUE_STRING'],['{"unknown":"provider-secret"}','OTHER_JSON_OBJECT'],['null','UNCLASSIFIED']]){
+  const before=fixture();cipherVars(before).KINGDOM_COPY_REGISTRATION_SCOPE.value=value;const p=provider({before});
+  await assert.rejects(runConfig(env,{api:p.api}),error=>{
+   assert.equal(failureCategory(error),'PATCH_ENCRYPTION_SEMANTICS');assert.equal(failureValueClasses(error).scope,expected);return true;
+  });assert.equal(p.calls.length,1);assert.equal(p.writes().length,0);
+ }
+ // Per-value valid structure is not approval: repeated envelopes still fail.
+ const before=fixture();for(const k of registrationKeys)cipherVars(before)[k].value=cipherVars(before)[registrationKeys[0]].value;
+ const p=provider({before});await assert.rejects(runConfig(env,{api:p.api}),error=>{
+  assert.equal(failureCategory(error),'PATCH_ENCRYPTION_SEMANTICS');
+  assert.deepEqual(failureValueClasses(error),{database_url:'VALID_DOCUMENTED_ENVELOPE',enabled:'VALID_DOCUMENTED_ENVELOPE',scope:'VALID_DOCUMENTED_ENVELOPE'});return true;
+ });assert.equal(p.writes().length,0);
+});
+test('CLI reports classes only on inspection semantics failures, never on commit or prior identity/scope failures',()=>{
+ const path=fileURLToPath(new URL('../deployment/release/registrar-config.mjs',import.meta.url));
+ for(const [operation,mutate,category,expected] of [
+  [env,d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='opaque-provider-secret';},'PATCH_ENCRYPTION_SEMANTICS',{database_url:'VALID_DOCUMENTED_ENVELOPE',enabled:'VALID_DOCUMENTED_ENVELOPE',scope:'OPAQUE_STRING'}],
+  [commitEnv(),d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='opaque-provider-secret';},'PATCH_ENCRYPTION_SEMANTICS',null],
+  [env,d=>{d.worker.latestDeployment.id=id(7);},'WORKER_IDENTITY',null],
+  [env,d=>{vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=null;},'PATCH_CLEAR_SHAPE',null]
+ ]){
+  const before=fixture();mutate(before);
+  const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async(_url,options)=>{if(JSON.parse(options.body).query.includes("mutation "))throw Error("unexpected write");return {ok:true,text:async()=>JSON.stringify({data:'+JSON.stringify(before)+'})};};');
+  const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...operation},encoding:'utf8',timeout:5000});
+  assert.equal(r.status,1);assert.equal(r.stdout,'');
+  assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: '+category+'\n'+(expected?'REGISTRAR_CONFIG_VALUE_CLASSES: '+JSON.stringify(expected)+'\n':'')+'REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');
+  for(const forbidden of ['opaque-provider-secret','fixture-private-password','stored-ciphertext',target.workerId,before.staged.id,'c'.repeat(64),'d'.repeat(64),'length','Patch digest','REGISTRAR_CONFIG_INSPECTION: PASS'])assert.equal(r.stderr.includes(forbidden),false);
+ }
 });
 test('only exact worker variable additions are accepted; unrelated or incomplete patch shapes fail before any write',async t=>{
  const cases={

@@ -42,6 +42,63 @@ metadata is hashed for the public review pin. No database connection is made.
 
 ## Failures, retries and concurrency limit
 
+### Inspection #56: classify without accepting an unknown representation
+
+[#56 / run 40422536104](https://github.com/catillatio/test/actions/runs/40422536104)
+at `18f83534ff1ba3aca82e593e515dca7c605a7562` passed the safety job, worker/metadata
+checks and both patch-shape checks, then failed `PATCH_ENCRYPTION_SEMANTICS`. The
+release job was skipped. No approval pins were produced. The owner reports the
+same three staged variables and unchanged patch. This proves rejection by the
+encryption gate; it does **not** establish masking, a different ciphertext format,
+or equality with plaintext. The preceding storage-envelope documentation was
+not evidence of the current GraphQL representation.
+
+On this failure only, read-only **registrar-config-inspect** additionally emits
+`REGISTRAR_CONFIG_VALUE_CLASSES` with three fixed labels:
+
+| Label | Approved variable |
+| --- | --- |
+| `database_url` | `KINGDOM_COPY_REGISTRATION_DATABASE_URL` |
+| `enabled` | `KINGDOM_COPY_REGISTRATION_ENABLED` |
+| `scope` | `KINGDOM_COPY_REGISTRATION_SCOPE` |
+
+Each label has exactly one of these fixed classifications:
+
+| Class | Meaning |
+| --- | --- |
+| `IDENTICAL_TO_DECRYPTED` | Exact string equality with that variable's decrypted view; checked first. |
+| `MASKED_REDACTED` | A recognized masking marker, including a JSON-encoded marker; not cryptographic proof of server masking. |
+| `VALID_DOCUMENTED_ENVELOPE` | The per-value documented envelope structure and member checks pass; no cryptographic decryption is performed. |
+| `OTHER_JSON_OBJECT` | A JSON object that does not meet those envelope checks. |
+| `OPAQUE_STRING` | A nonempty, non-marker string that does not parse as JSON; encryption is unproven. |
+| `UNCLASSIFIED` | Another representation, such as JSON null/array/scalar or an empty/non-string value. |
+
+No values, ciphertext, fragments, lengths, provider key names, identifiers or
+secret hashes leave this classifier. It makes no extra API request. It does not
+print in commit mode, on successful inspection, or when preceding identity/scope
+or shape checks fail. The existing fixed failure category and nonzero status
+remain; no summary/pins or writes follow the failure.
+
+The encryption acceptance function and digest binding are unchanged. Classification
+never authorizes acceptance. Even three `VALID_DOCUMENTED_ENVELOPE` classifications
+do not certify the patch: the batch distinct-envelope check can still reject it.
+The diagnostic deliberately reports no envelope members, undocumented format
+details or aggregate value comparisons beyond the requested per-variable classes.
+
+**Next owner action after separate reviewed merge and exact-head checks:** perform
+only step 2, a new protected `registrar-config-inspect` with promotion OFF and blank
+patch inputs. Return only the fixed failure category and
+`REGISTRAR_CONFIG_VALUE_CLASSES` line. Do not use commit mode or run recovery.
+The protected workflow requires the reviewed code on `release/production`; the
+connected Railway summaries cannot run this classifier or expose the raw values.
+
+**Decision boundary:** equality, masking, opaque strings or other JSON are not
+encrypted approval evidence. If masking is confirmed, retain the block until an
+authoritative non-plaintext binding source is established and separately reviewed;
+do not hash the mask, hash clear values or fall back to revision-only approval.
+For a different format, obtain its authoritative semantics before changing the
+acceptance rules. No format correction is justified by #56's category alone.
+
 ### Inspection #55: `value` contains the non-decrypted representation
 
 [#55 / run 40415542879](https://github.com/catillatio/test/actions/runs/40415542879)
