@@ -25,6 +25,6 @@ The existing browser suite now verifies the four-field rows, no overlap/overflow
 
 Local validation: 19/19 real PostgreSQL bounty/combat regressions, 35 browser views per stage, exact-contract button flows, typecheck/build and static 99/99 with 77 production EJS fixtures. Required CI status and exact totals are recorded in the draft PR and delivery evidence.
 
-The existing Phase 6 browser scenarios open Records before inspecting historical claims or using the no-script read action. Their original claim, notification, cross-level hunt and persistence assertions remain; only the disclosure-opening navigation step changes.
+The existing Phase 6 browser scenarios open Records before inspecting historical claims or using the no-script read action. The obsolete page-wide prose match is replaced by assertions for the four-field listing, exact saved contract/target, normal Stamina cost, one settled claim/Kill, removal from the open list and the actual claimant/amount/report in history. Notification, cross-level follow-up, native no-script and persistence assertions remain. No removed product copy is restored.
 
 No merge, deployment or production database/settings operation is part of this pass.

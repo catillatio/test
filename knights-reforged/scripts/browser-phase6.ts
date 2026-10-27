@@ -18,20 +18,29 @@ try{
  await syntheticCutover(r.db,false);
  const bounty=await r.ok(patron,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1000});
  const native=await context(hunter.cookie,false),page=await native.newPage();monitor(page);await visit(page,'/game/bounties');const hunt=page.locator('form').filter({has:page.locator('input[name=bountyId][value="'+bounty.data.bountyId+'"]')}).first();assert.equal(await hunt.getByRole('button').isEnabled(),true);
+ const marked=await r.me(target),listing=page.locator('.bounty-list .bounty-row').filter({has:page.locator('input[name=bountyId][value="'+bounty.data.bountyId+'"]')});
+ assert.equal((await listing.innerText()).replace(/\s+/g,' ').trim(),marked.name+' Level '+marked.level+' '+marked.className+' 1,000 gold Attack');
+ assert.equal(await listing.locator('[data-bounty-quotas],small,time,.field-hint').count(),0,'the open listing contains only its four intended fields');
  await Promise.all([page.waitForURL(/\/game\/battles\//),hunt.getByRole('button').click()]);const firstReport=new URL(page.url()).pathname;
+ const firstSaved=(await r.db.query('SELECT result FROM battles WHERE id=$1',[firstReport.split('/').at(-1)])).rows[0]!.result;
+ assert.equal(firstSaved.defenderId,target.id);assert.equal(firstSaved.bountyHuntId,bounty.data.bountyId);assert.equal(firstSaved.spiritSpent,1,'Attack reaches the exact authorized encounter and spends normal Stamina');
  assert.equal(await page.locator('input[name=bountyId]').inputValue(),bounty.data.bountyId);assert.equal(await page.getByRole('button',{name:'Attack Again',exact:true}).isEnabled(),true);
  // Runtime polling retains the exact contract, rather than silently falling
  // back to ordinary range-bound PvP on a cross-level follow-up.
  const polling=await context(hunter.cookie),live=await polling.newPage();monitor(live);const checked=live.waitForResponse(x=>x.url().includes('/combat?bountyId=')&&x.status()===200);await live.goto(origin+firstReport);await checked;assert.equal(await live.getByRole('button',{name:'Attack Again',exact:true}).isEnabled(),true);await polling.close();
  await transaction(r.db,sql=>sql.query('UPDATE characters SET health=1,health_updated_at=$2 WHERE id=$1',[target.id,r.now()]));
  await Promise.all([page.waitForURL(url=>url.pathname.startsWith('/game/battles/')&&url.pathname!==firstReport),page.getByRole('button',{name:'Attack Again',exact:true}).click()]);const finalReport=new URL(page.url()).pathname;assert.match(await page.locator('.bounty-reward').innerText(),/1,000 bounty gold/);assert.equal(await page.locator('input[name=bountyId]').count(),0,'ended contract cannot authorize another hunt');
+ const settled=(await r.db.query(`SELECT status,target_id,claimant_id,battle_id,(SELECT count(*)::int FROM bounty_kills k WHERE k.bounty_id=b.id) AS kills FROM bounties b WHERE id=$1`,[bounty.data.bountyId])).rows[0]!;
+ assert.deepEqual(settled,{status:'claimed',target_id:target.id,claimant_id:hunter.id,battle_id:finalReport.split('/').at(-1),kills:1},'a real finishing claim settles this exact contract once');
  const recovery={...syntheticRecovery(),expiresAt:new Date(+r.now()+7200000).toISOString()},plan={...await inspectRarity(r.db,recovery),enabled:true,rateReviewed:true,equipmentReviewed:true};await setRarityAuthorization(r.db,plan,definitionDigest(plan));
  const quest=await prepareRareQuest(r,hunter),key=randomUUID();await withQuestDraw(0,()=>r.ok(hunter,'/api/v1/quests/'+quest.id+'/runs',{},key));
  for(const width of[320,390,430,1024]){
   await page.setViewportSize({width,height:width===1024?900:844});
   await visit(page,'/game/champions?category=kills');assert.equal(await page.locator('.champion-tabs a').count(),7);assert.match(await page.locator('.champion-list').innerText(),/Marshal of the Crown/);await capture(page,width,'champions');
   await visit(page,'/game/players/'+target.id);assert.equal(await page.locator('.competitive-record').count(),0);assert.equal(await page.locator('[data-profile-stats]').count(),1);assert.ok(!(await page.locator('body').innerHTML()).includes(target.accountId));await capture(page,width,'rival-profile','[data-profile-stats]');
-  await visit(page,'/game/bounties');await page.locator('.bounty-records > summary').click();assert.match(await page.locator('main').innerText(),/successful bounty claim/);await capture(page,width,'bounty-history');
+  await visit(page,'/game/bounties');assert.equal(await page.locator('.bounty-list .bounty-row').count(),0,'the claimed target leaves the open list');assert.equal(await page.locator('.bounty-records').getAttribute('open'),null);
+  await page.locator('.bounty-records > summary').click();const record=page.locator('.bounty-history-row').filter({has:page.locator('a[href="'+finalReport+'"]')});
+  assert.equal(await record.count(),1);assert.equal((await record.locator('.bounty-status').textContent())?.trim(),'claimed');assert.equal(await record.locator('.gold').innerText(),'1,000 gold');assert.equal(await record.locator('a[href="/game/players/'+target.id+'"]').innerText(),marked.name);assert.equal(await record.locator('a[href="/game/players/'+hunter.id+'"]').innerText(),'Marshal of the Crown');await capture(page,width,'bounty-history');
   await visit(page,finalReport);await capture(page,width,'bounty-report','.battle-result');
   await visit(page,'/game/quests?command='+key);assert.equal(await page.getByRole('status',{name:'Rare quest equipment discovered'}).count(),1);assert.match(await page.locator('.rare-discovery').innerText(),/King Hudson.*Sword/);await capture(page,width,'rare-discovery','.rare-discovery');
  }
