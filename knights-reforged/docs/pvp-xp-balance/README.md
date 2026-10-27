@@ -67,6 +67,8 @@ Migration 027 adds only `pvp_xp_events` and two window indexes. Existing charact
 
 Existing sorted character locks and an account advisory lock serialize budget reads and debits. Each event has one battle primary key, deferred battle FK, account/character FKs and range constraints. Debit and XP grant share the command transaction. Duplicate command IDs reuse receipts; rollback removes the award and event together. The debit uses **actual credited** bonus after the existing lifetime-XP storage cap. Passive autonomous bot-vs-bot combat keeps its existing rewards and creates no human bonus events. No pruning/reset job is introduced.
 
+At rollout, the new easy-win ledger starts empty; prior battles are not backfilled into it. Existing human three-win eligibility still reads historical battles. Older workers award only the old baseline and spend no new bonus. Retaining the ledger across rollback/redeployment prevents an allowance reset; future policy versions must continue charging its unexpired debit units.
+
 Human attack losses still grant zero. Three eligible human attacking wins remain unchanged. New defensive eligible easy wins also consume the defender's three-win pair allowance; legacy saved `defenderFullXp` flags remain untouched. Defensive progression still uses `restoreResources=false`. Damage, real Health/Stamina spending, legitimate offensive level-up refills, progression requirements, earned levels and points stay on the authoritative existing paths. No XP or financial backfill exists.
 
 ## Before/after examples

@@ -34,6 +34,15 @@ test('real attacks keep gold, costs, three-win quota, immutable reports, retry a
   assert.equal((await r.command(a,'/api/v1/battles',{targetCharacterId:b.id})).statusCode,409);
   assert.deepEqual((await r.db.query('SELECT * FROM battles ORDER BY id')).rows,saved);
   assert.equal((await r.db.query('SELECT count(*)::int n FROM pvp_xp_events')).rows[0]!.n,4);
+  // Existing lifetime XP is never re-derived. Only the one remaining integer
+  // slot can be credited, and an uncredited nominal bonus must spend no budget.
+  r.advance(86400);
+  await r.db.query('UPDATE characters SET xp=2147483646 WHERE id=$1',[a.id]);
+  const capped=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id});
+  const capBattle=(await r.db.query('SELECT result FROM battles WHERE id=$1',[capped.battleId])).rows[0]!.result;
+  const capEvent=(await r.db.query('SELECT bonus_xp,budget_units FROM pvp_xp_events WHERE battle_id=$1',[capped.battleId])).rows[0]!;
+  assert.ok(capBattle.xpDetails.amount>1);assert.equal(capBattle.attackerXp,1);assert.equal(capped.state.xp,2147483647);
+  assert.deepEqual(capEvent,{bonus_xp:0,budget_units:0});
  }finally{await r.close();}
 });
 
@@ -68,5 +77,11 @@ test('coordinated attacking losses give zero XP and no defender resource refill'
   assert.equal(saved.outcome,'defender_win');assert.equal(saved.attackerXp,0);assert.equal(saved.loot,0);
   assert.equal((await r.me(b)).spirit,before.spirit);assert.equal((await r.me(b)).health,saved.defenderHealthAfter);
   assert.ok(saved.defenderXpDetails.budgetUnits>0,JSON.stringify(saved.defenderXpDetails));assert.equal(saved.defenderFullXp,true);
+  for(let n=2;n<=4;n++){
+   const next=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id});
+   const d=(await r.db.query('SELECT result FROM battles WHERE id=$1',[next.battleId])).rows[0]!.result;
+   assert.equal(d.attackerXp,0);assert.equal(d.defenderFullXp,n<=3);
+   if(n===4){assert.equal(d.defenderXp,1);assert.equal(d.defenderXpDetails.reason,'repeat_budget');}
+  }
  }finally{await r.close();}
 });
