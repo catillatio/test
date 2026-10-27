@@ -58,11 +58,11 @@ export async function bountyPlacementStatus(sql:Sql,sponsorId:string,targetId:st
   // Do not filter by status: cancellation, expiry and claims never reset quotas.
   const count=(await sql.query(`SELECT
     COALESCE(bool_or(status='active' AND expires_at>$2),false) AS occupied,
-    COALESCE(array_agg(created_at ORDER BY created_at) FILTER(WHERE created_at>$3 AND created_at<=$2),ARRAY[]::timestamptz[]) AS target_times,
-    COALESCE(array_agg(created_at ORDER BY created_at) FILTER(WHERE sponsor_id=$4 AND created_at>$3 AND created_at<=$2),ARRAY[]::timestamptz[]) AS pair_times
+    COALESCE(array_agg(EXTRACT(EPOCH FROM created_at)*1000 ORDER BY created_at) FILTER(WHERE created_at>$3 AND created_at<=$2),ARRAY[]::numeric[]) AS target_times,
+    COALESCE(array_agg(EXTRACT(EPOCH FROM created_at)*1000 ORDER BY created_at) FILTER(WHERE sponsor_id=$4 AND created_at>$3 AND created_at<=$2),ARRAY[]::numeric[]) AS pair_times
     FROM bounties WHERE target_id=$1 AND (created_at>$3 OR status='active')`,[targetId,now,cutoff(now,bountyPlacementPolicy.windowSeconds),sponsorId])).rows[0]!;
   return {active:!!count.occupied,quotas:{policyId:bountyPlacementPolicy.id,asOf:now.toISOString(),windowSeconds:bountyPlacementPolicy.windowSeconds,
-    sponsorTarget:placementQuota(count.pair_times,bountyPlacementPolicy.sponsorTargetLimit,now),target:placementQuota(count.target_times,bountyPlacementPolicy.targetLimit,now)}};
+    sponsorTarget:placementQuota(count.pair_times.map(Number),bountyPlacementPolicy.sponsorTargetLimit,now),target:placementQuota(count.target_times.map(Number),bountyPlacementPolicy.targetLimit,now)}};
 }
 type PlacementStatus=Awaited<ReturnType<typeof bountyPlacementStatus>>;
 function requirePlacement(placement:PlacementStatus){

@@ -29,3 +29,8 @@ test('legacy counts already over a new cap wait for enough old events, never res
 test('empty placement history exposes all slots without an invented cooldown',()=>{
  assert.deepEqual(placementQuota([],25,now),{limit:25,used:0,remaining:25,nextReleaseAt:null,nextAvailableAt:null});
 });
+test('sub-millisecond historical placements still consume their slot until the true boundary',()=>{
+ const at=+now-86400000+.5,value=placementQuota([at],1,now);
+ assert.equal(value.used,1);assert.equal(value.remaining,0);assert.equal(value.nextAvailableAt,new Date(+now+1).toISOString());
+ assert.equal(placementQuota([at],1,new Date(+now+1)).remaining,1);
+});

@@ -80,6 +80,15 @@ test('true rolling boundaries release exactly the right pair and target slots wi
   assert.equal(q.target.nextReleaseAt,new Date(+r.now()+1).toISOString());r.advance(.001);
   q=(await bountyPlacementStatus(r.db,sponsor.id,target.id,r.now())).quotas;assert.equal(q.sponsorTarget.remaining,1);assert.equal(q.target.used,24);
   assert.equal((await r.db.query('SELECT count(*)::int n FROM bounties WHERE target_id=$1',[target.id])).rows[0]!.n,26);
+  // A trustworthy historical row can retain PostgreSQL microsecond precision,
+  // even though modern command timestamps use JS milliseconds.
+  const microTarget=await r.player('Microsecond Mark'),microAt=new Date(+r.now()-86400000).toISOString().replace('001Z','0015Z');
+  await historicalPlacements(r.db,[sponsor.id],microTarget.id,24,r.now(),{at:new Date(+r.now()-3600000),claimant:hunter.id});
+  await r.db.query(`INSERT INTO bounties(id,sponsor_id,target_id,amount,fee,status,ruleset_id,command_id,created_at,expires_at,settled_at)
+   VALUES($1,$2,$3,1,1,'canceled','pvp-economy-0.1',$4,$5::timestamptz,$5::timestamptz+interval '24 hours',$5::timestamptz+interval '1 hour')`,[randomUUID(),sponsor.id,microTarget.id,randomUUID(),microAt]);
+  let precise=(await bountyPlacementStatus(r.db,sponsor.id,microTarget.id,r.now())).quotas;assert.equal(precise.sponsorTarget.used,25);assert.equal(precise.sponsorTarget.nextAvailableAt,new Date(+r.now()+1).toISOString());
+  assert.equal((await r.command(sponsor,'/api/v1/bounties/placements',{targetCharacterId:microTarget.id,amount:1})).json().error.code,'BOUNTY_SPONSOR_TARGET_LIMIT');r.advance(.001);
+  precise=(await bountyPlacementStatus(r.db,sponsor.id,microTarget.id,r.now())).quotas;assert.equal(precise.sponsorTarget.remaining,1);
  }finally{await r.close();}
 });
 test('same-sponsor concurrent 25th requests and cancelled/expired placements cannot create a 26th slot or double fee',{skip},async()=>{

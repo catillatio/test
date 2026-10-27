@@ -60,14 +60,16 @@ Rolling mixed versions can disagree: old workers may permit >25 per pair or reje
 
 New tests are explicitly registered in the existing CI manifest; no lane, assertion or timeout is weakened.
 
-* `bounty-policy.test.ts`: five pure tests for independent limits, frozen financial rules, exact boundaries, over-cap historical counts and no invented cooldown.
+* `bounty-policy.test.ts`: six pure tests for independent limits, frozen financial rules, exact boundaries including PostgreSQL microsecond history, over-cap historical counts and no invented cooldown.
 * `historical-bounties.test.ts`: nine real PostgreSQL tests covering 25/26 and 250/251, missing old placed events, all settlement statuses, simultaneous sponsors, same-sponsor races, rolling milliseconds, escrow/retries, losing finishes, health/relisting, repeated genuine low-Health hits, XP/gold/K/D, exact-contract claims, replay and attack-versus-placement races, and shared UI/API semantics.
 * Existing `bounties.test.ts` still performs fifty real claims with natural recovery; each of two sponsors exhausts its own 25 slots. The analogous bot financial regression retains fifty real claims and existing bot reward assertions. Their former 50-total expectations are replaced by the explicitly authorized independent limits.
 * New browser suite uses real Fastify/EJS, localhost and disposable PostgreSQL. Seven screens × five viewport/text configurations = **35 views per stage**: 320,390,430,1280px and 390px with 125% text; DPR 1/2/3. It checks quotes/fees, remaining slots, denied placement and exact release time, exact-contract forms, result presentation, five navigation tabs, script errors, overflow and unchanged wallet/contract/ledger/battle/event/receipt facts.
 
 Before uses a separate unmodified checkout at the pinned baseline. After uses this implementation. Synthetic accounts and synthetic legacy history are labeled fixtures, never production telemetry. Representative [screenshots](screenshots/) and stage verification JSON are included. Full captures remain in the delivery package.
 
-Local results: 32/32 existing bounty/combat/PR #54 tests; 24/24 targeted historical/XP/gold/bot regression tests; 5/5 new policy unit tests; 35/35 browser views before and after; typecheck/build and static **99/99, 77 production EJS fixtures**. Full exact-commit CI counts/status are recorded on the draft PR and in the delivery evidence, rather than asserting a future run here.
+Review follow-up: historical PostgreSQL timestamps can retain microseconds that the driver would truncate when returning Date objects. Rolling reads now preserve numeric epoch precision, and advertised release times round up to the next command millisecond. Pure and real PostgreSQL regressions verify a placement half a millisecond inside the cutoff still counts. The follow-up passes 15/15 policy/database tests.
+
+Local results: 32/32 existing bounty/combat/PR #54 tests; 24/24 targeted historical/XP/gold/bot regression tests; 6/6 new policy unit tests; 35/35 browser views before and after; typecheck/build and static **99/99, 77 production EJS fixtures**. Full exact-commit CI counts/status are recorded on the draft PR and in the delivery evidence, rather than asserting a future run here.
 
 Initial local failures were fixture errors: the new test named a nonexistent victory-sequence table, corrected to the existing `pvp_loot_sequences`; the new browser selected the header's `time` instead of the quota's `time`, corrected to its scope and actual earliest placement timestamp. No runtime safeguard or expected gameplay result was relaxed.
 
