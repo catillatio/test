@@ -3,11 +3,30 @@ import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,renameSync,symlinkSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {execFileSync} from 'node:child_process';
+import {execFileSync,spawnSync} from 'node:child_process';
+import {randomUUID} from 'node:crypto';
 import {aggregate,classify,gitChanges,manifest,matrix,selected,shard,validateManifest} from '../scripts/ci/plan.mjs';
-import {databaseLease,fixtureUrl} from '../scripts/ci/isolation.mjs';
+import {databaseLease,fixtureUrl,testProcessEnvironment} from '../scripts/ci/isolation.mjs';
 import {testResult} from '../scripts/ci/result.mjs';
 const change=(path,status='M',mode='100644')=>({path,status,mode});
+test('independent test processes discard worker identity without changing fixture configuration or the parent',()=>{
+  const parent={NODE_TEST_CONTEXT:'child-v8',NODE_TEST_WORKER_ID:'parent-worker',NODE_ENV:'test',TEST_DATABASE_URL:'postgres://fixture@127.0.0.1/fixture_test',BROWSER_EXECUTABLE:'/fixture/browser',NODE_OPTIONS:'--enable-source-maps'};
+  const env=testProcessEnvironment(parent);
+  assert.deepEqual(env,{NODE_ENV:parent.NODE_ENV,TEST_DATABASE_URL:parent.TEST_DATABASE_URL,BROWSER_EXECUTABLE:parent.BROWSER_EXECUTABLE,NODE_OPTIONS:parent.NODE_OPTIONS});
+  assert.equal(parent.NODE_TEST_CONTEXT,'child-v8');assert.equal(parent.NODE_TEST_WORKER_ID,'parent-worker');
+});
+test('a runner launched inside node:test executes real child tests instead of recursively skipping them',()=>{
+  const label='nested-runner-'+randomUUID().replaceAll('-',''),directory=join('test-results','ci-'+label);
+  try {
+    const result=spawnSync(process.execPath,['scripts/ci/run-tests.mjs','--files=tests/land-client.test.mjs','--workers=1'],{env:{...process.env,NODE_TEST_CONTEXT:'child-v8',NODE_TEST_WORKER_ID:'stale-parent',CI_BENCHMARK_LABEL:label},encoding:'utf8',timeout:20000});
+    assert.equal(result.error,undefined);assert.equal(result.signal,null);assert.equal(result.status,0,result.stdout+result.stderr);
+    assert.doesNotMatch(result.stdout+result.stderr,/node:test run\(\) is being called recursively/);
+    const report=JSON.parse(readFileSync(join(directory,'timings.json'),'utf8'));
+    assert.equal(report.expected,1);assert.equal(report.completed,1);assert.equal(report.interrupted,false);
+    assert.equal(report.results[0].file,'tests/land-client.test.mjs');assert.equal(report.results[0].passed,true);
+    assert.ok(report.results[0].tests>0);assert.equal(report.results[0].skipped,0);
+  }finally{rmSync(directory,{recursive:true,force:true});}
+});
 test('explicit inventory covers every test, balances disjoint shards and rejects omission/duplicates',()=>{
   validateManifest();
   assert.throws(()=>validateManifest(manifest.tests.slice(1)),/missing/);
