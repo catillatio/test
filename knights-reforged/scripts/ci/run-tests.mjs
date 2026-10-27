@@ -4,7 +4,7 @@ import {existsSync} from 'node:fs';
 import {performance} from 'node:perf_hooks';
 import pg from 'pg';
 import {manifest,root,selected,shard,validateManifest} from './plan.mjs';
-import {fixtureUrl,databaseLease} from './isolation.mjs';
+import {fixtureUrl,databaseLease,testProcessEnvironment} from './isolation.mjs';
 import {testResult} from './result.mjs';
 
 const options=Object.fromEntries(process.argv.slice(2).map(s=>{const match=/^--([a-z]+)=([a-z0-9/.,-]+)$/.exec(s);if(!match)throw Error('Invalid runner argument');return [match[1],match[2]];}));
@@ -39,7 +39,7 @@ async function run(entry){
   try {
     if(entry.lane!=='unit')lease=await databaseLease(pool,base);
     if(interrupted)throw Error('Interrupted fixture');
-    const env={...process.env,NODE_ENV:'test',BROWSER_EXECUTABLE:browser};
+    const env=testProcessEnvironment({...process.env,NODE_ENV:'test',BROWSER_EXECUTABLE:browser});
     delete env.DATABASE_URL;delete env.TEST_DATABASE_URL;
     if(lease)env.TEST_DATABASE_URL=env.DATABASE_URL=lease.url;
     const args=entry.script?['--import','tsx',entry.file]:['--import','tsx','--test','--test-concurrency=1','--test-reporter=tap',entry.file];

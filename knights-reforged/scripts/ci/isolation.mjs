@@ -1,4 +1,12 @@
 import {randomUUID} from 'node:crypto';
+export function testProcessEnvironment(parent=process.env) {
+  const env={...parent};
+  // These identify one node:test worker, not an independently launched runner.
+  // Inheriting NODE_TEST_CONTEXT makes Node refuse a fresh --test invocation.
+  delete env.NODE_TEST_CONTEXT;
+  delete env.NODE_TEST_WORKER_ID;
+  return env;
+}
 export function fixtureUrl(value) {
   if(!value)throw Error('Disposable PostgreSQL fixture required');
   let url;
