@@ -64,9 +64,9 @@ try{
   await page.evaluate(async()=>{await document.fonts.ready;for(const i of document.querySelectorAll<HTMLImageElement>('img.expansion-art'))i.loading='eager';await Promise.all([...document.querySelectorAll<HTMLImageElement>('img.expansion-art')].map(i=>i.decode()));});
   if(selector)await page.locator(selector).first().scrollIntoViewIfNeeded();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' overflow '+width);assert.equal(await page.locator('.primary-nav a').count(),5);
-  const images=await page.locator('img[data-expansion-item^="king-hudsons-"]').evaluateAll(es=>es.map(el=>({id:el.getAttribute('data-expansion-item'),path:el.getAttribute('src'),fit:getComputedStyle(el).objectFit,width:(el as HTMLImageElement).naturalWidth,height:(el as HTMLImageElement).naturalHeight})));
+  const images=await page.locator('img[data-expansion-item^="king-hudsons-"]').evaluateAll(es=>es.map(el=>({id:el.getAttribute('data-expansion-item'),path:el.getAttribute('src'),fit:getComputedStyle(el).objectFit,framed:!!el.closest('.equipment-art-frame'),renderedWidth:el.getBoundingClientRect().width,renderedHeight:el.getBoundingClientRect().height,width:(el as HTMLImageElement).naturalWidth,height:(el as HTMLImageElement).naturalHeight})));
   assert.ok(images.length>0,name+' must show the actual owned Hudson equipment');
-  for(const i of images){const asset=equipmentArtwork.entries.find(e=>e.id===i.id)!;assert.equal(i.path,asset.path);assert.equal(i.fit,'cover');assert.equal(i.width,512);assert.equal(i.height,512);bindings.push({viewport:width,view:name,...i});}
+  for(const i of images){const asset=equipmentArtwork.entries.find(e=>e.id===i.id)!;assert.equal(i.path,asset.path);assert.equal(i.fit,'contain');assert.equal(i.framed,true);assert.equal(i.renderedWidth,i.renderedHeight);assert.equal(i.width,512);assert.equal(i.height,512);bindings.push({viewport:width,view:name,...i});}
   if(name.includes('profile')){
    assert.deepEqual(await page.locator('[data-profile-stats] dt').allTextContents(),['Kills','Battles Won','Deaths','Battles Lost','Quests','Initiated for']);
    assert.deepEqual(await page.locator('[data-profile-income] dt').allTextContents(),['Total Income','Upkeep','Net Income']);
