@@ -6,7 +6,7 @@ const unsafe='SYNTHETIC_PROVIDER_DETAILS_NOT_FOR_LOGS';
 const entry=fixture(1),state=scenario().state,record={jobId:entry.jobId,evidence:entry.catalog.evidence};
 const run={id:1,run_attempt:1,status:'completed',path:'.github/workflows/production-release.yml',event:'workflow_dispatch',head_branch:'release/production',head_repository:{full_name:'catillatio/test'},head_sha:'a'.repeat(40)};
 function mock(mode){
- const calls=[];
+ const calls=[];let originalEvidenceRead=false;
  const fetcher=async(url,options)=>{
   calls.push({url,options});assert.equal(options.redirect,'error');assert.equal(options.cache,'no-store');assert.ok(options.signal);
   if(mode==='transport')throw new Error(unsafe);
@@ -21,23 +21,23 @@ function mock(mode){
   }
   if(url.includes('/actions/runs/999/attempts/1')){
    if(url.endsWith('/jobs?per_page=100'))return Response.json({total_count:2,jobs:[{name:'owner-approval',status:'completed',conclusion:mode==='gate-failed'?'failure':'success',run_attempt:1},{name:'retire',status:mode==='cancelled-job'?'completed':'in_progress',run_attempt:1}]});
-   return Response.json({...run,id:999,path:'.github/workflows/recovery-copy-retention.yml',head_sha:state.coordinator.headSha,status:mode==='cancelled-coordinator'?'completed':'in_progress'});
+   return Response.json({...run,id:999,path:'.github/workflows/recovery-copy-retention.yml',head_sha:state.coordinator.headSha,status:mode==='cancelled-coordinator'||mode==='cancelled-after-evidence'&&originalEvidenceRead?'completed':'in_progress'});
   }
   assert.equal(url,'https://api.github.com/repos/catillatio/test/actions/runs/1/attempts/1');
   if(mode==='malformed')return new Response('{');
   const data=structuredClone(run);
   if(mode==='wrong-attempt')data.run_attempt=2;if(mode==='wrong-run')data.id=2;if(mode==='wrong-sha')data.head_sha='e'.repeat(40);if(mode==='not-completed')data.status='in_progress';
   if(mode==='wrong-repository')data.head_repository.full_name='other/repository';if(mode==='wrong-workflow')data.path='.github/workflows/checks.yml';if(mode==='wrong-branch')data.head_branch='feature/test';
-  return Response.json(data);
+  originalEvidenceRead=true;return Response.json(data);
  };
  return {calls,guards:liveGuards(scope,{githubToken:'fixture-only',fetcher})};
 }
 test('live coordination uses only fixed read endpoints, exact completed run/attempt/SHA and current health',async()=>{
- const {calls,guards}=mock('success');await guards.beforeDelete(record,state);assert.equal(calls.length,9);
+ const {calls,guards}=mock('success');await guards.beforeDelete(record,state);assert.equal(calls.length,11);
  assert.equal(calls.filter(call=>new URL(call.url).origin===scope.origin).length,1);
  assert.ok(calls.every(call=>call.options.method===undefined));
 });
-for(const mode of ['queued','in_progress','waiting','pending','requested','unhealthy','changed-commit','wrong-attempt','wrong-run','wrong-sha','not-completed','wrong-repository','wrong-workflow','wrong-branch','malformed','http','transport','gate-failed','cancelled-job','cancelled-coordinator'])test('coordination fails closed: '+mode,async()=>{
+for(const mode of ['queued','in_progress','waiting','pending','requested','unhealthy','changed-commit','wrong-attempt','wrong-run','wrong-sha','not-completed','wrong-repository','wrong-workflow','wrong-branch','malformed','http','transport','gate-failed','cancelled-job','cancelled-coordinator','cancelled-after-evidence'])test('coordination fails closed: '+mode,async()=>{
  const {guards}=mock(mode);await assert.rejects(guards.beforeDelete(record,state));
 });
 test('no credential fallback or arbitrary endpoint; invalid input prevents reads',async()=>{

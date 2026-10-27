@@ -5,6 +5,11 @@
     "protocol": "kingdom-copy-retention-v1",
     "scope": {
       "protocol": "kingdom-copy-retention-v1",
+      "delivery": {
+        "protocol": "kingdom-retention-delivery-v1",
+        "authorizerServiceId": "00000000-0000-4000-8000-000000000008",
+        "journalVolumeId": "00000000-0000-4000-8000-000000000009"
+      },
       "projectId": "00000000-0000-4000-8000-000000000001",
       "environmentId": "00000000-0000-4000-8000-000000000002",
       "operatorServiceId": "00000000-0000-4000-8000-000000000003",
@@ -27,7 +32,7 @@
       "minAgeHours": 24
     },
     "observedAt": "2026-10-23T12:00:00.000Z",
-    "stateSha256": "75905835bbb1b45b4256142f9d81a8834fc561fd764dde7e98a4223e2ff41119",
+    "stateSha256": "e3bacae61f2f4a76e2d1551469ed39242ea35999ee17ccf22dd5aed2c0c73e31",
     "rows": [
       {
         "name": "kc_1c37e068d1afc9c4121e937e7201bb7a_restore_test",
@@ -113,5 +118,5 @@
     ],
     "reclaimableBytes": "1048576"
   },
-  "planSha256": "523fdc212dd8f3b76cf90c45edc0ae04e8d1ed589c88f2cc563a4a790a4c1785"
+  "planSha256": "f0fd750295f472ade0d736305703e5acbd97cbc07db6dc87052aadff985deda0"
 }

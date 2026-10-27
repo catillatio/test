@@ -23,7 +23,7 @@ export function policy(value={}){
  return result;
 }
 export function checkScope(scope){
- assert.deepEqual(Object.keys(scope).sort(),['protocol','projectId','environmentId','operatorServiceId','verificationServiceId','productionServiceId','gameServiceId','verificationWorkerServiceId','approvalKeyDigest','releaseKeyDigest','clusterDigest','sourceClusterDigest','host','sourceHost','adminDatabase','workerAdminDatabase','origin'].sort());
+ assert.deepEqual(Object.keys(scope).filter(k=>k!=='delivery').sort(),['protocol','projectId','environmentId','operatorServiceId','verificationServiceId','productionServiceId','gameServiceId','verificationWorkerServiceId','approvalKeyDigest','releaseKeyDigest','clusterDigest','sourceClusterDigest','host','sourceHost','adminDatabase','workerAdminDatabase','origin'].sort());
  assert.equal(scope.protocol,retentionProtocol);
  for(const key of ['projectId','environmentId','operatorServiceId','verificationServiceId','productionServiceId','gameServiceId','verificationWorkerServiceId'])assert.match(scope[key]??'',uuid);
  assert.equal(new Set([scope.verificationServiceId,scope.productionServiceId,scope.gameServiceId,scope.verificationWorkerServiceId]).size,4);
@@ -35,14 +35,22 @@ export function checkScope(scope){
  assert.notEqual(scope.host,scope.sourceHost);
  assert.match(scope.adminDatabase??'',/^[a-zA-Z0-9_-]{1,63}$/);assert.ok(!copyPattern.test(scope.adminDatabase)&&!['template0','template1'].includes(scope.adminDatabase));
  assert.equal(scope.adminDatabase,scope.workerAdminDatabase,'Retention must use the SAME maintenance database as the release worker advisory lock.');httpsOrigin(scope.origin);
+ if(scope.delivery!==undefined){
+  const d=scope.delivery;assert.deepEqual(Object.keys(d).sort(),['authorizerServiceId','journalVolumeId','protocol'].sort());
+  assert.equal(d.protocol,'kingdom-retention-delivery-v1');
+  for(const k of ['authorizerServiceId','journalVolumeId'])assert.match(d[k]??'',uuid);
+  assert.ok(![scope.operatorServiceId,scope.verificationServiceId,scope.productionServiceId,scope.gameServiceId,scope.verificationWorkerServiceId].includes(d.authorizerServiceId));
+ }
  return scope;
 }
 function connection(env,scope,variable,role){
  checkScope(scope);
  assert.equal(env.KINGDOM_RETENTION_ENABLED,'1');assert.equal(env.NODE_ENV,'production');
  assert.notEqual(env.NODE_TLS_REJECT_UNAUTHORIZED,'0');
- for(const key of ['DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL','KINGDOM_RELEASE_SIGNING_KEY','KINGDOM_RELEASE_JOB_REQUEST','KINGDOM_ALPHA_INITIALIZE','RUN_MIGRATIONS','PGHOST','PGPORT','PGDATABASE','PGUSER','PGPASSWORD','PGSERVICE','PGSERVICEFILE','PGOPTIONS','PGSSLMODE'])assert.ok(!env[key]);
- for(const [key,variable] of [['projectId','RAILWAY_PROJECT_ID'],['environmentId','RAILWAY_ENVIRONMENT_ID'],['operatorServiceId','RAILWAY_SERVICE_ID'],['verificationServiceId','KINGDOM_RETENTION_PG_SERVICE_ID'],['workerAdminDatabase','KINGDOM_RETENTION_WORKER_ADMIN_DATABASE']])assert.equal(env[variable],scope[key]);
+ for(const key of ['DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL','KINGDOM_RELEASE_SIGNING_KEY','KINGDOM_RETENTION_SIGNING_KEY','KINGDOM_RELEASE_JOB_REQUEST','KINGDOM_ALPHA_INITIALIZE','RUN_MIGRATIONS','PGHOST','PGPORT','PGDATABASE','PGUSER','PGPASSWORD','PGSERVICE','PGSERVICEFILE','PGOPTIONS','PGSSLMODE'])assert.ok(!env[key]);
+ const serviceId=role==='kc_retention_authorizer'?(assert.ok(scope.delivery,'A separate authorizer identity is required.'),scope.delivery.authorizerServiceId):scope.operatorServiceId;
+ assert.equal(env.RAILWAY_SERVICE_ID,serviceId);
+ for(const [key,variable] of [['projectId','RAILWAY_PROJECT_ID'],['environmentId','RAILWAY_ENVIRONMENT_ID'],['verificationServiceId','KINGDOM_RETENTION_PG_SERVICE_ID'],['workerAdminDatabase','KINGDOM_RETENTION_WORKER_ADMIN_DATABASE']])assert.equal(env[variable],scope[key]);
  const target=privateDatabase(env[variable]);
  assert.equal(target.host,scope.host);assert.equal(target.name,scope.adminDatabase);
  assert.equal(decodeURIComponent(target.url.username),role);

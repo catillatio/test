@@ -1,3 +1,9 @@
+> **Delivery update:** the verified engine/policy below is preserved. The old
+> runner-group and manual-spool delivery instructions are superseded by
+> [EXECUTION_DELIVERY.md](EXECUTION_DELIVERY.md), including the GitHub-hosted
+> coordinator, separate authorizer identity, protected signer and dashboard setup.
+> No production setup or deletion has been performed by the delivery change.
+
 # Recovery storage lifecycle completion
 
 This implementation completes the controlled **future-copy** path. It does not

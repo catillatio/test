@@ -1,0 +1,48 @@
+{
+  "kind": "disposable-delivery-provider-contract-rehearsal",
+  "passed": true,
+  "realRailwayDeployment": false,
+  "liveGithubDispatch": false,
+  "tests": [
+    "dedicated journal volume initialized without credentials; executor remains non-root",
+    "actual coordinator, independent signer, separate permit issuer and non-root executor retire one disposable copy exactly once",
+    "wrong GitHub branch, job or commit cannot launch or authorize the private delivery",
+    "cancelled coordinator cannot launch or arm execution",
+    "cancellation during retirement closes workers before DROP and preserves the private baseline across container removal",
+    "substituted Railway service identity cannot obtain an armed execution",
+    "missing or cryptographically valid but expired signed authorization cannot create a permit or delete the selected database",
+    "lost acknowledgement never causes automatic retry; read-only reconciliation preserves exactly two total deletion outcomes and all survivors"
+  ],
+  "syntheticCopies": 6,
+  "botsPerCopy": 900,
+  "humansPerCopy": 2,
+  "unrelatedBusinessRowsPreserved": true,
+  "durableJournalRestartVerified": true,
+  "filesystemReclamationClaimed": false,
+  "localValidation": {
+    "focusedRetentionTests": {
+      "passed": 121,
+      "failed": 0,
+      "skipped": 0
+    },
+    "postgresql18IntegrationTests": {
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0
+    },
+    "executorImageTests": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typecheck": "PASS",
+    "build": "PASS",
+    "staticChecks": {
+      "passed": 99,
+      "failed": 0,
+      "renderFixtureCases": 77
+    }
+  },
+  "productionActionsPerformed": false,
+  "providerValidationLimit": "Railway/GitHub control APIs and CLI upload are contract fixtures; no live platform deployment or protected dispatch occurred. First real setup requires separate owner authorization."
+}

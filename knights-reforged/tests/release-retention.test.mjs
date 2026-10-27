@@ -77,7 +77,7 @@ test('manifest identity and independent recovery checks cannot be bypassed',()=>
 });
 
 test('permit authorizer has a separate private credential and cannot share runtime/bootstrap secrets',()=>{
- const env={NODE_ENV:'production',KINGDOM_RETENTION_ENABLED:'1',RAILWAY_PROJECT_ID:scope.projectId,RAILWAY_ENVIRONMENT_ID:scope.environmentId,RAILWAY_SERVICE_ID:scope.operatorServiceId,
+ const env={NODE_ENV:'production',KINGDOM_RETENTION_ENABLED:'1',RAILWAY_PROJECT_ID:scope.projectId,RAILWAY_ENVIRONMENT_ID:scope.environmentId,RAILWAY_SERVICE_ID:scope.delivery.authorizerServiceId,
   KINGDOM_RETENTION_PG_SERVICE_ID:scope.verificationServiceId,KINGDOM_RETENTION_WORKER_ADMIN_DATABASE:scope.workerAdminDatabase,
   KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL:'postgres://kc_retention_authorizer:fixture@copy.railway.internal/kingdom_release_retention'};
  assert.ok(checkAuthorizerEnvironment(env,scope));

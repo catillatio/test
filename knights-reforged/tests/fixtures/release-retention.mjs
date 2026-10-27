@@ -3,7 +3,7 @@ import {hash,retentionProtocol} from '../../deployment/release/retention/protoco
 import {copyName,protocol} from '../../deployment/release/protocol.mjs';
 export const keys=generateKeyPairSync('ed25519');
 export const publicKey=keys.publicKey.export({type:'spki',format:'pem'});
-export const scope={protocol:retentionProtocol,projectId:randomUUID(),environmentId:randomUUID(),operatorServiceId:randomUUID(),verificationServiceId:randomUUID(),productionServiceId:randomUUID(),gameServiceId:randomUUID(),verificationWorkerServiceId:randomUUID(),
+export const scope={protocol:retentionProtocol,delivery:{protocol:'kingdom-retention-delivery-v1',authorizerServiceId:randomUUID(),journalVolumeId:randomUUID()},projectId:randomUUID(),environmentId:randomUUID(),operatorServiceId:randomUUID(),verificationServiceId:randomUUID(),productionServiceId:randomUUID(),gameServiceId:randomUUID(),verificationWorkerServiceId:randomUUID(),
  origin:'https://realm.fixture.invalid',clusterDigest:'1'.repeat(64),sourceClusterDigest:'2'.repeat(64),host:'copy.railway.internal',sourceHost:'game.railway.internal',adminDatabase:'kingdom_release_retention',workerAdminDatabase:'kingdom_release_retention',
  approvalKeyDigest:createHash('sha256').update(keys.publicKey.export({type:'spki',format:'der'})).digest('hex'),releaseKeyDigest:'0'.repeat(64)};
 export const epoch=Date.parse('2026-10-23T12:00:00Z');

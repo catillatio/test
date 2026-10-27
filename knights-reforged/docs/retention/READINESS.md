@@ -1,6 +1,6 @@
 # Recovery storage lifecycle readiness
 
-**Registration is working; controlled retirement is implemented but not activated.**
+**Registration is working; controlled retirement and hosted delivery are implemented but not activated.**
 The owner accepted the first genuine observation after protected
 [run 62](https://github.com/catillatio/test/actions/runs/40439630950), promotion OFF:
 worker PASS, exactly one observation, exact manifest/live identity/server receipt,
@@ -19,7 +19,7 @@ a current reclaimable-space estimate. No historical copy is authorized for delet
 | --- | --- |
 | Controlled future-copy engine | Implemented: inventory, explicit atomic adoption, eligibility, exact signed permit, coordinated non-FORCE retirement, reconciliation and postchecks. |
 | Protected manual workflow | Included, identical to the reviewed template, default-disabled by unset `KINGDOM_RETENTION_EXECUTION_APPROVED`. Manual-only; default operation is adoption verification. |
-| Production execution boundary | **Not installed.** Existing service discovery found only game, source PostgreSQL, recovery PostgreSQL and verification worker. No worker repurposing or generic self-hosted-runner fallback. |
+| Production execution boundary | **Not installed.** Hosted coordinator + separate private Railway executor/authorizer + isolated GitHub signer are implemented. The unsupported runner group is removed. No production provisioning/configuration occurred. |
 | Newly registered copy | Observed-only/protected. Requires separate exact adoption, server-derived 24-hour hold, retained anchors, current reference/hold review and exact signed retirement authorization. |
 | Historical copies | All 23 protected; zero eligible with the evidence currently available. 17 name associations and six unknown names do not establish original OIDs. |
 | Emergency copies | OIDs **106971 and 129180**, unconditional protection with no override. |
@@ -53,25 +53,22 @@ registrar implementation and all gameplay/artwork remain unchanged.
 
 ## Minimum remaining owner decisions
 
-1. Review this PR and exact-head CI; merge approval is separate.
-2. Approve an enforceably isolated private execution/durable handoff boundary and
-   separate cloud signer/permit-issuer custody. The workflow's restricted runner
-   group must actually be supported and restricted to the reviewed protected ref;
-   if not, hold for an approved private job-delivery solution. The payload is not
-   a runner installer or credential broker. No owner-PC command is required.
-3. Supply only the existing restricted runtime/authorizer credentials to those
-   isolated boundaries and a dedicated retention public/private signing-key pair
-   with the private half withheld from runtime. Keep privileged adoption separate.
-   Approve GitHub enablement only after private isolation, journal persistence,
-   scoped platform identity, role/guard drift checks and owner gate are ready.
-4. Use the non-destructive adoption-review mode for separately approved exact
-   future copies. After the hold and retained anchors exist, review a fresh
-   one-copy dry run and explicitly approve/sign that batch in `retire` mode.
-   No adoption, deletion, configuration, schedule, merge or deployment occurs here.
+1. Review the delivery PR and final exact-head CI; merge/deployment are separate.
+2. Approve the two new private services, dedicated journal volume, private handoff
+   bucket and protected GitHub execution/signing environments. Use the fixed
+   `initialize-journal` and `install-disabled` operations with execution OFF.
+3. Approve restricted credential/key configuration separately. Runtime, authorizer,
+   signing key and bootstrap credentials remain in distinct boundaries.
+4. Validate actual platform setup and durable/non-root journals; only then approve
+   execution enablement. This is not authorization to delete a copy.
+5. Separately authorize exact privileged adoption and its read-only verification.
+   After the hold/anchors/closure/reference checks, review one exact future target,
+   compare the non-credential digest, and approve signing with its exact comment.
 
-See [the complete operator sequence and limitations](LIFECYCLE_COMPLETION.md),
-[historical classification](HISTORICAL_COPY_CLASSIFICATION.json),
-[authenticated historical reconciliation](PROVENANCE_RECONCILIATION.md), and
-[completed catalog validation](OWNER_CATALOG_VALIDATION_RESULT.json).
-The pre-registration readiness assessment remains preserved in Git history at
-`e9165c34ef8ddaba4e04488438ba110cc2020376`; it is not a current activation instruction.
+The complete dashboard sequence, exact configuration names, interruption behavior,
+resource-cost assumptions and test limits are in [EXECUTION_DELIVERY.md](EXECUTION_DELIVERY.md).
+Do not use the superseded runner-group installation instructions in older history.
+The original lifecycle engine/policy discussion remains in
+[LIFECYCLE_COMPLETION.md](LIFECYCLE_COMPLETION.md). Historical evidence remains in
+[HISTORICAL_COPY_CLASSIFICATION.json](HISTORICAL_COPY_CLASSIFICATION.json) and
+[PROVENANCE_RECONCILIATION.md](PROVENANCE_RECONCILIATION.md).
