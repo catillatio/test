@@ -5,6 +5,72 @@ remains OFF; activation and a fresh recovery rehearsal are separate owner decisi
 Reuse the installed catalogs, validated roles and three existing staged variables.
 Do not reinstall catalogs or inventory/adopt/delete historical recovery copies.
 
+## Configuration commit #60: apparently applied; do not repeat it
+
+[Run #60 / 40431411556](https://github.com/catillatio/test/actions/runs/40431411556)
+at `4951605b6ffe5e7b600aed609c12a16f99d22967` stopped at `PATCH_NOT_CLEARED` after
+the single mutation, configuration-workflow completion and worker postcheck. The
+release job was skipped. Independent read-only Railway integration checks confirm:
+
+- Normalized staged patch is null, with no resource/shared-variable changes.
+- All three registrar variable names exist in applied worker configuration.
+- The latest worker is still the original SUCCESS deployment, with `updatedAt`
+  `2026-10-26T04:49:06.680Z`; no newer worker deployment exists.
+
+The owner independently reports the same applied state. Treat this as an
+apparently completed configuration commit. **Do not re-run #60, repeat commit
+mode, restage variables or reset credentials.** A new staged-patch inspection is
+not needed to recreate pins for a configuration that is already applied.
+
+The verifier previously unconditionally required a UUID for `pending.id`, even
+after successfully validating the original committed receipt. That rejects an
+explicit cleared `null` and empty placeholders with opaque/non-UUID IDs. The
+correction accepts explicit null only **after every original receipt check passes**;
+missing/undefined data still fails. A non-null empty placeholder must retain the
+correct environment, STAGED/null-applied/error state, timestamps and strictly empty
+known containers. Its GraphQL ID is an opaque string, not a stored-patch UUID
+contract. The same committed-record response still requires exact receipt equality.
+Non-empty/unknown pending data and every invalid receipt remain rejected.
+
+**Evidence limit:** connected Railway tools expose normalized staging and applied
+variable names, but no historical `environmentPatch(id)` receipt or private values.
+#60's fixed category does not identify which inner receipt/staging assertion failed.
+The captured patch ID is retained privately from its inputs; the exact receipt
+cannot be independently confirmed through these tools. The null/placeholder defect
+is reproduced synthetically; do not claim the live receipt was fully verified or
+weaken receipt/payload checks based only on applied-variable names.
+
+### Shortest first-registration path — requires separate owner authorization
+
+1. Keep registration disabled until the owner explicitly authorizes enablement
+   and a fresh protected recovery rehearsal. No repeated catalog installation,
+   credential update, historical-copy adoption or configuration commit is needed.
+2. After that approval, the **existing official Railway integration** supports
+   setting only `KINGDOM_COPY_REGISTRATION_ENABLED=1` on the exact existing worker,
+   with `skipDeploys:true`, `staged:false`, and explicit project/environment/service
+   IDs. This is a proposed future single-variable write, **not executed here**.
+   Check staging is empty and the old deployment is unchanged before/after. Do
+   not click ordinary Deploy or use the disabled-only registrar commit mode.
+   No local CLI, API client or new infrastructure is required.
+3. Run the existing protected GitHub release workflow on the reviewed, green exact
+   production candidate: operation **release**, promotion **OFF**, through owner
+   production approval. It creates a fresh request and uploads a fresh worker;
+   never restart the old worker. `prepare` does not automatically commit arbitrary
+   staged registrar settings, so enablement must actually be applied without a
+   deploy before this separately approved run. No game promotion occurs.
+4. Require normal independent encrypted recovery/export/restore/preservation
+   success **and** `COPY_REGISTRATION: PASS`; a green recovery run alone does not
+   certify optional registration. Use the retained manifest and existing
+   [first-observation read-only verification](VERIFY_FIRST_OBSERVATION.sql) to
+   require exactly one matching job observation and preservation of every baseline
+   copy/OID, including **106971 / 129180**. Retirement/adoption/scheduling stay OFF.
+
+If the exact historical receipt is required for owner audit before enablement,
+obtain that receipt read-only through an existing authorized Railway history/API
+channel using #60's original patch ID. Do not invent a new execution channel or
+repeat a write to obtain evidence. This postcheck fix does not require deployment
+or a repeat mutation to establish the independently observed applied state.
+
 ## Decision: approve a server revision, not a secret-value fingerprint
 
 [Inspection #57 / run 40425915246](https://github.com/catillatio/test/actions/runs/40425915246)
