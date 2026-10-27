@@ -13,6 +13,7 @@ for(const [i,c] of copies.entries()){
  c.catalog.evidence.report.workerDeploymentId='00000000-0000-4000-8000-'+String(100+i).padStart(12,'0');c.catalog.evidence_sha256=hash(c.catalog.evidence);
 }
 copies[1].database.oid='106971';copies[1].catalog.oid='106971';copies[5].catalog.first_observed_at=new Date(epoch-3600000).toISOString();
+copies[1].catalog.evidence.report.verifiedCopyIdentity.oid='106971';copies[1].catalog.evidence_sha256=hash(copies[1].catalog.evidence);
 const {snapshot,state}=scenario(copies);state.scope=scope;state.pendingCopies=[copies[2].database.name];state.pinnedCopies=[copies[3].database.name];snapshot.catalog=snapshot.catalog.filter(c=>c.name!==copies[4].database.name);
 const plan=makePlan(snapshot,state,scope);assert.equal(plan.rows.filter(r=>r.eligible).length,1);
 const report={evidence:'SYNTHETIC; NOT PRODUCTION INVENTORY OR AUTHORIZATION',executionEnabled:false,plan,planSha256:hash(plan)};

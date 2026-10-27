@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import {checkApproval,hash,emergencyOids} from './protocol.mjs';
-import {checkCatalog} from './retention.mjs';
+import {checkCatalog,snapshot} from './retention.mjs';
+import {verifyRetirement} from './verification.mjs';
 // Recovery writes observations ONLY. Never DROP, rename, alter ownership, renew
 // approvals or retry an interrupted deletion. Original authorization is verified
 // at its original issuance time; expired grants can ONLY reconcile actual absence.
-export async function reconcileInterrupted(client,{scope,approvalId,verifyKey}){
+export async function reconcileInterrupted(client,{scope,approvalId,verifyKey,before}){
  await checkCatalog(client);
  const permit=(await client.query('SELECT * FROM release_retention.permits WHERE approval_id=$1',[approvalId])).rows[0];assert.ok(permit);
  const envelope=JSON.parse(Buffer.from(permit.encoded_approval,'base64url'));
@@ -24,5 +25,11 @@ export async function reconcileInterrupted(client,{scope,approvalId,verifyKey}){
   const recorded=(await client.query('SELECT release_retention.record_event($1,$2,$3,$4,$5) AS bytes',[approvalId,permit.plan_sha256,intent.name,intent.oid,'absent'])).rows[0].bytes;
   assert.equal(recorded,'0');result.reconciledAbsent.push(intent.name);
  }
+ if(before){
+  const outcomes=(await client.query("SELECT name,event,measured_bytes::text AS bytes FROM release_retention.audit WHERE approval_id=$1 AND event IN ('deleted','absent')",[approvalId])).rows;
+  result.verification=verifyRetirement(before,await snapshot(client),permit.plan,{dropped:outcomes.filter(r=>r.event==='deleted').map(r=>r.name),alreadyAbsent:outcomes.filter(r=>r.event==='absent').map(r=>r.name),
+   measuredDatabaseBytesRemoved:outcomes.filter(r=>r.event==='deleted').reduce((n,r)=>n+BigInt(r.bytes),0n).toString()});
+  result.verification.basis='original-operation-baseline-and-durable-outcomes';
+ }else result.verification={kind:'not-run',reason:'original-operation-baseline-not-supplied'};
  return result;
 }

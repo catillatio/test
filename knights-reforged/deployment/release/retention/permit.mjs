@@ -2,13 +2,14 @@
 // permits or access this credential. No release signing key or DROP privilege.
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFile,writeFile} from 'node:fs/promises';
+import {readFile} from 'node:fs/promises';
 import {parseArgs} from 'node:util';
 import {pathToFileURL} from 'node:url';
 import pg from 'pg';
 import {checkApproval,checkAuthorizerEnvironment,hash,copyPattern,policy} from './protocol.mjs';
 import {liveGuards} from './guards.mjs';
 import {inspect} from './retention.mjs';
+import {publishReady} from './ready.mjs';
 
 export async function installPermit(client,{scope,state,plan,approval:encoded,verifyKey,now=()=>Date.now()}){
  const approval=checkApproval(encoded,verifyKey,plan,state,scope,{now:now()});
@@ -76,9 +77,7 @@ async function main(){
   await installPermit(client,{scope,state,plan,approval,verifyKey:process.env.KINGDOM_RETENTION_VERIFY_KEY});
   assert.equal(disconnected,false);
   if(values['ready-out']){
-   const hashes={};for(const [name,path] of [['scope.json',values.scope],['state.json',values.state],['plan.json',values.plan],['approval.txt',values.approval]])hashes[name]=createHash('sha256').update(await readFile(path)).digest('hex');
-   const text=JSON.stringify(hashes)+'\n';
-   try{await writeFile(values['ready-out'],text,{mode:0o600,flag:'wx'});}catch(error){assert.equal(error.code,'EEXIST');assert.equal(await readFile(values['ready-out'],'utf8'),text);}
+   await publishReady(values['ready-out'],{'scope.json':values.scope,'state.json':values.state,'plan.json':values.plan,'approval.txt':values.approval});
   }
   console.log('COPY_RETENTION_PERMIT: PASS');
  }catch{console.error('COPY_RETENTION_PERMIT: FAIL');process.exitCode=1;}

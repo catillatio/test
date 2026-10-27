@@ -87,6 +87,7 @@ test('permit authorizer has a separate private credential and cannot share runti
 
 for(const oid of ['106971','129180'])test('emergency OID '+oid+' is protected even with valid evidence, age and ownership',()=>{
  const data=scenario();data.snapshot.databases[0].oid=oid;data.snapshot.catalog[0].oid=oid;
+ data.snapshot.catalog[0].evidence.report.verifiedCopyIdentity.oid=oid;data.snapshot.catalog[0].evidence_sha256=hash(data.snapshot.catalog[0].evidence);
  const row=makePlan(data.snapshot,data.state,scope).rows[0];assert.equal(row.eligible,false);assert.ok(row.reasons.includes('emergency-recovery-oid'));
 });
 test('observation is provenance, never ownership adoption or cleanup eligibility',()=>{

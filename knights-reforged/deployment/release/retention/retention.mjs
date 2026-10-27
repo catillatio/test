@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {checkScope,checkState,checkApproval,policy,hash,copyPattern,evidenceRecord,retentionProtocol,emergencyOids} from './protocol.mjs';
+import {verifyRetirement} from './verification.mjs';
 
 // The SAME session-level lock as worker.mjs. Never terminate connections or
 // use DROP ... FORCE. A concurrently opened connection makes PostgreSQL refuse.
@@ -33,6 +34,9 @@ export async function checkCatalog(client){
  assert.deepEqual(tables,[{relname:'audit',owner:roles[2],writable:false},{relname:'copies',owner:roles[2],writable:false},{relname:'permits',owner:roles[2],writable:false},{relname:'pins',owner:roles[2],writable:false}]);
  const sequences=(await client.query("SELECT c.oid FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='release_retention' AND c.relkind='S' AND has_sequence_privilege(current_user,c.oid,'USAGE,UPDATE')")).rows;
  assert.equal(sequences.length,0);
+ await checkGuardDefinitions(client);
+}
+export async function checkGuardDefinitions(client){
  // Verify installed guard bodies and attributes against the reviewed source,
  // not merely that functions with familiar names happen to exist.
  const sql=await readFile(new URL('./bootstrap.sql',import.meta.url),'utf8');
@@ -82,6 +86,7 @@ export function makePlan(snapshot,state,scope,limits={}){
    const evidence=evidenceRecord(row.evidence,scope);
    assert.equal(evidence.evidenceSha256,row.evidence_sha256);assert.equal(evidence.name,row.name);
    assert.equal(row.owner,'kc_release_copy_owner');assert.match(row.oid,/^[1-9][0-9]*$/);
+   assert.equal(row.oid,row.evidence.report.verifiedCopyIdentity.oid);
    const observed=Date.parse(row.first_observed_at),verified=Date.parse(row.verified_at),created=Date.parse(row.evidence.request.createdAt);
    assert.ok(Number.isFinite(observed)&&Number.isFinite(verified)&&Number.isFinite(created));
    assert.ok(created<=verified&&verified<=observed&&observed<=Date.parse(snapshot.now));
@@ -114,7 +119,7 @@ export function makePlan(snapshot,state,scope,limits={}){
   reclaimableBytes:rows.filter(row=>row.eligible).reduce((sum,row)=>sum+bytes(row.bytes),0n).toString()};
 }
 export async function inspect(client,state,scope,limits){return makePlan(await snapshot(client),state,scope,limits);}
-export async function cleanup(client,{scope,state,plan,approval:encoded,verifyKey,beforeDelete,now=()=>Date.now()}){
+export async function cleanup(client,{scope,state,plan,approval:encoded,verifyKey,beforeDelete,recordBaseline=async()=>{},now=()=>Date.now()}){
  assert.equal((await client.query('SELECT EXISTS(SELECT 1 FROM pg_locks WHERE locktype=\'advisory\' AND classid=0 AND objid=61824087 AND objsubid=1 AND mode=\'ExclusiveLock\' AND pid=pg_backend_pid() AND granted) AS held')).rows[0].held,true);
  await checkCatalog(client);
  assert.equal(typeof beforeDelete,'function','Live release coordination is required.');
@@ -124,6 +129,8 @@ export async function cleanup(client,{scope,state,plan,approval:encoded,verifyKe
  assert.equal(new Set(plan.rows.map(row=>row.name)).size,plan.rows.length);
  const grant=(await client.query('SELECT encoded_approval,plan_sha256,state_sha256,plan,state FROM release_retention.permits WHERE approval_id=$1',[approval.id])).rows[0];
  assert.ok(grant);assert.equal(grant.encoded_approval,encoded);assert.equal(grant.plan_sha256,hash(plan));assert.equal(grant.state_sha256,hash(state));assert.equal(hash(grant.plan),hash(plan));assert.equal(hash(grant.state),hash(state));
+ const baseline=await snapshot(client);
+ await recordBaseline(baseline); // Private durable CLI journal BEFORE any DROP.
  const result={protocol:retentionProtocol,approvalId:approval.id,planSha256:hash(plan),dropped:[],alreadyAbsent:[],measuredDatabaseBytesRemoved:'0'};
  let removed=0n;
  for(const target of plan.rows.filter(row=>row.eligible)){
@@ -154,5 +161,6 @@ export async function cleanup(client,{scope,state,plan,approval:encoded,verifyKe
   const measured=await record('deleted');removed+=bytes(measured);result.dropped.push(row.name);
  }
  result.measuredDatabaseBytesRemoved=removed.toString();
+ result.verification=verifyRetirement(baseline,await snapshot(client),plan,result);
  return result;
 }

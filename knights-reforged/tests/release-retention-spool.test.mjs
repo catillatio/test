@@ -4,11 +4,11 @@ import {mkdtemp,mkdir,writeFile,readFile,rm,symlink,chmod,rename} from 'node:fs/
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
-import {readPackage,packageFiles} from '../deployment/release/retention/spool.mjs';
-async function fixture(run){
+import {readPackage,packageFiles,operationFiles} from '../deployment/release/retention/spool.mjs';
+async function fixture(run,operation="retire"){
  const root=await mkdtemp(join(tmpdir(),'retention-private-spool-')),id=randomUUID(),directory=root+'/'+id;await mkdir(directory,{mode:0o700});
- const values={'scope.json':'{}','state.json':JSON.stringify({coordinator:{runId:'999',runAttempt:1}}),'plan.json':'{}','approval.txt':'synthetic-signature-not-a-credential'};
- const hashes={};for(const name of packageFiles){await writeFile(directory+'/'+name,values[name],{mode:0o600});hashes[name]=createHash('sha256').update(values[name]).digest('hex');}
+ const values={'scope.json':'{}','state.json':JSON.stringify({coordinator:{runId:'999',runAttempt:1}}),'plan.json':'{}','approval.txt':'synthetic-signature-not-a-credential','manifest.json':'{}','prior-approval.txt':randomUUID(),'before.json':'{}'};
+ const hashes={};for(const name of operationFiles[operation]){await writeFile(directory+'/'+name,values[name],{mode:0o600});hashes[name]=createHash('sha256').update(values[name]).digest('hex');}
  const ready=()=>writeFile(directory+'/ready.json',JSON.stringify(hashes),{mode:0o600});
  try{await run({root,id,directory,ready,hashes});}finally{await rm(root,{recursive:true,force:true});}
 }
@@ -30,3 +30,8 @@ for(const mode of ['changed-bytes','world-readable','symlink','extra-file-hash',
  if(mode==='directory-symlink'){await rename(directory,directory+'-moved');await symlink(directory+'-moved',directory);}
  await assert.rejects(readPackage(root,id));
 }));
+
+for(const operation of ['adoption-review','reconcile'])test('non-destructive private handoff is mode-bound: '+operation,()=>fixture(async({root,id,ready})=>{
+ await ready();assert.equal((await readPackage(root,id,{operation})).state.coordinator.runId,'999');
+ await assert.rejects(readPackage(root,id,{operation:'retire'}));await assert.rejects(readPackage(root,id,{operation:'../../outside'}));
+},operation));

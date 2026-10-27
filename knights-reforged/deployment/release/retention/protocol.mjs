@@ -28,6 +28,7 @@ export function checkScope(scope){
  for(const key of ['projectId','environmentId','operatorServiceId','verificationServiceId','productionServiceId','gameServiceId','verificationWorkerServiceId'])assert.match(scope[key]??'',uuid);
  assert.equal(new Set([scope.verificationServiceId,scope.productionServiceId,scope.gameServiceId,scope.verificationWorkerServiceId]).size,4);
  assert.notEqual(scope.operatorServiceId,scope.gameServiceId);assert.notEqual(scope.operatorServiceId,scope.verificationServiceId);assert.notEqual(scope.operatorServiceId,scope.productionServiceId);
+ assert.notEqual(scope.operatorServiceId,scope.verificationWorkerServiceId,'Never repurpose the verification worker as a retirement executor.');
  for(const key of ['approvalKeyDigest','releaseKeyDigest'])assert.match(scope[key]??'',digest);assert.notEqual(scope.approvalKeyDigest,scope.releaseKeyDigest);
  assert.match(scope.clusterDigest??'',digest);assert.match(scope.sourceClusterDigest??'',digest);assert.notEqual(scope.clusterDigest,scope.sourceClusterDigest);
  for(const key of ['host','sourceHost'])assert.match(scope[key]??'',/^[a-z0-9.-]+\.railway\.internal$/);
@@ -69,6 +70,12 @@ export function evidenceRecord(evidence,scope){
  assert.equal(backupKey,'kingdom-releases/'+request.sha+'/'+request.jobId+'/realm.dump.age');
  assert.equal(Object.hasOwn(request,'urls'),false,'Import only the independently retained public backup manifest.');
  checkJobReport(report,request);
+ // A name or an operator's current OID is never original verification identity.
+ // Old reports without this capture remain protected, even after manual import.
+ const identity=report.verifiedCopyIdentity;
+ assert.match(identity?.oid??'',/^[1-9][0-9]{0,9}$/);assert.ok(BigInt(identity.oid)<=4294967295n);
+ assert.match(identity.owner??'',/^[a-zA-Z_][a-zA-Z0-9_$-]{0,62}$/);
+ assert.equal(identity.maintenanceDatabase,scope.adminDatabase);assert.equal(identity.clusterDigest,scope.clusterDigest);
  return {name:request.copy,jobId:request.jobId,evidenceSha256:hash(evidence)};
 }
 export function checkState(state,scope,{now=Date.now()}={}){
