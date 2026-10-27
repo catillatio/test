@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {uuid,httpsOrigin} from './protocol.mjs';
+import {gameTransport} from './image-policy.mjs';
 export function releaseInputs(env){
  assert.equal(env.GITHUB_REF,'refs/heads/release/production','Run only the protected production branch workflow.');
  assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch','Production requires an explicit release request.');
@@ -14,7 +15,7 @@ export function releaseInputs(env){
  for(const key of ['KINGDOM_DATABASE_HOST','KINGDOM_RESTORE_DATABASE_HOST'])assert.match(env[key]??'',/^[a-z0-9.-]+\.railway\.internal$/);
  assert.notEqual(env.KINGDOM_DATABASE_HOST,env.KINGDOM_RESTORE_DATABASE_HOST);
  assert.match(env.KINGDOM_DATABASE_NAME??'',/^[a-zA-Z0-9_-]{1,63}$/);assert.ok(!env.KINGDOM_DATABASE_NAME.endsWith('_restore_test'));
- return {sha:env.GITHUB_SHA,origin:httpsOrigin(env.KINGDOM_PRODUCTION_ORIGIN),id:'gh_'+env.GITHUB_RUN_ID+'_'+env.GITHUB_RUN_ATTEMPT,
+ return {sha:env.GITHUB_SHA,gameTransport:gameTransport(env),origin:httpsOrigin(env.KINGDOM_PRODUCTION_ORIGIN),id:'gh_'+env.GITHUB_RUN_ID+'_'+env.GITHUB_RUN_ATTEMPT,
   projectId:env.RAILWAY_PROJECT_ID,environmentId:env.RAILWAY_ENVIRONMENT_ID,gameServiceId:env.RAILWAY_GAME_SERVICE_ID,
   workerServiceId:env.RAILWAY_RELEASE_WORKER_SERVICE_ID,sourceHost:env.KINGDOM_DATABASE_HOST,sourceDatabase:env.KINGDOM_DATABASE_NAME,restoreHost:env.KINGDOM_RESTORE_DATABASE_HOST};
 }

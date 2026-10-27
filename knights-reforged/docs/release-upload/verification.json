@@ -1,0 +1,306 @@
+{
+  "cli": "railway 5.70.0",
+  "noProviderAccess": true,
+  "network": "Docker internal network, no external route; synthetic token; fixture TLS certificate verified",
+  "gameSource70And71Identical": true,
+  "checks": [
+    {
+      "fixture": "game70",
+      "mockHttpStatus": 200,
+      "cliExit": 0,
+      "files": 474,
+      "compressedBytes": 13601887,
+      "correctFileHashes": true,
+      "safePaths": true,
+      "singlePost": true,
+      "fileBytes": 15720040,
+      "decodedTarBytes": 16120320
+    },
+    {
+      "fixture": "game71",
+      "mockHttpStatus": 200,
+      "cliExit": 0,
+      "files": 474,
+      "compressedBytes": 13601887,
+      "correctFileHashes": true,
+      "safePaths": true,
+      "singlePost": true,
+      "fileBytes": 15720040,
+      "decodedTarBytes": 16120320
+    },
+    {
+      "fixture": "worker",
+      "mockHttpStatus": 200,
+      "cliExit": 0,
+      "files": 458,
+      "compressedBytes": 13588783,
+      "correctFileHashes": true,
+      "safePaths": true,
+      "singlePost": true,
+      "fileBytes": 15678342,
+      "decodedTarBytes": 16065536
+    },
+    {
+      "fixture": "game71",
+      "mockHttpStatus": 400,
+      "cliExit": 1,
+      "files": 474,
+      "compressedBytes": 13601887,
+      "correctFileHashes": true,
+      "safePaths": true,
+      "singlePost": true,
+      "fileBytes": 15720040,
+      "decodedTarBytes": 16120320
+    }
+  ],
+  "failedRelease": {
+    "number": 71,
+    "run": "https://github.com/catillatio/test/actions/runs/40562249523",
+    "sha": "d100a9a03b413b1947d1606db7c73cd37be278e3",
+    "deployment": "3e59e16d-c02e-4771-8da5-6d378e461496",
+    "stage": "SNAPSHOT_CODE",
+    "snapshotPresent": false,
+    "buildLogEntries": 0,
+    "runtimeLogEntries": 0,
+    "providerDiagnosisAvailable": false,
+    "wholePromotionElapsedSeconds": 25.815,
+    "canRedeploy": false,
+    "canRollback": false
+  },
+  "successfulComparison": {
+    "number": 70,
+    "run": "https://github.com/catillatio/test/actions/runs/40556813339",
+    "sha": "1f95053e5179a02bb6d26186839ec964a4e60c28",
+    "deployment": "d9bcc888-d55b-4047-836a-0a8cd1779a97"
+  },
+  "changedPaths": [
+    "knights-reforged/scripts/ci/isolation.mjs",
+    "knights-reforged/scripts/ci/run-tests.mjs",
+    "knights-reforged/tests/ci-plan.test.mjs"
+  ],
+  "allChangesExcludedFromGameUpload": true,
+  "cliDistributionSha256": "f518230646acc7a6a7a67365e7642618f659d5d8cdd7cf8c180336140d0504eb",
+  "fixtureArchivesByteIdentical": true,
+  "transport": {
+    "method": "POST",
+    "contentType": "application/gzip",
+    "authentication": "project-access-token header on shared authorized client",
+    "retryOnUploadFailure": false,
+    "cliDefaultHttpTimeoutSeconds": 90,
+    "controllerCommandTimeoutSeconds": 120
+  },
+  "limits": [
+    "The actual release-71 HTTP status, response and archive bytes were not retained.",
+    "Fixture success cannot establish Railway snapshot-service internals or reproduce the production network path.",
+    "No deterministic code defect or exact backend root cause was established."
+  ],
+  "productionMutations": false,
+  "diagnosticsFixture": {
+    "kind": "actual-pinned-cli-private-tls-fixture",
+    "cli": "5.70.0",
+    "providerNetworkAccess": false,
+    "productionActions": false,
+    "cases": [
+      {
+        "passed": true,
+        "events": [
+          {
+            "component": "GAME",
+            "event": "START",
+            "controller_timeout_ms": 120000,
+            "cli_http_timeout_ms": 90000
+          },
+          {
+            "component": "GAME",
+            "event": "CLI_COMPLETED",
+            "category": "NONE",
+            "elapsed_ms": 4212,
+            "pre_upload_ms": 3012,
+            "transfer_wait_ms": 1200,
+            "upload_bytes": 13601887,
+            "exit_code": 0,
+            "signal": null,
+            "controller_timed_out": false,
+            "termination_observed": true,
+            "cli_code": "NONE",
+            "cli_timeout_hint": false,
+            "http_status_hint": null,
+            "http_status_evidence": "UNAVAILABLE"
+          }
+        ],
+        "fixtureHttpStatus": 200,
+        "fixtureDelayMs": 0,
+        "label": "game71"
+      },
+      {
+        "passed": true,
+        "events": [
+          {
+            "component": "WORKER",
+            "event": "START",
+            "controller_timeout_ms": 120000,
+            "cli_http_timeout_ms": 90000
+          },
+          {
+            "component": "WORKER",
+            "event": "CLI_COMPLETED",
+            "category": "NONE",
+            "elapsed_ms": 7093,
+            "pre_upload_ms": 6723,
+            "transfer_wait_ms": 370,
+            "upload_bytes": 13588783,
+            "exit_code": 0,
+            "signal": null,
+            "controller_timed_out": false,
+            "termination_observed": true,
+            "cli_code": "NONE",
+            "cli_timeout_hint": false,
+            "http_status_hint": null,
+            "http_status_evidence": "UNAVAILABLE"
+          }
+        ],
+        "fixtureHttpStatus": 200,
+        "fixtureDelayMs": 0,
+        "label": "worker"
+      },
+      {
+        "passed": false,
+        "events": [
+          {
+            "component": "GAME",
+            "event": "START",
+            "controller_timeout_ms": 120000,
+            "cli_http_timeout_ms": 90000
+          },
+          {
+            "component": "GAME",
+            "event": "FAILED",
+            "category": "UPLOAD_REJECTED",
+            "elapsed_ms": 5377,
+            "pre_upload_ms": 4916,
+            "transfer_wait_ms": 461,
+            "upload_bytes": 13601887,
+            "exit_code": 1,
+            "signal": null,
+            "controller_timed_out": false,
+            "termination_observed": true,
+            "cli_code": "UPLOAD_FAILED",
+            "cli_timeout_hint": false,
+            "http_status_hint": null,
+            "http_status_evidence": "UNAVAILABLE"
+          }
+        ],
+        "fixtureHttpStatus": 400,
+        "fixtureDelayMs": 0,
+        "label": "game71"
+      },
+      {
+        "passed": false,
+        "events": [
+          {
+            "component": "GAME",
+            "event": "START",
+            "controller_timeout_ms": 120000,
+            "cli_http_timeout_ms": 90000
+          },
+          {
+            "component": "GAME",
+            "event": "FAILED",
+            "category": "UPLOAD_REJECTED",
+            "elapsed_ms": 5675,
+            "pre_upload_ms": 5293,
+            "transfer_wait_ms": 382,
+            "upload_bytes": 13601887,
+            "exit_code": 1,
+            "signal": null,
+            "controller_timed_out": false,
+            "termination_observed": true,
+            "cli_code": "UPLOAD_FAILED",
+            "cli_timeout_hint": false,
+            "http_status_hint": 503,
+            "http_status_evidence": "UNVERIFIED_CLI_TEXT"
+          }
+        ],
+        "fixtureHttpStatus": 503,
+        "fixtureDelayMs": 0,
+        "label": "game71"
+      },
+      {
+        "passed": false,
+        "events": [
+          {
+            "component": "GAME",
+            "event": "START",
+            "controller_timeout_ms": 120000,
+            "cli_http_timeout_ms": 90000
+          },
+          {
+            "component": "GAME",
+            "event": "FAILED",
+            "category": "UPLOAD_REJECTED",
+            "elapsed_ms": 4865,
+            "pre_upload_ms": 4548,
+            "transfer_wait_ms": 317,
+            "upload_bytes": 13601887,
+            "exit_code": 1,
+            "signal": null,
+            "controller_timed_out": false,
+            "termination_observed": true,
+            "cli_code": "UPLOAD_FAILED",
+            "cli_timeout_hint": false,
+            "http_status_hint": 413,
+            "http_status_evidence": "UNVERIFIED_CLI_TEXT"
+          }
+        ],
+        "fixtureHttpStatus": 413,
+        "fixtureDelayMs": 0,
+        "label": "game71"
+      },
+      {
+        "passed": false,
+        "events": [
+          {
+            "component": "GAME",
+            "event": "START",
+            "controller_timeout_ms": 120000,
+            "cli_http_timeout_ms": 2000
+          },
+          {
+            "component": "GAME",
+            "event": "FAILED",
+            "category": "CLI_FAILURE",
+            "elapsed_ms": 5863,
+            "pre_upload_ms": 3570,
+            "transfer_wait_ms": 2293,
+            "upload_bytes": 13601887,
+            "exit_code": 1,
+            "signal": null,
+            "controller_timed_out": false,
+            "termination_observed": true,
+            "cli_code": "ERROR",
+            "cli_timeout_hint": true,
+            "http_status_hint": null,
+            "http_status_evidence": "UNAVAILABLE"
+          }
+        ],
+        "fixtureHttpStatus": 200,
+        "fixtureDelayMs": 3500,
+        "label": "game71"
+      }
+    ]
+  },
+  "containerProbe": {
+    "localFixturePassed": true,
+    "actualDockerfileProbe": "Required in final exact-head CI",
+    "network": "none",
+    "registryPublished": false,
+    "railwayDeploymentTested": false
+  },
+  "scope": {
+    "productionMutations": false,
+    "productionRecoveryRuns": 0,
+    "credentialChanges": false,
+    "ownerComputerAccess": false,
+    "imageTransportEnabled": false
+  }
+}

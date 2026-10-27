@@ -1,0 +1,14 @@
+import {copyName} from '../../deployment/release/protocol.mjs';
+import {definitionDigest,imageRepository,imagePolicy} from '../../deployment/release/image-policy.mjs';
+export const ids=Array.from({length:6},(_,i)=>String(i+1).repeat(8)+'-'+String(i+1).repeat(4)+'-4'+String(i+1).repeat(3)+'-8'+String(i+1).repeat(3)+'-'+String(i+1).repeat(12));
+export function candidate(){return {policy:imagePolicy,repository:'catillatio/test',branch:'release/production',sha:'a'.repeat(40),candidateDigest:'d'.repeat(64),platform:'linux/amd64',
+ reference:imageRepository+'@sha256:'+'b'.repeat(64),manifestDigest:'sha256:'+'b'.repeat(64),configDigest:'sha256:'+'c'.repeat(64),prepareRunId:'101',prepareRunAttempt:'1',
+ identity:{policy:imagePolicy,repository:'catillatio/test',sha:'a'.repeat(40),candidateDigest:'d'.repeat(64),platform:'linux/amd64'}};}
+export function approval(){const c=candidate();return {candidate:c,artifactId:'102',artifactDigest:'sha256:'+'e'.repeat(64),definitionDigest:definitionDigest(c)};}
+export function proof(){const jobId='gh_123_1_'+'f'.repeat(32);return {protocol:'kingdom-release-proof-v3',repository:'catillatio/test',branch:'release/production',approvalEnvironment:'production',
+ jobId,sha:'a'.repeat(40),candidateDigest:'d'.repeat(64),projectId:ids[0],environmentId:ids[1],gameServiceId:ids[2],sourceHost:'game-db.railway.internal',sourceDatabase:'railway',restoreHost:'verify-db.railway.internal',copy:copyName(jobId),origin:'https://realm.fixture.invalid',
+ backupSha256:'1'.repeat(64),encryptedSha256:'2'.repeat(64),preservationSha256:'3'.repeat(64),backupBytes:200000,independentRecoveryVerified:true,artifactId:'103',backupKeyVerified:true,
+ issuedAt:new Date(Date.now()-1000).toISOString(),expiresAt:new Date(Date.now()+3600000).toISOString(),image:approval()};}
+export function runtimeEnv(){const c=candidate();return {KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_ARTIFACT_KIND:'oci-image-v1',KINGDOM_RELEASE_SHA:c.sha,KINGDOM_RELEASE_IMAGE_REFERENCE:c.reference,KINGDOM_RELEASE_IMAGE_DIGEST:c.manifestDigest,
+ RAILWAY_PROJECT_ID:ids[0],RAILWAY_ENVIRONMENT_ID:ids[1],RAILWAY_SERVICE_ID:ids[2],APP_ORIGIN:'https://realm.fixture.invalid',DATABASE_URL:'postgres://fixture:fixture@game-db.railway.internal/railway',KINGDOM_RESTORE_DATABASE_URL:'postgres://fixture:fixture@verify-db.railway.internal/railway',KINGDOM_RESTORE_TEST_DATABASE:proof().copy};}
+export function workflowEnv(){return {GITHUB_REPOSITORY:'catillatio/test',GITHUB_REF:'refs/heads/release/production',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1',KINGDOM_IMAGE_OPERATION:'image-release',KINGDOM_GAME_TRANSPORT:'oci-image-v1',KINGDOM_GAME_IMAGE_ENABLED:'true',KINGDOM_IMAGE_EXCLUSIVE_WINDOW:'true',KINGDOM_IMAGE_RUN_ID:'101',KINGDOM_IMAGE_ARTIFACT_ID:'102',KINGDOM_IMAGE_MANIFEST_DIGEST:candidate().manifestDigest,KINGDOM_IMAGE_PROMOTE:'true'};}

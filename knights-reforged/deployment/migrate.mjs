@@ -10,11 +10,10 @@ validateDeploymentEnvironment();
 // A signed, current, exact-candidate approval precedes every production pool.
 // It can be minted only by the owner-approved release job after independently
 // downloading the encrypted recovery artifact. No SSH or public DB access.
-let approval;
-if(process.env.KINGDOM_AUTOMATED_RELEASES&&process.env.KINGDOM_AUTOMATED_RELEASES!=='0'){
- const {requireReleaseProof}=await import('./release/proof.mjs');
- approval=await requireReleaseProof();
-}
+// An OCI image's static identity cannot be downgraded by omitting a variable.
+// Source images retain their existing opt-in behavior inside this guard.
+const {requireReleaseProof}=await import('./release/proof.mjs');
+const approval=await requireReleaseProof();
 const config=loadConfig(); // Validate private Railway target before connecting.
 // The owner restores the backup to a separate *_restore_test database first.
 // Verify that copy before opening the live pool or applying any live migration.

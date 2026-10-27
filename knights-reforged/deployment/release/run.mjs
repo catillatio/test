@@ -12,11 +12,16 @@ import {getFile,getReport,fileDigest} from './transfer.mjs';
 import {recoveryStore} from './store.mjs';
 import {signProof} from './proof.mjs';
 import {verifyQueuedDeployment,waitForWorkerCompletion} from './deployment.mjs';
+import {uploadSource} from './upload.mjs';
+import {checkImageApproval} from './image-policy.mjs';
+import {authenticateImage} from './image.mjs';
+import {deployImage,verifyImageDeployment} from './image-deploy.mjs';
+import {railwayClient} from './registrar-config.mjs';
 
 const base=new URL('../../',import.meta.url).pathname;
 const failureCategories=new WeakMap();
 const categories=new Set(['WORKER_VARIABLE_STAGING','WORKER_UPLOAD','DEPLOYMENT_IDENTITY','BACKUP_RESTORE_VERIFICATION',
- 'RECOVERY_PROOF_PREPARATION','GAME_VARIABLE_STAGING','GAME_UPLOAD','GAME_DEPLOYMENT_IDENTITY']);
+ 'RECOVERY_PROOF_PREPARATION','GAME_VARIABLE_STAGING','GAME_UPLOAD','GAME_DEPLOYMENT_IDENTITY','IMAGE_CANDIDATE_VERIFICATION','GAME_IMAGE_DEPLOYMENT']);
 async function during(category,operation){
  if(!categories.has(category))throw new Error('Unknown release operation.');
  try{return await operation();}
@@ -44,11 +49,24 @@ async function main(){
  const privateKey=createPrivateKey(process.env.KINGDOM_RELEASE_SIGNING_KEY);
  assert.equal(privateKey.asymmetricKeyType,'ed25519');
  assert.deepEqual(createPublicKey(privateKey).export({type:'spki',format:'der'}),createPublicKey(process.env.KINGDOM_RELEASE_VERIFY_KEY).export({type:'spki',format:'der'}),'Release signing and verification keys differ.');
+ let image,imageTargetDigest;
+ if(settings.gameTransport==='oci-image-v1')image=await during('IMAGE_CANDIDATE_VERIFICATION',async()=>{
+  const approval=JSON.parse(await readFile(join(process.env.RUNNER_TEMP,'verified-image-candidate.json'),'utf8'));
+  checkImageApproval(approval,{sourceSha:settings.sha,candidate:await candidateDigest(),reference:approval.candidate.reference,digest:approval.candidate.manifestDigest,identity:approval.candidate.identity});
+  assert.equal(approval.artifactId,process.env.KINGDOM_IMAGE_ARTIFACT_ID);assert.equal(approval.candidate.prepareRunId,process.env.KINGDOM_IMAGE_RUN_ID);assert.equal(approval.candidate.manifestDigest,process.env.KINGDOM_IMAGE_MANIFEST_DIGEST);
+  const target=JSON.parse(await readFile(join(process.env.RUNNER_TEMP,'verified-image-target.json'),'utf8'));
+  assert.equal(target.sha,settings.sha);assert.equal(target.jobId,settings.id);assert.equal(target.definitionDigest,approval.definitionDigest);
+  assert.ok(Number.isFinite(target.checkedAt)&&target.checkedAt<=Date.now()+10000&&target.expiresAt>Date.now()&&target.expiresAt-target.checkedAt<=2700000);
+  assert.match(target.runningTargetDigest,/^[a-f0-9]{64}$/);imageTargetDigest=target.runningTargetDigest;
+  if(mode==='promote')await authenticateImage(approval,process.env);
+  return approval;
+ });
  const store=recoveryStore(),out=process.env.GITHUB_WORKSPACE+'/.release-artifacts';
  await mkdir(out,{recursive:true,mode:0o700});
  const railwayArgs=['--project',settings.projectId,'--environment',settings.environmentId];
  const deploy=async(service,root=process.env.GITHUB_WORKSPACE)=>{
-  const upload=()=>command('railway',['up',root,...railwayArgs,'--service',service,'--detach','--json',...(service===settings.workerServiceId?['--path-as-root']:[]),'--message','Kingdom Come '+settings.sha],{cwd:root});
+  const upload=()=>uploadSource({spawn,root,projectId:settings.projectId,environmentId:settings.environmentId,serviceId:service,sha:settings.sha,worker:service===settings.workerServiceId,
+   log:event=>console.log('RELEASE_UPLOAD: '+JSON.stringify(event))});
   const queued=await during(service===settings.workerServiceId?'WORKER_UPLOAD':'GAME_UPLOAD',upload);
   return during(service===settings.workerServiceId?'DEPLOYMENT_IDENTITY':'GAME_DEPLOYMENT_IDENTITY',()=>verifyQueuedDeployment(queued,{projectId:settings.projectId,environmentId:settings.environmentId,serviceId:service},{token:process.env.RAILWAY_TOKEN}));
  };
@@ -75,7 +93,7 @@ async function main(){
   try{
    for(const path of ['package.json','package-lock.json','tsconfig.json','src','public','views','migrations','rulesets',
     'deployment/start.mjs','deployment/migrate.mjs','deployment/check-upgrade.mjs','deployment/environment.mjs',
-    ...['worker','transfer','candidate','protocol','proof'].map(name=>'deployment/release/'+name+'.mjs'),
+    ...['worker','transfer','candidate','protocol','proof','image-policy'].map(name=>'deployment/release/'+name+'.mjs'),
     ...['observation.mjs','observations.sql','register-verified.mjs','inspect-registrar.mjs'].map(name=>'deployment/release/retention/'+name)]){
     await mkdir(dirname(join(bundle,path)),{recursive:true});await cp(join(base,path),join(bundle,path),{recursive:true,errorOnExist:true,force:false});
    }
@@ -114,15 +132,22 @@ async function main(){
    assert.equal(request.candidateDigest,await candidateDigest());assert.equal(request.backupRecipient,process.env.KINGDOM_BACKUP_RECIPIENT);
    assert.equal(backupKey,'kingdom-releases/'+settings.sha+'/'+request.jobId+'/realm.dump.age');checkJobReport(report,request);
    assert.deepEqual(await fileDigest(downloaded+'/realm.dump.age'),{sha256:report.backup.encryptedSha256,bytes:report.backup.encryptedBytes},'The retained Actions artifact differs from the verified recovery object.');
-   const proof=signProof({protocol:'kingdom-release-proof-v2',repository:'catillatio/test',branch:'release/production',approvalEnvironment:'production',
+   const proof=signProof({protocol:image?'kingdom-release-proof-v3':'kingdom-release-proof-v2',...(image?{image}:{}),repository:'catillatio/test',branch:'release/production',approvalEnvironment:'production',
     ...Object.fromEntries(['jobId','sha','candidateDigest','projectId','environmentId','gameServiceId','sourceHost','sourceDatabase','restoreHost','copy','origin'].map(key=>[key,request[key]])),
     backupSha256:report.backup.sha256,backupBytes:report.backup.bytes,encryptedSha256:report.backup.encryptedSha256,preservationSha256:report.restoredCopy.sha256,
     artifactId:process.env.KINGDOM_RECOVERY_ARTIFACT_ID,independentRecoveryVerified:true,backupKeyVerified:true,
     issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+3600000).toISOString()},privateKey);
    return {request,report,proof};
   });
-  await stage(settings.gameServiceId,{KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_SHA:settings.sha,KINGDOM_RESTORE_TEST_DATABASE:request.copy,KINGDOM_RELEASE_BACKUP_PROOF:proof});
-  const deploymentId=await deploy(settings.gameServiceId);let healthy=false;
+  const values={KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_SHA:settings.sha,KINGDOM_RESTORE_TEST_DATABASE:request.copy,KINGDOM_RELEASE_BACKUP_PROOF:proof};
+  let deploymentId;
+  if(image){
+   Object.assign(values,{KINGDOM_RELEASE_ARTIFACT_KIND:'oci-image-v1',KINGDOM_RELEASE_IMAGE_REFERENCE:image.candidate.reference,KINGDOM_RELEASE_IMAGE_DIGEST:image.candidate.manifestDigest});
+   deploymentId=await during('GAME_IMAGE_DEPLOYMENT',()=>deployImage({...settings,imageTargetDigest},image,values,{token:process.env.RAILWAY_TOKEN,log:code=>console.log('IMAGE_RELEASE: '+code)}));
+  }else{
+   await stage(settings.gameServiceId,values);deploymentId=await deploy(settings.gameServiceId);
+  }
+  let healthy=false;
   for(let attempt=0;attempt<120;attempt++){
    const recent=JSON.parse(await command('railway',['deployment','list',...railwayArgs,'--service',settings.gameServiceId,'--json','--limit','10']));
    const deployment=recent.find(item=>item.id===deploymentId);
@@ -135,11 +160,16 @@ async function main(){
    await new Promise(resolve=>setTimeout(resolve,5000));
   }
   assert.ok(healthy,'Exact-release health verification failed. Use the documented code rollback.');
+  if(image)await during('GAME_DEPLOYMENT_IDENTITY',async()=>{
+   const d=await verifyImageDeployment(deploymentId,{projectId:settings.projectId,environmentId:settings.environmentId,serviceId:settings.gameServiceId},image.candidate.reference,{api:railwayClient(process.env.RAILWAY_TOKEN)});
+   assert.equal(d.status,'SUCCESS');
+  });
   const post=await requestJob('verify');
   await during('BACKUP_RESTORE_VERIFICATION',()=>{assert.ok(post.report.accounts>=report.accounts);assert.equal(post.report.sourceClusterDigest,report.sourceClusterDigest);});
   const login=await fetch(settings.origin+'/login',{redirect:'error',signal:AbortSignal.timeout(8000)});
   assert.equal(login.status,200);assert.ok((await login.text()).includes('Enter the realm'));
-  await writeFile(out+'/post-deploy.json',JSON.stringify({passed:true,sha:settings.sha,deploymentId,health:'ready',privateStatus:post.report,anonymousLogin:200},null,2));
+  await writeFile(out+'/post-deploy.json',JSON.stringify({passed:true,sha:settings.sha,deploymentId,health:'ready',privateStatus:post.report,anonymousLogin:200,
+   ...(image?{artifactKind:'oci-image-v1',imageReference:image.candidate.reference,imageManifestDigest:image.candidate.manifestDigest,imageConfigDigest:image.candidate.configDigest,imageCandidateArtifactId:image.artifactId,imageCandidateArtifactDigest:image.artifactDigest}:{})},null,2));
   console.log('Exact-release health, signed pre-deploy guard, saved realm and login verified. No provisioning ran.');
  }finally{store.close();}
 }

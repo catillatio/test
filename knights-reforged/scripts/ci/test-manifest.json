@@ -769,6 +769,14 @@
       "file": "tests/release-retention-delivery.test.mjs",
       "lane": "unit",
       "weight": 2
-    }
+    },
+    {
+      "file": "tests/release-upload-diagnostics.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {"file":"tests/release-image-policy.test.mjs","lane":"unit","weight":1},
+    {"file":"tests/release-image-deploy.test.mjs","lane":"unit","weight":1},
+    {"file":"tests/release-image-artifacts.test.mjs","lane":"unit","weight":1}
   ]
 }

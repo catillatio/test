@@ -30,7 +30,14 @@ function run(mode,command='prepare',overrides={}){
   encoding:'utf8',timeout:15000
  });
  assert.equal(existsSync(forbidden),false,'No unmocked network, subprocess, or additional provider operation is allowed.');
- return {...result,trace:readFileSync(trace,'utf8').trim().split('\n').filter(Boolean)};
+ const diagnostics=result.stdout.split('\n').filter(line=>line.startsWith('RELEASE_UPLOAD: ')).map(line=>JSON.parse(line.slice('RELEASE_UPLOAD: '.length)));
+ for(const event of diagnostics){
+  assert.ok(['GAME','WORKER'].includes(event.component));assert.ok(['START','CLI_COMPLETED','FAILED'].includes(event.event));
+  assert.doesNotMatch(JSON.stringify(event),/synthetic-private|https:|fixture@|signature|[a-f0-9]{32}/);
+ }
+ const traceLines=readFileSync(trace,'utf8').trim().split('\n').filter(Boolean),uploads=traceLines.filter(t=>t==='upload'||t==='game_upload').length;
+ assert.equal(diagnostics.length,uploads*2,'Every upload has exactly one safe start and completion/failure diagnostic.');
+ return {...result,stdout:result.stdout.split('\n').filter(line=>!line.startsWith('RELEASE_UPLOAD: ')).join('\n'),diagnostics,trace:traceLines};
 }
 const uploaded=['stage','bundle','upload'],identified=[...uploaded,'metadata','cleanup'],completed=[...identified,'worker_completion'];
 for(const [mode,category,trace,stdout]of[
@@ -85,6 +92,23 @@ test('promotion owner attestation and artifact ID remain mandatory before signin
   assert.equal(result.stderr,'RECOVERY_PROOF_PREPARATION: FAIL\n'+generic);assert.equal(result.stdout,'');
   assert.deepEqual(result.trace,['store_close']);
  }
+});
+const imageEnv={KINGDOM_GAME_TRANSPORT:'oci-image-v1',KINGDOM_GAME_IMAGE_ENABLED:'true',KINGDOM_IMAGE_EXCLUSIVE_WINDOW:'true',KINGDOM_IMAGE_ARTIFACT_ID:'102',KINGDOM_IMAGE_RUN_ID:'101',KINGDOM_IMAGE_MANIFEST_DIGEST:'sha256:'+'b'.repeat(64)};
+for(const mode of ['image_candidate_missing','image_target_missing','image_target_stale'])test('image preconditions fail before any backup, proof or provider write: '+mode,()=>{
+ const r=run(mode,'prepare',imageEnv);assert.equal(r.status,1);assert.equal(r.stderr,'IMAGE_CANDIDATE_VERIFICATION: FAIL\n'+generic);
+ assert.ok(!r.trace.some(x=>['stage','upload','proof','download','image_deploy'].includes(x)));
+});
+for(const [mode,category]of [['image_registry_failed','IMAGE_CANDIDATE_VERIFICATION'],['image_backup_failed','RECOVERY_PROOF_PREPARATION'],['image_provider_failure','GAME_IMAGE_DEPLOYMENT']])test('image promotion preserves independent recovery and never falls back to CLI upload: '+mode,()=>{
+ const r=run(mode,'promote',imageEnv);assert.equal(r.status,1);assert.equal(r.stderr,category+': FAIL\n'+generic);
+ assert.ok(!r.trace.includes('game_upload')&&!r.trace.includes('game_stage'));assert.ok(r.trace.filter(x=>x==='image_deploy').length<=1);
+ if(mode==='image_backup_failed')assert.ok(!r.trace.includes('proof')&&!r.trace.includes('image_deploy'));
+});
+test('complete controller image path signs v3 only after retained recovery, then verifies exact health and realm',()=>{
+ const r=run('image_success','promote',imageEnv);assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+ assert.ok(r.trace.indexOf('digest')<r.trace.indexOf('proof'));assert.ok(r.trace.indexOf('proof')<r.trace.indexOf('image_deploy'));
+ assert.ok(r.trace.indexOf('image_deploy')<r.trace.indexOf('game_health'));assert.ok(r.trace.indexOf('game_health')<r.trace.indexOf('image_identity'));
+ assert.ok(r.trace.includes('worker_completion')&&r.trace.includes('game_login'));assert.equal(r.trace.filter(x=>x==='image_deploy').length,1);
+ assert.ok(!r.trace.includes('game_upload')&&!r.trace.includes('game_stage'));assert.doesNotMatch(r.stdout,/synthetic-private|signature=|private\.invalid/);
 });
 
 
