@@ -34,11 +34,12 @@ test('interrupted runner terminates descendants, removes its fixture and records
   const names=async()=>new Set((await pool.query("SELECT datname FROM pg_database WHERE datname LIKE 'kc_ci_%_test'")).rows.map(r=>r.datname));
   const before=await names();let child;
   try {
-    child=spawn(process.execPath,['scripts/ci/run-tests.mjs','--files=tests/migration.test.ts','--workers=1'],{env:{...process.env,CI_BENCHMARK_LABEL:label},stdio:'ignore'});
+    child=spawn(process.execPath,['scripts/ci/run-tests.mjs','--files=tests/migration.test.ts','--workers=1'],{env:{...process.env,CI_BENCHMARK_LABEL:label},stdio:['ignore','pipe','pipe']});
+    let startup='';const capture=bytes=>{startup=(startup+bytes).slice(-65536);};child.stdout.on('data',capture);child.stderr.on('data',capture);
     const closed=new Promise((resolve,reject)=>{child.on('error',reject);child.on('close',code=>resolve(code));});
     let created=false;
     for(let i=0;i<100;i++) {if([...await names()].some(n=>!before.has(n))){created=true;break;}await new Promise(r=>setTimeout(r,50));}
-    assert.equal(created,true);child.kill('SIGTERM');assert.equal(await closed,1);
+    assert.equal(created,true,'Nested runner did not expose its fixture before interruption: '+startup);child.kill('SIGTERM');assert.equal(await closed,1);
     assert.deepEqual([...await names()].sort(),[...before].sort());
     const report=JSON.parse(await readFile('test-results/ci-'+label+'/timings.json','utf8'));
     assert.equal(report.interrupted,true);

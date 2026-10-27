@@ -73,6 +73,8 @@ Local results: 32/32 existing bounty/combat/PR #54 tests; 24/24 targeted histori
 
 Initial local failures were fixture errors: the new test named a nonexistent victory-sequence table, corrected to the existing `pvp_loot_sequences`; the new browser selected the header's `time` instead of the quota's `time`, corrected to its scope and actual earliest placement timestamp. No runtime safeguard or expected gameplay result was relaxed.
 
+Full CI on `b12cc99d52d348e794b90fa5cfe2c7e20d4f72ab` exposed two older migration seed helpers that called the current claim function with synthetic finishing battles lacking the new contract binding. Those helpers now read and assert the active contract before saving their fixture hit; all migration/business-row preservation assertions remain. The same run's nested runner interruption test failed to observe child startup; stderr/stdout are now captured as assertion diagnostics, with its original conditions and timeouts unchanged. That run and subsequent exact-commit results remain linked in the final PR/delivery evidence.
+
 ## Review boundary
 
 Implemented and authorized: 25/250 accounting, consistent quota UX, fresh exact-contract finishing evidence and regression coverage. Already-correct positive/low-Health behavior remains installed. Literal zero-Health claim semantics are the **only gameplay policy decision deferred by this task's explicit fallback**, with a concrete proposal and acceptance cases in [ZERO_HEALTH_POLICY.md](ZERO_HEALTH_POLICY.md).
