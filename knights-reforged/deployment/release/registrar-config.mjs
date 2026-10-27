@@ -18,9 +18,11 @@ const categories=new Set(['WORKFLOW_REQUEST','TARGET_CONFIG','API_TRANSPORT','AP
  'PATCH_BINDING','PRECOMMIT_WORKER_CHANGED','COMMIT_UNCONFIRMED','POST_COMMIT_WORKER_CHANGED','CONFIG_WORKFLOW_STATE','PATCH_NOT_CLEARED','POST_COMMIT_TIMEOUT','SUMMARY_WRITE','UNCLASSIFIED']);
 const failures=new WeakMap();
 const encryptedShapes=new WeakMap();
+const valueClasses=new WeakMap();
 function fail(category){assert.ok(categories.has(category));const error=new Error('Registrar configuration check failed.');failures.set(error,category);throw error;}
 export function failureCategory(error){return failures.get(error)??'UNCLASSIFIED';}
 export function failureShape(error){return encryptedShapes.get(error);}
+export function failureValueClasses(error){return valueClasses.get(error);}
 function checked(category,operation){try{return operation();}catch(error){if(failures.has(error))throw error;fail(category);}}
 async function during(category,operation){try{return await operation();}catch(error){if(failures.has(error))throw error;fail(category);}}
 const endpoint='https://backboard.railway.com/graphql/v2';
@@ -167,6 +169,28 @@ function checkEncryption(encrypted,clear){
  }
  assert.equal(new Set(ciphertext).size,registrationKeys.length);
 }
+// Diagnostic only: fixed classes, never provider keys/content or a digest.
+// Classification cannot satisfy checkEncryption or authorize a mutation.
+export function classifyValues(encrypted,clear){
+ const plaintext=registrationKeys.map(name=>clear?.[name]?.value);
+ const masked=value=>/^(?:\*+|[•●…]+|\.{3,}|<(?:redacted|sealed|masked)>|\[(?:redacted|sealed|masked)\]|«hidden»|redacted|masked|sealed)$/i.test(value.trim());
+ const classify=(value,decrypted)=>{
+  if(typeof value!=='string')return 'UNCLASSIFIED';
+  if(value===decrypted)return 'IDENTICAL_TO_DECRYPTED';
+  if(masked(value))return 'MASKED_REDACTED';
+  let parsed;
+  try{parsed=JSON.parse(value);}catch{return value.trim()?'OPAQUE_STRING':'UNCLASSIFIED';}
+  if(typeof parsed==='string'&&masked(parsed))return 'MASKED_REDACTED';
+  if(parsed===null||typeof parsed!=='object'||Array.isArray(parsed))return 'UNCLASSIFIED';
+  const names=Object.keys(parsed).sort();
+  const envelope=names.length===2&&names[0]==='cipherText'&&names[1]==='encryptedDek'&&
+   ['encryptedDek','cipherText'].every(key=>typeof parsed[key]==='string'&&parsed[key].length>0&&
+    !/^(?:\*+|<redacted>|<sealed>|redacted|masked)$/i.test(parsed[key])&&!plaintext.includes(parsed[key]));
+  return envelope?'VALID_DOCUMENTED_ENVELOPE':'OTHER_JSON_OBJECT';
+ };
+ const labels=['database_url','enabled','scope'];
+ return Object.fromEntries(registrationKeys.map((name,i)=>[labels[i],classify(encrypted?.[name]?.value,clear?.[name]?.value)]));
+}
 export function checkPatch(data,target){
  const p=data.staged;
  checked('PATCH_ID',()=>assert.match(p?.id??'',uuid));
@@ -183,7 +207,8 @@ export function checkPatch(data,target){
  try{encrypted=checked('PATCH_ENCRYPTED_SHAPE',()=>definitions(p.patch,target));}
  catch(error){encryptedShapes.set(error,encryptedShape(p.patch,target));throw error;}
  const clear=checked('PATCH_CLEAR_SHAPE',()=>definitions(p.clear,target));
- checked('PATCH_ENCRYPTION_SEMANTICS',()=>checkEncryption(encrypted,clear));
+ try{checked('PATCH_ENCRYPTION_SEMANTICS',()=>checkEncryption(encrypted,clear));}
+ catch(error){valueClasses.set(error,classifyValues(encrypted,clear));throw error;}
  // This action can install disabled configuration only. Activation is separate.
  checked('REGISTRATION_NOT_DISABLED',()=>assert.equal(clear.KINGDOM_COPY_REGISTRATION_ENABLED.value,'0'));
  checked('REGISTRAR_URL',()=>{
@@ -275,6 +300,7 @@ async function main(){
    'Worker unchanged: `'+result.workerDeploymentId+'`\n\nNo recovery, deployment, activation or cleanup was requested.\n'));
  }catch(error){console.error('REGISTRAR_CONFIG_FAILURE: '+failureCategory(error));
   if(process.env.REGISTRAR_CONFIG_OPERATION==='registrar-config-inspect'&&failureShape(error))console.error('REGISTRAR_CONFIG_SHAPE: '+JSON.stringify(failureShape(error)));
+  if(process.env.REGISTRAR_CONFIG_OPERATION==='registrar-config-inspect'&&failureValueClasses(error))console.error('REGISTRAR_CONFIG_VALUE_CLASSES: '+JSON.stringify(failureValueClasses(error)));
   console.error('REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.');process.exitCode=1;}
 }
 if(process.argv[1]&&pathToFileURL(process.argv[1]).href===import.meta.url)await main();
