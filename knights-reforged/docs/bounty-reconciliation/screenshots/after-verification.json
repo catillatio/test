@@ -1,0 +1,290 @@
+{
+  "passed": true,
+  "stage": "after",
+  "baseline": null,
+  "productionContacted": false,
+  "views": [
+    {
+      "name": "profile",
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "placement",
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "confirmation",
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "blocked",
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "board",
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "report",
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "help",
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "profile",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "placement",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "confirmation",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "blocked",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "board",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "report",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "help",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "profile",
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "placement",
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "confirmation",
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "blocked",
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "board",
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "report",
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "help",
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "profile",
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "placement",
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "confirmation",
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "blocked",
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "board",
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "report",
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "help",
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "textScale": 1,
+      "overflow": 0
+    },
+    {
+      "name": "profile",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1.25,
+      "overflow": 0
+    },
+    {
+      "name": "placement",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1.25,
+      "overflow": 0
+    },
+    {
+      "name": "confirmation",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1.25,
+      "overflow": 0
+    },
+    {
+      "name": "blocked",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1.25,
+      "overflow": 0
+    },
+    {
+      "name": "board",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1.25,
+      "overflow": 0
+    },
+    {
+      "name": "report",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1.25,
+      "overflow": 0
+    },
+    {
+      "name": "help",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "textScale": 1.25,
+      "overflow": 0
+    }
+  ],
+  "errors": [],
+  "financialRowsPreserved": true
+}

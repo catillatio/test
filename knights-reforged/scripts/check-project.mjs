@@ -108,7 +108,9 @@ check('CSS uses local assets; original tab gradients and safe areas remain',()=>
 const playerId='11111111-1111-4111-8111-111111111111',targetId='22222222-2222-4222-8222-222222222222',battleId=randomUUID(),holdingId=randomUUID();
 const now='2026-10-17T12:00:00.000Z',next='2026-10-17T13:00:00.000Z';
 const inventory=alpha.items.slice(0,3).map(item=>({...item,inventoryId:randomUUID(),quantity:2}));
-const strategy=json('rulesets/strategy-0.2/rules.json'),community=json('rulesets/community-0.1/rules.json'),refinements=json('rulesets/refinements-0.1/rules.json'),pvp=json('rulesets/pvp-economy-0.1/rules.json'),bountyRules=pvp.bounties;
+const strategy=json('rulesets/strategy-0.2/rules.json'),community=json('rulesets/community-0.1/rules.json'),refinements=json('rulesets/refinements-0.1/rules.json'),pvp=json('rulesets/pvp-economy-0.1/rules.json');
+const {bountyPlacementPolicy}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(read('src/bounty-policy.ts'),{mode:'transform'})).toString('base64'));
+const bountyRules={...pvp.bounties,targetDailyLimit:bountyPlacementPolicy.targetLimit,sponsorTargetDailyLimit:bountyPlacementPolicy.sponsorTargetLimit};
 const properties=alpha.properties.map((p,i)=>({...p,basePrice:p.price,owned:i===0?1:0,remaining:99,maxPurchase:25,maxAffordable:1,priceSteps:[p.price],saleRefundSteps:[Math.floor(p.price/2)],maxSell:i===0?1:0,projectedBuyNetSteps:[14],projectedSaleNetSteps:[0],unlocked:true}));
 const land={rulesetId:alpha.id,provisional:true,paymentIntervalSeconds:3600,hourlyIncome:8,hourlyUpkeep:1,equipmentUpkeep:0,totalUpkeep:1,netHourlyIncome:7,nextPaymentAt:next,pendingGold:'0',properties,
  holdings:[{id:holdingId,propertyId:'smallholding',name:'Smallholding',quantity:1,hourlyIncome:8,hourlyUpkeep:1,nextPaymentAt:next,rulesetId:landRules.id}]};

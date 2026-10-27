@@ -241,7 +241,7 @@ test('bot bounties use real escrow, eligible finishing attackers, one kill and s
   }finally{await r.close();}
 });
 
-test('bot placement races, cancellation, expiry and fifty finishing claims obey the shared target limit without creating reward funds',{skip},async()=>{
+test('bot placement races, cancellation, expiry and fifty finishing claims obey independent sponsor-target limits without creating reward funds',{skip},async()=>{
   const r=await setup(true);try{
     await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});
     const sponsors=[await r.veteran('West Sponsor'),await r.veteran('East Sponsor')],hunter=await r.veteran('Contract Hunter',true);await r.ready(hunter);
@@ -274,7 +274,7 @@ test('bot placement races, cancellation, expiry and fifty finishing claims obey 
     }
     assert.ok(ordinaryLoot<=50*61);assert.equal((await r.me(hunter)).battleStats.kills,50);
     assert.equal((await r.me(hunter)).gold+(await r.me(sponsors[0]!)).gold+(await r.me(sponsors[1]!)).gold,initial+ordinaryLoot-50);
-    const rejected=await r.command(sponsors[0]!,'/api/v1/bounties/placements',{targetCharacterId:target,amount:1});assert.equal(rejected.json().error.code,'BOUNTY_LIMIT');
+    const rejected=await r.command(sponsors[0]!,'/api/v1/bounties/placements',{targetCharacterId:target,amount:1});assert.equal(rejected.json().error.code,'BOUNTY_SPONSOR_TARGET_LIMIT');
     assert.equal((await r.db.query("SELECT count(*)::int AS n FROM bounties WHERE target_id=$1 AND status='active'",[target])).rows[0]!.n,0);
     const first=(await r.db.query("SELECT min(created_at) AS at FROM bounties WHERE target_id=$1 AND status='claimed'",[target])).rows[0]!.at;
     r.advance((+new Date(first)+86400000-+r.now())/1000);
