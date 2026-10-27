@@ -8,21 +8,18 @@ import {uuid,digest,privateDatabase} from './protocol.mjs';
 
 export const registrationKeys=['KINGDOM_COPY_REGISTRATION_DATABASE_URL','KINGDOM_COPY_REGISTRATION_ENABLED','KINGDOM_COPY_REGISTRATION_SCOPE'];
 export const oldWorker='ccd3f1b1-c1ba-4f47-9613-352c0b972304';
+export const approvalPolicy='registrar-server-revision-v1';
 const canonical=value=>JSON.stringify(value,(_key,item)=>item&&typeof item==='object'&&!Array.isArray(item)?Object.fromEntries(Object.keys(item).sort().map(k=>[k,item[k]])):item);
 const hash=value=>createHash('sha256').update(canonical(value)).digest('hex');
 const keys=(value,expected)=>assert.deepEqual(Object.keys(value??{}).sort(),expected.slice().sort());
 // Only these fixed categories may leave the process. Never log exception
 // messages/stacks, provider messages, response bodies or secret-bearing values.
 const categories=new Set(['WORKFLOW_REQUEST','TARGET_CONFIG','API_TRANSPORT','API_AUTHENTICATION','API_PERMISSION','API_HTTP','API_RESPONSE','API_QUERY_REJECTED','API_GRAPHQL_REJECTED','API_READ',
- 'TARGET_IDENTITY','WORKER_IDENTITY','WORKER_STOPPED_STATE','WORKER_HISTORY','PATCH_ID','PATCH_ENVIRONMENT','PATCH_STATUS','PATCH_APPLIED_AT','PATCH_LAST_APPLIED_ERROR','PATCH_CREATED_AT','PATCH_UPDATED_AT','PATCH_ENCRYPTED_SHAPE','PATCH_CLEAR_SHAPE','PATCH_ENCRYPTION_SEMANTICS','REGISTRATION_NOT_DISABLED','REGISTRAR_URL','REGISTRAR_SCOPE',
+ 'TARGET_IDENTITY','WORKER_IDENTITY','WORKER_STOPPED_STATE','WORKER_HISTORY','PATCH_ID','PATCH_ENVIRONMENT','PATCH_STATUS','PATCH_APPLIED_AT','PATCH_LAST_APPLIED_ERROR','PATCH_CREATED_AT','PATCH_UPDATED_AT','PATCH_VARIABLE_SCOPE','REGISTRATION_NOT_DISABLED','REGISTRAR_URL','REGISTRAR_SCOPE','APPROVAL_CONTEXT',
  'PATCH_BINDING','PRECOMMIT_WORKER_CHANGED','COMMIT_UNCONFIRMED','POST_COMMIT_WORKER_CHANGED','CONFIG_WORKFLOW_STATE','PATCH_NOT_CLEARED','POST_COMMIT_TIMEOUT','SUMMARY_WRITE','UNCLASSIFIED']);
 const failures=new WeakMap();
-const encryptedShapes=new WeakMap();
-const valueClasses=new WeakMap();
 function fail(category){assert.ok(categories.has(category));const error=new Error('Registrar configuration check failed.');failures.set(error,category);throw error;}
 export function failureCategory(error){return failures.get(error)??'UNCLASSIFIED';}
-export function failureShape(error){return encryptedShapes.get(error);}
-export function failureValueClasses(error){return valueClasses.get(error);}
 function checked(category,operation){try{return operation();}catch(error){if(failures.has(error))throw error;fail(category);}}
 async function during(category,operation){try{return await operation();}catch(error){if(failures.has(error))throw error;fail(category);}}
 const endpoint='https://backboard.railway.com/graphql/v2';
@@ -32,9 +29,11 @@ const context=`project(id:$projectId){id name}
  worker:serviceInstance(environmentId:$environmentId,serviceId:$workerId){serviceId environmentId serviceName latestDeployment{${identity}} activeDeployments{${identity}}}
  deployments(input:{projectId:$projectId,environmentId:$environmentId,serviceId:$workerId},first:3){edges{node{${identity}}}}`;
 const variables=`$projectId:String!,$environmentId:String!,$workerId:String!`;
-const patchFields=`id environmentId status createdAt updatedAt appliedAt lastAppliedError patch(decryptVariables:false)`;
+// #57 proved both flags returned the same strings in this authenticated context.
+// Request one explicitly decrypted snapshot; it is private and is NEVER hashed.
+const patchFields=`id environmentId status createdAt updatedAt appliedAt lastAppliedError patch(decryptVariables:true)`;
 const inspectQuery=`query RegistrarConfigInspect(${variables}){${context}
- staged:environmentStagedChanges(environmentId:$environmentId){${patchFields} clear:patch(decryptVariables:true)}}`;
+ staged:environmentStagedChanges(environmentId:$environmentId){${patchFields}}}`;
 const verifyQuery=`query RegistrarConfigVerify(${variables},$patchId:String!){${context}
  receipt:environmentPatch(id:$patchId){${patchFields}}
  pending:environmentStagedChanges(environmentId:$environmentId){${patchFields}}}`;
@@ -47,17 +46,19 @@ export function validateRequest(env){
  assert.equal(env.GITHUB_REF,'refs/heads/release/production');assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');
  const operation=env.REGISTRAR_CONFIG_OPERATION||'release';
  assert.ok(['release','registrar-config-inspect','registrar-config-commit'].includes(operation));
+ // Old ciphertext-digest pins cannot be reused under metadata-only approval.
+ assert.ok(!env.REGISTRAR_CONFIG_PATCH_DIGEST);
  if(operation==='release'){
-  assert.ok(!env.REGISTRAR_CONFIG_PATCH_ID&&!env.REGISTRAR_CONFIG_PATCH_DIGEST);
+  assert.ok(!env.REGISTRAR_CONFIG_PATCH_ID&&!env.REGISTRAR_CONFIG_APPROVAL_TOKEN);
   assert.ok(!env.REGISTRAR_CONFIG_EXCLUSIVE_WINDOW||env.REGISTRAR_CONFIG_EXCLUSIVE_WINDOW==='false');return operation;
  }
  assert.equal(env.REGISTRAR_CONFIG_PROMOTE,'false');
  assert.match(env.GITHUB_SHA??'',/^[a-f0-9]{40}$/);assert.match(env.GITHUB_RUN_ID??'',/^[0-9]{1,20}$/);
  if(operation==='registrar-config-commit'){
   assert.equal(env.GITHUB_RUN_ATTEMPT,'1'); // Re-run jobs can inspect, never repeat a write.
-  assert.match(env.REGISTRAR_CONFIG_PATCH_ID??'',uuid);assert.match(env.REGISTRAR_CONFIG_PATCH_DIGEST??'',digest);
+  assert.match(env.REGISTRAR_CONFIG_PATCH_ID??'',uuid);assert.match(env.REGISTRAR_CONFIG_APPROVAL_TOKEN??'',digest);
   assert.equal(env.REGISTRAR_CONFIG_EXCLUSIVE_WINDOW,'true');
- }else assert.ok(!env.REGISTRAR_CONFIG_PATCH_ID&&!env.REGISTRAR_CONFIG_PATCH_DIGEST);
+ }else assert.ok(!env.REGISTRAR_CONFIG_PATCH_ID&&!env.REGISTRAR_CONFIG_APPROVAL_TOKEN);
  return operation;
 }
 export function targetConfig(env){
@@ -114,34 +115,18 @@ export function checkWorker(data,target){
   assert.ok(!['QUEUED','WAITING','NEEDS_APPROVAL','INITIALIZING','BUILDING','DEPLOYING'].includes(row.status));
  }
  });
- return hash({worker,deployments:data.deployments.edges.map(e=>e.node)});
-}
-// Diagnostic metadata only. Do not recurse into encrypted/decrypted values or
-// print arbitrary provider keys (which could themselves contain an ID/secret).
-export function encryptedShape(patch,target){
- const kind=v=>v===null?'null':Array.isArray(v)?'array':typeof v;
- const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
- const safeKeys=(v,allowed)=>object(v)?[...new Set(Object.keys(v).map(k=>allowed.includes(k)?k:'<REDACTED_KEY>'))].sort():['<NON_OBJECT>'];
- const rootKeys=['services','sharedVariables','volumes','buckets','privateNetworkDisabled'];
- const workerKeys=['variables','source','networking','configFile','deploy','build','volumeMounts','isDeleted','isCreated','parentServiceId','clusterRole','groupId','haTemplateCode','revertsToTemplateCode','haActiveVariable','clusterWiring'];
- const entryKeys=['encryptedValue','value','defaultValue','description','isOptional','isSealed','generator','createdAt','updatedAt','lastUpdatedAt'];
- const worker=object(patch)&&object(patch.services)?patch.services[target.workerId]:undefined;
- const variables=object(worker)&&object(worker.variables)?worker.variables:undefined;
- return {
-  patchKeys:safeKeys(patch,rootKeys),workerKeys:safeKeys(worker,workerKeys),
-  variables:Object.fromEntries(registrationKeys.map(name=>{
-   const entry=variables?.[name];
-   return [name,object(entry)?Object.fromEntries(safeKeys(entry,entryKeys).map(k=>[k,k==='<REDACTED_KEY>'?'<REDACTED>':kind(entry[k])])):{'<ENTRY_TYPE>':kind(entry)}];
-  }))
- };
+ // Only explicitly selected deployment metadata enters a public approval token.
+ // Do not hash arbitrary provider objects or any variable/credential payload.
+ const deployment=row=>({...Object.fromEntries(['id','projectId','environmentId','serviceId','status','createdAt','updatedAt','statusUpdatedAt','deploymentStopped'].map(k=>[k,row[k]])),
+  instances:row.instances?.map(({id,status})=>({id,status}))});
+ return hash({serviceId:worker.serviceId,environmentId:worker.environmentId,latestDeployment:deployment(d),activeDeployments:worker.activeDeployments.map(deployment),deployments:data.deployments.edges.map(e=>deployment(e.node))});
 }
 function definitions(patch,target){
  keys(patch,['services']);keys(patch.services,[target.workerId]);keys(patch.services[target.workerId],['variables']);
  const vars=patch.services[target.workerId].variables;keys(vars,registrationKeys);
  for(const item of Object.values(vars)){
   assert.ok(item&&typeof item==='object'&&!Array.isArray(item));
-  // EnvironmentConfig uses `value` in BOTH views. The literal GraphQL
-  // decryptVariables flag determines the contents, not a different JSON key.
+  // Authenticated API values are sensitive regardless of the GraphQL flag.
   assert.ok(Object.keys(item).every(k=>['value','isSealed','isOptional'].includes(k)));
   assert.ok(typeof item.value==='string'&&item.value.length>0&&item.value.length<=30000);
   if(item.isSealed!==undefined)assert.equal(typeof item.isSealed,'boolean');
@@ -149,66 +134,20 @@ function definitions(patch,target){
  }
  return vars;
 }
-function checkEncryption(encrypted,clear){
- // Railway's documented envelope: https://blog.railway.com/p/envelope-encryption
- // Require this envelope; no opaque-string or plaintext fallback for approval.
- // This verifies the representation, not a cryptographic decryption: only
- // Railway holds the DEK. A changed/legacy envelope requires separate review.
- const plaintext=Object.values(clear).map(item=>item.value);
- const ciphertext=[];
- for(const name of registrationKeys){
-  const item=encrypted[name],envelope=JSON.parse(item.value);
-  keys(envelope,['encryptedDek','cipherText']);
-  for(const key of ['encryptedDek','cipherText']){
-   assert.ok(typeof envelope[key]==='string'&&envelope[key].length>0);
-   assert.ok(!/^(?:\*+|<redacted>|<sealed>|redacted|masked)$/i.test(envelope[key]));
-   assert.ok(!plaintext.includes(envelope[key]));
-  }
-  assert.ok(!plaintext.includes(item.value));
-  ciphertext.push(item.value);
- }
- assert.equal(new Set(ciphertext).size,registrationKeys.length);
-}
-// Diagnostic only: fixed classes, never provider keys/content or a digest.
-// Classification cannot satisfy checkEncryption or authorize a mutation.
-export function classifyValues(encrypted,clear){
- const plaintext=registrationKeys.map(name=>clear?.[name]?.value);
- const masked=value=>/^(?:\*+|[•●…]+|\.{3,}|<(?:redacted|sealed|masked)>|\[(?:redacted|sealed|masked)\]|«hidden»|redacted|masked|sealed)$/i.test(value.trim());
- const classify=(value,decrypted)=>{
-  if(typeof value!=='string')return 'UNCLASSIFIED';
-  if(value===decrypted)return 'IDENTICAL_TO_DECRYPTED';
-  if(masked(value))return 'MASKED_REDACTED';
-  let parsed;
-  try{parsed=JSON.parse(value);}catch{return value.trim()?'OPAQUE_STRING':'UNCLASSIFIED';}
-  if(typeof parsed==='string'&&masked(parsed))return 'MASKED_REDACTED';
-  if(parsed===null||typeof parsed!=='object'||Array.isArray(parsed))return 'UNCLASSIFIED';
-  const names=Object.keys(parsed).sort();
-  const envelope=names.length===2&&names[0]==='cipherText'&&names[1]==='encryptedDek'&&
-   ['encryptedDek','cipherText'].every(key=>typeof parsed[key]==='string'&&parsed[key].length>0&&
-    !/^(?:\*+|<redacted>|<sealed>|redacted|masked)$/i.test(parsed[key])&&!plaintext.includes(parsed[key]));
-  return envelope?'VALID_DOCUMENTED_ENVELOPE':'OTHER_JSON_OBJECT';
- };
- const labels=['database_url','enabled','scope'];
- return Object.fromEntries(registrationKeys.map((name,i)=>[labels[i],classify(encrypted?.[name]?.value,clear?.[name]?.value)]));
-}
-export function checkPatch(data,target){
+export function checkPatch(data,target,{sourceCommit,workerSnapshot}={}){
  const p=data.staged;
  checked('PATCH_ID',()=>assert.match(p?.id??'',uuid));
  checked('PATCH_ENVIRONMENT',()=>assert.equal(p.environmentId,target.environmentId));
  checked('PATCH_STATUS',()=>assert.equal(p.status,'STAGED'));
  checked('PATCH_APPLIED_AT',()=>assert.equal(p.appliedAt,null));
  checked('PATCH_LAST_APPLIED_ERROR',()=>assert.equal(p.lastAppliedError,null));
- checked('PATCH_CREATED_AT',()=>assert.ok(Number.isFinite(Date.parse(p.createdAt))));
- checked('PATCH_UPDATED_AT',()=>assert.ok(Number.isFinite(Date.parse(p.updatedAt))));
+ const timestamp=value=>{assert.match(value??'',/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/);assert.ok(Number.isFinite(Date.parse(value)));};
+ checked('PATCH_CREATED_AT',()=>timestamp(p.createdAt));
+ checked('PATCH_UPDATED_AT',()=>{timestamp(p.updatedAt);assert.ok(Date.parse(p.updatedAt)>=Date.parse(p.createdAt));});
  // environment.unmergedChangesCount is nullable and counts forked-environment
  // differences, NOT staged variable edits. The exact patch itself is authoritative:
  // definitions requires one service, only variables, and precisely our three keys.
- let encrypted;
- try{encrypted=checked('PATCH_ENCRYPTED_SHAPE',()=>definitions(p.patch,target));}
- catch(error){encryptedShapes.set(error,encryptedShape(p.patch,target));throw error;}
- const clear=checked('PATCH_CLEAR_SHAPE',()=>definitions(p.clear,target));
- try{checked('PATCH_ENCRYPTION_SEMANTICS',()=>checkEncryption(encrypted,clear));}
- catch(error){valueClasses.set(error,classifyValues(encrypted,clear));throw error;}
+ const clear=checked('PATCH_VARIABLE_SCOPE',()=>definitions(p.patch,target));
  // This action can install disabled configuration only. Activation is separate.
  checked('REGISTRATION_NOT_DISABLED',()=>assert.equal(clear.KINGDOM_COPY_REGISTRATION_ENABLED.value,'0'));
  checked('REGISTRAR_URL',()=>{
@@ -221,9 +160,14 @@ export function checkPatch(data,target){
  for(const [k,v] of Object.entries({projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.gameId,workerServiceId:target.workerId,verificationDatabaseServiceId:target.copyId,maintenanceDatabase:'Railway'}))assert.equal(s[k],v);
  for(const k of ['clusterDigest','sourceClusterDigest'])assert.match(s[k]??'',digest);assert.notEqual(s.clusterDigest,s.sourceClusterDigest);
  });
- // Never publish clear values, encrypted values, or a plaintext credential hash.
- // The digest commits to the stored ciphertext and patch revision, not p.clear.
- return {patchId:p.id,patchDigest:hash({id:p.id,environmentId:p.environmentId,createdAt:p.createdAt,updatedAt:p.updatedAt,patch:p.patch})};
+ checked('APPROVAL_CONTEXT',()=>{assert.match(sourceCommit??'',/^[a-f0-9]{40}$/);assert.match(workerSnapshot??'',digest);});
+ // Explicit metadata allowlist only. This token identifies a server revision;
+ // it is NOT a secret-value commitment or a bearer authorization credential.
+ // Adequacy depends on the owner-exclusive edit window, not an assumed API CAS.
+ return {patchId:p.id,approvalToken:hash({policy:approvalPolicy,sourceCommit,workerSnapshot,
+  target:{projectId:target.projectId,environmentId:target.environmentId,workerId:target.workerId,gameId:target.gameId,copyId:target.copyId},
+  patch:{id:p.id,environmentId:p.environmentId,createdAt:p.createdAt,updatedAt:p.updatedAt,status:p.status},
+  variables:registrationKeys.map(name=>({name,isSealed:clear[name].isSealed??null,isOptional:clear[name].isOptional??null})),registrationState:'disabled'})};
 }
 function checkClearedPatch(data,original,target){
  checked('PATCH_NOT_CLEARED',()=>{
@@ -257,16 +201,17 @@ export async function runConfig(env,{api,wait=delay,now=Date.now}={}){
  const target=checked('TARGET_CONFIG',()=>targetConfig(env));
  api??=railwayClient(env.RAILWAY_TOKEN);
  const vars={projectId:target.projectId,environmentId:target.environmentId,workerId:target.workerId};
- const first=await during('API_READ',()=>api(inspectQuery,vars)),workerDigest=checkWorker(first,target),plan=checkPatch(first,target);
+ const first=await during('API_READ',()=>api(inspectQuery,vars)),workerDigest=checkWorker(first,target);
+ const approvalContext={sourceCommit:env.GITHUB_SHA,workerSnapshot:workerDigest},plan=checkPatch(first,target,approvalContext);
  if(operation==='registrar-config-inspect')return {kind:'inspection',...plan,workerDeploymentId:oldWorker};
- checked('PATCH_BINDING',()=>{assert.equal(plan.patchId,env.REGISTRAR_CONFIG_PATCH_ID);assert.equal(plan.patchDigest,env.REGISTRAR_CONFIG_PATCH_DIGEST);});
+ checked('PATCH_BINDING',()=>{assert.equal(plan.patchId,env.REGISTRAR_CONFIG_PATCH_ID);assert.equal(plan.approvalToken,env.REGISTRAR_CONFIG_APPROVAL_TOKEN);});
  // Re-read immediately before the single write. Shared workflow concurrency
  // serializes releases; owner must freeze all other Railway editors separately.
  const second=await during('API_READ',()=>api(inspectQuery,vars));checked('PRECOMMIT_WORKER_CHANGED',()=>assert.equal(checkWorker(second,target),workerDigest));
  checked('PATCH_BINDING',()=>{
-  assert.deepEqual(checkPatch(second,target),plan);
-  // Compare the private decrypted views only in memory; never hash/export them.
-  assert.equal(canonical(second.staged.clear),canonical(first.staged.clear));
+  assert.deepEqual(checkPatch(second,target,approvalContext),plan);
+  // Full sensitive snapshots compared only in this process, NEVER hashed/saved.
+  assert.equal(canonical(second.staged.patch),canonical(first.staged.patch));
  });
  let workflowId;
  try{
@@ -296,11 +241,11 @@ async function main(){
   console.log(result.kind==='inspection'?'REGISTRAR_CONFIG_INSPECTION: PASS':'REGISTRAR_CONFIG_COMMIT: PASS');
   if(process.env.GITHUB_STEP_SUMMARY)await during('SUMMARY_WRITE',()=>appendFile(process.env.GITHUB_STEP_SUMMARY,
    'Registrar configuration '+result.kind+' (registration remains OFF)\n\n'+
-   'Patch ID: `'+result.patchId+'`\n\nPatch digest: `'+result.patchDigest+'`\n\n'+
+   'Approval policy: `'+approvalPolicy+'` (server metadata only; excludes secret values)\n\n'+
+   'Patch ID: `'+result.patchId+'`\n\nApproval token: `'+result.approvalToken+'`\n\n'+
+   'Not a secret-value commitment. Requires an uninterrupted owner-exclusive edit window; Railway has no atomic expected-revision commit.\n\n'+
    'Worker unchanged: `'+result.workerDeploymentId+'`\n\nNo recovery, deployment, activation or cleanup was requested.\n'));
  }catch(error){console.error('REGISTRAR_CONFIG_FAILURE: '+failureCategory(error));
-  if(process.env.REGISTRAR_CONFIG_OPERATION==='registrar-config-inspect'&&failureShape(error))console.error('REGISTRAR_CONFIG_SHAPE: '+JSON.stringify(failureShape(error)));
-  if(process.env.REGISTRAR_CONFIG_OPERATION==='registrar-config-inspect'&&failureValueClasses(error))console.error('REGISTRAR_CONFIG_VALUE_CLASSES: '+JSON.stringify(failureValueClasses(error)));
   console.error('REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.');process.exitCode=1;}
 }
 if(process.argv[1]&&pathToFileURL(process.argv[1]).href===import.meta.url)await main();
