@@ -65,6 +65,8 @@ The taper applies to the additional award rather than multiplying away the prese
 
 Migration 027 adds only `pvp_xp_events` and two window indexes. Existing characters, XP/skill/progression epochs, receipts, battles, wallets, ledgers, bounty escrow and financial records are untouched. The policy is installed as a new immutable ruleset by the existing migration mechanism; startup requires its exact installed definition. Deploying this branch would change future combat only, after the normal approved release/migration process. There is no client selector, runtime admin endpoint or environment bypass.
 
+The runtime also checks that the ledger and exact migration-027 marker agree. Fully older schemas retain legacy awards, including historical upgrade-rehearsal combat; a partial ledger installation fails closed. Only a complete migration enables hybrid rewards. This check uses transaction-scoped memoization and writes no activation state.
+
 Existing sorted character locks and an account advisory lock serialize budget reads and debits. Each event has one battle primary key, deferred battle FK, account/character FKs and range constraints. Debit and XP grant share the command transaction. Duplicate command IDs reuse receipts; rollback removes the award and event together. The debit uses **actual credited** bonus after the existing lifetime-XP storage cap. Passive autonomous bot-vs-bot combat keeps its existing rewards and creates no human bonus events. No pruning/reset job is introduced.
 
 At rollout, the new easy-win ledger starts empty; prior battles are not backfilled into it. Existing human three-win eligibility still reads historical battles. Older workers award only the old baseline and spend no new bonus. Retaining the ledger across rollback/redeployment prevents an allowance reset; future policy versions must continue charging its unexpired debit units.
@@ -126,6 +128,10 @@ TEST_DATABASE_URL=postgres://.../pvp_xp_test node --import tsx --test tests/pvp-
 ```
 
 The new tests are explicitly inventoried in existing CI lanes; no required check, timeout, safeguard or workflow is weakened. Changes classify as `full`, requiring validation, all unit/database/browser shards, recovery rehearsal and aggregate checks.
+
+The first full Linux run exposed the container rehearsal's exact migration-count expectation (26 versus the new 27). The container/worker fixtures and release verifier now require exactly `027_pvp_xp_bonus.sql`; the verifier explicitly rejects stale 026, unknown and missing heads. The container also checks that the new ledger starts empty. Signature, owner/environment approval, candidate/recovery matching and 450/900 identity checks remain intact. A local release-transport run passed 36/37 checks; its sole failure was the existing Windows file-URL path conversion (`C:\\C:\\...`), so Linux CI remains authoritative for the full rehearsal.
+
+That run passed validation, the unit lane and both browser shards. Its database failures identified one additional current-head fixture pin, two old 1-XP assertions for the intentionally changed easy awards, and combat on a historical pre-ledger schema. The assertions now verify the new awards while separately retaining the exact legacy baseline; the schema compatibility check fixes the actual missing-table path. Historical row-equality and preservation assertions remain unchanged. Focused local reruns cover all five reported database/recovery failure causes; the draft PR records the final complete Linux rerun.
 
 ## Residual risk and release decision
 

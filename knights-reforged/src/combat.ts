@@ -17,7 +17,7 @@ import {claimBounty,authorizeBountyHunt} from './bounties.js';
 import {strategy} from './strategy-rules.js';
 import {community} from './community-rules.js';
 import {refinements} from './refinement-rules.js';
-import {prepareVictoryXp,recordVictoryXp} from './pvp-xp.js';
+import {prepareVictoryXp,recordVictoryXp,pvpXpSchema} from './pvp-xp.js';
 import {pvpXp,type PvpXpDetails} from './pvp-xp-policy.js';
 
 export interface BattleRuntime {developmentBotsEnabled?:boolean;developmentBotBountiesEnabled?:boolean;developmentBotRecruitmentEnabled?:boolean;}
@@ -59,7 +59,8 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       // obeys the existing human budget or the bot-only pair reduction.
       combat.loot=lootDetails?.amount??0;
       result.battleId=randomUUID();
-      const newAttackerXp=combat.outcome==='attacker_win'&&!actor.development_bot?
+      const hybridXp=!actor.development_bot&&await pvpXpSchema(sql);
+      const newAttackerXp=combat.outcome==='attacker_win'&&hybridXp?
         await prepareVictoryXp(sql,actor,target,{level:actor.attained_level,opponentLevel:target.attained_level,power:state.attack,opponentPower:targetState.defense,eligible:rewarded,...(targetIsBot?{botVictory:sequence!.victory}:{})},now):null;
       const xpDetails=newAttackerXp??(combat.outcome==='attacker_win'?botRewards?.xp??victoryExperience47(actor.attained_level,target.attained_level,rewarded,state.attack,targetState.defense):null);
       combat.attackerXp=xpDetails?.amount??0;
@@ -74,17 +75,19 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       await sql.query('UPDATE characters SET health=$2,health_updated_at=CASE WHEN health=max_health THEN $3 ELSE health_updated_at END,state_version=state_version+1 WHERE id=$1',[target.id,combat.defenderHealthAfter,now]);
       const progression=await grantExperience(sql,actorId,combat.attackerXp,now);
       if(newAttackerXp)await recordVictoryXp(sql,result.battleId,actor,target,'attacker',newAttackerXp,progression.xpAwarded,now);
-      let defenderXpDetails:PvpXpDetails|null=null;
+      let defenderXpDetails:PvpXpDetails|ReturnType<typeof victoryExperience47>|null=null;
       let defenderFullXp=false;
       let defenderProgression:{xpAwarded:number;gained:number;level:number}|null=null;
       if(combat.outcome==='defender_win'&&!targetIsBot){
         const fullWins=(await sql.query(`SELECT count(*)::int AS n FROM battles WHERE defender_id=$1 AND attacker_id=$2
           AND outcome='defender_win' AND result->'defenderFullXp'='true'::jsonb AND created_at>$3`,[target.id,actorId,new Date(+now-86400000)])).rows[0]!.n;
         defenderFullXp=fullWins<gameplay.victoryXp.humanFullVictoriesPerTarget;
-        defenderXpDetails=await prepareVictoryXp(sql,target,actor,{level:target.attained_level,opponentLevel:actor.attained_level,power:targetState.defense,opponentPower:state.attack,eligible:defenderFullXp},now);
+        const hybridDefenderXp=hybridXp?await prepareVictoryXp(sql,target,actor,{level:target.attained_level,opponentLevel:actor.attained_level,power:targetState.defense,opponentPower:state.attack,eligible:defenderFullXp},now):null;
+        defenderXpDetails=hybridDefenderXp??victoryExperience47(target.attained_level,actor.attained_level,defenderFullXp,targetState.defense,state.attack);
+        if(!hybridXp)defenderFullXp=!defenderXpDetails.reduced;
         // Defense must never refill Health on a knockout or reset combat costs.
         defenderProgression=await grantExperience(sql,target.id,defenderXpDetails.amount,now,false);
-        await recordVictoryXp(sql,result.battleId,target,actor,'defender',defenderXpDetails,defenderProgression.xpAwarded,now);
+        if(hybridDefenderXp)await recordVictoryXp(sql,result.battleId,target,actor,'defender',hybridDefenderXp,defenderProgression.xpAwarded,now);
       }
       const after=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[actorId])).rows[0]!;
       const battle={...combat,bountyContractId:bountyContractId??null,...(bountyId?{bountyHuntId:bountyId}:{}),...(autonomousPolicy?{botDuelPolicyId:autonomousPolicy}:{}),id:result.battleId,rulesetId:alpha.id,attackerId:actorId,defenderId:target.id,attackerName:actor.name,defenderName:target.name,
@@ -93,7 +96,7 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
         defenderXp:defenderProgression?.xpAwarded??0,defenderXpDetails,defenderFullXp,defenderLevelGained:defenderProgression?.gained??0,defenderLevelAfter:defenderProgression?.level??target.attained_level,attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,
         attackEquipment:state.attackEquipment.selected,defenseEquipment:targetState.defenseEquipment.selected,attackerArmy:state.army.participants,defenderArmy:targetState.army.participants,
         attackerTraining:{...state.training},defenderTraining:{...targetState.training},attackerCalling:{name:state.className,...state.calling},defenderCalling:{name:targetState.className,...targetState.calling},
-        commandId:key,victoryStyle:combat.outcome==='attacker_win'?(combat.attackPower>=combat.defensePower*1.5?'decisive':'hard-fought'):'defeat',progressionRulesetId:actor.development_bot?(targetIsBot?botCombat.id:gameFeel.id):pvpXp.id,xpDetails,pvpRulesetId:rewardRulesetId,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botRewardEligibilityPolicy:targetIsBot?botCombat.id:null,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
+        commandId:key,victoryStyle:combat.outcome==='attacker_win'?(combat.attackPower>=combat.defensePower*1.5?'decisive':'hard-fought'):'defeat',progressionRulesetId:hybridXp?pvpXp.id:targetIsBot?botCombat.id:gameFeel.id,xpDetails,pvpRulesetId:rewardRulesetId,lootDetails,strategyRulesetId:strategy.id,communityRulesetId:community.id,refinementRulesetId:refinements.id,temporaryRival:targetIsBot,botRewardEligibilityPolicy:targetIsBot?botCombat.id:null,botPopulationVersion:targetIsBot?(await sql.query('SELECT population_version FROM development_bots WHERE character_id=$1',[target.id])).rows[0]!.population_version:null,bountyClaim:null as {id:string;reward:number;rulesetId:string}|null,createdAt:now.toISOString()};
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       if(!autonomousPolicy&&combat.defenderHealthAfter===0){

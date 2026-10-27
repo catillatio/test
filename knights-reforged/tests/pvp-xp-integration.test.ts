@@ -5,7 +5,7 @@ import {competitionFixture} from './phase6-fixtures.js';
 import {testDatabaseUrl,type Player} from './helpers.js';
 import {transaction} from '../src/db.js';
 import {lockCharacters} from '../src/game.js';
-import {prepareVictoryXp,recordVictoryXp} from '../src/pvp-xp.js';
+import {prepareVictoryXp,recordVictoryXp,pvpXpSchema} from '../src/pvp-xp.js';
 import {humanVictoryLoot} from '../src/human-pvp-loot.js';
 const skip=!testDatabaseUrl;
 
@@ -64,6 +64,8 @@ test('durable account budget serializes fresh targets and both roles, rolls back
   assert.equal((await award(b,'defender')).bonusAmount,0);
   r.advance(86399.999);assert.equal((await award(c,'attacker')).bonusAmount,0);
   r.advance(.001);assert.ok((await award(b,'defender')).bonusAmount>0);
+  await r.db.query("DELETE FROM schema_migrations WHERE name='027_pvp_xp_bonus.sql'");
+  await assert.rejects(transaction(r.db,sql=>pvpXpSchema(sql)),/Incomplete PvP XP schema/);
  }finally{await r.close();}
 });
 

@@ -79,11 +79,13 @@ test('human defensive victories also earn level-aware XP, diminish to one, repla
   const a=await r.player('Honest Challenger'),b=await r.player('Iron Sentinel');await r.prepare(a,1000,650);await r.prepare(b,10000,650);
   await r.legacyArmy(b,20);await r.ok(b,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:20});
   await r.db.query('UPDATE characters SET max_health=1000,health=1000,max_spirit=100,spirit=100 WHERE id=ANY($1::uuid[])',[[a.id,b.id]]);
-  const start=await r.me(b),xp=victoryExperience45(start.level,start.level,true,start.defense,(await r.me(a)).attack).amount;
+  const start=await r.me(b),legacyXp=victoryExperience45(start.level,start.level,true,start.defense,(await r.me(a)).attack).amount;
+  assert.equal(legacyXp,1,'the original trivial-victory fixture remains reproducible');
+  const expected=[4,2,1,1]; // Versioned easy-victory curve and taper, then human quota.
   for(let i=0;i<4;i++){
    const before=await r.me(b),key=randomUUID(),hit=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key);
    const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[hit.battleId])).rows[0]!.result;
-   assert.equal(report.outcome,'defender_win');assert.equal(report.attackerXp,0);assert.equal(report.defenderXp,i<3?xp:1);
+   assert.equal(report.outcome,'defender_win');assert.equal(report.attackerXp,0);assert.equal(report.defenderXp,expected[i]);
    const after=await r.me(b);assert.equal(after.xp-before.xp,report.defenderXp);assert.equal(after.health,before.health-report.defenderDamage);
    await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id},key);assert.equal((await r.me(b)).xp,after.xp);
    const page=await r.app.inject({method:'GET',url:'/game/battles/'+hit.battleId,headers:{cookie:b.cookie}});assert.match(page.body,new RegExp('XP (?:gained|earned)</dt><dd[^>]*>\\+[^<]*'+report.defenderXp));

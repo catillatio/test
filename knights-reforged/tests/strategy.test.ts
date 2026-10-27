@@ -90,7 +90,7 @@ test('450 passive rivals span levels 1–50 with real quantity-limited equipment
       const before=await r.me(player);const fight=await r.ok(player,'/api/v1/battles',{targetCharacterId:opponent.character_id});
       const report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.result;
       assert.equal(report.outcome,'attacker_win');assert.equal(report.attackPower,Math.round(before.attack*(100+report.attackRoll)));assert.equal(report.botPopulationVersion,botCatalog.id);
-      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=victoryLoot45(1000000,1,true,true,level).botCap!);const snap=(await r.db.query('SELECT snapshot FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.snapshot;assert.equal(report.attackerXp,botVictoryRewards(snap.defender.gold,level,level,1,before.attack,snap.defender.defense).xp.amount);
+      assert.equal(fight.state.spirit,before.spirit-1);assert.ok(report.loot<=victoryLoot45(1000000,1,true,true,level).botCap!);const snap=(await r.db.query('SELECT snapshot FROM battles WHERE id=$1',[fight.battleId])).rows[0]!.snapshot;assert.equal(report.xpDetails.baselineAmount,botVictoryRewards(snap.defender.gold,level,level,1,before.attack,snap.defender.defense).xp.amount);assert.equal(report.attackerXp,boundedVictoryXp({level,opponentLevel:level,power:before.attack,opponentPower:snap.defender.defense,eligible:true,botVictory:1}).amount);
     }
     const unprepared=await r.player('Unprepared Challenger');await r.prepare(unprepared,1000,Array.from({length:49},(_,i)=>levelRequirement(i+1)).reduce((a,b)=>a+b,0));
     const elite=(await r.db.query("SELECT b.character_id FROM development_bots b JOIN characters c ON c.id=b.character_id WHERE c.attained_level=50 AND b.tier='elite' AND b.variant=0")).rows[0]!;
@@ -171,3 +171,4 @@ test('development baseline settles old upkeep before restoring gold and preserve
     assert.ok((await r.db.query("SELECT 1 FROM maintenance_events WHERE character_id=$1 AND reason='accrual'",[actor.id])).rows.length>0);
   }finally{await r.close();}
 });
+import {boundedVictoryXp} from '../src/pvp-xp-policy.js';

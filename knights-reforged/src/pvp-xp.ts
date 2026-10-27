@@ -1,6 +1,16 @@
-import type {Sql} from './db.js';
+import {transactionMemo,type Sql} from './db.js';
 import type {CharacterRow} from './game.js';
 import {boundedVictoryXp,pvpXp,type XpInput,type PvpXpDetails} from './pvp-xp-policy.js';
+
+const schemaKey=Symbol('pvp-xp-schema');
+// Older restored schemas remain executable under their recorded legacy rules.
+// A partial installation fails closed; only the exact additive migration and
+// its ledger together enable the new policy. No environment/client selector.
+export function pvpXpSchema(sql:Sql):Promise<boolean>{return transactionMemo(sql,schemaKey,async()=>{
+ const row=(await sql.query("SELECT to_regclass('pvp_xp_events') IS NOT NULL AS ledger,EXISTS(SELECT 1 FROM schema_migrations WHERE name='027_pvp_xp_bonus.sql') AS installed")).rows[0]!;
+ if(row.ledger!==row.installed)throw Error('Incomplete PvP XP schema.');
+ return row.installed as boolean;
+});}
 
 // Called inside the combat transaction after sorted character locks. One
 // account-level lock also serializes any future additional character slots.
