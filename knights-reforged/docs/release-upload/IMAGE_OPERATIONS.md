@@ -1,7 +1,9 @@
 # Owner procedure: private immutable-image releases
 
-This is a **future owner-authorized procedure**, not evidence that any step below
-has been performed. The implementation is inactive. Do not dispatch a protected
+This procedure separates completed owner setup from future release authorization.
+The owner has approved the alternate existing registry, verified it is Private and
+confirmed `catillatio/test` already has Admin Actions access (which includes Write).
+The image transport remains inactive. Do not dispatch a protected
 workflow, publish a game image or change production configuration as part of PR
 review. No local CLI/software or Windows access is required.
 
@@ -11,17 +13,27 @@ review. No local CLI/software or Windows access is required.
    wait for successful exact-production-commit push CI. Preserve existing required
    owner review, administrator-bypass prohibition, branch rule, autodeploy-disabled
    setting and production mutex.
-2. GitHub Packages must already contain **private**
-   `ghcr.io/catillatio/kingdom-come`. Allow this repository's Actions write access.
-   If absent, stop before any game publication: separately authorize a small
-   synthetic bootstrap into this exact package using the already proven canary
-   publisher pattern, set/verify Private in GitHub's dashboard, and then grant
-   Actions access. Do not bootstrap by uploading the game before privacy is known.
-   This bootstrap is not run or automatically added by this PR.
-3. Create a restricted, short-lived classic PAT with only `read:packages` for this
-   package. Enter it privately as protected GitHub environment secret
+2. Completed owner decision: permanent image location is the **existing Private**
+   `ghcr.io/catillatio/kingdom-come-deploy-canary` package. Despite its historical
+   name, the private package can hold separately tagged game images; preserve the
+   original canary digest and tags. On 2026-10-27 the owner confirmed Private and
+   existing `catillatio/test` **Admin** Actions access. Admin includes Write; do
+   not recreate or downgrade this access for the registry correction. This is
+   namespace/access approval only, not publication/deployment authorization. The
+   publisher requires authenticated metadata to confirm this exact existing package is
+   Private before any push. Missing/unreadable/public metadata is HOLD; never
+   bootstrap, restore or substitute another namespace. The failed Public
+   `kingdom-come` bootstrap is being deleted by the owner; do not republish it.
+3. Next credential prerequisite: privately add or confirm a restricted, short-lived
+   classic PAT with only `read:packages` for this package. Enter it privately as
+   protected GitHub environment secret
    `KINGDOM_IMAGE_REGISTRY_READ_TOKEN`; never send it through chat or workflow
-   inputs. The publishing step uses its separate ephemeral GITHUB_TOKEN.
+   inputs. The publishing step uses its separate ephemeral GITHUB_TOKEN, whose
+   existing package access is already sufficient. Never supply a permanent write PAT.
+   If this read secret is already configured, do not rotate/recreate it without
+   a separate need. Secret presence alone does not prove scope or access.
+   Leave all four image capability flags unset/disabled; saving this secret does
+   not authorize image preparation, publication, release or recovery.
 4. In the existing Railway **game service only**, privately save an independently
    restricted GitHub read-package credential under Source → Registry Credentials.
    Confirm the plan already supports private registry pulls; no plan upgrade is

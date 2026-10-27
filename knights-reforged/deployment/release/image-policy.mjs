@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 
 export const imagePolicy='kingdom-release-image-v1';
-export const imageRepository='ghcr.io/catillatio/kingdom-come';
+// Existing owner-confirmed Private package; publication must never create one.
+export const imagePackage='kingdom-come-deploy-canary';
+export const imageRepository='ghcr.io/catillatio/'+imagePackage;
 export const imageDigest=/^sha256:[a-f0-9]{64}$/;
 const hex=/^[a-f0-9]{64}$/,sha=/^[a-f0-9]{40}$/,id=/^[1-9][0-9]{0,24}$/;
 export const canonical=value=>JSON.stringify(value,(_k,v)=>v&&typeof v==='object'&&!Array.isArray(v)?Object.fromEntries(Object.keys(v).sort().map(k=>[k,v[k]])):v);

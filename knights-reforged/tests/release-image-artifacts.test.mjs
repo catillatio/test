@@ -7,13 +7,14 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {readImageArtifact,command,checkBuildTree} from '../deployment/release/image.mjs';
 import {candidateDigest} from '../deployment/release/candidate.mjs';
+import {imageRepository} from '../deployment/release/image-policy.mjs';
 import {candidate,workflowEnv} from './fixtures/release-image.mjs';
 const folder=mkdtempSync(join(tmpdir(),'image-artifact-test-'));after(()=>rmSync(folder,{recursive:true,force:true}));
 const hash=b=>'sha256:'+createHash('sha256').update(b).digest('hex');
 const actualCandidate=await candidateDigest();
 function fixture(mode='success'){
  const c=candidate();c.candidateDigest=actualCandidate;c.identity.candidateDigest=actualCandidate;
- const raw=Buffer.from(JSON.stringify({schemaVersion:2,mediaType:'application/vnd.oci.image.manifest.v1+json',config:{digest:c.configDigest},layers:[{digest:'sha256:'+'f'.repeat(64),size:10}]})+'\n');c.manifestDigest=hash(raw);c.reference='ghcr.io/catillatio/kingdom-come@'+c.manifestDigest;
+ const raw=Buffer.from(JSON.stringify({schemaVersion:2,mediaType:'application/vnd.oci.image.manifest.v1+json',config:{digest:c.configDigest},layers:[{digest:'sha256:'+'f'.repeat(64),size:10}]})+'\n');c.manifestDigest=hash(raw);c.reference=imageRepository+'@'+c.manifestDigest;
  const env={...workflowEnv(),GH_TOKEN:'synthetic-only',RUNNER_TEMP:folder,KINGDOM_IMAGE_MANIFEST_DIGEST:c.manifestDigest};
  if(mode==='wrong_candidate')c.identity.candidateDigest=c.candidateDigest='0'.repeat(64);
  const entries=[['candidate.json',JSON.stringify(c)],['manifest.json',raw.toString()]];
