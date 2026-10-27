@@ -1,0 +1,35 @@
+name: Approved canary registry reconciliation
+on: create
+permissions:
+  contents: read
+concurrency:
+  group: kingdom-come-production
+  cancel-in-progress: false
+jobs:
+  reconcile:
+    if: github.repository == 'catillatio/test' && github.actor == 'catillatio' && github.event.ref_type == 'branch' && github.event.ref == 'canary/immutable-image-evidence-20261027' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      packages: read
+    defaults:
+      run:
+        working-directory: knights-reforged/deployment/image-canary
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, ref: '${{ github.sha }}'}
+      - name: Independently verify manifest bytes, configuration and digest-pulled runtime
+        run: python3 reconcile.py
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: canary-registry-reconciliation-${{ github.run_id }}
+          path: |
+            knights-reforged/deployment/image-canary/registry-reconciliation.json
+            knights-reforged/deployment/image-canary/reconciled-manifest.json
+            knights-reforged/deployment/image-canary/reconciled-config.json
+          if-no-files-found: error
+          retention-days: 90
