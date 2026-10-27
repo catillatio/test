@@ -56,7 +56,7 @@ try{
  await action(apprentice,apprentice.getByRole('button',{name:'Do quest Patrol the border',exact:true}));for(let i=0;i<2;i++)await action(apprentice,apprentice.getByRole('button',{name:'Do Again',exact:true}));assert.equal((await state(apprentice)).level,2);
  await apprentice.locator('.contextual-guide').getByRole('link',{name:'Show Me',exact:true}).click();await action(apprentice,apprentice.getByRole('button',{name:"Buy Squire's Blade",exact:true}));
  await apprentice.locator('.contextual-guide').getByRole('link',{name:'Show Me',exact:true}).click();
- await action(apprentice,apprentice.locator('.rival-row').filter({has:apprentice.locator('input[value="'+easy.id+'"]')}).getByRole('button',{name:'Attack Aldric Fieldwatch',exact:true}));
+ await action(apprentice,apprentice.locator('#rival-list .bounty-row').filter({has:apprentice.locator('input[value="'+easy.id+'"]')}).getByRole('button',{name:'Attack Aldric Fieldwatch',exact:true}));
  assert.equal((await r.db.query('SELECT outcome FROM battles WHERE id=$1',[new URL(apprentice.url()).pathname.split('/').at(-1)])).rows[0]!.outcome,'attacker_win');
  await apprentice.goto(origin+'/game/tutorial');assert.match(await apprentice.locator('.guide-lesson').innerText(),/Step 7 of 8/);await capture(apprentice,'390-tutorial-land-step');
  await apprentice.getByRole('link',{name:'Show Me',exact:true}).click();assert.equal(new URL(apprentice.url()).pathname,'/game/land');assert.equal(new URL(apprentice.url()).hash,'#property-smallholding');

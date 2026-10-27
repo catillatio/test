@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "stage": "after",
+  "baseline": "502354b1ba11728a92b74e74b1aaeb1c600bda5e",
+  "productionContacted": false,
+  "views": [
+    {
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1.25,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1.25,
+      "path": "page-2",
+      "rows": 8
+    }
+  ],
+  "pixelChecks": [
+    {
+      "width": 320,
+      "scale": 1,
+      "identical": true,
+      "sha256": "77c077893dcccf24ed2128bd3e7b28639900ed05a383a78078b095948940d49e"
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "identical": true,
+      "sha256": "5a188f1c2b91b178290867409941899bb071817647f7a58997a47bdbec77398f"
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "identical": true,
+      "sha256": "84caf4bfe54440c64417688f21295e4f4854364a643e5766a85673cb4ff8d881"
+    },
+    {
+      "width": 1280,
+      "scale": 1,
+      "identical": true,
+      "sha256": "c84d1d044cd197d04ac30e879b717acf320577920b9b241a102c13d4874a4242"
+    },
+    {
+      "width": 390,
+      "scale": 1.25,
+      "identical": true,
+      "sha256": "1c9405c5876a67d37d03bcf74201dc48d3ebeae9c2329c92d0a2c1a65f0ef53e"
+    }
+  ],
+  "approvedBountyTemplateSha256": "cb1aaed28643f55b16852695016c7afebf07c7d542e296fcd685d43c5c2c96ed",
+  "financialViewsPreserved": true,
+  "paginationUnique": 28,
+  "refreshAndTabsPassed": true,
+  "profileAndOrdinaryAttackPassed": true,
+  "disabledAndRangeChecksPassed": true,
+  "idempotencyPassed": true,
+  "errors": []
+}
