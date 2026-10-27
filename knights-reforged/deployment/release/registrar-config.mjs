@@ -169,7 +169,7 @@ export function checkPatch(data,target,{sourceCommit,workerSnapshot}={}){
   patch:{id:p.id,environmentId:p.environmentId,createdAt:p.createdAt,updatedAt:p.updatedAt,status:p.status},
   variables:registrationKeys.map(name=>({name,isSealed:clear[name].isSealed??null,isOptional:clear[name].isOptional??null})),registrationState:'disabled'})};
 }
-function checkClearedPatch(data,original,target){
+export function checkClearedPatch(data,original,target){
  checked('PATCH_NOT_CLEARED',()=>{
   const receipt=data.receipt,pending=data.pending;
   assert.equal(receipt?.id,original.id);assert.equal(receipt.environmentId,target.environmentId);assert.equal(receipt.status,'COMMITTED');
@@ -177,7 +177,12 @@ function checkClearedPatch(data,original,target){
   assert.ok(Number.isFinite(Date.parse(receipt.appliedAt))&&Date.parse(receipt.appliedAt)>=Date.parse(original.updatedAt));
   assert.ok(Number.isFinite(Date.parse(receipt.updatedAt))&&Date.parse(receipt.updatedAt)>=Date.parse(original.updatedAt));
   assert.equal(canonical(receipt.patch),canonical(original.patch));
-  assert.match(pending?.id??'',uuid);assert.equal(pending.environmentId,target.environmentId);
+  // A cleared query may explicitly return null. Missing/erroring data is NOT
+  // clearance. The exact committed receipt above is mandatory in either case.
+  assert.ok(Object.hasOwn(data,'pending'));if(pending===null)return;
+  // Empty staging placeholders are not stored patches. GraphQL ID is opaque,
+  // not a UUID contract; only the original committed receipt binds identity.
+  assert.equal(typeof pending?.id,'string');assert.equal(pending.environmentId,target.environmentId);
   if(pending.id===receipt.id){
    // Railway may return the just-committed record when nothing is staged.
    for(const key of ['status','createdAt','updatedAt','appliedAt','lastAppliedError','patch'])assert.equal(canonical(pending[key]),canonical(receipt[key]));

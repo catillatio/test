@@ -6,7 +6,7 @@ import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {validateRequest,targetConfig,checkWorker,checkPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys,failureCategory,approvalPolicy} from '../deployment/release/registrar-config.mjs';
+import {validateRequest,targetConfig,checkWorker,checkPatch,checkClearedPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys,failureCategory,approvalPolicy} from '../deployment/release/registrar-config.mjs';
 
 const id=n=>String(n).repeat(8)+'-'+String(n).repeat(4)+'-4'+String(n).repeat(3)+'-8'+String(n).repeat(3)+'-'+String(n).repeat(12);
 const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'catillatio/test',GITHUB_JOB:'registrar-config',GITHUB_REF:'refs/heads/release/production',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1',
@@ -268,6 +268,34 @@ test('clearance binds the exact committed receipt and rejects pending, mismatche
   clearingNetwork:d=>{d.pending={...structuredClone(d.staged),id:id(7),patch:{privateNetworkDisabled:null}};}
  };
  for(const [name,changeAfter] of Object.entries(cases))await t.test(name,async()=>{const p=provider({changeAfter});await assert.rejects(runConfig(commitEnv(),{api:p.api}),e=>failureCategory(e)==='PATCH_NOT_CLEARED');assert.equal(p.writes().length,1);});
+});
+test('read-only postcheck accepts explicit cleared null or empty opaque-ID placeholders ONLY after an exact valid receipt',async t=>{
+ const original=fixture().staged,receipt={...structuredClone(original),status:'COMMITTED',appliedAt:'2026-10-26T05:00:00.000Z',updatedAt:'2026-10-26T05:00:00.000Z'};
+ const cleared=[null,{...structuredClone(original),id:'',patch:{}},{...structuredClone(original),id:'empty-placeholder',patch:{services:{},volumes:{},buckets:{},sharedVariables:{}}}];
+ for(const pending of cleared){
+  // Pure verification: no API, credential, variable write or commit invocation.
+  assert.doesNotThrow(()=>checkClearedPatch({receipt,pending},original,target));
+  const cases={
+   missingReceipt:d=>{delete d.receipt;},nullReceipt:d=>{d.receipt=null;},wrongReceipt:d=>{d.receipt.id=id(7);},
+   wrongEnvironment:d=>{d.receipt.environmentId=id(7);},unapplied:d=>{d.receipt.status='STAGED';},
+   missingAppliedAt:d=>{d.receipt.appliedAt=null;},rewoundRevision:d=>{d.receipt.updatedAt='2026-10-25T00:00:00.000Z';},
+   changedPayload:d=>{changePrivateValue({staged:d.receipt});},error:d=>{d.receipt.lastAppliedError='provider-private-error';}
+  };
+  for(const [name,mutate] of Object.entries(cases))await t.test(name,()=>{
+   const data=structuredClone({receipt,pending});mutate(data);
+   assert.throws(()=>checkClearedPatch(data,original,target),e=>failureCategory(e)==='PATCH_NOT_CLEARED'&&e.message==='Registrar configuration check failed.');
+  });
+ }
+ for(const pending of [undefined,false,{}, {environmentId:target.environmentId,status:'STAGED',patch:{}},
+  {...structuredClone(original),id:'empty',environmentId:id(7),patch:{}},
+  {...structuredClone(original),id:'empty',patch:null},
+  {...structuredClone(original),id:'empty',patch:{services:{[target.workerId]:{variables:{UNRELATED:{value:'secret'}}}}}},
+  {...structuredClone(original),id:'empty',patch:{privateNetworkDisabled:null}}
+ ])assert.throws(()=>checkClearedPatch({receipt,pending},original,target),e=>failureCategory(e)==='PATCH_NOT_CLEARED');
+ assert.throws(()=>checkClearedPatch({receipt},original,target),e=>failureCategory(e)==='PATCH_NOT_CLEARED');
+});
+test('cleared-null postcheck completes after exactly one synthetic mutation; no retry path is introduced',async()=>{
+ const p=provider({changeAfter:d=>{d.pending=null;}});assert.equal((await runConfig(commitEnv(),{api:p.api})).kind,'committed');assert.equal(p.writes().length,1);
 });
 test('workflow keeps one production mutex/owner gate and makes config and recovery mutually exclusive',()=>{
  const workflow=readFileSync(new URL('../../.github/workflows/production-release.yml',import.meta.url),'utf8');
