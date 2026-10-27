@@ -1,6 +1,8 @@
 {
   "version": 1,
   "tests": [
+    {"file":"tests/pvp-xp-policy.test.ts","lane":"unit","weight":3},
+    {"file":"tests/pvp-xp-integration.test.ts","lane":"database","weight":12},
     {"file":"tests/rivals-shared-browser.test.mjs","lane":"browser","weight":45},
     {"file":"tests/bounty-policy.test.ts","lane":"unit","weight":1},
     {"file":"tests/historical-bounties.test.ts","lane":"database","weight":25},
