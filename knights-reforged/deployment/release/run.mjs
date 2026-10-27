@@ -13,7 +13,7 @@ import {recoveryStore} from './store.mjs';
 import {signProof} from './proof.mjs';
 import {verifyQueuedDeployment,waitForWorkerCompletion} from './deployment.mjs';
 import {uploadSource} from './upload.mjs';
-import {checkImageApproval} from './image-policy.mjs';
+import {checkImageApproval,imageRegistrySetup,imageRegistryCredentials} from './image-policy.mjs';
 import {authenticateImage} from './image.mjs';
 import {deployImage,verifyImageDeployment} from './image-deploy.mjs';
 import {railwayClient} from './registrar-config.mjs';
@@ -49,12 +49,13 @@ async function main(){
  const privateKey=createPrivateKey(process.env.KINGDOM_RELEASE_SIGNING_KEY);
  assert.equal(privateKey.asymmetricKeyType,'ed25519');
  assert.deepEqual(createPublicKey(privateKey).export({type:'spki',format:'der'}),createPublicKey(process.env.KINGDOM_RELEASE_VERIFY_KEY).export({type:'spki',format:'der'}),'Release signing and verification keys differ.');
- let image,imageTargetDigest;
+ let image,imageTargetDigest,registrySetup;
  if(settings.gameTransport==='oci-image-v1')image=await during('IMAGE_CANDIDATE_VERIFICATION',async()=>{
   const approval=JSON.parse(await readFile(join(process.env.RUNNER_TEMP,'verified-image-candidate.json'),'utf8'));
   checkImageApproval(approval,{sourceSha:settings.sha,candidate:await candidateDigest(),reference:approval.candidate.reference,digest:approval.candidate.manifestDigest,identity:approval.candidate.identity});
   assert.equal(approval.artifactId,process.env.KINGDOM_IMAGE_ARTIFACT_ID);assert.equal(approval.candidate.prepareRunId,process.env.KINGDOM_IMAGE_RUN_ID);assert.equal(approval.candidate.manifestDigest,process.env.KINGDOM_IMAGE_MANIFEST_DIGEST);
   const target=JSON.parse(await readFile(join(process.env.RUNNER_TEMP,'verified-image-target.json'),'utf8'));
+  registrySetup=imageRegistrySetup(process.env);assert.equal(target.registrySetup,registrySetup);
   assert.equal(target.sha,settings.sha);assert.equal(target.jobId,settings.id);assert.equal(target.definitionDigest,approval.definitionDigest);
   assert.ok(Number.isFinite(target.checkedAt)&&target.checkedAt<=Date.now()+10000&&target.expiresAt>Date.now()&&target.expiresAt-target.checkedAt<=2700000);
   assert.match(target.runningTargetDigest,/^[a-f0-9]{64}$/);imageTargetDigest=target.runningTargetDigest;
@@ -143,7 +144,7 @@ async function main(){
   let deploymentId;
   if(image){
    Object.assign(values,{KINGDOM_RELEASE_ARTIFACT_KIND:'oci-image-v1',KINGDOM_RELEASE_IMAGE_REFERENCE:image.candidate.reference,KINGDOM_RELEASE_IMAGE_DIGEST:image.candidate.manifestDigest});
-   deploymentId=await during('GAME_IMAGE_DEPLOYMENT',()=>deployImage({...settings,imageTargetDigest},image,values,{token:process.env.RAILWAY_TOKEN,log:code=>console.log('IMAGE_RELEASE: '+code)}));
+   deploymentId=await during('GAME_IMAGE_DEPLOYMENT',()=>deployImage({...settings,imageTargetDigest,registrySetup},image,values,{credentials:imageRegistryCredentials(process.env),token:process.env.RAILWAY_TOKEN,log:code=>console.log('IMAGE_RELEASE: '+code)}));
   }else{
    await stage(settings.gameServiceId,values);deploymentId=await deploy(settings.gameServiceId);
   }
@@ -169,7 +170,7 @@ async function main(){
   const login=await fetch(settings.origin+'/login',{redirect:'error',signal:AbortSignal.timeout(8000)});
   assert.equal(login.status,200);assert.ok((await login.text()).includes('Enter the realm'));
   await writeFile(out+'/post-deploy.json',JSON.stringify({passed:true,sha:settings.sha,deploymentId,health:'ready',privateStatus:post.report,anonymousLogin:200,
-   ...(image?{artifactKind:'oci-image-v1',imageReference:image.candidate.reference,imageManifestDigest:image.candidate.manifestDigest,imageConfigDigest:image.candidate.configDigest,imageCandidateArtifactId:image.artifactId,imageCandidateArtifactDigest:image.artifactDigest}:{})},null,2));
+   ...(image?{artifactKind:'oci-image-v1',registrySetup,imageReference:image.candidate.reference,imageManifestDigest:image.candidate.manifestDigest,imageConfigDigest:image.candidate.configDigest,imageCandidateArtifactId:image.artifactId,imageCandidateArtifactDigest:image.artifactDigest}:{})},null,2));
   console.log('Exact-release health, signed pre-deploy guard, saved realm and login verified. No provisioning ran.');
  }finally{store.close();}
 }

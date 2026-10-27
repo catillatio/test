@@ -7,7 +7,7 @@ import {mkdir,readFile,writeFile,mkdtemp,rm,readdir,lstat} from 'node:fs/promise
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {candidateDigest} from './candidate.mjs';
-import {checkImageRequest,checkNoImageRequest,checkImageCandidate,checkImageIdentity,imageRepository,imagePackage,imageDigest,imagePolicy,definitionDigest} from './image-policy.mjs';
+import {checkImageRequest,checkNoImageRequest,checkImageCandidate,checkImageIdentity,imageRepository,imagePackage,imageDigest,imagePolicy,definitionDigest,imageRegistrySetup} from './image-policy.mjs';
 
 const media=['application/vnd.oci.image.manifest.v1+json','application/vnd.docker.distribution.manifest.v2+json'];
 const sha256=bytes=>'sha256:'+createHash('sha256').update(bytes).digest('hex');
@@ -65,7 +65,7 @@ export async function checkBuildTree(root=new URL('../../',import.meta.url).path
  for(const entry of [...dirs,...files])await visit(entry);
  assert.deepEqual([...seen].sort(),[...tracked.keys()].sort());
 }
-export function registryClient(token,{fetcher=globalThis.fetch}={}){
+export function registryClient(token,{fetcher=globalThis.fetch,requireReadOnly=false}={}){
  assert.ok(typeof token==='string'&&token.trim()&&!/[\r\n]/.test(token));
  let bearer;
  const get=async(url,headers={})=>fetcher(url,{headers,redirect:'error',cache:'no-store',signal:AbortSignal.timeout(30000)});
@@ -73,7 +73,9 @@ export function registryClient(token,{fetcher=globalThis.fetch}={}){
   async privatePackage(){
    const response=await get(packageApi,{authorization:'Bearer '+token,accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'});
    const value=JSON.parse((await checkedResponse(response)).toString('utf8'));
-   assert.equal(value.name,imagePackage);assert.equal(value.package_type,'container');assert.equal(value.visibility,'private');return true;
+   assert.equal(value.name,imagePackage);assert.equal(value.package_type,'container');assert.equal(value.visibility,'private');
+   if(requireReadOnly)assert.deepEqual((response.headers.get('x-oauth-scopes')??'').split(',').map(s=>s.trim()).filter(Boolean).sort(),['read:packages']);
+   return true;
   },
   async manifest(digest){
    assert.match(digest,imageDigest);
@@ -103,7 +105,7 @@ async function dockerAccess(token,operation,{run=command}={}){
 }
 export async function authenticateImage(approval,env,{run=command,fetcher=globalThis.fetch}={}){
  const definition=checkImageCandidate(approval.candidate,{sourceSha:env.GITHUB_SHA,candidate:await candidateDigest()});
- const registry=registryClient(env.KINGDOM_IMAGE_REGISTRY_READ_TOKEN,{fetcher});await registry.privatePackage();
+ const registry=registryClient(env.KINGDOM_IMAGE_REGISTRY_READ_TOKEN,{fetcher,requireReadOnly:imageRegistrySetup(env)==='install-read-only'});await registry.privatePackage();
  const {raw,value}=await registry.manifest(definition.manifestDigest);assert.equal(value.config.digest,definition.configDigest);
  await dockerAccess(env.KINGDOM_IMAGE_REGISTRY_READ_TOKEN,async folder=>{
   await run('docker',['--config',folder,'pull',definition.reference]);await probeImage(definition.reference,definition,{run,dockerConfig:folder});

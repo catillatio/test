@@ -24,23 +24,28 @@ review. No local CLI/software or Windows access is required.
    Private before any push. Missing/unreadable/public metadata is HOLD; never
    bootstrap, restore or substitute another namespace. The failed Public
    `kingdom-come` bootstrap is being deleted by the owner; do not republish it.
-3. Next credential prerequisite: privately add or confirm a restricted, short-lived
-   classic PAT with only `read:packages` for this package. Enter it privately as
-   protected GitHub environment secret
-   `KINGDOM_IMAGE_REGISTRY_READ_TOKEN`; never send it through chat or workflow
-   inputs. The publishing step uses its separate ephemeral GITHUB_TOKEN, whose
+3. Completed owner setup: protected GitHub production environment secret
+   `KINGDOM_IMAGE_REGISTRY_READ_TOKEN` is configured. It must be a restricted,
+   short-lived classic PAT with only `read:packages` for this package; never send
+   it through chat or workflow inputs. The publishing step uses its separate ephemeral GITHUB_TOKEN, whose
    existing package access is already sufficient. Never supply a permanent write PAT.
    If this read secret is already configured, do not rotate/recreate it without
    a separate need. Secret presence alone does not prove scope or access.
    Leave all four image capability flags unset/disabled; saving this secret does
    not authorize image preparation, publication, release or recovery.
-4. In the existing Railway **game service only**, privately save an independently
-   restricted GitHub read-package credential under Source → Registry Credentials.
-   Confirm the plan already supports private registry pulls; no plan upgrade is
-   authorized here. Keep image auto-updates and GitHub autodeploy disabled. Do not
-   click Deploy or accidentally apply unrelated staged changes. If entering the
-   credential/source requires a deployment in the dashboard, hold for a separately
-   reviewed setup action rather than starting one outside the protected workflow.
+4. First-time Railway credential installation happens **inside the later protected
+   image promotion**. The GitHub-source service has no Registry Credentials field;
+   do not disconnect GitHub, switch sources, click Deploy, call a direct update,
+   or create a setup deployment to reveal it. The protected workflow now has
+   `image_install_registry_credentials`, OFF by default. On the first separately
+   approved **real image release**, select it to authorize copying the existing
+   protected `read:packages` token into Railway's game-only registry credentials.
+   No extra credential is entered in chat, workflow inputs or a Railway variable.
+   The token's OAuth scopes must be exactly `read:packages`; missing/extra scopes
+   fail before recovery. This option requires promotion ON and the original
+   GitHub source, and is forbidden for preparation, rehearsals and later image
+   updates. Keep `KINGDOM_GAME_IMAGE_REGISTRY_READY` unset/false for this first
+   transition; an explicit, verified handoff supplies its credential prerequisite.
 5. Review/accept the [exclusive-window/TOCTOU limitation](IMAGE_TRANSPORT_DESIGN.md).
    Ensure no other Railway editor or automation can change the environment until
    each protected release completes. Reuse the current recovery/signing/database
@@ -70,9 +75,11 @@ push blindly. No image is selected by a mutable tag.
 
 ## One normal protected image release, only with separate owner approval
 
-Enable protected variables `KINGDOM_GAME_IMAGE_ENABLED=true` and
-`KINGDOM_GAME_IMAGE_REGISTRY_READY=true` after private pull access and the edit
-window have been confirmed. Enabling image mode deliberately blocks accidental
+Enable protected variable `KINGDOM_GAME_IMAGE_ENABLED=true` only for the
+separately approved cutover. For the first credential handoff, keep
+`KINGDOM_GAME_IMAGE_REGISTRY_READY` unset/false and select the explicit installation
+option below. For subsequent image releases, the owner may set Registry Ready
+true only after the first protected deployment and private pull have been verified. Enabling image mode deliberately blocks accidental
 source releases. It does not itself deploy or create a recovery copy.
 
 Run the same workflow on the **same exact production SHA**:
@@ -81,6 +88,9 @@ Run the same workflow on the **same exact production SHA**:
 - Image run/artifact: the exact successful preparation identifiers.
 - Image manifest digest: the full `sha256:...` from that candidate.
 - Image exclusive window: **ON**, after excluding all other editors/automation.
+- First transition only: `image_install_registry_credentials` **ON**; this
+  explicitly authorizes storing the protected read-only token with Railway. For
+  later image releases it stays **OFF**. There is no credential-only deploy.
 - Promote: **ON only when the owner authorizes the real production release**.
 - All registrar inputs blank/OFF; approve the protected environment separately.
 
@@ -89,9 +99,13 @@ free diagnostic, so do not run it merely to check image configuration. Read-only
 registry/target checks run automatically before any recovery request either way.
 Any commit to production requires a newly prepared exact-commit candidate.
 
-The controller then uses the unchanged recovery chain once, stages only the game
-source and signed proof, commits with skip-deploys and performs one exact image
-deployment. A separate implicit dashboard deploy is never necessary or authorized.
+The controller authenticates the image and, for the handoff, the token scopes
+before any recovery request. After the unchanged recovery chain passes, it stages
+the game source, seven signed release variables and (first transition only)
+`deploy.registryCredentials={username,password}` **in one patch**. It commits with
+skip-deploys, authenticates the exact receipt and unchanged old deployment, then
+performs one exact image deployment. Credentials never enter the game environment,
+source image, approval digest or release artifact. A separate implicit dashboard deploy is never necessary or authorized.
 Existing post-release health/login/preservation checks must all pass; retain their
 `post-deploy.json` alongside encrypted recovery evidence. Confirm exact deployment
 ID, reference and manifest/configuration digests, not simply a green service tile.
@@ -109,3 +123,17 @@ forward correction with fresh exact-commit CI and release evidence.
 The synthetic canary is already removed. Its private image remains evidence; the
 owner may revoke the old canary-only PAT if not already revoked. This procedure
 never requires access to the owner's computer.
+
+## First-transition evidence and failure boundary
+
+See [contract and evidence limits](REGISTRY_TRANSITION.md). The combined credential
+transition is implemented and fixture-tested, but has not been executed against
+production or a new billable canary. Unknown/redacted staged shapes fail closed.
+No direct `serviceInstanceUpdate` is used: its documented non-fork environment
+scope and unspecified deployment side effects are unsuitable for this setup.
+
+If commit succeeds but deployment does not, preserve the receipt and old running
+service. Do not rerun the first-transition checkbox or use the Railway dashboard
+to deploy. Reconcile applied configuration read-only, then obtain a separately
+reviewed continuation with fresh proofs as necessary. No automatic rollback,
+credential reset or repeat recovery is authorized by a failed job.

@@ -63,11 +63,11 @@ const fixture={
  },
  readFile:async path=>{
   if(String(path).endsWith('/verified-image-candidate.json')){record('read_image_candidate');if(mode==='image_candidate_missing')throw Error(secret);return JSON.stringify(imageApproval());}
-  if(String(path).endsWith('/verified-image-target.json')){record('read_image_target');if(mode==='image_target_missing')throw Error(secret);return JSON.stringify({sha:process.env.GITHUB_SHA,jobId:'gh_123_1',definitionDigest:imageApproval().definitionDigest,checkedAt:Date.now()-1000,expiresAt:mode==='image_target_stale'?0:Date.now()+2600000,runningTargetDigest:'f'.repeat(64)});}
+  if(String(path).endsWith('/verified-image-target.json')){record('read_image_target');if(mode==='image_target_missing')throw Error(secret);return JSON.stringify({sha:process.env.GITHUB_SHA,jobId:'gh_123_1',registrySetup:mode==='image_setup_mismatch'?'mismatched':process.env.KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS==='true'?'install-read-only':'preconfigured',definitionDigest:imageApproval().definitionDigest,checkedAt:Date.now()-1000,expiresAt:mode==='image_target_stale'?0:Date.now()+2600000,runningTargetDigest:'f'.repeat(64)});}
   record('read_retained');if(mode==='retained_missing')throw new Error(secret);return JSON.stringify(saved());
  },
  writeFile:async(path,text)=>{record('manifest');if(mode==='manifest_failure')throw new Error(secret);
-  const value=JSON.parse(text);if(mode.startsWith('image_')&&String(path).endsWith('/post-deploy.json')){if(value.passed!==true||value.deploymentId!=='88888888-8888-4888-8888-888888888888')return block();return;}
+  const value=JSON.parse(text);if(mode.startsWith('image_')&&String(path).endsWith('/post-deploy.json')){if(process.env.KINGDOM_IMAGE_REGISTRY_READ_TOKEN&&text.includes(process.env.KINGDOM_IMAGE_REGISTRY_READ_TOKEN))return block();if(value.passed!==true||value.deploymentId!=='88888888-8888-4888-8888-888888888888')return block();return;}
   if(value.request.urls||value.report.urls)return block();},
  mkdir:async()=>{},mkdtemp:async()=>{record('bundle');return '/fixture/worker-source';},
  cp:async()=>{if(mode==='bundle_failure')throw new Error(secret);},rm:async()=>record('cleanup'),
@@ -83,8 +83,11 @@ const fixture={
  },
  getFile:async()=>{record('download');if(mode==='download_failure')throw new Error(secret);},
  authenticateImage:async()=>{record('image_authenticate');if(mode==='image_registry_failed')throw Error(secret);},
- deployImage:async(settings,image,values)=>{
-  record('image_deploy');if(mode==='image_provider_failure')throw Error(secret);
+ deployImage:async(settings,image,values,options)=>{
+  record('image_deploy');
+  if(process.env.KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS==='true'){if(settings.registrySetup!=='install-read-only'||options.credentials?.username!=='catillatio'||options.credentials?.password!==process.env.KINGDOM_IMAGE_REGISTRY_READ_TOKEN)return block();}
+  else if(options.credentials!==undefined)return block();
+  if(mode==='image_provider_failure')throw Error(secret);
   const p=verifyProof(values.KINGDOM_RELEASE_BACKUP_PROOF,process.env.KINGDOM_RELEASE_VERIFY_KEY,
    {RAILWAY_PROJECT_ID:ids[0],RAILWAY_ENVIRONMENT_ID:ids[1],RAILWAY_SERVICE_ID:ids[2],APP_ORIGIN:'https://realm.fixture.invalid',DATABASE_URL:'postgres://fixture:fixture@game-db.railway.internal/railway',KINGDOM_RESTORE_DATABASE_URL:'postgres://fixture:fixture@verify-db.railway.internal/railway',KINGDOM_RELEASE_SHA:values.KINGDOM_RELEASE_SHA,KINGDOM_RESTORE_TEST_DATABASE:values.KINGDOM_RESTORE_TEST_DATABASE,KINGDOM_RELEASE_ARTIFACT_KIND:'oci-image-v1',KINGDOM_RELEASE_IMAGE_REFERENCE:values.KINGDOM_RELEASE_IMAGE_REFERENCE,KINGDOM_RELEASE_IMAGE_DIGEST:values.KINGDOM_RELEASE_IMAGE_DIGEST},'d'.repeat(64),{imageIdentity:image.candidate.identity});
   if(p.protocol!=='kingdom-release-proof-v3'||p.image.definitionDigest!==imageApproval().definitionDigest||settings.imageTargetDigest!=='f'.repeat(64))return block();

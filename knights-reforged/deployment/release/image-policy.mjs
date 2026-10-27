@@ -44,6 +44,20 @@ export function gameTransport(env){
  }else assert.notEqual(env.KINGDOM_GAME_IMAGE_ENABLED,'true','Image mode is enabled; source fallback requires a separately reviewed reset.');
  return mode;
 }
+// Explicit owner handoff inside a real protected promotion; never a setup deploy.
+export function imageRegistrySetup(env){
+ const flag=env.KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS;
+ assert.ok([undefined,'','false','true'].includes(flag));
+ if(flag!=='true')return 'preconfigured';
+ assert.equal(env.KINGDOM_IMAGE_OPERATION,'image-release');assert.equal(env.KINGDOM_IMAGE_PROMOTE,'true');
+ assert.equal(env.GITHUB_RUN_ATTEMPT,'1');return 'install-read-only';
+}
+export function imageRegistryCredentials(env){
+ if(imageRegistrySetup(env)==='preconfigured')return undefined;
+ const password=env.KINGDOM_IMAGE_REGISTRY_READ_TOKEN;
+ if(typeof password!=='string'||!password.trim()||password!==password.trim()||password.length>8192||/[\r\n]/.test(password))throw new Error('Restricted registry credential is required.');
+ return {username:'catillatio',password};
+}
 export function checkImageRequest(env){
  assert.equal(env.GITHUB_REPOSITORY,'catillatio/test');assert.equal(env.GITHUB_REF,'refs/heads/release/production');assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');
  const operation=env.KINGDOM_IMAGE_OPERATION;assert.ok(['image-prepare','image-release'].includes(operation));
@@ -52,16 +66,17 @@ export function checkImageRequest(env){
  assert.ok(!env.REGISTRAR_CONFIG_EXCLUSIVE_WINDOW||env.REGISTRAR_CONFIG_EXCLUSIVE_WINDOW==='false');
  if(operation==='image-prepare'){
   assert.equal(env.KINGDOM_IMAGE_PUBLICATION_ENABLED,'true');assert.equal(env.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED,'true');
-  assert.equal(env.KINGDOM_IMAGE_PROMOTE,'false');
+  assert.equal(env.KINGDOM_IMAGE_PROMOTE,'false');assert.equal(imageRegistrySetup(env),'preconfigured');
   assert.ok(!env.KINGDOM_IMAGE_RUN_ID&&!env.KINGDOM_IMAGE_ARTIFACT_ID&&!env.KINGDOM_IMAGE_MANIFEST_DIGEST);
  }else{
-  assert.ok(['true','false'].includes(env.KINGDOM_IMAGE_PROMOTE));
+  assert.ok(['true','false'].includes(env.KINGDOM_IMAGE_PROMOTE));imageRegistrySetup(env);
   gameTransport({...env,KINGDOM_GAME_TRANSPORT:'oci-image-v1'});
   assert.match(env.KINGDOM_IMAGE_RUN_ID??'',id);assert.match(env.KINGDOM_IMAGE_ARTIFACT_ID??'',id);assert.match(env.KINGDOM_IMAGE_MANIFEST_DIGEST??'',imageDigest);
  }
  return operation;
 }
 export function checkNoImageRequest(env){
+ assert.ok([undefined,'','false'].includes(env.KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS));
  for(const k of ['KINGDOM_IMAGE_RUN_ID','KINGDOM_IMAGE_ARTIFACT_ID','KINGDOM_IMAGE_MANIFEST_DIGEST'])assert.ok(!env[k]);
  assert.ok(!env.KINGDOM_IMAGE_EXCLUSIVE_WINDOW||env.KINGDOM_IMAGE_EXCLUSIVE_WINDOW==='false');
 }
