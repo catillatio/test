@@ -744,6 +744,22 @@
       "file": "tests/historical-priority-browser.test.mjs",
       "lane": "browser",
       "weight": 30
+    },
+    {
+      "file": "tests/release-retention-lifecycle.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-retention-lifecycle-postgres.test.mjs",
+      "lane": "database",
+      "weight": 3,
+      "exclusive": true
+    },
+    {
+      "file": "tests/release-retention-operator.test.mjs",
+      "lane": "unit",
+      "weight": 1
     }
   ]
 }

@@ -1,0 +1,165 @@
+{
+  "kind": "historical-classification-not-retirement-authorization",
+  "basis": "Previously authenticated retained evidence and owner summary; no new production inventory",
+  "historical_copy_count_at_prior_inspection": 23,
+  "known_name_association_count": 17,
+  "unknown_name_count": 6,
+  "original_tuple_baseline_available": false,
+  "fully_verified_eligible_count": 0,
+  "retirement_authorized": false,
+  "emergency_oid_overlays": [
+    {
+      "oid": "106971",
+      "classification": "confirmed-protected-no-override"
+    },
+    {
+      "oid": "129180",
+      "classification": "confirmed-protected-no-override"
+    }
+  ],
+  "overlays_are_not_additional_copies": true,
+  "known_associations": [
+    {
+      "run_id": 40270052123,
+      "attempt": 1,
+      "classification": "confirmed-protected-at-prior-current-or-newest-review",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40261837458,
+      "attempt": 1,
+      "classification": "confirmed-protected-at-prior-current-or-newest-review",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40257245783,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40253862750,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40245425491,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40240417370,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40236713862,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40164983897,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40164678377,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40162401278,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40154962981,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40132727953,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40057878928,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 40052246466,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 39890271419,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 39536348303,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    },
+    {
+      "run_id": 39353372794,
+      "attempt": 1,
+      "classification": "candidate-for-further-provenance-review-still-protected",
+      "original_oid_verified": false,
+      "exact_live_tuple_available": false,
+      "cleanup_eligible": false
+    }
+  ],
+  "unknown_group": {
+    "count": 6,
+    "classification": "unresolved-and-protected",
+    "exact_names_and_oids_not_retained_here": true
+  },
+  "limitation": "The summary cannot join emergency OIDs to name groups or reconstruct an exact 23-tuple inventory; no identities are fabricated."
+}

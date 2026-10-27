@@ -1,0 +1,19 @@
+{
+  "kind": "owner-observed-first-registration-acceptance-not-retirement-authorization",
+  "source": "Owner final acceptance statement in lifecycle assignment; not new SQL executed by Codex",
+  "github_run_id": 40439630950,
+  "run_number": 62,
+  "attempt": 1,
+  "source_sha": "e9165c34ef8ddaba4e04488438ba110cc2020376",
+  "promotion": false,
+  "worker_registration": "PASS",
+  "registered_observation_count": 1,
+  "exact_manifest_binding": true,
+  "live_identity": true,
+  "server_receipt": true,
+  "emergency_106971_present": true,
+  "emergency_129180_present": true,
+  "historical_tuple_preservation": "UNVERIFIED_NO_GENUINE_PRE_RUN_BASELINE",
+  "adoption_authorized": false,
+  "retirement_authorized": false
+}

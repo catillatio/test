@@ -14,6 +14,7 @@ export function fixture(number,{now=epoch,age=48,verifiedAge=age,connections=0,o
  const report={...request,passed:true,workerDeploymentId:randomUUID(),sourceClusterDigest:scope.sourceClusterDigest,restoreClusterDigest:scope.clusterDigest,accounts:452,bots:450,
   backup:{sha256:'c'.repeat(64),encryptedSha256:'d'.repeat(64),bytes:100001,encryptedBytes:100002,recipient:request.backupRecipient,conditionalWriteVerified:true,exportRoundTripVerified:true},
   restoredCopy:{passed:true,bots:450,accounts:452,existingTablesVerified:64,migrationReplay:'unchanged',liveDatabaseConnected:false,restoredDatabase:name,restoredHost:scope.host,sha256:'e'.repeat(64)}};
+ report.verifiedCopyIdentity={oid,owner:'postgres',maintenanceDatabase:scope.adminDatabase,clusterDigest:scope.clusterDigest};
  const evidence={request,report,backupKey:'kingdom-releases/'+request.sha+'/'+jobId+'/realm.dump.age'};
  return {database:{name,oid,owner,template:false,bytes:'1048576',connections},catalog:{name,oid,owner,first_observed_at:new Date(now-age*3600000).toISOString(),verified_at:new Date(now-verifiedAge*3600000).toISOString(),evidence,evidence_sha256:hash(evidence)},jobId,closed};
 }

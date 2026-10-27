@@ -141,6 +141,8 @@ jobs:
           KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_TEST_PRIVATE_ALPHA=1 npm run test:container
           docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .
           KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_RELEASE_WORKER_IMAGE=kingdom-come:release-worker-checked node scripts/test-release-worker.mjs
+          docker build -f deployment/release/retention/Dockerfile -t kingdom-come:retention-checked .
+          KINGDOM_RETENTION_OPERATOR_IMAGE=kingdom-come:retention-checked node --test tests/release-retention-operator.test.mjs
       - if: needs.plan.outputs.recovery != 'true'
         run: echo 'Container recovery rehearsal not required by this narrow PR profile; exact production push always requires it.'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

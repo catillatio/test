@@ -1,3 +1,12 @@
+> **Completed:** the owner confirmed the first genuine registration and exact
+> manifest/live-identity/server-receipt/emergency checks after protected run 62.
+> [Owner acceptance evidence](OWNER_FIRST_OBSERVATION_ACCEPTANCE.json).
+> Do not repeat registrar installation, credentials, diagnostics or recovery.
+> Historical tuple preservation remains unverified; no baseline is fabricated.
+> Continue with the separately authorized
+> [controlled lifecycle](../LIFECYCLE_COMPLETION.md), not automatic adoption/deletion.
+> Earlier readiness snapshots below are retained as historical context.
+
 # Phase 2 — future verified-copy registration
 
 Status: implementation/review candidate; **not enabled, merged or deployed**.

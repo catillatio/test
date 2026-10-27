@@ -3,13 +3,15 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {spawnSync} from 'node:child_process';
 const read=path=>readFile(new URL('../'+path,import.meta.url),'utf8');
-test('retirement template is inactive, owner-gated before the existing release mutex, read-only API token and no schedule',async()=>{
+test('manual retention workflow is default-disabled, owner-gated before the release mutex, read-only API token and no schedule',async()=>{
  const template=await read('deployment/release/retention/workflow.yml'),release=await read('../.github/workflows/production-release.yml');
  assert.match(release,/group: kingdom-come-production/);assert.match(template,/group: kingdom-come-production/);
  assert.match(template,/cancel-in-progress: false/);assert.match(template,/needs: owner-approval/);assert.match(template,/environment: production/);
  const gate=template.slice(template.indexOf('  owner-approval:'),template.indexOf('  retire:'));assert.doesNotMatch(gate,/concurrency:/);
  assert.match(template,/timeout-minutes: 5/);assert.match(template,/actions: read/);assert.doesNotMatch(template,/schedule:|secrets\.|write|railway up|always\(\)/);
- await assert.rejects(read('../.github/workflows/recovery-copy-retention.yml'),{code:'ENOENT'});
+ assert.equal(await read('../.github/workflows/recovery-copy-retention.yml'),template);
+ assert.match(gate,/vars\.KINGDOM_RETENTION_EXECUTION_APPROVED == '1'/);
+ assert.match(template,/options: \[retire, adoption-review, reconcile\]/);assert.match(template,/default: adoption-review/);
 });
 test('private entrypoint has no arbitrary dispatch paths, shell/SQL execution or public result artifacts',async()=>{
  const job=await read('deployment/release/retention/job.mjs'),spool=await read('deployment/release/retention/spool.mjs');

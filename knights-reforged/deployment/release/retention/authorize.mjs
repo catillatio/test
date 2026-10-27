@@ -1,5 +1,6 @@
-// Owner's OFFLINE workstation only. This dedicated key is never a release key
-// and never enters Railway, a GitHub artifact, or the retention runtime.
+// Isolated owner-controlled signer, including an approved cloud signing job.
+// No owner-PC execution is needed. Never put this dedicated key on the executor,
+// in artifacts or alongside a source/restore-admin/release-signing credential.
 import assert from 'node:assert/strict';
 import {createPrivateKey,createPublicKey,sign,createHash,randomUUID} from 'node:crypto';
 import {readFile,writeFile} from 'node:fs/promises';
@@ -7,6 +8,7 @@ import {parseArgs} from 'node:util';
 import {checkState,hash,retentionProtocol,checkApproval} from './protocol.mjs';
 try{
  process.umask(0o077);
+ for(const key of ['DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL','KINGDOM_RELEASE_JOB_REQUEST','KINGDOM_RELEASE_SIGNING_KEY','KINGDOM_RETENTION_DATABASE_URL','KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL','KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL'])assert.ok(!process.env[key]);
  const {values}=parseArgs({options:{scope:{type:'string'},state:{type:'string'},plan:{type:'string'},'private-key':{type:'string'},out:{type:'string'},'release-lock-held':{type:'boolean'}}});
  assert.equal(values['release-lock-held'],true);
  const read=async path=>JSON.parse(await readFile(path,'utf8'));

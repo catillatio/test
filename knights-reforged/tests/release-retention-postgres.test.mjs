@@ -32,6 +32,8 @@ test('disposable PostgreSQL retention, append-only permissions, concurrency and 
    await root.query('CREATE DATABASE '+database(copy.database.name)+' OWNER kc_release_copy_owner');created.push(copy.database.name);
    const oid=(await root.query('SELECT oid::text FROM pg_database WHERE datname=$1',[copy.database.name])).rows[0].oid;
    copy.database.oid=oid;copy.catalog.oid=oid;
+   Object.assign(copy.catalog.evidence.report.verifiedCopyIdentity,{oid,clusterDigest:scope.clusterDigest});
+   copy.catalog.evidence_sha256=hash(copy.catalog.evidence);
    await admin.query('INSERT INTO release_retention.copies(name,database_oid,owner_name,verified_at,first_observed_at,evidence,evidence_sha256) VALUES($1,$2,$3,$4,$5,$6,$7)',[copy.database.name,oid,copy.database.owner,copy.catalog.verified_at,copy.catalog.first_observed_at,copy.catalog.evidence,copy.catalog.evidence_sha256]);
   }
   const source='retention_preserved_source_test';await root.query('CREATE DATABASE '+source);sourceCreated=true;

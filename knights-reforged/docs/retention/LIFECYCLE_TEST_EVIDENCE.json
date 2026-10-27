@@ -1,0 +1,43 @@
+{
+  "kind": "disposable-test-evidence-not-production-authorization",
+  "base_sha": "7802b0ab1c606f35402d5ab15f91408127968c19",
+  "focused_unit_and_container": {
+    "passed": 107,
+    "failed": 0,
+    "skipped": 0
+  },
+  "focused_postgresql": {
+    "passed": 45,
+    "failed": 0,
+    "skipped": 0,
+    "engine": "PostgreSQL 18"
+  },
+  "end_to_end_lifecycle": {
+    "passed": 9,
+    "synthetic_copies": 6,
+    "bots_per_populated_copy": 900,
+    "humans_per_populated_copy": 2,
+    "source_business_rows_preserved": true,
+    "elapsing_hold_simulated_by_privileged_fixture_only": true
+  },
+  "static_interface_checks": {
+    "passed": 99,
+    "failed": 0,
+    "production_ejs_fixtures": 77
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "operator_image_build": "PASS",
+  "operator_disabled_and_cli_module_smoke": "PASS",
+  "definition_sha256": {
+    "bootstrap.sql": "fb58be5fd5a254859b8bc30bb4e6d0907486bfad9b90b0166fe7404d8a9030cb",
+    "observations.sql": "6a4a7eb08bcf8adf98c8646aeaf53ab3c9c4e119b99ccf9cc0b9f8837304b225"
+  },
+  "full_exact_head_ci": "See draft PR head and linked checks; no protected workflow dispatch",
+  "production_sql_executed": false,
+  "production_adoption_or_retirement_executed": false,
+  "registration_changed": false,
+  "production_configuration_changed": false,
+  "owner_pc_used": false,
+  "upstream_preserved": "Merged PR 54 gameplay/artwork changes preserved without edits"
+}
