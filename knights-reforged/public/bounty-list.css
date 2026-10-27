@@ -31,8 +31,9 @@
     padding: 16px 0;
   }
 }
-/* Rivals use the approved row rhythm without rendering a gold field. */
-.kingdoms-ui .bounty-list .bounty-row--rival { grid-template-rows: auto 1.33rem; }
+/* Rival details share one compact target block beside the action. */
+.kingdoms-ui .bounty-list .bounty-row--rival { grid-template-areas: "target action"; grid-template-rows: auto; }
+.kingdoms-ui .bounty-row--rival .rival-army-size { display: block; }
 .rival-list-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin: 8px 0; font-size: .8rem; }
 .rival-list-controls a { display: inline-flex; align-items: center; min-height: 44px; }
 @media (min-width: 600px) {
