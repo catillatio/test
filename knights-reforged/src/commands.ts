@@ -13,7 +13,7 @@ import {validateTradeQuote} from './trade.js';
 import {syncExperience,tutorialAction,levelCelebration} from './experience.js';
 import { GameError } from './errors.js';
 import { rules } from './rules.js';
-import { alpha,propertyById,itemById,questById,lootById,areRivals } from './alpha-rules.js';
+import { alpha,propertyById,itemById,questById,lootById } from './alpha-rules.js';
 import { clock,lockCharacters,materialize,stateFrom,type CharacterRow } from './game.js';
 import { ledger,creditGold } from './economy.js';
 import { purchaseItems,sellItem,readInventory } from './inventory.js';
@@ -210,7 +210,6 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
         result.message='Your Calling is now '+callingName(String(intent.className))+'. Recovery starts a fresh interval; your skill allocations are preserved.';
       }
     } else if(kind==='bounty_place'&&target){
-      if(!areRivals(actor.attained_level,target.attained_level))throw new GameError('RIVAL_LEVEL_RANGE','Place a bounty on a rival near your own level.',409);
       const placed=await placeBounty(sql,actorId,target.id,intent.amount as number,key,now,!!runtime.developmentBotsEnabled&&!!runtime.developmentBotBountiesEnabled);
       result.data=placed;result.message='Bounty placed: '+placed.amount+' gold held in escrow; '+placed.fee+' gold placement fee.';
     } else if(kind==='bounty_cancel'){
