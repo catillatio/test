@@ -1,0 +1,120 @@
+{
+  "passed": true,
+  "stage": "before",
+  "baseline": "35ea9ef43869dbe48455b6ff9df47c679c433d40",
+  "productionContacted": false,
+  "views": [
+    {
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1.25,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1.25,
+      "path": "page-2",
+      "rows": 8
+    }
+  ],
+  "pixelChecks": [],
+  "approvedBountyTemplateSha256": "cb1aaed28643f55b16852695016c7afebf07c7d542e296fcd685d43c5c2c96ed",
+  "armyCases": [
+    {
+      "id": "c12dca79-8c68-41b2-87cb-2c128243a649",
+      "participants": 1,
+      "total": 1
+    },
+    {
+      "id": "5c7b0990-02f3-406a-ac97-683c739c91e0",
+      "participants": 6,
+      "total": 6
+    },
+    {
+      "id": "be4f1a0d-6515-4cbe-bcbc-ea5583709cf2",
+      "participants": 19,
+      "total": 21
+    },
+    {
+      "id": "d6bc4c3c-bc6a-4081-8ad7-93adbabc0395",
+      "participants": 10,
+      "total": 10
+    }
+  ],
+  "participatingArmyVerified": false,
+  "financialViewsPreserved": true,
+  "paginationUnique": 28,
+  "refreshAndTabsPassed": true,
+  "profileAndOrdinaryAttackPassed": true,
+  "disabledAndRangeChecksPassed": true,
+  "idempotencyPassed": true,
+  "errors": []
+}

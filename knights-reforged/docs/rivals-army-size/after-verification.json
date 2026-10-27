@@ -1,0 +1,151 @@
+{
+  "passed": true,
+  "stage": "after",
+  "baseline": "35ea9ef43869dbe48455b6ff9df47c679c433d40",
+  "productionContacted": false,
+  "views": [
+    {
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1.25,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1.25,
+      "path": "page-2",
+      "rows": 8
+    }
+  ],
+  "pixelChecks": [
+    {
+      "width": 320,
+      "scale": 1,
+      "identical": true,
+      "sha256": "b65e6aec0c939c73c3e13f2a170070cbea78d8da5fd35e722dde4a56d5131e2a"
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "identical": true,
+      "sha256": "6ddd174fb12f59d03e2ec7bb8d05a1ca6aaa6be2933a24876c53ca12919ca64e"
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "identical": true,
+      "sha256": "554ba4af5e9727495b8e06c446889b233d425653cb03902d5c6376190232135f"
+    },
+    {
+      "width": 1280,
+      "scale": 1,
+      "identical": true,
+      "sha256": "acd846e2f3b979c94758edde56554197e90ed86419b2793e9aac58f48e02f44f"
+    },
+    {
+      "width": 390,
+      "scale": 1.25,
+      "identical": true,
+      "sha256": "c01ea9c52f72f1a2c707b0a24a253b9a8e647fd05b981fbaa82df7163f47c272"
+    }
+  ],
+  "approvedBountyTemplateSha256": "cb1aaed28643f55b16852695016c7afebf07c7d542e296fcd685d43c5c2c96ed",
+  "armyCases": [
+    {
+      "id": "b08036b5-5ba5-4eb8-ac80-de8ebe7645db",
+      "participants": 1,
+      "total": 1
+    },
+    {
+      "id": "c0fdc8eb-ca38-4f90-a7cb-bead3dc2bd90",
+      "participants": 6,
+      "total": 6
+    },
+    {
+      "id": "5fda2e42-9285-4d86-b7fc-7421063aa040",
+      "participants": 19,
+      "total": 21
+    },
+    {
+      "id": "e7af4c4e-4d95-478d-a3ab-65f3ea35bd34",
+      "participants": 10,
+      "total": 10
+    }
+  ],
+  "participatingArmyVerified": true,
+  "financialViewsPreserved": true,
+  "paginationUnique": 28,
+  "refreshAndTabsPassed": true,
+  "profileAndOrdinaryAttackPassed": true,
+  "disabledAndRangeChecksPassed": true,
+  "idempotencyPassed": true,
+  "errors": []
+}
