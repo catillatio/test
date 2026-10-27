@@ -7,12 +7,12 @@ import {mkdir,readFile,writeFile,mkdtemp,rm,readdir,lstat} from 'node:fs/promise
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {candidateDigest} from './candidate.mjs';
-import {checkImageRequest,checkNoImageRequest,checkImageCandidate,checkImageIdentity,imageRepository,imageDigest,imagePolicy,definitionDigest} from './image-policy.mjs';
+import {checkImageRequest,checkNoImageRequest,checkImageCandidate,checkImageIdentity,imageRepository,imagePackage,imageDigest,imagePolicy,definitionDigest} from './image-policy.mjs';
 
 const media=['application/vnd.oci.image.manifest.v1+json','application/vnd.docker.distribution.manifest.v2+json'];
 const sha256=bytes=>'sha256:'+createHash('sha256').update(bytes).digest('hex');
-const packageApi='https://api.github.com/users/catillatio/packages/container/kingdom-come';
-const packageScope='repository:catillatio/kingdom-come:pull';
+const packageApi='https://api.github.com/users/catillatio/packages/container/'+imagePackage;
+const packageScope='repository:catillatio/'+imagePackage+':pull';
 export async function boundedBody(response,max=2000000){
  const chunks=[];let count=0;
  try{for await(const part of response.body){count+=part.length;assert.ok(count<=max);chunks.push(part);}return Buffer.concat(chunks);}
@@ -73,7 +73,7 @@ export function registryClient(token,{fetcher=globalThis.fetch}={}){
   async privatePackage(){
    const response=await get(packageApi,{authorization:'Bearer '+token,accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'});
    const value=JSON.parse((await checkedResponse(response)).toString('utf8'));
-   assert.equal(value.name,'kingdom-come');assert.equal(value.package_type,'container');assert.equal(value.visibility,'private');return true;
+   assert.equal(value.name,imagePackage);assert.equal(value.package_type,'container');assert.equal(value.visibility,'private');return true;
   },
   async manifest(digest){
    assert.match(digest,imageDigest);
@@ -81,7 +81,7 @@ export function registryClient(token,{fetcher=globalThis.fetch}={}){
     const response=await get('https://ghcr.io/token?service=ghcr.io&scope='+encodeURIComponent(packageScope),{authorization:'Basic '+Buffer.from('catillatio:'+token).toString('base64')});
     const value=JSON.parse((await checkedResponse(response)).toString('utf8'));assert.ok(typeof value.token==='string'&&value.token&&!/[\r\n]/.test(value.token));bearer=value.token;
    }
-   const response=await get('https://ghcr.io/v2/catillatio/kingdom-come/manifests/'+digest,{authorization:'Bearer '+bearer,accept:media.join(', ')});
+   const response=await get('https://ghcr.io/v2/catillatio/'+imagePackage+'/manifests/'+digest,{authorization:'Bearer '+bearer,accept:media.join(', ')});
    const raw=await checkedResponse(response);return {raw,value:checkRegistryManifest(raw,digest,response.headers.get('docker-content-digest'))};
   }
  };

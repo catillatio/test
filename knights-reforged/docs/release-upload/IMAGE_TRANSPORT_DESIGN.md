@@ -37,10 +37,15 @@ private synthetic image is retained as evidence; no canary compute remains.
 
 ## Registry and immutable identities
 
-The game package is fixed to **private `ghcr.io/catillatio/kingdom-come`**, separate
-from the canary. It must already exist and be Private before the first game push.
-There is no fallback to public visibility. See [owner procedure](IMAGE_OPERATIONS.md)
-for bootstrap/access prerequisites; none were installed during this work.
+The owner-approved game location is the **existing Private**
+`ghcr.io/catillatio/kingdom-come-deploy-canary` package, preserving its original
+synthetic image/tag as evidence. The owner confirmed Private and existing
+`catillatio/test` Admin Actions access (which includes Write) on 2026-10-27.
+This approval does not enable publication or deployment.
+There is no new-package creation or public fallback. The `kingdom-come` synthetic
+bootstrap became Public despite the documented default, so that creation method
+is not a verified private path. See [investigation](GHCR_PRIVACY_FINDINGS.md) and
+[owner procedure](IMAGE_OPERATIONS.md). No game image has been published.
 
 `image-prepare` builds the committed Dockerfile for linux/amd64, with locked npm
 inputs, an exact OCI revision label and a static, read-only image identity.

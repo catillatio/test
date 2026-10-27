@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash,generateKeyPairSync} from 'node:crypto';
-import {checkImageCandidate,checkImageIdentity,checkImageApproval,checkImageRequest,gameTransport,definitionDigest} from '../deployment/release/image-policy.mjs';
+import {checkImageCandidate,checkImageIdentity,checkImageApproval,checkImageRequest,gameTransport,definitionDigest,imagePackage,imageRepository} from '../deployment/release/image-policy.mjs';
 import {checkRegistryManifest,checkImageConfiguration,checkArtifactMetadata,registryClient,boundedBody} from '../deployment/release/image.mjs';
 import {signProof,verifyProof} from '../deployment/release/proof.mjs';
 import {candidate,approval,proof,runtimeEnv,workflowEnv} from './fixtures/release-image.mjs';
@@ -13,7 +13,7 @@ test('strict v3 binds immutable image, exact build, checked candidate and retain
 });
 for(const [name,change]of[
  ['wrong image digest',p=>p.image.candidate.manifestDigest='sha256:'+'f'.repeat(64)],
- ['mutable tag',p=>p.image.candidate.reference='ghcr.io/catillatio/kingdom-come:latest'],
+ ['mutable tag',p=>p.image.candidate.reference=imageRepository+':latest'],
  ['wrong registry',p=>p.image.candidate.reference='ghcr.io/other/game@'+p.image.candidate.manifestDigest],
  ['arm64',p=>p.image.candidate.platform='linux/arm64'],
  ['wrong commit',p=>p.image.candidate.sha='b'.repeat(40)],
@@ -68,13 +68,16 @@ test('registry reads use only fixed HTTPS hosts, reject public packages, cancel 
  const requests=[],m=manifestFixture();let packagePrivate=true,cancelled=false,fail=false;
  const fetcher=async(url,options)=>{requests.push({url,options});assert.equal(options.redirect,'error');
   if(fail)return {ok:false,body:{cancel:async()=>{cancelled=true;}}};
-  if(url.startsWith('https://api.github.com/'))return Response.json({name:'kingdom-come',package_type:'container',visibility:packagePrivate?'private':'public'});
+  if(url.startsWith('https://api.github.com/'))return Response.json({name:imagePackage,package_type:'container',visibility:packagePrivate?'private':'public'});
   if(url.startsWith('https://ghcr.io/token?'))return Response.json({token:'synthetic-registry-bearer'});
   return new Response(m.raw,{headers:{'docker-content-digest':m.digest}});
  };
  const client=registryClient('synthetic-read-only',{fetcher});await client.privatePackage();assert.equal((await client.manifest(m.digest)).value.config.digest,candidate().configDigest);
  packagePrivate=false;await assert.rejects(client.privatePackage());fail=true;await assert.rejects(client.privatePackage());assert.equal(cancelled,true);
- assert.equal(requests.filter(r=>r.url.includes('/token?')).length,1);assert.ok(requests.every(r=>new URL(r.url).protocol==='https:'));
+ assert.equal(requests.filter(r=>r.url.includes('/token?')).length,1);
+ assert.equal(requests[0].url,'https://api.github.com/users/catillatio/packages/container/'+imagePackage);
+ assert.equal(new URL(requests.find(r=>r.url.includes('/token?')).url).searchParams.get('scope'),'repository:catillatio/'+imagePackage+':pull');
+ assert.equal(requests.find(r=>r.url.includes('/manifests/')).url,'https://ghcr.io/v2/catillatio/'+imagePackage+'/manifests/'+m.digest);assert.ok(requests.every(r=>new URL(r.url).protocol==='https:'));
 });
 test('provider body size is bounded before it can enter an artifact',async()=>{await assert.rejects(boundedBody(new Response('x'.repeat(100)),10));});
 test('image artifact must come from a successful exact-commit protected preparation job',()=>{
@@ -84,4 +87,23 @@ test('image artifact must come from a successful exact-commit protected preparat
  for(const changed of [{head_sha:'f'.repeat(40)},{event:'pull_request'},{head_branch:'feature'},{conclusion:'failure'},{path:'.github/workflows/checks.yml'}])assert.throws(()=>checkArtifactMetadata({...run,...changed},artifact,jobs,env));
  for(const changed of [{expired:true},{id:Number.MAX_SAFE_INTEGER+1},{id:'102'},{id:103},{digest:'config-not-manifest'},{size_in_bytes:3000000},{workflow_run:{id:104,head_sha:env.GITHUB_SHA}}])assert.throws(()=>checkArtifactMetadata(run,{...artifact,...changed},jobs,env));
  assert.throws(()=>checkArtifactMetadata(run,artifact,{jobs:[]},env));
+});
+
+test('the public bootstrap namespace and arbitrary replacements cannot become an image candidate',()=>{
+ assert.equal(imageRepository,'ghcr.io/catillatio/kingdom-come-deploy-canary');
+ for(const repo of ['ghcr.io/catillatio/kingdom-come','ghcr.io/catillatio/kingdom-come-runtime','ghcr.io/other/private']){
+  const c=candidate();c.reference=repo+'@'+c.manifestDigest;assert.throws(()=>checkImageCandidate(c));
+ }
+});
+test('missing, wrong-name or unreadable existing package never authorizes creation or another namespace',async()=>{
+ for(const mode of ['missing','wrong-name','unreadable']){
+  const calls=[];const fetcher=async(url,options)=>{calls.push({url,options});
+   if(mode==='missing')return new Response('',{status:404});
+   if(mode==='unreadable')return new Response('',{status:403});
+   return Response.json({name:'kingdom-come',package_type:'container',visibility:'private'});
+  };
+  await assert.rejects(registryClient('synthetic-read-only',{fetcher}).privatePackage());
+  assert.equal(calls.length,1);assert.equal(calls[0].options.method,undefined);
+  assert.equal(calls[0].url,'https://api.github.com/users/catillatio/packages/container/'+imagePackage);
+ }
 });
