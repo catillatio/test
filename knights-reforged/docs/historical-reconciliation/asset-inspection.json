@@ -1,0 +1,1169 @@
+{
+  "method": "Pillow decoder; original files read only",
+  "files": [
+    {
+      "path": "public/art/coordinated-art-1/argent-sentinel-plate.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 88070
+    },
+    {
+      "path": "public/art/coordinated-art-1/astral-archon-robes.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 63068
+    },
+    {
+      "path": "public/art/coordinated-art-1/astral-conductor.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 40472
+    },
+    {
+      "path": "public/art/coordinated-art-1/astral-tempest.webp",
+      "format": "WEBP",
+      "width": 345,
+      "height": 357,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 54504
+    },
+    {
+      "path": "public/art/coordinated-art-1/banner-of-embers.webp",
+      "format": "WEBP",
+      "width": 349,
+      "height": 354,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 53336
+    },
+    {
+      "path": "public/art/coordinated-art-1/battlebrand.webp",
+      "format": "WEBP",
+      "width": 346,
+      "height": 354,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 45390
+    },
+    {
+      "path": "public/art/coordinated-art-1/captains-brigandine.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 90108
+    },
+    {
+      "path": "public/art/coordinated-art-1/citadel-harness.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 90976
+    },
+    {
+      "path": "public/art/coordinated-art-1/crown-of-ash-blade.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 49160
+    },
+    {
+      "path": "public/art/coordinated-art-1/crown-of-wards.webp",
+      "format": "WEBP",
+      "width": 348,
+      "height": 357,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 51616
+    },
+    {
+      "path": "public/art/coordinated-art-1/dawnforge-panoply.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 71578
+    },
+    {
+      "path": "public/art/coordinated-art-1/dawnstar-benediction.webp",
+      "format": "WEBP",
+      "width": 348,
+      "height": 354,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 45530
+    },
+    {
+      "path": "public/art/coordinated-art-1/dragons-last-breath.webp",
+      "format": "WEBP",
+      "width": 349,
+      "height": 354,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 51270
+    },
+    {
+      "path": "public/art/coordinated-art-1/dragonwake-falchion.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 46894
+    },
+    {
+      "path": "public/art/coordinated-art-1/ducal-warplate.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 115086
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-aegis.webp",
+      "format": "WEBP",
+      "width": 349,
+      "height": 357,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 43196
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-citadel-plate.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 107130
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-greatsword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 43792
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-invocation.webp",
+      "format": "WEBP",
+      "width": 349,
+      "height": 357,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 52586
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-war-marshal-plate.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 91542
+    },
+    {
+      "path": "public/art/coordinated-art-1/fortress-bastion-plate.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 98242
+    },
+    {
+      "path": "public/art/coordinated-art-1/fortress-glaive.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 42866
+    },
+    {
+      "path": "public/art/coordinated-art-1/grave-tide.webp",
+      "format": "WEBP",
+      "width": 346,
+      "height": 354,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 58908
+    },
+    {
+      "path": "public/art/coordinated-art-1/gravewarden-scythe.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 41172
+    },
+    {
+      "path": "public/art/coordinated-art-1/guard-captains-halberd.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 36448
+    },
+    {
+      "path": "public/art/coordinated-art-1/ironwall-covenant.webp",
+      "format": "WEBP",
+      "width": 345,
+      "height": 357,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 55300
+    },
+    {
+      "path": "public/art/coordinated-art-1/kings-marshal-harness.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 95548
+    },
+    {
+      "path": "public/art/coordinated-art-1/marcher-greatsword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 45812
+    },
+    {
+      "path": "public/art/coordinated-art-1/ossuary-raiment.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 75050
+    },
+    {
+      "path": "public/art/coordinated-art-1/rampart-ward.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 134918
+    },
+    {
+      "path": "public/art/coordinated-art-1/royal-battlefire.webp",
+      "format": "WEBP",
+      "width": 346,
+      "height": 357,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 47016
+    },
+    {
+      "path": "public/art/coordinated-art-1/runic-convergence.webp",
+      "format": "WEBP",
+      "width": 345,
+      "height": 354,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 54540
+    },
+    {
+      "path": "public/art/coordinated-art-1/seraphic-vestment.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 84528
+    },
+    {
+      "path": "public/art/coordinated-art-1/seraphs-rebuke.webp",
+      "format": "WEBP",
+      "width": 348,
+      "height": 357,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 57290
+    },
+    {
+      "path": "public/art/coordinated-art-1/siegeguard-plate.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 81246
+    },
+    {
+      "path": "public/art/coordinated-art-1/sovereigns-bastion.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 97886
+    },
+    {
+      "path": "public/art/coordinated-art-1/stonewall-oath.webp",
+      "format": "WEBP",
+      "width": 348,
+      "height": 354,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 51672
+    },
+    {
+      "path": "public/art/coordinated-art-1/stormglass-pike.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 32526
+    },
+    {
+      "path": "public/art/coordinated-art-1/sun-etched-warhammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 53060
+    },
+    {
+      "path": "public/art/coordinated-art-1/voidbound-chain.webp",
+      "format": "WEBP",
+      "width": 346,
+      "height": 357,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 43214
+    },
+    {
+      "path": "public/art/coordinated-art-1/wyrmscale-aegis.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 71248
+    },
+    {
+      "path": "public/art/coordinated-art-2/eclipse-gatehammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 49284
+    },
+    {
+      "path": "public/art/coordinated-art-2/march-wardens-poleaxe.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 36078
+    },
+    {
+      "path": "public/art/coordinated-art-2/royal-warblade.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 56142
+    },
+    {
+      "path": "public/art/coordinated-art-2/sovereigns-zweihander.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 56614
+    },
+    {
+      "path": "public/art/coordinated-art-2/throneguard-polehammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 50146
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/crown-of-ash-blade.webp",
+      "format": "WEBP",
+      "width": 208,
+      "height": 208,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 43354
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/eclipse-citadel-plate.webp",
+      "format": "WEBP",
+      "width": 208,
+      "height": 208,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 49660
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/eclipse-greatsword.webp",
+      "format": "WEBP",
+      "width": 208,
+      "height": 208,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 45208
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/oathbound-greatsword.webp",
+      "format": "WEBP",
+      "width": 208,
+      "height": 208,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 47216
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/sovereigns-bastion.webp",
+      "format": "WEBP",
+      "width": 208,
+      "height": 208,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 53656
+    },
+    {
+      "path": "public/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 488002
+    },
+    {
+      "path": "public/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 355466
+    },
+    {
+      "path": "public/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 294612
+    },
+    {
+      "path": "public/art/fantasy-0.2/armor.webp",
+      "format": "WEBP",
+      "width": 960,
+      "height": 1200,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 296830
+    },
+    {
+      "path": "public/art/fantasy-0.2/properties.webp",
+      "format": "WEBP",
+      "width": 960,
+      "height": 1440,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 487488
+    },
+    {
+      "path": "public/art/fantasy-0.2/spells.webp",
+      "format": "WEBP",
+      "width": 960,
+      "height": 1200,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 348390
+    },
+    {
+      "path": "public/art/fantasy-0.2/weapons.webp",
+      "format": "WEBP",
+      "width": 960,
+      "height": 1200,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 156344
+    },
+    {
+      "path": "public/art/land-review/castle-landscape.webp",
+      "format": "WEBP",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 326642
+    },
+    {
+      "path": "public/art/land-review/interface-icons.webp",
+      "format": "WEBP",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ],
+      "bytes": 351170
+    },
+    {
+      "path": "public/art/land-review/painted-properties.webp",
+      "format": "WEBP",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 608884
+    },
+    {
+      "path": "public/art/land-simple-0.1/properties.webp",
+      "format": "WEBP",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 495452
+    },
+    {
+      "path": "public/art/level100-beta-1/armor.webp",
+      "format": "WEBP",
+      "width": 128,
+      "height": 128,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 882
+    },
+    {
+      "path": "public/art/level100-beta-1/land.webp",
+      "format": "WEBP",
+      "width": 192,
+      "height": 128,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 590
+    },
+    {
+      "path": "public/art/level100-beta-1/shield.webp",
+      "format": "WEBP",
+      "width": 128,
+      "height": 128,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 1022
+    },
+    {
+      "path": "public/art/level100-beta-1/spell.webp",
+      "format": "WEBP",
+      "width": 128,
+      "height": 128,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 998
+    },
+    {
+      "path": "public/art/level100-beta-1/weapon.webp",
+      "format": "WEBP",
+      "width": 128,
+      "height": 128,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 508
+    },
+    {
+      "path": "public/art/properties-49/gold-mine.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 382,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 96282
+    },
+    {
+      "path": "public/art/properties-49/wyrmcrest-keep.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 382,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 87410
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/astral-observatory.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 189018
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/dawnspire-cathedral.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 188040
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/eclipse-citadel.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 153214
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/tempest-port.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 183202
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/throne-of-ash.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 158042
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/wyrmcrest-keep.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 211988
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/astral-conductor.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 48842
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/crown-of-ash-blade.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 69744
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/crown-river-port.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 188876
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/dragonwake-falchion.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 52550
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/eclipse-crown-citadel.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 187996
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/eclipse-gatehammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 67192
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/eclipse-greatsword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 56662
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/fortress-glaive.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 67884
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/gravewarden-scythe.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 39126
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/guard-captains-halberd.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 55962
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/imperial-siegeworks.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 178810
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/king-hudsons-sword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 294612
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/march-wardens-poleaxe.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 73192
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/marcher-greatsword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 73678
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/marcher-stronghold.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 205626
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/royal-border-fortress.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 182610
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/royal-warblade.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 65834
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/sovereign-castle.webp",
+      "format": "WEBP",
+      "width": 768,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 176016
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/sovereigns-zweihander.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 61210
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/stormglass-pike.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 42234
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/sun-etched-warhammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 43626
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/throneguard-polehammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 62146
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/astral-conductor.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 40282
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/crown-of-ash-blade.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 38820
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/dragonwake-falchion.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 38054
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/eclipse-gatehammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 47804
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/eclipse-greatsword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 35730
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/fortress-glaive.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 30770
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/gravewarden-scythe.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 38722
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/guard-captains-halberd.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 35072
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/march-wardens-poleaxe.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 47440
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/marcher-greatsword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 51114
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/royal-warblade.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 40502
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/sovereigns-zweihander.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 46610
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/stormglass-pike.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 36700
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/sun-etched-warhammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 38298
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/throneguard-polehammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 35376
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/astral-conductor.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 18158
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/background.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 31578
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/crown-of-ash-blade.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 22922
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/dragonwake-falchion.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 22040
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/eclipse-gatehammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 24822
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/eclipse-greatsword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 20150
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/fortress-glaive.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 16582
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/gravewarden-scythe.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 19398
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/guard-captains-halberd.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 18630
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/march-wardens-poleaxe.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 21110
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/marcher-greatsword.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 18062
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/royal-warblade.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 22880
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/sovereigns-zweihander.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 18916
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/stormglass-pike.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 14634
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/sun-etched-warhammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 26806
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/throneguard-polehammer.webp",
+      "format": "WEBP",
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 23926
+    },
+    {
+      "path": "public/art/remaster-ui/castle-illustration.webp",
+      "format": "WEBP",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGB",
+      "alphaRange": null,
+      "bytes": 278112
+    }
+  ]
+}

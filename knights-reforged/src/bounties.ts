@@ -5,7 +5,7 @@ import {GameError} from './errors.js';
 import {regenerate} from './rules.js';
 import {recoverySeconds} from './strategy-rules.js';
 import {ledger,creditGold} from './economy.js';
-import {areRivals,activeArmy,alpha} from './alpha-rules.js';
+import {activeArmy,alpha} from './alpha-rules.js';
 
 import {pvp,bountyRules as rule,bountyFee as finalizedBountyFee} from './pvp-rules.js';
 interface BountyRecord extends Record<string,any>{id:string;sponsor_id:string;target_id:string;amount:number;fee:number;status:string;created_at:Date;expires_at:Date;claimant_id:string|null;}
@@ -61,8 +61,12 @@ export async function bountyQuote(sql:Sql,sponsorId:string,targetId:string,amoun
   if(sponsorId===targetId)throw new GameError('SELF_BOUNTY','You cannot place a bounty on yourself.',409);
   if(!Number.isSafeInteger(amount)||amount<rule.minimum||amount>rule.maximum)throw new GameError('BOUNTY_AMOUNT','Choose a whole bounty amount from 1 to 10,000 gold.',409);
   if(!await qualified(sql,sponsorId)||!await targetQualified(sql,targetId,botTargetsEnabled))throw new GameError('BOUNTY_ELIGIBILITY','Posting requires level 3 and five quests. Real targets need the same progress; temporary targets require the development bounty flag.',409);
-  const levels=(await sql.query('SELECT attained_level FROM characters WHERE id=ANY($1::uuid[]) ORDER BY id',[[sponsorId,targetId]])).rows;
-  if(levels.length!==2||!areRivals(levels[0]!.attained_level,levels[1]!.attained_level))throw new GameError('RIVAL_LEVEL_RANGE','Choose a rival near your level.',409);
+  // Sponsorship is independent of ordinary PvP matchmaking. Both identities
+  // still pass the existing progress, bot, ally, escrow and placement guards.
+  const accounts=(await sql.query(`SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id
+    WHERE c.id=ANY($1::uuid[]) AND (NOT a.login_disabled OR EXISTS(
+      SELECT 1 FROM development_bots b WHERE b.character_id=c.id AND b.active AND $2))`,[[sponsorId,targetId],botTargetsEnabled])).rows;
+  if(accounts.length!==2)throw new GameError('BOUNTY_ELIGIBILITY','That account is not available for bounty placement.',409);
   if(await allies(sql,sponsorId,targetId))throw new GameError('BOUNTY_ALLY','You cannot place a bounty on an army ally.',409);
   await placementAvailable(sql,sponsorId,targetId,now);
   const target=(await sql.query('SELECT name,attained_level FROM characters WHERE id=$1',[targetId])).rows[0]!;

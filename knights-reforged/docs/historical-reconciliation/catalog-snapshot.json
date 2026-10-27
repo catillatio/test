@@ -1,0 +1,3197 @@
+{
+  "legacy": {
+    "items": 60,
+    "quests": 40,
+    "properties": 21
+  },
+  "expanded": {
+    "items": [
+      {
+        "id": "squires-blade",
+        "name": "Squire's Blade",
+        "category": "weapon",
+        "description": "A short blade for the realm's first roads.",
+        "price": 5,
+        "attack": 1,
+        "defense": 0,
+        "upkeep": 0,
+        "level": 1,
+        "art": "blade",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 0,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ash-spear",
+        "name": "Ash Spear",
+        "category": "weapon",
+        "description": "A long reach and a steady grip.",
+        "price": 12,
+        "attack": 3,
+        "defense": 1,
+        "upkeep": 0,
+        "level": 1,
+        "art": "spear",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 1,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "iron-sword",
+        "name": "Iron sword",
+        "category": "weapon",
+        "description": "The original prototype blade, retained for every owner.",
+        "price": 40,
+        "attack": 8,
+        "defense": 1,
+        "upkeep": 0,
+        "level": 1,
+        "art": "sword",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 2,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ransackers-axe",
+        "name": "Ransacker's Axe",
+        "category": "weapon",
+        "description": "A heavy head that demands regular sharpening.",
+        "price": 75,
+        "attack": 12,
+        "defense": 2,
+        "upkeep": 1,
+        "level": 3,
+        "art": "axe",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 0,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "sunsteel-glaive",
+        "name": "Sunsteel Glaive",
+        "category": "weapon",
+        "description": "A captain's weapon, bright above the shield wall.",
+        "price": 150,
+        "attack": 18,
+        "defense": 5,
+        "upkeep": 3,
+        "level": 6,
+        "art": "glaive",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 2,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "wicker-buckler",
+        "name": "Wicker Buckler",
+        "category": "armor",
+        "description": "Light enough for the long march.",
+        "price": 6,
+        "attack": 0,
+        "defense": 2,
+        "upkeep": 0,
+        "level": 1,
+        "art": "buckler",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "armor",
+          "column": 0,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "padded-coat",
+        "name": "Padded Coat",
+        "category": "armor",
+        "description": "Quilted layers turn aside an uncertain blow.",
+        "price": 18,
+        "attack": 1,
+        "defense": 4,
+        "upkeep": 0,
+        "level": 1,
+        "art": "coat",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "armor",
+          "column": 2,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "warden-mail",
+        "name": "Warden Mail",
+        "category": "armor",
+        "description": "Linked iron for the watch on the frontier.",
+        "price": 65,
+        "attack": 3,
+        "defense": 11,
+        "upkeep": 1,
+        "level": 3,
+        "art": "mail",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "armor",
+          "column": 3,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "castellan-helm",
+        "name": "Castellan Helm",
+        "category": "armor",
+        "description": "A crested helm built to hold the gate.",
+        "price": 140,
+        "attack": 6,
+        "defense": 17,
+        "upkeep": 3,
+        "level": 6,
+        "art": "helm",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "armor",
+          "column": 1,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ember-word",
+        "name": "Ember Word",
+        "category": "spell",
+        "description": "A spark carried on a single breath.",
+        "price": 8,
+        "attack": 2,
+        "defense": 0,
+        "upkeep": 0,
+        "level": 1,
+        "art": "ember",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "spells",
+          "column": 0,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "hearth-ward",
+        "name": "Hearth Ward",
+        "category": "spell",
+        "description": "The patient warmth that guards a home.",
+        "price": 15,
+        "attack": 0,
+        "defense": 4,
+        "upkeep": 0,
+        "level": 1,
+        "art": "ward",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "spells",
+          "column": 1,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "thorn-hex",
+        "name": "Thorn Hex",
+        "category": "spell",
+        "description": "A living snare renewed with rare herbs.",
+        "price": 55,
+        "attack": 8,
+        "defense": 5,
+        "upkeep": 1,
+        "level": 3,
+        "art": "thorn",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "spells",
+          "column": 3,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "storm-sigil",
+        "name": "Storm Sigil",
+        "category": "spell",
+        "description": "A bound tempest that hungers for silver ink.",
+        "price": 130,
+        "attack": 15,
+        "defense": 9,
+        "upkeep": 3,
+        "level": 6,
+        "art": "storm",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "spells",
+          "column": 1,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "hazeltwig-longbow",
+        "name": "Hazeltwig Longbow",
+        "category": "weapon",
+        "description": "A yew-limbed bow with a leather grip and a patient draw.",
+        "price": 22,
+        "attack": 5,
+        "defense": 2,
+        "upkeep": 0,
+        "level": 2,
+        "art": "spear",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 3,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "wardens-halberd",
+        "name": "Warden's Halberd",
+        "category": "weapon",
+        "description": "Hooked steel turns a mounted charge at the gate.",
+        "price": 110,
+        "attack": 11,
+        "defense": 9,
+        "upkeep": 2,
+        "level": 5,
+        "art": "glaive",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 1,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "kingsguard-longsword",
+        "name": "Kingsguard Longsword",
+        "category": "weapon",
+        "description": "Blue-tempered steel bears the watch's first silver rune.",
+        "price": 240,
+        "attack": 22,
+        "defense": 8,
+        "upkeep": 4,
+        "level": 8,
+        "art": "sword",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 3,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "briarheart-bow",
+        "name": "Briarheart Bow",
+        "category": "weapon",
+        "description": "A living bow of emerald thorns shields its bearer.",
+        "price": 360,
+        "attack": 20,
+        "defense": 16,
+        "upkeep": 5,
+        "level": 10,
+        "art": "spear",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 0,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "runescar-saber",
+        "name": "Runescar Saber",
+        "category": "weapon",
+        "description": "A curved edge carries a line of luminous ancient letters.",
+        "price": 520,
+        "attack": 30,
+        "defense": 12,
+        "upkeep": 7,
+        "level": 12,
+        "art": "sword",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 1,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "stormglass-pike",
+        "name": "Marchwatch Spear",
+        "category": "weapon",
+        "description": "Captured lightning threads a translucent spearhead.",
+        "price": 760,
+        "attack": 35,
+        "defense": 16,
+        "upkeep": 9,
+        "level": 15,
+        "art": "glaive",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 2,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "cinderwyrm-cleaver",
+        "name": "Cinderwyrm Cleaver",
+        "category": "weapon",
+        "description": "Volcanic iron glows beneath a dragon-tooth edge.",
+        "price": 1100,
+        "attack": 43,
+        "defense": 14,
+        "upkeep": 12,
+        "level": 18,
+        "art": "axe",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 3,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "moonthorn-recurve",
+        "name": "Moonthorn Recurve",
+        "category": "weapon",
+        "description": "A silver crescent bow draws strength from the coastal moon.",
+        "price": 1450,
+        "attack": 38,
+        "defense": 31,
+        "upkeep": 15,
+        "level": 21,
+        "art": "spear",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 0,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "oathbound-greatsword",
+        "name": "Oathbound Greatsword",
+        "category": "weapon",
+        "description": "A broad blade burns with the remembered oath of its company.",
+        "price": 1950,
+        "attack": 54,
+        "defense": 25,
+        "upkeep": 19,
+        "level": 24,
+        "art": "sword",
+        "tier": "Oath and Bone",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 1,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "gravewarden-scythe",
+        "name": "Fenwarden Billhook",
+        "category": "weapon",
+        "description": "Bone bindings hold a cold green edge above the mist.",
+        "price": 2600,
+        "attack": 62,
+        "defense": 19,
+        "upkeep": 24,
+        "level": 28,
+        "art": "glaive",
+        "tier": "Oath and Bone",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 2,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "sun-etched-warhammer",
+        "name": "Sunscar Maul",
+        "category": "weapon",
+        "description": "A radiant hammer bears a small cathedral of golden engravings.",
+        "price": 3400,
+        "attack": 64,
+        "defense": 39,
+        "upkeep": 30,
+        "level": 32,
+        "art": "axe",
+        "tier": "Dragon and Dawn",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 3,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "dragonwake-falchion",
+        "name": "Frontier Falchion",
+        "category": "weapon",
+        "description": "Scaled bronze cradles a blade bright with a sleeping wyrm's fire.",
+        "price": 4400,
+        "attack": 79,
+        "defense": 29,
+        "upkeep": 36,
+        "level": 36,
+        "art": "sword",
+        "tier": "Dragon and Dawn",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 0,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "astral-conductor",
+        "name": "Crownlands War Staff",
+        "category": "weapon",
+        "description": "A star-metal staff guides a ring of floating crystal fragments.",
+        "price": 5700,
+        "attack": 74,
+        "defense": 54,
+        "upkeep": 42,
+        "level": 40,
+        "art": "glaive",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 1,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "crown-of-ash-blade",
+        "name": "Blacksteel Warblade",
+        "category": "weapon",
+        "description": "An obsidian sword carries a broken crown in its ember-red guard.",
+        "price": 7200,
+        "attack": 95,
+        "defense": 44,
+        "upkeep": 50,
+        "level": 45,
+        "art": "sword",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 2,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "eclipse-greatsword",
+        "name": "Order Marshal Greatsword",
+        "category": "weapon",
+        "description": "A sun-darkened greatsword holds a thin corona along its edge.",
+        "price": 9000,
+        "attack": 110,
+        "defense": 50,
+        "upkeep": 60,
+        "level": 50,
+        "art": "sword",
+        "tier": "Eclipse",
+        "illustration": {
+          "atlas": "weapons",
+          "column": 3,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "tanned-leather-jerkin",
+        "name": "Tanned Leather Jerkin",
+        "category": "armor",
+        "description": "Waxed leather and bronze buckles for a long road.",
+        "price": 12,
+        "attack": 1,
+        "defense": 3,
+        "upkeep": 0,
+        "level": 1,
+        "art": "coat",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "armor",
+          "column": 1,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "gateward-kite-shield",
+        "name": "Gateward Kite Shield",
+        "category": "armor",
+        "description": "A tall oak-and-iron shield painted with the realm's first banner.",
+        "price": 100,
+        "attack": 2,
+        "defense": 14,
+        "upkeep": 2,
+        "level": 5,
+        "art": "buckler",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "armor",
+          "column": 0,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "runebound-hauberk",
+        "name": "Runebound Hauberk",
+        "category": "armor",
+        "description": "Blue runes settle between the links of a polished iron coat.",
+        "price": 220,
+        "attack": 8,
+        "defense": 22,
+        "upkeep": 4,
+        "level": 8,
+        "art": "mail",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "armor",
+          "column": 2,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "verdant-aegis",
+        "name": "Verdant Aegis",
+        "category": "armor",
+        "description": "Living roots frame an emerald shieldstone.",
+        "price": 330,
+        "attack": 5,
+        "defense": 27,
+        "upkeep": 5,
+        "level": 10,
+        "art": "buckler",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "armor",
+          "column": 3,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "argent-sentinel-plate",
+        "name": "Marchwatch Hauberk",
+        "category": "armor",
+        "description": "Bright silver plates hold a quiet circle of warding script.",
+        "price": 480,
+        "attack": 10,
+        "defense": 31,
+        "upkeep": 7,
+        "level": 12,
+        "art": "mail",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "armor",
+          "column": 0,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "frostweave-mantle",
+        "name": "Frostweave Mantle",
+        "category": "armor",
+        "description": "A fur-lined azure mantle catches frost in its woven stars.",
+        "price": 720,
+        "attack": 13,
+        "defense": 35,
+        "upkeep": 9,
+        "level": 15,
+        "art": "coat",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "armor",
+          "column": 1,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "embercrest-bulwark",
+        "name": "Embercrest Bulwark",
+        "category": "armor",
+        "description": "A basalt tower shield shelters a smouldering phoenix crest.",
+        "price": 1000,
+        "attack": 8,
+        "defense": 45,
+        "upkeep": 12,
+        "level": 18,
+        "art": "buckler",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "armor",
+          "column": 2,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "nightwatch-carapace",
+        "name": "Nightwatch Carapace",
+        "category": "armor",
+        "description": "Violet-black scale plates favor the hunter's swift return strike.",
+        "price": 1350,
+        "attack": 20,
+        "defense": 40,
+        "upkeep": 15,
+        "level": 21,
+        "art": "mail",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "armor",
+          "column": 3,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "oathkeepers-cuirass",
+        "name": "Oathkeeper's Cuirass",
+        "category": "armor",
+        "description": "Ivory steel carries a banner's promise across the heart.",
+        "price": 1800,
+        "attack": 17,
+        "defense": 52,
+        "upkeep": 19,
+        "level": 24,
+        "art": "mail",
+        "tier": "Oath and Bone",
+        "illustration": {
+          "atlas": "armor",
+          "column": 0,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ossuary-raiment",
+        "name": "Fenwarden Lamellar",
+        "category": "armor",
+        "description": "A bone-collared robe gathers pale green protective spirits.",
+        "price": 2400,
+        "attack": 28,
+        "defense": 46,
+        "upkeep": 24,
+        "level": 28,
+        "art": "coat",
+        "tier": "Oath and Bone",
+        "illustration": {
+          "atlas": "armor",
+          "column": 1,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "dawnforge-panoply",
+        "name": "Sunscar Scale Harness",
+        "category": "armor",
+        "description": "Sun-gold plate gleams beneath an unfurled crimson mantle.",
+        "price": 3200,
+        "attack": 24,
+        "defense": 65,
+        "upkeep": 30,
+        "level": 32,
+        "art": "mail",
+        "tier": "Dragon and Dawn",
+        "illustration": {
+          "atlas": "armor",
+          "column": 2,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "wyrmscale-aegis",
+        "name": "Frontier Siege Harness",
+        "category": "armor",
+        "description": "Overlapping dragon scales frame a molten amber eye.",
+        "price": 4100,
+        "attack": 20,
+        "defense": 78,
+        "upkeep": 36,
+        "level": 36,
+        "art": "buckler",
+        "tier": "Dragon and Dawn",
+        "illustration": {
+          "atlas": "armor",
+          "column": 3,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "astral-archon-robes",
+        "name": "Crownlands Marshal Coat",
+        "category": "armor",
+        "description": "Midnight silk carries constellations around a crystalline breastplate.",
+        "price": 5300,
+        "attack": 34,
+        "defense": 72,
+        "upkeep": 42,
+        "level": 40,
+        "art": "coat",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "armor",
+          "column": 0,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "sovereigns-bastion",
+        "name": "Order Bastion Plate",
+        "category": "armor",
+        "description": "A blackened royal suit is crowned with iron spires.",
+        "price": 6700,
+        "attack": 25,
+        "defense": 90,
+        "upkeep": 49,
+        "level": 44,
+        "art": "mail",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "armor",
+          "column": 1,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "seraphic-vestment",
+        "name": "Moonfen Warden Mantle",
+        "category": "armor",
+        "description": "Winglike pearl-white plates surround a halo of dawn.",
+        "price": 7800,
+        "attack": 40,
+        "defense": 84,
+        "upkeep": 54,
+        "level": 47,
+        "art": "coat",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "armor",
+          "column": 2,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "eclipse-citadel-plate",
+        "name": "Royal Garrison Plate",
+        "category": "armor",
+        "description": "Obsidian fortress plate contains a silver eclipse at its heart.",
+        "price": 8800,
+        "attack": 32,
+        "defense": 106,
+        "upkeep": 60,
+        "level": 50,
+        "art": "mail",
+        "tier": "Eclipse",
+        "illustration": {
+          "atlas": "armor",
+          "column": 3,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "lantern-mote",
+        "name": "Lantern Mote",
+        "category": "spell",
+        "description": "A small wandering light keeps the dark at arm's length.",
+        "price": 14,
+        "attack": 1,
+        "defense": 3,
+        "upkeep": 0,
+        "level": 2,
+        "art": "ward",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "spells",
+          "column": 2,
+          "row": 0
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "stonebinding",
+        "name": "Stonebinding",
+        "category": "spell",
+        "description": "A circle of weathered stones closes into a patient ward.",
+        "price": 90,
+        "attack": 5,
+        "defense": 12,
+        "upkeep": 2,
+        "level": 5,
+        "art": "ward",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "spells",
+          "column": 0,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "tempest-lance",
+        "name": "Tempest Lance",
+        "category": "spell",
+        "description": "A spear of blue lightning strikes from a tightly bound storm.",
+        "price": 200,
+        "attack": 23,
+        "defense": 8,
+        "upkeep": 4,
+        "level": 8,
+        "art": "storm",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "spells",
+          "column": 2,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "silverroot-ward",
+        "name": "Silverroot Ward",
+        "category": "spell",
+        "description": "Silver branches weave a moonlit shield around the company.",
+        "price": 300,
+        "attack": 10,
+        "defense": 25,
+        "upkeep": 5,
+        "level": 10,
+        "art": "ward",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "spells",
+          "column": 3,
+          "row": 1
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "runic-convergence",
+        "name": "Watchfire Covenant",
+        "category": "spell",
+        "description": "A ring of ancient sigils aligns around a violet prism.",
+        "price": 460,
+        "attack": 25,
+        "defense": 20,
+        "upkeep": 7,
+        "level": 12,
+        "art": "thorn",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "spells",
+          "column": 0,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "winters-judgment",
+        "name": "Winter's Judgment",
+        "category": "spell",
+        "description": "An ice crown breaks into a deliberate storm of crystalline blades.",
+        "price": 680,
+        "attack": 34,
+        "defense": 18,
+        "upkeep": 9,
+        "level": 15,
+        "art": "storm",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "spells",
+          "column": 1,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ashen-revenant",
+        "name": "Ashen Revenant",
+        "category": "spell",
+        "description": "A flame-wreathed spectral knight answers a forgotten name.",
+        "price": 950,
+        "attack": 41,
+        "defense": 16,
+        "upkeep": 12,
+        "level": 18,
+        "art": "ember",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "spells",
+          "column": 2,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "moonwell-veil",
+        "name": "Moonwell Veil",
+        "category": "spell",
+        "description": "A pearl-bright moon rests above a curtain of healing-looking light; the spell grants combat defense.",
+        "price": 1250,
+        "attack": 20,
+        "defense": 40,
+        "upkeep": 15,
+        "level": 21,
+        "art": "ward",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "spells",
+          "column": 3,
+          "row": 2
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "oathfire-nova",
+        "name": "Oathfire Nova",
+        "category": "spell",
+        "description": "A radiant banner unfurls into a wheel of white-gold flame.",
+        "price": 1700,
+        "attack": 48,
+        "defense": 26,
+        "upkeep": 19,
+        "level": 24,
+        "art": "ember",
+        "tier": "Oath and Bone",
+        "illustration": {
+          "atlas": "spells",
+          "column": 0,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "grave-tide",
+        "name": "Fenwarden’s Undertow",
+        "category": "spell",
+        "description": "Spectral hands rise through a cold sea of emerald mist.",
+        "price": 2250,
+        "attack": 57,
+        "defense": 21,
+        "upkeep": 24,
+        "level": 28,
+        "art": "thorn",
+        "tier": "Oath and Bone",
+        "illustration": {
+          "atlas": "spells",
+          "column": 1,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "dawnstar-benediction",
+        "name": "Sunscar Benediction",
+        "category": "spell",
+        "description": "A golden eight-pointed star shelters the realm's defenders.",
+        "price": 3000,
+        "attack": 29,
+        "defense": 60,
+        "upkeep": 30,
+        "level": 32,
+        "art": "ward",
+        "tier": "Dragon and Dawn",
+        "illustration": {
+          "atlas": "spells",
+          "column": 2,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "dragons-last-breath",
+        "name": "Frontier Breachfire",
+        "category": "spell",
+        "description": "A dragon-shaped torrent leaves burning scales in its wake.",
+        "price": 3900,
+        "attack": 70,
+        "defense": 30,
+        "upkeep": 36,
+        "level": 36,
+        "art": "ember",
+        "tier": "Dragon and Dawn",
+        "illustration": {
+          "atlas": "spells",
+          "column": 3,
+          "row": 3
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "astral-tempest",
+        "name": "Crownlands Stormcall",
+        "category": "spell",
+        "description": "Orbiting fragments of a shattered constellation converge.",
+        "price": 5000,
+        "attack": 67,
+        "defense": 48,
+        "upkeep": 42,
+        "level": 40,
+        "art": "storm",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "spells",
+          "column": 0,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "voidbound-chain",
+        "name": "Blacksteel Binding",
+        "category": "spell",
+        "description": "An amethyst chain binds a small, hungry absence of stars.",
+        "price": 6300,
+        "attack": 78,
+        "defense": 39,
+        "upkeep": 49,
+        "level": 44,
+        "art": "thorn",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "spells",
+          "column": 1,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "seraphs-rebuke",
+        "name": "Order’s Rebuke",
+        "category": "spell",
+        "description": "Six wings of celestial fire close around a golden spear.",
+        "price": 7500,
+        "attack": 65,
+        "defense": 73,
+        "upkeep": 54,
+        "level": 47,
+        "art": "ward",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "spells",
+          "column": 2,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "eclipse-invocation",
+        "name": "Royal War Invocation",
+        "category": "spell",
+        "description": "A black sun gathers a brilliant silver corona into the caster's hand.",
+        "price": 8600,
+        "attack": 92,
+        "defense": 60,
+        "upkeep": 60,
+        "level": 50,
+        "art": "storm",
+        "tier": "Eclipse",
+        "illustration": {
+          "atlas": "spells",
+          "column": 3,
+          "row": 4
+        },
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "marcher-greatsword",
+        "name": "Highland Claymore",
+        "level": 51,
+        "category": "weapon",
+        "attack": 115,
+        "defense": 36,
+        "price": 7500,
+        "upkeep": 43,
+        "region": "iron-marches",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:marcher-greatsword",
+        "description": "Marcher Greatsword; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "fortress-glaive",
+        "name": "Marshguard Glaive",
+        "level": 51,
+        "category": "weapon",
+        "attack": 54,
+        "defense": 65,
+        "price": 7000,
+        "upkeep": 38,
+        "region": "iron-marches",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:fortress-glaive",
+        "description": "Fortress Glaive; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "captains-brigandine",
+        "name": "Highland Captain’s Brigandine",
+        "level": 51,
+        "category": "armor",
+        "attack": 46,
+        "defense": 78,
+        "price": 7400,
+        "upkeep": 45,
+        "region": "iron-marches",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:captains-brigandine",
+        "description": "Captain's Brigandine; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "siegeguard-plate",
+        "name": "Blacksteel Siegeguard Plate",
+        "level": 51,
+        "category": "armor",
+        "attack": 24,
+        "defense": 116,
+        "price": 8200,
+        "upkeep": 45,
+        "region": "iron-marches",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:siegeguard-plate",
+        "description": "Siegeguard Plate; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "battlebrand",
+        "name": "Highland Battlebrand",
+        "level": 51,
+        "category": "spell",
+        "attack": 98,
+        "defense": 44,
+        "price": 7600,
+        "upkeep": 44,
+        "region": "iron-marches",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:battlebrand",
+        "description": "Battlebrand; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "rampart-ward",
+        "name": "Moonfen Rampart Ward",
+        "level": 51,
+        "category": "spell",
+        "attack": 38,
+        "defense": 92,
+        "price": 7400,
+        "upkeep": 43,
+        "region": "iron-marches",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:rampart-ward",
+        "description": "Rampart Ward; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "royal-warblade",
+        "name": "Sunscar Officer’s Saber",
+        "level": 60,
+        "category": "weapon",
+        "attack": 128,
+        "defense": 44,
+        "price": 10500,
+        "upkeep": 54,
+        "region": "crown-frontier",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:royal-warblade",
+        "description": "Royal Warblade; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "guard-captains-halberd",
+        "name": "Crown Captain’s Halberd",
+        "level": 60,
+        "category": "weapon",
+        "attack": 62,
+        "defense": 80,
+        "price": 9800,
+        "upkeep": 48,
+        "region": "crown-frontier",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:guard-captains-halberd",
+        "description": "Guard-Captain's Halberd; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "kings-marshal-harness",
+        "name": "Sunscar Marshal Harness",
+        "level": 60,
+        "category": "armor",
+        "attack": 54,
+        "defense": 94,
+        "price": 10200,
+        "upkeep": 55,
+        "region": "crown-frontier",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:kings-marshal-harness",
+        "description": "King's Marshal Harness; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "citadel-harness",
+        "name": "Crownlands Citadel Harness",
+        "level": 60,
+        "category": "armor",
+        "attack": 29,
+        "defense": 134,
+        "price": 11500,
+        "upkeep": 56,
+        "region": "crown-frontier",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:citadel-harness",
+        "description": "Citadel Harness; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "banner-of-embers",
+        "name": "Sunscar Bannerfire",
+        "level": 60,
+        "category": "spell",
+        "attack": 110,
+        "defense": 52,
+        "price": 10800,
+        "upkeep": 53,
+        "region": "crown-frontier",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:banner-of-embers",
+        "description": "Banner of Embers; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "stonewall-oath",
+        "name": "Crownlands Stonewall Oath",
+        "level": 60,
+        "category": "spell",
+        "attack": 44,
+        "defense": 108,
+        "price": 10000,
+        "upkeep": 50,
+        "region": "crown-frontier",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:stonewall-oath",
+        "description": "Stonewall Oath; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "sovereigns-zweihander",
+        "name": "Mountain Warden’s Zweihander",
+        "level": 70,
+        "category": "weapon",
+        "attack": 140,
+        "defense": 52,
+        "price": 15500,
+        "upkeep": 69,
+        "region": "warring-kingdoms",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:sovereigns-zweihander",
+        "description": "Sovereign's Zweihander; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "march-wardens-poleaxe",
+        "name": "Frontier Marshal’s Poleaxe",
+        "level": 70,
+        "category": "weapon",
+        "attack": 72,
+        "defense": 96,
+        "price": 14500,
+        "upkeep": 62,
+        "region": "warring-kingdoms",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:march-wardens-poleaxe",
+        "description": "March Warden's Poleaxe; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ducal-warplate",
+        "name": "Northern Thane’s Warplate",
+        "level": 70,
+        "category": "armor",
+        "attack": 63,
+        "defense": 110,
+        "price": 15000,
+        "upkeep": 70,
+        "region": "warring-kingdoms",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:ducal-warplate",
+        "description": "Ducal Warplate; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "fortress-bastion-plate",
+        "name": "Moonfen Sentinel Harness",
+        "level": 70,
+        "category": "armor",
+        "attack": 35,
+        "defense": 153,
+        "price": 17000,
+        "upkeep": 73,
+        "region": "warring-kingdoms",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:fortress-bastion-plate",
+        "description": "Fortress Bastion Plate; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "royal-battlefire",
+        "name": "Frontier Marshal’s Battlefire",
+        "level": 70,
+        "category": "spell",
+        "attack": 124,
+        "defense": 66,
+        "price": 15800,
+        "upkeep": 67,
+        "region": "warring-kingdoms",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:royal-battlefire",
+        "description": "Royal Battlefire; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ironwall-covenant",
+        "name": "Northern Ironwall Covenant",
+        "level": 70,
+        "category": "spell",
+        "attack": 51,
+        "defense": 125,
+        "price": 14800,
+        "upkeep": 65,
+        "region": "warring-kingdoms",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:ironwall-covenant",
+        "description": "Ironwall Covenant; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "imperial-greatblade",
+        "name": "Astral Conductor",
+        "level": 80,
+        "category": "weapon",
+        "attack": 148,
+        "defense": 62,
+        "price": 23000,
+        "upkeep": 85,
+        "region": "imperial-sieges",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:imperial-greatblade",
+        "description": "Imperial Greatblade; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "high-castellans-hammer",
+        "name": "Stormglass Pike",
+        "level": 80,
+        "category": "weapon",
+        "attack": 81,
+        "defense": 113,
+        "price": 21000,
+        "upkeep": 76,
+        "region": "imperial-sieges",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:high-castellans-hammer",
+        "description": "High Castellan's Hammer; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "imperial-assault-harness",
+        "name": "Astral Archon Robes",
+        "level": 80,
+        "category": "armor",
+        "attack": 72,
+        "defense": 126,
+        "price": 22000,
+        "upkeep": 87,
+        "region": "imperial-sieges",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:imperial-assault-harness",
+        "description": "Imperial Assault Harness; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "crownwall-bastion-plate",
+        "name": "Argent Sentinel Plate",
+        "level": 80,
+        "category": "armor",
+        "attack": 42,
+        "defense": 171,
+        "price": 25500,
+        "upkeep": 91,
+        "region": "imperial-sieges",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:crownwall-bastion-plate",
+        "description": "Crownwall Bastion Plate; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "astral-siegefire",
+        "name": "Astral Tempest",
+        "level": 80,
+        "category": "spell",
+        "attack": 140,
+        "defense": 80,
+        "price": 23500,
+        "upkeep": 83,
+        "region": "imperial-sieges",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:astral-siegefire",
+        "description": "Astral Siegefire; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "sanctuary-of-banners",
+        "name": "Runic Convergence",
+        "level": 80,
+        "category": "spell",
+        "attack": 58,
+        "defense": 141,
+        "price": 21800,
+        "upkeep": 80,
+        "region": "imperial-sieges",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:sanctuary-of-banners",
+        "description": "Sanctuary of Banners; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ash-crowned-warblade",
+        "name": "Crown of Ash Blade",
+        "level": 90,
+        "category": "weapon",
+        "attack": 159,
+        "defense": 72,
+        "price": 34000,
+        "upkeep": 103,
+        "region": "ashen-crown",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:ash-crowned-warblade",
+        "description": "Ash-Crowned Warblade; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "throneguard-polehammer",
+        "name": "Imperial Thronehammer",
+        "level": 90,
+        "category": "weapon",
+        "attack": 90,
+        "defense": 131,
+        "price": 31000,
+        "upkeep": 92,
+        "region": "ashen-crown",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:throneguard-polehammer",
+        "description": "Throneguard Polehammer; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ashen-marshal-harness",
+        "name": "Seraphic Vestment",
+        "level": 90,
+        "category": "armor",
+        "attack": 81,
+        "defense": 140,
+        "price": 33000,
+        "upkeep": 101,
+        "region": "ashen-crown",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:ashen-marshal-harness",
+        "description": "Ashen Marshal Harness; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "sovereigns-war-bastion",
+        "name": "Sovereign’s Bastion",
+        "level": 90,
+        "category": "armor",
+        "attack": 48,
+        "defense": 189,
+        "price": 36500,
+        "upkeep": 108,
+        "region": "ashen-crown",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:sovereigns-war-bastion",
+        "description": "Sovereign's War Bastion; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "ashen-coronation",
+        "name": "Seraph’s Rebuke",
+        "level": 90,
+        "category": "spell",
+        "attack": 156,
+        "defense": 95,
+        "price": 34500,
+        "upkeep": 98,
+        "region": "ashen-crown",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:ashen-coronation",
+        "description": "Ashen Coronation; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "crown-of-wards",
+        "name": "Imperial Crown Ward",
+        "level": 90,
+        "category": "spell",
+        "attack": 65,
+        "defense": 156,
+        "price": 31800,
+        "upkeep": 93,
+        "region": "ashen-crown",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:crown-of-wards",
+        "description": "Crown of Wards; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "imperial-eclipse-greatsword",
+        "name": "Eclipse Greatsword",
+        "level": 100,
+        "category": "weapon",
+        "attack": 180,
+        "defense": 82,
+        "price": 48000,
+        "upkeep": 120,
+        "region": "eclipse-reach",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:imperial-eclipse-greatsword",
+        "description": "Imperial Eclipse Greatsword; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "eclipse-gatehammer",
+        "name": "Eclipse Gatehammer",
+        "level": 100,
+        "category": "weapon",
+        "attack": 98,
+        "defense": 150,
+        "price": 44000,
+        "upkeep": 110,
+        "region": "eclipse-reach",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:eclipse-gatehammer",
+        "description": "Eclipse Gatehammer; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "eclipse-war-marshal-plate",
+        "name": "Eclipse War-Marshal Plate",
+        "level": 100,
+        "category": "armor",
+        "attack": 90,
+        "defense": 155,
+        "price": 45000,
+        "upkeep": 115,
+        "region": "eclipse-reach",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:eclipse-war-marshal-plate",
+        "description": "Eclipse War-Marshal Plate; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "imperial-eclipse-bastion",
+        "name": "Eclipse Citadel Plate",
+        "level": 100,
+        "category": "armor",
+        "attack": 55,
+        "defense": 205,
+        "price": 50000,
+        "upkeep": 125,
+        "region": "eclipse-reach",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:imperial-eclipse-bastion",
+        "description": "Imperial Eclipse Bastion; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "astral-war-invocation",
+        "name": "Eclipse Invocation",
+        "level": 100,
+        "category": "spell",
+        "attack": 165,
+        "defense": 110,
+        "price": 46000,
+        "upkeep": 110,
+        "region": "eclipse-reach",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:astral-war-invocation",
+        "description": "Astral War Invocation; offensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "eclipse-aegis",
+        "name": "Eclipse Aegis",
+        "level": 100,
+        "category": "spell",
+        "attack": 72,
+        "defense": 170,
+        "price": 44000,
+        "upkeep": 105,
+        "region": "eclipse-reach",
+        "artStatus": "not commissioned; original project artwork required",
+        "art": "pending:eclipse-aegis",
+        "description": "Eclipse Aegis; defensive equipment for the royal campaigns.",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "king-hudsons-sword",
+        "name": "King Hudson's Sword",
+        "category": "weapon",
+        "level": 71,
+        "price": 50000,
+        "attack": 190,
+        "defense": 45,
+        "upkeep": 175,
+        "description": "Quest-exclusive royal rainbow blade. Exceptional offense trades defense and substantial ordinary upkeep.",
+        "art": "pending:king-hudsons-sword",
+        "acquisition": "quest-exclusive",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "king-hudsons-shield",
+        "name": "King Hudson's Shield",
+        "category": "armor",
+        "level": 71,
+        "price": 50000,
+        "attack": 112,
+        "defense": 100,
+        "upkeep": 170,
+        "description": "Quest-exclusive diamond steel shield with a rainbow crystal; offensive armor, not defensive best-in-slot.",
+        "art": "pending:king-hudsons-shield",
+        "acquisition": "quest-exclusive",
+        "presentationId": "level100-equipment-presentation-1"
+      },
+      {
+        "id": "king-hudsons-meteor-shower",
+        "name": "King Hudson's Meteor Shower",
+        "category": "spell",
+        "level": 71,
+        "price": 50000,
+        "attack": 180,
+        "defense": 65,
+        "upkeep": 165,
+        "description": "Quest-exclusive rainbow-vortex meteor storm. Rare offensive power with limited defense and high upkeep.",
+        "art": "pending:king-hudsons-meteor-shower",
+        "acquisition": "quest-exclusive",
+        "presentationId": "level100-equipment-presentation-1"
+      }
+    ],
+    "quests": [
+      {
+        "id": "border-patrol",
+        "name": "Patrol the border",
+        "area": "The Vale",
+        "description": "Keep the old road safe and learn the realm's ways.",
+        "level": 1,
+        "mana": 2,
+        "goldMin": 8,
+        "goldMax": 12,
+        "xp": 4,
+        "army": 1,
+        "items": {}
+      },
+      {
+        "id": "gather-timber",
+        "name": "Gather the Winter Timber",
+        "area": "The Vale",
+        "description": "Clear deadwood for the village stores.",
+        "level": 1,
+        "mana": 3,
+        "goldMin": 12,
+        "goldMax": 18,
+        "xp": 6,
+        "army": 1,
+        "items": {
+          "squires-blade": 1
+        }
+      },
+      {
+        "id": "clear-old-road",
+        "name": "Clear the Old Road",
+        "area": "The Vale",
+        "description": "Drive raiders from the broken mileposts.",
+        "level": 2,
+        "mana": 4,
+        "goldMin": 18,
+        "goldMax": 28,
+        "xp": 10,
+        "army": 1,
+        "items": {
+          "ash-spear": 1,
+          "wicker-buckler": 1
+        }
+      },
+      {
+        "id": "search-ruins",
+        "name": "Search the Fallen Abbey",
+        "area": "The Marches",
+        "description": "Find the old watchtower route among the ashes.",
+        "level": 3,
+        "mana": 4,
+        "goldMin": 23,
+        "goldMax": 35,
+        "xp": 12,
+        "army": 1,
+        "items": {
+          "hearth-ward": 1
+        },
+        "loot": {
+          "id": "watchtower-map",
+          "name": "Watchtower Map",
+          "chance": 20,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "train-watch",
+        "name": "Train the Village Watch",
+        "area": "The Vale",
+        "description": "Teach the watch to stand against fire and steel.",
+        "level": 3,
+        "mana": 4,
+        "goldMin": 20,
+        "goldMax": 30,
+        "xp": 10,
+        "army": 1,
+        "items": {
+          "padded-coat": 1,
+          "ember-word": 1
+        }
+      },
+      {
+        "id": "take-watchtower",
+        "name": "Take the Silent Tower",
+        "area": "The Marches",
+        "description": "Lead a small company along the hidden route.",
+        "level": 4,
+        "mana": 5,
+        "goldMin": 30,
+        "goldMax": 45,
+        "xp": 14,
+        "army": 2,
+        "items": {
+          "iron-sword": 1,
+          "padded-coat": 1
+        },
+        "requiresLoot": "watchtower-map"
+      },
+      {
+        "id": "break-siege",
+        "name": "Break the Coinwind Siege",
+        "area": "The Marches",
+        "description": "Rally your company and shatter the siege line.",
+        "level": 5,
+        "mana": 5,
+        "goldMin": 35,
+        "goldMax": 55,
+        "xp": 16,
+        "army": 3,
+        "items": {
+          "ransackers-axe": 1,
+          "warden-mail": 1,
+          "thorn-hex": 1
+        }
+      },
+      {
+        "id": "escort-lantern-caravan",
+        "name": "Escort the Lantern Caravan",
+        "area": "The Marches",
+        "description": "Keep the winter traders safe beneath the watch's lanterns.",
+        "level": 5,
+        "mana": 4,
+        "goldMin": 32,
+        "goldMax": 46,
+        "xp": 14,
+        "army": 2,
+        "items": {
+          "hazeltwig-longbow": 1,
+          "padded-coat": 1
+        }
+      },
+      {
+        "id": "hold-copper-pass",
+        "name": "Hold the Copper Pass",
+        "area": "The Marches",
+        "description": "Equip two scouts and deny the smugglers their mountain road.",
+        "level": 6,
+        "mana": 5,
+        "goldMin": 40,
+        "goldMax": 58,
+        "xp": 18,
+        "army": 2,
+        "items": {
+          "iron-sword": 1,
+          "tanned-leather-jerkin": 2
+        }
+      },
+      {
+        "id": "track-runewood-stag",
+        "name": "Track the Runewood Stag",
+        "area": "The Runewood",
+        "description": "Follow a silver-antlered guardian to the forest's first seal.",
+        "level": 8,
+        "mana": 5,
+        "goldMin": 55,
+        "goldMax": 75,
+        "xp": 24,
+        "army": 3,
+        "items": {
+          "kingsguard-longsword": 1,
+          "thorn-hex": 1
+        },
+        "loot": {
+          "id": "runewood-seal",
+          "name": "Runewood Seal",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "ward-frontier",
+        "name": "Ward the Northern Frontier",
+        "area": "The Marches",
+        "description": "Carry the realm's banner into the storm.",
+        "level": 8,
+        "mana": 6,
+        "goldMin": 50,
+        "goldMax": 75,
+        "xp": 22,
+        "army": 5,
+        "items": {
+          "sunsteel-glaive": 1,
+          "castellan-helm": 1,
+          "storm-sigil": 1
+        }
+      },
+      {
+        "id": "bind-thorn-circle",
+        "name": "Bind the Thorn Circle",
+        "area": "The Runewood",
+        "description": "Use the abbey's map to close a circle of hungry roots.",
+        "level": 9,
+        "mana": 5,
+        "goldMin": 65,
+        "goldMax": 90,
+        "xp": 26,
+        "army": 3,
+        "items": {
+          "runebound-hauberk": 1,
+          "hearth-ward": 1
+        },
+        "requiresLoot": "watchtower-map"
+      },
+      {
+        "id": "cleanse-silverroot",
+        "name": "Cleanse the Silverroot",
+        "area": "The Runewood",
+        "description": "Restore a living bridge without burning the forest.",
+        "level": 10,
+        "mana": 6,
+        "goldMin": 80,
+        "goldMax": 115,
+        "xp": 30,
+        "army": 4,
+        "items": {
+          "briarheart-bow": 1,
+          "silverroot-ward": 1
+        },
+        "requiresLoot": "runewood-seal"
+      },
+      {
+        "id": "guard-green-causeway",
+        "name": "Guard the Green Causeway",
+        "area": "The Runewood",
+        "description": "Hold the mossy causeway while the villagers cross.",
+        "level": 11,
+        "mana": 6,
+        "goldMin": 90,
+        "goldMax": 125,
+        "xp": 33,
+        "army": 4,
+        "items": {
+          "runebound-hauberk": 1,
+          "tempest-lance": 1
+        }
+      },
+      {
+        "id": "decode-first-runes",
+        "name": "Decode the First Runes",
+        "area": "The Runewood",
+        "description": "Align a fallen ring of stones and recover its prism.",
+        "level": 12,
+        "mana": 6,
+        "goldMin": 105,
+        "goldMax": 150,
+        "xp": 36,
+        "army": 4,
+        "items": {
+          "runescar-saber": 1,
+          "runic-convergence": 1
+        },
+        "loot": {
+          "id": "rune-prism",
+          "name": "Rune Prism",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "stand-argent-gate",
+        "name": "Stand at the Argent Gate",
+        "area": "The Runewood",
+        "description": "Outfit two sentinels and shield the prism's passage.",
+        "level": 14,
+        "mana": 6,
+        "goldMin": 130,
+        "goldMax": 180,
+        "xp": 42,
+        "army": 5,
+        "items": {
+          "argent-sentinel-plate": 2
+        },
+        "requiresLoot": "rune-prism"
+      },
+      {
+        "id": "chart-frozen-step",
+        "name": "Chart the Frozen Step",
+        "area": "The Cinder Peaks",
+        "description": "Find a winterglass path above the sleeping caldera.",
+        "level": 15,
+        "mana": 7,
+        "goldMin": 155,
+        "goldMax": 215,
+        "xp": 46,
+        "army": 5,
+        "items": {
+          "frostweave-mantle": 1,
+          "winters-judgment": 1
+        }
+      },
+      {
+        "id": "shatter-icewatch",
+        "name": "Shatter the Icewatch",
+        "area": "The Cinder Peaks",
+        "description": "Free the old watchtower from its frozen guardians.",
+        "level": 16,
+        "mana": 7,
+        "goldMin": 170,
+        "goldMax": 235,
+        "xp": 50,
+        "army": 6,
+        "items": {
+          "stormglass-pike": 2,
+          "runic-convergence": 1
+        },
+        "loot": {
+          "id": "frostbound-chart",
+          "name": "Frostbound Chart",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "wake-cinder-forge",
+        "name": "Wake the Cinder Forge",
+        "area": "The Cinder Peaks",
+        "description": "Carry winter's chart into a forge that remembers dragons.",
+        "level": 18,
+        "mana": 7,
+        "goldMin": 210,
+        "goldMax": 290,
+        "xp": 58,
+        "army": 6,
+        "items": {
+          "cinderwyrm-cleaver": 1,
+          "embercrest-bulwark": 1
+        },
+        "requiresLoot": "frostbound-chart"
+      },
+      {
+        "id": "banish-ashen-court",
+        "name": "Banish the Ashen Court",
+        "area": "The Cinder Peaks",
+        "description": "Bring the forgotten court its final royal summons.",
+        "level": 19,
+        "mana": 7,
+        "goldMin": 230,
+        "goldMax": 320,
+        "xp": 62,
+        "army": 7,
+        "items": {
+          "ashen-revenant": 1,
+          "warden-mail": 2
+        }
+      },
+      {
+        "id": "secure-moonwell",
+        "name": "Secure the Moonwell",
+        "area": "The Moonlit Coast",
+        "description": "Recover a pearl from the tide beneath the moonlit temple.",
+        "level": 21,
+        "mana": 8,
+        "goldMin": 275,
+        "goldMax": 375,
+        "xp": 70,
+        "army": 7,
+        "items": {
+          "moonthorn-recurve": 1,
+          "moonwell-veil": 1
+        },
+        "loot": {
+          "id": "moon-pearl",
+          "name": "Moon Pearl",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "defend-nightwatch",
+        "name": "Defend the Nightwatch",
+        "area": "The Moonlit Coast",
+        "description": "Protect the coast while the pearl guides your ships home.",
+        "level": 22,
+        "mana": 8,
+        "goldMin": 300,
+        "goldMax": 410,
+        "xp": 74,
+        "army": 8,
+        "items": {
+          "nightwatch-carapace": 2
+        },
+        "requiresLoot": "moon-pearl"
+      },
+      {
+        "id": "swear-oathfire",
+        "name": "Swear the Oathfire",
+        "area": "The Oathlands",
+        "description": "Stand beneath a banner that fire cannot consume.",
+        "level": 24,
+        "mana": 8,
+        "goldMin": 360,
+        "goldMax": 490,
+        "xp": 82,
+        "army": 8,
+        "items": {
+          "oathbound-greatsword": 1,
+          "oathkeepers-cuirass": 1,
+          "oathfire-nova": 1
+        }
+      },
+      {
+        "id": "break-copper-oath",
+        "name": "Break the Copper Oath",
+        "area": "The Oathlands",
+        "description": "Defeat the oathbreakers and reclaim their stolen standard.",
+        "level": 25,
+        "mana": 8,
+        "goldMin": 385,
+        "goldMax": 525,
+        "xp": 86,
+        "army": 9,
+        "items": {
+          "oathfire-nova": 2,
+          "warden-mail": 1
+        },
+        "loot": {
+          "id": "oath-banner",
+          "name": "Oath Banner",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "enter-pale-procession",
+        "name": "Enter the Pale Procession",
+        "area": "The Pale March",
+        "description": "Carry a living banner through a silent kingdom of bone.",
+        "level": 28,
+        "mana": 9,
+        "goldMin": 470,
+        "goldMax": 630,
+        "xp": 100,
+        "army": 9,
+        "items": {
+          "gravewarden-scythe": 1,
+          "ossuary-raiment": 1
+        },
+        "requiresLoot": "oath-banner"
+      },
+      {
+        "id": "still-grave-tide",
+        "name": "Still the Grave Tide",
+        "area": "The Pale March",
+        "description": "Close the crypt's floodgates and recover a warding sigil.",
+        "level": 29,
+        "mana": 9,
+        "goldMin": 500,
+        "goldMax": 670,
+        "xp": 105,
+        "army": 10,
+        "items": {
+          "grave-tide": 2,
+          "frostweave-mantle": 1
+        },
+        "loot": {
+          "id": "pale-sigil",
+          "name": "Pale Sigil",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "rescue-glass-pilgrims",
+        "name": "Rescue the Glass Pilgrims",
+        "area": "The Pale March",
+        "description": "Guide the dawn-bound pilgrims through a field of broken mirrors.",
+        "level": 30,
+        "mana": 9,
+        "goldMin": 525,
+        "goldMax": 705,
+        "xp": 110,
+        "army": 10,
+        "items": {
+          "ossuary-raiment": 2,
+          "runic-convergence": 2
+        }
+      },
+      {
+        "id": "raise-dawn-beacon",
+        "name": "Raise the Dawn Beacon",
+        "area": "Dawnspire",
+        "description": "Turn the Pale Sigil toward the first light of the cathedral.",
+        "level": 32,
+        "mana": 10,
+        "goldMin": 600,
+        "goldMax": 800,
+        "xp": 125,
+        "army": 11,
+        "items": {
+          "sun-etched-warhammer": 1,
+          "dawnstar-benediction": 1
+        },
+        "requiresLoot": "pale-sigil"
+      },
+      {
+        "id": "hold-sunward-stair",
+        "name": "Hold the Sunward Stair",
+        "area": "Dawnspire",
+        "description": "Defend the great stair and earn the cathedral's emblem.",
+        "level": 33,
+        "mana": 10,
+        "goldMin": 630,
+        "goldMax": 840,
+        "xp": 130,
+        "army": 11,
+        "items": {
+          "dawnforge-panoply": 2
+        },
+        "loot": {
+          "id": "dawn-emblem",
+          "name": "Dawn Emblem",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "defend-wyrm-approach",
+        "name": "Defend the Wyrm Approach",
+        "area": "Dawnspire",
+        "description": "Prepare the pilgrims' road for a return of fire.",
+        "level": 35,
+        "mana": 10,
+        "goldMin": 700,
+        "goldMax": 920,
+        "xp": 140,
+        "army": 12,
+        "items": {
+          "sun-etched-warhammer": 2,
+          "thorn-hex": 3
+        }
+      },
+      {
+        "id": "enter-dragon-reliquary",
+        "name": "Enter the Dragon Reliquary",
+        "area": "The Dragon Reach",
+        "description": "Use the Dawn Emblem to wake a spark beneath the mountain.",
+        "level": 36,
+        "mana": 10,
+        "goldMin": 740,
+        "goldMax": 980,
+        "xp": 145,
+        "army": 12,
+        "items": {
+          "dragonwake-falchion": 1,
+          "wyrmscale-aegis": 1
+        },
+        "requiresLoot": "dawn-emblem",
+        "loot": {
+          "id": "wyrm-spark",
+          "name": "Wyrm Spark",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "seal-flame-rift",
+        "name": "Seal the Flame Rift",
+        "area": "The Dragon Reach",
+        "description": "Balance frost and dragonfire across a wounded mountain.",
+        "level": 38,
+        "mana": 11,
+        "goldMin": 820,
+        "goldMax": 1080,
+        "xp": 155,
+        "army": 13,
+        "items": {
+          "dragons-last-breath": 2,
+          "frostweave-mantle": 2
+        }
+      },
+      {
+        "id": "navigate-astral-storm",
+        "name": "Navigate the Astral Storm",
+        "area": "The Astral Reach",
+        "description": "Carry the Wyrm Spark beyond the last earthly horizon.",
+        "level": 40,
+        "mana": 11,
+        "goldMin": 910,
+        "goldMax": 1190,
+        "xp": 165,
+        "army": 14,
+        "items": {
+          "astral-conductor": 1,
+          "astral-archon-robes": 1,
+          "astral-tempest": 1
+        },
+        "requiresLoot": "wyrm-spark"
+      },
+      {
+        "id": "guard-star-survey",
+        "name": "Guard the Star Survey",
+        "area": "The Astral Reach",
+        "description": "Protect the astronomers while they chart a broken constellation.",
+        "level": 41,
+        "mana": 11,
+        "goldMin": 950,
+        "goldMax": 1250,
+        "xp": 170,
+        "army": 14,
+        "items": {
+          "astral-archon-robes": 2,
+          "dawnstar-benediction": 1
+        },
+        "loot": {
+          "id": "star-chart",
+          "name": "Star Chart",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "bind-void-lattice",
+        "name": "Bind the Void Lattice",
+        "area": "The Astral Reach",
+        "description": "Use the Star Chart to bind the dark between the stars.",
+        "level": 43,
+        "mana": 12,
+        "goldMin": 1030,
+        "goldMax": 1350,
+        "xp": 180,
+        "army": 15,
+        "items": {
+          "astral-conductor": 2,
+          "grave-tide": 2
+        },
+        "requiresLoot": "star-chart"
+      },
+      {
+        "id": "break-voidbound-chains",
+        "name": "Break the Voidbound Chains",
+        "area": "The Astral Reach",
+        "description": "Free the last gate from a chain without an end.",
+        "level": 44,
+        "mana": 12,
+        "goldMin": 1100,
+        "goldMax": 1450,
+        "xp": 190,
+        "army": 15,
+        "items": {
+          "voidbound-chain": 1,
+          "sovereigns-bastion": 1
+        }
+      },
+      {
+        "id": "lift-crown-of-ash",
+        "name": "Lift the Crown of Ash",
+        "area": "The Eclipse Crown",
+        "description": "Unseat the ash regent and recover a fragment of its crown.",
+        "level": 45,
+        "mana": 12,
+        "goldMin": 1150,
+        "goldMax": 1510,
+        "xp": 195,
+        "army": 16,
+        "items": {
+          "crown-of-ash-blade": 1,
+          "voidbound-chain": 2
+        },
+        "loot": {
+          "id": "crown-fragment",
+          "name": "Crown Fragment",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "open-seraphic-gate",
+        "name": "Open the Seraphic Gate",
+        "area": "The Eclipse Crown",
+        "description": "Let the crown's broken light guide the celestial guard.",
+        "level": 47,
+        "mana": 12,
+        "goldMin": 1240,
+        "goldMax": 1640,
+        "xp": 205,
+        "army": 17,
+        "items": {
+          "seraphic-vestment": 1,
+          "seraphs-rebuke": 1
+        },
+        "requiresLoot": "crown-fragment"
+      },
+      {
+        "id": "hold-last-meridian",
+        "name": "Hold the Last Meridian",
+        "area": "The Eclipse Crown",
+        "description": "Hold a line between night and day and take the Eclipse Key.",
+        "level": 49,
+        "mana": 13,
+        "goldMin": 1350,
+        "goldMax": 1770,
+        "xp": 220,
+        "army": 18,
+        "items": {
+          "seraphic-vestment": 2,
+          "crown-of-ash-blade": 2
+        },
+        "loot": {
+          "id": "eclipse-key",
+          "name": "Eclipse Key",
+          "chance": 25,
+          "firstGuaranteed": true
+        }
+      },
+      {
+        "id": "defy-eclipsed-sovereign",
+        "name": "Defy the Eclipsed Sovereign",
+        "area": "The Eclipse Crown",
+        "description": "Lead the company beneath the black sun and decide the realm's dawn.",
+        "level": 50,
+        "mana": 13,
+        "goldMin": 1450,
+        "goldMax": 1950,
+        "xp": 230,
+        "army": 18,
+        "items": {
+          "eclipse-greatsword": 1,
+          "eclipse-citadel-plate": 1,
+          "eclipse-invocation": 1
+        },
+        "requiresLoot": "eclipse-key"
+      },
+      {
+        "id": "scout-the-iron-marches",
+        "name": "Scout the Iron Marches",
+        "area": "The Iron Marches",
+        "level": 51,
+        "mana": 14,
+        "xp": 250,
+        "goldMin": 2000,
+        "goldMax": 2600,
+        "army": 25,
+        "items": {
+          "marcher-greatsword": 2,
+          "siegeguard-plate": 2,
+          "battlebrand": 1
+        },
+        "loot": {
+          "id": "region-seal-0",
+          "name": "The Iron Marches Seal",
+          "chance": 25,
+          "firstGuaranteed": true
+        },
+        "requiresLoot": "eclipse-key"
+      },
+      {
+        "id": "break-the-border-siege",
+        "name": "Break the Border Siege",
+        "area": "The Iron Marches",
+        "level": 55,
+        "mana": 14,
+        "xp": 275,
+        "goldMin": 2400,
+        "goldMax": 3120,
+        "army": 27,
+        "items": {
+          "marcher-greatsword": 2,
+          "siegeguard-plate": 2,
+          "battlebrand": 1
+        },
+        "requiresLoot": "region-seal-0"
+      },
+      {
+        "id": "raise-the-marcher-standard",
+        "name": "Raise the Marcher Standard",
+        "area": "The Iron Marches",
+        "level": 59,
+        "mana": 15,
+        "xp": 300,
+        "goldMin": 2900,
+        "goldMax": 3770,
+        "army": 29,
+        "items": {
+          "marcher-greatsword": 2,
+          "siegeguard-plate": 2,
+          "battlebrand": 1
+        },
+        "requiresLoot": "region-seal-0"
+      },
+      {
+        "id": "secure-the-kings-road",
+        "name": "Secure the King's Road",
+        "area": "The Crown Frontier",
+        "level": 60,
+        "mana": 15,
+        "xp": 310,
+        "goldMin": 3300,
+        "goldMax": 4290,
+        "army": 35,
+        "items": {
+          "royal-warblade": 3,
+          "citadel-harness": 3,
+          "banner-of-embers": 2
+        },
+        "loot": {
+          "id": "region-seal-1",
+          "name": "The Crown Frontier Seal",
+          "chance": 25,
+          "firstGuaranteed": true
+        },
+        "requiresLoot": "region-seal-0"
+      },
+      {
+        "id": "defend-the-frontier-keep",
+        "name": "Defend the Frontier Keep",
+        "area": "The Crown Frontier",
+        "level": 64,
+        "mana": 15,
+        "xp": 335,
+        "goldMin": 3900,
+        "goldMax": 5070,
+        "army": 37,
+        "items": {
+          "royal-warblade": 3,
+          "citadel-harness": 3,
+          "banner-of-embers": 2
+        },
+        "requiresLoot": "region-seal-1"
+      },
+      {
+        "id": "unite-the-border-garrisons",
+        "name": "Unite the Border Garrisons",
+        "area": "The Crown Frontier",
+        "level": 69,
+        "mana": 16,
+        "xp": 365,
+        "goldMin": 4600,
+        "goldMax": 5980,
+        "army": 39,
+        "items": {
+          "royal-warblade": 3,
+          "citadel-harness": 3,
+          "banner-of-embers": 2
+        },
+        "requiresLoot": "region-seal-1"
+      },
+      {
+        "id": "escort-the-royal-host",
+        "name": "Escort the Royal Host",
+        "area": "The Warring Kingdoms",
+        "level": 70,
+        "mana": 16,
+        "xp": 380,
+        "goldMin": 5500,
+        "goldMax": 7150,
+        "army": 45,
+        "items": {
+          "sovereigns-zweihander": 5,
+          "fortress-bastion-plate": 4,
+          "royal-battlefire": 3
+        },
+        "loot": {
+          "id": "region-seal-2",
+          "name": "The Warring Kingdoms Seal",
+          "chance": 25,
+          "firstGuaranteed": true
+        },
+        "requiresLoot": "region-seal-1"
+      },
+      {
+        "id": "storm-the-river-fortress",
+        "name": "Storm the River Fortress",
+        "area": "The Warring Kingdoms",
+        "level": 74,
+        "mana": 17,
+        "xp": 410,
+        "goldMin": 6500,
+        "goldMax": 8450,
+        "army": 47,
+        "items": {
+          "sovereigns-zweihander": 5,
+          "fortress-bastion-plate": 4,
+          "royal-battlefire": 3
+        },
+        "requiresLoot": "region-seal-2"
+      },
+      {
+        "id": "settle-the-war-of-crowns",
+        "name": "Settle the War of Crowns",
+        "area": "The Warring Kingdoms",
+        "level": 79,
+        "mana": 18,
+        "xp": 445,
+        "goldMin": 7600,
+        "goldMax": 9880,
+        "army": 49,
+        "items": {
+          "sovereigns-zweihander": 5,
+          "fortress-bastion-plate": 4,
+          "royal-battlefire": 3
+        },
+        "requiresLoot": "region-seal-2"
+      },
+      {
+        "id": "build-the-siege-lines",
+        "name": "Build the Siege Lines",
+        "area": "The Imperial Sieges",
+        "level": 80,
+        "mana": 18,
+        "xp": 460,
+        "goldMin": 8800,
+        "goldMax": 11440,
+        "army": 55,
+        "items": {
+          "imperial-greatblade": 7,
+          "crownwall-bastion-plate": 5,
+          "astral-siegefire": 3
+        },
+        "loot": {
+          "id": "region-seal-3",
+          "name": "The Imperial Sieges Seal",
+          "chance": 25,
+          "firstGuaranteed": true
+        },
+        "requiresLoot": "region-seal-2"
+      },
+      {
+        "id": "breach-the-imperial-walls",
+        "name": "Breach the Imperial Walls",
+        "area": "The Imperial Sieges",
+        "level": 84,
+        "mana": 18,
+        "xp": 490,
+        "goldMin": 10200,
+        "goldMax": 13260,
+        "army": 57,
+        "items": {
+          "imperial-greatblade": 7,
+          "crownwall-bastion-plate": 5,
+          "astral-siegefire": 3
+        },
+        "requiresLoot": "region-seal-3"
+      },
+      {
+        "id": "hold-the-crownwall",
+        "name": "Hold the Crownwall",
+        "area": "The Imperial Sieges",
+        "level": 89,
+        "mana": 19,
+        "xp": 525,
+        "goldMin": 11800,
+        "goldMax": 15340,
+        "army": 59,
+        "items": {
+          "imperial-greatblade": 7,
+          "crownwall-bastion-plate": 5,
+          "astral-siegefire": 3
+        },
+        "requiresLoot": "region-seal-3"
+      },
+      {
+        "id": "defend-the-ashen-throne",
+        "name": "Defend the Ashen Throne",
+        "area": "The Ashen Crown",
+        "level": 90,
+        "mana": 19,
+        "xp": 540,
+        "goldMin": 13600,
+        "goldMax": 17680,
+        "army": 70,
+        "items": {
+          "ash-crowned-warblade": 8,
+          "sovereigns-war-bastion": 6,
+          "ashen-coronation": 4
+        },
+        "loot": {
+          "id": "region-seal-4",
+          "name": "The Ashen Crown Seal",
+          "chance": 25,
+          "firstGuaranteed": true
+        },
+        "requiresLoot": "region-seal-3"
+      },
+      {
+        "id": "break-the-ember-host",
+        "name": "Break the Ember Host",
+        "area": "The Ashen Crown",
+        "level": 93,
+        "mana": 19,
+        "xp": 560,
+        "goldMin": 15100,
+        "goldMax": 19630,
+        "army": 72,
+        "items": {
+          "ash-crowned-warblade": 8,
+          "sovereigns-war-bastion": 6,
+          "ashen-coronation": 4
+        },
+        "requiresLoot": "region-seal-4"
+      },
+      {
+        "id": "restore-the-crown",
+        "name": "Restore the Crown",
+        "area": "The Ashen Crown",
+        "level": 95,
+        "mana": 20,
+        "xp": 580,
+        "goldMin": 16700,
+        "goldMax": 21710,
+        "army": 74,
+        "items": {
+          "ash-crowned-warblade": 8,
+          "sovereigns-war-bastion": 6,
+          "ashen-coronation": 4
+        },
+        "requiresLoot": "region-seal-4"
+      },
+      {
+        "id": "cross-the-eclipse-reach",
+        "name": "Cross the Eclipse Reach",
+        "area": "The Eclipse Reach",
+        "level": 96,
+        "mana": 20,
+        "xp": 590,
+        "goldMin": 18000,
+        "goldMax": 23400,
+        "army": 90,
+        "items": {
+          "ash-crowned-warblade": 10,
+          "sovereigns-war-bastion": 8,
+          "ashen-coronation": 5
+        },
+        "loot": {
+          "id": "region-seal-5",
+          "name": "The Eclipse Reach Seal",
+          "chance": 25,
+          "firstGuaranteed": true
+        },
+        "requiresLoot": "region-seal-4"
+      },
+      {
+        "id": "hold-the-last-citadel",
+        "name": "Hold the Last Citadel",
+        "area": "The Eclipse Reach",
+        "level": 98,
+        "mana": 20,
+        "xp": 605,
+        "goldMin": 20000,
+        "goldMax": 26000,
+        "army": 92,
+        "items": {
+          "ash-crowned-warblade": 10,
+          "sovereigns-war-bastion": 8,
+          "ashen-coronation": 5
+        },
+        "requiresLoot": "region-seal-5"
+      },
+      {
+        "id": "defend-the-hundred-kingdoms",
+        "name": "Defend the Hundred Kingdoms",
+        "area": "The Eclipse Reach",
+        "level": 100,
+        "mana": 20,
+        "xp": 625,
+        "goldMin": 22000,
+        "goldMax": 28600,
+        "army": 94,
+        "items": {
+          "imperial-eclipse-greatsword": 10,
+          "imperial-eclipse-bastion": 8,
+          "astral-war-invocation": 5
+        },
+        "requiresLoot": "region-seal-5"
+      }
+    ],
+    "properties": [
+      {
+        "id": "smallholding",
+        "name": "Smallholding",
+        "description": "Tenant fields beside the old road.",
+        "price": 45,
+        "hourlyIncome": 8,
+        "hourlyUpkeep": 1,
+        "level": 1,
+        "art": "fields",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "properties",
+          "column": 0,
+          "row": 0
+        }
+      },
+      {
+        "id": "woodland",
+        "name": "Woodland",
+        "description": "Managed groves supply the realm with timber.",
+        "price": 90,
+        "hourlyIncome": 18,
+        "hourlyUpkeep": 3,
+        "level": 2,
+        "art": "woodland",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "properties",
+          "column": 1,
+          "row": 0
+        }
+      },
+      {
+        "id": "copper-workshop",
+        "name": "Copper Workshop",
+        "description": "A forge and copper-roofed workshop supply the growing village.",
+        "price": 160,
+        "hourlyIncome": 25,
+        "hourlyUpkeep": 3,
+        "level": 2,
+        "art": "mill",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "properties",
+          "column": 2,
+          "row": 0
+        }
+      },
+      {
+        "id": "watchtower",
+        "name": "Watchtower",
+        "description": "A guarded crossing brings steady tolls.",
+        "price": 180,
+        "hourlyIncome": 38,
+        "hourlyUpkeep": 8,
+        "level": 3,
+        "art": "tower",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "properties",
+          "column": 3,
+          "row": 0
+        }
+      },
+      {
+        "id": "river-mill",
+        "name": "River Mill",
+        "description": "Water turns the stones throughout the year.",
+        "price": 350,
+        "hourlyIncome": 55,
+        "hourlyUpkeep": 0,
+        "level": 4,
+        "art": "mill",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "properties",
+          "column": 0,
+          "row": 1
+        }
+      },
+      {
+        "id": "hearthstead-hamlet",
+        "name": "Hearthstead Hamlet",
+        "description": "Warm windows gather around a village green and small stone chapel.",
+        "price": 650,
+        "hourlyIncome": 75,
+        "hourlyUpkeep": 5,
+        "level": 5,
+        "art": "fields",
+        "tier": "Hearthlands",
+        "illustration": {
+          "atlas": "properties",
+          "column": 1,
+          "row": 1
+        }
+      },
+      {
+        "id": "crown-harbour",
+        "name": "Crown Harbour",
+        "description": "Merchant sails fill a sheltered royal harbour.",
+        "price": 900,
+        "hourlyIncome": 120,
+        "hourlyUpkeep": 0,
+        "level": 7,
+        "art": "harbour",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "properties",
+          "column": 2,
+          "row": 1
+        }
+      },
+      {
+        "id": "granite-quarry",
+        "name": "Granite Quarry",
+        "description": "Terraced stone faces and timber cranes build the realm's first walls.",
+        "price": 1500,
+        "hourlyIncome": 165,
+        "hourlyUpkeep": 15,
+        "level": 8,
+        "art": "tower",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "properties",
+          "column": 3,
+          "row": 1
+        }
+      },
+      {
+        "id": "bannerhold-manor",
+        "name": "Bannerhold Manor",
+        "description": "A fortified manor watches over orderly fields and a market road.",
+        "price": 2400,
+        "hourlyIncome": 225,
+        "hourlyUpkeep": 25,
+        "level": 10,
+        "art": "tower",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "properties",
+          "column": 0,
+          "row": 2
+        }
+      },
+      {
+        "id": "silver-vein-mine",
+        "name": "Silver Vein Mine",
+        "description": "Silver-lit galleries wind beneath a guarded mountain gate.",
+        "price": 3600,
+        "hourlyIncome": 310,
+        "hourlyUpkeep": 35,
+        "level": 12,
+        "art": "woodland",
+        "tier": "Runebound",
+        "illustration": {
+          "atlas": "properties",
+          "column": 1,
+          "row": 2
+        }
+      },
+      {
+        "id": "moonwell-sanctuary",
+        "name": "Moonwell Sanctuary",
+        "description": "A moonlit temple shelters a luminous spring among silver trees.",
+        "price": 5400,
+        "hourlyIncome": 420,
+        "hourlyUpkeep": 55,
+        "level": 15,
+        "art": "mill",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "properties",
+          "column": 2,
+          "row": 2
+        }
+      },
+      {
+        "id": "ironwood-fort",
+        "name": "Ironwood Fort",
+        "description": "Massive timber walls stand above an ancient forest crossing.",
+        "price": 7800,
+        "hourlyIncome": 550,
+        "hourlyUpkeep": 80,
+        "level": 18,
+        "art": "tower",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "properties",
+          "column": 3,
+          "row": 2
+        }
+      },
+      {
+        "id": "tempest-port",
+        "name": "Tempest Port",
+        "description": "Stormbreak towers protect a busy port of blue-sailed trading ships.",
+        "price": 11000,
+        "hourlyIncome": 700,
+        "hourlyUpkeep": 100,
+        "level": 21,
+        "art": "harbour",
+        "tier": "Elemental",
+        "illustration": {
+          "atlas": "properties",
+          "column": 0,
+          "row": 3
+        }
+      },
+      {
+        "id": "runekeeper-academy",
+        "name": "Runekeeper Academy",
+        "description": "Runic towers and crystal courtyards train the realm's wardens.",
+        "price": 15000,
+        "hourlyIncome": 900,
+        "hourlyUpkeep": 140,
+        "level": 24,
+        "art": "mill",
+        "tier": "Oath and Bone",
+        "illustration": {
+          "atlas": "properties",
+          "column": 1,
+          "row": 3
+        }
+      },
+      {
+        "id": "oathbound-citadel",
+        "name": "Oathbound Citadel",
+        "description": "An ivory-walled fortress raises a great crimson banner over the pass.",
+        "price": 21000,
+        "hourlyIncome": 1130,
+        "hourlyUpkeep": 180,
+        "level": 28,
+        "art": "tower",
+        "tier": "Oath and Bone",
+        "illustration": {
+          "atlas": "properties",
+          "column": 2,
+          "row": 3
+        }
+      },
+      {
+        "id": "dawnspire-cathedral",
+        "name": "Dawnspire Cathedral",
+        "description": "Golden spires catch the first sunlight above a bustling pilgrim town.",
+        "price": 30000,
+        "hourlyIncome": 1420,
+        "hourlyUpkeep": 220,
+        "level": 32,
+        "art": "mill",
+        "tier": "Dragon and Dawn",
+        "illustration": {
+          "atlas": "properties",
+          "column": 3,
+          "row": 3
+        }
+      },
+      {
+        "id": "wyrmcrest-keep",
+        "name": "Wyrmcrest Keep",
+        "description": "A dragon-carved mountain keep overlooks rivers of ember light.",
+        "price": 42000,
+        "hourlyIncome": 1750,
+        "hourlyUpkeep": 280,
+        "level": 36,
+        "art": "tower",
+        "tier": "Dragon and Dawn",
+        "illustration": {
+          "atlas": "properties",
+          "column": 0,
+          "row": 4
+        }
+      },
+      {
+        "id": "astral-observatory",
+        "name": "Astral Observatory",
+        "description": "A domed observatory and floating star rings crown a midnight cliff.",
+        "price": 58000,
+        "hourlyIncome": 2120,
+        "hourlyUpkeep": 340,
+        "level": 40,
+        "art": "mill",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "properties",
+          "column": 1,
+          "row": 4
+        }
+      },
+      {
+        "id": "throne-of-ash",
+        "name": "Throne of Ash",
+        "description": "A black royal stronghold rises from a cooled volcanic caldera.",
+        "price": 80000,
+        "hourlyIncome": 2550,
+        "hourlyUpkeep": 400,
+        "level": 45,
+        "art": "tower",
+        "tier": "Astral",
+        "illustration": {
+          "atlas": "properties",
+          "column": 2,
+          "row": 4
+        }
+      },
+      {
+        "id": "eclipse-citadel",
+        "name": "Eclipse Citadel",
+        "description": "A silver-crowned fantasy castle stands beneath a luminous dark sun.",
+        "price": 120000,
+        "hourlyIncome": 3100,
+        "hourlyUpkeep": 500,
+        "level": 50,
+        "art": "tower",
+        "tier": "Eclipse",
+        "illustration": {
+          "atlas": "properties",
+          "column": 3,
+          "row": 4
+        }
+      },
+      {
+        "id": "worldroot-bastion",
+        "name": "Worldroot Bastion",
+        "description": "A colossal living tree cradles a castle of pale stone and starlight.",
+        "price": 140000,
+        "hourlyIncome": 3400,
+        "hourlyUpkeep": 600,
+        "level": 55,
+        "art": "woodland",
+        "tier": "Eclipse",
+        "illustration": {
+          "atlas": "properties",
+          "column": 0,
+          "row": 5
+        }
+      },
+      {
+        "id": "marcher-stronghold",
+        "name": "Marcher Stronghold",
+        "level": 56,
+        "price": 180000,
+        "hourlyIncome": 4200,
+        "hourlyUpkeep": 600,
+        "artStatus": "not commissioned; full-bleed original painterly medieval scene",
+        "art": "pending:marcher-stronghold"
+      },
+      {
+        "id": "royal-border-fortress",
+        "name": "Royal Border Fortress",
+        "level": 60,
+        "price": 300000,
+        "hourlyIncome": 6000,
+        "hourlyUpkeep": 900,
+        "artStatus": "not commissioned; full-bleed original painterly medieval scene",
+        "art": "pending:royal-border-fortress"
+      },
+      {
+        "id": "crown-river-port",
+        "name": "Crown River Port",
+        "level": 70,
+        "price": 500000,
+        "hourlyIncome": 9000,
+        "hourlyUpkeep": 1400,
+        "artStatus": "not commissioned; full-bleed original painterly medieval scene",
+        "art": "pending:crown-river-port"
+      },
+      {
+        "id": "imperial-siegeworks",
+        "name": "Imperial Siegeworks",
+        "level": 80,
+        "price": 850000,
+        "hourlyIncome": 13500,
+        "hourlyUpkeep": 2200,
+        "artStatus": "not commissioned; full-bleed original painterly medieval scene",
+        "art": "pending:imperial-siegeworks"
+      },
+      {
+        "id": "sovereign-castle",
+        "name": "Sovereign Castle",
+        "level": 90,
+        "price": 1400000,
+        "hourlyIncome": 19000,
+        "hourlyUpkeep": 3200,
+        "artStatus": "not commissioned; full-bleed original painterly medieval scene",
+        "art": "pending:sovereign-castle"
+      },
+      {
+        "id": "eclipse-crown-citadel",
+        "name": "Eclipse Crown Citadel",
+        "level": 100,
+        "price": 2200000,
+        "hourlyIncome": 27000,
+        "hourlyUpkeep": 4800,
+        "artStatus": "not commissioned; full-bleed original painterly medieval scene",
+        "art": "pending:eclipse-crown-citadel"
+      }
+    ]
+  }
+}

@@ -35,10 +35,11 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       const targetState=await stateFrom(sql,target,now,runtime);
       if(!targetIsBot)await syncExperience(sql,target.id,now);
       // Bot rewards depend on this pair and the real purse, never on victories
-      // against other bots. Human reward eligibility is deliberately unchanged.
+      // against other bots. Human full rewards are limited by successful wins,
+      // not failed attempts. Existing character locks serialize this pair.
       let rewarded=true;
       if(!targetIsBot){
-        const count=(await sql.query('SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND created_at>$3',[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
+        const count=(await sql.query("SELECT count(*)::int AS n FROM battles WHERE attacker_id=$1 AND defender_id=$2 AND rewarded AND outcome='attacker_win' AND created_at>$3",[actorId,target.id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows[0]!.n;
         rewarded=count<alpha.combat.rewardedPerTarget;
       }
       const variation=alpha.combat.variation;

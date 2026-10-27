@@ -11,10 +11,10 @@ export function ownedProperties(state:CharacterState){
   const alpha=contentCatalog(state.rulesetId);
   // Sum saved holding rates, not today's catalog rates. Legacy purchases retain
   // their actual economics even when the current catalog has different values.
-  const groups=new Map<string,{id:string;name:string;quantity:number;grossIncome:number;upkeep:number;illustration?:{atlas:string;row:number;column:number};art:string}>();
+  const groups=new Map<string,{id:string;name:string;level?:number;quantity:number;grossIncome:number;upkeep:number;illustration?:{atlas:string;row:number;column:number};art:string}>();
   for(const holding of state.land.holdings){
     const catalog=alpha.properties.find(p=>p.id===holding.propertyId),old=groups.get(holding.propertyId);
-    const entry=old??{id:holding.propertyId,name:propertyName(holding.propertyId,holding.name),quantity:0,grossIncome:0,upkeep:0,illustration:catalog?.illustration,art:catalog?.art??'fields'};
+    const entry=old??{id:holding.propertyId,name:propertyName(holding.propertyId,holding.name),level:catalog?.level,quantity:0,grossIncome:0,upkeep:0,illustration:catalog?.illustration,art:catalog?.art??'fields'};
     entry.quantity+=holding.quantity;entry.grossIncome+=holding.hourlyIncome;entry.upkeep+=holding.hourlyUpkeep;groups.set(holding.propertyId,entry);
   }
   const order=new Map(alpha.properties.map((property,index)=>[property.id,{level:property.level,index}]));

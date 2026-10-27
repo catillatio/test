@@ -734,6 +734,16 @@
       "file": "tests/release-retention-spool.test.mjs",
       "lane": "unit",
       "weight": 1
+    },
+    {
+      "file": "tests/historical-priority.test.ts",
+      "lane": "database",
+      "weight": 20
+    },
+    {
+      "file": "tests/historical-priority-browser.test.mjs",
+      "lane": "browser",
+      "weight": 30
     }
   ]
 }

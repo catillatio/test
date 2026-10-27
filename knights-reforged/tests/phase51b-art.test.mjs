@@ -32,7 +32,11 @@ test('shared artwork mapping changes only eleven selected IDs across all 81 curr
  const before=read('tests/fixtures/phase51b-art-before.ejs').toString(),after=read('views/partials/catalog-art.ejs').toString();
  const frozen=JSON.stringify(catalog);
  for(const entry of [...catalog.items,...catalog.properties,{id:'retired-property',name:'Historical Property',art:'fields'},{id:'moonwell-sanctuary',name:'Saved Moonwell Sanctuary',art:'moonwell'}])for(const small of [false,true]){
-  const a=ejs.render(after,{entry,small}).trim();
+  const rendered=ejs.render(after,{entry,small}).trim();
+  // Compare original inner markup independently of the shared equipment frame.
+  const framed=['weapon','armor','spell'].includes(entry.category);
+  if(framed)assert.match(rendered,/^<span class="equipment-art-frame(?: equipment-art-small)?">/);
+  const a=framed?rendered.replace(/^<span class="equipment-art-frame(?: equipment-art-small)?">\s*/, '').replace(/\s*<\/span>$/, '').trim():rendered;
   if(ids.includes(entry.id)){
    assert.match(a,/data-art-atlas="properties-51b"/);assert.ok(a.includes('property-art-51b-'+ids.indexOf(entry.id)));
    assert.ok(a.includes('aria-label="'+entry.name+' illustration"'));assert.ok(a.includes('role="img"'));assert.equal(a.includes('art-small'),small);
