@@ -6,6 +6,7 @@ import {makePlan} from '../deployment/release/retention/retention.mjs';
 import {hash} from '../deployment/release/retention/protocol.mjs';
 const scope={...sampleScope,approvalKeyDigest:'a'.repeat(64)};
 let serial=1;for(const key of Object.keys(scope).filter(k=>k.endsWith('Id')))scope[key]='00000000-0000-4000-8000-'+String(serial++).padStart(12,'0');
+scope.delivery={protocol:'kingdom-retention-delivery-v1',authorizerServiceId:'00000000-0000-4000-8000-000000000008',journalVolumeId:'00000000-0000-4000-8000-000000000009'};
 const copies=Array.from({length:8},(_,i)=>fixture(i+1,{age:80-i}));
 for(const [i,c] of copies.entries()){
  for(const object of [c.catalog.evidence.request,c.catalog.evidence.report])for(const key of ['projectId','environmentId','gameServiceId'])object[key]=scope[key];

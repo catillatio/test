@@ -1,24 +1,22 @@
-# Manual-only workflow, default OFF until separate owner-approved installation.
-# Runner policy, private execution and enablement require separate approval.
-# No schedule. No deploy, checkout token persistence, artifacts or provider token.
+# Manual-only, default OFF. No privileged runner or public endpoint.
 name: Reviewed recovery copy retirement
 on:
   workflow_dispatch:
     inputs:
       operation:
-        description: Retire a signed batch, verify external adoption, or reconcile absence only
+        description: Retire one signed target, verify external adoption, or reconcile absence only
         type: choice
-        options: [retire, adoption-review, reconcile]
+        options: [retire, adoption-review, reconcile, initialize-journal, install-disabled]
         default: adoption-review
         required: true
       request_id:
-        description: Private spool request UUID (never a plan, secret or URL)
+        description: New private request UUID; never a plan, URL, secret or command
         type: string
         required: true
 permissions: {}
 jobs:
   owner-approval:
-    if: github.repository == 'catillatio/test' && github.ref == 'refs/heads/release/production' && vars.KINGDOM_RETENTION_EXECUTION_APPROVED == '1'
+    if: github.repository == 'catillatio/test' && github.ref == 'refs/heads/release/production' && (vars.KINGDOM_RETENTION_EXECUTION_APPROVED == '1' || (vars.KINGDOM_RETENTION_INSTALLATION_APPROVED == '1' && (inputs.operation == 'initialize-journal' || inputs.operation == 'install-disabled')))
     environment: production
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -26,32 +24,69 @@ jobs:
       - run: echo RETENTION_OWNER_GATE_PASS
   retire:
     needs: owner-approval
-    # Exactly the existing protected release mutex, held across all retirement.
+    environment: retention-execution
     concurrency:
       group: kingdom-come-production
       cancel-in-progress: false
-    # Dedicated EPHEMERAL runner restricted to THIS workflow at the protected
-    # production ref; private network only. Never a PR/general-purpose runner.
-    runs-on:
-      group: kingdom-copy-retention
-      labels: self-hosted
-    timeout-minutes: 5
-    permissions:
-      contents: read
-      actions: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions: {contents: read, actions: read}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          ref: '${{ github.sha }}'
-          persist-credentials: false
-      # Approved ephemeral image contains Node 24 and ONLY the restricted runtime
-      # credential; install locked dependencies without executing package scripts.
-      # Plans/permits are privately pre-staged by independent trusted channels.
-      - name: Install locked dependencies without lifecycle scripts
-        run: npm ci --ignore-scripts --omit=dev --no-audit --no-fund --prefix knights-reforged
-      - name: Execute exact privately signed batch
-        run: node knights-reforged/deployment/release/retention/job.mjs
+        with: {ref: '${{ github.sha }}', persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - run: npm ci --ignore-scripts --omit=dev --no-audit --no-fund --prefix knights-reforged/deployment/release
+      - run: npm install --global @railway/cli@5.70.0
+      - name: Deliver fixed private jobs; no automatic retry
+        working-directory: knights-reforged
+        run: node deployment/release/retention/delivery/coordinator.mjs
         env:
           GH_TOKEN: ${{ github.token }}
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+          KINGDOM_RETENTION_EXECUTION_APPROVED: ${{ vars.KINGDOM_RETENTION_EXECUTION_APPROVED }}
+          KINGDOM_RETENTION_INSTALLATION_APPROVED: ${{ vars.KINGDOM_RETENTION_INSTALLATION_APPROVED }}
+          KINGDOM_RETENTION_INSTALL_TARGET: ${{ secrets.KINGDOM_RETENTION_INSTALL_TARGET }}
+          KINGDOM_RETENTION_SCOPE: ${{ secrets.KINGDOM_RETENTION_SCOPE }}
+          KINGDOM_RETENTION_STORE_ENDPOINT: ${{ vars.KINGDOM_RETENTION_STORE_ENDPOINT }}
+          KINGDOM_RETENTION_STORE_REGION: ${{ vars.KINGDOM_RETENTION_STORE_REGION }}
+          KINGDOM_RETENTION_STORE_BUCKET: ${{ vars.KINGDOM_RETENTION_STORE_BUCKET }}
+          KINGDOM_RETENTION_STORE_PATH_STYLE: ${{ vars.KINGDOM_RETENTION_STORE_PATH_STYLE }}
+          KINGDOM_RETENTION_STORE_ACCESS_KEY_ID: ${{ secrets.KINGDOM_RETENTION_STORE_ACCESS_KEY_ID }}
+          KINGDOM_RETENTION_STORE_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_RETENTION_STORE_SECRET_ACCESS_KEY }}
+          RETENTION_REQUEST_ID: ${{ inputs.request_id }}
+          RETENTION_OPERATION: ${{ inputs.operation }}
+  sign-retirement:
+    needs: owner-approval
+    if: inputs.operation == 'retire'
+    # Approve ONLY after PRIVATE_REQUEST_READY_FOR_SIGNING and private target review.
+    # This boundary has no Railway token and no database credential.
+    environment: retention-signing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions: {contents: read, actions: read}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {ref: '${{ github.sha }}', persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - run: npm ci --ignore-scripts --omit=dev --no-audit --no-fund --prefix knights-reforged/deployment/release
+      - name: Sign the exact privately reviewed request
+        working-directory: knights-reforged
+        run: node deployment/release/retention/delivery/signer.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KINGDOM_RETENTION_EXECUTION_APPROVED: ${{ vars.KINGDOM_RETENTION_EXECUTION_APPROVED }}
+          KINGDOM_RETENTION_SCOPE: ${{ secrets.KINGDOM_RETENTION_SCOPE }}
+          KINGDOM_RETENTION_VERIFY_KEY: ${{ vars.KINGDOM_RETENTION_VERIFY_KEY }}
+          KINGDOM_RETENTION_SIGNING_KEY: ${{ secrets.KINGDOM_RETENTION_SIGNING_KEY }}
+          KINGDOM_RETENTION_STORE_ENDPOINT: ${{ vars.KINGDOM_RETENTION_STORE_ENDPOINT }}
+          KINGDOM_RETENTION_STORE_REGION: ${{ vars.KINGDOM_RETENTION_STORE_REGION }}
+          KINGDOM_RETENTION_STORE_BUCKET: ${{ vars.KINGDOM_RETENTION_STORE_BUCKET }}
+          KINGDOM_RETENTION_STORE_PATH_STYLE: ${{ vars.KINGDOM_RETENTION_STORE_PATH_STYLE }}
+          KINGDOM_RETENTION_STORE_ACCESS_KEY_ID: ${{ secrets.KINGDOM_RETENTION_STORE_ACCESS_KEY_ID }}
+          KINGDOM_RETENTION_STORE_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_RETENTION_STORE_SECRET_ACCESS_KEY }}
           RETENTION_REQUEST_ID: ${{ inputs.request_id }}
           RETENTION_OPERATION: ${{ inputs.operation }}

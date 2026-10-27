@@ -764,6 +764,11 @@
       "file": "tests/release-retention-operator.test.mjs",
       "lane": "unit",
       "weight": 1
+    },
+    {
+      "file": "tests/release-retention-delivery.test.mjs",
+      "lane": "unit",
+      "weight": 2
     }
   ]
 }

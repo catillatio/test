@@ -60,6 +60,9 @@ export function liveGuards(scope,{githubToken,fetcher=globalThis.fetch}={}){
    assert.equal(String(run.id),match[1]);assert.equal(String(run.run_attempt),match[2]);
    assert.equal(run.status,'completed');assert.equal(run.path,workflow);assert.equal(run.event,'workflow_dispatch');assert.equal(run.head_branch,'release/production');
    assert.equal(run.head_repository?.full_name,repository);assert.equal(run.head_sha,record.evidence.request.sha);
+   // Evidence reads can outlast a cancellation. Recheck the exact live gate/job
+   // AFTER the final external read, before returning deletion/adoption authority.
+   await guards.coordinated(state);
   }
  };
  return guards;
