@@ -25,4 +25,6 @@ The existing browser suite now verifies the four-field rows, no overlap/overflow
 
 Local validation: 19/19 real PostgreSQL bounty/combat regressions, 35 browser views per stage, exact-contract button flows, typecheck/build and static 99/99 with 77 production EJS fixtures. Required CI status and exact totals are recorded in the draft PR and delivery evidence.
 
+The existing Phase 6 browser scenarios open Records before inspecting historical claims or using the no-script read action. Their original claim, notification, cross-level hunt and persistence assertions remain; only the disclosure-opening navigation step changes.
+
 No merge, deployment or production database/settings operation is part of this pass.
