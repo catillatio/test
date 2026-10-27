@@ -53,11 +53,14 @@ function check(retention,sha='a'.repeat(40)){
  return spawnSync(process.execPath,[fileURLToPath(checker)],{cwd:app,encoding:'utf8',timeout:15000,env:{PATH:process.env.PATH,RUNNER_TEMP:retention.runner,GITHUB_SHA:sha}});
 }
 
-test('both pinned uploads use exact files with hidden exclusion and original retention policy',()=>{
- assert.equal(uploads.length,2);
+test('recovery uploads retain exact files and policy; image evidence has its own two-file allowlist',()=>{
+ assert.equal(uploads.length,3);
+ const image=uploads.find(block=>block.includes('name: kingdom-image-'));
+ assert.deepEqual(paths(image),['.image-candidate/candidate.json','.image-candidate/manifest.json']);
+ assert.match(image,/^          include-hidden-files: true$/m);assert.match(image,/^          if-no-files-found: error$/m);
  for(const block of uploads){
   assert.match(block,/uses: actions\/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02/);assert.match(block,/^          retention-days: 90$/m);
-  const hidden=/^          include-hidden-files: (.+)$/m.exec(block);if(hidden)assert.equal(hidden[1],'false');
+  const hidden=/^          include-hidden-files: (.+)$/m.exec(block);if(hidden)assert.equal(hidden[1],block===image?'true':'false');
  }
  assert.deepEqual(paths(recovery),recoveryPaths);assert.match(recovery,/^          if-no-files-found: error$/m);
  assert.deepEqual(paths(verification),[...recoveryPaths,'.release-artifacts/post-deploy.json']);assert.match(verification,/^        if: always\(\)$/m);assert.match(verification,/^          if-no-files-found: warn$/m);

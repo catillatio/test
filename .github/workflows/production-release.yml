@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       operation:
-        description: 'Release/rehearsal, inspect registrar patch, or commit disabled registrar configuration only.'
+        description: 'Source release, image preparation/release, or isolated registrar configuration operation.'
         type: choice
-        options: [release, registrar-config-inspect, registrar-config-commit]
+        options: [release, image-prepare, image-release, registrar-config-inspect, registrar-config-commit]
         default: release
         required: true
       promote:
@@ -24,6 +24,22 @@ on:
         default: ''
       registrar_exclusive_window:
         description: 'Commit only: approve metadata-only binding; no other editors/automation from inspection through completion. No API CAS.'
+        type: boolean
+        default: false
+      image_run_id:
+        description: 'Image release only: successful exact-commit image-prepare run ID.'
+        type: string
+        default: ''
+      image_artifact_id:
+        description: 'Image release only: exact immutable candidate artifact ID from that run.'
+        type: string
+        default: ''
+      image_manifest_digest:
+        description: 'Image release only: sha256 platform-manifest digest from that candidate.'
+        type: string
+        default: ''
+      image_exclusive_window:
+        description: 'Image release only: no other Railway editors/automation until completion. Provider has no CAS.'
         type: boolean
         default: false
 permissions:
@@ -53,10 +69,33 @@ jobs:
           KINGDOM_RELEASE_TRANSPORT: ${{ vars.KINGDOM_RELEASE_TRANSPORT }}
         run: node knights-reforged/deployment/release/preflight.mjs
       - name: Validate configuration-only request separation
-        run: node knights-reforged/deployment/release/registrar-config.mjs validate-request
+        if: "!startsWith(inputs.operation, 'image-')"
+        run: |
+          node knights-reforged/deployment/release/registrar-config.mjs validate-request
+          node knights-reforged/deployment/release/image.mjs validate-source-request
         env:
           REGISTRAR_CONFIG_OPERATION: ${{ inputs.operation }}
           REGISTRAR_CONFIG_PROMOTE: ${{ inputs.promote }}
+          REGISTRAR_CONFIG_PATCH_ID: ${{ inputs.registrar_patch_id }}
+          REGISTRAR_CONFIG_APPROVAL_TOKEN: ${{ inputs.registrar_approval_token }}
+          REGISTRAR_CONFIG_EXCLUSIVE_WINDOW: ${{ inputs.registrar_exclusive_window }}
+          KINGDOM_IMAGE_RUN_ID: ${{ inputs.image_run_id }}
+          KINGDOM_IMAGE_ARTIFACT_ID: ${{ inputs.image_artifact_id }}
+          KINGDOM_IMAGE_MANIFEST_DIGEST: ${{ inputs.image_manifest_digest }}
+          KINGDOM_IMAGE_EXCLUSIVE_WINDOW: ${{ inputs.image_exclusive_window }}
+      - name: Validate disabled-by-default image request separation
+        if: startsWith(inputs.operation, 'image-')
+        run: node knights-reforged/deployment/release/image.mjs validate-request
+        env:
+          KINGDOM_IMAGE_OPERATION: ${{ inputs.operation }}
+          KINGDOM_IMAGE_PROMOTE: ${{ inputs.promote }}
+          KINGDOM_IMAGE_PUBLICATION_ENABLED: ${{ vars.KINGDOM_IMAGE_PUBLICATION_ENABLED }}
+          KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED: ${{ vars.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED }}
+          KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
+          KINGDOM_IMAGE_EXCLUSIVE_WINDOW: ${{ inputs.image_exclusive_window }}
+          KINGDOM_IMAGE_RUN_ID: ${{ inputs.image_run_id }}
+          KINGDOM_IMAGE_ARTIFACT_ID: ${{ inputs.image_artifact_id }}
+          KINGDOM_IMAGE_MANIFEST_DIGEST: ${{ inputs.image_manifest_digest }}
           REGISTRAR_CONFIG_PATCH_ID: ${{ inputs.registrar_patch_id }}
           REGISTRAR_CONFIG_APPROVAL_TOKEN: ${{ inputs.registrar_approval_token }}
           REGISTRAR_CONFIG_EXCLUSIVE_WINDOW: ${{ inputs.registrar_exclusive_window }}
@@ -88,14 +127,61 @@ jobs:
           REGISTRAR_CONFIG_PATCH_ID: ${{ inputs.registrar_patch_id }}
           REGISTRAR_CONFIG_APPROVAL_TOKEN: ${{ inputs.registrar_approval_token }}
           REGISTRAR_CONFIG_EXCLUSIVE_WINDOW: ${{ inputs.registrar_exclusive_window }}
+  image-prepare:
+    needs: safety
+    if: inputs.operation == 'image-prepare'
+    environment: production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: write
+    defaults:
+      run:
+        working-directory: knights-reforged
+    env:
+      KINGDOM_IMAGE_OPERATION: image-prepare
+      KINGDOM_IMAGE_PROMOTE: ${{ inputs.promote }}
+      KINGDOM_IMAGE_PUBLICATION_ENABLED: ${{ vars.KINGDOM_IMAGE_PUBLICATION_ENABLED }}
+      KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED: ${{ vars.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, ref: '${{ github.sha }}'}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - name: Build and probe exact image without production credentials
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          node deployment/release/image.mjs check-build
+          image_candidate_digest="$(node --input-type=module -e 'import {candidateDigest} from "./deployment/release/candidate.mjs";console.log(await candidateDigest());')"
+          docker build --platform linux/amd64 --label "org.opencontainers.image.revision=$GITHUB_SHA" --build-arg "KINGDOM_IMAGE_SOURCE_SHA=$GITHUB_SHA" --build-arg "KINGDOM_IMAGE_CANDIDATE_DIGEST=$image_candidate_digest" -t kingdom-come:image-candidate .
+          KINGDOM_CONTAINER_IMAGE=kingdom-come:image-candidate KINGDOM_IMAGE_EXPECTED_SHA="$GITHUB_SHA" node scripts/test-release-image-preflight.mjs
+      - name: Publish only to the preconfigured private package and verify digest pull
+        run: node deployment/release/image.mjs publish
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          KINGDOM_IMAGE_REGISTRY_READ_TOKEN: ${{ secrets.KINGDOM_IMAGE_REGISTRY_READ_TOKEN }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kingdom-image-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          include-hidden-files: true
+          path: |
+            .image-candidate/candidate.json
+            .image-candidate/manifest.json
+          retention-days: 90
+          if-no-files-found: error
   release:
     needs: safety
-    if: inputs.operation == 'release' || inputs.operation == ''
+    if: inputs.operation == 'release' || inputs.operation == '' || inputs.operation == 'image-release'
     # Configure required reviewer = realm owner, and only release/production.
     # No Railway, bucket or signing secrets exist in the unapproved safety job.
     environment: production
     runs-on: ubuntu-24.04
     timeout-minutes: 40
+    permissions:
+      contents: read
+      actions: read
     env:
       KINGDOM_RELEASE_ENABLED: ${{ vars.KINGDOM_RELEASE_ENABLED }}
       KINGDOM_RAILWAY_AUTODEPLOY_DISABLED: ${{ vars.KINGDOM_RAILWAY_AUTODEPLOY_DISABLED }}
@@ -117,6 +203,15 @@ jobs:
       KINGDOM_BACKUP_REGION: ${{ vars.KINGDOM_BACKUP_REGION }}
       KINGDOM_BACKUP_PATH_STYLE: ${{ vars.KINGDOM_BACKUP_PATH_STYLE }}
       KINGDOM_BACKUP_KEY_VERIFIED: ${{ vars.KINGDOM_BACKUP_KEY_VERIFIED }}
+      KINGDOM_GAME_TRANSPORT: ${{ inputs.operation == 'image-release' && 'oci-image-v1' || 'source-v2' }}
+      KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
+      KINGDOM_GAME_IMAGE_REGISTRY_READY: ${{ vars.KINGDOM_GAME_IMAGE_REGISTRY_READY }}
+      KINGDOM_IMAGE_OPERATION: ${{ inputs.operation }}
+      KINGDOM_IMAGE_PROMOTE: ${{ inputs.promote }}
+      KINGDOM_IMAGE_EXCLUSIVE_WINDOW: ${{ inputs.image_exclusive_window }}
+      KINGDOM_IMAGE_RUN_ID: ${{ inputs.image_run_id }}
+      KINGDOM_IMAGE_ARTIFACT_ID: ${{ inputs.image_artifact_id }}
+      KINGDOM_IMAGE_MANIFEST_DIGEST: ${{ inputs.image_manifest_digest }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with: {persist-credentials: false}
@@ -135,6 +230,19 @@ jobs:
           npm run build --prefix knights-reforged
           npm prune --omit=dev --no-audit --no-fund --prefix knights-reforged
           npm ci --ignore-scripts --no-audit --no-fund --prefix knights-reforged/deployment/release
+      # These read-only checks precede the first backup/restore request. A bad
+      # registry, artifact or target therefore cannot consume a recovery copy.
+      - name: Authenticate retained exact-image candidate and registry before recovery
+        if: inputs.operation == 'image-release'
+        run: node knights-reforged/deployment/release/image.mjs verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KINGDOM_IMAGE_REGISTRY_READ_TOKEN: ${{ secrets.KINGDOM_IMAGE_REGISTRY_READ_TOKEN }}
+      - name: Verify game target and empty staging before recovery without signing credentials
+        if: inputs.operation == 'image-release'
+        run: node knights-reforged/deployment/release/image-deploy.mjs preflight
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
       - name: Run private backup and isolated restored-copy job; independently export encrypted recovery
         id: prepare
         env:
@@ -170,6 +278,7 @@ jobs:
           KINGDOM_BACKUP_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_BACKUP_SECRET_ACCESS_KEY }}
           KINGDOM_RELEASE_SIGNING_KEY: ${{ secrets.KINGDOM_RELEASE_SIGNING_KEY }}
           KINGDOM_RECOVERY_ARTIFACT_ID: ${{ steps.backup.outputs.artifact-id }}
+          KINGDOM_IMAGE_REGISTRY_READ_TOKEN: ${{ inputs.operation == 'image-release' && secrets.KINGDOM_IMAGE_REGISTRY_READ_TOKEN || '' }}
         run: node knights-reforged/deployment/release/run.mjs promote
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()

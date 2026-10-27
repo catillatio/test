@@ -93,6 +93,23 @@ test('promotion owner attestation and artifact ID remain mandatory before signin
   assert.deepEqual(result.trace,['store_close']);
  }
 });
+const imageEnv={KINGDOM_GAME_TRANSPORT:'oci-image-v1',KINGDOM_GAME_IMAGE_ENABLED:'true',KINGDOM_IMAGE_EXCLUSIVE_WINDOW:'true',KINGDOM_IMAGE_ARTIFACT_ID:'102',KINGDOM_IMAGE_RUN_ID:'101',KINGDOM_IMAGE_MANIFEST_DIGEST:'sha256:'+'b'.repeat(64)};
+for(const mode of ['image_candidate_missing','image_target_missing','image_target_stale'])test('image preconditions fail before any backup, proof or provider write: '+mode,()=>{
+ const r=run(mode,'prepare',imageEnv);assert.equal(r.status,1);assert.equal(r.stderr,'IMAGE_CANDIDATE_VERIFICATION: FAIL\n'+generic);
+ assert.ok(!r.trace.some(x=>['stage','upload','proof','download','image_deploy'].includes(x)));
+});
+for(const [mode,category]of [['image_registry_failed','IMAGE_CANDIDATE_VERIFICATION'],['image_backup_failed','RECOVERY_PROOF_PREPARATION'],['image_provider_failure','GAME_IMAGE_DEPLOYMENT']])test('image promotion preserves independent recovery and never falls back to CLI upload: '+mode,()=>{
+ const r=run(mode,'promote',imageEnv);assert.equal(r.status,1);assert.equal(r.stderr,category+': FAIL\n'+generic);
+ assert.ok(!r.trace.includes('game_upload')&&!r.trace.includes('game_stage'));assert.ok(r.trace.filter(x=>x==='image_deploy').length<=1);
+ if(mode==='image_backup_failed')assert.ok(!r.trace.includes('proof')&&!r.trace.includes('image_deploy'));
+});
+test('complete controller image path signs v3 only after retained recovery, then verifies exact health and realm',()=>{
+ const r=run('image_success','promote',imageEnv);assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+ assert.ok(r.trace.indexOf('digest')<r.trace.indexOf('proof'));assert.ok(r.trace.indexOf('proof')<r.trace.indexOf('image_deploy'));
+ assert.ok(r.trace.indexOf('image_deploy')<r.trace.indexOf('game_health'));assert.ok(r.trace.indexOf('game_health')<r.trace.indexOf('image_identity'));
+ assert.ok(r.trace.includes('worker_completion')&&r.trace.includes('game_login'));assert.equal(r.trace.filter(x=>x==='image_deploy').length,1);
+ assert.ok(!r.trace.includes('game_upload')&&!r.trace.includes('game_stage'));assert.doesNotMatch(r.stdout,/synthetic-private|signature=|private\.invalid/);
+});
 
 
 test('a delayed S3 report returning 403 then 200 still requires real controller validation, export and retention',()=>{

@@ -2,13 +2,15 @@ import assert from 'node:assert/strict';
 import {createPrivateKey,createPublicKey,sign,verify} from 'node:crypto';
 import {candidateDigest} from './candidate.mjs';
 import {uuid,digest,sha,privateDatabase,copyName,httpsOrigin} from './protocol.mjs';
+import {readFile} from 'node:fs/promises';
+import {checkImageApproval} from './image-policy.mjs';
 
 export function signProof(payload,pem){
  const key=pem?.type==='private'?pem:createPrivateKey(pem);assert.equal(key.asymmetricKeyType,'ed25519');
  const data=Buffer.from(JSON.stringify(payload));
  return Buffer.from(JSON.stringify({payload:data.toString('base64url'),signature:sign(null,data,key).toString('base64url')})).toString('base64url');
 }
-export function verifyProof(encoded,pem,env,actualCandidate,{now=Date.now()}={}){
+export function verifyProof(encoded,pem,env,actualCandidate,{now=Date.now(),imageIdentity}={}){
  assert.match(encoded??'',/^[A-Za-z0-9_-]{1,24000}$/,'A signed verified-backup approval is required.');
  const envelope=JSON.parse(Buffer.from(encoded,'base64url').toString('utf8'));
  assert.match(envelope.payload??'',/^[A-Za-z0-9_-]{1,20000}$/);assert.match(envelope.signature??'',/^[A-Za-z0-9_-]{86}$/);
@@ -17,7 +19,12 @@ export function verifyProof(encoded,pem,env,actualCandidate,{now=Date.now()}={})
  const bytes=Buffer.from(envelope.payload,'base64url');
  assert.ok(verify(null,bytes,key,Buffer.from(envelope.signature,'base64url')),'Invalid release approval signature.');
  const proof=JSON.parse(bytes.toString('utf8'));
- assert.equal(proof.protocol,'kingdom-release-proof-v2');assert.equal(proof.repository,'catillatio/test');assert.equal(proof.branch,'release/production');assert.equal(proof.approvalEnvironment,'production');
+ const artifactKind=env.KINGDOM_RELEASE_ARTIFACT_KIND||'source-v2';
+ assert.ok(['source-v2','oci-image-v1'].includes(artifactKind));
+ assert.equal(proof.protocol,artifactKind==='oci-image-v1'?'kingdom-release-proof-v3':'kingdom-release-proof-v2');
+ if(artifactKind==='oci-image-v1')checkImageApproval(proof.image,{sourceSha:env.KINGDOM_RELEASE_SHA,candidate:actualCandidate,reference:env.KINGDOM_RELEASE_IMAGE_REFERENCE,digest:env.KINGDOM_RELEASE_IMAGE_DIGEST,identity:imageIdentity});
+ else{assert.equal(imageIdentity,undefined);assert.equal(proof.image,undefined);assert.ok(!env.KINGDOM_RELEASE_IMAGE_REFERENCE&&!env.KINGDOM_RELEASE_IMAGE_DIGEST);}
+ assert.equal(proof.repository,'catillatio/test');assert.equal(proof.branch,'release/production');assert.equal(proof.approvalEnvironment,'production');
  assert.match(proof.sha,sha);assert.equal(proof.sha,env.KINGDOM_RELEASE_SHA);assert.equal(proof.candidateDigest,actualCandidate);
  for(const [key,variable] of [['projectId','RAILWAY_PROJECT_ID'],['environmentId','RAILWAY_ENVIRONMENT_ID'],['gameServiceId','RAILWAY_SERVICE_ID']]){assert.match(proof[key],uuid);assert.equal(proof[key],env[variable]);}
  assert.equal(httpsOrigin(proof.origin),httpsOrigin(env.APP_ORIGIN));
@@ -31,9 +38,15 @@ export function verifyProof(encoded,pem,env,actualCandidate,{now=Date.now()}={})
  return proof;
 }
 export async function requireReleaseProof(env=process.env){
- if(env.KINGDOM_AUTOMATED_RELEASES===undefined||env.KINGDOM_AUTOMATED_RELEASES==='0')return null;
- assert.equal(env.KINGDOM_AUTOMATED_RELEASES,'1');assert.notEqual(env.NODE_TLS_REJECT_UNAUTHORIZED,'0');
- assert.equal(env.KINGDOM_RELEASE_WORKER,undefined,'The game service cannot be a verification worker.');
- try{return verifyProof(env.KINGDOM_RELEASE_BACKUP_PROOF,env.KINGDOM_RELEASE_VERIFY_KEY,env,await candidateDigest());}
+ try{
+  assert.ok([undefined,'source-v2','oci-image-v1'].includes(env.KINGDOM_RELEASE_ARTIFACT_KIND));
+  let imageIdentity;
+  try{imageIdentity=JSON.parse(await readFile(new URL('../image-identity.json',import.meta.url),'utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
+  if(imageIdentity!==undefined||env.KINGDOM_RELEASE_ARTIFACT_KIND==='oci-image-v1')assert.equal(env.KINGDOM_RELEASE_ARTIFACT_KIND,'oci-image-v1');
+  else if(env.KINGDOM_AUTOMATED_RELEASES===undefined||env.KINGDOM_AUTOMATED_RELEASES==='0')return null;
+  assert.equal(env.KINGDOM_AUTOMATED_RELEASES,'1');assert.notEqual(env.NODE_TLS_REJECT_UNAUTHORIZED,'0');
+  assert.equal(env.KINGDOM_RELEASE_WORKER,undefined,'The game service cannot be a verification worker.');
+  return verifyProof(env.KINGDOM_RELEASE_BACKUP_PROOF,env.KINGDOM_RELEASE_VERIFY_KEY,env,await candidateDigest(),{imageIdentity});
+ }
  catch{throw new Error('A current signed approval for the independently retained backup and exact candidate is required. No production migration was authorized.');}
 }

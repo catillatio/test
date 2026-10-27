@@ -138,6 +138,11 @@ jobs:
           npm ci --ignore-scripts --no-audit --no-fund --prefix deployment/release
           docker build -t kingdom-come:checked .
           KINGDOM_CONTAINER_IMAGE=kingdom-come:checked node scripts/test-release-image-preflight.mjs
+          image_candidate_digest="$(node --input-type=module -e 'import {candidateDigest} from "./deployment/release/candidate.mjs";console.log(await candidateDigest());')"
+          image_source_sha="$(git rev-parse HEAD)"
+          docker build --platform linux/amd64 --label "org.opencontainers.image.revision=$image_source_sha" --build-arg "KINGDOM_IMAGE_SOURCE_SHA=$image_source_sha" --build-arg "KINGDOM_IMAGE_CANDIDATE_DIGEST=$image_candidate_digest" -t kingdom-come:immutable-checked .
+          KINGDOM_CONTAINER_IMAGE=kingdom-come:immutable-checked KINGDOM_IMAGE_EXPECTED_SHA="$image_source_sha" node scripts/test-release-image-preflight.mjs
+          KINGDOM_CONTAINER_IMAGE=kingdom-come:immutable-checked KINGDOM_SOURCE_CONTAINER_IMAGE=kingdom-come:checked node scripts/test-release-image-proof.mjs
           docker pull postgres:18-bookworm
           KINGDOM_CONTAINER_IMAGE=kingdom-come:checked KINGDOM_TEST_PRIVATE_ALPHA=1 npm run test:container
           docker build -f deployment/release/Dockerfile -t kingdom-come:release-worker-checked .
@@ -156,6 +161,8 @@ jobs:
             knights-reforged/test-results/phase47-*.json
             knights-reforged/test-results/release-worker-verification.json
             knights-reforged/test-results/release-image-preflight.json
+            knights-reforged/test-results/release-image-identity-preflight.json
+            knights-reforged/test-results/release-image-proof-verification.json
             knights-reforged/test-results/retention-delivery-verification.json
           if-no-files-found: error
           retention-days: 14

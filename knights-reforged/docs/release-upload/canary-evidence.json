@@ -1,0 +1,56 @@
+{
+  "kind": "authenticated-railway-canary-evidence-v1",
+  "projectId": "ce0984ef-1031-419c-881f-3283b97ee4e4",
+  "environmentId": "a51e5332-ebea-41a2-8add-efa32c1866fd",
+  "serviceId": "2c596a35-2d1a-467d-a1e8-c5ec98eb298e",
+  "deploymentId": "ecdd7e95-cf3b-4055-be0f-b1173684f829",
+  "status": "SUCCESS",
+  "providerImageReference": "ghcr.io/catillatio/kingdom-come-deploy-canary@sha256:b49d4df2ca6e4959dcdaf1235d8705d1b2f012380d5a2991fce414ac2acda000",
+  "snapshotId": "9337e81d-18cd-4bd0-9a37-71113364f53b",
+  "createdAt": "2026-10-27T21:01:58.265Z",
+  "updatedAt": "2026-10-27T21:04:03.077Z",
+  "runtime": {
+    "timestamp": "2026-10-27T21:02:01.463446602Z",
+    "values": {
+      "kind": "kingdom-image-canary-v1",
+      "os": "linux",
+      "architecture": "amd64",
+      "uid": 65532,
+      "nonce": "b50e39c20eec8c6e96658194266cf430",
+      "sourceSpecSha256": "0938562107c48d2e51e0116ce4d31c8e3b1f1d8cef3e23b5b4b3f39de6800c73",
+      "maximumLifetimeSeconds": 120
+    }
+  },
+  "healthCheckPassed": true,
+  "sourceUploadExecuted": false,
+  "ownerObservedPrivatePackage": true,
+  "ownerSuppliedRegistryCredentialReadOnly": true,
+  "credentialValuesRead": false,
+  "registryReconciliation": {
+    "passed": true,
+    "manifestDigest": "sha256:b49d4df2ca6e4959dcdaf1235d8705d1b2f012380d5a2991fce414ac2acda000",
+    "configurationDigest": "sha256:4eee41c0a59aef69fa373485c2043c85c009027f35e90a1d8024e06c852fd689",
+    "manifestBytesMatchDigest": true,
+    "manifestHeaderMatchesDigest": true,
+    "configurationBytesMatchDigest": true,
+    "runnerDigestPullVerified": true,
+    "runtimeMatchesRailway": true,
+    "verificationCommit": "36f36974138f6d48bb67fd6a9afcb8223ef03b3a",
+    "run": "https://github.com/catillatio/test/actions/runs/40584403458",
+    "artifactId": "12771475644",
+    "artifactDigest": "sha256:e19cd96970099b829fcb51650434bbf25d6ef185759f2bd372a2d2d8f9e1e824"
+  },
+  "productionRequests": 0,
+  "cleanup": {
+    "ownerDeletedIsolatedProject": true,
+    "authenticatedEnvironmentLookup": "NOT_FOUND",
+    "projectListMayRetainDeletionMetadata": true,
+    "productionChanges": false,
+    "registryImageRetainedForEvidence": true
+  },
+  "limits": [
+    "Railway exposes the per-deployment pinned image reference; no separately typed resolved-manifest field was available. Registry-byte hashes and matching executed image identity provide the corroboration.",
+    "Package Private visibility and restricted credential configuration were owner-observed; the original publisher stopped at its package metadata API permission check.",
+    "Canary tests a synthetic image, not a production game deployment or live migration."
+  ]
+}

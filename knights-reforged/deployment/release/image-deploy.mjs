@@ -1,0 +1,134 @@
+// The game-only image switch. Uses the existing authenticated client and exact
+// committed-patch receipt verifier. No source upload, retry, latest fallback or DB.
+import assert from 'node:assert/strict';
+import {setTimeout as delay} from 'node:timers/promises';
+import {railwayClient,checkClearedPatch} from './registrar-config.mjs';
+import {uuid} from './protocol.mjs';
+import {canonical,checkImageCandidate,imageRepository} from './image-policy.mjs';
+import {createHash} from 'node:crypto';
+import {readFile,writeFile} from 'node:fs/promises';
+import {join} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {releaseInputs} from './guard.mjs';
+
+const identity='id projectId environmentId serviceId status createdAt updatedAt deploymentStopped';
+const patch='id environmentId status createdAt updatedAt appliedAt lastAppliedError patch(decryptVariables:true)';
+const scope=`project(id:$projectId){id name}
+ environment(id:$environmentId,projectId:$projectId){id projectId name}
+ game:serviceInstance(environmentId:$environmentId,serviceId:$serviceId){serviceId environmentId startCommand preDeployCommand healthcheckPath healthcheckTimeout numReplicas restartPolicyType rootDirectory source{image repo} latestDeployment{${identity}} activeDeployments{${identity}}}`;
+const variables='$projectId:String!,$environmentId:String!,$serviceId:String!';
+export const imageInspectQuery=`query KingdomImageInspect(${variables}){${scope} pending:environmentStagedChanges(environmentId:$environmentId){${patch}}}`;
+export const imageStageMutation=`mutation KingdomImageStage($environmentId:String!,$input:EnvironmentConfig!,$merge:Boolean!){environmentStageChanges(environmentId:$environmentId,input:$input,merge:$merge){${patch}}}`;
+export const imageCommitMutation=`mutation KingdomImageCommit($environmentId:String!,$commitMessage:String!){environmentPatchCommitStaged(environmentId:$environmentId,commitMessage:$commitMessage,skipDeploys:true)}`;
+export const imageDeployMutation=`mutation KingdomImageDeploy($environmentId:String!,$serviceId:String!){serviceInstanceDeployV2(environmentId:$environmentId,serviceId:$serviceId)}`;
+const verifyQuery=`query KingdomImageReceipt(${variables},$patchId:String!){${scope} receipt:environmentPatch(id:$patchId){${patch}} pending:environmentStagedChanges(environmentId:$environmentId){${patch}}}`;
+const statusQuery='query KingdomImageWorkflow($workflowId:String!){workflowStatus(workflowId:$workflowId){status error}}';
+const imageIdentityQuery=`query KingdomImageDeployment($id:String!){deployment(id:$id){${identity} meta}}`;
+export const imageReleaseKeys=['KINGDOM_AUTOMATED_RELEASES','KINGDOM_RELEASE_SHA','KINGDOM_RESTORE_TEST_DATABASE','KINGDOM_RELEASE_BACKUP_PROOF','KINGDOM_RELEASE_ARTIFACT_KIND','KINGDOM_RELEASE_IMAGE_REFERENCE','KINGDOM_RELEASE_IMAGE_DIGEST'];
+const keys=(value,wanted)=>assert.deepEqual(Object.keys(value??{}).sort(),wanted.slice().sort());
+
+export function emptyImagePatch(pending,environmentId){
+ if(pending===null)return;
+ assert.ok(pending&&typeof pending==='object');assert.equal(pending.environmentId,environmentId);assert.equal(pending.status,'STAGED');assert.equal(pending.lastAppliedError,null);
+ assert.equal(typeof pending.id,'string');assert.equal(pending.appliedAt,null);
+ for(const key of ['createdAt','updatedAt'])assert.ok(Number.isFinite(Date.parse(pending[key])));
+ const value=pending.patch;assert.ok(value&&typeof value==='object'&&!Array.isArray(value));
+ for(const [key,item]of Object.entries(value)){assert.ok(['services','volumes','buckets','sharedVariables'].includes(key));assert.ok(item&&typeof item==='object'&&!Array.isArray(item)&&Object.keys(item).length===0);}
+}
+async function noPending(data,target,api){
+ assert.ok(Object.hasOwn(data,'pending'));
+ if(data.pending?.status!=='COMMITTED'){emptyImagePatch(data.pending,target.environmentId);return;}
+ // Railway can return its just-committed record as the cleared placeholder.
+ // Authenticate that receipt separately; never equate missing data with empty.
+ const p=data.pending;assert.match(p.id,uuid);assert.equal(p.environmentId,target.environmentId);assert.equal(p.lastAppliedError,null);
+ assert.ok(Number.isFinite(Date.parse(p.appliedAt))&&Number.isFinite(Date.parse(p.updatedAt)));
+ const checked=await api(verifyQuery,{...target,patchId:p.id});assert.equal(gameSnapshot(checked,target),gameSnapshot(data,target));
+ assert.equal(canonical(checked.receipt),canonical(p));assert.ok(Object.hasOwn(checked,'pending'));
+ if(checked.pending?.id===p.id)assert.equal(canonical(checked.pending),canonical(p));
+ else emptyImagePatch(checked.pending,target.environmentId);
+}
+function gameSnapshot(data,target){
+ assert.equal(data.project?.id,target.projectId);assert.equal(data.project.name,'merry-patience');
+ assert.equal(data.environment?.id,target.environmentId);assert.equal(data.environment.projectId,target.projectId);assert.equal(data.environment.name,'production');
+ const game=data.game;assert.equal(game?.serviceId,target.serviceId);assert.equal(game.environmentId,target.environmentId);
+ assert.equal(game.startCommand,'node deployment/start.mjs');assert.deepEqual(game.preDeployCommand,['node deployment/migrate.mjs']);
+ assert.equal(game.healthcheckPath,'/healthz');assert.equal(game.healthcheckTimeout,120);assert.equal(game.numReplicas,1);assert.equal(game.restartPolicyType,'ON_FAILURE');
+ const latest=game.latestDeployment;assert.match(latest?.id??'',uuid);assert.equal(latest.status,'SUCCESS');assert.equal(latest.deploymentStopped,false);
+ for(const d of [latest,...game.activeDeployments])for(const key of ['projectId','environmentId','serviceId'])assert.equal(d[key],target[key]);
+ assert.equal(game.activeDeployments.length,1);assert.deepEqual(game.activeDeployments[0],latest);
+ for(const key of ['createdAt','updatedAt'])assert.ok(Number.isFinite(Date.parse(latest[key])));
+ // Source changes are intentional; running deployment/config identity is not.
+ const deployment=d=>Object.fromEntries(['id','projectId','environmentId','serviceId','status','createdAt','updatedAt','deploymentStopped'].map(k=>[k,d[k]]));
+ const snapshot=Object.fromEntries(['serviceId','environmentId','startCommand','preDeployCommand','healthcheckPath','healthcheckTimeout','numReplicas','restartPolicyType','rootDirectory'].map(k=>[k,game[k]]));
+ return canonical({...snapshot,latestDeployment:deployment(latest),activeDeployments:game.activeDeployments.map(deployment)});
+}
+export async function preflightImageTarget(settings,approval,{token,api=railwayClient(token)}={}){
+ const definition=checkImageCandidate(approval.candidate,{sourceSha:settings.sha});
+ const target={projectId:settings.projectId,environmentId:settings.environmentId,serviceId:settings.gameServiceId};
+ const before=await api(imageInspectQuery,target);await noPending(before,target,api);const baseline=gameSnapshot(before,target);
+ const previous=before.game.source?.image;assert.ok(!previous||(previous.startsWith(imageRepository+'@sha256:')&&/^sha256:[a-f0-9]{64}$/.test(previous.split('@')[1])));
+ return {target,definition,baseline};
+}
+export function checkImagePatch(p,target,reference,values){
+ assert.match(p?.id??'',uuid);assert.equal(p.environmentId,target.environmentId);assert.equal(p.status,'STAGED');assert.equal(p.appliedAt,null);assert.equal(p.lastAppliedError,null);
+ assert.ok(Number.isFinite(Date.parse(p.createdAt))&&Date.parse(p.updatedAt)>=Date.parse(p.createdAt));
+ keys(p.patch,['services']);keys(p.patch.services,[target.serviceId]);const service=p.patch.services[target.serviceId];keys(service,['source','variables']);
+ keys(service.source,['image','repo']);assert.equal(service.source.image,reference);assert.equal(service.source.repo,null);
+ keys(values,imageReleaseKeys);keys(service.variables,imageReleaseKeys);
+ for(const name of imageReleaseKeys){
+  const value=service.variables[name];assert.ok(value&&typeof value==='object'&&!Array.isArray(value));
+  assert.ok(Object.keys(value).every(k=>['value','isSealed','isOptional'].includes(k)));assert.equal(value.value,values[name]);
+  if(value.isOptional!==undefined)assert.equal(value.isOptional,false);if(value.isSealed!==undefined)assert.equal(typeof value.isSealed,'boolean');
+ }
+ return p;
+}
+export async function verifyImageDeployment(deploymentId,target,reference,{api}={}){
+ assert.match(deploymentId,uuid);const data=await api(imageIdentityQuery,{id:deploymentId}),d=data.deployment;
+ assert.equal(d?.id,deploymentId);for(const key of ['projectId','environmentId','serviceId'])assert.equal(d[key],target[key]);
+ assert.ok(d.meta&&typeof d.meta==='object'&&!Array.isArray(d.meta));assert.equal(d.meta.image,reference);
+ assert.ok(['WAITING','QUEUED','INITIALIZING','BUILDING','DEPLOYING','SUCCESS'].includes(d.status));return d;
+}
+export async function deployImage(settings,approval,values,{token,api=railwayClient(token),wait=delay,log=()=>{},now=Date.now}={}){
+ const definition=checkImageCandidate(approval.candidate,{sourceSha:settings.sha});
+ const target={projectId:settings.projectId,environmentId:settings.environmentId,serviceId:settings.gameServiceId};for(const id of Object.values(target))assert.match(id,uuid);
+ keys(values,imageReleaseKeys);assert.equal(values.KINGDOM_AUTOMATED_RELEASES,'1');assert.equal(values.KINGDOM_RELEASE_SHA,settings.sha);assert.equal(values.KINGDOM_RELEASE_ARTIFACT_KIND,'oci-image-v1');
+ assert.equal(values.KINGDOM_RELEASE_IMAGE_REFERENCE,definition.reference);assert.equal(values.KINGDOM_RELEASE_IMAGE_DIGEST,definition.manifestDigest);assert.ok(values.KINGDOM_RELEASE_BACKUP_PROOF);
+ const {baseline}=await preflightImageTarget(settings,approval,{api});
+ assert.match(settings.imageTargetDigest??'',/^[a-f0-9]{64}$/);assert.equal(createHash('sha256').update(baseline).digest('hex'),settings.imageTargetDigest);
+ const patchValue={services:{[target.serviceId]:{source:{image:definition.reference,repo:null},variables:Object.fromEntries(imageReleaseKeys.map(k=>[k,{value:values[k]}]))}}};
+ // Merge preserves any competing edit; the strict post-stage scope check then
+ // rejects it instead of silently discarding another editor's pending work.
+ const staged=checkImagePatch((await api(imageStageMutation,{environmentId:target.environmentId,input:patchValue,merge:true})).environmentStageChanges,target,definition.reference,values);log('PATCH_STAGED');
+ const fresh=await api(imageInspectQuery,target);assert.equal(gameSnapshot(fresh,target),baseline);
+ checkImagePatch(fresh.pending,target,definition.reference,values);assert.equal(fresh.pending.id,staged.id);assert.equal(fresh.pending.updatedAt,staged.updatedAt);assert.equal(canonical(fresh.pending.patch),canonical(staged.patch));
+ let workflowId;
+ // Exactly one mutation; a lost reply is uncertain and never retried.
+ workflowId=(await api(imageCommitMutation,{environmentId:target.environmentId,commitMessage:'Protected exact-image release '+settings.sha})).environmentPatchCommitStaged;
+ assert.ok(typeof workflowId==='string'&&workflowId.length>0&&workflowId.length<=500);
+ const deadline=now()+60000;let committed=false;
+ for(let n=0;n<30;n++){
+  const state=(await api(statusQuery,{workflowId})).workflowStatus;assert.equal(state?.error,null);assert.ok(['Running','Complete'].includes(state.status));
+  const after=await api(verifyQuery,{...target,patchId:staged.id});assert.equal(gameSnapshot(after,target),baseline);
+  if(state.status==='Complete'){
+   checkClearedPatch(after,staged,target);assert.equal(after.game.source?.image,definition.reference);assert.equal(after.game.source.repo,null);committed=true;break;
+  }
+  assert.ok(now()<deadline);await wait(2000);
+ }
+ assert.ok(committed);log('CONFIG_COMMITTED_NO_DEPLOY');
+ const predeploy=await api(verifyQuery,{...target,patchId:staged.id});assert.equal(gameSnapshot(predeploy,target),baseline);checkClearedPatch(predeploy,staged,target);
+ assert.equal(predeploy.game.source?.image,definition.reference);assert.equal(predeploy.game.source.repo,null);
+ const deploymentId=(await api(imageDeployMutation,{environmentId:target.environmentId,serviceId:target.serviceId})).serviceInstanceDeployV2;assert.match(deploymentId??'',uuid);
+ await verifyImageDeployment(deploymentId,target,definition.reference,{api});log('DEPLOYMENT_QUEUED');return deploymentId;
+}
+async function main(){
+ try{
+  assert.equal(process.argv[2],'preflight');const env=process.env,settings=releaseInputs(env);assert.equal(settings.gameTransport,'oci-image-v1');
+  assert.equal(env.KINGDOM_GAME_IMAGE_REGISTRY_READY,'true');
+  const approval=JSON.parse(await readFile(join(env.RUNNER_TEMP,'verified-image-candidate.json'),'utf8'));
+  const {baseline}=await preflightImageTarget(settings,approval,{token:env.RAILWAY_TOKEN});
+  const now=Date.now(),record={sha:settings.sha,jobId:settings.id,definitionDigest:approval.definitionDigest,checkedAt:now,expiresAt:now+2700000,
+   runningTargetDigest:createHash('sha256').update(baseline).digest('hex')};
+  await writeFile(join(env.RUNNER_TEMP,'verified-image-target.json'),JSON.stringify(record),{mode:0o600});console.log('IMAGE_TARGET_PREFLIGHT: PASS');
+ }catch{console.error('IMAGE_TARGET_PREFLIGHT: FAIL — no recovery or mutation was authorized.');process.exitCode=1;}
+}
+if(process.argv[1]&&pathToFileURL(process.argv[1]).href===import.meta.url)await main();

@@ -1,136 +1,141 @@
-# Protected immutable-image transport: implementation design
+# Protected immutable-image transport
 
-Status: **locally compatible; provider canary and protected implementation still
-required**. No image was published, no Railway service/configuration was changed,
-and no production recovery ran for this investigation. This is not an enabled
-transport or an instruction to redeploy from the dashboard.
+Status: **implemented for review, disabled pending owner setup and release approval**.
+The isolated private-image canary succeeded. No game image has been published,
+no production setting changed, and no production recovery or deployment ran for
+this implementation. Source transport remains the default.
 
-## Verified capabilities and limits
+## Authenticated canary result
 
-[Railway service documentation](https://docs.railway.com/services) confirms
-prebuilt Docker images, including GHCR. Private registry images require Railway
-Pro; private GHCR uses a classic PAT. Public package visibility is an owner
-decision, not a safe default. Image auto-updates must remain disabled.
+Railway deployment `ecdd7e95-cf3b-4055-be0f-b1173684f829` succeeded with:
 
-The authenticated GraphQL schema exposes:
+```
+ghcr.io/catillatio/kingdom-come-deploy-canary@sha256:b49d4df2ca6e4959dcdaf1235d8705d1b2f012380d5a2991fce414ac2acda000
+```
 
-| API | Important contract |
-| --- | --- |
-| `environmentStageChanges(environmentId, input, merge)` | Environment-scoped staged configuration |
-| `ServiceSourceInput.image: String` | Image source input; schema alone does not prove digest syntax/receipt semantics |
-| `environmentPatchCommitStaged(environmentId, skipDeploys: true)` | Returns a **workflow ID**, not a deployment ID |
-| `serviceInstanceDeployV2(environmentId, serviceId, commitSha)` | Returns a deployment ID; exact target still needs independent verification |
+An independent, authenticated GitHub registry pull reconciled the raw manifest
+bytes, registry digest header, configuration bytes and executed identity. The
+configuration digest is `sha256:4eee41c0a59aef69fa373485c2043c85c009027f35e90a1d8024e06c852fd689`;
+it is **not** the manifest digest. The runtime matched linux/amd64, UID 65532,
+expected nonce/source fingerprint and 120-second maximum lifetime. Evidence:
+[registry reconciliation run](https://github.com/catillatio/test/actions/runs/40584403458),
+[authenticated summary](canary-evidence.json), [raw manifest](canary-manifest.json)
+and [raw configuration](canary-config.json).
 
-The CLI's service-source connect uses service-global `serviceConnect`; do not
-substitute it for an environment-scoped reviewed source change. Existing registrar
-patch code is restricted to the worker's three variables and must not be repurposed.
+The per-deployment authenticated `meta.image` is the exact pinned reference.
+Railway did not expose a separate typed resolved-manifest field. Registry-byte
+verification and the matching executed identity corroborate that reference;
+a source/configuration echo alone would be insufficient. Image deployments can
+have a non-null internal `snapshotId`; this is not a CLI source upload.
 
-The current Dockerfile already produces a non-root deployable game image with
-required assets and the signed migration gate. The new offline probe verifies
-those properties against CI's actual image. Its `localConfigDigest` is a Docker
-configuration digest, **not** the registry manifest digest; the report deliberately
-sets `registryManifestDigest: null` and `railwayDeploymentTested: false`.
+Private visibility and restricted Railway pull credentials were owner-observed.
+The first publisher uploaded once, then failed its package metadata permission
+check; the image was not republished. The fresh read-only reconciliation succeeded.
+The owner deleted `kingdom-image-canary`; a subsequent authenticated lookup of its
+environment returned NOT_FOUND. Project-list deletion metadata may persist. The
+private synthetic image is retained as evidence; no canary compute remains.
 
-Railway's generic image support does not establish its acceptance of
-`ghcr.io/<approved-package>@sha256:<platform-manifest>` or the exact observable
-runtime digest fields. No production target is available for safe experimentation.
-A non-production canary must settle those two points before a transport PR can
-authorize production image deployment. If digest references or exact digest
-evidence cannot be verified, hold; do not fall back to a mutable tag.
+## Registry and immutable identities
 
-## Dashboard-only preparation; zero recovery copies
+The game package is fixed to **private `ghcr.io/catillatio/kingdom-come`**, separate
+from the canary. It must already exist and be Private before the first game push.
+There is no fallback to public visibility. See [owner procedure](IMAGE_OPERATIONS.md)
+for bootstrap/access prerequisites; none were installed during this work.
 
-Implement one manual GitHub Actions **image preparation** operation, independent
-of prepare/promote. It must use the existing protected production branch checks,
-production environment/owner approval and `kingdom-come-production` mutex. Keep
-it disabled until the owner approves package visibility and registry access.
-It receives no Railway, database, backup, restoration or signing credentials.
+`image-prepare` builds the committed Dockerfile for linux/amd64, with locked npm
+inputs, an exact OCI revision label and a static, read-only image identity.
+`checkBuildTree` verifies Git blob bytes, executable bits, completeness and absence
+of extra/untracked/symlink inputs in every runtime/build source directory. The
+actual compiled payload must match the host candidate digest. The source tree
+cannot supply dependencies or temporary files inside those directories.
 
-1. Require successful exact-production-commit push CI, exact checkout SHA, clean
-   tracked inputs and no extra files/symlinks in Docker COPY sources. Use locked
-   npm dependencies and the committed Dockerfile; record its digest, lockfile
-   digest, base-image resolution and build-tool versions. Build linux/amd64 with
-   the exact OCI revision label, without build secrets.
-2. Run the actual-image preflight and existing disposable container/recovery tests
-   before publishing. CI uses synthetic isolated data, not a production rehearsal.
-3. Publish once to one owner-approved GHCR package using the workflow's minimally
-   scoped `packages:write` token. Use a unique `<sha>-<run>-<attempt>` tag only for
-   initial publication. No secret in argv, logs or artifacts; use password-stdin
-   and a private temporary Docker credential directory, then remove it.
-4. Resolve the registry's immutable **single-platform manifest** SHA-256, pull by
-   that digest and recheck its config/revision/candidate digest. Reject an
-   unexpected multi-platform index rather than confuse index, manifest and config
-   digests. Retain an immutable candidate artifact containing exact Git SHA, image
-   reference/digest, candidateDigest and build evidence. It is not deploy authority.
+Publication uses only the job's ephemeral `packages:write` GITHUB_TOKEN and one
+unique SHA/run/attempt tag. The tag is never deployment authority. The controller
+resolves, hashes and pulls the **single-platform manifest digest**; indexes are
+rejected. The immutable preparation artifact contains only `candidate.json` and
+raw `manifest.json`, with commit, candidate digest, manifest/configuration digests,
+platform and preparation-run identity. It contains no credentials or signed proof.
 
-Separately authorize a disposable Railway image canary: a new isolated project/
-service with no production variables, databases, volumes or domains. Use the
-digest reference and override the start command to a read-only `candidateDigest`
-probe; do not start the game or migrate. Verify it pulls without a source upload,
-binds the returned deployment to the exact canary project/environment/service,
-exposes adequate image-digest evidence, and preserves expected service settings.
-Stop/remove only the disposable canary after evidence capture. No production
-backup/restore is involved. Record actual provider contracts in fixture tests.
+A separate classic `read:packages` token privately checks package visibility and
+pulls. This is needed because the canary's GITHUB_TOKEN could pull its package but
+could not read the package metadata endpoint. Railway receives its own owner-saved
+restricted pull credential, never a token through workflow arguments or artifacts.
+Docker credentials live in a private temporary directory and are removed finally.
 
-## Production transport implementation after the canary
+## Protected execution
 
-Add a separately reviewed immutable image policy; keep source/private-job-v2
-strict and unchanged until cutover. Do not infer image authority from a repo
-variable, label, caller-supplied URL or successful build alone.
+Both operations use the existing manual protected workflow, owner-reviewed
+production environment, exact-production-commit CI check and shared
+`kingdom-come-production` mutex. Image preparation has no Railway, signing, backup
+or PostgreSQL credentials. All new capability flags default to unset/disabled.
 
-1. Revalidate the exact successful production SHA and retained image-candidate
-   artifact from its expected repository/run/job. Pull the digest, verify all
-   evidence and ensure no unrelated staged changes. Complete this **before** any
-   production backup so image problems consume no recovery storage.
-2. Acquire the existing owner-approved environment and shared production mutex.
-   Run the existing encrypted backup, independent restoration, preservation and
-   retained-ciphertext verification chain once. Registration/retention holds,
-   schema pin, bot counts and independent encryption remain mandatory.
-3. Introduce strict signed proof v3 for image releases: all v2 fields plus exact
-   image reference, registry platform-manifest digest and image-candidate artifact
-   identity/digest. Verify the signature, freshness, exact SHA/candidate, database
-   and recovery binding before any live migration. Runtime must cross-check a
-   static build identity and the reviewed image policy, not trust environment
-   claims alone. Test wrong image/SHA, stale evidence, changed labels, schema,
-   counts, signing key and missing restoration. No v3-to-v2 fallback.
-4. Prepare only the exact game service's image source plus the existing approved
-   release-proof variables in an environment-scoped patch. Preserve start/predeploy
-   commands, health settings, root behavior and other services. Privately verify
-   the complete patch allowlist, identity/revision and disabled autoupdates. Use an
-   exclusive owner edit window, a fresh pre-commit read, and one
-   `environmentPatchCommitStaged(...skipDeploys: true)` mutation. Authenticate its
-   **server workflow receipt** and applied configuration; verify no deployment
-   occurred. This is configuration preparation, not proof of deployment.
-5. Revalidate the applied immutable image and proof, then make one
-   `serviceInstanceDeployV2` call. Independently authenticate the exact returned
-   deployment, target and provider image identity before waiting for SUCCESS,
-   `/healthz`, exact release identity and all existing preservation checks.
-   Never use newest/latest fallback. Lost mutation acknowledgment or unknown
-   state means HOLD and read-only reconciliation, not automatic retry.
+1. `image-prepare`, promotion OFF, validates/builds/probes/publishes one image and
+   retains its candidate artifact. It does not deploy or create a recovery copy.
+2. `image-release` requires explicit artifact/run/digest selectors and an exclusive
+   owner edit window. Before the first backup, authenticate the successful exact-
+   commit preparation run/job, immutable artifact ZIP digest and two-file layout,
+   current private registry manifest, pulled configuration and actual isolated
+   runtime payload. Unknown/expired evidence, index/tag substitution, wrong source,
+   secret-bearing image configuration or platform mismatch fail closed.
+3. Read-only Railway preflight validates exact production target, stable running
+   deployment, required migration/start/health settings and no pending changes.
+   Bind the pre-backup parent configuration/deployment digest to this job for at
+   most 45 minutes. Missing registry readiness also fails before recovery.
+4. Run the existing encrypted backup, independently retained ciphertext check,
+   isolated restore, preservation, strict schema/bot checks and recovery proof
+   chain unchanged. The recovery worker still uses `private-job-v2` source upload;
+   only the game switches to image transport.
+5. Sign v3 proof containing every existing v2 recovery/commit/target binding plus
+   exact image candidate and preparation artifact identity/digest. The runtime
+   checks the Ed25519 signature, freshness, private database separation, candidate
+   payload and static identity before migration. A static image cannot be
+   downgraded by disabling automated approvals or requesting a v2/source proof.
+6. Revalidate registry and target. Stage only the game source `{image: <digest>,
+   repo: null}` and seven existing/new release variables. Merge preserves competing
+   edits so the strict scope validator rejects them. Privately compare the fresh
+   revision and complete sensitive patch immediately before one commit using
+   `skipDeploys: true`. Never hash the signed proof or credentials into a public
+   approval digest. Authenticate the server workflow receipt, committed patch,
+   applied source and unchanged running deployment. No implicit deploy is accepted.
+7. After one more read, call `serviceInstanceDeployV2` once. Authenticate the exact
+   returned deployment/target and `meta.image`; no latest-deployment lookup or tag
+   fallback. Existing exact-release health, restored-copy preservation and login
+   checks still decide success. Recheck the image reference after health success.
 
-Railway's staging API has no demonstrated atomic compare-and-swap covering
-read/commit/deploy. GitHub's mutex excludes our workflows but not dashboard
-editors/other automation. The exclusive edit window, fresh reads and exact server
-receipt reduce this race; they do not eliminate it. Any competing editor, revision
-change or ambiguous image evidence must stop promotion. Owner acceptance of this
-residual limitation is required; otherwise keep image deployment disabled.
+A registry digest cannot be embedded inside its own image. Static source/candidate
+identity, the externally signed image approval and authenticated deployment digest
+reference provide the binding instead. Mutable labels or environment claims alone
+never authorize deployment.
 
-## Failure and recovery policy
+## Race, failure and recovery boundaries
 
-- Before configuration commit: leave production unchanged. Inspect unexpected
-  pending changes privately; never auto-discard someone else's patch.
-- After commit but before confirmed deployment: hold, reconcile receipt/applied
-  config and old deployment; do not automatically restart the old worker/game.
-- During/after deployment: use existing health and preservation gates. No automatic
-  old-image redeploy after migrations. Retain encrypted recovery and prior image
-  digest, assess schema compatibility, and prefer a reviewed forward correction.
-  Destructive restoration or rollback remains a separately owner-approved operation.
-- Registry outages, visibility/auth changes or image deletion fail closed. Retain
-  approved digests and disable mutable-tag/autoupdate paths.
+Railway staging has no demonstrated atomic compare-and-swap across read, commit
+and deploy. GitHub's mutex does not exclude dashboard editors or other automation.
+The mandatory owner-exclusive edit window, fresh reads, revision equality, strict
+patch scope and authenticated receipt reduce this residual TOCTOU risk; they do
+not eliminate it. The owner must accept and enforce the edit window before enabling
+image release. Otherwise leave the capability disabled.
 
-## Smallest remaining owner decisions
+Every stage/commit/deploy mutation has one attempt. A lost acknowledgment means
+HOLD and private read-only reconciliation, never automatic retry, discard or
+source fallback. Unexpected pending data, API shapes, implicit restarts or changed
+parent identity stop the process. A committed configuration may remain applied
+without a deployment after failure; do not rerun blindly.
 
-Approve package location/visibility (or private Pro/GHCR read access), authorize
-the isolated canary, then review the focused protected image-transport implementation
-against its actual results. No support contact is necessary. Until those conditions
-are met, diagnostics are ready but immutable-image production promotion is not.
+No automatic old-image rollback follows migration. Retain approved images and
+independent encrypted recovery evidence; assess schema compatibility and prefer
+an owner-reviewed forward correction. Database restoration, code rollback and
+any source-transport reset require separate review/authorization. No retention,
+registration, schema, game, economy or recovery-storage policy changes are included.
+
+## Verification
+
+Focused tests cover artifact provenance/ZIP tampering and bounds, real Git build
+input checks, registry/configuration distinctions, dormant source compatibility,
+signed v3 proof/downgrade rejection, committed/empty staging placeholders,
+concurrency, exact deployment identity and lost mutation acknowledgments. Actual
+network-disabled container tests exercise accepted/rejected signed proofs and
+migration rejection before PostgreSQL access. The complete existing CI additionally
+retains its database shards, browser, container and encrypted 900-bot recovery,
+strict schema and retention-regression checks. Final exact-head results belong in
+the PR; a canary success is not a production release authorization.

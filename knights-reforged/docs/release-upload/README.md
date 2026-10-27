@@ -1,8 +1,9 @@
 # Source-upload reliability investigation
 
-This change adds bounded, secret-safe upload diagnostics and a read-only image
-compatibility check. It does **not** deploy, retry an upload, change Railway
-configuration, run a production recovery rehearsal, or enable an image transport.
+This change adds bounded, secret-safe upload diagnostics and a protected,
+default-disabled immutable-image transport. The isolated private-image canary
+succeeded and was removed. No game image was published and no production
+configuration, recovery or deployment was changed during this work.
 
 ## Established facts
 
@@ -99,7 +100,10 @@ replace authenticated transport with curl, change builders on ambiguous metadata
 or retry promotion with stale proofs. None is an established correction here.
 
 No additional production rehearsal is needed to validate these diagnostics.
-The independently actionable alternative is to build/publish a digest-addressed
-image in GitHub, validate it in an isolated Railway canary, then implement the
-reviewed image transport below **before** another normal protected release.
-This PR deliberately does not add a speculative production image-deployment path.
+The independently actionable alternative is now implemented behind explicit
+owner-controlled flags, using the completed private registry/digest-pull canary.
+See [transport design and evidence](IMAGE_TRANSPORT_DESIGN.md) and the
+[dashboard-only owner procedure](IMAGE_OPERATIONS.md). Registry and target checks
+precede recovery; the existing encrypted recovery, exact identity, signature,
+health and owner-approval gates remain mandatory. Review/merge, private game-package
+setup, publication and production activation remain separate owner actions.
