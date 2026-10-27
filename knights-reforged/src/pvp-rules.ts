@@ -1,4 +1,5 @@
 import {readFileSync} from 'node:fs';
+import {bountyPlacementPolicy} from './bounty-policy.js';
 export const pvp=JSON.parse(readFileSync(new URL('../rulesets/pvp-economy-0.1/rules.json',import.meta.url),'utf8')) as {
   id:string;provenance:string;
   loot:{percent:number;maximum:number;windowSeconds:number;victoryPercentages:number[];botMaximum:number;defenderVictoryLoot:number};
@@ -7,7 +8,7 @@ export const pvp=JSON.parse(readFileSync(new URL('../rulesets/pvp-economy-0.1/ru
   bots:{populationVersion:string;dailyRewardedBattles:number;perTargetRewardedBattles:number};
 };
 if(pvp.id!=='pvp-economy-0.1'||pvp.loot.victoryPercentages.join(',')!=='100,75,50,25,10')throw new Error('Invalid PvP economy rules.');
-export const bountyRules=pvp.bounties;
+export const bountyRules={...pvp.bounties,targetDailyLimit:bountyPlacementPolicy.targetLimit,sponsorTargetDailyLimit:bountyPlacementPolicy.sponsorTargetLimit,placementWindowSeconds:bountyPlacementPolicy.windowSeconds,quotaPolicyId:bountyPlacementPolicy.id};
 export function bountyFee(amount:number){return Math.max(bountyRules.minimumFee,Math.ceil(amount*bountyRules.feePercent/100));}
 export function victoryLoot(gold:number,victory:number,bot=false,botRewardAvailable=true){
   if(!Number.isSafeInteger(gold)||gold<0||!Number.isSafeInteger(victory)||victory<1)throw new RangeError('Invalid loot inputs.');

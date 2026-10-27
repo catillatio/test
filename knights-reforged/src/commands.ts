@@ -211,7 +211,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       }
     } else if(kind==='bounty_place'&&target){
       const placed=await placeBounty(sql,actorId,target.id,intent.amount as number,key,now,!!runtime.developmentBotsEnabled&&!!runtime.developmentBotBountiesEnabled);
-      result.data=placed;result.message='Bounty placed: '+placed.amount+' gold held in escrow; '+placed.fee+' gold placement fee.';
+      result.data=placed;result.message='Bounty placed: '+placed.amount+' gold held in escrow; '+placed.fee+' gold placement fee. Remaining rolling placements on this target: '+placed.quotas.sponsorTarget.remaining+' for you; '+placed.quotas.target.remaining+' across all sponsors.';
     } else if(kind==='bounty_cancel'){
       const canceled=await cancelBounty(sql,actorId,intent.bountyId as string,key,now);
       result.data=canceled;result.message='Bounty canceled. '+canceled.refund+' escrowed gold returned; the placement fee is retained.';

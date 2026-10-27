@@ -143,7 +143,7 @@ test('only the finishing attacker receives the bounty; prior hits and ordinary k
     assert.equal((await r.me(finisher)).battleStats.kills,1);
   }finally{await r.close();}
 });
-test('ended placements share a 50-per-target rolling limit and relist immediately without sponsor or midnight resets',{skip},async()=>{
+test('two sponsors each exhaust 25 rolling placements through fifty real claims without midnight resets',{skip},async()=>{
   const r=await setup();try{
     const sponsors=[await r.veteran(),await r.veteran()],target=await r.veteran(),hunter=await r.hunter();const start=+r.now(),total=await r.total([...sponsors,target,hunter]);
     await r.db.query('UPDATE characters SET health=1,health_updated_at=$2 WHERE id=$1',[target.id,r.now()]);
@@ -162,11 +162,11 @@ test('ended placements share a 50-per-target rolling limit and relist immediatel
     assert.equal((await r.me(hunter)).battleStats.kills,50);assert.equal((await r.me(target)).battleStats.deaths,50);assert.equal(await r.total([...sponsors,target,hunter]),total-50n);
     assert.equal((await r.db.query('SELECT count(*)::int AS n FROM bounties WHERE target_id=$1',[target.id])).rows[0]!.n,50);
     const before=(await r.me(sponsors[0]!)).gold;
-    assert.equal((await r.command(sponsors[0]!,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1})).json().error.code,'BOUNTY_LIMIT');
+    assert.equal((await r.command(sponsors[0]!,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1})).json().error.code,'BOUNTY_SPONSOR_TARGET_LIMIT');
     assert.equal((await r.me(sponsors[0]!)).gold,before);
     r.advance((start+86400000-+r.now())/1000-1);
-    assert.equal((await r.command(sponsors[1]!,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1})).json().error.code,'BOUNTY_LIMIT');
-    r.advance(1);const next=await r.ok(sponsors[1]!,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1});assert.ok(next.data.bountyId);
+    assert.equal((await r.command(sponsors[1]!,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1})).json().error.code,'BOUNTY_SPONSOR_TARGET_LIMIT');
+    r.advance(1);const next=await r.ok(sponsors[0]!,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1});assert.ok(next.data.bountyId);
   }finally{await r.close();}
 });
 test('a public-profile bounty preview discloses the exact fee and confirmation rechecks availability',{skip},async()=>{

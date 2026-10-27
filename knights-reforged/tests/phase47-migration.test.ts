@@ -45,8 +45,10 @@ test('020 preserves every populated Phase 4.6 business row, all 450 bots, sessio
    await allocateSkill(sql,c.characterId,'attack',randomUUID(),now);
    async function battle(attacker:string,defender:string,outcome:string,loot:number,modern=true,finishing=false){
     const key=randomUUID(),id=randomUUID();if(loot)await ledger(sql,key,'battle_loot',[{characterId:defender,amount:-loot},{characterId:attacker,amount:loot}]);
+    const bountyContractId=finishing?(await sql.query("SELECT id FROM bounties WHERE target_id=$1 AND status='active'",[defender])).rows[0]?.id:null;
+    if(finishing)assert.ok(bountyContractId,'the synthetic finishing action binds its active contract before its saved hit');
     await sql.query(`INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,created_at) VALUES($1,$2,$3,'alpha-0.3',$4,$5,$6,$7)`,
-     [id,attacker,defender,outcome,{attacker:{level:4},defender:{level:4}},{id,commandId:key,attackerName:'Historical Warrior',defenderName:'Historical Rival',loot,attackerXp:2,spiritSpent:1,defenderHealthBefore:20,defenderHealthAfter:finishing?0:10,attackEquipment:[],defenseEquipment:[],...modern?{pvpRulesetId:'gameplay-refinement-1'}:{}},now]);return {id,key};
+     [id,attacker,defender,outcome,{attacker:{level:4},defender:{level:4}},{id,commandId:key,...finishing?{bountyContractId}:{},attackerName:'Historical Warrior',defenderName:'Historical Rival',loot,attackerXp:2,spiritSpent:1,defenderHealthBefore:20,defenderHealthAfter:finishing?0:10,attackEquipment:[],defenseEquipment:[],...modern?{pvpRulesetId:'gameplay-refinement-1'}:{}},now]);return {id,key};
    }
    await battle(a.characterId,b.characterId,'attacker_win',20);await battle(b.characterId,a.characterId,'attacker_win',5);await battle(a.characterId,b.characterId,'defender_win',0,false);
    await placeBounty(sql,a.characterId,b.characterId,100,randomUUID(),now);
