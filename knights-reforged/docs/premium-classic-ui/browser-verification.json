@@ -1,0 +1,5484 @@
+{
+  "passed": true,
+  "baseline": "d100a9a03b413b1947d1606db7c73cd37be278e3",
+  "productionContacted": false,
+  "views": [
+    {
+      "stage": "before",
+      "name": "home",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "home",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "quests",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        128.734375,
+        138.34375,
+        168.34375,
+        168.34375,
+        174.9375,
+        217.125,
+        198.34375,
+        168.34375,
+        225.34375,
+        198.34375,
+        225.328125,
+        217.125,
+        217.125,
+        168.34375,
+        204.9375,
+        215.734375,
+        168.34375,
+        261.9375,
+        217.125,
+        225.34375,
+        233.328125,
+        227.734375,
+        247.125,
+        273.9375,
+        217.125,
+        273.9375,
+        237.34375,
+        237.515625,
+        264.328125,
+        257.734375,
+        253.71875,
+        237.34375,
+        247.125,
+        273.9375,
+        237.34375,
+        196.734375,
+        273.9375,
+        217.125,
+        273.9375,
+        247.125,
+        324.328125,
+        287.734375,
+        287.734375,
+        324.328125,
+        287.734375,
+        287.734375,
+        344.71875,
+        308.125,
+        308.125,
+        324.328125,
+        287.734375,
+        287.734375,
+        344.71875,
+        308.125,
+        308.125,
+        344.71875,
+        308.125,
+        326.875
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "quests",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        126.734375,
+        136.34375,
+        166.34375,
+        166.34375,
+        172.9375,
+        215.125,
+        196.34375,
+        166.34375,
+        223.34375,
+        196.34375,
+        223.328125,
+        215.125,
+        215.125,
+        166.34375,
+        202.9375,
+        213.734375,
+        166.34375,
+        259.9375,
+        215.125,
+        223.34375,
+        231.328125,
+        225.734375,
+        245.125,
+        271.9375,
+        215.125,
+        271.9375,
+        235.34375,
+        235.515625,
+        262.328125,
+        255.734375,
+        251.71875,
+        235.34375,
+        245.125,
+        271.9375,
+        235.34375,
+        194.734375,
+        271.9375,
+        215.125,
+        271.9375,
+        245.125,
+        322.328125,
+        285.734375,
+        285.734375,
+        322.328125,
+        285.734375,
+        285.734375,
+        342.71875,
+        306.125,
+        306.125,
+        322.328125,
+        285.734375,
+        285.734375,
+        342.71875,
+        306.125,
+        306.125,
+        342.71875,
+        306.125,
+        324.875
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rivals",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        88.765625,
+        88.765625,
+        109.59375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rivals",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        88.765625,
+        88.765625,
+        109.59375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "bounties",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        116.40625
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "bounties",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        116.40625
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "report",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 37,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "report",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 37,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        122.59375,
+        112,
+        122.59375,
+        112,
+        122.59375,
+        112,
+        112,
+        112,
+        112,
+        122.59375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        122.59375,
+        112,
+        122.59375,
+        112,
+        122.59375,
+        112,
+        112,
+        112,
+        112,
+        122.59375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory-bulk",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        122.59375,
+        112,
+        122.59375,
+        112,
+        122.59375,
+        112,
+        112,
+        112,
+        112,
+        122.59375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory-bulk",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        122.59375,
+        112,
+        122.59375,
+        112,
+        122.59375,
+        112,
+        112,
+        112,
+        112,
+        122.59375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "land",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        123.1875,
+        123.1875,
+        123.1875,
+        142.1875
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "land",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        123.1875,
+        123.1875,
+        123.1875,
+        142.1875
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "profile",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 221,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "profile",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 221,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "public-profile",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 2,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "public-profile",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 2,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "recruit",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "recruit",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "army",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "army",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rankings",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rankings",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "vault",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "vault",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "settings",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "settings",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "receipt",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 3,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "receipt",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 3,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "confirmation",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "confirmation",
+      "width": 320,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 320,
+        "viewport": 320
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "home",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "home",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "quests",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        128.734375,
+        138.34375,
+        168.34375,
+        168.34375,
+        158.140625,
+        196.734375,
+        188.734375,
+        168.34375,
+        225.34375,
+        188.734375,
+        188.140625,
+        196.734375,
+        196.734375,
+        168.34375,
+        188.140625,
+        215.734375,
+        168.34375,
+        245.140625,
+        217.125,
+        225.34375,
+        216.53125,
+        215.734375,
+        226.734375,
+        245.140625,
+        196.734375,
+        245.140625,
+        225.34375,
+        217.125,
+        215.140625,
+        225.34375,
+        236.921875,
+        225.34375,
+        226.734375,
+        245.140625,
+        225.34375,
+        196.734375,
+        245.140625,
+        217.125,
+        245.140625,
+        226.734375,
+        265.53125,
+        245.734375,
+        245.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        296.125
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "quests",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        126.734375,
+        136.34375,
+        166.34375,
+        166.34375,
+        156.140625,
+        194.734375,
+        186.734375,
+        166.34375,
+        223.34375,
+        186.734375,
+        186.140625,
+        194.734375,
+        194.734375,
+        166.34375,
+        186.140625,
+        213.734375,
+        166.34375,
+        243.140625,
+        215.125,
+        223.34375,
+        214.53125,
+        213.734375,
+        224.734375,
+        243.140625,
+        194.734375,
+        243.140625,
+        223.34375,
+        215.125,
+        213.140625,
+        223.34375,
+        234.921875,
+        223.34375,
+        224.734375,
+        243.140625,
+        223.34375,
+        194.734375,
+        243.140625,
+        215.125,
+        243.140625,
+        224.734375,
+        263.53125,
+        243.734375,
+        243.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        294.125
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rivals",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        88.765625,
+        88.765625,
+        109.59375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rivals",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        88.765625,
+        88.765625,
+        109.59375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "bounties",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        116.40625
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "bounties",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        116.40625
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "report",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 37,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "report",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 37,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        125.59375,
+        112,
+        112,
+        112,
+        112,
+        125.59375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        125.59375,
+        112,
+        112,
+        112,
+        112,
+        125.59375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory-bulk",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        125.59375,
+        112,
+        112,
+        112,
+        112,
+        125.59375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory-bulk",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        125.59375,
+        112,
+        112,
+        112,
+        112,
+        125.59375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "land",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "land",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "profile",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 221,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "profile",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 221,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "public-profile",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 2,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "public-profile",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 2,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "recruit",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "recruit",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "army",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "army",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rankings",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rankings",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "vault",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "vault",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "settings",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "settings",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "receipt",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 3,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "receipt",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 3,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "confirmation",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "confirmation",
+      "width": 360,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 360,
+        "viewport": 360
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "home",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "home",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "quests",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        128.734375,
+        138.34375,
+        138.34375,
+        138.34375,
+        158.140625,
+        187.125,
+        168.34375,
+        168.34375,
+        225.34375,
+        168.34375,
+        188.140625,
+        196.734375,
+        196.734375,
+        168.34375,
+        188.140625,
+        215.734375,
+        168.34375,
+        245.140625,
+        217.125,
+        225.34375,
+        216.53125,
+        215.734375,
+        217.125,
+        245.140625,
+        196.734375,
+        245.140625,
+        225.34375,
+        196.734375,
+        215.140625,
+        225.34375,
+        216.53125,
+        225.34375,
+        217.125,
+        245.140625,
+        225.34375,
+        196.734375,
+        245.140625,
+        196.734375,
+        245.140625,
+        226.734375,
+        265.53125,
+        245.734375,
+        245.734375,
+        265.53125,
+        245.734375,
+        245.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        275.734375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "quests",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        126.734375,
+        136.34375,
+        136.34375,
+        136.34375,
+        156.140625,
+        185.125,
+        166.34375,
+        166.34375,
+        223.34375,
+        166.34375,
+        186.140625,
+        194.734375,
+        194.734375,
+        166.34375,
+        186.140625,
+        213.734375,
+        166.34375,
+        243.140625,
+        215.125,
+        223.34375,
+        214.53125,
+        213.734375,
+        215.125,
+        243.140625,
+        194.734375,
+        243.140625,
+        223.34375,
+        194.734375,
+        213.140625,
+        223.34375,
+        214.53125,
+        223.34375,
+        215.125,
+        243.140625,
+        223.34375,
+        194.734375,
+        243.140625,
+        194.734375,
+        243.140625,
+        224.734375,
+        263.53125,
+        243.734375,
+        243.734375,
+        263.53125,
+        243.734375,
+        243.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        273.734375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rivals",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        88.765625,
+        88.765625,
+        87.765625
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rivals",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        88.765625,
+        88.765625,
+        87.765625
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "bounties",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        94.578125
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "bounties",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        94.578125
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "report",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 37,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "report",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 37,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory-bulk",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory-bulk",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "land",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "land",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "profile",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 221,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "profile",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 221,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "public-profile",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 2,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "public-profile",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 2,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "recruit",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "recruit",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "army",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "army",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rankings",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rankings",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "vault",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "vault",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "settings",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "settings",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "receipt",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 3,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "receipt",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 3,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "confirmation",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "confirmation",
+      "width": 390,
+      "dpr": 3,
+      "scale": 1,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "home",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "home",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "quests",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        128.734375,
+        138.34375,
+        138.34375,
+        138.34375,
+        158.140625,
+        187.125,
+        168.34375,
+        158.734375,
+        215.734375,
+        168.34375,
+        178.53125,
+        187.125,
+        187.125,
+        168.34375,
+        178.53125,
+        195.34375,
+        168.34375,
+        245.140625,
+        196.734375,
+        215.734375,
+        206.921875,
+        195.34375,
+        196.734375,
+        235.53125,
+        196.734375,
+        235.53125,
+        225.34375,
+        196.734375,
+        215.140625,
+        225.34375,
+        216.53125,
+        225.34375,
+        217.125,
+        245.140625,
+        215.734375,
+        196.734375,
+        245.140625,
+        196.734375,
+        245.140625,
+        217.125,
+        265.53125,
+        245.734375,
+        245.734375,
+        245.140625,
+        225.34375,
+        225.34375,
+        265.53125,
+        245.734375,
+        245.734375,
+        265.53125,
+        245.734375,
+        245.734375,
+        265.53125,
+        245.734375,
+        245.734375,
+        265.53125,
+        245.734375,
+        275.734375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "quests",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        126.734375,
+        136.34375,
+        136.34375,
+        136.34375,
+        156.140625,
+        185.125,
+        166.34375,
+        156.734375,
+        213.734375,
+        166.34375,
+        176.53125,
+        185.125,
+        185.125,
+        166.34375,
+        176.53125,
+        193.34375,
+        166.34375,
+        243.140625,
+        194.734375,
+        213.734375,
+        204.921875,
+        193.34375,
+        194.734375,
+        233.53125,
+        194.734375,
+        233.53125,
+        223.34375,
+        194.734375,
+        213.140625,
+        223.34375,
+        214.53125,
+        223.34375,
+        215.125,
+        243.140625,
+        213.734375,
+        194.734375,
+        243.140625,
+        194.734375,
+        243.140625,
+        215.125,
+        263.53125,
+        243.734375,
+        243.734375,
+        243.140625,
+        223.34375,
+        223.34375,
+        263.53125,
+        243.734375,
+        243.734375,
+        263.53125,
+        243.734375,
+        243.734375,
+        263.53125,
+        243.734375,
+        243.734375,
+        263.53125,
+        243.734375,
+        273.734375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rivals",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        88.765625,
+        88.765625,
+        87.765625
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rivals",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        88.765625,
+        88.765625,
+        87.765625
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "bounties",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        94.578125
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "bounties",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        94.578125
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "report",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 37,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "report",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 37,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory-bulk",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory-bulk",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "land",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "land",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "profile",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 221,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "profile",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 221,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "public-profile",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 2,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "public-profile",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 2,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "recruit",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "recruit",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "army",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "army",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rankings",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rankings",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "vault",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "vault",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "settings",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "settings",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "receipt",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 3,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "receipt",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 3,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "confirmation",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "confirmation",
+      "width": 430,
+      "dpr": 2,
+      "scale": 1,
+      "overflow": {
+        "scroll": 430,
+        "viewport": 430
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "home",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "home",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "quests",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        128.734375,
+        138.34375,
+        138.34375,
+        138.34375,
+        158.140625,
+        166.734375,
+        138.34375,
+        138.34375,
+        195.34375,
+        138.34375,
+        158.140625,
+        166.734375,
+        166.734375,
+        138.34375,
+        158.140625,
+        195.34375,
+        138.34375,
+        215.140625,
+        166.734375,
+        195.34375,
+        186.53125,
+        195.34375,
+        166.734375,
+        215.140625,
+        166.734375,
+        215.140625,
+        195.34375,
+        166.734375,
+        215.140625,
+        195.34375,
+        186.53125,
+        195.34375,
+        166.734375,
+        215.140625,
+        195.34375,
+        166.734375,
+        215.140625,
+        166.734375,
+        215.140625,
+        166.734375,
+        215.140625,
+        195.34375,
+        195.34375,
+        215.140625,
+        195.34375,
+        195.34375,
+        235.53125,
+        215.734375,
+        215.734375,
+        235.53125,
+        215.734375,
+        215.734375,
+        235.53125,
+        215.734375,
+        215.734375,
+        235.53125,
+        215.734375,
+        215.734375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "quests",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        126.734375,
+        136.34375,
+        136.34375,
+        136.34375,
+        156.140625,
+        164.734375,
+        136.34375,
+        136.34375,
+        193.34375,
+        136.34375,
+        156.140625,
+        164.734375,
+        164.734375,
+        136.34375,
+        156.140625,
+        193.34375,
+        136.34375,
+        213.140625,
+        164.734375,
+        193.34375,
+        184.53125,
+        193.34375,
+        164.734375,
+        213.140625,
+        164.734375,
+        213.140625,
+        193.34375,
+        164.734375,
+        213.140625,
+        193.34375,
+        184.53125,
+        193.34375,
+        164.734375,
+        213.140625,
+        193.34375,
+        164.734375,
+        213.140625,
+        164.734375,
+        213.140625,
+        164.734375,
+        213.140625,
+        193.34375,
+        193.34375,
+        213.140625,
+        193.34375,
+        193.34375,
+        233.53125,
+        213.734375,
+        213.734375,
+        233.53125,
+        213.734375,
+        213.734375,
+        233.53125,
+        213.734375,
+        213.734375,
+        233.53125,
+        213.734375,
+        213.734375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rivals",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        92.765625,
+        92.765625,
+        91.765625
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rivals",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        92.765625,
+        92.765625,
+        91.765625
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "bounties",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        76
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "bounties",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        76
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "report",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 37,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "report",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 37,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory-bulk",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory-bulk",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "land",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "land",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106,
+        106
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "profile",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 221,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "profile",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 221,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "public-profile",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 2,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "public-profile",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 2,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "recruit",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "recruit",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "army",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "army",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rankings",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rankings",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "vault",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "vault",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "settings",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "settings",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "receipt",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 3,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "receipt",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 3,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "confirmation",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "confirmation",
+      "width": 768,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 768,
+        "viewport": 768
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "home",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "home",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "quests",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        128.734375,
+        138.34375,
+        138.34375,
+        138.34375,
+        158.140625,
+        166.734375,
+        138.34375,
+        138.34375,
+        195.34375,
+        138.34375,
+        158.140625,
+        166.734375,
+        166.734375,
+        138.34375,
+        158.140625,
+        195.34375,
+        138.34375,
+        215.140625,
+        166.734375,
+        195.34375,
+        186.53125,
+        195.34375,
+        166.734375,
+        215.140625,
+        166.734375,
+        215.140625,
+        195.34375,
+        166.734375,
+        215.140625,
+        195.34375,
+        186.53125,
+        195.34375,
+        166.734375,
+        215.140625,
+        195.34375,
+        166.734375,
+        215.140625,
+        166.734375,
+        215.140625,
+        166.734375,
+        215.140625,
+        195.34375,
+        195.34375,
+        215.140625,
+        195.34375,
+        195.34375,
+        215.140625,
+        195.34375,
+        195.34375,
+        215.140625,
+        195.34375,
+        195.34375,
+        215.140625,
+        195.34375,
+        195.34375,
+        215.140625,
+        195.34375,
+        195.34375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "quests",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        126.734375,
+        136.34375,
+        136.34375,
+        136.34375,
+        156.140625,
+        164.734375,
+        136.34375,
+        136.34375,
+        193.34375,
+        136.34375,
+        156.140625,
+        164.734375,
+        164.734375,
+        136.34375,
+        156.140625,
+        193.34375,
+        136.34375,
+        213.140625,
+        164.734375,
+        193.34375,
+        184.53125,
+        193.34375,
+        164.734375,
+        213.140625,
+        164.734375,
+        213.140625,
+        193.34375,
+        164.734375,
+        213.140625,
+        193.34375,
+        184.53125,
+        193.34375,
+        164.734375,
+        213.140625,
+        193.34375,
+        164.734375,
+        213.140625,
+        164.734375,
+        213.140625,
+        164.734375,
+        213.140625,
+        193.34375,
+        193.34375,
+        213.140625,
+        193.34375,
+        193.34375,
+        213.140625,
+        193.34375,
+        193.34375,
+        213.140625,
+        193.34375,
+        193.34375,
+        213.140625,
+        193.34375,
+        193.34375,
+        213.140625,
+        193.34375,
+        193.34375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rivals",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        92.765625,
+        92.765625,
+        91.765625
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rivals",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        92.765625,
+        92.765625,
+        91.765625
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "bounties",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        76
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "bounties",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        76
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "report",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 37,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "report",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 37,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory-bulk",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory-bulk",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138,
+        138
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "land",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "land",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126,
+        126
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "profile",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 221,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "profile",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 221,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "public-profile",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 2,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "public-profile",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 2,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "recruit",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "recruit",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "army",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "army",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rankings",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rankings",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "vault",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "vault",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "settings",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "settings",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "receipt",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 3,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "receipt",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 3,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "confirmation",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "confirmation",
+      "width": 1280,
+      "dpr": 1,
+      "scale": 1,
+      "overflow": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "home",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "home",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "quests",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        128.734375,
+        138.34375,
+        138.34375,
+        138.34375,
+        158.140625,
+        187.125,
+        168.34375,
+        168.34375,
+        225.34375,
+        168.34375,
+        188.140625,
+        196.734375,
+        196.734375,
+        168.34375,
+        188.140625,
+        215.734375,
+        168.34375,
+        245.140625,
+        217.125,
+        225.34375,
+        216.53125,
+        215.734375,
+        217.125,
+        245.140625,
+        196.734375,
+        245.140625,
+        225.34375,
+        196.734375,
+        215.140625,
+        225.34375,
+        216.53125,
+        225.34375,
+        217.125,
+        245.140625,
+        225.34375,
+        196.734375,
+        245.140625,
+        196.734375,
+        245.140625,
+        226.734375,
+        265.53125,
+        245.734375,
+        245.734375,
+        265.53125,
+        245.734375,
+        245.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        275.734375,
+        295.53125,
+        275.734375,
+        275.734375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "quests",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 265,
+      "rowHeights": [
+        126.734375,
+        136.34375,
+        136.34375,
+        136.34375,
+        156.140625,
+        185.125,
+        166.34375,
+        166.34375,
+        223.34375,
+        166.34375,
+        186.140625,
+        194.734375,
+        194.734375,
+        166.34375,
+        186.140625,
+        213.734375,
+        166.34375,
+        243.140625,
+        215.125,
+        223.34375,
+        214.53125,
+        213.734375,
+        215.125,
+        243.140625,
+        194.734375,
+        243.140625,
+        223.34375,
+        194.734375,
+        213.140625,
+        223.34375,
+        214.53125,
+        223.34375,
+        215.125,
+        243.140625,
+        223.34375,
+        194.734375,
+        243.140625,
+        194.734375,
+        243.140625,
+        224.734375,
+        263.53125,
+        243.734375,
+        243.734375,
+        263.53125,
+        243.734375,
+        243.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        273.734375,
+        293.53125,
+        273.734375,
+        273.734375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rivals",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        117.15625,
+        117.15625,
+        148.90625
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rivals",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        117.15625,
+        117.15625,
+        148.90625
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "bounties",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        157.609375
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "bounties",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        157.609375
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "report",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 37,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "report",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 37,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 65,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "armory-bulk",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "armory-bulk",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 67,
+      "rowHeights": [
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118,
+        118
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "land",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "land",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 55,
+      "rowHeights": [
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98,
+        98
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "profile",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 221,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "profile",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 221,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "public-profile",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 2,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "public-profile",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 2,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "recruit",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "recruit",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "army",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "army",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "rankings",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ]
+    },
+    {
+      "stage": "after",
+      "name": "rankings",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [
+        50
+      ],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "vault",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "vault",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "settings",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "settings",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "receipt",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 3,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "receipt",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 3,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    },
+    {
+      "stage": "before",
+      "name": "confirmation",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": []
+    },
+    {
+      "stage": "after",
+      "name": "confirmation",
+      "width": 390,
+      "dpr": 2,
+      "scale": 1.5,
+      "overflow": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "artworkFrames": 1,
+      "rowHeights": [],
+      "greenBackgrounds": 0
+    }
+  ],
+  "baselineContractsCompared": 119,
+  "primaryFinishComparisons": 1029,
+  "artworkDimensionsAndCropPreserved": true,
+  "noGreenBackgrounds": true,
+  "financialCombatArmyRowsPreserved": true,
+  "nativeLandBuySellPassed": true,
+  "nativePurchaseVaultInviteQuestAttackPassed": true,
+  "keyboardFocusAndRealLoadingPassed": true,
+  "csrfRejected": true,
+  "errors": []
+}

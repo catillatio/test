@@ -6,20 +6,20 @@
 .resource-upper [data-gold-digits="9"],.resource-upper [data-gold-digits="10"] { font-size:13px; letter-spacing:-.4px; }
 .profile-link { display:inline-flex; align-items:center; justify-content:center; min-width:50px; }
 .profile-tabs>a { flex:1; font-size:13px; padding-inline:7px; }
-.kingdoms-ui .profile-section-heading { padding:5px 9px; border-bottom:2px solid #c2c3b8; background:repeating-linear-gradient(130deg,#7190b235 0 8px,#101c2430 8px 16px),linear-gradient(90deg,#17374dd9,#16231c00); color:#eee8da; }
+.kingdoms-ui .profile-section-heading { padding:5px 9px; border-bottom:2px solid #363636; background:repeating-linear-gradient(130deg,#36363635 0 8px,#1a1a1a30 8px 16px),linear-gradient(90deg,#323232d9,#1c1c1c00); color:#eee8da; }
 .profile-section-heading>span { float:right; color:#d1c9a8; font:11px Arial,sans-serif; padding-top:3px; }
 .profile-inventory-grid,.report-equipment { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px 6px; margin:9px 0 15px; }
 .inventory-figure { position:relative; display:flex; flex-direction:column; align-items:center; gap:3px; min-width:0; margin:0; text-align:center; font-size:10px; overflow-wrap:anywhere; text-decoration:none; }
 .inventory-figure .fantasy-art { width:58px; height:58px; }.inventory-figure>strong { font-size:12px; color:#e3d1a0; }.inventory-figure>span:last-child { color:#c3bea9; }
 .profile-loadouts summary { font-size:12px; cursor:pointer; padding:8px 0; }.profile-account { margin-top:12px; }
 .report-outcome { display:grid; grid-template-columns:1fr 1fr; gap:8px 15px; }.report-outcome>div { display:flex; justify-content:space-between; gap:7px; font-size:13px; }.report-outcome dd { margin:0; font-weight:bold; }
-.report-army h3 { margin:9px 0; font-size:15px; }.report-army .flow-grid { margin-bottom:12px; }.unknown-equipment { width:58px; height:58px; display:grid; place-items:center; border:1px solid #666; background:#182018; font-size:27px; }
+.report-army h3 { margin:9px 0; font-size:15px; }.report-army .flow-grid { margin-bottom:12px; }.unknown-equipment { width:58px; height:58px; display:grid; place-items:center; border:1px solid #666; background:#1c1c1c; font-size:27px; }
 .profile-identity { display:flex; align-items:center; gap:12px; padding:10px 5px 14px; border-bottom:1px solid #76705b; }
 .profile-identity img { flex:0 0 56px; object-fit:contain; filter:drop-shadow(0 2px 3px #000); }
 .profile-identity h2 { margin:0 0 3px; font:700 21px Georgia,serif; color:#f0d6a1; }
 .profile-identity p { margin:0; font-size:13px; }.profile-identity span { font-size:11px; color:#c6c7b8; }
 .profile-info { margin-top:12px; }
-.next-level-strip { background:#060805b0; border:1px solid #53533e; border-radius:3px; padding:9px 10px; display:flex; justify-content:space-between; font-size:14px; }
+.next-level-strip { background:#060606b0; border:1px solid #53533e; border-radius:3px; padding:9px 10px; display:flex; justify-content:space-between; font-size:14px; }
 .kingdoms-ui .profile-section-heading { font:700 16px Georgia,serif; margin:16px 0 7px; }
 .profile-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; }
 .profile-stat-grid>div,.profile-gold-flow>div { display:flex; align-items:baseline; justify-content:space-between; gap:8px; font-size:12px; }
@@ -28,11 +28,11 @@
 .skill-row small { display:block; max-width:250px; font-size:11px; color:#bbb9aa; margin-top:6px; }
 .profile-logout { border-top:1px solid #5e5b45; margin-top:15px; padding-top:15px; }
 #info,#skills,#discoveries,#account { scroll-margin-top:10px; }
-.region-picker { margin:10px 0 14px; border:1px solid #6d6a51; border-radius:4px; background:#10150dd9; padding:8px 10px; font-size:12px; }
+.region-picker { margin:10px 0 14px; border:1px solid #6d6a51; border-radius:4px; background:#111111d9; padding:8px 10px; font-size:12px; }
 .region-picker summary { cursor:pointer; min-height:28px; display:list-item; padding-top:4px; color:#e5ce95; }
-.region-picker nav { display:flex; flex-wrap:wrap; gap:5px; padding-top:8px; }.region-picker nav a { padding:7px 9px; border:1px solid #6f735b; background:#31372a; min-height:34px; }
+.region-picker nav { display:flex; flex-wrap:wrap; gap:5px; padding-top:8px; }.region-picker nav a { padding:7px 9px; border:1px solid #363636; background:#303030; min-height:34px; }
 .region-description { color:#c5c2ab; font:italic 12px Georgia,serif; margin:4px 2px 10px; }
-.fantasy-art { display:block; width:72px; height:72px; flex:0 0 auto; border:1px solid #74775a; border-radius:3px; background-repeat:no-repeat; background-color:#151b10; background-size:400% 500%; background-position:var(--art-x,0%) var(--art-y,0%); box-shadow:0 2px 5px #0008; }
+.fantasy-art { display:block; width:72px; height:72px; flex:0 0 auto; border:1px solid #363636; border-radius:3px; background-repeat:no-repeat; background-color:#161616; background-size:400% 500%; background-position:var(--art-x,0%) var(--art-y,0%); box-shadow:0 2px 5px #0008; }
 .atlas-weapons { background-image:url('./art/fantasy-0.2/weapons.webp'); }.atlas-armor { background-image:url('./art/fantasy-0.2/armor.webp'); }.atlas-spells { background-image:url('./art/fantasy-0.2/spells.webp'); }
 .atlas-properties { background-image:url('./art/fantasy-0.2/properties.webp'); background-size:400% 600%; }
 .art-col-0 { --art-x:0%; }.art-col-1 { --art-x:33.333333%; }.art-col-2 { --art-x:66.666667%; }.art-col-3 { --art-x:100%; }

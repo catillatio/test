@@ -8,17 +8,17 @@
 .kingdoms-ui .button-quiet { min-height:38px; font-size:11px; }
 .kingdoms-ui .main-content { padding-top:0; padding-inline:max(8px,env(safe-area-inset-left)); }
 .kingdoms-ui .character-header { margin-inline:-8px; border:0; }
-.kingdoms-ui .page-heading { padding:7px 8px; background:#11130fc9; }
+.kingdoms-ui .page-heading { padding:7px 8px; background:#111111c9; }
 .kingdoms-ui .page-heading h1 { font:700 18px Arial,sans-serif; }
 .kingdoms-ui .warrior-label { font-size:11px; }
-.realm-resources { font-variant-numeric:tabular-nums; background:#10120f; }
-.resource-upper { display:grid; grid-template-columns:1fr 1.1fr .55fr; align-items:center; gap:8px; padding:6px 10px; background:linear-gradient(#393b2c,#171a15 65%,#0b0c0a); }
+.realm-resources { font-variant-numeric:tabular-nums; background:#101010; }
+.resource-upper { display:grid; grid-template-columns:1fr 1.1fr .55fr; align-items:center; gap:8px; padding:6px 10px; background:linear-gradient(#343434,#181818 65%,#0b0b0b); }
 .resource-upper small { display:block; font-size:10px; color:#c1c1ae; }
 .resource-upper strong { font-size:18px; }
 .resource-upper>a { text-align:center; min-height:35px; }
 .xp-resource progress { display:block; width:100%; height:10px; accent-color:#9abb45; }
 .xp-resource small { text-align:center; margin-top:3px; }
-.resource-lower { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:5px 8px; gap:6px; background:linear-gradient(#257973,#32998a 15%,#17493e 75%,#183329); border-block:1px solid #648a73; }
+.resource-lower { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:5px 8px; gap:6px; background:linear-gradient(#363636,#363636 15%,#303030 75%,#262626); border-block:1px solid #363636; }
 .realm-resource { display:flex; align-items:center; gap:5px; min-width:0; }
 .realm-resource>div { min-width:0; flex:1; }
 .realm-resource strong { white-space:nowrap; font-size:12px; }
@@ -29,10 +29,10 @@
 .health .stat-icon { color:#f54f4a; }.mana,.mana .stat-icon { color:#9ad3ff; }.spirit .stat-icon { color:#ffc055; }
 .kingdoms-ui .secondary-nav { margin:4px 0 7px; gap:5px; }
 .kingdoms-ui .secondary-link { min-height:36px; padding:3px 9px; font-size:12px; }
-.kingdoms-ui .panel { padding:10px; margin-bottom:12px; background:#0b0d0bdc; border-color:#6e705d; border-radius:5px; }
+.kingdoms-ui .panel { padding:10px; margin-bottom:12px; background:#0c0c0cdc; border-color:#363636; border-radius:5px; }
 .kingdoms-ui .panel p { margin-bottom:9px; font-size:12px; }
 .kingdoms-ui .panel h2 { font-family:Arial,sans-serif; font-size:18px; }
-.strip-title { display:flex; justify-content:space-between; gap:8px; margin:0 0 8px; padding:7px 9px; color:#efeee0; font:700 14px Arial,sans-serif!important; background:linear-gradient(#b4b9b0,#575f5d 65%,#234d57 90%); border-radius:7px 7px 0 0; border-bottom:1px solid #77a7b3; text-shadow:0 1px 2px #000; }
+.strip-title { display:flex; justify-content:space-between; gap:8px; margin:0 0 8px; padding:7px 9px; color:#efeee0; font:700 14px Arial,sans-serif!important; background:linear-gradient(#363636,#363636 65%,#363636 90%); border-radius:7px 7px 0 0; border-bottom:1px solid #363636; text-shadow:0 1px 2px #000; }
 .panel>.strip-title { margin:-10px -10px 9px; }.strip-title>span { font-size:11px; }
 .category-tabs { display:flex; justify-content:center; margin:10px 0 11px; }
 .category-tabs>a { display:flex; min-height:40px; align-items:center; justify-content:center; padding:7px 15px; border:1px solid #9b7b54; color:#f2e4c5; font-size:14px; font-weight:bold; background:linear-gradient(#bf9c72,#6a4527); text-shadow:0 1px #342718; }
@@ -40,10 +40,7 @@
 .category-tabs>a[aria-current] { background:linear-gradient(#45392b,#201a16); color:white; }
 .compact-help { margin:8px 3px 12px; color:#d4d1c7; font-size:12px; line-height:1.45; }
 .kingdoms-ui .button { min-height:42px; padding:8px 12px; border-radius:6px; font-size:13px; line-height:1.2; font-weight:bold; white-space:normal; }
-.kingdoms-ui .button-gold { border:1px solid #b6a478; color:#fff4dd; background:linear-gradient(#d9d5c4 0%,#7e7b70 42%,#443521 52%,#874500 100%); box-shadow:inset 0 0 2px 1px #e9d9ad; text-shadow:0 1px 2px #16130d; }
-.kingdoms-ui .button-outline { background:linear-gradient(#989b92,#373c38 58%,#1b201c); border-color:#8b9283; color:#f4f0e5; text-shadow:0 1px #111; }
-.kingdoms-ui .button:disabled { opacity:.42; filter:saturate(.2); }
-.catalog { background:#090c09a6; margin-bottom:12px; }
+.catalog { background:#0a0a0aa6; margin-bottom:12px; }
 .catalog-row { display:grid; grid-template-columns:72px minmax(0,1fr) 136px; gap:8px; align-items:center; min-height:122px; padding:10px 4px; border-bottom:1px solid #7c735957; }
 .catalog-art { width:72px; height:78px; object-fit:contain; }
 .catalog-description { min-width:0; }.catalog-description h2 { font:700 15px/1.15 Arial,sans-serif; margin:0 0 4px; }
@@ -53,15 +50,15 @@
 .trade-actions { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
 .trade-actions form { display:grid; gap:4px; min-width:0; }
 .trade-actions .button { padding:7px 3px; width:100%; min-height:42px; }
-.quantity { width:100%; min-width:0; height:29px; border:1px solid #8c8e7a; background:#1b211b; color:#fff; padding:3px 4px; font-size:16px; border-radius:2px; }
+.quantity { width:100%; min-width:0; height:29px; border:1px solid #363636; background:#1e1e1e; color:#fff; padding:3px 4px; font-size:16px; border-radius:2px; }
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 .gold { color:#f2cf54!important; }.warning,.missing,.cost { color:#ff9580!important; }.success { color:#a7da91!important; }
 .summary-inline { display:flex; flex-wrap:wrap; gap:5px 15px; font-size:12px; margin-bottom:7px; justify-content:space-between; }
 .maintenance-panel { font-size:12px; }.maintenance-panel p:last-child { margin-bottom:0; }
 .loadout-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:11px; }
-.plain-list { list-style:none; font-size:12px; }.plain-list li { padding:5px 0; border-bottom:1px solid #4b51413d; }.plain-list time { display:block; font-size:10px; color:#bfc9b7; overflow-wrap:anywhere; }
+.plain-list { list-style:none; font-size:12px; }.plain-list li { padding:5px 0; border-bottom:1px solid #3636363d; }.plain-list time { display:block; font-size:10px; color:#bfc9b7; overflow-wrap:anywhere; }
 .area-title { font-size:16px!important; color:#e4cd96; margin:14px 0 8px; }
-.quest-card { border:1px solid #6d7466; border-radius:7px; background:#080b09cf; margin-bottom:10px; overflow:hidden; }
+.quest-card { border:1px solid #363636; border-radius:7px; background:#0a0a0acf; margin-bottom:10px; overflow:hidden; }
 .quest-card>.strip-title { margin:0; }.quest-card.is-locked { opacity:.65; }
 .quest-card-body { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; padding:9px; gap:10px; font-size:12px; }
 .reward-line { display:block; margin-top:3px; }.quest-card-body .muted { display:block; margin-top:6px; font-size:10px; }
@@ -79,7 +76,7 @@
 .profile-banner { padding:15px!important; }.profile-banner h2 { margin-bottom:5px; color:#f0dbab; font:23px Georgia,serif!important; }.profile-banner p { margin:4px 0; }.profile-banner>a>span { font-size:12px; }
 .next-goal strong { color:#edce66; }.skill-row,.ally-row { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid #72745759; }.skill-row span,.ally-row span,.ally-row small { display:block; font-size:11px; color:#c5c2b4; }
 .skill-row h3 { margin-bottom:4px; }.skill-row h3 strong { margin-left:8px; color:#ead7a2; }.ally-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:5px; }.army-code { display:block; font-size:11px; overflow-wrap:anywhere; color:#e3cb94; }
-.inline-form { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }.inline-form label { font-size:12px; }.inline-form input,.inline-form select { min-width:0; max-width:100%; flex:1; height:42px; padding:6px; background:#151b16; border:1px solid #9a9376; color:white; font-size:16px; }.inline-form input[type=number] { max-width:70px; }
+.inline-form { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }.inline-form label { font-size:12px; }.inline-form input,.inline-form select { min-width:0; max-width:100%; flex:1; height:42px; padding:6px; background:#181818; border:1px solid #9a9376; color:white; font-size:16px; }.inline-form input[type=number] { max-width:70px; }
 .battle-summary { display:flex; justify-content:space-around; font-size:11px; margin:10px 0; }.battle-summary strong { color:#e5ca8e; }
 .rival-panel>.strip-title { display:grid; grid-template-columns:minmax(0,1fr) 50px 72px; align-items:center; }.rival-row { display:grid; grid-template-columns:minmax(0,1fr) 40px 72px; gap:8px; align-items:center; padding:10px 0; border-bottom:1px solid #736e5547; }.rival-row h3 { font-size:15px; margin:0 0 3px; color:#e6c48c; }.rival-row span,.rival-row small { display:block; font-size:11px; }.rival-row small { color:#c8c8ba; }.rival-row>.strong { text-align:center; }.rival-row .button { padding:8px; width:100%; }
 .kingdoms-ui .battle-result { text-align:left; padding:12px; }.kingdoms-ui .battle-result h2 { font-size:24px; }.battle-result time { font-size:10px; color:#c3c2af; }

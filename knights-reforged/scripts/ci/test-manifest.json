@@ -1,6 +1,7 @@
 {
   "version": 1,
   "tests": [
+    {"file":"tests/premium-classic-browser.test.mjs","lane":"browser","weight":90},
     {"file":"tests/rivals-shared-browser.test.mjs","lane":"browser","weight":45},
     {"file":"tests/bounty-policy.test.ts","lane":"unit","weight":1},
     {"file":"tests/historical-bounties.test.ts","lane":"database","weight":25},

@@ -96,14 +96,15 @@ check('Simplified Land sheet preserves 21 property identities with verified imag
  for(const property of alpha.properties){const mapping=art.assignments.find(a=>a.id===property.id);assert.deepEqual({atlas:mapping.atlas,row:mapping.row,column:mapping.column},property.illustration);}
  assert.ok(read('public/strategy.css').includes('land-simple-0.1/properties.webp'));
 });
-check('CSS uses local assets; original tab gradients and safe areas remain',()=>{
+check('CSS uses local assets; original tab geometry, neutral palette and safe areas remain',()=>{
   for(const file of ['public/realm-theme.css','public/land-review.css','public/remaster.css','public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
     for(const match of read(file).matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)){
       assert.ok(!/^(?:https?:|\/\/)/.test(match[1]));assert.ok(existsSync(resolve(root,dirname(file),match[1])),match[1]);
     }
   }
   const css=read('public/kingdoms-live.css');
-  for(const literal of ['--tab-content-height: 50px','repeat(5, minmax(0, 1fr))','safe-area-inset-bottom','linear-gradient(to top, #000000, #404040)','linear-gradient(to top, #404040e1, #7f7f7fe1)','linear-gradient(to top, #647f00e1, #64b400e1)'])assert.ok(css.includes(literal),literal);
+  for(const literal of ['--tab-content-height: 50px','repeat(5, minmax(0, 1fr))','safe-area-inset-bottom','linear-gradient(to top, #000000, #404040)','linear-gradient(to top, #404040e1, #7f7f7fe1)','linear-gradient(to top, #383126e1, #6b5834e1)'])assert.ok(css.includes(literal),literal);
+  assert.ok(!css.includes('linear-gradient(to top, #647f00e1, #64b400e1)'),'superseded green pressed surface stays removed');
 });
 const playerId='11111111-1111-4111-8111-111111111111',targetId='22222222-2222-4222-8222-222222222222',battleId=randomUUID(),holdingId=randomUUID();
 const now='2026-10-17T12:00:00.000Z',next='2026-10-17T13:00:00.000Z';

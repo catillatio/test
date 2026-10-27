@@ -1,9 +1,9 @@
 .calling-list { display:grid; gap:0; margin:.5rem 0; }
 .calling-row { display:grid; grid-template-columns:5.5rem minmax(0,1fr); align-items:center; gap:.5rem; padding:.5rem .3rem; border-bottom:1px solid #ffffff20; }
 .calling-row h3 { font-size:.9rem; margin:0; }.calling-row p { font-size:.78rem; line-height:1.45; margin:0; color:#c6c5bd; }
-.calling-row.is-current { background:#638c8620; border-left:2px solid #67b8a4; }
+.calling-row.is-current { background:#36363620; border-left:2px solid #363636; }
 .profile-logout { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
-.bot-label { color:#a4c9c1; font-size:.72rem; }.bot-disclosure { border-left:2px solid #6b9690; padding-left:.6rem; }
+.bot-label { color:#a4c9c1; font-size:.72rem; }.bot-disclosure { border-left:2px solid #363636; padding-left:.6rem; }
 .bounty-placement { margin-top:.4rem; font-size:.76rem; }.bounty-placement summary { color:#d8b97d; cursor:pointer; }
 .bounty-placement form { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem; margin-top:.35rem; }.bounty-placement label { flex-basis:100%; }
 .bounty-placement input { min-width:0; width:5.5rem; min-height:36px; }.bounty-placement .button { padding:.4rem; font-size:.75rem; }
@@ -14,7 +14,7 @@
 .bounty-row form,.bounty-history-row form { flex-shrink:0; }.bounty-row .button,.bounty-history-row .button { min-width:60px; min-height:42px; padding:.5rem; }
 .bounty-row { flex-wrap:wrap; }.bounty-row>div { flex:1; }.bounty-row>.field-hint { flex-basis:100%; margin:0; }
 .bounty-status { display:inline-block; text-transform:capitalize; color:#9ccbbb; margin-left:.4rem; }
-.bounty-reward { border-color:#7ca474; }.bounty-rules summary { cursor:pointer; }
+.bounty-reward { border-color:#363636; }.bounty-rules summary { cursor:pointer; }
 @media(min-width:700px) { .calling-list { grid-template-columns:repeat(3,minmax(0,1fr)); }.calling-row { display:block; padding:.65rem; }.calling-row h3 { margin-bottom:.4rem; } }
 
 /* Simplified property paintings; original atlas remains preserved. */

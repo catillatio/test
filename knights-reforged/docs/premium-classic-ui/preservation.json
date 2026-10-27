@@ -1,0 +1,51 @@
+{
+  "baseline": "d100a9a03b413b1947d1606db7c73cd37be278e3",
+  "protectedRuntimePathsUnchanged": [
+    "knights-reforged/src",
+    "knights-reforged/rulesets",
+    "knights-reforged/migrations",
+    "knights-reforged/deployment",
+    ".github",
+    "knights-reforged/package.json",
+    "knights-reforged/package-lock.json"
+  ],
+  "preservedTemplatesAndFrames": [
+    "views/quests.ejs",
+    "views/armory.ejs",
+    "views/profile.ejs",
+    "views/bounties.ejs",
+    "views/partials/catalog-art.ejs",
+    "views/partials/equipment-preview.ejs",
+    "views/partials/resources.ejs",
+    "views/partials/primary-nav.ejs",
+    "views/partials/realm-header.ejs",
+    "views/partials/market-trade.ejs",
+    "views/partials/quantity-control.ejs",
+    "public/equipment-images.css"
+  ],
+  "publicJavascriptChanged": false,
+  "artworkFilesChanged": false,
+  "existingCssArtworkUrlsUnchanged": [
+    "alpha.css",
+    "bounty-list.css",
+    "community.css",
+    "kingdoms-live.css",
+    "land-review.css",
+    "phase41.css",
+    "phase43.css",
+    "phase44.css",
+    "phase45.css",
+    "phase46.css",
+    "phase47.css",
+    "phase491.css",
+    "phase51c.css",
+    "realm-theme.css",
+    "refinements.css",
+    "remaster.css",
+    "strategy.css",
+    "styles.css"
+  ],
+  "approvedLandRowsIdentical": true,
+  "landRowSha256": "a971f5c636736bfc4edae763dc6d181203044af442da4b247ba2c11aa047e816",
+  "newImportantOverrides": 0
+}

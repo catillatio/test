@@ -79,7 +79,7 @@
 .kingdoms-ui .nav-link img { width: 30px; height: 30px; flex: 0 0 30px; object-fit: contain; opacity: 1; }
 .kingdoms-ui .nav-link:hover { color: #fff; background: #ffffff14; }
 .kingdoms-ui .nav-link.is-current { color: #fff; background: linear-gradient(to top, #404040e1, #7f7f7fe1); }
-.kingdoms-ui .nav-link:active { color: #fff; background: linear-gradient(to top, #647f00e1, #64b400e1); }
+.kingdoms-ui .nav-link:active { color: #fff; background: linear-gradient(to top, #383126e1, #6b5834e1); }
 .kingdoms-ui .nav-link:focus-visible { outline-offset: -3px; }
 /* Keep all existing intro text/actions, using a compact common presentation.
  * Original page art is now supplied by the shared background layer. */
@@ -98,16 +98,10 @@
 .kingdoms-ui .summary-list > div { padding: 8px 0; border-color: #524737; }
 .kingdoms-ui .description, .kingdoms-ui .field-hint, .kingdoms-ui .muted { color: var(--muted); }
 .kingdoms-ui .button { min-height: 44px; padding: 10px 14px; border-radius: 3px; font-size: 13px; }
-.kingdoms-ui .button-gold { color: #fff1cc; border-color: #a38a54; background: linear-gradient(#68502a, #382b19); text-shadow: 0 1px #000; }
-.kingdoms-ui .button-gold:hover:not(:disabled) { color: #fff9e7; border-color: #d6bb7a; background: linear-gradient(#806438, #48351c); }
-.kingdoms-ui .button-outline { color: #eadcc2; border-color: #8d7956; background: linear-gradient(#37322a, #1d1b17); }
-.kingdoms-ui .button-outline:hover:not(:disabled) { color: #fff1cc; background: #453c2c; }
-.kingdoms-ui .button:active:not(:disabled) { transform: translateY(1px); }
-.kingdoms-ui .button:disabled { opacity: .6; }
 .kingdoms-ui .field input { min-height: 46px; border-radius: 3px; border-color: #8c7959; background: #11100e; font-size: 16px; }
 .kingdoms-ui .field label { color: #eee3ce; }
 .kingdoms-ui .notice { padding: 12px; margin-bottom: 12px; border-radius: 3px; }
-.kingdoms-ui .notice-info { background: #20211de8; border-color: #82704e; color: #e1d7c2; }
+.kingdoms-ui .notice-info { background: #1f1f1fe8; border-color: #82704e; color: #e1d7c2; }
 .kingdoms-ui .reward-grid { padding: 14px 0; margin: 16px 0; border-color: #64543b; }
 .kingdoms-ui .recruit-form { display: grid; gap: 12px; }
 .kingdoms-ui .land-income-panel { margin-bottom: 12px; }

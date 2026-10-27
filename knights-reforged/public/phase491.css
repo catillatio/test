@@ -1,5 +1,5 @@
 /* Resolved reports only: saved rewards and loadouts, never predicted combat. */
-.kingdoms-ui.realm-remaster .resolved-battle{padding:14px 12px;border:1px solid #817154;border-radius:12px;background:linear-gradient(125deg,#0b0c0bf5,#080908f0);box-shadow:inset 0 1px #eee1b730,0 4px 14px #0007}
+.kingdoms-ui.realm-remaster .resolved-battle{padding:14px 12px;border:1px solid #817154;border-radius:12px;background:linear-gradient(125deg,#0c0c0cf5,#080808f0);box-shadow:inset 0 1px #eee1b730,0 4px 14px #0007}
 .resolved-battle:before{display:none!important}
 .resolved-battle .battle-outcome-heading h2{margin:0;color:#e7c16f;font:700 clamp(27px,6vw,36px)/1.12 Georgia,serif;letter-spacing:.025em}
 .resolved-battle.defeat-result .battle-outcome-heading h2{color:#d69b8b}
