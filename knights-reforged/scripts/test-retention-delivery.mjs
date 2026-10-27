@@ -56,7 +56,7 @@ const fetcher=async(url,options={})=>{
 };
 let certificate;
 try{
- await mkdir(file('objects'),{mode:0o700});await mkdir(file('owner-inputs'),{mode:0o700});await save('grants.json',[]);
+ await mkdir(file('objects'),{mode:0o700});await save('grants.json',[]);
  execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-days','1','-keyout',file('server.key'),'-out',file('server.crt'),'-subj','/CN=retention-disposable-fixture','-addext','subjectAltName=DNS:api.github.com,DNS:realm.fixture.invalid,DNS:backboard.railway.com,DNS:objects.fixture.invalid,IP:127.0.0.1','-addext','basicConstraints=critical,CA:TRUE'],{stdio:'ignore'});
  certificate=await readFile(file('server.crt'));await writeFile(file('server.mjs'),await readFile(new URL('./fixtures/retention-delivery-server.mjs',import.meta.url)),{mode:0o600});
  docker('network','create',net);docker('volume','create',volume);
@@ -70,7 +70,7 @@ try{
  await save('provider.json',{preflight,deployments:{}});
  const actorEnv=role=>({NODE_ENV:'production',KINGDOM_RETENTION_ENABLED:'1',RAILWAY_PROJECT_ID:scope.projectId,RAILWAY_ENVIRONMENT_ID:scope.environmentId,RAILWAY_SERVICE_ID:role==='executor'?scope.operatorServiceId:scope.delivery.authorizerServiceId,KINGDOM_RETENTION_PG_SERVICE_ID:scope.verificationServiceId,KINGDOM_RETENTION_WORKER_ADMIN_DATABASE:scope.adminDatabase,KINGDOM_RETENTION_VERIFY_KEY:publicKey,[role==='executor'?'KINGDOM_RETENTION_DATABASE_URL':'KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL']:'postgres://kc_retention_'+(role==='executor'?'runtime:disposable-runtime-only':'authorizer:disposable-authorizer-only')+'@copy.railway.internal/'+scope.adminDatabase,...(role==='executor'?{RAILWAY_VOLUME_MOUNT_PATH:'/run/kingdom-retention',RAILWAY_VOLUME_NAME:'retention-private-journals'}:{})});
  await save('variables.json',{[scope.operatorServiceId]:actorEnv('executor'),[scope.delivery.authorizerServiceId]:actorEnv('authorizer')});
- const server=prefix+'-tls';containers.push(server);docker('run','-d','--name',server,'--network',net,'--network-alias','api.github.com','--network-alias','realm.fixture.invalid','--network-alias','backboard.railway.com','--network-alias','objects.fixture.invalid','--sysctl','net.ipv4.ip_unprivileged_port_start=0','-p','127.0.0.1::443','--mount','type=bind,src='+dir+',dst=/fixture','--entrypoint','node',executor,'/fixture/server.mjs');
+ const server=prefix+'-tls';containers.push(server);docker('run','-d','--name',server,'--user',String(process.getuid()),'--network',net,'--network-alias','api.github.com','--network-alias','realm.fixture.invalid','--network-alias','backboard.railway.com','--network-alias','objects.fixture.invalid','--sysctl','net.ipv4.ip_unprivileged_port_start=0','-p','127.0.0.1::443','--mount','type=bind,src='+dir+',dst=/fixture','--entrypoint','node',executor,'/fixture/server.mjs');
  serverPort=docker('port',server,'443/tcp').split(':').at(-1);await wait(async()=>{const r=await fetcher(scope.origin+'/healthz');return r.status===200;});
  const initEnv={KINGDOM_RETENTION_ENABLED:'0',KINGDOM_RETENTION_INITIALIZE_JOURNAL:'owner-approved',RAILWAY_VOLUME_MOUNT_PATH:'/run/kingdom-retention',RAILWAY_VOLUME_NAME:'retention-private-journals',RAILWAY_PROJECT_ID:scope.projectId,RAILWAY_ENVIRONMENT_ID:scope.environmentId,RAILWAY_SERVICE_ID:scope.operatorServiceId,KINGDOM_RETENTION_JOURNAL_VOLUME_ID:scope.delivery.journalVolumeId};
  assert.match(docker('run','--rm','--network','none','--user','0','--mount','type=volume,src='+volume+',dst=/run/kingdom-retention',...Object.entries(initEnv).flatMap(([k,v])=>['-e',k+'='+v]),'--entrypoint','node',executor,'deployment/release/retention/delivery/initialize-journal.mjs'),/PASS/);
@@ -86,7 +86,7 @@ try{
   assert.deepEqual(JSON.parse(docker('run','--rm','--network','none','--entrypoint','cat',image,'/app/delivery-image.json')),expected);
   const variables=(await load('variables.json'))[service],deployment=randomUUID(),name=prefix+'-'+role+'-'+(++sequence);containers.push(name);allDeployments[deployment]=name;activeContainers[role]=name;
   const env={...variables,RAILWAY_DEPLOYMENT_ID:deployment,NODE_EXTRA_CA_CERTS:'/fixture/server.crt'};if(wrongService&&role==='executor')env.RAILWAY_SERVICE_ID=scope.gameServiceId;
-  docker('run','-d','--name',name,'--network',net,'--mount','type=bind,src='+file('server.crt')+',dst=/fixture/server.crt,readonly',...(role==='authorizer'?['--mount','type=bind,src='+file('owner-inputs')+',dst=/owner,readonly']:[]),...(role==='executor'?['--mount','type=volume,src='+volume+',dst=/run/kingdom-retention']:[]),...Object.entries(env).flatMap(([k,v])=>['-e',k+'='+v]),image);
+  docker('run','-d','--name',name,'--network',net,'--mount','type=bind,src='+file('server.crt')+',dst=/fixture/server.crt,readonly',...(role==='executor'?['--mount','type=volume,src='+volume+',dst=/run/kingdom-retention']:[]),...Object.entries(env).flatMap(([k,v])=>['-e',k+'='+v]),image);
   const p=await load('provider.json');p.deployments[deployment]={id:deployment,projectId:scope.projectId,environmentId:scope.environmentId,serviceId:service,status:'SUCCESS',deploymentStopped:false,instances:[{id:randomUUID(),status:'RUNNING'}]};await save('provider.json',p);
   return JSON.stringify({deploymentId:deployment,logsUrl:'https://unused.invalid'});
  };
@@ -94,15 +94,19 @@ try{
  const exists=async f=>(await fixture.db.query('SELECT EXISTS(SELECT 1 FROM pg_database WHERE datname=$1) AS v',[f.database.name])).rows[0].v;
  const run=async({target=fixture.copies[0],operation='retire',cancelAt,expired=false,missing=false,loseAck=false,wrongCommit=false,wrongJob=false,wrongBranch=false,priorApproval,before}={})=>{
   const requestId=randomUUID(),abort=new AbortController();activeContainers={};control={...control,sha:wrongCommit?'b'.repeat(40):sha,wrongJob,wrongBranch,status:'in_progress',pauseBeforeDrop:false,loseExecutorAck:loseAck};await save('control.json',control);
-  const c={...runtimeState.coordinator,runId:control.runId},s={...runtimeState,coordinator:c,observedAt:new Date().toISOString()};await save('owner-inputs/state.json',s);
-  if(before)await writeFile(file('owner-inputs/before.json'),before,{mode:0o600});
+  const c={...runtimeState.coordinator,runId:control.runId},s={...runtimeState,coordinator:c,observedAt:new Date().toISOString()};
   const env={...{GITHUB_REPOSITORY:'catillatio/test',GITHUB_REF:'refs/heads/release/production',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_JOB:'retire',GITHUB_RUN_ID:control.runId,GITHUB_RUN_ATTEMPT:'1',GITHUB_SHA:sha,GH_TOKEN:'disposable-github-read'},KINGDOM_RETENTION_EXECUTION_APPROVED:'1',KINGDOM_RETENTION_SCOPE:JSON.stringify(scope),RAILWAY_PROJECT_ID:scope.projectId,RAILWAY_ENVIRONMENT_ID:scope.environmentId,RETENTION_REQUEST_ID:requestId,RETENTION_OPERATION:operation};
   let asynchronous,watch;
   const task=executeCoordinator({env,store,provider,bundle,signal:abort.signal,fetcher,log:(stage,reviewDigest)=>{
    console.log('DELIVERY_STAGE: '+stage);
    if(stage==='PRIVATE_PREPARATION_READY'){
-    const args=['exec',activeContainers.authorizer,'node','deployment/release/retention/delivery/prepare.mjs','--state','/owner/state.json','--owner-reviewed'];
-    if(operation==='retire')args.push('--oid',target.database.oid);else args.push('--prior-approval',priorApproval,'--before','/owner/before.json');
+    // Match the Railway Console boundary: create synthetic private inputs AS the
+    // container's non-root user, independent of the hosted runner UID (1001).
+    const privateFiles={'/tmp/fixture-state.json':JSON.stringify(s)};
+    if(before)privateFiles['/tmp/fixture-before.json']=before;
+    execFileSync('docker',['exec','-i',activeContainers.authorizer,'node','-e','let s="";process.stdin.on("data",b=>s+=b);process.stdin.on("end",()=>{const fs=require("fs");for(const [p,v] of Object.entries(JSON.parse(s)))fs.writeFileSync(p,v,{mode:0o600,flag:"wx"});});'],{input:JSON.stringify(privateFiles),stdio:['pipe','pipe','pipe']});
+    const args=['exec',activeContainers.authorizer,'node','deployment/release/retention/delivery/prepare.mjs','--state','/tmp/fixture-state.json','--owner-reviewed'];
+    if(operation==='retire')args.push('--oid',target.database.oid);else args.push('--prior-approval',priorApproval,'--before','/tmp/fixture-before.json');
     const summary=JSON.parse(docker(...args));assert.equal(summary.retirement_authorized,false);
    }
    if(stage==='PRIVATE_REQUEST_READY_FOR_SIGNING')asynchronous=(async()=>{
