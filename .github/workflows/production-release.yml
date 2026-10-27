@@ -18,12 +18,12 @@ on:
         description: 'Commit only: exact patch ID from the protected inspection summary.'
         type: string
         default: ''
-      registrar_patch_digest:
-        description: 'Commit only: exact patch digest from the protected inspection summary.'
+      registrar_approval_token:
+        description: 'Commit only: server-revision approval token from inspection; excludes secret values.'
         type: string
         default: ''
       registrar_exclusive_window:
-        description: 'Commit only: owner guarantees no Railway/dashboard/API editors until this run finishes.'
+        description: 'Commit only: approve metadata-only binding; no other editors/automation from inspection through completion. No API CAS.'
         type: boolean
         default: false
 permissions:
@@ -58,7 +58,7 @@ jobs:
           REGISTRAR_CONFIG_OPERATION: ${{ inputs.operation }}
           REGISTRAR_CONFIG_PROMOTE: ${{ inputs.promote }}
           REGISTRAR_CONFIG_PATCH_ID: ${{ inputs.registrar_patch_id }}
-          REGISTRAR_CONFIG_PATCH_DIGEST: ${{ inputs.registrar_patch_digest }}
+          REGISTRAR_CONFIG_APPROVAL_TOKEN: ${{ inputs.registrar_approval_token }}
           REGISTRAR_CONFIG_EXCLUSIVE_WINDOW: ${{ inputs.registrar_exclusive_window }}
   registrar-config:
     needs: safety
@@ -86,7 +86,7 @@ jobs:
           REGISTRAR_CONFIG_OPERATION: ${{ inputs.operation }}
           REGISTRAR_CONFIG_PROMOTE: ${{ inputs.promote }}
           REGISTRAR_CONFIG_PATCH_ID: ${{ inputs.registrar_patch_id }}
-          REGISTRAR_CONFIG_PATCH_DIGEST: ${{ inputs.registrar_patch_digest }}
+          REGISTRAR_CONFIG_APPROVAL_TOKEN: ${{ inputs.registrar_approval_token }}
           REGISTRAR_CONFIG_EXCLUSIVE_WINDOW: ${{ inputs.registrar_exclusive_window }}
   release:
     needs: safety

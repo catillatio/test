@@ -1,29 +1,30 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,mkdtempSync,rmSync,existsSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {validateRequest,targetConfig,checkWorker,checkPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys,failureCategory,encryptedShape,failureShape,classifyValues,failureValueClasses} from '../deployment/release/registrar-config.mjs';
+import {validateRequest,targetConfig,checkWorker,checkPatch,runConfig,railwayClient,oldWorker,commitMutation,registrationKeys,failureCategory,approvalPolicy} from '../deployment/release/registrar-config.mjs';
 
 const id=n=>String(n).repeat(8)+'-'+String(n).repeat(4)+'-4'+String(n).repeat(3)+'-8'+String(n).repeat(3)+'-'+String(n).repeat(12);
 const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'catillatio/test',GITHUB_JOB:'registrar-config',GITHUB_REF:'refs/heads/release/production',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1',
  KINGDOM_RELEASE_ENABLED:'true',KINGDOM_RAILWAY_AUTODEPLOY_DISABLED:'true',KINGDOM_RELEASE_TRANSPORT:'private-job-v2',RAILWAY_TOKEN:'fixture-project-token',RAILWAY_PROJECT_ID:id(1),RAILWAY_ENVIRONMENT_ID:id(2),RAILWAY_RELEASE_WORKER_SERVICE_ID:id(3),RAILWAY_GAME_SERVICE_ID:id(4),RAILWAY_VERIFY_PG_SERVICE_ID:id(5),
- REGISTRAR_CONFIG_OPERATION:'registrar-config-inspect',REGISTRAR_CONFIG_PROMOTE:'false',REGISTRAR_CONFIG_PATCH_ID:'',REGISTRAR_CONFIG_PATCH_DIGEST:'',REGISTRAR_CONFIG_EXCLUSIVE_WINDOW:'false'};
+ REGISTRAR_CONFIG_OPERATION:'registrar-config-inspect',REGISTRAR_CONFIG_PROMOTE:'false',REGISTRAR_CONFIG_PATCH_ID:'',REGISTRAR_CONFIG_APPROVAL_TOKEN:'',REGISTRAR_CONFIG_EXCLUSIVE_WINDOW:'false'};
 const target=targetConfig(env),stamp='2026-10-26T04:49:06.680Z';
 function fixture(){
  const d={id:oldWorker,projectId:target.projectId,environmentId:target.environmentId,serviceId:target.workerId,status:'SUCCESS',createdAt:stamp,updatedAt:stamp,statusUpdatedAt:stamp,deploymentStopped:true,instances:[{id:'original-exited-instance',status:'EXITED'}]};
  const values={KINGDOM_COPY_REGISTRATION_DATABASE_URL:'postgres://kc_copy_registrar:fixture-private-password@copy.railway.internal:5432/Railway',KINGDOM_COPY_REGISTRATION_ENABLED:'0',KINGDOM_COPY_REGISTRATION_SCOPE:JSON.stringify({projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.gameId,workerServiceId:target.workerId,verificationDatabaseServiceId:target.copyId,maintenanceDatabase:'Railway',clusterDigest:'c'.repeat(64),sourceClusterDigest:'d'.repeat(64)})};
- // #55 confirmed `value` in decryptVariables:false as well as true. These
- // synthetic strings use Railway's documented encrypted-envelope format.
- const patch={services:{[target.workerId]:{variables:Object.fromEntries(registrationKeys.map(k=>[k,{value:JSON.stringify({encryptedDek:'fixture-encrypted-dek',cipherText:'stored-ciphertext-'+k})}]))}}};
- const clear={services:{[target.workerId]:{variables:Object.fromEntries(Object.entries(values).map(([k,value])=>[k,{value}]))}}};
+ // #57: authenticated values are plaintext; they must remain private.
+ const patch={services:{[target.workerId]:{variables:Object.fromEntries(Object.entries(values).map(([k,value])=>[k,{value}]))}}};
  return {project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,name:'production',projectId:target.projectId,unmergedChangesCount:null},worker:{serviceId:target.workerId,environmentId:target.environmentId,serviceName:'KingdomReleaseCheck',latestDeployment:d,activeDeployments:[structuredClone(d)]},deployments:{edges:[{node:structuredClone(d)}]},
-  staged:{id:id(6),environmentId:target.environmentId,status:'STAGED',createdAt:stamp,updatedAt:stamp,appliedAt:null,lastAppliedError:null,patch,clear}};
+  staged:{id:id(6),environmentId:target.environmentId,status:'STAGED',createdAt:stamp,updatedAt:stamp,appliedAt:null,lastAppliedError:null,patch}};
 }
-const vars=d=>d.staged.clear.services[target.workerId].variables;
-const cipherVars=d=>d.staged.patch.services[target.workerId].variables;
-function rotateCipher(d){const entry=cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE,envelope=JSON.parse(entry.value);envelope.cipherText+='changed';entry.value=JSON.stringify(envelope);}
-function commitEnv(data=fixture()){const plan=checkPatch(data,target);return {...env,REGISTRAR_CONFIG_OPERATION:'registrar-config-commit',REGISTRAR_CONFIG_PATCH_ID:plan.patchId,REGISTRAR_CONFIG_PATCH_DIGEST:plan.patchDigest,REGISTRAR_CONFIG_EXCLUSIVE_WINDOW:'true'};}
+const vars=d=>d.staged.patch.services[target.workerId].variables;
+function review(data=fixture(),sourceCommit=env.GITHUB_SHA){return checkPatch(data,target,{sourceCommit,workerSnapshot:checkWorker(data,target)});}
+function changePrivateValue(data){vars(data).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value=vars(data).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value.replace('fixture-private-password','changed-private-password');}
+function commitEnv(data=fixture()){const plan=review(data);return {...env,REGISTRAR_CONFIG_OPERATION:'registrar-config-commit',REGISTRAR_CONFIG_PATCH_ID:plan.patchId,REGISTRAR_CONFIG_APPROVAL_TOKEN:plan.approvalToken,REGISTRAR_CONFIG_EXCLUSIVE_WINDOW:'true'};}
 function provider({before=fixture(),changeSecond=()=>{},changeAfter=()=>{},mutationError=false,commitReply='config-workflow',status='Complete',statusError=null,readError=false}={}){
  const calls=[];let inspected=0;
  const api=async(query,variables)=>{
@@ -34,7 +35,7 @@ function provider({before=fixture(),changeSecond=()=>{},changeAfter=()=>{},mutat
   if(query.includes('query RegistrarConfigVerify')){
    assert.equal(variables.patchId,before.staged.id);
    const d=structuredClone(before);d.receipt={...structuredClone(before.staged),status:'COMMITTED',appliedAt:'2026-10-26T05:00:00.000Z',updatedAt:'2026-10-26T05:00:00.000Z'};
-   delete d.receipt.clear;d.pending=structuredClone(d.receipt);changeAfter(d);return d;
+   d.pending=structuredClone(d.receipt);changeAfter(d);return d;
   }
   throw new Error('Unexpected provider operation');
  };
@@ -43,8 +44,8 @@ function provider({before=fixture(),changeSecond=()=>{},changeAfter=()=>{},mutat
 
 test('inspection produces safe review pins without writing, exporting credentials or authorizing activation',async()=>{
  const p=provider(),result=await runConfig(env,{api:p.api});assert.equal(p.writes().length,0);assert.equal(p.calls.length,1);
- assert.deepEqual(Object.keys(result).sort(),['kind','patchId','patchDigest','workerDeploymentId'].sort());assert.equal(result.kind,'inspection');assert.equal(result.workerDeploymentId,oldWorker);
- assert.match(result.patchDigest,/^[a-f0-9]{64}$/);assert.doesNotMatch(JSON.stringify(result),/fixture-private-password|copy\.railway|stored-ciphertext|DATABASE_URL|clusterDigest/);
+ assert.deepEqual(Object.keys(result).sort(),['kind','patchId','approvalToken','workerDeploymentId'].sort());assert.equal(result.kind,'inspection');assert.equal(result.workerDeploymentId,oldWorker);
+ assert.match(result.approvalToken,/^[a-f0-9]{64}$/);assert.doesNotMatch(JSON.stringify(result),/fixture-private-password|copy\.railway|stored-ciphertext|DATABASE_URL|clusterDigest/);
 });
 test('exact reviewed commit calls only the official mutation once with literal skipDeploys true, then verifies completion and unchanged worker',async()=>{
  const p=provider(),result=await runConfig(commitEnv(),{api:p.api});assert.equal(result.kind,'committed');assert.equal(p.writes().length,1);
@@ -53,120 +54,97 @@ test('exact reviewed commit calls only the official mutation once with literal s
  assert.equal(p.calls.filter(c=>c.query.includes('query RegistrarConfigInspect')).length,2);
  assert.equal(p.calls.at(-1).query.includes('query RegistrarConfigVerify'),true);
 });
-test('#55 value-field shape accepts only the documented envelope and keeps GraphQL encrypted/decrypted views separate',async()=>{
- const before=fixture();
- assert.deepEqual(encryptedShape(before.staged.patch,target),{
-  patchKeys:['services'],workerKeys:['variables'],variables:Object.fromEntries(registrationKeys.map(k=>[k,{value:'string'}]))
- });
- const p=provider({before});assert.equal((await runConfig(env,{api:p.api})).kind,'inspection');assert.equal(p.writes().length,0);
- assert.match(p.calls[0].query,/patch\(decryptVariables:false\)/);assert.match(p.calls[0].query,/clear:patch\(decryptVariables:true\)/);
+test('#57 explicitly decrypted values validate privately; no false encryption view or storage-envelope assumption remains',async()=>{
+ const p=provider();assert.equal((await runConfig(env,{api:p.api})).kind,'inspection');
+ assert.equal((p.calls[0].query.match(/patch\(decryptVariables:true\)/g)||[]).length,1);
+ assert.doesNotMatch(p.calls[0].query,/decryptVariables:false|clear:patch/);
  const c=provider();await runConfig(commitEnv(),{api:c.api});
- for(const call of c.calls.filter(x=>x.query.includes('query RegistrarConfigVerify'))){
-  assert.equal((call.query.match(/patch\(decryptVariables:false\)/g)||[]).length,2);assert.doesNotMatch(call.query,/decryptVariables:true/);
+ assert.equal((c.calls.at(-1).query.match(/patch\(decryptVariables:true\)/g)||[]).length,2);
+ const before=fixture();vars(before).KINGDOM_COPY_REGISTRATION_DATABASE_URL={encryptedValue:'fake-ciphertext'};
+ assert.throws(()=>review(before),e=>failureCategory(e)==='PATCH_VARIABLE_SCOPE');
+ for(const value of ['*****','<redacted>','opaque-string',JSON.stringify({encryptedDek:'dek',cipherText:'cipher'})]){
+  const invalid=fixture();vars(invalid).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value=value;
+  assert.throws(()=>review(invalid),e=>failureCategory(e)==='REGISTRAR_URL');
  }
- const oldShape=fixture();cipherVars(oldShape).KINGDOM_COPY_REGISTRATION_SCOPE={encryptedValue:'stored-ciphertext'};
- assert.throws(()=>checkPatch(oldShape,target),error=>failureCategory(error)==='PATCH_ENCRYPTED_SHAPE');
 });
-test('approval digest binds ciphertext and revision, never the decrypted password; valid private-view drift stops commit',async()=>{
- const before=fixture(),original=checkPatch(before,target);
- vars(before).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value=vars(before).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value.replace('fixture-private-password','different-private-password');
- assert.deepEqual(checkPatch(before,target),original);
- rotateCipher(before);assert.notEqual(checkPatch(before,target).patchDigest,original.patchDigest);
- const p=provider({changeSecond:d=>{vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value=vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value.replace('fixture-private-password','different-private-password');}});
- await assert.rejects(runConfig(commitEnv(),{api:p.api}),error=>failureCategory(error)==='PATCH_BINDING');assert.equal(p.writes().length,0);
+test('non-secret token excludes ALL sensitive values and unknown provider fields; it is explicitly not a value commitment',()=>{
+ const before=fixture(),baseline=review(before);
+ changePrivateValue(before);assert.deepEqual(review(before),baseline);
+ const scope=JSON.parse(vars(before).KINGDOM_COPY_REGISTRATION_SCOPE.value);scope.clusterDigest='e'.repeat(64);scope.sourceClusterDigest='f'.repeat(64);
+ vars(before).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify(scope);assert.deepEqual(review(before),baseline);
+ before.staged.privateExtra='fixture-private-password';before.worker.privateExtra='fixture-private-password';before.privateExtra='fixture-private-password';
+ assert.deepEqual(review(before),baseline);
+ // Content changed under identical ID/timestamps is intentionally not bound
+ // across runs. The owner-exclusive window is a hard external prerequisite.
+ assert.equal(approvalPolicy,'registrar-server-revision-v1');
+ for(const secret of Object.values(vars(before)).map(item=>item.value)){
+  assert.notEqual(baseline.approvalToken,createHash('sha256').update(secret).digest('hex'));
+  if(secret!=='0')assert.equal(JSON.stringify(baseline).includes(secret),false);
+ }
 });
-test('plaintext, masking, unknown encryption formats and cross-view substitution fail before hashing, pins or mutation',async t=>{
+test('token binds exact server identity/revision, variable metadata, source commit and stopped-worker snapshot',async t=>{
+ const original=review();
+ for(const [name,mutate] of Object.entries({
+  patchId:d=>{d.staged.id=id(7);},created:d=>{d.staged.createdAt='2026-10-25T04:49:06.680Z';},
+  updated:d=>{d.staged.updatedAt='2026-10-26T05:00:00.000Z';},
+  flags:d=>{vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.isOptional=false;},
+  worker:d=>{for(const row of [d.worker.latestDeployment,...d.worker.activeDeployments,...d.deployments.edges.map(x=>x.node)])row.updatedAt='2026-10-26T05:00:00.000Z';}
+ }))await t.test(name,async()=>{
+  const before=fixture();mutate(before);assert.notEqual(review(before).approvalToken,original.approvalToken);
+  const p=provider({before});await assert.rejects(runConfig(commitEnv(),{api:p.api}),e=>failureCategory(e)==='PATCH_BINDING');assert.equal(p.writes().length,0);
+ });
+ assert.notEqual(review(fixture(),'b'.repeat(40)).approvalToken,original.approvalToken);
+ const p=provider();await assert.rejects(runConfig({...commitEnv(),GITHUB_SHA:'b'.repeat(40)},{api:p.api}),e=>failureCategory(e)==='PATCH_BINDING');assert.equal(p.writes().length,0);
+ for(const context of [{},{sourceCommit:'bad',workerSnapshot:'0'.repeat(64)},{sourceCommit:env.GITHUB_SHA,workerSnapshot:'bad'}])assert.throws(()=>checkPatch(fixture(),target,context),e=>failureCategory(e)==='APPROVAL_CONTEXT');
+});
+test('eight-field scope is exact and disabled registrar validation cannot be bypassed by a valid metadata token',async t=>{
+ const scope=JSON.parse(vars(fixture()).KINGDOM_COPY_REGISTRATION_SCOPE.value);
+ for(const field of Object.keys(scope))await t.test('missing '+field,async()=>{
+  const before=fixture(),s={...scope};delete s[field];vars(before).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify(s);const p=provider({before});
+  await assert.rejects(runConfig(commitEnv(),{api:p.api}),e=>failureCategory(e)==='REGISTRAR_SCOPE');assert.equal(p.writes().length,0);
+ });
  const cases={
-  plaintext:d=>{d.staged.patch=structuredClone(d.staged.clear);},
-  swapped:d=>{[d.staged.patch,d.staged.clear]=[d.staged.clear,d.staged.patch];},
-  masked:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='*****';},
-  redacted:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='<redacted>';},
-  arbitrary:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='opaque-not-established-as-ciphertext';},
-  legacy:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='undocumented-legacy-KMS';},
-  extraEnvelopeKey:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:'cipher',extra:'fixture-private-password'});},
-  missingDEK:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({cipherText:'cipher'});},
-  nullEnvelope:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='null';},
-  arrayEnvelope:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='[]';},
-  emptyDEK:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'',cipherText:'cipher'});},
-  emptyCipher:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:''});},
-  maskedMember:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:'<redacted>'});},
-  objectDEK:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:{key:'dek'},cipherText:'cipher'});},
-  numberCipher:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:1});},
-  copiedPlaintext:d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify({encryptedDek:'dek',cipherText:vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value});},
-  sharedMask:d=>{for(const k of registrationKeys)cipherVars(d)[k].value=JSON.stringify({encryptedDek:'masked',cipherText:'masked'});}
+  extra:s=>{s.extra='provider-secret';},wrongMaintenance:s=>{s.maintenanceDatabase='railway';},
+  wrongProject:s=>{s.projectId=id(7);},wrongEnvironment:s=>{s.environmentId=id(7);},wrongGame:s=>{s.gameServiceId=id(7);},wrongWorker:s=>{s.workerServiceId=id(7);},wrongCopy:s=>{s.verificationDatabaseServiceId=id(7);},
+  invalidCluster:s=>{s.clusterDigest='bad';},invalidSourceCluster:s=>{s.sourceClusterDigest='bad';},sameCluster:s=>{s.sourceClusterDigest=s.clusterDigest;}
  };
  for(const [name,mutate] of Object.entries(cases))await t.test(name,async()=>{
-  const before=fixture();mutate(before);const p=provider({before});
-  await assert.rejects(runConfig(env,{api:p.api}),error=>{
-   assert.equal(failureCategory(error),'PATCH_ENCRYPTION_SEMANTICS');assert.equal(failureShape(error),undefined);
-   assert.equal(error.message,'Registrar configuration check failed.');return true;
-  });assert.equal(p.calls.length,1);assert.equal(p.writes().length,0);
+  const before=fixture(),s={...scope};mutate(s);vars(before).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify(s);const p=provider({before});
+  await assert.rejects(runConfig(commitEnv(),{api:p.api}),e=>failureCategory(e)==='REGISTRAR_SCOPE');assert.equal(p.writes().length,0);
  });
 });
-test('CLI encryption-semantics rejection prints no plaintext, provider payload, digest or exception detail',()=>{
- const before=fixture();before.staged.patch=structuredClone(before.staged.clear);
- const path=fileURLToPath(new URL('../deployment/release/registrar-config.mjs',import.meta.url));
- const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async()=>({ok:true,text:async()=>JSON.stringify({data:'+JSON.stringify(before)+'})});');
- const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...env},encoding:'utf8',timeout:5000});
- assert.equal(r.status,1);assert.equal(r.stdout,'');assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: PATCH_ENCRYPTION_SEMANTICS\nREGISTRAR_CONFIG_VALUE_CLASSES: {"database_url":"IDENTICAL_TO_DECRYPTED","enabled":"IDENTICAL_TO_DECRYPTED","scope":"IDENTICAL_TO_DECRYPTED"}\nREGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');
- for(const secret of Object.values(vars(before)).map(item=>item.value))assert.equal(r.stderr.includes(secret),false);
- assert.doesNotMatch(r.stderr,/Patch digest|Patch ID|REGISTRAR_CONFIG_SHAPE|SyntaxError|JSON|stack/);
-});
-test('read-only representation classifier emits exactly the six fixed classes, never provider metadata',async t=>{
- const d=fixture(),encrypted=cipherVars(d),clear=vars(d),scope=registrationKeys[2];
- const cases=[
-  ['VALID_DOCUMENTED_ENVELOPE',encrypted[scope].value],
-  ['OTHER_JSON_OBJECT',JSON.stringify({['postgres://fixture-private-password@copy.railway.internal/Railway']:{[target.workerId]:'c'.repeat(64)}})],
-  ['OTHER_JSON_OBJECT',JSON.stringify({encryptedDek:'dek',cipherText:'cipher',extra:'fixture-private-password'})],
-  ['OTHER_JSON_OBJECT',JSON.stringify({encryptedDek:'dek',cipherText:clear[scope].value})],
-  ['OPAQUE_STRING','opaque-provider-secret-fragment-\u001b[31m\n::error::fixture-private-password'],
-  ['OPAQUE_STRING','{invalid-json-with-fixture-private-password'],
-  ['MASKED_REDACTED','*****'],['MASKED_REDACTED','  <REDACTED>  '],['MASKED_REDACTED','[masked]'],
-  ['MASKED_REDACTED','«hidden»'],['MASKED_REDACTED','••••'],['MASKED_REDACTED',JSON.stringify('<sealed>')],
-  ['IDENTICAL_TO_DECRYPTED',clear[scope].value],
-  ['UNCLASSIFIED',null],['UNCLASSIFIED',undefined],['UNCLASSIFIED',123],['UNCLASSIFIED',{}],['UNCLASSIFIED',[]],
-  ['UNCLASSIFIED','null'],['UNCLASSIFIED','[]'],['UNCLASSIFIED','true'],['UNCLASSIFIED','42'],
-  ['UNCLASSIFIED',JSON.stringify('a JSON scalar string')],['UNCLASSIFIED','  ']
- ];
- for(const [expected,value] of cases)await t.test(expected,()=>{
-  const report=classifyValues({...encrypted,[scope]:{value}},clear);
-  assert.deepEqual(report,{database_url:'VALID_DOCUMENTED_ENVELOPE',enabled:'VALID_DOCUMENTED_ENVELOPE',scope:expected});
-  const text=JSON.stringify(report);
-  for(const forbidden of ['fixture-private-password','opaque-provider-secret','copy.railway',target.workerId,'c'.repeat(64),'length','digest','cipherText','encryptedDek','::error::'])assert.equal(text.includes(forbidden),false);
- });
- // Equality takes precedence over mask recognition; no plaintext is echoed.
- assert.equal(classifyValues({...encrypted,[scope]:{value:'*****'}},{...clear,[scope]:{value:'*****'}}).scope,'IDENTICAL_TO_DECRYPTED');
- assert.equal(failureValueClasses(new Error('provider-message')),undefined);
-});
-test('classification is diagnostic only: every existing encryption rejection remains a failure with zero writes',async()=>{
- for(const [value,expected] of [[vars(fixture()).KINGDOM_COPY_REGISTRATION_SCOPE.value,'IDENTICAL_TO_DECRYPTED'],['*****','MASKED_REDACTED'],['opaque-ciphertext','OPAQUE_STRING'],['{"unknown":"provider-secret"}','OTHER_JSON_OBJECT'],['null','UNCLASSIFIED']]){
-  const before=fixture();cipherVars(before).KINGDOM_COPY_REGISTRATION_SCOPE.value=value;const p=provider({before});
-  await assert.rejects(runConfig(env,{api:p.api}),error=>{
-   assert.equal(failureCategory(error),'PATCH_ENCRYPTION_SEMANTICS');assert.equal(failureValueClasses(error).scope,expected);return true;
-  });assert.equal(p.calls.length,1);assert.equal(p.writes().length,0);
+test('fresh read catches valid private URL/scope changes even when metadata revision does not advance',async()=>{
+ for(const changeSecond of [changePrivateValue,d=>{const s=JSON.parse(vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value);s.clusterDigest='e'.repeat(64);vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=JSON.stringify(s); }]){
+  const p=provider({changeSecond});await assert.rejects(runConfig(commitEnv(),{api:p.api}),e=>failureCategory(e)==='PATCH_BINDING');assert.equal(p.writes().length,0);
  }
- // Per-value valid structure is not approval: repeated envelopes still fail.
- const before=fixture();for(const k of registrationKeys)cipherVars(before)[k].value=cipherVars(before)[registrationKeys[0]].value;
- const p=provider({before});await assert.rejects(runConfig(env,{api:p.api}),error=>{
-  assert.equal(failureCategory(error),'PATCH_ENCRYPTION_SEMANTICS');
-  assert.deepEqual(failureValueClasses(error),{database_url:'VALID_DOCUMENTED_ENVELOPE',enabled:'VALID_DOCUMENTED_ENVELOPE',scope:'VALID_DOCUMENTED_ENVELOPE'});return true;
- });assert.equal(p.writes().length,0);
 });
-test('CLI reports classes only on inspection semantics failures, never on commit or prior identity/scope failures',()=>{
- const path=fileURLToPath(new URL('../deployment/release/registrar-config.mjs',import.meta.url));
- for(const [operation,mutate,category,expected] of [
-  [env,d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='opaque-provider-secret';},'PATCH_ENCRYPTION_SEMANTICS',{database_url:'VALID_DOCUMENTED_ENVELOPE',enabled:'VALID_DOCUMENTED_ENVELOPE',scope:'OPAQUE_STRING'}],
-  [commitEnv(),d=>{cipherVars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='opaque-provider-secret';},'PATCH_ENCRYPTION_SEMANTICS',null],
-  [env,d=>{d.worker.latestDeployment.id=id(7);},'WORKER_IDENTITY',null],
-  [env,d=>{vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value=null;},'PATCH_CLEAR_SHAPE',null]
- ]){
-  const before=fixture();mutate(before);
-  const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async(_url,options)=>{if(JSON.parse(options.body).query.includes("mutation "))throw Error("unexpected write");return {ok:true,text:async()=>JSON.stringify({data:'+JSON.stringify(before)+'})};};');
-  const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...operation},encoding:'utf8',timeout:5000});
-  assert.equal(r.status,1);assert.equal(r.stdout,'');
-  assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: '+category+'\n'+(expected?'REGISTRAR_CONFIG_VALUE_CLASSES: '+JSON.stringify(expected)+'\n':'')+'REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');
-  for(const forbidden of ['opaque-provider-secret','fixture-private-password','stored-ciphertext',target.workerId,before.staged.id,'c'.repeat(64),'d'.repeat(64),'length','Patch digest','REGISTRAR_CONFIG_INSPECTION: PASS'])assert.equal(r.stderr.includes(forbidden),false);
+test('last-read/commit race can be detected only AFTER a write; never undo or retry it automatically',async()=>{
+ const p=provider({changeAfter:d=>{changePrivateValue({staged:d.receipt});d.pending=structuredClone(d.receipt);}});
+ await assert.rejects(runConfig(commitEnv(),{api:p.api}),e=>failureCategory(e)==='PATCH_NOT_CLEARED');assert.equal(p.writes().length,1);
+});
+test('old digest approvals and unacknowledged owner freeze are rejected before API access',async()=>{
+ for(const patch of [{REGISTRAR_CONFIG_PATCH_DIGEST:'a'.repeat(64)},{REGISTRAR_CONFIG_APPROVAL_TOKEN:''},{REGISTRAR_CONFIG_EXCLUSIVE_WINDOW:'false'}]){
+  const p=provider();await assert.rejects(runConfig({...commitEnv(),...patch},{api:p.api}),e=>failureCategory(e)==='WORKFLOW_REQUEST');assert.equal(p.calls.length,0);
  }
+});
+test('CLI exports only labeled metadata approval, or a fixed failure; no credential hash, values, bodies or diagnostic probes',()=>{
+ const dir=mkdtempSync(join(tmpdir(),'registrar-approval-'));
+ try{
+  for(const valid of [true,false]){
+   const before=fixture();if(!valid)vars(before).KINGDOM_COPY_REGISTRATION_SCOPE.value='private-scope-<script>\n::error::credential';
+   const summary=join(dir,valid?'success.md':'failure.md'),path=fileURLToPath(new URL('../deployment/release/registrar-config.mjs',import.meta.url));
+   const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async(_url,options)=>{if(JSON.parse(options.body).query.includes("mutation "))throw Error("unexpected write");return {ok:true,text:async()=>JSON.stringify({data:'+JSON.stringify(before)+'})};};');
+   const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...env,GITHUB_STEP_SUMMARY:summary},encoding:'utf8',timeout:5000});
+   assert.equal(r.status,valid?0:1);assert.equal(r.stdout,valid?'REGISTRAR_CONFIG_INSPECTION: PASS\n':'');
+   if(!valid){assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: REGISTRAR_SCOPE\nREGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');assert.equal(existsSync(summary),false);}
+   const publicText=r.stdout+r.stderr+(valid?readFileSync(summary,'utf8'):'');
+   if(valid){assert.match(publicText,/server metadata only; excludes secret values/);assert.match(publicText,/Not a secret-value commitment/);assert.ok(publicText.includes(review(before).approvalToken));}
+   for(const secret of Object.values(vars(before)).map(item=>item.value)){
+    if(secret!=='0')assert.equal(publicText.includes(secret),false);assert.equal(publicText.includes(createHash('sha256').update(secret).digest('hex')),false);
+   }
+   assert.doesNotMatch(publicText,/REGISTRAR_CONFIG_SHAPE|REGISTRAR_CONFIG_VALUE_CLASSES|private-scope|fixture-private-password|copy\.railway|cipherText|encryptedDek|stack|unexpected write/);
+  }
+ }finally{rmSync(dir,{recursive:true,force:true});}
 });
 test('only exact worker variable additions are accepted; unrelated or incomplete patch shapes fail before any write',async t=>{
  const cases={
@@ -178,7 +156,7 @@ test('only exact worker variable additions are accepted; unrelated or incomplete
   missingVariable:d=>{delete d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE;},
   deleteVariable:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE=null;},
   unexpectedAttribute:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.isDeleted=true;},
-  plaintextFingerprint:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE={value:'plaintext'};},
+  invalidScopeValue:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE={value:'plaintext'};},
   enabled:d=>{vars(d).KINGDOM_COPY_REGISTRATION_ENABLED.value='1';},
   unrestrictedUser:d=>{vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value=vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value.replace('kc_copy_registrar','postgres');},
   wrongDatabase:d=>{vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value=vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value.replace('Railway','railway');},
@@ -191,10 +169,10 @@ test('only exact worker variable additions are accepted; unrelated or incomplete
  };
  for(const [name,mutate] of Object.entries(cases))await t.test(name,async()=>{const before=fixture();mutate(before);const p=provider({before});await assert.rejects(runConfig(commitEnv(),{api:p.api}));assert.equal(p.writes().length,0);});
 });
-test('replacement patches, changed ciphertext/revisions and a worker change between reads are never committed',async t=>{
- const cases={replacement:d=>{d.staged.id=id(7);},revision:d=>{d.staged.updatedAt='2026-10-26T05:00:00.000Z';},ciphertext:rotateCipher,activation:d=>{vars(d).KINGDOM_COPY_REGISTRATION_ENABLED.value='1';},unrelated:d=>{d.staged.patch.services[target.gameId]={};},restart:d=>{d.worker.latestDeployment.updatedAt='2026-10-26T05:00:00.000Z';}};
+test('replacement patches, changed private values/revisions and a worker change between reads are never committed',async t=>{
+ const cases={replacement:d=>{d.staged.id=id(7);},revision:d=>{d.staged.updatedAt='2026-10-26T05:00:00.000Z';},privateValue:changePrivateValue,activation:d=>{vars(d).KINGDOM_COPY_REGISTRATION_ENABLED.value='1';},unrelated:d=>{d.staged.patch.services[target.gameId]={};},restart:d=>{d.worker.latestDeployment.updatedAt='2026-10-26T05:00:00.000Z';}};
  for(const [name,changeSecond] of Object.entries(cases))await t.test(name,async()=>{const p=provider({changeSecond});await assert.rejects(runConfig(commitEnv(),{api:p.api}));assert.equal(p.writes().length,0);});
- for(const patch of [{REGISTRAR_CONFIG_PATCH_ID:id(7)},{REGISTRAR_CONFIG_PATCH_DIGEST:'0'.repeat(64)}]){const p=provider();await assert.rejects(runConfig({...commitEnv(),...patch},{api:p.api}));assert.equal(p.writes().length,0);}
+ for(const patch of [{REGISTRAR_CONFIG_PATCH_ID:id(7)},{REGISTRAR_CONFIG_APPROVAL_TOKEN:'0'.repeat(64)}]){const p=provider();await assert.rejects(runConfig({...commitEnv(),...patch},{api:p.api}));assert.equal(p.writes().length,0);}
 });
 test('old worker must be the exact stopped deployment; target and queued/instance drift fail closed',async t=>{
  const cases={wrongProject:d=>{d.project.id=id(7);},wrongEnvironment:d=>{d.environment.name='staging';},wrongService:d=>{d.worker.serviceName='test';},newWorker:d=>{d.worker.latestDeployment.id=id(7);},running:d=>{d.worker.latestDeployment.deploymentStopped=false;},instance:d=>{d.worker.latestDeployment.instances[0].status='RUNNING';},additionalInstance:d=>{d.worker.latestDeployment.instances.push({id:'new-instance',status:'EXITED'});},queued:d=>{const row=structuredClone(d.deployments.edges[0]);row.node.id=id(7);row.node.status='QUEUED';d.deployments.edges.unshift(row);}};
@@ -226,70 +204,6 @@ test('CLI prints only fixed failure diagnostics for credential-bearing provider 
  const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...env},encoding:'utf8',timeout:5000});
  assert.equal(r.status,1);assert.equal(r.stdout,'');assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: API_GRAPHQL_REJECTED\nREGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');assert.doesNotMatch(r.stderr,/fixture-private-password|assert|stack|copy\.railway/);
 });
-test('encrypted diagnostic reports only requested key names and JSON types, without inspecting values',()=>{
- const before=fixture(),patch=before.staged.patch,worker=patch.services[target.workerId];
- patch.sharedVariables={unrelatedSecret:'fixture-private-password'};worker.deploy={startCommand:'fixture-private-password'};
- worker.variables.KINGDOM_COPY_REGISTRATION_DATABASE_URL={encryptedValue:{ciphertext:'fixture-private-password',nonce:target.workerId},isSealed:null};
- worker.variables.KINGDOM_COPY_REGISTRATION_ENABLED={encryptedValue:['fixture-private-password'],isOptional:false};
- worker.variables.KINGDOM_COPY_REGISTRATION_SCOPE={encryptedValue:null,description:'fixture-private-password'};
- const report=encryptedShape(patch,target);
- assert.deepEqual(report,{
-  patchKeys:['services','sharedVariables'],workerKeys:['deploy','variables'],variables:{
-   KINGDOM_COPY_REGISTRATION_DATABASE_URL:{encryptedValue:'object',isSealed:'null'},
-   KINGDOM_COPY_REGISTRATION_ENABLED:{encryptedValue:'array',isOptional:'boolean'},
-   KINGDOM_COPY_REGISTRATION_SCOPE:{description:'string',encryptedValue:'null'}
-  }
- });
- assert.doesNotMatch(JSON.stringify(report),/fixture-private-password|ciphertext|nonce|startCommand|unrelatedSecret|length|count|digest|fingerprint/);
- for(const identifier of [target.workerId,target.projectId,before.staged.id])assert.equal(JSON.stringify(report).includes(identifier),false);
- // The diagnostic never accesses a nested encrypted value or decrypted entry.
- const sealed=new Proxy({},{ownKeys:()=>{throw Error('must not enumerate ciphertext');},get:()=>{throw Error('must not read ciphertext');}});
- worker.variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue=sealed;
- Object.defineProperty(before.staged,'clear',{get:()=>{throw Error('must not read plaintext');}});
- assert.equal(encryptedShape(patch,target).variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue,'object');
-});
-test('unexpected provider keys are redacted even when keys themselves contain credentials, IDs or hashes',()=>{
- const patch=fixture().staged.patch,worker=patch.services[target.workerId],entry=worker.variables.KINGDOM_COPY_REGISTRATION_SCOPE;
- for(const unsafe of ['postgres://fixture-private-password@copy.railway.internal/Railway',target.workerId,'c'.repeat(64),'::error::provider-message']){
-  patch[unsafe]='fixture-private-password';worker[unsafe]='fixture-private-password';entry[unsafe]='fixture-private-password';
- }
- const report=encryptedShape(patch,target),text=JSON.stringify(report);
- assert.deepEqual(report.patchKeys,['<REDACTED_KEY>','services']);assert.deepEqual(report.workerKeys,['<REDACTED_KEY>','variables']);
- assert.deepEqual(report.variables.KINGDOM_COPY_REGISTRATION_SCOPE,{'<REDACTED_KEY>':'<REDACTED>',value:'string'});
- for(const unsafe of ['fixture-private-password',target.workerId,'c'.repeat(64),'::error::provider-message'])assert.equal(text.includes(unsafe),false);
- assert.doesNotMatch(text,/length|count|digest|fingerprint/);
-});
-test('shape diagnostics preserve all encrypted-shape rejections and make no mutation calls',async t=>{
- const cases={
-  rootContainer:d=>{d.staged.patch.sharedVariables={};},workerContainer:d=>{d.staged.patch.services[target.workerId].build={};},
-  objectCipher:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue={ciphertext:'fixture-private-password'};},
-  nullMetadata:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.isSealed=null;},
-  missingEntry:d=>{delete d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE;},
-  nullEntry:d=>{d.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE=null;}
- };
- for(const [name,mutate] of Object.entries(cases))await t.test(name,async()=>{
-  const before=fixture();mutate(before);const p=provider({before});
-  await assert.rejects(runConfig(env,{api:p.api}),error=>{
-   assert.equal(failureCategory(error),'PATCH_ENCRYPTED_SHAPE');assert.deepEqual(failureShape(error),encryptedShape(before.staged.patch,target));
-   assert.doesNotMatch(JSON.stringify(failureShape(error)),/fixture-private-password|stored-ciphertext|postgres:|clusterDigest/);return true;
-  });
-  assert.equal(p.calls.length,1);assert.equal(p.writes().length,0);
- });
- assert.equal(failureShape(new Error('provider-secret')),undefined);
-});
-test('CLI emits the safe shape only for encrypted-shape inspection failure; commit mode stays closed and silent',()=>{
- const before=fixture();before.staged.patch.services[target.workerId].variables.KINGDOM_COPY_REGISTRATION_SCOPE.encryptedValue={ciphertext:'fixture-private-password'};
- const path=fileURLToPath(new URL('../deployment/release/registrar-config.mjs',import.meta.url));
- const preload='data:text/javascript,'+encodeURIComponent('globalThis.fetch=async(_url,options)=>{if(JSON.parse(options.body).query.includes("mutation "))throw Error("unexpected write");return {ok:true,text:async()=>JSON.stringify({data:'+JSON.stringify(before)+'})};};');
- for(const operation of [env,commitEnv()]){
-  const r=spawnSync(process.execPath,['--import',preload,path,'run'],{env:{PATH:process.env.PATH,...operation},encoding:'utf8',timeout:5000});
-  const diagnostic=operation.REGISTRAR_CONFIG_OPERATION==='registrar-config-inspect'?'REGISTRAR_CONFIG_SHAPE: '+JSON.stringify(encryptedShape(before.staged.patch,target))+'\n':'';
-  assert.equal(r.status,1);assert.equal(r.stdout,'');
-  assert.equal(r.stderr,'REGISTRAR_CONFIG_FAILURE: PATCH_ENCRYPTED_SHAPE\n'+diagnostic+'REGISTRAR_CONFIG: FAIL — no retry or recovery is authorized; inspect state read-only.\n');
-  for(const privateValue of ['fixture-private-password','stored-ciphertext',target.workerId,before.staged.id,'c'.repeat(64),'d'.repeat(64)])assert.equal(r.stderr.includes(privateValue),false);
-  assert.doesNotMatch(r.stderr,/Patch digest|Patch ID|REGISTRAR_CONFIG: PASS|unexpected write/);
- }
-});
 test('safe categories distinguish transport, authentication, permission and GraphQL rejection without messages or retries',async t=>{
  const cases={
   API_TRANSPORT:async()=>{throw new Error('fixture-private-password TLS/provider detail');},
@@ -320,8 +234,7 @@ test('inspection identifies the exact guard group while retaining rejection and 
   PATCH_LAST_APPLIED_ERROR:d=>{d.staged.lastAppliedError='fixture-private-password';},
   PATCH_CREATED_AT:d=>{d.staged.createdAt='invalid';},
   PATCH_UPDATED_AT:d=>{d.staged.updatedAt='invalid';},
-  PATCH_ENCRYPTED_SHAPE:d=>{d.staged.patch.sharedVariables={};},
-  PATCH_CLEAR_SHAPE:d=>{vars(d).KINGDOM_COPY_REGISTRATION_SCOPE={encryptedValue:'not-decrypted'};},
+  PATCH_VARIABLE_SCOPE:d=>{d.staged.patch.sharedVariables={};},
   REGISTRATION_NOT_DISABLED:d=>{vars(d).KINGDOM_COPY_REGISTRATION_ENABLED.value='1';},
   REGISTRAR_URL:d=>{vars(d).KINGDOM_COPY_REGISTRATION_DATABASE_URL.value='postgres://postgres:fixture-private-password@public.example/Railway';},
   REGISTRAR_SCOPE:d=>{vars(d).KINGDOM_COPY_REGISTRATION_SCOPE.value='fixture-private-password';}
@@ -348,7 +261,7 @@ test('clearance binds the exact committed receipt and rejects pending, mismatche
  const cases={
   wrongReceipt:d=>{d.receipt.id=id(7);},wrongEnvironment:d=>{d.receipt.environmentId=id(7);},
   unapplied:d=>{d.receipt.status='STAGED';d.receipt.appliedAt=null;},missingAppliedAt:d=>{d.receipt.appliedAt=null;},
-  rewoundRevision:d=>{d.receipt.updatedAt='2026-10-25T00:00:00.000Z';},changedPayload:d=>{rotateCipher({staged:d.receipt});},
+  rewoundRevision:d=>{d.receipt.updatedAt='2026-10-25T00:00:00.000Z';},changedPayload:d=>{changePrivateValue({staged:d.receipt});},
   error:d=>{d.receipt.lastAppliedError='fixture-private-password';},missingPending:d=>{delete d.pending;},
   newNonempty:d=>{d.pending={...structuredClone(d.staged),id:id(7)};},differentCommitted:d=>{d.pending.id=id(7);},
   unknownEmptyRoot:d=>{d.pending={...structuredClone(d.staged),id:id(7),patch:{unrelated:{}}};},
@@ -359,6 +272,9 @@ test('clearance binds the exact committed receipt and rejects pending, mismatche
 test('workflow keeps one production mutex/owner gate and makes config and recovery mutually exclusive',()=>{
  const workflow=readFileSync(new URL('../../.github/workflows/production-release.yml',import.meta.url),'utf8');
  assert.match(workflow,/group: kingdom-come-production\n  cancel-in-progress: false/);
+ assert.match(workflow,/registrar_approval_token:/);assert.doesNotMatch(workflow,/registrar_patch_digest|REGISTRAR_CONFIG_PATCH_DIGEST/);
+ assert.match(workflow,/REGISTRAR_CONFIG_APPROVAL_TOKEN: \$\{\{ inputs\.registrar_approval_token \}\}/);
+ assert.match(workflow,/approve metadata-only binding; no other editors\/automation from inspection through completion/);
  const section=workflow.slice(workflow.indexOf('  registrar-config:'),workflow.indexOf('  release:'));
  assert.match(section,/needs: safety/);assert.match(section,/environment: production/);assert.match(section,/inputs\.operation == 'registrar-config-inspect' \|\| inputs\.operation == 'registrar-config-commit'/);
  assert.match(section,/secrets\.RAILWAY_TOKEN/);assert.doesNotMatch(section,/run\.mjs prepare|run\.mjs promote|railway up|BACKUP|SIGNING|DATABASE_URL|workflow_dispatch|workflow_run/);
