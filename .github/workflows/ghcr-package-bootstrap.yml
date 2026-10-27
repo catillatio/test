@@ -1,0 +1,40 @@
+name: Approved private GHCR package bootstrap
+on: create
+permissions:
+  contents: read
+concurrency:
+  group: kingdom-come-production
+  cancel-in-progress: false
+jobs:
+  bootstrap-synthetic-package:
+    if: github.repository == 'catillatio/test' && github.actor == 'catillatio' && github.triggering_actor == 'catillatio' && github.event.ref_type == 'branch' && github.event.ref == 'bootstrap/private-ghcr-kingdom-come-20261027' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions:
+      contents: read
+      packages: write
+    defaults:
+      run:
+        working-directory: knights-reforged/deployment/package-bootstrap
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+          ref: '${{ github.sha }}'
+          sparse-checkout: knights-reforged/deployment/package-bootstrap
+      - name: Test fixed synthetic publication and fail-closed privacy policy
+        run: python3 -m unittest discover -p 'test_bootstrap.py'
+      - name: Bootstrap exact permanent package with only the verified synthetic image
+        run: python3 bootstrap.py
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: synthetic-ghcr-bootstrap-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            knights-reforged/deployment/package-bootstrap/bootstrap-receipt.json
+            knights-reforged/deployment/package-bootstrap/bootstrap-manifest.json
+          if-no-files-found: error
+          retention-days: 90
