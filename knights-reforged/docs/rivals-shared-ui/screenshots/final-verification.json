@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "stage": "after",
+  "baseline": "502354b1ba11728a92b74e74b1aaeb1c600bda5e",
+  "productionContacted": false,
+  "views": [
+    {
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 320,
+      "height": 900,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 3,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 1280,
+      "height": 960,
+      "dpr": 1,
+      "scale": 1,
+      "path": "page-2",
+      "rows": 8
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1.25,
+      "path": "page-1",
+      "rows": 20
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "scale": 1.25,
+      "path": "page-2",
+      "rows": 8
+    }
+  ],
+  "pixelChecks": [
+    {
+      "width": 320,
+      "scale": 1,
+      "identical": true,
+      "sha256": "026578ed8c91c0000e055c587a96e61cf569657428202e524ae9f1108cb9e254"
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "identical": true,
+      "sha256": "795e94066dafadc9a7245e228f9656e8c2ae032b5daa7603fb6108ece359d8bd"
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "identical": true,
+      "sha256": "fa77bb7f537ff06a35695c2d51a82707f73ddb93bf94b51c1e5ffaca018cd5a3"
+    },
+    {
+      "width": 1280,
+      "scale": 1,
+      "identical": true,
+      "sha256": "cc99b32299ab84e9420d5b96e8982b3a30e21a222a21ad052ba4a05732d2f4be"
+    },
+    {
+      "width": 390,
+      "scale": 1.25,
+      "identical": true,
+      "sha256": "f2a96865c414e0c0ecde37ec6f72d6c79b34da8463b7adb1b8aa11ba0ef62196"
+    }
+  ],
+  "approvedBountyTemplateSha256": "cb1aaed28643f55b16852695016c7afebf07c7d542e296fcd685d43c5c2c96ed",
+  "financialViewsPreserved": true,
+  "paginationUnique": 28,
+  "refreshAndTabsPassed": true,
+  "profileAndOrdinaryAttackPassed": true,
+  "disabledAndRangeChecksPassed": true,
+  "idempotencyPassed": true,
+  "errors": []
+}
