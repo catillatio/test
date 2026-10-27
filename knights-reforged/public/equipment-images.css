@@ -1,0 +1,41 @@
+/* Shared equipment frame: the original atlas cells and approved image files
+   keep their pixels and identity. Context sizes apply to the frame, never the
+   source type. Land retains its own landscape presentation. */
+.kingdoms-ui.realm-remaster .equipment-art-frame {
+  --equipment-size: 76px;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--equipment-size); height: var(--equipment-size);
+  min-width: var(--equipment-size); max-width: var(--equipment-size);
+  flex: none; box-sizing: border-box; vertical-align: middle;
+  border: 1px solid #77735c; border-radius: 3px;
+  background: #11110f; overflow: hidden; line-height: 0;
+}
+.kingdoms-ui.realm-remaster.signed-in .equipment-art-frame > .catalog-art {
+  /* Also override the legacy .art-small !important dimensions. */
+  width: 100% !important; height: 100% !important;
+  min-width: 0; max-width: none; margin: 0; flex: none;
+  display: block; box-sizing: border-box; border: 0; border-radius: 0;
+  box-shadow: none; transform: none; filter: none;
+  object-fit: contain; object-position: center;
+}
+.kingdoms-ui.realm-remaster .inventory-figure .equipment-art-frame { --equipment-size: 58px; }
+.kingdoms-ui.realm-remaster .equipment-preview > summary > .equipment-art-frame { display: flex; margin-inline: auto; }
+.kingdoms-ui.realm-remaster .equipment-preview > summary > strong { display: block; }
+.kingdoms-ui.realm-remaster .market-catalog { --catalog-equipment-size: 68px; }
+.kingdoms-ui.realm-remaster .market-catalog .equipment-art-frame { --equipment-size: var(--catalog-equipment-size); align-self: start; }
+/* The existing 44px Bulk link occupies the bottom of the image column. */
+@media (max-width: 1199px) {
+  .kingdoms-ui.realm-remaster.screen-armory .market-catalog .catalog-row { min-height: calc(var(--catalog-equipment-size) + 50px); }
+}
+.kingdoms-ui.realm-remaster .resolved-battle .equipment-art-frame { --equipment-size: 48px; }
+.kingdoms-ui.realm-remaster .bulk-item-art .equipment-art-frame { --equipment-size: 54px; }
+.kingdoms-ui.realm-remaster .equipment-art-frame.equipment-art-small { --equipment-size: 25px; }
+@media (min-width: 700px) {
+  .kingdoms-ui.realm-remaster .resolved-battle .equipment-art-frame { --equipment-size: 64px; }
+}
+@media (min-width: 900px) {
+  .kingdoms-ui.realm-remaster .market-catalog { --catalog-equipment-size: 128px; }
+}
+@media (max-width: 360px) {
+  .kingdoms-ui.realm-remaster .market-catalog { --catalog-equipment-size: 62px; }
+}
