@@ -33,6 +33,8 @@ Native equipment purchase, receipt reload, **Land Buy/Sell at authoritative pric
 
 Local validation: new browser wrapper **1/1**, focused existing browser/economy/shopping/rendering regressions **13/13**, typecheck/build, static **99/99 with 77 production EJS fixtures**. Final required exact-head CI results are recorded in the PR and delivery package.
 
+The Phase 5.1A regression now asserts the approved charcoal resource header instead of requiring its obsolete teal background. Its 36 responsive captures, five navigation links, receipt/refresh preservation and no-JavaScript purchase checks remain and pass locally (**1/1**). The no-green panel check now includes the resource header.
+
 [Preservation audit](preservation.json) confirms unchanged backend, rulesets, migrations, release/recovery code, workflows, packages, public JavaScript and image files. Bounty, Quests, Armory, Profile, header, navigation, artwork and command-field templates retain their established structures. No targeting, eligibility, combat, XP, currency, settlement, pagination, authentication or database behavior changes.
 
 Draft for review. No merge, deployment, production SQL, settings operation or gameplay activation.

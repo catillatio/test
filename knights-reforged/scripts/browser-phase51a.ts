@@ -1,7 +1,7 @@
 // Deterministic screenshots of real local routes and committed purchases.
 // Historical owner screenshots are reference-only and never loaded by this app.
 import assert from 'node:assert/strict';
-import {mkdir,readFile,writeFile} from 'node:fs/promises';
+import {mkdir,writeFile} from 'node:fs/promises';
 import {existsSync} from 'node:fs';
 import {chromium} from 'playwright-core';
 import {realm,testDatabaseUrl} from '../tests/helpers.js';
@@ -11,7 +11,6 @@ import {loadConfig} from '../src/config.js';
 if(!testDatabaseUrl)throw new Error('Use a disposable local *_test database.');
 const baseline=process.argv.includes('--before'),verifyOnly=process.argv.includes('--verify-only'),stage=baseline?'before':'after';
 const out='docs/phase51a/screenshots/'+stage;if(!verifyOnly)await mkdir(out,{recursive:true});
-const prior=baseline?null:JSON.parse(await readFile('docs/phase51a/before-browser.json','utf8'));
 const now=new Date('2026-10-23T16:00:00Z'),r=await realm({isolated:true,clock:()=>now});
 const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://127.0.0.1:3000'});
 const app=await createApp({db:r.db,config}),origin=await app.listen({host:'127.0.0.1',port:0});config.origin=origin;
@@ -28,9 +27,8 @@ async function shot(width:number,name:string,selector?:string){
  if(!verifyOnly)await page.screenshot({path:out+'/'+width+'-'+name+'.png',animations:'disabled'});
  const styles=await page.locator('.guide-lesson,.guide-done,.tutorial-complete,.quest-result,.achievement-row,.achievement-toast,.resource-lower').evaluateAll(nodes=>nodes.slice(0,8).map(n=>({class:n.className,background:getComputedStyle(n).background,color:getComputedStyle(n).color})));
  if(!baseline){
-  const reference=prior.views.find((v:any)=>v.width===width&&v.name===name);
-  assert.equal(styles.find(s=>s.class==='resource-lower')?.background,reference.styles.find((s:any)=>s.class==='resource-lower')?.background,'Teal header must remain unchanged');
-  for(const s of styles.filter(s=>s.class!=='resource-lower'))for(const match of s.background.matchAll(/rgba?\((\d+), (\d+), (\d+)/g))assert.ok(!(Number(match[2])>Number(match[1])+5&&Number(match[2])>Number(match[3])+5),'No remaining green panel fill: '+s.class);
+  assert.equal(await page.locator('.resource-lower').evaluate(n=>getComputedStyle(n).backgroundImage),'linear-gradient(rgb(54, 54, 54) 0%, rgb(54, 54, 54) 12%, rgb(54, 54, 54) 45%, rgb(36, 36, 36) 100%)','The approved resource header uses a charcoal surface');
+  for(const s of styles)for(const match of s.background.matchAll(/rgba?\((\d+), (\d+), (\d+)/g))assert.ok(!(Number(match[2])>Number(match[1])+5&&Number(match[2])>Number(match[3])+5),'No remaining green panel fill: '+s.class);
  }
  evidence.push({width,name,styles});
 }
