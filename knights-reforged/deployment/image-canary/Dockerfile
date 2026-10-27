@@ -1,0 +1,6 @@
+FROM scratch
+COPY --chown=65532:65532 --chmod=0555 canary /canary
+USER 65532:65532
+ENV PORT=8080
+EXPOSE 8080
+ENTRYPOINT ["/canary"]
