@@ -58,21 +58,29 @@ export function imageRegistryCredentials(env){
  if(typeof password!=='string'||!password.trim()||password!==password.trim()||password.length>8192||/[\r\n]/.test(password))throw new Error('Restricted registry credential is required.');
  return {username:'catillatio',password};
 }
-export function checkImageRequest(env){
+// Request syntax is safe to check before protected environment variables exist.
+export function checkImageRequestShape(env){
  assert.equal(env.GITHUB_REPOSITORY,'catillatio/test');assert.equal(env.GITHUB_REF,'refs/heads/release/production');assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');
  const operation=env.KINGDOM_IMAGE_OPERATION;assert.ok(['image-prepare','image-release'].includes(operation));
  assert.equal(env.GITHUB_RUN_ATTEMPT,'1');assert.match(env.GITHUB_SHA??'',sha);
  for(const k of ['REGISTRAR_CONFIG_PATCH_ID','REGISTRAR_CONFIG_APPROVAL_TOKEN'])assert.ok(!env[k]);
  assert.ok(!env.REGISTRAR_CONFIG_EXCLUSIVE_WINDOW||env.REGISTRAR_CONFIG_EXCLUSIVE_WINDOW==='false');
  if(operation==='image-prepare'){
-  assert.equal(env.KINGDOM_IMAGE_PUBLICATION_ENABLED,'true');assert.equal(env.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED,'true');
   assert.equal(env.KINGDOM_IMAGE_PROMOTE,'false');assert.equal(imageRegistrySetup(env),'preconfigured');
   assert.ok(!env.KINGDOM_IMAGE_RUN_ID&&!env.KINGDOM_IMAGE_ARTIFACT_ID&&!env.KINGDOM_IMAGE_MANIFEST_DIGEST);
  }else{
   assert.ok(['true','false'].includes(env.KINGDOM_IMAGE_PROMOTE));imageRegistrySetup(env);
-  gameTransport({...env,KINGDOM_GAME_TRANSPORT:'oci-image-v1'});
+  assert.equal(env.KINGDOM_IMAGE_EXCLUSIVE_WINDOW,'true');
   assert.match(env.KINGDOM_IMAGE_RUN_ID??'',id);assert.match(env.KINGDOM_IMAGE_ARTIFACT_ID??'',id);assert.match(env.KINGDOM_IMAGE_MANIFEST_DIGEST??'',imageDigest);
  }
+ return operation;
+}
+// Full authorization remains mandatory in every operational caller.
+export function checkImageRequest(env){
+ const operation=checkImageRequestShape(env);
+ if(operation==='image-prepare'){
+  assert.equal(env.KINGDOM_IMAGE_PUBLICATION_ENABLED,'true');assert.equal(env.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED,'true');
+ }else gameTransport({...env,KINGDOM_GAME_TRANSPORT:'oci-image-v1'});
  return operation;
 }
 export function checkNoImageRequest(env){

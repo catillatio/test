@@ -52,6 +52,17 @@ review. No local CLI/software or Windows access is required.
    evidence; do not reinstall catalogs, alter credentials or run a rehearsal merely
    to validate the registry.
 
+## Authorization scope
+
+Image publication flags remain in GitHub's protected **production environment**;
+do not duplicate them as repository variables. The unprotected safety job checks
+request shape, branch/ref, commit, attempt and input separation. It is not a
+publication approval. Once the protected job starts after owner review, its steps
+resolve the environment variables and enforce full authorization before building
+or publishing. Operational validators continue checking these flags.
+
+[Run #72 root cause and corrected owner procedure](IMAGE_PREPARE_AUTHORIZATION_FIX.md).
+
 ## Prepare one exact image; no production recovery/deploy
 
 Set protected GitHub environment variables

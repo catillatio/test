@@ -7,7 +7,7 @@ import {mkdir,readFile,writeFile,mkdtemp,rm,readdir,lstat} from 'node:fs/promise
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {candidateDigest} from './candidate.mjs';
-import {checkImageRequest,checkNoImageRequest,checkImageCandidate,checkImageIdentity,imageRepository,imagePackage,imageDigest,imagePolicy,definitionDigest,imageRegistrySetup} from './image-policy.mjs';
+import {checkImageRequest,checkImageRequestShape,checkNoImageRequest,checkImageCandidate,checkImageIdentity,imageRepository,imagePackage,imageDigest,imagePolicy,definitionDigest,imageRegistrySetup} from './image-policy.mjs';
 
 const media=['application/vnd.oci.image.manifest.v1+json','application/vnd.docker.distribution.manifest.v2+json'];
 const sha256=bytes=>'sha256:'+createHash('sha256').update(bytes).digest('hex');
@@ -169,8 +169,9 @@ async function publish(env){
 async function main(){
  const mode=process.argv[2];process.umask(0o077);
  try{
-  assert.ok(['validate-request','validate-source-request','check-build','publish','verify'].includes(mode));
+  assert.ok(['validate-request-shape','validate-request','validate-source-request','check-build','publish','verify'].includes(mode));
   if(mode==='validate-source-request'){checkNoImageRequest(process.env);console.log('IMAGE_REQUEST_SEPARATION: PASS');return;}
+  if(mode==='validate-request-shape'){checkImageRequestShape(process.env);console.log('IMAGE_REQUEST_SHAPE: PASS');return;}
   checkImageRequest(process.env);
   if(mode==='check-build'){assert.equal(await command('git',['rev-parse','HEAD']),process.env.GITHUB_SHA);await checkBuildTree();}
   if(mode==='publish')await publish(process.env);

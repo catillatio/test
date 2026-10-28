@@ -88,15 +88,12 @@ jobs:
           KINGDOM_IMAGE_MANIFEST_DIGEST: ${{ inputs.image_manifest_digest }}
           KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS: ${{ inputs.image_install_registry_credentials }}
           KINGDOM_IMAGE_EXCLUSIVE_WINDOW: ${{ inputs.image_exclusive_window }}
-      - name: Validate disabled-by-default image request separation
+      - name: Validate image request shape before protected authorization
         if: startsWith(inputs.operation, 'image-')
-        run: node knights-reforged/deployment/release/image.mjs validate-request
+        run: node knights-reforged/deployment/release/image.mjs validate-request-shape
         env:
           KINGDOM_IMAGE_OPERATION: ${{ inputs.operation }}
           KINGDOM_IMAGE_PROMOTE: ${{ inputs.promote }}
-          KINGDOM_IMAGE_PUBLICATION_ENABLED: ${{ vars.KINGDOM_IMAGE_PUBLICATION_ENABLED }}
-          KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED: ${{ vars.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED }}
-          KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
           KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS: ${{ inputs.image_install_registry_credentials }}
           KINGDOM_IMAGE_EXCLUSIVE_WINDOW: ${{ inputs.image_exclusive_window }}
           KINGDOM_IMAGE_RUN_ID: ${{ inputs.image_run_id }}
@@ -148,14 +145,20 @@ jobs:
     env:
       KINGDOM_IMAGE_OPERATION: image-prepare
       KINGDOM_IMAGE_PROMOTE: ${{ inputs.promote }}
-      KINGDOM_IMAGE_PUBLICATION_ENABLED: ${{ vars.KINGDOM_IMAGE_PUBLICATION_ENABLED }}
-      KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED: ${{ vars.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with: {persist-credentials: false, ref: '${{ github.sha }}'}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with: {node-version: '24.22.0'}
+      - name: Authorize image publication inside the protected production environment
+        run: node deployment/release/image.mjs validate-request
+        env:
+          KINGDOM_IMAGE_PUBLICATION_ENABLED: ${{ vars.KINGDOM_IMAGE_PUBLICATION_ENABLED }}
+          KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED: ${{ vars.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED }}
       - name: Build and probe exact image without production credentials
+        env:
+          KINGDOM_IMAGE_PUBLICATION_ENABLED: ${{ vars.KINGDOM_IMAGE_PUBLICATION_ENABLED }}
+          KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED: ${{ vars.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED }}
         run: |
           npm ci --no-audit --no-fund
           npm run build
@@ -166,6 +169,8 @@ jobs:
       - name: Publish only to the preconfigured private package and verify digest pull
         run: node deployment/release/image.mjs publish
         env:
+          KINGDOM_IMAGE_PUBLICATION_ENABLED: ${{ vars.KINGDOM_IMAGE_PUBLICATION_ENABLED }}
+          KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED: ${{ vars.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED }}
           GITHUB_TOKEN: ${{ github.token }}
           KINGDOM_IMAGE_REGISTRY_READ_TOKEN: ${{ secrets.KINGDOM_IMAGE_REGISTRY_READ_TOKEN }}
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -210,8 +215,6 @@ jobs:
       KINGDOM_BACKUP_PATH_STYLE: ${{ vars.KINGDOM_BACKUP_PATH_STYLE }}
       KINGDOM_BACKUP_KEY_VERIFIED: ${{ vars.KINGDOM_BACKUP_KEY_VERIFIED }}
       KINGDOM_GAME_TRANSPORT: ${{ inputs.operation == 'image-release' && 'oci-image-v1' || 'source-v2' }}
-      KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
-      KINGDOM_GAME_IMAGE_REGISTRY_READY: ${{ vars.KINGDOM_GAME_IMAGE_REGISTRY_READY }}
       KINGDOM_IMAGE_OPERATION: ${{ inputs.operation }}
       KINGDOM_IMAGE_PROMOTE: ${{ inputs.promote }}
       KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS: ${{ inputs.image_install_registry_credentials }}
@@ -224,6 +227,11 @@ jobs:
         with: {persist-credentials: false}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with: {node-version: '24.22.0'}
+      - name: Authorize image release inside the protected production environment
+        if: inputs.operation == 'image-release'
+        run: node knights-reforged/deployment/release/image.mjs validate-request
+        env:
+          KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
       - name: Install locked game and pinned provider tooling before exposing secrets
         run: |
           mkdir -p "$RUNNER_TEMP/railway-cli"
@@ -243,17 +251,21 @@ jobs:
         if: inputs.operation == 'image-release'
         run: node knights-reforged/deployment/release/image.mjs verify
         env:
+          KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
           GH_TOKEN: ${{ github.token }}
           KINGDOM_IMAGE_REGISTRY_READ_TOKEN: ${{ secrets.KINGDOM_IMAGE_REGISTRY_READ_TOKEN }}
       - name: Verify game target and empty staging before recovery without signing credentials
         if: inputs.operation == 'image-release'
         run: node knights-reforged/deployment/release/image-deploy.mjs preflight
         env:
+          KINGDOM_GAME_IMAGE_REGISTRY_READY: ${{ vars.KINGDOM_GAME_IMAGE_REGISTRY_READY }}
+          KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           KINGDOM_IMAGE_REGISTRY_READ_TOKEN: ${{ inputs.image_install_registry_credentials && secrets.KINGDOM_IMAGE_REGISTRY_READ_TOKEN || '' }}
       - name: Run private backup and isolated restored-copy job; independently export encrypted recovery
         id: prepare
         env:
+          KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           KINGDOM_BACKUP_ACCESS_KEY_ID: ${{ secrets.KINGDOM_BACKUP_ACCESS_KEY_ID }}
           KINGDOM_BACKUP_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_BACKUP_SECRET_ACCESS_KEY }}
@@ -281,6 +293,7 @@ jobs:
       - name: Promote only after every backup gate; verify health and saved realm
         if: inputs.promote
         env:
+          KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           KINGDOM_BACKUP_ACCESS_KEY_ID: ${{ secrets.KINGDOM_BACKUP_ACCESS_KEY_ID }}
           KINGDOM_BACKUP_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_BACKUP_SECRET_ACCESS_KEY }}
