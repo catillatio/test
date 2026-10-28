@@ -1,0 +1,35 @@
+/* Approved compact Land accounting. Artwork and row geometry stay unchanged. */
+.kingdoms-ui.realm-remaster.screen-land {
+  --land-gold: #e8ca8e; --land-ink: #eee7d8; --land-muted: #bcb9a8;
+  --land-rule: #8d79454d; --land-surface: #101010f2;
+}
+.kingdoms-ui.realm-remaster.screen-land .land-income-panel { padding: 0; margin: 0 0 12px; border: 1px solid #88734d; border-radius: 4px; background: linear-gradient(105deg,#25251bf5,#131313f5 70%); box-shadow: inset 0 1px #eed69a1a; }
+.kingdoms-ui.realm-remaster.screen-land .land-flow-head { display: grid; grid-template-columns: minmax(0,1.3fr) minmax(0,1fr) 12px; gap: 10px; min-height: 78px; height: auto; padding: 10px 12px; border: 0; background: transparent; box-shadow: none; align-items: center; }
+.kingdoms-ui.realm-remaster.screen-land .land-flow-head::-webkit-details-marker { display: none; }
+.kingdoms-ui.realm-remaster.screen-land :is(.land-net-summary,.land-next-summary) { min-width: 0; display: grid; gap: 4px; }
+.kingdoms-ui.realm-remaster.screen-land .land-summary-label { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; color: #cec4a9; font: 700 .78rem/1.25 Georgia,serif; }
+.kingdoms-ui.realm-remaster.screen-land .land-summary-label small { font: .66rem/1.3 Arial,sans-serif; color: var(--land-muted); }
+.kingdoms-ui.realm-remaster.screen-land .land-summary-label .flow-icon { width: 17px; height: 17px; }
+.kingdoms-ui.realm-remaster.screen-land [data-land-summary-net] { font: 700 1.25rem/1.15 Georgia,serif; overflow-wrap: anywhere; }
+.kingdoms-ui.realm-remaster.screen-land .land-countdown { font: 700 1.08rem/1.25 Georgia,serif; color: #e2d8bd; white-space: normal; }
+.kingdoms-ui.realm-remaster.screen-land .flow-caret { font: 700 17px/1 Georgia,serif; color: #c0a572; }
+.kingdoms-ui.realm-remaster.screen-land .land-sync-note { margin: 0; padding: 0 12px 7px; font: 10px/1.3 Arial,sans-serif; color: #aaa995; }
+.kingdoms-ui.realm-remaster.screen-land .land-flow-body { display: block; height: auto; border-top: 1px solid var(--land-rule); }
+.kingdoms-ui.realm-remaster.screen-land .land-flow-body .flow-grid { display: grid; grid-template-columns: minmax(0,1fr); grid-template-rows: auto; grid-auto-flow: row; height: auto; gap: 7px; padding: 12px; }
+.kingdoms-ui.realm-remaster.screen-land .land-flow-body .flow-grid:before { display: none; }
+.kingdoms-ui.realm-remaster.screen-land .land-flow-body .flow-grid > div { display: flex; align-items: baseline; justify-content: space-between; padding: 0; gap: 8px; min-width: 0; border: 0; }
+.kingdoms-ui.realm-remaster.screen-land .land-flow-body .flow-grid :is(dt,dd) { font: 12px/1.4 Arial,sans-serif; white-space: normal; }
+.kingdoms-ui.realm-remaster.screen-land .land-flow-body .flow-grid dd { margin: 0; text-align: right; }
+.kingdoms-ui.realm-remaster.screen-land .land-flow-body .flow-grid small { font: inherit; }
+.kingdoms-ui.realm-remaster.screen-land .land-payment-row { min-height: 0; height: auto; padding: 0 12px 10px; border: 0; display: flex; justify-content: space-between; gap: 8px; font: 12px/1.4 Arial,sans-serif; }
+.kingdoms-ui.realm-remaster.screen-land .land-payment-row time { position: static; display: block; width: auto; height: auto; clip-path: none; overflow: visible; white-space: normal; font: 12px/1.4 Arial,sans-serif; }
+.kingdoms-ui.realm-remaster.screen-land .income-explanation { margin: 0 12px; border-top: 1px solid var(--land-rule); }
+.kingdoms-ui.realm-remaster.screen-land .income-explanation > summary { min-height: 44px; display: flex; align-items: center; gap: 8px; font-size: 12px; }
+
+@media (min-width: 600px) {
+ .kingdoms-ui.realm-remaster.screen-land .land-flow-head { grid-template-columns: minmax(0,1fr) minmax(0,1fr) 16px; min-height: 78px; padding: 12px 18px; }
+ .kingdoms-ui.realm-remaster.screen-land [data-land-summary-net] { font-size: 1.5rem; }
+ .kingdoms-ui.realm-remaster.screen-land .land-countdown { font-size: 1.3rem; }
+ .kingdoms-ui.realm-remaster.screen-land .land-flow-body .flow-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px 24px; padding: 16px 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .kingdoms-ui.realm-remaster.screen-land .single-trades .button { transition: none; } }

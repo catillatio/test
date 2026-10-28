@@ -1,0 +1,82 @@
+[
+  {
+    "file": "kingdoms-live.css",
+    "selector": ".kingdoms-ui .button-gold"
+  },
+  {
+    "file": "kingdoms-live.css",
+    "selector": ".kingdoms-ui .button-gold:hover:not(:disabled)"
+  },
+  {
+    "file": "kingdoms-live.css",
+    "selector": ".kingdoms-ui .button-outline"
+  },
+  {
+    "file": "kingdoms-live.css",
+    "selector": ".kingdoms-ui .button-outline:hover:not(:disabled)"
+  },
+  {
+    "file": "kingdoms-live.css",
+    "selector": ".kingdoms-ui .button:active:not(:disabled)"
+  },
+  {
+    "file": "kingdoms-live.css",
+    "selector": ".kingdoms-ui .button:disabled"
+  },
+  {
+    "file": "alpha.css",
+    "selector": ".kingdoms-ui .button-gold"
+  },
+  {
+    "file": "alpha.css",
+    "selector": ".kingdoms-ui .button-outline"
+  },
+  {
+    "file": "alpha.css",
+    "selector": ".kingdoms-ui .button:disabled"
+  },
+  {
+    "file": "remaster.css",
+    "selector": ".kingdoms-ui .button-gold"
+  },
+  {
+    "file": "remaster.css",
+    "selector": ".kingdoms-ui .button-outline"
+  },
+  {
+    "file": "remaster.css",
+    "selector": ".kingdoms-ui .button:hover:not(:disabled)"
+  },
+  {
+    "file": "remaster.css",
+    "selector": ".kingdoms-ui .button:active:not(:disabled)"
+  },
+  {
+    "file": "remaster.css",
+    "selector": ".kingdoms-ui .button:disabled"
+  },
+  {
+    "file": "remaster.css",
+    "selector": ".kingdoms-ui .button:active:not(:disabled)"
+  },
+  {
+    "file": "realm-theme.css",
+    "selector": ".kingdoms-ui.realm-remaster .button-gold"
+  },
+  {
+    "file": "realm-theme.css",
+    "selector": ".kingdoms-ui.realm-remaster .button-outline"
+  },
+  {
+    "file": "realm-theme.css",
+    "selector": ".kingdoms-ui.realm-remaster .button:hover:not(:disabled)"
+  },
+  {
+    "file": "realm-theme.css",
+    "selector": ".kingdoms-ui.realm-remaster .button:active:not(:disabled)"
+  },
+  {
+    "file": "realm-theme.css",
+    "selector": ".kingdoms-ui.realm-remaster .button:focus-visible"
+  }
+]
