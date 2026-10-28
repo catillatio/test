@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {deployImage,preflightImageTarget,emptyImagePatch,imageReleaseKeys,imageInspectQuery,inspectImageTargetState} from '../deployment/release/image-deploy.mjs';
 import {canonical} from '../deployment/release/image-policy.mjs';
-import {inspectImageTarget} from '../deployment/release/inspect-image-target.mjs';
+import {inspectImageTarget,sanitizedTargetMetadata} from '../deployment/release/inspect-image-target.mjs';
 import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -12,16 +12,23 @@ import {candidate,approval,ids} from './fixtures/release-image.mjs';
 const secret='synthetic-private-proof provider-token https://private.invalid/?credential=fixture';
 const oldId='77777777-7777-4777-8777-777777777777',newId='88888888-8888-4888-8888-888888888888',patchId='99999999-9999-4999-8999-999999999999';
 const failedId='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
-function fixture(mode='success',{install=false,failedLatest=false,regional=false,edit}={}){
+const capturedObservation=JSON.parse(readFileSync(new URL('./fixtures/railway-image-target-observation-5.json',import.meta.url),'utf8'));
+function fixture(mode='success',{install=false,failedLatest=false,regional=false,providerShape=false,edit}={}){
  const target={projectId:ids[0],environmentId:ids[1],serviceId:ids[2]},trace=[],logs=[];let staged,receipt,clock=0,inspectCount=0;
  const identity={id:oldId,...target,status:'SUCCESS',createdAt:'2026-10-01T00:00:00Z',updatedAt:'2026-10-01T00:01:00Z',deploymentStopped:false,instances:[{id:'running-game-instance',status:'RUNNING'}]};
  let game={serviceId:target.serviceId,environmentId:target.environmentId,startCommand:'node deployment/start.mjs',preDeployCommand:['node deployment/migrate.mjs'],healthcheckPath:'/healthz',healthcheckTimeout:120,numReplicas:1,restartPolicyType:'ON_FAILURE',rootDirectory:'/knights-reforged',source:{image:null,repo:'catillatio/test'},latestDeployment:identity,activeDeployments:[structuredClone(identity)]};
  if(failedLatest)game.latestDeployment={...structuredClone(identity),id:failedId,status:'FAILED',createdAt:'2026-10-01T01:00:00Z',updatedAt:'2026-10-01T01:01:00Z',deploymentStopped:true,instances:[]};
  if(regional)game.numReplicas=null;
+ if(providerShape){
+  const fields=capturedObservation.fields;
+  game.healthcheckTimeout=fields['game.healthcheckTimeout'];
+  game.activeDeployments[0].instances=fields['active.instances.status'].map((status,i)=>({id:'synthetic-game-instance-'+i,status}));
+ }
  const {source,...snapshot}=game;
  const settings={registrySetup:install?'install-read-only':'preconfigured',sha:candidate().sha,projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,imageTargetDigest:createHash('sha256').update(canonical({...snapshot,regionalReplicas:regional?{iad:1}:null})).digest('hex')};
  const values={KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_SHA:candidate().sha,KINGDOM_RESTORE_TEST_DATABASE:'kc_fixture_restore_test',KINGDOM_RELEASE_BACKUP_PROOF:secret,KINGDOM_RELEASE_ARTIFACT_KIND:'oci-image-v1',KINGDOM_RELEASE_IMAGE_REFERENCE:candidate().reference,KINGDOM_RELEASE_IMAGE_DIGEST:candidate().manifestDigest};
- const cleared=()=>mode==='same_committed_placeholder'?structuredClone(receipt):mode==='empty_placeholder'?{id:'opaque-empty-id',environmentId:target.environmentId,status:'STAGED',appliedAt:null,lastAppliedError:null,createdAt:'2026-10-02T00:00:01Z',updatedAt:'2026-10-02T00:00:01Z',patch:{}}:null;
+ const emptyPlaceholder=()=>({id:'opaque-empty-id',environmentId:target.environmentId,status:'STAGED',appliedAt:null,lastAppliedError:null,createdAt:'2026-10-02T00:00:01Z',updatedAt:'2026-10-02T00:00:01Z',patch:{}});
+ const cleared=()=>mode==='same_committed_placeholder'?structuredClone(receipt):mode==='empty_placeholder'||providerShape?emptyPlaceholder():null;
  const base=pending=>{
   const b={project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,projectId:target.projectId,name:'production',config:{services:{[target.serviceId]:{deploy:regional?{multiRegionConfig:{iad:{numReplicas:1}}}:{},variables:{PRIVATE:{value:secret}}}}}},game:structuredClone(game),inFlight:{edges:[]},pending};
   edit?.(b,{staged:!!staged,committed:!!receipt});return b;
@@ -29,7 +36,7 @@ function fixture(mode='success',{install=false,failedLatest=false,regional=false
  const api=async(query,v)=>{
   if(query.startsWith('query KingdomImageInspect')){
    trace.push('inspect');inspectCount++;
-   let pending=receipt?cleared():staged?structuredClone(staged):null;
+   let pending=receipt?cleared():staged?structuredClone(staged):providerShape?emptyPlaceholder():null;
    if(mode==='unrelated_pending'&&!staged)pending={environmentId:target.environmentId,status:'STAGED',lastAppliedError:null,patch:{services:{[ids[4]]:{variables:{PRIVATE:{value:secret}}}}}};
    if(staged&&!receipt&&mode==='revision_race')pending.updatedAt='2026-10-02T00:01:00Z';
    const b=base(pending);
@@ -235,10 +242,10 @@ test('an observer receives detached values and cannot mutate or bypass an accept
  assert.deepEqual(f.trace,['inspect']);
 });
 for(const [field,expected,actual,edit]of[
- ['game.healthcheckTimeout','120',null,b=>{b.game.healthcheckTimeout=null;b.game.restartPolicyType='ALWAYS';}],
+ ['game.healthcheckTimeout','120_OR_UNSET_DEFAULT_300','MISSING',b=>{delete b.game.healthcheckTimeout;b.game.restartPolicyType='ALWAYS';}],
  ['game.restartPolicyType','ON_FAILURE','MISSING',b=>{delete b.game.restartPolicyType;}],
  ['game.rootDirectory','EXPECTED_ROOT',false,b=>{b.game.rootDirectory=null;}],
- ['active.instance.status','RUNNING','CREATED',b=>{b.game.activeDeployments[0].instances[0].status='CREATED';}],
+ ['active.instances.status','RUNNING_OR_REMOVED',['CREATED'],b=>{b.game.activeDeployments[0].instances[0].status='CREATED';}],
  ['latest.instances.status','ALL_EXITED',['REMOVED'],b=>{b.game.latestDeployment.instances=[{id:secret,status:'REMOVED'}];}],
  ['game.regionalReplicas.total','1',2,b=>{b.environment.config.services[ids[2]].deploy.multiRegionConfig.iad.numReplicas=2;}],
  ['pending.appliedAt','NULL','STRING',b=>{b.pending={environmentId:ids[1],status:'STAGED',lastAppliedError:null,id:secret,appliedAt:secret};}],
@@ -267,13 +274,13 @@ test('unknown status strings, timestamps, IDs, patch variables and exception dif
 test('actual inspection entrypoint emits only sanitized JSON through authenticated query-only transport',async()=>{
  const folder=mkdtempSync(join(tmpdir(),'image-target-inspection-'));
  try{
-  const f=fixture('success',{failedLatest:true,regional:true,edit:b=>{b.game.healthcheckTimeout=null;}}),data=await f.api(imageInspectQuery,{projectId:ids[0],environmentId:ids[1],serviceId:ids[2]});
+  const f=fixture('success',{failedLatest:true,regional:true,edit:b=>{delete b.game.healthcheckTimeout;}}),data=await f.api(imageInspectQuery,{projectId:ids[0],environmentId:ids[1],serviceId:ids[2]});
   const preload=join(folder,'provider.mjs');
   writeFileSync(preload,`import assert from 'node:assert/strict';globalThis.fetch=async(url,options)=>{assert.equal(url,'https://backboard.railway.com/graphql/v2');assert.equal(options.headers['project-access-token'],'synthetic-token');assert.equal(options.redirect,'error');assert.equal(options.cache,'no-store');const body=JSON.parse(options.body);assert.match(body.query,/^query KingdomImageInspect\\(/);assert.doesNotMatch(body.query,/mutation|subscription/);return {ok:true,status:200,text:async()=>JSON.stringify({data:${JSON.stringify(data)}})};};`);
   const result=spawnSync(process.execPath,['--import',preload,new URL('../deployment/release/inspect-image-target.mjs',import.meta.url).pathname],{env:{PATH:process.env.PATH,...inspectEnv},encoding:'utf8',timeout:10000});
   assert.equal(result.status,1);assert.equal(result.stderr,'');
   const lines=result.stdout.trim().split('\n');assert.ok(lines.every(l=>/^IMAGE_TARGET_(INSPECTION|FIRST_REJECTION|CHECK|FIELD): /.test(l)));
-  assert.deepEqual(JSON.parse(lines[1].slice('IMAGE_TARGET_FIRST_REJECTION: '.length)),{field:'game.healthcheckTimeout',expected:'120',actual:null});
+  assert.deepEqual(JSON.parse(lines[1].slice('IMAGE_TARGET_FIRST_REJECTION: '.length)),{field:'game.healthcheckTimeout',expected:'120_OR_UNSET_DEFAULT_300',actual:'MISSING'});
   assert.equal(JSON.parse(lines[0].slice('IMAGE_TARGET_INSPECTION: '.length)).authorizesRelease,false);
   assert.doesNotMatch(result.stdout,/synthetic|https?:|credential=|[a-f0-9]{8}-[a-f0-9]{4}-/);
  }finally{rmSync(folder,{recursive:true,force:true});}
@@ -286,4 +293,54 @@ test('workflow offers opt-in read-only inspection under the existing owner gate 
  assert.doesNotMatch(workflow,/image\.mjs publish|run\.mjs|worker\.mjs|upload-artifact|packages: write|KINGDOM_BACKUP_|SIGNING|REGISTRY_READ_TOKEN|railway up/);
  const source=readFileSync(new URL('../deployment/release/inspect-image-target.mjs',import.meta.url),'utf8');assert.match(source,/\[imageInspectQuery,imageReceiptQuery\]\.includes\(query\)/);assert.match(source,/assert\.ok\(\+\+reads<=2\)/);
  assert.doesNotMatch(source,/child_process|console\.(error|warn)|error\.(message|stack)|writeFile|createHash|deployImage\(/);
+});
+
+test('captured sanitized provider shape passes the shared read-only guard with synthetic identity envelopes',async()=>{
+ const f=fixture('success',{install:true,failedLatest:true,regional:true,providerShape:true});
+ const data=await f.api(imageInspectQuery,{projectId:ids[0],environmentId:ids[1],serviceId:ids[2]});
+ const actual=sanitizedTargetMetadata(data,{serviceId:ids[2]});
+ for(const [field,value]of Object.entries(capturedObservation.fields))assert.deepEqual(actual[field],value,field);
+ const inspected=fixture('success',{install:true,failedLatest:true,regional:true,providerShape:true});
+ const result=await inspectImageTarget(inspectEnv,{api:inspected.api});assert.equal(result.result,'MATCH');assert.equal(result.firstRejected,null);assert.deepEqual(inspected.trace,['inspect']);
+ const baseline=JSON.parse((await preflightImageTarget(f.settings,approval(),{api:f.api})).baseline);
+ assert.equal(baseline.healthcheckTimeout,null);assert.deepEqual(baseline.activeDeployments[0].instances.map(i=>i.status),['REMOVED','RUNNING']);
+ assert.equal(capturedObservation.firstRejected.field,'game.healthcheckTimeout');assert.equal(capturedObservation.firstRejected.actual,null);
+});
+test('complete synthetic first handoff preserves raw null timeout and all removed/running identities through the exact commit',async()=>{
+ const f=fixture('success',{install:true,failedLatest:true,regional:true,providerShape:true});assert.equal(await f.run(),newId);
+ assert.deepEqual(f.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','deploy','identity']);
+});
+for(const value of [undefined,0,-1,121,300,Number.NaN,'120','300',{},[]])test('timeout rejects unsupported/missing explicit setting '+String(value),async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,providerShape:true,edit:b=>{b.game.healthcheckTimeout=value;}});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+for(const where of ['service','shared','serialized','missing config','unknown variable map'])test('null timeout requires verified unset configuration and no override: '+where,async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,providerShape:true,edit:b=>{
+  const service=b.environment.config.services[ids[2]];
+  if(where==='service')service.variables.RAILWAY_HEALTHCHECK_TIMEOUT_SEC={value:secret};
+  if(where==='shared')b.environment.config.sharedVariables={RAILWAY_HEALTHCHECK_TIMEOUT_SEC:{value:secret}};
+  if(where==='serialized')service.deploy.healthcheckTimeout=600;
+  if(where==='missing config')delete service.deploy;
+  if(where==='unknown variable map')service.variables=[];
+ }});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+for(const status of ['CREATED','INITIALIZING','RESTARTING','REMOVING','CRASHED','STOPPED','EXITED','SKIPPED','OTHER'])test('removed history does not permit another non-running or uncertain instance: '+status,async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,providerShape:true,edit:b=>{b.game.activeDeployments[0].instances[0].status=status;}});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+test('removed history cannot hide two running instances, duplicate identity or no running instance',async()=>{
+ for(const edit of [b=>{b.game.activeDeployments[0].instances.push({id:'other-running',status:'RUNNING'});},b=>{b.game.activeDeployments[0].instances[0].id=b.game.activeDeployments[0].instances[1].id;},b=>{b.game.activeDeployments[0].instances[1].status='REMOVED';}]){
+  const f=fixture('success',{failedLatest:true,regional:true,providerShape:true,edit});await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+ }
+});
+for(const point of ['before commit','after commit'])for(const change of ['raw timeout','removed identity','running identity','override'])test('captured shape remains immutably bound across '+point+': '+change,async()=>{
+ const f=fixture('success',{install:true,failedLatest:true,regional:true,providerShape:true,edit:(b,state)=>{
+  if(!state.staged||state.committed!==(point==='after commit'))return;
+  if(change==='raw timeout')b.game.healthcheckTimeout=120;
+  if(change==='removed identity')b.game.activeDeployments[0].instances[0].id='other-removed-instance';
+  if(change==='running identity')b.game.activeDeployments[0].instances[1].id='restarted-running-instance';
+  if(change==='override')b.environment.config.services[ids[2]].variables.RAILWAY_HEALTHCHECK_TIMEOUT_SEC={value:'600'};
+ }});
+ await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),point==='before commit'?['stage']:['stage','commit']);
 });

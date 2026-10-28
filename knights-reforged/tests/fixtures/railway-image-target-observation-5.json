@@ -1,0 +1,69 @@
+{
+  "kind": "sanitized-authenticated-provider-shape",
+  "evidence": {
+    "runUrl": "https://github.com/catillatio/test/actions/runs/40623167100",
+    "jobId": "122601788559",
+    "sourceSha": "d0b8d70fddae2c9ce81aee9accba65de30d73159"
+  },
+  "firstRejected": {
+    "field": "game.healthcheckTimeout",
+    "expected": "120",
+    "actual": null
+  },
+  "fields": {
+    "game.healthcheckTimeout": null,
+    "game.restartPolicyType": "ON_FAILURE",
+    "game.rootDirectory.type": "STRING",
+    "game.rootDirectory.matches": true,
+    "game.startCommand.type": "STRING",
+    "game.startCommand.matches": true,
+    "game.preDeployCommand.type": "ARRAY",
+    "game.preDeployCommand.matches": true,
+    "game.healthcheckPath.type": "STRING",
+    "game.healthcheckPath.matches": true,
+    "game.numReplicas": null,
+    "game.regionalReplicas.type": "OBJECT",
+    "game.regionalReplicas.counts": [
+      1
+    ],
+    "game.source.type": "OBJECT",
+    "game.source.repo.matches": true,
+    "game.source.image.type": "NULL",
+    "game.activeDeployments.count": 1,
+    "inFlight.count": 0,
+    "latest.status": "FAILED",
+    "latest.deploymentStopped": true,
+    "latest.instances.type": "ARRAY",
+    "latest.instances.count": 0,
+    "latest.instances.status": [],
+    "latest.createdAt.valid": true,
+    "latest.updatedAt.valid": true,
+    "active.status": "SUCCESS",
+    "active.deploymentStopped": false,
+    "active.instances.type": "ARRAY",
+    "active.instances.count": 2,
+    "active.instances.status": [
+      "REMOVED",
+      "RUNNING"
+    ],
+    "active.createdAt.valid": true,
+    "active.updatedAt.valid": true,
+    "pending.present": true,
+    "pending.type": "OBJECT",
+    "pending.status": "STAGED",
+    "pending.appliedAt.type": "NULL",
+    "pending.lastAppliedError.type": "NULL",
+    "pending.createdAt.valid": true,
+    "pending.updatedAt.valid": true,
+    "pending.appliedAt.valid": false,
+    "pending.patch.type": "OBJECT",
+    "pending.patch.onlyEmptyContainers": true
+  },
+  "additionalReadOnlyEvidence": {
+    "source": "Railway get_service_config and name-only list_variables",
+    "serializedTimeoutPresent": false,
+    "timeoutEnvironmentOverridePresent": false,
+    "variableValuesRead": false
+  },
+  "identityPolicy": "Identifiers and timestamp values are deliberately absent; test envelopes use synthetic identities."
+}

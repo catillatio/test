@@ -18,7 +18,7 @@ function safe(value){
 }
 const validDate=value=>typeof value==='string'&&Number.isFinite(Date.parse(value));
 function safeCheck(field,value){
- if(field==='latest.instances.status'&&Array.isArray(value))return value.slice(0,8).map(safe);
+ if(['latest.instances.status','active.instances.status'].includes(field)&&Array.isArray(value))return value.slice(0,8).map(safe);
  if(field.endsWith('.status')||field==='game.restartPolicyType'||field==='provider.query')return safe(value);
  return typeof value==='string'?type(value):safe(value);
 }
