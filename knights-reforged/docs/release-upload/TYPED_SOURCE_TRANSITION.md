@@ -54,8 +54,10 @@ health/login checks and post-release preservation remain unchanged.
    image reference and `repo:null`. Require an exact Boolean true acknowledgment.
    Do not retry an uncertain response, restage, disconnect or fall back to tags.
 5. Read and independently verify the exact effective source and serialized
-   source. The serialized source permits only image and optional literal-null
-   repository; old branch/commit fields and unknown source fields fail. Recheck
+   source. The serialized source permits only image, optional literal-null
+   repository and an existing monorepo root directory that must remain exactly
+   unchanged and match the effective root. Old branch/commit fields, removed or
+   changed roots and unknown source fields fail. Recheck
    receipt, scope, pending changes, every release/credential value, unchanged
    full private configuration outside authorized fields and exact old runtime.
 6. Read once more immediately before one `serviceInstanceDeployV2`. Authenticate

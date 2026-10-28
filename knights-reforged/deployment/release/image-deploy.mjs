@@ -180,7 +180,8 @@ export async function inspectImageTargetState(settings,{token,api=railwayClient(
  const configuredSource=before.environment.config?.services?.[target.serviceId]?.source;
  const sourceAgrees=configuredSource&&typeof configuredSource==='object'&&!Array.isArray(configuredSource)&&
   (source.image===null?configuredSource.image===undefined||configuredSource.image===null:configuredSource.image===source.image)&&
-  (source.repo===null?configuredSource.repo===undefined||configuredSource.repo===null:configuredSource.repo===source.repo);
+  (source.repo===null?configuredSource.repo===undefined||configuredSource.repo===null:configuredSource.repo===source.repo)&&
+  (!Object.hasOwn(configuredSource,'rootDirectory')||configuredSource.rootDirectory===before.game.rootDirectory);
  check('game.source.config','MATCHES_EFFECTIVE_SOURCE',!!sourceAgrees,()=>assert.ok(sourceAgrees));
  return {target,baseline,source:{image:source.image,repo:source.repo},releaseVariables:appliedImageVariables(before,target),configuration:structuredClone(before.environment.config)};
 }
@@ -275,12 +276,16 @@ function checkAppliedImageValues(data,target,values){
   }
  });
 }
-function checkSourceConfigured(data,target,reference){
+function checkSourceConfigured(data,target,reference,priorSource){
  handoffCheck('APPLIED_IMAGE_SOURCE',()=>{
   assert.deepEqual(data.game.source,{image:reference,repo:null});
   const source=data.environment.config?.services?.[target.serviceId]?.source;
-  keys(source,Object.hasOwn(source??{},'repo')?['image','repo']:['image']);
+  // Root directory is a separate service setting serialized under source by
+  // Railway. Preserve it exactly; only GitHub association fields are removed.
+  const hadRoot=Object.hasOwn(priorSource??{},'rootDirectory');
+  keys(source,['image',...(Object.hasOwn(source??{},'repo')?['repo']:[]),...(hadRoot?['rootDirectory']:[])]);
   assert.equal(source.image,reference);if(Object.hasOwn(source,'repo'))assert.equal(source.repo,null);
+  if(hadRoot){assert.equal(source.rootDirectory,priorSource.rootDirectory);assert.equal(source.rootDirectory,data.game.rootDirectory);}
  });
 }
 function checkCommittedConfiguration(data,target,configuration,values,credentials,{sourceUpdated=false,source}={}){
@@ -289,7 +294,7 @@ function checkCommittedConfiguration(data,target,configuration,values,credential
   const applied=data.environment.config?.services?.[target.serviceId]?.deploy?.registryCredentials;
   keys(applied,['username','password']);assert.equal(applied.username,credentials.username);assert.equal(applied.password,credentials.password);
  });
- if(sourceUpdated)checkSourceConfigured(data,target,values.KINGDOM_RELEASE_IMAGE_REFERENCE);
+ if(sourceUpdated)checkSourceConfigured(data,target,values.KINGDOM_RELEASE_IMAGE_REFERENCE,configuration.services[target.serviceId].source);
  else handoffCheck('SOURCE_UNCHANGED_DURING_CONFIG_COMMIT',()=>assert.deepEqual(data.game.source,source));
  handoffCheck('UNRELATED_CONFIGURATION_DRIFT',()=>{
   // Compare full private configuration in memory. Never hash/log credentials or

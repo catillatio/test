@@ -442,6 +442,18 @@ for(const source of [undefined,null,{repo:'other/repository'},{repo:'catillatio/
  const f=fixture('success',{edit:b=>{b.environment.config.services[ids[2]].source=source;}});
  await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
 });
+test('published monorepo source.rootDirectory survives the typed transition unchanged',async()=>{
+ const f=fixture('success',{install:true,edit:b=>{b.environment.config.services[ids[2]].source.rootDirectory='/knights-reforged';}});
+ assert.equal(await f.run(),newId);
+});
+for(const changed of [undefined,'/other',null])test('typed transition cannot remove or reinterpret the monorepo root: '+String(changed),async()=>{
+ const f=fixture('success',{edit:(b,state)=>{const source=b.environment.config.services[ids[2]].source;if(!state.sourceUpdated)source.rootDirectory='/knights-reforged';else if(changed!==undefined)source.rootDirectory=changed;}});
+ await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='APPLIED_IMAGE_SOURCE');assert.equal(f.trace.includes('deploy'),false);
+});
+test('an initial serialized root conflicting with the effective root stops before recovery',async()=>{
+ const f=fixture('success',{edit:b=>{b.environment.config.services[ids[2]].source.rootDirectory='/other';}});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
 
 test('captured sanitized provider shape passes the shared read-only guard with synthetic identity envelopes',async()=>{
  const f=fixture('success',{install:true,failedLatest:true,regional:true,providerShape:true});

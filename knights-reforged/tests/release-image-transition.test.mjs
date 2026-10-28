@@ -25,7 +25,7 @@ async function rehearsal(t,{install=true,delta=true,existingCredentials=false,mo
  const identity={id:oldId,...target,status:'SUCCESS',createdAt:'2026-10-01T00:00:00Z',updatedAt:'2026-10-01T00:01:00Z',deploymentStopped:false,instances:[{id:oldIdentity.instanceId,status:'RUNNING'}]};
  const game={serviceId:ids[2],environmentId:ids[1],startCommand:'node deployment/start.mjs',preDeployCommand:['node deployment/migrate.mjs'],healthcheckPath:'/healthz',healthcheckTimeout:120,numReplicas:1,
   restartPolicyType:'ON_FAILURE',rootDirectory:'/knights-reforged',source:{repo:'catillatio/test',image:null},latestDeployment:identity,activeDeployments:[structuredClone(identity)]};
- const initialConfig={services:{[ids[2]]:{source:{repo:'catillatio/test',branch:'old-github-branch',commitSha:'0'.repeat(40)},build:{builder:'RAILPACK',watchPatterns:['src/**']},
+ const initialConfig={services:{[ids[2]]:{source:{repo:'catillatio/test',branch:'old-github-branch',commitSha:'0'.repeat(40),rootDirectory:'/knights-reforged'},build:{builder:'RAILPACK',watchPatterns:['src/**']},
   deploy:{startCommand:'node deployment/start.mjs',...(!install||existingCredentials?{registryCredentials:{username:'catillatio',password:registryPassword}}:{})},variables:{PRIVATE:{value:'unchanged-fixture'},KINGDOM_AUTOMATED_RELEASES:{value:'1'}}},
   [ids[4]]:{variables:{WORKER_PRIVATE:{value:'unchanged-worker-fixture'}}}},sharedVariables:{UNCHANGED_SHARED:{value:'shared-fixture'}}};
  let config=structuredClone(initialConfig),staged=null,receipt=null,sourceApplied=false,queued=false,receiptReads=0;
@@ -67,14 +67,14 @@ async function rehearsal(t,{install=true,delta=true,existingCredentials=false,mo
     calls.push('source');assert.deepEqual(v,{serviceId:ids[2],environmentId:ids[1],input:{source:{image:candidate().reference,repo:null}}});assert.ok(receipt);assert.equal(staged,null);assert.equal(queued,false);
     for(const name of imageReleaseKeys)assert.equal(config.services[ids[2]].variables[name].value,values[name]);
     assert.deepEqual(game.source,{repo:'catillatio/test',image:null});
-    sourceApplied=true;config.services[ids[2]].source={image:candidate().reference};game.source={image:candidate().reference,repo:mode==='repo_retained'?'catillatio/test':null};
+    sourceApplied=true;config.services[ids[2]].source={image:candidate().reference,rootDirectory:'/knights-reforged'};game.source={image:candidate().reference,repo:mode==='repo_retained'?'catillatio/test':null};
     if(mode==='implicit_source_restart')game.activeDeployments[0].instances[0].id='unapproved-restarted-instance';
     if(mode==='source_ack_lost'){req.socket.destroy();return;}
     if(mode==='source_graphql_error'){res.writeHead(200,{'content-type':'application/json'});res.end(JSON.stringify({errors:[{message:registryPassword,extensions:{code:'INTERNAL_SERVER_ERROR'}}]}));return;}
     data={serviceInstanceUpdate:true};
    }else if(query.startsWith('mutation KingdomImageDeploy')){
     calls.push('deploy');assert.deepEqual(v,{environmentId:ids[1],serviceId:ids[2]});assert.equal(queued,false);assert.equal(sourceApplied,true);assert.equal(staged,null);
-    assert.deepEqual(game.source,{image:candidate().reference,repo:null});assert.deepEqual(config.services[ids[2]].source,{image:candidate().reference});
+    assert.deepEqual(game.source,{image:candidate().reference,repo:null});assert.deepEqual(config.services[ids[2]].source,{image:candidate().reference,rootDirectory:'/knights-reforged'});
     const env={...runtimeEnv(),...Object.fromEntries(imageReleaseKeys.map(name=>[name,config.services[ids[2]].variables[name].value]))};
     assert.deepEqual(verifyProof(env.KINGDOM_RELEASE_BACKUP_PROOF,publicKey,env,candidate().candidateDigest,{imageIdentity:candidate().identity}),p);
     queued=true;if(mode==='deploy_ack_lost'){req.socket.destroy();return;}data={serviceInstanceDeployV2:newId};
