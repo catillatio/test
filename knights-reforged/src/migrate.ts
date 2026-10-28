@@ -1,6 +1,7 @@
 import {verifyActiveCoordinatedArtwork} from './coordinated-artwork.js';
 import {verifyEquipmentArtwork} from './equipment-artwork.js';
 import {humanPvpLoot} from './human-pvp-loot.js';
+import {pvpXp} from './pvp-xp-policy.js';
 import {equipmentPresentation,verifyPresentationAssets} from './equipment-presentation.js';
 import {verifyExpansionArtwork} from './expansion-artwork.js';
 import { readdir, readFile } from 'node:fs/promises';
@@ -38,7 +39,7 @@ export async function assertInstalledRulesets(sql:Sql) {
   await verifyEquipmentArtwork();
   await verifyPresentationAssets();
   if(!(await verifyExpansionArtwork()).ready)throw new Error('Exact deployed artwork registry verification failed.');
-  for(const definition of definitions) {
+  for(const definition of [...definitions,pvpXp]) {
     const stored=(await sql.query('SELECT definition FROM rulesets WHERE id=$1',[definition.id])).rows[0]?.definition;
     if(!stored)throw new Error('Ruleset '+definition.id+' is not installed. Run npm run db:migrate.');
     if(JSON.stringify(normalize(stored))!==JSON.stringify(normalize(definition)))throw new Error('An existing ruleset version is immutable. Create a new ruleset ID for changed rules.');
@@ -70,7 +71,7 @@ export async function migrate(db: Database, options: { through?: string } = {}) 
       await client.query(await readFile(join(projectRoot, 'migrations', name), 'utf8'));
       await client.query('INSERT INTO schema_migrations(name) VALUES($1)', [name]);
     }
-    for (const definition of definitions) {
+    for (const definition of [...definitions,pvpXp]) {
       await client.query('INSERT INTO rulesets(id,definition) VALUES($1,$2) ON CONFLICT DO NOTHING', [definition.id, definition]);
     }
     await assertInstalledRulesets(client);

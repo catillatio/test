@@ -1,0 +1,11 @@
+{
+  "id": "pvp-xp-hybrid-1",
+  "provenance": "Policy C correction, proposed for owner review; no historical reward backfill",
+  "easyStrengthRatio": 0.35,
+  "joiningStrengthPercent": 50,
+  "easyVictoryPercentages": [100, 50, 25, 10, 0],
+  "windowSeconds": 86400,
+  "bonusRequirementPercent": 10,
+  "maximumBonus": 200,
+  "budgetUnits": 10000
+}
