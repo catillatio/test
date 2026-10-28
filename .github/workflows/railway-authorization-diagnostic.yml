@@ -11,10 +11,14 @@ on:
         description: 'Read-only reconciliation of staged handoff 40629780333; never commits or deploys'
         type: boolean
         default: false
+      image_commit_history_inspection:
+        description: 'Read-only exact release 40638383544 commit receipt/history; never changes Railway'
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
-  group: ${{ (inputs.image_target_inspection || inputs.image_handoff_inspection) && 'kingdom-come-production' || 'kingdom-come-railway-authorization-diagnostic' }}
+  group: ${{ (inputs.image_target_inspection || inputs.image_handoff_inspection || inputs.image_commit_history_inspection) && 'kingdom-come-production' || 'kingdom-come-railway-authorization-diagnostic' }}
   cancel-in-progress: false
 jobs:
   diagnostic:
@@ -30,7 +34,7 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with: {node-version: '24.22.0'}
       - name: Verify only Railway token scope and target metadata
-        if: '!inputs.image_target_inspection && !inputs.image_handoff_inspection'
+        if: '!inputs.image_target_inspection && !inputs.image_handoff_inspection && !inputs.image_commit_history_inspection'
         env:
           # Direct bindings inside the approved job match the release's scopes;
           # no reusable-workflow secret forwarding or extra credential is needed.
@@ -41,7 +45,7 @@ jobs:
           RAILWAY_RELEASE_WORKER_SERVICE_ID: ${{ vars.RAILWAY_RELEASE_WORKER_SERVICE_ID }}
         run: bash knights-reforged/deployment/release/diagnose-railway.sh
       - name: Inspect exact first image handoff assertions without writes
-        if: inputs.image_target_inspection && !inputs.image_handoff_inspection
+        if: inputs.image_target_inspection && !inputs.image_handoff_inspection && !inputs.image_commit_history_inspection
         env:
           KINGDOM_IMAGE_TARGET_INSPECTION: 'true'
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
@@ -50,7 +54,7 @@ jobs:
           RAILWAY_GAME_SERVICE_ID: ${{ vars.RAILWAY_GAME_SERVICE_ID }}
         run: node knights-reforged/deployment/release/inspect-image-target.mjs
       - name: Inspect only the bound staged image handoff and signed evidence
-        if: inputs.image_handoff_inspection && !inputs.image_target_inspection
+        if: inputs.image_handoff_inspection && !inputs.image_target_inspection && !inputs.image_commit_history_inspection
         env:
           KINGDOM_IMAGE_HANDOFF_INSPECTION: 'true'
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
@@ -60,6 +64,15 @@ jobs:
           RAILWAY_GAME_SERVICE_ID: ${{ vars.RAILWAY_GAME_SERVICE_ID }}
           KINGDOM_RELEASE_VERIFY_KEY: ${{ vars.KINGDOM_RELEASE_VERIFY_KEY }}
         run: node knights-reforged/deployment/release/inspect-image-handoff.mjs
+      - name: Inspect only the exact release 78 commit history and current source
+        if: inputs.image_commit_history_inspection && !inputs.image_target_inspection && !inputs.image_handoff_inspection
+        env:
+          KINGDOM_IMAGE_COMMIT_HISTORY_INSPECTION: 'true'
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+          RAILWAY_GAME_SERVICE_ID: ${{ vars.RAILWAY_GAME_SERVICE_ID }}
+        run: node knights-reforged/deployment/release/inspect-image-commit-history.mjs
       - name: Reject ambiguous inspection modes without reading provider state
-        if: inputs.image_target_inspection && inputs.image_handoff_inspection
+        if: (inputs.image_target_inspection && inputs.image_handoff_inspection) || (inputs.image_target_inspection && inputs.image_commit_history_inspection) || (inputs.image_handoff_inspection && inputs.image_commit_history_inspection)
         run: exit 1
