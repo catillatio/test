@@ -63,6 +63,8 @@ or publishing. Operational validators continue checking these flags.
 
 [Run #72 root cause and corrected owner procedure](IMAGE_PREPARE_AUTHORIZATION_FIX.md).
 
+[Run #74 active-target correction and verification](IMAGE_TARGET_PREFLIGHT_FIX.md).
+
 ## Prepare one exact image; no production recovery/deploy
 
 Set protected GitHub environment variables

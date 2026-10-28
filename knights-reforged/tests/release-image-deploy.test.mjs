@@ -1,20 +1,26 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {deployImage,preflightImageTarget,emptyImagePatch,imageReleaseKeys} from '../deployment/release/image-deploy.mjs';
+import {deployImage,preflightImageTarget,emptyImagePatch,imageReleaseKeys,imageInspectQuery} from '../deployment/release/image-deploy.mjs';
 import {canonical} from '../deployment/release/image-policy.mjs';
 import {candidate,approval,ids} from './fixtures/release-image.mjs';
 const secret='synthetic-private-proof provider-token https://private.invalid/?credential=fixture';
 const oldId='77777777-7777-4777-8777-777777777777',newId='88888888-8888-4888-8888-888888888888',patchId='99999999-9999-4999-8999-999999999999';
-function fixture(mode='success',{install=false}={}){
+const failedId='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+function fixture(mode='success',{install=false,failedLatest=false,regional=false,edit}={}){
  const target={projectId:ids[0],environmentId:ids[1],serviceId:ids[2]},trace=[],logs=[];let staged,receipt,clock=0,inspectCount=0;
- const identity={id:oldId,...target,status:'SUCCESS',createdAt:'2026-10-01T00:00:00Z',updatedAt:'2026-10-01T00:01:00Z',deploymentStopped:false};
+ const identity={id:oldId,...target,status:'SUCCESS',createdAt:'2026-10-01T00:00:00Z',updatedAt:'2026-10-01T00:01:00Z',deploymentStopped:false,instances:[{id:'running-game-instance',status:'RUNNING'}]};
  let game={serviceId:target.serviceId,environmentId:target.environmentId,startCommand:'node deployment/start.mjs',preDeployCommand:['node deployment/migrate.mjs'],healthcheckPath:'/healthz',healthcheckTimeout:120,numReplicas:1,restartPolicyType:'ON_FAILURE',rootDirectory:'/knights-reforged',source:{image:null,repo:'catillatio/test'},latestDeployment:identity,activeDeployments:[structuredClone(identity)]};
+ if(failedLatest)game.latestDeployment={...structuredClone(identity),id:failedId,status:'FAILED',createdAt:'2026-10-01T01:00:00Z',updatedAt:'2026-10-01T01:01:00Z',deploymentStopped:true,instances:[]};
+ if(regional)game.numReplicas=null;
  const {source,...snapshot}=game;
- const settings={registrySetup:install?'install-read-only':'preconfigured',sha:candidate().sha,projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,imageTargetDigest:createHash('sha256').update(canonical(snapshot)).digest('hex')};
+ const settings={registrySetup:install?'install-read-only':'preconfigured',sha:candidate().sha,projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,imageTargetDigest:createHash('sha256').update(canonical({...snapshot,regionalReplicas:regional?{iad:1}:null})).digest('hex')};
  const values={KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_SHA:candidate().sha,KINGDOM_RESTORE_TEST_DATABASE:'kc_fixture_restore_test',KINGDOM_RELEASE_BACKUP_PROOF:secret,KINGDOM_RELEASE_ARTIFACT_KIND:'oci-image-v1',KINGDOM_RELEASE_IMAGE_REFERENCE:candidate().reference,KINGDOM_RELEASE_IMAGE_DIGEST:candidate().manifestDigest};
  const cleared=()=>mode==='same_committed_placeholder'?structuredClone(receipt):mode==='empty_placeholder'?{id:'opaque-empty-id',environmentId:target.environmentId,status:'STAGED',appliedAt:null,lastAppliedError:null,createdAt:'2026-10-02T00:00:01Z',updatedAt:'2026-10-02T00:00:01Z',patch:{}}:null;
- const base=pending=>({project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,projectId:target.projectId,name:'production'},game:structuredClone(game),pending});
+ const base=pending=>{
+  const b={project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,projectId:target.projectId,name:'production',config:{services:{[target.serviceId]:{deploy:regional?{multiRegionConfig:{iad:{numReplicas:1}}}:{},variables:{PRIVATE:{value:secret}}}}}},game:structuredClone(game),inFlight:{edges:[]},pending};
+  edit?.(b,{staged:!!staged,committed:!!receipt});return b;
+ };
  const api=async(query,v)=>{
   if(query.startsWith('query KingdomImageInspect')){
    trace.push('inspect');inspectCount++;
@@ -138,4 +144,74 @@ test('credentials cannot be smuggled through a preconfigured release or invalid 
   const f=fixture();f.settings.registrySetup=setup;
   await assert.rejects(deployImage(f.settings,approval(),f.values,{api:f.api,credentials}));assert.deepEqual(f.trace,[]);
  }
+});
+
+test('failed latest attempt is distinct from the sole authoritative healthy active deployment',async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,install:true});
+ const before=await preflightImageTarget(f.settings,approval(),{api:f.api});
+ const snapshot=JSON.parse(before.baseline);assert.equal(snapshot.latestDeployment.id,failedId);assert.equal(snapshot.latestDeployment.status,'FAILED');
+ assert.equal(snapshot.activeDeployments[0].id,oldId);assert.equal(snapshot.activeDeployments[0].status,'SUCCESS');assert.deepEqual(snapshot.regionalReplicas,{iad:1});
+ assert.ok(!before.baseline.includes(secret));assert.deepEqual(f.trace,['inspect']);
+ const release=fixture('success',{failedLatest:true,regional:true,install:true});assert.equal(await release.run(),newId);assert.deepEqual(release.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','deploy','identity']);
+});
+test('target queries ask for runtime instances and a bounded server-filtered in-flight check',()=>{
+ assert.match(imageInspectQuery,/instances\{id status\}/);assert.match(imageInspectQuery,/environment\([^)]*\)\{id projectId name config\}/);
+ assert.match(imageInspectQuery,/inFlight:deployments\(input:\{projectId:\$projectId,environmentId:\$environmentId,serviceId:\$serviceId,status:\{in:\[WAITING,NEEDS_APPROVAL,QUEUED,INITIALIZING,BUILDING,DEPLOYING,REMOVING\]\}\},first:1\)/);
+});
+const invalidTargets={
+ 'no active deployment':b=>{b.game.activeDeployments=[];},
+ 'two active deployments':b=>{b.game.activeDeployments.push({...structuredClone(b.game.activeDeployments[0]),id:newId});},
+ 'failed active':b=>{b.game.activeDeployments[0].status='FAILED';},
+ 'stopped active':b=>{b.game.activeDeployments[0].deploymentStopped=true;},
+ 'crashed instance':b=>{b.game.activeDeployments[0].instances[0].status='CRASHED';},
+ 'no running instance':b=>{b.game.activeDeployments[0].instances=[];},
+ 'two running instances':b=>{b.game.activeDeployments[0].instances.push({id:'other',status:'RUNNING'});},
+ 'wrong active scope':b=>{b.game.activeDeployments[0].serviceId=ids[4];},
+ 'wrong latest scope':b=>{b.game.latestDeployment.environmentId=ids[4];},
+ 'unlisted older success':b=>{b.game.latestDeployment.status='SUCCESS';},
+ 'latest still running despite terminal status':b=>{b.game.latestDeployment.instances=[{id:'unexpected',status:'RUNNING'}];},
+ 'latest earlier than active':b=>{b.game.latestDeployment.createdAt='2026-09-30T00:00:00Z';},
+ 'unknown latest status':b=>{b.game.latestDeployment.status='FUTURE_STATUS';},
+ 'missing in-flight result':b=>{delete b.inFlight;},
+ 'null replicas without regional evidence':b=>{delete b.environment.config.services[ids[2]].deploy.multiRegionConfig;},
+ 'two configured regional replicas':b=>{b.environment.config.services[ids[2]].deploy.multiRegionConfig.iad.numReplicas=2;},
+ 'multiple configured regions exceed one':b=>{b.environment.config.services[ids[2]].deploy.multiRegionConfig.ams={numReplicas:1};},
+ 'zero configured replicas':b=>{b.environment.config.services[ids[2]].deploy.multiRegionConfig.iad.numReplicas=0;},
+ 'string replica count':b=>{b.environment.config.services[ids[2]].deploy.multiRegionConfig.iad.numReplicas='1';},
+ 'undefined legacy replica count':b=>{delete b.game.numReplicas;},
+ 'wrong root directory':b=>{b.game.rootDirectory='/other';},
+ 'wrong health path':b=>{b.game.healthcheckPath='/other';},
+ 'wrong health timeout':b=>{b.game.healthcheckTimeout=121;},
+ 'wrong restart policy':b=>{b.game.restartPolicyType='ALWAYS';},
+ 'wrong repository':b=>{b.game.source.repo='other/repository';}
+};
+for(const [name,edit]of Object.entries(invalidTargets))test('read-only active-target validation rejects '+name,async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,edit});await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+for(const status of ['WAITING','NEEDS_APPROVAL','QUEUED','INITIALIZING','BUILDING','DEPLOYING','REMOVING'])test('no in-flight '+status+' attempt is accepted or ignored behind a failed latest',async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,edit:b=>{b.inFlight.edges=[{node:{id:newId}}];}});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+ const latest=fixture('success',{failedLatest:true,regional:true,edit:b=>{b.game.latestDeployment.status=status;}});await assert.rejects(preflightImageTarget(latest.settings,approval(),{api:latest.api}));assert.deepEqual(latest.trace,['inspect']);
+});
+for(const point of ['before commit','after commit'])for(const field of ['active identity','active timestamp','active instance','failed latest identity','failed latest timestamp','regional config','new in-flight attempt'])test('exact target binding rejects '+field+' changes '+point,async()=>{
+ const edit=(b,state)=>{
+  if(!state.staged||state.committed!==(point==='after commit'))return;
+  const d=b.game.activeDeployments[0];
+  if(field==='active identity')d.id=newId;
+  if(field==='active timestamp')d.updatedAt='2026-10-01T00:02:00Z';
+  if(field==='active instance')d.instances[0].id='restarted-instance';
+  if(field==='failed latest identity')b.game.latestDeployment.id=newId;
+  if(field==='failed latest timestamp')b.game.latestDeployment.updatedAt='2026-10-01T01:02:00Z';
+  if(field==='regional config')b.environment.config.services[ids[2]].deploy.multiRegionConfig={ams:{numReplicas:1}};
+  if(field==='new in-flight attempt')b.inFlight.edges=[{node:{id:newId}}];
+ };
+ const f=fixture('success',{failedLatest:true,regional:true,edit});await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),point==='before commit'?['stage']:['stage','commit']);
+});
+test('private environment values cannot influence the non-secret target digest',async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true}),changed=fixture('success',{failedLatest:true,regional:true,edit:b=>{b.environment.config.services[ids[2]].variables.PRIVATE.value='other synthetic credential';}});
+ const a=await preflightImageTarget(f.settings,approval(),{api:f.api}),b=await preflightImageTarget(changed.settings,approval(),{api:changed.api});assert.equal(a.baseline,b.baseline);
+});
+test('source changed by another editor cannot pass the fresh pre-commit read',async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,edit:(b,state)=>{if(state.staged&&!state.committed)b.game.source={image:candidate().reference,repo:null};}});
+ await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),['stage']);
 });
