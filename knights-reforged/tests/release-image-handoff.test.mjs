@@ -29,7 +29,7 @@ function fixture({delta=true,edit,readErrorAt,proofEdit,credential='match'}={}){
   patch:{services:{[ids[2]]:{source:{image:values.KINGDOM_RELEASE_IMAGE_REFERENCE,repo:null},deploy:{registryCredentials:credentials},variables}}}};
  const identity={id:ids[4],...target,status:'SUCCESS',createdAt:'2026-10-27T01:00:00Z',updatedAt:'2026-10-27T01:01:00Z',deploymentStopped:false,
   instances:[{id:'synthetic-removed-instance',status:'REMOVED'},{id:'synthetic-running-instance',status:'RUNNING'}]};
- const data={project:{id:ids[0],name:'merry-patience'},environment:{id:ids[1],projectId:ids[0],name:'production',config:{services:{[ids[2]]:{
+ const data={project:{id:ids[0],name:'merry-patience',environments:{edges:[{node:{id:ids[1],projectId:ids[0],deletedAt:null}}],pageInfo:{hasNextPage:false,hasPreviousPage:false}}},environment:{id:ids[1],projectId:ids[0],name:'production',config:{services:{[ids[2]]:{
   variables:{KINGDOM_AUTOMATED_RELEASES:{value:'1'},PRIVATE:{value:privateExtra}},deploy:{multiRegionConfig:{iad:{numReplicas:1}}}}}}},
   game:{serviceId:ids[2],environmentId:ids[1],startCommand:'node deployment/start.mjs',preDeployCommand:['node deployment/migrate.mjs'],healthcheckPath:'/healthz',healthcheckTimeout:null,
    restartPolicyType:'ON_FAILURE',rootDirectory:'/knights-reforged',numReplicas:null,source:{image:null,repo:'catillatio/test'},activeDeployments:[identity],

@@ -13,7 +13,7 @@ import {releaseInputs} from './guard.mjs';
 
 const identity='id projectId environmentId serviceId status createdAt updatedAt deploymentStopped instances{id status}';
 const patch='id environmentId status createdAt updatedAt appliedAt lastAppliedError patch(decryptVariables:true)';
-const scope=`project(id:$projectId){id name}
+const scope=`project(id:$projectId){id name environments(first:2){edges{node{id projectId deletedAt}} pageInfo{hasNextPage hasPreviousPage}}}
  environment(id:$environmentId,projectId:$projectId){id projectId name config(decryptVariables:true)}
  game:serviceInstance(environmentId:$environmentId,serviceId:$serviceId){serviceId environmentId startCommand preDeployCommand healthcheckPath healthcheckTimeout numReplicas restartPolicyType rootDirectory source{image repo} latestDeployment{${identity}} activeDeployments{${identity}}}
  inFlight:deployments(input:{projectId:$projectId,environmentId:$environmentId,serviceId:$serviceId,status:{in:[WAITING,NEEDS_APPROVAL,QUEUED,INITIALIZING,BUILDING,DEPLOYING,REMOVING]}},first:1){edges{node{id}}}`;
@@ -21,6 +21,7 @@ const variables='$projectId:String!,$environmentId:String!,$serviceId:String!';
 export const imageInspectQuery=`query KingdomImageInspect(${variables}){${scope} pending:environmentStagedChanges(environmentId:$environmentId){${patch}}}`;
 export const imageStageMutation=`mutation KingdomImageStage($environmentId:String!,$input:EnvironmentConfig!,$merge:Boolean!){environmentStageChanges(environmentId:$environmentId,input:$input,merge:$merge){${patch}}}`;
 export const imageCommitMutation=`mutation KingdomImageCommit($environmentId:String!,$commitMessage:String!){environmentPatchCommitStaged(environmentId:$environmentId,commitMessage:$commitMessage,skipDeploys:true)}`;
+export const imageSourceMutation=`mutation KingdomImageSource($environmentId:String!,$serviceId:String!,$input:ServiceInstanceUpdateInput!){serviceInstanceUpdate(environmentId:$environmentId,serviceId:$serviceId,input:$input)}`;
 export const imageDeployMutation=`mutation KingdomImageDeploy($environmentId:String!,$serviceId:String!){serviceInstanceDeployV2(environmentId:$environmentId,serviceId:$serviceId)}`;
 const verifyQuery=`query KingdomImageReceipt(${variables},$patchId:String!){${scope} receipt:environmentPatch(id:$patchId){${patch}} pending:environmentStagedChanges(environmentId:$environmentId){${patch}}}`;
 export {verifyQuery as imageReceiptQuery};
@@ -71,6 +72,14 @@ function gameSnapshot(data,target,observe){
  const check=(field,expected,value,fn)=>observed(observe,field,expected,value,fn);
  check('project.id','TARGET_MATCH',data.project?.id===target.projectId,()=>assert.equal(data.project?.id,target.projectId));
  check('project.name','EXPECTED_NAME',data.project.name==='merry-patience',()=>assert.equal(data.project.name,'merry-patience'));
+ // The typed source setter can update every non-fork environment. Its verified
+ // contract is safe here only with one completely enumerated environment. Do
+ // not infer that an ephemeral/derived environment is a harmless fork.
+ const environments=data.project.environments;
+ check('project.environments.complete','TRUE',environments?.pageInfo?.hasNextPage===false&&environments?.pageInfo?.hasPreviousPage===false,()=>{assert.equal(environments?.pageInfo?.hasNextPage,false);assert.equal(environments?.pageInfo?.hasPreviousPage,false);});
+ check('project.environments.count','1',environments?.edges?.length,()=>{assert.ok(Array.isArray(environments?.edges));assert.equal(environments.edges.length,1);});
+ const onlyEnvironment=environments.edges[0]?.node;
+ check('project.environments.target','EXACT_PRODUCTION_ONLY',onlyEnvironment?.id===target.environmentId&&onlyEnvironment?.projectId===target.projectId&&onlyEnvironment?.deletedAt===null,()=>{assert.equal(onlyEnvironment?.id,target.environmentId);assert.equal(onlyEnvironment.projectId,target.projectId);assert.equal(onlyEnvironment.deletedAt,null);});
  check('environment.id','TARGET_MATCH',data.environment?.id===target.environmentId,()=>assert.equal(data.environment?.id,target.environmentId));
  check('environment.projectId','TARGET_MATCH',data.environment.projectId===target.projectId,()=>assert.equal(data.environment.projectId,target.projectId));
  check('environment.name','PRODUCTION',data.environment.name==='production',()=>assert.equal(data.environment.name,'production'));
@@ -144,7 +153,7 @@ function gameSnapshot(data,target,observe){
  const deployment=d=>({...Object.fromEntries(['id','projectId','environmentId','serviceId','status','createdAt','updatedAt','deploymentStopped'].map(k=>[k,d[k]])),instances:d.instances.map(({id,status})=>({id,status}))});
  const snapshot=Object.fromEntries(['serviceId','environmentId','startCommand','preDeployCommand','healthcheckPath','healthcheckTimeout','numReplicas','restartPolicyType','rootDirectory'].map(k=>[k,game[k]]));
  // Only non-secret, selected config enters the digest, never environment vars.
- return canonical({...snapshot,regionalReplicas,latestDeployment:deployment(latest),activeDeployments:[deployment(active)]});
+ return canonical({...snapshot,environmentScope:{projectId:onlyEnvironment.projectId,environmentId:onlyEnvironment.id},regionalReplicas,latestDeployment:deployment(latest),activeDeployments:[deployment(active)]});
 }
 // A pure target check for read-only reconciliation of an EXPECTED nonempty
 // patch. Operational preflight still calls noPending and cannot resume it.
@@ -168,7 +177,12 @@ export async function inspectImageTargetState(settings,{token,api=railwayClient(
   const pinned=typeof source.image==='string'&&source.image.startsWith(imageRepository+'@sha256:')&&/^sha256:[a-f0-9]{64}$/.test(source.image.split('@')[1]);
   check('game.source.image','PINNED_PRIVATE_IMAGE',pinned,()=>assert.ok(pinned));
  }
- return {target,baseline,source:{image:source.image,repo:source.repo},releaseVariables:appliedImageVariables(before,target)};
+ const configuredSource=before.environment.config?.services?.[target.serviceId]?.source;
+ const sourceAgrees=configuredSource&&typeof configuredSource==='object'&&!Array.isArray(configuredSource)&&
+  (source.image===null?configuredSource.image===undefined||configuredSource.image===null:configuredSource.image===source.image)&&
+  (source.repo===null?configuredSource.repo===undefined||configuredSource.repo===null:configuredSource.repo===source.repo);
+ check('game.source.config','MATCHES_EFFECTIVE_SOURCE',!!sourceAgrees,()=>assert.ok(sourceAgrees));
+ return {target,baseline,source:{image:source.image,repo:source.repo},releaseVariables:appliedImageVariables(before,target),configuration:structuredClone(before.environment.config)};
 }
 function checkCredentials(credentials){
  keys(credentials,['username','password']);assert.equal(credentials.username,'catillatio');
@@ -186,7 +200,7 @@ export function appliedImageVariables(data,target){
  const variables=data.environment?.config?.services?.[target.serviceId]?.variables;
  return Object.fromEntries(imageReleaseKeys.filter(name=>Object.hasOwn(variables??{},name)).map(name=>[name,structuredClone(variables[name])]));
 }
-function checkImagePatchScope(p,target,reference,values,credentials,requireAllChanged){
+function checkImagePatchScope(p,target,reference,values,credentials,requireAllChanged,configurationOnly=false,appliedCredentials){
  handoffCheck('PATCH_ID',()=>assert.match(p?.id??'',uuid));
  handoffCheck('PATCH_ENVIRONMENT',()=>assert.equal(p.environmentId,target.environmentId));
  handoffCheck('PATCH_STATUS',()=>assert.equal(p.status,'STAGED'));
@@ -196,17 +210,29 @@ function checkImagePatchScope(p,target,reference,values,credentials,requireAllCh
  handoffCheck('PATCH_ROOT_SCOPE',()=>keys(p.patch,['services']));
  handoffCheck('PATCH_SERVICE_SCOPE',()=>keys(p.patch.services,[target.serviceId]));
  const service=p.patch.services[target.serviceId];
- handoffCheck('PATCH_SERVICE_KEYS',()=>keys(service,credentials?['source','variables','deploy']:['source','variables']));
+ const hasDeploy=Object.hasOwn(service??{},'deploy');
+ handoffCheck('PATCH_SERVICE_KEYS',()=>keys(service,[...(configurationOnly?[]:['source']),'variables',...(credentials&&(!configurationOnly||hasDeploy)?['deploy']:[])]));
  if(credentials){
   handoffCheck('REGISTRY_CREDENTIAL_INPUT',()=>checkCredentials(credentials));
-  handoffCheck('REGISTRY_CREDENTIAL_SCOPE',()=>keys(service.deploy,['registryCredentials']));
-  handoffCheck('REGISTRY_CREDENTIAL_SHAPE',()=>keys(service.deploy.registryCredentials,['username','password']));
-  handoffCheck('REGISTRY_USERNAME',()=>assert.equal(service.deploy.registryCredentials.username,credentials.username));
-  handoffCheck('REGISTRY_PASSWORD',()=>assert.equal(service.deploy.registryCredentials.password,credentials.password));
+  if(hasDeploy)handoffCheck('REGISTRY_CREDENTIAL_SCOPE',()=>keys(service.deploy,['registryCredentials']));
+  const changed=hasDeploy?service.deploy.registryCredentials:{};
+  handoffCheck('REGISTRY_CREDENTIAL_SHAPE',()=>{
+   assert.ok(changed&&typeof changed==='object'&&!Array.isArray(changed));
+   if(configurationOnly)assert.ok(Object.keys(changed).every(k=>['username','password'].includes(k)));
+   else keys(changed,['username','password']);
+   if(['username','password'].some(k=>!Object.hasOwn(changed,k)))keys(appliedCredentials,['username','password']);
+  });
+  for(const [key,category]of [['username','REGISTRY_USERNAME'],['password','REGISTRY_PASSWORD']]){
+   handoffCheck(category,()=>assert.equal(Object.hasOwn(changed,key)?changed[key]:appliedCredentials?.[key],credentials[key]));
+  }
  }
- handoffCheck('IMAGE_SOURCE_SCOPE',()=>keys(service.source,['image','repo']));
- handoffCheck('IMAGE_REFERENCE',()=>assert.equal(service.source.image,reference));
- handoffCheck('GITHUB_SOURCE_REMOVAL',()=>assert.equal(service.source.repo,null));
+ // Historical read-only handoff inspection keeps its original source contract.
+ // Operational promotion commits configuration only; a source key is forbidden.
+ if(!configurationOnly){
+  handoffCheck('IMAGE_SOURCE_SCOPE',()=>keys(service.source,['image','repo']));
+  handoffCheck('IMAGE_REFERENCE',()=>assert.equal(service.source.image,reference));
+  handoffCheck('GITHUB_SOURCE_REMOVAL',()=>assert.equal(service.source.repo,null));
+ }
  handoffCheck('RELEASE_INPUT_KEYS',()=>{keys(values,imageReleaseKeys);assert.ok(imageReleaseKeys.every(name=>typeof values[name]==='string'));});
  handoffCheck('VARIABLE_DELTA_KEYS',()=>{
   assert.ok(service.variables&&typeof service.variables==='object'&&!Array.isArray(service.variables));
@@ -222,8 +248,8 @@ export function inspectLegacyImagePatchScope(p,target,reference,credentials){
  try{checkImagePatchScope(p,target,reference,Object.fromEntries(imageReleaseKeys.map(name=>[name,''])),credentials,true);return null;}
  catch(error){return imageHandoffFailure(error);}
 }
-export function checkImagePatch(p,target,reference,values,credentials,{appliedVariables,requireAllChanged=false}={}){
- const service=checkImagePatchScope(p,target,reference,values,credentials,requireAllChanged);
+export function checkImagePatch(p,target,reference,values,credentials,{appliedVariables,requireAllChanged=false,configurationOnly=false,appliedCredentials}={}){
+ const service=checkImagePatchScope(p,target,reference,values,credentials,requireAllChanged,configurationOnly,appliedCredentials);
  for(const name of imageReleaseKeys){
   // A provider delta is not a full desired config. Missing entries must be
   // proven from the authenticated APPLIED service config, never assumed.
@@ -241,7 +267,42 @@ export function checkImagePatch(p,target,reference,values,credentials,{appliedVa
 function checkAppliedImageValues(data,target,values){
  const applied=appliedImageVariables(data,target);
  handoffCheck('APPLIED_RELEASE_VALUES',()=>{
-  for(const name of imageReleaseKeys)assert.equal(applied[name]?.value,values[name]);
+  for(const name of imageReleaseKeys){
+   const entry=applied[name];assert.ok(entry&&typeof entry==='object'&&!Array.isArray(entry));
+   assert.ok(Object.keys(entry).every(k=>['value','isSealed','isOptional'].includes(k)));
+   assert.equal(entry.value,values[name]);if(entry.isOptional!==undefined)assert.equal(entry.isOptional,false);
+   if(entry.isSealed!==undefined)assert.equal(typeof entry.isSealed,'boolean');
+  }
+ });
+}
+function checkSourceConfigured(data,target,reference){
+ handoffCheck('APPLIED_IMAGE_SOURCE',()=>{
+  assert.deepEqual(data.game.source,{image:reference,repo:null});
+  const source=data.environment.config?.services?.[target.serviceId]?.source;
+  keys(source,Object.hasOwn(source??{},'repo')?['image','repo']:['image']);
+  assert.equal(source.image,reference);if(Object.hasOwn(source,'repo'))assert.equal(source.repo,null);
+ });
+}
+function checkCommittedConfiguration(data,target,configuration,values,credentials,{sourceUpdated=false,source}={}){
+ checkAppliedImageValues(data,target,values);
+ if(credentials)handoffCheck('APPLIED_REGISTRY_CREDENTIALS',()=>{
+  const applied=data.environment.config?.services?.[target.serviceId]?.deploy?.registryCredentials;
+  keys(applied,['username','password']);assert.equal(applied.username,credentials.username);assert.equal(applied.password,credentials.password);
+ });
+ if(sourceUpdated)checkSourceConfigured(data,target,values.KINGDOM_RELEASE_IMAGE_REFERENCE);
+ else handoffCheck('SOURCE_UNCHANGED_DURING_CONFIG_COMMIT',()=>assert.deepEqual(data.game.source,source));
+ handoffCheck('UNRELATED_CONFIGURATION_DRIFT',()=>{
+  // Compare full private configuration in memory. Never hash/log credentials or
+  // proofs. Erase only explicitly authorized fields, after exact value checks.
+  const normalize=value=>{
+   const copy=structuredClone(value),service=copy.services[target.serviceId];
+   for(const name of imageReleaseKeys)delete service.variables?.[name];
+   if(service.variables&&Object.keys(service.variables).length===0)delete service.variables;
+   if(credentials){delete service.deploy?.registryCredentials;if(service.deploy&&Object.keys(service.deploy).length===0)delete service.deploy;}
+   if(sourceUpdated)delete service.source;
+   return canonical(copy);
+  };
+  assert.equal(normalize(data.environment.config),normalize(configuration));
  });
 }
 export async function verifyImageDeployment(deploymentId,target,reference,{api}={}){
@@ -256,14 +317,15 @@ export async function deployImage(settings,approval,values,{token,api=railwayCli
  const target={projectId:settings.projectId,environmentId:settings.environmentId,serviceId:settings.gameServiceId};for(const id of Object.values(target))assert.match(id,uuid);
  keys(values,imageReleaseKeys);assert.equal(values.KINGDOM_AUTOMATED_RELEASES,'1');assert.equal(values.KINGDOM_RELEASE_SHA,settings.sha);assert.equal(values.KINGDOM_RELEASE_ARTIFACT_KIND,'oci-image-v1');
  assert.equal(values.KINGDOM_RELEASE_IMAGE_REFERENCE,definition.reference);assert.equal(values.KINGDOM_RELEASE_IMAGE_DIGEST,definition.manifestDigest);assert.ok(values.KINGDOM_RELEASE_BACKUP_PROOF);
- const {baseline,source,releaseVariables}=await preflightImageTarget(settings,approval,{api});
+ const {baseline,source,releaseVariables,configuration}=await preflightImageTarget(settings,approval,{api});
  assert.match(settings.imageTargetDigest??'',/^[a-f0-9]{64}$/);assert.equal(createHash('sha256').update(baseline).digest('hex'),settings.imageTargetDigest);
- const patchValue={services:{[target.serviceId]:{...(credentials?{deploy:{registryCredentials:credentials}}:{}),source:{image:definition.reference,repo:null},variables:Object.fromEntries(imageReleaseKeys.map(k=>[k,{value:values[k]}]))}}};
+ const patchValue={services:{[target.serviceId]:{...(credentials?{deploy:{registryCredentials:credentials}}:{}),variables:Object.fromEntries(imageReleaseKeys.map(k=>[k,{value:values[k]}]))}}};
  // Merge preserves any competing edit; the strict post-stage scope check then
  // rejects it instead of silently discarding another editor's pending work.
- const staged=checkImagePatch((await api(imageStageMutation,{environmentId:target.environmentId,input:patchValue,merge:true})).environmentStageChanges,target,definition.reference,values,credentials,{appliedVariables:releaseVariables});log('PATCH_STAGED');
+ const staged=checkImagePatch((await api(imageStageMutation,{environmentId:target.environmentId,input:patchValue,merge:true})).environmentStageChanges,target,definition.reference,values,credentials,{appliedVariables:releaseVariables,configurationOnly:true,appliedCredentials:configuration.services[target.serviceId].deploy?.registryCredentials});log('PATCH_STAGED');
  const fresh=await api(imageInspectQuery,target);assert.equal(gameSnapshot(fresh,target),baseline);assert.deepEqual(fresh.game.source,source);
- checkImagePatch(fresh.pending,target,definition.reference,values,credentials,{appliedVariables:appliedImageVariables(fresh,target)});assert.equal(fresh.pending.id,staged.id);assert.equal(fresh.pending.updatedAt,staged.updatedAt);assert.equal(canonical(fresh.pending.patch),canonical(staged.patch));
+ checkImagePatch(fresh.pending,target,definition.reference,values,credentials,{appliedVariables:appliedImageVariables(fresh,target),configurationOnly:true,appliedCredentials:fresh.environment.config.services[target.serviceId].deploy?.registryCredentials});assert.equal(fresh.pending.id,staged.id);assert.equal(fresh.pending.updatedAt,staged.updatedAt);assert.equal(canonical(fresh.pending.patch),canonical(staged.patch));
+ handoffCheck('PRECOMMIT_CONFIGURATION_DRIFT',()=>assert.equal(canonical(fresh.environment.config),canonical(configuration)));
  let workflowId;
  // Exactly one mutation; a lost reply is uncertain and never retried.
  workflowId=(await api(imageCommitMutation,{environmentId:target.environmentId,commitMessage:'Protected exact-image release '+settings.sha})).environmentPatchCommitStaged;
@@ -272,15 +334,24 @@ export async function deployImage(settings,approval,values,{token,api=railwayCli
  for(let n=0;n<30;n++){
   const state=(await api(statusQuery,{workflowId})).workflowStatus;assert.equal(state?.error,null);assert.ok(['Running','Complete'].includes(state.status));
   const after=await api(verifyQuery,{...target,patchId:staged.id});assert.equal(gameSnapshot(after,target),baseline);
+  handoffCheck('SOURCE_UNCHANGED_DURING_CONFIG_COMMIT',()=>assert.deepEqual(after.game.source,source));
   if(state.status==='Complete'){
-   checkClearedPatch(after,staged,target);assert.equal(after.game.source?.image,definition.reference);assert.equal(after.game.source.repo,null);checkAppliedImageValues(after,target,values);committed=true;break;
+   checkClearedPatch(after,staged,target);checkCommittedConfiguration(after,target,configuration,values,credentials,{source});committed=true;break;
   }
   assert.ok(now()<deadline);await wait(2000);
  }
  assert.ok(committed);log('CONFIG_COMMITTED_NO_DEPLOY');
+ // Authenticate a fresh complete receipt, configuration and one-environment
+ // scope immediately before the typed setter. No source patch/implicit deploy.
+ const presource=await api(verifyQuery,{...target,patchId:staged.id});assert.equal(gameSnapshot(presource,target),baseline);checkClearedPatch(presource,staged,target);
+ checkCommittedConfiguration(presource,target,configuration,values,credentials,{source});
+ log('SOURCE_UPDATE_REQUESTED');
+ const updated=await api(imageSourceMutation,{environmentId:target.environmentId,serviceId:target.serviceId,input:{source:{image:definition.reference,repo:null}}});
+ handoffCheck('SOURCE_UPDATE_ACKNOWLEDGMENT',()=>{keys(updated,['serviceInstanceUpdate']);assert.equal(updated.serviceInstanceUpdate,true);});
+ const sourced=await api(verifyQuery,{...target,patchId:staged.id});assert.equal(gameSnapshot(sourced,target),baseline);checkClearedPatch(sourced,staged,target);
+ checkCommittedConfiguration(sourced,target,configuration,values,credentials,{sourceUpdated:true});log('SOURCE_VERIFIED_NO_DEPLOY');
  const predeploy=await api(verifyQuery,{...target,patchId:staged.id});assert.equal(gameSnapshot(predeploy,target),baseline);checkClearedPatch(predeploy,staged,target);
- assert.equal(predeploy.game.source?.image,definition.reference);assert.equal(predeploy.game.source.repo,null);
- checkAppliedImageValues(predeploy,target,values);
+ checkCommittedConfiguration(predeploy,target,configuration,values,credentials,{sourceUpdated:true});
  const deploymentId=(await api(imageDeployMutation,{environmentId:target.environmentId,serviceId:target.serviceId})).serviceInstanceDeployV2;assert.match(deploymentId??'',uuid);
  await verifyImageDeployment(deploymentId,target,definition.reference,{api});log('DEPLOYMENT_QUEUED');return deploymentId;
 }

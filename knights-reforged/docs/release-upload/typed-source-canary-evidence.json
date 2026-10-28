@@ -1,0 +1,35 @@
+{
+  "kind": "authenticated-isolated-source-transition-canary-summary-v1",
+  "projectId": "df451359-067b-4562-b592-672bdc60ecfb",
+  "environmentId": "36c52ad2-e274-4f65-84d0-25cc97d19a57",
+  "serviceId": "78eb0e7b-e07e-472b-bc86-5eec7917939c",
+  "syntheticImage": "ghcr.io/catillatio/kingdom-come-deploy-canary@sha256:b49d4df2ca6e4959dcdaf1235d8705d1b2f012380d5a2991fce414ac2acda000",
+  "sourceUpdate": {
+    "method": "serviceInstanceUpdate",
+    "inputSourceFields": [
+      "image",
+      "repo"
+    ],
+    "requestedRepo": null,
+    "ownerObservedReturn": true
+  },
+  "independentVerification": {
+    "exactImageConfigured": true,
+    "effectiveRepoNull": true,
+    "oldCommitAndBranchAbsent": true,
+    "pendingPatchCleared": true,
+    "pendingWorkCount": 0,
+    "deploymentCount": 0,
+    "unrelatedConfigurationUnchanged": true,
+    "exactlyOneEnvironment": true
+  },
+  "imageOnlyPatchPreviouslyFailedToClearRepo": true,
+  "productionOperations": 0,
+  "cleanupExecuted": false,
+  "evidenceNature": "Summary of owner-observed GraphiQL execution and independent authenticated Railway integration reads; not a signed release/recovery proof.",
+  "limitations": [
+    "Configuration-only canary had no running game process.",
+    "No new private-image pull or deployment was attempted.",
+    "Existing 450/900 population, database and recovery safeguards were not modified."
+  ]
+}

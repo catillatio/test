@@ -1,5 +1,11 @@
 # First protected GitHub-to-private-image transition
 
+> Historical implementation record. The combined source/credential patch below
+> is superseded by the [verified typed-source transition](TYPED_SOURCE_TRANSITION.md).
+> Current promotion commits variables/credentials with deployments suppressed,
+> then applies the typed source update under a strict single-environment guard.
+> The original design and its evidence limits are retained here for history.
+
 Status: implemented for owner review; no production mutation, image publication,
 recovery run or deployment performed. The owner-reported GitHub-source dashboard
 has no Registry Credentials field. The previous setup step was not executable

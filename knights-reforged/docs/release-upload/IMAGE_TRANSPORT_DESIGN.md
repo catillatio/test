@@ -97,17 +97,25 @@ or PostgreSQL credentials. All new capability flags default to unset/disabled.
    checks the Ed25519 signature, freshness, private database separation, candidate
    payload and static identity before migration. A static image cannot be
    downgraded by disabling automated approvals or requesting a v2/source proof.
-6. Revalidate registry and target. Stage only the game source `{image: <digest>,
-   repo: null}` and seven existing/new release variables. For the explicit first
-   transition    from the original GitHub source, include only `deploy.registryCredentials` in
-   that same patch; authenticate exact `read:packages` scopes before recovery.
-   The setup choice is bound into the private pre-backup target record. Password
-   comparisons remain in memory; no secret or secret hash enters approval evidence.
-   Merge preserves competing    edits so the strict scope validator rejects them. Privately compare the fresh
-   revision and complete sensitive patch immediately before one commit using
-   `skipDeploys: true`. Never hash the signed proof or credentials into a public
-   approval digest. Authenticate the server workflow receipt, committed patch,
-   applied source and unchanged running deployment. No implicit deploy is accepted.
+6. Revalidate registry and target. Completely enumerate the project's environments
+   (a bounded connection with explicit pagination evidence) and require exactly
+   the production environment. Reject every additional environment; no presumed
+   fork/ephemeral exception is inferred. Bind this scope into the non-secret
+   pre-backup target digest and recheck it before and after every mutation.
+   Stage only seven signed release variables and, for the explicitly approved
+   credential handoff, `deploy.registryCredentials`. Source fields are forbidden
+   in that patch. Authenticate all effective values privately, including unchanged
+   variable/credential fields omitted by Railway's delta. Freshly compare the
+   exact revision and full private patch/configuration, then commit once with
+   `skipDeploys:true`. Authenticate the original committed receipt, all applied
+   values, unchanged original source and running deployment, and no pending work.
+   Read again, then call typed `serviceInstanceUpdate` once with only
+   `{source:{image:<exact digest reference>,repo:null}}`. Require Boolean true;
+   missing/lost acknowledgments stop without retry. Verify both source views,
+   removal of old GitHub source fields, full private configuration preservation,
+   the original receipt, complete environment scope, cleared pending changes and
+   unchanged running deployment. Secret values stay only in memory and never
+   enter approval hashes or output. See [verified canary and limits](TYPED_SOURCE_TRANSITION.md).
 7. After one more read, call `serviceInstanceDeployV2` once. Authenticate the exact
    returned deployment/target and `meta.image`; no latest-deployment lookup or tag
    fallback. Existing exact-release health, restored-copy preservation and login
