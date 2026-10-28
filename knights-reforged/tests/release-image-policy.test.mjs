@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash,generateKeyPairSync} from 'node:crypto';
-import {checkImageCandidate,checkImageIdentity,checkImageApproval,checkImageRequest,gameTransport,definitionDigest,imagePackage,imageRepository,imageRegistrySetup,imageRegistryCredentials,checkNoImageRequest} from '../deployment/release/image-policy.mjs';
+import {readFileSync} from 'node:fs';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {checkImageCandidate,checkImageIdentity,checkImageApproval,checkImageRequest,checkImageRequestShape,gameTransport,definitionDigest,imagePackage,imageRepository,imageRegistrySetup,imageRegistryCredentials,checkNoImageRequest} from '../deployment/release/image-policy.mjs';
 import {checkRegistryManifest,checkImageConfiguration,checkArtifactMetadata,registryClient,boundedBody,authenticateImage} from '../deployment/release/image.mjs';
 import {candidateDigest} from '../deployment/release/candidate.mjs';
 import {signProof,verifyProof} from '../deployment/release/proof.mjs';
@@ -131,4 +134,57 @@ test('invalid handoff scopes stop real image authentication before registry pull
  const urls=[],commands=[];const fetcher=async url=>{urls.push(url);return Response.json({name:imagePackage,package_type:'container',visibility:'private'},{headers:{'x-oauth-scopes':'read:packages, write:packages'}});};
  await assert.rejects(authenticateImage({candidate:c},env,{fetcher,run:async(...args)=>{commands.push(args);throw Error('No child allowed');}}));
  assert.deepEqual(urls,['https://api.github.com/users/catillatio/packages/container/'+imagePackage]);assert.deepEqual(commands,[]);
+});
+
+// Model only step-level vars bindings from the actual workflow, never real secrets.
+const releaseWorkflow=readFileSync(new URL('../../.github/workflows/production-release.yml',import.meta.url),'utf8');
+function workflowJob(name){
+ const start=releaseWorkflow.indexOf('\n  '+name+':\n');assert.ok(start>=0);
+ const rest=releaseWorkflow.slice(start+1),end=rest.slice(1).search(/^  [a-z][a-z-]*:\n/m);
+ return end<0?rest:rest.slice(0,end+1);
+}
+function jobSteps(job){return job.split(/(?=^      - )/m).filter(s=>s.startsWith('      - '));}
+function configuredStepVariables(step,available){
+ return Object.fromEntries([...step.matchAll(/^          ([A-Z_]+): \$\{\{ vars\.([A-Z_]+) \}\}$/gm)].map(m=>[m[1],available[m[2]]??'']));
+}
+function prepareRequest(){return {...workflowEnv(),KINGDOM_IMAGE_OPERATION:'image-prepare',KINGDOM_IMAGE_PROMOTE:'false',KINGDOM_IMAGE_RUN_ID:'',KINGDOM_IMAGE_ARTIFACT_ID:'',KINGDOM_IMAGE_MANIFEST_DIGEST:'',KINGDOM_IMAGE_EXCLUSIVE_WINDOW:'false',KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS:'false',KINGDOM_IMAGE_PUBLICATION_ENABLED:'',KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED:'',KINGDOM_GAME_IMAGE_ENABLED:''};}
+function validateCLI(mode,env){return spawnSync(process.execPath,[fileURLToPath(new URL('../deployment/release/image.mjs',import.meta.url)),mode],{env:{PATH:process.env.PATH,...env},encoding:'utf8',timeout:10000,maxBuffer:32000});}
+test('run 72 reproduction: unprotected shape passes without environment flags while full authorization fails closed',()=>{
+ const request=prepareRequest();assert.equal(checkImageRequestShape(request),'image-prepare');assert.throws(()=>checkImageRequest(request));
+ const shape=validateCLI('validate-request-shape',request);assert.equal(shape.status,0,shape.stderr);assert.equal(shape.stdout,'IMAGE_REQUEST_SHAPE: PASS\n');
+ const denied=validateCLI('validate-request',request);assert.equal(denied.status,1);assert.match(denied.stderr,/^IMAGE_PIPELINE: FAIL/);
+ assert.equal(checkImageRequest({...request,KINGDOM_IMAGE_PUBLICATION_ENABLED:'true',KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED:'true'}),'image-prepare');
+});
+test('actual workflow binds publication flags after the production environment gate before build and publish',()=>{
+ const safety=workflowJob('safety');assert.doesNotMatch(safety,/^    environment:/m);assert.match(safety,/image\.mjs validate-request-shape/);
+ for(const key of ['KINGDOM_IMAGE_PUBLICATION_ENABLED','KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED','KINGDOM_GAME_IMAGE_ENABLED'])assert.ok(!safety.includes('vars.'+key));
+ const prepare=workflowJob('image-prepare');assert.match(prepare,/^    environment: production$/m);assert.match(prepare,/^    needs: safety$/m);
+ assert.doesNotMatch(prepare.split('    steps:')[0],/vars\.KINGDOM_IMAGE_(?:PUBLICATION_ENABLED|PACKAGE_PRIVATE_CONFIRMED)/);
+ const steps=jobSteps(prepare),authorize=steps.findIndex(s=>s.includes('image.mjs validate-request')),build=steps.findIndex(s=>s.includes('image.mjs check-build')),publish=steps.findIndex(s=>s.includes('image.mjs publish'));
+ assert.ok(authorize>=0&&authorize<build&&build<publish);
+ const available={KINGDOM_IMAGE_PUBLICATION_ENABLED:'true',KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED:'true'};
+ for(const index of [authorize,build,publish]){
+  assert.deepEqual(configuredStepVariables(steps[index],available),available);
+  assert.equal(checkImageRequest({...prepareRequest(),...configuredStepVariables(steps[index],available)}),'image-prepare');
+  assert.throws(()=>checkImageRequest({...prepareRequest(),...configuredStepVariables(steps[index],{})}));
+ }
+ const accepted=validateCLI('validate-request',{...prepareRequest(),...configuredStepVariables(steps[authorize],available)});assert.equal(accepted.status,0,accepted.stderr);assert.equal(accepted.stdout,'IMAGE_PIPELINE: PASS\n');
+ assert.doesNotMatch(steps[authorize],/secrets\./); // no registry credential needed to authorize
+});
+test('missing or disabled protected publication flags still reject full authorization',()=>{
+ for(const key of ['KINGDOM_IMAGE_PUBLICATION_ENABLED','KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED'])for(const value of [undefined,'','false','TRUE','1']){
+  const env={...prepareRequest(),KINGDOM_IMAGE_PUBLICATION_ENABLED:'true',KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED:'true',[key]:value};assert.equal(checkImageRequestShape(env),'image-prepare');assert.throws(()=>checkImageRequest(env));
+ }
+});
+test('shape validation retains ref, event, commit, attempt and mixed-input checks without relying on approval flags',()=>{
+ for(const changed of [{GITHUB_REPOSITORY:'other/repo'},{GITHUB_REF:'refs/heads/other'},{GITHUB_EVENT_NAME:'push'},{GITHUB_SHA:'bad'},{GITHUB_RUN_ATTEMPT:'2'},{KINGDOM_IMAGE_OPERATION:'image-other'},{KINGDOM_IMAGE_PROMOTE:'true'},{KINGDOM_IMAGE_RUN_ID:'123'},{KINGDOM_IMAGE_ARTIFACT_ID:'456'},{KINGDOM_IMAGE_MANIFEST_DIGEST:'sha256:'+'a'.repeat(64)},{REGISTRAR_CONFIG_PATCH_ID:'unrelated'},{REGISTRAR_CONFIG_APPROVAL_TOKEN:'unrelated'},{REGISTRAR_CONFIG_EXCLUSIVE_WINDOW:'true'},{KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS:'true'}])assert.throws(()=>checkImageRequestShape({...prepareRequest(),...changed}));
+});
+test('image release also separates non-secret request shape from protected enablement before recovery',()=>{
+ const env={...workflowEnv(),KINGDOM_IMAGE_OPERATION:'image-release',KINGDOM_IMAGE_PROMOTE:'true',KINGDOM_GAME_IMAGE_ENABLED:''};assert.equal(checkImageRequestShape(env),'image-release');assert.throws(()=>checkImageRequest(env));
+ assert.throws(()=>checkImageRequestShape({...env,KINGDOM_IMAGE_EXCLUSIVE_WINDOW:'false'}));
+ const release=workflowJob('release');assert.match(release,/^    environment: production$/m);const steps=jobSteps(release),authorize=steps.findIndex(s=>s.includes('image.mjs validate-request')),verify=steps.findIndex(s=>s.includes('image.mjs verify')),backup=steps.findIndex(s=>s.includes('run.mjs prepare'));
+ assert.ok(authorize>=0&&authorize<verify&&verify<backup);
+ for(const step of steps.filter(s=>/image\.mjs (validate-request|verify)|image-deploy\.mjs preflight|run\.mjs (prepare|promote)/.test(s))){
+  const vars=configuredStepVariables(step,{KINGDOM_GAME_IMAGE_ENABLED:'true'});assert.equal(vars.KINGDOM_GAME_IMAGE_ENABLED,'true');assert.equal(checkImageRequest({...env,...vars}),'image-release');
+ }
 });
