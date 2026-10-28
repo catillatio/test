@@ -116,10 +116,15 @@ Any commit to production requires a newly prepared exact-commit candidate.
 
 The controller authenticates the image and, for the handoff, the token scopes
 before any recovery request. After the unchanged recovery chain passes, it stages
-the game source, seven signed release variables and (first transition only)
-`deploy.registryCredentials={username,password}` **in one patch**. It commits with
-skip-deploys, authenticates the exact receipt and unchanged old deployment, then
-performs one exact image deployment. Credentials never enter the game environment,
+seven signed release variables and (first transition only)
+`deploy.registryCredentials={username,password}` in one **configuration-only**
+patch, with no source fields. It commits with `skipDeploys:true`, authenticates
+the exact receipt, all applied values and unchanged old deployment, then uses
+one typed `serviceInstanceUpdate` to set the exact image and `repo:null`.
+The effective and serialized source, cleared pending patch, unchanged complete
+private configuration and old deployment must verify again before one exact
+image deployment. The project must have exactly one completely enumerated
+environment; any additional environment, including a presumed fork, is HOLD. Credentials never enter the game environment,
 source image, approval digest or release artifact. A separate implicit dashboard deploy is never necessary or authorized.
 Existing post-release health/login/preservation checks must all pass; retain their
 `post-deploy.json` alongside encrypted recovery evidence. Confirm exact deployment
@@ -144,8 +149,11 @@ never requires access to the owner's computer.
 See [contract and evidence limits](REGISTRY_TRANSITION.md). The combined credential
 transition is implemented and fixture-tested, but has not been executed against
 production or a new billable canary. Unknown/redacted staged shapes fail closed.
-No direct `serviceInstanceUpdate` is used: its documented non-fork environment
-scope and unspecified deployment side effects are unsuitable for this setup.
+The typed source update is now supported by the completed isolated
+configuration-only canary. Its broader non-fork environment scope is guarded by
+complete single-environment enumeration on every read. See
+[TYPED_SOURCE_TRANSITION.md](TYPED_SOURCE_TRANSITION.md) for evidence, exact
+sequence, failure boundaries and the current dashboard-only owner procedure.
 
 If commit succeeds but deployment does not, preserve the receipt and old running
 service. Do not rerun the first-transition checkbox or use the Railway dashboard

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {deployImage,preflightImageTarget,emptyImagePatch,imageReleaseKeys,imageInspectQuery,inspectImageTargetState,imageHandoffFailure} from '../deployment/release/image-deploy.mjs';
+import {deployImage,preflightImageTarget,emptyImagePatch,imageReleaseKeys,imageInspectQuery,imageSourceMutation,inspectImageTargetState,imageHandoffFailure} from '../deployment/release/image-deploy.mjs';
 import {canonical} from '../deployment/release/image-policy.mjs';
 import {inspectImageTarget,sanitizedTargetMetadata} from '../deployment/release/inspect-image-target.mjs';
 import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
@@ -13,8 +13,8 @@ const secret='synthetic-private-proof provider-token https://private.invalid/?cr
 const oldId='77777777-7777-4777-8777-777777777777',newId='88888888-8888-4888-8888-888888888888',patchId='99999999-9999-4999-8999-999999999999';
 const failedId='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
 const capturedObservation=JSON.parse(readFileSync(new URL('./fixtures/railway-image-target-observation-5.json',import.meta.url),'utf8'));
-function fixture(mode='success',{install=false,failedLatest=false,regional=false,providerShape=false,delta=false,edit}={}){
- const target={projectId:ids[0],environmentId:ids[1],serviceId:ids[2]},trace=[],logs=[];let staged,receipt,clock=0,inspectCount=0;
+function fixture(mode='success',{install=false,failedLatest=false,regional=false,providerShape=false,delta=false,existingCredentials=false,credentialDelta='both',edit}={}){
+ const target={projectId:ids[0],environmentId:ids[1],serviceId:ids[2]},trace=[],logs=[];let staged,receipt,sourceUpdated=false,clock=0,inspectCount=0;
  const identity={id:oldId,...target,status:'SUCCESS',createdAt:'2026-10-01T00:00:00Z',updatedAt:'2026-10-01T00:01:00Z',deploymentStopped:false,instances:[{id:'running-game-instance',status:'RUNNING'}]};
  let game={serviceId:target.serviceId,environmentId:target.environmentId,startCommand:'node deployment/start.mjs',preDeployCommand:['node deployment/migrate.mjs'],healthcheckPath:'/healthz',healthcheckTimeout:120,numReplicas:1,restartPolicyType:'ON_FAILURE',rootDirectory:'/knights-reforged',source:{image:null,repo:'catillatio/test'},latestDeployment:identity,activeDeployments:[structuredClone(identity)]};
  if(failedLatest)game.latestDeployment={...structuredClone(identity),id:failedId,status:'FAILED',createdAt:'2026-10-01T01:00:00Z',updatedAt:'2026-10-01T01:01:00Z',deploymentStopped:true,instances:[]};
@@ -25,15 +25,15 @@ function fixture(mode='success',{install=false,failedLatest=false,regional=false
   game.activeDeployments[0].instances=fields['active.instances.status'].map((status,i)=>({id:'synthetic-game-instance-'+i,status}));
  }
  const {source,...snapshot}=game;
- const settings={registrySetup:install?'install-read-only':'preconfigured',sha:candidate().sha,projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,imageTargetDigest:createHash('sha256').update(canonical({...snapshot,regionalReplicas:regional?{iad:1}:null})).digest('hex')};
+ const settings={registrySetup:install?'install-read-only':'preconfigured',sha:candidate().sha,projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,imageTargetDigest:createHash('sha256').update(canonical({...snapshot,environmentScope:{projectId:target.projectId,environmentId:target.environmentId},regionalReplicas:regional?{iad:1}:null})).digest('hex')};
  const values={KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_SHA:candidate().sha,KINGDOM_RESTORE_TEST_DATABASE:'kc_fixture_restore_test',KINGDOM_RELEASE_BACKUP_PROOF:secret,KINGDOM_RELEASE_ARTIFACT_KIND:'oci-image-v1',KINGDOM_RELEASE_IMAGE_REFERENCE:candidate().reference,KINGDOM_RELEASE_IMAGE_DIGEST:candidate().manifestDigest};
  const emptyPlaceholder=()=>({id:'opaque-empty-id',environmentId:target.environmentId,status:'STAGED',appliedAt:null,lastAppliedError:null,createdAt:'2026-10-02T00:00:01Z',updatedAt:'2026-10-02T00:00:01Z',patch:{}});
  const cleared=()=>mode==='same_committed_placeholder'?structuredClone(receipt):mode==='empty_placeholder'||providerShape?emptyPlaceholder():null;
  const base=pending=>{
   const applied=receipt?Object.fromEntries(imageReleaseKeys.map(k=>[k,{value:values[k]}])):{KINGDOM_AUTOMATED_RELEASES:{value:'1'}};
-  const deploy={...(regional?{multiRegionConfig:{iad:{numReplicas:1}}}:{}),...(receipt&&install?{registryCredentials:{username:'catillatio',password:secret}}:{})};
-  const b={project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,projectId:target.projectId,name:'production',config:{services:{[target.serviceId]:{deploy,variables:{PRIVATE:{value:secret},...applied}}}}},game:structuredClone(game),inFlight:{edges:[]},pending};
-  edit?.(b,{staged:!!staged,committed:!!receipt});return b;
+  const deploy={...(regional?{multiRegionConfig:{iad:{numReplicas:1}}}:{}),...((receipt&&install)||existingCredentials?{registryCredentials:{username:'catillatio',password:secret}}:{})};
+  const b={project:{id:target.projectId,name:'merry-patience',environments:{edges:[{node:{id:target.environmentId,projectId:target.projectId,deletedAt:null}}],pageInfo:{hasNextPage:false,hasPreviousPage:false}}},environment:{id:target.environmentId,projectId:target.projectId,name:'production',config:{services:{[target.serviceId]:{source:sourceUpdated?{image:candidate().reference}:{repo:'catillatio/test',branch:'fixture-legacy-branch',commitSha:'0'.repeat(40)},deploy,variables:{PRIVATE:{value:secret},...applied}}}}},game:structuredClone(game),inFlight:{edges:[]},pending};
+  edit?.(b,{staged:!!staged,committed:!!receipt,sourceUpdated});return b;
  };
  const api=async(query,v)=>{
   if(query.startsWith('query KingdomImageInspect')){
@@ -55,6 +55,9 @@ function fixture(mode='success',{install=false,failedLatest=false,regional=false
    trace.push('stage');assert.equal(v.environmentId,target.environmentId);assert.equal(v.merge,true);
    staged={id:patchId,environmentId:target.environmentId,status:'STAGED',createdAt:'2026-10-02T00:00:00Z',updatedAt:'2026-10-02T00:00:00Z',appliedAt:null,lastAppliedError:null,patch:structuredClone(v.input)};
    if(delta)delete staged.patch.services[target.serviceId].variables.KINGDOM_AUTOMATED_RELEASES;
+   if(install&&credentialDelta==='none')delete staged.patch.services[target.serviceId].deploy;
+   if(install&&credentialDelta==='password')delete staged.patch.services[target.serviceId].deploy.registryCredentials.username;
+   if(install&&credentialDelta==='username')delete staged.patch.services[target.serviceId].deploy.registryCredentials.password;
    if(mode==='stage_ack_lost')throw Error(secret);
    if(mode==='stage_unrelated')staged.patch.services[ids[4]]={variables:{PRIVATE:{value:secret}}};
    if(mode==='stage_wrong_value')staged.patch.services[target.serviceId].variables.KINGDOM_RELEASE_BACKUP_PROOF.value='changed';
@@ -62,13 +65,12 @@ function fixture(mode='success',{install=false,failedLatest=false,regional=false
    if(mode==='credential_changed')staged.patch.services[target.serviceId].deploy.registryCredentials.password='changed';
    if(mode==='credential_redacted')staged.patch.services[target.serviceId].deploy.registryCredentials.password='[REDACTED]';
    if(mode==='credential_extra')staged.patch.services[target.serviceId].deploy.extra=true;
-   if(mode==='credential_wrong_path'){const svc=staged.patch.services[target.serviceId];svc.source.registryCredentials=svc.deploy.registryCredentials;delete svc.deploy;}
+   if(mode==='credential_wrong_path'){const svc=staged.patch.services[target.serviceId];svc.source={registryCredentials:svc.deploy.registryCredentials};delete svc.deploy;}
    return {environmentStageChanges:structuredClone(staged)};
   }
   if(query.startsWith('mutation KingdomImageCommit')){
    trace.push('commit');assert.match(query,/skipDeploys:true/);assert.equal(v.environmentId,target.environmentId);assert.equal(inspectCount,2);
    receipt={...structuredClone(staged),status:'COMMITTED',appliedAt:'2026-10-02T00:00:01Z',updatedAt:'2026-10-02T00:00:01Z'};
-   game.source={image:candidate().reference,repo:null};
    if(mode==='commit_ack_lost')throw Error(secret);
    return {environmentPatchCommitStaged:'opaque-workflow-receipt'};
   }
@@ -80,12 +82,19 @@ function fixture(mode='success',{install=false,failedLatest=false,regional=false
    trace.push('receipt');assert.equal(v.patchId,patchId);
    const b={...base(cleared()),receipt:structuredClone(receipt)};
    if(mode==='receipt_wrong_id')b.receipt.id=ids[5];
-   if(mode==='receipt_changed_patch')b.receipt.patch.services[target.serviceId].source.image='changed';
+   if(mode==='receipt_changed_patch')b.receipt.patch.services[target.serviceId].variables.KINGDOM_RELEASE_IMAGE_REFERENCE.value='changed';
    if(mode==='credential_receipt_changed')b.receipt.patch.services[target.serviceId].deploy.registryCredentials.password='changed';
    if(mode==='pending_race')b.pending={id:ids[5],environmentId:target.environmentId,status:'STAGED',patch:{services:{[ids[4]]:{variables:{PRIVATE:{value:secret}}}}}};
    if(mode==='unexpected_restart')b.game.latestDeployment.id=newId;
-   if(mode==='source_not_applied')b.game.source.image=null;
+   if(mode==='source_not_applied'&&sourceUpdated)b.game.source.image=null;
    return b;
+  }
+  if(query.startsWith('mutation KingdomImageSource')){
+   trace.push('source');assert.equal(query,imageSourceMutation);
+   assert.deepEqual(v,{environmentId:target.environmentId,serviceId:target.serviceId,input:{source:{image:candidate().reference,repo:null}}});
+   sourceUpdated=true;game.source={image:candidate().reference,repo:null};
+   if(mode==='source_ack_lost')throw Error(secret);
+   return {serviceInstanceUpdate:true};
   }
   if(query.startsWith('mutation KingdomImageDeploy')){
    trace.push('deploy');assert.deepEqual(v,{environmentId:target.environmentId,serviceId:target.serviceId});
@@ -104,8 +113,8 @@ function fixture(mode='success',{install=false,failedLatest=false,regional=false
 }
 for(const mode of ['success','same_committed_placeholder','empty_placeholder'])test('one exact image deployment follows staged receipt and unchanged parent: '+mode,async()=>{
  const f=fixture(mode);assert.equal(await f.run(),newId);
- assert.deepEqual(f.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','deploy','identity']);
- assert.deepEqual(f.logs,['PATCH_STAGED','CONFIG_COMMITTED_NO_DEPLOY','DEPLOYMENT_QUEUED']);
+ assert.deepEqual(f.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','source','receipt','receipt','deploy','identity']);
+ assert.deepEqual(f.logs,['PATCH_STAGED','CONFIG_COMMITTED_NO_DEPLOY','SOURCE_UPDATE_REQUESTED','SOURCE_VERIFIED_NO_DEPLOY','DEPLOYMENT_QUEUED']);
  assert.doesNotMatch(JSON.stringify(f.logs),/private|token|https:|credential/);
 });
 test('read-only target preflight performs no staging, upload, backup, signing or deploy',async()=>{
@@ -115,10 +124,10 @@ for(const [mode,mutations]of[
  ['unrelated_pending',[]],['missing_pending',[]],['wrong_target',[]],['disabled_migration',[]],
  ['stage_ack_lost',['stage']],['stage_unrelated',['stage']],['stage_wrong_value',['stage']],['revision_race',['stage']],['parent_changed',['stage']],
  ['commit_ack_lost',['stage','commit']],['workflow_failed',['stage','commit']],['workflow_timeout',['stage','commit']],
- ['receipt_wrong_id',['stage','commit']],['receipt_changed_patch',['stage','commit']],['pending_race',['stage','commit']],['unexpected_restart',['stage','commit']],['source_not_applied',['stage','commit']],
- ['deploy_ack_lost',['stage','commit','deploy']],['wrong_deployment_service',['stage','commit','deploy']],['wrong_deployment_image',['stage','commit','deploy']]
+ ['receipt_wrong_id',['stage','commit']],['receipt_changed_patch',['stage','commit']],['pending_race',['stage','commit']],['unexpected_restart',['stage','commit']],['source_not_applied',['stage','commit','source']],
+ ['deploy_ack_lost',['stage','commit','source','deploy']],['wrong_deployment_service',['stage','commit','source','deploy']],['wrong_deployment_image',['stage','commit','source','deploy']]
 ])test('failure never retries a mutation or falls back to source/latest: '+mode,async()=>{
- const f=fixture(mode);await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),mutations);
+ const f=fixture(mode);await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','source','deploy'].includes(x)),mutations);
  for(const label of mutations)assert.equal(f.trace.filter(x=>x===label).length,1);
  assert.ok(!f.logs.some(x=>x.includes(secret)));
 });
@@ -144,14 +153,14 @@ test('preflight authenticates a previous committed placeholder without restaging
 
 for(const mode of ['success','same_committed_placeholder','empty_placeholder'])test('first protected image transition stages credentials with exact source/proof and never restarts early: '+mode,async()=>{
  const f=fixture(mode,{install:true});assert.equal(await f.run(),newId);
- assert.deepEqual(f.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','deploy','identity']);
- assert.deepEqual(f.logs,['PATCH_STAGED','CONFIG_COMMITTED_NO_DEPLOY','DEPLOYMENT_QUEUED']);assert.ok(!JSON.stringify(f.logs).includes(secret));
+ assert.deepEqual(f.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','source','receipt','receipt','deploy','identity']);
+ assert.deepEqual(f.logs,['PATCH_STAGED','CONFIG_COMMITTED_NO_DEPLOY','SOURCE_UPDATE_REQUESTED','SOURCE_VERIFIED_NO_DEPLOY','DEPLOYMENT_QUEUED']);assert.ok(!JSON.stringify(f.logs).includes(secret));
 });
 for(const [mode,mutations]of [
  ['already_image',[]],['other_repo',[]],['credential_missing',['stage']],['credential_changed',['stage']],['credential_extra',['stage']],['credential_wrong_path',['stage']],['credential_race',['stage']],
- ['credential_receipt_changed',['stage','commit']],['commit_ack_lost',['stage','commit']],['unexpected_restart',['stage','commit']],['deploy_ack_lost',['stage','commit','deploy']]
+ ['credential_receipt_changed',['stage','commit']],['commit_ack_lost',['stage','commit']],['unexpected_restart',['stage','commit']],['deploy_ack_lost',['stage','commit','source','deploy']]
 ])test('first-transition credential failure holds without mutation retry: '+mode,async()=>{
- const f=fixture(mode,{install:true});await assert.rejects(f.run());assert.deepEqual(f.trace.filter(t=>['stage','commit','deploy'].includes(t)),mutations);
+ const f=fixture(mode,{install:true});await assert.rejects(f.run());assert.deepEqual(f.trace.filter(t=>['stage','commit','source','deploy'].includes(t)),mutations);
  for(const name of mutations)assert.equal(f.trace.filter(t=>t===name).length,1);assert.ok(!JSON.stringify(f.logs).includes(secret));
 });
 test('credentials cannot be smuggled through a preconfigured release or invalid handoff',async()=>{
@@ -168,7 +177,7 @@ test('failed latest attempt is distinct from the sole authoritative healthy acti
  const snapshot=JSON.parse(before.baseline);assert.equal(snapshot.latestDeployment.id,failedId);assert.equal(snapshot.latestDeployment.status,'FAILED');
  assert.equal(snapshot.activeDeployments[0].id,oldId);assert.equal(snapshot.activeDeployments[0].status,'SUCCESS');assert.deepEqual(snapshot.regionalReplicas,{iad:1});
  assert.ok(!before.baseline.includes(secret));assert.deepEqual(f.trace,['inspect']);
- const release=fixture('success',{failedLatest:true,regional:true,install:true});assert.equal(await release.run(),newId);assert.deepEqual(release.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','deploy','identity']);
+ const release=fixture('success',{failedLatest:true,regional:true,install:true});assert.equal(await release.run(),newId);assert.deepEqual(release.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','source','receipt','receipt','deploy','identity']);
 });
 test('target queries ask for runtime instances and a bounded server-filtered in-flight check',()=>{
  assert.match(imageInspectQuery,/instances\{id status\}/);assert.match(imageInspectQuery,/environment\([^)]*\)\{id projectId name config\(decryptVariables:true\)\}/);
@@ -221,7 +230,7 @@ for(const point of ['before commit','after commit'])for(const field of ['active 
   if(field==='regional config')b.environment.config.services[ids[2]].deploy.multiRegionConfig={ams:{numReplicas:1}};
   if(field==='new in-flight attempt')b.inFlight.edges=[{node:{id:newId}}];
  };
- const f=fixture('success',{failedLatest:true,regional:true,edit});await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),point==='before commit'?['stage']:['stage','commit']);
+ const f=fixture('success',{failedLatest:true,regional:true,edit});await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','source','deploy'].includes(x)),point==='before commit'?['stage']:['stage','commit']);
 });
 test('private environment values cannot influence the non-secret target digest',async()=>{
  const f=fixture('success',{failedLatest:true,regional:true}),changed=fixture('success',{failedLatest:true,regional:true,edit:b=>{b.environment.config.services[ids[2]].variables.PRIVATE.value='other synthetic credential';}});
@@ -229,7 +238,7 @@ test('private environment values cannot influence the non-secret target digest',
 });
 test('source changed by another editor cannot pass the fresh pre-commit read',async()=>{
  const f=fixture('success',{failedLatest:true,regional:true,edit:(b,state)=>{if(state.staged&&!state.committed)b.game.source={image:candidate().reference,repo:null};}});
- await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),['stage']);
+ await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','source','deploy'].includes(x)),['stage']);
 });
 
 const inspectEnv={GITHUB_REPOSITORY:'catillatio/test',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF:'refs/heads/release/production',GITHUB_RUN_ATTEMPT:'1',
@@ -302,11 +311,11 @@ test('workflow offers opt-in read-only inspection under the existing owner gate 
 
 for(const install of [false,true])for(const delta of [false,true])test('complete handoff verifies all seven effective values for '+(delta?'six-change':'seven-change')+' patch, credentials '+install,async()=>{
  const f=fixture('success',{install,delta});assert.equal(await f.run(),newId);
- assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),['stage','commit','deploy']);
+ assert.deepEqual(f.trace.filter(x=>['stage','commit','source','deploy'].includes(x)),['stage','commit','source','deploy']);
 });
 for(const mode of ['stage_ack_lost','stage_unrelated','stage_wrong_value','revision_race','parent_changed','credential_redacted','credential_race','credential_receipt_changed','commit_ack_lost','pending_race','deploy_ack_lost'])test('six-change handoff retains fail-closed/no-retry behavior: '+mode,async()=>{
  const f=fixture(mode,{install:true,delta:true});await assert.rejects(f.run());
- for(const mutation of ['stage','commit','deploy'])assert.ok(f.trace.filter(x=>x===mutation).length<=1);
+ for(const mutation of ['stage','commit','source','deploy'])assert.ok(f.trace.filter(x=>x===mutation).length<=1);
  assert.ok(!f.logs.some(x=>x.includes(secret)));
  if(['stage_ack_lost','stage_unrelated','stage_wrong_value','revision_race','parent_changed','credential_redacted','credential_race'].includes(mode))assert.equal(f.trace.includes('commit'),false);
  if(mode==='credential_redacted')assert.deepEqual(f.trace,['inspect','stage']);
@@ -328,6 +337,124 @@ test('a value changed after the committed receipt is rejected in the immediate p
  await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='APPLIED_RELEASE_VALUES');assert.equal(committedReads,2);assert.equal(f.trace.includes('deploy'),false);
 });
 
+const sourceScopeFailures={
+ 'missing enumeration':b=>{delete b.project.environments;},
+ 'truncated enumeration':b=>{b.project.environments.pageInfo.hasNextPage=true;},
+ 'missing preceding page':b=>{b.project.environments.pageInfo.hasPreviousPage=true;},
+ 'missing completeness flag':b=>{delete b.project.environments.pageInfo.hasNextPage;},
+ 'no environment':b=>{b.project.environments.edges=[];},
+ 'other non-fork environment':b=>{b.project.environments.edges.push({node:{id:ids[4],projectId:ids[0],deletedAt:null}});},
+ 'unverified presumed fork':b=>{b.project.environments.edges.push({node:{id:ids[4],projectId:ids[0],deletedAt:null,isEphemeral:true}});},
+ 'wrong environment':b=>{b.project.environments.edges[0].node.id=ids[4];},
+ 'wrong project':b=>{b.project.environments.edges[0].node.projectId=ids[4];},
+ 'deleted environment':b=>{b.project.environments.edges[0].node.deletedAt='2026-10-01T00:00:00Z';}
+};
+for(const [name,edit]of Object.entries(sourceScopeFailures))test('typed setter scope is rejected before recovery preflight: '+name,async()=>{
+ const f=fixture('success',{edit});await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+for(const phase of ['precommit','presource','postsource','predeploy'])test('a newly added environment stops the transition at '+phase,async()=>{
+ let receiptReads=0;
+ const f=fixture('success',{install:true,edit:(b,state)=>{
+  if(state.committed)receiptReads++;
+  const fail=phase==='precommit'&&state.staged&&!state.committed||phase==='presource'&&receiptReads===2||phase==='postsource'&&receiptReads===3||phase==='predeploy'&&receiptReads===4;
+  if(fail)sourceScopeFailures['other non-fork environment'](b);
+ }});
+ await assert.rejects(f.run());assert.equal(f.trace.includes('deploy'),false);assert.equal(f.trace.includes('source'),['postsource','predeploy'].includes(phase));
+});
+for(const response of [null,{}, {serviceInstanceUpdate:false},{serviceInstanceUpdate:null},{serviceInstanceUpdate:'true'},{serviceInstanceUpdate:true,extra:secret}])test('typed mutation requires exact Boolean acknowledgment: '+JSON.stringify(response).replaceAll(secret,'PRIVATE'),async()=>{
+ const f=fixture('success',{install:true}),api=async(q,v)=>{const r=await f.api(q,v);return q===imageSourceMutation?response:r;};
+ await assert.rejects(deployImage(f.settings,approval(),f.values,{api,credentials:{username:'catillatio',password:secret}}),e=>imageHandoffFailure(e)==='SOURCE_UPDATE_ACKNOWLEDGMENT');
+ assert.deepEqual(f.trace.filter(x=>['stage','commit','source','deploy'].includes(x)),['stage','commit','source']);
+ assert.ok(!JSON.stringify(f.logs).includes(secret));
+});
+test('lost typed acknowledgment leaves the applied image un-retried and never deploys',async()=>{
+ const f=fixture('source_ack_lost',{install:true});await assert.rejects(f.run());assert.equal(f.trace.filter(x=>x==='source').length,1);assert.equal(f.trace.includes('deploy'),false);
+ assert.deepEqual(f.logs,['PATCH_STAGED','CONFIG_COMMITTED_NO_DEPLOY','SOURCE_UPDATE_REQUESTED']);
+});
+for(const source of [{image:'other',repo:null},{image:candidate().reference,repo:'catillatio/test'},null])test('effective source mismatch after a typed success cannot deploy: '+JSON.stringify(source),async()=>{
+ const f=fixture('success',{edit:(b,state)=>{if(state.sourceUpdated)b.game.source=source;}});await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='APPLIED_IMAGE_SOURCE');assert.equal(f.trace.includes('deploy'),false);
+});
+for(const raw of [{image:'other'},{image:candidate().reference,repo:'catillatio/test'},{image:candidate().reference,commitSha:'0'.repeat(40)},{image:candidate().reference,branch:'legacy'},{image:candidate().reference,unknown:secret},null])test('serialized source must independently match the cleared source: '+Object.keys(raw??{}).join(','),async()=>{
+ const f=fixture('success',{edit:(b,state)=>{if(state.sourceUpdated)b.environment.config.services[ids[2]].source=raw;}});
+ await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='APPLIED_IMAGE_SOURCE');assert.equal(f.trace.includes('deploy'),false);
+});
+test('provider can serialize explicit repo null after the typed update',async()=>{
+ const f=fixture('success',{edit:(b,state)=>{if(state.sourceUpdated)b.environment.config.services[ids[2]].source.repo=null;}});assert.equal(await f.run(),newId);
+});
+for(const source of [{image:candidate().reference},{image:candidate().reference,repo:null}])test('source fields are forbidden in the configuration-only commit: '+Object.keys(source).join(','),async()=>{
+ const f=fixture(),api=async(q,v)=>{const r=await f.api(q,v);if(q.startsWith('mutation KingdomImageStage'))r.environmentStageChanges.patch.services[ids[2]].source=source;return r;};
+ await assert.rejects(deployImage(f.settings,approval(),f.values,{api}),e=>imageHandoffFailure(e)==='PATCH_SERVICE_KEYS');assert.deepEqual(f.trace,['inspect','stage']);
+});
+const privateConfigurationDrift={
+ 'unrelated variable':b=>{b.environment.config.services[ids[2]].variables.PRIVATE.value='changed';},
+ 'shared variable':b=>{b.environment.config.sharedVariables={UNRELATED:{value:secret}};},
+ 'other service':b=>{b.environment.config.services[ids[4]]={variables:{PRIVATE:{value:secret}}};},
+ 'build option':b=>{b.environment.config.services[ids[2]].build={buildCommand:'unexpected'};}
+};
+for(const phase of ['precommit','postcommit','presource','postsource','predeploy'])for(const [name,change]of Object.entries(privateConfigurationDrift))test('full private configuration drift holds: '+phase+' '+name,async()=>{
+ let receiptReads=0;const f=fixture('success',{install:true,edit:(b,state)=>{
+  if(state.committed)receiptReads++;
+  if(phase==='precommit'&&state.staged&&!state.committed||phase==='postcommit'&&receiptReads===1||phase==='presource'&&receiptReads===2||phase==='postsource'&&receiptReads===3||phase==='predeploy'&&receiptReads===4)change(b);
+ }});
+ await assert.rejects(f.run(),e=>imageHandoffFailure(e)===(phase==='precommit'?'PRECOMMIT_CONFIGURATION_DRIFT':'UNRELATED_CONFIGURATION_DRIFT'));
+ assert.equal(f.trace.includes('deploy'),false);assert.equal(f.trace.includes('source'),['postsource','predeploy'].includes(phase));
+});
+for(const phase of ['postcommit','presource','postsource','predeploy'])test('applied registry credentials must stay exact: '+phase,async()=>{
+ let receiptReads=0;const targetRead={postcommit:1,presource:2,postsource:3,predeploy:4}[phase];
+ const f=fixture('success',{install:true,edit:(b,state)=>{if(state.committed&&++receiptReads===targetRead)b.environment.config.services[ids[2]].deploy.registryCredentials.password='[REDACTED]';}});
+ await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='APPLIED_REGISTRY_CREDENTIALS');assert.equal(f.trace.includes('deploy'),false);
+});
+for(const what of ['source','active instance','latest identity','in flight','pending','release proof'])test('drift after verified source is rejected immediately before deployment: '+what,async()=>{
+ let reads=0;const f=fixture('success',{install:true,edit:(b,state)=>{
+  if(!state.sourceUpdated||++reads!==2)return;
+  if(what==='source')b.game.source.repo='catillatio/test';
+  if(what==='active instance')b.game.activeDeployments[0].instances[0].id='restarted';
+  if(what==='latest identity')b.game.latestDeployment.id=newId;
+  if(what==='in flight')b.inFlight.edges=[{node:{id:newId}}];
+  if(what==='pending')b.pending={id:ids[5],environmentId:ids[1],status:'STAGED',patch:{services:{[ids[2]]:{source:{repo:'other'}}}}};
+  if(what==='release proof')b.environment.config.services[ids[2]].variables.KINGDOM_RELEASE_BACKUP_PROOF.value='forged';
+ }});
+ await assert.rejects(f.run());assert.equal(f.trace.filter(x=>x==='source').length,1);assert.equal(f.trace.includes('deploy'),false);
+});
+test('configuration commit cannot secretly perform the source transition',async()=>{
+ const f=fixture('success',{edit:(b,state)=>{if(state.committed&&!state.sourceUpdated)b.game.source={image:candidate().reference,repo:null};}});
+ await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='SOURCE_UNCHANGED_DURING_CONFIG_COMMIT');assert.equal(f.trace.includes('source'),false);assert.equal(f.trace.includes('deploy'),false);
+});
+for(const credentialDelta of ['both','username','password','none'])test('an existing exact credential can be omitted from the staged delta: '+credentialDelta,async()=>{
+ const f=fixture('success',{install:true,existingCredentials:true,credentialDelta,delta:true});assert.equal(await f.run(),newId);
+ assert.deepEqual(f.trace.filter(x=>['stage','commit','source','deploy'].includes(x)),['stage','commit','source','deploy']);
+});
+for(const credentialDelta of ['username','password','none'])test('omitted credential fields never imply missing applied credentials match: '+credentialDelta,async()=>{
+ const f=fixture('success',{install:true,credentialDelta});await assert.rejects(f.run());assert.deepEqual(f.trace,['inspect','stage']);
+});
+for(const phase of ['initial','precommit'])for(const replacement of ['[REDACTED]','wrong-private-password'])test('unchanged credential delta requires exact private applied values: '+phase+' '+replacement,async()=>{
+ const f=fixture('success',{install:true,existingCredentials:true,credentialDelta:'none',edit:(b,state)=>{
+  if(phase==='initial'&&!state.staged||phase==='precommit'&&state.staged&&!state.committed)b.environment.config.services[ids[2]].deploy.registryCredentials.password=replacement;
+ }});
+ await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='REGISTRY_PASSWORD');assert.equal(f.trace.includes('commit'),false);
+});
+test('an already image-backed service can update to the next exact digest without credential reinstallation',async()=>{
+ const prior=candidate().reference.replace('b'.repeat(64),'f'.repeat(64));
+ const f=fixture('success',{existingCredentials:true,edit:(b,state)=>{if(!state.sourceUpdated){b.game.source={image:prior,repo:null};b.environment.config.services[ids[2]].source={image:prior};}}});
+ assert.equal(await f.run(),newId);assert.equal(f.trace.filter(x=>x==='source').length,1);
+});
+for(const source of [undefined,null,{repo:'other/repository'},{repo:'catillatio/test',image:candidate().reference}])test('preflight rejects mismatched serialized/effective source views: '+(source===undefined?'missing':source===null?'null':Object.keys(source).join(',')),async()=>{
+ const f=fixture('success',{edit:b=>{b.environment.config.services[ids[2]].source=source;}});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+test('published monorepo source.rootDirectory survives the typed transition unchanged',async()=>{
+ const f=fixture('success',{install:true,edit:b=>{b.environment.config.services[ids[2]].source.rootDirectory='/knights-reforged';}});
+ assert.equal(await f.run(),newId);
+});
+for(const changed of [undefined,'/other',null])test('typed transition cannot remove or reinterpret the monorepo root: '+String(changed),async()=>{
+ const f=fixture('success',{edit:(b,state)=>{const source=b.environment.config.services[ids[2]].source;if(!state.sourceUpdated)source.rootDirectory='/knights-reforged';else if(changed!==undefined)source.rootDirectory=changed;}});
+ await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='APPLIED_IMAGE_SOURCE');assert.equal(f.trace.includes('deploy'),false);
+});
+test('an initial serialized root conflicting with the effective root stops before recovery',async()=>{
+ const f=fixture('success',{edit:b=>{b.environment.config.services[ids[2]].source.rootDirectory='/other';}});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+
 test('captured sanitized provider shape passes the shared read-only guard with synthetic identity envelopes',async()=>{
  const f=fixture('success',{install:true,failedLatest:true,regional:true,providerShape:true});
  const data=await f.api(imageInspectQuery,{projectId:ids[0],environmentId:ids[1],serviceId:ids[2]});
@@ -341,7 +468,7 @@ test('captured sanitized provider shape passes the shared read-only guard with s
 });
 test('complete synthetic first handoff preserves raw null timeout and all removed/running identities through the exact commit',async()=>{
  const f=fixture('success',{install:true,failedLatest:true,regional:true,providerShape:true});assert.equal(await f.run(),newId);
- assert.deepEqual(f.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','deploy','identity']);
+ assert.deepEqual(f.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','source','receipt','receipt','deploy','identity']);
 });
 for(const value of [undefined,0,-1,121,300,Number.NaN,'120','300',{},[]])test('timeout rejects unsupported/missing explicit setting '+String(value),async()=>{
  const f=fixture('success',{failedLatest:true,regional:true,providerShape:true,edit:b=>{b.game.healthcheckTimeout=value;}});
@@ -375,5 +502,5 @@ for(const point of ['before commit','after commit'])for(const change of ['raw ti
   if(change==='running identity')b.game.activeDeployments[0].instances[1].id='restarted-running-instance';
   if(change==='override')b.environment.config.services[ids[2]].variables.RAILWAY_HEALTHCHECK_TIMEOUT_SEC={value:'600'};
  }});
- await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),point==='before commit'?['stage']:['stage','commit']);
+ await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','source','deploy'].includes(x)),point==='before commit'?['stage']:['stage','commit']);
 });
