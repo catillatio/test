@@ -82,6 +82,13 @@ the exact stored record and unchanged applied configuration/target. Changed
 revisions, competing edits, missing receipts and lost read acknowledgments yield
 UNVERIFIED, with no retry or authorization artifact.
 
+After stable revision binding, an earlier scope/credential/key rejection can be
+identified even if the stored proof cannot be decoded. That does not approve
+values: the complete result remains UNVERIFIED until signed evidence and all
+seven effective values are verified. The forensic prefix returns only a
+rejection category or no conclusion; operational validation always continues
+through every value check.
+
 The same reads include the official CLI's `variablesForServiceDeployment` field
 to resolve the existing private database references. Those URLs never enter a
 workflow environment binding or output. The protected job receives only the
@@ -101,6 +108,10 @@ revision** to explain an old failure. If expired now, it reports
 an approval or makes an expired proof usable by a deployment. Every report has
 `authorizesRelease:false`. Operational/runtime verification still uses current
 time and is unchanged.
+
+A stable inspection is not an API compare-and-swap and cannot freeze edits after
+its last read. The exclusive owner window and fresh checks immediately before
+the single commit remain necessary for any separately authorized future release.
 
 ## Shortest safe owner procedure
 

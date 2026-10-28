@@ -63,9 +63,15 @@ for(const delta of [false,true])for(const name of imageReleaseKeys.filter(n=>!['
   if(Object.hasOwn(changed,name))changed[name].value='forged';else d.environment.config.services[ids[2]].variables[name].value='forged';
  }}),r=await f.run();assert.equal(r.result,'REJECTED');assert.equal(r.correctedFirstRejection,'EFFECTIVE_RELEASE_VALUE');assert.equal(r.authorizesRelease,false);
 });
-for(const what of ['proof','copy'])test('invalid signed evidence is not used to invent expected values: '+what,async()=>{
- const f=fixture({edit:d=>{d.pending.patch.services[ids[2]].variables[what==='proof'?'KINGDOM_RELEASE_BACKUP_PROOF':'KINGDOM_RESTORE_TEST_DATABASE'].value=privateExtra;}}),r=await f.run();
- assert.equal(r.result,'UNVERIFIED');assert.equal(r.failure,'INSPECTION_SIGNED_EVIDENCE');assert.equal(r.legacyFirstRejection,'UNVERIFIED');assert.equal(r.authorizesRelease,false);
+for(const delta of [false,true])for(const what of ['proof','copy'])test('invalid signed evidence cannot invent expected values or hide an earlier scope rejection: '+what+' delta '+delta,async()=>{
+ const f=fixture({delta,edit:d=>{d.pending.patch.services[ids[2]].variables[what==='proof'?'KINGDOM_RELEASE_BACKUP_PROOF':'KINGDOM_RESTORE_TEST_DATABASE'].value=privateExtra;}}),r=await f.run();
+ assert.equal(r.result,'UNVERIFIED');assert.equal(r.failure,'INSPECTION_SIGNED_EVIDENCE');assert.equal(r.legacyFirstRejection,delta?'VARIABLE_DELTA_KEYS':'UNVERIFIED');assert.equal(r.authorizesRelease,false);
+ assert.equal(r.revision,'EXACT_MATCH');assert.equal(r.correctedFirstRejection,'UNVERIFIED');
+});
+test('redacted credentials remain the first scope rejection even when the proof cannot be decoded',async()=>{
+ const f=fixture({credential:'redacted',edit:d=>{d.pending.patch.services[ids[2]].variables.KINGDOM_RELEASE_BACKUP_PROOF={encryptedValue:privateExtra};}}),r=await f.run();
+ assert.equal(r.result,'UNVERIFIED');assert.equal(r.failure,'INSPECTION_SIGNED_EVIDENCE');assert.equal(r.legacyFirstRejection,'REGISTRY_PASSWORD');assert.equal(r.credentials,'CREDENTIAL_REDACTED');
+ assert.equal(r.correctedFirstRejection,'UNVERIFIED');assert.equal(r.revision,'EXACT_MATCH');assert.equal(r.authorizesRelease,false);
 });
 for(const field of ['jobId','artifactId','imageArtifactId','imageArtifactDigest','prepareRunId','prepareRunAttempt','issuedAt'])test('even a signed different release cannot impersonate the bound handoff: '+field,async()=>{
  const f=fixture({proofEdit:p=>{

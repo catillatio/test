@@ -186,7 +186,7 @@ export function appliedImageVariables(data,target){
  const variables=data.environment?.config?.services?.[target.serviceId]?.variables;
  return Object.fromEntries(imageReleaseKeys.filter(name=>Object.hasOwn(variables??{},name)).map(name=>[name,structuredClone(variables[name])]));
 }
-export function checkImagePatch(p,target,reference,values,credentials,{appliedVariables,requireAllChanged=false}={}){
+function checkImagePatchScope(p,target,reference,values,credentials,requireAllChanged){
  handoffCheck('PATCH_ID',()=>assert.match(p?.id??'',uuid));
  handoffCheck('PATCH_ENVIRONMENT',()=>assert.equal(p.environmentId,target.environmentId));
  handoffCheck('PATCH_STATUS',()=>assert.equal(p.status,'STAGED'));
@@ -213,6 +213,17 @@ export function checkImagePatch(p,target,reference,values,credentials,{appliedVa
   if(requireAllChanged)keys(service.variables,imageReleaseKeys);
   else assert.ok(Object.keys(service.variables).every(name=>imageReleaseKeys.includes(name)));
  });
+ return service;
+}
+// Forensic prefix only: returns a rejection category or null, never an approval.
+// No private release value is needed to identify an earlier scope/credential
+// rejection. Operational callers ALWAYS continue through full value checks.
+export function inspectLegacyImagePatchScope(p,target,reference,credentials){
+ try{checkImagePatchScope(p,target,reference,Object.fromEntries(imageReleaseKeys.map(name=>[name,''])),credentials,true);return null;}
+ catch(error){return imageHandoffFailure(error);}
+}
+export function checkImagePatch(p,target,reference,values,credentials,{appliedVariables,requireAllChanged=false}={}){
+ const service=checkImagePatchScope(p,target,reference,values,credentials,requireAllChanged);
  for(const name of imageReleaseKeys){
   // A provider delta is not a full desired config. Missing entries must be
   // proven from the authenticated APPLIED service config, never assumed.

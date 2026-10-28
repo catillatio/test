@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {pathToFileURL} from 'node:url';
 import {railwayClient,failureCategory} from './registrar-config.mjs';
-import {imageInspectQuery,imageReceiptQuery,imageTargetSnapshot,checkImagePatch,appliedImageVariables,imageReleaseKeys,imageHandoffFailure} from './image-deploy.mjs';
+import {imageInspectQuery,imageReceiptQuery,imageTargetSnapshot,checkImagePatch,inspectLegacyImagePatchScope,appliedImageVariables,imageReleaseKeys,imageHandoffFailure} from './image-deploy.mjs';
 import {canonical,imageRepository} from './image-policy.mjs';
 import {verifyProof} from './proof.mjs';
 import {uuid} from './protocol.mjs';
@@ -61,7 +61,7 @@ function signedValues(data,target,env,expected,now){
  return {values,reference,evidence:Date.parse(proof.expiresAt)>now?'SIGNED_CURRENT':'SIGNED_HISTORICAL_ONLY'};
 }
 export async function inspectImageHandoff(env,{api,expected=incident,now=Date.now()}={}){
- let category='INSPECTION_REQUEST',legacy='UNVERIFIED',corrected='UNVERIFIED',credentials='CREDENTIAL_UNVERIFIED',delta='VARIABLE_DELTA_UNVERIFIED',evidence='SIGNED_UNVERIFIED';
+ let category='INSPECTION_REQUEST',legacy='UNVERIFIED',corrected='UNVERIFIED',credentials='CREDENTIAL_UNVERIFIED',delta='VARIABLE_DELTA_UNVERIFIED',evidence='SIGNED_UNVERIFIED',revision='UNVERIFIED';
  try{
   assert.equal(env.GITHUB_REPOSITORY,'catillatio/test');assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(env.GITHUB_REF,'refs/heads/release/production');
   assert.equal(env.GITHUB_RUN_ATTEMPT,'1');assert.equal(env.KINGDOM_IMAGE_HANDOFF_INSPECTION,'true');assert.notEqual(env.NODE_TLS_REJECT_UNAUTHORIZED,'0');
@@ -86,23 +86,27 @@ export async function inspectImageHandoff(env,{api,expected=incident,now=Date.no
   assert.equal(data.game.activeDeployments[0].id,expected.activeDeploymentId);assert.deepEqual(data.game.source,{image:null,repo:'catillatio/test'});
   const svc=data.pending?.patch?.services?.[target.serviceId];
   credentials=credentialCategory(svc?.deploy?.registryCredentials,expectedCredentials);delta=deltaCategory(svc?.variables);
-  category='INSPECTION_SIGNED_EVIDENCE';const signed=signedValues(data,target,env,expected,now);evidence=signed.evidence;
-  try{checkImagePatch(data.pending,target,signed.reference,signed.values,expectedCredentials,{requireAllChanged:true});legacy='LEGACY_MATCH';}
-  catch(error){legacy=imageHandoffFailure(error);}
-  try{checkImagePatch(data.pending,target,signed.reference,signed.values,expectedCredentials,{appliedVariables:appliedImageVariables(data,target)});corrected='CORRECTED_MATCH';}
-  catch(error){corrected=imageHandoffFailure(error);}
   category='INSPECTION_PROVIDER';const fresh=await read(handoffReceiptQuery,{...target,patchId:expected.patchId});
   category='INSPECTION_REVISION_BINDING';
   assert.equal(imageTargetSnapshot(fresh,target),baseline);assert.deepEqual(fresh.game.source,data.game.source);
   assert.equal(canonical(fresh.pending),canonical(data.pending));assert.equal(canonical(fresh.receipt),canonical(data.pending));
   assert.equal(canonical(fresh.environment.config),canonical(data.environment.config));
   for(const name of ['APP_ORIGIN','DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL'])assert.equal(fresh.resolved?.[name],data.resolved?.[name]);
+  revision='EXACT_MATCH';
+  // An encrypted/redacted proof must not obscure a provably earlier rejection.
+  // This prefix stops before value comparisons and can never approve anything.
+  legacy=inspectLegacyImagePatchScope(data.pending,target,imageRepository+'@'+expected.imageManifestDigest,expectedCredentials)??'UNVERIFIED';
+  category='INSPECTION_SIGNED_EVIDENCE';const signed=signedValues(data,target,env,expected,now);evidence=signed.evidence;
+  try{checkImagePatch(data.pending,target,signed.reference,signed.values,expectedCredentials,{requireAllChanged:true});legacy='LEGACY_MATCH';}
+  catch(error){legacy=imageHandoffFailure(error);}
+  try{checkImagePatch(data.pending,target,signed.reference,signed.values,expectedCredentials,{appliedVariables:appliedImageVariables(data,target)});corrected='CORRECTED_MATCH';}
+  catch(error){corrected=imageHandoffFailure(error);}
   return {result:corrected==='CORRECTED_MATCH'?'MATCH':'REJECTED',failure:corrected==='CORRECTED_MATCH'?'NONE':corrected,
    legacyFirstRejection:legacy,correctedFirstRejection:corrected,credentials,variableDelta:delta,signedEvidence:evidence,revision:'EXACT_MATCH',authorizesRelease:false};
  }catch(error){
   const provider=failureCategory(error);
-  return {result:'UNVERIFIED',failure:provider==='UNCLASSIFIED'?category:provider,legacyFirstRejection:'UNVERIFIED',correctedFirstRejection:'UNVERIFIED',
-   credentials,variableDelta:delta,signedEvidence:evidence,revision:'UNVERIFIED',authorizesRelease:false};
+  return {result:'UNVERIFIED',failure:provider==='UNCLASSIFIED'?category:provider,legacyFirstRejection:legacy,correctedFirstRejection:'UNVERIFIED',
+   credentials,variableDelta:delta,signedEvidence:evidence,revision,authorizesRelease:false};
  }
 }
 if(process.argv[1]&&pathToFileURL(process.argv[1]).href===import.meta.url){
