@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash,generateKeyPairSync} from 'node:crypto';
-import {checkImageCandidate,checkImageIdentity,checkImageApproval,checkImageRequest,gameTransport,definitionDigest,imagePackage,imageRepository} from '../deployment/release/image-policy.mjs';
-import {checkRegistryManifest,checkImageConfiguration,checkArtifactMetadata,registryClient,boundedBody} from '../deployment/release/image.mjs';
+import {checkImageCandidate,checkImageIdentity,checkImageApproval,checkImageRequest,gameTransport,definitionDigest,imagePackage,imageRepository,imageRegistrySetup,imageRegistryCredentials,checkNoImageRequest} from '../deployment/release/image-policy.mjs';
+import {checkRegistryManifest,checkImageConfiguration,checkArtifactMetadata,registryClient,boundedBody,authenticateImage} from '../deployment/release/image.mjs';
+import {candidateDigest} from '../deployment/release/candidate.mjs';
 import {signProof,verifyProof} from '../deployment/release/proof.mjs';
 import {candidate,approval,proof,runtimeEnv,workflowEnv} from './fixtures/release-image.mjs';
 const keys=generateKeyPairSync('ed25519'),publicKey=keys.publicKey.export({type:'spki',format:'pem'});
@@ -106,4 +107,28 @@ test('missing, wrong-name or unreadable existing package never authorizes creati
   assert.equal(calls.length,1);assert.equal(calls[0].options.method,undefined);
   assert.equal(calls[0].url,'https://api.github.com/users/catillatio/packages/container/'+imagePackage);
  }
+});
+
+test('registry credential handoff requires explicit first-attempt real image promotion and never runs with source/prepare/rehearsal',()=>{
+ const install={...workflowEnv(),KINGDOM_IMAGE_OPERATION:'image-release',KINGDOM_IMAGE_PROMOTE:'true',KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS:'true',KINGDOM_IMAGE_REGISTRY_READ_TOKEN:'synthetic-read-token'};
+ assert.equal(imageRegistrySetup(install),'install-read-only');assert.deepEqual(imageRegistryCredentials(install),{username:'catillatio',password:'synthetic-read-token'});assert.equal(checkImageRequest(install),'image-release');
+ for(const changed of [{KINGDOM_IMAGE_OPERATION:'image-prepare'},{KINGDOM_IMAGE_PROMOTE:'false'},{GITHUB_RUN_ATTEMPT:'2'},{KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS:'yes'}])assert.throws(()=>imageRegistrySetup({...install,...changed}));
+ for(const token of [undefined,'','  ',' badvalue ','bad\nvalue'])assert.throws(()=>imageRegistryCredentials({...install,KINGDOM_IMAGE_REGISTRY_READ_TOKEN:token}));
+ assert.equal(imageRegistrySetup({}),'preconfigured');assert.equal(imageRegistryCredentials({}),undefined);assert.throws(()=>checkNoImageRequest(install));
+});
+for(const scope of [null,'','write:packages','read:packages, write:packages','read:packages, repo','read:packages, delete:packages'])test('handoff rejects missing or excessive credential scopes before any registry mutation: '+String(scope),async()=>{
+ const fetcher=async()=>Response.json({name:imagePackage,package_type:'container',visibility:'private'},{headers:scope===null?{}:{'x-oauth-scopes':scope}});
+ await assert.rejects(registryClient('synthetic-only',{fetcher,requireReadOnly:true}).privatePackage());
+});
+test('an exact read:packages credential remains eligible for the private registry handoff',async()=>{
+ const fetcher=async()=>Response.json({name:imagePackage,package_type:'container',visibility:'private'},{headers:{'x-oauth-scopes':'read:packages'}});
+ assert.equal(await registryClient('synthetic-only',{fetcher,requireReadOnly:true}).privatePackage(),true);
+});
+
+test('invalid handoff scopes stop real image authentication before registry pull or any child command',async()=>{
+ const c=candidate();c.candidateDigest=await candidateDigest();c.identity.candidateDigest=c.candidateDigest;
+ const env={...workflowEnv(),KINGDOM_IMAGE_OPERATION:'image-release',KINGDOM_IMAGE_PROMOTE:'true',KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS:'true',KINGDOM_IMAGE_REGISTRY_READ_TOKEN:'synthetic-only'};
+ const urls=[],commands=[];const fetcher=async url=>{urls.push(url);return Response.json({name:imagePackage,package_type:'container',visibility:'private'},{headers:{'x-oauth-scopes':'read:packages, write:packages'}});};
+ await assert.rejects(authenticateImage({candidate:c},env,{fetcher,run:async(...args)=>{commands.push(args);throw Error('No child allowed');}}));
+ assert.deepEqual(urls,['https://api.github.com/users/catillatio/packages/container/'+imagePackage]);assert.deepEqual(commands,[]);
 });

@@ -6,12 +6,12 @@ import {canonical} from '../deployment/release/image-policy.mjs';
 import {candidate,approval,ids} from './fixtures/release-image.mjs';
 const secret='synthetic-private-proof provider-token https://private.invalid/?credential=fixture';
 const oldId='77777777-7777-4777-8777-777777777777',newId='88888888-8888-4888-8888-888888888888',patchId='99999999-9999-4999-8999-999999999999';
-function fixture(mode='success'){
+function fixture(mode='success',{install=false}={}){
  const target={projectId:ids[0],environmentId:ids[1],serviceId:ids[2]},trace=[],logs=[];let staged,receipt,clock=0,inspectCount=0;
  const identity={id:oldId,...target,status:'SUCCESS',createdAt:'2026-10-01T00:00:00Z',updatedAt:'2026-10-01T00:01:00Z',deploymentStopped:false};
  let game={serviceId:target.serviceId,environmentId:target.environmentId,startCommand:'node deployment/start.mjs',preDeployCommand:['node deployment/migrate.mjs'],healthcheckPath:'/healthz',healthcheckTimeout:120,numReplicas:1,restartPolicyType:'ON_FAILURE',rootDirectory:'/knights-reforged',source:{image:null,repo:'catillatio/test'},latestDeployment:identity,activeDeployments:[structuredClone(identity)]};
  const {source,...snapshot}=game;
- const settings={sha:candidate().sha,projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,imageTargetDigest:createHash('sha256').update(canonical(snapshot)).digest('hex')};
+ const settings={registrySetup:install?'install-read-only':'preconfigured',sha:candidate().sha,projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,imageTargetDigest:createHash('sha256').update(canonical(snapshot)).digest('hex')};
  const values={KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_SHA:candidate().sha,KINGDOM_RESTORE_TEST_DATABASE:'kc_fixture_restore_test',KINGDOM_RELEASE_BACKUP_PROOF:secret,KINGDOM_RELEASE_ARTIFACT_KIND:'oci-image-v1',KINGDOM_RELEASE_IMAGE_REFERENCE:candidate().reference,KINGDOM_RELEASE_IMAGE_DIGEST:candidate().manifestDigest};
  const cleared=()=>mode==='same_committed_placeholder'?structuredClone(receipt):mode==='empty_placeholder'?{id:'opaque-empty-id',environmentId:target.environmentId,status:'STAGED',appliedAt:null,lastAppliedError:null,createdAt:'2026-10-02T00:00:01Z',updatedAt:'2026-10-02T00:00:01Z',patch:{}}:null;
  const base=pending=>({project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,projectId:target.projectId,name:'production'},game:structuredClone(game),pending});
@@ -26,6 +26,9 @@ function fixture(mode='success'){
    if(mode==='missing_pending')delete b.pending;
    if(mode==='wrong_target')b.environment.projectId=ids[5];
    if(mode==='disabled_migration')b.game.preDeployCommand=[];
+   if(mode==='already_image')b.game.source={image:candidate().reference,repo:null};
+   if(mode==='other_repo')b.game.source.repo='other/repository';
+   if(staged&&!receipt&&mode==='credential_race')b.pending.patch.services[target.serviceId].deploy.registryCredentials.password='changed';
    return b;
   }
   if(query.startsWith('mutation KingdomImageStage')){
@@ -34,6 +37,10 @@ function fixture(mode='success'){
    if(mode==='stage_ack_lost')throw Error(secret);
    if(mode==='stage_unrelated')staged.patch.services[ids[4]]={variables:{PRIVATE:{value:secret}}};
    if(mode==='stage_wrong_value')staged.patch.services[target.serviceId].variables.KINGDOM_RELEASE_BACKUP_PROOF.value='changed';
+   if(mode==='credential_missing')delete staged.patch.services[target.serviceId].deploy.registryCredentials;
+   if(mode==='credential_changed')staged.patch.services[target.serviceId].deploy.registryCredentials.password='changed';
+   if(mode==='credential_extra')staged.patch.services[target.serviceId].deploy.extra=true;
+   if(mode==='credential_wrong_path'){const svc=staged.patch.services[target.serviceId];svc.source.registryCredentials=svc.deploy.registryCredentials;delete svc.deploy;}
    return {environmentStageChanges:structuredClone(staged)};
   }
   if(query.startsWith('mutation KingdomImageCommit')){
@@ -52,6 +59,7 @@ function fixture(mode='success'){
    const b={...base(cleared()),receipt:structuredClone(receipt)};
    if(mode==='receipt_wrong_id')b.receipt.id=ids[5];
    if(mode==='receipt_changed_patch')b.receipt.patch.services[target.serviceId].source.image='changed';
+   if(mode==='credential_receipt_changed')b.receipt.patch.services[target.serviceId].deploy.registryCredentials.password='changed';
    if(mode==='pending_race')b.pending={id:ids[5],environmentId:target.environmentId,status:'STAGED',patch:{services:{[ids[4]]:{variables:{PRIVATE:{value:secret}}}}}};
    if(mode==='unexpected_restart')b.game.latestDeployment.id=newId;
    if(mode==='source_not_applied')b.game.source.image=null;
@@ -69,7 +77,7 @@ function fixture(mode='success'){
   }
   throw Error('Unexpected fixture request');
  };
- const run=()=>deployImage(settings,approval(),values,{api,wait:async ms=>{clock+=ms;},now:()=>clock,log:code=>logs.push(code)});
+ const run=()=>deployImage(settings,approval(),values,{api,wait:async ms=>{clock+=ms;},now:()=>clock,credentials:install?{username:'catillatio',password:secret}:undefined,log:code=>logs.push(code)});
  return {run,api,settings,values,trace,logs};
 }
 for(const mode of ['success','same_committed_placeholder','empty_placeholder'])test('one exact image deployment follows staged receipt and unchanged parent: '+mode,async()=>{
@@ -110,4 +118,24 @@ test('preflight authenticates a previous committed placeholder without restaging
   return {...await f.api('query KingdomImageInspect',v),pending:structuredClone(prior),receipt:structuredClone(prior)};
  };
  await preflightImageTarget(f.settings,approval(),{api});assert.equal(reads,1);assert.deepEqual(f.trace,['inspect','inspect']);
+});
+
+for(const mode of ['success','same_committed_placeholder','empty_placeholder'])test('first protected image transition stages credentials with exact source/proof and never restarts early: '+mode,async()=>{
+ const f=fixture(mode,{install:true});assert.equal(await f.run(),newId);
+ assert.deepEqual(f.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','deploy','identity']);
+ assert.deepEqual(f.logs,['PATCH_STAGED','CONFIG_COMMITTED_NO_DEPLOY','DEPLOYMENT_QUEUED']);assert.ok(!JSON.stringify(f.logs).includes(secret));
+});
+for(const [mode,mutations]of [
+ ['already_image',[]],['other_repo',[]],['credential_missing',['stage']],['credential_changed',['stage']],['credential_extra',['stage']],['credential_wrong_path',['stage']],['credential_race',['stage']],
+ ['credential_receipt_changed',['stage','commit']],['commit_ack_lost',['stage','commit']],['unexpected_restart',['stage','commit']],['deploy_ack_lost',['stage','commit','deploy']]
+])test('first-transition credential failure holds without mutation retry: '+mode,async()=>{
+ const f=fixture(mode,{install:true});await assert.rejects(f.run());assert.deepEqual(f.trace.filter(t=>['stage','commit','deploy'].includes(t)),mutations);
+ for(const name of mutations)assert.equal(f.trace.filter(t=>t===name).length,1);assert.ok(!JSON.stringify(f.logs).includes(secret));
+});
+test('credentials cannot be smuggled through a preconfigured release or invalid handoff',async()=>{
+ const cases=[['preconfigured',{username:'catillatio',password:secret}],...['other','empty','extra'].map(kind=>['install-read-only',kind==='other'?{username:'other',password:secret}:kind==='empty'?{username:'catillatio',password:''}:{username:'catillatio',password:secret,extra:true}])];
+ for(const [setup,credentials]of cases){
+  const f=fixture();f.settings.registrySetup=setup;
+  await assert.rejects(deployImage(f.settings,approval(),f.values,{api:f.api,credentials}));assert.deepEqual(f.trace,[]);
+ }
 });

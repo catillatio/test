@@ -63,8 +63,10 @@ platform and preparation-run identity. It contains no credentials or signed proo
 
 A separate classic `read:packages` token privately checks package visibility and
 pulls. This is needed because the canary's GITHUB_TOKEN could pull its package but
-could not read the package metadata endpoint. Railway receives its own owner-saved
-restricted pull credential, never a token through workflow arguments or artifacts.
+could not read the package metadata endpoint. For the first transition, the owner can explicitly authorize handing this
+restricted read-only token to Railway inside the protected image/proof patch.
+It is never passed through workflow inputs or artifacts; subsequent image releases
+retain the installed credential. No source-only setup deployment is required.
 Docker credentials live in a private temporary directory and are removed finally.
 
 ## Protected execution
@@ -96,8 +98,12 @@ or PostgreSQL credentials. All new capability flags default to unset/disabled.
    payload and static identity before migration. A static image cannot be
    downgraded by disabling automated approvals or requesting a v2/source proof.
 6. Revalidate registry and target. Stage only the game source `{image: <digest>,
-   repo: null}` and seven existing/new release variables. Merge preserves competing
-   edits so the strict scope validator rejects them. Privately compare the fresh
+   repo: null}` and seven existing/new release variables. For the explicit first
+   transition    from the original GitHub source, include only `deploy.registryCredentials` in
+   that same patch; authenticate exact `read:packages` scopes before recovery.
+   The setup choice is bound into the private pre-backup target record. Password
+   comparisons remain in memory; no secret or secret hash enters approval evidence.
+   Merge preserves competing    edits so the strict scope validator rejects them. Privately compare the fresh
    revision and complete sensitive patch immediately before one commit using
    `skipDeploys: true`. Never hash the signed proof or credentials into a public
    approval digest. Authenticate the server workflow receipt, committed patch,
@@ -144,3 +150,5 @@ migration rejection before PostgreSQL access. The complete existing CI additiona
 retains its database shards, browser, container and encrypted 900-bot recovery,
 strict schema and retention-regression checks. Final exact-head results belong in
 the PR; a canary success is not a production release authorization.
+
+See [first-transition contract, rollout and evidence limits](REGISTRY_TRANSITION.md).

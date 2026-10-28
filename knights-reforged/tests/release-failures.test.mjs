@@ -151,3 +151,13 @@ test('HTTP 408 after verified worker completion still fails immediately without 
  assert.equal(result.stdout,ready+'PRIVATE_REPORT_READ: HTTP_408\nPRIVATE_REPORT_READ: HTTP_REJECTED\n');
  assert.deepEqual(result.trace,[...completed,'report','report_get_408','store_close']);
 });
+
+test('first-transition credential handoff stays after independent recovery/proof and before exact image deployment',()=>{
+ const r=run('image_success','promote',{...imageEnv,KINGDOM_IMAGE_OPERATION:'image-release',KINGDOM_IMAGE_PROMOTE:'true',KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS:'true',KINGDOM_IMAGE_REGISTRY_READ_TOKEN:'synthetic-handoff-only'});
+ assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');assert.ok(r.trace.indexOf('image_authenticate')<r.trace.indexOf('proof'));assert.ok(r.trace.indexOf('digest')<r.trace.indexOf('proof'));assert.ok(r.trace.indexOf('proof')<r.trace.indexOf('image_deploy'));
+ assert.ok(!r.stdout.includes('synthetic-handoff-only'));assert.ok(!r.trace.includes('game_stage')&&!r.trace.includes('game_upload'));
+});
+
+test('pre-backup credential setup binding rejects a changed mode without touching provider or proof',()=>{
+ const r=run('image_setup_mismatch','prepare',imageEnv);assert.equal(r.status,1);assert.match(r.stderr,/IMAGE_CANDIDATE_VERIFICATION: FAIL/);assert.ok(!r.trace.some(x=>['stage','proof','image_deploy','upload'].includes(x)));
+});

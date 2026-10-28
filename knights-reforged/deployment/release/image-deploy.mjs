@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {setTimeout as delay} from 'node:timers/promises';
 import {railwayClient,checkClearedPatch} from './registrar-config.mjs';
 import {uuid} from './protocol.mjs';
-import {canonical,checkImageCandidate,imageRepository} from './image-policy.mjs';
+import {canonical,checkImageCandidate,imageRepository,imageRegistrySetup,imageRegistryCredentials} from './image-policy.mjs';
 import {createHash} from 'node:crypto';
 import {readFile,writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
@@ -66,13 +66,24 @@ export async function preflightImageTarget(settings,approval,{token,api=railwayC
  const definition=checkImageCandidate(approval.candidate,{sourceSha:settings.sha});
  const target={projectId:settings.projectId,environmentId:settings.environmentId,serviceId:settings.gameServiceId};
  const before=await api(imageInspectQuery,target);await noPending(before,target,api);const baseline=gameSnapshot(before,target);
+ const setup=settings.registrySetup??'preconfigured';assert.ok(['preconfigured','install-read-only'].includes(setup));
+ if(setup==='install-read-only'){assert.equal(before.game.source?.image,null);assert.equal(before.game.source?.repo,'catillatio/test');}
  const previous=before.game.source?.image;assert.ok(!previous||(previous.startsWith(imageRepository+'@sha256:')&&/^sha256:[a-f0-9]{64}$/.test(previous.split('@')[1])));
  return {target,definition,baseline};
 }
-export function checkImagePatch(p,target,reference,values){
+function checkCredentials(credentials){
+ keys(credentials,['username','password']);assert.equal(credentials.username,'catillatio');
+ assert.ok(typeof credentials.password==='string'&&credentials.password.trim()&&credentials.password===credentials.password.trim()&&credentials.password.length<=8192&&!/[\r\n]/.test(credentials.password));
+}
+export function checkImagePatch(p,target,reference,values,credentials){
  assert.match(p?.id??'',uuid);assert.equal(p.environmentId,target.environmentId);assert.equal(p.status,'STAGED');assert.equal(p.appliedAt,null);assert.equal(p.lastAppliedError,null);
  assert.ok(Number.isFinite(Date.parse(p.createdAt))&&Date.parse(p.updatedAt)>=Date.parse(p.createdAt));
- keys(p.patch,['services']);keys(p.patch.services,[target.serviceId]);const service=p.patch.services[target.serviceId];keys(service,['source','variables']);
+ keys(p.patch,['services']);keys(p.patch.services,[target.serviceId]);const service=p.patch.services[target.serviceId];keys(service,credentials?['source','variables','deploy']:['source','variables']);
+ if(credentials){
+  checkCredentials(credentials);
+  keys(service.deploy,['registryCredentials']);keys(service.deploy.registryCredentials,['username','password']);
+  assert.equal(service.deploy.registryCredentials.username,credentials.username);assert.equal(service.deploy.registryCredentials.password,credentials.password);
+ }
  keys(service.source,['image','repo']);assert.equal(service.source.image,reference);assert.equal(service.source.repo,null);
  keys(values,imageReleaseKeys);keys(service.variables,imageReleaseKeys);
  for(const name of imageReleaseKeys){
@@ -88,19 +99,20 @@ export async function verifyImageDeployment(deploymentId,target,reference,{api}=
  assert.ok(d.meta&&typeof d.meta==='object'&&!Array.isArray(d.meta));assert.equal(d.meta.image,reference);
  assert.ok(['WAITING','QUEUED','INITIALIZING','BUILDING','DEPLOYING','SUCCESS'].includes(d.status));return d;
 }
-export async function deployImage(settings,approval,values,{token,api=railwayClient(token),wait=delay,log=()=>{},now=Date.now}={}){
+export async function deployImage(settings,approval,values,{token,api=railwayClient(token),wait=delay,log=()=>{},now=Date.now,credentials}={}){
  const definition=checkImageCandidate(approval.candidate,{sourceSha:settings.sha});
+ assert.equal(credentials!==undefined,(settings.registrySetup??'preconfigured')==='install-read-only');if(credentials)checkCredentials(credentials);
  const target={projectId:settings.projectId,environmentId:settings.environmentId,serviceId:settings.gameServiceId};for(const id of Object.values(target))assert.match(id,uuid);
  keys(values,imageReleaseKeys);assert.equal(values.KINGDOM_AUTOMATED_RELEASES,'1');assert.equal(values.KINGDOM_RELEASE_SHA,settings.sha);assert.equal(values.KINGDOM_RELEASE_ARTIFACT_KIND,'oci-image-v1');
  assert.equal(values.KINGDOM_RELEASE_IMAGE_REFERENCE,definition.reference);assert.equal(values.KINGDOM_RELEASE_IMAGE_DIGEST,definition.manifestDigest);assert.ok(values.KINGDOM_RELEASE_BACKUP_PROOF);
  const {baseline}=await preflightImageTarget(settings,approval,{api});
  assert.match(settings.imageTargetDigest??'',/^[a-f0-9]{64}$/);assert.equal(createHash('sha256').update(baseline).digest('hex'),settings.imageTargetDigest);
- const patchValue={services:{[target.serviceId]:{source:{image:definition.reference,repo:null},variables:Object.fromEntries(imageReleaseKeys.map(k=>[k,{value:values[k]}]))}}};
+ const patchValue={services:{[target.serviceId]:{...(credentials?{deploy:{registryCredentials:credentials}}:{}),source:{image:definition.reference,repo:null},variables:Object.fromEntries(imageReleaseKeys.map(k=>[k,{value:values[k]}]))}}};
  // Merge preserves any competing edit; the strict post-stage scope check then
  // rejects it instead of silently discarding another editor's pending work.
- const staged=checkImagePatch((await api(imageStageMutation,{environmentId:target.environmentId,input:patchValue,merge:true})).environmentStageChanges,target,definition.reference,values);log('PATCH_STAGED');
+ const staged=checkImagePatch((await api(imageStageMutation,{environmentId:target.environmentId,input:patchValue,merge:true})).environmentStageChanges,target,definition.reference,values,credentials);log('PATCH_STAGED');
  const fresh=await api(imageInspectQuery,target);assert.equal(gameSnapshot(fresh,target),baseline);
- checkImagePatch(fresh.pending,target,definition.reference,values);assert.equal(fresh.pending.id,staged.id);assert.equal(fresh.pending.updatedAt,staged.updatedAt);assert.equal(canonical(fresh.pending.patch),canonical(staged.patch));
+ checkImagePatch(fresh.pending,target,definition.reference,values,credentials);assert.equal(fresh.pending.id,staged.id);assert.equal(fresh.pending.updatedAt,staged.updatedAt);assert.equal(canonical(fresh.pending.patch),canonical(staged.patch));
  let workflowId;
  // Exactly one mutation; a lost reply is uncertain and never retried.
  workflowId=(await api(imageCommitMutation,{environmentId:target.environmentId,commitMessage:'Protected exact-image release '+settings.sha})).environmentPatchCommitStaged;
@@ -123,10 +135,12 @@ export async function deployImage(settings,approval,values,{token,api=railwayCli
 async function main(){
  try{
   assert.equal(process.argv[2],'preflight');const env=process.env,settings=releaseInputs(env);assert.equal(settings.gameTransport,'oci-image-v1');
-  assert.equal(env.KINGDOM_GAME_IMAGE_REGISTRY_READY,'true');
+  const registrySetup=imageRegistrySetup(env);settings.registrySetup=registrySetup;
+  if(registrySetup==='preconfigured')assert.equal(env.KINGDOM_GAME_IMAGE_REGISTRY_READY,'true');
+  else imageRegistryCredentials(env); // scope was authenticated by image.mjs verify before this read-only step
   const approval=JSON.parse(await readFile(join(env.RUNNER_TEMP,'verified-image-candidate.json'),'utf8'));
   const {baseline}=await preflightImageTarget(settings,approval,{token:env.RAILWAY_TOKEN});
-  const now=Date.now(),record={sha:settings.sha,jobId:settings.id,definitionDigest:approval.definitionDigest,checkedAt:now,expiresAt:now+2700000,
+  const now=Date.now(),record={sha:settings.sha,jobId:settings.id,registrySetup,definitionDigest:approval.definitionDigest,checkedAt:now,expiresAt:now+2700000,
    runningTargetDigest:createHash('sha256').update(baseline).digest('hex')};
   await writeFile(join(env.RUNNER_TEMP,'verified-image-target.json'),JSON.stringify(record),{mode:0o600});console.log('IMAGE_TARGET_PREFLIGHT: PASS');
  }catch{console.error('IMAGE_TARGET_PREFLIGHT: FAIL — no recovery or mutation was authorized.');process.exitCode=1;}

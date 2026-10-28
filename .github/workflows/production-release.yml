@@ -38,6 +38,10 @@ on:
         description: 'Image release only: sha256 platform-manifest digest from that candidate.'
         type: string
         default: ''
+      image_install_registry_credentials:
+        description: 'First image promotion only: authorize copying the protected read:packages token into game registry credentials in the exact image/proof patch. No setup deployment.'
+        type: boolean
+        default: false
       image_exclusive_window:
         description: 'Image release only: no other Railway editors/automation until completion. Provider has no CAS.'
         type: boolean
@@ -82,6 +86,7 @@ jobs:
           KINGDOM_IMAGE_RUN_ID: ${{ inputs.image_run_id }}
           KINGDOM_IMAGE_ARTIFACT_ID: ${{ inputs.image_artifact_id }}
           KINGDOM_IMAGE_MANIFEST_DIGEST: ${{ inputs.image_manifest_digest }}
+          KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS: ${{ inputs.image_install_registry_credentials }}
           KINGDOM_IMAGE_EXCLUSIVE_WINDOW: ${{ inputs.image_exclusive_window }}
       - name: Validate disabled-by-default image request separation
         if: startsWith(inputs.operation, 'image-')
@@ -92,6 +97,7 @@ jobs:
           KINGDOM_IMAGE_PUBLICATION_ENABLED: ${{ vars.KINGDOM_IMAGE_PUBLICATION_ENABLED }}
           KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED: ${{ vars.KINGDOM_IMAGE_PACKAGE_PRIVATE_CONFIRMED }}
           KINGDOM_GAME_IMAGE_ENABLED: ${{ vars.KINGDOM_GAME_IMAGE_ENABLED }}
+          KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS: ${{ inputs.image_install_registry_credentials }}
           KINGDOM_IMAGE_EXCLUSIVE_WINDOW: ${{ inputs.image_exclusive_window }}
           KINGDOM_IMAGE_RUN_ID: ${{ inputs.image_run_id }}
           KINGDOM_IMAGE_ARTIFACT_ID: ${{ inputs.image_artifact_id }}
@@ -208,6 +214,7 @@ jobs:
       KINGDOM_GAME_IMAGE_REGISTRY_READY: ${{ vars.KINGDOM_GAME_IMAGE_REGISTRY_READY }}
       KINGDOM_IMAGE_OPERATION: ${{ inputs.operation }}
       KINGDOM_IMAGE_PROMOTE: ${{ inputs.promote }}
+      KINGDOM_IMAGE_INSTALL_REGISTRY_CREDENTIALS: ${{ inputs.image_install_registry_credentials }}
       KINGDOM_IMAGE_EXCLUSIVE_WINDOW: ${{ inputs.image_exclusive_window }}
       KINGDOM_IMAGE_RUN_ID: ${{ inputs.image_run_id }}
       KINGDOM_IMAGE_ARTIFACT_ID: ${{ inputs.image_artifact_id }}
@@ -243,6 +250,7 @@ jobs:
         run: node knights-reforged/deployment/release/image-deploy.mjs preflight
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          KINGDOM_IMAGE_REGISTRY_READ_TOKEN: ${{ inputs.image_install_registry_credentials && secrets.KINGDOM_IMAGE_REGISTRY_READ_TOKEN || '' }}
       - name: Run private backup and isolated restored-copy job; independently export encrypted recovery
         id: prepare
         env:
