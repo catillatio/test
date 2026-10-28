@@ -73,3 +73,10 @@ The owner must run this one protected read-only inspection after the reviewed co
 is available on production. Until its authenticated result is returned, the exact
 first rejection remains unverified. A later correction must use that evidence;
 no fallback, default, weaker check or new release attempt is justified meanwhile.
+
+## Authenticated follow-up
+
+Diagnostic #5 has now returned the first rejection and instance lifecycle fields.
+[The verified compatibility correction](IMAGE_HEALTHCHECK_TIMEOUT_COMPATIBILITY.md)
+records that evidence and its regression fixture. The inspection remains the safe
+pre-release check; its MATCH result continues to authorize no production action.

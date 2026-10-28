@@ -80,7 +80,20 @@ function gameSnapshot(data,target,observe){
  check('game.startCommand','EXPECTED_START',game.startCommand==='node deployment/start.mjs',()=>assert.equal(game.startCommand,'node deployment/start.mjs'));
  check('game.preDeployCommand','EXPECTED_MIGRATION',canonical(game.preDeployCommand)===canonical(['node deployment/migrate.mjs']),()=>assert.deepEqual(game.preDeployCommand,['node deployment/migrate.mjs']));
  check('game.healthcheckPath','EXPECTED_HEALTH_PATH',game.healthcheckPath==='/healthz',()=>assert.equal(game.healthcheckPath,'/healthz'));
- check('game.healthcheckTimeout','120',game.healthcheckTimeout,()=>assert.equal(game.healthcheckTimeout,120));
+ // Null is Railway's unset service setting, with a documented 300s startup
+ // deadline. It does not disable the required /healthz readiness gate and is
+ // not normalized to 120: the raw value remains part of the exact snapshot.
+ check('game.healthcheckTimeout','120_OR_UNSET_DEFAULT_300',game.healthcheckTimeout,()=>assert.ok(game.healthcheckTimeout===120||game.healthcheckTimeout===null));
+ const serviceConfig=data.environment.config?.services?.[target.serviceId];
+ const knownVariableMaps=[serviceConfig?.variables,data.environment.config?.sharedVariables].every(v=>v===undefined||v===null||typeof v==='object'&&!Array.isArray(v));
+ check('game.healthcheckTimeout.variableMaps','OBJECT_OR_UNSET',knownVariableMaps,()=>assert.ok(knownVariableMaps));
+ const noVariableOverride=!Object.hasOwn(serviceConfig?.variables??{},'RAILWAY_HEALTHCHECK_TIMEOUT_SEC')&&!Object.hasOwn(data.environment.config?.sharedVariables??{},'RAILWAY_HEALTHCHECK_TIMEOUT_SEC');
+ check('game.healthcheckTimeout.variableOverride','ABSENT',noVariableOverride,()=>assert.ok(noVariableOverride));
+ if(game.healthcheckTimeout===null){
+  check('game.healthcheckTimeout.config','OBJECT',serviceConfig?.deploy,()=>assert.ok(serviceConfig?.deploy&&typeof serviceConfig.deploy==='object'&&!Array.isArray(serviceConfig.deploy)));
+  const unset=serviceConfig.deploy.healthcheckTimeout===undefined||serviceConfig.deploy.healthcheckTimeout===null;
+  check('game.healthcheckTimeout.configOverride','UNSET',unset,()=>assert.ok(unset));
+ }
  check('game.restartPolicyType','ON_FAILURE',game.restartPolicyType,()=>assert.equal(game.restartPolicyType,'ON_FAILURE'));
  check('game.rootDirectory','EXPECTED_ROOT',game.rootDirectory==='/knights-reforged',()=>assert.equal(game.rootDirectory,'/knights-reforged'));
  // Railway's legacy replica field can be null when regional counts are used.
@@ -113,8 +126,12 @@ function gameSnapshot(data,target,observe){
  }
  check('active.status','SUCCESS',active.status,()=>assert.equal(active.status,'SUCCESS'));
  check('active.deploymentStopped','FALSE',active.deploymentStopped,()=>assert.equal(active.deploymentStopped,false));
- check('active.instances.count','1',active.instances.length,()=>assert.equal(active.instances.length,1));
- check('active.instance.status','RUNNING',active.instances[0].status,()=>assert.equal(active.instances[0].status,'RUNNING'));
+ // The provider retains REMOVED instance history on the active deployment.
+ // Require one current RUNNING instance and no other live/uncertain state.
+ check('active.instances.status','RUNNING_OR_REMOVED',active.instances.map(i=>i.status),()=>assert.ok(active.instances.every(i=>['RUNNING','REMOVED'].includes(i.status))));
+ const running=active.instances.filter(i=>i.status==='RUNNING');
+ check('active.instances.runningCount','1',running.length,()=>assert.equal(running.length,1));
+ check('active.instances.uniqueIds','TRUE',new Set(active.instances.map(i=>i.id)).size===active.instances.length,()=>assert.equal(new Set(active.instances.map(i=>i.id)).size,active.instances.length));
  if(latest.id===active.id)check('latest.activeBinding','EXACT_MATCH',canonical(latest)===canonical(active),()=>assert.deepEqual(latest,active));
  else{
   // A failed/removed/skipped attempt is not the running deployment. Neither
