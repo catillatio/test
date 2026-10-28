@@ -292,8 +292,8 @@ test('actual inspection entrypoint emits only sanitized JSON through authenticat
 test('workflow offers opt-in read-only inspection under the existing owner gate and production mutex',()=>{
  const workflow=readFileSync(new URL('../../.github/workflows/railway-authorization-diagnostic.yml',import.meta.url),'utf8');
  assert.match(workflow,/image_target_inspection:[\s\S]*?type: boolean\n        default: false/);
- assert.match(workflow,/\(inputs.image_target_inspection \|\| inputs.image_handoff_inspection\) && 'kingdom-come-production'/);assert.match(workflow,/cancel-in-progress: false/);assert.match(workflow,/environment: production/);
- assert.match(workflow,/if: '!inputs.image_target_inspection && !inputs.image_handoff_inspection'/);assert.match(workflow,/if: inputs.image_target_inspection && !inputs.image_handoff_inspection/);assert.match(workflow,/run: node knights-reforged\/deployment\/release\/inspect-image-target.mjs/);
+ assert.match(workflow,/\(inputs.image_target_inspection \|\| inputs.image_handoff_inspection \|\| inputs.image_commit_history_inspection\) && 'kingdom-come-production'/);assert.match(workflow,/cancel-in-progress: false/);assert.match(workflow,/environment: production/);
+ assert.match(workflow,/if: '!inputs.image_target_inspection && !inputs.image_handoff_inspection && !inputs.image_commit_history_inspection'/);assert.match(workflow,/if: inputs.image_target_inspection && !inputs.image_handoff_inspection && !inputs.image_commit_history_inspection/);assert.match(workflow,/run: node knights-reforged\/deployment\/release\/inspect-image-target.mjs/);
  assert.doesNotMatch(workflow,/image\.mjs publish|run\.mjs|worker\.mjs|upload-artifact|packages: write|KINGDOM_BACKUP_|SIGNING|railway up/);
  const targetStep=workflow.split('- name: Inspect exact first image handoff assertions without writes')[1].split('- name:')[0];assert.doesNotMatch(targetStep,/REGISTRY_READ_TOKEN/);
  const source=readFileSync(new URL('../deployment/release/inspect-image-target.mjs',import.meta.url),'utf8');assert.match(source,/\[imageInspectQuery,imageReceiptQuery\]\.includes\(query\)/);assert.match(source,/assert\.ok\(\+\+reads<=2\)/);

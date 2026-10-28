@@ -778,6 +778,7 @@
     {"file":"tests/release-image-policy.test.mjs","lane":"unit","weight":1},
     {"file":"tests/release-image-deploy.test.mjs","lane":"unit","weight":1},
     {"file":"tests/release-image-handoff.test.mjs","lane":"unit","weight":1},
+    {"file":"tests/release-image-commit-history.test.mjs","lane":"unit","weight":1},
     {"file":"tests/release-image-artifacts.test.mjs","lane":"unit","weight":1}
   ]
 }

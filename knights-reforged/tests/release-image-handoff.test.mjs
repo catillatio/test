@@ -128,7 +128,7 @@ test('new workflow mode keeps protected ref, exact checkout, mutual exclusion, p
  const s=readFileSync(new URL('../../.github/workflows/railway-authorization-diagnostic.yml',import.meta.url),'utf8');
  assert.match(s,/github.ref == 'refs\/heads\/release\/production'/);assert.match(s,/environment: production/);assert.match(s,/ref: \$\{\{ github.sha \}\}/);assert.match(s,/persist-credentials: false/);
  assert.match(s,/image_handoff_inspection:[\s\S]*?type: boolean\n        default: false/);assert.match(s,/inputs.image_handoff_inspection && !inputs.image_target_inspection/);
- assert.match(s,/\(inputs.image_target_inspection \|\| inputs.image_handoff_inspection\) && 'kingdom-come-production'/);assert.match(s,/cancel-in-progress: false/);
+ assert.match(s,/\(inputs.image_target_inspection \|\| inputs.image_handoff_inspection \|\| inputs.image_commit_history_inspection\) && 'kingdom-come-production'/);assert.match(s,/cancel-in-progress: false/);
  assert.equal((s.match(/secrets.KINGDOM_IMAGE_REGISTRY_READ_TOKEN/g)||[]).length,1);
  const step=s.split('- name: Inspect only the bound staged image handoff and signed evidence')[1].split('- name:')[0];assert.match(step,/secrets.RAILWAY_TOKEN/);assert.match(step,/secrets.KINGDOM_IMAGE_REGISTRY_READ_TOKEN/);assert.match(step,/run: node knights-reforged\/deployment\/release\/inspect-image-handoff.mjs/);
  assert.doesNotMatch(s,/packages: write|actions: write|SIGNING_KEY|KINGDOM_BACKUP_|run\.mjs|worker\.mjs|upload-artifact|image\.mjs (publish|verify)/);
