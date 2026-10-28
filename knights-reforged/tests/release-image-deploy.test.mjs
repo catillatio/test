@@ -1,8 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {deployImage,preflightImageTarget,emptyImagePatch,imageReleaseKeys,imageInspectQuery} from '../deployment/release/image-deploy.mjs';
+import {deployImage,preflightImageTarget,emptyImagePatch,imageReleaseKeys,imageInspectQuery,inspectImageTargetState} from '../deployment/release/image-deploy.mjs';
 import {canonical} from '../deployment/release/image-policy.mjs';
+import {inspectImageTarget} from '../deployment/release/inspect-image-target.mjs';
+import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {spawnSync} from 'node:child_process';
 import {candidate,approval,ids} from './fixtures/release-image.mjs';
 const secret='synthetic-private-proof provider-token https://private.invalid/?credential=fixture';
 const oldId='77777777-7777-4777-8777-777777777777',newId='88888888-8888-4888-8888-888888888888',patchId='99999999-9999-4999-8999-999999999999';
@@ -214,4 +219,71 @@ test('private environment values cannot influence the non-secret target digest',
 test('source changed by another editor cannot pass the fresh pre-commit read',async()=>{
  const f=fixture('success',{failedLatest:true,regional:true,edit:(b,state)=>{if(state.staged&&!state.committed)b.game.source={image:candidate().reference,repo:null};}});
  await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),['stage']);
+});
+
+const inspectEnv={GITHUB_REPOSITORY:'catillatio/test',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF:'refs/heads/release/production',GITHUB_RUN_ATTEMPT:'1',
+ KINGDOM_IMAGE_TARGET_INSPECTION:'true',RAILWAY_TOKEN:'synthetic-token',RAILWAY_PROJECT_ID:ids[0],RAILWAY_ENVIRONMENT_ID:ids[1],RAILWAY_GAME_SERVICE_ID:ids[2]};
+test('protected inspection invokes the actual shared target checks with one read and no release authorization',async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true});const result=await inspectImageTarget(inspectEnv,{api:f.api});
+ assert.equal(result.result,'MATCH');assert.equal(result.authorizesRelease,false);assert.equal(result.firstRejected,null);assert.equal(result.reads,1);assert.deepEqual(f.trace,['inspect']);
+ assert.ok(result.checks.every(c=>c.passed===true));assert.ok(result.checks.some(c=>c.field==='game.source.repo'));assert.equal(result.metadata['latest.status'],'FAILED');
+ assert.doesNotMatch(JSON.stringify(result),/synthetic|private\.invalid|[a-f0-9]{8}-[a-f0-9]{4}-|sha256:|credential=|\bvalue\b/);
+});
+test('an observer receives detached values and cannot mutate or bypass an acceptance assertion',async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,edit:b=>{b.environment.config.services[ids[2]].deploy.multiRegionConfig.iad.numReplicas=2;}});
+ await assert.rejects(inspectImageTargetState(f.settings,{api:f.api,observe:(_field,_expected,value)=>{if(value&&typeof value==='object'&&value.iad)value.iad.numReplicas=1;return true;}}));
+ assert.deepEqual(f.trace,['inspect']);
+});
+for(const [field,expected,actual,edit]of[
+ ['game.healthcheckTimeout','120',null,b=>{b.game.healthcheckTimeout=null;b.game.restartPolicyType='ALWAYS';}],
+ ['game.restartPolicyType','ON_FAILURE','MISSING',b=>{delete b.game.restartPolicyType;}],
+ ['game.rootDirectory','EXPECTED_ROOT',false,b=>{b.game.rootDirectory=null;}],
+ ['active.instance.status','RUNNING','CREATED',b=>{b.game.activeDeployments[0].instances[0].status='CREATED';}],
+ ['latest.instances.status','ALL_EXITED',['REMOVED'],b=>{b.game.latestDeployment.instances=[{id:secret,status:'REMOVED'}];}],
+ ['game.regionalReplicas.total','1',2,b=>{b.environment.config.services[ids[2]].deploy.multiRegionConfig.iad.numReplicas=2;}],
+ ['pending.appliedAt','NULL','STRING',b=>{b.pending={environmentId:ids[1],status:'STAGED',lastAppliedError:null,id:secret,appliedAt:secret};}],
+ ['pending.lastAppliedError','NULL','STRING',b=>{b.pending={environmentId:ids[1],status:'STAGED',lastAppliedError:secret};}]
+])test('read-only inspection identifies the first actual assertion, not a replacement policy: '+field,async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,edit});const result=await inspectImageTarget(inspectEnv,{api:f.api});
+ assert.equal(result.result,'REJECTED');assert.deepEqual(result.firstRejected,{field,expected,actual});assert.equal(result.failureCategory,'ASSERTION');assert.equal(result.authorizesRelease,false);assert.deepEqual(f.trace,['inspect']);
+ assert.doesNotMatch(JSON.stringify(result),/synthetic|private\.invalid|[a-f0-9]{8}-[a-f0-9]{4}-|credential=/);
+});
+test('bad inspection context, TLS or credential format makes zero provider calls',async()=>{
+ for(const change of [{GITHUB_REF:'refs/heads/main'},{GITHUB_EVENT_NAME:'push'},{GITHUB_REPOSITORY:'other/repo'},{GITHUB_RUN_ATTEMPT:'2'},{KINGDOM_IMAGE_TARGET_INSPECTION:'false'},{NODE_TLS_REJECT_UNAUTHORIZED:'0'},{RAILWAY_TOKEN:'bad\nheader'},{RAILWAY_API_TOKEN:secret},{RAILWAY_PROJECT_ID:''}]){
+  let calls=0;const result=await inspectImageTarget({...inspectEnv,...change},{api:async()=>{calls++;throw Error(secret);}});assert.equal(result.result,'REJECTED');assert.equal(calls,0);assert.equal(result.authorizesRelease,false);assert.ok(!JSON.stringify(result).includes(secret));
+ }
+});
+test('transport failures are unverified, sanitized and never retried or represented as an assertion mismatch',async()=>{
+ let calls=0;const result=await inspectImageTarget(inspectEnv,{api:async()=>{calls++;throw Error(secret);}});
+ assert.equal(calls,1);assert.equal(result.result,'UNVERIFIED');assert.equal(result.firstRejected,null);assert.equal(result.failureCategory,'UNVERIFIED');assert.ok(!JSON.stringify(result).includes(secret));
+});
+test('unknown status strings, timestamps, IDs, patch variables and exception diffs never escape inspection',async()=>{
+ const f=fixture('success',{failedLatest:true,regional:true,edit:b=>{
+  b.game.healthcheckTimeout=secret;b.game.restartPolicyType=secret;b.game.latestDeployment.status=secret;b.game.latestDeployment.createdAt=secret;
+  b.game.latestDeployment.instances=[{id:secret,status:secret}];b.game.source.image=secret;
+ }});
+ const result=await inspectImageTarget(inspectEnv,{api:f.api});assert.equal(result.firstRejected.actual,'STRING');assert.doesNotMatch(JSON.stringify(result),/synthetic|https?:|credential=|[a-f0-9]{8}-[a-f0-9]{4}-/);
+});
+test('actual inspection entrypoint emits only sanitized JSON through authenticated query-only transport',async()=>{
+ const folder=mkdtempSync(join(tmpdir(),'image-target-inspection-'));
+ try{
+  const f=fixture('success',{failedLatest:true,regional:true,edit:b=>{b.game.healthcheckTimeout=null;}}),data=await f.api(imageInspectQuery,{projectId:ids[0],environmentId:ids[1],serviceId:ids[2]});
+  const preload=join(folder,'provider.mjs');
+  writeFileSync(preload,`import assert from 'node:assert/strict';globalThis.fetch=async(url,options)=>{assert.equal(url,'https://backboard.railway.com/graphql/v2');assert.equal(options.headers['project-access-token'],'synthetic-token');assert.equal(options.redirect,'error');assert.equal(options.cache,'no-store');const body=JSON.parse(options.body);assert.match(body.query,/^query KingdomImageInspect\\(/);assert.doesNotMatch(body.query,/mutation|subscription/);return {ok:true,status:200,text:async()=>JSON.stringify({data:${JSON.stringify(data)}})};};`);
+  const result=spawnSync(process.execPath,['--import',preload,new URL('../deployment/release/inspect-image-target.mjs',import.meta.url).pathname],{env:{PATH:process.env.PATH,...inspectEnv},encoding:'utf8',timeout:10000});
+  assert.equal(result.status,1);assert.equal(result.stderr,'');
+  const lines=result.stdout.trim().split('\n');assert.ok(lines.every(l=>/^IMAGE_TARGET_(INSPECTION|FIRST_REJECTION|CHECK|FIELD): /.test(l)));
+  assert.deepEqual(JSON.parse(lines[1].slice('IMAGE_TARGET_FIRST_REJECTION: '.length)),{field:'game.healthcheckTimeout',expected:'120',actual:null});
+  assert.equal(JSON.parse(lines[0].slice('IMAGE_TARGET_INSPECTION: '.length)).authorizesRelease,false);
+  assert.doesNotMatch(result.stdout,/synthetic|https?:|credential=|[a-f0-9]{8}-[a-f0-9]{4}-/);
+ }finally{rmSync(folder,{recursive:true,force:true});}
+});
+test('workflow offers opt-in read-only inspection under the existing owner gate and production mutex',()=>{
+ const workflow=readFileSync(new URL('../../.github/workflows/railway-authorization-diagnostic.yml',import.meta.url),'utf8');
+ assert.match(workflow,/image_target_inspection:[\s\S]*?type: boolean\n        default: false/);
+ assert.match(workflow,/inputs.image_target_inspection && 'kingdom-come-production'/);assert.match(workflow,/cancel-in-progress: false/);assert.match(workflow,/environment: production/);
+ assert.match(workflow,/if: '!inputs.image_target_inspection'/);assert.match(workflow,/if: inputs.image_target_inspection/);assert.match(workflow,/run: node knights-reforged\/deployment\/release\/inspect-image-target.mjs/);
+ assert.doesNotMatch(workflow,/image\.mjs publish|run\.mjs|worker\.mjs|upload-artifact|packages: write|KINGDOM_BACKUP_|SIGNING|REGISTRY_READ_TOKEN|railway up/);
+ const source=readFileSync(new URL('../deployment/release/inspect-image-target.mjs',import.meta.url),'utf8');assert.match(source,/\[imageInspectQuery,imageReceiptQuery\]\.includes\(query\)/);assert.match(source,/assert\.ok\(\+\+reads<=2\)/);
+ assert.doesNotMatch(source,/child_process|console\.(error|warn)|error\.(message|stack)|writeFile|createHash|deployImage\(/);
 });
