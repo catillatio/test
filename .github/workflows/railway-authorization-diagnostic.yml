@@ -2,10 +2,15 @@ name: Railway authorization diagnostic
 # Read-only and manual; the existing production owner approval remains required.
 on:
   workflow_dispatch:
+    inputs:
+      image_target_inspection:
+        description: 'Read-only first image handoff checks; never prepares or deploys a release'
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
-  group: kingdom-come-railway-authorization-diagnostic
+  group: ${{ inputs.image_target_inspection && 'kingdom-come-production' || 'kingdom-come-railway-authorization-diagnostic' }}
   cancel-in-progress: false
 jobs:
   diagnostic:
@@ -21,6 +26,7 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with: {node-version: '24.22.0'}
       - name: Verify only Railway token scope and target metadata
+        if: '!inputs.image_target_inspection'
         env:
           # Direct bindings inside the approved job match the release's scopes;
           # no reusable-workflow secret forwarding or extra credential is needed.
@@ -30,3 +36,12 @@ jobs:
           RAILWAY_GAME_SERVICE_ID: ${{ vars.RAILWAY_GAME_SERVICE_ID }}
           RAILWAY_RELEASE_WORKER_SERVICE_ID: ${{ vars.RAILWAY_RELEASE_WORKER_SERVICE_ID }}
         run: bash knights-reforged/deployment/release/diagnose-railway.sh
+      - name: Inspect exact first image handoff assertions without writes
+        if: inputs.image_target_inspection
+        env:
+          KINGDOM_IMAGE_TARGET_INSPECTION: 'true'
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+          RAILWAY_GAME_SERVICE_ID: ${{ vars.RAILWAY_GAME_SERVICE_ID }}
+        run: node knights-reforged/deployment/release/inspect-image-target.mjs

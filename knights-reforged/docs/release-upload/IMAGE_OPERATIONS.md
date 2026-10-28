@@ -65,6 +65,8 @@ or publishing. Operational validators continue checking these flags.
 
 [Run #74 active-target correction and verification](IMAGE_TARGET_PREFLIGHT_FIX.md).
 
+[Read-only exact-assertion inspection for repeated target failures](IMAGE_TARGET_READ_ONLY_INSPECTION.md).
+
 ## Prepare one exact image; no production recovery/deploy
 
 Set protected GitHub environment variables

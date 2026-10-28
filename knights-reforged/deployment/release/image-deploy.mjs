@@ -23,63 +23,105 @@ export const imageStageMutation=`mutation KingdomImageStage($environmentId:Strin
 export const imageCommitMutation=`mutation KingdomImageCommit($environmentId:String!,$commitMessage:String!){environmentPatchCommitStaged(environmentId:$environmentId,commitMessage:$commitMessage,skipDeploys:true)}`;
 export const imageDeployMutation=`mutation KingdomImageDeploy($environmentId:String!,$serviceId:String!){serviceInstanceDeployV2(environmentId:$environmentId,serviceId:$serviceId)}`;
 const verifyQuery=`query KingdomImageReceipt(${variables},$patchId:String!){${scope} receipt:environmentPatch(id:$patchId){${patch}} pending:environmentStagedChanges(environmentId:$environmentId){${patch}}}`;
+export {verifyQuery as imageReceiptQuery};
 const statusQuery='query KingdomImageWorkflow($workflowId:String!){workflowStatus(workflowId:$workflowId){status error}}';
 const imageIdentityQuery=`query KingdomImageDeployment($id:String!){deployment(id:$id){${identity} meta}}`;
 export const imageReleaseKeys=['KINGDOM_AUTOMATED_RELEASES','KINGDOM_RELEASE_SHA','KINGDOM_RESTORE_TEST_DATABASE','KINGDOM_RELEASE_BACKUP_PROOF','KINGDOM_RELEASE_ARTIFACT_KIND','KINGDOM_RELEASE_IMAGE_REFERENCE','KINGDOM_RELEASE_IMAGE_DIGEST'];
 const keys=(value,wanted)=>assert.deepEqual(Object.keys(value??{}).sort(),wanted.slice().sort());
 
-export function emptyImagePatch(pending,environmentId){
+// Optional observation runs before each existing assertion. It cannot approve or
+// suppress a check; operational callers do not supply it. Values stay private.
+const observed=(observe,field,expected,value,check)=>{if(observe)observe(field,expected,structuredClone(value));check();};
+export function emptyImagePatch(pending,environmentId,observe){
+ const check=(field,expected,value,fn)=>observed(observe,field,expected,value,fn);
  if(pending===null)return;
- assert.ok(pending&&typeof pending==='object');assert.equal(pending.environmentId,environmentId);assert.equal(pending.status,'STAGED');assert.equal(pending.lastAppliedError,null);
- assert.equal(typeof pending.id,'string');assert.equal(pending.appliedAt,null);
- for(const key of ['createdAt','updatedAt'])assert.ok(Number.isFinite(Date.parse(pending[key])));
- const value=pending.patch;assert.ok(value&&typeof value==='object'&&!Array.isArray(value));
- for(const [key,item]of Object.entries(value)){assert.ok(['services','volumes','buckets','sharedVariables'].includes(key));assert.ok(item&&typeof item==='object'&&!Array.isArray(item)&&Object.keys(item).length===0);}
+ check('pending','OBJECT',pending,()=>assert.ok(pending&&typeof pending==='object'));
+ check('pending.environmentId','TARGET_MATCH',pending.environmentId===environmentId,()=>assert.equal(pending.environmentId,environmentId));
+ check('pending.status','STAGED',pending.status,()=>assert.equal(pending.status,'STAGED'));
+ check('pending.lastAppliedError','NULL',pending.lastAppliedError,()=>assert.equal(pending.lastAppliedError,null));
+ check('pending.id','STRING',pending.id,()=>assert.equal(typeof pending.id,'string'));
+ check('pending.appliedAt','NULL',pending.appliedAt,()=>assert.equal(pending.appliedAt,null));
+ for(const key of ['createdAt','updatedAt'])check('pending.'+key,'VALID_TIMESTAMP',Number.isFinite(Date.parse(pending[key])),()=>assert.ok(Number.isFinite(Date.parse(pending[key]))));
+ const value=pending.patch;check('pending.patch','OBJECT',value,()=>assert.ok(value&&typeof value==='object'&&!Array.isArray(value)));
+ for(const [key,item]of Object.entries(value)){
+  check('pending.patch.keys','ALLOWED_EMPTY_CONTAINERS',['services','volumes','buckets','sharedVariables'].includes(key),()=>assert.ok(['services','volumes','buckets','sharedVariables'].includes(key)));
+  check('pending.patch.container','EMPTY_OBJECT',item,()=>assert.ok(item&&typeof item==='object'&&!Array.isArray(item)&&Object.keys(item).length===0));
+ }
 }
-async function noPending(data,target,api){
- assert.ok(Object.hasOwn(data,'pending'));
- if(data.pending?.status!=='COMMITTED'){emptyImagePatch(data.pending,target.environmentId);return;}
+async function noPending(data,target,api,observe){
+ const check=(field,expected,value,fn)=>observed(observe,field,expected,value,fn);
+ check('pending.present','TRUE',Object.hasOwn(data,'pending'),()=>assert.ok(Object.hasOwn(data,'pending')));
+ if(data.pending?.status!=='COMMITTED'){emptyImagePatch(data.pending,target.environmentId,observe);return;}
  // Railway can return its just-committed record as the cleared placeholder.
  // Authenticate that receipt separately; never equate missing data with empty.
- const p=data.pending;assert.match(p.id,uuid);assert.equal(p.environmentId,target.environmentId);assert.equal(p.lastAppliedError,null);
- assert.ok(Number.isFinite(Date.parse(p.appliedAt))&&Number.isFinite(Date.parse(p.updatedAt)));
- const checked=await api(verifyQuery,{...target,patchId:p.id});assert.equal(gameSnapshot(checked,target),gameSnapshot(data,target));
- assert.equal(canonical(checked.receipt),canonical(p));assert.ok(Object.hasOwn(checked,'pending'));
- if(checked.pending?.id===p.id)assert.equal(canonical(checked.pending),canonical(p));
- else emptyImagePatch(checked.pending,target.environmentId);
+ const p=data.pending;
+ check('pending.id','UUID',typeof p.id==='string'&&uuid.test(p.id),()=>assert.match(p.id,uuid));
+ check('pending.environmentId','TARGET_MATCH',p.environmentId===target.environmentId,()=>assert.equal(p.environmentId,target.environmentId));
+ check('pending.lastAppliedError','NULL',p.lastAppliedError,()=>assert.equal(p.lastAppliedError,null));
+ check('pending.receipt.timestamps','VALID_TIMESTAMPS',Number.isFinite(Date.parse(p.appliedAt))&&Number.isFinite(Date.parse(p.updatedAt)),()=>assert.ok(Number.isFinite(Date.parse(p.appliedAt))&&Number.isFinite(Date.parse(p.updatedAt))));
+ const checked=await api(verifyQuery,{...target,patchId:p.id});
+ const after=gameSnapshot(checked,target,observe),before=gameSnapshot(data,target,observe);
+ check('pending.receipt.target','UNCHANGED',after===before,()=>assert.equal(after,before));
+ check('pending.receipt.binding','EXACT_MATCH',canonical(checked.receipt)===canonical(p),()=>assert.equal(canonical(checked.receipt),canonical(p)));
+ check('pending.receipt.pendingPresent','TRUE',Object.hasOwn(checked,'pending'),()=>assert.ok(Object.hasOwn(checked,'pending')));
+ if(checked.pending?.id===p.id)check('pending.receipt.pendingBinding','EXACT_MATCH',canonical(checked.pending)===canonical(p),()=>assert.equal(canonical(checked.pending),canonical(p)));
+ else emptyImagePatch(checked.pending,target.environmentId,observe);
 }
-function gameSnapshot(data,target){
- assert.equal(data.project?.id,target.projectId);assert.equal(data.project.name,'merry-patience');
- assert.equal(data.environment?.id,target.environmentId);assert.equal(data.environment.projectId,target.projectId);assert.equal(data.environment.name,'production');
- const game=data.game;assert.equal(game?.serviceId,target.serviceId);assert.equal(game.environmentId,target.environmentId);
- assert.equal(game.startCommand,'node deployment/start.mjs');assert.deepEqual(game.preDeployCommand,['node deployment/migrate.mjs']);
- assert.equal(game.healthcheckPath,'/healthz');assert.equal(game.healthcheckTimeout,120);assert.equal(game.restartPolicyType,'ON_FAILURE');assert.equal(game.rootDirectory,'/knights-reforged');
+function gameSnapshot(data,target,observe){
+ const check=(field,expected,value,fn)=>observed(observe,field,expected,value,fn);
+ check('project.id','TARGET_MATCH',data.project?.id===target.projectId,()=>assert.equal(data.project?.id,target.projectId));
+ check('project.name','EXPECTED_NAME',data.project.name==='merry-patience',()=>assert.equal(data.project.name,'merry-patience'));
+ check('environment.id','TARGET_MATCH',data.environment?.id===target.environmentId,()=>assert.equal(data.environment?.id,target.environmentId));
+ check('environment.projectId','TARGET_MATCH',data.environment.projectId===target.projectId,()=>assert.equal(data.environment.projectId,target.projectId));
+ check('environment.name','PRODUCTION',data.environment.name==='production',()=>assert.equal(data.environment.name,'production'));
+ const game=data.game;
+ check('game.serviceId','TARGET_MATCH',game?.serviceId===target.serviceId,()=>assert.equal(game?.serviceId,target.serviceId));
+ check('game.environmentId','TARGET_MATCH',game.environmentId===target.environmentId,()=>assert.equal(game.environmentId,target.environmentId));
+ check('game.startCommand','EXPECTED_START',game.startCommand==='node deployment/start.mjs',()=>assert.equal(game.startCommand,'node deployment/start.mjs'));
+ check('game.preDeployCommand','EXPECTED_MIGRATION',canonical(game.preDeployCommand)===canonical(['node deployment/migrate.mjs']),()=>assert.deepEqual(game.preDeployCommand,['node deployment/migrate.mjs']));
+ check('game.healthcheckPath','EXPECTED_HEALTH_PATH',game.healthcheckPath==='/healthz',()=>assert.equal(game.healthcheckPath,'/healthz'));
+ check('game.healthcheckTimeout','120',game.healthcheckTimeout,()=>assert.equal(game.healthcheckTimeout,120));
+ check('game.restartPolicyType','ON_FAILURE',game.restartPolicyType,()=>assert.equal(game.restartPolicyType,'ON_FAILURE'));
+ check('game.rootDirectory','EXPECTED_ROOT',game.rootDirectory==='/knights-reforged',()=>assert.equal(game.rootDirectory,'/knights-reforged'));
  // Railway's legacy replica field can be null when regional counts are used.
  // Require explicit one-replica configuration, never interpret null as one.
  const regions=data.environment.config?.services?.[target.serviceId]?.deploy?.multiRegionConfig;
  let regionalReplicas=null;
  if(regions!==undefined){
-  assert.ok(regions&&typeof regions==='object'&&!Array.isArray(regions)&&Object.keys(regions).length>0);
-  regionalReplicas=Object.fromEntries(Object.entries(regions).map(([region,value])=>{assert.match(region,/^[a-z0-9-]+$/);assert.ok(Number.isInteger(value?.numReplicas)&&value.numReplicas>=0);return [region,value.numReplicas];}));
-  assert.equal(Object.values(regionalReplicas).reduce((sum,n)=>sum+n,0),1);
+  check('game.regionalReplicas','NONEMPTY_OBJECT',regions,()=>assert.ok(regions&&typeof regions==='object'&&!Array.isArray(regions)&&Object.keys(regions).length>0));
+  regionalReplicas=Object.fromEntries(Object.entries(regions).map(([region,value])=>{
+   check('game.regionalReplicas.region','VALID_REGION',/^[a-z0-9-]+$/.test(region),()=>assert.match(region,/^[a-z0-9-]+$/));
+   check('game.regionalReplicas.count','NONNEGATIVE_INTEGER',value?.numReplicas,()=>assert.ok(Number.isInteger(value?.numReplicas)&&value.numReplicas>=0));return [region,value.numReplicas];
+  }));
+  check('game.regionalReplicas.total','1',Object.values(regionalReplicas).reduce((sum,n)=>sum+n,0),()=>assert.equal(Object.values(regionalReplicas).reduce((sum,n)=>sum+n,0),1));
  }
- if(game.numReplicas===null)assert.notEqual(regionalReplicas,null);else assert.equal(game.numReplicas,1);
- assert.ok(Array.isArray(data.inFlight?.edges));assert.equal(data.inFlight.edges.length,0);
- assert.ok(Array.isArray(game.activeDeployments));assert.equal(game.activeDeployments.length,1);
+ if(game.numReplicas===null)check('game.numReplicas','EXPLICIT_REGIONAL_EVIDENCE',regionalReplicas!==null,()=>assert.notEqual(regionalReplicas,null));
+ else check('game.numReplicas','1',game.numReplicas,()=>assert.equal(game.numReplicas,1));
+ check('inFlight.edges','ARRAY',data.inFlight?.edges,()=>assert.ok(Array.isArray(data.inFlight?.edges)));
+ check('inFlight.count','0',data.inFlight.edges.length,()=>assert.equal(data.inFlight.edges.length,0));
+ check('game.activeDeployments','ARRAY',game.activeDeployments,()=>assert.ok(Array.isArray(game.activeDeployments)));
+ check('game.activeDeployments.count','1',game.activeDeployments.length,()=>assert.equal(game.activeDeployments.length,1));
  const active=game.activeDeployments[0],latest=game.latestDeployment;
- for(const d of [latest,active]){
-  assert.match(d?.id??'',uuid);for(const key of ['projectId','environmentId','serviceId'])assert.equal(d[key],target[key]);
-  for(const key of ['createdAt','updatedAt'])assert.ok(Number.isFinite(Date.parse(d[key])));
-  assert.ok(Date.parse(d.updatedAt)>=Date.parse(d.createdAt));assert.equal(typeof d.deploymentStopped,'boolean');assert.ok(Array.isArray(d.instances));
-  for(const instance of d.instances)assert.ok(typeof instance.id==='string'&&instance.id.length>0);
+ for(const [name,d] of [['latest',latest],['active',active]]){
+  check(name+'.id','UUID',typeof d?.id==='string'&&uuid.test(d.id),()=>assert.match(d?.id??'',uuid));
+  for(const key of ['projectId','environmentId','serviceId'])check(name+'.'+key,'TARGET_MATCH',d[key]===target[key],()=>assert.equal(d[key],target[key]));
+  for(const key of ['createdAt','updatedAt'])check(name+'.'+key,'VALID_TIMESTAMP',Number.isFinite(Date.parse(d[key])),()=>assert.ok(Number.isFinite(Date.parse(d[key]))));
+  check(name+'.timestampOrder','VALID_ORDER',Date.parse(d.updatedAt)>=Date.parse(d.createdAt),()=>assert.ok(Date.parse(d.updatedAt)>=Date.parse(d.createdAt)));
+  check(name+'.deploymentStopped','BOOLEAN',d.deploymentStopped,()=>assert.equal(typeof d.deploymentStopped,'boolean'));
+  check(name+'.instances','ARRAY',d.instances,()=>assert.ok(Array.isArray(d.instances)));
+  for(const instance of d.instances)check(name+'.instance.id','NONEMPTY_STRING',typeof instance.id==='string'&&instance.id.length>0,()=>assert.ok(typeof instance.id==='string'&&instance.id.length>0));
  }
- assert.equal(active.status,'SUCCESS');assert.equal(active.deploymentStopped,false);assert.equal(active.instances.length,1);assert.equal(active.instances[0].status,'RUNNING');
- if(latest.id===active.id)assert.deepEqual(latest,active);
+ check('active.status','SUCCESS',active.status,()=>assert.equal(active.status,'SUCCESS'));
+ check('active.deploymentStopped','FALSE',active.deploymentStopped,()=>assert.equal(active.deploymentStopped,false));
+ check('active.instances.count','1',active.instances.length,()=>assert.equal(active.instances.length,1));
+ check('active.instance.status','RUNNING',active.instances[0].status,()=>assert.equal(active.instances[0].status,'RUNNING'));
+ if(latest.id===active.id)check('latest.activeBinding','EXACT_MATCH',canonical(latest)===canonical(active),()=>assert.deepEqual(latest,active));
  else{
   // A failed/removed/skipped attempt is not the running deployment. Neither
   // history scanning nor arbitrary selection of an older success is allowed.
-  assert.ok(['FAILED','REMOVED','SKIPPED'].includes(latest.status));assert.ok(latest.instances.every(i=>i.status==='EXITED'));
-  assert.ok(Date.parse(latest.createdAt)>=Date.parse(active.createdAt));
+  check('latest.status','TERMINAL_ATTEMPT',latest.status,()=>assert.ok(['FAILED','REMOVED','SKIPPED'].includes(latest.status)));
+  check('latest.instances.status','ALL_EXITED',latest.instances.map(i=>i.status),()=>assert.ok(latest.instances.every(i=>i.status==='EXITED')));
+  check('latest.activeCreatedOrder','VALID_ORDER',Date.parse(latest.createdAt)>=Date.parse(active.createdAt),()=>assert.ok(Date.parse(latest.createdAt)>=Date.parse(active.createdAt)));
  }
  // Source changes are intentional; running deployment/config identity is not.
  const deployment=d=>({...Object.fromEntries(['id','projectId','environmentId','serviceId','status','createdAt','updatedAt','deploymentStopped'].map(k=>[k,d[k]])),instances:d.instances.map(({id,status})=>({id,status}))});
@@ -89,13 +131,24 @@ function gameSnapshot(data,target){
 }
 export async function preflightImageTarget(settings,approval,{token,api=railwayClient(token)}={}){
  const definition=checkImageCandidate(approval.candidate,{sourceSha:settings.sha});
+ return {...await inspectImageTargetState(settings,{api}),definition};
+}
+// Shared READ ONLY provider validation. No image publication or mutation path.
+export async function inspectImageTargetState(settings,{token,api=railwayClient(token),observe}={}){
+ const check=(field,expected,value,fn)=>observed(observe,field,expected,value,fn);
  const target={projectId:settings.projectId,environmentId:settings.environmentId,serviceId:settings.gameServiceId};
- const before=await api(imageInspectQuery,target);await noPending(before,target,api);const baseline=gameSnapshot(before,target);
- const setup=settings.registrySetup??'preconfigured';assert.ok(['preconfigured','install-read-only'].includes(setup));
- const source=before.game.source;assert.ok(source&&typeof source==='object');
- if(setup==='install-read-only'||source.image===null){assert.equal(source.image,null);assert.equal(source.repo,'catillatio/test');}
- else{assert.equal(source.repo,null);assert.ok(typeof source.image==='string'&&source.image.startsWith(imageRepository+'@sha256:')&&/^sha256:[a-f0-9]{64}$/.test(source.image.split('@')[1]));}
- return {target,definition,baseline,source:{image:source.image,repo:source.repo}};
+ const before=await api(imageInspectQuery,target);await noPending(before,target,api,observe);const baseline=gameSnapshot(before,target,observe);
+ const setup=settings.registrySetup??'preconfigured';check('registrySetup','KNOWN_MODE',['preconfigured','install-read-only'].includes(setup),()=>assert.ok(['preconfigured','install-read-only'].includes(setup)));
+ const source=before.game.source;check('game.source','OBJECT',source,()=>assert.ok(source&&typeof source==='object'));
+ if(setup==='install-read-only'||source.image===null){
+  check('game.source.image','NULL',source.image,()=>assert.equal(source.image,null));
+  check('game.source.repo','EXPECTED_REPOSITORY',source.repo==='catillatio/test',()=>assert.equal(source.repo,'catillatio/test'));
+ }else{
+  check('game.source.repo','NULL',source.repo,()=>assert.equal(source.repo,null));
+  const pinned=typeof source.image==='string'&&source.image.startsWith(imageRepository+'@sha256:')&&/^sha256:[a-f0-9]{64}$/.test(source.image.split('@')[1]);
+  check('game.source.image','PINNED_PRIVATE_IMAGE',pinned,()=>assert.ok(pinned));
+ }
+ return {target,baseline,source:{image:source.image,repo:source.repo}};
 }
 function checkCredentials(credentials){
  keys(credentials,['username','password']);assert.equal(credentials.username,'catillatio');
