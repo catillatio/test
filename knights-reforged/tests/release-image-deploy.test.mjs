@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {deployImage,preflightImageTarget,emptyImagePatch,imageReleaseKeys,imageInspectQuery,inspectImageTargetState} from '../deployment/release/image-deploy.mjs';
+import {deployImage,preflightImageTarget,emptyImagePatch,imageReleaseKeys,imageInspectQuery,inspectImageTargetState,imageHandoffFailure} from '../deployment/release/image-deploy.mjs';
 import {canonical} from '../deployment/release/image-policy.mjs';
 import {inspectImageTarget,sanitizedTargetMetadata} from '../deployment/release/inspect-image-target.mjs';
 import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
@@ -13,7 +13,7 @@ const secret='synthetic-private-proof provider-token https://private.invalid/?cr
 const oldId='77777777-7777-4777-8777-777777777777',newId='88888888-8888-4888-8888-888888888888',patchId='99999999-9999-4999-8999-999999999999';
 const failedId='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
 const capturedObservation=JSON.parse(readFileSync(new URL('./fixtures/railway-image-target-observation-5.json',import.meta.url),'utf8'));
-function fixture(mode='success',{install=false,failedLatest=false,regional=false,providerShape=false,edit}={}){
+function fixture(mode='success',{install=false,failedLatest=false,regional=false,providerShape=false,delta=false,edit}={}){
  const target={projectId:ids[0],environmentId:ids[1],serviceId:ids[2]},trace=[],logs=[];let staged,receipt,clock=0,inspectCount=0;
  const identity={id:oldId,...target,status:'SUCCESS',createdAt:'2026-10-01T00:00:00Z',updatedAt:'2026-10-01T00:01:00Z',deploymentStopped:false,instances:[{id:'running-game-instance',status:'RUNNING'}]};
  let game={serviceId:target.serviceId,environmentId:target.environmentId,startCommand:'node deployment/start.mjs',preDeployCommand:['node deployment/migrate.mjs'],healthcheckPath:'/healthz',healthcheckTimeout:120,numReplicas:1,restartPolicyType:'ON_FAILURE',rootDirectory:'/knights-reforged',source:{image:null,repo:'catillatio/test'},latestDeployment:identity,activeDeployments:[structuredClone(identity)]};
@@ -30,7 +30,9 @@ function fixture(mode='success',{install=false,failedLatest=false,regional=false
  const emptyPlaceholder=()=>({id:'opaque-empty-id',environmentId:target.environmentId,status:'STAGED',appliedAt:null,lastAppliedError:null,createdAt:'2026-10-02T00:00:01Z',updatedAt:'2026-10-02T00:00:01Z',patch:{}});
  const cleared=()=>mode==='same_committed_placeholder'?structuredClone(receipt):mode==='empty_placeholder'||providerShape?emptyPlaceholder():null;
  const base=pending=>{
-  const b={project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,projectId:target.projectId,name:'production',config:{services:{[target.serviceId]:{deploy:regional?{multiRegionConfig:{iad:{numReplicas:1}}}:{},variables:{PRIVATE:{value:secret}}}}}},game:structuredClone(game),inFlight:{edges:[]},pending};
+  const applied=receipt?Object.fromEntries(imageReleaseKeys.map(k=>[k,{value:values[k]}])):{KINGDOM_AUTOMATED_RELEASES:{value:'1'}};
+  const deploy={...(regional?{multiRegionConfig:{iad:{numReplicas:1}}}:{}),...(receipt&&install?{registryCredentials:{username:'catillatio',password:secret}}:{})};
+  const b={project:{id:target.projectId,name:'merry-patience'},environment:{id:target.environmentId,projectId:target.projectId,name:'production',config:{services:{[target.serviceId]:{deploy,variables:{PRIVATE:{value:secret},...applied}}}}},game:structuredClone(game),inFlight:{edges:[]},pending};
   edit?.(b,{staged:!!staged,committed:!!receipt});return b;
  };
  const api=async(query,v)=>{
@@ -52,11 +54,13 @@ function fixture(mode='success',{install=false,failedLatest=false,regional=false
   if(query.startsWith('mutation KingdomImageStage')){
    trace.push('stage');assert.equal(v.environmentId,target.environmentId);assert.equal(v.merge,true);
    staged={id:patchId,environmentId:target.environmentId,status:'STAGED',createdAt:'2026-10-02T00:00:00Z',updatedAt:'2026-10-02T00:00:00Z',appliedAt:null,lastAppliedError:null,patch:structuredClone(v.input)};
+   if(delta)delete staged.patch.services[target.serviceId].variables.KINGDOM_AUTOMATED_RELEASES;
    if(mode==='stage_ack_lost')throw Error(secret);
    if(mode==='stage_unrelated')staged.patch.services[ids[4]]={variables:{PRIVATE:{value:secret}}};
    if(mode==='stage_wrong_value')staged.patch.services[target.serviceId].variables.KINGDOM_RELEASE_BACKUP_PROOF.value='changed';
    if(mode==='credential_missing')delete staged.patch.services[target.serviceId].deploy.registryCredentials;
    if(mode==='credential_changed')staged.patch.services[target.serviceId].deploy.registryCredentials.password='changed';
+   if(mode==='credential_redacted')staged.patch.services[target.serviceId].deploy.registryCredentials.password='[REDACTED]';
    if(mode==='credential_extra')staged.patch.services[target.serviceId].deploy.extra=true;
    if(mode==='credential_wrong_path'){const svc=staged.patch.services[target.serviceId];svc.source.registryCredentials=svc.deploy.registryCredentials;delete svc.deploy;}
    return {environmentStageChanges:structuredClone(staged)};
@@ -167,7 +171,7 @@ test('failed latest attempt is distinct from the sole authoritative healthy acti
  const release=fixture('success',{failedLatest:true,regional:true,install:true});assert.equal(await release.run(),newId);assert.deepEqual(release.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','deploy','identity']);
 });
 test('target queries ask for runtime instances and a bounded server-filtered in-flight check',()=>{
- assert.match(imageInspectQuery,/instances\{id status\}/);assert.match(imageInspectQuery,/environment\([^)]*\)\{id projectId name config\}/);
+ assert.match(imageInspectQuery,/instances\{id status\}/);assert.match(imageInspectQuery,/environment\([^)]*\)\{id projectId name config\(decryptVariables:true\)\}/);
  assert.match(imageInspectQuery,/inFlight:deployments\(input:\{projectId:\$projectId,environmentId:\$environmentId,serviceId:\$serviceId,status:\{in:\[WAITING,NEEDS_APPROVAL,QUEUED,INITIALIZING,BUILDING,DEPLOYING,REMOVING\]\}\},first:1\)/);
 });
 const invalidTargets={
@@ -288,11 +292,40 @@ test('actual inspection entrypoint emits only sanitized JSON through authenticat
 test('workflow offers opt-in read-only inspection under the existing owner gate and production mutex',()=>{
  const workflow=readFileSync(new URL('../../.github/workflows/railway-authorization-diagnostic.yml',import.meta.url),'utf8');
  assert.match(workflow,/image_target_inspection:[\s\S]*?type: boolean\n        default: false/);
- assert.match(workflow,/inputs.image_target_inspection && 'kingdom-come-production'/);assert.match(workflow,/cancel-in-progress: false/);assert.match(workflow,/environment: production/);
- assert.match(workflow,/if: '!inputs.image_target_inspection'/);assert.match(workflow,/if: inputs.image_target_inspection/);assert.match(workflow,/run: node knights-reforged\/deployment\/release\/inspect-image-target.mjs/);
- assert.doesNotMatch(workflow,/image\.mjs publish|run\.mjs|worker\.mjs|upload-artifact|packages: write|KINGDOM_BACKUP_|SIGNING|REGISTRY_READ_TOKEN|railway up/);
+ assert.match(workflow,/\(inputs.image_target_inspection \|\| inputs.image_handoff_inspection\) && 'kingdom-come-production'/);assert.match(workflow,/cancel-in-progress: false/);assert.match(workflow,/environment: production/);
+ assert.match(workflow,/if: '!inputs.image_target_inspection && !inputs.image_handoff_inspection'/);assert.match(workflow,/if: inputs.image_target_inspection && !inputs.image_handoff_inspection/);assert.match(workflow,/run: node knights-reforged\/deployment\/release\/inspect-image-target.mjs/);
+ assert.doesNotMatch(workflow,/image\.mjs publish|run\.mjs|worker\.mjs|upload-artifact|packages: write|KINGDOM_BACKUP_|SIGNING|railway up/);
+ const targetStep=workflow.split('- name: Inspect exact first image handoff assertions without writes')[1].split('- name:')[0];assert.doesNotMatch(targetStep,/REGISTRY_READ_TOKEN/);
  const source=readFileSync(new URL('../deployment/release/inspect-image-target.mjs',import.meta.url),'utf8');assert.match(source,/\[imageInspectQuery,imageReceiptQuery\]\.includes\(query\)/);assert.match(source,/assert\.ok\(\+\+reads<=2\)/);
  assert.doesNotMatch(source,/child_process|console\.(error|warn)|error\.(message|stack)|writeFile|createHash|deployImage\(/);
+});
+
+for(const install of [false,true])for(const delta of [false,true])test('complete handoff verifies all seven effective values for '+(delta?'six-change':'seven-change')+' patch, credentials '+install,async()=>{
+ const f=fixture('success',{install,delta});assert.equal(await f.run(),newId);
+ assert.deepEqual(f.trace.filter(x=>['stage','commit','deploy'].includes(x)),['stage','commit','deploy']);
+});
+for(const mode of ['stage_ack_lost','stage_unrelated','stage_wrong_value','revision_race','parent_changed','credential_redacted','credential_race','credential_receipt_changed','commit_ack_lost','pending_race','deploy_ack_lost'])test('six-change handoff retains fail-closed/no-retry behavior: '+mode,async()=>{
+ const f=fixture(mode,{install:true,delta:true});await assert.rejects(f.run());
+ for(const mutation of ['stage','commit','deploy'])assert.ok(f.trace.filter(x=>x===mutation).length<=1);
+ assert.ok(!f.logs.some(x=>x.includes(secret)));
+ if(['stage_ack_lost','stage_unrelated','stage_wrong_value','revision_race','parent_changed','credential_redacted','credential_race'].includes(mode))assert.equal(f.trace.includes('commit'),false);
+ if(mode==='credential_redacted')assert.deepEqual(f.trace,['inspect','stage']);
+});
+for(const phase of ['initial','precommit','postcommit'])test('omitted variable must have exact authenticated applied value at '+phase,async()=>{
+ const f=fixture('success',{install:true,delta:true,edit:(b,state)=>{
+  if(phase==='initial'&&!state.staged||phase==='precommit'&&state.staged&&!state.committed||phase==='postcommit'&&state.committed)b.environment.config.services[ids[2]].variables.KINGDOM_AUTOMATED_RELEASES.value='0';
+ }});
+ await assert.rejects(f.run(),e=>['EFFECTIVE_RELEASE_VALUE','APPLIED_RELEASE_VALUES'].includes(imageHandoffFailure(e)));
+ assert.equal(f.trace.includes('deploy'),false);assert.equal(f.trace.includes('commit'),phase==='postcommit');
+});
+for(const name of imageReleaseKeys)test('every applied release value is rechecked after commit: '+name,async()=>{
+ const f=fixture('success',{install:true,delta:true,edit:(b,state)=>{if(state.committed)b.environment.config.services[ids[2]].variables[name].value='forged';}});
+ await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='APPLIED_RELEASE_VALUES');assert.equal(f.trace.includes('deploy'),false);
+});
+test('a value changed after the committed receipt is rejected in the immediate pre-deploy read',async()=>{
+ let committedReads=0;
+ const f=fixture('success',{install:true,delta:true,edit:(b,state)=>{if(state.committed&&++committedReads===2)b.environment.config.services[ids[2]].variables.KINGDOM_RELEASE_SHA.value='forged';}});
+ await assert.rejects(f.run(),e=>imageHandoffFailure(e)==='APPLIED_RELEASE_VALUES');assert.equal(committedReads,2);assert.equal(f.trace.includes('deploy'),false);
 });
 
 test('captured sanitized provider shape passes the shared read-only guard with synthetic identity envelopes',async()=>{

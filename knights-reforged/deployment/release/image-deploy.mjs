@@ -14,7 +14,7 @@ import {releaseInputs} from './guard.mjs';
 const identity='id projectId environmentId serviceId status createdAt updatedAt deploymentStopped instances{id status}';
 const patch='id environmentId status createdAt updatedAt appliedAt lastAppliedError patch(decryptVariables:true)';
 const scope=`project(id:$projectId){id name}
- environment(id:$environmentId,projectId:$projectId){id projectId name config}
+ environment(id:$environmentId,projectId:$projectId){id projectId name config(decryptVariables:true)}
  game:serviceInstance(environmentId:$environmentId,serviceId:$serviceId){serviceId environmentId startCommand preDeployCommand healthcheckPath healthcheckTimeout numReplicas restartPolicyType rootDirectory source{image repo} latestDeployment{${identity}} activeDeployments{${identity}}}
  inFlight:deployments(input:{projectId:$projectId,environmentId:$environmentId,serviceId:$serviceId,status:{in:[WAITING,NEEDS_APPROVAL,QUEUED,INITIALIZING,BUILDING,DEPLOYING,REMOVING]}},first:1){edges{node{id}}}`;
 const variables='$projectId:String!,$environmentId:String!,$serviceId:String!';
@@ -146,6 +146,9 @@ function gameSnapshot(data,target,observe){
  // Only non-secret, selected config enters the digest, never environment vars.
  return canonical({...snapshot,regionalReplicas,latestDeployment:deployment(latest),activeDeployments:[deployment(active)]});
 }
+// A pure target check for read-only reconciliation of an EXPECTED nonempty
+// patch. Operational preflight still calls noPending and cannot resume it.
+export {gameSnapshot as imageTargetSnapshot};
 export async function preflightImageTarget(settings,approval,{token,api=railwayClient(token)}={}){
  const definition=checkImageCandidate(approval.candidate,{sourceSha:settings.sha});
  return {...await inspectImageTargetState(settings,{api}),definition};
@@ -165,29 +168,70 @@ export async function inspectImageTargetState(settings,{token,api=railwayClient(
   const pinned=typeof source.image==='string'&&source.image.startsWith(imageRepository+'@sha256:')&&/^sha256:[a-f0-9]{64}$/.test(source.image.split('@')[1]);
   check('game.source.image','PINNED_PRIVATE_IMAGE',pinned,()=>assert.ok(pinned));
  }
- return {target,baseline,source:{image:source.image,repo:source.repo}};
+ return {target,baseline,source:{image:source.image,repo:source.repo},releaseVariables:appliedImageVariables(before,target)};
 }
 function checkCredentials(credentials){
  keys(credentials,['username','password']);assert.equal(credentials.username,'catillatio');
  assert.ok(typeof credentials.password==='string'&&credentials.password.trim()&&credentials.password===credentials.password.trim()&&credentials.password.length<=8192&&!/[\r\n]/.test(credentials.password));
 }
-export function checkImagePatch(p,target,reference,values,credentials){
- assert.match(p?.id??'',uuid);assert.equal(p.environmentId,target.environmentId);assert.equal(p.status,'STAGED');assert.equal(p.appliedAt,null);assert.equal(p.lastAppliedError,null);
- assert.ok(Number.isFinite(Date.parse(p.createdAt))&&Date.parse(p.updatedAt)>=Date.parse(p.createdAt));
- keys(p.patch,['services']);keys(p.patch.services,[target.serviceId]);const service=p.patch.services[target.serviceId];keys(service,credentials?['source','variables','deploy']:['source','variables']);
- if(credentials){
-  checkCredentials(credentials);
-  keys(service.deploy,['registryCredentials']);keys(service.deploy.registryCredentials,['username','password']);
-  assert.equal(service.deploy.registryCredentials.username,credentials.username);assert.equal(service.deploy.registryCredentials.password,credentials.password);
+const handoffFailures=new WeakMap();
+export const imageHandoffFailure=error=>handoffFailures.get(error)??'UNVERIFIED';
+function handoffCheck(category,operation){
+ try{return operation();}catch{
+  // Never retain an assertion diff containing a credential, proof or URL.
+  const error=new Error('Image handoff validation failed.');handoffFailures.set(error,category);throw error;
  }
- keys(service.source,['image','repo']);assert.equal(service.source.image,reference);assert.equal(service.source.repo,null);
- keys(values,imageReleaseKeys);keys(service.variables,imageReleaseKeys);
+}
+export function appliedImageVariables(data,target){
+ const variables=data.environment?.config?.services?.[target.serviceId]?.variables;
+ return Object.fromEntries(imageReleaseKeys.filter(name=>Object.hasOwn(variables??{},name)).map(name=>[name,structuredClone(variables[name])]));
+}
+export function checkImagePatch(p,target,reference,values,credentials,{appliedVariables,requireAllChanged=false}={}){
+ handoffCheck('PATCH_ID',()=>assert.match(p?.id??'',uuid));
+ handoffCheck('PATCH_ENVIRONMENT',()=>assert.equal(p.environmentId,target.environmentId));
+ handoffCheck('PATCH_STATUS',()=>assert.equal(p.status,'STAGED'));
+ handoffCheck('PATCH_APPLIED_AT',()=>assert.equal(p.appliedAt,null));
+ handoffCheck('PATCH_LAST_APPLIED_ERROR',()=>assert.equal(p.lastAppliedError,null));
+ handoffCheck('PATCH_REVISION',()=>assert.ok(Number.isFinite(Date.parse(p.createdAt))&&Date.parse(p.updatedAt)>=Date.parse(p.createdAt)));
+ handoffCheck('PATCH_ROOT_SCOPE',()=>keys(p.patch,['services']));
+ handoffCheck('PATCH_SERVICE_SCOPE',()=>keys(p.patch.services,[target.serviceId]));
+ const service=p.patch.services[target.serviceId];
+ handoffCheck('PATCH_SERVICE_KEYS',()=>keys(service,credentials?['source','variables','deploy']:['source','variables']));
+ if(credentials){
+  handoffCheck('REGISTRY_CREDENTIAL_INPUT',()=>checkCredentials(credentials));
+  handoffCheck('REGISTRY_CREDENTIAL_SCOPE',()=>keys(service.deploy,['registryCredentials']));
+  handoffCheck('REGISTRY_CREDENTIAL_SHAPE',()=>keys(service.deploy.registryCredentials,['username','password']));
+  handoffCheck('REGISTRY_USERNAME',()=>assert.equal(service.deploy.registryCredentials.username,credentials.username));
+  handoffCheck('REGISTRY_PASSWORD',()=>assert.equal(service.deploy.registryCredentials.password,credentials.password));
+ }
+ handoffCheck('IMAGE_SOURCE_SCOPE',()=>keys(service.source,['image','repo']));
+ handoffCheck('IMAGE_REFERENCE',()=>assert.equal(service.source.image,reference));
+ handoffCheck('GITHUB_SOURCE_REMOVAL',()=>assert.equal(service.source.repo,null));
+ handoffCheck('RELEASE_INPUT_KEYS',()=>{keys(values,imageReleaseKeys);assert.ok(imageReleaseKeys.every(name=>typeof values[name]==='string'));});
+ handoffCheck('VARIABLE_DELTA_KEYS',()=>{
+  assert.ok(service.variables&&typeof service.variables==='object'&&!Array.isArray(service.variables));
+  if(requireAllChanged)keys(service.variables,imageReleaseKeys);
+  else assert.ok(Object.keys(service.variables).every(name=>imageReleaseKeys.includes(name)));
+ });
  for(const name of imageReleaseKeys){
-  const value=service.variables[name];assert.ok(value&&typeof value==='object'&&!Array.isArray(value));
-  assert.ok(Object.keys(value).every(k=>['value','isSealed','isOptional'].includes(k)));assert.equal(value.value,values[name]);
-  if(value.isOptional!==undefined)assert.equal(value.isOptional,false);if(value.isSealed!==undefined)assert.equal(typeof value.isSealed,'boolean');
+  // A provider delta is not a full desired config. Missing entries must be
+  // proven from the authenticated APPLIED service config, never assumed.
+  const changed=Object.hasOwn(service.variables,name),value=changed?service.variables[name]:appliedVariables?.[name];
+  handoffCheck(changed?'VARIABLE_DELTA_ENTRY':'VARIABLE_APPLIED_ENTRY',()=>{
+   assert.ok(value&&typeof value==='object'&&!Array.isArray(value));
+  });
+  handoffCheck('VARIABLE_ENTRY_KEYS',()=>assert.ok(Object.keys(value).every(k=>['value','isSealed','isOptional'].includes(k))));
+  handoffCheck('EFFECTIVE_RELEASE_VALUE',()=>assert.equal(value.value,values[name]));
+  handoffCheck('VARIABLE_OPTIONAL_FLAG',()=>{if(value.isOptional!==undefined)assert.equal(value.isOptional,false);});
+  handoffCheck('VARIABLE_SEALED_FLAG',()=>{if(value.isSealed!==undefined)assert.equal(typeof value.isSealed,'boolean');});
  }
  return p;
+}
+function checkAppliedImageValues(data,target,values){
+ const applied=appliedImageVariables(data,target);
+ handoffCheck('APPLIED_RELEASE_VALUES',()=>{
+  for(const name of imageReleaseKeys)assert.equal(applied[name]?.value,values[name]);
+ });
 }
 export async function verifyImageDeployment(deploymentId,target,reference,{api}={}){
  assert.match(deploymentId,uuid);const data=await api(imageIdentityQuery,{id:deploymentId}),d=data.deployment;
@@ -201,14 +245,14 @@ export async function deployImage(settings,approval,values,{token,api=railwayCli
  const target={projectId:settings.projectId,environmentId:settings.environmentId,serviceId:settings.gameServiceId};for(const id of Object.values(target))assert.match(id,uuid);
  keys(values,imageReleaseKeys);assert.equal(values.KINGDOM_AUTOMATED_RELEASES,'1');assert.equal(values.KINGDOM_RELEASE_SHA,settings.sha);assert.equal(values.KINGDOM_RELEASE_ARTIFACT_KIND,'oci-image-v1');
  assert.equal(values.KINGDOM_RELEASE_IMAGE_REFERENCE,definition.reference);assert.equal(values.KINGDOM_RELEASE_IMAGE_DIGEST,definition.manifestDigest);assert.ok(values.KINGDOM_RELEASE_BACKUP_PROOF);
- const {baseline,source}=await preflightImageTarget(settings,approval,{api});
+ const {baseline,source,releaseVariables}=await preflightImageTarget(settings,approval,{api});
  assert.match(settings.imageTargetDigest??'',/^[a-f0-9]{64}$/);assert.equal(createHash('sha256').update(baseline).digest('hex'),settings.imageTargetDigest);
  const patchValue={services:{[target.serviceId]:{...(credentials?{deploy:{registryCredentials:credentials}}:{}),source:{image:definition.reference,repo:null},variables:Object.fromEntries(imageReleaseKeys.map(k=>[k,{value:values[k]}]))}}};
  // Merge preserves any competing edit; the strict post-stage scope check then
  // rejects it instead of silently discarding another editor's pending work.
- const staged=checkImagePatch((await api(imageStageMutation,{environmentId:target.environmentId,input:patchValue,merge:true})).environmentStageChanges,target,definition.reference,values,credentials);log('PATCH_STAGED');
+ const staged=checkImagePatch((await api(imageStageMutation,{environmentId:target.environmentId,input:patchValue,merge:true})).environmentStageChanges,target,definition.reference,values,credentials,{appliedVariables:releaseVariables});log('PATCH_STAGED');
  const fresh=await api(imageInspectQuery,target);assert.equal(gameSnapshot(fresh,target),baseline);assert.deepEqual(fresh.game.source,source);
- checkImagePatch(fresh.pending,target,definition.reference,values,credentials);assert.equal(fresh.pending.id,staged.id);assert.equal(fresh.pending.updatedAt,staged.updatedAt);assert.equal(canonical(fresh.pending.patch),canonical(staged.patch));
+ checkImagePatch(fresh.pending,target,definition.reference,values,credentials,{appliedVariables:appliedImageVariables(fresh,target)});assert.equal(fresh.pending.id,staged.id);assert.equal(fresh.pending.updatedAt,staged.updatedAt);assert.equal(canonical(fresh.pending.patch),canonical(staged.patch));
  let workflowId;
  // Exactly one mutation; a lost reply is uncertain and never retried.
  workflowId=(await api(imageCommitMutation,{environmentId:target.environmentId,commitMessage:'Protected exact-image release '+settings.sha})).environmentPatchCommitStaged;
@@ -218,13 +262,14 @@ export async function deployImage(settings,approval,values,{token,api=railwayCli
   const state=(await api(statusQuery,{workflowId})).workflowStatus;assert.equal(state?.error,null);assert.ok(['Running','Complete'].includes(state.status));
   const after=await api(verifyQuery,{...target,patchId:staged.id});assert.equal(gameSnapshot(after,target),baseline);
   if(state.status==='Complete'){
-   checkClearedPatch(after,staged,target);assert.equal(after.game.source?.image,definition.reference);assert.equal(after.game.source.repo,null);committed=true;break;
+   checkClearedPatch(after,staged,target);assert.equal(after.game.source?.image,definition.reference);assert.equal(after.game.source.repo,null);checkAppliedImageValues(after,target,values);committed=true;break;
   }
   assert.ok(now()<deadline);await wait(2000);
  }
  assert.ok(committed);log('CONFIG_COMMITTED_NO_DEPLOY');
  const predeploy=await api(verifyQuery,{...target,patchId:staged.id});assert.equal(gameSnapshot(predeploy,target),baseline);checkClearedPatch(predeploy,staged,target);
  assert.equal(predeploy.game.source?.image,definition.reference);assert.equal(predeploy.game.source.repo,null);
+ checkAppliedImageValues(predeploy,target,values);
  const deploymentId=(await api(imageDeployMutation,{environmentId:target.environmentId,serviceId:target.serviceId})).serviceInstanceDeployV2;assert.match(deploymentId??'',uuid);
  await verifyImageDeployment(deploymentId,target,definition.reference,{api});log('DEPLOYMENT_QUEUED');return deploymentId;
 }

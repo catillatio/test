@@ -1,0 +1,13 @@
+{
+  "policy": "read-only-staged-image-handoff-v1",
+  "releaseRunId": "40629780333",
+  "sourceSha": "89dc9dd6d95424981402a390e5b2042905b52711",
+  "patchId": "e16f1be6-558d-457a-a9bc-c3b43ff45a62",
+  "patchUpdatedAt": "2026-10-28T04:09:02.032Z",
+  "activeDeploymentId": "d9bcc888-d55b-4047-836a-0a8cd1779a97",
+  "imagePrepareRunId": "40628378848",
+  "imageArtifactId": "12790536525",
+  "imageArtifactDigest": "sha256:eaa58152b337579903cbc489cc22fbe985f1d92ae111b844df961a54e92b561e",
+  "imageManifestDigest": "sha256:e14c06e0eb8b2c451ebbbe52b273f07647dec945cc5f97d08eef7f4ac12b6dd8",
+  "recoveryArtifactId": "12791700400"
+}
