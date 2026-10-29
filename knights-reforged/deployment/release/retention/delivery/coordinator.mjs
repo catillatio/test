@@ -13,6 +13,7 @@ import {readObject,writeObject} from './io.mjs';
 import {hash} from '../protocol.mjs';
 import {installDisabled,setupOperations} from './install.mjs';
 import {uuid} from '../../protocol.mjs';
+import {asDeliveryFailure,reportDeliveryFailure} from './failure.mjs';
 export function command(executable,args,{cwd}){
  return new Promise((resolve,reject)=>{const c=spawn(executable,args,{cwd,stdio:['ignore','pipe','pipe'],timeout:120000});let text='';c.stderr.resume();c.stdout.on('data',b=>{text+=b;if(text.length>2000000)c.kill();});c.once('error',()=>reject(Error('Delivery command failed.')));c.once('close',n=>n===0?resolve(text):reject(Error('Delivery command failed.')));});
 }
@@ -52,7 +53,7 @@ export async function executeCoordinator({env=process.env,store,provider,bundle,
   // Independent bounded stop/verification even when the primary signal aborted.
   // A lost launch acknowledgement is never retried or treated as permission.
   const results=await Promise.allSettled(Object.entries(deployments).map(([role,deployment])=>provider.stop(deployment,scope,role)));
-  assert.ok(results.every(r=>r.status==='fulfilled'),'Exact private worker shutdown is unverified; stop for reconciliation.');
+  const failed=results.find(r=>r.status==='rejected');if(failed)throw asDeliveryFailure(failed.reason,'DELIVERY_CLEANUP');
  }
  log('PASS');return {passed:true};
 }
@@ -66,4 +67,4 @@ async function main(){
   }});
  }finally{store?.close();for(const d of directories)await rm(d,{recursive:true,force:true});}
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)main().catch(()=>{console.error('RETENTION_DELIVERY: FAIL — no automatic retry; inspect exact jobs and durable journals.');process.exitCode=1;});
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)main().catch(error=>{reportDeliveryFailure(error);process.exitCode=1;});

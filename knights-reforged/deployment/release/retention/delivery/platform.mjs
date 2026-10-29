@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {uuid} from '../../protocol.mjs';
 import {verifyQueuedDeployment,waitForWorkerCompletion} from '../../deployment.mjs';
 import {verifyInstallationToken} from './installation-identity.mjs';
+import {waitForRunning,stopExactDeployment} from './lifecycle.mjs';
 const endpoint='https://backboard.railway.com/graphql/v2';
 export const preflightQuery=`query RetentionDeliveryPreflight($projectId:String!,$environmentId:String!){
  project(id:$projectId){id name}
@@ -15,7 +15,6 @@ export const preflightQuery=`query RetentionDeliveryPreflight($projectId:String!
 export const stageMutation=`mutation RetentionDeliveryStage($projectId:String!,$environmentId:String!,$serviceId:String!,$variables:EnvironmentVariables!){
  variableCollectionUpsert(input:{projectId:$projectId,environmentId:$environmentId,serviceId:$serviceId,variables:$variables,skipDeploys:true})}`;
 export const stopMutation='mutation RetentionDeliveryStop($id:String!){deploymentRemove(id:$id)}';
-const identityQuery='query RetentionDeliveryStopIdentity($id:String!){deployment(id:$id){id projectId environmentId serviceId deploymentStopped instances{id status}}}';
 const empty=v=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.values(v).every(x=>x===null||empty(x));
 export function checkPreflight(data,scope){
  assert.equal(data.project.id,scope.projectId);assert.equal(data.project.name,'merry-patience');
@@ -45,8 +44,9 @@ export function checkPreflight(data,scope){
 }
 export function platform(token,{fetcher=globalThis.fetch,command}={}){
  assert.ok(token&&!/[\r\n]/.test(token));
- const api=async(query,variables)=>{
-  const r=await fetcher(endpoint,{method:'POST',redirect:'error',cache:'no-store',signal:AbortSignal.timeout(15000),headers:{'content-type':'application/json','project-access-token':token},body:JSON.stringify({query,variables})});
+ const api=async(query,variables,{signal,deadline}={})=>{
+  signal?.throwIfAborted();const timeout=AbortSignal.timeout(deadline===undefined?15000:Math.max(1,Math.min(15000,deadline-Date.now())));
+  const r=await fetcher(endpoint,{method:'POST',redirect:'error',cache:'no-store',signal:signal?AbortSignal.any([signal,timeout]):timeout,headers:{'content-type':'application/json','project-access-token':token},body:JSON.stringify({query,variables})});
   assert.equal(r.ok,true);const text=await r.text();assert.ok(Buffer.byteLength(text)<=2000000);const d=JSON.parse(text);assert.ok(!d.errors||Array.isArray(d.errors)&&!d.errors.length);assert.ok(d.data);return d.data;
  };
  return {async tokenIdentity(scope,{signal}={}){
@@ -68,12 +68,10 @@ export function platform(token,{fetcher=globalThis.fetch,command}={}){
    for(const key of Object.keys(current))if(/DATABASE_URL|SIGNING_KEY|TOKEN/.test(key))assert.ok(!current[key]);
    const variables={KINGDOM_RETENTION_INITIALIZE_JOURNAL:'',KINGDOM_RETENTION_CONSOLE_SETUP:'',KINGDOM_RETENTION_JOB:'',RAILWAY_RUN_UID:'1000'};
    assert.equal((await api(stageMutation,{projectId:scope.projectId,environmentId:scope.environmentId,serviceId:scope.operatorServiceId,variables})).variableCollectionUpsert,true);
-  },async running(id,scope,role,{deadline,signal}){
+  },async running(id,scope,role,options){
+   assert.ok(['executor','authorizer'].includes(role));
    const expected={projectId:scope.projectId,environmentId:scope.environmentId,serviceId:role==='executor'?scope.operatorServiceId:scope.delivery.authorizerServiceId};
-   for(;;){signal?.throwIfAborted();assert.ok(Date.now()<deadline);const d=(await api(identityQuery,{id})).deployment;assert.equal(d.id,id);for(const [k,v] of Object.entries(expected))assert.equal(d[k],v);
-    if(d.instances.length===1&&d.instances[0].status==='RUNNING'&&d.deploymentStopped===false)return;
-    assert.ok(!d.deploymentStopped);await new Promise(r=>setTimeout(r,1000));
-   }
+   return waitForRunning(api,id,expected,options);
   },async preflight(scope){checkPreflight(await api(preflightQuery,{projectId:scope.projectId,environmentId:scope.environmentId}),scope);
    // TCP proxy presence is checked separately using the schema's fixed query.
    const q='query RetentionDeliveryNetwork($environmentId:String!,$serviceId:String!){tcpProxies(environmentId:$environmentId,serviceId:$serviceId){id}}';
@@ -90,13 +88,8 @@ export function platform(token,{fetcher=globalThis.fetch,command}={}){
    const output=await command('railway',['up',bundle,'--project',f.scope.projectId,'--environment',f.scope.environmentId,'--service',serviceId,'--detach','--json','--path-as-root','--message','Kingdom retention '+f.coordinator.headSha],{cwd:bundle});
    return verifyQueuedDeployment(output,{projectId:f.scope.projectId,environmentId:f.scope.environmentId,serviceId},{token,fetcher});
   },async completion(id,scope,role,options){return waitForWorkerCompletion(id,{projectId:scope.projectId,environmentId:scope.environmentId,serviceId:role==='executor'?scope.operatorServiceId:scope.delivery.authorizerServiceId},{token,fetcher,...options});},
-  async stop(id,scope,role){
-   assert.match(id,uuid);const expected={projectId:scope.projectId,environmentId:scope.environmentId,serviceId:role==='executor'?scope.operatorServiceId:scope.delivery.authorizerServiceId};
-   const read=async()=>{const d=(await api(identityQuery,{id})).deployment;assert.equal(d.id,id);for(const [k,v] of Object.entries(expected))assert.equal(d[k],v);return d;};
-   let d=await read();if(d.deploymentStopped===true&&d.instances.every(i=>i.status==='EXITED'))return;
-   // One exact-ID mutation only. Never `railway down` or "latest deployment".
-   assert.equal((await api(stopMutation,{id})).deploymentRemove,true);
-   for(let n=0;n<20;n++){d=await read();if(d.deploymentStopped===true&&d.instances.every(i=>i.status==='EXITED'))return;await new Promise(r=>setTimeout(r,500));}
-   throw Error('Exact worker stop is unverified.');
+  async stop(id,scope,role,options){
+   assert.ok(['executor','authorizer'].includes(role));const expected={projectId:scope.projectId,environmentId:scope.environmentId,serviceId:role==='executor'?scope.operatorServiceId:scope.delivery.authorizerServiceId};
+   return stopExactDeployment(api,id,expected,stopMutation,options);
   }};
 }
