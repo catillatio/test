@@ -1,6 +1,7 @@
 {
   "version": 1,
   "tests": [
+    {"file":"tests/retention-deployment-lifecycle.test.mjs","lane":"unit","weight":1},
     {"file":"tests/retention-installation-inspection.test.mjs","lane":"unit","weight":1},
     {"file":"tests/premium-classic-browser.test.mjs","lane":"browser","weight":90},
     {"file":"tests/rivals-shared-browser.test.mjs","lane":"browser","weight":45},

@@ -218,8 +218,8 @@ owner to repeat the completed checks.
 
 Standard Docker CI builds both images and checks their disabled, network-isolated
 runtime, UID, role and private manifest permissions. Successful Docker CI does
-not establish a successful Railway build or deployment. No journal initialization
-success or installed workers have been established. Keep execution approval at
+not establish a successful Railway build or deployment. At that point, no journal
+initialization success or installed workers had been established. Keep execution approval at
 `0`, retention disabled and all recovery databases protected.
 
 Only after review, separately approved merge and green post-merge CI may a fresh
@@ -228,9 +228,73 @@ protected `initialize-journal` attempt be considered. Never reuse failed request
 removes the confirmed parser blocker; all remaining installation checks still
 apply. This change does not dispatch initialization or `install-disabled`.
 
+## Initialized journal and partial disabled installation
+
+Journal initialization subsequently succeeded in protected run
+[40809415014](https://github.com/catillatio/test/actions/runs/40809415014), commit
+`0ee6b29f5862a8314dcab63766a9f5118b490184`, request
+`21c19db0-7263-46cc-9820-8fd27ca64558`. **Do not initialize it again.**
+
+Disabled installation run
+[40810334002](https://github.com/catillatio/test/actions/runs/40810334002) failed
+at the coordinator. Its exact executor deployment
+`fad35532-3b7e-49e6-8f8b-7316b2b31ba9` subsequently started successfully and logged
+`RETENTION_DELIVERY_WORKER: DISABLED` and
+`RETENTION_INSTALLATION_CONSOLE: READY — disabled; no database access`.
+Those paths verified the existing marker, permissions and write probe as non-root;
+initialization was not repeated. The authorizer was never deployed. Independent
+Railway inspection after the bounded session reports the same deployment as
+`SUCCESS`, zero running replicas and zero crashed replicas; the provider retains
+the successful deployment record after the one-shot process exits. There is no
+pending work. Existing game/database deployments are unchanged. No adoption,
+database retirement or retention activation occurred. The original exception was
+discarded; its exact first rejected assertion remains unproven.
+
+Two lifecycle defects were reproduced independently: startup rejected a valid
+queued/building deployment with no instances, and cleanup interpreted its empty
+instance list as proof it could never start. The corrected handling is bounded:
+
+- Startup polls the **same exact deployment**, project, environment and service
+  for at most ten minutes (or the caller's shorter deadline). Valid pre-start
+  states may have `deploymentStopped=true` and no instances. Readiness requires
+  `SUCCESS`, `deploymentStopped=false` and exactly one `RUNNING` instance. Failed,
+  crashed, skipped, removed, removing or already-exited workers cannot be ready.
+- Cleanup has an independent thirty-second budget, including its API calls. A
+  queued/building or otherwise ambiguous empty-instance deployment is cancelled
+  once by exact ID, then observed until permanent terminal-and-stopped evidence
+  exists. A successful completed one-shot requires an actual `EXITED` instance;
+  `SUCCESS` with an empty list is insufficient. Already-removing deployments are
+  observed without another mutation. Identity/instance substitutions, unknown
+  states, ambiguous acknowledgments, cancellation or timeout fail closed. No
+  latest-deployment selection, service-wide stop or automatic mutation retry is
+  added. Cleanup is attempted for every acknowledged deployment even if one
+  exact-ID cleanup fails.
+- Primary startup cancellation does not cancel the independent cleanup budget.
+  Polls and requests honor cancellation/deadlines; a lost mutation acknowledgment
+  never authorizes another mutation or a success claim.
+
+Failures emit only fixed `RETENTION_DELIVERY_FAILURE` categories. `STARTUP_*`
+and `CLEANUP_*` distinguish configuration, API, identity, state, deadline and
+cancellation failures; startup also distinguishes terminal/exited workers, and
+cleanup distinguishes unconfirmed acknowledgments. Installation stages use fixed
+`INSTALLATION_*` categories. The primary category is logged before cleanup, so a
+later cleanup failure cannot erase it. Unknown exceptions become `UNCLASSIFIED`.
+No provider error, response body, credential, identifier, dynamic assertion value
+or exception cause is printed. These diagnostics do not authorize a retry.
+
+Next: review the lifecycle correction, merge only after exact-head CI passes,
+and verify green post-merge CI. Independently reconcile that neither worker is
+running and that pending changes remain empty immediately before a separately
+protected, fresh-request `install-disabled` dispatch. Never rerun attempt 1 or
+reuse failed request `8162d089-40ff-4346-8f3b-5de8e3ba02ab`. Keep
+`KINGDOM_RETENTION_EXECUTION_APPROVED=0`, both workers disabled and all recovery
+copies (including emergency OIDs 106971 and 129180) protected.
+
 ## Dashboard-only installation sequence
 
-These are **future owner-approved actions**, not work performed by this PR.
+These describe the complete setup sequence. Steps 1–3 are already complete for
+the current installation; resume at step 4 only after the lifecycle correction
+and reconciliation above. Do not repeat journal initialization.
 
 1. Review exact-head CI and separately approve merge. Approve creation of only
    the two empty private services, dedicated journal volume and private handoff
