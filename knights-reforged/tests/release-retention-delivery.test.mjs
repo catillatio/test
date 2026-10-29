@@ -8,7 +8,7 @@ import {makePlan} from '../deployment/release/retention/retention.mjs';
 import {coordinator,frame,input,makeReceipt,githubEnvironment,verifyArm,signArm} from '../deployment/release/retention/delivery/protocol.mjs';
 import {executeCoordinator} from '../deployment/release/retention/delivery/coordinator.mjs';
 import {signRequest} from '../deployment/release/retention/delivery/signer.mjs';
-import {checkPreflight,platform} from '../deployment/release/retention/delivery/platform.mjs';
+import {checkPreflight,platform,preflightQuery} from '../deployment/release/retention/delivery/platform.mjs';
 import {roleFiles} from '../deployment/release/retention/delivery/bundle.mjs';
 const clone=x=>structuredClone(x);
 const now=Date.now(),copies=[1,2,3,4].map(n=>fixture(n,{now,age:50-n})),scene=scenario(copies,now);
@@ -101,12 +101,62 @@ test('fixed bundles keep signer/adopter/installer out of execution images',async
 });
 function preflightFixture(){
  const service=(serviceId,serviceName)=>({serviceId,environmentId:scope.environmentId,serviceName,source:null,startCommand:null,buildCommand:null,preDeployCommand:null,rootDirectory:null,cronSchedule:null,restartPolicyType:'NEVER',numReplicas:1,healthcheckPath:null,service:{repoTriggers:{edges:[]}},domains:{serviceDomains:[],customDomains:[]},activeDeployments:[]});
- return {project:{id:scope.projectId,name:'merry-patience'},environment:{id:scope.environmentId,projectId:scope.projectId,name:'production',serviceInstances:{edges:[service(scope.operatorServiceId,'KingdomCopyRetention'),service(scope.delivery.authorizerServiceId,'KingdomCopyAuthorizer')].map(node=>({node}))},volumeInstances:{edges:[{node:{volumeId:scope.delivery.journalVolumeId,serviceId:scope.operatorServiceId,mountPath:'/run/kingdom-retention',isPendingDeletion:false}}]}},pending:null};
+ const config={services:Object.fromEntries([scope.operatorServiceId,scope.delivery.authorizerServiceId].map(id=>[id,{deploy:{multiRegionConfig:{iad:{numReplicas:1}}}}]))};
+ return {project:{id:scope.projectId,name:'merry-patience'},environment:{id:scope.environmentId,projectId:scope.projectId,name:'production',config,serviceInstances:{edges:[service(scope.operatorServiceId,'KingdomCopyRetention'),service(scope.delivery.authorizerServiceId,'KingdomCopyAuthorizer')].map(node=>({node}))},volumeInstances:{edges:[{node:{volumeId:scope.delivery.journalVolumeId,serviceId:scope.operatorServiceId,mountPath:'/run/kingdom-retention',isPendingDeletion:false}}]}},pending:null};
 }
 test('preflight accepts only dedicated private stopped services and the exact independent journal volume',()=>{
  const f=preflightFixture();checkPreflight(f,scope);
  const changes=[d=>d.project.id=randomUUID(),d=>d.environment.name='staging',d=>d.pending={environmentId:scope.environmentId,status:'STAGED',appliedAt:null,lastAppliedError:null,patch:{services:{unrelated:{name:'changed'}}}},d=>d.environment.serviceInstances.edges[0].node.serviceId=scope.gameServiceId,d=>d.environment.serviceInstances.edges[0].node.source={repo:'catillatio/test',image:null},d=>d.environment.serviceInstances.edges[0].node.service.repoTriggers.edges.push({node:{id:randomUUID()}}),d=>d.environment.serviceInstances.edges[0].node.startCommand='arbitrary',d=>d.environment.serviceInstances.edges[0].node.cronSchedule='* * * * *',d=>d.environment.serviceInstances.edges[0].node.restartPolicyType='ALWAYS',d=>d.environment.serviceInstances.edges[0].node.numReplicas=2,d=>d.environment.serviceInstances.edges[0].node.domains.serviceDomains.push({id:randomUUID()}),d=>d.environment.serviceInstances.edges[0].node.activeDeployments.push({deploymentStopped:false,instances:[{status:'RUNNING'}]}),d=>d.environment.volumeInstances.edges[0].node.volumeId=randomUUID(),d=>d.environment.volumeInstances.edges[0].node.serviceId=scope.verificationServiceId,d=>d.environment.volumeInstances.edges[0].node.mountPath='/var/lib/postgresql',d=>d.environment.volumeInstances.edges[0].node.isPendingDeletion=true];
  for(const change of changes){const bad=clone(f);change(bad);assert.throws(()=>checkPreflight(bad,scope));}
+});
+test('preflight accepts the authenticated Railway regional-only replica shape and matching legacy counts',()=>{
+ // Observed on both undeployed workers after the reviewed infrastructure commit:
+ // legacy count null, deploy.multiRegionConfig exactly {iad:{numReplicas:1}}.
+ for(const counts of [[null,null],[1,1],[null,1],[1,null]]){
+  const f=preflightFixture();f.environment.serviceInstances.edges.forEach(({node},i)=>{node.numReplicas=counts[i];});
+  checkPreflight(f,scope);
+ }
+});
+test('each exact worker requires explicit one-replica iad evidence, even when the legacy count is one',()=>{
+ const invalid=[undefined,null,{},[],{iad:{}},{iad:{numReplicas:null}},{iad:{numReplicas:0}},{iad:{numReplicas:2}},{iad:{numReplicas:-1}},{iad:{numReplicas:0.5}},{iad:{numReplicas:'1'}},{iad:{numReplicas:true}},{ams:{numReplicas:1}},{IAD:{numReplicas:1}},{iad:{numReplicas:1},ams:{numReplicas:1}},{iad:{numReplicas:1},ams:{numReplicas:0}}];
+ for(const index of [0,1])for(const legacy of [null,1])for(const regions of invalid){
+  const f=preflightFixture(),s=f.environment.serviceInstances.edges[index].node;
+  s.numReplicas=legacy;f.environment.config.services[s.serviceId].deploy.multiRegionConfig=regions;
+  assert.throws(()=>checkPreflight(f,scope));
+ }
+});
+test('regional proof never overrides a missing or contradictory legacy replica count',()=>{
+ for(const index of [0,1])for(const count of [undefined,0,2,-1,0.5,'1',true,NaN,Infinity]){
+  const f=preflightFixture();f.environment.serviceInstances.edges[index].node.numReplicas=count;
+  assert.throws(()=>checkPreflight(f,scope));
+ }
+});
+test('regional evidence cannot be absent or borrowed from another service',()=>{
+ for(const edit of [f=>delete f.environment.config,f=>f.environment.config=null,f=>delete f.environment.config.services,
+  ...[scope.operatorServiceId,scope.delivery.authorizerServiceId].flatMap(id=>[
+   f=>delete f.environment.config.services[id],f=>f.environment.config.services[id].deploy=null,
+   f=>{f.environment.config.services[scope.gameServiceId]=f.environment.config.services[id];delete f.environment.config.services[id];}
+  ])]){
+  const f=preflightFixture();for(const {node} of f.environment.serviceInstances.edges)node.numReplicas=null;
+  edit(f);assert.throws(()=>checkPreflight(f,scope));
+ }
+});
+test('provider preflight reads regional proof privately and rejects unsafe evidence before proxy checks or launch',async()=>{
+ for(const valid of [true,false]){
+  const f=preflightFixture(),calls=[];
+  for(const {node} of f.environment.serviceInstances.edges)node.numReplicas=null;
+  // Unrelated configuration is not replica evidence and is never returned/logged.
+  f.environment.config.services[scope.gameServiceId]={variables:{unrelated:'synthetic-private-sentinel'}};
+  if(!valid)f.environment.config.services[scope.delivery.authorizerServiceId].deploy.multiRegionConfig.iad.numReplicas=2;
+  const p=platform('fixture-token',{command:async()=>assert.fail('Preflight must not launch a worker'),fetcher:async(url,o)=>{
+   assert.equal(url,'https://backboard.railway.com/graphql/v2');assert.equal(o.redirect,'error');
+   const q=JSON.parse(o.body);assert.match(q.query,/^query /);calls.push(q);
+   if(q.query===preflightQuery){assert.match(q.query,/config\(decryptVariables:false\)/);assert.deepEqual(q.variables,{projectId:scope.projectId,environmentId:scope.environmentId});return Response.json({data:f});}
+   assert.match(q.query,/RetentionDeliveryNetwork/);return Response.json({data:{tcpProxies:[]}});
+  }});
+  if(valid){assert.equal(await p.preflight(scope),undefined);assert.equal(calls.length,3);assert.deepEqual(calls.slice(1).map(c=>c.variables.serviceId),[scope.operatorServiceId,scope.delivery.authorizerServiceId]);}
+  else{await assert.rejects(p.preflight(scope));assert.equal(calls.length,1);}
+ }
 });
 test('Railway API transport stages only one frame with skipDeploys and independently verifies the queued target',async()=>{
  const calls=[],id=randomUUID(),variables={KINGDOM_RETENTION_ENABLED:'1'};

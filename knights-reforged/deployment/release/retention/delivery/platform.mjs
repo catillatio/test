@@ -5,7 +5,7 @@ import {verifyInstallationToken} from './installation-identity.mjs';
 const endpoint='https://backboard.railway.com/graphql/v2';
 export const preflightQuery=`query RetentionDeliveryPreflight($projectId:String!,$environmentId:String!){
  project(id:$projectId){id name}
- environment(id:$environmentId,projectId:$projectId){id projectId name
+ environment(id:$environmentId,projectId:$projectId){id projectId name config(decryptVariables:false)
   serviceInstances{edges{node{serviceId environmentId serviceName source{repo image} startCommand buildCommand preDeployCommand rootDirectory cronSchedule restartPolicyType numReplicas healthcheckPath
    service{repoTriggers{edges{node{id}}}} domains{serviceDomains{id} customDomains{id}}
    activeDeployments{id deploymentStopped instances{id status}}}}}
@@ -30,7 +30,11 @@ export function checkPreflight(data,scope){
   assert.ok(s.source===null||s.source.repo===null&&s.source.image===null);assert.equal(s.service.repoTriggers.edges.length,0);
   for(const k of ['buildCommand','preDeployCommand','cronSchedule','healthcheckPath'])assert.equal(s[k],null);
   assert.ok(s.rootDirectory===null||s.rootDirectory==='/');assert.ok(s.startCommand===null||s.startCommand==='node deployment/release/retention/delivery/worker.mjs');
-  assert.equal(s.restartPolicyType,'NEVER');assert.equal(s.numReplicas,1);
+  assert.equal(s.restartPolicyType,'NEVER');
+  // Railway leaves the legacy count null when replicas are configured regionally.
+  // Explicit evidence is required for each exact worker, including legacy count 1.
+  assert.deepEqual(data.environment.config?.services?.[id]?.deploy?.multiRegionConfig,{iad:{numReplicas:1}});
+  assert.ok(s.numReplicas===null||s.numReplicas===1);
   assert.equal(s.domains.serviceDomains.length+s.domains.customDomains.length,0);
   assert.ok(s.activeDeployments.every(d=>d.deploymentStopped===true&&d.instances.length<=1&&d.instances.every(i=>i.status==='EXITED')));
  }
