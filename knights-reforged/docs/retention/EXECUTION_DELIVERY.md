@@ -7,6 +7,13 @@ configuration, exact adoption and each deletion remain separate owner decisions.
 No commands belong on the owner's Windows PC. The owner uses GitHub/Railway
 web dashboards; the explicitly labelled Console commands run inside Railway.
 
+The installed executor/authorizer, journal, keys, scope, restricted credentials
+and handoff validation are complete. For the new, separately approved future-copy
+privileged step, use [Future verified recovery-copy adoption](FUTURE_ADOPTION.md).
+Its explicit `adopt` operation is distinct from the existing read-only
+`adoption-review`; it keeps retirement execution disabled and reuses this delivery
+architecture without repeating installation.
+
 ## Delivered path and trust boundaries
 
 1. The existing protected `production` owner gate precedes job `retire`, which

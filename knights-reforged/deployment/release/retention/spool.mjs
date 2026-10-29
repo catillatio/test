@@ -3,7 +3,7 @@ import {access,lstat,readFile,realpath} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {uuid} from '../protocol.mjs';
 export const packageFiles=Object.freeze(['scope.json','state.json','plan.json','approval.txt']);
-export const operationFiles=Object.freeze({retire:packageFiles,'adoption-review':Object.freeze(['scope.json','state.json','manifest.json']),reconcile:Object.freeze(['scope.json','state.json','prior-approval.txt','before.json'])});
+export const operationFiles=Object.freeze({retire:packageFiles,adopt:Object.freeze(['scope.json','state.json','manifest.json','before.json']),'adoption-review':Object.freeze(['scope.json','state.json','manifest.json']),reconcile:Object.freeze(['scope.json','state.json','prior-approval.txt','before.json'])});
 // Fixed private handoff, never a public artifact/dispatch payload. Only ENOENT
 // of the readiness marker is waited for; corrupt or unsafe inputs fail once.
 export async function readPackage(root,id,{operation='retire',deadline=Date.now()+180000,pause=()=>new Promise(resolve=>setTimeout(resolve,1000))}={}){

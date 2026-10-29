@@ -8,7 +8,7 @@ export const commonFiles=['package.json','package-lock.json','deployment/release
  ...['protocol','retention','verification','journal','guards','observation'].map(n=>'deployment/release/retention/'+n+'.mjs'),
  'deployment/release/retention/bootstrap.sql','rulesets/level100-rivals-1/rules.json',
  ...['worker','protocol','io','image','volume','bundle','build-image','approval'].map(n=>'deployment/release/retention/delivery/'+n+'.mjs')];
-export function roleFiles(role){assert.ok(['executor','authorizer'].includes(role));return [...commonFiles,...(role==='executor'?['cli','reconcile','job','spool','ready']:['permit','ready']).map(n=>'deployment/release/retention/'+n+'.mjs'),...(role==='authorizer'?['deployment/release/retention/delivery/prepare.mjs']:['deployment/release/retention/delivery/initialize-journal.mjs'])];}
+export function roleFiles(role){assert.ok(['executor','authorizer','adopter'].includes(role));if(role==='adopter')return [...commonFiles.filter(p=>!p.endsWith('/worker.mjs')&&!p.endsWith('/volume.mjs')), 'deployment/release/retention/adoption.mjs','deployment/release/retention/delivery/adopter.mjs','deployment/release/retention/delivery/adoption-operation.mjs'];return [...commonFiles,...(role==='executor'?['cli','reconcile','job','spool','ready']:['permit','ready']).map(n=>'deployment/release/retention/'+n+'.mjs'),...(role==='authorizer'?['deployment/release/retention/delivery/prepare.mjs']:['deployment/release/retention/delivery/initialize-journal.mjs'])];}
 export async function makeBundle(role,base,destination,sha){
  assert.equal(execFileSync('git',['rev-parse','HEAD'],{cwd:base,encoding:'utf8'}).trim(),sha);
  const files={};
@@ -19,8 +19,8 @@ export async function makeBundle(role,base,destination,sha){
  }
  const image={role,files,codeDigest:hash({role,files})};
  await writeFile(join(destination,'delivery-image.json'),JSON.stringify(image),{flag:'wx',mode:0o600});
- const docker=await readFile(join(base,'deployment/release/retention/'+(role==='executor'?'Dockerfile':'delivery/Authorizer.Dockerfile')));
- assert.deepEqual(docker,execFileSync('git',['show',sha+':knights-reforged/deployment/release/retention/'+(role==='executor'?'Dockerfile':'delivery/Authorizer.Dockerfile')],{cwd:base}));
+ const docker=await readFile(join(base,'deployment/release/retention/'+(role==='executor'?'Dockerfile':role==='adopter'?'delivery/Adopter.Dockerfile':'delivery/Authorizer.Dockerfile')));
+ assert.deepEqual(docker,execFileSync('git',['show',sha+':knights-reforged/deployment/release/retention/'+(role==='executor'?'Dockerfile':role==='adopter'?'delivery/Adopter.Dockerfile':'delivery/Authorizer.Dockerfile')],{cwd:base}));
  await writeFile(join(destination,'Dockerfile'),docker,{flag:'wx'});
  await writeFile(join(destination,'railway.json'),JSON.stringify({build:{builder:'DOCKERFILE',dockerfilePath:'Dockerfile'},deploy:{restartPolicyType:'NEVER',numReplicas:1}}),{flag:'wx'});
  return image;

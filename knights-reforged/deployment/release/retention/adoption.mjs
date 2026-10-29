@@ -71,7 +71,7 @@ export async function adoptObservedCopy(client,{scope,state,bytes,expectedSha256
    }
    assert.deepEqual(adoptionReasons(before,state,scope,manifest,[o]),[]);
    assert.equal(typeof beforeAdopt,'function','Live protected-release coordination is required for ownership adoption.');
-   await beforeAdopt({jobId:record.jobId,evidence:manifest},state);
+   await beforeAdopt({jobId:record.jobId,evidence:manifest},state,{before,observation:o});
    checkState(state,scope);
    // Owner transfer and append-only provenance COMMIT together; an interruption
    // cannot leave an unmanaged-owned copy. Adoption starts a new server hold.

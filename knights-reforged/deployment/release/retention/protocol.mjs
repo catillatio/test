@@ -45,6 +45,7 @@ export function checkScope(scope){
 }
 function connection(env,scope,variable,role){
  checkScope(scope);
+ for(const [k,v] of Object.entries(env))if(k.startsWith('KINGDOM_RETENTION_ADOPTER_DB_'))assert.ok(!v);
  assert.equal(env.KINGDOM_RETENTION_ENABLED,'1');assert.equal(env.NODE_ENV,'production');
  assert.notEqual(env.NODE_TLS_REJECT_UNAUTHORIZED,'0');
  for(const key of ['DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL','KINGDOM_RELEASE_SIGNING_KEY','KINGDOM_RETENTION_SIGNING_KEY','KINGDOM_RELEASE_JOB_REQUEST','KINGDOM_ALPHA_INITIALIZE','RUN_MIGRATIONS','PGHOST','PGPORT','PGDATABASE','PGUSER','PGPASSWORD','PGSERVICE','PGSERVICEFILE','PGOPTIONS','PGSSLMODE'])assert.ok(!env[key]);

@@ -5,11 +5,12 @@ import {readFile,writeFile} from 'node:fs/promises';
 import {parseArgs} from 'node:util';
 import {checkEnvironment,hash} from './protocol.mjs';
 import {reconcileInterrupted} from './reconcile.mjs';
+import {observationPayload} from './observation.mjs';
 import {uuid} from '../protocol.mjs';
 import {liveGuards} from './guards.mjs';
-import {lockCluster,inspect,cleanup} from './retention.mjs';
+import {lockCluster,inspect,cleanup,snapshot} from './retention.mjs';
 import {writeBaseline} from './journal.mjs';
-import {verifyAdoption} from './verification.mjs';
+import {verifyAdoption,verifyAdoptionPreservation} from './verification.mjs';
 const read=async path=>{const text=await readFile(path,'utf8');assert.ok(Buffer.byteLength(text)<=2000000);return JSON.parse(text);};
 let client,disconnected=false,failureStage='INPUT',failurePath;
 try{
@@ -32,9 +33,10 @@ try{
   report={plan,planSha256:hash(plan),storage:{databaseBytes:plan.rows.reduce((n,row)=>n+BigInt(row.bytes),0n).toString(),walBytes,
    otherManagedBytes:null,volumeBytes:null,note:'Database sizes are measured logical storage; WAL, logs, shared files, free space and filesystem accounting may differ.'}};
  }else if(positionals[0]==='verify-adoption'){
-  assert.ok(values.manifest&&!values.plan&&!values.approval&&!values['prior-approval']&&!values.before&&!values.keep&&!values['min-age-hours']);
+  assert.ok(values.manifest&&!values.plan&&!values.approval&&!values['prior-approval']&&!values.keep&&!values['min-age-hours']);
   await guards.coordinated(state,process.env);
-  report=await verifyAdoption(client,await read(values.manifest),scope);
+  const manifest=await read(values.manifest);report=await verifyAdoption(client,manifest,scope);
+  if(values.before)report.preservation=verifyAdoptionPreservation(await read(values.before),await snapshot(client),observationPayload(manifest));
  }else if(positionals[0]==='reconcile'){
   assert.ok(!values.plan&&!values.approval&&!values.keep&&!values['min-age-hours']&&!values.manifest);assert.match(values['prior-approval']??'',uuid);
   await guards.coordinated(state,process.env);

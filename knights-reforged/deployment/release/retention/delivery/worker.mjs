@@ -16,6 +16,7 @@ let child,client,timer;
 const aborted=new AbortController(),stop=()=>aborted.abort();process.once('SIGTERM',stop);process.once('SIGINT',stop);
 try{
  process.umask(0o077);
+ for(const [k,v] of Object.entries(process.env))if(k.startsWith('KINGDOM_RETENTION_ADOPTER_DB_')||k==='KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL')assert.ok(!v);
  if(process.env.KINGDOM_RETENTION_INITIALIZE_JOURNAL==='owner-approved'){
   await initializeVolume();
  }else if(process.env.KINGDOM_RETENTION_ENABLED!=='1'){
@@ -42,10 +43,12 @@ try{
   const io={signal:aborted.signal,deadline:Date.parse(f.expiresAt),wait:true};
   await writeObject(f.urls.readyPut,makeReceipt(f,deploymentId,'ready'),io);
   const arm=await readObject(f.urls.armGet,io);
-  const armedDigest=verifyArm(arm,f,deploymentId);
+  let adoptionPostcheck;
+  if(f.operation==='adopt')adoptionPostcheck=await readObject(f.urls.postcheckGet,io);
+  const armedDigest=verifyArm(arm,f,deploymentId,adoptionPostcheck?hash(adoptionPostcheck):undefined);
   await check();aborted.signal.throwIfAborted();
   const data=input(await readObject(f.urls.inputGet,io),f),inputDigest=hash(data);
-  assert.equal(inputDigest,armedDigest);
+  assert.equal(inputDigest,armedDigest);if(adoptionPostcheck)assert.equal(adoptionPostcheck.inputDigest,inputDigest);
   validUntil=Math.min(validUntil,Date.parse(data.state.observedAt)+300000);io.deadline=validUntil;
   assert.equal(await guards.health(),data.state.activeSha);
   let approval;
@@ -73,6 +76,7 @@ try{
    await writeBaseline(directory+'/delivery-claim.json',{requestId:f.requestId,coordinator:f.coordinator,deploymentId,codeDigest:f.codeDigest,inputDigest});
    const files={'scope.json':JSON.stringify(data.scope),'state.json':JSON.stringify(data.state)};
    if(f.operation==='retire')Object.assign(files,{'plan.json':JSON.stringify(data.data.plan),'approval.txt':approval+'\n'});
+   else if(f.operation==='adopt'){files['manifest.json']=JSON.stringify(JSON.parse(Buffer.from(data.data.manifestBytes,'base64url')));files['before.json']=JSON.stringify(adoptionPostcheck.before);}
    else if(f.operation==='adoption-review')files['manifest.json']=JSON.stringify(data.data.manifest);
    else Object.assign(files,{'before.json':JSON.stringify(data.data.before),'prior-approval.txt':data.data.priorApproval+'\n'});
    for(const [name,body] of Object.entries(files))await writeFile(directory+'/'+name,body,{mode:0o600,flag:'wx'});

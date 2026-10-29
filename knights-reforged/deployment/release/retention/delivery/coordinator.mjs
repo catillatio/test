@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {executeAdoption} from './adoption-coordinator.mjs';
+import {authenticateAdoption} from './adoption-artifact.mjs';
 import {generateKeyPairSync} from 'node:crypto';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {join} from 'node:path';
@@ -19,7 +21,7 @@ export function command(executable,args,{cwd}){
 }
 export async function executeCoordinator({env=process.env,store,provider,bundle,signal,log=()=>{},fetcher=globalThis.fetch}={}){
  const c=coordinator(env),scope=deliveryScope(JSON.parse(env.KINGDOM_RETENTION_SCOPE)),id=env.RETENTION_REQUEST_ID,operation=env.RETENTION_OPERATION;
- assert.match(id??'',uuid);assert.ok(operations.includes(operation));
+ assert.match(id??'',uuid);assert.ok(operations.includes(operation));assert.notEqual(operation,'adopt');
  assert.equal(env.RAILWAY_PROJECT_ID,scope.projectId);assert.equal(env.RAILWAY_ENVIRONMENT_ID,scope.environmentId);
  for(const key of ['DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL','KINGDOM_RELEASE_SIGNING_KEY','KINGDOM_RETENTION_SIGNING_KEY','KINGDOM_RETENTION_DATABASE_URL','KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL','KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL'])assert.ok(!env[key]);
  const guards=liveGuards(scope,{githubToken:env.GH_TOKEN,fetcher});await guards.coordinated({coordinator:c});signal?.throwIfAborted();
@@ -61,7 +63,7 @@ async function main(){
  const control=new AbortController(),cancel=()=>control.abort();process.once('SIGTERM',cancel);process.once('SIGINT',cancel);
  const installation=setupOperations.includes(process.env.RETENTION_OPERATION),store=installation?null:handoffStore(),directories=[];
  try{
-  await (installation?installDisabled:executeCoordinator)({env:process.env,store,provider:platform(process.env.RAILWAY_TOKEN,{command}),signal:control.signal,log:(s,digest)=>{console.log('RETENTION_DELIVERY: '+s);if(digest)console.log('RETENTION_REVIEW_COMMENT: retention '+process.env.RETENTION_REQUEST_ID+' '+digest);},bundle:async(role,sha)=>{
+  await (installation?installDisabled:process.env.RETENTION_OPERATION==='adopt'?executeAdoption:executeCoordinator)({env:process.env,store,authenticate:(data,f)=>authenticateAdoption(data,f,{githubToken:process.env.GH_TOKEN,command,temp:process.env.RUNNER_TEMP,signal:control.signal}),provider:platform(process.env.RAILWAY_TOKEN,{command}),signal:control.signal,log:(s,digest)=>{console.log('RETENTION_DELIVERY: '+s);if(digest)console.log((process.env.RETENTION_OPERATION==='adopt'?'ADOPTION_REVIEW_COMMENT: adoption ':'RETENTION_REVIEW_COMMENT: retention ')+process.env.RETENTION_REQUEST_ID+' '+digest);},bundle:async(role,sha)=>{
    const dir=await mkdtemp(join(process.env.RUNNER_TEMP,'retention-'+role+'-'));directories.push(dir);
    return {...await makeBundle(role,new URL('../../../..',import.meta.url).pathname,dir,sha),directory:dir};
   }});
