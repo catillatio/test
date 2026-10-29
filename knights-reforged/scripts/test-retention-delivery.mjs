@@ -56,6 +56,17 @@ const fetcher=async(url,options={})=>{
 };
 let certificate;
 try{
+ // Both real images must remain inert without credentials, networking or a volume.
+ for(const [role,image] of [['executor',executor],['authorizer',authorizer]]){
+  const config=JSON.parse(docker('image','inspect',image))[0].Config;
+  assert.equal(config.User,'node');assert.equal(config.WorkingDir,'/app');
+  assert.deepEqual(config.Entrypoint,['node','deployment/release/retention/delivery/worker.mjs']);
+  for(const value of ['NODE_ENV=production','KINGDOM_RETENTION_ENABLED=0'])assert.ok(config.Env.includes(value));
+  assert.equal(docker('run','--rm','--network','none','--read-only',image),'RETENTION_DELIVERY_WORKER: DISABLED');
+  const identityCheck='const a=require("node:assert/strict"),f=require("node:fs"),s=f.statSync("delivery-image.json");a.equal(process.getuid(),1000);a.equal(s.uid,1000);a.equal(s.mode&0o777,0o600);a.equal(JSON.parse(f.readFileSync("delivery-image.json")).role,process.argv[1]);';
+  docker('run','--rm','--network','none','--read-only','--entrypoint','node',image,'-e',identityCheck,role);
+  pass(role+' image preserves its fixed identity, private manifest and disabled non-root defaults without network access');
+ }
  await mkdir(file('objects'),{mode:0o700});await save('grants.json',[]);
  execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-days','1','-keyout',file('server.key'),'-out',file('server.crt'),'-subj','/CN=retention-disposable-fixture','-addext','subjectAltName=DNS:api.github.com,DNS:realm.fixture.invalid,DNS:backboard.railway.com,DNS:objects.fixture.invalid,IP:127.0.0.1','-addext','basicConstraints=critical,CA:TRUE'],{stdio:'ignore'});
  certificate=await readFile(file('server.crt'));await writeFile(file('server.mjs'),await readFile(new URL('./fixtures/retention-delivery-server.mjs',import.meta.url)),{mode:0o600});

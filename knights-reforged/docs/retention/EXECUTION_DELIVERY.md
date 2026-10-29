@@ -193,6 +193,41 @@ An exclusive owner edit window is required: the provider has no CAS combining
 that read, frame update and source upload. Platform/project administrators remain
 trusted. No weaker isolation claim is made.
 
+## Confirmed Dockerfile blocker and reset state
+
+Run [40804816542](https://github.com/catillatio/test/actions/runs/40804816542)
+passed preflight and uploaded executor deployment
+`2a6a86b8-25a6-453d-9fd4-52601b0b1a31`. Railway rejected the optional
+`RUN --mount=type=secret,id=proxy_ca` at Dockerfile line 5; its parser supports
+only cache mounts. Source ingestion succeeded, but no runtime started. No
+initializer filesystem writes occurred. The journal volume was not directly
+inspected; this is not independent filesystem-integrity verification.
+
+Both worker Dockerfiles now use ordinary
+`RUN npm ci --ignore-scripts --omit=dev --no-audit --no-fund`. Lockfile enforcement,
+normal TLS verification, non-root runtime, role-specific files/commands and
+disabled defaults remain unchanged. Existing CI previously supplied no
+`proxy_ca` build secret. No game Dockerfile or build configuration changes.
+
+**Owner-observed dashboard evidence:** after that failure, the owner confirmed
+`KINGDOM_RETENTION_ENABLED=0`, `RAILWAY_RUN_UID=1000`, and empty/unset
+`KINGDOM_RETENTION_INITIALIZE_JOURNAL`, `KINGDOM_RETENTION_CONSOLE_SETUP` and
+`KINGDOM_RETENTION_JOB`. All five checks passed. The connected OAuth API exposes
+names only; these values were not independently read through it. Do not ask the
+owner to repeat the completed checks.
+
+Standard Docker CI builds both images and checks their disabled, network-isolated
+runtime, UID, role and private manifest permissions. Successful Docker CI does
+not establish a successful Railway build or deployment. No journal initialization
+success or installed workers have been established. Keep execution approval at
+`0`, retention disabled and all recovery databases protected.
+
+Only after review, separately approved merge and green post-merge CI may a fresh
+protected `initialize-journal` attempt be considered. Never reuse failed request
+`b2720373-34ae-4ac4-8e11-17f00129ab64` or rerun the failed attempt. This correction
+removes the confirmed parser blocker; all remaining installation checks still
+apply. This change does not dispatch initialization or `install-disabled`.
+
 ## Dashboard-only installation sequence
 
 These are **future owner-approved actions**, not work performed by this PR.
