@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       operation:
-        description: Retire one signed target, verify external adoption, or reconcile absence only
+        description: Inspect installation token read-only, install disabled workers, or run a reviewed retention job
         type: choice
-        options: [retire, adoption-review, reconcile, initialize-journal, install-disabled]
+        options: [inspect-installation, retire, adoption-review, reconcile, initialize-journal, install-disabled]
         default: adoption-review
         required: true
       request_id:
@@ -16,14 +16,41 @@ on:
 permissions: {}
 jobs:
   owner-approval:
-    if: github.repository == 'catillatio/test' && github.ref == 'refs/heads/release/production' && (vars.KINGDOM_RETENTION_EXECUTION_APPROVED == '1' || (vars.KINGDOM_RETENTION_INSTALLATION_APPROVED == '1' && (inputs.operation == 'initialize-journal' || inputs.operation == 'install-disabled')))
+    if: github.repository == 'catillatio/test' && github.ref == 'refs/heads/release/production' && (inputs.operation == 'inspect-installation' || vars.KINGDOM_RETENTION_EXECUTION_APPROVED == '1' || (vars.KINGDOM_RETENTION_INSTALLATION_APPROVED == '1' && (inputs.operation == 'initialize-journal' || inputs.operation == 'install-disabled')))
     environment: production
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - run: echo RETENTION_OWNER_GATE_PASS
+  inspect-installation:
+    needs: owner-approval
+    if: inputs.operation == 'inspect-installation'
+    environment: retention-execution
+    concurrency:
+      group: kingdom-come-production
+      cancel-in-progress: false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {ref: '${{ github.sha }}', persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - name: Read-only installation token identity; no automatic retry
+        working-directory: knights-reforged
+        run: node deployment/release/retention/delivery/inspect-installation.mjs
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+          KINGDOM_RETENTION_INSTALL_TARGET: ${{ secrets.KINGDOM_RETENTION_INSTALL_TARGET }}
+          KINGDOM_RETENTION_EXECUTION_APPROVED: ${{ vars.KINGDOM_RETENTION_EXECUTION_APPROVED }}
+          RETENTION_REQUEST_ID: ${{ inputs.request_id }}
+          RETENTION_OPERATION: ${{ inputs.operation }}
   retire:
     needs: owner-approval
+    if: inputs.operation != 'inspect-installation'
     environment: retention-execution
     concurrency:
       group: kingdom-come-production

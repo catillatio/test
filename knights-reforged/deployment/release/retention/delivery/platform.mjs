@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {uuid} from '../../protocol.mjs';
 import {verifyQueuedDeployment,waitForWorkerCompletion} from '../../deployment.mjs';
+import {verifyInstallationToken} from './installation-identity.mjs';
 const endpoint='https://backboard.railway.com/graphql/v2';
 export const preflightQuery=`query RetentionDeliveryPreflight($projectId:String!,$environmentId:String!){
  project(id:$projectId){id name}
@@ -44,7 +45,9 @@ export function platform(token,{fetcher=globalThis.fetch,command}={}){
   const r=await fetcher(endpoint,{method:'POST',redirect:'error',cache:'no-store',signal:AbortSignal.timeout(15000),headers:{'content-type':'application/json','project-access-token':token},body:JSON.stringify({query,variables})});
   assert.equal(r.ok,true);const text=await r.text();assert.ok(Buffer.byteLength(text)<=2000000);const d=JSON.parse(text);assert.ok(!d.errors||Array.isArray(d.errors)&&!d.errors.length);assert.ok(d.data);return d.data;
  };
- return {async install(role,scope,bundle,mode){
+ return {async tokenIdentity(scope,{signal}={}){
+   return verifyInstallationToken(token,scope,{fetcher,signal});
+  },async install(role,scope,bundle,mode){
    assert.ok(['initialize-journal','install-disabled'].includes(mode));const serviceId=role==='executor'?scope.operatorServiceId:scope.delivery.authorizerServiceId;
    const vars=(await api('query RetentionDeliveryVariables($projectId:String!,$environmentId:String!,$serviceId:String!){variables(projectId:$projectId,environmentId:$environmentId,serviceId:$serviceId)}',{projectId:scope.projectId,environmentId:scope.environmentId,serviceId})).variables;
    assert.equal(vars.KINGDOM_RETENTION_ENABLED,'0');
