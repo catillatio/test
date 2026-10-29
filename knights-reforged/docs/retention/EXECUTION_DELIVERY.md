@@ -74,6 +74,50 @@ stop path. A GUI redeploy of an old invocation is not a supported retry.
 
 ## Configuration inventory
 
+### Validate the completed handoff configuration with execution OFF
+
+The owner has completed the two bucket secrets and four store variables in both
+`retention-execution` and `retention-signing`. Do not request or rotate these
+credentials again. Configuration presence does not establish that conditional
+writes and authenticated reads work with the actual S3-compatible store.
+
+Use the protected **`validate-handoff`** operation after this workflow change is
+reviewed, merged into `release/production` and passes post-merge CI. This closes
+the previous gap where the only store probe was inside the enabled coordinator.
+It requires `KINGDOM_RETENTION_EXECUTION_APPROVED=0`, uses the existing production
+approval and release mutex, and tests each protected environment separately. The
+`retention-signing` reviewer gate still applies. It cannot enter the coordinator,
+launch a worker, issue a signature/permit, adopt a copy or delete a database.
+
+1. GitHub **Actions → Reviewed recovery copy retirement → Run workflow**.
+2. Select `release/production`, operation `validate-handoff`, and a fresh request
+   UUID. Approve the existing production gate and, when requested, the existing
+   `retention-signing` environment gate. Do not change any enabled flags.
+3. Require `RETENTION_HANDOFF: PASS` for **both** matrix jobs. A failed or skipped
+   job is not acceptance. Do not rerun a failed attempt; preserve its fixed
+   `RETENTION_HANDOFF_FAILURE` category and investigate first.
+
+Each job receives only its environment's six store entries, with contents-read
+permission. No Railway token, database URL, scope, persistent signing key or
+backup-bucket credential is injected. The exact installed bucket's connection
+metadata is pinned: `https://t3.storageapi.dev`, S3 region `auto`, actual bucket
+`kingdom-retention-handoff-g6-jcd`, virtual-host addressing (`false` path style).
+An incorrect bucket, endpoint, region or addressing mode fails before a request.
+
+The check creates one small, non-sensitive JSON probe at a unique request-scoped
+path, using the existing 15-minute signed grant and `If-None-Match: *`. It
+requires a second conditional PUT to return HTTP 412, then verifies exact GET
+readback. All requests are single-attempt and bounded; redirects are rejected.
+It does not list, overwrite or delete existing objects. The two probe objects
+remain as small readiness records; no bucket cleanup is authorized. Only PASS
+or a fixed failure category is logged, never signed URLs or provider bodies.
+
+This acceptance proves handoff connectivity and conditional-write behavior from
+both protected environments. It does not grant execution, adoption, scheduling
+or retirement authority. Both Railway workers stay disabled and stopped. The
+next operational review still needs its explicit bounded authorization; final
+retirement additionally requires the separate exact-target signed approval.
+
 ### Validate the saved installation token before installation
 
 Use the existing workflow's **`inspect-installation`** operation. This is a

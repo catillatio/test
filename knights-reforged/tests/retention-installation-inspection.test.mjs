@@ -140,7 +140,7 @@ for(const operation of ['initialize-journal','install-disabled'])test(operation+
 
 test('workflow isolates inspection from all installation, signing, SQL and handoff actions',async()=>{
  const w=await read('../.github/workflows/recovery-copy-retention.yml');
- const inspection=w.slice(w.indexOf('  inspect-installation:'),w.indexOf('  retire:'));
+ const inspection=w.slice(w.indexOf('  inspect-installation:'),w.indexOf('  validate-handoff:'));
  const execution=w.slice(w.indexOf('  retire:'),w.indexOf('  sign-retirement:'));
  const gate=w.slice(w.indexOf('  owner-approval:'),w.indexOf('  inspect-installation:'));
  assert.match(gate,/environment: production/);assert.match(gate,/inputs.operation == 'inspect-installation'/);
