@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 import {hash} from '../protocol.mjs';
 export async function imageIdentity(base='/app'){
  const image=JSON.parse(await readFile(base+'/delivery-image.json','utf8'));
- assert.ok(['executor','authorizer'].includes(image.role));
+ assert.ok(['executor','authorizer','adopter'].includes(image.role));
  for(const [path,digest] of Object.entries(image.files)){
   assert.match(path,/^[a-zA-Z0-9_./-]+$/);assert.ok(!path.split('/').includes('..')&&!path.startsWith('/'));
   assert.ok((await lstat(base+'/'+path)).isFile()&&!(await lstat(base+'/'+path)).isSymbolicLink());

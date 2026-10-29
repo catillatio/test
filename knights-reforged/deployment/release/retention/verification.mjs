@@ -1,4 +1,4 @@
-// Compare only inventories from the SAME lock-held retirement operation.
+// Compare only inventories from the SAME guarded adoption/retirement operation.
 // A new baseline cannot reconstruct the missing pre-registration legacy tuples.
 import assert from 'node:assert/strict';
 import {hash,emergencyOids,evidenceRecord} from './protocol.mjs';
@@ -51,4 +51,18 @@ export async function verifyAdoption(client,manifest,scope){
   assert.ok(Number.isFinite(+new Date(row.first_observed_at))&&+new Date(row.first_observed_at)>=+new Date(row.observation_at)&&+new Date(row.first_observed_at)<=+new Date(row.now));
   return {kind:'read-only-adoption-postcheck',exactObservationAndManifest:true,exactLiveIdentity:true,serverDerivedHold:true,retirementAuthorized:false};
  }finally{await client.query('ROLLBACK');}
+}
+
+export function verifyAdoptionPreservation(before,after,expected){
+ assert.ok(Array.isArray(before.databases)&&before.databases.length>0);assert.ok(Array.isArray(after.databases));
+ assert.equal(before.databases.length,after.databases.length);
+ for(const s of [before,after]){
+  assert.equal(new Set(s.databases.map(d=>d.name)).size,s.databases.length);
+  assert.equal(new Set(s.databases.map(d=>d.oid)).size,s.databases.length);
+ }
+ const old=before.databases.find(d=>d.name===expected.name),now=after.databases.find(d=>d.name===expected.name);
+ assert.ok(old&&now&&!old.template&&!now.template);assert.equal(old.oid,expected.oid);assert.equal(old.owner,expected.owner);
+ assert.ok(!emergencyOids.includes(old.oid));assert.deepEqual(identity(now),{...identity(old),owner:'kc_release_copy_owner'});
+ for(const row of before.databases.filter(d=>d.name!==expected.name))assert.deepEqual(identity(after.databases.find(d=>d.name===row.name)??{}),identity(row));
+ return {exactTargetIdentity:true,allUntargetedIdentitiesPreserved:true,emergencyIdentitiesPreserved:true,retirementAuthorized:false};
 }

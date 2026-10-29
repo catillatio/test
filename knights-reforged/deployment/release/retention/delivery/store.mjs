@@ -14,7 +14,7 @@ export function handoffStore(env=process.env){
   credentials:{accessKeyId:env.KINGDOM_RETENTION_STORE_ACCESS_KEY_ID,secretAccessKey:env.KINGDOM_RETENTION_STORE_SECRET_ACCESS_KEY},requestChecksumCalculation:'WHEN_REQUIRED',responseChecksumValidation:'WHEN_REQUIRED'});
  return {get origin(){assert.ok(grantedOrigin);return grantedOrigin;},async grant(run,id,name,method){
   assert.match(run,/^[1-9][0-9]{0,19}_1$/);assert.match(id,uuid);
-  assert.match(name,/^(?:input|signature|permit|context|probe|executor-(?:ready|arm|result)|authorizer-(?:ready|arm|result))\.json$/);
+  assert.match(name,/^(?:input|signature|permit|context|probe|adoption-intent|adoption-approval|adoption-review-arm|adoption-baseline|adoption-postcheck|adopter-proceed|adopter-ready|adopter-arm|adopter-result|executor-(?:ready|arm|result)|authorizer-(?:ready|arm|result))\.json$/);
   assert.ok(['GET','PUT'].includes(method));const key='retention-delivery/'+run+'/'+id+'/'+name;
   const Command=method==='PUT'?PutObjectCommand:GetObjectCommand;
   const url=await getSignedUrl(c,new Command({Bucket:env.KINGDOM_RETENTION_STORE_BUCKET,Key:key,...(method==='PUT'?{IfNoneMatch:'*'}:{})}),{expiresIn:900,unhoistableHeaders:new Set(['if-none-match']),signableHeaders:new Set(['if-none-match'])});

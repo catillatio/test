@@ -1,6 +1,8 @@
 {
   "version": 1,
   "tests": [
+    {"file":"tests/retention-adoption-delivery.test.mjs","lane":"unit","weight":1},
+    {"file":"tests/retention-adoption-postgres.test.mjs","lane":"database","weight":3,"exclusive":true},
     {"file":"tests/retention-handoff-validation.test.mjs","lane":"unit","weight":1},
     {"file":"tests/retention-deployment-lifecycle.test.mjs","lane":"unit","weight":1},
     {"file":"tests/retention-installation-inspection.test.mjs","lane":"unit","weight":1},

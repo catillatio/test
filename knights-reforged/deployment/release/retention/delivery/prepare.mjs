@@ -15,7 +15,7 @@ import {liveGuards} from '../guards.mjs';
 let client;
 try{
  process.umask(0o077);assert.notEqual(process.getuid(),0);assert.equal(process.env.KINGDOM_RETENTION_ENABLED,'1');
- const {values}=parseArgs({options:{state:{type:'string'},oid:{type:'string'},manifest:{type:'string'},before:{type:'string'},'prior-approval':{type:'string'},'owner-reviewed':{type:'boolean'}}});
+ const {values}=parseArgs({options:{state:{type:'string'},oid:{type:'string'},manifest:{type:'string'},'artifact-id':{type:'string'},before:{type:'string'},'prior-approval':{type:'string'},'owner-reviewed':{type:'boolean'}}});
  assert.equal(values['owner-reviewed'],true);const image=await imageIdentity();assert.equal(image.role,'authorizer');
  const f=frame(JSON.parse(Buffer.from(process.env.KINGDOM_RETENTION_JOB,'base64url')),process.env,'authorizer');assert.equal(f.codeDigest,image.codeDigest);
  const state=JSON.parse(await readFile(values.state,'utf8'));
@@ -35,12 +35,16 @@ try{
   const record=(await client.query('SELECT evidence FROM release_retention.copies WHERE name=$1',[target.name])).rows[0];
   await guards.beforeDelete({jobId:record.evidence.request.jobId,evidence:record.evidence},state);
   payload.data.plan={...plan,rows:[target],reclaimableBytes:target.bytes};await client.query('ROLLBACK');
+ }else if(f.operation==='adopt'){
+  assert.ok(values.manifest&&!values.oid&&!values.before&&!values['prior-approval']);assert.match(values['artifact-id']??'',/^[1-9][0-9]{0,19}$/);
+  const bytes=await readFile(values.manifest),manifest=JSON.parse(bytes);evidenceRecord(manifest,f.scope);
+  payload.data={manifestBytes:bytes.toString('base64url'),manifestSha256:createHash('sha256').update(bytes).digest('hex'),expectedOid:manifest.report.verifiedCopyIdentity.oid,artifactId:values['artifact-id'],adoption:f.adoption};
  }else if(f.operation==='adoption-review'){
   assert.ok(values.manifest&&!values.oid&&!values.before&&!values['prior-approval']);payload.data.manifest=JSON.parse(await readFile(values.manifest,'utf8'));evidenceRecord(payload.data.manifest,f.scope);
  }else{
   assert.ok(values.before&&values['prior-approval']&&!values.oid&&!values.manifest);payload.data.before=JSON.parse(await readFile(values.before,'utf8'));payload.data.priorApproval=values['prior-approval'];
  }
  input(payload,f);await writeObject(f.urls.inputPut,payload);
- console.log(JSON.stringify({kind:'private-owner-review-summary',request_id:f.requestId,operation:f.operation,exactly_one_selected_target:f.operation==='retire',target_matches_selected_oid:f.operation==='retire',input_digest:hash(payload),signature_issued:false,retirement_authorized:false}));
+ console.log(JSON.stringify({kind:'private-owner-review-summary',request_id:f.requestId,operation:f.operation,exactly_one_selected_target:['retire','adopt'].includes(f.operation),target_matches_selected_oid:f.operation==='retire',input_digest:hash(payload),signature_issued:false,retirement_authorized:false}));
 }catch{console.error('RETENTION_PRIVATE_PREPARATION: FAIL');process.exitCode=1;}
 finally{if(client)await client.end().catch(()=>{});}

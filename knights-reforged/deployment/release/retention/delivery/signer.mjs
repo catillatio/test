@@ -14,6 +14,7 @@ import {uuid} from '../../protocol.mjs';
 export async function signRequest({env=process.env,store,runAuthorize,fetcher=globalThis.fetch}={}){
  assert.equal(env.KINGDOM_RETENTION_EXECUTION_APPROVED,'1');assert.equal(env.GITHUB_REPOSITORY,'catillatio/test');assert.equal(env.GITHUB_REF,'refs/heads/release/production');assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(env.GITHUB_JOB,'sign-retirement');assert.equal(env.GITHUB_RUN_ATTEMPT,'1');assert.equal(env.RETENTION_OPERATION,'retire');
  for(const k of ['RAILWAY_TOKEN','RAILWAY_API_TOKEN','DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL','KINGDOM_RELEASE_SIGNING_KEY','KINGDOM_RETENTION_DATABASE_URL','KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL','KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL'])assert.ok(!env[k]);
+ for(const [k,v] of Object.entries(env))if(k.startsWith('KINGDOM_RETENTION_ADOPTER_DB_'))assert.ok(!v);
  const scope=deliveryScope(JSON.parse(env.KINGDOM_RETENTION_SCOPE)),id=env.RETENTION_REQUEST_ID;assert.match(id,uuid);
  const run=env.GITHUB_RUN_ID+'_1',context=await readObject(await store.grant(run,id,'context.json','GET'),{fetcher});
  assert.equal(context.protocol,deliveryProtocol);assert.deepEqual(context.scope,scope);assert.equal(context.operation,'retire');assert.equal(context.requestId,id);

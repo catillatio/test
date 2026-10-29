@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {adoptionMethods} from './adoption-platform.mjs';
 import {verifyQueuedDeployment,waitForWorkerCompletion} from '../../deployment.mjs';
 import {verifyInstallationToken} from './installation-identity.mjs';
 import {waitForRunning,stopExactDeployment} from './lifecycle.mjs';
@@ -7,7 +8,7 @@ export const preflightQuery=`query RetentionDeliveryPreflight($projectId:String!
  project(id:$projectId){id name}
  environment(id:$environmentId,projectId:$projectId){id projectId name config(decryptVariables:false)
   serviceInstances{edges{node{serviceId environmentId serviceName source{repo image} startCommand buildCommand preDeployCommand rootDirectory cronSchedule restartPolicyType numReplicas healthcheckPath
-   service{repoTriggers{edges{node{id}}}} domains{serviceDomains{id} customDomains{id}}
+   service{createdAt repoTriggers{edges{node{id}}}} domains{serviceDomains{id} customDomains{id}}
    activeDeployments{id deploymentStopped instances{id status}}}}}
   volumeInstances{edges{node{volumeId serviceId mountPath isPendingDeletion}}}}
  pending:environmentStagedChanges(environmentId:$environmentId){environmentId status appliedAt lastAppliedError patch(decryptVariables:false)}
@@ -49,7 +50,7 @@ export function platform(token,{fetcher=globalThis.fetch,command}={}){
   const r=await fetcher(endpoint,{method:'POST',redirect:'error',cache:'no-store',signal:signal?AbortSignal.any([signal,timeout]):timeout,headers:{'content-type':'application/json','project-access-token':token},body:JSON.stringify({query,variables})});
   assert.equal(r.ok,true);const text=await r.text();assert.ok(Buffer.byteLength(text)<=2000000);const d=JSON.parse(text);assert.ok(!d.errors||Array.isArray(d.errors)&&!d.errors.length);assert.ok(d.data);return d.data;
  };
- return {async tokenIdentity(scope,{signal}={}){
+ const provider={async tokenIdentity(scope,{signal}={}){
    return verifyInstallationToken(token,scope,{fetcher,signal});
   },async install(role,scope,bundle,mode){
    assert.ok(['initialize-journal','install-disabled'].includes(mode));const serviceId=role==='executor'?scope.operatorServiceId:scope.delivery.authorizerServiceId;
@@ -83,6 +84,7 @@ export function platform(token,{fetcher=globalThis.fetch,command}={}){
    const current=await api('query RetentionDeliveryVariables($projectId:String!,$environmentId:String!,$serviceId:String!){variables(projectId:$projectId,environmentId:$environmentId,serviceId:$serviceId)}',{projectId:f.scope.projectId,environmentId:f.scope.environmentId,serviceId});
    assert.equal(current.variables?.KINGDOM_RETENTION_JOB,variables.KINGDOM_RETENTION_JOB);assert.equal(current.variables.KINGDOM_RETENTION_ENABLED,'1');assert.ok(!current.variables.KINGDOM_RETENTION_INITIALIZE_JOURNAL&&!current.variables.KINGDOM_RETENTION_CONSOLE_SETUP);
    for(const key of ['DATABASE_URL','KINGDOM_RESTORE_DATABASE_URL','KINGDOM_RELEASE_SIGNING_KEY','KINGDOM_RETENTION_SIGNING_KEY','KINGDOM_RETENTION_BOOTSTRAP_DATABASE_URL','RAILWAY_TOKEN','RAILWAY_API_TOKEN','NODE_OPTIONS','KINGDOM_RETENTION_STORE_ACCESS_KEY_ID','KINGDOM_RETENTION_STORE_SECRET_ACCESS_KEY'])assert.ok(!current.variables[key]);
+   for(const [k,v] of Object.entries(current.variables))if(k.startsWith('KINGDOM_RETENTION_ADOPTER_DB_'))assert.ok(!v);
    assert.ok(!current.variables[role==='executor'?'KINGDOM_RETENTION_AUTHORIZER_DATABASE_URL':'KINGDOM_RETENTION_DATABASE_URL']);
 
    const output=await command('railway',['up',bundle,'--project',f.scope.projectId,'--environment',f.scope.environmentId,'--service',serviceId,'--detach','--json','--path-as-root','--message','Kingdom retention '+f.coordinator.headSha],{cwd:bundle});
@@ -92,4 +94,5 @@ export function platform(token,{fetcher=globalThis.fetch,command}={}){
    assert.ok(['executor','authorizer'].includes(role));const expected={projectId:scope.projectId,environmentId:scope.environmentId,serviceId:role==='executor'?scope.operatorServiceId:scope.delivery.authorizerServiceId};
    return stopExactDeployment(api,id,expected,stopMutation,options);
   }};
+ return {...provider,...adoptionMethods(api,provider,{command,token,fetcher,preflightQuery,stageMutation,stopMutation})};
 }
