@@ -141,7 +141,7 @@ test('dashboard installation is explicitly gated, cannot enable retirement and n
  assert.equal(installationTarget(vars).operatorServiceId,scope.operatorServiceId);
  for(const patch of [{RETENTION_OPERATION:'retire'},{KINGDOM_RETENTION_INSTALLATION_APPROVED:'0'},{GITHUB_REF:'refs/heads/untrusted'},{GITHUB_RUN_ATTEMPT:'2'}])assert.throws(()=>installationTarget({...vars,...patch}));
  let initialized=0,reset=0,stopped=0;
- const provider={preflight:async()=>{},install:async(role)=>{assert.equal(role,'executor');initialized++;return randomUUID();},completion:async()=>{},resetInstallation:async()=>{reset++;},stop:async()=>{stopped++;}};
+ const provider={tokenIdentity:async target=>{assert.equal(target.projectId,scope.projectId);},preflight:async()=>{},install:async(role)=>{assert.equal(role,'executor');initialized++;return randomUUID();},completion:async()=>{},resetInstallation:async()=>{reset++;},stop:async()=>{stopped++;}};
  await installDisabled({env:vars,provider,bundle:async()=>({directory:'/private/committed-bundle'}),fetcher:async u=>github(u)});
  assert.equal(initialized,1);assert.equal(reset,1);assert.equal(stopped,0);
  assert.throws(()=>coordinator(vars));

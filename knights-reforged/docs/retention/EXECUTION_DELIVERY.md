@@ -74,6 +74,66 @@ stop path. A GUI redeploy of an old invocation is not a supported retry.
 
 ## Configuration inventory
 
+### Validate the saved installation token before installation
+
+Use the existing workflow's **`inspect-installation`** operation. This is a
+separate read-only job, using the actual `RAILWAY_TOKEN` injected from
+`retention-execution`, not the Railway connector's separately authenticated
+identity or the `production` environment's token. It requires neither installation
+authorization nor handoff, SQL or signing credentials. Keep the repository
+`KINGDOM_RETENTION_EXECUTION_APPROVED=0`; no flag needs to be enabled to inspect.
+
+After this workflow change is reviewed, separately approved for merge, and passes
+post-merge CI:
+
+1. GitHub **Actions → Reviewed recovery copy retirement → Run workflow**.
+2. Select **`release/production`**, operation **`inspect-installation`**, and a
+   fresh request UUID. Do not rerun an earlier attempt or select an installation
+   operation. Approve the existing protected **`production`** environment gate.
+3. Read only the fixed `RETENTION_TOKEN_PROJECT`, `RETENTION_TOKEN_ENVIRONMENT`,
+   `RETENTION_INSTALLATION_METADATA` and `RETENTION_INSTALLATION_INSPECTION` lines.
+   A complete PASS requires MATCH for both token identities and valid nine-field
+   target metadata. Failure reports only a fixed category; never share the token,
+   provider body or secret values. On authentication/identity failure, stop. Do
+   not install, rotate credentials automatically, or change the expected target
+   to make a mismatched token pass.
+
+The one authenticated query is `projectToken { projectId environmentId }`, using
+Railway's project-token header and a fixed HTTPS endpoint. Expected identities
+are pinned to project `41a664f1-06bb-492e-90ef-cfd9635fc67f` and environment
+`8ced8aef-352e-4ea9-931d-8963ff352c1c`. The job compares these privately with
+the environment variables, injected target metadata and server response. It does
+not query variables or databases, commit the pending patch, invoke Railway CLI,
+upload a worker, or grant installation/retirement authority. Output contains no
+credentials, response bodies, credential lengths, fragments or credential hashes.
+Transport, authorization, malformed responses and mismatched scopes fail closed;
+there is one request and no retry.
+
+An inspection PASS proves the injected secret's project/environment scope at
+that moment, not mutation permissions, completion of resource installation, or
+database provenance. Both actual installation operations independently recheck
+the token before provider preflight, variable writes or uploads. Existing live
+GitHub owner/job checks, resource preflight, disabled flags, exact-ID completion,
+separate installation approval and production mutex remain mandatory.
+
+As of preparation, the saved secret and metadata entries are owner-reported;
+their actual injected values remain **UNVERIFIED until this protected run**.
+Read-only Railway connector inspection still found patch
+`4dccbea1-aef9-4aeb-b09a-587d0e37cadd` STAGED with exactly 15 changes, unchanged
+since `2026-10-28T23:44:37.665Z`. These touch only the two new disabled workers,
+dedicated journal volume and private handoff bucket; no existing service,
+PostgreSQL volume, shared variable or networking toggle changes are staged.
+This read does not authenticate the saved GitHub secret.
+
+After successful inspection, the next phase remains an **owner-approved bounded
+installation**, not automatic continuation: reconcile that exact patch afresh,
+obtain explicit authorization for its deployment-free configuration commit, then
+separately authorize `initialize-journal` and `install-disabled` as described
+below. Current installation preflight correctly refuses the nonempty staged
+patch and resources that exist only as staged creations. Do not use ordinary
+Railway Deploy as a shortcut. Keep all recovery copies, emergency OIDs 106971
+and 129180, adoption/retirement protections and signing isolation unchanged.
+
 Repository variables (visible to the initial gate):
 
 - `KINGDOM_RETENTION_INSTALLATION_APPROVED=0` initially. Later approve only the two

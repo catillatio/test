@@ -6,6 +6,10 @@ export const setupOperations=Object.freeze(['initialize-journal','install-disabl
 export function installationTarget(env){
  assert.equal(env.KINGDOM_RETENTION_INSTALLATION_APPROVED,'1');assert.ok(setupOperations.includes(env.RETENTION_OPERATION));
  assert.equal(env.GITHUB_REPOSITORY,'catillatio/test');assert.equal(env.GITHUB_REF,'refs/heads/release/production');assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(env.GITHUB_JOB,'retire');assert.equal(env.GITHUB_RUN_ATTEMPT,'1');assert.match(env.GITHUB_SHA??'',/^[a-f0-9]{40}$/);
+ return installationMetadata(env);
+}
+// Structural metadata validation carries no installation or execution authority.
+export function installationMetadata(env){
  const t=JSON.parse(env.KINGDOM_RETENTION_INSTALL_TARGET);assert.deepEqual(Object.keys(t).sort(),['projectId','environmentId','operatorServiceId','authorizerServiceId','journalVolumeId','gameServiceId','productionServiceId','verificationServiceId','verificationWorkerServiceId'].sort());
  for(const id of Object.values(t))assert.match(id,uuid);
  assert.equal(new Set([t.operatorServiceId,t.authorizerServiceId,t.gameServiceId,t.productionServiceId,t.verificationServiceId,t.verificationWorkerServiceId]).size,6);
@@ -20,6 +24,7 @@ export async function installDisabled({env,provider,bundle,signal,log=()=>{},fet
  assert.equal(String(run.id),env.GITHUB_RUN_ID);assert.equal(run.run_attempt,1);assert.equal(run.head_sha,env.GITHUB_SHA);assert.equal(run.head_branch,'release/production');assert.equal(run.event,'workflow_dispatch');assert.equal(run.status,'in_progress');assert.equal(run.path,'.github/workflows/recovery-copy-retention.yml');assert.equal(run.head_repository?.full_name,'catillatio/test');
  const jobs=await get('/actions/runs/'+env.GITHUB_RUN_ID+'/attempts/1/jobs?per_page=100');assert.equal(jobs.total_count,jobs.jobs.length);assert.ok(jobs.jobs.length<=100);
  const gate=jobs.jobs.filter(j=>j.name==='owner-approval'),active=jobs.jobs.filter(j=>j.name==='retire');assert.equal(gate.length,1);assert.equal(active.length,1);assert.equal(gate[0].conclusion,'success');assert.equal(gate[0].status,'completed');assert.equal(active[0].status,'in_progress');assert.equal(active[0].run_attempt,1);
+ signal?.throwIfAborted();await provider.tokenIdentity(target,{signal});
  await provider.preflight(target);signal?.throwIfAborted();
  const roleList=env.RETENTION_OPERATION==='initialize-journal'?['executor']:['executor','authorizer'];
  const started=[];
