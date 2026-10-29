@@ -40,8 +40,16 @@ test('adversarial worker guards preserve inactive/login-enabled targets, paused 
  try{
   await provisionBots(r.db,{nodeEnv:'test',allowProvisioning:true});
   const all=(await r.db.query<{id:string}>('SELECT character_id AS id FROM development_bots ORDER BY character_id')).rows.map(row=>row.id);
-  let window=economyWindow(now);while(!economyCandidates(all,window).length)window++;
-  const id=economyCandidates(all,window)[0]!,bot=(await r.db.query('SELECT c.*,w.balance FROM characters c JOIN wallets w ON w.character_id=c.id WHERE c.id=$1',[id])).rows[0]!;
+  // The five-candidate cap is reranked every window, even for the same
+  // twelve-hour slot. Select a fixture actor scheduled in all four windows;
+  // otherwise the empty-purse assertion may inspect a decision never attempted.
+  let window=economyWindow(now),id:string|undefined;
+  for(let offset=0;offset<144&&!id;offset++,window++){
+   id=economyCandidates(all,window).find(candidate=>[1,2,3].every(n=>economyCandidates(all,window+n*144).includes(candidate)));
+   if(id)break;
+  }
+  assert.ok(id,'The fixture requires a candidate scheduled in each adversarial test window');
+  const bot=(await r.db.query('SELECT c.*,w.balance FROM characters c JOIN wallets w ON w.character_id=c.id WHERE c.id=$1',[id])).rows[0]!;
   // Restrict this adversarial synthetic fixture to one active candidate. The
   // independent populated-preservation test above retains all 450 active bots.
   await r.db.query('UPDATE development_bots SET active=false WHERE character_id<>$1',[id]);

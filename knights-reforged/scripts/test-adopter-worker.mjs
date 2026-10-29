@@ -32,7 +32,7 @@ try{
  const imageIdentity=JSON.parse(docker('run','--rm','--network','none','--entrypoint','cat',image,'/app/delivery-image.json'));assert.equal(imageIdentity.role,'adopter');
  await mkdir(join(dir,'objects'),{mode:0o700});await save('grants.json',[]);docker('network','create',net);
  const pgName=name+'-pg';containers.push(pgName);docker('run','-d','--name',pgName,'--network',net,'--network-alias','copy.railway.internal','--tmpfs','/var/lib/postgresql','-p','127.0.0.1::5432','-e','POSTGRES_USER=knights','-e','POSTGRES_PASSWORD=disposable-only','-e','POSTGRES_DB=kingdom_adopter_test','postgres:18-bookworm');
- await wait(()=>docker('exec',pgName,'pg_isready','-h','127.0.0.1','-U','knights','-d','kingdom_adopter_test').includes('accepting'));
+ await wait(()=>{try{return docker('exec',pgName,'pg_isready','-h','127.0.0.1','-U','knights','-d','kingdom_adopter_test').includes('accepting');}catch{return false;}});
  const port=docker('port',pgName,'5432/tcp').split(':').at(-1),url=new URL('postgres://knights:disposable-only@127.0.0.1:'+port+'/kingdom_adopter_test');
  const sha=execFileSync('git',['rev-parse','HEAD'],{cwd:app,encoding:'utf8'}).trim();fixtureDb=await prepareDatabase(url,randomUUID(),sha);
  const {scope,db}=fixtureDb;for(const oid of ['106971','129180'])await db.query('CREATE DATABASE kc_adopter_emergency_'+oid+' WITH OID = '+oid);
