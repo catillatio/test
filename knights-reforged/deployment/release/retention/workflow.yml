@@ -6,7 +6,7 @@ on:
       operation:
         description: Inspect installation token read-only, install disabled workers, or run a reviewed retention job
         type: choice
-        options: [inspect-installation, retire, adoption-review, reconcile, initialize-journal, install-disabled]
+        options: [inspect-installation, validate-handoff, retire, adoption-review, reconcile, initialize-journal, install-disabled]
         default: adoption-review
         required: true
       request_id:
@@ -16,7 +16,7 @@ on:
 permissions: {}
 jobs:
   owner-approval:
-    if: github.repository == 'catillatio/test' && github.ref == 'refs/heads/release/production' && (inputs.operation == 'inspect-installation' || vars.KINGDOM_RETENTION_EXECUTION_APPROVED == '1' || (vars.KINGDOM_RETENTION_INSTALLATION_APPROVED == '1' && (inputs.operation == 'initialize-journal' || inputs.operation == 'install-disabled')))
+    if: github.repository == 'catillatio/test' && github.ref == 'refs/heads/release/production' && (inputs.operation == 'inspect-installation' || (inputs.operation == 'validate-handoff' && vars.KINGDOM_RETENTION_EXECUTION_APPROVED == '0') || vars.KINGDOM_RETENTION_EXECUTION_APPROVED == '1' || (vars.KINGDOM_RETENTION_INSTALLATION_APPROVED == '1' && (inputs.operation == 'initialize-journal' || inputs.operation == 'install-disabled')))
     environment: production
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -48,9 +48,44 @@ jobs:
           KINGDOM_RETENTION_EXECUTION_APPROVED: ${{ vars.KINGDOM_RETENTION_EXECUTION_APPROVED }}
           RETENTION_REQUEST_ID: ${{ inputs.request_id }}
           RETENTION_OPERATION: ${{ inputs.operation }}
+  validate-handoff:
+    needs: owner-approval
+    if: inputs.operation == 'validate-handoff' && vars.KINGDOM_RETENTION_EXECUTION_APPROVED == '0'
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        environment: [retention-execution, retention-signing]
+    environment: ${{ matrix.environment }}
+    concurrency:
+      group: kingdom-come-production
+      cancel-in-progress: false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {ref: '${{ github.sha }}', persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - run: npm ci --ignore-scripts --omit=dev --no-audit --no-fund --prefix knights-reforged/deployment/release
+      - name: Validate dedicated handoff only; execution remains disabled
+        working-directory: knights-reforged
+        run: node deployment/release/retention/delivery/validate-handoff.mjs
+        env:
+          KINGDOM_RETENTION_EXECUTION_APPROVED: ${{ vars.KINGDOM_RETENTION_EXECUTION_APPROVED }}
+          KINGDOM_RETENTION_STORE_ENDPOINT: ${{ vars.KINGDOM_RETENTION_STORE_ENDPOINT }}
+          KINGDOM_RETENTION_STORE_REGION: ${{ vars.KINGDOM_RETENTION_STORE_REGION }}
+          KINGDOM_RETENTION_STORE_BUCKET: ${{ vars.KINGDOM_RETENTION_STORE_BUCKET }}
+          KINGDOM_RETENTION_STORE_PATH_STYLE: ${{ vars.KINGDOM_RETENTION_STORE_PATH_STYLE }}
+          KINGDOM_RETENTION_STORE_ACCESS_KEY_ID: ${{ secrets.KINGDOM_RETENTION_STORE_ACCESS_KEY_ID }}
+          KINGDOM_RETENTION_STORE_SECRET_ACCESS_KEY: ${{ secrets.KINGDOM_RETENTION_STORE_SECRET_ACCESS_KEY }}
+          RETENTION_REQUEST_ID: ${{ inputs.request_id }}
+          RETENTION_OPERATION: ${{ inputs.operation }}
+          RETENTION_HANDOFF_ENVIRONMENT: ${{ matrix.environment }}
   retire:
     needs: owner-approval
-    if: inputs.operation != 'inspect-installation'
+    if: inputs.operation != 'inspect-installation' && inputs.operation != 'validate-handoff'
     environment: retention-execution
     concurrency:
       group: kingdom-come-production

@@ -11,7 +11,7 @@ test('manual retention workflow is default-disabled, owner-gated before the rele
  assert.match(template,/timeout-minutes: 5/);assert.match(template,/actions: read/);assert.doesNotMatch(template,/schedule:|upload-artifact|self-hosted|runner-group|always\(\)/);
  assert.equal(await read('../.github/workflows/recovery-copy-retention.yml'),template);
  assert.match(gate,/vars\.KINGDOM_RETENTION_EXECUTION_APPROVED == '1'/);
- assert.match(template,/options: \[inspect-installation, retire, adoption-review, reconcile, initialize-journal, install-disabled\]/);assert.match(template,/default: adoption-review/);
+ assert.match(template,/options: \[inspect-installation, validate-handoff, retire, adoption-review, reconcile, initialize-journal, install-disabled\]/);assert.match(template,/default: adoption-review/);
 });
 test('private entrypoint has no arbitrary dispatch paths, shell/SQL execution or public result artifacts',async()=>{
  const job=await read('deployment/release/retention/job.mjs'),spool=await read('deployment/release/retention/spool.mjs');
