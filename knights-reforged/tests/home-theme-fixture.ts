@@ -10,7 +10,7 @@ import { transaction } from "../src/db.js";
 import { purchaseItems } from "../src/inventory.js";
 import { buyEstate } from "../src/estate.js";
 import { expandedContent } from "../src/expansion-content.js";
-export async function homeThemeFixture() {
+export async function uiThemeFixture() {
   const r = await classicProfileFixture();
   try {
     for (const actor of [r.owner, r.rival, r.patron])

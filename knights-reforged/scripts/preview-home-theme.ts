@@ -1,11 +1,11 @@
 // Private cloud preview with synthetic local test data; never a production realm.
 import { createApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
-import { homeThemeFixture } from "../tests/home-theme-fixture.js";
+import { uiThemeFixture } from "../tests/home-theme-fixture.js";
 import { testDatabaseUrl } from "../tests/helpers.js";
 if (!testDatabaseUrl)
   throw Error("A designated local *_test TEST_DATABASE_URL is required.");
-const fixture = await homeThemeFixture(),
+const fixture = await uiThemeFixture(),
   apps: Awaited<ReturnType<typeof createApp>>[] = [];
 async function close() {
   for (const app of apps) await app.close();
@@ -23,11 +23,11 @@ try {
       app = await createApp({
         db: fixture.db,
         config,
-        ...(themed ? { homeTheme: "iron-brass" as const } : {}),
+        ...(themed ? { uiTheme: "iron-brass" as const } : {}),
       });
     apps.push(app);
     console.log(
-      (themed ? "Home review" : "Current UI") +
+      (themed ? "Realm review" : "Current UI") +
         ": " +
         (await app.listen({ host: "127.0.0.1", port })) +
         "/game/home",

@@ -1,6 +1,6 @@
 import type { Config } from "./config.js";
 // Review composition only: never selected by an HTTP input or production startup.
-export function homeThemePreview(
+export function uiThemePreview(
   value: unknown,
   config: Pick<Config, "nodeEnv" | "origin">,
 ) {
@@ -13,7 +13,7 @@ export function homeThemePreview(
     )
   )
     throw Error(
-      "Home theme review requires an isolated loopback test preview.",
+      "Realm theme review requires an isolated loopback test preview.",
     );
   return true;
 }
