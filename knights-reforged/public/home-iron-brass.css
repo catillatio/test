@@ -1,0 +1,1343 @@
+/* HOME / IRON & BRASS — isolated presentation review.
+   One consolidated Home stylesheet replaces the phase stack in the local
+   review composition. Existing Home DOM, controls, copy and routes are intact. */
+@layer foundation, shell, resources, controls, home, responsive;
+@layer foundation {
+  :root {
+    color-scheme: dark;
+    --ink: #0c0b09;
+    --surface: #181612;
+    --paper: #eee4cf;
+    --muted: #beb39e;
+    --gold: #d3b172;
+    --edge: #8b713f;
+    --line: #a98a4d52;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: Arial, Helvetica, sans-serif;
+    --focus: #f2d595;
+    --iron:
+      radial-gradient(ellipse at 20% 0, #b49b6020, transparent 65%),
+      linear-gradient(120deg, #25231d, #121210 65%, #1c1a15);
+    --bronze:
+      linear-gradient(110deg, #f5d99420, transparent 50%),
+      linear-gradient(#9e7b41, #6b4a20 48%, #513712);
+    --relief: inset 0 1px #efd4a44a, inset 0 -2px #0009, 0 3px 7px #0009;
+    --frame: inset 0 0 0 2px #0008, inset 0 0 0 3px #d4ad5f17, 0 5px 12px #0009;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    min-width: 320px;
+    scroll-padding-block: 20px 90px;
+  }
+  body {
+    margin: 0;
+    color: var(--paper);
+    background: #090908;
+    font: 14px/1.45 var(--sans);
+    font-variant-numeric: tabular-nums;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, #070605dd, #18120cd9, #070605dd),
+      url("art/remaster-ui/castle-illustration.webp") center/cover;
+    pointer-events: none;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  dl,
+  figure {
+    margin: 0;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--serif);
+    line-height: 1.2;
+  }
+  a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+  a:hover {
+    color: #ffe5b1;
+  }
+  svg {
+    fill: currentColor;
+    flex: none;
+  }
+  img {
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+  button,
+  summary {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  form,
+  dd {
+    margin: 0;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+  button,
+  a,
+  input,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .sr-only,
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .gold,
+  [data-flow="positive"] {
+    color: var(--gold);
+  }
+  .cost,
+  .upkeep-cost,
+  [data-flow="negative"] {
+    color: #dca18a;
+  }
+  .warning {
+    color: #deb893;
+  }
+  .compact-help,
+  .field-hint {
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 12px 0;
+  }
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+  }
+  .plain-list {
+    list-style: none;
+    margin: 10px 0;
+    padding: 0;
+  }
+  .plain-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ffffff0b;
+  }
+  .skip-link {
+    position: fixed;
+    z-index: 100;
+    top: -60px;
+    left: 12px;
+    padding: 12px;
+    background: #e6cb91;
+    color: #17120a;
+  }
+  .skip-link:focus {
+    top: 8px;
+  }
+  .action-feedback:empty,
+  .connection-status:empty {
+    display: none;
+  }
+}
+@layer shell {
+  .app-shell {
+    max-width: 960px;
+    margin: auto;
+    position: relative;
+    min-height: 100vh;
+  }
+  .page-column {
+    background:
+      radial-gradient(ellipse at 50% 0, #67441c15, transparent 650px), #11110ff5;
+    border-inline: 1px solid #9f82454a;
+    box-shadow:
+      0 0 0 3px #03030290,
+      0 0 50px #000d;
+    min-height: 100vh;
+  }
+  .page-backdrop {
+    display: none;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 52px;
+    padding: 4px 16px;
+    border-bottom: 1px solid #9e7d44;
+    background:
+      linear-gradient(90deg, #100d08c9, #21170bc7),
+      url("art/remaster-ui/castle-illustration.webp") center 29% / cover;
+    box-shadow:
+      inset 0 1px #e0bd7540,
+      inset 0 -3px #0008;
+  }
+  .realm-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: none;
+    color: #efe2c4;
+    font: 700 20px/1.1 var(--serif);
+    white-space: nowrap;
+    text-shadow: 0 2px 2px #000;
+  }
+  .realm-brand img {
+    width: 27px;
+    height: 32px;
+    filter: drop-shadow(0 3px 3px #000a);
+  }
+  .realm-brand small {
+    display: block;
+    color: #cfb985;
+    font: 8px/1.8 var(--sans);
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+  }
+  .account-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-width: 0;
+    max-width: 110px;
+    gap: 8px;
+  }
+  .account-name {
+    min-width: 0;
+    flex: 1;
+    color: #c4bba8;
+    font-size: 9px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .profile-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 4px;
+    font: 13px var(--serif);
+    color: #e4c38a;
+  }
+  .main-content {
+    padding: 0 16px calc(83px + env(safe-area-inset-bottom));
+  }
+  .character-header {
+    margin: 0 -16px 13px;
+  }
+  .page-heading {
+    position: relative;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background:
+      linear-gradient(90deg, #11100de6, #18130c99),
+      url("art/remaster-ui/castle-illustration.webp") center 47% / cover;
+    min-height: 44px;
+  }
+  .page-heading h1 {
+    font: 700 29px/1 var(--serif);
+    letter-spacing: -0.6px;
+    color: #f0dfb8;
+    text-shadow: 0 3px 2px #000;
+  }
+  .page-heading::after {
+    content: "◆";
+    flex: 1;
+    font-size: 8px;
+    color: #c39c57;
+    text-align: left;
+    padding-left: 5px;
+    background: linear-gradient(90deg, #c5a26570, transparent) center/100% 1px
+      no-repeat;
+    text-shadow: 0 0 3px #090704;
+  }
+  .primary-nav {
+    position: fixed;
+    z-index: 40;
+    inset: auto 0 0;
+    margin: auto;
+    max-width: 960px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding: 3px 3px env(safe-area-inset-bottom);
+    border: 1px solid #a2864b;
+    background: linear-gradient(#29261e, #0e0e0c 80%);
+    box-shadow:
+      inset 0 1px #f6d58750,
+      inset 0 0 0 3px #0008,
+      0 -4px 15px #000a;
+  }
+  .primary-nav::before {
+    content: "◆";
+    position: absolute;
+    top: -8px;
+    left: calc(50% - 7px);
+    font-size: 11px;
+    color: #d1ae6a;
+    text-shadow: 0 2px #000;
+    background: #161410;
+    padding-inline: 3px;
+    line-height: 12px;
+  }
+  .nav-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
+    min-height: 57px;
+    padding: 6px 2px;
+    color: #c7c1b2;
+    font: 700 12px/1.1 var(--serif);
+    border-right: 1px solid #9d865334;
+    text-shadow: 0 2px #000;
+  }
+  .nav-link:last-child {
+    border: 0;
+  }
+  .nav-link:hover {
+    text-decoration: none;
+    background: #e8d29b09;
+  }
+  .nav-icon {
+    width: 25px;
+    height: 25px;
+    filter: drop-shadow(0 2px 1px #000);
+  }
+  .nav-link.is-current {
+    color: #f2d58f;
+    background: radial-gradient(ellipse at bottom, #c7953833, transparent 80%);
+    box-shadow:
+      inset 0 1px #e2bf7245,
+      inset 0 -2px #a5813d9c,
+      0 -3px 12px #b7802517;
+  }
+  .nav-unread {
+    position: absolute;
+    top: 2px;
+    right: calc(50% - 24px);
+    color: #ffedce;
+    background: linear-gradient(#a14f32, #69291c);
+    border: 1px solid #dab880;
+    border-radius: 50%;
+    padding: 2px 4px;
+    min-width: 16px;
+    text-align: center;
+    font: 10px/1.1 var(--sans);
+    box-shadow: 0 1px 2px #000;
+  }
+  .page-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding-top: 12px;
+    margin-top: 24px;
+    border-top: 1px solid var(--line);
+    color: #9f9787;
+    font-size: 10px;
+  }
+}
+@layer resources {
+  .realm-resources {
+    position: relative;
+    z-index: 20;
+    margin: 0 5px;
+    padding: 4px 6px 5px;
+    border: 1px solid #a58a4b;
+    border-top: 0;
+    background: var(--iron);
+    box-shadow: var(--frame);
+  }
+  .realm-resources::before,
+  .realm-resources::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    width: 5px;
+    border-block: 1px solid #c6a05b;
+    pointer-events: none;
+  }
+  .realm-resources::before {
+    left: 2px;
+    border-left: 1px solid #b5914f;
+  }
+  .realm-resources::after {
+    right: 2px;
+    border-right: 1px solid #b5914f;
+  }
+  .resource-upper {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 110px 47px;
+    gap: 12px;
+    align-items: center;
+    padding: 6px 9px;
+  }
+  .gold-resource {
+    min-width: 0;
+  }
+  .gold-resource > .gold {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    font-size: 21px;
+    line-height: 1.1;
+    text-shadow: 0 2px #000;
+  }
+  .gold-resource > .gold::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 12px;
+    right: 0;
+    bottom: -5px;
+    height: 12px;
+    background: radial-gradient(ellipse, #d2a04438, transparent 72%);
+    filter: blur(4px);
+    pointer-events: none;
+  }
+  .gold-resource [data-wallet-gold] {
+    color: #e4c17d;
+    font: 700 23px/1.1 var(--serif);
+    letter-spacing: 0.15px;
+    background: linear-gradient(
+      180deg,
+      #fff0bd 2%,
+      #edce8a 37%,
+      #be9146 72%,
+      #edce8b
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    filter: drop-shadow(0 1px 1px #080602) drop-shadow(0 3px 4px #c28a3233);
+  }
+  .coin-icon {
+    color: #dbb768;
+    filter: drop-shadow(0 1px 1px #000) drop-shadow(0 3px 4px #c28a3238);
+  }
+  .income-disclosure > summary {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    min-height: 25px;
+    padding: 3px 0 0;
+    color: #cbbf9f;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .status-caret {
+    margin-left: 3px;
+    color: #c4a367;
+  }
+  .resource-upper > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    min-height: 44px;
+    border: 1px solid #bd9855;
+    outline: 2px solid #6a512a70;
+    outline-offset: 2px;
+    background: radial-gradient(ellipse at top, #74582866, #0e0e0c 75%);
+    color: #eac781;
+    box-shadow:
+      inset 0 0 0 2px #04040399,
+      0 3px 5px #0008;
+  }
+  .resource-upper > a strong {
+    font: 700 25px/1 var(--serif);
+    text-shadow: 0 2px #000;
+  }
+  .resource-upper > a small {
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .xp-resource > summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 44px;
+    padding: 5px 0;
+    gap: 6px;
+  }
+  .xp-resource small {
+    font-size: 10px;
+    color: #c5bca6;
+    text-align: right;
+    white-space: nowrap;
+  }
+  progress,
+  meter {
+    display: block;
+    width: 100%;
+    height: 5px;
+    border: 1px solid #8e785142;
+    border-radius: 0;
+    background: #020302;
+    accent-color: #bd9c54;
+    box-shadow: inset 0 1px 2px #000;
+  }
+  progress::-webkit-progress-bar {
+    background: #050504;
+  }
+  progress::-webkit-progress-value {
+    background: linear-gradient(#e0c282, #ac7b31);
+    box-shadow: inset 0 1px #ffedb360;
+  }
+  .resource-lower {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid #c1a1673b;
+    margin: 0 2px;
+    padding-top: 3px;
+  }
+  .resource-disclosure + .resource-disclosure {
+    border-left: 1px solid #b0986230;
+  }
+  .realm-resource {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 6px 3px;
+    min-height: 44px;
+  }
+  .stat-icon {
+    width: 20px;
+    height: 23px;
+    color: #c9a559;
+    filter: drop-shadow(0 2px 2px #000);
+  }
+  .health .stat-icon {
+    color: #ce7960;
+  }
+  .mana .stat-icon {
+    color: #76a6c0;
+  }
+  .resource-reading {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+  .resource-reading strong {
+    color: #e8e1cf;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .resource-reading small {
+    font-size: 9px;
+    color: #bfb8a7;
+    white-space: nowrap;
+  }
+  .resource-reading small time {
+    margin-left: 3px;
+  }
+  .resource-reading meter {
+    height: 4px;
+    margin-top: 4px;
+  }
+  meter::-webkit-meter-bar {
+    border: 0;
+    border-radius: 0;
+    background: #030403;
+  }
+  meter::-webkit-meter-optimum-value {
+    background: linear-gradient(#e1be71, #a97c30);
+  }
+  .health meter::-webkit-meter-optimum-value {
+    background: linear-gradient(#dc8b73, #9c4e3a);
+  }
+  .mana meter::-webkit-meter-optimum-value {
+    background: linear-gradient(#85b9ce, #3b708d);
+  }
+  .status-disclosure > summary {
+    list-style: none;
+  }
+  .status-disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+  .status-panel {
+    position: absolute;
+    z-index: 60;
+    top: 100%;
+    left: 4px;
+    right: 4px;
+    padding: 16px;
+    background: linear-gradient(#2b261d, #15130f);
+    border: 1px solid #b69455;
+    box-shadow:
+      var(--frame),
+      0 15px 40px #000d;
+    max-height: 65vh;
+    overflow: auto;
+    font-size: 12px;
+  }
+  .status-panel h2 {
+    font-size: 21px;
+    margin-bottom: 12px;
+    color: #e4cc99;
+  }
+  .status-panel p {
+    margin-top: 10px;
+  }
+  .status-panel dl {
+    margin: 12px 0;
+  }
+  .status-panel dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 5px 0;
+    border-bottom: 1px solid #ffffff08;
+  }
+  .status-panel dd {
+    text-align: right;
+  }
+  .status-panel .button {
+    margin-top: 12px;
+  }
+}
+@layer controls {
+  .button,
+  button:not(.tutorial-skip) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 9px 15px;
+    border: 1px solid #8c784d;
+    border-radius: 1px;
+    background: var(--iron);
+    box-shadow: var(--relief);
+    color: var(--paper);
+    font: 700 15px/1.2 var(--serif);
+    text-shadow: 0 1px 1px #000b;
+  }
+  .button-gold,
+  button.button-gold {
+    background: var(--bronze);
+    border-color: #bc9a5b;
+    border-top-color: #ead099;
+    color: #fff0cb;
+    box-shadow:
+      var(--relief),
+      0 4px 11px #b7802526;
+  }
+  .button:hover:not(:disabled),
+  button:hover:not(:disabled) {
+    filter: brightness(1.1);
+    border-color: #dcc083;
+    text-decoration: none;
+  }
+  .button:active,
+  button:active {
+    box-shadow: inset 0 2px 5px #0008;
+    transform: translateY(1px);
+  }
+  button:disabled {
+    background: #2a261e;
+    color: #aaa18d;
+    border-color: #59503f;
+    box-shadow: none;
+  }
+  input:not([type="hidden"]),
+  textarea,
+  select {
+    color: var(--paper);
+    background: #0d0c09;
+    border: 1px solid #8b7449;
+    padding: 9px;
+    max-width: 100%;
+    border-radius: 1px;
+  }
+  label {
+    display: block;
+    margin: 6px 0;
+    font-size: 12px;
+  }
+  .notice {
+    padding: 12px;
+    margin-bottom: 14px;
+    border: 1px solid #8c764b;
+    background: #312819;
+    color: #e4d2ad;
+    font-size: 12px;
+  }
+  .notice-error {
+    color: #ebbd9e;
+    border-color: #ad775b;
+  }
+  .category-tabs {
+    display: flex;
+    border: 1px solid #6b5937;
+    margin: 10px 0;
+    background: var(--iron);
+  }
+  .category-tabs > a {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 7px;
+    font-size: 12px;
+    color: #c0b69f;
+  }
+  .category-tabs > a[aria-current] {
+    color: #eed7a2;
+    background: linear-gradient(#58432588, #302718);
+    box-shadow: inset 0 -2px #c4a264;
+  }
+  .panel,
+  .message-form,
+  .calling-row {
+    border: 1px solid #75603b;
+    padding: 14px;
+    margin: 12px 0;
+    background: var(--iron);
+    box-shadow: var(--frame);
+  }
+  .panel h2,
+  .message-form h2 {
+    font-size: 21px;
+    margin-bottom: 10px;
+  }
+  .field-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+}
+@layer home {
+  .royal-announcement,
+  .tutorial-invitation,
+  .tutorial-resume {
+    position: relative;
+    border: 1px solid #a1854b;
+    box-shadow: var(--frame);
+    margin-bottom: 13px;
+    border-radius: 1px;
+  }
+  .royal-announcement {
+    padding: 13px 17px 13px 19px;
+    background: linear-gradient(100deg, #3b302047, #11110ff0 65%), var(--iron);
+  }
+  .royal-announcement::before,
+  .tutorial-resume::before,
+  .tutorial-invitation::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid #b59a5e20;
+    pointer-events: none;
+  }
+  .royal-announcement::after,
+  .tutorial-resume::after,
+  .tutorial-invitation::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background:
+      linear-gradient(#e0bc72, #e0bc72) left top/12px 1px no-repeat,
+      linear-gradient(#e0bc72, #e0bc72) left top/1px 12px no-repeat,
+      linear-gradient(#b99553, #b99553) right bottom/12px 1px no-repeat,
+      linear-gradient(#b99553, #b99553) right bottom/1px 12px no-repeat;
+  }
+  .royal-announcement h2 {
+    font-size: 22px;
+    color: #e7cc94;
+    margin-bottom: 6px;
+    text-shadow: 0 2px #000;
+  }
+  .royal-announcement p {
+    font: 12px/1.5 var(--sans);
+    color: #d0c9b9;
+  }
+  .royal-announcement p + h2 {
+    margin-top: 15px;
+  }
+  .tutorial-invitation,
+  .tutorial-resume {
+    padding: 12px 16px;
+    background:
+      radial-gradient(ellipse at left, #92673533, transparent 70%),
+      linear-gradient(110deg, #30271b, #1a1712);
+  }
+  .tutorial-resume {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .tutorial-resume > p {
+    flex: 1;
+    min-width: 125px;
+    font: 700 16px var(--serif);
+    color: #e0cba2;
+    margin: 0;
+  }
+  .tutorial-invitation h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .tutorial-invitation p {
+    font-size: 12px;
+    color: #ccc0a9;
+  }
+  .tutorial-invitation form {
+    display: inline-block;
+    margin-top: 12px;
+  }
+  .tutorial-skip {
+    background: none;
+    color: var(--muted);
+    border: 0;
+    padding: 12px;
+    min-height: 44px;
+  }
+  .tutorial-success-note {
+    border: 1px solid #9b8150;
+    padding: 12px;
+    margin: 12px 0;
+    color: #e8ce91;
+    font-size: 12px;
+    background: #332a18;
+  }
+  .home-menu {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    margin: 15px 0;
+  }
+  .home-menu > .button {
+    position: relative;
+    justify-content: space-between;
+    min-height: 55px;
+    padding: 9px 12px;
+    color: #e9ddc2;
+    background:
+      linear-gradient(105deg, #191914ef, #0e0f0ded),
+      url("art/remaster-ui/castle-illustration.webp") center/cover;
+    border-color: #927847;
+    box-shadow:
+      inset 0 1px #d2b77932,
+      inset 0 0 0 2px #0008,
+      inset 0 0 0 3px #cbaa5920,
+      0 3px 7px #000a;
+    font-size: 15px;
+  }
+  .home-menu > .button:nth-child(2n) {
+    background-position: 65% 55%;
+  }
+  .home-menu > .button:nth-child(3n) {
+    background-position: center 75%;
+  }
+  .home-menu > .button::before {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    pointer-events: none;
+    border-left: 1px solid #d2ac6450;
+    border-right: 1px solid #d2ac6425;
+  }
+  .home-menu > .button::after {
+    content: "›";
+    font: 20px/1 var(--serif);
+    color: #c5a76a;
+    flex: none;
+    margin-left: 5px;
+  }
+  .home-menu > .button > span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .home-menu > .calling-menu-link {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 9px;
+    grid-template-rows: auto auto;
+    align-content: center;
+    gap: 1px 0;
+  }
+  .home-menu > .calling-menu-link > span {
+    grid-row: 1;
+  }
+  .home-menu > .calling-menu-link > small {
+    display: block;
+    grid-column: 1;
+    grid-row: 2;
+    padding-left: 34px;
+    font: 10px/1.3 var(--sans);
+    color: #b9aa8a;
+  }
+  .home-menu > .calling-menu-link::after {
+    grid-column: 2;
+    grid-row: 1 / 3;
+  }
+  .menu-icon {
+    width: 24px;
+    height: 26px;
+    color: #cfb477;
+    filter: drop-shadow(0 1px #f9d99d66) drop-shadow(0 3px 2px #000);
+  }
+  .home-menu > .button:hover {
+    background: linear-gradient(105deg, #443722, #17150f);
+  }
+  .home-menu > .button:focus-visible {
+    outline-offset: 3px;
+  }
+  .profile-section-heading {
+    position: relative;
+    font-size: 20px;
+    color: #e3c994;
+    padding: 10px 0;
+    margin-top: 20px;
+    border-bottom: 1px solid #a78a4b62;
+  }
+  .activity-entry {
+    padding: 13px;
+    border: 1px solid #8d75412e;
+    border-bottom-color: #8d75415e;
+    background: linear-gradient(120deg, #1f1d17, #11110e);
+    box-shadow: inset 0 1px #e4ca8a09;
+    margin-top: 5px;
+  }
+  .activity-entry h3 {
+    font: 600 12px/1.5 var(--sans);
+    color: #d9ceba;
+  }
+  .activity-entry p {
+    font-size: 11px;
+    color: #bfb49d;
+    margin-top: 5px;
+  }
+  .activity-entry time {
+    display: block;
+    font-size: 10px;
+    color: #a89b84;
+    margin-top: 6px;
+  }
+  .feed-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .feed-empty {
+    padding: 15px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .outcome-mark {
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding-right: 3px;
+    color: #c6b17d;
+  }
+  .outcome-defeat {
+    color: #c89172;
+  }
+  .feed-refresh {
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  .button-small {
+    font-size: 12px;
+    min-height: 40px;
+  }
+  .report-message {
+    font-size: 12px;
+  }
+  .report-message summary {
+    min-height: 40px;
+    padding: 10px;
+  }
+  .calling-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .calling-details > summary {
+    min-height: 44px;
+    padding-block: 12px;
+    color: #d8bc82;
+    font-size: 12px;
+  }
+  .calling-row {
+    padding: 10px;
+    border-left: 1px solid #a58a4a55;
+  }
+  .calling-row.is-current {
+    background: #7a5c2829;
+  }
+  .calling-panel .inline-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .calling-list {
+    display: grid;
+    gap: 10px;
+  }
+  .calling-row h3 {
+    font-size: 18px;
+  }
+  .calling-row p {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 8px 0;
+  }
+  .calling-row .button {
+    margin-top: 8px;
+  }
+}
+@layer responsive {
+  @media (min-width: 700px) {
+    .topbar {
+      padding: 5px 26px;
+      min-height: 58px;
+    }
+    .realm-brand {
+      font-size: 25px;
+      gap: 9px;
+    }
+    .realm-brand img {
+      width: 31px;
+      height: 36px;
+    }
+    .realm-brand small {
+      font-size: 8px;
+      letter-spacing: 1.7px;
+    }
+    .account-menu {
+      max-width: 260px;
+    }
+    .account-name {
+      font-size: 11px;
+    }
+    .profile-link {
+      font-size: 15px;
+      min-height: 44px;
+    }
+    .main-content {
+      padding-inline: 26px;
+    }
+    .character-header {
+      margin-inline: -26px;
+    }
+    .realm-resources {
+      margin-inline: 10px;
+      padding-inline: 12px;
+    }
+    .resource-upper {
+      grid-template-columns: minmax(0, 1.4fr) minmax(140px, 1fr) 48px;
+      gap: 25px;
+      padding: 9px 12px;
+    }
+    .gold-resource > .gold {
+      font-size: 27px;
+    }
+    .gold-resource [data-wallet-gold] {
+      font-size: 29px;
+    }
+    .gold-resource .coin-icon {
+      width: 19px;
+      height: 19px;
+    }
+    .income-disclosure > summary {
+      font-size: 11px;
+      min-height: 25px;
+    }
+    .resource-upper > a {
+      min-height: 44px;
+    }
+    .resource-upper > a strong {
+      font-size: 27px;
+    }
+    .resource-upper > a small {
+      font-size: 8px;
+    }
+    .xp-resource small {
+      font-size: 12px;
+    }
+    progress {
+      height: 5px;
+    }
+    .resource-lower {
+      padding-block: 4px;
+    }
+    .realm-resource {
+      padding: 5px 12px;
+      gap: 12px;
+    }
+    .stat-icon {
+      width: 21px;
+      height: 24px;
+    }
+    .resource-reading strong {
+      font-size: 14px;
+    }
+    .resource-reading small {
+      font-size: 10px;
+    }
+    .resource-reading meter {
+      height: 5px;
+      margin-top: 6px;
+    }
+    .page-heading {
+      min-height: 56px;
+      padding: 10px 26px;
+    }
+    .page-heading h1 {
+      font-size: 34px;
+    }
+    .page-heading::after {
+      font-size: 10px;
+    }
+    .royal-announcement {
+      padding: 22px 26px;
+    }
+    .royal-announcement h2 {
+      font-size: 27px;
+    }
+    .royal-announcement p {
+      font-size: 14px;
+    }
+    .tutorial-resume,
+    .tutorial-invitation {
+      padding: 20px 26px;
+    }
+    .tutorial-resume > p {
+      font-size: 20px;
+    }
+    .tutorial-resume .button {
+      font-size: 18px;
+      min-width: 230px;
+    }
+    .home-menu {
+      gap: 12px;
+      margin-block: 18px;
+    }
+    .home-menu > .button {
+      min-height: 65px;
+      padding: 13px 20px;
+      font-size: 20px;
+    }
+    .home-menu > .button > span {
+      gap: 15px;
+    }
+    .menu-icon {
+      width: 27px;
+      height: 29px;
+    }
+    .home-menu > .button::after {
+      font-size: 24px;
+    }
+    .nav-link {
+      flex-direction: row;
+      gap: 10px;
+      min-height: 59px;
+      font-size: 15px;
+    }
+    .nav-icon {
+      width: 26px;
+      height: 26px;
+    }
+    .nav-unread {
+      right: calc(50% - 47px);
+    }
+    .compact-help {
+      font-size: 13px;
+    }
+    .status-panel {
+      max-width: 620px;
+      margin: auto;
+    }
+    .category-tabs > a {
+      font-size: 14px;
+    }
+    .activity-entry h3 {
+      font-size: 14px;
+    }
+    .activity-entry p {
+      font-size: 12px;
+    }
+    .calling-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 359px) {
+    .main-content {
+      padding-inline: 11px;
+    }
+    .character-header {
+      margin-inline: -11px;
+    }
+    .topbar {
+      padding-inline: 11px;
+      gap: 8px;
+    }
+    .realm-brand {
+      font-size: 20px;
+      gap: 6px;
+    }
+    .realm-brand img {
+      width: 28px;
+      height: 33px;
+    }
+    .realm-brand small {
+      font-size: 7px;
+      letter-spacing: 1.2px;
+    }
+    .account-menu {
+      max-width: 75px;
+    }
+    .account-name {
+      font-size: 8px;
+    }
+    .profile-link {
+      font-size: 12px;
+    }
+    .resource-upper {
+      grid-template-columns: minmax(0, 1fr) 88px 40px;
+      gap: 9px;
+      padding-inline: 7px;
+    }
+    .gold-resource > .gold {
+      font-size: 18px;
+    }
+    .gold-resource [data-wallet-gold] {
+      font-size: 19px;
+    }
+    .income-disclosure > summary {
+      font-size: 9px;
+    }
+    .xp-resource small {
+      font-size: 9px;
+    }
+    .resource-upper > a strong {
+      font-size: 23px;
+    }
+    .realm-resource {
+      gap: 5px;
+      padding-inline: 4px;
+    }
+    .stat-icon {
+      width: 16px;
+      height: 19px;
+    }
+    .resource-reading strong {
+      font-size: 11px;
+    }
+    .resource-reading small {
+      font-size: 9px;
+      white-space: normal;
+      line-height: 1.3;
+    }
+    .home-menu {
+      gap: 7px;
+    }
+    .home-menu > .button {
+      font-size: 13px;
+      padding: 9px 10px;
+      min-height: 61px;
+    }
+    .home-menu > .button > span {
+      gap: 7px;
+    }
+    .menu-icon {
+      width: 21px;
+      height: 23px;
+    }
+    .home-menu > .button::after {
+      font-size: 17px;
+      margin-left: 2px;
+    }
+    .royal-announcement h2 {
+      font-size: 21px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  @media (forced-colors: active) {
+    .gold-resource [data-wallet-gold] {
+      background: none;
+      -webkit-text-fill-color: currentColor;
+      color: CanvasText;
+      filter: none;
+    }
+    .gold-resource > .gold::after {
+      display: none;
+    }
+    .button,
+    .realm-resources,
+    .primary-nav,
+    .royal-announcement,
+    .tutorial-resume,
+    .tutorial-invitation {
+      border: 1px solid CanvasText;
+    }
+    .nav-link.is-current {
+      outline: 2px solid Highlight;
+    }
+    progress,
+    meter {
+      forced-color-adjust: auto;
+    }
+  }
+}

@@ -39,7 +39,9 @@
     "test:browser:phase47": "tsx scripts/browser-phase47-test.ts",
     "test:browser:phase48": "tsx scripts/browser-phase48-test.ts",
     "test:serial": "tsx --test --test-concurrency=1 tests/*.test.ts tests/*.test.mjs",
-    "test:ci": "node scripts/ci/run-tests.mjs"
+    "test:ci": "node scripts/ci/run-tests.mjs",
+    "preview:home-theme": "tsx scripts/preview-home-theme.ts",
+    "test:browser:home-theme": "tsx scripts/browser-home-theme.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",

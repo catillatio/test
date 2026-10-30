@@ -1,3 +1,4 @@
+import {homeThemePreview} from './home-theme-preview.js';
 import {competitiveProfile} from './competitive-records.js';
 import {approvedEquipmentArt} from './equipment-artwork.js';
 import {coordinatedArt,coordinatedArtworkStatus} from './coordinated-artwork.js';
@@ -67,8 +68,9 @@ const safeReturn=(value:unknown)=>{
 const asBody = (request: FastifyRequest) => (request.body && typeof request.body === 'object' ? request.body : {}) as Record<string, unknown>;
 const wantsJson = (request: FastifyRequest) => request.url.startsWith('/api/') || (request.headers.accept ?? '').includes('application/json');
 
-export async function createApp(options: { db: Database; config: Config; logger?: boolean }) {
+export async function createApp(options: { db: Database; config: Config; logger?: boolean; homeTheme?: 'iron-brass' }) {
   const { db, config } = options;
+  const previewHomeTheme = homeThemePreview(options.homeTheme,config);
   const app = Fastify({ logger: options.logger ? { level: 'info', redact: ['req.headers.cookie', 'req.headers.authorization', 'req.body.password'] } : false,
     bodyLimit: 16384, trustProxy: false });
   await app.register(cookie);
@@ -83,7 +85,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   await app.register(fastifyStatic, { root: join(projectRoot, 'public'), prefix: '/assets/', maxAge: '1h',dotfiles:'deny',index:false,list:false });
   // Rules used by shared/nested views are application constants, not optional
   // page locals. This also covers direct views and error rendering contexts.
-  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { callingName,callingDescription,notifications:{home:0,army:0,events:[]},sound:mutedSound,soundEvent:null, competitiveProfile:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,bountyCount:0,nextBountyExpiry:null,gameplay,experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
+  await app.register(view, { engine: { ejs }, root: join(projectRoot, 'views'), defaultContext: { homeTheme:false, callingName,callingDescription,notifications:{home:0,army:0,events:[]},sound:mutedSound,soundEvent:null, competitiveProfile:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,bountyCount:0,nextBountyExpiry:null,gameplay,experience:null,experienceRules,announcements, recruitment:{allowed:false,reason:'Review in Recruit.',status:'none',automatic:false},refinements, bountyRules, pvp, bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},developmentBotBountiesEnabled:false } });
   app.decorateRequest('realmSession', null);
 
   const setSessionCookie = (reply: FastifyReply, token: string, authenticated: boolean) => reply.setCookie('kr_session', token, {
@@ -170,7 +172,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     }
     const chosenRegion=regionFilter(query.area,alpha.id);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
-    return reply.viewAsync('layout.ejs', {
+    return reply.viewAsync('layout.ejs', { homeTheme:previewHomeTheme&&screen==='home',
       screen, state,approvedEquipmentArt,coordinatedArt,regionalArt,presentationArt,recordedEquipment,authoritativeItems:contentCatalog(state?.rulesetId).items,approvedExpansionArt,preparedExpansionArt,expansionArtUse,rareQuestPolicy:state?.rareEquipmentEnabled?questRarities:null,competitiveProfile:null,champions:null,recentRivals:[],rivalry:null,championCategories,formatStanding,battleRewardNotes, bountyCount:counts.count,nextBountyExpiry:counts.nextExpiryAt,nav, rules, landRules, alpha, strategy, community, relativeTime, gameplay,experienceRules,announcements,questEquipment:null,tradeQuote:null,rivalRefresh:randomUUID(), developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled, actionResult,purchaseFeedback,
       bountyBoard:{active:[],history:[],eligible:false},
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',

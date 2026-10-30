@@ -7,6 +7,9 @@
   <meta name="description" content="Raise an army, take on quests, and challenge other warriors in Kingdom Come.">
   <title><%= title %> · Kingdom Come</title>
   <link rel="icon" type="image/svg+xml" href="/assets/art/remaster-ui/crest.svg?v=phase48-mockup2">
+  <% const themedHome=typeof homeTheme!=='undefined'&&homeTheme; if(themedHome) { %>
+  <link rel="stylesheet" href="/assets/home-iron-brass.css?v=home-review-1">
+  <% } else { %>
   <link rel="stylesheet" href="/assets/styles.css?palette=charcoal-2">
   <link rel="stylesheet" href="/assets/kingdoms-live.css?v=phase48-mockup2&palette=charcoal-2">
   <link rel="stylesheet" href="/assets/alpha.css?v=phase48-mockup2&palette=charcoal-2">
@@ -32,8 +35,9 @@
   <% if(screen==='bounties'||screen==='battle') { %><link rel="stylesheet" href="/assets/bounty-list.css?v=bounty-list-3&palette=charcoal-2"><% } %>
   <% if(screen==="land") { %><link rel="stylesheet" href="/assets/land-premium-preview.css?v=land-direction-1&palette=charcoal-2"><% } %>
   <link rel="stylesheet" href="/assets/ui-components.css?v=approved-classic-1">
+  <% } %>
 </head>
-<body data-sound-enabled="<%= soundConfig.enabled?'1':'0' %>" data-sound-volume="<%= soundConfig.volume %>" data-sound-event="<%= JSON.stringify(soundResult) %>" class="kingdoms-ui realm-remaster <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new','champions'].includes(screen) ? 'battle' : screen %>">
+<body data-sound-enabled="<%= soundConfig.enabled?'1':'0' %>" data-sound-volume="<%= soundConfig.volume %>" data-sound-event="<%= JSON.stringify(soundResult) %>" class="kingdoms-ui realm-remaster <%= themedHome?'home-theme-review':'' %> <%= state ? 'signed-in' : 'signed-out' %> screen-<%= ['report','bounties','bounty-confirm','bounty-new','champions'].includes(screen) ? 'battle' : screen %>">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="app-shell">
     <div class="page-backdrop" aria-hidden="true"></div>
