@@ -27,7 +27,13 @@ async function shot(width:number,name:string,selector?:string){
  if(!verifyOnly)await page.screenshot({path:out+'/'+width+'-'+name+'.png',animations:'disabled'});
  const styles=await page.locator('.guide-lesson,.guide-done,.tutorial-complete,.quest-result,.achievement-row,.achievement-toast,.resource-lower').evaluateAll(nodes=>nodes.slice(0,8).map(n=>({class:n.className,background:getComputedStyle(n).background,color:getComputedStyle(n).color})));
  if(!baseline){
-  assert.equal(await page.locator('.resource-lower').evaluate(n=>getComputedStyle(n).backgroundImage),'linear-gradient(rgb(54, 54, 54) 0%, rgb(54, 54, 54) 12%, rgb(54, 54, 54) 45%, rgb(36, 36, 36) 100%)','The approved resource header uses a charcoal surface');
+  // The consolidated resource shell supplies its children's charcoal material;
+  // a transparent lower row is valid. Verify the actual palette rather than an
+  // obsolete gradient string from the historical stylesheet stack.
+  const resourcePaint=await page.locator('.resource-lower').evaluate(n=>[n,n.closest('.realm-resources')!].map(el=>{const s=getComputedStyle(el);return s.backgroundColor+' '+s.backgroundImage;}).join(' '));
+  const resourceTones=[...resourcePaint.matchAll(/rgba?\((\d+), (\d+), (\d+)(?:, ([\d.]+))?\)/g)].map(m=>({r:Number(m[1]),g:Number(m[2]),b:Number(m[3]),alpha:m[4]===undefined?1:Number(m[4])})).filter(t=>t.alpha>0);
+  assert.ok(resourceTones.some(t=>t.alpha>=.5&&Math.max(t.r,t.g,t.b)<=70),'The resource shell retains a dark charcoal material');
+  assert.ok(resourceTones.every(t=>!(t.g>t.r+5&&t.g>t.b+5)&&t.b<=t.r+8),'Resource surfaces remain neutral charcoal/brass, without green or blue panel tint');
   for(const s of styles)for(const match of s.background.matchAll(/rgba?\((\d+), (\d+), (\d+)/g))assert.ok(!(Number(match[2])>Number(match[1])+5&&Number(match[2])>Number(match[3])+5),'No remaining green panel fill: '+s.class);
  }
  evidence.push({width,name,styles});

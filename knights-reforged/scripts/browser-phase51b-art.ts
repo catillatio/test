@@ -30,7 +30,9 @@ async function visit(path:string){
 }
 async function inspectArt(selector:string,id:string){
  const info=await page.locator(selector).evaluate(async e=>{
-  const s=getComputedStyle(e),b=e.getBoundingClientRect(),frame=e.closest('.property-art-frame')?.getBoundingClientRect();
+  const s=getComputedStyle(e),b=e.getBoundingClientRect(),frameElement=e.closest('.property-art-frame'),frame=frameElement?.getBoundingClientRect(),frameStyle=frameElement?getComputedStyle(frameElement):null;
+  const framePaddingAbsent=!frameStyle||[frameStyle.paddingTop,frameStyle.paddingRight,frameStyle.paddingBottom,frameStyle.paddingLeft].every(value=>parseFloat(value)===0);
+  const frameContent=frame&&frameStyle?{left:frame.left+parseFloat(frameStyle.borderLeftWidth),top:frame.top+parseFloat(frameStyle.borderTopWidth),width:frame.width-parseFloat(frameStyle.borderLeftWidth)-parseFloat(frameStyle.borderRightWidth),height:frame.height-parseFloat(frameStyle.borderTopWidth)-parseFloat(frameStyle.borderBottomWidth)}:null;
   const url=/^url\(["']?(.*?)["']?\)$/.exec(s.backgroundImage)![1]!;
   const image=new Image();image.src=url;await image.decode();
   const c=document.createElement('canvas');c.width=image.naturalWidth;c.height=image.naturalHeight;
@@ -39,12 +41,12 @@ async function inspectArt(selector:string,id:string){
   for(let x=0;x<c.width;x++){top.push(x*4);bottom.push(((c.height-1)*c.width+x)*4);}
   for(let y=0;y<c.height;y++){left.push(y*c.width*4);right.push((y*c.width+c.width-1)*4);}
   let opaque=true;for(let i=3;i<pixels.length;i+=4)if(pixels[i]!==255){opaque=false;break;}
-  return {image:s.backgroundImage,size:s.backgroundSize,position:s.backgroundPosition,repeat:s.backgroundRepeat,color:s.backgroundColor,filter:s.filter,border:s.borderTopWidth,shadow:s.boxShadow,radius:s.borderTopLeftRadius,width:b.width,height:b.height,label:e.getAttribute('aria-label'),naturalWidth:image.naturalWidth,naturalHeight:image.naturalHeight,opaque,edgeColors:[top,bottom,left,right].map(points=>new Set(points.map(p=>`${pixels[p]},${pixels[p+1]},${pixels[p+2]},${pixels[p+3]}`)).size),fillsFrame:!frame||Math.abs(frame.width-b.width)<.1&&Math.abs(frame.height-b.height)<.1};
+  return {image:s.backgroundImage,size:s.backgroundSize,position:s.backgroundPosition,repeat:s.backgroundRepeat,color:s.backgroundColor,filter:s.filter,border:s.borderTopWidth,shadow:s.boxShadow,radius:s.borderTopLeftRadius,width:b.width,height:b.height,label:e.getAttribute('aria-label'),naturalWidth:image.naturalWidth,naturalHeight:image.naturalHeight,opaque,edgeColors:[top,bottom,left,right].map(points=>new Set(points.map(p=>`${pixels[p]},${pixels[p+1]},${pixels[p+2]},${pixels[p+3]}`)).size),framePaddingAbsent,fillsFrame:!frameContent||Math.abs(frameContent.left-b.left)<.1&&Math.abs(frameContent.top-b.top)<.1&&Math.abs(frameContent.width-b.width)<.1&&Math.abs(frameContent.height-b.height)<.1};
  });
  assert.ok(info.image.includes('/art/properties-51b-fullbleed-2/'+id+'.webp'),id);
  assert.equal(info.size,'cover');assert.equal(info.position,'50% 0%');assert.equal(info.repeat,'no-repeat');
  assert.equal(info.filter,'none');assert.equal(info.color,'rgba(0, 0, 0, 0)');
- assert.equal(info.border,'0px');assert.equal(info.radius,'0px');assert.equal(info.shadow,'none');assert.ok(info.fillsFrame);
+ assert.equal(info.border,'0px');assert.equal(info.radius,'0px');assert.equal(info.shadow,'none');assert.ok(info.framePaddingAbsent,'Artwork frames have no inner padding');assert.ok(info.fillsFrame,'Artwork fills the frame content box without gaps');
  assert.ok(info.opaque);assert.ok(info.edgeColors.every(n=>n>=8),'No uniform embedded edge strips: '+id);
  const asset=manifest.assets.find((a:any)=>a.id===id),scale=Math.max(info.width/info.naturalWidth,info.height/info.naturalHeight);
  const visible={left:(info.naturalWidth-info.width/scale)/2,top:0,width:info.width/scale,height:info.height/scale};

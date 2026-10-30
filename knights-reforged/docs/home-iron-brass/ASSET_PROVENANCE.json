@@ -1,0 +1,94 @@
+{
+  "purpose": "Isolated shared realm UI review decoration; no approved equipment or property artwork replaced",
+  "generator": "image_gen",
+  "approval": "owner visual review pending; internal local test preview only",
+  "processing": "Technical alpha-bound extraction, aspect-fit atlas normalization, resizing and WebP optimization. No illustration recoloring or redrawing. Original PNGs retained byte-for-byte outside production assets.",
+  "sources": [
+    {
+      "file": "docs/home-iron-brass/source-art/icons-source.png",
+      "sha256": "ca736a9155d2b7b16e14c76512bf5f0875f7eb718e8bc9e240bd8f37b819edec",
+      "bytes": 2045951
+    },
+    {
+      "file": "docs/home-iron-brass/source-art/resources-source.png",
+      "sha256": "db7622f67cc8b12c2faf205837f6fd0086f006b337a93225c909faedf5281827",
+      "bytes": 1816665
+    },
+    {
+      "file": "docs/home-iron-brass/source-art/panels-source.png",
+      "sha256": "063e7a7392d64e482c88152039675c972970d72764e698b54e2bc320db86f4f5",
+      "bytes": 1995630
+    },
+    {
+      "file": "docs/home-iron-brass/source-art/iron-source.png",
+      "sha256": "9f4df335bbf3933dd72bff013b406892899d719d47124cc3253451a2f612f0a0",
+      "bytes": 3789060
+    }
+  ],
+  "outputs": [
+    {
+      "file": "public/art/home-ui-review-1/icons.webp",
+      "sha256": "7d159de5871f59a6d3d86f028903af5c2b6df296dee059d73035ca3c0b3a133d",
+      "bytes": 78742,
+      "dimensions": "512x384"
+    },
+    {
+      "file": "public/art/home-ui-review-1/resources.webp",
+      "sha256": "0b530715400911b3d3c1c705a9efaaad6a62c779671645e7e5a7cba437d43907",
+      "bytes": 20698,
+      "dimensions": "256x256"
+    },
+    {
+      "file": "public/art/home-ui-review-1/panels.webp",
+      "sha256": "b09646f8a0f1fc5377961b2fcae2bf802fc3b477339bb266154676ca3ad73ee8",
+      "bytes": 88342,
+      "dimensions": "512x256",
+      "encoding": "lossless WebP; decoded pixel comparison against normalized PNG: zero differences",
+      "packaging": "split source at x=906 in verified transparent gap; each original illustration aspect-fit to 220px inside a transparent 256px cell"
+    },
+    {
+      "file": "public/art/home-ui-review-1/iron.webp",
+      "sha256": "e5ea1a164d953008564e562f70aa4e535d842afabf00563c1a437977337f48f0",
+      "bytes": 10790,
+      "dimensions": "256x256"
+    }
+  ],
+  "atlasMapping": {
+    "icons": {
+      "columns": 4,
+      "rows": 3,
+      "cells": [
+        "Land: fortress",
+        "My Army: shield/spears",
+        "My Profile / Recruit: helmet",
+        "Vault: chest",
+        "Help / Rules: book",
+        "Settings: cog",
+        "Hall of Champions: crown",
+        "Calling: swords",
+        "Home: castle gate",
+        "Quests: sealed scroll",
+        "Battle: paired swords",
+        "Armory: anvil"
+      ]
+    },
+    "resources": {
+      "columns": 2,
+      "rows": 2,
+      "cells": [
+        "gold coin",
+        "ruby Health",
+        "sapphire Mana",
+        "brass Stamina"
+      ]
+    },
+    "panels": {
+      "columns": 2,
+      "rows": 1,
+      "cells": [
+        "Royal Announcements: dispatch",
+        "Tutorial: books/candle/chart"
+      ]
+    }
+  }
+}
