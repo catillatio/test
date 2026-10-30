@@ -514,17 +514,18 @@
     content: "";
     position: absolute;
     z-index: -1;
-    left: -16px;
-    right: -16px;
-    bottom: -5px;
-    height: 10px;
+    left: -22px;
+    right: -22px;
+    bottom: -10px;
+    height: 26px;
     background: radial-gradient(
       ellipse at 50% 50%,
-      #fff0cc24 0%,
-      #d7ad5d12 42%,
-      transparent 76%
+      #ffe0a69c 0%,
+      #f5b84e66 25%,
+      #dd8d2529 50%,
+      transparent 78%
     );
-    filter: blur(4px);
+    filter: blur(6px);
     pointer-events: none;
   }
   .coin-icon {
@@ -2520,14 +2521,7 @@
     position: relative;
     padding: 22px 16px 20px 83px;
     border-bottom: 1px solid #b9975459;
-    background:
-      radial-gradient(
-        ellipse at 56% 46%,
-        #c8973a2b 0%,
-        #80521b12 42%,
-        transparent 76%
-      ),
-      linear-gradient(#090909, #050505);
+    background: linear-gradient(#090909, #050505);
     box-shadow: inset 0 1px #edcc871c;
   }
   .battle-outcome-heading::before {
@@ -2550,6 +2544,29 @@
       0 2px 1px #000,
       0 4px 16px #bd8a2924;
     margin: 0;
+  }
+  .victory-celebration .battle-outcome-heading h2 {
+    position: relative;
+    isolation: isolate;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .victory-celebration .battle-outcome-heading h2::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -25px;
+    right: -25px;
+    bottom: -10px;
+    height: 36px;
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      #ffdc8a80 0%,
+      #d68a2733 42%,
+      transparent 78%
+    );
+    filter: blur(8px);
+    pointer-events: none;
   }
   .battle-outcome-heading p {
     margin-top: 9px;
@@ -4333,7 +4350,8 @@
       filter: none;
     }
     .gold-resource [data-wallet-gold]::after,
-    .victory-celebration .battle-gold-reward dd::after {
+    .victory-celebration .battle-gold-reward dd::after,
+    .victory-celebration .battle-outcome-heading h2::after {
       display: none;
     }
     .button,

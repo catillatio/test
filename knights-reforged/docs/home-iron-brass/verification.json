@@ -379,7 +379,7 @@
     },
     {
       "width": 320,
-      "path": "/game/battles/ac63d9c0-f092-4d6f-820c-93c307e09f9e",
+      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -408,7 +408,7 @@
     },
     {
       "width": 320,
-      "path": "/game/battles/0858bf81-37e6-4b93-a789-199d28e0d775",
+      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -582,7 +582,7 @@
     },
     {
       "width": 320,
-      "path": "/game/players/309db476-b2b1-47b3-a63b-c379e261f01f",
+      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1008,7 +1008,7 @@
     },
     {
       "width": 390,
-      "path": "/game/battles/ac63d9c0-f092-4d6f-820c-93c307e09f9e",
+      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1037,7 +1037,7 @@
     },
     {
       "width": 390,
-      "path": "/game/battles/0858bf81-37e6-4b93-a789-199d28e0d775",
+      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1211,7 +1211,7 @@
     },
     {
       "width": 390,
-      "path": "/game/players/309db476-b2b1-47b3-a63b-c379e261f01f",
+      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1637,7 +1637,7 @@
     },
     {
       "width": 430,
-      "path": "/game/battles/ac63d9c0-f092-4d6f-820c-93c307e09f9e",
+      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1666,7 +1666,7 @@
     },
     {
       "width": 430,
-      "path": "/game/battles/0858bf81-37e6-4b93-a789-199d28e0d775",
+      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1840,7 +1840,7 @@
     },
     {
       "width": 430,
-      "path": "/game/players/309db476-b2b1-47b3-a63b-c379e261f01f",
+      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2266,7 +2266,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/battles/ac63d9c0-f092-4d6f-820c-93c307e09f9e",
+      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2295,7 +2295,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/battles/0858bf81-37e6-4b93-a789-199d28e0d775",
+      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2469,7 +2469,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/players/309db476-b2b1-47b3-a63b-c379e261f01f",
+      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2895,7 +2895,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/battles/ac63d9c0-f092-4d6f-820c-93c307e09f9e",
+      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2924,7 +2924,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/battles/0858bf81-37e6-4b93-a789-199d28e0d775",
+      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -3098,7 +3098,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/players/309db476-b2b1-47b3-a63b-c379e261f01f",
+      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -3162,7 +3162,7 @@
   "realPurchaseBroadcastAndTutorialCommands": true,
   "otherScreensRemainFunctional": true,
   "productionContacted": false,
-  "cssBytes": 94039,
-  "cssSha256": "d1a47836fd761b8f440b68cc84aa32d6d617b3b350bc5ff2e3953ff1bfe881a5",
+  "cssBytes": 94506,
+  "cssSha256": "d4aaa85ee7b166fb8164397835466fa32519a0c1167adf27fab580710f96df33",
   "errors": []
 }
