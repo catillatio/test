@@ -1,17 +1,17 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { uiThemePreview } from "../src/ui-theme-preview.js";
-test("Realm presentation is internal/local-test-only and off in production", () => {
+import { legacyThemePreview } from "../src/legacy-theme-preview.js";
+test("Iron & Brass is the default; only the legacy comparison is test-only", () => {
   assert.equal(
-    uiThemePreview(undefined, {
+    legacyThemePreview(undefined, {
       nodeEnv: "production",
       origin: "https://example.com",
     }),
     false,
   );
   assert.equal(
-    uiThemePreview("iron-brass", {
+    legacyThemePreview(true, {
       nodeEnv: "test",
       origin: "http://127.0.0.1:4100",
     }),
@@ -22,12 +22,15 @@ test("Realm presentation is internal/local-test-only and off in production", () 
     { nodeEnv: "development", origin: "http://localhost" },
     { nodeEnv: "test", origin: "https://example.com" },
   ])
-    assert.throws(() => uiThemePreview("iron-brass", config));
+    assert.throws(() => legacyThemePreview(true, config));
   assert.throws(() =>
-    uiThemePreview("other", { nodeEnv: "test", origin: "http://localhost" }),
+    legacyThemePreview("other", {
+      nodeEnv: "test",
+      origin: "http://localhost",
+    }),
   );
 });
-test("one realm stylesheet, existing production fallback, local artwork and accessible reduced-motion/forced-colors support", async () => {
+test("one production realm stylesheet, internal legacy comparison, local artwork and accessible reduced-motion/forced-colors support", async () => {
   const css = await readFile("public/realm-iron-brass.css", "utf8"),
     layout = await readFile("views/layout.ejs", "utf8");
   assert.match(

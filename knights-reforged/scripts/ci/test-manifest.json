@@ -788,6 +788,7 @@
     {"file":"tests/release-image-commit-history.test.mjs","lane":"unit","weight":1},
     {"file":"tests/release-image-artifacts.test.mjs","lane":"unit","weight":1},
     {"file":"tests/home-theme.test.ts","lane":"unit","weight":1},
-    {"file":"tests/home-theme-browser.test.mjs","lane":"browser","weight":80}
+    {"file":"tests/home-theme-browser.test.mjs","lane":"browser","weight":300},
+    {"file":"tests/home-theme-desktop-browser.test.mjs","lane":"browser","weight":220}
   ]
 }

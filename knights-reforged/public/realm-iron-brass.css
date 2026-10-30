@@ -1,6 +1,6 @@
-/* REALM / IRON & BRASS — isolated presentation review.
-   One consolidated realm stylesheet replaces the phase stack in the local
-   review composition. Existing page DOM, controls, copy and routes are intact. */
+/* REALM / IRON & BRASS — consolidated beta presentation.
+   Normal startup uses this system for every player-facing view.
+   Historical comparison is restricted to the isolated test harness. */
 @layer foundation, shell, resources, controls, artwork, home, auxiliary, markets, combat, profiles, responsive;
 @layer foundation {
   :root {
@@ -194,9 +194,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    min-height: 52px;
-    padding: 4px 16px;
     border-bottom: 1px solid #9e7d44;
     background:
       linear-gradient(90deg, #100d08c9, #21170bc7),
@@ -204,43 +201,54 @@
     box-shadow:
       inset 0 1px #e0bd7540,
       inset 0 -3px #0008;
+    box-sizing: border-box;
+    height: auto;
+    min-height: 28px;
+    padding: 0 10px;
+    gap: 8px;
   }
   .realm-brand {
     display: flex;
     align-items: center;
-    gap: 8px;
     flex: none;
     color: #efe2c4;
     font: 700 20px/1.1 var(--serif);
     white-space: nowrap;
     text-shadow: 0 2px 2px #000;
+    min-height: 26px;
+    gap: 6px;
+    font-size: 14px;
+    line-height: 1;
   }
   .realm-brand img {
-    width: 27px;
-    height: 32px;
     filter: drop-shadow(0 3px 3px #000a);
+    width: 18px;
+    height: 22px;
   }
   .realm-brand small {
     display: block;
     color: #cfb985;
     font: 8px/1.8 var(--sans);
-    letter-spacing: 1.7px;
     text-transform: uppercase;
+    font-size: 6px;
+    line-height: 7px;
+    letter-spacing: 1px;
   }
   .account-menu {
     display: flex;
     flex-direction: row;
     align-items: center;
+    max-width: 130px;
     min-width: 0;
-    max-width: 110px;
-    gap: 8px;
+    gap: 6px;
   }
   .account-name {
-    min-width: 0;
     flex: 1;
     color: #c4bba8;
-    font-size: 9px;
     max-width: 100%;
+    min-width: 0;
+    font-size: 9px;
+    line-height: 1.1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -248,10 +256,16 @@
   .profile-link {
     display: flex;
     align-items: center;
-    min-height: 44px;
     padding-block: 4px;
     font: 13px var(--serif);
     color: #e4c38a;
+    flex: none;
+    height: auto;
+    min-height: 26px;
+    min-width: 44px;
+    padding: 0 7px;
+    font-size: 11px;
+    line-height: 1;
   }
   .main-content {
     padding: 0 16px calc(83px + env(safe-area-inset-bottom));
@@ -436,6 +450,15 @@
     border-top: 1px solid var(--line);
     color: #9f9787;
     font-size: 10px;
+  }
+  .topbar a:focus-visible {
+    outline-offset: -1px;
+  }
+  .topbar .account-menu > .text-link {
+    min-height: 26px;
+    padding: 0 4px;
+    font-size: 11px;
+    white-space: nowrap;
   }
 }
 @layer resources {
@@ -778,6 +801,10 @@
     border-color: #59503f;
     box-shadow: none;
   }
+  form[aria-busy="true"] .button {
+    cursor: progress;
+    border-style: dashed;
+  }
   input:not([type="hidden"]),
   textarea,
   select {
@@ -1064,6 +1091,10 @@
   .property-art-51b {
     background-size: cover;
     background-position: center;
+    background-color: transparent;
+  }
+  .property-art-51b {
+    background-position: 50% 0%;
   }
   .land-review-art {
     background-image: url("art/land-review/painted-properties.webp");
@@ -1097,6 +1128,26 @@
   .review-tile-5 {
     --tile-column: 1;
     --tile-row: 2;
+  }
+  .achievement-emblem {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 42px;
+    border: 1px solid #a282444f;
+    background: linear-gradient(#5b493033, #15140f);
+    color: #c8a967;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+  }
+  .achievement-emblem > span {
+    font-size: 19px;
+    line-height: 1.1;
+  }
+  .achievement-emblem small {
+    font: 8px var(--sans);
   }
 }
 
@@ -1534,7 +1585,7 @@
     display: inline-flex;
     align-items: center;
     min-width: 44px;
-    min-height: 36px;
+    min-height: 44px;
     padding: 3px 2px;
     font-size: 10px;
     color: #cdb17d;
@@ -1596,11 +1647,27 @@
     white-space: normal;
     overflow-wrap: anywhere;
   }
-  .purchase-feedback,
-  .purchase-row-confirmation {
+  .market-purchase-feedback {
     margin: 4px 0;
     color: #d7c49b;
     font-size: 11px;
+  }
+  .market-purchase-feedback > a {
+    display: block;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 5px 6px;
+    border-left: 2px solid #b29760;
+    background: #3b30204d;
+    color: #e0c898;
+    font-size: 10px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .market-purchase-feedback > a > span {
+    display: block;
+    color: #c8b38b;
+    font-size: 10px;
   }
   .market-row-confirmed {
     outline: 1px solid #c3a56a;
@@ -2261,6 +2328,9 @@
     grid-column: 2;
     grid-row: 1 / span 2;
   }
+  .bounty-row--rival > form {
+    grid-row: 1;
+  }
   .bounty-row .button {
     min-width: 76px;
     min-height: 44px;
@@ -2278,7 +2348,8 @@
     min-height: 44px;
     min-width: 82px;
     padding: 9px 15px;
-    border: 1px solid #8e784f;
+    border-width: 1px;
+    border-color: #8e784f;
     border-top-color: #b09a70;
     border-bottom-color: #5c4d34;
     border-radius: 2px;
@@ -2604,17 +2675,21 @@
   .battle-rewards > div {
     min-width: 0;
     display: grid;
-    grid-template-columns: 25px minmax(0, 1fr);
     gap: 3px 9px;
-    padding: 2px 9px;
     align-items: center;
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 2px 9px 2px 43px;
   }
   .battle-rewards > div + div {
     border-left: 1px solid var(--line);
   }
   .reward-coin,
   .reward-xp-mark {
-    grid-row: span 2;
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .resolved-battle.victory-celebration {
     background:
@@ -2658,23 +2733,6 @@
   .reward-coin use {
     opacity: 0;
   }
-  .battle-damage {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    padding: 12px 16px 6px;
-  }
-  .battle-damage > div {
-    display: flex;
-    gap: 9px;
-    justify-content: space-between;
-    color: #b9ae97;
-    font: 11px/1.5 var(--sans);
-  }
-  .battle-damage dd {
-    color: #e1d4b9;
-    font-weight: 700;
-  }
   .battle-progress {
     padding: 5px 16px 15px;
     font-size: 10px;
@@ -2683,15 +2741,6 @@
   .battle-progress progress {
     margin-top: 6px;
     height: 4px;
-  }
-  .bounty-reward {
-    margin: 12px 12px 1px;
-    padding: 10px 12px;
-    border-left: 2px solid #b18f51;
-    background: #10100f;
-    color: #c9bda3;
-    font-size: 11px;
-    line-height: 1.6;
   }
   .bounty-reward > strong:first-child {
     color: #e3cf9f;
@@ -2815,39 +2864,66 @@
   }
   .follow-up-combat.panel {
     margin: 12px;
-    padding: 13px;
     border: 1px solid #9479478a;
     box-shadow: inset 0 1px #e2bd7622;
     background: linear-gradient(110deg, #a37c3012, #0a0a0990);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 3px 12px;
+    padding: 12px;
   }
   .follow-up-combat .strip-title {
-    margin: 0 0 9px;
-    font: 700 17px var(--serif);
+    grid-column: 1;
+    min-width: 0;
+    min-height: 24px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    font: 700 16px/1.25 var(--serif);
+    overflow-wrap: anywhere;
   }
   .follow-up-combat > p {
-    font-size: 12px;
+    grid-column: 1;
+    font-size: 11px;
+    line-height: 1.4;
   }
   .follow-up-combat > meter {
+    grid-column: 1;
     height: 4px;
-    margin: 8px 0;
+    margin: 3px 0 0;
   }
   .battle-attack-cost {
+    grid-column: 1 / -1;
     color: #b6a98e;
-    font-size: 10px !important;
-    margin: 8px 0 !important;
+    font-size: 10px;
+    line-height: 1.4;
+    margin: 3px 0 0;
   }
   .follow-up-combat form {
     margin-top: 11px;
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+    margin: 0;
   }
   .follow-up-combat .button {
     min-height: 44px;
+    min-width: 96px;
+    padding: 8px 12px;
   }
   .follow-up-combat .combat-restriction {
-    margin: 9px 0 0;
-    font-size: 11px;
+    grid-column: 1 / -1;
+    font-size: 10px;
+    line-height: 1.4;
+    margin: 2px 0 0;
   }
   .follow-up-combat .field-hint {
     margin-bottom: 0;
+    grid-column: 1 / -1;
+    margin: 3px 0 0;
+    font-size: 10px;
   }
   .report-actions {
     display: flex;
@@ -2891,26 +2967,6 @@
     align-items: center;
     min-height: 36px;
     font-size: 11px;
-  }
-  .achievement-emblem {
-    flex: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 42px;
-    border: 1px solid #a282444f;
-    background: linear-gradient(#5b493033, #15140f);
-    color: #c8a967;
-    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
-  }
-  .achievement-emblem > span {
-    font-size: 19px;
-    line-height: 1.1;
-  }
-  .achievement-emblem small {
-    font: 8px var(--sans);
   }
   .level-celebration {
     margin: 12px;
@@ -2987,9 +3043,11 @@
       padding-inline: 7px;
     }
     .battle-rewards > div {
-      grid-template-columns: 21px minmax(0, 1fr);
       gap: 3px 6px;
       padding-inline: 7px;
+      position: relative;
+      grid-template-columns: minmax(0, 1fr);
+      padding: 2px 7px 2px 34px;
     }
     .battle-rewards dd {
       font-size: 23px;
@@ -2997,14 +3055,6 @@
     .battle-rewards dt {
       font-size: 8px;
       letter-spacing: 0.6px;
-    }
-    .battle-damage {
-      padding-inline: 12px;
-      gap: 10px;
-    }
-    .battle-damage > div {
-      font-size: 10px;
-      gap: 6px;
     }
     .battle-armies {
       margin-inline: 8px;
@@ -3081,9 +3131,11 @@
       padding: 19px 36px;
     }
     .battle-rewards > div {
-      grid-template-columns: 30px minmax(0, 1fr);
       gap: 4px 12px;
       padding-inline: 20px;
+      position: relative;
+      grid-template-columns: minmax(0, 1fr);
+      padding: 2px 20px 2px 62px;
     }
     .battle-rewards dt {
       font-size: 10px;
@@ -3094,21 +3146,9 @@
     .reward-xp-mark {
       font-size: 17px;
     }
-    .battle-damage {
-      padding: 15px 38px 7px;
-      gap: 30px;
-    }
-    .battle-damage > div {
-      font-size: 13px;
-    }
     .battle-progress {
       padding: 7px 38px 19px;
       font-size: 11px;
-    }
-    .bounty-reward {
-      margin: 15px 20px 1px;
-      padding: 12px 16px;
-      font-size: 12px;
     }
     .battle-armies {
       margin-inline: 20px;
@@ -3145,33 +3185,6 @@
     .additional-equipment > summary {
       padding-inline: 16px;
       font-size: 12px;
-    }
-    .follow-up-combat.panel {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 0 25px;
-      margin: 18px 20px;
-      padding: 16px;
-    }
-    .follow-up-combat .strip-title {
-      grid-column: 1;
-    }
-    .follow-up-combat > p,
-    .follow-up-combat > meter {
-      grid-column: 1;
-    }
-    .follow-up-combat form {
-      grid-column: 2;
-      grid-row: 1 / span 4;
-      align-self: center;
-      margin: 0;
-    }
-    .follow-up-combat .button {
-      min-width: 150px;
-    }
-    .follow-up-combat .combat-restriction,
-    .follow-up-combat .field-hint {
-      grid-column: 1/-1;
     }
     .report-actions {
       justify-content: flex-start;
@@ -3210,6 +3223,230 @@
     .reward-coin use {
       opacity: 1;
     }
+  }
+  /* Escrow remains visually and semantically separate from ordinary loot. */
+  .bounty-reward.bounty-escrow {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    isolation: isolate;
+    margin: 12px 14px 2px;
+    padding: 13px 14px;
+    border: 1px solid #a783426e;
+    border-left: 3px solid #b99454;
+    border-radius: 2px;
+    background:
+      radial-gradient(ellipse at 6% 0, #dab7751b, transparent 68%),
+      linear-gradient(105deg, #211b13ed, #110f0cfa 78%), var(--iron);
+    box-shadow:
+      inset 0 1px #f6d69a25,
+      inset 0 -1px #000c,
+      0 3px 8px #0005;
+  }
+  .bounty-escrow-icon {
+    width: 34px;
+    height: 34px;
+    align-self: center;
+    color: #e3c185;
+    filter: drop-shadow(0 2px 2px #000b);
+  }
+  .bounty-escrow-content {
+    min-width: 0;
+  }
+  .bounty-escrow dt {
+    color: #d4bd91;
+    font: 700 10px/1.4 var(--sans);
+    letter-spacing: 0.45px;
+  }
+  .bounty-escrow dd {
+    margin-top: 3px;
+    color: #f1d392;
+    font: 700 25px/1.16 var(--serif);
+    overflow-wrap: anywhere;
+  }
+  .bounty-escrow dd .gold {
+    color: inherit;
+    text-shadow:
+      0 1px 1px #000,
+      0 3px 13px #d9952540;
+  }
+  .bounty-escrow dd span {
+    color: #cfb67f;
+    font: 400 11px/1.4 var(--sans);
+    white-space: nowrap;
+  }
+  .bounty-escrow p {
+    margin-top: 6px;
+    color: #b7aa91;
+    font: 11px/1.5 var(--sans);
+  }
+  .bounty-escrow p .player-link {
+    color: #e2c587;
+  }
+  /* Compact, identifiable result metrics, not a second reward panel. */
+  .battle-damage {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 14px 16px 8px;
+  }
+  .battle-damage > div {
+    display: grid;
+    align-items: center;
+    gap: 2px 9px;
+    min-width: 0;
+    border-top: 1px solid #ab8a493d;
+    border-bottom: 1px solid #000a;
+    background: linear-gradient(105deg, #25221c75, #13121050);
+    box-shadow: inset 0 1px #e8d7af08;
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 10px 10px 9px 40px;
+  }
+  .battle-stat-icon {
+    color: #c3a66e;
+    width: 21px;
+    height: 21px;
+    opacity: 0.86;
+    filter: drop-shadow(0 1px 1px #000b);
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .battle-damage-received .battle-stat-icon {
+    filter: saturate(0.55) brightness(0.88) drop-shadow(0 1px 1px #000b);
+  }
+  .battle-damage dt {
+    color: #b9ae99;
+    font: 10px/1.35 var(--sans);
+  }
+  .battle-damage dd {
+    min-width: 0;
+    color: #eadfc8;
+    font: 700 20px/1.1 var(--serif);
+    overflow-wrap: anywhere;
+  }
+  .battle-damage-received dd {
+    color: #d4b5a0;
+  }
+  @media (max-width: 359px) {
+    .bounty-reward.bounty-escrow {
+      grid-template-columns: 29px minmax(0, 1fr);
+      gap: 9px;
+      margin-inline: 10px;
+      padding: 11px;
+    }
+    .bounty-escrow-icon {
+      width: 29px;
+      height: 29px;
+    }
+    .bounty-escrow dd {
+      font-size: 23px;
+    }
+    .bounty-escrow p {
+      font-size: 10px;
+    }
+    .battle-damage {
+      gap: 8px;
+      padding-inline: 12px;
+    }
+    .battle-damage > div {
+      gap: 2px 7px;
+      position: relative;
+      grid-template-columns: minmax(0, 1fr);
+      padding: 9px 8px 9px 33px;
+    }
+    .battle-stat-icon {
+      width: 18px;
+      height: 18px;
+      left: 8px;
+    }
+    .battle-damage dt {
+      font-size: 9px;
+    }
+    .battle-damage dd {
+      font-size: 18px;
+    }
+    .reward-coin,
+    .reward-xp-mark {
+      left: 7px;
+    }
+  }
+  @media (min-width: 700px) {
+    .bounty-reward.bounty-escrow {
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: 16px;
+      margin: 15px 24px 2px;
+      padding: 15px 18px;
+    }
+    .bounty-escrow-icon {
+      width: 38px;
+      height: 38px;
+    }
+    .bounty-escrow dt {
+      font-size: 11px;
+    }
+    .bounty-escrow dd {
+      font-size: 29px;
+    }
+    .bounty-escrow dd span,
+    .bounty-escrow p {
+      font-size: 12px;
+    }
+    .battle-damage {
+      gap: 18px;
+      padding: 16px 38px 8px;
+    }
+    .battle-damage > div {
+      gap: 10px;
+      position: relative;
+      grid-template-columns: minmax(0, 1fr) auto;
+      padding: 11px 14px 11px 48px;
+    }
+    .battle-stat-icon {
+      width: 24px;
+      height: 24px;
+      left: 14px;
+    }
+    .battle-damage dt {
+      font-size: 12px;
+    }
+    .battle-damage dd {
+      max-width: 10ch;
+      font-size: 23px;
+    }
+    .follow-up-combat.panel {
+      column-gap: 24px;
+      padding: 16px;
+    }
+    .follow-up-combat .button {
+      min-width: 140px;
+    }
+    .follow-up-combat .strip-title {
+      font-size: 18px;
+    }
+    .reward-coin,
+    .reward-xp-mark {
+      left: 20px;
+    }
+  }
+  @media (forced-colors: active) {
+    .bounty-reward.bounty-escrow,
+    .battle-damage > div {
+      border: 1px solid CanvasText;
+    }
+    .bounty-escrow-icon,
+    .battle-stat-icon {
+      filter: none;
+    }
+  }
+  .follow-up-combat .strip-title a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
   }
 }
 
@@ -3906,50 +4143,10 @@
     font-size: 13px;
     color: var(--gold);
   }
-  .vault-entry,
   .account-event {
     border-bottom: 1px solid var(--line);
     padding: 11px 0;
     font-size: 12px;
-  }
-  .vault-summary strong {
-    font: 700 27px var(--serif);
-    color: var(--gold);
-  }
-  .vault-form {
-    margin-top: 14px;
-  }
-  .vault-form label {
-    margin-top: 12px;
-  }
-  .vault-form input {
-    display: block;
-    width: min(350px, 100%);
-    margin-bottom: 10px;
-  }
-  .achievement-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
-  }
-  .achievement-card {
-    padding: 14px;
-    background: var(--iron);
-    border: 1px solid var(--line);
-  }
-  .achievement-card h3 {
-    font-size: 17px;
-  }
-  .achievement-card p {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 7px;
-  }
-  .champion-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 12px 0;
   }
   .champion-tabs a {
     padding: 10px;
@@ -3961,42 +4158,9 @@
     color: #f1d59e;
     background: #59452266;
   }
-  .champion-row {
-    display: flex;
-    gap: 12px;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 12px;
-  }
-  .champion-rank {
-    font: 700 22px var(--serif);
-    color: var(--gold);
-  }
-  .champion-score {
-    font-size: 15px;
-    color: var(--gold);
-  }
-  .contextual-guide {
-    padding: 14px;
-    border: 1px solid var(--line);
-    background: var(--iron);
-    margin: 12px 0;
-  }
   .guide-highlight {
     outline: 2px solid #d4ad66;
     outline-offset: 3px;
-  }
-  .tutorial-progress {
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .tutorial-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 15px;
   }
   .sound-settings label {
     display: flex;
@@ -4004,56 +4168,995 @@
     align-items: center;
     min-height: 44px;
   }
-  .sound-settings input[type="range"] {
-    width: 200px;
-  }
-  .settings-list {
-    padding: 0;
-    list-style: none;
-  }
-  .settings-list li {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--line);
-  }
   @media (max-width: 359px) {
     .flow-grid,
     .statistics-grid {
       gap: 9px 10px;
     }
-    .achievement-grid {
-      grid-template-columns: 1fr 1fr;
+  }
+  /* These states were previously only styled by the removed phase stack. */
+  .success {
+    color: #dec48d;
+  }
+  .full-width {
+    width: 100%;
+  }
+  .action-feedback:not(:empty),
+  .connection-status:not(:empty) {
+    margin: 12px 0;
+    padding: 10px 12px;
+    border-left: 2px solid #a48650;
+    background: #191816;
+    color: #d9cfbb;
+    font-size: 12px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+  .connection-status:not(:empty) {
+    border-color: #ba8a67;
+    color: #e2bda1;
+  }
+  .notification-read-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin: 12px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+  .notification-read-form > .button {
+    font-size: 13px;
+  }
+  .notification-read-form > small {
+    flex: 1 1 150px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .bounty-notification-marker {
+    display: block;
+    margin: 0 0 4px;
+    color: #e0c28b;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  /* Account entry remains an account form, with a compact illustrated preface. */
+  .auth-grid {
+    display: grid;
+    gap: 18px;
+    max-width: 470px;
+    margin: auto;
+    padding: 22px 0 8px;
+  }
+  .auth-story,
+  .auth-card,
+  .auth-form,
+  .auth-form .field {
+    min-width: 0;
+  }
+  .auth-story > .eyebrow,
+  .auth-card > .eyebrow {
+    margin-bottom: 8px;
+    color: #c3a46a;
+    font: 700 9px/1.5 var(--sans);
+    letter-spacing: 1.45px;
+  }
+  .auth-story > h1 {
+    margin-bottom: 10px;
+    color: #ecdbb8;
+    font-size: clamp(30px, 8vw, 38px);
+    line-height: 1.06;
+    letter-spacing: -0.7px;
+    text-shadow: 0 2px 3px #000b;
+  }
+  .auth-story > p:not(.eyebrow) {
+    max-width: 330px;
+    color: #c6bdac;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .auth-art {
+    position: relative;
+    height: 118px;
+    overflow: hidden;
+    margin-top: 14px;
+    border: 1px solid #806b444d;
+    background: #11100e;
+    box-shadow:
+      inset 0 0 0 3px #0007,
+      0 3px 10px #0007;
+  }
+  .auth-art > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 37%;
+  }
+  .auth-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, #0d0c0bed, #17120b20 75%);
+    pointer-events: none;
+  }
+  .auth-art > span {
+    position: absolute;
+    z-index: 1;
+    bottom: 11px;
+    left: 13px;
+    color: #e4c88c;
+    font: 700 11px/1.2 var(--serif);
+    letter-spacing: 2.2px;
+  }
+  .auth-card.panel {
+    margin: 0;
+    padding: 17px;
+  }
+  .auth-card > h2 {
+    margin-bottom: 7px;
+    color: #eddbb4;
+    font-size: 25px;
+  }
+  .auth-card > .description {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .auth-form {
+    margin-top: 18px;
+  }
+  .auth-form .field {
+    margin: 14px 0;
+  }
+  .auth-form .field > label {
+    margin-bottom: 6px;
+    color: #dfd0b2;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .auth-form .field > input {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 11px;
+    border-color: #746348;
+    background: #10100f;
+    box-shadow: inset 0 2px 4px #0008;
+    font-size: 16px;
+  }
+  .auth-form .field-hint {
+    margin: 6px 0 0;
+    color: #b5ac9a;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .auth-form > .button {
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  .auth-switch {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .auth-switch > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    font-weight: 700;
+  }
+  .error-page.panel {
+    max-width: 590px;
+    margin: 22px auto;
+    padding: 22px 18px;
+    text-align: center;
+  }
+  .error-page > .empty-symbol {
+    display: block;
+    margin-bottom: 8px;
+    color: #b99558;
+    font-size: 27px;
+    line-height: 1;
+  }
+  .error-page > .eyebrow {
+    margin-bottom: 9px;
+    color: #bca272;
+    font-size: 9px;
+    letter-spacing: 1.3px;
+  }
+  .error-page > h1 {
+    color: #e8d8b6;
+    font-size: 28px;
+    overflow-wrap: anywhere;
+  }
+  .error-page > p:not(.eyebrow) {
+    max-width: 400px;
+    margin: 13px auto;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .error-page .report-actions {
+    justify-content: center;
+    margin-top: 17px;
+  }
+
+  /* Vault forms use the real two-form template, not the obsolete .vault-form. */
+  .vault-panel .profile-gold-flow {
+    display: grid;
+    gap: 0;
+    margin: 5px 0 10px;
+  }
+  .vault-panel .profile-gold-flow > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ffffff0c;
+    font-size: 12px;
+  }
+  .vault-panel .profile-gold-flow dt {
+    color: var(--muted);
+  }
+  .vault-panel .profile-gold-flow dd {
+    color: #dec28a;
+    font-weight: 700;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+  .vault-rules {
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .vault-rules > summary {
+    padding: 10px 0;
+    color: #d0ba8f;
+    font-size: 12px;
+  }
+  .vault-transfers {
+    display: grid;
+    gap: 14px;
+  }
+  .vault-transfers > form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 7px 9px;
+    min-width: 0;
+  }
+  .vault-transfers label {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: #d6c7aa;
+    font-weight: 700;
+  }
+  .vault-transfers input {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .vault-transfers .button {
+    min-width: 96px;
+    font-size: 14px;
+  }
+  .vault-entry {
+    display: grid;
+    gap: 4px;
+  }
+  .vault-entry > strong {
+    color: #d7bc86;
+    font-size: 13px;
+  }
+  .vault-entry > span {
+    color: #c1b7a4;
+    font-size: 11px;
+    overflow-wrap: anywhere;
+  }
+  .vault-entry > time {
+    color: #a69e90;
+    font-size: 10px;
+  }
+
+  /* Settings retains native selects, range input and automatic-save hooks. */
+  .sound-settings > p,
+  .screen-settings .panel > p:not(.compact-help) {
+    color: #c7bdaa;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+  .sound-settings > form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 7px 10px;
+    margin-top: 13px;
+  }
+  .sound-settings form > label {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    min-height: 26px;
+    margin: 0;
+    color: #d9c8a7;
+    font-size: 12px;
+  }
+  .sound-settings output {
+    color: var(--gold);
+  }
+  .sound-settings select,
+  .sound-settings input[type="range"],
+  .sound-settings .field-hint {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+  }
+  .sound-settings select {
+    min-height: 44px;
+  }
+  .sound-settings input[type="range"] {
+    min-height: 44px;
+    margin: 0;
+    padding-inline: 0;
+    border: 0;
+    background: transparent;
+    accent-color: #c6a56b;
+  }
+  .sound-settings form > .button {
+    margin-top: 4px;
+    font-size: 14px;
+  }
+  .sound-settings .field-hint {
+    margin: 7px 0 0;
+  }
+  .settings-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 13px 0;
+  }
+  .settings-links > .button {
+    flex: 1 1 auto;
+    padding-inline: 10px;
+    font-size: 13px;
+  }
+  .settings-logout {
+    margin-top: 14px;
+    padding-top: 13px;
+    border-top: 1px solid var(--line);
+  }
+  .settings-logout .button-signout {
+    gap: 8px;
+    border-color: #926c53;
+    background: linear-gradient(#342823, #201b18);
+    color: #e5c3aa;
+    font-size: 14px;
+  }
+  .rules-page {
+    max-width: 780px;
+    margin-inline: auto;
+  }
+  .rules-page > h1 {
+    margin: 14px 0;
+    color: #ead8b1;
+    font-size: 27px;
+  }
+  .rules-page > h2 {
+    margin: 22px 0 9px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    color: #dfc38d;
+    font-size: 19px;
+  }
+  .rules-page > p {
+    margin: 10px 0;
+    color: #c6bdad;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+  .rules-page > .button:last-child {
+    margin-top: 12px;
+  }
+
+  /* Champion rankings remain a dense list with aligned rank and score rails. */
+  .champions-intro {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 3px 2px 8px;
+  }
+  .champions-crown {
+    width: 29px;
+    height: 29px;
+    color: #d0ad6e;
+    filter: drop-shadow(0 2px 2px #0008);
+  }
+  .champions-intro > p {
+    color: #c9b995;
+    font: 13px/1.4 var(--serif);
+  }
+  .champion-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5px;
+    margin: 5px 0 12px;
+  }
+  .champion-tabs > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 44px;
+    padding: 7px 4px;
+    border-color: #806b424d;
+    background: #161513;
+    color: #c4bca9;
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+  .champion-tabs > a[aria-current="page"] {
+    border-color: #a38751;
+    background: linear-gradient(#3f3524, #211e18);
+    box-shadow:
+      inset 0 1px #e5c89122,
+      inset 0 -2px #be9c5b77;
+    color: #ecd6a7;
+  }
+  .your-standing {
+    margin: 0 0 12px;
+    padding: 9px 10px;
+    border-left: 2px solid #aa8a4b;
+    background: #201d17;
+    color: #c9bea7;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .your-standing > strong {
+    color: #e2c58b;
+  }
+  .champion-columns,
+  .champion-row {
+    display: grid;
+    grid-template-columns: 25px minmax(0, 1fr) minmax(65px, 28%);
+    gap: 8px;
+    align-items: center;
+  }
+  .champion-columns {
+    padding: 0 3px 6px;
+    border-bottom: 1px solid var(--line);
+    color: #b9ad96;
+    font-size: 9px;
+  }
+  .champion-columns > :last-child {
+    text-align: right;
+  }
+  .champion-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .champion-row {
+    min-height: 63px;
+    padding: 9px 3px;
+    border-color: #aa8f562b;
+  }
+  .champion-row > div {
+    min-width: 0;
+  }
+  .champion-rank {
+    color: #bbb1a0;
+    font: 700 17px/1.2 var(--serif);
+    text-align: center;
+  }
+  .champion-place-1 .champion-rank {
+    color: #e7c37b;
+    font-size: 25px;
+    text-shadow: 0 2px 2px #0009;
+  }
+  .champion-place-2 .champion-rank {
+    color: #d3c9b8;
+  }
+  .champion-place-3 .champion-rank {
+    color: #c39770;
+  }
+  .champion-row .player-link {
+    display: block;
+    padding-block: 3px;
+    color: #e3cfaa;
+    font-size: 13px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .champion-row small {
+    display: block;
+    margin-top: 3px;
+    color: #ada492;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  .champion-name > small {
+    display: inline;
+    margin-left: 4px;
+    color: #cdb17a;
+  }
+  .champion-score {
+    color: #dec18a;
+    font-size: 13px;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+  .champion-row.is-self {
+    border-left: 2px solid #b18f4c;
+    background: linear-gradient(90deg, #8b6c2b18, transparent 85%);
+    padding-left: 1px;
+  }
+  .champion-rules {
+    margin-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+  .champion-rules > summary {
+    padding: 11px 0;
+    color: #cfb98b;
+    font-size: 12px;
+  }
+
+  /* The achievements template is a row list, not the old unused card grid. */
+  .achievement-count {
+    margin: 12px 0 16px;
+    color: #beb39f;
+    font-size: 12px;
+  }
+  .achievement-count > strong {
+    font: 700 21px/1 var(--serif);
+  }
+  .achievement-category {
+    margin: 18px 0;
+    border-top: 1px solid var(--line);
+  }
+  .achievement-category > .profile-section-heading {
+    margin: 0;
+    padding: 11px 2px 8px;
+    color: #d9c297;
+    font-size: 18px;
+  }
+  .achievement-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 12px 3px;
+    border-bottom: 1px solid #aa8f5626;
+  }
+  .achievement-row > div {
+    min-width: 0;
+    flex: 1;
+  }
+  .achievement-row > .achievement-emblem {
+    width: 41px;
+    height: 51px;
+  }
+  .achievement-row > .achievement-emblem > span {
+    font-size: 23px;
+  }
+  .achievement-row h3 {
+    margin-bottom: 5px;
+    color: #dcc59a;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+  }
+  .achievement-row p {
+    color: #c6bdac;
+    font-size: 11px;
+    line-height: 1.55;
+  }
+  .achievement-row small,
+  .achievement-earned {
+    display: block;
+    margin-top: 5px;
+    color: #aca391;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .achievement-earned {
+    color: #cfb684;
+  }
+  .achievement-row progress,
+  .guide-lesson > progress {
+    display: block;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    overflow: hidden;
+    margin: 10px 0 5px;
+    border: 1px solid #7b6a3a60;
+    border-radius: 0;
+    background: #0e0d0c;
+    accent-color: #ba9756;
+  }
+  .achievement-row progress::-webkit-progress-bar,
+  .guide-lesson > progress::-webkit-progress-bar {
+    background: #0e0d0c;
+  }
+  .achievement-row progress::-webkit-progress-value,
+  .guide-lesson > progress::-webkit-progress-value {
+    background: linear-gradient(#d7ba7e, #9f793c);
+  }
+  .achievement-row progress::-moz-progress-bar,
+  .guide-lesson > progress::-moz-progress-bar {
+    background: linear-gradient(#d7ba7e, #9f793c);
+  }
+  .achievement-row.is-locked h3 {
+    color: #bdb29b;
+  }
+  .achievement-row.is-locked > .achievement-emblem {
+    filter: grayscale(0.8);
+    opacity: 0.62;
+  }
+
+  /* Tutorials and contextual guidance retain native progressive disclosure. */
+  .guide-welcome,
+  .guide-lesson,
+  .contextual-guide {
+    background: var(--iron);
+    border-color: #8c714540;
+  }
+  .contextual-guide {
+    position: static;
+    display: block;
+    margin: 10px 0 14px;
+    padding: 12px;
+    border-left: 2px solid #a9894a;
+  }
+  .contextual-guide > .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    color: #cfb17b;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+  .guide-welcome > h2,
+  .guide-lesson > h2,
+  .contextual-guide > h2 {
+    margin: 4px 0 9px;
+    color: #e5cea5;
+    font-size: 21px;
+  }
+  .guide-welcome > p,
+  .guide-lesson > p,
+  .contextual-guide > p {
+    margin: 9px 0;
+    color: #c9bfac;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .guide-welcome > .compact-help,
+  .guide-lesson > .guide-progress-label {
+    font-size: 10px;
+    color: #bcab8b;
+  }
+  .guide-lesson > progress {
+    margin: 8px 0 14px;
+  }
+  .guide-lesson > .guide-done,
+  .contextual-guide > .guide-done {
+    color: #d9c187;
+    font-size: 11px;
+  }
+  .guide-lesson > .guide-resource-hint,
+  .contextual-guide > .guide-resource-hint {
+    padding: 8px 10px;
+    border-left: 2px solid #a58754;
+    background: #2b241929;
+    color: #d4bc94;
+  }
+  .guide-show-me,
+  .guide-primary > .button,
+  .contextual-guide .tutorial-next {
+    width: 100%;
+    margin: 8px 0 5px;
+  }
+  .guide-welcome > form {
+    margin-top: 8px;
+  }
+  .guide-options,
+  .guide-calling {
+    margin-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .guide-options > summary,
+  .guide-calling > summary {
+    padding: 11px 0;
+    color: #c9b489;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .guide-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    align-items: center;
+    margin-top: 2px;
+  }
+  .guide-controls .button,
+  .guide-controls .tutorial-skip {
+    min-height: 44px;
+    font-size: 12px;
+  }
+  .guide-calling > p,
+  .calling-introduction {
+    color: #bfb5a2;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .guide-calling > p {
+    margin: 9px 0;
+  }
+  .calling-introduction {
+    margin: 10px 0;
+    padding-left: 18px;
+  }
+  .calling-introduction > li {
+    margin: 7px 0;
+  }
+  .calling-introduction strong {
+    color: #d8c49d;
+  }
+  .guide-calling > form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .guide-calling label {
+    flex-basis: 100%;
+  }
+  .guide-calling select {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+  }
+  .guide-calling .button {
+    font-size: 12px;
+  }
+  .tutorial-complete.panel {
+    text-align: center;
+    background:
+      radial-gradient(ellipse at top, #b38b3430, transparent 75%), var(--iron);
+  }
+  .tutorial-complete-emblem {
+    display: block;
+    margin: 3px 0 8px;
+    color: #d9b36f;
+    font-size: 41px;
+    line-height: 1.1;
+    text-shadow: 0 3px 2px #0009;
+  }
+  .tutorial-complete > h2 {
+    color: #ead3a3;
+    font-size: 23px;
+  }
+  .tutorial-complete > p {
+    margin: 10px 0;
+    color: #c4b9a5;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .tutorial-complete > .button {
+    width: 100%;
+    margin: 8px 0;
+  }
+
+  /* Missing-equipment review retains its exact per-item artwork and totals. */
+  .quest-equipment > h3 {
+    margin: 10px 0;
+    color: #dfc99f;
+    font-size: 19px;
+  }
+  .quest-equipment > p {
+    margin: 11px 0;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .requirements-shopping-list {
+    list-style: none;
+    margin: 12px 0;
+    padding: 0;
+  }
+  .requirements-shopping-list > li {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 9px;
+    align-items: center;
+    padding: 11px 0;
+    border-bottom: 1px solid #aa8f562b;
+  }
+  .requirements-shopping-list .equipment-art-frame {
+    --equipment-size: 44px;
+  }
+  .requirements-shopping-list
+    > li
+    > span:not(.equipment-art-frame):not(.catalog-art) {
+    min-width: 0;
+    color: #c5bba6;
+    font-size: 11px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .requirements-shopping-list strong:not(.gold) {
+    color: #e0cda7;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .requirements-shopping-list small {
+    display: block;
+    margin-top: 4px;
+    color: #afa591;
+    font-size: 10px;
+  }
+  .requirements-shopping-list > li > .gold {
+    max-width: 83px;
+    font-size: 11px;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+  .requirements-total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    color: #d4c5a8;
+  }
+  .requirements-total > strong {
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+  .quest-equipment > form > .button {
+    width: 100%;
+    margin-top: 6px;
+  }
+  .bounty-quota-status {
+    padding: 9px 10px;
+    border-left: 2px solid #927544;
+    background: #201d1770;
+    color: #beb29a;
+  }
+  .bounty-quota-status > p + p {
+    margin-top: 8px;
+  }
+  .bounty-quota-status strong {
+    color: #d5bf94;
+  }
+  .bounty-new input[name="amount"] {
+    width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .bounty-new form > label {
+    margin-top: 15px;
+    color: #d9c5a0;
+    font-weight: 700;
+  }
+
+  @media (min-width: 700px) {
+    .auth-grid {
+      max-width: 800px;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+      align-items: start;
+      gap: 30px;
+      padding-top: 35px;
+    }
+    .auth-story {
+      padding-top: 12px;
+    }
+    .auth-story > h1 {
+      font-size: 42px;
+    }
+    .auth-art {
+      height: 237px;
+      margin-top: 22px;
+    }
+    .auth-card.panel {
+      padding: 22px;
+    }
+    .vault-transfers {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .vault-entry {
+      grid-template-columns: minmax(120px, 0.65fr) minmax(0, 1.4fr) auto;
+      align-items: baseline;
+      gap: 14px;
+    }
+    .sound-settings > form {
+      max-width: 520px;
+    }
+    .champion-tabs {
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+    .champion-tabs > a {
+      font-size: 12px;
+    }
+    .champion-columns,
+    .champion-row {
+      grid-template-columns: 35px minmax(0, 1fr) minmax(90px, 26%);
+      gap: 14px;
+    }
+    .champion-row .player-link {
+      font-size: 15px;
+    }
+    .champion-score {
+      font-size: 15px;
+    }
+    .guide-primary > .button,
+    .guide-show-me {
+      width: auto;
+      min-width: 210px;
+    }
+    .tutorial-complete > .button {
+      width: auto;
+      min-width: 240px;
+    }
+    .quest-equipment > form > .button {
+      width: auto;
+      min-width: 220px;
+    }
+    .requirements-shopping-list > li > .gold {
+      max-width: 170px;
+      font-size: 13px;
+    }
+  }
+  @media (max-width: 359px) {
+    .auth-card.panel {
+      padding: 14px;
+    }
+    .auth-art {
+      height: 100px;
+    }
+    .champion-tabs {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .champion-columns,
+    .champion-row {
+      grid-template-columns: 22px minmax(0, 1fr) minmax(56px, 28%);
+      gap: 6px;
+    }
+    .champion-row .player-link {
+      font-size: 12px;
+    }
+    .sound-settings form > .button {
+      padding-inline: 9px;
+      font-size: 12px;
+    }
+    .guide-calling > form > .button {
+      width: 100%;
+    }
+    .requirements-shopping-list > li {
+      grid-template-columns: 40px minmax(0, 1fr) 65px;
+      gap: 7px;
+    }
+    .requirements-shopping-list .equipment-art-frame {
+      --equipment-size: 40px;
+    }
+    .requirements-shopping-list > li > .gold {
+      font-size: 10px;
     }
   }
 }
 
 @layer responsive {
   @media (min-width: 700px) {
-    .topbar {
-      padding: 5px 26px;
-      min-height: 58px;
-    }
-    .realm-brand {
-      font-size: 25px;
-      gap: 9px;
-    }
-    .realm-brand img {
-      width: 31px;
-      height: 36px;
-    }
-    .realm-brand small {
-      font-size: 8px;
-      letter-spacing: 1.7px;
-    }
-    .account-menu {
-      max-width: 260px;
-    }
-    .account-name {
-      font-size: 11px;
-    }
-    .profile-link {
-      font-size: 15px;
-      min-height: 44px;
-    }
     .main-content {
       padding-inline: 26px;
     }
@@ -4215,6 +5318,35 @@
     .calling-list {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+    .topbar {
+      height: auto;
+      min-height: 30px;
+      padding: 0 18px;
+      gap: 12px;
+    }
+    .realm-brand {
+      gap: 7px;
+      font-size: 16px;
+    }
+    .realm-brand img {
+      width: 19px;
+      height: 23px;
+    }
+    .realm-brand small {
+      font-size: 6px;
+      line-height: 7px;
+      letter-spacing: 1.2px;
+    }
+    .account-menu {
+      max-width: 220px;
+      gap: 8px;
+    }
+    .account-name {
+      font-size: 10px;
+    }
+    .profile-link {
+      font-size: 12px;
+    }
   }
   @media (max-width: 359px) {
     .main-content {
@@ -4222,31 +5354,6 @@
     }
     .character-header {
       margin-inline: -11px;
-    }
-    .topbar {
-      padding-inline: 11px;
-      gap: 8px;
-    }
-    .realm-brand {
-      font-size: 20px;
-      gap: 6px;
-    }
-    .realm-brand img {
-      width: 28px;
-      height: 33px;
-    }
-    .realm-brand small {
-      font-size: 7px;
-      letter-spacing: 1.2px;
-    }
-    .account-menu {
-      max-width: 75px;
-    }
-    .account-name {
-      font-size: 8px;
-    }
-    .profile-link {
-      font-size: 12px;
     }
     .resource-upper {
       grid-template-columns: minmax(0, 1fr) 88px 40px;
@@ -4309,6 +5416,32 @@
     }
     .royal-announcement h2 {
       font-size: 21px;
+    }
+    .topbar {
+      padding: 0 10px;
+      gap: 8px;
+    }
+    .realm-brand {
+      gap: 6px;
+      font-size: 14px;
+    }
+    .realm-brand img {
+      width: 18px;
+      height: 22px;
+    }
+    .realm-brand small {
+      font-size: 6px;
+      line-height: 7px;
+      letter-spacing: 1px;
+    }
+    .account-menu {
+      max-width: 130px;
+    }
+    .account-name {
+      font-size: 9px;
+    }
+    .profile-link {
+      font-size: 11px;
     }
   }
   @media (prefers-reduced-motion: reduce) {

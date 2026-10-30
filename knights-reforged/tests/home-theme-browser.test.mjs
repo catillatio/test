@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 test(
-  "Shared realm theme preserves all screen content, routes, forms, artwork and data with original interactions",
+  "Mobile beta theme preserves all live views, states, commands, artwork and data",
   {
     skip:
       !process.env.TEST_DATABASE_URL ||
@@ -13,7 +13,7 @@ test(
   () => {
     const r = spawnSync(
       process.execPath,
-      ["--import", "tsx", "scripts/browser-home-theme.ts"],
+      ["--import", "tsx", "scripts/browser-home-theme.ts", "--mobile"],
       { encoding: "utf8", timeout: 590000, maxBuffer: 4 * 1024 * 1024 },
     );
     assert.equal(r.status, 0, r.stdout + r.stderr);

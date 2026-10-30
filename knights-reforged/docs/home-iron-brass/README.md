@@ -1,77 +1,62 @@
-# Kingdom Come — Iron & Brass review
+# Kingdom Come — final Iron & Brass beta review
 
-A shared presentation review using the owner's image for material and framing direction. It now covers Home, Quests, Battle/rivals, victory/defeat, Armory weapons/armor/spells, Land, self/public Profile and Army. [Open the interactive before/after comparison](comparison.html).
+The approved design now renders by default in normal application startup, including production-mode authentication, errors and secondary pages. This change prepares activation through the existing protected release; it does not merge or deploy the game.
 
-The existing Home structure, content, copy, eight menu links, tutorial forms, resource disclosures, activity feed and five-tab navigation are retained.
+[Browse all screenshots](SCREEN_GALLERY.md) · [Interactive before/after gallery](comparison.html) · [Complete route and state audit](SCREEN_COVERAGE.md) · [Screenshot inventory](SCENE_INVENTORY.json) · [Browser verification](verification.json)
 
-| Mobile — current | Mobile — Home review |
+| Home — previous beta | Home — final refinement |
 | --- | --- |
-| ![Current Home at 390px](screenshots/390-before.jpg) | ![Home review at 390px](screenshots/390-after.jpg) |
+| ![Previous beta Home, 390px](beta-before/390-after.jpg) | ![Final Home, 390px](screenshots/390-after.jpg) |
 
-[Complete mobile Home: current](screenshots/390-before-full.jpg) · [review](screenshots/390-after-full.jpg)
-
-| Gold balance — underglow detail | Victory reward — underglow detail |
+| Claimed bounty — previous beta | Claimed bounty — final refinement |
 | --- | --- |
-| ![Gold balance underglow at mobile size](screenshots/390-balance-detail-after.jpg) | ![Victory gold underglow at mobile size](screenshots/390-victory-gold-detail-after.jpg) |
+| ![Previous beta Victory, 390px](beta-before/390-victory-after.jpg) | ![Final bounty Victory, 390px](screenshots/390-victory-after.jpg) |
 
-| Desktop — current | Desktop — Home review |
-| --- | --- |
-| ![Current Home at 1280px](screenshots/1280-before.jpg) | ![Home review at 1280px](screenshots/1280-after.jpg) |
+## Final visual changes
 
-[Complete desktop Home: current](screenshots/1280-before-full.jpg) · [review](screenshots/1280-after-full.jpg)
+- The branded masthead is approximately half its previous height: 28px on mobile and 30px on desktop, down from 53px and 58px. It can grow with text instead of clipping. The account link stays contained, resources retain their original values and disclosures, and the five gameplay tabs remain unchanged.
+- Blackened iron and warm charcoal surfaces share restrained aged-brass framing, readable ivory type and consistent forged-metal controls. Mana retains its functional blue indicator; panels and navigation use the neutral palette.
+- Bounty escrow has a dedicated compact reward panel with a clear amount, coin emblem and recipient. It remains visibly and numerically separate from ordinary battle loot. Damage dealt and received have distinct icons, stronger numbers and compact two-column grouping.
+- The existing repeat-attack control sits directly after rewards/progress, before equipment comparisons, so repeated combat remains quick. XP, achievements, equipment, battle details and restrictions remain present.
+- Vault, Settings, Bounties and confirmations, Champions, Achievements, Tutorial, quest requirements, receipts, authentication and error pages use the same consolidated materials, typography and control sizing as Home, markets and profiles.
+- The centered gold and Victory underlights retain their geometric centering checks. Approved equipment and property images, quantities and identity mappings are unchanged. No new artwork was generated in this final pass.
 
-## What changed
+## Implementation boundaries
 
-- Compact masthead (53px mobile / 58px desktop), a metallic-gold balance with visible, feathered warm-gold light centered behind the numerals, and restrained dark-metal action buttons.
-- New sculpted brass/iron icon atlases, jeweled resource symbols, royal dispatch and candlelit tutorial illustrations, and subdued hammered iron texture. These are proposed Home UI decorations; approved equipment and property artwork remains untouched.
-- Warm charcoal and blackened iron surfaces; aged brass frames, restrained corner details, deeper shadows and ivory/gold type.
-- The existing castle illustration supports the compact masthead and Home title; it does not become a new hero section.
-- The same gold, XP, level and three resource readings sit in an inset metal frame. Native interactive disclosures and recovery timers remain.
-- Victory and defeat retain distinct outcomes; Victory uses a black base with visible gold backlighting centered behind the heading and gold reward. Attack and Buy use dark forged-metal faces with fine brass edges.
-- Royal Announcements and Tutorial have richer, distinct panel surfaces. The tutorial still uses the existing buttons and command forms.
-- All eight menu tiles retain their destinations and labels. The new sculpted UI icons use explicit route mappings; original SVGs remain in the DOM and render in forced-colors mode. Calling still shows its existing class label.
-- The same five bottom tabs receive bronze framing, clearer selected states and readable badges. The account name fits within its header instead of overflowing.
+Presentation changes are in the existing layered `public/realm-iron-brass.css`, not another stylesheet override stack. `views/layout.ejs` selects that consolidated sheet for normal rendering and uses the `iron-brass` body class.
 
-[New UI asset provenance and mapping](ASSET_PROVENANCE.json): four optimized WebP atlases total 198,572 bytes. The unmodified generated PNG originals are retained in `source-art/`, outside production assets. Processing is limited to aspect-fit atlas packaging and format/size optimization; the illustrations are not recolored or redrawn.
+`views/report.ejs` has the necessary semantic markup for the bounty reward and damage groups. Decorative icons are inside their definition terms; the original payout, loot, XP and damage bindings remain. The existing attack-again partial is moved earlier without duplicating or changing its form, command, eligibility or cost.
 
-## Other screens
+The small `createApp()` composition change enables the theme for signed-in and signed-out views. `src/legacy-theme-preview.ts` permits the historical stylesheet comparison only through an internal test option on loopback; it rejects production and development configurations. There is no public theme/debug switch, query parameter or cookie.
 
-| Screen | Mobile review | Desktop review |
-| --- | --- | --- |
-| Battle / Rivals | [390px](screenshots/390-battle-after.jpg) | [1280px](screenshots/1280-battle-after.jpg) |
-| Victory | [390px](screenshots/390-victory-after.jpg) | [1280px](screenshots/1280-victory-after.jpg) |
-| Defeat | [390px](screenshots/390-defeat-after.jpg) | [1280px](screenshots/1280-defeat-after.jpg) |
-| Weapons | [390px](screenshots/390-weapons-after.jpg) | [1280px](screenshots/1280-weapons-after.jpg) |
-| Armor | [390px](screenshots/390-armor-after.jpg) | [1280px](screenshots/1280-armor-after.jpg) |
-| Spells | [390px](screenshots/390-spells-after.jpg) | [1280px](screenshots/1280-spells-after.jpg) |
-| Land | [390px](screenshots/390-land-after.jpg) | [1280px](screenshots/1280-land-after.jpg) |
-| Profile | [390px](screenshots/390-profile-after.jpg) | [1280px](screenshots/1280-profile-after.jpg) |
-| Public Profile | [390px](screenshots/390-public-profile-after.jpg) | [1280px](screenshots/1280-public-profile-after.jpg) |
-| Army | [390px](screenshots/390-army-after.jpg) | [1280px](screenshots/1280-army-after.jpg) |
-| Quests | [390px](screenshots/390-quests-after.jpg) | [1280px](screenshots/1280-quests-after.jpg) |
+No gameplay formulas, command handlers, routes, database schema, accounting, ownership, artwork registry or production infrastructure are changed. The test fixture deliberately executes existing commands on disposable synthetic data to verify interactions.
 
-Full victory and defeat captures, matching before images, and regional equipment/Land details are available through the comparison viewer. Approved equipment and property illustrations retain their existing identities and colors; the neutral palette applies to the UI surfaces.
+## Coverage and verification
 
-## Scope and markup
+The audit follows actual render callers and HTTP contracts: **21 live templates out of 22 declared templates**. The remaining `trade-confirm` template has no reachable render caller; its existing buy/sell EJS contract is still tested, rather than inventing a route. Fourteen JSON-only endpoints and navigation redirects are checked separately.
 
-Existing page templates, shared header/resources/navigation partials, browser scripts, approved equipment/property images, routes and gameplay code are unchanged. The only template edit is in `views/layout.ejs`: select one consolidated shared stylesheet and add a review class when the internal UI preview is enabled. No product content is added or removed.
+The browser matrix includes **420 paired view/state comparisons** at **320, 390, 430, 1024 and 1280px**, plus 35 glow-centering cases. It checks matching content, form contracts, navigation, resource readings and approved image references; decoded artwork; no horizontal overflow; compact header fit; and unchanged business rows before explicit interaction tests. Saved battle records independently supply the expected loot, bounty and damage values.
 
-`src/ui-theme-preview.ts` and the small composition hook in `createApp()` restrict the review to an explicit test-only, loopback opt-in. There is no public query, cookie, environment switch or production startup option to activate it. The opt-in now applies the shared stylesheet to signed-in screens; authentication screens retain their existing styles. This is isolated for visual approval, not an automatic rollout.
+Native interaction checks exercise purchases, market Buy/Sell keyboard tabs, equipment previews, resource disclosures, broadcast, notification acknowledgement, conserved Vault transfers, persisted sound settings and the existing Register → Tutorial → Calling → Sign Out → Sign In journey. Production-mode SSR covers every reachable HTML template, including POST confirmations and authentication errors, against the disposable database with a secure production origin.
 
-[Mobile item details](screenshots/390-item-detail-after.jpg) · [Desktop item details](screenshots/1280-item-detail-after.jpg)
+Primary actions and navigation retain 44px targets. The compact account link retains at least the WCAG 2.2 AA 24px target minimum. Reduced-motion, forced-colors and keyboard-focus treatments remain in the design system.
 
-## Browser evidence
+CI partitions the same five-width matrix into mobile and desktop entries within the existing browser lane and time limits. No assertions or viewport coverage are skipped to shorten CI. The normal all-width capture command remains the source of the committed review evidence.
 
-`verification.json` records 80 paired scene/state checks at 320, 390, 430, 1024 and 1280px. Before/after comparisons use the same disposable synthetic realm through real Fastify/EJS routes, never production data. Checks compare every heading, link, form contract, icon reference, module text and resource value. They also verify header fit, eight menu targets, five navigation targets, keyboard resource disclosures, original purchase/broadcast/tutorial commands and unchanged persisted business rows before those explicit test commands. Thirty-five additional geometry checks compare the glow centers with rendered text at the same five widths, including short and long gold balances. The previous bottom-anchored light failed this check; the corrected light centers behind the text on both axes. The preview stylesheet URL is versioned to refresh an existing browser cache.
+## Screenshot provenance
 
-The unchanged game and artwork checks run alongside the new UI tests in ordinary CI. No production release or recovery rehearsal is part of this review.
+Core **before** images are actual captures from the preceding beta commit `fb6626b728d5a01678dcb9c6f19e63aca1c8397c`, archived with byte hashes in [beta-before/PROVENANCE.json](beta-before/PROVENANCE.json). Their fixture represents the prior review and can have different balances or XP from the expanded final fixture. Numeric preservation is established separately through same-fixture assertions and saved battle records.
 
-## Interactive cloud preview
+Secondary screens without prior-beta captures use the unchanged template with the internal classic stylesheet baseline. The gallery labels this distinction. In particular, a current report rendered with classic CSS is not presented as a historical report screenshot after markup changes.
 
-Use an existing private development cloud workspace with dependencies, Chromium and a designated **local disposable** PostgreSQL database whose name ends in `_test`. From `knights-reforged`, run `npm run preview:realm-theme` with `TEST_DATABASE_URL` set to that fixture. This never accepts a production database. The script prints two loopback URLs (review on 4100, current on 4101) and a synthetic sign-in. Open them through the workspace's private browser preview. Ctrl+C removes only the fixture schema.
+All images are actual Chromium captures of the app, using synthetic accounts in a local disposable database. No production data, recovery copy or generated screenshot mockup is involved. Existing proposed Home UI art remains documented in [ASSET_PROVENANCE.json](ASSET_PROVENANCE.json); this pass preserves those assets and all approved equipment/property art.
 
-`npm run test:browser:home-theme -- --capture` regenerates the screenshots from the real app using the same guarded fixture.
+## Reproduce in a private cloud workspace
 
-## Next owner review
+With dependencies, Chromium and a designated **local disposable** PostgreSQL database ending in `_test`, run `npm run preview:realm-theme` from `knights-reforged` with `TEST_DATABASE_URL` set to that fixture. It prints loopback URLs for the normal theme on 4100 and internal legacy comparison on 4101, plus synthetic sign-in details. Ctrl+C removes only its fixture schema. The helper rejects production databases.
 
-Review frame weight, contrast, menu density, typography and the material treatment at actual mobile size. The requested cross-screen review is included. Enabling this reviewed theme in the normal application remains a separate owner decision. The shared review remains inactive in normal application startup.
+`npm run test:browser:home-theme -- --capture` runs the complete five-width matrix and regenerates the main screenshot evidence. Partial viewport modes cannot overwrite the documentation capture. The screenshot inventory identifies the additional narrow-width review captures.
+
+## Remaining deployment boundary
+
+Owner visual review, merge and a separately authorized protected image release remain. No Railway setting, database migration, storage change or new infrastructure is needed to activate this UI. After deployment, verify the real production Home, a battle report, markets, profile and signed-out authentication pages through the existing release health and review process.

@@ -8,6 +8,8 @@
     1280
   ],
   "views": 80,
+  "totalPairedViews": 420,
+  "routeStateCases": 84,
   "checks": [
     {
       "width": 320,
@@ -379,7 +381,7 @@
     },
     {
       "width": 320,
-      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
+      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -408,7 +410,7 @@
     },
     {
       "width": 320,
-      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
+      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -582,7 +584,7 @@
     },
     {
       "width": 320,
-      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1008,7 +1010,7 @@
     },
     {
       "width": 390,
-      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
+      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1037,7 +1039,7 @@
     },
     {
       "width": 390,
-      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
+      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1211,7 +1213,7 @@
     },
     {
       "width": 390,
-      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1637,7 +1639,7 @@
     },
     {
       "width": 430,
-      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
+      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1666,7 +1668,7 @@
     },
     {
       "width": 430,
-      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
+      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1840,7 +1842,7 @@
     },
     {
       "width": 430,
-      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2266,7 +2268,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
+      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2295,7 +2297,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
+      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2469,7 +2471,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2895,7 +2897,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
+      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2924,7 +2926,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
+      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -3098,7 +3100,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -3154,6 +3156,3665 @@
         }
       ]
     }
+  ],
+  "secondaryViews": 340,
+  "secondaryCoverage": [
+    {
+      "width": 320,
+      "name": "login",
+      "path": "/login",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "register",
+      "path": "/register",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "login-error",
+      "path": "/login",
+      "template": "auth",
+      "status": 401,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "register-error",
+      "path": "/register",
+      "template": "auth",
+      "status": 422,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "rules-public",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "error-public",
+      "path": "/not-a-realm-route",
+      "template": "error",
+      "status": 404,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "rules",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "error-signed-in",
+      "path": "/game/unknown-ui-fixture",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "error-invalid-battle",
+      "path": "/game/battles/not-a-uuid",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "settings",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "settings-enabled",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "vault",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "vault-empty",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "achievements",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "achievements-locked",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "champions-victories",
+      "path": "/game/champions?category=victories",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "champions-kills",
+      "path": "/game/champions?category=kills",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "champions-kd",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "champions-bounties",
+      "path": "/game/champions?category=bounties",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "champions-wanted",
+      "path": "/game/champions?category=wanted",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "champions-land",
+      "path": "/game/champions?category=land",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "champions-level",
+      "path": "/game/champions?category=level",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "champions-unranked",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-intro",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-skipped",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-step-1",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-step-2",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-step-3",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-step-4",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-step-5",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-step-6",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-step-7",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-step-8",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-complete",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "tutorial-replay",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "home-newcomer",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "home-completed",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "quest-requirements-missing",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "quest-requirements-ready",
+      "path": "/game/quests/border-patrol/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "quest-requirements-locked",
+      "path": "/game/quests/settle-the-war-of-crowns/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "quest-requirements-poor",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "quest-result",
+      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "quests-nearby",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "quests-locked",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bulk-equipment",
+      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "template": "armory",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bulk-land",
+      "path": "/game/land?bulk=smallholding",
+      "template": "land",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "purchase-equipment",
+      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "purchase-land",
+      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "purchase-historical",
+      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "army-recruit",
+      "path": "/game/army",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "army-dashboard",
+      "path": "/game/army?tab=dashboard",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "army-accepted",
+      "path": "/game/army?tab=army&roster=accepted",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "army-incoming",
+      "path": "/game/army?tab=army&roster=incoming",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "army-outgoing",
+      "path": "/game/army?tab=army&roster=outgoing",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "profile-skills",
+      "path": "/game/profile?tab=skills",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "profile-comments",
+      "path": "/game/profile?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "profile-battles",
+      "path": "/game/profile?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "public-profile-comments",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "public-profile-battles",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bounties",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bounties-sponsor",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bounties-target",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bounties-ineligible",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bounty-new",
+      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bounty-self-blocked",
+      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bounty-active-blocked",
+      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bounty-confirm",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 320,
+      "name": "bounty-confirm-poor",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "login",
+      "path": "/login",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "register",
+      "path": "/register",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "login-error",
+      "path": "/login",
+      "template": "auth",
+      "status": 401,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "register-error",
+      "path": "/register",
+      "template": "auth",
+      "status": 422,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "rules-public",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "error-public",
+      "path": "/not-a-realm-route",
+      "template": "error",
+      "status": 404,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "rules",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "error-signed-in",
+      "path": "/game/unknown-ui-fixture",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "error-invalid-battle",
+      "path": "/game/battles/not-a-uuid",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "settings",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "settings-enabled",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "vault",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "vault-empty",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "achievements",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "achievements-locked",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "champions-victories",
+      "path": "/game/champions?category=victories",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "champions-kills",
+      "path": "/game/champions?category=kills",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "champions-kd",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "champions-bounties",
+      "path": "/game/champions?category=bounties",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "champions-wanted",
+      "path": "/game/champions?category=wanted",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "champions-land",
+      "path": "/game/champions?category=land",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "champions-level",
+      "path": "/game/champions?category=level",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "champions-unranked",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-intro",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-skipped",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-step-1",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-step-2",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-step-3",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-step-4",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-step-5",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-step-6",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-step-7",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-step-8",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-complete",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "tutorial-replay",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "home-newcomer",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "home-completed",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "quest-requirements-missing",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "quest-requirements-ready",
+      "path": "/game/quests/border-patrol/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "quest-requirements-locked",
+      "path": "/game/quests/settle-the-war-of-crowns/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "quest-requirements-poor",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "quest-result",
+      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "quests-nearby",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "quests-locked",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bulk-equipment",
+      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "template": "armory",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bulk-land",
+      "path": "/game/land?bulk=smallholding",
+      "template": "land",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "purchase-equipment",
+      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "purchase-land",
+      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "purchase-historical",
+      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "army-recruit",
+      "path": "/game/army",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "army-dashboard",
+      "path": "/game/army?tab=dashboard",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "army-accepted",
+      "path": "/game/army?tab=army&roster=accepted",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "army-incoming",
+      "path": "/game/army?tab=army&roster=incoming",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "army-outgoing",
+      "path": "/game/army?tab=army&roster=outgoing",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "profile-skills",
+      "path": "/game/profile?tab=skills",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "profile-comments",
+      "path": "/game/profile?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "profile-battles",
+      "path": "/game/profile?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "public-profile-comments",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "public-profile-battles",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bounties",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bounties-sponsor",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bounties-target",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bounties-ineligible",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bounty-new",
+      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bounty-self-blocked",
+      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bounty-active-blocked",
+      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bounty-confirm",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 390,
+      "name": "bounty-confirm-poor",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "login",
+      "path": "/login",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "register",
+      "path": "/register",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "login-error",
+      "path": "/login",
+      "template": "auth",
+      "status": 401,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "register-error",
+      "path": "/register",
+      "template": "auth",
+      "status": 422,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "rules-public",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "error-public",
+      "path": "/not-a-realm-route",
+      "template": "error",
+      "status": 404,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "rules",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "error-signed-in",
+      "path": "/game/unknown-ui-fixture",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "error-invalid-battle",
+      "path": "/game/battles/not-a-uuid",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "settings",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "settings-enabled",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "vault",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "vault-empty",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "achievements",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "achievements-locked",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "champions-victories",
+      "path": "/game/champions?category=victories",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "champions-kills",
+      "path": "/game/champions?category=kills",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "champions-kd",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "champions-bounties",
+      "path": "/game/champions?category=bounties",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "champions-wanted",
+      "path": "/game/champions?category=wanted",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "champions-land",
+      "path": "/game/champions?category=land",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "champions-level",
+      "path": "/game/champions?category=level",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "champions-unranked",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-intro",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-skipped",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-step-1",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-step-2",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-step-3",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-step-4",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-step-5",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-step-6",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-step-7",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-step-8",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-complete",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "tutorial-replay",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "home-newcomer",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "home-completed",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "quest-requirements-missing",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "quest-requirements-ready",
+      "path": "/game/quests/border-patrol/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "quest-requirements-locked",
+      "path": "/game/quests/settle-the-war-of-crowns/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "quest-requirements-poor",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "quest-result",
+      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "quests-nearby",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "quests-locked",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bulk-equipment",
+      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "template": "armory",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bulk-land",
+      "path": "/game/land?bulk=smallholding",
+      "template": "land",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "purchase-equipment",
+      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "purchase-land",
+      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "purchase-historical",
+      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "army-recruit",
+      "path": "/game/army",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "army-dashboard",
+      "path": "/game/army?tab=dashboard",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "army-accepted",
+      "path": "/game/army?tab=army&roster=accepted",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "army-incoming",
+      "path": "/game/army?tab=army&roster=incoming",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "army-outgoing",
+      "path": "/game/army?tab=army&roster=outgoing",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "profile-skills",
+      "path": "/game/profile?tab=skills",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "profile-comments",
+      "path": "/game/profile?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "profile-battles",
+      "path": "/game/profile?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "public-profile-comments",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "public-profile-battles",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bounties",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bounties-sponsor",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bounties-target",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bounties-ineligible",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bounty-new",
+      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bounty-self-blocked",
+      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bounty-active-blocked",
+      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bounty-confirm",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 430,
+      "name": "bounty-confirm-poor",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "login",
+      "path": "/login",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "register",
+      "path": "/register",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "login-error",
+      "path": "/login",
+      "template": "auth",
+      "status": 401,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "register-error",
+      "path": "/register",
+      "template": "auth",
+      "status": 422,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "rules-public",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "error-public",
+      "path": "/not-a-realm-route",
+      "template": "error",
+      "status": 404,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "rules",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "error-signed-in",
+      "path": "/game/unknown-ui-fixture",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "error-invalid-battle",
+      "path": "/game/battles/not-a-uuid",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "settings",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "settings-enabled",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "vault",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "vault-empty",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "achievements",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "achievements-locked",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "champions-victories",
+      "path": "/game/champions?category=victories",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "champions-kills",
+      "path": "/game/champions?category=kills",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "champions-kd",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "champions-bounties",
+      "path": "/game/champions?category=bounties",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "champions-wanted",
+      "path": "/game/champions?category=wanted",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "champions-land",
+      "path": "/game/champions?category=land",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "champions-level",
+      "path": "/game/champions?category=level",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "champions-unranked",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-intro",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-skipped",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-step-1",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-step-2",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-step-3",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-step-4",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-step-5",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-step-6",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-step-7",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-step-8",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-complete",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "tutorial-replay",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "home-newcomer",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "home-completed",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "quest-requirements-missing",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "quest-requirements-ready",
+      "path": "/game/quests/border-patrol/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "quest-requirements-locked",
+      "path": "/game/quests/settle-the-war-of-crowns/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "quest-requirements-poor",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "quest-result",
+      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "quests-nearby",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "quests-locked",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bulk-equipment",
+      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "template": "armory",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bulk-land",
+      "path": "/game/land?bulk=smallholding",
+      "template": "land",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "purchase-equipment",
+      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "purchase-land",
+      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "purchase-historical",
+      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "army-recruit",
+      "path": "/game/army",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "army-dashboard",
+      "path": "/game/army?tab=dashboard",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "army-accepted",
+      "path": "/game/army?tab=army&roster=accepted",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "army-incoming",
+      "path": "/game/army?tab=army&roster=incoming",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "army-outgoing",
+      "path": "/game/army?tab=army&roster=outgoing",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "profile-skills",
+      "path": "/game/profile?tab=skills",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "profile-comments",
+      "path": "/game/profile?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "profile-battles",
+      "path": "/game/profile?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "public-profile-comments",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "public-profile-battles",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bounties",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bounties-sponsor",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bounties-target",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bounties-ineligible",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bounty-new",
+      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bounty-self-blocked",
+      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bounty-active-blocked",
+      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bounty-confirm",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "name": "bounty-confirm-poor",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "login",
+      "path": "/login",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "register",
+      "path": "/register",
+      "template": "auth",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "login-error",
+      "path": "/login",
+      "template": "auth",
+      "status": 401,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "register-error",
+      "path": "/register",
+      "template": "auth",
+      "status": 422,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "rules-public",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "error-public",
+      "path": "/not-a-realm-route",
+      "template": "error",
+      "status": 404,
+      "signedIn": false,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "rules",
+      "path": "/rules",
+      "template": "rules",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "error-signed-in",
+      "path": "/game/unknown-ui-fixture",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "error-invalid-battle",
+      "path": "/game/battles/not-a-uuid",
+      "template": "error",
+      "status": 404,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "settings",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "settings-enabled",
+      "path": "/game/settings",
+      "template": "settings",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "vault",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "vault-empty",
+      "path": "/game/vault",
+      "template": "vault",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "achievements",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "achievements-locked",
+      "path": "/game/achievements",
+      "template": "achievements",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "champions-victories",
+      "path": "/game/champions?category=victories",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "champions-kills",
+      "path": "/game/champions?category=kills",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "champions-kd",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "champions-bounties",
+      "path": "/game/champions?category=bounties",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "champions-wanted",
+      "path": "/game/champions?category=wanted",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "champions-land",
+      "path": "/game/champions?category=land",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "champions-level",
+      "path": "/game/champions?category=level",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "champions-unranked",
+      "path": "/game/champions?category=kd",
+      "template": "champions",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-intro",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-skipped",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-step-1",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-step-2",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-step-3",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-step-4",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-step-5",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-step-6",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-step-7",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-step-8",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-complete",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "tutorial-replay",
+      "path": "/game/tutorial",
+      "template": "tutorial",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "home-newcomer",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "home-completed",
+      "path": "/game/home",
+      "template": "home",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "quest-requirements-missing",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "quest-requirements-ready",
+      "path": "/game/quests/border-patrol/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "quest-requirements-locked",
+      "path": "/game/quests/settle-the-war-of-crowns/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "quest-requirements-poor",
+      "path": "/game/quests/gather-timber/requirements",
+      "template": "quest-equipment",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "quest-result",
+      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "quests-nearby",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "quests-locked",
+      "path": "/game/quests?area=nearby",
+      "template": "quests",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bulk-equipment",
+      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "template": "armory",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bulk-land",
+      "path": "/game/land?bulk=smallholding",
+      "template": "land",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "purchase-equipment",
+      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "purchase-land",
+      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "purchase-historical",
+      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "template": "purchase",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "army-recruit",
+      "path": "/game/army",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "army-dashboard",
+      "path": "/game/army?tab=dashboard",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "army-accepted",
+      "path": "/game/army?tab=army&roster=accepted",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "army-incoming",
+      "path": "/game/army?tab=army&roster=incoming",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "army-outgoing",
+      "path": "/game/army?tab=army&roster=outgoing",
+      "template": "army",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "profile-skills",
+      "path": "/game/profile?tab=skills",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "profile-comments",
+      "path": "/game/profile?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "profile-battles",
+      "path": "/game/profile?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "public-profile-comments",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "public-profile-battles",
+      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "template": "profile",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bounties",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bounties-sponsor",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bounties-target",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bounties-ineligible",
+      "path": "/game/bounties",
+      "template": "bounties",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bounty-new",
+      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bounty-self-blocked",
+      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bounty-active-blocked",
+      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "template": "bounty-new",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bounty-confirm",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    },
+    {
+      "width": 1280,
+      "name": "bounty-confirm-poor",
+      "path": "POST /game/bounties/preview",
+      "template": "bounty-confirm",
+      "status": 200,
+      "signedIn": true,
+      "contentAndCommandsUnchanged": true
+    }
+  ],
+  "productionSsr": [
+    {
+      "name": "login",
+      "template": "auth",
+      "status": 200
+    },
+    {
+      "name": "register",
+      "template": "auth",
+      "status": 200
+    },
+    {
+      "name": "rules-public",
+      "template": "rules",
+      "status": 200
+    },
+    {
+      "name": "error-public",
+      "template": "error",
+      "status": 404
+    },
+    {
+      "name": "rules",
+      "template": "rules",
+      "status": 200
+    },
+    {
+      "name": "error-signed-in",
+      "template": "error",
+      "status": 404
+    },
+    {
+      "name": "error-invalid-battle",
+      "template": "error",
+      "status": 404
+    },
+    {
+      "name": "settings",
+      "template": "settings",
+      "status": 200
+    },
+    {
+      "name": "settings-enabled",
+      "template": "settings",
+      "status": 200
+    },
+    {
+      "name": "vault",
+      "template": "vault",
+      "status": 200
+    },
+    {
+      "name": "vault-empty",
+      "template": "vault",
+      "status": 200
+    },
+    {
+      "name": "achievements",
+      "template": "achievements",
+      "status": 200
+    },
+    {
+      "name": "achievements-locked",
+      "template": "achievements",
+      "status": 200
+    },
+    {
+      "name": "champions-victories",
+      "template": "champions",
+      "status": 200
+    },
+    {
+      "name": "champions-kills",
+      "template": "champions",
+      "status": 200
+    },
+    {
+      "name": "champions-kd",
+      "template": "champions",
+      "status": 200
+    },
+    {
+      "name": "champions-bounties",
+      "template": "champions",
+      "status": 200
+    },
+    {
+      "name": "champions-wanted",
+      "template": "champions",
+      "status": 200
+    },
+    {
+      "name": "champions-land",
+      "template": "champions",
+      "status": 200
+    },
+    {
+      "name": "champions-level",
+      "template": "champions",
+      "status": 200
+    },
+    {
+      "name": "champions-unranked",
+      "template": "champions",
+      "status": 200
+    },
+    {
+      "name": "tutorial-intro",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-skipped",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-step-1",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-step-2",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-step-3",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-step-4",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-step-5",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-step-6",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-step-7",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-step-8",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-complete",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "tutorial-replay",
+      "template": "tutorial",
+      "status": 200
+    },
+    {
+      "name": "home-newcomer",
+      "template": "home",
+      "status": 200
+    },
+    {
+      "name": "home-completed",
+      "template": "home",
+      "status": 200
+    },
+    {
+      "name": "quest-requirements-missing",
+      "template": "quest-equipment",
+      "status": 200
+    },
+    {
+      "name": "quest-requirements-ready",
+      "template": "quest-equipment",
+      "status": 200
+    },
+    {
+      "name": "quest-requirements-locked",
+      "template": "quest-equipment",
+      "status": 200
+    },
+    {
+      "name": "quest-requirements-poor",
+      "template": "quest-equipment",
+      "status": 200
+    },
+    {
+      "name": "quest-result",
+      "template": "quests",
+      "status": 200
+    },
+    {
+      "name": "quests-nearby",
+      "template": "quests",
+      "status": 200
+    },
+    {
+      "name": "quests-locked",
+      "template": "quests",
+      "status": 200
+    },
+    {
+      "name": "bulk-equipment",
+      "template": "armory",
+      "status": 200
+    },
+    {
+      "name": "bulk-land",
+      "template": "land",
+      "status": 200
+    },
+    {
+      "name": "purchase-equipment",
+      "template": "purchase",
+      "status": 200
+    },
+    {
+      "name": "purchase-land",
+      "template": "purchase",
+      "status": 200
+    },
+    {
+      "name": "purchase-historical",
+      "template": "purchase",
+      "status": 200
+    },
+    {
+      "name": "army-recruit",
+      "template": "army",
+      "status": 200
+    },
+    {
+      "name": "army-dashboard",
+      "template": "army",
+      "status": 200
+    },
+    {
+      "name": "army-accepted",
+      "template": "army",
+      "status": 200
+    },
+    {
+      "name": "army-incoming",
+      "template": "army",
+      "status": 200
+    },
+    {
+      "name": "army-outgoing",
+      "template": "army",
+      "status": 200
+    },
+    {
+      "name": "profile-skills",
+      "template": "profile",
+      "status": 200
+    },
+    {
+      "name": "profile-comments",
+      "template": "profile",
+      "status": 200
+    },
+    {
+      "name": "profile-battles",
+      "template": "profile",
+      "status": 200
+    },
+    {
+      "name": "public-profile-comments",
+      "template": "profile",
+      "status": 200
+    },
+    {
+      "name": "public-profile-battles",
+      "template": "profile",
+      "status": 200
+    },
+    {
+      "name": "bounties",
+      "template": "bounties",
+      "status": 200
+    },
+    {
+      "name": "bounties-sponsor",
+      "template": "bounties",
+      "status": 200
+    },
+    {
+      "name": "bounties-target",
+      "template": "bounties",
+      "status": 200
+    },
+    {
+      "name": "bounties-ineligible",
+      "template": "bounties",
+      "status": 200
+    },
+    {
+      "name": "bounty-new",
+      "template": "bounty-new",
+      "status": 200
+    },
+    {
+      "name": "bounty-self-blocked",
+      "template": "bounty-new",
+      "status": 200
+    },
+    {
+      "name": "bounty-active-blocked",
+      "template": "bounty-new",
+      "status": 200
+    },
+    {
+      "name": "login-error",
+      "template": "auth",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "register-error",
+      "template": "auth",
+      "method": "POST",
+      "status": 422
+    },
+    {
+      "name": "bounty-confirm",
+      "template": "bounty-confirm",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "name": "bounty-confirm-poor",
+      "template": "bounty-confirm",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "name": "/game/home",
+      "status": 200
+    },
+    {
+      "name": "/game/home?feed=battles",
+      "status": 200
+    },
+    {
+      "name": "/game/home?feed=comments",
+      "status": 200
+    },
+    {
+      "name": "/game/home?feed=broadcasts",
+      "status": 200
+    },
+    {
+      "name": "/game/home?calling=1#calling",
+      "status": 200
+    },
+    {
+      "name": "/game/quests",
+      "status": 200
+    },
+    {
+      "name": "/game/battle",
+      "status": 200
+    },
+    {
+      "name": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
+      "status": 200
+    },
+    {
+      "name": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
+      "status": 200
+    },
+    {
+      "name": "/game/armory",
+      "status": 200
+    },
+    {
+      "name": "/game/armory?category=armor",
+      "status": 200
+    },
+    {
+      "name": "/game/armory?category=spell",
+      "status": 200
+    },
+    {
+      "name": "/game/land",
+      "status": 200
+    },
+    {
+      "name": "/game/profile",
+      "status": 200
+    },
+    {
+      "name": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
+      "status": 200
+    },
+    {
+      "name": "/game/army?tab=army",
+      "status": 200
+    }
+  ],
+  "transitionsAndJson": [
+    {
+      "name": "root-public",
+      "status": 302,
+      "destination": "/login"
+    },
+    {
+      "name": "root-signed-in",
+      "status": 302,
+      "destination": "/game/home"
+    },
+    {
+      "name": "login-signed-in",
+      "status": 302,
+      "destination": "/game/home"
+    },
+    {
+      "name": "register-signed-in",
+      "status": 302,
+      "destination": "/game/home"
+    },
+    {
+      "name": "private-signed-out",
+      "status": 302,
+      "destination": "/login?returnTo=%2Fgame%2Fhome"
+    },
+    {
+      "name": "self-public-profile",
+      "status": 302,
+      "destination": "/game/profile?tab=player"
+    },
+    {
+      "name": "/healthz",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/me",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/opponents",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/champions",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/achievements",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/notifications",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/bounties",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/bounties/quote?targetCharacterId=36173494-aed5-42ae-a338-89a1a7d02ac4&amount=1",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/feed",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/land",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/players/78447353-40a5-4d59-a19f-409e6460b20a",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/players/78447353-40a5-4d59-a19f-409e6460b20a/combat",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "/api/v1/players/78447353-40a5-4d59-a19f-409e6460b20a/tales",
+      "type": "JSON-only",
+      "status": 200
+    },
+    {
+      "name": "native-registration-tutorial-calling-signout-login",
+      "passed": true
+    },
+    {
+      "name": "native-vault-deposit-withdraw",
+      "amount": 27,
+      "balancesConserved": true
+    },
+    {
+      "name": "native-sound-autosave",
+      "savedAndReloaded": true
+    },
+    {
+      "name": "native-notification-read-fallback",
+      "personalEventsAcknowledged": true,
+      "armyInvitationCountPreserved": true
+    }
+  ],
+  "declaredTemplates": [
+    "champions",
+    "tutorial",
+    "achievements",
+    "quest-equipment",
+    "trade-confirm",
+    "purchase",
+    "home",
+    "quests",
+    "battle",
+    "bounties",
+    "bounty-confirm",
+    "bounty-new",
+    "vault",
+    "armory",
+    "army",
+    "land",
+    "profile",
+    "settings",
+    "auth",
+    "report",
+    "rules",
+    "error"
+  ],
+  "liveTemplatesCovered": 21,
+  "historicalTemplateOnly": [
+    "trade-confirm"
+  ],
+  "sceneInventory": [
+    "home",
+    "quests",
+    "battle",
+    "victory",
+    "defeat",
+    "weapons",
+    "armor",
+    "spells",
+    "land",
+    "profile",
+    "public-profile",
+    "army",
+    "login",
+    "register",
+    "error-public",
+    "rules",
+    "settings",
+    "vault",
+    "achievements",
+    "champions-victories",
+    "tutorial-intro",
+    "tutorial-step-1",
+    "tutorial-step-4",
+    "tutorial-step-8",
+    "tutorial-complete",
+    "quest-requirements-missing",
+    "quest-result",
+    "bulk-equipment",
+    "bulk-land",
+    "purchase-equipment",
+    "army-recruit",
+    "army-dashboard",
+    "profile-skills",
+    "bounties",
+    "bounty-new",
+    "bounty-confirm"
   ],
   "glowAlignment": [
     {
@@ -3218,7 +6879,7 @@
       "label": "balance",
       "sample": 0,
       "dx": -0.00012499999999704414,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 390,
@@ -3226,7 +6887,7 @@
       "label": "balance",
       "sample": 1,
       "dx": -0.000005000000008692496,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 390,
@@ -3234,7 +6895,7 @@
       "label": "balance",
       "sample": 2,
       "dx": -0.00012499999999704414,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 390,
@@ -3242,7 +6903,7 @@
       "label": "balance",
       "sample": 3,
       "dx": -0.00012499999999704414,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 390,
@@ -3250,7 +6911,7 @@
       "label": "balance",
       "sample": 0,
       "dx": -0.00012499999999704414,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 390,
@@ -3274,7 +6935,7 @@
       "label": "balance",
       "sample": 0,
       "dx": -0.00012499999999704414,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 430,
@@ -3282,7 +6943,7 @@
       "label": "balance",
       "sample": 1,
       "dx": -0.000005000000008692496,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 430,
@@ -3290,7 +6951,7 @@
       "label": "balance",
       "sample": 2,
       "dx": -0.00012499999999704414,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 430,
@@ -3298,7 +6959,7 @@
       "label": "balance",
       "sample": 3,
       "dx": -0.00012499999999704414,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 430,
@@ -3306,7 +6967,7 @@
       "label": "balance",
       "sample": 0,
       "dx": -0.00012499999999704414,
-      "dy": 0.14060000000000628
+      "dy": 0.14059999999999917
     },
     {
       "width": 430,
@@ -3444,7 +7105,7 @@
   "realPurchaseBroadcastAndTutorialCommands": true,
   "otherScreensRemainFunctional": true,
   "productionContacted": false,
-  "cssBytes": 94592,
-  "cssSha256": "e51b0def01e02cfd34b591337aaaf4e2b7781554843f7058444dc04f07486de6",
+  "cssBytes": 119349,
+  "cssSha256": "f2d5369e0cfd4e7f14ad69d0b181d20c5b3ccd762f27fa3ac0811917fb98be91",
   "errors": []
 }

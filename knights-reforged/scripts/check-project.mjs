@@ -97,7 +97,7 @@ check('Simplified Land sheet preserves 21 property identities with verified imag
  assert.ok(read('public/strategy.css').includes('land-simple-0.1/properties.webp'));
 });
 check('CSS uses local assets; original tab geometry, neutral palette and safe areas remain',()=>{
-  for(const file of ['public/realm-theme.css','public/land-review.css','public/remaster.css','public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
+  for(const file of ['public/realm-iron-brass.css','public/realm-theme.css','public/land-review.css','public/remaster.css','public/phase43.css','public/styles.css','public/kingdoms-live.css','public/alpha.css','public/refinements.css','public/strategy.css','public/community.css','public/phase41.css']){
     for(const match of read(file).matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)){
       assert.ok(!/^(?:https?:|\/\/)/.test(match[1]));assert.ok(existsSync(resolve(root,dirname(file),match[1])),match[1]);
     }
@@ -270,11 +270,9 @@ check('Active branding and package lock use Kingdom Come',()=>{
 });
 check('Upgraded pages bypass cached pre-expansion income clients',()=>{
   for(const example of cases){
-    const html=rendered.get(example.name);assert.ok(html.includes('/assets/refinements.css?v='+alpha.id));
-    assert.ok(html.includes('/assets/phase41.css?v='+alpha.id+'-phase41-render1-phase48-mockup2'));
-    assert.ok(html.includes('/assets/kingdoms-live.css?v=phase48-mockup2'));assert.ok(html.includes('/assets/alpha.css?v=phase48-mockup2'));
-    assert.ok(html.includes('/assets/remaster.css?v=phase48-mockup2'));
-    assert.ok(html.includes('/assets/realm-theme.css?v=phase6-competition1'));
+    const html=rendered.get(example.name);assert.ok(html.includes('/assets/realm-iron-brass.css?v=realm-beta-1'));
+    assert.equal((html.match(/<link rel="stylesheet"/g)||[]).length,1);
+    assert.ok(!html.includes('/assets/phase41.css'));assert.ok(!html.includes('/assets/realm-theme.css'));
     assert.ok(html.includes('/assets/sound.js?v=phase491-quiet1'));
     if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
     if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase6-competition1'));
@@ -287,8 +285,12 @@ check('Land retains countdown, offline payment, sale, retained-gold and no-scrip
   for(const hook of ['data-land-countdown','data-land-status','data-land-payment-time','data-land-gross','data-land-upkeep','data-equipment-upkeep','data-land-net','data-land-pending','data-land-pending-gold','data-land-owned','data-land-buy-hint','data-wallet-gold','data-land-sell','<noscript>','/assets/land.js'])assert.ok(html.includes(hook),example.name+': '+hook);
  }
 });
-check('The Land-only review stylesheet and original assets cannot replace other screens',()=>{
-  for(const example of cases)assert.equal(rendered.get(example.name).includes('/assets/land-review.css?v=phase48-land-finish1'),example.data.screen==='land');
+check('Unified production styling preserves scoped legacy comparisons and original Land assets',()=>{
+  for(const example of cases){
+    assert.ok(!rendered.get(example.name).includes('/assets/land-review.css'));
+    const legacy=ejs.render(read('views/layout.ejs'),{callingName,callingDescription,battleRewardNotes,sound:{enabled:false,volume:55},soundEvent:null,...example.data,uiTheme:false},{filename:join(root,'views/layout.ejs')});
+    assert.equal(legacy.includes('/assets/land-review.css?v=phase48-land-finish1'),example.data.screen==='land');
+  }
   const manifest=json('public/art/land-review/provenance.json');assert.equal(manifest.assets.length,3);
   for(const asset of manifest.assets){const bytes=readFileSync(join(root,'public/art/land-review',asset.asset));assert.equal(bytes.length,asset.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);}
   const reference=readFileSync(join(root,manifest.reference.path));assert.equal(createHash('sha256').update(reference).digest('hex'),manifest.reference.sha256);

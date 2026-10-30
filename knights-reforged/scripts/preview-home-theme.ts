@@ -23,11 +23,11 @@ try {
       app = await createApp({
         db: fixture.db,
         config,
-        ...(themed ? { uiTheme: "iron-brass" as const } : {}),
+        ...(themed ? {} : { legacyTheme: true as const }),
       });
     apps.push(app);
     console.log(
-      (themed ? "Realm review" : "Current UI") +
+      (themed ? "Iron & Brass" : "Legacy comparison") +
         ": " +
         (await app.listen({ host: "127.0.0.1", port })) +
         "/game/home",
