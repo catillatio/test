@@ -9,6 +9,7 @@ import {mkdtemp,readFile,writeFile,rm,statfs} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawn} from 'node:child_process';
+import {setTimeout,clearTimeout} from 'node:timers';
 import {createDatabase} from '../../dist/db.js';
 import {validateDeploymentEnvironment} from '../environment.mjs';
 import {candidateDigest} from './candidate.mjs';
@@ -17,13 +18,63 @@ import {fileDigest,putFile,getFile,putReport} from './transfer.mjs';
 import {captureCopyIdentity,registerVerifiedCopy} from './retention/observation.mjs';
 let gate='configuration';
 
-function execute(executable,args,{env=process.env,input,timeout=600000}={}){
+const toolGates=new Set(['read-only-backup','backup-encryption','encrypted-export-round-trip','isolated-restore','copy-migrations-and-preservation']);
+const knownSignals=new Set(['SIGHUP','SIGINT','SIGQUIT','SIGILL','SIGTRAP','SIGABRT','SIGBUS','SIGFPE','SIGKILL','SIGSEGV','SIGPIPE','SIGTERM','SIGXCPU','SIGXFSZ','SIGSYS']);
+const upgradePhases=['population','snapshot-before','migrate','snapshot-after','preservation-compare','migrate-replay','snapshot-replay','replay-compare'];
+function execute(executable,args,{env=process.env,input,timeout=600000,progress=false}={}){
  return new Promise((resolve,reject)=>{
   env={...env};delete env.KINGDOM_COPY_REGISTRATION_DATABASE_URL;
-  const child=spawn(executable,args,{env,stdio:['pipe','pipe','pipe'],timeout});let output='';
-  child.stderr.resume();child.stdout.on('data',chunk=>{output+=chunk;if(output.length>1000000)child.kill();});
-  child.once('error',()=>reject(new Error('Private verification tool failed.')));
-  child.once('close',code=>code===0?resolve(output):reject(new Error('Private verification tool failed.')));child.stdin.end(input);
+  const started=process.hrtime.bigint(),toolGate=toolGates.has(gate)?gate:'verification-tool';
+  const elapsed=()=>Number((process.hrtime.bigint()-started)/1000000n);
+  const emit=details=>console.error('PRIVATE_VERIFICATION_TOOL: '+JSON.stringify({gate:toolGate,...details}));
+  if(toolGate==='copy-migrations-and-preservation')emit({event:'start',elapsed_ms:0,timeout_ms:timeout});
+  let child,timer,output='',settled=false,firstFailure=null;
+  const finish=(category,code=null,signal=null)=>{
+   if(settled)return;settled=true;clearTimeout(timer);
+   emit({event:'failure',category:firstFailure??category,elapsed_ms:elapsed(),timeout_ms:timeout,
+    exit_code:Number.isInteger(code)&&code>=0&&code<=255?code:null,signal:knownSignals.has(signal)?signal:null});
+   output='';reject(new Error('Private verification tool failed.'));
+  };
+  try{child=spawn(executable,args,{env,stdio:['pipe','pipe','pipe']});}
+  catch{finish('SPAWN_FAILURE');return;}
+  // Own the same SIGTERM deadline so its cause survives the child's close event.
+  // This never changes the ceiling, retries a tool, or certifies partial output.
+  timer=setTimeout(()=>{if(settled)return;firstFailure??='TIMEOUT';try{child.kill('SIGTERM');}catch{}},timeout);
+  let line='',discarding=false,nextProgress=0,lastProgress=-1;const seen=new Set();
+  const acceptProgress=text=>{
+   if(!progress||settled||firstFailure||!text.startsWith('UPGRADE_PROGRESS: '))return;
+   try{
+    const event=JSON.parse(text.slice('UPGRADE_PROGRESS: '.length));
+    if(!event||Array.isArray(event)||Object.keys(event).sort().join(',')!=='elapsed_ms,event,phase')return;
+    if(!Number.isSafeInteger(event.elapsed_ms)||event.elapsed_ms<0||event.elapsed_ms>timeout||event.elapsed_ms<lastProgress)return;
+    if(!upgradePhases.includes(event.phase)||!['start','complete'].includes(event.event))return;
+    const key=event.phase+':'+event.event;if(seen.has(key)||nextProgress>=upgradePhases.length*2)return;
+    if(event.phase!==upgradePhases[Math.floor(nextProgress/2)]||event.event!==(nextProgress%2?'complete':'start'))return;
+    seen.add(key);nextProgress++;lastProgress=event.elapsed_ms;
+    console.error('UPGRADE_PROGRESS: '+JSON.stringify({phase:event.phase,event:event.event,elapsed_ms:event.elapsed_ms}));
+   }catch{} // Raw errors, SQL and provider messages are always discarded.
+  };
+  child.stderr.on('data',chunk=>{
+   if(!progress||settled||firstFailure)return;
+   const parts=String(chunk).split('\n');
+   for(let i=0;i<parts.length;i++){
+    if(!discarding){if(line.length+parts[i].length>512){line='';discarding=true;}else line+=parts[i];}
+    if(i<parts.length-1){if(!discarding)acceptProgress(line.replace(/\r$/,''));line='';discarding=false;}
+   }
+  });
+  child.stdout.on('data',chunk=>{
+   if(settled||firstFailure)return;
+   const text=String(chunk);
+   if(output.length+text.length>1000000){firstFailure='OUTPUT_LIMIT';output='';try{child.kill('SIGTERM');}catch{};return;}
+   output+=text;
+  });
+  child.once('error',()=>finish('SPAWN_FAILURE'));
+  child.once('close',(code,signal)=>{
+   if(settled)return;
+   if(firstFailure||signal!=null||code!==0){finish(signal!=null?'SIGNAL':'EXIT_NONZERO',code,signal);return;}
+   settled=true;clearTimeout(timer);resolve(output);
+  });
+  child.stdin.end(input);
  });
 }
 function pgEnvironment(target,readOnly=false){
@@ -96,7 +147,7 @@ async function main(){
   await execute('pg_restore',['--list',restored]);
   gate='isolated-restore';await execute('createdb',['--maintenance-db='+restore.name,'--',request.copy],{env:pgEnvironment(restore)});
   await execute('pg_restore',['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+request.copy,restored],{env:pgEnvironment(restore)});
-  gate='copy-migrations-and-preservation';const result=await execute(process.execPath,['deployment/check-upgrade.mjs'],{env:{...process.env,KINGDOM_RESTORE_TEST_DATABASE:request.copy}});
+  gate='copy-migrations-and-preservation';const result=await execute(process.execPath,['deployment/check-upgrade.mjs'],{env:{...process.env,KINGDOM_RESTORE_TEST_DATABASE:request.copy},progress:true});
   report.restoredCopy=JSON.parse(result);
   report.backup={sha256:plain.sha256,bytes:plain.bytes,encryptedSha256:cipher.sha256,encryptedBytes:cipher.bytes,recipient:request.backupRecipient,conditionalWriteVerified:true,exportRoundTripVerified:true};
   // Optional metadata preparation is isolated from every mandatory safety gate.

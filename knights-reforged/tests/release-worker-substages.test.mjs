@@ -4,7 +4,7 @@ import {mkdtempSync,writeFileSync,readFileSync,rmSync,existsSync} from 'node:fs'
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {spawnSync} from 'node:child_process';
+import {spawn,spawnSync} from 'node:child_process';
 import {copyName,protocol} from '../deployment/release/protocol.mjs';
 
 const folder=mkdtempSync(join(tmpdir(),'worker-substages-'));after(()=>rmSync(folder,{recursive:true,force:true}));
@@ -26,7 +26,14 @@ function run(mode,{jobMode='prepare',overrides={}}={}){
   KINGDOM_RELEASE_JOB_REQUEST:Buffer.from(JSON.stringify(request)).toString('base64url'),...overrides},encoding:'utf8',timeout:15000});
  assert.equal(result.error,undefined,'The offline worker subprocess must finish.');
  assert.equal(existsSync(forbidden),false,'Real network, DNS, child processes and unexpected external operations are blocked.');
- return {...result,trace:readFileSync(trace,'utf8').trim().split('\n').filter(Boolean)};
+ assert.doesNotMatch(result.stdout+result.stderr,/SYNTHETIC_UNSAFE_EXCEPTION_DETAIL_MUST_NOT_BE_LOGGED|synthetic-credential-must-not-leak|fixture\.invalid|railway\.internal|postgres:/,'Raw tool/provider output and credentials stay private');
+ const diagnostics=[],progress=[];
+ const stderr=result.stderr.split('\n').filter(line=>{
+  if(line.startsWith('PRIVATE_VERIFICATION_TOOL: ')){diagnostics.push(JSON.parse(line.slice('PRIVATE_VERIFICATION_TOOL: '.length)));return false;}
+  if(line.startsWith('UPGRADE_PROGRESS: ')){progress.push(JSON.parse(line.slice('UPGRADE_PROGRESS: '.length)));return false;}
+  return true;
+ }).join('\n');
+ return {...result,stderr,rawStderr:result.stderr,diagnostics,progress,trace:readFileSync(trace,'utf8').trim().split('\n').filter(Boolean)};
 }
 const source=['source-pool','source-connect','source-read-only','source-status','source-rollback','source-release','source-close'];
 const prerequisites=['restore-pool','restore-connect','temporary-directory','cluster-query','advisory-lock','copy-check','storage-check'];
@@ -111,4 +118,78 @@ test('an invalid verification report cannot be certified by the optional registr
  const result=run('invalid_migration_report',{overrides:{KINGDOM_COPY_REGISTRATION_ENABLED:'1'}});assert.equal(result.status,1);assert.equal(result.stdout,'');
  assert.equal(result.stderr,'COPY_REGISTRATION: FAIL\nPrivate release verification failed at verified-recovery-report'+suffix);
  assert.ok(!result.trace.includes('report-upload'));assert.ok(!result.trace.includes('registration-write'));
+});
+
+
+for(const [mode,category,exitCode,signal]of[
+ ['migration_failure','EXIT_NONZERO',1,null],
+ ['migration_signal','SIGNAL',null,'SIGKILL'],
+ ['migration_unknown_signal','SIGNAL',null,null],
+ ['migration_spawn_throw','SPAWN_FAILURE',null,null],
+ ['migration_spawn_event_error','SPAWN_FAILURE',null,null],
+ ['migration_timeout','TIMEOUT',null,'SIGTERM'],
+ ['migration_output_limit_zero','OUTPUT_LIMIT',0,null],
+ ['migration_output_limit_signal','OUTPUT_LIMIT',null,'SIGTERM']
+])test('tool failure retains only bounded termination metadata and never certifies recovery: '+mode,()=>{
+ const result=run(mode,{overrides:{KINGDOM_COPY_REGISTRATION_ENABLED:'1'}});
+ assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.stderr,'Private release verification failed at copy-migrations-and-preservation'+suffix);
+ assert.equal(result.diagnostics.length,2,'one start and one failure even after error/duplicate close events');
+ assert.deepEqual(result.diagnostics[0],{gate:'copy-migrations-and-preservation',event:'start',elapsed_ms:0,timeout_ms:600000});
+ const failure=result.diagnostics[1];
+ assert.deepEqual(Object.keys(failure).sort(),['category','elapsed_ms','event','exit_code','gate','signal','timeout_ms']);
+ assert.equal(failure.gate,'copy-migrations-and-preservation');assert.equal(failure.event,'failure');assert.equal(failure.category,category);
+ assert.equal(failure.timeout_ms,600000);assert.ok(Number.isSafeInteger(failure.elapsed_ms)&&failure.elapsed_ms>=0&&failure.elapsed_ms<15000);
+ assert.equal(failure.exit_code,exitCode);assert.equal(failure.signal,signal);
+ assert.deepEqual(result.trace.slice(-cleanup.length),cleanup,'plaintext cleanup and lock/connection cleanup remain intact');
+ assert.ok(!result.trace.some(event=>event.startsWith('registration-')||event==='report-upload'));
+ if(mode==='migration_timeout'){
+  assert.ok(result.trace.includes('timeout-armed')&&result.trace.includes('timeout-fired'));
+  assert.equal(result.trace.filter(event=>event==='kill-SIGTERM').length,1,'one SIGTERM at the original deadline, no tool retry');
+ }
+});
+
+test('exact stdout limit remains accepted, while excess output cannot succeed with exit zero',()=>{
+ const accepted=run('migration_output_at_limit');assert.equal(accepted.status,0);assert.equal(accepted.stderr,'');
+ assert.deepEqual(accepted.trace,successTrace);assert.equal(accepted.diagnostics.length,1);
+ const exceeded=run('migration_output_limit_zero');assert.equal(exceeded.status,1);
+ assert.equal(exceeded.diagnostics.at(-1).category,'OUTPUT_LIMIT');assert.equal(exceeded.diagnostics.at(-1).exit_code,0);
+});
+
+const upgradePhases=['population','snapshot-before','migrate','snapshot-after','preservation-compare','migrate-replay','snapshot-replay','replay-compare'];
+const expectedProgress=upgradePhases.flatMap((phase,i)=>['start','complete'].map((event,j)=>({phase,event,elapsed_ms:i*2+j})));
+for(const mode of ['migration_progress_valid','migration_progress_spoof'])test('strict progress is fixed-shape, ordered, bounded and deduplicated: '+mode,()=>{
+ const result=run(mode);assert.equal(result.status,0);assert.equal(result.stderr,'');
+ assert.deepEqual(result.progress,expectedProgress);
+ assert.equal(result.diagnostics.length,1);assert.deepEqual(result.trace,successTrace);
+ assert.equal(result.rawStderr.split('\n').filter(line=>line.startsWith('UPGRADE_PROGRESS: ')).length,16);
+});
+test('progress from unrelated subprocesses is discarded even with the exact allowed prefix',()=>{
+ const result=run('backup_progress_spoof');assert.equal(result.status,0);assert.deepEqual(result.progress,[]);
+ assert.deepEqual(result.trace,successTrace);
+});
+test('well-formed progress does not authorize success after the checker fails',()=>{
+ const result=run('migration_progress_failure',{overrides:{KINGDOM_COPY_REGISTRATION_ENABLED:'1'}});
+ assert.equal(result.status,1);assert.deepEqual(result.progress,expectedProgress.slice(0,3));
+ assert.equal(result.diagnostics.at(-1).category,'EXIT_NONZERO');
+ assert.ok(!result.trace.some(event=>event.startsWith('registration-')||event==='report-upload'));
+ assert.deepEqual(result.trace.slice(-cleanup.length),cleanup);
+});
+
+
+test('real local child deadline and spawn error retain safe metadata without database/network access',{timeout:5000},async()=>{
+ // Load the actual inline runtime implementation without invoking the private
+ // worker entrypoint, its environment guard or any external database boundary.
+ const source=readFileSync(worker,'utf8'),runtime=source.slice(source.indexOf('const toolGates='),source.indexOf('\nfunction pgEnvironment'));
+ const messages=[];
+ const execute=new Function('spawn','setTimeout','clearTimeout','process','console',"let gate='copy-migrations-and-preservation';\n"+runtime+'\nreturn execute;')(
+  spawn,setTimeout,clearTimeout,process,{error:line=>messages.push(line)});
+ await assert.rejects(execute(process.execPath,['-e','setTimeout(()=>process.exit(0),1000)'],{env:{PATH:process.env.PATH},timeout:30}),/Private verification tool failed/);
+ const timeout=JSON.parse(messages.at(-1).slice('PRIVATE_VERIFICATION_TOOL: '.length));
+ assert.equal(timeout.category,'TIMEOUT');assert.equal(timeout.timeout_ms,30);assert.equal(timeout.signal,'SIGTERM');
+ assert.ok(Number.isSafeInteger(timeout.elapsed_ms)&&timeout.elapsed_ms>=0);
+ await assert.rejects(execute('/nonexistent-kingdom-verification-test-executable',[],{env:{PATH:process.env.PATH},timeout:30}),/Private verification tool failed/);
+ const missing=JSON.parse(messages.at(-1).slice('PRIVATE_VERIFICATION_TOOL: '.length));
+ assert.equal(missing.category,'SPAWN_FAILURE');assert.equal(missing.signal,null);assert.equal(missing.exit_code,null);
+ assert.doesNotMatch(messages.join('\n'),/nonexistent-|setTimeout|PATH|Private verification tool failed/);
 });

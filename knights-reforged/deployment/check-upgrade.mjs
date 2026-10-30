@@ -4,6 +4,7 @@ import {checkPopulationEvidence} from './release/protocol.mjs';
 // to the live database to test migrations. No dump/restore/reset is performed here.
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {performance} from 'node:perf_hooks';
 import {createDatabase} from '../dist/db.js';
 import {migrate} from '../dist/migrate.js';
 import {requireRailwayOperator} from '../dist/operator.js';
@@ -20,6 +21,11 @@ if(process.env.KINGDOM_RESTORE_DATABASE_URL){
 url.pathname='/'+target;
 const db=createDatabase(url.href);
 export let upgradeReport;
+const progressStarted=performance.now();let progressElapsed=0;
+function progress(phase,event){
+ progressElapsed=Math.max(progressElapsed,Math.floor(performance.now()-progressStarted));
+ console.error('UPGRADE_PROGRESS: '+JSON.stringify({phase,event,elapsed_ms:progressElapsed}));
+}
 async function snapshot(){
  const sql=await db.connect();
  try{
@@ -42,15 +48,24 @@ async function snapshot(){
  }catch(error){await sql.query('ROLLBACK').catch(()=>{});throw error;}finally{sql.release();}
 }
 try{
+ progress('population','start');
  const counts=(await db.query('SELECT (SELECT count(*) FROM accounts)::int AS accounts,(SELECT count(*) FROM development_bots)::int AS bots')).rows[0];
  const population=await populationEvidence(db);assert.equal(counts.bots,checkPopulationEvidence(population),'The exact original and registered bot identities must be retained.');
  assert.ok(counts.accounts>0,'The restored copy has no accounts; this is not a verified game backup.');
- const before=await snapshot();await migrate(db);const after=await snapshot();
+ progress('population','complete');
+ progress('snapshot-before','start');const before=await snapshot();progress('snapshot-before','complete');
+ progress('migrate','start');await migrate(db);progress('migrate','complete');
+ progress('snapshot-after','start');const after=await snapshot();progress('snapshot-after','complete');
+ progress('preservation-compare','start');
  for(const [table,rows] of Object.entries(before)){
   if(['schema_migrations','rulesets'].includes(table)){const existing=new Set(after[table]);assert.ok(rows.every(row=>existing.has(row)),table+' rewrote an existing row');}
   else assert.deepEqual(after[table],rows,table+' changed existing data');
  }
- const stable=JSON.stringify(after);await migrate(db);assert.equal(JSON.stringify(await snapshot()),stable,'Migration replay changed data.');
+ progress('preservation-compare','complete');
+ const stable=JSON.stringify(after);
+ progress('migrate-replay','start');await migrate(db);progress('migrate-replay','complete');
+ progress('snapshot-replay','start');const replay=await snapshot();progress('snapshot-replay','complete');
+ progress('replay-compare','start');assert.equal(JSON.stringify(replay),stable,'Migration replay changed data.');progress('replay-compare','complete');
  upgradeReport={passed:true,restoredDatabase:target,restoredHost:url.hostname,accounts:counts.accounts,bots:counts.bots,population,existingTablesVerified:Object.keys(before).length,sha256:createHash('sha256').update(stable).digest('hex'),migrationReplay:'unchanged',liveDatabaseConnected:false};
  console.log(JSON.stringify(upgradeReport,null,2));
 }finally{await db.end();}

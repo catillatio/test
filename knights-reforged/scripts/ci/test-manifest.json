@@ -591,6 +591,11 @@
       "weight": 1
     },
     {
+      "file": "tests/release-upgrade-progress.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
       "file": "tests/rendering.test.ts",
       "lane": "database",
       "weight": 1
