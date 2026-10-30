@@ -5,6 +5,7 @@ import {registerHooks,syncBuiltinESMExports} from 'node:module';
 import {appendFileSync} from 'node:fs';
 import {EventEmitter} from 'node:events';
 import {PassThrough} from 'node:stream';
+import {setTimeout as realSetTimeout,clearTimeout as realClearTimeout} from 'node:timers';
 import http from 'node:http';import https from 'node:https';
 import net from 'node:net';import tls from 'node:tls';
 import dns from 'node:dns';import dgram from 'node:dgram';
@@ -53,7 +54,17 @@ const restore={
   },release(){record('restore-release');}
  };},async end(){record('restore-close');}
 };
+let currentTool;
+const phases=['population','snapshot-before','migrate','snapshot-after','preservation-compare','migrate-replay','snapshot-replay','replay-compare'];
+const progressLines=phases.flatMap((phase,i)=>['start','complete'].map((event,j)=>'UPGRADE_PROGRESS: '+JSON.stringify({phase,event,elapsed_ms:i*2+j})+'\n'));
 const fixture={
+ setTimeout(callback,ms){
+  assert.equal(ms,600000,'Every real tool retains the original ten-minute deadline');
+  const short=mode==='migration_timeout'&&currentTool==='copy-migration-check';
+  if(short)record('timeout-armed');
+  return realSetTimeout(()=>{if(short)record('timeout-fired');callback();},short?5:ms);
+ },
+ clearTimeout(timer){realClearTimeout(timer);},
  createDatabase(url){
   if(url===process.env.DATABASE_URL){record('source-pool');return source;}
   if(url===process.env.KINGDOM_RESTORE_DATABASE_URL){record('restore-pool');if(mode==='pool_failure')return fail();return restore;}
@@ -92,6 +103,8 @@ const fixture={
   if(mode==='report_failure')return fail();
  },
  spawn(executable,args,options){
+  const upgrade=executable===process.execPath&&args[0]==='deployment/check-upgrade.mjs';
+  currentTool=upgrade?'copy-migration-check':'other';
   let output='',failed=false;
   if(executable==='pg_dump'){
    record('backup');failed=mode==='backup_failure';assert.equal(options.env.PGOPTIONS,'-c default_transaction_read_only=on -c statement_timeout=600000');
@@ -109,17 +122,57 @@ const fixture={
    assert.deepEqual(args,['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+request.copy,temporary+'/restored.dump']);
   }else if(executable===process.execPath&&args[0]==='deployment/check-upgrade.mjs'){
    record('copy-migration-check');assert.equal(options.env.KINGDOM_RESTORE_TEST_DATABASE,request.copy);
-   if(mode==='migration_failure')failed=true;
+   if(['migration_failure','migration_progress_failure'].includes(mode))failed=true;
+   if(mode==='migration_spawn_throw')return fail();
    output=JSON.stringify({passed:mode!=='invalid_migration_report',accounts:452,bots:450,existingTablesVerified:64,migrationReplay:'unchanged',liveDatabaseConnected:false,restoredDatabase:request.copy,restoredHost:request.restoreHost,sha256:'3'.repeat(64)});
   }else return block();
   assert.equal(options.env.KINGDOM_COPY_REGISTRATION_DATABASE_URL,undefined,'Registrar credentials must not enter backup/migration subprocesses');
-  const task=new EventEmitter();task.stdout=new PassThrough();task.stderr=new PassThrough();task.stdin=new PassThrough();task.kill=()=>task.emit('close',1);
-  queueMicrotask(()=>{task.stdout.end(failed?secret:output);task.stderr.end(secret);task.emit('close',failed?1:0);});
+  assert.equal(options.timeout,undefined,'The worker owns and diagnoses the unchanged SIGTERM timer');
+  const task=new EventEmitter();task.stdout=new PassThrough();task.stderr=new PassThrough();task.stdin=new PassThrough();
+  task.kill=signal=>{
+   assert.equal(signal,'SIGTERM');
+   if(upgrade&&['migration_timeout','migration_output_limit_zero','migration_output_limit_signal'].includes(mode))record('kill-SIGTERM');
+   task.emit('close',upgrade&&mode==='migration_output_limit_zero'?0:null,upgrade&&mode==='migration_output_limit_zero'?null:signal);return true;
+  };
+  queueMicrotask(()=>{
+   if(upgrade&&mode==='migration_timeout')return;
+   if(upgrade&&mode==='migration_spawn_event_error'){task.emit('error',new Error(secret));task.stderr.end(secret);task.emit('close',-2,null);return;}
+   if(upgrade&&['migration_signal','migration_unknown_signal'].includes(mode)){
+    task.stdout.end(output);task.stderr.end(secret);task.emit('close',null,mode==='migration_signal'?'SIGKILL':secret);return;
+   }
+   if(mode==='backup_progress_spoof'&&!upgrade)for(const line of progressLines)task.stderr.write(line);
+   if(upgrade&&['migration_progress_valid','migration_progress_spoof','migration_progress_failure'].includes(mode)){
+    if(mode==='migration_progress_spoof'){
+     for(const record of [null,[],{phase:'private-'+secret,event:'start',elapsed_ms:0},
+      {phase:'population',event:'start',elapsed_ms:0,secret},
+      {phase:'population',event:'start',elapsed_ms:-1},
+      {phase:'population',event:'start',elapsed_ms:.5},
+      {phase:'population',event:'start',elapsed_ms:600001},
+      {phase:'population',event:'private-'+secret,elapsed_ms:0},
+      {phase:'replay-compare',event:'complete',elapsed_ms:0}])task.stderr.write('UPGRADE_PROGRESS: '+JSON.stringify(record)+'\n');
+     task.stderr.write('UPGRADE_PROGRESS: '+secret.repeat(30)+'\n');
+     task.stderr.write('provider '+progressLines[0]);
+    }
+    const limit=mode==='migration_progress_failure'?3:progressLines.length;
+    for(let n=0;n<limit;n++){
+     if(mode==='migration_progress_spoof'){
+      // Chunked lines, duplicate events and backwards elapsed values are all bounded.
+      const line=progressLines[n];task.stderr.write(line.slice(0,11));task.stderr.write(line.slice(11));
+      task.stderr.write(line);if(n===1)task.stderr.write('UPGRADE_PROGRESS: '+JSON.stringify({phase:'snapshot-before',event:'start',elapsed_ms:0})+'\n');
+     }else task.stderr.write(progressLines[n]);
+    }
+    if(mode==='migration_progress_spoof')task.stderr.write(progressLines.join(''));
+   }
+   if(upgrade&&mode==='migration_output_at_limit')output=output.padEnd(1000000,' ');
+   if(upgrade&&['migration_output_limit_zero','migration_output_limit_signal'].includes(mode))output='x'.repeat(1000001);
+   task.stdout.end(failed?secret:output);task.stderr.end(secret);task.emit('close',failed?1:0,null);
+  });
   return task;
  }
 };
 globalThis.releaseWorkerFixture=fixture;
 const mocks={
+ 'node:timers':'export const setTimeout=(...args)=>globalThis.releaseWorkerFixture.setTimeout(...args); export const clearTimeout=(...args)=>globalThis.releaseWorkerFixture.clearTimeout(...args);',
  'node:child_process':'export const spawn=(...args)=>globalThis.releaseWorkerFixture.spawn(...args);',
  'node:fs/promises':['mkdtemp','readFile','writeFile','rm','statfs'].map(name=>'export const '+name+'=(...args)=>globalThis.releaseWorkerFixture.'+name+'(...args);').join('\n'),
  '../../dist/db.js':'export const createDatabase=(...args)=>globalThis.releaseWorkerFixture.createDatabase(...args);',
