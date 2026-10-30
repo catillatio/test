@@ -1481,8 +1481,69 @@ try {
   await visit(themedOrigin, "/game/profile");
   const preview = page.locator("[data-equipment-preview]").first();
   await preview.locator("summary").scrollIntoViewIfNeeded();
+  await preview.evaluate((element) => {
+    const item = element as HTMLDetailsElement & {
+      testPreviewToggles?: { open: boolean; transform: string }[];
+    };
+    item.testPreviewToggles = [];
+    item.addEventListener("toggle", () => {
+      item.testPreviewToggles!.push({
+        open: item.open,
+        transform: item.querySelector<HTMLElement>(
+          ".equipment-preview-content",
+        )!.style.transform,
+      });
+    });
+  });
+  const previewDiagnostic = () =>
+    preview.evaluate((element) => {
+      const item = element as HTMLDetailsElement & {
+        testPreviewToggles?: { open: boolean; transform: string }[];
+      };
+      const panel = item.querySelector<HTMLElement>(
+        ".equipment-preview-content",
+      )!;
+      return {
+        open: item.open,
+        viewport: { width: innerWidth, height: innerHeight },
+        panel: panel.getBoundingClientRect().toJSON(),
+        summary: item
+          .querySelector("summary")!
+          .getBoundingClientRect()
+          .toJSON(),
+        navigation: document
+          .querySelector(".primary-nav")!
+          .getBoundingClientRect()
+          .toJSON(),
+        inlineTransform: panel.style.transform,
+        computedTransform: getComputedStyle(panel).transform,
+        toggleEvents: item.testPreviewToggles,
+      };
+    });
   await preview.locator("summary").tap();
   assert.equal(await preview.getAttribute("open"), "");
+  // Native details.open changes before its asynchronous toggle event. Wait for
+  // the existing controller to finish placement, then measure its actual bounds.
+  // This waits on application state, never on a fixed delay or passing geometry.
+  try {
+    await page.waitForFunction(() => {
+      const item = document.querySelector<HTMLDetailsElement>(
+        "[data-equipment-preview]",
+      );
+      return (
+        item?.open &&
+        item
+          .querySelector<HTMLElement>(".equipment-preview-content")
+          ?.style.transform.startsWith("translate(")
+      );
+    });
+  } catch (cause) {
+    throw new Error(
+      "Equipment preview placement did not complete: " +
+        JSON.stringify(await previewDiagnostic()),
+      { cause },
+    );
+  }
   const previewBounds = await preview
     .locator(".equipment-preview-content")
     .boundingBox();
@@ -1492,6 +1553,8 @@ try {
       previewBounds.x + previewBounds.width <= 390 &&
       previewBounds.y >= 0 &&
       previewBounds.y + previewBounds.height < 790,
+    "Equipment preview must fit the viewport: " +
+      JSON.stringify(await previewDiagnostic()),
   );
   if (capture)
     await page.screenshot({
@@ -1775,6 +1838,7 @@ try {
   );
   const result = {
     passed: true,
+    browserVersion: await browser.version(),
     widths,
     views: checks.length,
     totalPairedViews: checks.length + coverageChecks.length,

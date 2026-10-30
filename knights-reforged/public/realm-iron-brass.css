@@ -880,7 +880,9 @@
     width: 68px;
     height: 68px;
     flex: none;
-    object-fit: contain;
+    /* Unwrapped catalog images are properties; equipment is explicitly
+       contained inside its existing square equipment frame below. */
+    object-fit: cover;
     background-color: #090909;
     background-repeat: no-repeat;
     background-position: center;
@@ -933,6 +935,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 50% 0%;
   }
   .fantasy-art {
     background-size: 400% 500%;
@@ -1715,7 +1718,7 @@
   .bulk-item-art > .catalog-art {
     width: 58px;
     height: 58px;
-    object-fit: contain;
+    object-fit: cover;
   }
   .bulk-item-heading {
     min-width: 0;
@@ -1841,7 +1844,7 @@
   .receipt-item > .catalog-art {
     width: 76px;
     height: 60px;
-    object-fit: contain;
+    object-fit: cover;
     flex: none;
   }
   .receipt-item > div {

@@ -43,7 +43,7 @@
     "bounty-new",
     "bounty-confirm"
   ],
-  "cssSha256": "f2d5369e0cfd4e7f14ad69d0b181d20c5b3ccd762f27fa3ac0811917fb98be91",
+  "cssSha256": "9115f889940e513e31d3501f5ef405dc3c1d696c52eff98b1f48ee36266b5502",
   "visualBeforeArchive": "beta-before/PROVENANCE.json",
   "secondaryBefore": "current-template internal legacy stylesheet baseline",
   "reportsBefore": "390/1280: actual prior beta archive; 320/430: current-template classic baseline"

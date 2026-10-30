@@ -25,7 +25,8 @@ try{
   assert.match(await page.locator('.activity-feed').innerText(),/勇者 🐉 accepted your army invitation/);
   const recruit=page.locator('.primary-nav a[data-notification-tab="army"]');assert.equal(await recruit.getAttribute('href'),'/game/army?tab=dashboard');await recruit.click();
   assert.equal(new URL(page.url()).searchParams.get('tab'),'dashboard');assert.equal(await page.locator('.army-tabs a[aria-current=page]').innerText(),'Dashboard');
-  assert.match(await page.locator('main').innerText(),/1 accepted allies/);assert.match(await page.locator('main').innerText(),/1 incoming invitations/);assert.match(await page.locator('main').innerText(),/Recent Army Activity/);await capture(width,'army-dashboard');
+  const dashboardText=(await page.locator('main').innerText()).replace(/\s+/g,' ');
+  assert.match(dashboardText,/1 accepted allies/);assert.match(dashboardText,/1 incoming invitations/);assert.match(dashboardText,/Recent Army Activity/);await capture(width,'army-dashboard');
   for(const tab of['recruit','army','dashboard']){await page.locator('.army-tabs a[href="/game/army?tab='+tab+'"]').click();assert.equal(await page.locator('.army-tabs a[aria-current=page]').count(),1);}
  }
  // Native viewing does not silently acknowledge. The explicit form is usable

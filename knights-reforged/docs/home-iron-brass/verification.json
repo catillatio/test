@@ -1,5 +1,6 @@
 {
   "passed": true,
+  "browserVersion": "156.0.8078.47",
   "widths": [
     320,
     390,
@@ -381,7 +382,7 @@
     },
     {
       "width": 320,
-      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
+      "path": "/game/battles/c5d4497e-9668-4d39-8b58-68960f9e899b",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -410,7 +411,7 @@
     },
     {
       "width": 320,
-      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
+      "path": "/game/battles/27894b05-e750-4762-bf64-0eef13bf39a8",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -584,7 +585,7 @@
     },
     {
       "width": 320,
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1010,7 +1011,7 @@
     },
     {
       "width": 390,
-      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
+      "path": "/game/battles/c5d4497e-9668-4d39-8b58-68960f9e899b",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1039,7 +1040,7 @@
     },
     {
       "width": 390,
-      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
+      "path": "/game/battles/27894b05-e750-4762-bf64-0eef13bf39a8",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1213,7 +1214,7 @@
     },
     {
       "width": 390,
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1639,7 +1640,7 @@
     },
     {
       "width": 430,
-      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
+      "path": "/game/battles/c5d4497e-9668-4d39-8b58-68960f9e899b",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1668,7 +1669,7 @@
     },
     {
       "width": 430,
-      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
+      "path": "/game/battles/27894b05-e750-4762-bf64-0eef13bf39a8",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1842,7 +1843,7 @@
     },
     {
       "width": 430,
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2268,7 +2269,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
+      "path": "/game/battles/c5d4497e-9668-4d39-8b58-68960f9e899b",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2297,7 +2298,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
+      "path": "/game/battles/27894b05-e750-4762-bf64-0eef13bf39a8",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2471,7 +2472,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2897,7 +2898,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
+      "path": "/game/battles/c5d4497e-9668-4d39-8b58-68960f9e899b",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2926,7 +2927,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
+      "path": "/game/battles/27894b05-e750-4762-bf64-0eef13bf39a8",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -3100,7 +3101,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -3531,7 +3532,7 @@
     {
       "width": 320,
       "name": "quest-result",
-      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "path": "/game/quests?command=aac83d99-0f94-49f9-9fda-641d205e34c2",
       "template": "quests",
       "status": 200,
       "signedIn": true,
@@ -3558,7 +3559,7 @@
     {
       "width": 320,
       "name": "bulk-equipment",
-      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "path": "/game/armory?category=weapon&bulk=oathbound-greatsword",
       "template": "armory",
       "status": 200,
       "signedIn": true,
@@ -3576,7 +3577,7 @@
     {
       "width": 320,
       "name": "purchase-equipment",
-      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "path": "/game/purchases/2a747350-ca6f-44d1-b697-81cbc7aa4230",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -3585,7 +3586,7 @@
     {
       "width": 320,
       "name": "purchase-land",
-      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "path": "/game/purchases/5a4ee472-d9f4-4c3b-bf83-946b4e64dff3",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -3594,7 +3595,7 @@
     {
       "width": 320,
       "name": "purchase-historical",
-      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "path": "/game/purchases/f201f769-103e-40fd-b4eb-9028790ce568",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -3675,7 +3676,7 @@
     {
       "width": 320,
       "name": "public-profile-comments",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=comments",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -3684,7 +3685,7 @@
     {
       "width": 320,
       "name": "public-profile-battles",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=battles",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -3729,7 +3730,7 @@
     {
       "width": 320,
       "name": "bounty-new",
-      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "path": "/game/bounties/new?target=b0635556-d63b-41ae-936c-ba7c890ff674",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -3738,7 +3739,7 @@
     {
       "width": 320,
       "name": "bounty-self-blocked",
-      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "path": "/game/bounties/new?target=b23d462b-a3ce-443c-ae3a-d98ec8c8ecd0",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -3747,7 +3748,7 @@
     {
       "width": 320,
       "name": "bounty-active-blocked",
-      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/bounties/new?target=c8ff29ef-bf75-413f-8891-42df08f0b918",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -4143,7 +4144,7 @@
     {
       "width": 390,
       "name": "quest-result",
-      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "path": "/game/quests?command=aac83d99-0f94-49f9-9fda-641d205e34c2",
       "template": "quests",
       "status": 200,
       "signedIn": true,
@@ -4170,7 +4171,7 @@
     {
       "width": 390,
       "name": "bulk-equipment",
-      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "path": "/game/armory?category=weapon&bulk=oathbound-greatsword",
       "template": "armory",
       "status": 200,
       "signedIn": true,
@@ -4188,7 +4189,7 @@
     {
       "width": 390,
       "name": "purchase-equipment",
-      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "path": "/game/purchases/2a747350-ca6f-44d1-b697-81cbc7aa4230",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -4197,7 +4198,7 @@
     {
       "width": 390,
       "name": "purchase-land",
-      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "path": "/game/purchases/5a4ee472-d9f4-4c3b-bf83-946b4e64dff3",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -4206,7 +4207,7 @@
     {
       "width": 390,
       "name": "purchase-historical",
-      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "path": "/game/purchases/f201f769-103e-40fd-b4eb-9028790ce568",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -4287,7 +4288,7 @@
     {
       "width": 390,
       "name": "public-profile-comments",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=comments",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -4296,7 +4297,7 @@
     {
       "width": 390,
       "name": "public-profile-battles",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=battles",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -4341,7 +4342,7 @@
     {
       "width": 390,
       "name": "bounty-new",
-      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "path": "/game/bounties/new?target=b0635556-d63b-41ae-936c-ba7c890ff674",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -4350,7 +4351,7 @@
     {
       "width": 390,
       "name": "bounty-self-blocked",
-      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "path": "/game/bounties/new?target=b23d462b-a3ce-443c-ae3a-d98ec8c8ecd0",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -4359,7 +4360,7 @@
     {
       "width": 390,
       "name": "bounty-active-blocked",
-      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/bounties/new?target=c8ff29ef-bf75-413f-8891-42df08f0b918",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -4755,7 +4756,7 @@
     {
       "width": 430,
       "name": "quest-result",
-      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "path": "/game/quests?command=aac83d99-0f94-49f9-9fda-641d205e34c2",
       "template": "quests",
       "status": 200,
       "signedIn": true,
@@ -4782,7 +4783,7 @@
     {
       "width": 430,
       "name": "bulk-equipment",
-      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "path": "/game/armory?category=weapon&bulk=oathbound-greatsword",
       "template": "armory",
       "status": 200,
       "signedIn": true,
@@ -4800,7 +4801,7 @@
     {
       "width": 430,
       "name": "purchase-equipment",
-      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "path": "/game/purchases/2a747350-ca6f-44d1-b697-81cbc7aa4230",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -4809,7 +4810,7 @@
     {
       "width": 430,
       "name": "purchase-land",
-      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "path": "/game/purchases/5a4ee472-d9f4-4c3b-bf83-946b4e64dff3",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -4818,7 +4819,7 @@
     {
       "width": 430,
       "name": "purchase-historical",
-      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "path": "/game/purchases/f201f769-103e-40fd-b4eb-9028790ce568",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -4899,7 +4900,7 @@
     {
       "width": 430,
       "name": "public-profile-comments",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=comments",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -4908,7 +4909,7 @@
     {
       "width": 430,
       "name": "public-profile-battles",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=battles",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -4953,7 +4954,7 @@
     {
       "width": 430,
       "name": "bounty-new",
-      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "path": "/game/bounties/new?target=b0635556-d63b-41ae-936c-ba7c890ff674",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -4962,7 +4963,7 @@
     {
       "width": 430,
       "name": "bounty-self-blocked",
-      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "path": "/game/bounties/new?target=b23d462b-a3ce-443c-ae3a-d98ec8c8ecd0",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -4971,7 +4972,7 @@
     {
       "width": 430,
       "name": "bounty-active-blocked",
-      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/bounties/new?target=c8ff29ef-bf75-413f-8891-42df08f0b918",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -5367,7 +5368,7 @@
     {
       "width": 1024,
       "name": "quest-result",
-      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "path": "/game/quests?command=aac83d99-0f94-49f9-9fda-641d205e34c2",
       "template": "quests",
       "status": 200,
       "signedIn": true,
@@ -5394,7 +5395,7 @@
     {
       "width": 1024,
       "name": "bulk-equipment",
-      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "path": "/game/armory?category=weapon&bulk=oathbound-greatsword",
       "template": "armory",
       "status": 200,
       "signedIn": true,
@@ -5412,7 +5413,7 @@
     {
       "width": 1024,
       "name": "purchase-equipment",
-      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "path": "/game/purchases/2a747350-ca6f-44d1-b697-81cbc7aa4230",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -5421,7 +5422,7 @@
     {
       "width": 1024,
       "name": "purchase-land",
-      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "path": "/game/purchases/5a4ee472-d9f4-4c3b-bf83-946b4e64dff3",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -5430,7 +5431,7 @@
     {
       "width": 1024,
       "name": "purchase-historical",
-      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "path": "/game/purchases/f201f769-103e-40fd-b4eb-9028790ce568",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -5511,7 +5512,7 @@
     {
       "width": 1024,
       "name": "public-profile-comments",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=comments",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -5520,7 +5521,7 @@
     {
       "width": 1024,
       "name": "public-profile-battles",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=battles",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -5565,7 +5566,7 @@
     {
       "width": 1024,
       "name": "bounty-new",
-      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "path": "/game/bounties/new?target=b0635556-d63b-41ae-936c-ba7c890ff674",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -5574,7 +5575,7 @@
     {
       "width": 1024,
       "name": "bounty-self-blocked",
-      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "path": "/game/bounties/new?target=b23d462b-a3ce-443c-ae3a-d98ec8c8ecd0",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -5583,7 +5584,7 @@
     {
       "width": 1024,
       "name": "bounty-active-blocked",
-      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/bounties/new?target=c8ff29ef-bf75-413f-8891-42df08f0b918",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -5979,7 +5980,7 @@
     {
       "width": 1280,
       "name": "quest-result",
-      "path": "/game/quests?command=11db2c23-7264-4845-92ca-f6629ea84cd1",
+      "path": "/game/quests?command=aac83d99-0f94-49f9-9fda-641d205e34c2",
       "template": "quests",
       "status": 200,
       "signedIn": true,
@@ -6006,7 +6007,7 @@
     {
       "width": 1280,
       "name": "bulk-equipment",
-      "path": "/game/armory?category=weapon&bulk=royal-warblade",
+      "path": "/game/armory?category=weapon&bulk=oathbound-greatsword",
       "template": "armory",
       "status": 200,
       "signedIn": true,
@@ -6024,7 +6025,7 @@
     {
       "width": 1280,
       "name": "purchase-equipment",
-      "path": "/game/purchases/b7aa4b4c-6ae2-4ec0-bb7c-4ca8a9d15229",
+      "path": "/game/purchases/2a747350-ca6f-44d1-b697-81cbc7aa4230",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -6033,7 +6034,7 @@
     {
       "width": 1280,
       "name": "purchase-land",
-      "path": "/game/purchases/15406348-e6ff-4e7f-92cd-74958264ceb7",
+      "path": "/game/purchases/5a4ee472-d9f4-4c3b-bf83-946b4e64dff3",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -6042,7 +6043,7 @@
     {
       "width": 1280,
       "name": "purchase-historical",
-      "path": "/game/purchases/598cf823-2ad0-4bda-bcc5-ace4ca8abbdd",
+      "path": "/game/purchases/f201f769-103e-40fd-b4eb-9028790ce568",
       "template": "purchase",
       "status": 200,
       "signedIn": true,
@@ -6123,7 +6124,7 @@
     {
       "width": 1280,
       "name": "public-profile-comments",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=comments",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=comments",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -6132,7 +6133,7 @@
     {
       "width": 1280,
       "name": "public-profile-battles",
-      "path": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a?tab=battles",
+      "path": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918?tab=battles",
       "template": "profile",
       "status": 200,
       "signedIn": true,
@@ -6177,7 +6178,7 @@
     {
       "width": 1280,
       "name": "bounty-new",
-      "path": "/game/bounties/new?target=36173494-aed5-42ae-a338-89a1a7d02ac4",
+      "path": "/game/bounties/new?target=b0635556-d63b-41ae-936c-ba7c890ff674",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -6186,7 +6187,7 @@
     {
       "width": 1280,
       "name": "bounty-self-blocked",
-      "path": "/game/bounties/new?target=acd7dc1c-9fd0-4ef6-8fe8-d5752f966464",
+      "path": "/game/bounties/new?target=b23d462b-a3ce-443c-ae3a-d98ec8c8ecd0",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -6195,7 +6196,7 @@
     {
       "width": 1280,
       "name": "bounty-active-blocked",
-      "path": "/game/bounties/new?target=78447353-40a5-4d59-a19f-409e6460b20a",
+      "path": "/game/bounties/new?target=c8ff29ef-bf75-413f-8891-42df08f0b918",
       "template": "bounty-new",
       "status": 200,
       "signedIn": true,
@@ -6594,11 +6595,11 @@
       "status": 200
     },
     {
-      "name": "/game/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
+      "name": "/game/battles/c5d4497e-9668-4d39-8b58-68960f9e899b",
       "status": 200
     },
     {
-      "name": "/game/battles/80eeffd7-8492-40dc-b899-9736b5ed9cc2",
+      "name": "/game/battles/27894b05-e750-4762-bf64-0eef13bf39a8",
       "status": 200
     },
     {
@@ -6622,7 +6623,7 @@
       "status": 200
     },
     {
-      "name": "/game/players/78447353-40a5-4d59-a19f-409e6460b20a",
+      "name": "/game/players/c8ff29ef-bf75-413f-8891-42df08f0b918",
       "status": 200
     },
     {
@@ -6697,7 +6698,7 @@
       "status": 200
     },
     {
-      "name": "/api/v1/bounties/quote?targetCharacterId=36173494-aed5-42ae-a338-89a1a7d02ac4&amount=1",
+      "name": "/api/v1/bounties/quote?targetCharacterId=b0635556-d63b-41ae-936c-ba7c890ff674&amount=1",
       "type": "JSON-only",
       "status": 200
     },
@@ -6712,22 +6713,22 @@
       "status": 200
     },
     {
-      "name": "/api/v1/battles/7939e5de-2216-4afd-b953-2011cdd1938f",
+      "name": "/api/v1/battles/c5d4497e-9668-4d39-8b58-68960f9e899b",
       "type": "JSON-only",
       "status": 200
     },
     {
-      "name": "/api/v1/players/78447353-40a5-4d59-a19f-409e6460b20a",
+      "name": "/api/v1/players/c8ff29ef-bf75-413f-8891-42df08f0b918",
       "type": "JSON-only",
       "status": 200
     },
     {
-      "name": "/api/v1/players/78447353-40a5-4d59-a19f-409e6460b20a/combat",
+      "name": "/api/v1/players/c8ff29ef-bf75-413f-8891-42df08f0b918/combat",
       "type": "JSON-only",
       "status": 200
     },
     {
-      "name": "/api/v1/players/78447353-40a5-4d59-a19f-409e6460b20a/tales",
+      "name": "/api/v1/players/c8ff29ef-bf75-413f-8891-42df08f0b918/tales",
       "type": "JSON-only",
       "status": 200
     },
@@ -7105,7 +7106,7 @@
   "realPurchaseBroadcastAndTutorialCommands": true,
   "otherScreensRemainFunctional": true,
   "productionContacted": false,
-  "cssBytes": 119349,
-  "cssSha256": "f2d5369e0cfd4e7f14ad69d0b181d20c5b3ccd762f27fa3ac0811917fb98be91",
+  "cssBytes": 119514,
+  "cssSha256": "9115f889940e513e31d3501f5ef405dc3c1d696c52eff98b1f48ee36266b5502",
   "errors": []
 }

@@ -39,6 +39,8 @@ The browser matrix includes **420 paired view/state comparisons** at **320, 390,
 
 Native interaction checks exercise purchases, market Buy/Sell keyboard tabs, equipment previews, resource disclosures, broadcast, notification acknowledgement, conserved Vault transfers, persisted sound settings and the existing Register → Tutorial → Calling → Sign Out → Sign In journey. Production-mode SSR covers every reachable HTML template, including POST confirmations and authentication errors, against the disposable database with a secure production origin.
 
+Dedicated artwork checks retain all 52 replacement slots through real routes, including property image cover behavior and equipment containment. Historical/regional rendering contexts and populated-record preservation remain tested. The touch-preview check waits for the native toggle controller to position the panel before measuring its original strict viewport bounds; an open details element alone does not mean positioning has completed. The verification record includes the browser version.
+
 Primary actions and navigation retain 44px targets. The compact account link retains at least the WCAG 2.2 AA 24px target minimum. Reduced-motion, forced-colors and keyboard-focus treatments remain in the design system.
 
 CI partitions the same five-width matrix into mobile and desktop entries within the existing browser lane and time limits. No assertions or viewport coverage are skipped to shorten CI. The normal all-width capture command remains the source of the committed review evidence.
