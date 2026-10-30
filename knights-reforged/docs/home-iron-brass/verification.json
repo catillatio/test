@@ -379,7 +379,7 @@
     },
     {
       "width": 320,
-      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
+      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -408,7 +408,7 @@
     },
     {
       "width": 320,
-      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
+      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -582,7 +582,7 @@
     },
     {
       "width": 320,
-      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
+      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1008,7 +1008,7 @@
     },
     {
       "width": 390,
-      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
+      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1037,7 +1037,7 @@
     },
     {
       "width": 390,
-      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
+      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1211,7 +1211,7 @@
     },
     {
       "width": 390,
-      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
+      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1637,7 +1637,7 @@
     },
     {
       "width": 430,
-      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
+      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1666,7 +1666,7 @@
     },
     {
       "width": 430,
-      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
+      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -1840,7 +1840,7 @@
     },
     {
       "width": 430,
-      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
+      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2266,7 +2266,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
+      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2295,7 +2295,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
+      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2469,7 +2469,7 @@
     },
     {
       "width": 1024,
-      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
+      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2895,7 +2895,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/battles/af521c45-e92a-463f-9300-acf8828bd8bc",
+      "path": "/game/battles/764558be-4c1b-4eaf-941b-58c1c64dddc2",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -2924,7 +2924,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/battles/f065d528-9850-4c9c-9a02-03693a6fe345",
+      "path": "/game/battles/8d6b2387-4b75-4a14-bdd9-426eda352573",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -3098,7 +3098,7 @@
     },
     {
       "width": 1280,
-      "path": "/game/players/fedc972b-8816-4388-a7a2-16e5818ebcae",
+      "path": "/game/players/5bbd12d4-4e6a-4e76-b23f-437782e7dced",
       "contentAndCommandsUnchanged": true,
       "headerFits": true,
       "menu": [],
@@ -3155,6 +3155,288 @@
       ]
     }
   ],
+  "glowAlignment": [
+    {
+      "width": 320,
+      "scene": "home",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999999704414,
+      "dy": 0.9375
+    },
+    {
+      "width": 320,
+      "scene": "home",
+      "label": "balance",
+      "sample": 1,
+      "dx": -0.000005000000008692496,
+      "dy": 0.9375
+    },
+    {
+      "width": 320,
+      "scene": "home",
+      "label": "balance",
+      "sample": 2,
+      "dx": -0.000024999999993724487,
+      "dy": 0.9375
+    },
+    {
+      "width": 320,
+      "scene": "home",
+      "label": "balance",
+      "sample": 3,
+      "dx": -0.00012499999999704414,
+      "dy": 0.9375
+    },
+    {
+      "width": 320,
+      "scene": "victory",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999999704414,
+      "dy": 0.9375
+    },
+    {
+      "width": 320,
+      "scene": "victory",
+      "label": "victory",
+      "sample": 0,
+      "dx": -0.007337499999977126,
+      "dy": 0.5
+    },
+    {
+      "width": 320,
+      "scene": "victory",
+      "label": "reward",
+      "sample": 0,
+      "dx": -0.0077875000000062755,
+      "dy": 0.7187999999999874
+    },
+    {
+      "width": 390,
+      "scene": "home",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999999704414,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 390,
+      "scene": "home",
+      "label": "balance",
+      "sample": 1,
+      "dx": -0.000005000000008692496,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 390,
+      "scene": "home",
+      "label": "balance",
+      "sample": 2,
+      "dx": -0.00012499999999704414,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 390,
+      "scene": "home",
+      "label": "balance",
+      "sample": 3,
+      "dx": -0.00012499999999704414,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 390,
+      "scene": "victory",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999999704414,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 390,
+      "scene": "victory",
+      "label": "victory",
+      "sample": 0,
+      "dx": -0.0002499999999940883,
+      "dy": 0.5
+    },
+    {
+      "width": 390,
+      "scene": "victory",
+      "label": "reward",
+      "sample": 0,
+      "dx": 0,
+      "dy": 0.875
+    },
+    {
+      "width": 430,
+      "scene": "home",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999999704414,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 430,
+      "scene": "home",
+      "label": "balance",
+      "sample": 1,
+      "dx": -0.000005000000008692496,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 430,
+      "scene": "home",
+      "label": "balance",
+      "sample": 2,
+      "dx": -0.00012499999999704414,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 430,
+      "scene": "home",
+      "label": "balance",
+      "sample": 3,
+      "dx": -0.00012499999999704414,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 430,
+      "scene": "victory",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999999704414,
+      "dy": 0.14060000000000628
+    },
+    {
+      "width": 430,
+      "scene": "victory",
+      "label": "victory",
+      "sample": 0,
+      "dx": -0.0002499999999940883,
+      "dy": 0.5
+    },
+    {
+      "width": 430,
+      "scene": "victory",
+      "label": "reward",
+      "sample": 0,
+      "dx": 0,
+      "dy": 0.875
+    },
+    {
+      "width": 1024,
+      "scene": "home",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999996862243,
+      "dy": 0.9375
+    },
+    {
+      "width": 1024,
+      "scene": "home",
+      "label": "balance",
+      "sample": 1,
+      "dx": -0.000005000000015797923,
+      "dy": 0.9375
+    },
+    {
+      "width": 1024,
+      "scene": "home",
+      "label": "balance",
+      "sample": 2,
+      "dx": -0.00012499999999704414,
+      "dy": 0.9375
+    },
+    {
+      "width": 1024,
+      "scene": "home",
+      "label": "balance",
+      "sample": 3,
+      "dx": -0.00012499999996862243,
+      "dy": 0.9375
+    },
+    {
+      "width": 1024,
+      "scene": "victory",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999996862243,
+      "dy": 0.9375
+    },
+    {
+      "width": 1024,
+      "scene": "victory",
+      "label": "victory",
+      "sample": 0,
+      "dx": -0.008062499999994088,
+      "dy": 0
+    },
+    {
+      "width": 1024,
+      "scene": "victory",
+      "label": "reward",
+      "sample": 0,
+      "dx": -0.007737499999990405,
+      "dy": 0.3125
+    },
+    {
+      "width": 1280,
+      "scene": "home",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999996862243,
+      "dy": 0.9375
+    },
+    {
+      "width": 1280,
+      "scene": "home",
+      "label": "balance",
+      "sample": 1,
+      "dx": -0.0000049999999873762135,
+      "dy": 0.9375
+    },
+    {
+      "width": 1280,
+      "scene": "home",
+      "label": "balance",
+      "sample": 2,
+      "dx": -0.00012499999996862243,
+      "dy": 0.9375
+    },
+    {
+      "width": 1280,
+      "scene": "home",
+      "label": "balance",
+      "sample": 3,
+      "dx": -0.00012499999996862243,
+      "dy": 0.9375
+    },
+    {
+      "width": 1280,
+      "scene": "victory",
+      "label": "balance",
+      "sample": 0,
+      "dx": -0.00012499999996862243,
+      "dy": 0.9375
+    },
+    {
+      "width": 1280,
+      "scene": "victory",
+      "label": "victory",
+      "sample": 0,
+      "dx": -0.008062500000050932,
+      "dy": 0
+    },
+    {
+      "width": 1280,
+      "scene": "victory",
+      "label": "reward",
+      "sample": 0,
+      "dx": -0.007737499999961983,
+      "dy": 0.3125
+    }
+  ],
   "contentAndCommandsPreserved": true,
   "businessRowsPreserved": true,
   "keyboardResourceDisclosures": true,
@@ -3162,7 +3444,7 @@
   "realPurchaseBroadcastAndTutorialCommands": true,
   "otherScreensRemainFunctional": true,
   "productionContacted": false,
-  "cssBytes": 94506,
-  "cssSha256": "d4aaa85ee7b166fb8164397835466fa32519a0c1167adf27fab580710f96df33",
+  "cssBytes": 94592,
+  "cssSha256": "e51b0def01e02cfd34b591337aaaf4e2b7781554843f7058444dc04f07486de6",
   "errors": []
 }

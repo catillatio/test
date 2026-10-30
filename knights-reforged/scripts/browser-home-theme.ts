@@ -20,7 +20,8 @@ await mkdir(out, { recursive: true });
 const fixture = await uiThemeFixture(),
   apps: Awaited<ReturnType<typeof createApp>>[] = [],
   errors: string[] = [],
-  checks: unknown[] = [];
+  checks: unknown[] = [],
+  glowChecks: unknown[] = [];
 let browser: Awaited<ReturnType<typeof chromium.launch>> | undefined;
 try {
   const origins: { themed: boolean; origin: string }[] = [];
@@ -87,6 +88,75 @@ try {
         await img.decode();
       }
     });
+  }
+  async function checkGlowAlignment(width: number, scene: string) {
+    // Compare the halo and rendered-text centers after positioning/transforms.
+    const samples = await page.evaluate((varyBalance) => {
+      const selectors = [
+        ["balance", ".gold-resource > .gold > [data-wallet-gold]"],
+        ["victory", ".victory-celebration .battle-outcome-heading h2"],
+        ["reward", ".victory-celebration .battle-gold-reward dd"],
+      ];
+      return selectors.flatMap(([label, selector]) => {
+        const element = document.querySelector<HTMLElement>(selector!);
+        if (!element) return [];
+        const original = element.textContent;
+        const texts =
+          label === "balance" && varyBalance
+            ? [original, "7", "12,345", "109,161,431"]
+            : [original];
+        try {
+          return texts.map((text, sample) => {
+            element.textContent = text;
+            const box = element.getBoundingClientRect();
+            const range = document.createRange();
+            range.selectNodeContents(element);
+            const textBox = range.getBoundingClientRect();
+            const glow = getComputedStyle(element, "::after");
+            const w = parseFloat(glow.width);
+            const h = parseFloat(glow.height);
+            const x =
+              glow.left === "auto"
+                ? box.width - parseFloat(glow.right) - w
+                : parseFloat(glow.left) *
+                  (glow.left.endsWith("%") ? box.width / 100 : 1);
+            const y =
+              glow.top === "auto"
+                ? box.height - parseFloat(glow.bottom) - h
+                : parseFloat(glow.top) *
+                  (glow.top.endsWith("%") ? box.height / 100 : 1);
+            const transform = new DOMMatrix(
+              glow.transform === "none" ? undefined : glow.transform,
+            );
+            return {
+              label,
+              sample,
+              dx:
+                box.left +
+                x +
+                w / 2 +
+                transform.e -
+                (textBox.left + textBox.width / 2),
+              dy:
+                box.top +
+                y +
+                h / 2 +
+                transform.f -
+                (textBox.top + textBox.height / 2),
+            };
+          });
+        } finally {
+          element.textContent = original;
+        }
+      });
+    }, scene === "home");
+    for (const sample of samples) {
+      assert.ok(
+        Math.abs(sample.dx) <= 2.5 && Math.abs(sample.dy) <= 2.5,
+        `Glow centered behind rendered text: ${width}px ${scene} ${JSON.stringify(sample)}`,
+      );
+      glowChecks.push({ width, scene, ...sample });
+    }
   }
   // Compare all product content and command contracts, excluding volatile tokens.
   async function semantics() {
@@ -283,6 +353,8 @@ try {
               });
             });
           assert.ok(resources, "resources fit");
+          if (path === "/game/home" || scenes.get(path) === "victory")
+            await checkGlowAlignment(width, scenes.get(path)!);
           if (path.includes("calling=1")) {
             const bonuses = page.locator(".calling-details");
             await bonuses.locator("summary").focus();
@@ -349,14 +421,12 @@ try {
             animations: "disabled",
           });
           if (scene === "victory" && themed && width === 390)
-            await page
-              .locator(".battle-rewards")
-              .screenshot({
-                path: out + "/390-victory-gold-detail-after.jpg",
-                type: "jpeg",
-                quality: 92,
-                animations: "disabled",
-              });
+            await page.locator(".battle-rewards").screenshot({
+              path: out + "/390-victory-gold-detail-after.jpg",
+              type: "jpeg",
+              quality: 92,
+              animations: "disabled",
+            });
           if (scene === "profile") {
             const inventory = page.locator(".profile-inventory");
             await inventory.evaluate((e) =>
@@ -421,14 +491,12 @@ try {
           }
         }
         if (capture && width === 390 && themed && path === "/game/home")
-          await page
-            .locator(".resource-upper")
-            .screenshot({
-              path: out + "/390-balance-detail-after.jpg",
-              type: "jpeg",
-              quality: 92,
-              animations: "disabled",
-            });
+          await page.locator(".resource-upper").screenshot({
+            path: out + "/390-balance-detail-after.jpg",
+            type: "jpeg",
+            quality: 92,
+            animations: "disabled",
+          });
         if (capture && [390, 1280].includes(width) && path === "/game/home")
           for (const full of [false, true])
             await page.screenshot({
@@ -594,6 +662,7 @@ try {
     widths,
     views: checks.length,
     checks,
+    glowAlignment: glowChecks,
     contentAndCommandsPreserved: true,
     businessRowsPreserved: true,
     keyboardResourceDisclosures: true,

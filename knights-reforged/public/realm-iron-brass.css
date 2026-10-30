@@ -514,9 +514,9 @@
     content: "";
     position: absolute;
     z-index: -1;
-    left: -22px;
-    right: -22px;
-    bottom: -10px;
+    left: 50%;
+    top: 50%;
+    width: calc(100% + 44px);
     height: 26px;
     background: radial-gradient(
       ellipse at 50% 50%,
@@ -525,6 +525,7 @@
       #dd8d2529 50%,
       transparent 78%
     );
+    transform: translate(-50%, -50%);
     filter: blur(6px);
     pointer-events: none;
   }
@@ -2555,9 +2556,9 @@
     content: "";
     position: absolute;
     z-index: -1;
-    left: -25px;
-    right: -25px;
-    bottom: -10px;
+    left: 50%;
+    top: 50%;
+    width: calc(100% + 50px);
     height: 36px;
     background: radial-gradient(
       ellipse at 50% 50%,
@@ -2565,6 +2566,7 @@
       #d68a2733 42%,
       transparent 78%
     );
+    transform: translate(-50%, -50%);
     filter: blur(8px);
     pointer-events: none;
   }
