@@ -1,0 +1,134 @@
+{
+  "synthetic": true,
+  "productionConnected": false,
+  "rows": 100000,
+  "stored_bytes": "307675136",
+  "version": "PostgreSQL 18.6 (Debian 18.6-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "work_mem": "4MB",
+  "fetchRows": 500,
+  "nodeOldSpaceMiB": 128,
+  "independentNodeRowDigestMatches": true,
+  "results": [
+    {
+      "order": "legacy",
+      "elapsed_ms": 5778,
+      "count": 100000,
+      "bytes": 620919965,
+      "maxBatch": 500,
+      "sha256": "2c6c5d22850410409bc3a19c3ff29e90c81d3cbf4a7b256963f1d62a2fbce722",
+      "max_rss_kib": 229272
+    },
+    {
+      "order": "primary",
+      "elapsed_ms": 5108,
+      "count": 100000,
+      "bytes": 620919965,
+      "maxBatch": 500,
+      "sha256": "2c6c5d22850410409bc3a19c3ff29e90c81d3cbf4a7b256963f1d62a2fbce722",
+      "max_rss_kib": 220420
+    },
+    {
+      "order": "row-digest",
+      "elapsed_ms": 3886,
+      "count": 100000,
+      "bytes": 3200000,
+      "maxBatch": 500,
+      "sha256": "964955d68283af72de3f77973c3c9c991b6df478a91c7cad3f9168df432958c9",
+      "max_rss_kib": 71968
+    },
+    {
+      "order": "row-digest",
+      "elapsed_ms": 3905,
+      "count": 100000,
+      "bytes": 3200000,
+      "maxBatch": 500,
+      "sha256": "964955d68283af72de3f77973c3c9c991b6df478a91c7cad3f9168df432958c9",
+      "max_rss_kib": 72788
+    },
+    {
+      "order": "primary",
+      "elapsed_ms": 6259,
+      "count": 100000,
+      "bytes": 620919965,
+      "maxBatch": 500,
+      "sha256": "2c6c5d22850410409bc3a19c3ff29e90c81d3cbf4a7b256963f1d62a2fbce722",
+      "max_rss_kib": 213916
+    },
+    {
+      "order": "legacy",
+      "elapsed_ms": 7777,
+      "count": 100000,
+      "bytes": 620919965,
+      "maxBatch": 500,
+      "sha256": "2c6c5d22850410409bc3a19c3ff29e90c81d3cbf4a7b256963f1d62a2fbce722",
+      "max_rss_kib": 230676
+    },
+    {
+      "order": "legacy",
+      "elapsed_ms": 5937,
+      "count": 100000,
+      "bytes": 620919965,
+      "maxBatch": 500,
+      "sha256": "2c6c5d22850410409bc3a19c3ff29e90c81d3cbf4a7b256963f1d62a2fbce722",
+      "max_rss_kib": 229360
+    },
+    {
+      "order": "row-digest",
+      "elapsed_ms": 3953,
+      "count": 100000,
+      "bytes": 3200000,
+      "maxBatch": 500,
+      "sha256": "964955d68283af72de3f77973c3c9c991b6df478a91c7cad3f9168df432958c9",
+      "max_rss_kib": 72108
+    },
+    {
+      "order": "primary",
+      "elapsed_ms": 5310,
+      "count": 100000,
+      "bytes": 620919965,
+      "maxBatch": 500,
+      "sha256": "2c6c5d22850410409bc3a19c3ff29e90c81d3cbf4a7b256963f1d62a2fbce722",
+      "max_rss_kib": 225188
+    },
+    {
+      "order": "audit",
+      "elapsed_ms": 5544,
+      "count": 100000,
+      "bytes": 620919965,
+      "maxBatch": 500,
+      "sha256": "964955d68283af72de3f77973c3c9c991b6df478a91c7cad3f9168df432958c9",
+      "max_rss_kib": 277040
+    }
+  ],
+  "cursorPlans": {
+    "legacy": {
+      "nodes": [
+        {
+          "node": "Sort",
+          "index": null
+        },
+        {
+          "node": "Seq Scan",
+          "index": null
+        }
+      ]
+    },
+    "primary": {
+      "nodes": [
+        {
+          "node": "Index Scan",
+          "index": "battles_pkey"
+        }
+      ]
+    },
+    "row-digest": {
+      "nodes": [
+        {
+          "node": "Index Scan",
+          "index": "battles_pkey"
+        }
+      ]
+    }
+  },
+  "median_speedup": 1.52
+}

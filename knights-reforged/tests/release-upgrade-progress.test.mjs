@@ -33,11 +33,67 @@ test('checker reports only fixed monotonic phase metadata while retaining all sn
  assert.equal(result.stderr.trim().split('\n').length,16,'Successful stderr contains only fixed progress records');
  const operations=result.trace.map(x=>x.op);assert.equal(operations.filter(x=>x==='begin').length,3);assert.equal(operations.filter(x=>x==='commit').length,3);assert.equal(operations.filter(x=>x==='migrate').length,2);assert.equal(operations.filter(x=>x==='release').length,3);assert.equal(operations.filter(x=>x==='rollback').length,0);assert.equal(operations.at(-1),'end');
  for(const pass of [1,2,3])assert.deepEqual(result.trace.filter(x=>x.op==='fetch'&&x.pass===pass&&x.table==='battles').map(x=>x.offset),[0,500,1000,1002]);
+ assert.equal(result.trace.filter(x=>x.op==='tables').length,3,'One bulk key inventory is read inside each snapshot transaction');
+ for(const entry of result.trace.filter(x=>x.op==='declare')){
+  const registry=['rulesets','schema_migrations'].includes(entry.table);
+  assert.equal(entry.order,registry?'row_to_json(t)::text':'t."id"');
+  assert.equal(entry.projection,registry?'row_to_json(t)::text AS row':"pg_catalog.sha256(pg_catalog.convert_to(row_to_json(t)::text,'UTF8')) AS row_sha256");
+ }
  const report=JSON.parse(result.stdout),sha=value=>createHash('sha256').update(value).digest('hex');
  const tableRows={accounts:[JSON.stringify({id:'PRIVATE_ACCOUNT_ID',name:'PRIVATE_ROW_CONTENT'})],battles:Array.from({length:1002},(_,i)=>JSON.stringify({id:String(i).padStart(4,'0'),snapshot:'PRIVATE_ROW_CONTENT_雪'})),development_bots:Array.from({length:450},(_,i)=>JSON.stringify({id:String(i).padStart(4,'0')})),rulesets:[JSON.stringify({id:'existing-rule'}),JSON.stringify({id:'new-rule'})],schema_migrations:[JSON.stringify({name:'existing-migration'}),JSON.stringify({name:'new-migration'})]};
- const after=Object.fromEntries(Object.entries(tableRows).map(([table,values])=>{const rows=values.sort();return [table,['rulesets','schema_migrations'].includes(table)?rows:{count:rows.length,sha256:sha(rows.map(row=>Buffer.byteLength(row)+':'+row).join(''))}];}));
+ const after=Object.fromEntries(Object.entries(tableRows).map(([table,values])=>{
+  const rows=values.sort(),digest=createHash('sha256').update('kingdom-preservation-full-row-sha256-v1\0');
+  for(const row of rows)digest.update(createHash('sha256').update(row,'utf8').digest());
+  return [table,['rulesets','schema_migrations'].includes(table)?rows:{count:rows.length,sha256:digest.digest('hex')}];
+ }));
  assert.deepEqual(report,{passed:true,restoredDatabase:env.KINGDOM_RESTORE_TEST_DATABASE,restoredHost:'restore.railway.internal',accounts:1,bots:450,population:null,existingTablesVerified:5,sha256:sha(JSON.stringify(after)),migrationReplay:'unchanged',liveDatabaseConnected:false});
  assert.doesNotMatch(result.stdout,/PRIVATE_SOURCE_PASSWORD|PRIVATE_RESTORE_PASSWORD|PRIVATE_ROW_CONTENT|PRIVATE_ACCOUNT_ID/);
+});
+
+test('primary-key order streams and hashes complete rows without sorting the wide JSON representation',()=>{
+ const result=run('primary-order');assert.equal(result.status,0,result.stderr);
+ const rows=[JSON.stringify({snapshot:'b',id:1}),JSON.stringify({snapshot:'z',id:2}),JSON.stringify({snapshot:'a',id:10})];
+ assert.notDeepEqual(rows,rows.slice().sort(),'Native key order intentionally differs from full-JSON text order');
+ const declarations=result.trace.filter(x=>x.op==='declare'&&x.table==='battles');
+ assert.deepEqual(declarations.map(x=>x.order),Array(3).fill('t."id"'));
+ assert.equal(JSON.parse(result.stdout).passed,true);
+ assert.deepEqual(labels(result),events(phases));
+});
+
+test('composite keys retain ordinal order and quote unusual column identifiers',()=>{
+ const result=run('composite-order');assert.equal(result.status,0,result.stderr);
+ assert.deepEqual(result.trace.filter(x=>x.op==='declare'&&x.table==='composite_records').map(x=>x.order),Array(3).fill('t."tenant",t."odd""key"'));
+ assert.equal(JSON.parse(result.stdout).existingTablesVerified,6);
+});
+
+test('baseline ordering remains fixed when a migration adds or changes a primary key',()=>{
+ for(const [mode,expected]of[['key-added','row_to_json(t)::text'],['key-changed','t."id"']]){
+  const result=run(mode);assert.equal(result.status,0,result.stderr);
+  assert.deepEqual(result.trace.filter(x=>x.op==='declare'&&x.table==='battles').map(x=>x.order),Array(3).fill(expected));
+ }
+ const added=run('new-table');assert.equal(added.status,0,added.stderr);
+ assert.deepEqual(added.trace.filter(x=>x.op==='declare'&&x.table==='new_records').map(({pass,order})=>({pass,order})),[{pass:2,order:'t."id"'},{pass:3,order:'t."id"'}]);
+});
+
+test('unkeyed tables retain full-row sorting and duplicate-row multiplicity protection',()=>{
+ const success=run('unkeyed-duplicates');assert.equal(success.status,0,success.stderr);
+ assert.deepEqual(success.trace.filter(x=>x.op==='declare'&&x.table==='battles').map(x=>x.order),Array(3).fill('row_to_json(t)::text'));
+ const changed=run('unkeyed-delete');assert.equal(changed.status,1);assert.equal(changed.stdout,'');
+ assert.deepEqual(labels(changed).at(-1),{phase:'preservation-compare',event:'start'});
+});
+
+test('malformed key metadata fails before opening the table cursor',()=>{
+ const result=run('invalid-keys');assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.trace.filter(x=>x.op==='declare'&&x.table==='battles').length,0);
+ assert.equal(result.trace.filter(x=>x.op==='rollback').length,1);assert.equal(result.trace.at(-1).op,'end');
+});
+
+test('missing, malformed or text-encoded row digests cannot certify preservation',()=>{
+ for(const mode of ['malformed-rowhash','string-rowhash','missing-rowhash']){
+  const result=run(mode);assert.equal(result.status,1);assert.equal(result.stdout,'');
+  assert.deepEqual(labels(result).at(-1),{phase:'snapshot-before',event:'start'});
+  assert.equal(result.trace.filter(x=>x.op==='rollback').length,1);assert.equal(result.trace.at(-1).op,'end');
+ }
 });
 
 for(const phase of phases)test('failure in '+phase+' never reports that phase complete or reaches later operations',()=>{
