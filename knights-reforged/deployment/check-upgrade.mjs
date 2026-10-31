@@ -26,20 +26,54 @@ function progress(phase,event){
  progressElapsed=Math.max(progressElapsed,Math.floor(performance.now()-progressStarted));
  console.error('UPGRADE_PROGRESS: '+JSON.stringify({phase,event,elapsed_ms:progressElapsed}));
 }
+// Keep one ordering plan for each table across all three snapshots. In particular,
+// adding a primary key during migration must not reorder an unchanged baseline.
+const snapshotOrders=new Map();
+const snapshotTablesSql=`SELECT t.table_name,p.key_columns
+ FROM information_schema.tables t
+ LEFT JOIN (
+  SELECT n.nspname,c.relname,array_agg(a.attname::text ORDER BY k.ordinality) AS key_columns
+  FROM pg_catalog.pg_index i
+  JOIN pg_catalog.pg_class c ON c.oid=i.indrelid
+  JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+  CROSS JOIN LATERAL unnest(i.indkey) WITH ORDINALITY AS k(attnum,ordinality)
+  LEFT JOIN pg_catalog.pg_attribute a ON a.attrelid=c.oid AND a.attnum=k.attnum
+  WHERE n.nspname='public' AND i.indisprimary AND i.indisunique AND i.indisvalid AND i.indisready
+   AND k.ordinality<=i.indnkeyatts
+  GROUP BY n.nspname,c.relname,i.indexrelid,i.indnkeyatts
+  HAVING count(*)=i.indnkeyatts
+   AND bool_and(coalesce(a.attnum>0 AND NOT a.attisdropped AND a.attnotnull,false))
+ ) p ON p.nspname=t.table_schema AND p.relname=t.table_name
+ WHERE t.table_schema='public' AND t.table_type='BASE TABLE' ORDER BY t.table_name`;
+const quoteIdentifier=value=>'"'+value.replaceAll('"','""')+'"';
 async function snapshot(){
  const sql=await db.connect();
  try{
   await sql.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
-  const tables=(await sql.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE' ORDER BY table_name")).rows;
+  const tables=(await sql.query(snapshotTablesSql)).rows;
   const data={};
-  for(const {table_name:table} of tables){
+  for(const {table_name:table,key_columns:keys} of tables){
    assert.match(table,/^[a-z_]+$/);
    // Only the small append-only migration registries need their original rows.
-   // Business tables stream in batches; battle history never fills Node's heap.
+   // PostgreSQL hashes every complete UTF-8 business row before transfer; only
+   // fixed-size digests stream to Node, never historical battle payloads.
    const append=['schema_migrations','rulesets'].includes(table),rows=[],digest=createHash('sha256');let count=0;
-   await sql.query('DECLARE preservation_rows NO SCROLL CURSOR FOR SELECT row_to_json(t)::text AS row FROM "'+table+'" t ORDER BY row_to_json(t)::text');
+   if(!append)digest.update('kingdom-preservation-full-row-sha256-v1\0');
+   if(!snapshotOrders.has(table)){
+    assert.ok(keys===null||Array.isArray(keys)&&keys.length>0&&keys.every(key=>typeof key==='string'&&key.length>0),'Invalid preservation primary-key metadata');
+    // A real, valid non-null primary key supplies a total row order without
+    // sorting large JSON histories. Every complete row is still hashed, with
+    // count and digest order retained. Unkeyed tables keep full-JSON ordering.
+    snapshotOrders.set(table,!append&&keys?keys.map(key=>'t.'+quoteIdentifier(key)).join(','):'row_to_json(t)::text');
+   }
+   const projection=append?'row_to_json(t)::text AS row':"pg_catalog.sha256(pg_catalog.convert_to(row_to_json(t)::text,'UTF8')) AS row_sha256";
+   await sql.query('DECLARE preservation_rows NO SCROLL CURSOR FOR SELECT '+projection+' FROM public.'+quoteIdentifier(table)+' t ORDER BY '+snapshotOrders.get(table));
    for(;;){const batch=(await sql.query('FETCH FORWARD 500 FROM preservation_rows')).rows;if(!batch.length)break;
-    for(const {row} of batch){digest.update(String(Buffer.byteLength(row))+':'+row);count++;if(append)rows.push(row);}
+    for(const {row,row_sha256:rowDigest} of batch){
+     if(append){digest.update(String(Buffer.byteLength(row))+':'+row);rows.push(row);}
+     else{assert.ok(Buffer.isBuffer(rowDigest)&&rowDigest.length===32,'Invalid preservation row digest');digest.update(rowDigest);}
+     count++;
+    }
    }
    await sql.query('CLOSE preservation_rows');
    data[table]=append?rows:{count,sha256:digest.digest('hex')};
