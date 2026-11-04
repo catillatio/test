@@ -51,6 +51,10 @@ do not substitute a historical capped helper or Crime's formula.
 
 ## Authority and verification
 
+Development process: [Stage 2 workflow](WORKFLOWS.md) defines the per-task
+Sol Medium/Standard default, effort escalation, focused local verification and
+[ten-task usage pilot](usage-pilot/README.md). It does not change runtime or CI.
+
 The current explicit owner task defines authorized actions. Current selected
 runtime code/definitions determine behavior; provider observations determine
 operational state; approved decisions determine intent. Old phase reports are
