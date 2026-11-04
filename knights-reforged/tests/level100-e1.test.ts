@@ -28,7 +28,7 @@ test('E1 zero-surplus and reinvestment portfolios use actual progressive prices 
  const p=portfolio(100,342500,true);assert.ok(p.sustainable&&p.net>=342500);assert.ok(p.cost>0);assert.ok(p.holdings.every(h=>h.quantity<=100));
  assert.notEqual(safeStudyPrice(2200000,70),null);assert.equal(safeStudyPrice(2200000,99),null,'future high-base Land needs safe quote clipping, not overflow');
  assert.equal(studyRequirement(50,150),levelRequirement(50));assert.equal(studyRequirement(100,150),11750);assert.equal(studyRequirement(500,150),89750);assert.throws(()=>studyRequirement(100,-1));
- const reward=botVictoryRewards(1000000,100,100,1,100,100);assert.equal(reward.loot.amount,3000);assert.equal(reward.xp.fullXpPercent,65,'research does not alter the live approved bot policy');
+ const reward=botVictoryRewards(1000000,100,100,1,100,100);assert.equal(reward.loot.amount,26931);assert.equal(reward.loot.rulesetId,'bot-combat-rewards-3');assert.equal(reward.xp.fullXpPercent,65,'research does not alter the approved bot XP policy');
 });
 
 test('E1 finite simulations reproduce seeds and conserve saved money and every player resource',()=>{
