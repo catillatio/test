@@ -6,16 +6,19 @@ import {botCombat,previousBotCombat,botVictoryRewards} from '../src/bot-combat-r
 import {battleRewardNotes} from '../src/battle-reward-notes.js';
 import {victoryLoot45} from '../src/gameplay-rules.js';
 import {victoryExperience47} from '../src/game-feel-rules.js';
+import {progressiveBotLoot} from '../src/bot-loot.js';
 import {getState} from '../src/game.js';
 import {provisionBots} from '../src/development.js';
 import {realm,testDatabaseUrl} from './helpers.js';
 const skip=!testDatabaseUrl;
 const xpFor=(level:number)=>Array.from({length:level-1},(_,i)=>levelRequirement(i+1)).reduce((s,x)=>s+x,0);
 
-test('bot v2 preserves gold, scales difficulty XP to 65% before pair reductions and floors both awards',()=>{
- for(const level of [1,8,17,25,40,50])for(const gold of [0,20,33,34,300,5946,100000,2147483647]){
+test('bot v3 scales uncapped gold while preserving 65% difficulty XP and pair reductions',()=>{
+ for(const level of [1,8,17,25,40,50,75,100])for(const gold of [0,20,33,34,300,5946,100000,2147483647]){
   const first=botVictoryRewards(gold,level,level,1,100,100);
-  assert.equal(first.loot.amount,victoryLoot45(gold,1,true,true,level).amount);
+  const raw=Number(BigInt(gold)*3n/100n);
+  assert.equal(first.loot.base,raw);assert.equal(first.loot.amount,progressiveBotLoot(raw));
+  assert.equal(first.loot.botCap,null);assert.equal(first.loot.rulesetId,'bot-combat-rewards-3');
   assert.equal(first.xp.amount,Math.max(1,Math.floor(victoryExperience47(level,level).amount*.65)));
   assert.equal(first.xp.unreducedAmount,victoryExperience47(level,level).amount);assert.equal(first.xp.fullXpPercent,65);assert.equal(first.xp.scaledFullAmount,first.xp.amount);
   for(const n of [2,3,4,5,6,100]){const r=botVictoryRewards(gold,level,level,n,100,100),m=[100,85,70,55,40][Math.min(n-1,4)]!;
@@ -23,7 +26,8 @@ test('bot v2 preserves gold, scales difficulty XP to 65% before pair reductions 
    assert.ok(r.loot.amount<=gold);assert.equal(r.loot.multiplier,m);assert.equal(r.xp.rulesetId,botCombat.id);
   }
  }
- assert.deepEqual([1,2,3,4,5,6].map(n=>botVictoryRewards(100000,17,17,n,100,100).loot.amount),[411,349,287,226,164,164]);
+ assert.deepEqual([1,2,3,4,5,6].map(n=>botVictoryRewards(100000,17,17,n,100,100).loot.amount),[3000,2550,2100,1650,1200,1200]);
+ assert.equal(victoryLoot45(100000,1,true,true,17).amount,411,'the historical capped helper remains reproducible');
  for(const n of [0,-1,1.1,NaN,Number.MAX_SAFE_INTEGER+1])assert.throws(()=>botVictoryRewards(100,17,17,n,100,100),RangeError);
 });
 test('empty wallets do not suppress difficulty XP, and trivial victories never gain XP for looking decisive',()=>{
@@ -88,7 +92,7 @@ test('more than six different meaningful rivals pay, repeated XP/gold match snap
   const emptyPage=await r.app.inject({url:'/game/battles/'+empty.b.id,headers:{cookie:a.cookie}});
   assert.equal(emptyPage.statusCode,200);assert.match(emptyPage.body,/This rival had too little unprotected gold to steal/);
   assert.match(emptyPage.body,/Reduced rewards from repeated battles with this rival/);assert.ok(!emptyPage.body.includes('Less experience against a much weaker opponent.'));
-  const publicRules=await r.app.inject({url:'/rules'});assert.equal(publicRules.statusCode,200);assert.match(publicRules.body,/Bot ordinary gold uses/);assert.ok(!publicRules.body.includes('once per rival and six times total'));
+  const publicRules=await r.app.inject({url:'/rules'});assert.equal(publicRules.statusCode,200);assert.match(publicRules.body,/Bot ordinary gold starts at 3%/);assert.match(publicRules.body,/without a fixed or level-based ceiling/);assert.ok(!publicRules.body.includes('once per rival and six times total'));
   const rivals=await r.app.inject({url:'/game/battle',headers:{cookie:a.cookie}});assert.equal(rivals.statusCode,200);assert.match(rivals.body,/Different rivals do not share a daily reward limit/);assert.ok(!rivals.body.includes('At most six rewarded bot victories'));
  }finally{await r.close();}
 });

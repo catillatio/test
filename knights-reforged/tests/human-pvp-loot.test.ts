@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {humanPvpLoot,humanPvpLootDigest,humanVictoryLoot,validateHumanPvpLoot} from '../src/human-pvp-loot.js';
 import {definitionDigest} from '../src/expansion-artwork.js';
-import {botVictoryRewards} from '../src/bot-combat-rules.js';
+import {botCombat,botCombatDigest,previousBotCombatV2,botVictoryRewards} from '../src/bot-combat-rules.js';
+import {progressiveBotLoot} from '../src/bot-loot.js';
 import {victoryLoot45} from '../src/gameplay-rules.js';
 
 test('Uncapped human PvP uses exact 3% and two integer floors at every repeat percentage through safe-integer balances',()=>{
@@ -22,9 +23,15 @@ test('Human uncapped loot has an immutable identity without a replacement cap or
  for(const bad of[{...humanPvpLoot,percent:4},{...humanPvpLoot,maximum:15000},{...humanPvpLoot,windowSeconds:3600},{...humanPvpLoot,victoryPercentages:[100,100,100,100,100]}])assert.throws(()=>validateHumanPvpLoot(bad as typeof humanPvpLoot));
 });
 
-test('Bot ceilings and 100/85/70/55/40 safeguards remain pinned to their existing reward policy',()=>{
- assert.deepEqual([1,2,3,4,5,6].map(n=>botVictoryRewards(1000000000,100,100,n,100,100).loot.amount),[3000,2550,2100,1650,1200,1200]);
- assert.equal(botVictoryRewards(1000000000,100,100,1,100,100).loot.rulesetId,'bot-combat-rewards-2');
+test('New bot progressive gold remains separate from unchanged human and historical formulas',()=>{
+ const full=progressiveBotLoot(30000000);
+ assert.ok(full>3000&&full<30000000);
+ assert.deepEqual([1,2,3,4,5,6].map(n=>botVictoryRewards(1000000000,100,100,n,100,100).loot.amount),[100,85,70,55,40,40].map(m=>Number(BigInt(full)*BigInt(m)/100n)));
+ assert.equal(definitionDigest(botCombat),botCombatDigest);assert.ok(Object.isFrozen(botCombat.gold));
+ assert.equal(botVictoryRewards(Number.MAX_SAFE_INTEGER,100,100,1,100,100).loot.base,270215977642229);
+ assert.equal(botVictoryRewards(Number.MAX_SAFE_INTEGER,100,100,1,100,100).loot.amount,260199);
+ assert.equal(botCombat.gold.levelMaximum,null);assert.equal(botCombat.gold.baseMaximum,null);assert.equal(previousBotCombatV2.id,'bot-combat-rewards-2');
+ assert.equal(botVictoryRewards(1000000000,100,100,1,100,100).loot.rulesetId,'bot-combat-rewards-3');
  assert.equal(victoryLoot45(1000000,1).amount,15000,'retain the original capped historical helper and immutable bot base rules');
  assert.equal(humanVictoryLoot(1000000000,1).amount,30000000);
 });

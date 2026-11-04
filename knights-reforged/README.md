@@ -1,3 +1,7 @@
+# Progressive ordinary bot gold
+
+The current bot reward policy is immutable `bot-combat-rewards-3`: uncapped integer 3% of the defender's exposed wallet, progressive logarithmic scaling above 20,000 gold, then the existing 100/85/70/55/40 pair reductions. Bot XP remains 65% of difficulty XP with its existing repeat floors. Human PvP, bounty escrow, Vaults, bot identities and historical records are unchanged. See [implementation and release notes](docs/bot-loot/RELEASE.md) and the [900-bot economic sensitivity](docs/bot-loot/ECONOMIC_SIMULATION.md). Older phase notes below describe their historical policies, not the current bot gold cap.
+
 # Phase 4.7 live-realm release candidate
 
 See [Phase 4.7 release notes](PHASE_4_7_RELEASE.md), [security findings](PHASE_4_7_SECURITY.md), [audio inventory](docs/phase47/AUDIO.md) and [owner approval / Railway operations](docs/phase47/OPERATIONS.md). This branch is not deployed automatically. Upgrade only after backup and restored-copy verification; never initialize or reseed the existing realm. Phase 4.6 features and historical records are preserved. The new game-feel ruleset versions equipment resale and the narrow XP adjustment separately from unchanged loot and Calling mechanics.

@@ -7,7 +7,7 @@ test('offline army baseline exactly matches actual equipment selectors, training
 });
 test('support proposal preserves first 21 slots and stays monotonic, sublinear, finite; nothing changes active policy',()=>{
  for(let n=1;n<=21;n++)assert.equal(support(n),n);assert.ok(support(10000)<60);for(let n=2;n<=10000;n++){assert.ok(support(n)>support(n-1));assert.ok(support(n)<=n);}
- assert.equal(botCombat.id,'bot-combat-rewards-2');assert.equal(botCombat.fullXpPercent,65);assert.deepEqual(botCombat.victoryPercentages,[100,85,70,55,40]);assert.equal(currentBot(50,'elite').participants,10);
+ assert.equal(botCombat.id,'bot-combat-rewards-3');assert.equal(botCombat.fullXpPercent,65);assert.deepEqual(botCombat.victoryPercentages,[100,85,70,55,40]);assert.equal(currentBot(50,'elite').participants,10);
 });
 test('bot proposals retain finite catalog purses/estates, debit every extra equipment upkeep copy and freeze future content',()=>{
  for(const level of[1,5,15,25,50,100,200])for(const tier of['green','seasoned','elite'] as const){const b=proposedBot(level,tier,'uncapped-support'),old=botBlueprint(Math.min(50,level),tier);assert.equal(b.wallet,old.gold);assert.deepEqual(b.properties,old.properties);assert.equal(b.netIncome,old.netIncome+currentBot(level,tier).upkeep-b.upkeep);assert.ok(Number.isFinite(b.power)&&b.power>0);}
