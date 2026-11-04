@@ -22,7 +22,7 @@ test('repeated plans are deterministic, frozen and never rely on free points, ne
 test('human powers and capped participation use the original helpers, including 100/200 stress cases; low-level bot ceilings remain real',()=>{
  for(const level of[1,8,17,25,50,100,200])for(const profile of['starter','ordinary','established','large']as const){const h=humanReference(level,profile),p=activeArmy(level,h.participants-1,0).participants;assert.equal(h.participants,p);const e=selectEquipment(h.inventory,p,'attack');assert.equal(h.attack,callingPower(trainedPower(rules.baseAttack+(level-1)*rules.attackPerLevel+(p-1)*rules.unit.attack+e.attack,h.training),callingFor('Freeblade').attackPercent));}
  const first=blueprintSnapshot(1,'elite'),plan=planCalibration(first);assert.equal(plan.participants,1);assert.ok(plan.afterDefense<plan.referenceAttack,'No fabricated level1 strength to force a difficulty band');
- assert.equal(botCombat.id,'bot-combat-rewards-2');assert.equal(botCombat.fullXpPercent,65);assert.deepEqual(botCombat.victoryPercentages,[100,85,70,55,40]);
+ assert.equal(botCombat.id,'bot-combat-rewards-3');assert.equal(botCombat.fullXpPercent,65);assert.deepEqual(botCombat.victoryPercentages,[100,85,70,55,40]);
 });
 test('legacy paid lots use FIFO refunds, integer resale, no arbitrary new purchase currency or automatic reserve-financed acquisitions',()=>{
  const b=blueprintSnapshot(17,'elite');b.inventory[0]!.lots=[{quantity:1,unitCost:75},{quantity:b.inventory[0]!.quantity-1,unitCost:120}].filter(l=>l.quantity);

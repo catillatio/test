@@ -61,7 +61,7 @@ test('a manifest binds all exact slots, identities, paid plans and fifteen-minut
 });
 test('roll enumeration favors defender ties; approved65% XP and repeat percentages remain unchanged',()=>{
   assert.equal(winPercent(0,0),0);assert.ok(winPercent(100,100)<50);assert.equal(winPercent(1000,10),100);
-  assert.equal(botCombat.id,'bot-combat-rewards-2');assert.equal(botCombat.fullXpPercent,65);assert.deepEqual(botCombat.victoryPercentages,[100,85,70,55,40]);
+  assert.equal(botCombat.id,'bot-combat-rewards-3');assert.equal(botCombat.fullXpPercent,65);assert.deepEqual(botCombat.victoryPercentages,[100,85,70,55,40]);
   assert.equal(canary.adopted,false);assert.ok(Object.isFrozen(canary.levels));
 });
 test('local canary consent rejects production/nonlocal/missing authorization and non-selected targets before connecting',async()=>{

@@ -1,0 +1,23 @@
+{
+  "id": "bot-combat-rewards-3",
+  "provenance": "Owner-approved progressive ordinary bot gold loot. Retains the 65% bot XP policy, existing pair window and repeat reductions. Human rewards, bounty escrow and Vault protection are unchanged.",
+  "previousRuleset": "bot-combat-rewards-2",
+  "baseGoldRuleset": "gameplay-refinement-1",
+  "baseXpRuleset": "game-feel-1",
+  "windowSeconds": 86400,
+  "victoryPercentages": [100, 85, 70, 55, 40],
+  "fullXpPercent": 65,
+  "provisionalRepeatFloor": true,
+  "gold": {
+    "percent": 3,
+    "baseMaximum": null,
+    "levelMaximum": null,
+    "threshold": 20000,
+    "logarithmicScale": 10000,
+    "formula": "R <= 20000 ? R : 20000 + floor(10000 * ln(1 + (R - 20000) / 10000))",
+    "arithmetic": "Exact BigInt 3% floor; bounded rational logarithm intervals agree on the integer floor; exact BigInt pair-percentage floor. No floating logarithm or replacement ceiling."
+  },
+  "rounding": "R=floor(exposed wallet*3/100). Apply progressive gold scaling, then floor the existing pair percentage. XP remains max(1,floor(full difficulty XP*65/100)), then max(1,floor(scaled full XP*pair percentage/100)).",
+  "transfer": "Only the actual exposed wallet funds loot. Debit and credit the same amount transactionally; preserve the existing retained-credit journal when the destination spendable wallet is full. No wallet refill, protected-balance withdrawal or new gold.",
+  "history": "Register this new immutable definition without altering v1/v2 definitions, balances, population, historical battles, financial ledgers, command receipts or pair windows. Existing encounter eligibility and autonomous-duel scheduling remain unchanged."
+}
