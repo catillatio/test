@@ -1,3 +1,9 @@
+> Current status and task entry: see [the authority index](docs/development/CURRENT.md).
+> Reviewed release source is `90f10dbcb19dee74d9663a64c8bb96035a8200dd` (2026-11-04).
+> Older phase headings, branch names, catalog counts and operational instructions
+> below are preserved historical records. Use the index and current source before
+> operational work; this documentation update does not deploy anything.
+
 # Progressive ordinary bot gold
 
 The current bot reward policy is immutable `bot-combat-rewards-3`: uncapped integer 3% of the defender's exposed wallet, progressive logarithmic scaling above 20,000 gold, then the existing 100/85/70/55/40 pair reductions. Bot XP remains 65% of difficulty XP with its existing repeat floors. Human PvP, bounty escrow, Vaults, bot identities and historical records are unchanged. See [implementation and release notes](docs/bot-loot/RELEASE.md) and the [900-bot economic sensitivity](docs/bot-loot/ECONOMIC_SIMULATION.md). Older phase notes below describe their historical policies, not the current bot gold cap.
