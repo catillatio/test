@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "project": "catillatio/test",
+  "id": null,
+  "objective": null,
+  "acceptance": [],
+  "type": null,
+  "risk": null,
+  "base": null,
+  "verifiedHead": null,
+  "settings": {"actualModel": null, "actualEffort": null, "actualSpeed": null, "escalations": []},
+  "times": {"startedUtc": null, "verifiedUtc": null, "activeSeconds": null, "toolElapsedSeconds": null, "ciExecutionSeconds": null, "queueSeconds": null, "ownerWaitSeconds": null, "administrationSeconds": null},
+  "usage": {"status": "unavailable", "input_tokens": null, "cached_input_tokens": null, "cache_write_input_tokens": null, "output_tokens": null, "reasoning_output_tokens": null, "total_tokens": null, "sources": [], "attributableSubscriptionUsage": null, "limitations": []},
+  "attempts": {"failedHypotheses": null, "ownerCorrections": null, "unnecessaryReruns": null, "evidence": []},
+  "tools": {"outerCalls": null, "nestedOperations": null, "confirmedAvoidableCalls": null, "countingMethod": null, "evidence": []},
+  "agents": {"countIncludingImplementer": null, "coordinationCalls": null, "validatedCatches": [], "conflicts": []},
+  "verification": [],
+  "outcome": {"status": "pending", "pr": null, "merged": null, "deployment": "out-of-scope", "pendingGates": []},
+  "followUp": {"reviewDueUtc": null, "reviewedUtc": null, "reopened": null, "confirmedRegressions": null, "rollbacks": null, "securityOrPreservationFailure": null},
+  "lesson": null
+}

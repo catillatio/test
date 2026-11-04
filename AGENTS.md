@@ -15,6 +15,14 @@ backups or game-specific policies here. Repository/project organization is not a
 security boundary; verify operational targets explicitly.
 
 ## Development and verification
+Use **GPT-6.1 Sol Medium, Standard speed** for ordinary tasks. Use Low for
+mechanical work, High for complex state/security/economy work, and XHigh for a
+specific unresolved interaction. These are per-chat choices, not global settings;
+record the actual setting if it differs. Read [the short workflow](knights-reforged/docs/development/WORKFLOWS.md)
+once per bounded task; it covers targeted exploration, test selection, handoffs
+and the next-ten-task measurement pilot. Load its measurement details only when
+recording or reviewing a task. Do not replay old work to generate benchmarks.
+
 Run application commands from `knights-reforged/`. Existing commands include
 `npm run typecheck`, `npm run build`, `npm run check:static` and
 `node scripts/ci/run-tests.mjs`. Use reviewed `--files`, `--profile` or `--lane`
@@ -38,8 +46,10 @@ Destructive database operations, production data changes, security-sensitive
 configuration and global Codex changes require separate owner approval. Never
 print secrets, reset a live realm or use live gameplay as a disposable fixture.
 
-Use one agent by default; delegate only when requested or required by applicable
-instructions, with independent scope and file ownership. Report exact source,
+Use one implementer by default. Add an agent only for independent work or a
+material-risk review that justifies its overhead; give it a bounded question,
+disjoint files/resources and existing findings to prevent duplicate discovery.
+No routine parallel review of trivial edits. Report exact source,
 verification results, unresolved gates and rollback implications. Update the
 authority index when a task changes its current-state facts; link existing
 evidence instead of duplicating it.

@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "project": "catillatio/test",
+  "collectedAt": "2026-11-04T09:43:00.059Z",
+  "source": "Existing Phase 1 read-only local session rollup; raw transcripts and private session identifiers are not published",
+  "historicalObservation": {
+    "label": "Kingdom XP-cliff development chat, 2026-10-27",
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh",
+    "speed": null,
+    "firstUsageEventUtc": "2026-10-27T19:34:33.403Z",
+    "lastUsageEventUtc": "2026-10-27T20:19:22.237Z",
+    "usageEvents": 130,
+    "lastCumulativeSnapshot": {
+      "input_tokens": 27680975,
+      "cached_input_tokens": 27455616,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 69912,
+      "reasoning_output_tokens": 23059,
+      "total_tokens": 27750887
+    },
+    "perRequestInputMedian": 232001,
+    "perRequestInputMaximum": 297562,
+    "observedOuterCalls": {"exec": 109, "sleep": 16, "request_user_input_async": 1},
+    "directSpawns": 0,
+    "activeWorkSeconds": null,
+    "failedApproaches": null,
+    "confirmedAvoidableCalls": null,
+    "attributableSubscriptionUsage": null,
+    "verifiedCompletion": null,
+    "completionEvidence": "https://github.com/catillatio/test/pull/63",
+    "limitations": [
+      "PR #63 remained unmerged at the 2026-11-04 audit; the rollup does not establish task acceptance/completion or verified completed-task cost",
+      "First-to-last usage timestamps include waits and omit time outside those events; they are not active work time",
+      "These are parent cumulative snapshots, not task-exclusive deltas or a bill; child totals are not added",
+      "Outer tool counts do not measure nested commands; failed attempts and unnecessary calls cannot be inferred as zero",
+      "No matched Medium/Standard development task or subscription savings comparison exists yet"
+    ]
+  },
+  "ciBaseline": {
+    "authority": "../../ci-performance/BENCHMARKS.md",
+    "rawHistoricalRunData": "../../ci-performance/baseline-runs.json",
+    "stage1PostMergeRun": "https://github.com/catillatio/test/actions/runs/41816814280",
+    "stage1Head": "f32d7766e92d4366e45d1553a1f93ecbfa05ac96",
+    "stage1Result": "all 10 jobs successful",
+    "comparability": "CI profiles, commits, queue, job execution and Codex usage are separate; no speedup inferred"
+  },
+  "pilot": {"normalTasksRecorded": 0, "savingsEstablished": false, "matchedCompletedTaskBaseline": null}
+}
