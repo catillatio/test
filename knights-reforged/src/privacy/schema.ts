@@ -1,6 +1,6 @@
 // Exact reviewed column contract at migration 028. Unknown personal-data fields fail closed.
 export const privacyColumns:Record<string,string>={
- "abandoned_kingdoms":"character_id:uuid:NO|policy_version:text:NO|batch_id:uuid:NO|slot:int2:NO|template_id:text:NO|garrison:int4:NO",
+ "abandoned_kingdoms":"character_id:uuid:NO|policy_version:text:NO|operation_id:uuid:NO|slot:int2:NO|template_id:text:NO|garrison:int4:NO",
  "account_deletion_requests":"id:uuid:NO|account_id:uuid:NO|requested_at:timestamptz:NO|status:text:NO|resolved_at:timestamptz:YES",
  "account_erasure_checkpoints":"sequence:int8:NO|root_sha256:bpchar:NO|source_scope_sha256:bpchar:NO|verified_at:timestamptz:NO",
  "account_erasures":"operation_id:uuid:NO|account_id:uuid:NO|character_id:uuid:NO|request_id:uuid:NO|intent_sha256:bpchar:NO|policy_id:text:NO|execution_proof:jsonb:NO|source_scope_sha256:bpchar:NO|outcome:text:NO|completed_at:timestamptz:NO",
@@ -45,7 +45,7 @@ export const privacyColumns:Record<string,string>={
  "expansion_bot_autonomy_events":"id:uuid:NO|sequence:int8:NO|manifest_id:text:NO|mode:text:NO|policy_digest:bpchar:NO|approval_digest:bpchar:NO|created_at:timestamptz:NO",
  "expansion_bot_cohorts":"manifest_id:text:NO|manifest_digest:bpchar:NO|approval_digest:bpchar:NO|legacy_digest:bpchar:NO|legacy_identities:jsonb:NO|capital:int8:NO|created_at:timestamptz:NO",
  "expansion_bot_members":"character_id:uuid:NO|manifest_id:text:NO|account_id:uuid:NO|members:int4:NO|initial_capital:int4:NO|created_at:timestamptz:NO",
- "graveyard_batches":"id:uuid:NO|catalog_id:text:NO|definition_digest:bpchar:NO|policy_record:jsonb:NO|approval_record:jsonb:NO|mature_count:int8:NO|previous_batches:int8:NO|erasure_count:int8:NO|credit_cutoff:timestamptz:NO|carry_after:int8:NO|members:_uuid:NO|created_at:timestamptz:NO",
+ "graveyard_operations":"id:uuid:NO|catalog_id:text:NO|definition_digest:bpchar:NO|policy_record:jsonb:NO|approval_record:jsonb:NO|population_before:int4:NO|previous_operations:int4:NO|slots:_int4:NO|members:_uuid:NO|created_at:timestamptz:NO",
  "health_restorations":"id:uuid:NO|character_id:uuid:NO|command_id:uuid:NO|health_before:int4:NO|health_after:int4:NO|max_health:int4:NO|level:int4:NO|gold_cost:int4:NO|ruleset_id:text:NO|created_at:timestamptz:NO",
  "hudson_equipment_grants":"id:uuid:NO|manifest_id:text:NO|manifest_digest:bpchar:NO|approval_digest:bpchar:NO|character_id:uuid:NO|account_id:uuid:NO|result:jsonb:NO|created_at:timestamptz:NO",
  "income_cycles":"character_id:uuid:NO|next_payment_at:timestamptz:NO|created_at:timestamptz:NO",

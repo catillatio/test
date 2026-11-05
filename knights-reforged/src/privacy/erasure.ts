@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {type Database,type Sql,transaction} from '../db.js';
-import {assertGraveyardReceipts} from './graveyard.js';
 import {assertReviewedColumns} from './reviewed-schema.js';
 import {privacySchema} from './gate.js';
 import {privacyColumns} from './schema.js';
@@ -168,7 +167,6 @@ export async function assertErasureFence(db:Database,options:{required:boolean;j
    const receipt=receipts.find(r=>r.operation_id===entry.intent.operationId);assert.ok(receipt);
    verifyReceiptApproval(receipt,entry,options.publicKey!);await verifyErased(sql,entry.intent,receipt.outcome);
   }
-  await assertGraveyardReceipts(sql,options.publicKey!,state.entries[0]?.intent.sourceScope);
   if(state.sequence){const mark=(await sql.query('SELECT root_sha256 FROM account_erasure_checkpoints WHERE sequence=$1',[state.sequence])).rows[0];assert.equal(mark?.root_sha256,state.root,'Journal checkpoint mismatch.');}
  },{expansionLock:'exclusive'});
  }catch{throw new Error('Account erasure reconciliation failed; startup/promotion is blocked.');}

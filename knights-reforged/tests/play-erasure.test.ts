@@ -25,8 +25,8 @@ async function fixture(clock?:()=>Date){
  const a=await r.player('Erase Subject'),b=await r.player('Other Warrior');
  const live=(await r.db.query(`SELECT current_database() AS database,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;
  const scope={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),database:live.database,clusterDigest:live.cluster};
- const policy=signed({protocol:'kingdom-erasure-policy-v3',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'delete-human-account-at-fulfillment',graveyard:'independent-public-roster-v1',worldStatePrivacyReview:'approved',minimumGraveyardCohort:24,minimumGraveyardHoldDays:7,formerWallet:'sealed-integrity-anchor-no-transfer',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
- const request=await requestAccountDeletion(r.db,a.accountId),intent=signed({protocol:'kingdom-erasure-intent-v3',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
+ const policy=signed({protocol:'kingdom-erasure-policy-v4',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'delete-human-account-at-fulfillment',formerWallet:'sealed-integrity-anchor-no-transfer',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
+ const request=await requestAccountDeletion(r.db,a.accountId),intent=signed({protocol:'kingdom-erasure-intent-v4',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
  const permit=async(mode='fulfill')=>{const state=await readJournal(directory,publicKey);return signed({protocol:'kingdom-erasure-execution-v1',mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:live.database,targetOid:live.oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()});};
  const options=async(mode='fulfill')=>({enabled:true,publicKey,policy,intent,permit:await permit(mode),journalPath:directory,codeSha,candidateDigest});
  return{r,a,b,directory,policy,intent,options,close:async()=>{await r.close();await rm(directory,{recursive:true,force:true});}};
@@ -128,8 +128,8 @@ test('a real custom-format backup restored to an isolated database is blocked un
   const a=await r.player('Restored Subject'),b=await r.player('Restored Other');await r.ok(a,'/api/v1/comments',{profileId:b.id,body:'Restorable private text'});
   const request=await requestAccountDeletion(r.db,a.accountId),live=(await r.db.query(`SELECT current_database() AS database,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;
   const scope={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),database:live.database,clusterDigest:live.cluster};
-  const policy=signed({protocol:'kingdom-erasure-policy-v3',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'delete-human-account-at-fulfillment',graveyard:'independent-public-roster-v1',worldStatePrivacyReview:'approved',minimumGraveyardCohort:24,minimumGraveyardHoldDays:7,formerWallet:'sealed-integrity-anchor-no-transfer',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
-  const intent=signed({protocol:'kingdom-erasure-intent-v3',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
+  const policy=signed({protocol:'kingdom-erasure-policy-v4',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'delete-human-account-at-fulfillment',formerWallet:'sealed-integrity-anchor-no-transfer',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
+  const intent=signed({protocol:'kingdom-erasure-intent-v4',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
   async function options(mode:'fulfill'|'restore',database=live.database,oid=live.oid){
    const state=await readJournal(directory,publicKey);return {enabled:true,publicKey,policy,intent,journalPath:directory,codeSha,candidateDigest,permit:signed({protocol:'kingdom-erasure-execution-v1',mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:database,targetOid:oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()})};
   }
@@ -193,7 +193,7 @@ test('human deletion has no NPC construction, donor assignment or synchronous cr
   await f.r.ok(f.a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:2});
   const before=await finances(f.r);await fulfillErasure(f.r.db,await f.options());
   assert.equal(await finances(f.r),before);assert.equal((await f.r.db.query('SELECT 1 FROM abandoned_kingdoms')).rowCount,0);
-  assert.equal((await f.r.db.query('SELECT 1 FROM graveyard_batches')).rowCount,0);
+  assert.equal((await f.r.db.query('SELECT 1 FROM graveyard_operations')).rowCount,0);
   await assert.rejects(publicProfile(f.r.db,f.a.id));await assert.rejects(createSession(f.r.db,f.a.accountId));
   await assert.rejects(executeCommand(f.r.db,f.a.accountId,randomUUID(),'profile',{className:'Warden'}));
   const username='replacement_human',replacement=await registerAccount(f.r.db,{username,password:'Replacement!2026',name:'New Human'});
@@ -203,11 +203,11 @@ test('human deletion has no NPC construction, donor assignment or synchronous cr
  }finally{await f.close();}
 });
 
-test('world privacy and personal-data review remain mandatory; old exact-inheritance approvals cannot authorize deletion',async()=>{
+test('personal-data review remains mandatory; population approval cannot authorize deletion',async()=>{
  const f=await fixture();try{
   const base=await f.options(),intent=JSON.parse(Buffer.from(base.intent.payload,'base64url').toString()),policy=JSON.parse(Buffer.from(base.policy.payload,'base64url').toString());
   await assert.rejects(fulfillErasure(f.r.db,{...base,intent:signed({...intent,personalDataReviewCompleted:false})}));
-  await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,worldStatePrivacyReview:'unreviewed'})}));
+  await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,protocol:'kingdom-erasure-policy-v3'})}));
   await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,protocol:'kingdom-erasure-policy-v1'})}));
   assert.equal((await readJournal(f.directory,publicKey)).sequence,0);
   assert.equal((await f.r.db.query("SELECT 1 FROM abandoned_kingdoms")).rowCount,0);
@@ -245,10 +245,10 @@ test('installing the disabled graveyard registry preserves complete existing cha
   await assert.rejects(db.query("INSERT INTO characters(id,account_id,name) VALUES($1,NULL,'Orphan')",[randomUUID()]),/Invalid accountless identity/);
   await assert.rejects(transaction(db,async sql=>{
    const batch=randomUUID();
-   await sql.query("INSERT INTO graveyard_batches(id,catalog_id,definition_digest,policy_record,approval_record,mature_count,previous_batches,erasure_count,credit_cutoff,carry_after,members) VALUES($1,'alpha-0.3',$2,'{}','{}',24,0,24,now()-interval '8 days',0,$3)",[batch,'a'.repeat(64),Array.from({length:24},()=>randomUUID())]);
-   await sql.query("INSERT INTO abandoned_kingdoms(character_id,batch_id,slot,template_id,garrison) VALUES($1,$2,0,'invalid-human',1)",[human.characterId,batch]);
+   await sql.query("INSERT INTO graveyard_operations(id,catalog_id,definition_digest,policy_record,approval_record,population_before,previous_operations,slots,members) VALUES($1,'alpha-0.3',$2,'{}','{}',0,0,ARRAY[0],$3)",[batch,'a'.repeat(64),[randomUUID()]]);
+   await sql.query("INSERT INTO abandoned_kingdoms(character_id,operation_id,slot,template_id,garrison) VALUES($1,$2,0,'invalid-human',1)",[human.characterId,batch]);
   }),/Invalid accountless identity/);
-  assert.equal((await db.query('SELECT 1 FROM graveyard_batches')).rowCount,0);
+  assert.equal((await db.query('SELECT 1 FROM graveyard_operations')).rowCount,0);
   assert.equal((await db.query('SELECT 1 FROM abandoned_kingdoms')).rowCount,0);
  }finally{await db?.end();await admin.query('DROP SCHEMA '+schema+' CASCADE');await admin.end();}
 });

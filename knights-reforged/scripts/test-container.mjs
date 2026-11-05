@@ -98,7 +98,7 @@ try{
   check('separate compiled pre-deploy runner installs all 28 migrations without initialization');
   assert.equal(sql('railway_test',"SELECT count(*) FROM information_schema.tables WHERE table_schema='public' AND table_name IN ('account_deletion_requests','social_blocks','social_user_reports','community_policy_acceptances')"),'4');
   check('new account-safety schema is installed without changing existing game rows');
-  assert.equal(sql('railway_test',"SELECT count(*) FROM information_schema.tables WHERE table_schema='public' AND table_name IN ('account_erasures','account_erasure_checkpoints','abandoned_kingdoms','graveyard_batches')"),'4');
+  assert.equal(sql('railway_test',"SELECT count(*) FROM information_schema.tables WHERE table_schema='public' AND table_name IN ('account_erasures','account_erasure_checkpoints','abandoned_kingdoms','graveyard_operations')"),'4');
   assert.equal(sql('railway_test','SELECT count(*) FROM account_erasures'),'0');
   check('erasure infrastructure installs empty and performs no account fulfillment');
   if(alphaMode){

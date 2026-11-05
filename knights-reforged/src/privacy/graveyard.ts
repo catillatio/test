@@ -2,24 +2,26 @@ import assert from 'node:assert/strict';
 import {type Database,type Sql,transaction} from '../db.js';
 import {alpha} from '../alpha-rules.js';
 import {expandedContent,contentCatalog} from '../expansion-content.js';
-import {sha256,type SignedRecord} from './authorization.js';
-import {graveyardWorld,graveyardRoster,graveyardDefinitionDigest} from './graveyard-roster.js';
+import {type SignedRecord} from './authorization.js';
+import {graveyardWorld,graveyardDefinitionDigest,graveyardTemplate,replenishmentSlots} from './graveyard-roster.js';
 import {authorizeConstruction,authenticateConstruction} from './graveyard-authorization.js';
 import {assertReviewedColumns} from './reviewed-schema.js';
-import type {ErasurePolicy} from './authorization.js';
+import type {z} from 'zod';
+import {scopeContract} from './authorization.js';
+import {privacySchema} from './gate.js';
 const publicDefinitions={world:graveyardWorld,catalogs:{[alpha.id]:alpha,[expandedContent.id]:expandedContent}};
 async function pin(sql:Sql){const schema=(await sql.query('SELECT current_schema() AS schema')).rows[0]!.schema;assert.match(schema,/^[a-z_][a-z0-9_]*$/);await sql.query("SELECT set_config('search_path',$1,true)",[schema+',pg_catalog,pg_temp']);}
 async function liveIdentity(sql:Sql){return (await sql.query(`SELECT current_database() AS name,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,
  encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;}
 export async function graveyardCapacity(sql:Sql){return (await sql.query('SELECT graveyard_snapshot($1::jsonb) AS state',[JSON.stringify(publicDefinitions)])).rows[0]!.state as Record<string,any>;}
-async function readBatch(sql:Sql,batch:string){return (await sql.query('SELECT read_graveyard_batch($1) AS state',[batch])).rows[0]!.state as {receipt:Record<string,any>;entities:Record<string,any>[]} | null;}
-function verifyInitialRoster(state:NonNullable<Awaited<ReturnType<typeof readBatch>>>,catalogId:string){
- const roster=graveyardRoster(catalogId),catalog=contentCatalog(catalogId);assert.equal(state.entities.length,24);
- assert.equal(new Set(state.entities.map(e=>e.character.id)).size,24);
- for(let slot=0;slot<roster.length;slot++){
-  const t=roster[slot]!,e=state.entities[slot]!,c=e.character,k=e.registry;
-  assert.equal(k.slot,slot);assert.equal(k.template_id,t.id);assert.equal(k.garrison,t.garrison);assert.equal(k.batch_id,state.receipt.id);
-  assert.equal(k.policy_version,graveyardWorld.id);assert.equal(c.id,state.receipt.members[slot]);assert.equal(c.account_id,null);assert.equal(c.name,'Abandoned Kingdom');
+async function readOperation(sql:Sql,operation:string){return (await sql.query('SELECT read_graveyard_operation($1) AS state',[operation])).rows[0]!.state as {receipt:Record<string,any>;entities:Record<string,any>[]} | null;}
+function verifyInitialRoster(state:NonNullable<Awaited<ReturnType<typeof readOperation>>>,catalogId:string){
+ const catalog=contentCatalog(catalogId);assert.equal(state.entities.length,state.receipt.slots.length);
+ assert.equal(new Set(state.entities.map(e=>e.character.id)).size,state.receipt.slots.length);
+ for(let index=0;index<state.receipt.slots.length;index++){
+  const slot=state.receipt.slots[index],t=graveyardTemplate(catalogId,slot),e=state.entities[index]!,c=e.character,k=e.registry;
+  assert.equal(k.slot,slot);assert.equal(k.template_id,t.id);assert.equal(k.garrison,t.garrison);assert.equal(k.operation_id,state.receipt.id);
+  assert.equal(k.policy_version,graveyardWorld.id);assert.equal(c.id,state.receipt.members[index]);assert.equal(c.account_id,null);assert.equal(c.name,'Abandoned Kingdom');
   assert.equal(c.attained_level,t.level);assert.equal(c.max_health,t.health);assert.equal(c.health,t.health);assert.equal(c.profile_class,t.calling);
   assert.equal(c.attack_training,t.attackTraining);assert.equal(c.defense_training,t.defenseTraining);
   for(const field of ['xp','level_xp','skill_points'])assert.equal(c[field],0);
@@ -46,51 +48,50 @@ export async function constructGraveyard(db:Database,options:ConstructionOptions
   assert.equal(entered,false,'No automatic construction retry.');entered=true;
   await sql.query("SET LOCAL statement_timeout='120s';SET LOCAL transaction_timeout='300s'");await pin(sql);await assertReviewedColumns(sql);
   const live=await liveIdentity(sql);assert.equal(live.name,v.targetDatabase);assert.equal(live.oid,v.targetOid);assert.equal(live.cluster,v.targetClusterDigest);
-  await assertGraveyardReceipts(sql,options.publicKey,v.sourceScope);
-  const old=await readBatch(sql,v.batchId);
-  if(old){assert.deepEqual(old.receipt.approval_record,options.permit);assert.deepEqual(old.receipt.policy_record,options.policy);assert.equal(old.entities.length,24);return {result:'already_recorded',count:24};}
+  await assertGraveyardReceipts(sql,options.publicKey,v.scope);
+  const old=await readOperation(sql,v.operationId);
+  if(old){assert.deepEqual(old.receipt.approval_record,options.permit);assert.deepEqual(old.receipt.policy_record,options.policy);assert.equal(old.entities.length,v.slots.length);return {result:'already_recorded',count:v.slots.length};}
   const state=await graveyardCapacity(sql);
-  assert.equal(state.installed,true);assert.equal(state.definitions_match,true);assert.equal(state.single_scope,true);
-  if(state.receipt_count)assert.equal(state.scope_digest,sha256(JSON.stringify(v.sourceScope)));assert.equal(state.receipt_count,v.expectedErasureCount);
-  assert.equal(state.checkpoint_complete,true);
-  assert.equal(state.catalog_id,v.catalogId);assert.equal(state.mature_count,v.expectedMatureDeletions);assert.equal(state.batch_count,v.expectedBatchCount);
-  assert.equal(Date.parse(state.credit_cutoff),Date.parse(v.creditCutoff));
-  assert.ok(state.mature_count>=24,'Insufficient mature cohort; no singleton fallback.');
+  assert.equal(state.installed,true);assert.equal(state.definitions_match,true);
+  assert.equal(state.catalog_id,v.catalogId);assert.equal(state.world_count,v.expectedPopulation);assert.equal(state.operation_count,v.expectedOperationCount);
+  assert.deepEqual(v.slots,replenishmentSlots(state.occupied_slots,approval.policy.targetPopulation,approval.policy.maximumNewPerOperation),'Exact vacant-slot plan required.');
   authorizeConstruction(options.policy,options.permit,options.publicKey);
-  await sql.query('SELECT construct_public_graveyard($1,$2,$3,$4,$5,$6,$7,$8,$9)',[v.batchId,JSON.stringify(publicDefinitions),state.mature_count,state.batch_count,v.expectedErasureCount,v.creditCutoff,graveyardDefinitionDigest(),options.policy,options.permit]);
-  const created=await readBatch(sql,v.batchId);assert.ok(created);verifyInitialRoster(created,state.catalog_id);
+  await sql.query('SELECT construct_public_graveyard($1,$2,$3,$4,$5,$6,$7,$8,$9)',[v.operationId,JSON.stringify(publicDefinitions),approval.policy,v.slots,state.world_count,state.operation_count,graveyardDefinitionDigest(),options.policy,options.permit]);
+  const created=await readOperation(sql,v.operationId);assert.ok(created);verifyInitialRoster(created,state.catalog_id);
   authorizeConstruction(options.policy,options.permit,options.publicKey);
-  return {result:'constructed',count:24};
+  return {result:'constructed',count:v.slots.length};
  },{expansionLock:'exclusive'});
 }
-// Permanent receipt verification is separate from fresh execution authorization.
-// It runs alongside the original personal-data/restore fence, not instead of it.
-export async function assertGraveyardReceipts(sql:Sql,key:string,scope?:ErasurePolicy['scope']){
- const summary=await graveyardCapacity(sql),batches=summary.batches as Record<string,any>[];let previousCutoff=-Infinity,previousCarry=0;
- assert.equal(summary.installed,true);assert.equal(summary.definitions_match,true);assert.equal(summary.batch_count,batches.length);
- for(let index=0;index<batches.length;index++){
-  const b=batches[index]!,a=authenticateConstruction(b.policy_record,b.approval_record,key),v=a.permit;
-  assert.equal(b.id,v.batchId);assert.equal(b.catalog_id,v.catalogId);assert.equal(b.definition_digest,v.definitionDigest);assert.equal(Number(b.previous_batches),index);
-  assert.equal(Number(b.mature_count),v.expectedMatureDeletions);assert.equal(Number(b.previous_batches),v.expectedBatchCount);
-  assert.equal(Number(b.erasure_count),v.expectedErasureCount);
-  if(scope)assert.deepEqual(v.sourceScope,scope);
-  assert.equal(Date.parse(b.credit_cutoff),Date.parse(v.creditCutoff));assert.ok(Date.parse(v.creditCutoff)>=previousCutoff);
-  assert.equal(Number(b.carry_after),Number(b.mature_count)-24);assert.ok(Number(b.mature_count)>=Math.max(24,previousCarry));
-  if(Date.parse(v.creditCutoff)===previousCutoff)assert.equal(Number(b.mature_count),previousCarry,'The same closed days cannot be credited twice');
-  previousCutoff=Date.parse(v.creditCutoff);previousCarry=Number(b.carry_after);
+// Permanent population evidence is verified without erasure history or a personal key.
+export async function assertGraveyardReceipts(sql:Sql,key:string,scope?:z.infer<typeof scopeContract>){
+ const summary=await graveyardCapacity(sql),operations=summary.operations as Record<string,any>[];let population=0;const occupied:number[]=[];
+ assert.equal(summary.installed,true);assert.equal(summary.definitions_match,true);assert.equal(summary.operation_count,operations.length);
+ for(let index=0;index<operations.length;index++){
+  const b=operations[index]!,a=authenticateConstruction(b.policy_record,b.approval_record,key),v=a.permit;
+  scope??=v.scope;assert.deepEqual(v.scope,scope);
+  assert.equal(b.id,v.operationId);assert.equal(b.catalog_id,v.catalogId);assert.equal(b.definition_digest,v.definitionDigest);
+  assert.equal(b.previous_operations,index);assert.equal(v.expectedOperationCount,index);
+  assert.equal(b.population_before,population);assert.equal(v.expectedPopulation,population);assert.deepEqual(b.slots,v.slots);
+  assert.deepEqual(v.slots,replenishmentSlots(occupied,a.policy.targetPopulation,a.policy.maximumNewPerOperation));
   const created=Date.parse(b.created_at);assert.ok(created>=Date.parse(v.issuedAt)-30000&&created<=Date.parse(v.expiresAt));
-  assert.ok(Date.parse(v.creditCutoff)<=Date.parse(new Date(created).toISOString().slice(0,10)+'T00:00:00.000Z')-7*86400000,'Admission used a recent completion');
-  const record=await readBatch(sql,b.id);assert.ok(record);assert.equal(record.entities.length,24);
-  const roster=graveyardRoster(b.catalog_id);
-  for(let slot=0;slot<24;slot++){
-   const e:Record<string,any>=record.entities[slot]!,t=roster[slot]!;
-   assert.equal(e.registry.batch_id,b.id);assert.equal(e.registry.slot,slot);assert.equal(e.registry.policy_version,graveyardWorld.id);
+  const record=await readOperation(sql,b.id);assert.ok(record);assert.equal(record.entities.length,b.slots.length);assert.equal(b.members.length,b.slots.length);
+  for(let i=0;i<b.slots.length;i++){
+   const slot:number=b.slots[i]!;const e:Record<string,any>=record.entities[i]!,t=graveyardTemplate(b.catalog_id,slot);
+   assert.equal(e.registry.operation_id,b.id);assert.equal(e.registry.slot,slot);assert.equal(e.registry.policy_version,graveyardWorld.id);
    assert.equal(e.registry.template_id,t.id);assert.equal(e.registry.garrison,t.garrison);
-   assert.equal(e.character.id,b.members[slot]);assert.equal(e.character.account_id,null);assert.equal(e.character.name,'Abandoned Kingdom');
-   assert.deepEqual(e.progression,t.progression??null);
-   assert.equal(e.character.attained_level,t.level);assert.equal(e.character.max_health,t.health);assert.equal(e.character.profile_class,t.calling);
-   assert.equal(e.character.attack_training,t.attackTraining);assert.equal(e.character.defense_training,t.defenseTraining);
+   assert.equal(e.character.id,b.members[i]);assert.equal(e.character.account_id,null);assert.equal(e.character.name,'Abandoned Kingdom');
+   assert.deepEqual(e.progression,t.progression??null);assert.equal(e.character.attained_level,t.level);assert.equal(e.character.max_health,t.health);
+   assert.equal(e.character.profile_class,t.calling);assert.equal(e.character.attack_training,t.attackTraining);assert.equal(e.character.defense_training,t.defenseTraining);
   }
+  occupied.push(...b.slots);population+=b.slots.length;assert.equal(new Set(occupied).size,population);
  }
- assert.equal(summary.world_count,batches.length*24,'Incomplete or unreceipted graveyard roster.');
+ assert.equal(summary.world_count,population,'Incomplete or unreceipted population.');assert.deepEqual(summary.occupied_slots,occupied.sort((a,b)=>a-b));
+}
+export async function assertGraveyardFence(db:Database,options:{publicKey?:string}){
+ try{
+  if(!await privacySchema(db))return;
+  const state=await graveyardCapacity(db);if(!state.world_count&&!state.operation_count)return;
+  assert.ok(options.publicKey,'Independent population verification key required.');
+  await transaction(db,async sql=>{await sql.query("SET LOCAL statement_timeout='120s';SET LOCAL transaction_timeout='300s'");await pin(sql);await assertReviewedColumns(sql);await assertGraveyardReceipts(sql,options.publicKey!);},{expansionLock:'exclusive'});
+ }catch{throw new Error('World population reconciliation failed; startup/promotion is blocked.');}
 }

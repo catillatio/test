@@ -12,7 +12,7 @@ export async function assertErasureOperator(sql:Sql,expectedRole='kc_account_era
  assert.equal(role.name,expectedRole);
  for(const key of ['rolsuper','rolcreaterole','rolcreatedb','rolreplication','rolbypassrls','member','owns_objects','can_create'])assert.equal(role[key],false,'Restricted erasure role required.');
  assert.equal((await sql.query("SELECT has_function_privilege('detach_erased_identity(uuid,uuid)','EXECUTE') AS allowed")).rows[0]!.allowed,true,'Reviewed identity erasure permission required.');
- assert.equal((await sql.query("SELECT has_function_privilege('construct_public_graveyard(uuid,jsonb,bigint,bigint,bigint,timestamptz,text,jsonb,jsonb)','EXECUTE') AS allowed")).rows[0]!.allowed,false,'Eraser must not construct world NPCs.');
+ assert.equal((await sql.query("SELECT has_function_privilege('construct_public_graveyard(uuid,jsonb,jsonb,integer[],bigint,bigint,text,jsonb,jsonb)','EXECUTE') AS allowed")).rows[0]!.allowed,false,'Eraser must not construct world NPCs.');
  for(const [table,definition] of Object.entries(privacyColumns)){
   const rights=(await sql.query(`SELECT has_table_privilege($1,'DELETE') AS remove,has_table_privilege($1,'TRUNCATE') AS truncate`,[table])).rows[0]!;
   assert.equal(rights.remove,erasureDeleteTables.includes(table),'Unexpected erasure delete privilege.');assert.equal(rights.truncate,false);
@@ -41,6 +41,6 @@ export async function assertGraveyardOperator(sql:Sql,expectedRole='kc_graveyard
    assert.equal(access.granted,false,'Constructor must not access human/financial table rows.');
   }
  }
- for(const f of ['graveyard_snapshot(jsonb)','read_graveyard_batch(uuid)','construct_public_graveyard(uuid,jsonb,bigint,bigint,bigint,timestamptz,text,jsonb,jsonb)'])assert.equal((await sql.query("SELECT has_function_privilege($1,'EXECUTE') AS allowed",[f])).rows[0]!.allowed,true);
+ for(const f of ['graveyard_snapshot(jsonb)','read_graveyard_operation(uuid)','construct_public_graveyard(uuid,jsonb,jsonb,integer[],bigint,bigint,text,jsonb,jsonb)'])assert.equal((await sql.query("SELECT has_function_privilege($1,'EXECUTE') AS allowed",[f])).rows[0]!.allowed,true);
  assert.equal((await sql.query("SELECT has_function_privilege('detach_erased_identity(uuid,uuid)','EXECUTE') AS allowed")).rows[0]!.allowed,false);
 }

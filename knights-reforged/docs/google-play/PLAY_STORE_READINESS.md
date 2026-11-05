@@ -31,12 +31,12 @@ PASS means the listed source/local evidence exists. Exact-head CI artifacts and 
 | Public privacy/terms/community/deletion pages | PASS | `/legal/*`, `/account-deletion`; visibly review drafts, no fabricated contact or retention claims |
 | Final legal/publisher policy text | NEEDS OWNER INFORMATION | Owner completes marked fields; owner reviews all legal claims, target audience, contacts, countries and retention |
 | In-app and public deletion request | PASS | Settings/footer and public form, password reconfirmation, CSRF/origin/rate limits, concurrent deduplication; actual PostgreSQL tests |
-| Completed erasure and backup-restore erasure handling | IMPLEMENTED; PRODUCTION BLOCKED | Physical human-account deletion plus separate source-independent public-roster construction implemented; no legal anonymity claim. Synthetic fulfillment/real isolated restore tested; production remains blocked on signed owner policy, protected operator/journal installation and operational acceptance; see ACCOUNT_DELETION.md |
+| Completed erasure and backup-restore erasure handling | IMPLEMENTED; PRODUCTION BLOCKED | Physical human-account deletion plus separate independent population management implemented; no legal anonymity claim. Synthetic fulfillment/real isolated restore tested; production remains blocked on signed owner policy, protected operator/journal installation and operational acceptance; see ACCOUNT_DELETION.md |
 | UGC prior Terms/Guidelines acceptance | PASS | Explicit checkbox plus versioned server-side consent before posting; no fabricated historic consent |
 | UGC message and player reporting / blocks | PASS | Existing message reports + new human reports, reversible social blocks, bidirectional comment checks and feed/notification filtering |
 | Moderation operational handling | NEEDS OWNER INFORMATION | Existing private operator queue/hide/restore/timed mute, user reports added to queue; publisher supplies staffing, escalation and appeals/contact rules |
 | Account authentication / sessions / logout | PASS | Existing Argon2id, HTTP-only SameSite cookie, secure HTTPS mode, session expiry and logout unchanged; existing CI and new tests apply |
-| Financial/gameplay formula preservation | PASS | No loot/XP/economy formula or finance engine changed. New accountless NPC paths preserve ordinary human-origin attack rewards; synthetic conservation/restore tests cover separate public-roster construction. Public income envelope, NPC-only no-spending and sealed former funds require policy review |
+| Financial/gameplay formula preservation | PASS | No loot/XP/economy formula or finance engine changed. New accountless NPC paths preserve ordinary human-origin attack rewards; synthetic conservation/restore tests cover separate independent population management. Public income envelope, NPC-only no-spending and sealed former funds require policy review |
 | Provider logs, storage access/locations and expiry | NOT VERIFIED | No production credential/log dump; owner/provider practice confirmation required |
 | Data Safety / App Content worksheets | PASS | Accurate drafts with unknowns in DATA_SAFETY.md and APP_CONTENT.md; no submission |
 | Native analytics/ads/billing/push | PASS | No SDK or permission found in native client; service-side changes still require review |
@@ -77,24 +77,23 @@ The successful baseline remains evidence: full application CI [41971121789](http
 The production baseline was rechecked read-only: branch `9429e88365d112f5597371c7aa811110f967558d`, deployment `f2f680d5-1e96-4d7c-83ce-89b4e67e3168`, expected digest `74d2ac2dffa0fa6f842b6013182e86df702d4bb14d2cbdfa6eeb3d89aff30504`, no staged changes. No real account, production database, Railway setting, recovery copy or deployment was changed. The final diff remains Kingdom Come only.
 
 
-## Source-independent world-state revision from 4370e0c
+## Independent population revision from 636eef4
 
-The previous exact-estate v2 candidate is superseded. Human erasure creates no NPC.
-A separately disabled, restricted constructor builds standardized public rosters
-only from reviewed immutable catalog bytes, with delayed aggregate admission and
-no assigned former human. Full personal erasure, financial witnesses, private
-suppression journal and restore fencing remain. [Design](privacy/GRAVEYARD_DESIGN.md)
-and [owner decisions](privacy/OWNER_DECISIONS.md) distinguish verified technical
-properties from independent legal/privacy assessment and product/retention approval.
-No production role, key, database credential, journal, activation or recovery was
-installed/performed. Neither replaced IDs nor the 24-record/seven-day proposal
-certifies anonymity. Retained anchors/journal are still associated data.
+Owner removed all deletion-based admission. v4 erasure policies contain no NPC
+condition; deletion never creates, schedules or contributes toward population.
+Independent population-policy-v1 / construction-v2 bind a public template plan,
+configurable cap and fresh protected authorization, with separate key/capability.
+No deleted-account count/date, credit, cutoff or personal journal is stored in world
+receipts. Separate human suppression and public world-receipt fences protect
+startup/recovery; neither substitutes for the other. Both features remain disabled.
 
-The public roster spans the active catalog's levels, normal combat equipment and
-real Land capacity. Exact individual power/estates are intentionally not inherited.
-New wallets start at zero; former funds stay sealed. Future permanent NPC income
-and no-spending behavior need explicit product acceptance. Existing attacks, loot,
-repeat rules, development bots and other-player finances remain unchanged.
+Recommend target12/cap12 and max6 creations per approved operation, no scheduler.
+New public Land endowments yield594 gold/hour; earlier24-NPC442,576/hour proposal
+is superseded. Catalogs, player/development-bot estates, loot and financial rules
+are unchanged. See [design](privacy/GRAVEYARD_DESIGN.md),
+[economics/performance](privacy/ECONOMIC_SIMULATION.md) and
+[decisions](privacy/OWNER_DECISIONS.md). Qualified review of retained personal records
+and separate population-policy acceptance remain required; no anonymity claim.
 
 **Android:** permanent `game.kingdomcome.rpg`, pending actual Play Console eligibility
 confirmation. No connected authenticated Play registration access exists; public
@@ -117,3 +116,17 @@ identity column changed existing characters' full-row JSON. Classification remai
 in separate initially empty registry/batch tables; migration 028 never backfills
 old characters. Regression checks exact pre/post/replay rows and invalid identities.
 Full-row production preservation comparisons remain unchanged.
+
+Exact-head636eef4 passed application42013975751 (10 jobs) and Android42013975904
+(3 jobs), including genuine API29/API36 smoke; these are prior evidence, not approval
+of this revision. Required complete exact-head checks for the revised candidate
+are linked on draft PR88. No merge/deploy/production write or Play submission.
+
+Local policy-revision verification: typecheck/build, 99 static assertions and77
+production EJS fixtures passed. Focused checks passed27 tests (7 independent
+population,11 human erasure,3 private approval,1 economic model,5 Android contracts),
+none skipped. Real pre/post population backup restores, independent keys/fences,
+zero-deletion creation, unchanged population after real fulfillment, cap/concurrency,
+income/loot conservation and rollback are covered. The105 economic scenarios and
+6/12/24/48/96 PostgreSQL benchmarks are linked in the economic report. Final exact-head
+CI evidence is maintained on PR88; earlier636eef4 results are not substituted.

@@ -22,12 +22,10 @@ Deletion request routes are implemented; completed fulfillment, immutable-record
 Owner reviews required/optional collection, purposes, sharing/service-provider exceptions, encryption, deletion and retention against the actual complete service. [Data Safety guidance](https://support.google.com/googleplay/android-developer/answer/10787469) and [User Data](https://support.google.com/googleplay/android-developer/answer/10144311).
 
 
-Graveyard candidate (disabled): fulfillment deletes the human account and personal
-content, creates no successor and keeps only separately proposed private integrity
-anchors/suppression evidence. A later separate operation can construct a delayed
-public roster without personal configurations, assigned origins or inherited history.
-The NPC starts at zero gold and earns future real Land income. Source-independent
-construction is tested; legal anonymity is not certified. Retained records,
-aggregate timing, backups/logs and outside knowledge still require independent
-review. Do not relabel the private anchors/journal as anonymous. See
-privacy/OWNER_DECISIONS.md and privacy/GRAVEYARD_DESIGN.md.
+Independent abandoned kingdoms (disabled) use public predefined configurations and
+separate population authorization. Account deletion creates, schedules, funds and
+counts toward none. No inherited estate/history or former-player assignment enters
+that system. This removes the need to retain personal deletion metadata for NPC
+admission; the actual suppression ledger and immutable history exceptions remain
+independently proposed requirements, not anonymous records or approved retention.
+See privacy/OWNER_DECISIONS.md. Both activation decisions remain separate and blocked.

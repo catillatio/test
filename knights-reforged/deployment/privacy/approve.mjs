@@ -7,7 +7,7 @@ import {lstat,readFile,realpath} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {signProof} from '../release/proof.mjs';
 import {writeBaseline} from '../release/retention/journal.mjs';
-import {constructionContract,authorizeConstruction} from '../../dist/privacy/graveyard-authorization.js';
+import {populationPolicyContract,constructionContract,authorizeConstruction} from '../../dist/privacy/graveyard-authorization.js';
 import {policyContract,intentContract,permitContract,authorize,sha256} from '../../dist/privacy/authorization.js';
 async function privateFile(path,max){const absolute=resolve(path),info=await lstat(absolute);assert.ok(info.isFile()&&!info.isSymbolicLink());assert.equal(info.mode&0o077,0);assert.equal(info.uid,process.getuid());assert.equal(await realpath(absolute),absolute);assert.ok(info.size<=max);return readFile(absolute,'utf8');}
 const construction=process.argv[2]==='--construct-graveyard';
@@ -18,7 +18,7 @@ try{
  if(!construction)assert.ok(typeof raw.journalPath==='string'&&raw.journalPath.startsWith('/'));
  const publicKey=createPublicKey(pem).export({type:'spki',format:'pem'}).toString();
  const signed=payload=>JSON.parse(Buffer.from(signProof(payload,pem),'base64url'));
- const policy=signed(policyContract.parse(raw.policy));
+ const policy=signed((construction?populationPolicyContract:policyContract).parse(raw.policy));
  if(construction){
   const permit=signed(constructionContract.parse({...constructionContract.omit({policyDigest:true}).parse(raw.permit),policyDigest:sha256(policy.payload)}));
   const checked=authorizeConstruction(policy,permit,publicKey);

@@ -1,124 +1,127 @@
-# Source-independent abandoned kingdoms — implementation review
+# Independent abandoned-kingdom population
 
-2026-11-05; PR #88 continuation from `4370e0c`. Disabled candidate, not a legal
-anonymization certification. No production account, role or recovery copy touched.
+PR #88 revision from `636eef4`, 2026-11-05. **Construction and account erasure remain
+disabled. No installation, scheduling or production writes are authorized.**
 
-## Data flow and why it changed
+## Independent data flows
 
-The rejected exact-inheritance design could fingerprint a former player through a
-rare loadout, property mix, training, level or immediate successor creation. Fresh
-UUIDs did not resolve this. The revised human-erasure transaction creates **zero**
-world NPCs and passes no estate or successor identity to any constructor.
+Account deletion creates, schedules and credits **nothing** toward this population.
+It physically removes the human account/credentials and reviewed personal records;
+its protected financial-retention exceptions and suppression journal remain separate
+activation blockers. No estate, account, completion count/date or individual intent
+is supplied to population management. No world-state decision is required by the
+v4 erasure policy. The personal erasure key/journal is not a population credential.
 
-A separate private batch operation consumes aggregate matured capacity and builds
-all 24 entries of `rulesets/graveyard-world-1/rules.json`. Public catalogs and roster
-bytes are the only character/configuration inputs. The same roster is used for any
-cohort in the same active world. There is no account-derived random seed, per-player
-band selection or private source-to-slot assignment. IDs come from PostgreSQL's
-cryptographic UUID generation. Names are generic. History, old resource values,
-acquisition lots, entitlements, human army relationships and old income clocks are
-not copied. Expanded worlds receive a fresh zero-progress compatibility marker computed
-from the public template level using the existing progression function; no former
-XP entitlement is copied. Special-grant accounts remain held by the original erasure rules.
+A separately signed `kingdom-graveyard-population-policy-v1` authorizes a desired
+population, cap and per-operation limit. A fresh construction-v2 permit binds an
+exact vacant-slot plan, prior population/operation count, public-definition digest,
+active catalog, immutable code/candidate and target DB/OID/cluster. Existing ≤15-minute
+approval, protected production mutex/exclusive owner window, external-hold review,
+independently verified encrypted recovery ≤2 hours old and no-retry behavior remain.
+Policy/permit schemas reject deleted-account identifiers, old admission fields and
+erasure policy packets. Private signing uses the existing Ed25519 architecture;
+no key, role, credential or service is installed by development.
 
-The roster uses normal unlocked catalog weapons/armor/spells and one catalog
-property holding per kingdom. Watch/garrison variants provide different strength
-without personal configurations. Existing army/equipment/training/calling formulas
-calculate combat power; there is no alternative NPC loot formula.
+`graveyard-world-2` defines public equipment, level, health, calling, garrison,
+zero-progress compatibility markers and modest Land holdings. No player-derived
+seed, unique estate, personal name or historical activity enters construction.
+UUIDs are fresh cryptographic random values, names always **Abandoned Kingdom**.
+The first 12 slots cover every ordinary rival band in either active catalog (1–50
+or 1–100); the following 12 use alternate public garrisons, then the plan repeats
+within the explicit cap. NPCs are distinct from the 900 development bots. No NPC is
+assigned to an erased person or intended as a successor to anyone.
 
-| Active catalog | Public levels | Garrison | Max health | Net Land gold/hour per NPC | Full batch gold/hour |
-|---|---|---|---|---|---|
-| alpha-0.3 | 1–50 | 1–101 | 102–200 | 14–15,600 | 106,416 |
-| level100-content-1 | 1–100 | 2–500 | 102–300 | 14–133,200 | 442,576 |
+The old `graveyard-world-1` definition is retained as immutable historical reference
+for the requested economic comparison only. No active selector or admission function
+uses its deletion counts, hold or excessive Land endowments. Migration 028 is still
+unreleased; its empty installation now has population operations/slots instead of
+deleted-account count, cutoff or carry metadata. Existing character rows are unchanged.
 
-These are catalog-derived capacities, **not** measured live population distribution
-or promised average loot. Every playable rival level band has a public opponent.
-The higher tiers replace broadly comparable world combat/income capacity, not the
-specific erased player's strength. No starting gold is created. Future normal Land
-income is a real existing gold source, so permanent non-spending NPCs can accumulate
-wealth; the batch envelope and long-term supply require owner product/economic review.
-No hidden balance cap or wallet replenishment compensates for that tradeoff.
+## Recommended controlled policy — awaiting owner approval
 
-## Admission and timing
+| Control | Recommended | Reviewed implementation bound |
+|---|---|---|
+| Desired population | 12 | 0–configured cap |
+| Configured maximum population | 12 | 1–96; increases require new explicit signed policy |
+| Maximum new kingdoms per operation | 6 | 1–12, further bounded by configured cap |
+| Scheduling / automatic creation | Off | No scheduler or public creation endpoint |
+| Replenishment | Fill exact never-used vacant slots below desired target | Fresh signed operation each time; no repeat/implicit retry |
+| Starting wallet / Vault | 0 / 0 | No initial gold grant or replenished wallet |
 
-A batch needs 24 completed `erased` receipts at least seven days old. Only completed
-closed UTC days are counted. The full source erasure fence must be independently
-verified before the owner issues a fresh construction permit. There is no automatic
-scheduler or singleton fallback, and low-volume batching never delays account erasure.
+This cap bounds **entities**, not gold earnings or loot. Recommended endowments are
+two Smallholdings at level 1 (net14/hour), two Woodlands at level 3 (net30/hour),
+and one River Mill at other template levels (net55/hour). Those are existing catalog
+rates, prices and Land rules; only the proposed new NPC's starting property selection
+changes. Recommended 12-NPC income is 594/hour. No human or development-bot property,
+price, equipment, balance, entitlement or formula is changed.
 
-Each immutable batch records the public roster digest, code/database-bound signed
-approval, aggregate count, closed-day cutoff and remaining anonymous carry. Only
-completions newer than the previous cutoff can add credits; each batch consumes 24.
-A second batch on the same cutoff can use carry but cannot recount those days.
-No subject list, erasure operation, private journal path/root or donor ID appears in
-this record. Permanent world-receipt verification uses public records and aggregate
-admission, not the private ledger as an NPC ownership index. The independent human
-suppression ledger remains mandatory for recovery and is not shortened here. Future
-approved expiry must reconcile that fence; it must not retain personal data merely
-to earn more construction credits. Purging or retention activation is not implemented.
+Replenishment is idempotent target reconciliation, not endless spawning. Defeat,
+low HP, a looted wallet, elapsed time, player departures and deletion never free a
+slot or create another NPC. NPCs recover normally and remain permanently unclaimable.
+There is no retirement/reset/replacement function. An established member missing
+from a restored or damaged registry is an integrity failure, **not** a refill signal.
+Lowering the target/cap does not delete existing NPCs, reset wealth or stop their
+existing Land income; it prevents additional creation. A higher target needs fresh
+explicit authorization. No automatic player-count-derived scaling is introduced.
 
-## Capabilities and transaction integrity
+## Gameplay and preservation
 
-The existing private signing/operator entry points gain a separate construction
-mode. A fresh ≤15-minute signed permit binds public roster/catalog, policy, exact
-code/candidate, database name/OID/cluster, expected aggregate state and independently
-verified encrypted recovery evidence ≤2 hours old. It attests a verified source
-suppression fence, external holds and protected owner window. No private key enters
-the runtime. Erasure authorization alone cannot enable world construction.
+NPCs remain discoverable/attackable through normal level eligibility and retain
+normal human-origin PvP loot, repeat sequences, combat health and stamina behavior.
+Only actual exposed wallets fund loot; Vault and bounty escrow remain protected.
+Future genuine Land income is the sole new gold source. No autonomous combat,
+recruitment, posting, account recovery, purchases or spending is possible. Public
+gear remains usable without NPC equipment spending, as in the approved direction.
 
-Proposed `kc_graveyard_builder` has no table/column SELECT, INSERT, UPDATE, DELETE,
-TRUNCATE, role membership/ownership, schema CREATE or human-erasure capability. It
-can execute three fixed reviewed SECURITY DEFINER functions and read cluster identity.
-They expose aggregate admission and public world entities, never human rows. The
-separate eraser cannot construct. Review-only grants are in `GRAVEYARD_ROLE_REVIEW.sql`;
-no credentials, role or service have been installed. Database capability credentials
-are security-sensitive: SQL does not verify Ed25519 itself; the private immutable
-operator verifies signatures before invoking the restricted capability. Effective
-privilege checks do not claim to sandbox a compromised database owner.
+A separate restricted constructor cannot SELECT human/financial table columns,
+write tables directly or invoke erasure. It can execute the three reviewed fixed
+functions plus cluster-identity read; review-only grants are in GRAVEYARD_ROLE_REVIEW.sql.
+Private operator flags/key/code/window are `KINGDOM_GRAVEYARD_*`, separate from
+`KINGDOM_ERASURE_*`. SQL does not verify Ed25519 itself: the immutable private operator
+verifies authorization before invoking the controlled capability. Credential custody,
+restricted private execution and the existing mutex remain essential trust boundaries.
 
-The realm's existing exclusive writer lock serializes admission/construction with
-erasure, recovery and gameplay. Exact schema/column contracts reject unknown data.
-PostgreSQL keeps before-state SHA-256 full-row witnesses in an owner-only temporary
-table. It compares complete row multisets afterward, excluding only validated new
-entities/batch. Every existing table/column, including credentials/financial/history
-rows, remains covered; no private rows or hashes are returned to the constructor.
-The assumption is the same cryptographic collision resistance as the existing
-preservation witnesses. Node never materializes battle history. Statements remain
-bounded at 120 seconds and the transaction at 300 seconds; unmeasured real-realm
-performance is not asserted. A timeout rolls back, never weakens preservation.
+The constructor holds the existing exclusive realm writer lock, fresh-reads the
+population and enforces exact vacant slots/cap again in SQL. Existing full-row
+preservation witnesses remain inside PostgreSQL in an owner-only temporary table;
+no personal rows or credential digests are exposed to the constructor. They cover
+all original tables, including erasure audit rows as **unchanged data**, never as
+admission inputs. Unknown schema, financial drift, stale state, competing approvals,
+partial insertions or expired proofs roll back the entire operation. Statements
+remain bounded at120 seconds and the transaction at300 seconds. No timeout is raised.
 
-A lost acknowledgement does not authorize retry. Read-only receipt reconciliation
-can identify an exact already-completed batch under its original approval; a fresh
-batch cannot spend the same capacity twice. SQL error/interruption/preservation
-mismatch rolls back entities, finances and audit together. Immutable append-only
-batch/registry guards and restore validation reject missing or forged world evidence.
+Immutable population operations retain public policy/permit, slots and new members;
+there are no personal IDs, erasure counts/dates, journal roots or admission credits.
+Exact receipt reconciliation can recognize the original successful operation after
+an uncertain response. Never automatically retry or issue another mutation.
 
-## Restoration
+## Independent recovery fences
 
-Human erasure retains the complete original signed journal/receipt/checkpoint fence.
-An older backup is suppressed using its original intent and a fresh exact-copy
-restore permit; this makes no NPC and cannot duplicate the world population. A
-backup predating construction contains no cohort; a backup after construction
-contains the original roster/receipt, never a regenerated substitute. Source-only
-permits cannot mutate a recovered DB. Independent encrypted backup and migration
-verification still run first. No backup bytes or existing immutable rows are rewritten.
+Human erasure retains its original signed external journal/receipt/checkpoint fence,
+exact-copy replay and independent freshness/custody requirements. Population verification
+uses its own public key (`KINGDOM_GRAVEYARD_VERIFY_KEY`) and signed public receipts.
+Neither fence substitutes for the other. Startup and the existing protected independent
+recovery worker enforce both. A missing/wrong population key with existing world records
+blocks startup/promotion; empty worlds need no population setup or personal journal.
 
-## Verified boundaries and remaining review
+A backup before creation restores no NPC. A backup after creation restores its original
+members/slots, never replacement IDs or extra kingdoms. Original source permits cannot
+write a restored database/OID. The standard encrypted backup, independent restore,
+migration/full-row preservation checks run unchanged first; the additional separate
+population fence follows. No backup is rewritten or recovery protection weakened.
 
-Tests use synthetic humans, fixture Ed25519 keys and owned PostgreSQL/real pg_dump
-restores only. They verify source-independent standardized construction, delayed
-admission, carry/no-recredit, no direct personal-table access, preserved old rows,
-no initial gold, genuine income and existing repeat/loot conservation, no login or
-reclaim, rollback on financial side effects, immutable receipts and restore fencing.
-They do not certify anonymity, provider log erasure, real-world semantic free-text
-detection, lawful retention or production performance. Delayed aggregate creation
-still leaks population activity; external observations/admin data may support
-inference. No formal anonymity guarantee is asserted from a batch size or replaced ID.
+## Owner activation boundary and limits
 
-Independent legal/privacy review must decide whether this non-assigned public world
-state and aggregate metadata meet the actual policy/threat model. It must separately
-justify retained private anchors, immutable records, journal and backups. The owner
-must approve batching/income/no-spending tradeoffs and the exact retention proposal.
-Then separately authorize protected installation and operational acceptance. Both
-`KINGDOM_ACCOUNT_ERASURE_ENABLED` and `KINGDOM_GRAVEYARD_CONSTRUCTION_ENABLED` remain
-unset/disabled in production; this task creates no activation path around those gates.
+Review the [economics](ECONOMIC_SIMULATION.md), proposed endowments, cap and no-spending
+behavior. Approve an independent population policy and key custody, then separately
+install reviewed least privileges/private runtime under existing protections. Public
+verification keys must be configured on both game and recovery worker before a first
+world write. Production erasure is a different decision, requiring the still-unapproved
+retention exceptions and private suppression installation; it is not a prerequisite
+for independently configured NPCs and is not activated by population approval.
+
+Technical tests establish no source-person data flow, independent authorization,
+financial conservation and recovery integrity. They do not certify legal anonymity,
+lawful retention, provider log expiry, physical Android coverage or production capacity.
+Retained former-player records remain associated data and require qualified review.
+No permanent account-deletion claim may be made from the existence of these NPCs.

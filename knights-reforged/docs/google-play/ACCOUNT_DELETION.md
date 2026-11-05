@@ -53,7 +53,7 @@ The durable external signed intent, approved policy and original execution proof
 0600 permissions and file/directory fsync. A torn file or unexpected journal entry
 blocks further processing; it is never discarded or rewritten automatically.
 
-For supported ordinary accounts, v3 fulfillment physically deletes the human
+For supported ordinary accounts, v4 fulfillment physically deletes the human
 account, credential, sessions, linked personal/social data and deletion request.
 The completion receipt retains restricted signed audit bindings. The former
 character becomes an inaccessible private integrity anchor under an **unapproved**
@@ -61,15 +61,11 @@ retention exception. Mutable shared reports lose typed names and account/invitat
 metadata. **No NPC is created by fulfillment or restore reconciliation.** No source
 estate, new world ID or donor mapping enters that transaction or its journal.
 
-A separate disabled construction mode creates a public 24-kingdom roster only
-after seven-day-mature aggregate admission. No kingdom is assigned to a former
-human; configurations are fixed public catalog archetypes, not copied estates.
-Fresh zero wallets, prospectively accruing Land, human-origin ordinary loot and
-restricted NPC behavior are described in [the design](privacy/GRAVEYARD_DESIGN.md).
-The v3 policy and intent reject older inheritance approvals; real personal-data
-review and independent world-state privacy assessment are required. Neither direct
-ID replacement nor the cohort/delay proves legal anonymity. Old integrity anchors
-and suppression records remain associated data, not anonymous world data.
+Abandoned kingdoms are a completely separate public world population. Deletion
+neither creates, schedules nor contributes credits/counts to them. No population
+policy, key or completion-history review is needed to authorize erasure. Retained
+integrity anchors and suppression evidence remain associated data under proposed
+exceptions; the presence of independent NPCs does not prove anonymity or fulfillment.
 
 Every reviewed table/column is covered by an exact schema contract. Added unknown
 fields stop fulfillment before a journal/row write. PostgreSQL hashes every full
@@ -180,48 +176,21 @@ contains subject IDs and signatures and must never become a public Actions artif
 The signer emits only a fixed success/failure line. The operator never receives
 the private PEM. Do not run either command on real accounts under PR #88 approval.
 
-## Separate public-roster construction (not authorized for production)
+## Independent NPC population and recovery
 
-Use the existing private approval/operator entry points with `--construct-graveyard`.
-The reviewed policy is v3. Input contains only policy and construction permit for
-signing, then code SHA/public key/signed records for execution; no personal intent,
-private journal or source account is supplied. A fresh permit includes the public
-roster digest, exact DB/code/recovery binding, aggregate capacity/count/cutoff and
-an independent source-fence attestation. It cannot be issued from erasure approval
-alone. The owner verifies the full private erasure fence in its separate custody
-before signing; the constructor never reads the private human ledger directly.
+Population management has separate policy/permit contracts, key configuration,
+private operator mode and immutable public records; it has no erasure counts,
+cohort/delay, credits, private journal or source-account inputs. See the
+[independent design](privacy/GRAVEYARD_DESIGN.md) and
+[economic proposal](privacy/ECONOMIC_SIMULATION.md). This document authorizes none
+of its operations. Human erasure remains disabled independently.
 
-The separately proposed `kc_graveyard_builder` connection may execute only the
-reviewed functions, with no personal-table/column reads or financial table writes.
-See [GRAVEYARD_ROLE_REVIEW.sql](../../deployment/privacy/GRAVEYARD_ROLE_REVIEW.sql).
-`KINGDOM_GRAVEYARD_CONSTRUCTION_ENABLED=1` is a separate future authorization;
-`KINGDOM_ACCOUNT_ERASURE_ENABLED=1` does not activate construction. Neither is set
-here. The protected production owner window, immutable image/candidate check and
-fresh signed recovery evidence remain mandatory. Preparation-only future commands:
-
-```sh
-KINGDOM_GRAVEYARD_POLICY_APPROVED=1 node deployment/privacy/approve.mjs \
-  --construct-graveyard /private/reviewed-world.json /private/approved-signing.pem /private/world-packet.json
-node deployment/privacy/fulfill.mjs --construct-graveyard /run/kingdom-erasure/world-packet.json
-```
-
-No new infrastructure, key or credential is installed by this PR. The constructor
-uses the same exclusive realm lock, exact schema, bounded transaction and all-row
-preservation guarantees. Before/after full-row hashes stay inside PostgreSQL; no
-old rows or credential hashes cross the capability boundary. Admission carry and
-closed-day cutoffs prevent double counting without requiring permanent personal
-metadata merely to verify NPC provenance. This does not implement an automatic
-personal-ledger expiry or weaken the original restore fence.
-
-## Restore behavior of independent world state
-
-Pre-erasure restores reconcile only the original human suppression intents using
-fresh exact-copy permits and create no NPC. A pre-construction backup has no cohort;
-a post-construction backup retains the original signed cohort/IDs. No automatic
-reconstruction or extra cohort is invented during restore. Source permits cannot
-write another DB/OID. The original private journal fence verifies all suppressed
-humans; an additional permanent world-receipt fence verifies cohort approvals,
-public definitions, aggregate admission and complete roster membership. Missing or
-tampered evidence fails closed. These checks neither rewrite backups nor approve
-restoration/deployment. The synthetic suite tests real backups on both sides of
-construction and verifies archive bytes remain unchanged.
+A pre-erasure backup still requires original signed-intent reconciliation under a
+fresh exact-copy permit and creates no NPC. The original private suppression fence
+continues to require every receipt/checkpoint and externally fresh journal. The
+separate population fence requires its own public key only if world records exist.
+A pre-construction backup has none; a post-construction backup preserves original
+slots/members and never regenerates or resets them. Missing members are an integrity
+failure, not a replacement signal. The existing encrypted independent recovery and
+all-row migration checks remain mandatory before either reconciliation fence.
+No archive is rewritten, recovery copy retired or database privilege changed here.

@@ -14,7 +14,7 @@ Credentials, sessions, identifiable character/profile data, social content, repo
 
 ## Proposed abandoned kingdoms
 
-Not yet active: fulfillment would delete the human login account and personal/social data without immediately creating a successor. A separate approved operation may later create a delayed batch of standardized public abandoned kingdoms, with no copied personal configuration, historical activity or assignment to a former player. These accountless NPCs cannot log in, be reclaimed, post, recruit, buy, spend or attack autonomously. New wallets start at zero and earn future Land income; former wallet and Vault funds remain sealed in restricted integrity records. This is not a promise of legal anonymity: retained records, aggregate timing, backups and external knowledge require independent privacy/legal review and narrowly justified retention before activation.
+Account deletion and generic abandoned kingdoms are separate proposals and remain disabled. Deletion would remove the human login account and reviewed personal/social data; it never creates, schedules, funds or counts toward an NPC. A separately authorized population policy can create predefined public kingdoms with no copied personal configuration, history or former-player assignment. These NPCs cannot log in, be reclaimed, post, recruit, buy, spend or attack autonomously. They start with zero gold and earn future Land income. Former wallet/Vault funds stay in restricted integrity records under a proposed exception, never transferred to NPCs. Retained records, backups and suppression evidence still require qualified privacy/legal review; this is not a claim of anonymity or completed deletion compliance.
 
 ## Backups and recovery
 
