@@ -66,7 +66,7 @@ fields stop fulfillment before a journal/row write. PostgreSQL hashes every full
 row under the expected approved erasure projection; the after-state must match.
 Node receives batches of 500 digests, never full battle histories. Other password
 hashes are compared through a private SECURITY DEFINER witness and never returned
-as password values or logged. No credential-derived witness is published. Unrelated battle/receipt rows are not rewritten merely to store identical data. Any
+as password values or logged. Credential helpers qualify the installation schema with a pg_catalog/pg_temp-only definer path; trigger paths pin the trusted schema with pg_temp last. Synthetic hostile temporary-table checks prove they cannot shadow credential verification or erased-identity guards. No credential-derived witness is published. Unrelated battle/receipt rows are not rewritten merely to store identical data. Any
 unexpected financial/data change rolls back the entire transaction.
 
 Active escrow, bot/operator identities and immutable identifying administrative

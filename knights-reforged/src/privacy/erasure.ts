@@ -8,6 +8,7 @@ import {appendIntent,readJournal,type JournalState} from './journal.js';
 const q=(name:string)=>'"'+name.replaceAll('"','""')+'"';
 const deletedName='Deleted Warrior';
 const tombstone=(account:string)=>'erased_'+account.replaceAll('-','').slice(0,16);
+async function pinRelations(sql:Sql){const schema=(await sql.query('SELECT current_schema() AS schema')).rows[0]!.schema;assert.match(schema,/^[a-z_][a-z0-9_]*$/);await sql.query("SELECT set_config('search_path',$1,true)",[q(schema)+',pg_catalog,pg_temp']);}
 // These are personal/social data, not balances or transaction/combat journals.
 const deletes:Record<string,string>={
  sessions:'account_id=$2',trade_quotes:'account_id=$2',
@@ -128,7 +129,7 @@ export async function fulfillErasure(db:Database,options:ErasureOptions){
  assert.equal(options.enabled,true,'Erasure execution is disabled.');
  const auth=authorize(options.policy,options.intent,options.permit,options.publicKey);assert.equal(auth.permit.codeSha,options.codeSha);assert.equal(auth.permit.candidateDigest,options.candidateDigest);
  return transaction(db,async sql=>{
-  await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");await assertReviewedSchema(sql);
+  await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");await pinRelations(sql);await assertReviewedSchema(sql);
   const live=await identity(sql);assert.equal(live.name,auth.permit.targetDatabase);assert.equal(live.oid,auth.permit.targetOid);assert.equal(live.cluster,auth.permit.targetClusterDigest);
   const state=await readJournal(options.journalPath,options.publicKey);
   assert.equal(state.sequence,auth.permit.journalSequence);assert.equal(state.root,auth.permit.journalRoot);
@@ -168,7 +169,7 @@ export async function assertErasureFence(db:Database,options:{required:boolean;j
  assert.ok(installed&&options.required&&options.journalPath&&options.publicKey,'Erasure reconciliation is required before startup.');
  const state=await readJournal(options.journalPath,options.publicKey);
  await transaction(db,async sql=>{
-  await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");
+  await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");await pinRelations(sql);
   const receipts=(await sql.query('SELECT * FROM account_erasures')).rows;
   assert.equal(receipts.length,state.entries.length,'Unreconciled restored account data.');
   for(const entry of state.entries){

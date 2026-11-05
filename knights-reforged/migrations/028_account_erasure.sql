@@ -58,15 +58,21 @@ END $$;
 
 -- The restricted operator can compare credentials without SELECTing password
 -- hashes. Only an opaque in-process witness leaves PostgreSQL; never log it.
-CREATE FUNCTION account_erasure_credentials_witness(subject uuid) RETURNS text
- LANGUAGE sql STABLE SECURITY DEFINER SET search_path FROM CURRENT AS $$
- SELECT encode(sha256(convert_to(coalesce(string_agg(id::text||':'||password_hash,E'\n' ORDER BY id),''),'UTF8')),'hex')
- FROM accounts WHERE id<>subject
-$$;
-CREATE FUNCTION account_erasure_credentials_removed(subject uuid) RETURNS boolean
- LANGUAGE sql STABLE SECURITY DEFINER SET search_path FROM CURRENT AS $$
- SELECT coalesce((SELECT login_disabled AND password_hash='!erased' FROM accounts WHERE id=subject),true)
-$$;
+DO $install$
+DECLARE trusted_schema text:=current_schema();
+BEGIN
+ EXECUTE format($definition$
+ CREATE FUNCTION %1$I.account_erasure_credentials_witness(subject uuid) RETURNS text
+ LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,pg_temp AS $body$
+  SELECT encode(sha256(convert_to(coalesce(string_agg(id::text||':'||password_hash,chr(10) ORDER BY id),''),'UTF8')),'hex')
+  FROM %1$I.accounts WHERE id<>subject
+ $body$ $definition$,trusted_schema);
+ EXECUTE format($definition$
+ CREATE FUNCTION %1$I.account_erasure_credentials_removed(subject uuid) RETURNS boolean
+ LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,pg_temp AS $body$
+  SELECT coalesce((SELECT login_disabled AND password_hash='!erased' FROM %1$I.accounts WHERE id=subject),true)
+ $body$ $definition$,trusted_schema);
+END $install$;
 REVOKE ALL ON FUNCTION account_erasure_credentials_witness(uuid),account_erasure_credentials_removed(uuid) FROM PUBLIC;
 CREATE TRIGGER account_erasure_receipt_no_truncate BEFORE TRUNCATE ON account_erasures
  FOR EACH STATEMENT EXECUTE FUNCTION preserve_account_erasure_record();
@@ -128,3 +134,15 @@ CREATE TRIGGER account_erasure_insert_guard BEFORE INSERT ON accounts
  FOR EACH ROW EXECUTE FUNCTION guard_erased_personal_write('id');
 CREATE TRIGGER character_erasure_insert_guard BEFORE INSERT ON characters
  FOR EACH ROW EXECUTE FUNCTION guard_erased_personal_write('id','account_id');
+
+-- Never inherit a caller's "$user"/implicit temporary-schema lookup. Trigger
+-- relation resolution is fixed to the installation schema, with pg_temp last.
+DO $pin$
+DECLARE trusted_schema text:=current_schema(); function_name text; arguments text;
+BEGIN
+ FOR function_name,arguments IN SELECT * FROM (VALUES
+ ('preserve_account_erasure_record',''),('guard_erased_identity',''),('guard_erased_personal_write',''),
+ ('erase_account_identity_labels','jsonb,uuid,uuid,boolean,boolean,boolean')) AS reviewed(name,args) LOOP
+  EXECUTE format('ALTER FUNCTION %I.%I(%s) SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,function_name,arguments,trusted_schema);
+ END LOOP;
+END $pin$;

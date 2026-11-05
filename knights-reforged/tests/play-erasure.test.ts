@@ -150,7 +150,13 @@ test('column-restricted non-owner eraser can fulfill but cannot read other passw
   const grants=(await readFile(new URL('../deployment/privacy/ROLE_REVIEW.sql',import.meta.url),'utf8')).replaceAll('kc_account_eraser',role).replaceAll('SCHEMA public','SCHEMA '+schema);
   await r.db.query(grants);const url=new URL(process.env.TEST_DATABASE_URL!);url.searchParams.set('options','-c search_path='+schema+' -c role='+role);operator=createDatabase(url.href);
   await assertErasureOperator(operator,role,schema);await assert.rejects(operator.query('SELECT password_hash FROM accounts'),/permission denied/);await assert.rejects(operator.query('UPDATE wallets SET balance=0'),/permission denied/);
+  const shadow=await operator.connect();
+  try{await shadow.query('CREATE TEMP TABLE accounts(id uuid,password_hash text,login_disabled boolean)');await shadow.query("INSERT INTO pg_temp.accounts VALUES($1,'!erased',true)",[f.a.accountId]);
+   assert.equal((await shadow.query('SELECT account_erasure_credentials_removed($1) AS removed',[f.a.accountId])).rows[0]!.removed,false,'SECURITY DEFINER must read the qualified real account, never a caller temporary table');
+  }finally{await shadow.query('DROP TABLE IF EXISTS pg_temp.accounts');shadow.release();}
   await fulfillErasure(operator,await f.options());
+  const attempt=await operator.connect();try{await attempt.query('CREATE TEMP TABLE account_erasures(account_id uuid,character_id uuid)');await assert.rejects(attempt.query('UPDATE accounts SET login_disabled=false WHERE id=$1',[f.a.accountId]),/protected/);}
+  finally{await attempt.query('DROP TABLE IF EXISTS pg_temp.account_erasures');attempt.release();}
   await r.db.query('GRANT UPDATE ON wallets TO '+role);await assert.rejects(assertErasureOperator(operator,role,schema),/privilege/);
  }finally{await operator?.end();await r.db.query('DROP OWNED BY '+role);await r.db.query('DROP ROLE '+role);await f.close();}
 });
