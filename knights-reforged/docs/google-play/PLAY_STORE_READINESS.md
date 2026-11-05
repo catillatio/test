@@ -24,7 +24,7 @@ PASS means the listed source/local evidence exists. Exact-head CI artifacts and 
 | Private upload-key preparation | PASS | Separate manual protected `android-release` workflow; no generated owner key, public cert match, no Play upload |
 | Android back / safe recovery / lifecycle / insets | PASS | Existing platform callbacks, safe GET allowlist, no POST resubmit, IME/cutout/system insets and safe same-page scroll restoration; recreation prioritizes saved screen over original deep link; physical behavior separately unverified |
 | Renderer and native HTTP-auth failure | PASS | Fail-safe error/restart panel; HTTP-auth request cancelled; no credentials requested natively |
-| Android real-WebView smoke | NOT VERIFIED | New API29/API36 cloud emulator jobs produce actual `ANDROID_WEBVIEW` evidence; read exact-head job results, not browser screenshots |
+| Android real-WebView smoke | PASS | Both API29/API36 actual WebView jobs passed on candidate 4180152 in run 41970637708; final exact-head CI/artifacts remain authoritative. Limited smoke only, not full-device gameplay certification |
 | Physical Galaxy S/A, Pixel, budget device | NOT VERIFIED | Requires actual hardware/Play pre-launch test; no invented performance claim |
 | Eleven requested logical viewport dimensions | PASS | `browser-play-readiness.ts`, 27 screens/states per dimension, output `viewport-results.json`; actual run report required |
 | Large fonts / landscape / split-window browser checks | NOT VERIFIED | Browser root-text enlargement and landscape Settings coverage; not equivalent to every Android OS font/cutout configuration |

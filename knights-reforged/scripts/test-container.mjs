@@ -184,7 +184,7 @@ try{
     try{docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/moderate.mjs','queue']);}catch(error){moderationDenied=true;assert.match(String(error.stderr),/ALLOW_REALM_MODERATION/);}
     assert.ok(moderationDenied);
     const moderate=(...args)=>JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),'-e','ALLOW_REALM_MODERATION=1','-e','REALM_MODERATOR_LABEL=Disposable security operator',image,'node','deployment/moderate.mjs',...args]));
-    assert.deepEqual(moderate('queue'),{reports:[]});
+    assert.deepEqual(moderate('queue'),{reports:[],userReports:[]});
     assert.equal(moderate('hide',played.messageId,'Regression moderation check').completed,true);
     assert.equal(sql('railway_test',"SELECT status FROM realm_messages WHERE id='"+played.messageId+"'"),'hidden');
     assert.equal(moderate('restore',played.messageId,'Verified restoration check').completed,true);
