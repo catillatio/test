@@ -141,11 +141,17 @@ try {
         try {
           return texts.map((text, sample) => {
             element.textContent = text;
-            const box = element.getBoundingClientRect();
+            // The approved compact wallet uses an underlight on its fitted
+            // amount wrapper. Other wallets/rewards retain an element halo.
+            const underlight = label === "balance" && document.body.matches(
+              ".screen-home, .screen-battle, .screen-armory, .screen-land",
+            );
+            const host = underlight ? element.parentElement! : element;
+            const box = host.getBoundingClientRect();
             const range = document.createRange();
             range.selectNodeContents(element);
             const textBox = range.getBoundingClientRect();
-            const glow = getComputedStyle(element, "::after");
+            const glow = getComputedStyle(host, underlight ? "::before" : "::after");
             const w = parseFloat(glow.width);
             const h = parseFloat(glow.height);
             const x =
@@ -164,6 +170,7 @@ try {
             return {
               label,
               sample,
+              visible: glow.content !== "none" && glow.display !== "none" && w > 0 && h > 0,
               dx:
                 box.left +
                 x +
@@ -175,7 +182,7 @@ try {
                 y +
                 h / 2 +
                 transform.f -
-                (textBox.top + textBox.height / 2),
+                (underlight ? box.top + box.height * .72 : textBox.top + textBox.height / 2),
             };
           });
         } finally {
@@ -185,8 +192,9 @@ try {
     }, scene === "home");
     for (const sample of samples) {
       assert.ok(
-        Math.abs(sample.dx) <= 2.5 && Math.abs(sample.dy) <= 2.5,
-        `Glow centered behind rendered text: ${width}px ${scene} ${JSON.stringify(sample)}`,
+        sample.visible && Number.isFinite(sample.dx) && Number.isFinite(sample.dy) &&
+          Math.abs(sample.dx) <= 2.5 && Math.abs(sample.dy) <= 2.5,
+        `Glow stays centered on its approved text/underlight anchor: ${width}px ${scene} ${JSON.stringify(sample)}`,
       );
       glowChecks.push({ width, scene, ...sample });
     }

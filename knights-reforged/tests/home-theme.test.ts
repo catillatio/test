@@ -96,3 +96,27 @@ test("Approved Dark Medieval scenes are local, bounded and bound to their exact 
   assert.ok(scenes.every(path=>path==="art/remaster-ui/castle-illustration.webp"||path.startsWith("art/dark-medieval-environments/")),"Property and equipment artwork never becomes a screen background");
   assert.doesNotMatch(css,/@font-face|@import|https?:\/\//);
 });
+
+
+test("Property and equipment thumbnail bindings retain their approved identities", async () => {
+  const css=await readFile("public/realm-iron-brass.css","utf8");
+  const approved={
+    "property-art-49-0":"properties-49/wyrmcrest-keep.webp",
+    "property-art-49-1":"properties-49/gold-mine.webp",
+    "property-art-51b-0":"properties-51b-fullbleed-2/dawnspire-cathedral.webp",
+    "property-art-51b-1":"properties-51b-fullbleed-2/wyrmcrest-keep.webp",
+    "property-art-51b-2":"properties-51b-fullbleed-2/astral-observatory.webp",
+    "property-art-51b-3":"properties-51b-fullbleed-2/throne-of-ash.webp",
+    "property-art-51b-4":"properties-51b-fullbleed-2/eclipse-citadel.webp",
+    "property-art-51b-5":"properties-51b-fullbleed-2/tempest-port.webp",
+    "equipment-art-51b-0":"equipment-51b-current-1/oathbound-greatsword.webp",
+    "equipment-art-51b-1":"equipment-51b-current-1/crown-of-ash-blade.webp",
+    "equipment-art-51b-2":"equipment-51b-current-1/eclipse-greatsword.webp",
+    "equipment-art-51b-3":"equipment-51b-current-1/sovereigns-bastion.webp",
+    "equipment-art-51b-4":"equipment-51b-current-1/eclipse-citadel-plate.webp",
+  };
+  for(const [className,asset] of Object.entries(approved)){
+    const block=css.split("."+className+" {")[1]?.split("}")[0];
+    assert.ok(block?.includes('url("art/'+asset+'")'),className+" keeps its exact approved thumbnail");
+  }
+});
