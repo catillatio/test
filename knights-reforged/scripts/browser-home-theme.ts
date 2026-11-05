@@ -772,6 +772,7 @@ try {
         .fill("NotARealPassword!2026");
       if (entry.mode === "register-error") {
         await page.locator('input[name="name"]').fill("X");
+        await page.locator('#registration-policy').check();
         await page.locator(".auth-form").evaluate((form) => {
           (form as HTMLFormElement).noValidate = true;
         });
@@ -1632,6 +1633,7 @@ try {
   const browserUsername = "ui_" + randomUUID().replaceAll("-", "").slice(0, 18);
   await page.locator("#username").fill(browserUsername);
   await page.locator("#warrior-name").fill("Aster New Banner");
+  await page.locator("#registration-policy").check();
   await page.locator("#password").fill("AlphaTest!2026");
   await Promise.all([
     page.waitForNavigation(),

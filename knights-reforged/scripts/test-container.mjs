@@ -145,7 +145,7 @@ try{
     async function player(user='image_'+randomUUID().replaceAll('-','').slice(0,12)){
       const form=await fetch(base+'/register'),html=await form.text();assert.equal(form.status,200);
       const r=await fetch(base+'/register',{method:'POST',redirect:'manual',headers:{...headers,cookie:session(form),'content-type':'application/x-www-form-urlencoded'},
-        body:new URLSearchParams({csrf:/name="csrf" value="([a-f0-9]{64})"/.exec(html)[1],username:user,password:randomUUID()+'aA1!',name:'Image Knight'})});
+        body:new URLSearchParams({csrf:/name="csrf" value="([a-f0-9]{64})"/.exec(html)[1],username:user,password:randomUUID()+'aA1!',name:'Image Knight',communityPolicy:(await import('./dist/community-policy.js')).communityPolicyVersion})});
       assert.equal(r.status,303,await r.clone().text());const cookie=session(r),me=await state(cookie);return {cookie,csrf:me.csrfToken,id:me.state.id};
     }
     async function dev(){
