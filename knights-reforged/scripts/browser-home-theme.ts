@@ -803,6 +803,12 @@ try {
         )?.textContent;
         return !!status && !status.startsWith("Requesting");
       });
+    // Both themes share one real database. Automatic visible-notification
+    // acknowledgments must finish before comparing their live badge semantics.
+    // Otherwise one side can be sampled before the 350 ms read and the next
+    // side after it. Keep the complete semantic assertion, including counters.
+    if (await page.locator("[data-notification-event]").count())
+      await page.waitForLoadState("networkidle");
     if (entry.selector)
       assert.ok(
         await page.locator(entry.selector).count(),
