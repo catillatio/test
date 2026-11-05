@@ -169,7 +169,7 @@ try{
     await command(a,'/api/v1/health/restorations',{maxCost:injured.healing.cost},healKey);assert.equal((await state(a.cookie)).state.gold,healed.state.gold);
     const retired=await fetch(base+'/api/v1/army/recruitments',{method:'POST',headers:{...headers,cookie:a.cookie,'content-type':'application/json','x-csrf-token':a.csrf,'idempotency-key':randomUUID()},body:JSON.stringify({unitId:'militia',quantity:1})});assert.equal(retired.status,404);
 
-    const comment=await command(a,'/api/v1/comments',{profileId:b.id,body:'A respectful production-container field report.'});
+    const comment=await command(a,'/api/v1/comments',{profileId:b.id,body:'A respectful production-container field report.',communityPolicy:(await import('./dist/account-safety.js')).communityPolicyVersion});
     for(const page of ['home','profile','quests','battle','bounties','armory','army','land','vault','settings','champions','tutorial']){
       const r=await fetch(base+'/game/'+page,{headers:{cookie:a.cookie}});assert.equal(r.status,200,await r.clone().text());
     }
