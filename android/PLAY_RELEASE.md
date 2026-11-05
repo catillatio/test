@@ -43,11 +43,23 @@ SDK setup explicitly disables automatic license acceptance. Emulator installatio
 
 Emulator evidence: the first API29 run stalled in ADB installation after successful boot, before instrumentation. The harness now uses documented `adb install --no-streaming` (and `-t` for the instrumentation APK), with 90-second install, 120-second instrumentation and 15-second cleanup bounds. It never retries or counts a cancelled/timed-out test as passed. See [ADB command reference](https://android.googlesource.com/platform/packages/modules/adb/+/HEAD/docs/user/adb.1.md).
 
-Failure-only emulator diagnostics keep the original nonzero exit status and never
-retry or accept a timed-out installation. Raw package-manager logs remain private
+Emulator diagnostics never retry an installation. Unverified failures retain
+the original nonzero exit status. A test-APK client timeout may continue only
+after independent read-only verification of both exact APK byte streams,
+registered test instrumentation and responsive package-manager queries; all
+actual WebView smoke assertions must then pass. Raw package-manager logs remain private
 in the disposable runner. Artifacts contain only the fixed stage/exit code, query
 completion flags, package/instrumentation presence, exact test-APK byte comparison
 and coarse verification/dexopt/error hints. A failed query means unavailable
 evidence, not proof a package is absent. These hints do not establish root cause.
-The API29 test installer intermittently stalled after pushing the test APK; other
+The API29 ADB client intermittently stalled after pushing the test APK; other
 identical-source runs passed. Neither package verification nor the matrix is disabled.
+
+Confirmed API29 evidence at run 41986813460: the install client timed out, but
+the package-manager queries completed, the test APK was registered, its full
+bytes exactly matched the artifact, and instrumentation was registered. No
+verification/dexopt/fatal/install-error activity was reported. This proves the
+installed state; it does not establish the internal reason the ADB client waited.
+The narrow reconciliation now checks **both** APKs and all required queries. It
+never accepts missing/mismatched bytes, missing instrumentation, another stage
+or another error code, and never disables package verification.
