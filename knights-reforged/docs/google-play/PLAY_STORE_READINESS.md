@@ -130,3 +130,9 @@ zero-deletion creation, unchanged population after real fulfillment, cap/concurr
 income/loot conservation and rollback are covered. The105 economic scenarios and
 6/12/24/48/96 PostgreSQL benchmarks are linked in the economic report. Final exact-head
 CI evidence is maintained on PR88; earlier636eef4 results are not substituted.
+
+The protected-worker offline boundary suite also passes44 cases, retaining real
+network/process blocking and adding exact population-query/fence stubs. New cases
+require the population key before backup, verify the fence precedes successful
+report upload, and prevent registration/certification after failed world
+reconciliation. No recovery assertion or runtime gate was weakened.
