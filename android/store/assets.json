@@ -1,0 +1,23 @@
+{
+  "status": "REVIEW_DRAFT_NOT_SUBMITTED",
+  "icon": "Original project geometric crown/K vector from historical Android PR20; rasterized without new artwork",
+  "feature": "Marketing composition of approved original castle artwork and original vector; not an in-app screenshot",
+  "rights": "Owner trademark/distribution review required; see ASSET_LICENSE_AUDIT.md",
+  "assets": [
+    {
+      "name": "kingdom-crest-original.svg",
+      "bytes": 401,
+      "sha256": "7c551fdae972a9cddf6bd98e09467e816e974e036c323dbbdcd4ef62b5675d11"
+    },
+    {
+      "name": "icon-512.png",
+      "bytes": 11814,
+      "sha256": "50fb27ef9166161d95e346a66b0dbf972983887542a10f1c841d16929f6a7b54"
+    },
+    {
+      "name": "feature-1024x500.png",
+      "bytes": 471777,
+      "sha256": "02c298b4cd07601fe834dfb2b9cb4b5cf97e408eaa8a24551d5a66ccbaac1c5a"
+    }
+  ]
+}

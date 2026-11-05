@@ -1600,6 +1600,7 @@ try {
   await message
     .locator("textarea")
     .fill("Synthetic preview: the realm stands ready.");
+  await message.locator('input[name="communityPolicy"]').check();
   await message.getByRole("button").click();
   await page.waitForLoadState("networkidle");
   assert.equal(await page.locator(".notice-error").count(), 0);

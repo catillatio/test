@@ -17,6 +17,7 @@ function eventQuery(competition:boolean){return `SELECT b.id,'attack'::text AS k
  JOIN notification_state s ON s.character_id=m.profile_id
  WHERE m.profile_id=$1 AND m.author_id<>$1 AND m.channel='comment'
  AND m.status='visible' AND m.created_at>=s.started_at
+ AND NOT EXISTS(SELECT 1 FROM social_blocks b WHERE (b.character_id=$1 AND b.blocked_id=m.author_id) OR (b.character_id=m.author_id AND b.blocked_id=$1))
  UNION ALL SELECT e.id,'army_accepted'::text AS kind FROM army_events e
  JOIN army_attention_starts s ON s.character_id=e.target_id
  WHERE e.target_id=$1 AND e.actor_id<>$1 AND e.kind='accepted' AND e.created_at>=s.started_at

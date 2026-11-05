@@ -8,6 +8,7 @@ import { migrate } from '../src/migrate.js';
 import { lockCharacters, clock, type CharacterState } from '../src/game.js';
 import { ledger } from '../src/economy.js';
 import { grantExperience } from '../src/progression.js';
+import {acceptCommunityPolicy,communityPolicyVersion} from '../src/account-safety.js';
 import { alpha } from '../src/alpha-rules.js';
 
 export const testDatabaseUrl = process.env.TEST_DATABASE_URL;
@@ -48,6 +49,7 @@ export async function realm(options:{clock?:()=>Date;logger?:boolean;development
     assert.equal(state.statusCode,200,state.body);
     const id=state.json().state.id;
     const accountId=(await db.query('SELECT account_id FROM characters WHERE id=$1',[id])).rows[0]!.account_id as string;
+    await acceptCommunityPolicy(db,id,communityPolicyVersion);
     return {id,cookie,csrf:state.json().csrfToken,accountId};
   }
   async function me(actor:Player):Promise<CharacterState> {

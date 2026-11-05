@@ -1,0 +1,33 @@
+{
+  "result": "PASS",
+  "health": "ready",
+  "deployedCommit": "9429e88365d112f5597371c7aa811110f967558d",
+  "reviewedAssetSource": "35d2250390ccdd46781c5791b7cdf9e7b2b09d91",
+  "assets": [
+    {
+      "path": "/assets/realm-iron-brass.css",
+      "exactBytes": true
+    },
+    {
+      "path": "/assets/experience.js",
+      "exactBytes": true
+    },
+    {
+      "path": "/assets/art/dark-medieval-environments/battle.webp",
+      "exactBytes": true
+    },
+    {
+      "path": "/assets/art/dark-medieval-environments/armory.webp",
+      "exactBytes": true
+    },
+    {
+      "path": "/assets/art/dark-medieval-environments/land.webp",
+      "exactBytes": true
+    },
+    {
+      "path": "/assets/art/dark-medieval-environments/profile.webp",
+      "exactBytes": true
+    }
+  ],
+  "source": "Read-only HTTPS production health and exact asset-byte reconciliation"
+}

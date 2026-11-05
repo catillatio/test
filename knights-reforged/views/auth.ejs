@@ -7,6 +7,7 @@
       <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="<%= authMode === 'register' ? 'new-password' : 'current-password' %>" minlength="12" maxlength="128" required aria-describedby="password-hint"><p class="field-hint" id="password-hint">Use at least 12 characters.</p></div>
       <button class="button button-gold full-width" type="submit"><%= authMode === 'register' ? 'Create your warrior' : 'Sign in' %> <span aria-hidden="true">→</span></button>
     </form>
+    <p class="field-hint">Read our <a href="/legal/privacy">Privacy Policy</a>, <a href="/legal/terms">Terms</a> and <a href="/legal/community">Community Guidelines</a>.</p>
     <p class="auth-switch"><% if (authMode === 'register') { %>Already have a banner? <a href="/login">Sign in</a><% } else { %>New to the realm? <a href="/register">Create an account</a><% } %></p>
   </section>
 </div>

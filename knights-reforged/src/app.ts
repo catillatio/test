@@ -1,3 +1,5 @@
+import {legalPages} from './legal-content.js';
+import {requestAccountDeletion,socialSafety,communityPolicyVersion} from './account-safety.js';
 import {legacyThemePreview} from './legacy-theme-preview.js';
 import {competitiveProfile} from './competitive-records.js';
 import {approvedEquipmentArt} from './equipment-artwork.js';
@@ -179,7 +181,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,
       questArea:chosenRegion??playerExperience?.region??'all',
       notifications:state?await notificationSummary(db,state.id,notificationFeed):{home:0,army:0,events:[]},
-      showCalling:query.calling==='1',profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
+      communityPolicyVersion,blockedPlayers:state&&screen==='settings'?(await db.query('SELECT b.blocked_id AS id,c.name FROM social_blocks b JOIN characters c ON c.id=b.blocked_id WHERE b.character_id=$1 ORDER BY b.created_at DESC',[state.id])).rows:[],showCalling:query.calling==='1',profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
       recruitment:{allowed:false,reason:'Review this army request in Recruit.',status:'none',automatic:false},publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
       feedTab:feedCategory((request.query as {feed?:string}).feed),feed:{entries:[],nextCursor:null},
       armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],rosterFilter:['accepted','incoming','outgoing'].includes(query.roster??'')?query.roster:'all',
@@ -191,11 +193,37 @@ export async function createApp(options: { db: Database; config: Config; logger?
 
   app.get('/healthz', async () => { await db.query('SELECT 1'); return { status: 'ready', artwork:coordinatedArtworkStatus(),ruleset: alpha.id,release:'phase4.7',commit:/^[a-f0-9]{40}$/.test(process.env.KINGDOM_RELEASE_SHA??'')?process.env.KINGDOM_RELEASE_SHA:null }; });
   app.get('/', async (request, reply) => reply.redirect(request.realmSession?.account_id ? '/game/home' : '/login'));
+  const authLimit = { config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 10, timeWindow: '1 minute' } } };
+  function policyPage(request:FastifyRequest,reply:FastifyReply,page:keyof typeof legalPages,deletion=false,receipt:string|null=null){
+    const [title,sections]=legalPages[page];
+    return reply.view('legal-public.ejs',{title,sections,deletion,receipt,csrf:request.realmSession?.csrf_token??''});
+  }
+  for(const page of ['privacy','terms','community','deletion'] as const)
+    app.get('/legal/'+page,async(request,reply)=>policyPage(request,reply,page));
+  app.get('/account-deletion',async(request,reply)=>{
+    let receipt:string|null=null;
+    if(request.realmSession?.account_id)receipt=(await db.query("SELECT id FROM account_deletion_requests WHERE account_id=$1 AND status='pending'",[request.realmSession.account_id])).rows[0]?.id??null;
+    return policyPage(request,reply,'deletion',true,receipt);
+  });
+  app.post('/account-deletion/requests',authLimit,async(request,reply)=>{
+    const body=asBody(request);
+    if(body.confirm!=='request-account-deletion')throw new GameError('DELETION_CONFIRMATION_REQUIRED','Confirm that you request account and data deletion.');
+    const account=await authenticate(db,body.username,body.password);
+    if(request.realmSession?.account_id&&request.realmSession.account_id!==account.accountId)
+      throw new GameError('INVALID_CREDENTIALS','Confirm the account currently signed in.',401);
+    const receipt=await requestAccountDeletion(db,account.accountId);
+    return policyPage(request,reply,'deletion',true,receipt.id);
+  });
+  for(const action of ['block','unblock','report'] as const)app.post('/game/safety/'+action,{preHandler:requireAccount},async(request,reply)=>{
+    const body=asBody(request),target=uuid.safeParse(body.targetCharacterId);
+    if(!target.success)throw new GameError('INVALID_PLAYER','Choose a valid player.');
+    await socialSafety(db,request.realmSession!.account_id!,target.data,action,String(body.reason??''));
+    return reply.redirect('/game/settings',303);
+  });
   for (const mode of ['login', 'register'] as const) {
     app.get('/' + mode, async (request, reply) => request.realmSession?.account_id ? reply.redirect(safeReturn((request.query as {returnTo?:string}).returnTo)) :
       render(request, reply, 'auth', { authMode: mode, title: mode === 'login' ? 'Enter the realm' : 'Raise your banner' }));
   }
-  const authLimit = { config: { rateLimit: { max: config.nodeEnv === 'test' ? 10000 : 10, timeWindow: '1 minute' } } };
   app.post('/register', authLimit, async (request, reply) => {
     await authenticationAttempt(db,'registration',asBody(request).username);
     const account = await registerAccount(db, asBody(request));

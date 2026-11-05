@@ -88,3 +88,7 @@ At handoff record objective, repo/base/head, dirty work, changed paths, actual
 commands/results, pending gates and next action. Keep credentials and production
 data out. Refresh only affected rows here, with dated source/run links; preserve
 historical records rather than rewriting them.
+
+## Android / Google Play candidate (2026-11-05)
+
+Isolated readiness work reconciles PR20 with the approved Dark Medieval release. Start with [readiness matrix](../google-play/PLAY_STORE_READINESS.md) and [Android build/signing guide](../../../android/PLAY_RELEASE.md). Legal text is explicitly draft; deletion requests do not assert completed erasure. No Play submission, production compliance deployment, final package/signing identity or physical-device certification is implied.

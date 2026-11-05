@@ -1,0 +1,86 @@
+name: Kingdom Come signed Android bundle
+on:
+  workflow_dispatch:
+    inputs:
+      version_code:
+        description: Owner-assigned unique increasing Android versionCode
+        required: true
+        type: string
+      version_name:
+        description: Reviewed Android client versionName
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: kingdom-android-signed-bundle
+  cancel-in-progress: false
+jobs:
+  signed-bundle:
+    if: github.ref == 'refs/heads/release/production'
+    environment: android-release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: android
+    env:
+      ANDROID_APPLICATION_ID: ${{ vars.ANDROID_APPLICATION_ID }}
+      ANDROID_VERSION_CODE: ${{ inputs.version_code }}
+      ANDROID_VERSION_NAME: ${{ inputs.version_name }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify complete exact-head post-merge CI
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/verify-release-source.py
+      - name: Require owner-selected permanent package ID
+        run: |
+          python3 - <<'PYTHON'
+          import os, re
+          value=os.environ.get('ANDROID_APPLICATION_ID','')
+          assert re.fullmatch(r'[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*){2,}',value) and value!='game.kingdomcome.alpha','OWNER_ACTION_REQUIRED: permanent package ID'
+          PYTHON
+      - name: Install checksum-pinned JDK
+        run: |
+          curl --fail --silent --show-error --location --output "$RUNNER_TEMP/jdk.tar.gz" https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk_x64_linux_hotspot_17.0.20.1_1.tar.gz
+          printf '%s  %s\n' 3808d1d15e3ec6bd5b84057fb5d84c33d8a1536a258146bcea2e603fc726e08e "$RUNNER_TEMP/jdk.tar.gz" | sha256sum --check -
+          mkdir -p "$RUNNER_TEMP/jdk"
+          tar -xzf "$RUNNER_TEMP/jdk.tar.gz" -C "$RUNNER_TEMP/jdk" --strip-components=1
+          echo "JAVA_HOME=$RUNNER_TEMP/jdk" >> "$GITHUB_ENV"
+          echo "$RUNNER_TEMP/jdk/bin" >> "$GITHUB_PATH"
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+        with:
+          cmdline-tools-version: '16111833'
+          packages: 'platforms;android-36 build-tools;36.0.0'
+          accept-android-sdk-licenses: false
+          log-accepted-android-sdk-licenses: false
+      - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d
+      - name: Build and lint release without signing material
+        run: ./gradlew --no-daemon --console=plain "-PkingdomApplicationId=$ANDROID_APPLICATION_ID" "-PkingdomVersionCode=$ANDROID_VERSION_CODE" "-PkingdomVersionName=$ANDROID_VERSION_NAME" testReleaseUnitTest lintRelease bundleRelease
+      - name: Fetch verified bundle inspector
+        run: |
+          curl --fail --silent --show-error --location --output "$RUNNER_TEMP/bundletool.jar" https://github.com/google/bundletool/releases/download/1.18.3/bundletool-all-1.18.3.jar
+          printf '%s  %s\n' a099cfa1543f55593bc2ed16a70a7c67fe54b1747bb7301f37fdfd6d91028e29 "$RUNNER_TEMP/bundletool.jar" | sha256sum --check -
+      - name: Sign privately and verify exact public certificate
+        env:
+          KINGDOM_BUNDLETOOL: ${{ runner.temp }}/bundletool.jar
+          ANDROID_UPLOAD_KEYSTORE_BASE64: ${{ secrets.ANDROID_UPLOAD_KEYSTORE_BASE64 }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_UPLOAD_CERT_SHA256: ${{ vars.ANDROID_UPLOAD_CERT_SHA256 }}
+        run: python3 scripts/sign-release.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kingdom-come-signed-AAB-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            android/dist/kingdom-come-release.aab
+            android/dist/bundle-verification.json
+            android/dist/SHA256SUMS-AAB.txt
+          if-no-files-found: error
+          retention-days: 30

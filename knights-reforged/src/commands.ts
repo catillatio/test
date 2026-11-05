@@ -29,6 +29,7 @@ import {refinements} from './refinement-rules.js';
 import {progressionEconomy} from './progression-economy-rules.js';
 import {pvp} from './pvp-rules.js';
 import {vaultTransfer} from './pvp-economy.js';
+import {acceptCommunityPolicy} from './account-safety.js';
 import {postMessage,reportMessage,removeMessage,armyEvent,validateInvitation} from './community.js';
 import {lockBountyEscrow,settleExpiredBounties,placeBounty,cancelBounty} from './bounties.js';
 
@@ -57,8 +58,8 @@ const intents={
   remove:z.object({targetCharacterId:uuid}),
   reject:z.object({targetCharacterId:uuid}),
   invite_code:z.object({code:z.string().trim().toUpperCase().regex(/^[A-F0-9]{12}$/, 'Enter the 12-character invitation code.')}),
-  comment:z.object({profileId:uuid,body:z.string().min(1).max(1000)}),
-  broadcast:z.object({body:z.string().min(1).max(1000)}),
+  comment:z.object({profileId:uuid,body:z.string().min(1).max(1000),communityPolicy:z.string().max(80).optional()}),
+  broadcast:z.object({body:z.string().min(1).max(1000),communityPolicy:z.string().max(80).optional()}),
   social_report:z.object({messageId:uuid,reason:z.enum(['spam','abuse','other'])}),
   social_remove:z.object({messageId:uuid}),
   profile:z.object({className:z.enum(['Freeblade','Warden','Spellward'])}),
@@ -129,6 +130,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       result.data=await vaultTransfer(sql,actorId,intent.amount as number,kind==='vault_deposit',key,now);
       result.message=String(intent.amount)+' gold '+(kind==='vault_deposit'?'deposited in your protected Vault.':'withdrawn into your unbanked purse.');
     }else if(kind==='comment'||kind==='broadcast'){
+      if(intent.communityPolicy!==undefined)await acceptCommunityPolicy(sql,actorId,intent.communityPolicy);
       const posted=await postMessage(sql,actorId,kind==='comment'?targetId:null,intent.body as string,key,now,actor.attained_level,state.questsCompleted);
       result.data=posted;result.message=kind==='comment'?'Comment posted.':'Broadcast sent to the realm.';
     }else if(kind==='social_report'){

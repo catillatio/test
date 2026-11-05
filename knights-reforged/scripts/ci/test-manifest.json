@@ -1,6 +1,9 @@
 {
   "version": 1,
   "tests": [
+    {"file":"tests/android-release-contract.test.mjs","lane":"unit","weight":1},
+    {"file":"tests/play-readiness-browser.test.mjs","lane":"browser","weight":100},
+    {"file":"tests/play-account-safety.test.ts","lane":"database","weight":3},
     {"file":"tests/bot-progressive-economy.test.ts","lane":"database","weight":10},
     {"file":"tests/bot-loot.test.ts","lane":"unit","weight":1},
     {"file":"tests/release-upgrade-postgres.test.mjs","lane":"database","weight":5},
