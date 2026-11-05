@@ -53,7 +53,7 @@ export async function reconcileLevelMilestones(sql:Sql) {
   for(const milestone of alpha.progression.milestones??[]) {
     await sql.query(`WITH awarded AS (
       INSERT INTO progression_awards(character_id,award_id,points)
-      SELECT id,$1,$2 FROM characters WHERE attained_level>=$3
+      SELECT id,$1,$2 FROM characters WHERE account_id IS NOT NULL AND attained_level>=$3
       ON CONFLICT DO NOTHING RETURNING character_id,points)
       UPDATE characters c SET skill_points=c.skill_points+a.points FROM awarded a WHERE c.id=a.character_id`,[milestone.id,milestone.points,milestone.level]);
   }

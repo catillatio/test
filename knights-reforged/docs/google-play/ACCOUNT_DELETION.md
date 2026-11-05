@@ -13,7 +13,8 @@ stores no password, email or new contact detail. Row locking plus a partial uniq
 index returns one pending receipt on concurrent/lost-response retries. The request
 itself leaves sessions, balances, characters and gameplay unchanged.
 
-Migration 028 creates empty append-only erasure receipts/checkpoints, typed JSON
+Migration 028 creates empty append-only erasure receipts/checkpoints and an empty
+independent NPC registry (no classification-column backfill), typed JSON
 label redaction and stale-writer guards. **It erases no existing account and
 installs no approved policy.** See the [owner decision document](privacy/OWNER_DECISIONS.md)
 for every proposed retention exception, period and unresolved operational decision.

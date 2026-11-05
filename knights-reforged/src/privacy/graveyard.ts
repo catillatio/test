@@ -7,7 +7,7 @@ import {privacyColumns} from './schema.js';
 // SQL/WAL records and timing still need independent privacy review. This is separation of identities,
 // NOT a mathematical/legal guarantee against estate fingerprinting.
 export async function verifyNewEstate(sql:Sql,subject:string,world:string,started:Date){
- const row=(await sql.query(`SELECT n.*,
+ const row=(await sql.query(`SELECT n.*,'abandoned' AS identity_kind,
   (SELECT balance FROM wallets WHERE character_id=n.id) AS wallet,
   (SELECT balance FROM vault_accounts WHERE character_id=n.id) AS vault,
   (SELECT pending_gold::text FROM land_accounts WHERE character_id=n.id) AS pending,
@@ -16,7 +16,7 @@ export async function verifyNewEstate(sql:Sql,subject:string,world:string,starte
   (SELECT eligible FROM champion_standings WHERE character_id=n.id) AS champion_eligible,
   (SELECT row(health,energy,max_health,mana,max_mana,spirit,max_spirit,attained_level,legacy_army_floor,profile_class,attack_training,defense_training)
    FROM characters WHERE id=$1)=row(n.health,n.energy,n.max_health,n.mana,n.max_mana,n.spirit,n.max_spirit,n.attained_level,n.legacy_army_floor,n.profile_class,n.attack_training,n.defense_training) AS strength_matches
-  FROM characters n WHERE n.id=$2`,[subject,world])).rows[0];
+  FROM characters n JOIN abandoned_kingdoms k ON k.character_id=n.id WHERE n.id=$2`,[subject,world])).rows[0];
  assert.ok(row);assert.equal(row.account_id,null);assert.equal(row.identity_kind,'abandoned');assert.equal(row.name,'Abandoned Kingdom');
  assert.equal(row.strength_matches,true);assert.equal(row.champion_eligible,false);
  for(const field of ['wallet','vault','xp','level_xp','skill_points','maintenance_rate'])assert.equal(row[field],0,'Unexpected initial estate resource.');
@@ -41,7 +41,7 @@ export async function verifyNewEstate(sql:Sql,subject:string,world:string,starte
   AND NOT EXISTS(SELECT 1 FROM inventory_entries WHERE character_id=$1 AND acquired_at<>(SELECT created_at FROM characters WHERE id=$1))
   AND NOT EXISTS(SELECT 1 FROM accounts WHERE id=$1) AS same`,[world])).rows[0]!.same;
  assert.equal(clean,true,'Inherited private clock or login identity.');
- const allowed=new Set(['characters','wallets','vault_accounts','land_accounts','income_cycles','maintenance_accounts',
+ const allowed=new Set(['abandoned_kingdoms','characters','wallets','vault_accounts','land_accounts','income_cycles','maintenance_accounts',
   'inventory_entries','army_stacks','land_holdings','champion_standings','competitive_statistics']);
  for(const [table,columns] of Object.entries(privacyColumns)){
   if(allowed.has(table)||!columns.split('|').some(c=>c.startsWith('character_id:')))continue;

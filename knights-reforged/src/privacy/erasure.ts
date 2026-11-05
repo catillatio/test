@@ -30,7 +30,7 @@ function expressions(table:string){
  if(deletes[table])where=`NOT coalesce((${deletes[table]}),false)`;
  if(table==='accounts')where='id<>$2';
  if(table==='champion_standings')value="CASE WHEN character_id=$1 THEN to_jsonb(t)||jsonb_build_object('eligible',false) ELSE to_jsonb(t) END";
- if(table==='characters')value=`CASE WHEN id=$1 THEN to_jsonb(t)||jsonb_build_object('name','Deleted Warrior','account_id',NULL,'identity_kind','integrity_anchor') ELSE to_jsonb(t) END`;
+ if(table==='characters')value=`CASE WHEN id=$1 THEN to_jsonb(t)||jsonb_build_object('name','Deleted Warrior','account_id',NULL) ELSE to_jsonb(t) END`;
 
  if(table==='battles')value=`to_jsonb(t)||jsonb_build_object('snapshot',erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1),'result',erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1))`;
  if(table==='command_receipts')value=`to_jsonb(t)||jsonb_build_object('result',${receiptRedaction()})`;
@@ -117,8 +117,8 @@ async function erase(sql:Sql,intent:ErasureIntent,policyId:string,intentDigest:s
 async function typedQuery(sql:Sql,statement:string,params:unknown[]){return sql.query(`WITH erasure_types AS (SELECT $1::uuid AS character,$2::uuid AS account,$3::uuid AS request,$4::text AS redacted_name,$5::timestamptz AS completed,$6::uuid AS world_id) ${statement}`,params);}
 export async function verifyErased(sql:Sql,intent:ErasureIntent,outcome:string){
  if(outcome==='absent_in_restore'){assert.equal((await sql.query('SELECT 1 FROM accounts WHERE id=$1 UNION ALL SELECT 1 FROM characters WHERE id=$2',[intent.accountId,intent.characterId])).rowCount,0);return;}
- const row=(await sql.query(`SELECT c.name,c.account_id,c.identity_kind,account_erasure_credentials_removed($1) AS credentials_removed FROM characters c WHERE c.id=$2`,[intent.accountId,intent.characterId])).rows[0];
- assert.ok(row);assert.equal(row.account_id,null);assert.equal(row.identity_kind,'integrity_anchor');assert.equal(row.name,deletedName);assert.equal(row.credentials_removed,true);
+ const row=(await sql.query(`SELECT c.name,c.account_id,account_erasure_credentials_removed($1) AS credentials_removed FROM characters c WHERE c.id=$2`,[intent.accountId,intent.characterId])).rows[0];
+ assert.ok(row);assert.equal(row.account_id,null);assert.equal((await sql.query('SELECT 1 FROM abandoned_kingdoms WHERE character_id=$1',[intent.characterId])).rowCount,0);assert.equal(row.name,deletedName);assert.equal(row.credentials_removed,true);
  assert.equal((await sql.query('SELECT 1 FROM accounts WHERE id=$1',[intent.accountId])).rowCount,0);
  const params=[intent.characterId,intent.accountId,intent.requestId,deletedName,new Date().toISOString(),null];
  for(const [table,predicate] of Object.entries(deletes))assert.equal((await typedQuery(sql,`SELECT 1 FROM ${q(table)} WHERE ${predicate} LIMIT 1`,params)).rowCount,0,'Personal data remains: '+table);

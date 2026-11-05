@@ -60,7 +60,7 @@ PASS means the listed source/local evidence exists. Exact-head CI artifacts and 
 ## Evidence and artifacts
 
 - Local targeted: `tests/play-account-safety.test.ts`, existing `tests/community-social.test.ts`, `npm run typecheck`, `npm run check:static`; commands/results summarized in final PR. Browser evidence is `test-results/play-readiness/verification.json` with 297 passed screen/dimension cases and genuine screenshots when successful.
-- Required final PR **Kingdom Come checks** remains unchanged in scope/requirements; the additional screenshot folder is retained as evidence. Unknown paths continue using the full profile. The strict post-deployment schema-head assertion advances to migration 028, with stale 027/026 still rejected. Container/worker fixtures assert the new migration, four safety tables and two empty erasure tables. No skipped/removed assertions or recovery bypass is authorized.
+- Required final PR **Kingdom Come checks** remains unchanged in scope/requirements; the additional screenshot folder is retained as evidence. Unknown paths continue using the full profile. The strict post-deployment schema-head assertion advances to migration 028, with stale 027/026 still rejected. Container/worker fixtures assert the new migration, four safety tables and two empty erasure tables plus an empty abandoned-kingdom registry. No skipped/removed assertions or recovery bypass is authorized.
 - **Kingdom Come Android readiness** adds `apk` plus API29/API36 real-emulator jobs. Artifact includes unsigned release AAB, debug APK/test APK, SHA256 and `bundle-verification.json`; signing status is explicit. No release key is available to ordinary PR builds.
 - Signed release artifacts can only be generated later by **Kingdom Come signed Android bundle**, after owner identity/key/environment setup and authorized merge. See [Android release guide](../../../android/PLAY_RELEASE.md).
 
@@ -116,10 +116,18 @@ signing workflow, SDK, security configuration, or emulator matrix was changed.
 
 Continuation verification before final CI: typecheck/build passed; static project
 checks passed 99 assertions and 77 production EJS cases. Focused disposable
-PostgreSQL tests passed all 10 deletion/graveyard cases (including levels
+PostgreSQL tests passed all 11 deletion/graveyard cases (including levels
 50/75/100, real custom-format backup/restore, interrupted transaction rollback,
 restricted operator, concurrent income sweeps, replay, repeat-target human loot,
 wallet conservation and unreclaimability). The two private-approval tests and four
 Android release-contract tests passed. No test was removed or skipped. The final
 GitHub exact-head CI results and artifacts are recorded on the existing PR; no
 production write, recovery rehearsal, merge, deployment or Play upload is authorized.
+
+
+The first continuation CI caught a real migration integration issue: adding an
+identity column changed every existing character's full-row JSON. Classification
+now lives in a separate initially empty `abandoned_kingdoms` registry; existing
+character rows receive no backfilled field/default. A regression checks exact
+pre-028/post-028/replay rows and rejects orphan or human-owned NPC identities.
+The production preservation checker and its full-row assertions are unchanged.

@@ -30,7 +30,7 @@ async function fixture(clock?:()=>Date){
  const options=async(mode='fulfill')=>({enabled:true,publicKey,policy,intent,permit:await permit(mode),journalPath:directory,codeSha,candidateDigest});
  return{r,a,b,directory,policy,intent,options,close:async()=>{await r.close();await rm(directory,{recursive:true,force:true});}};
 }
-async function finances(r:Awaited<ReturnType<typeof realm>>){return JSON.stringify((await r.db.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS land`)).rows);}
+async function finances(r:Awaited<ReturnType<typeof realm>>){return JSON.stringify((await r.db.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS land`)).rows);}
 
 test('signed ordinary fulfillment erases credentials/content, preserves money and report numbers, rejects stale sessions and command replay',async()=>{
  const f=await fixture(),{r,a,b}=f;
@@ -98,10 +98,10 @@ test('SQL failure rolls back rows but keeps durable intent; fresh approved resum
  const f=await fixture(),{r,a}=f;try{
   await r.db.query(`CREATE FUNCTION fail_erasure_fixture() RETURNS trigger LANGUAGE plpgsql AS $$BEGIN RAISE EXCEPTION 'synthetic interruption'; END$$;CREATE TRIGGER erasure_fixture BEFORE DELETE ON accounts FOR EACH ROW EXECUTE FUNCTION fail_erasure_fixture()`);
   const permit=await f.options(),before=await finances(r);await assert.rejects(fulfillErasure(r.db,permit),/synthetic interruption/);
-  assert.equal((await readJournal(f.directory,publicKey)).sequence,1);assert.equal((await r.db.query("SELECT 1 FROM characters WHERE identity_kind='abandoned'")).rowCount,0,'An interrupted transition leaves no duplicate estate');assert.equal((await r.db.query('SELECT login_disabled FROM accounts WHERE id=$1',[a.accountId])).rows[0]!.login_disabled,false);assert.equal(await finances(r),before);
+  assert.equal((await readJournal(f.directory,publicKey)).sequence,1);assert.equal((await r.db.query("SELECT 1 FROM abandoned_kingdoms")).rowCount,0,'An interrupted transition leaves no duplicate estate');assert.equal((await r.db.query('SELECT login_disabled FROM accounts WHERE id=$1',[a.accountId])).rows[0]!.login_disabled,false);assert.equal(await finances(r),before);
   await r.db.query('DROP TRIGGER erasure_fixture ON accounts');await assert.rejects(fulfillErasure(r.db,permit));
   await fulfillErasure(r.db,await f.options());assert.equal(await finances(r),before);
-  assert.equal((await r.db.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,1);
+  assert.equal((await r.db.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,1);
   await assert.rejects(assertErasureFence(r.db,{required:false}));
   const path=join(f.directory,'entry-000000000001.json'),bytes=await readFile(path);await writeFile(path,'{}');await assert.rejects(assertErasureFence(r.db,{required:true,journalPath:f.directory,publicKey}));await writeFile(path,bytes);
  }finally{await f.close();}
@@ -137,15 +137,15 @@ test('a real custom-format backup restored to an isolated database is blocked un
   await admin.query('CREATE DATABASE "'+restoredName+'" TEMPLATE template0');created=true;tool('pg_restore',restoredName,backup);
   const restoreUrl=new URL(url);restoreUrl.pathname='/'+restoredName;restored=createDatabase(restoreUrl.href);
   await assert.rejects(assertErasureFence(restored,{required:true,journalPath:directory,publicKey}),/blocked/);
-  assert.equal((await restored.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,0);
+  assert.equal((await restored.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,0);
   const oid=(await admin.query('SELECT oid::text FROM pg_database WHERE datname=$1',[restoredName])).rows[0]!.oid;
   const approved=await options('restore',restoredName,oid);
-  await fulfillErasure(restored,approved);assert.equal((await restored.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,1);await assertErasureFence(restored,{required:true,journalPath:directory,publicKey});
-  assert.equal(JSON.stringify((await restored.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS land`)).rows),before);
+  await fulfillErasure(restored,approved);assert.equal((await restored.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,1);await assertErasureFence(restored,{required:true,journalPath:directory,publicKey});
+  assert.equal(JSON.stringify((await restored.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS land`)).rows),before);
   assert.equal((await restored.query('SELECT count(*)::int AS n FROM realm_messages WHERE author_id=$1',[a.id])).rows[0]!.n,0);
   assert.equal(createHash('sha256').update(backup).digest('hex'),archiveDigest,'The original recovery artifact remains immutable');
   assert.equal((await fulfillErasure(restored,await options('restore',restoredName,oid))).result,'erased');
-  assert.equal((await restored.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,1);
+  assert.equal((await restored.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,1);
   assert.equal((await restored.query('SELECT 1 FROM accounts WHERE id=$1',[a.accountId])).rowCount,0);
  }finally{await restored?.end();if(created)await admin.query('DROP DATABASE "'+restoredName+'"');await admin.end();await r.close();await rm(directory,{recursive:true,force:true});}
 });
@@ -198,7 +198,9 @@ test('independent abandoned estate earns only genuine Land income, remains attac
   const prior=await r.me(a),username=(await r.db.query('SELECT username FROM accounts WHERE id=$1',[a.accountId])).rows[0]!.username;
   const oldRows=await finances(r);
   await fulfillErasure(r.db,await f.options());assert.equal(await finances(r),oldRows);
-  const npc=(await r.db.query("SELECT * FROM characters WHERE identity_kind='abandoned'")).rows[0]!;
+  const npc=(await r.db.query("SELECT c.* FROM characters c JOIN abandoned_kingdoms k ON k.character_id=c.id")).rows[0]!;
+  await assert.rejects(r.db.query('DELETE FROM abandoned_kingdoms WHERE character_id=$1',[npc.id]),/append-only/);
+  await assert.rejects(r.db.query('UPDATE abandoned_kingdoms SET character_id=$2 WHERE character_id=$1',[npc.id,randomUUID()]),/append-only/);
   assert.ok(npc.id!==a.id&&npc.id!==a.accountId);assert.equal(npc.account_id,null);assert.equal(npc.name,'Abandoned Kingdom');
   assert.equal(npc.xp,0);assert.equal(npc.level_xp,0);assert.equal(npc.skill_points,0);
   assert.equal(npc.attained_level,prior.level);assert.equal(npc.max_health,prior.maxHealth);
@@ -247,7 +249,7 @@ test('independent abandoned estate earns only genuine Land income, remains attac
   }
   await assert.rejects(r.db.query('SELECT detach_erased_estate($1,$2,$3)',[a.id,a.accountId,randomUUID()]));
   assert.equal((await r.db.query('SELECT xp FROM characters WHERE id=$1',[npc.id])).rows[0]!.xp,0);
-  await fulfillErasure(r.db,await f.options());assert.equal((await r.db.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,1);
+  await fulfillErasure(r.db,await f.options());assert.equal((await r.db.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,1);
   await assertErasureFence(r.db,{required:true,journalPath:f.directory,publicKey});
  }finally{await f.close();}
 });
@@ -259,7 +261,7 @@ test('estate de-identification review is mandatory and old rename-only approvals
   await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,estateDeidentificationReview:'unreviewed'})}));
   await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,protocol:'kingdom-erasure-policy-v1'})}));
   assert.equal((await readJournal(f.directory,publicKey)).sequence,0);
-  assert.equal((await f.r.db.query("SELECT 1 FROM characters WHERE identity_kind='abandoned'")).rowCount,0);
+  assert.equal((await f.r.db.query("SELECT 1 FROM abandoned_kingdoms")).rowCount,0);
  }finally{await f.close();}
 });
 
@@ -270,9 +272,11 @@ test('high-level estates preserve intrinsic combat assets without carrying names
    await f.r.db.query('UPDATE characters SET attained_level=$2,xp=123456,level_xp=7,max_health=700,health=350,attack_training=4,defense_training=5 WHERE id=$1',[f.a.id,level]);
    const intrinsic=await getState(f.r.db,f.a.accountId);
    await fulfillErasure(f.r.db,await f.options());
-   const npc=(await f.r.db.query("SELECT * FROM characters WHERE identity_kind='abandoned'")).rows[0]!;
+   const npc=(await f.r.db.query("SELECT c.* FROM characters c JOIN abandoned_kingdoms k ON k.character_id=c.id")).rows[0]!;
    const profile=await publicProfile(f.r.db,npc.id);
    assert.equal(profile.level,level);assert.equal(profile.maxHealth,700);assert.equal(profile.xp,0);
+   const {migrate}=await import('../src/migrate.js');await migrate(f.r.db);
+   assert.equal((await f.r.db.query('SELECT 1 FROM progression_awards WHERE character_id=ANY($1::uuid[])',[[npc.id,f.a.id]])).rowCount,0,'Migration replay cannot recreate erased player progress or grant NPC skill points');
    assert.equal(npc.attack_training,4);assert.equal(npc.defense_training,5);assert.equal(npc.account_id,null);
    assert.equal(profile.army.participants,intrinsic.army.participants);assert.equal(profile.accountAgeDays,0);
    const permitted=await f.r.app.inject({url:'/game/players/'+npc.id,headers:{cookie:f.b.cookie}});
@@ -282,4 +286,24 @@ test('high-level estates preserve intrinsic combat assets without carrying names
    assert.equal((await f.r.db.query("SELECT 1 FROM champion_standings WHERE character_id=$1 AND eligible",[npc.id])).rowCount,0);
   }finally{await f.close();}
  }
+});
+
+test('installing the disabled graveyard registry preserves complete existing character rows and rejects unclassified accountless identities',async()=>{
+ const {createDatabase}=await import('../src/db.js');const {migrate}=await import('../src/migrate.js');
+ const admin=createDatabase(process.env.TEST_DATABASE_URL!),schema='privacy_migration_'+randomUUID().replaceAll('-','');
+ const url=new URL(process.env.TEST_DATABASE_URL!);url.searchParams.set('options','-c search_path='+schema);
+ let db:ReturnType<typeof createDatabase>|undefined;
+ try{
+  await admin.query('CREATE SCHEMA '+schema);db=createDatabase(url.href);
+  await migrate(db,{through:'027_play_account_safety.sql'});
+  const human=await registerAccount(db,{username:'migration_subject',password:'Synthetic!2026',name:'Original Subject'});
+  const tables=['accounts','characters','wallets','inventory_entries','land_holdings','economy_entries','economy_transactions'];
+  const snapshot=async()=>{const value:Record<string,unknown>={};for(const table of tables)value[table]=(await db!.query('SELECT row_to_json(t)::text AS row FROM '+table+' t ORDER BY row_to_json(t)::text')).rows;return value;};
+  const before=await snapshot();await migrate(db);assert.deepEqual(await snapshot(),before,'No identity column/default may change existing full-row data');
+  assert.equal((await db.query('SELECT count(*)::int AS n FROM abandoned_kingdoms')).rows[0]!.n,0);
+  await migrate(db);assert.deepEqual(await snapshot(),before,'Replay must remain exact');
+  await assert.rejects(db.query("INSERT INTO characters(id,account_id,name) VALUES($1,NULL,'Orphan')",[randomUUID()]),/Invalid accountless identity/);
+  await assert.rejects(db.query('INSERT INTO abandoned_kingdoms(character_id) VALUES($1)',[human.characterId]),/Invalid accountless identity/);
+  assert.equal((await db.query('SELECT 1 FROM abandoned_kingdoms')).rowCount,0);
+ }finally{await db?.end();await admin.query('DROP SCHEMA '+schema+' CASCADE');await admin.end();}
 });

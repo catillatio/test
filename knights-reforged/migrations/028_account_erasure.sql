@@ -2,24 +2,25 @@
 -- The real login account is removed; historical foreign-key anchors remain
 -- private and inert under a separately approved retention exception.
 ALTER TABLE characters ALTER COLUMN account_id DROP NOT NULL;
-ALTER TABLE characters ADD COLUMN identity_kind text NOT NULL DEFAULT 'human'
- CHECK(identity_kind IN ('human','abandoned','integrity_anchor'));
-ALTER TABLE characters ADD CONSTRAINT character_identity_contract CHECK(
- (identity_kind='human' AND account_id IS NOT NULL) OR
- (identity_kind IN ('abandoned','integrity_anchor') AND account_id IS NULL));
+CREATE TABLE abandoned_kingdoms (
+ character_id uuid PRIMARY KEY REFERENCES characters(id) ON DELETE CASCADE,
+ policy_version text NOT NULL DEFAULT 'independent-estate-zero-wallet-v1'
+  CHECK(policy_version='independent-estate-zero-wallet-v1')
+);
+REVOKE INSERT,UPDATE,DELETE,TRUNCATE ON abandoned_kingdoms FROM PUBLIC;
 -- Existing champion triggers must support accountless world entities without
 -- accidentally making either NPCs or historical anchors leaderboard-eligible.
 CREATE OR REPLACE FUNCTION champions_character_changed() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
  INSERT INTO champion_standings(character_id,eligible,attained_level,xp,created_at)
- VALUES(NEW.id,NEW.identity_kind='human' AND coalesce(NOT (SELECT login_disabled FROM accounts WHERE id=NEW.account_id),false)
+ VALUES(NEW.id,coalesce(NOT (SELECT login_disabled FROM accounts WHERE id=NEW.account_id),false)
  AND NOT EXISTS(SELECT 1 FROM development_bots WHERE character_id=NEW.id),NEW.attained_level,NEW.xp,NEW.created_at)
  ON CONFLICT(character_id) DO UPDATE SET attained_level=EXCLUDED.attained_level,xp=EXCLUDED.xp;
  RETURN NEW;
 END $$;
 CREATE OR REPLACE FUNCTION start_character_attention() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
- IF NEW.identity_kind='human' THEN INSERT INTO notification_state(character_id) VALUES(NEW.id) ON CONFLICT DO NOTHING; END IF;
+ IF NEW.account_id IS NOT NULL THEN INSERT INTO notification_state(character_id) VALUES(NEW.id) ON CONFLICT DO NOTHING; END IF;
  RETURN NEW;
 END $$;
 CREATE TABLE account_erasures (
@@ -42,6 +43,10 @@ CREATE TABLE account_erasure_checkpoints (
 );
 CREATE FUNCTION preserve_account_erasure_record() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN RAISE EXCEPTION 'Account erasure records are append-only'; END $$;
+CREATE TRIGGER abandoned_kingdom_identity_immutable BEFORE UPDATE OR DELETE ON abandoned_kingdoms
+ FOR EACH ROW EXECUTE FUNCTION preserve_account_erasure_record();
+CREATE TRIGGER abandoned_kingdom_no_truncate BEFORE TRUNCATE ON abandoned_kingdoms
+ FOR EACH STATEMENT EXECUTE FUNCTION preserve_account_erasure_record();
 CREATE TRIGGER account_erasure_receipt_immutable BEFORE UPDATE OR DELETE ON account_erasures
  FOR EACH ROW EXECUTE FUNCTION preserve_account_erasure_record();
 CREATE TRIGGER account_erasure_checkpoint_immutable BEFORE UPDATE OR DELETE ON account_erasure_checkpoints
@@ -110,8 +115,9 @@ BEGIN
    RAISE EXCEPTION 'Erased identity is protected';
   END IF;
  ELSE
-  IF EXISTS(SELECT 1 FROM account_erasures WHERE character_id=OLD.id) THEN
-   IF TG_OP='DELETE' OR NEW.name IS DISTINCT FROM OLD.name OR NEW.account_id IS DISTINCT FROM OLD.account_id OR NEW.identity_kind IS DISTINCT FROM OLD.identity_kind THEN
+  IF TG_OP<>'DELETE' AND NEW.name IS NOT DISTINCT FROM OLD.name AND NEW.account_id IS NOT DISTINCT FROM OLD.account_id THEN RETURN NEW; END IF;
+  IF EXISTS(SELECT 1 FROM account_erasures WHERE character_id=OLD.id) OR EXISTS(SELECT 1 FROM abandoned_kingdoms WHERE character_id=OLD.id) THEN
+   IF TG_OP='DELETE' OR NEW.name IS DISTINCT FROM OLD.name OR NEW.account_id IS DISTINCT FROM OLD.account_id THEN
     RAISE EXCEPTION 'Erased identity is protected';
    END IF;
   END IF;
@@ -131,7 +137,7 @@ BEGIN
   identity_text:=to_jsonb(NEW)->>field;
   IF identity_text IS NOT NULL AND (EXISTS(SELECT 1 FROM account_erasures
     WHERE CASE WHEN field='account_id' OR TG_TABLE_NAME='accounts' THEN account_id=identity_text::uuid ELSE character_id=identity_text::uuid END)
-    OR (field<>'account_id' AND TG_TABLE_NAME NOT IN ('accounts','characters') AND EXISTS(SELECT 1 FROM characters WHERE id=identity_text::uuid AND identity_kind<>'human'))) THEN
+    OR (field<>'account_id' AND TG_TABLE_NAME NOT IN ('accounts','characters') AND EXISTS(SELECT 1 FROM characters WHERE id=identity_text::uuid AND account_id IS NULL))) THEN
    RAISE EXCEPTION 'Erased identity is protected';
   END IF;
  END LOOP;
@@ -181,7 +187,7 @@ CREATE FUNCTION detach_erased_estate(subject uuid,account_subject uuid,new_world
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER AS $$
 DECLARE source characters%ROWTYPE; at_time timestamptz:=clock_timestamp();
 BEGIN
- SELECT * INTO STRICT source FROM characters WHERE id=subject AND account_id=account_subject AND identity_kind='human' FOR UPDATE;
+ SELECT * INTO STRICT source FROM characters WHERE id=subject AND account_id=account_subject FOR UPDATE;
  IF subject=new_world_id OR account_subject=new_world_id THEN RAISE EXCEPTION 'Invalid estate transition'; END IF;
  IF EXISTS(SELECT 1 FROM development_bots WHERE character_id=subject)
  OR EXISTS(SELECT 1 FROM bounties WHERE (sponsor_id=subject OR target_id=subject OR claimant_id=subject) AND status='active')
@@ -190,12 +196,13 @@ BEGIN
  OR EXISTS(SELECT 1 FROM hudson_equipment_grants WHERE account_id=account_subject)
  OR EXISTS(SELECT 1 FROM private_alpha_initializations WHERE dev_account_id=account_subject)
  THEN RAISE EXCEPTION 'Estate has a protected hold'; END IF;
- INSERT INTO characters(id,account_id,identity_kind,name,xp,health,energy,max_health,mana,max_mana,spirit,max_spirit,
+ INSERT INTO characters(id,account_id,name,xp,health,energy,max_health,mana,max_mana,spirit,max_spirit,
   attained_level,level_xp,skill_points,legacy_army_floor,profile_class,attack_training,defense_training,
   created_at,health_updated_at,energy_updated_at,mana_updated_at,spirit_updated_at,attack_ready_at)
- VALUES(new_world_id,NULL,'abandoned','Abandoned Kingdom',0,source.health,source.energy,source.max_health,source.mana,source.max_mana,source.spirit,source.max_spirit,
+ VALUES(new_world_id,NULL,'Abandoned Kingdom',0,source.health,source.energy,source.max_health,source.mana,source.max_mana,source.spirit,source.max_spirit,
   source.attained_level,0,0,source.legacy_army_floor,source.profile_class,source.attack_training,source.defense_training,
   at_time,at_time,at_time,at_time,at_time,at_time);
+ INSERT INTO abandoned_kingdoms(character_id) VALUES(new_world_id);
  INSERT INTO wallets(character_id,balance) VALUES(new_world_id,0);
  INSERT INTO vault_accounts(character_id,balance) VALUES(new_world_id,0);
  INSERT INTO army_stacks(character_id,unit_definition_id,quantity)
@@ -215,7 +222,7 @@ BEGIN
  INSERT INTO income_cycles(character_id,next_payment_at,created_at) VALUES(new_world_id,at_time+interval '1 hour',at_time);
  INSERT INTO maintenance_accounts(character_id,settled_at) VALUES(new_world_id,at_time);
  -- Old financial/gameplay facts stay exact but never accrue or become public.
- UPDATE characters SET account_id=NULL,identity_kind='integrity_anchor',name='Deleted Warrior' WHERE id=subject;
+ UPDATE characters SET account_id=NULL,name='Deleted Warrior' WHERE id=subject;
  UPDATE champion_standings SET eligible=false WHERE character_id=subject;
  DELETE FROM accounts WHERE id=account_subject;
 END $$;
@@ -227,3 +234,26 @@ BEGIN
  EXECUTE format('ALTER FUNCTION %I.champions_character_changed() SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
  EXECUTE format('ALTER FUNCTION %I.start_character_attention() SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
 END $pin_estate$;
+
+CREATE FUNCTION enforce_accountless_identity() RETURNS trigger LANGUAGE plpgsql AS $$
+DECLARE subject uuid; item record; npc boolean; erased boolean;
+BEGIN
+ subject:=coalesce(to_jsonb(NEW)->>(CASE WHEN TG_TABLE_NAME='characters' THEN 'id' ELSE 'character_id' END),to_jsonb(OLD)->>(CASE WHEN TG_TABLE_NAME='characters' THEN 'id' ELSE 'character_id' END))::uuid;
+ SELECT account_id,name INTO item FROM characters WHERE id=subject;
+ IF NOT FOUND THEN RETURN NULL; END IF;
+ npc:=EXISTS(SELECT 1 FROM abandoned_kingdoms WHERE character_id=subject);
+ erased:=EXISTS(SELECT 1 FROM account_erasures WHERE character_id=subject);
+ IF (item.account_id IS NULL) IS DISTINCT FROM (npc OR erased)
+ OR npc AND erased OR npc AND item.name<>'Abandoned Kingdom' OR erased AND item.name<>'Deleted Warrior'
+ THEN RAISE EXCEPTION 'Invalid accountless identity'; END IF;
+ RETURN NULL;
+END $$;
+CREATE CONSTRAINT TRIGGER accountless_character_contract AFTER INSERT OR UPDATE OF account_id,name ON characters
+ DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION enforce_accountless_identity();
+CREATE CONSTRAINT TRIGGER abandoned_kingdom_contract AFTER INSERT OR UPDATE OR DELETE ON abandoned_kingdoms
+ DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION enforce_accountless_identity();
+DO $pin_identity$
+DECLARE trusted_schema text:=current_schema();
+BEGIN
+ EXECUTE format('ALTER FUNCTION %I.enforce_accountless_identity() SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
+END $pin_identity$;

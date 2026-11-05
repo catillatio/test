@@ -23,7 +23,7 @@ async function settlePassiveIncome(db:Database,abandoned:boolean){
    const rows=(await sql.query<CharacterRow>(`SELECT c.*,${!abandoned} AS development_bot FROM characters c
     ${abandoned?'':'JOIN development_bots b ON b.character_id=c.id AND b.active'}
     LEFT JOIN income_cycles i ON i.character_id=c.id
-    WHERE (${dueIncome}) ${abandoned?"AND c.identity_kind='abandoned'":''}
+    WHERE (${dueIncome}) ${abandoned?"AND EXISTS(SELECT 1 FROM abandoned_kingdoms k WHERE k.character_id=c.id)":''}
     ORDER BY i.next_payment_at NULLS FIRST,c.id LIMIT $2 FOR UPDATE OF c SKIP LOCKED`,[now,gameFeel.botIncome.batchSize])).rows;
    if(!rows.length)return 0;
    // READ COMMITTED can retain the old joined cycle snapshot while acquiring

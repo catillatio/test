@@ -3,8 +3,8 @@ import {GameError} from '../errors.js';
 const key=Symbol('privacy-schema');
 export function privacySchema(sql:Sql):Promise<boolean>{return transactionMemo(sql,key,async()=>{
  const row=(await sql.query(`SELECT EXISTS(SELECT 1 FROM schema_migrations WHERE name='028_account_erasure.sql') AS installed,
- to_regclass('account_erasures') IS NOT NULL AS receipts,to_regclass('account_erasure_checkpoints') IS NOT NULL AS checkpoints`)).rows[0]!;
- if(row.receipts!==row.installed||row.checkpoints!==row.installed)throw Error('Incomplete privacy erasure schema.');
+ to_regclass('account_erasures') IS NOT NULL AS receipts,to_regclass('account_erasure_checkpoints') IS NOT NULL AS checkpoints,to_regclass('abandoned_kingdoms') IS NOT NULL AS world`)).rows[0]!;
+ if(row.receipts!==row.installed||row.checkpoints!==row.installed||row.world!==row.installed)throw Error('Incomplete privacy erasure schema.');
  return row.installed;
 });}
 export async function assertAccountNotErased(sql:Sql,accountId:string){

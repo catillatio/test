@@ -1,3 +1,4 @@
+import {identifyWorldCharacter} from './world-identity.js';
 import {expansionBotIds,installedCohort} from './expansion-bot-rules.js';
 import {type Database,transaction} from './db.js';
 import {clock,lockCharacters,materialize,stateFrom,type CharacterState,type GameRuntime} from './game.js';
@@ -28,8 +29,9 @@ export function ownedProperties(state:CharacterState){
 export async function publicProfile(db:Database,characterId:string,runtime:GameRuntime={}){
   return transaction(db,async sql=>{
     if(expansionBotIds.has(characterId)&&!(await installedCohort(sql))?.active)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
-    const identity=(await sql.query(`SELECT c.account_id,to_jsonb(c)->>'identity_kind' AS identity_kind,a.login_disabled,EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS bot
+    const found=(await sql.query(`SELECT c.id,c.account_id,a.login_disabled,EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS bot
       FROM characters c LEFT JOIN accounts a ON a.id=c.account_id WHERE c.id=$1`,[characterId])).rows[0];
+    const identity=found?await identifyWorldCharacter(sql,found as {id:string;account_id:string|null;login_disabled:boolean;bot:boolean}):null;
     if(!identity||identity.identity_kind==='integrity_anchor'||!identity.account_id&&identity.identity_kind!=='abandoned'||identity.login_disabled&&!identity.bot)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
     const [row]=await lockCharacters(sql,[characterId]);const now=await clock(sql);
     const state=await stateFrom(sql,await materialize(sql,row!,now),now,runtime);
