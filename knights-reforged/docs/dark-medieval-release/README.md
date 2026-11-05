@@ -15,7 +15,8 @@ actual application with synthetic local data, not a flattened mockup.
 - Currency remains gold; resource icons retain tight static health/mana/stamina
   color. Menu surfaces and player links stay neutral; player names share the
   same font/size. No automatic glow animation, reward count-up or celebration.
-- Rival/catalog reading surfaces are clean near-black. Attack uses restrained
+- Rival/catalog reading surfaces are clean near-black. Primary actions share the
+  selected Home iron finish; activity controls retain 44px touch targets. Attack uses restrained
   dark crimson. Profile Achievements/Tutorial actions are borderless and retain
   touch targets. Recent Activity has a complete border and clear outcome,
   opponent, reward, damage and action hierarchy.

@@ -848,15 +848,12 @@
   }
   .button-gold,
   button.button-gold {
-    background: var(--bronze);
-    border-color: #8e784f;
-    border-top-color: #b9a473;
-    border-bottom-color: #574a33;
-    color: #eee0c4;
-    box-shadow:
-      inset 0 1px #eddfbd21,
-      inset 0 -1px #050505,
-      0 2px 4px #0008;
+    background: linear-gradient(#39362e, #23211d 48%, #151513);
+    border-color: #7e7057;
+    border-top-color: #b19b73;
+    border-bottom-color: #514633;
+    color: #f1e3c5;
+    box-shadow: inset 0 1px #fce3b826, inset 0 -2px #000b, 0 2px 4px #0009;
   }
   .button:hover:not(:disabled),
   button:hover:not(:disabled) {
@@ -1397,12 +1394,6 @@
   .tutorial-skip { background: none; color: var(--muted); border: 0; padding: 12px; min-height: 44px; }
   .tutorial-success-note { border: 1px solid #9b8150; padding: 12px; margin: 12px 0; color: #e8ce91; font-size: 12px; background: #332a18; }
   .screen-home .button:not(:where(.home-menu > .button)):not(:disabled) {
-    background: linear-gradient(#39362e, #23211d 48%, #151513);
-    border-color: #7e7057;
-    border-top-color: #b19b73;
-    border-bottom-color: #514633;
-    color: #f1e3c5;
-    box-shadow: inset 0 1px #fce3b826, inset 0 -2px #000b, 0 2px 4px #0009;
     font-size: 14px;
   }
   .screen-home .home-menu {
