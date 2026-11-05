@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 // Actual realm HTML, browser scripts and commands on a disposable schema only.
 import assert from "node:assert/strict";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -1300,6 +1301,7 @@ try {
           ? { csrf, targetCharacterId: fixture.patron.id, amount: 1000 }
           : {
               csrf,
+              communityPolicy: communityPolicyVersion,
               username: "ui_" + randomUUID().replaceAll("-", "").slice(0, 20),
               name: "X",
               password: "NotARealPassword!2026",
