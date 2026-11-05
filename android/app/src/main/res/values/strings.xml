@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Kingdom Come Alpha</string>
+    <string name="loading">Opening your kingdom…</string>
+    <string name="unavailable">The realm is unavailable</string>
+    <string name="connection_help">Check your connection and try again. If you just performed an action, it may already have completed. Check the game before repeating it.</string>
+    <string name="security_help">A secure connection could not be verified. Nothing will bypass certificate validation. Check your connection or try again later.</string>
+    <string name="resubmit_help">The previous action was not resent. Return to the game to check its result before trying again.</string>
+    <string name="retry">Return to game</string>
+    <string name="home">Open Home</string>
+    <string name="blocked">This link cannot open in the app.</string>
+    <string name="external_title">Open external link</string>
+    <string name="external_help">This link opens outside Kingdom Come in your browser. Your in-app session is not shared.</string>
+    <string name="open_browser">Open browser</string>
+    <string name="cancel">Cancel</string>
+    <string name="browser_missing">No browser is available for this link.</string>
+</resources>
