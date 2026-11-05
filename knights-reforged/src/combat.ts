@@ -36,7 +36,7 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       // its rolls/costs. A saved hit can never settle a later same-timestamp listing.
       const bountyContractId=(await sql.query("SELECT id FROM bounties WHERE target_id=$1 AND status='active' AND expires_at>$2 FOR UPDATE",[target.id,now])).rows[0]?.id as string|undefined;
       const targetState=await stateFrom(sql,target,now,runtime);
-      if(!targetIsBot)await syncExperience(sql,target.id,now);
+      if(!targetIsBot&&target.identity_kind!=='abandoned')await syncExperience(sql,target.id,now);
       // Bot rewards depend on this pair and the real purse, never on victories
       // against other bots. Human full rewards are limited by successful wins,
       // not failed attempts. Existing character locks serialize this pair.
@@ -70,7 +70,7 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       const progression=await grantExperience(sql,actorId,combat.attackerXp,now);
       let defenderXpDetails:ReturnType<typeof victoryExperience47>|null=null;
       let defenderProgression:{xpAwarded:number;gained:number;level:number}|null=null;
-      if(combat.outcome==='defender_win'&&!targetIsBot){
+      if(combat.outcome==='defender_win'&&!targetIsBot&&target.identity_kind!=='abandoned'){
         const fullWins=(await sql.query(`SELECT count(*)::int AS n FROM battles WHERE defender_id=$1 AND attacker_id=$2
           AND outcome='defender_win' AND result->'defenderFullXp'='true'::jsonb AND created_at>$3`,[target.id,actorId,new Date(+now-86400000)])).rows[0]!.n;
         defenderXpDetails=victoryExperience47(target.attained_level,actor.attained_level,fullWins<gameplay.victoryXp.humanFullVictoriesPerTarget,targetState.defense,state.attack);
@@ -79,7 +79,7 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       }
       const after=(await sql.query<CharacterRow>('SELECT * FROM characters WHERE id=$1',[actorId])).rows[0]!;
       result.battleId=randomUUID();
-      const battle={...combat,bountyContractId:bountyContractId??null,...(bountyId?{bountyHuntId:bountyId}:{}),...(autonomousPolicy?{botDuelPolicyId:autonomousPolicy}:{}),id:result.battleId,rulesetId:alpha.id,attackerId:actorId,defenderId:target.id,attackerName:actor.name,defenderName:target.name,
+      const battle={...combat,bountyContractId:bountyContractId??null,...(target.identity_kind==='abandoned'?{abandonedKingdom:true}:{}),...(bountyId?{bountyHuntId:bountyId}:{}),...(autonomousPolicy?{botDuelPolicyId:autonomousPolicy}:{}),id:result.battleId,rulesetId:alpha.id,attackerId:actorId,defenderId:target.id,attackerName:actor.name,defenderName:target.name,
         winnerId,winnerName:winnerId===actorId?actor.name:target.name,attackerHealthBefore:actor.health,defenderHealthBefore:target.health,
         attackerHealthAfterDamage:combat.attackerHealthAfter,attackerHealthAfter:after.health,attackerMaxHealth:actor.max_health,defenderMaxHealth:target.max_health,
         defenderXp:defenderProgression?.xpAwarded??0,defenderXpDetails,defenderFullXp:defenderXpDetails?!defenderXpDetails.reduced:false,defenderLevelGained:defenderProgression?.gained??0,defenderLevelAfter:defenderProgression?.level??target.attained_level,attackerXp:progression.xpAwarded,levelGained:progression.gained,attackerLevelAfter:after.attained_level,rewarded,spiritSpent:alpha.combat.spiritCost,

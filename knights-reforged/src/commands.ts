@@ -107,6 +107,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     let actor=locked.find(row=>row.id===actorId)!;
     actor=await materialize(sql,actor,now);
     let target=targetId?locked.find(row=>row.id===targetId)!:null;
+    if(target&&(target.identity_kind==='integrity_anchor'||target.identity_kind==='abandoned'&&kind!=='attack'))throw new GameError('OPPONENT_UNAVAILABLE','This kingdom supports battles only.',409);
     if(target&&kind==='attack'&&(await sql.query(`SELECT 1 FROM accounts a WHERE a.id=$1 AND a.login_disabled
       AND NOT EXISTS(SELECT 1 FROM development_bots b WHERE b.character_id=$2)`,[target.account_id,target.id])).rows.length)
       throw new GameError('OPPONENT_UNAVAILABLE','This opponent is no longer available for battle.',409);
@@ -261,7 +262,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     result.data={...result.data,newAchievements:experience.awarded,celebration:levelCelebration(state.level,final.attained_level,final.skill_points-state.skillPoints,state.rulesetId),...(experience.tutorialCompleted?{tutorialCompleted:true}:{})};
     if(kind==='attack'&&result.battleId){
       let defenderExperience=null;
-      if(target&&!targetIsBot){const gained=await syncExperience(sql,target.id,now,'gameplay');const finalDefender=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[target.id])).rows[0]!;defenderExperience={newAchievements:gained.awarded,celebration:levelCelebration(target.attained_level,finalDefender.attained_level,finalDefender.skill_points-target.skill_points,state.rulesetId)};}
+      if(target&&!targetIsBot&&target.identity_kind!=='abandoned'){const gained=await syncExperience(sql,target.id,now,'gameplay');const finalDefender=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[target.id])).rows[0]!;defenderExperience={newAchievements:gained.awarded,celebration:levelCelebration(target.attained_level,finalDefender.attained_level,finalDefender.skill_points-target.skill_points,state.rulesetId)};}
       await sql.query("UPDATE battles SET result=result||jsonb_build_object('playerExperience',jsonb_build_object($2::text,$3::jsonb)||CASE WHEN $4::text IS NULL THEN '{}'::jsonb ELSE jsonb_build_object($4::text,$5::jsonb) END) WHERE id=$1",[result.battleId,actorId,JSON.stringify(result.data),target&&!targetIsBot?target.id:null,JSON.stringify(defenderExperience)]);
     }
     await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);

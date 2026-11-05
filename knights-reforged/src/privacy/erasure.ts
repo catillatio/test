@@ -1,17 +1,18 @@
 import assert from 'node:assert/strict';
-import {createHash} from 'node:crypto';
+import {createHash,randomUUID} from 'node:crypto';
 import {type Database,type Sql,transaction} from '../db.js';
 import {privacySchema} from './gate.js';
+import {verifyNewEstate} from './graveyard.js';
 import {privacyColumns} from './schema.js';
 import {authenticate,permitContract,authorize,sha256,type SignedRecord,type ErasureIntent} from './authorization.js';
 import {appendIntent,readJournal,type JournalState} from './journal.js';
 const q=(name:string)=>'"'+name.replaceAll('"','""')+'"';
 const deletedName='Deleted Warrior';
-const tombstone=(account:string)=>'erased_'+account.replaceAll('-','').slice(0,16);
 async function pinRelations(sql:Sql){const schema=(await sql.query('SELECT current_schema() AS schema')).rows[0]!.schema;assert.match(schema,/^[a-z_][a-z0-9_]*$/);await sql.query("SELECT set_config('search_path',$1,true)",[q(schema)+',pg_catalog,pg_temp']);}
 // These are personal/social data, not balances or transaction/combat journals.
 const deletes:Record<string,string>={
  sessions:'account_id=$2',trade_quotes:'account_id=$2',
+ character_quest_progress:'character_id=$1',character_loot:'character_id=$1',progression_awards:'character_id=$1',skill_allocations:'character_id=$1',
   social_reports:'reporter_id=$1 OR message_id IN (SELECT id FROM realm_messages WHERE author_id=$1 OR profile_id=$1)',
  social_moderation:'character_id=$1 OR actor_id=$1 OR message_id IN (SELECT id FROM realm_messages WHERE author_id=$1 OR profile_id=$1)',
  social_mutes:'character_id=$1',social_blocks:'character_id=$1 OR blocked_id=$1',social_user_reports:'reporter_id=$1 OR target_id=$1',
@@ -21,16 +22,16 @@ const deletes:Record<string,string>={
  competitive_attention_starts:'character_id=$1',army_attention_starts:'character_id=$1',notification_state:'character_id=$1',
  player_preferences:'character_id=$1',sound_preferences:'character_id=$1',tutorial_steps:'character_id=$1',tutorial_guides:'character_id=$1',
  community_policy_acceptances:'character_id=$1',content_policy_rejections:'character_id=$1',
- command_receipts:'account_id=$2',account_deletion_requests:'account_id=$2 AND id<>$3',
+ command_receipts:'account_id=$2',account_deletion_requests:'account_id=$2',
  authentication_limits:`key_hash IN (SELECT encode(sha256(convert_to(scope||':'||username,'UTF8')),'hex') FROM accounts WHERE id=$2)`
 };
 function expressions(table:string){
  let value='to_jsonb(t)',where='true';
  if(deletes[table])where=`NOT coalesce((${deletes[table]}),false)`;
- if(table==='accounts')value=`CASE WHEN id=$2 THEN to_jsonb(t)||jsonb_build_object('username',$4::text,'login_disabled',true) ELSE to_jsonb(t) END`;
+ if(table==='accounts')where='id<>$2';
  if(table==='champion_standings')value="CASE WHEN character_id=$1 THEN to_jsonb(t)||jsonb_build_object('eligible',false) ELSE to_jsonb(t) END";
- if(table==='characters')value=`CASE WHEN id=$1 THEN to_jsonb(t)||jsonb_build_object('name','Deleted Warrior') ELSE to_jsonb(t) END`;
- if(table==='account_deletion_requests')value=`CASE WHEN id=$3 THEN to_jsonb(t)||jsonb_build_object('status','completed','resolved_at',$5::timestamptz) ELSE to_jsonb(t) END`;
+ if(table==='characters')value=`CASE WHEN id=$1 THEN to_jsonb(t)||jsonb_build_object('name','Deleted Warrior','account_id',NULL,'identity_kind','integrity_anchor') ELSE to_jsonb(t) END`;
+
  if(table==='battles')value=`to_jsonb(t)||jsonb_build_object('snapshot',erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1),'result',erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1))`;
  if(table==='command_receipts')value=`to_jsonb(t)||jsonb_build_object('result',${receiptRedaction()})`;
  return {value,where};
@@ -59,10 +60,11 @@ async function witness(sql:Sql,params:unknown[],expected:boolean){
  for(const table of Object.keys(privacyColumns)){
   if(['account_erasures','account_erasure_checkpoints'].includes(table))continue;
   const {value,where}=expressions(table);
+  const exclude=table==='characters'?'id<>$6':privacyColumns[table]!.startsWith('character_id:')||privacyColumns[table]!.includes('|character_id:')?'character_id<>$6':'true';
   const columns=(await sql.query(`SELECT a.attname FROM pg_index i JOIN pg_attribute a ON a.attrelid=i.indrelid
    AND a.attnum=ANY(i.indkey) WHERE i.indrelid=$1::regclass AND i.indisprimary ORDER BY array_position(i.indkey,a.attnum)`,[table])).rows.map(r=>q(r.attname));
   const digest=createHash('sha256');let count=0;
-  await sql.query(`DECLARE erasure_rows NO SCROLL CURSOR FOR WITH erasure_types AS (SELECT $1::uuid AS character,$2::uuid AS account,$3::uuid AS request,$4::text AS tombstone,$5::timestamptz AS completed) SELECT sha256(convert_to((${expected?value:'to_jsonb(t)'})::text,'UTF8')) AS digest FROM ${table==='accounts'?"(SELECT id,username,created_at,login_disabled FROM accounts)":q(table)} t WHERE ${expected?where:'true'} ORDER BY ${columns.length?columns.join(','):'digest'}`,
+  await sql.query(`DECLARE erasure_rows NO SCROLL CURSOR FOR WITH erasure_types AS (SELECT $1::uuid AS character,$2::uuid AS account,$3::uuid AS request,$4::text AS redacted_name,$5::timestamptz AS completed,$6::uuid AS world_id) SELECT sha256(convert_to((${expected?value:'to_jsonb(t)'})::text,'UTF8')) AS digest FROM ${table==='accounts'?"(SELECT id,username,created_at,login_disabled FROM accounts)":q(table)} t WHERE (${expected?where:'true'}) AND (${exclude}) ORDER BY ${columns.length?columns.join(','):'digest'}`,
    // PostgreSQL needs all parameter types even when this table uses a subset.
    // A CTE below supplies them without making any data available to Node.
    params);
@@ -75,10 +77,9 @@ async function witness(sql:Sql,params:unknown[],expected:boolean){
 async function identity(sql:Sql){return (await sql.query(`SELECT current_database() AS name,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,
  encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;}
 async function preconditions(sql:Sql,intent:ErasureIntent,restore:boolean){
- const account=(await sql.query('SELECT a.id,c.id AS character_id,a.username FROM accounts a LEFT JOIN characters c ON c.account_id=a.id WHERE a.id=$1 FOR UPDATE OF a',[intent.accountId])).rows[0];
+ const account=(await sql.query('SELECT a.id,c.id AS character_id FROM accounts a LEFT JOIN characters c ON c.account_id=a.id WHERE a.id=$1',[intent.accountId])).rows[0];
  if(!account){assert.ok(restore);assert.equal((await sql.query('SELECT 1 FROM characters WHERE id=$1',[intent.characterId])).rowCount,0);return false;}
  assert.ok(account.character_id===intent.characterId,'Stale account/character identity.');
- assert.equal((await sql.query('SELECT 1 FROM accounts WHERE username=$1 AND id<>$2',[tombstone(intent.accountId),intent.accountId])).rowCount,0,'Reserved erasure identity conflict.');
  const held=(await sql.query(`SELECT
  EXISTS(SELECT 1 FROM bounties WHERE (sponsor_id=$1 OR target_id=$1 OR claimant_id=$1) AND status='active') OR
  EXISTS(SELECT 1 FROM authorized_gold_grants WHERE account_id=$2) OR
@@ -95,7 +96,8 @@ async function erase(sql:Sql,intent:ErasureIntent,policyId:string,intentDigest:s
  if(old.length){assert.equal(old.length,1);assert.equal(old[0]!.intent_sha256,intentDigest);assert.equal(old[0]!.operation_id,intent.operationId);await verifyErased(sql,intent,old[0]!.outcome);return old[0]!.outcome as string;}
  const exists=await preconditions(sql,intent,restore),now=new Date();
  if(exists){
-  const params=[intent.characterId,intent.accountId,intent.requestId,tombstone(intent.accountId),now.toISOString()];
+  const worldId=randomUUID();
+  const params=[intent.characterId,intent.accountId,intent.requestId,deletedName,now.toISOString(),worldId];
   const before=await witness(sql,params,true);
   await sql.query(`UPDATE command_receipts SET result=${receiptRedaction()} WHERE account_id<>$2 AND result IS DISTINCT FROM ${receiptRedaction()}`,params.slice(0,2));
   await sql.query(`UPDATE battles SET snapshot=erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1),result=erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1) WHERE snapshot IS DISTINCT FROM erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1) OR result IS DISTINCT FROM erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1)`,params.slice(0,2));
@@ -104,21 +106,21 @@ async function erase(sql:Sql,intent:ErasureIntent,policyId:string,intentDigest:s
    // contain the original username here, so its rate-limit keys can be erased.
    await typedQuery(sql,`DELETE FROM ${q(table)} WHERE ${predicate}`,params);
   }
-  await sql.query("UPDATE accounts SET username=$2,password_hash='!erased',login_disabled=true WHERE id=$1",[intent.accountId,tombstone(intent.accountId)]);
-  await sql.query('UPDATE characters SET name=$2 WHERE id=$1',[intent.characterId,deletedName]);
-  await sql.query("UPDATE account_deletion_requests SET status='completed',resolved_at=$2 WHERE id=$1 AND account_id=$3",[intent.requestId,now,intent.accountId]);
+  await sql.query('SELECT detach_erased_estate($1,$2,$3)',[intent.characterId,intent.accountId,worldId]);
+  await verifyNewEstate(sql,intent.characterId,worldId,now);
   const after=await witness(sql,params,false);for(const table of Object.keys(before))assert.ok(after[table]===before[table],'Erasure preservation mismatch: '+table);
  }
  const outcome=exists?'erased':'absent_in_restore';
  await sql.query(`INSERT INTO account_erasures(operation_id,account_id,character_id,request_id,intent_sha256,policy_id,source_scope_sha256,outcome,execution_proof) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,[intent.operationId,intent.accountId,intent.characterId,intent.requestId,intentDigest,policyId,sourceDigest,outcome,execution]);
  await verifyErased(sql,intent,outcome);return outcome;
 }
-async function typedQuery(sql:Sql,statement:string,params:unknown[]){return sql.query(`WITH erasure_types AS (SELECT $1::uuid AS character,$2::uuid AS account,$3::uuid AS request,$4::text AS tombstone,$5::timestamptz AS completed) ${statement}`,params);}
+async function typedQuery(sql:Sql,statement:string,params:unknown[]){return sql.query(`WITH erasure_types AS (SELECT $1::uuid AS character,$2::uuid AS account,$3::uuid AS request,$4::text AS redacted_name,$5::timestamptz AS completed,$6::uuid AS world_id) ${statement}`,params);}
 export async function verifyErased(sql:Sql,intent:ErasureIntent,outcome:string){
  if(outcome==='absent_in_restore'){assert.equal((await sql.query('SELECT 1 FROM accounts WHERE id=$1 UNION ALL SELECT 1 FROM characters WHERE id=$2',[intent.accountId,intent.characterId])).rowCount,0);return;}
- const row=(await sql.query(`SELECT a.username,a.login_disabled,c.name,account_erasure_credentials_removed(a.id) AS credentials_removed FROM accounts a JOIN characters c ON c.account_id=a.id WHERE a.id=$1 AND c.id=$2`,[intent.accountId,intent.characterId])).rows[0];
- assert.ok(row);assert.equal(row.username,tombstone(intent.accountId));assert.equal(row.name,deletedName);assert.equal(row.login_disabled,true);assert.equal(row.credentials_removed,true);
- const params=[intent.characterId,intent.accountId,intent.requestId,tombstone(intent.accountId),new Date().toISOString()];
+ const row=(await sql.query(`SELECT c.name,c.account_id,c.identity_kind,account_erasure_credentials_removed($1) AS credentials_removed FROM characters c WHERE c.id=$2`,[intent.accountId,intent.characterId])).rows[0];
+ assert.ok(row);assert.equal(row.account_id,null);assert.equal(row.identity_kind,'integrity_anchor');assert.equal(row.name,deletedName);assert.equal(row.credentials_removed,true);
+ assert.equal((await sql.query('SELECT 1 FROM accounts WHERE id=$1',[intent.accountId])).rowCount,0);
+ const params=[intent.characterId,intent.accountId,intent.requestId,deletedName,new Date().toISOString(),null];
  for(const [table,predicate] of Object.entries(deletes))assert.equal((await typedQuery(sql,`SELECT 1 FROM ${q(table)} WHERE ${predicate} LIMIT 1`,params)).rowCount,0,'Personal data remains: '+table);
  assert.equal((await sql.query(`SELECT 1 FROM battles WHERE snapshot IS DISTINCT FROM erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1)
  OR result IS DISTINCT FROM erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1) LIMIT 1`,[intent.characterId,intent.accountId])).rowCount,0,'Unreconciled battle labels.');

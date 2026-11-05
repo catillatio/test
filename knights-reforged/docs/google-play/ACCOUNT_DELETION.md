@@ -52,19 +52,41 @@ The durable external signed intent, approved policy and original execution proof
 0600 permissions and file/directory fsync. A torn file or unexpected journal entry
 blocks further processing; it is never discarded or rewritten automatically.
 
-For supported ordinary accounts, fulfillment removes credentials and linked
-personal/social rows, reserves a non-login account tombstone, redacts only typed
-identity labels in battle snapshots/results and other players' receipts, and
-completes the original request with a minimal append-only receipt including the signed proof for that actual execution. Permanent journal approvals remain verifiable after their execution window expires; freshness is required again for each new execution. It removes army
-relationships as deletion of that account's social links; future roster contribution
-naturally ceases. It never transfers/refunds gold, changes combat numbers, rewrites
-item names or creates rewards. The exact retained game records are disclosed in
-the owner decision document; **deactivation alone is not described as erasure**.
+For supported ordinary accounts, v2 fulfillment physically deletes the human
+account, credential, sessions, linked personal/social data and deletion request.
+The immutable completion receipt retains only the signed restricted audit bindings.
+The former character becomes an inaccessible `integrity_anchor` with no account;
+existing financial/combat records stay exact under an **unapproved** retention
+exception. Mutable shared reports lose typed names and account/invitation metadata.
+
+A separate, fresh accountless `abandoned` NPC receives current non-social estate
+characteristics with fresh asset IDs/clocks and zero wallet/Vault. It has no donor
+pointer in its record, receipt or external journal. Land begins accruing prospectively;
+former wallet, treasury, Vault and reserves stay sealed, never duplicated/transferred.
+The source anchor cannot be materialized and earns no further income. The bounded
+income sweeper uses the existing Land settlement/lock logic even with development
+bots disabled. No autonomous attacks, purchases, spending, posting or recruitment
+are available. Human-origin ordinary battle rewards and repeat restrictions are
+unchanged; NPC defensive wins do not progress a human/tutorial account. NPC gear
+remains usable without automated maintenance spending. Human army/social links,
+old XP progress, achievements, acquisition lots and history are not inherited.
+
+**No anonymity claim:** distinctive estates, timing and historical backups can
+still reveal the source. The owner requires no recoverable link; that property
+has **not** been established. Legal/privacy review must approve genuinely
+minimized world state before activation; otherwise change the inheritance design.
+The v2 policy and subject intent require explicit reviewed-estate attestations;
+v1 rename-only approvals fail closed. See the owner decision document, including
+the zero-wallet disposition and NPC-only maintenance decision. Passing tests does
+not supply this legal/privacy evidence or approve retained associated records.
 
 Every reviewed table/column is covered by an exact schema contract. Added unknown
 fields stop fulfillment before a journal/row write. PostgreSQL hashes every full
 row under the expected approved erasure projection; the after-state must match.
-Node receives batches of 500 digests, never full battle histories. Other password
+Node receives batches of 500 digests, never full battle histories. Fresh NPC rows
+are checked separately against the allowed estate projection, zero balances,
+new clocks and absence of personal/history records; existing rows remain covered
+by the complete preservation witness. The NPC ID is transaction-local only. Other password
 hashes are compared through a private SECURITY DEFINER witness and never returned
 as password values or logged. Credential helpers qualify the installation schema with a pg_catalog/pg_temp-only definer path; trigger paths pin the trusted schema with pg_temp last. Synthetic hostile temporary-table checks prove they cannot shadow credential verification or erased-identity guards. No credential-derived witness is published. Unrelated battle/receipt rows are not rewritten merely to store identical data. Any
 unexpected financial/data change rolls back the entire transaction.
@@ -169,3 +191,16 @@ evidence must be privately supplied and independently checked first. Output
 contains subject IDs and signatures and must never become a public Actions artifact.
 The signer emits only a fixed success/failure line. The operator never receives
 the private PEM. Do not run either command on real accounts under PR #88 approval.
+
+## Restore behavior of the independent estate
+
+A pre-erasure restore is fenced until the original durable intent is reconciled
+under a fresh exact-copy permit. It creates one fresh estate and erases the restored
+human in the same transaction. It does not import an NPC from another database or
+copy old gold/income. A backup containing the completed receipt already contains
+its NPC; receipt replay performs no further estate creation. Retries use the
+original operation, never a new donor-to-NPC mapping. A restore predating the human
+records absence and invents neither human nor NPC. These copy-local world IDs may
+differ after old-backup reconciliation; old NPC references absent from that backup
+are not reconstructed from private identity data. This is not a production restore
+authorization or permission to weaken existing independent recovery checks.

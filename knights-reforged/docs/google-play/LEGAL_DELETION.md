@@ -12,6 +12,10 @@ It queues an authenticated request for account and associated-data deletion. It 
 
 Credentials, sessions, identifiable character/profile data, social content, reports and links must be reviewed for erasure or irreversible de-identification. Shared battle reports, financial ledgers, bounty escrow and other players’ records cannot be blindly cascade-deleted. Any retained record needs a documented legitimate purpose, minimized fields, access controls and a defined expiry.
 
+## Proposed abandoned kingdoms
+
+Not yet active: approved fulfillment would delete the human login account and personal/social data, and leave an independent accountless NPC with a fresh identity, equipment and Land capacity. It cannot log in, be reclaimed, post, recruit, purchase or spend. Its new wallet starts at zero and earns future Land income; former wallet and Vault funds remain sealed in restricted integrity records. Exact inherited estates and historical backups can still be linkable, so genuine de-identification and narrowly justified retention require legal/privacy review before activation. This is not a promise that associated records are already anonymous.
+
 ## Backups and recovery
 
 Encrypted backups and recovery copies require a documented expiry and erasure-reapplication process before any restored copy becomes active. This feature does not change existing recovery protections or authorize recovery-copy retirement.

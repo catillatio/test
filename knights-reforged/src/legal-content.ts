@@ -28,7 +28,7 @@ export const legalPages = {
       ],
       [
         "Deletion and retention",
-        "Request account and associated-data deletion at /account-deletion or through Settings. A request is not completed deletion and does not silently erase other players’ shared financial or battle history. The fulfillment review must remove credentials, sessions, identifiable profile/social data and account associations, and separately document any narrowly justified retained record. Backup expiry, restore-time erasure handling, response time and legally justified retention periods: [OWNER TO COMPLETE]."
+        "Request account and associated-data deletion at /account-deletion or through Settings. A request is not completed deletion and does not silently erase other players’ shared financial or battle history. The fulfillment review must remove credentials, sessions, identifiable profile/social data and account associations, and separately document any narrowly justified retained record. The proposed independent abandoned-kingdom NPC earns future Land income with a new zero wallet; former balances and restricted shared-history anchors are not transferred. Inherited estate linkability remains a legal/privacy activation blocker. Backup expiry, restore-time erasure handling, response time and legally justified retention periods: [OWNER TO COMPLETE]."
       ],
       [
         "Rights, age and updates",
@@ -104,6 +104,10 @@ export const legalPages = {
       [
         "Fulfillment requirements",
         "Credentials, sessions, identifiable character/profile data, social content, reports and links must be reviewed for erasure or irreversible de-identification. Shared battle reports, financial ledgers, bounty escrow and other players’ records cannot be blindly cascade-deleted. Any retained record needs a documented legitimate purpose, minimized fields, access controls and a defined expiry."
+      ],
+      [
+        "Proposed abandoned kingdoms",
+        "Not yet active: approved fulfillment would delete the human login account and personal/social data, and leave an independent accountless NPC with a fresh identity, equipment and Land capacity. It cannot log in, be reclaimed, post, recruit, purchase or spend. Its new wallet starts at zero and earns future Land income; former wallet and Vault funds remain sealed in restricted integrity records. Exact inherited estates and historical backups can still be linkable, so genuine de-identification and narrowly justified retention require legal/privacy review before activation. This is not a promise that associated records are already anonymous."
       ],
       [
         "Backups and recovery",

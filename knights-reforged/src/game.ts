@@ -28,7 +28,7 @@ import {contentCatalog,equipmentCatalogFor} from './expansion-content.js';
 import {resolveArmy} from './compatibility-rules.js';
 
 export interface CharacterRow {
-  development_bot?:boolean;id:string;account_id:string;name:string;xp:number;health:number;energy:number;
+  identity_kind?:'human'|'abandoned'|'integrity_anchor';development_bot?:boolean;id:string;account_id:string|null;name:string;xp:number;health:number;energy:number;
   health_updated_at:Date;energy_updated_at:Date;attack_ready_at:Date;state_version:number;
   max_health:number;mana:number;max_mana:number;spirit:number;max_spirit:number;
   mana_updated_at:Date;spirit_updated_at:Date;attained_level:number;level_xp:number;
@@ -63,10 +63,12 @@ export async function lockCharacters(sql:Sql,ids:string[]) {
   return rows;
 }
 export async function materialize(sql:Sql,row:CharacterRow,now:Date):Promise<CharacterRow> {
+  if(row.identity_kind==='integrity_anchor')throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
+  const abandoned=row.identity_kind==='abandoned';
   const landChanged=await settleLand(sql,row.id,now,progressionEconomy.id);
-  const upkeepChanged=await settleMaintenance(sql,row.id,now);
+  const upkeepChanged=!abandoned&&await settleMaintenance(sql,row.id,now);
   const isBot=row.development_bot??!!(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[row.id])).rows.length;
-  const automaticallyFunded=!isBot&&await automaticallyFundMaintenance(sql,row.id,now,landChanged);
+  const automaticallyFunded=!isBot&&!abandoned&&await automaticallyFundMaintenance(sql,row.id,now,landChanged);
   const botChanged=isBot?await settleBotFinance(sql,row.id,now):false;
   const hp=regenerate(row.health,row.max_health,new Date(row.health_updated_at),now,recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),alpha.resources.healthAmount);
   const mana=regenerate(row.mana,row.max_mana,new Date(row.mana_updated_at),now,recoverySeconds(row.profile_class,'mana',alpha.resources.manaSeconds));
@@ -115,7 +117,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
     battle_victories::int AS wins,battle_defeats::int AS losses,bounty_claims::int AS kills,bounty_deaths::int AS deaths,
     COALESCE((SELECT health_knockouts FROM legacy_field_statistics WHERE character_id=$1),0)::int AS "legacyKnockouts"
     FROM champion_standings WHERE character_id=$1`,[row.id])).rows[0] as CharacterState['battleStats'];
-  const accountCreated=new Date((await sql.query('SELECT created_at FROM accounts WHERE id=$1',[row.account_id])).rows[0]!.created_at);
+  const accountCreated=new Date(row.account_id?(await sql.query('SELECT created_at FROM accounts WHERE id=$1',[row.account_id])).rows[0]!.created_at:now);
   const untrainedAttack=rules.baseAttack+(row.attained_level-1)*rules.attackPerLevel+(army.participants-1)*rules.unit.attack+attackEquipment.attack;
   const untrainedDefense=rules.baseDefense+(row.attained_level-1)*rules.defensePerLevel+(army.participants-1)*rules.unit.defense+defenseEquipment.defense;
   const nextLevel=[...alpha.items,...alpha.quests,...alpha.properties].filter(item=>item.level>row.attained_level).reduce((n,item)=>Math.min(n,item.level),Infinity);
@@ -123,7 +125,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   const incomeReceipt=(await sql.query('SELECT transaction_id AS id,gold,created_at AS "createdAt" FROM character_income_feedback WHERE character_id=$1',[row.id])).rows[0] as {id:string;gold:number;createdAt:string}|undefined;
   const requirement=requirementForEpoch(row.attained_level,await readProgressionEpoch(sql,row.id));
   const equipmentDiscoveries=world.expanded?(await sql.query(`SELECT e.item_id,e.quantity,e.created_at FROM inventory_acquisition_events e WHERE e.character_id=$1 AND e.source_kind='quest_drop' ORDER BY e.created_at DESC,e.id DESC LIMIT 8`,[row.id])).rows.map(e=>({itemId:e.item_id,name:equipmentCatalog.definition(e.item_id)!.name,quantity:e.quantity,createdAt:new Date(e.created_at).toISOString()})):[];
-  return {...(world.expanded?{equipmentDiscoveries,rareEquipmentEnabled:world.rareDrops}:{}),incomeReceipt:incomeReceipt??null,healing:healingQuote(row.health,row.max_health,row.attained_level,wallet.balance),payment:upcomingPayment(land,upkeep,wallet.balance,now,!isBot),nextUnlock,invitationCode:await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:requirement,xpToNext:requirement-row.level_xp,
+  return {...(world.expanded?{equipmentDiscoveries,rareEquipmentEnabled:world.rareDrops}:{}),incomeReceipt:incomeReceipt??null,healing:healingQuote(row.health,row.max_health,row.attained_level,wallet.balance),payment:upcomingPayment(land,upkeep,wallet.balance,now,!isBot),nextUnlock,invitationCode:row.identity_kind==='abandoned'?'':await invitationCode(sql,row.id),id:row.id,name:row.name,xp:row.xp,level:row.attained_level,levelXp:row.level_xp,levelRequirement:requirement,xpToNext:requirement-row.level_xp,
     health:row.health,maxHealth:row.max_health,mana:row.mana,maxMana:row.max_mana,spirit:row.spirit,maxSpirit:row.max_spirit,energy:row.mana,
     bankedGold:(await sql.query('SELECT balance FROM vault_accounts WHERE character_id=$1',[row.id])).rows[0]?.balance??0,gold:wallet.balance,units,attack:callingPower(trainedPower(untrainedAttack,row.attack_training),calling.attackPercent),defense:callingPower(trainedPower(untrainedDefense,row.defense_training),calling.defensePercent),
     equipped:Boolean(sword),inventoryId:sword?.inventoryId??null,inventory,questsCompleted:progress.reduce((n,p)=>n+p.completions,0),quests,loot,awards,
@@ -163,7 +165,7 @@ async function chronologicalOpponents(db:Database,characterId:string,cursor?:str
   const rows=(await db.query(`SELECT c.*,b.tier AS bot_tier,b.recovered_at AS bot_recovered_at,to_char(c.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_at,
     (SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
     (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted' AND (NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END) OR ($8 AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END AND d.active)))) AS allies
-    FROM characters c JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots b ON b.character_id=c.id WHERE c.id<>$1 AND (NOT a.login_disabled OR b.character_id IS NOT NULL) AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
+    FROM characters c LEFT JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots b ON b.character_id=c.id WHERE c.id<>$1 AND ((a.id IS NOT NULL AND NOT a.login_disabled) OR b.character_id IS NOT NULL OR to_jsonb(c)->>'identity_kind'='abandoned') AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
     AND (b.character_id IS NULL OR ($7 AND b.active))
     AND ($4::timestamptz IS NULL OR (c.created_at,c.id)<($4::timestamptz,$5::uuid))
     ORDER BY c.created_at DESC,c.id DESC LIMIT 21`,[characterId,actor.attained_level-range,actor.attained_level+range,after,afterId,actor.attained_level,developmentBotsEnabled,developmentBotRecruitmentEnabled])).rows;
@@ -199,8 +201,8 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
  const seek=async(half:number,last:string|null,limit:number)=>(await db.query(`SELECT c.*,b.tier AS bot_tier,$9::int AS rotation_phase,
   (SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
   (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted' AND (NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END) OR ($8 AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END AND d.active)))) AS allies
-  FROM characters c JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots b ON b.character_id=c.id
-  WHERE c.id<>$1 AND (NOT a.login_disabled OR b.character_id IS NOT NULL)
+  FROM characters c LEFT JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots b ON b.character_id=c.id
+  WHERE c.id<>$1 AND ((a.id IS NOT NULL AND NOT a.login_disabled) OR b.character_id IS NOT NULL OR to_jsonb(c)->>'identity_kind'='abandoned')
   AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
   AND (b.character_id IS NULL OR ($7 AND b.active))
   AND (($9=0 AND c.id>$4::uuid) OR ($9=1 AND c.id<=$4::uuid)) AND ($5::uuid IS NULL OR c.id>$5::uuid)

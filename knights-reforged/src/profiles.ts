@@ -28,9 +28,9 @@ export function ownedProperties(state:CharacterState){
 export async function publicProfile(db:Database,characterId:string,runtime:GameRuntime={}){
   return transaction(db,async sql=>{
     if(expansionBotIds.has(characterId)&&!(await installedCohort(sql))?.active)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
-    const identity=(await sql.query(`SELECT a.login_disabled,EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS bot
-      FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.id=$1`,[characterId])).rows[0];
-    if(!identity||identity.login_disabled&&!identity.bot)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
+    const identity=(await sql.query(`SELECT c.account_id,to_jsonb(c)->>'identity_kind' AS identity_kind,a.login_disabled,EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS bot
+      FROM characters c LEFT JOIN accounts a ON a.id=c.account_id WHERE c.id=$1`,[characterId])).rows[0];
+    if(!identity||identity.identity_kind==='integrity_anchor'||!identity.account_id&&identity.identity_kind!=='abandoned'||identity.login_disabled&&!identity.bot)throw new GameError('CHARACTER_NOT_FOUND','That warrior is not available.',404);
     const [row]=await lockCharacters(sql,[characterId]);const now=await clock(sql);
     const state=await stateFrom(sql,await materialize(sql,row!,now),now,runtime);
     const bot=(await sql.query('SELECT tier,active FROM development_bots WHERE character_id=$1',[characterId])).rows[0];
@@ -41,7 +41,7 @@ export async function publicProfile(db:Database,characterId:string,runtime:GameR
       questsCompleted:state.questsCompleted,accountAgeDays:state.accountAgeDays,
       battleStats:state.battleStats,economy:state.economy,army:{participants:state.army.participants,capacity:state.army.capacity,total:state.army.total,allies:state.army.allies,mercenaries:state.army.mercenaries},
       inventory:state.inventory.filter(item=>item.quantity>0).map(({inventoryId,resaleSteps,maxSell,...item})=>item),
-      properties:ownedProperties(state),temporaryRival:!!bot,botTier:bot?.tier??null,botActive:!!bot?.active,
+      properties:ownedProperties(state),abandonedKingdom:row!.identity_kind==='abandoned',temporaryRival:!!bot,botTier:bot?.tier??null,botActive:!!bot?.active,
       calling:{description:state.calling.description,attackPercent:state.calling.attackPercent,defensePercent:state.calling.defensePercent}};
   });
 }
@@ -58,7 +58,7 @@ export function attackAvailability(actor:CharacterState,target:Pick<PublicProfil
 export async function recruitmentAvailability(db:Database,actor:CharacterState,target:PublicProfile,botRecruitmentEnabled:boolean){
  const pair=[actor.id,target.id].sort();
  const link=(await db.query('SELECT status,inviter_id FROM army_links WHERE low_id=$1 AND high_id=$2',pair)).rows[0];
- const reason=actor.id===target.id?'You cannot invite yourself.':link?.status==='accepted'?'Already in your army.':link?.status==='pending'?(link.inviter_id===actor.id?'Army request pending their acceptance.':'They invited you. Accept or reject in Recruit → My Army.'):
+ const reason=target.abandonedKingdom?'Abandoned kingdoms cannot join armies.':actor.id===target.id?'You cannot invite yourself.':link?.status==='accepted'?'Already in your army.':link?.status==='pending'?(link.inviter_id===actor.id?'Army request pending their acceptance.':'They invited you. Accept or reject in Recruit → My Army.'):
   target.temporaryRival&&(!botRecruitmentEnabled||!target.botActive)?'Temporary-rival recruitment is disabled.':
   target.temporaryRival&&actor.army.total>=actor.army.capacity?'Your active army is full. Increase your level or release a member first.':null;
  return {allowed:!reason,reason,status:link?.status??'none',automatic:target.temporaryRival&&botRecruitmentEnabled};

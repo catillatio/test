@@ -26,7 +26,7 @@ Account data enables sign-in, server-authoritative gameplay, security, support a
 
 ## Deletion and retention
 
-Request account and associated-data deletion at /account-deletion or through Settings. A request is not completed deletion and does not silently erase other players’ shared financial or battle history. The fulfillment review must remove credentials, sessions, identifiable profile/social data and account associations, and separately document any narrowly justified retained record. Backup expiry, restore-time erasure handling, response time and legally justified retention periods: [OWNER TO COMPLETE].
+Request account and associated-data deletion at /account-deletion or through Settings. A request is not completed deletion and does not silently erase other players’ shared financial or battle history. The fulfillment review must remove credentials, sessions, identifiable profile/social data and account associations, and separately document any narrowly justified retained record. The proposed independent abandoned-kingdom NPC earns future Land income with a new zero wallet; former balances and restricted shared-history anchors are not transferred. Inherited estate linkability remains a legal/privacy activation blocker. Backup expiry, restore-time erasure handling, response time and legally justified retention periods: [OWNER TO COMPLETE].
 
 ## Rights, age and updates
 

@@ -20,3 +20,13 @@ No runtime third-party analytics request was identified in the inspected scripts
 Deletion request routes are implemented; completed fulfillment, immutable-record treatment, backup expiry and lost-access support remain release blockers. Do not declare deletion fully supported until those operational requirements are met.
 
 Owner reviews required/optional collection, purposes, sharing/service-provider exceptions, encryption, deletion and retention against the actual complete service. [Data Safety guidance](https://support.google.com/googleplay/android-developer/answer/10787469) and [User Data](https://support.google.com/googleplay/android-developer/answer/10144311).
+
+
+Graveyard candidate (disabled): fulfillment deletes the login account and personal
+content and separates a new accountless NPC from the old historical anchor. No
+successor mapping is retained in application receipts/journal. Inherited estate
+fingerprints, timestamps, backups and retained records can still be associated
+with the former human; **do not classify these as anonymous without substantive
+privacy review**. The NPC begins at zero gold and earns future real Land income;
+former balances remain restricted. Owner review must approve/minimize each retained
+category and its duration, or reject the candidate. See privacy/OWNER_DECISIONS.md.

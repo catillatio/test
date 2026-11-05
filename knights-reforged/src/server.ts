@@ -1,6 +1,6 @@
 import {assertErasureFence} from './privacy/erasure.js';
 import {startBotCombat} from './bot-combat.js';
-import {startBotIncome} from './bot-income.js';
+import {startBotIncome,startAbandonedIncome} from './bot-income.js';
 import {startBotEconomy} from './bot-economy.js';
 import { loadConfig } from './config.js';
 import { createDatabase } from './db.js';
@@ -12,6 +12,7 @@ const config = loadConfig();
 const db = createDatabase(config.databaseUrl);
 const app = await createApp({ db, config, logger: true });
 let stopBotIncome=async()=>{};
+let stopAbandonedIncome=async()=>{};
 let stopBotEconomy=async()=>{};
 let stopBotCombat=async()=>{};
 try {
@@ -23,6 +24,7 @@ try {
   await app.listen({ host: config.host, port: config.port });
   app.log.info({event:'realm_origin_configuration',origin:config.origin,originSource:config.originSource,
     codespacesOrigin:config.codespacesOrigin,port:config.port,secureCookies:config.secureCookies},'Resolved realm origin');
+  stopAbandonedIncome=startAbandonedIncome(db,()=>app.log.error('Abandoned kingdom income check failed; saved cursors remain authoritative.'));
   stopBotIncome=startBotIncome(db,config.developmentBotsEnabled,error=>app.log.error({err:error},'Passive rival income check failed; saved cursors will retry.'));
   stopBotEconomy=startBotEconomy(db,config.livingBotEconomyEnabled,()=>app.log.error('Autonomous rival purchase check failed; committed decisions will not repeat.'));
   stopBotCombat=startBotCombat(db,config.livingBotCombatEnabled,()=>app.log.error('Autonomous rival duel check failed; committed battles will not repeat.'));
@@ -33,5 +35,5 @@ try {
   process.exit(1);
 }
 for (const signal of ['SIGINT', 'SIGTERM']) {
-  process.once(signal, async () => { await stopBotCombat(); await stopBotEconomy(); await stopBotIncome(); await app.close(); await db.end(); process.exit(0); });
+  process.once(signal, async () => { await stopBotCombat(); await stopBotEconomy(); await stopBotIncome(); await stopAbandonedIncome(); await app.close(); await db.end(); process.exit(0); });
 }

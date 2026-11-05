@@ -31,7 +31,7 @@ export async function socialSafety(db:Database,accountId:string,targetId:string,
   if(!actor)throw new GameError('SIGN_IN_REQUIRED','Sign in to manage social safety.',401);
   if(actor===targetId)throw new GameError('SELF_SOCIAL_ACTION','Choose another player.');
   const locked=await lockCharacters(sql,[actor,targetId]);
-  if(!locked.some(row=>row.id===targetId)||(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[targetId])).rowCount)
+  if(!locked.some(row=>row.id===targetId&&row.account_id!==null)||(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[targetId])).rowCount)
    throw new GameError('PLAYER_UNAVAILABLE','Choose a human player.',404);
   if(action==='block')await sql.query('INSERT INTO social_blocks(character_id,blocked_id) VALUES($1,$2) ON CONFLICT DO NOTHING',[actor,targetId]);
   else if(action==='unblock')await sql.query('DELETE FROM social_blocks WHERE character_id=$1 AND blocked_id=$2',[actor,targetId]);

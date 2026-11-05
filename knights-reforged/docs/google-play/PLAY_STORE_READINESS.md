@@ -18,7 +18,7 @@ PASS means the listed source/local evidence exists. Exact-head CI artifacts and 
 | API36 target / min API26 | PASS | `android/app/build.gradle`; actual compiled bundle report required in Android CI |
 | Release AAB build/inspection pipeline | PASS | `bundleRelease`, official checksum-pinned bundletool, `verify-bundle.py`; see artifact report for actual result |
 | Final signed uploadable AAB | NEEDS OWNER INFORMATION | No owner signing key or permanent package ID provided; CI candidate is explicitly UNSIGNED_NOT_UPLOADABLE |
-| Permanent ID / version / update compatibility | NEEDS OWNER INFORMATION | Preview `game.kingdomcome.alpha`, debug `.debug`, version 2 / 0.2.0-beta.1; protected signer refuses preview ID |
+| Permanent ID / version / update compatibility | PREFERRED ID UNCONFIRMED | Owner prefers `game.kingdomcome.rpg`; `game.kingdomcome.realm` is fallback only if the first is unavailable. No authenticated Play registration eligibility evidence is available. Preview `game.kingdomcome.alpha`, debug `.debug`, version 2 / 0.2.0-beta.1; protected signer refuses preview ID |
 | Release non-debuggable / sole Internet permission | PASS | Release build type and compiled-manifest verifier; confirm exact-head artifact |
 | Restricted WebView / HTTPS / cookies | PASS | `NavigationPolicy`, shared `WebViewSecurity`; no JS bridge, file/content/mixed access or third-party cookies |
 | Private upload-key preparation | PASS | Separate manual protected `android-release` workflow; no generated owner key, public cert match, no Play upload |
@@ -31,12 +31,12 @@ PASS means the listed source/local evidence exists. Exact-head CI artifacts and 
 | Public privacy/terms/community/deletion pages | PASS | `/legal/*`, `/account-deletion`; visibly review drafts, no fabricated contact or retention claims |
 | Final legal/publisher policy text | NEEDS OWNER INFORMATION | Owner completes marked fields; owner reviews all legal claims, target audience, contacts, countries and retention |
 | In-app and public deletion request | PASS | Settings/footer and public form, password reconfirmation, CSRF/origin/rate limits, concurrent deduplication; actual PostgreSQL tests |
-| Completed erasure and backup-restore erasure handling | IMPLEMENTED; PRODUCTION BLOCKED | Synthetic fulfillment/real isolated restore implementation tested; production remains blocked on signed owner policy, protected operator/journal installation and operational acceptance; see ACCOUNT_DELETION.md |
+| Completed erasure and backup-restore erasure handling | IMPLEMENTED; PRODUCTION BLOCKED | Physical human-account deletion and separate abandoned-NPC candidate implemented; genuine estate de-identification is NOT established. Synthetic fulfillment/real isolated restore tested; production remains blocked on signed owner policy, protected operator/journal installation and operational acceptance; see ACCOUNT_DELETION.md |
 | UGC prior Terms/Guidelines acceptance | PASS | Explicit checkbox plus versioned server-side consent before posting; no fabricated historic consent |
 | UGC message and player reporting / blocks | PASS | Existing message reports + new human reports, reversible social blocks, bidirectional comment checks and feed/notification filtering |
 | Moderation operational handling | NEEDS OWNER INFORMATION | Existing private operator queue/hide/restore/timed mute, user reports added to queue; publisher supplies staffing, escalation and appeals/contact rules |
 | Account authentication / sessions / logout | PASS | Existing Argon2id, HTTP-only SameSite cookie, secure HTTPS mode, session expiry and logout unchanged; existing CI and new tests apply |
-| Financial/gameplay formula preservation | PASS | No combat/economy ruleset or finance implementation modified; request-stage snapshots + browser/command regression tests |
+| Financial/gameplay formula preservation | PASS | No loot/XP/economy formula or finance engine changed. New accountless NPC paths preserve ordinary human-origin attack rewards; synthetic conservation/restore tests cover the new estate. NPC-only no-spending/zero-wallet inheritance requires policy review |
 | Provider logs, storage access/locations and expiry | NOT VERIFIED | No production credential/log dump; owner/provider practice confirmation required |
 | Data Safety / App Content worksheets | PASS | Accurate drafts with unknowns in DATA_SAFETY.md and APP_CONTENT.md; no submission |
 | Native analytics/ads/billing/push | PASS | No SDK or permission found in native client; service-side changes still require review |
@@ -75,3 +75,51 @@ Do not claim final signing, data erasure, Android-device coverage or legal/Play 
 The successful baseline remains evidence: full application CI [41971121789](https://github.com/catillatio/test/actions/runs/41971121789) passed all 10 jobs; Android [41971121805](https://github.com/catillatio/test/actions/runs/41971121805) passed all 3 jobs. Baseline unsigned AAB SHA-256 `660498964838e73c87ab04104e543c24c7304777eaf5098facc8931766351b5b`; signing state **UNSIGNED_NOT_UPLOADABLE**. The native Android app, packaging, signing and emulator matrices are unchanged; sanitized installer diagnostics and strict installed-pair reconciliation are added; no redundant SDK build is required to rediscover those results. Final application CI for this continuation is linked from PR #88. A final owner-signed AAB still requires the permanent ID and existing private upload key, plus the protected exact-production-head gate; the unsigned artifact must never be submitted as a release.
 
 The production baseline was rechecked read-only: branch `9429e88365d112f5597371c7aa811110f967558d`, deployment `f2f680d5-1e96-4d7c-83ce-89b4e67e3168`, expected digest `74d2ac2dffa0fa6f842b6013182e86df702d4bb14d2cbdfa6eeb3d89aff30504`, no staged changes. No real account, production database, Railway setting, recovery copy or deployment was changed. The final diff remains Kingdom Come only.
+
+
+## Owner decisions continuation from e597d69
+
+The owner approved a permanent independent abandoned-kingdom gameplay direction.
+The v2 candidate physically removes the human account and creates a separate
+accountless NPC with fresh IDs, no identity mapping and a zero starting wallet;
+only future genuine Land income funds its loot. Existing shared financial anchors
+remain private/inert under a proposed exception. Mutable personal progress is
+removed. No erasure, production role, credential, key or recovery operation was
+activated by development. See [the decision analysis](privacy/OWNER_DECISIONS.md).
+
+**Privacy blocker:** exact inherited estates, timing, retained battle snapshots,
+backups and provider SQL/WAL records can remain linkable. Identity separation alone
+does not establish the owner's no-recoverable-link requirement. Real privacy/legal
+review and any required minimization must precede activation; no compliance claim
+is made. The zero-wallet/sealed former funds, NPC-only no-spending treatment and
+narrow retained-history purposes/periods also require final approval. The signed
+v2 policy and each intent must attest actual estate review; v1 approvals fail.
+
+**Android identity:** preferred `game.kingdomcome.rpg`, fallback
+`game.kingdomcome.realm`. No authenticated Google Play Console/package registration
+capability is connected; neither is confirmed available and no public search was
+used as a substitute. Production packaging remains blocked on actual Console
+confirmation and private upload-key setup. The parameterized packaging/signing/
+artifact verifier already binds the same `ANDROID_APPLICATION_ID` throughout.
+`game.kingdomcome.alpha` remains a non-uploadable preview identifier; public title
+**Kingdom Come** is unchanged. Creating a Console app/listing alone does not prove
+package registration. Any later signed-artifact upload requires its own owner action.
+
+Prior exact-head evidence at e597d69 remains valid for unchanged Android inputs:
+[application 41988484221](https://github.com/catillatio/test/actions/runs/41988484221)
+passed 10/10 jobs and [Android 41988484099](https://github.com/catillatio/test/actions/runs/41988484099)
+passed the bundle plus API29/API36 jobs. Its AAB is **UNSIGNED_NOT_UPLOADABLE**.
+The continuation's final exact-head checks are linked in PR #88; earlier green
+checks do not substitute for changed backend tests. No native application,
+signing workflow, SDK, security configuration, or emulator matrix was changed.
+
+
+Continuation verification before final CI: typecheck/build passed; static project
+checks passed 99 assertions and 77 production EJS cases. Focused disposable
+PostgreSQL tests passed all 10 deletion/graveyard cases (including levels
+50/75/100, real custom-format backup/restore, interrupted transaction rollback,
+restricted operator, concurrent income sweeps, replay, repeat-target human loot,
+wallet conservation and unreclaimability). The two private-approval tests and four
+Android release-contract tests passed. No test was removed or skipped. The final
+GitHub exact-head CI results and artifacts are recorded on the existing PR; no
+production write, recovery rehearsal, merge, deployment or Play upload is authorized.

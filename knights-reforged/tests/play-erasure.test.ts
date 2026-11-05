@@ -1,3 +1,4 @@
+import {humanVictoryLoot} from '../src/human-pvp-loot.js';
 import {alpha} from '../src/alpha-rules.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -10,24 +11,26 @@ import {requestAccountDeletion} from '../src/account-safety.js';
 import {fulfillErasure,assertErasureFence} from '../src/privacy/erasure.js';
 import {sha256,authorize,type SignedRecord} from '../src/privacy/authorization.js';
 import {emptyRoot,readJournal} from '../src/privacy/journal.js';
-import {createSession,authenticate} from '../src/auth.js';
+import {registerAccount,createSession,authenticate} from '../src/auth.js';
 import {executeCommand} from '../src/commands.js';
-import {getState} from '../src/game.js';
+import {publicProfile,recruitmentAvailability} from '../src/profiles.js';
+import {settleDueAbandonedIncome} from '../src/bot-income.js';
+import {listOpponents,getState} from '../src/game.js';
 const keys=generateKeyPairSync('ed25519'),publicKey=keys.publicKey.export({format:'pem',type:'spki'}).toString();
 const signed=(payload:unknown):SignedRecord=>{const bytes=Buffer.from(JSON.stringify(payload));return{payload:bytes.toString('base64url'),signature:sign(null,bytes,keys.privateKey).toString('base64url')};};
 const codeSha='a'.repeat(40),candidateDigest='d'.repeat(64);
-async function fixture(){
- const r=await realm({isolated:true}),directory=await mkdtemp(join(tmpdir(),'erasure-test-'));await chmod(directory,0o700);
+async function fixture(clock?:()=>Date){
+ const r=await realm({isolated:true,clock}),directory=await mkdtemp(join(tmpdir(),'erasure-test-'));await chmod(directory,0o700);
  const a=await r.player('Erase Subject'),b=await r.player('Other Warrior');
  const live=(await r.db.query(`SELECT current_database() AS database,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;
  const scope={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),database:live.database,clusterDigest:live.cluster};
- const policy=signed({protocol:'kingdom-erasure-policy-v1',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-at-fulfillment',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
- const request=await requestAccountDeletion(r.db,a.accountId),intent=signed({protocol:'kingdom-erasure-intent-v1',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,issuedAt:new Date().toISOString()});
+ const policy=signed({protocol:'kingdom-erasure-policy-v2',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'delete-human-account-at-fulfillment',graveyard:'independent-estate-zero-wallet-v1',estateDeidentificationReview:'approved',formerWallet:'sealed-integrity-anchor-no-transfer',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
+ const request=await requestAccountDeletion(r.db,a.accountId),intent=signed({protocol:'kingdom-erasure-intent-v2',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,estateDeidentificationReviewed:true,issuedAt:new Date().toISOString()});
  const permit=async(mode='fulfill')=>{const state=await readJournal(directory,publicKey);return signed({protocol:'kingdom-erasure-execution-v1',mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:live.database,targetOid:live.oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()});};
  const options=async(mode='fulfill')=>({enabled:true,publicKey,policy,intent,permit:await permit(mode),journalPath:directory,codeSha,candidateDigest});
  return{r,a,b,directory,policy,intent,options,close:async()=>{await r.close();await rm(directory,{recursive:true,force:true});}};
 }
-async function finances(r:Awaited<ReturnType<typeof realm>>){return JSON.stringify((await r.db.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t) AS land`)).rows);}
+async function finances(r:Awaited<ReturnType<typeof realm>>){return JSON.stringify((await r.db.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS land`)).rows);}
 
 test('signed ordinary fulfillment erases credentials/content, preserves money and report numbers, rejects stale sessions and command replay',async()=>{
  const f=await fixture(),{r,a,b}=f;
@@ -39,7 +42,7 @@ test('signed ordinary fulfillment erases credentials/content, preserves money an
   await r.db.query("INSERT INTO social_moderation(id,message_id,character_id,actor_id,operator_label,action,reason,created_at) VALUES($1,$2,$3,$4,'synthetic','operator_hide','personal text',now())",[randomUUID(),message,a.id,b.id]);
   await r.db.query("INSERT INTO notification_reads(character_id,kind,event_id) VALUES($1,'comment',$2)",[b.id,message]);
   const battleId=randomUUID(),commandId=randomUUID(),result={attackerId:a.id,defenderId:b.id,attackerName:'Erase Subject',defenderName:'Other Warrior',winnerId:a.id,winnerName:'Erase Subject',gold:750,xp:11,attackEquipment:[{id:'sword',name:'Erase Subject'}]};
-  await r.db.query(`INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,created_at) VALUES($1,$2,$3,'${alpha.id}','attacker_win',$4,$5,now())`,[battleId,a.id,b.id,{attacker:{id:a.id,name:'Erase Subject'},defender:{id:b.id,name:'Other Warrior'}},result]);
+  await r.db.query(`INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,created_at) VALUES($1,$2,$3,'${alpha.id}','attacker_win',$4,$5,now())`,[battleId,a.id,b.id,{attacker:{id:a.id,name:'Erase Subject',accountId:a.accountId,invitationCode:'PRIVATE-CODE',accountCreatedAt:'1990-01-01',accountAgeDays:100},defender:{id:b.id,name:'Other Warrior'}},result]);
   await r.db.query(`INSERT INTO command_receipts(account_id,command_id,kind,intent_hash,result) VALUES($1,$2,'attack','fixture',$3)`,[b.accountId,commandId,{message:'Erase Subject won the battle.',data:{battle:result}}]);
   const third=await r.player('Third Warrior'),untouched=randomUUID();
   await r.db.query(`INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,created_at) VALUES($1,$2,$3,'${alpha.id}','attacker_win','{}','{}',now())`,[untouched,b.id,third.id]);
@@ -49,14 +52,15 @@ test('signed ordinary fulfillment erases credentials/content, preserves money an
   assert.equal((await r.db.query('SELECT count(*)::int AS n FROM realm_messages')).rows[0]!.n,0);
   const report=(await r.db.query('SELECT snapshot,result FROM battles WHERE id=$1',[battleId])).rows[0]!;
   assert.equal(report.result.attackerName,'Deleted Warrior');assert.equal(report.result.winnerName,'Deleted Warrior');assert.equal(report.snapshot.attacker.name,'Deleted Warrior');
-  assert.equal(report.result.defenderName,'Other Warrior');assert.deepEqual(report.result.attackEquipment,result.attackEquipment);assert.equal(report.result.gold,750);assert.equal(report.result.xp,11);
+  assert.equal(report.result.defenderName,'Other Warrior');assert.deepEqual(report.result.attackEquipment,result.attackEquipment);assert.equal(report.snapshot.attacker.accountId,undefined);assert.equal(report.snapshot.attacker.invitationCode,undefined);assert.equal(report.snapshot.attacker.accountCreatedAt,undefined);assert.equal(report.snapshot.attacker.accountAgeDays,undefined);assert.equal(report.result.gold,750);assert.equal(report.result.xp,11);
   const receipt=(await r.db.query('SELECT result FROM command_receipts WHERE command_id=$1',[commandId])).rows[0]!.result;assert.equal(receipt.message,'Action recorded.');assert.equal(receipt.data.battle.attackerName,'Deleted Warrior');
   await assert.rejects(authenticate(r.db,username,'AlphaTest!2026'));
   await assert.rejects(createSession(r.db,a.accountId));await assert.rejects(getState(r.db,a.accountId));await assert.rejects(executeCommand(r.db,a.accountId,randomUUID(),'profile',{className:'Warden'}));
   const revoked=await r.app.inject({url:'/api/v1/me',headers:{cookie:a.cookie}});assert.notEqual(revoked.statusCode,200);assert.equal(revoked.headers['clear-site-data'],undefined,'Expiry/session loss must not erase a safe pending purchase');
   assert.equal((await r.me(b)).name,'Other Warrior');
   const logout=await r.app.inject({method:'POST',url:'/logout',headers:{cookie:b.cookie,origin:'http://localhost:3000'},payload:{csrf:b.csrf}});assert.equal(logout.statusCode,303);assert.equal(logout.headers['clear-site-data'],'"storage", "cache"');
-  assert.equal((await r.db.query('SELECT status FROM account_deletion_requests WHERE account_id=$1',[a.accountId])).rows[0]!.status,'completed');
+  assert.equal((await r.db.query('SELECT 1 FROM account_deletion_requests WHERE account_id=$1',[a.accountId])).rowCount,0);
+  assert.equal((await r.db.query('SELECT 1 FROM accounts WHERE id=$1',[a.accountId])).rowCount,0,'The login account is physically deleted');
   assert.equal((await fulfillErasure(r.db,await f.options())).result,'erased');
   await assertErasureFence(r.db,{required:true,journalPath:f.directory,publicKey});
   const audit=(await r.db.query('SELECT execution_proof FROM account_erasures')).rows[0]!.execution_proof;
@@ -65,7 +69,8 @@ test('signed ordinary fulfillment erases credentials/content, preserves money an
   assert.ok(durable.policy.signature&&durable.approval.signature,'Original signed policy and execution approval are independently retained');
   await assert.rejects(r.db.query('DELETE FROM account_erasures'),/append-only/);
   await assert.rejects(r.db.query('TRUNCATE account_erasures'),/append-only/);
-  await assert.rejects(r.db.query("UPDATE accounts SET login_disabled=false WHERE id=$1",[a.accountId]),/protected/);
+  assert.equal((await r.db.query("UPDATE accounts SET login_disabled=false WHERE id=$1",[a.accountId])).rowCount,0);
+  await assert.rejects(r.db.query("INSERT INTO accounts(id,username,password_hash) VALUES($1,'resurrection','fake')",[a.accountId]),/protected/);
   await assert.rejects(r.db.query("INSERT INTO sessions(token_hash,account_id,csrf_token,expires_at) VALUES($1,$2,$3,now()+interval '1 day')",['f'.repeat(64),a.accountId,'e'.repeat(64)]),/protected/);
   await assert.rejects(r.db.query("INSERT INTO sound_preferences(character_id,enabled,volume) VALUES($1,true,20)",[a.id]),/protected/);
   await assert.rejects(r.db.query('UPDATE account_erasure_checkpoints SET sequence=2'),/append-only/);
@@ -91,11 +96,12 @@ test('unapproved policy, disabled execution, forged permit, active escrow and un
 
 test('SQL failure rolls back rows but keeps durable intent; fresh approved resume is idempotent and stale approvals fail',async()=>{
  const f=await fixture(),{r,a}=f;try{
-  await r.db.query(`CREATE FUNCTION fail_erasure_fixture() RETURNS trigger LANGUAGE plpgsql AS $$BEGIN RAISE EXCEPTION 'synthetic interruption'; END$$;CREATE TRIGGER erasure_fixture BEFORE UPDATE ON accounts FOR EACH ROW EXECUTE FUNCTION fail_erasure_fixture()`);
+  await r.db.query(`CREATE FUNCTION fail_erasure_fixture() RETURNS trigger LANGUAGE plpgsql AS $$BEGIN RAISE EXCEPTION 'synthetic interruption'; END$$;CREATE TRIGGER erasure_fixture BEFORE DELETE ON accounts FOR EACH ROW EXECUTE FUNCTION fail_erasure_fixture()`);
   const permit=await f.options(),before=await finances(r);await assert.rejects(fulfillErasure(r.db,permit),/synthetic interruption/);
-  assert.equal((await readJournal(f.directory,publicKey)).sequence,1);assert.equal((await r.db.query('SELECT login_disabled FROM accounts WHERE id=$1',[a.accountId])).rows[0]!.login_disabled,false);assert.equal(await finances(r),before);
+  assert.equal((await readJournal(f.directory,publicKey)).sequence,1);assert.equal((await r.db.query("SELECT 1 FROM characters WHERE identity_kind='abandoned'")).rowCount,0,'An interrupted transition leaves no duplicate estate');assert.equal((await r.db.query('SELECT login_disabled FROM accounts WHERE id=$1',[a.accountId])).rows[0]!.login_disabled,false);assert.equal(await finances(r),before);
   await r.db.query('DROP TRIGGER erasure_fixture ON accounts');await assert.rejects(fulfillErasure(r.db,permit));
   await fulfillErasure(r.db,await f.options());assert.equal(await finances(r),before);
+  assert.equal((await r.db.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,1);
   await assert.rejects(assertErasureFence(r.db,{required:false}));
   const path=join(f.directory,'entry-000000000001.json'),bytes=await readFile(path);await writeFile(path,'{}');await assert.rejects(assertErasureFence(r.db,{required:true,journalPath:f.directory,publicKey}));await writeFile(path,bytes);
  }finally{await f.close();}
@@ -121,8 +127,8 @@ test('a real custom-format backup restored to an isolated database is blocked un
   const a=await r.player('Restored Subject'),b=await r.player('Restored Other');await r.ok(a,'/api/v1/comments',{profileId:b.id,body:'Restorable private text'});
   const request=await requestAccountDeletion(r.db,a.accountId),live=(await r.db.query(`SELECT current_database() AS database,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;
   const scope={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),database:live.database,clusterDigest:live.cluster};
-  const policy=signed({protocol:'kingdom-erasure-policy-v1',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-at-fulfillment',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
-  const intent=signed({protocol:'kingdom-erasure-intent-v1',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,issuedAt:new Date().toISOString()});
+  const policy=signed({protocol:'kingdom-erasure-policy-v2',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'delete-human-account-at-fulfillment',graveyard:'independent-estate-zero-wallet-v1',estateDeidentificationReview:'approved',formerWallet:'sealed-integrity-anchor-no-transfer',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
+  const intent=signed({protocol:'kingdom-erasure-intent-v2',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,estateDeidentificationReviewed:true,issuedAt:new Date().toISOString()});
   async function options(mode:'fulfill'|'restore',database=live.database,oid=live.oid){
    const state=await readJournal(directory,publicKey);return {enabled:true,publicKey,policy,intent,journalPath:directory,codeSha,candidateDigest,permit:signed({protocol:'kingdom-erasure-execution-v1',mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:database,targetOid:oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()})};
   }
@@ -131,13 +137,16 @@ test('a real custom-format backup restored to an isolated database is blocked un
   await admin.query('CREATE DATABASE "'+restoredName+'" TEMPLATE template0');created=true;tool('pg_restore',restoredName,backup);
   const restoreUrl=new URL(url);restoreUrl.pathname='/'+restoredName;restored=createDatabase(restoreUrl.href);
   await assert.rejects(assertErasureFence(restored,{required:true,journalPath:directory,publicKey}),/blocked/);
+  assert.equal((await restored.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,0);
   const oid=(await admin.query('SELECT oid::text FROM pg_database WHERE datname=$1',[restoredName])).rows[0]!.oid;
   const approved=await options('restore',restoredName,oid);
-  await fulfillErasure(restored,approved);await assertErasureFence(restored,{required:true,journalPath:directory,publicKey});
-  assert.equal(JSON.stringify((await restored.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t) AS land`)).rows),before);
+  await fulfillErasure(restored,approved);assert.equal((await restored.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,1);await assertErasureFence(restored,{required:true,journalPath:directory,publicKey});
+  assert.equal(JSON.stringify((await restored.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT id FROM characters WHERE identity_kind='abandoned')) AS land`)).rows),before);
   assert.equal((await restored.query('SELECT count(*)::int AS n FROM realm_messages WHERE author_id=$1',[a.id])).rows[0]!.n,0);
   assert.equal(createHash('sha256').update(backup).digest('hex'),archiveDigest,'The original recovery artifact remains immutable');
   assert.equal((await fulfillErasure(restored,await options('restore',restoredName,oid))).result,'erased');
+  assert.equal((await restored.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,1);
+  assert.equal((await restored.query('SELECT 1 FROM accounts WHERE id=$1',[a.accountId])).rowCount,0);
  }finally{await restored?.end();if(created)await admin.query('DROP DATABASE "'+restoredName+'"');await admin.end();await r.close();await rm(directory,{recursive:true,force:true});}
 });
 
@@ -155,7 +164,8 @@ test('column-restricted non-owner eraser can fulfill but cannot read other passw
    assert.equal((await shadow.query('SELECT account_erasure_credentials_removed($1) AS removed',[f.a.accountId])).rows[0]!.removed,false,'SECURITY DEFINER must read the qualified real account, never a caller temporary table');
   }finally{await shadow.query('DROP TABLE IF EXISTS pg_temp.accounts');shadow.release();}
   await fulfillErasure(operator,await f.options());
-  const attempt=await operator.connect();try{await attempt.query('CREATE TEMP TABLE account_erasures(account_id uuid,character_id uuid)');await assert.rejects(attempt.query('UPDATE accounts SET login_disabled=false WHERE id=$1',[f.a.accountId]),/protected/);}
+  const pinned=await r.db.connect();try{await pinned.query('CREATE TEMP TABLE account_erasures(character_id uuid,account_id uuid)');await assert.rejects(pinned.query("UPDATE characters SET name='Reclaimed' WHERE id=$1",[f.a.id]),/protected/);}finally{await pinned.query('DROP TABLE pg_temp.account_erasures');pinned.release();}
+  const attempt=await operator.connect();try{await attempt.query('CREATE TEMP TABLE account_erasures(account_id uuid,character_id uuid)');await assert.rejects(attempt.query('UPDATE accounts SET login_disabled=false WHERE id=$1',[f.a.accountId]),/permission denied/);}
   finally{await attempt.query('DROP TABLE IF EXISTS pg_temp.account_erasures');attempt.release();}
   await r.db.query('GRANT UPDATE ON wallets TO '+role);await assert.rejects(assertErasureOperator(operator,role,schema),/privilege/);
  }finally{await operator?.end();await r.db.query('DROP OWNED BY '+role);await r.db.query('DROP ROLE '+role);await f.close();}
@@ -173,4 +183,103 @@ test('restore predating account creation records absence without inventing users
   await old.db.query('DROP TABLE account_erasure_checkpoints');
   await assert.rejects(assertErasureFence(old.db,{required:true,journalPath:f.directory,publicKey}));
  }finally{await old?.close();await f.close();}
+});
+
+
+test('independent abandoned estate earns only genuine Land income, remains attackable, and cannot act or be reclaimed',async()=>{
+ let now=new Date();const f=await fixture(()=>now),{r,a,b}=f;
+ try{
+  await r.prepare(a,100000,30);await r.prepare(b,100000,30);
+  await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:3});
+  await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:2});
+  await r.legacyArmy(a,2);
+  await r.db.query('UPDATE characters SET max_health=1000,health=1000 WHERE id=$1',[a.id]);
+  await r.db.query('UPDATE characters SET max_spirit=100,spirit=100 WHERE id=$1',[b.id]);
+  const prior=await r.me(a),username=(await r.db.query('SELECT username FROM accounts WHERE id=$1',[a.accountId])).rows[0]!.username;
+  const oldRows=await finances(r);
+  await fulfillErasure(r.db,await f.options());assert.equal(await finances(r),oldRows);
+  const npc=(await r.db.query("SELECT * FROM characters WHERE identity_kind='abandoned'")).rows[0]!;
+  assert.ok(npc.id!==a.id&&npc.id!==a.accountId);assert.equal(npc.account_id,null);assert.equal(npc.name,'Abandoned Kingdom');
+  assert.equal(npc.xp,0);assert.equal(npc.level_xp,0);assert.equal(npc.skill_points,0);
+  assert.equal(npc.attained_level,prior.level);assert.equal(npc.max_health,prior.maxHealth);
+  const view=await publicProfile(r.db,npc.id);assert.equal(view.abandonedKingdom,true);assert.equal(view.temporaryRival,false);
+  assert.deepEqual(view.inventory.map(i=>[i.id,i.quantity]),prior.inventory.filter(i=>i.quantity>0).map(i=>[i.id,i.quantity]));
+  assert.deepEqual(view.properties.map(p=>[p.id,p.quantity,p.grossIncome]),(await import('../src/profiles.js')).ownedProperties(prior).map(p=>[p.id,p.quantity,p.grossIncome]));
+  assert.equal((await r.db.query('SELECT balance FROM wallets WHERE character_id=$1',[npc.id])).rows[0]!.balance,0);
+  assert.equal((await r.db.query('SELECT 1 FROM development_bots WHERE character_id=$1',[npc.id])).rowCount,0);
+  for(const table of ['sessions','army_invitation_codes','realm_messages','inventory_lots','character_quest_progress']){
+   const predicate=table==='sessions'?'account_id=$1':table==='realm_messages'?'author_id=$1':'character_id=$1';
+   assert.equal((await r.db.query(`SELECT 1 FROM ${table} WHERE ${predicate}`,[npc.id])).rowCount,0,table);
+  }
+  const journal=await readFile(join(f.directory,'entry-000000000001.json'),'utf8');
+  assert.ok(!journal.includes(npc.id));assert.ok(!JSON.stringify((await r.db.query('SELECT * FROM account_erasures')).rows).includes(npc.id),'No successor pointer in erasure records');
+  assert.ok((await listOpponents(r.db,b.id)).opponents.some(o=>o.id===npc.id));
+  await assert.rejects(publicProfile(r.db,a.id));
+  await assert.rejects(createSession(r.db,npc.id));await assert.rejects(getState(r.db,npc.id));
+  await assert.rejects(executeCommand(r.db,npc.id,randomUUID(),'land_buy',{propertyId:'smallholding',quantity:1}));
+  const recruitment=await recruitmentAvailability(r.db,await r.me(b),view,true);assert.equal(recruitment.allowed,false);
+  await assert.rejects(executeCommand(r.db,b.accountId,randomUUID(),'invite',{targetCharacterId:npc.id}),/battles only/);
+  assert.notEqual((await r.command(b,'/api/v1/comments',{profileId:npc.id,body:'Must not post'})).statusCode,200);
+  await assert.rejects(r.db.query("INSERT INTO army_invitation_codes(character_id,code) VALUES($1,'CANNOT-CLAIM')",[npc.id]),/protected/);
+  const recreated=await registerAccount(r.db,{username,password:'Replacement!2026',name:'New Human'});
+  assert.ok(recreated.accountId!==a.accountId);assert.notEqual((await getState(r.db,recreated.accountId)).id,npc.id);
+  const boundary=(await r.db.query('SELECT next_payment_at FROM income_cycles WHERE character_id=$1',[npc.id])).rows[0]!.next_payment_at;
+  now=new Date(+new Date(boundary)+10);
+  const sweep=await Promise.all([settleDueAbandonedIncome(r.db),settleDueAbandonedIncome(r.db)]);
+  assert.equal(sweep.reduce((n,s)=>n+s.settled,0),1,'Concurrent sweepers cannot pay the same Land period twice');
+  const paid=(await r.db.query('SELECT balance FROM wallets WHERE character_id=$1',[npc.id])).rows[0]!.balance;
+  assert.equal(paid,prior.economy.grossHourlyIncome-prior.economy.propertyUpkeep);
+  assert.equal((await settleDueAbandonedIncome(r.db)).settled,0);
+  assert.equal((await r.db.query("SELECT 1 FROM economy_entries e JOIN economy_transactions t ON t.id=e.transaction_id WHERE e.character_id=$1 AND t.reason<>'land_income'",[npc.id])).rowCount,0);
+  await r.legacyArmy(b,20);await r.ok(b,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:20});
+  const total=async()=>BigInt((await r.db.query('SELECT sum(balance)::text AS n FROM wallets')).rows[0]!.n)+BigInt((await r.db.query('SELECT coalesce(sum(pending_gold),0)::text AS n FROM land_accounts')).rows[0]!.n);
+  const beforeTotal=await total(),beforeActor=(await r.me(b)).gold,key=randomUUID();
+  const result=await r.ok(b,'/api/v1/battles',{targetCharacterId:npc.id},key),report=(await r.db.query('SELECT result FROM battles WHERE id=$1',[result.battleId])).rows[0]!.result;
+  assert.equal(report.outcome,'attacker_win');assert.equal(report.abandonedKingdom,true);assert.equal(report.temporaryRival,false);
+  assert.equal(report.loot,Math.floor(paid*3/100));assert.equal((await r.me(b)).gold-beforeActor,report.loot);
+  assert.equal((await r.db.query('SELECT balance FROM wallets WHERE character_id=$1',[npc.id])).rows[0]!.balance,paid-report.loot);
+  assert.equal(await total(),beforeTotal);await Promise.all([r.ok(b,'/api/v1/battles',{targetCharacterId:npc.id},key),r.ok(b,'/api/v1/battles',{targetCharacterId:npc.id},key)]);assert.equal(await total(),beforeTotal);
+  for(let victory=2;victory<=4;victory++){
+   const carried=(await r.db.query('SELECT balance FROM wallets WHERE character_id=$1',[npc.id])).rows[0]!.balance;
+   const next=await r.ok(b,'/api/v1/battles',{targetCharacterId:npc.id});
+   const saved=(await r.db.query('SELECT result FROM battles WHERE id=$1',[next.battleId])).rows[0]!.result;
+   assert.equal(saved.loot,humanVictoryLoot(carried,victory).amount);assert.equal(saved.lootDetails.victory,victory);assert.equal(await total(),beforeTotal);
+  }
+  await assert.rejects(r.db.query('SELECT detach_erased_estate($1,$2,$3)',[a.id,a.accountId,randomUUID()]));
+  assert.equal((await r.db.query('SELECT xp FROM characters WHERE id=$1',[npc.id])).rows[0]!.xp,0);
+  await fulfillErasure(r.db,await f.options());assert.equal((await r.db.query("SELECT count(*)::int AS n FROM characters WHERE identity_kind='abandoned'")).rows[0]!.n,1);
+  await assertErasureFence(r.db,{required:true,journalPath:f.directory,publicKey});
+ }finally{await f.close();}
+});
+
+test('estate de-identification review is mandatory and old rename-only approvals cannot authorize deletion',async()=>{
+ const f=await fixture();try{
+  const base=await f.options(),intent=JSON.parse(Buffer.from(base.intent.payload,'base64url').toString()),policy=JSON.parse(Buffer.from(base.policy.payload,'base64url').toString());
+  await assert.rejects(fulfillErasure(f.r.db,{...base,intent:signed({...intent,estateDeidentificationReviewed:false})}));
+  await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,estateDeidentificationReview:'unreviewed'})}));
+  await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,protocol:'kingdom-erasure-policy-v1'})}));
+  assert.equal((await readJournal(f.directory,publicKey)).sequence,0);
+  assert.equal((await f.r.db.query("SELECT 1 FROM characters WHERE identity_kind='abandoned'")).rowCount,0);
+ }finally{await f.close();}
+});
+
+
+test('high-level estates preserve intrinsic combat assets without carrying names, XP histories, privileges or financial identities',async()=>{
+ for(const level of [50,75,100]){
+  const f=await fixture();try{
+   await f.r.db.query('UPDATE characters SET attained_level=$2,xp=123456,level_xp=7,max_health=700,health=350,attack_training=4,defense_training=5 WHERE id=$1',[f.a.id,level]);
+   const intrinsic=await getState(f.r.db,f.a.accountId);
+   await fulfillErasure(f.r.db,await f.options());
+   const npc=(await f.r.db.query("SELECT * FROM characters WHERE identity_kind='abandoned'")).rows[0]!;
+   const profile=await publicProfile(f.r.db,npc.id);
+   assert.equal(profile.level,level);assert.equal(profile.maxHealth,700);assert.equal(profile.xp,0);
+   assert.equal(npc.attack_training,4);assert.equal(npc.defense_training,5);assert.equal(npc.account_id,null);
+   assert.equal(profile.army.participants,intrinsic.army.participants);assert.equal(profile.accountAgeDays,0);
+   const permitted=await f.r.app.inject({url:'/game/players/'+npc.id,headers:{cookie:f.b.cookie}});
+   assert.equal(permitted.statusCode,200);assert.match(permitted.body,/Abandoned kingdom · permanent NPC/);
+   assert.ok(!permitted.body.includes('action="/game/army/invite"'));assert.ok(!permitted.body.includes('action="/game/safety/block"'));
+   assert.equal((await f.r.db.query('SELECT 1 FROM accounts WHERE id=$1',[f.a.accountId])).rowCount,0);
+   assert.equal((await f.r.db.query("SELECT 1 FROM champion_standings WHERE character_id=$1 AND eligible",[npc.id])).rowCount,0);
+  }finally{await f.close();}
+ }
 });

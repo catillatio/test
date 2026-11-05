@@ -8,14 +8,12 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO kc_account_eraser;
 -- Remove blanket account SELECT; never give the operator other password hashes.
 REVOKE SELECT ON accounts FROM kc_account_eraser;
 GRANT SELECT(id,username,created_at,login_disabled) ON accounts TO kc_account_eraser;
-GRANT UPDATE(username,password_hash,login_disabled) ON accounts TO kc_account_eraser;
-GRANT UPDATE(name) ON characters TO kc_account_eraser;
-GRANT UPDATE(eligible) ON champion_standings TO kc_account_eraser;
 GRANT UPDATE(snapshot,result) ON battles TO kc_account_eraser;
 GRANT UPDATE(result) ON command_receipts TO kc_account_eraser;
-GRANT UPDATE(status,resolved_at) ON account_deletion_requests TO kc_account_eraser;
+-- PostgreSQL requires one UPDATE column privilege for SELECT ... FOR UPDATE.
+GRANT UPDATE(status) ON account_deletion_requests TO kc_account_eraser;
 GRANT INSERT ON account_erasures,account_erasure_checkpoints TO kc_account_eraser;
-GRANT DELETE ON sessions,trade_quotes,social_reports,social_moderation,social_mutes,
+GRANT DELETE ON character_quest_progress,character_loot,progression_awards,skill_allocations,sessions,trade_quotes,social_reports,social_moderation,social_mutes,
  social_blocks,social_user_reports,army_links,army_invitation_codes,notification_reads,
  realm_messages,army_events,competitive_attention_starts,army_attention_starts,
  notification_state,player_preferences,sound_preferences,tutorial_steps,tutorial_guides,
@@ -25,3 +23,7 @@ GRANT EXECUTE ON FUNCTION account_erasure_credentials_witness(uuid),account_eras
 GRANT EXECUTE ON FUNCTION pg_catalog.pg_control_system() TO kc_account_eraser;
 -- Never grant UPDATE/DELETE on financial tables, equipment, Land, bounties or
 -- immutable grants. Do not execute this file to resolve a failed preflight.
+
+-- The one-shot transition derives a fresh accountless NPC from a locked estate;
+-- it cannot accept wallet credit or arbitrary source values. Legal review first.
+GRANT EXECUTE ON FUNCTION detach_erased_estate(uuid,uuid,uuid) TO kc_account_eraser;

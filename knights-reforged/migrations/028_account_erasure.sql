@@ -1,4 +1,27 @@
--- Infrastructure only; no account is erased and no retention policy is activated.
+-- Unreleased PR infrastructure only. No deletion or NPC is activated here.
+-- The real login account is removed; historical foreign-key anchors remain
+-- private and inert under a separately approved retention exception.
+ALTER TABLE characters ALTER COLUMN account_id DROP NOT NULL;
+ALTER TABLE characters ADD COLUMN identity_kind text NOT NULL DEFAULT 'human'
+ CHECK(identity_kind IN ('human','abandoned','integrity_anchor'));
+ALTER TABLE characters ADD CONSTRAINT character_identity_contract CHECK(
+ (identity_kind='human' AND account_id IS NOT NULL) OR
+ (identity_kind IN ('abandoned','integrity_anchor') AND account_id IS NULL));
+-- Existing champion triggers must support accountless world entities without
+-- accidentally making either NPCs or historical anchors leaderboard-eligible.
+CREATE OR REPLACE FUNCTION champions_character_changed() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ INSERT INTO champion_standings(character_id,eligible,attained_level,xp,created_at)
+ VALUES(NEW.id,NEW.identity_kind='human' AND coalesce(NOT (SELECT login_disabled FROM accounts WHERE id=NEW.account_id),false)
+ AND NOT EXISTS(SELECT 1 FROM development_bots WHERE character_id=NEW.id),NEW.attained_level,NEW.xp,NEW.created_at)
+ ON CONFLICT(character_id) DO UPDATE SET attained_level=EXCLUDED.attained_level,xp=EXCLUDED.xp;
+ RETURN NEW;
+END $$;
+CREATE OR REPLACE FUNCTION start_character_attention() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF NEW.identity_kind='human' THEN INSERT INTO notification_state(character_id) VALUES(NEW.id) ON CONFLICT DO NOTHING; END IF;
+ RETURN NEW;
+END $$;
 CREATE TABLE account_erasures (
  operation_id uuid PRIMARY KEY,
  account_id uuid NOT NULL UNIQUE,
@@ -38,6 +61,7 @@ BEGIN
   own:=owned_object OR value->>'id'=subject::text OR value->>'characterId'=subject::text
     OR value->>'accountId'=account_subject::text;
   FOR pair IN SELECT * FROM jsonb_each(value) LOOP
+   IF coalesce(own,false) AND pair.key IN ('accountId','accountCreatedAt','accountAgeDays','invitationCode') THEN CONTINUE; END IF;
    prefix:=regexp_replace(pair.key,'Name$','');
    label:=pair.key IN ('name','username','displayName') AND coalesce(own,false)
     OR pair.key='attackerName' AND attacker OR pair.key='defenderName' AND defender
@@ -70,7 +94,7 @@ BEGIN
  EXECUTE format($definition$
  CREATE FUNCTION %1$I.account_erasure_credentials_removed(subject uuid) RETURNS boolean
  LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,pg_temp AS $body$
-  SELECT coalesce((SELECT login_disabled AND password_hash='!erased' FROM %1$I.accounts WHERE id=subject),true)
+  SELECT NOT EXISTS(SELECT 1 FROM %1$I.accounts WHERE id=subject)
  $body$ $definition$,trusted_schema);
 END $install$;
 REVOKE ALL ON FUNCTION account_erasure_credentials_witness(uuid),account_erasure_credentials_removed(uuid) FROM PUBLIC;
@@ -87,7 +111,7 @@ BEGIN
   END IF;
  ELSE
   IF EXISTS(SELECT 1 FROM account_erasures WHERE character_id=OLD.id) THEN
-   IF TG_OP='DELETE' OR NEW.name IS DISTINCT FROM OLD.name OR NEW.account_id IS DISTINCT FROM OLD.account_id THEN
+   IF TG_OP='DELETE' OR NEW.name IS DISTINCT FROM OLD.name OR NEW.account_id IS DISTINCT FROM OLD.account_id OR NEW.identity_kind IS DISTINCT FROM OLD.identity_kind THEN
     RAISE EXCEPTION 'Erased identity is protected';
    END IF;
   END IF;
@@ -105,8 +129,9 @@ DECLARE field text; identity_text text;
 BEGIN
  FOREACH field IN ARRAY TG_ARGV LOOP
   identity_text:=to_jsonb(NEW)->>field;
-  IF identity_text IS NOT NULL AND EXISTS(SELECT 1 FROM account_erasures
-    WHERE CASE WHEN field='account_id' OR TG_TABLE_NAME='accounts' THEN account_id=identity_text::uuid ELSE character_id=identity_text::uuid END) THEN
+  IF identity_text IS NOT NULL AND (EXISTS(SELECT 1 FROM account_erasures
+    WHERE CASE WHEN field='account_id' OR TG_TABLE_NAME='accounts' THEN account_id=identity_text::uuid ELSE character_id=identity_text::uuid END)
+    OR (field<>'account_id' AND TG_TABLE_NAME NOT IN ('accounts','characters') AND EXISTS(SELECT 1 FROM characters WHERE id=identity_text::uuid AND identity_kind<>'human'))) THEN
    RAISE EXCEPTION 'Erased identity is protected';
   END IF;
  END LOOP;
@@ -124,7 +149,8 @@ BEGIN
  ('notification_reads','character_id'),('notification_state','character_id'),('competitive_attention_starts','character_id'),
  ('army_attention_starts','character_id'),('player_preferences','character_id'),('sound_preferences','character_id'),
  ('tutorial_steps','character_id'),('tutorial_guides','character_id'),('community_policy_acceptances','character_id'),
- ('content_policy_rejections','character_id')) AS reviewed(target,fields) LOOP
+ ('content_policy_rejections','character_id'),('character_quest_progress','character_id'),
+ ('character_loot','character_id'),('progression_awards','character_id'),('skill_allocations','character_id')) AS reviewed(target,fields) LOOP
   EXECUTE format('CREATE TRIGGER erasure_personal_write_guard BEFORE INSERT OR UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION guard_erased_personal_write(%s)',
    target,(SELECT string_agg(quote_literal(field),',') FROM unnest(string_to_array(fields,',')) field));
  END LOOP;
@@ -146,3 +172,58 @@ BEGIN
   EXECUTE format('ALTER FUNCTION %I.%I(%s) SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,function_name,arguments,trusted_schema);
  END LOOP;
 END $pin$;
+
+-- Derive the new world entity exclusively from the locked human estate. Fresh
+-- keys, zero wallet, no predecessor pointer, no inherited clocks/history/labels.
+-- Exact estates can remain linkable through backups: signing this operation
+-- requires a separate de-identification assessment, not a claim of anonymity.
+CREATE FUNCTION detach_erased_estate(subject uuid,account_subject uuid,new_world_id uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE source characters%ROWTYPE; at_time timestamptz:=clock_timestamp();
+BEGIN
+ SELECT * INTO STRICT source FROM characters WHERE id=subject AND account_id=account_subject AND identity_kind='human' FOR UPDATE;
+ IF subject=new_world_id OR account_subject=new_world_id THEN RAISE EXCEPTION 'Invalid estate transition'; END IF;
+ IF EXISTS(SELECT 1 FROM development_bots WHERE character_id=subject)
+ OR EXISTS(SELECT 1 FROM bounties WHERE (sponsor_id=subject OR target_id=subject OR claimant_id=subject) AND status='active')
+ OR EXISTS(SELECT 1 FROM authorized_gold_grants WHERE account_id=account_subject)
+ OR EXISTS(SELECT 1 FROM development_accounts WHERE account_id=account_subject)
+ OR EXISTS(SELECT 1 FROM hudson_equipment_grants WHERE account_id=account_subject)
+ OR EXISTS(SELECT 1 FROM private_alpha_initializations WHERE dev_account_id=account_subject)
+ THEN RAISE EXCEPTION 'Estate has a protected hold'; END IF;
+ INSERT INTO characters(id,account_id,identity_kind,name,xp,health,energy,max_health,mana,max_mana,spirit,max_spirit,
+  attained_level,level_xp,skill_points,legacy_army_floor,profile_class,attack_training,defense_training,
+  created_at,health_updated_at,energy_updated_at,mana_updated_at,spirit_updated_at,attack_ready_at)
+ VALUES(new_world_id,NULL,'abandoned','Abandoned Kingdom',0,source.health,source.energy,source.max_health,source.mana,source.max_mana,source.spirit,source.max_spirit,
+  source.attained_level,0,0,source.legacy_army_floor,source.profile_class,source.attack_training,source.defense_training,
+  at_time,at_time,at_time,at_time,at_time,at_time);
+ INSERT INTO wallets(character_id,balance) VALUES(new_world_id,0);
+ INSERT INTO vault_accounts(character_id,balance) VALUES(new_world_id,0);
+ INSERT INTO army_stacks(character_id,unit_definition_id,quantity)
+ SELECT new_world_id,unit_definition_id,quantity FROM army_stacks WHERE character_id=subject;
+ INSERT INTO inventory_entries(id,character_id,item_definition_id,ruleset_id,quantity,acquired_at)
+ SELECT gen_random_uuid(),new_world_id,item_definition_id,ruleset_id,quantity,at_time
+ FROM inventory_entries WHERE character_id=subject AND quantity>0;
+ -- No resale/acquisition ledger, entitlement, lot IDs or historical timestamps
+ -- are copied. This non-player estate cannot sell, trade, purchase or spend.
+ INSERT INTO land_holdings(id,character_id,property_id,property_name,ruleset_id,quantity,original_quantity,
+  unit_price,hourly_income,hourly_upkeep,interval_seconds,acquired_at,accrued_through)
+ SELECT gen_random_uuid(),new_world_id,property_id,property_name,ruleset_id,sum(quantity)::integer,sum(quantity)::integer,
+  unit_price,hourly_income,hourly_upkeep,interval_seconds,at_time,at_time FROM land_holdings
+ WHERE character_id=subject AND quantity>0
+ GROUP BY property_id,property_name,ruleset_id,unit_price,hourly_income,hourly_upkeep,interval_seconds;
+ INSERT INTO land_accounts(character_id,pending_gold) VALUES(new_world_id,0);
+ INSERT INTO income_cycles(character_id,next_payment_at,created_at) VALUES(new_world_id,at_time+interval '1 hour',at_time);
+ INSERT INTO maintenance_accounts(character_id,settled_at) VALUES(new_world_id,at_time);
+ -- Old financial/gameplay facts stay exact but never accrue or become public.
+ UPDATE characters SET account_id=NULL,identity_kind='integrity_anchor',name='Deleted Warrior' WHERE id=subject;
+ UPDATE champion_standings SET eligible=false WHERE character_id=subject;
+ DELETE FROM accounts WHERE id=account_subject;
+END $$;
+REVOKE ALL ON FUNCTION detach_erased_estate(uuid,uuid,uuid) FROM PUBLIC;
+DO $pin_estate$
+DECLARE trusted_schema text:=current_schema();
+BEGIN
+ EXECUTE format('ALTER FUNCTION %I.detach_erased_estate(uuid,uuid,uuid) SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
+ EXECUTE format('ALTER FUNCTION %I.champions_character_changed() SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
+ EXECUTE format('ALTER FUNCTION %I.start_character_attention() SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
+END $pin_estate$;
