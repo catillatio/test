@@ -83,7 +83,7 @@ SQL must be completed under a **fresh permit for the observed journal head**, us
 the same operation/request/subject. It cannot authorize a different account or a
 second financial action. Completed matching intents return the original outcome;
 conflicting operations/identity reuse stop. Local receipts and checkpoints reject
-UPDATE, DELETE and TRUNCATE. Revoked-session responses and logout request browser storage/cache clearing using Clear-Site-Data without clearing the newly issued anonymous CSRF cookie. Offline devices cannot be remotely wiped; users should clear app/site data, and support varies by browser/WebView. No personal HTML response is cacheable. Database guards prevent old sessions, notifications,
+UPDATE, DELETE and TRUNCATE. Explicit logout requests browser storage/cache clearing using Clear-Site-Data. Normal session expiry and reauthentication preserve pending purchase quantities and idempotent recovery state. Erasure revokes server sessions without retaining token hashes merely to identify old browsers. Offline devices cannot be remotely wiped; users should clear app/site data, and support varies by browser/WebView. No personal HTML response is cacheable. Database guards prevent old sessions, notifications,
 commands and social paths from recreating erased personal rows or identities.
 
 The external intent represents the approved irreversible erasure decision. If SQL

@@ -53,8 +53,9 @@ test('signed ordinary fulfillment erases credentials/content, preserves money an
   const receipt=(await r.db.query('SELECT result FROM command_receipts WHERE command_id=$1',[commandId])).rows[0]!.result;assert.equal(receipt.message,'Action recorded.');assert.equal(receipt.data.battle.attackerName,'Deleted Warrior');
   await assert.rejects(authenticate(r.db,username,'AlphaTest!2026'));
   await assert.rejects(createSession(r.db,a.accountId));await assert.rejects(getState(r.db,a.accountId));await assert.rejects(executeCommand(r.db,a.accountId,randomUUID(),'profile',{className:'Warden'}));
-  const revoked=await r.app.inject({url:'/api/v1/me',headers:{cookie:a.cookie}});assert.notEqual(revoked.statusCode,200);assert.equal(revoked.headers['clear-site-data'],'"storage", "cache"');
+  const revoked=await r.app.inject({url:'/api/v1/me',headers:{cookie:a.cookie}});assert.notEqual(revoked.statusCode,200);assert.equal(revoked.headers['clear-site-data'],undefined,'Expiry/session loss must not erase a safe pending purchase');
   assert.equal((await r.me(b)).name,'Other Warrior');
+  const logout=await r.app.inject({method:'POST',url:'/logout',headers:{cookie:b.cookie,origin:'http://localhost:3000'},payload:{csrf:b.csrf}});assert.equal(logout.statusCode,303);assert.equal(logout.headers['clear-site-data'],'"storage", "cache"');
   assert.equal((await r.db.query('SELECT status FROM account_deletion_requests WHERE account_id=$1',[a.accountId])).rows[0]!.status,'completed');
   assert.equal((await fulfillErasure(r.db,await f.options())).result,'erased');
   await assertErasureFence(r.db,{required:true,journalPath:f.directory,publicKey});

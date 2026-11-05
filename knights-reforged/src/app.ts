@@ -97,7 +97,6 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.addHook('onRequest', async (request, reply) => {
     if (request.url.startsWith('/assets/') || request.url.split('?')[0] === '/healthz') return;
     request.realmSession = await findSession(db, request.cookies.kr_session);
-    if(request.cookies.kr_session&&!request.realmSession)reply.header('Clear-Site-Data','"storage", "cache"');
     if (!request.realmSession && (request.method === 'GET' || request.method === 'HEAD')) {
       const fresh = await createSession(db, null);
       request.realmSession = fresh.session;
