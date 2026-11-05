@@ -1,3 +1,4 @@
+import {graveyardWorld} from './privacy/graveyard-roster.js';
 import {verifyActiveCoordinatedArtwork} from './coordinated-artwork.js';
 import {verifyEquipmentArtwork} from './equipment-artwork.js';
 import {humanPvpLoot} from './human-pvp-loot.js';
@@ -27,7 +28,7 @@ import {compatibility} from './compatibility-rules.js';
 import {expansionBots,expansionBotEconomy,expansionBotCombat} from './expansion-bot-rules.js';
 import {expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,artworkRegistries,betaArtworkPolicy} from './expansion-content.js';
 
-const definitions=[humanPvpLoot,equipmentPresentation,...artworkRegistries,betaArtworkPolicy,expansionBots,expansionBotEconomy,expansionBotCombat,expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,compatibility,automaticUpkeep,previousBotCombat,previousBotCombatV2,botCombat,gameFeel,gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
+const definitions=[graveyardWorld,humanPvpLoot,equipmentPresentation,...artworkRegistries,betaArtworkPolicy,expansionBots,expansionBotEconomy,expansionBotCombat,expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,compatibility,automaticUpkeep,previousBotCombat,previousBotCombatV2,botCombat,gameFeel,gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 

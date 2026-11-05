@@ -2,10 +2,18 @@
 -- The real login account is removed; historical foreign-key anchors remain
 -- private and inert under a separately approved retention exception.
 ALTER TABLE characters ALTER COLUMN account_id DROP NOT NULL;
+CREATE TABLE graveyard_batches (
+ id uuid PRIMARY KEY,catalog_id text NOT NULL,definition_digest char(64) NOT NULL CHECK(definition_digest~'^[a-f0-9]{64}$'),
+ policy_record jsonb NOT NULL,approval_record jsonb NOT NULL,mature_count bigint NOT NULL CHECK(mature_count>=24),
+ previous_batches bigint NOT NULL CHECK(previous_batches>=0),erasure_count bigint NOT NULL CHECK(erasure_count>=0),credit_cutoff timestamptz NOT NULL,carry_after bigint NOT NULL CHECK(carry_after>=0),members uuid[] NOT NULL CHECK(cardinality(members)=24),
+ created_at timestamptz NOT NULL DEFAULT clock_timestamp()
+);
+REVOKE INSERT,UPDATE,DELETE,TRUNCATE ON graveyard_batches FROM PUBLIC;
 CREATE TABLE abandoned_kingdoms (
  character_id uuid PRIMARY KEY REFERENCES characters(id) ON DELETE CASCADE,
- policy_version text NOT NULL DEFAULT 'independent-estate-zero-wallet-v1'
-  CHECK(policy_version='independent-estate-zero-wallet-v1')
+ policy_version text NOT NULL DEFAULT 'graveyard-world-1' CHECK(policy_version='graveyard-world-1'),
+ batch_id uuid NOT NULL REFERENCES graveyard_batches(id),slot smallint NOT NULL CHECK(slot BETWEEN 0 AND 23),
+ template_id text NOT NULL,garrison integer NOT NULL CHECK(garrison BETWEEN 1 AND 5000),UNIQUE(batch_id,slot),UNIQUE(batch_id,template_id)
 );
 REVOKE INSERT,UPDATE,DELETE,TRUNCATE ON abandoned_kingdoms FROM PUBLIC;
 -- Existing champion triggers must support accountless world entities without
@@ -43,6 +51,10 @@ CREATE TABLE account_erasure_checkpoints (
 );
 CREATE FUNCTION preserve_account_erasure_record() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN RAISE EXCEPTION 'Account erasure records are append-only'; END $$;
+CREATE TRIGGER graveyard_batches_immutable BEFORE UPDATE OR DELETE ON graveyard_batches
+ FOR EACH ROW EXECUTE FUNCTION preserve_account_erasure_record();
+CREATE TRIGGER graveyard_batches_no_truncate BEFORE TRUNCATE ON graveyard_batches
+ FOR EACH STATEMENT EXECUTE FUNCTION preserve_account_erasure_record();
 CREATE TRIGGER abandoned_kingdom_identity_immutable BEFORE UPDATE OR DELETE ON abandoned_kingdoms
  FOR EACH ROW EXECUTE FUNCTION preserve_account_erasure_record();
 CREATE TRIGGER abandoned_kingdom_no_truncate BEFORE TRUNCATE ON abandoned_kingdoms
@@ -179,61 +191,32 @@ BEGIN
  END LOOP;
 END $pin$;
 
--- Derive the new world entity exclusively from the locked human estate. Fresh
--- keys, zero wallet, no predecessor pointer, no inherited clocks/history/labels.
--- Exact estates can remain linkable through backups: signing this operation
--- requires a separate de-identification assessment, not a claim of anonymity.
-CREATE FUNCTION detach_erased_estate(subject uuid,account_subject uuid,new_world_id uuid)
+-- Erasure never creates, identifies or chooses an NPC. Keeping these operations
+-- separate prevents a statement, transaction or receipt from pairing their IDs.
+CREATE FUNCTION detach_erased_identity(subject uuid,account_subject uuid)
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER AS $$
-DECLARE source characters%ROWTYPE; at_time timestamptz:=clock_timestamp();
 BEGIN
- SELECT * INTO STRICT source FROM characters WHERE id=subject AND account_id=account_subject FOR UPDATE;
- IF subject=new_world_id OR account_subject=new_world_id THEN RAISE EXCEPTION 'Invalid estate transition'; END IF;
+ PERFORM 1 FROM characters WHERE id=subject AND account_id=account_subject FOR UPDATE;
+ IF NOT FOUND THEN RAISE EXCEPTION 'Stale identity'; END IF;
  IF EXISTS(SELECT 1 FROM development_bots WHERE character_id=subject)
  OR EXISTS(SELECT 1 FROM bounties WHERE (sponsor_id=subject OR target_id=subject OR claimant_id=subject) AND status='active')
  OR EXISTS(SELECT 1 FROM authorized_gold_grants WHERE account_id=account_subject)
  OR EXISTS(SELECT 1 FROM development_accounts WHERE account_id=account_subject)
  OR EXISTS(SELECT 1 FROM hudson_equipment_grants WHERE account_id=account_subject)
  OR EXISTS(SELECT 1 FROM private_alpha_initializations WHERE dev_account_id=account_subject)
- THEN RAISE EXCEPTION 'Estate has a protected hold'; END IF;
- INSERT INTO characters(id,account_id,name,xp,health,energy,max_health,mana,max_mana,spirit,max_spirit,
-  attained_level,level_xp,skill_points,legacy_army_floor,profile_class,attack_training,defense_training,
-  created_at,health_updated_at,energy_updated_at,mana_updated_at,spirit_updated_at,attack_ready_at)
- VALUES(new_world_id,NULL,'Abandoned Kingdom',0,source.health,source.energy,source.max_health,source.mana,source.max_mana,source.spirit,source.max_spirit,
-  source.attained_level,0,0,source.legacy_army_floor,source.profile_class,source.attack_training,source.defense_training,
-  at_time,at_time,at_time,at_time,at_time,at_time);
- INSERT INTO abandoned_kingdoms(character_id) VALUES(new_world_id);
- INSERT INTO wallets(character_id,balance) VALUES(new_world_id,0);
- INSERT INTO vault_accounts(character_id,balance) VALUES(new_world_id,0);
- INSERT INTO army_stacks(character_id,unit_definition_id,quantity)
- SELECT new_world_id,unit_definition_id,quantity FROM army_stacks WHERE character_id=subject;
- INSERT INTO inventory_entries(id,character_id,item_definition_id,ruleset_id,quantity,acquired_at)
- SELECT gen_random_uuid(),new_world_id,item_definition_id,ruleset_id,quantity,at_time
- FROM inventory_entries WHERE character_id=subject AND quantity>0;
- -- No resale/acquisition ledger, entitlement, lot IDs or historical timestamps
- -- are copied. This non-player estate cannot sell, trade, purchase or spend.
- INSERT INTO land_holdings(id,character_id,property_id,property_name,ruleset_id,quantity,original_quantity,
-  unit_price,hourly_income,hourly_upkeep,interval_seconds,acquired_at,accrued_through)
- SELECT gen_random_uuid(),new_world_id,property_id,property_name,ruleset_id,sum(quantity)::integer,sum(quantity)::integer,
-  unit_price,hourly_income,hourly_upkeep,interval_seconds,at_time,at_time FROM land_holdings
- WHERE character_id=subject AND quantity>0
- GROUP BY property_id,property_name,ruleset_id,unit_price,hourly_income,hourly_upkeep,interval_seconds;
- INSERT INTO land_accounts(character_id,pending_gold) VALUES(new_world_id,0);
- INSERT INTO income_cycles(character_id,next_payment_at,created_at) VALUES(new_world_id,at_time+interval '1 hour',at_time);
- INSERT INTO maintenance_accounts(character_id,settled_at) VALUES(new_world_id,at_time);
- -- Old financial/gameplay facts stay exact but never accrue or become public.
+ THEN RAISE EXCEPTION 'Identity has a protected hold'; END IF;
  UPDATE characters SET account_id=NULL,name='Deleted Warrior' WHERE id=subject;
  UPDATE champion_standings SET eligible=false WHERE character_id=subject;
  DELETE FROM accounts WHERE id=account_subject;
 END $$;
-REVOKE ALL ON FUNCTION detach_erased_estate(uuid,uuid,uuid) FROM PUBLIC;
-DO $pin_estate$
+REVOKE ALL ON FUNCTION detach_erased_identity(uuid,uuid) FROM PUBLIC;
+DO $pin_identity_erasure$
 DECLARE trusted_schema text:=current_schema();
 BEGIN
- EXECUTE format('ALTER FUNCTION %I.detach_erased_estate(uuid,uuid,uuid) SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
+ EXECUTE format('ALTER FUNCTION %I.detach_erased_identity(uuid,uuid) SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
  EXECUTE format('ALTER FUNCTION %I.champions_character_changed() SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
  EXECUTE format('ALTER FUNCTION %I.start_character_attention() SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
-END $pin_estate$;
+END $pin_identity_erasure$;
 
 CREATE FUNCTION enforce_accountless_identity() RETURNS trigger LANGUAGE plpgsql AS $$
 DECLARE subject uuid; item record; npc boolean; erased boolean;
@@ -257,3 +240,132 @@ DECLARE trusted_schema text:=current_schema();
 BEGIN
  EXECUTE format('ALTER FUNCTION %I.enforce_accountless_identity() SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,trusted_schema);
 END $pin_identity$;
+
+-- Public-roster construction is a separate capability. The functions expose only
+-- aggregate capacity/public world entities, never source accounts or estates.
+CREATE FUNCTION graveyard_snapshot(expected jsonb) RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER AS $$
+ SELECT jsonb_build_object(
+  'installed',EXISTS(SELECT 1 FROM schema_migrations WHERE name='028_account_erasure.sql'),
+  'definitions_match',(SELECT definition=expected->'world' FROM rulesets WHERE id='graveyard-world-1')
+   AND (SELECT definition=expected#>'{catalogs,alpha-0.3}' FROM rulesets WHERE id='alpha-0.3')
+   AND (SELECT definition=expected#>'{catalogs,level100-content-1}' FROM rulesets WHERE id='level100-content-1'),
+  'catalog_id',coalesce((SELECT catalog_id FROM realm_expansion_state WHERE singleton),'alpha-0.3'),
+  'mature_count',coalesce((SELECT carry_after FROM graveyard_batches ORDER BY previous_batches DESC LIMIT 1),0)+(SELECT count(*) FROM account_erasures WHERE outcome='erased' AND completed_at>coalesce((SELECT credit_cutoff FROM graveyard_batches ORDER BY previous_batches DESC LIMIT 1),'-infinity'::timestamptz) AND completed_at<=date_trunc('day',clock_timestamp(),'UTC')-interval '168 hours'),
+  'credit_cutoff',date_trunc('day',clock_timestamp(),'UTC')-interval '168 hours',
+  'batches',coalesce((SELECT jsonb_agg(to_jsonb(b) ORDER BY previous_batches) FROM graveyard_batches b),'[]'),
+  'world_count',(SELECT count(*) FROM abandoned_kingdoms),
+  'batch_count',(SELECT count(*) FROM graveyard_batches),
+  'receipt_count',(SELECT count(*) FROM account_erasures),
+  'checkpoint_complete',coalesce((SELECT sequence FROM account_erasure_checkpoints ORDER BY sequence DESC LIMIT 1),0)=(SELECT count(*) FROM account_erasures),
+  'scope_digest',(SELECT min(source_scope_sha256)::text FROM account_erasures),
+  'single_scope',(SELECT count(DISTINCT source_scope_sha256)<=1 FROM account_erasures))
+$$;
+REVOKE ALL ON FUNCTION graveyard_snapshot(jsonb) FROM PUBLIC;
+
+CREATE FUNCTION construct_public_graveyard(batch uuid,expected jsonb,mature bigint,previous_batches bigint,receipt_total bigint,cutoff timestamptz,
+ definition_digest text,policy_record jsonb,approval_record jsonb) RETURNS void LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE state jsonb; roster jsonb; catalog jsonb; template jsonb; item jsonb; property jsonb; entry jsonb;
+ identities uuid[]; world uuid; at_time timestamptz:=clock_timestamp(); index integer:=0; size integer:=24; guard integer;
+ trusted_schema text; tables text[]; table_name text; predicate text; mismatch boolean;
+BEGIN
+ -- Serialize with normal erasure, restoration and all realm writers. Never retry
+ -- a failed/uncertain statement automatically.
+ PERFORM pg_advisory_xact_lock(61824051);
+ state:=graveyard_snapshot(expected);
+ IF (state->>'installed')::boolean IS DISTINCT FROM true OR (state->>'definitions_match')::boolean IS DISTINCT FROM true
+ OR (state->>'single_scope')::boolean IS DISTINCT FROM true
+ OR (state->>'mature_count')::bigint<>mature OR (state->>'batch_count')::bigint<>previous_batches
+ OR (state->>'receipt_count')::bigint<>receipt_total OR (state->>'checkpoint_complete')::boolean IS DISTINCT FROM true
+ OR mature<24 OR (state->>'credit_cutoff')::timestamptz<>cutoff OR cutoff>date_trunc('day',at_time,'UTC')-interval '168 hours' OR definition_digest!~'^[a-f0-9]{64}$'
+ THEN RAISE EXCEPTION 'Graveyard cohort, definitions or checkpoint mismatch'; END IF;
+ IF EXISTS(SELECT 1 FROM graveyard_batches WHERE id=batch) THEN RAISE EXCEPTION 'Construction already recorded'; END IF;
+ SELECT definition INTO STRICT catalog FROM rulesets WHERE id=state->>'catalog_id';
+ SELECT definition#>ARRAY['rosters',state->>'catalog_id'] INTO STRICT roster FROM rulesets WHERE id='graveyard-world-1';
+ IF jsonb_array_length(roster)<>size THEN RAISE EXCEPTION 'Invalid public roster'; END IF;
+ SELECT array_agg(gen_random_uuid()) INTO identities FROM generate_series(1,size);
+ -- Blind full-row preservation stays inside PostgreSQL. The restricted caller
+ -- cannot read this owner-only temporary table or obtain any personal row/hash.
+ SELECT n.nspname INTO STRICT trusted_schema FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
+ WHERE p.oid='construct_public_graveyard(uuid,jsonb,bigint,bigint,bigint,timestamptz,text,jsonb,jsonb)'::regprocedure;
+ IF to_regclass('pg_temp.kc_graveyard_witness') IS NOT NULL THEN RAISE EXCEPTION 'Unexpected preservation state'; END IF;
+ CREATE TEMP TABLE kc_graveyard_witness(relation text NOT NULL,fingerprint bytea NOT NULL) ON COMMIT DROP;
+ SELECT array_agg(c.relname::text ORDER BY c.relname) INTO tables FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+ WHERE n.nspname=trusted_schema AND c.relkind IN ('r','p','m','f');
+ FOREACH table_name IN ARRAY tables LOOP
+  EXECUTE format('INSERT INTO pg_temp.kc_graveyard_witness SELECT %L,sha256(convert_to(row_to_json(t)::text,''UTF8'')) FROM %I.%I t',table_name,trusted_schema,table_name);
+ END LOOP;
+ INSERT INTO graveyard_batches(id,catalog_id,definition_digest,policy_record,approval_record,mature_count,previous_batches,
+  erasure_count,credit_cutoff,carry_after,members,created_at)
+ VALUES(batch,state->>'catalog_id',definition_digest,policy_record,approval_record,mature,previous_batches,receipt_total,cutoff,mature-24,identities,at_time);
+ FOR template IN SELECT * FROM jsonb_array_elements(roster) LOOP
+  index:=index+1;world:=identities[index];guard:=(template->>'garrison')::integer;
+  INSERT INTO characters(id,account_id,name,xp,health,max_health,attained_level,level_xp,skill_points,legacy_army_floor,
+   profile_class,attack_training,defense_training,created_at,health_updated_at,energy_updated_at,mana_updated_at,spirit_updated_at,attack_ready_at)
+  VALUES(world,NULL,'Abandoned Kingdom',0,(template->>'health')::integer,(template->>'health')::integer,(template->>'level')::integer,0,0,1,
+   template->>'calling',(template->>'attackTraining')::integer,(template->>'defenseTraining')::integer,at_time,at_time,at_time,at_time,at_time,at_time);
+  INSERT INTO abandoned_kingdoms(character_id,batch_id,slot,template_id,garrison) VALUES(world,batch,index-1,template->>'id',guard);
+  IF template->'progression' IS NOT NULL THEN
+   INSERT INTO character_progression_epochs(character_id,policy_id,boundary_level,boundary_requirement,starting_progress,created_at)
+   VALUES(world,template#>>'{progression,policyId}',(template#>>'{progression,boundaryLevel}')::integer,
+    (template#>>'{progression,boundaryRequirement}')::integer,0,at_time);
+  END IF;
+  INSERT INTO wallets(character_id,balance) VALUES(world,0);INSERT INTO vault_accounts(character_id,balance) VALUES(world,0);
+  FOR item IN SELECT * FROM jsonb_array_elements(template->'equipment') LOOP
+   INSERT INTO inventory_entries(id,character_id,item_definition_id,ruleset_id,quantity,acquired_at)
+   VALUES(gen_random_uuid(),world,item->>'itemId',state->>'catalog_id',(item->>'quantity')::integer,at_time);
+  END LOOP;
+  SELECT value INTO STRICT property FROM jsonb_array_elements(catalog->'properties') WHERE value->>'id'=template#>>'{property,id}';
+  INSERT INTO land_holdings(id,character_id,property_id,property_name,ruleset_id,quantity,original_quantity,
+   unit_price,hourly_income,hourly_upkeep,interval_seconds,acquired_at,accrued_through)
+  VALUES(gen_random_uuid(),world,property->>'id',property->>'name',state->>'catalog_id',(template#>>'{property,quantity}')::integer,
+   (template#>>'{property,quantity}')::integer,(property->>'price')::integer,(property->>'hourlyIncome')::integer,(property->>'hourlyUpkeep')::integer,3600,at_time,at_time);
+  INSERT INTO land_accounts(character_id,pending_gold) VALUES(world,0);
+  INSERT INTO income_cycles(character_id,next_payment_at,created_at) VALUES(world,at_time+interval '1 hour',at_time);
+  INSERT INTO maintenance_accounts(character_id,settled_at) VALUES(world,at_time);
+ END LOOP;
+ FOREACH table_name IN ARRAY tables LOOP
+  predicate:='true';
+  IF table_name='characters' THEN predicate:=format('NOT (id=ANY(%L::uuid[]))',identities);
+  ELSIF table_name='graveyard_batches' THEN predicate:=format('id<>%L::uuid',batch);
+  ELSIF EXISTS(SELECT 1 FROM pg_attribute a JOIN pg_class c ON c.oid=a.attrelid JOIN pg_namespace n ON n.oid=c.relnamespace
+    WHERE n.nspname=trusted_schema AND c.relname=table_name AND a.attname='character_id' AND NOT a.attisdropped) THEN
+   predicate:=format('(character_id IS NULL OR NOT (character_id=ANY(%L::uuid[])))',identities);
+   IF table_name<>ALL(ARRAY['abandoned_kingdoms','wallets','vault_accounts','inventory_entries','land_holdings','land_accounts','income_cycles','maintenance_accounts','champion_standings','competitive_statistics','character_progression_epochs']) THEN
+    EXECUTE format('SELECT EXISTS(SELECT 1 FROM %I.%I WHERE character_id=ANY(%L::uuid[]))',trusted_schema,table_name,identities) INTO mismatch;
+    IF mismatch THEN RAISE EXCEPTION 'Unexpected generated personal or activity record'; END IF;
+   END IF;
+  END IF;
+  EXECUTE format('WITH current_rows AS (SELECT sha256(convert_to(row_to_json(t)::text,''UTF8'')) AS fingerprint FROM %I.%I t WHERE %s),original_rows AS (SELECT fingerprint FROM pg_temp.kc_graveyard_witness WHERE relation=%L) SELECT EXISTS((TABLE current_rows EXCEPT ALL TABLE original_rows) UNION ALL (TABLE original_rows EXCEPT ALL TABLE current_rows))',trusted_schema,table_name,predicate,table_name) INTO mismatch;
+  IF mismatch THEN RAISE EXCEPTION 'Graveyard preservation mismatch'; END IF;
+ END LOOP;
+END $$;
+REVOKE ALL ON FUNCTION construct_public_graveyard(uuid,jsonb,bigint,bigint,bigint,timestamptz,text,jsonb,jsonb) FROM PUBLIC;
+
+CREATE FUNCTION read_graveyard_batch(batch uuid) RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER AS $$
+ SELECT jsonb_build_object('receipt',to_jsonb(b),'entities',(SELECT jsonb_agg(jsonb_build_object(
+  'character',to_jsonb(c),'registry',to_jsonb(k),'wallet',(SELECT balance FROM wallets WHERE character_id=c.id),
+  'vault',(SELECT balance FROM vault_accounts WHERE character_id=c.id),'pending',(SELECT pending_gold::text FROM land_accounts WHERE character_id=c.id),
+  'next_payment',(SELECT next_payment_at FROM income_cycles WHERE character_id=c.id),
+  'inventory',(SELECT coalesce(jsonb_agg(to_jsonb(i) ORDER BY item_definition_id),'[]') FROM inventory_entries i WHERE character_id=c.id),
+  'progression',(SELECT jsonb_build_object('policyId',policy_id,'boundaryLevel',boundary_level,'boundaryRequirement',boundary_requirement,'startingProgress',starting_progress) FROM character_progression_epochs WHERE character_id=c.id),
+  'land',(SELECT coalesce(jsonb_agg(to_jsonb(h)),'[]') FROM land_holdings h WHERE character_id=c.id),
+  'personal_history_absent',NOT EXISTS(SELECT 1 FROM army_invitation_codes WHERE character_id=c.id)
+   AND NOT EXISTS(SELECT 1 FROM notification_state WHERE character_id=c.id)
+   AND NOT EXISTS(SELECT 1 FROM progression_awards WHERE character_id=c.id)
+   AND NOT EXISTS(SELECT 1 FROM character_quest_progress WHERE character_id=c.id)
+   AND NOT EXISTS(SELECT 1 FROM inventory_lots WHERE character_id=c.id)
+   AND NOT EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id)
+   AND NOT EXISTS(SELECT 1 FROM accounts WHERE id=c.id)) ORDER BY k.slot)
+  FROM abandoned_kingdoms k JOIN characters c ON c.id=k.character_id WHERE k.batch_id=b.id))
+ FROM graveyard_batches b WHERE b.id=batch
+$$;
+REVOKE ALL ON FUNCTION read_graveyard_batch(uuid) FROM PUBLIC;
+DO $pin_graveyard$
+DECLARE trusted_schema text:=current_schema(); name text; args text;
+BEGIN
+ FOR name,args IN SELECT * FROM (VALUES
+ ('graveyard_snapshot','jsonb'),('construct_public_graveyard','uuid,jsonb,bigint,bigint,bigint,timestamptz,text,jsonb,jsonb'),
+ ('read_graveyard_batch','uuid')) AS reviewed(n,a) LOOP
+  EXECUTE format('ALTER FUNCTION %I.%I(%s) SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,name,args,trusted_schema);
+ END LOOP;
+END $pin_graveyard$;

@@ -11,7 +11,8 @@ export async function assertErasureOperator(sql:Sql,expectedRole='kc_account_era
  has_schema_privilege(current_schema(),'CREATE') AS can_create FROM pg_roles r WHERE rolname=current_user`)).rows[0]!;
  assert.equal(role.name,expectedRole);
  for(const key of ['rolsuper','rolcreaterole','rolcreatedb','rolreplication','rolbypassrls','member','owns_objects','can_create'])assert.equal(role[key],false,'Restricted erasure role required.');
- assert.equal((await sql.query("SELECT has_function_privilege('detach_erased_estate(uuid,uuid,uuid)','EXECUTE') AS allowed")).rows[0]!.allowed,true,'Reviewed estate transition permission required.');
+ assert.equal((await sql.query("SELECT has_function_privilege('detach_erased_identity(uuid,uuid)','EXECUTE') AS allowed")).rows[0]!.allowed,true,'Reviewed identity erasure permission required.');
+ assert.equal((await sql.query("SELECT has_function_privilege('construct_public_graveyard(uuid,jsonb,bigint,bigint,bigint,timestamptz,text,jsonb,jsonb)','EXECUTE') AS allowed")).rows[0]!.allowed,false,'Eraser must not construct world NPCs.');
  for(const [table,definition] of Object.entries(privacyColumns)){
   const rights=(await sql.query(`SELECT has_table_privilege($1,'DELETE') AS remove,has_table_privilege($1,'TRUNCATE') AS truncate`,[table])).rows[0]!;
   assert.equal(rights.remove,erasureDeleteTables.includes(table),'Unexpected erasure delete privilege.');assert.equal(rights.truncate,false);
@@ -22,4 +23,24 @@ export async function assertErasureOperator(sql:Sql,expectedRole='kc_account_era
    assert.equal(grants.insert,['account_erasures','account_erasure_checkpoints'].includes(table),'Unexpected erasure insert privilege.');
   }
  }
+}
+
+// Separate constructor credential: no direct account/history/financial reads,
+// table writes or ability to invoke the human-erasure capability.
+export async function assertGraveyardOperator(sql:Sql,expectedRole='kc_graveyard_builder',expectedSchema='public'){
+ assert.equal((await sql.query('SELECT current_schema() AS schema')).rows[0]!.schema,expectedSchema);
+ const role=(await sql.query(`SELECT current_user AS name,rolsuper,rolcreaterole,rolcreatedb,rolreplication,rolbypassrls,
+ EXISTS(SELECT 1 FROM pg_auth_members WHERE member=r.oid) AS member,
+ EXISTS(SELECT 1 FROM pg_class WHERE relowner=r.oid) OR EXISTS(SELECT 1 FROM pg_database WHERE datdba=r.oid) OR EXISTS(SELECT 1 FROM pg_namespace WHERE nspowner=r.oid) AS owns_objects,
+ has_schema_privilege(current_schema(),'CREATE') AS can_create FROM pg_roles r WHERE rolname=current_user`)).rows[0]!;
+ assert.equal(role.name,expectedRole);for(const k of ['rolsuper','rolcreaterole','rolcreatedb','rolreplication','rolbypassrls','member','owns_objects','can_create'])assert.equal(role[k],false);
+ for(const [table,definition] of Object.entries(privacyColumns)){
+  const rights=(await sql.query("SELECT has_table_privilege($1,'DELETE') OR has_table_privilege($1,'TRUNCATE') AS write",[table])).rows[0]!;assert.equal(rights.write,false);
+  for(const column of definition.split('|').map(c=>c.split(':')[0]!)){
+   const access=(await sql.query("SELECT has_column_privilege($1,$2,'SELECT') OR has_column_privilege($1,$2,'INSERT') OR has_column_privilege($1,$2,'UPDATE') AS granted",[table,column])).rows[0]!;
+   assert.equal(access.granted,false,'Constructor must not access human/financial table rows.');
+  }
+ }
+ for(const f of ['graveyard_snapshot(jsonb)','read_graveyard_batch(uuid)','construct_public_graveyard(uuid,jsonb,bigint,bigint,bigint,timestamptz,text,jsonb,jsonb)'])assert.equal((await sql.query("SELECT has_function_privilege($1,'EXECUTE') AS allowed",[f])).rows[0]!.allowed,true);
+ assert.equal((await sql.query("SELECT has_function_privilege('detach_erased_identity(uuid,uuid)','EXECUTE') AS allowed")).rows[0]!.allowed,false);
 }

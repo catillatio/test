@@ -35,6 +35,7 @@ if signed:
  match=re.search(r'SHA256:\s*([0-9A-F:]+)',public);assert match
  certificate=match[1].replace(':','').lower()
  if a.expected_certificate:assert certificate==a.expected_certificate.lower().replace(':',''),'Unexpected certificate'
+if a.require_signed:assert a.application_id=='game.kingdomcome.rpg','Approved permanent application ID required'
 if a.require_signed:assert signed and a.expected_certificate,'Owner upload signature required'
 out=root/'dist';out.mkdir(exist_ok=True);target=out/('kingdom-come-release.aab' if signed else 'kingdom-come-UNSIGNED-NOT-UPLOADABLE.aab');shutil.copyfile(a.bundle,target)
 report={'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True,cwd=root).strip(),'applicationId':a.application_id,'versionCode':int(a.version_code),'versionName':m.attrib[ns+'versionName'],'minSdk':26,'targetSdk':int(sdk.attrib[ns+'targetSdkVersion']),'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'bytes':target.stat().st_size,'permissions':['android.permission.INTERNET'],'debuggable':False,'nativeLibraries':False,'signing':'OWNER_UPLOAD_SIGNED' if signed else 'UNSIGNED_NOT_UPLOADABLE','signerCertificateSha256':certificate,'permanentIdOwnerConfirmed':False,'productionContacted':False}

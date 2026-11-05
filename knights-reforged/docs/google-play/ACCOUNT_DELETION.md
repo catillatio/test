@@ -14,7 +14,7 @@ index returns one pending receipt on concurrent/lost-response retries. The reque
 itself leaves sessions, balances, characters and gameplay unchanged.
 
 Migration 028 creates empty append-only erasure receipts/checkpoints and an empty
-independent NPC registry (no classification-column backfill), typed JSON
+independent NPC registry and batch receipts (no classification-column backfill), typed JSON
 label redaction and stale-writer guards. **It erases no existing account and
 installs no approved policy.** See the [owner decision document](privacy/OWNER_DECISIONS.md)
 for every proposed retention exception, period and unresolved operational decision.
@@ -53,41 +53,28 @@ The durable external signed intent, approved policy and original execution proof
 0600 permissions and file/directory fsync. A torn file or unexpected journal entry
 blocks further processing; it is never discarded or rewritten automatically.
 
-For supported ordinary accounts, v2 fulfillment physically deletes the human
+For supported ordinary accounts, v3 fulfillment physically deletes the human
 account, credential, sessions, linked personal/social data and deletion request.
-The immutable completion receipt retains only the signed restricted audit bindings.
-The former character becomes an inaccessible `integrity_anchor` with no account;
-existing financial/combat records stay exact under an **unapproved** retention
-exception. Mutable shared reports lose typed names and account/invitation metadata.
+The completion receipt retains restricted signed audit bindings. The former
+character becomes an inaccessible private integrity anchor under an **unapproved**
+retention exception. Mutable shared reports lose typed names and account/invitation
+metadata. **No NPC is created by fulfillment or restore reconciliation.** No source
+estate, new world ID or donor mapping enters that transaction or its journal.
 
-A separate, fresh accountless `abandoned` NPC receives current non-social estate
-characteristics with fresh asset IDs/clocks and zero wallet/Vault. It has no donor
-pointer in its record, receipt or external journal. Land begins accruing prospectively;
-former wallet, treasury, Vault and reserves stay sealed, never duplicated/transferred.
-The source anchor cannot be materialized and earns no further income. The bounded
-income sweeper uses the existing Land settlement/lock logic even with development
-bots disabled. No autonomous attacks, purchases, spending, posting or recruitment
-are available. Human-origin ordinary battle rewards and repeat restrictions are
-unchanged; NPC defensive wins do not progress a human/tutorial account. NPC gear
-remains usable without automated maintenance spending. Human army/social links,
-old XP progress, achievements, acquisition lots and history are not inherited.
-
-**No anonymity claim:** distinctive estates, timing and historical backups can
-still reveal the source. The owner requires no recoverable link; that property
-has **not** been established. Legal/privacy review must approve genuinely
-minimized world state before activation; otherwise change the inheritance design.
-The v2 policy and subject intent require explicit reviewed-estate attestations;
-v1 rename-only approvals fail closed. See the owner decision document, including
-the zero-wallet disposition and NPC-only maintenance decision. Passing tests does
-not supply this legal/privacy evidence or approve retained associated records.
+A separate disabled construction mode creates a public 24-kingdom roster only
+after seven-day-mature aggregate admission. No kingdom is assigned to a former
+human; configurations are fixed public catalog archetypes, not copied estates.
+Fresh zero wallets, prospectively accruing Land, human-origin ordinary loot and
+restricted NPC behavior are described in [the design](privacy/GRAVEYARD_DESIGN.md).
+The v3 policy and intent reject older inheritance approvals; real personal-data
+review and independent world-state privacy assessment are required. Neither direct
+ID replacement nor the cohort/delay proves legal anonymity. Old integrity anchors
+and suppression records remain associated data, not anonymous world data.
 
 Every reviewed table/column is covered by an exact schema contract. Added unknown
 fields stop fulfillment before a journal/row write. PostgreSQL hashes every full
 row under the expected approved erasure projection; the after-state must match.
-Node receives batches of 500 digests, never full battle histories. Fresh NPC rows
-are checked separately against the allowed estate projection, zero balances,
-new clocks and absence of personal/history records; existing rows remain covered
-by the complete preservation witness. The NPC ID is transaction-local only. Other password
+Node receives batches of 500 digests, never full battle histories. No new world rows are exempted from the erasure witness, because erasure creates none. Other password
 hashes are compared through a private SECURITY DEFINER witness and never returned
 as password values or logged. Credential helpers qualify the installation schema with a pg_catalog/pg_temp-only definer path; trigger paths pin the trusted schema with pg_temp last. Synthetic hostile temporary-table checks prove they cannot shadow credential verification or erased-identity guards. No credential-derived witness is published. Unrelated battle/receipt rows are not rewritten merely to store identical data. Any
 unexpected financial/data change rolls back the entire transaction.
@@ -193,15 +180,48 @@ contains subject IDs and signatures and must never become a public Actions artif
 The signer emits only a fixed success/failure line. The operator never receives
 the private PEM. Do not run either command on real accounts under PR #88 approval.
 
-## Restore behavior of the independent estate
+## Separate public-roster construction (not authorized for production)
 
-A pre-erasure restore is fenced until the original durable intent is reconciled
-under a fresh exact-copy permit. It creates one fresh estate and erases the restored
-human in the same transaction. It does not import an NPC from another database or
-copy old gold/income. A backup containing the completed receipt already contains
-its NPC; receipt replay performs no further estate creation. Retries use the
-original operation, never a new donor-to-NPC mapping. A restore predating the human
-records absence and invents neither human nor NPC. These copy-local world IDs may
-differ after old-backup reconciliation; old NPC references absent from that backup
-are not reconstructed from private identity data. This is not a production restore
-authorization or permission to weaken existing independent recovery checks.
+Use the existing private approval/operator entry points with `--construct-graveyard`.
+The reviewed policy is v3. Input contains only policy and construction permit for
+signing, then code SHA/public key/signed records for execution; no personal intent,
+private journal or source account is supplied. A fresh permit includes the public
+roster digest, exact DB/code/recovery binding, aggregate capacity/count/cutoff and
+an independent source-fence attestation. It cannot be issued from erasure approval
+alone. The owner verifies the full private erasure fence in its separate custody
+before signing; the constructor never reads the private human ledger directly.
+
+The separately proposed `kc_graveyard_builder` connection may execute only the
+reviewed functions, with no personal-table/column reads or financial table writes.
+See [GRAVEYARD_ROLE_REVIEW.sql](../../deployment/privacy/GRAVEYARD_ROLE_REVIEW.sql).
+`KINGDOM_GRAVEYARD_CONSTRUCTION_ENABLED=1` is a separate future authorization;
+`KINGDOM_ACCOUNT_ERASURE_ENABLED=1` does not activate construction. Neither is set
+here. The protected production owner window, immutable image/candidate check and
+fresh signed recovery evidence remain mandatory. Preparation-only future commands:
+
+```sh
+KINGDOM_GRAVEYARD_POLICY_APPROVED=1 node deployment/privacy/approve.mjs \
+  --construct-graveyard /private/reviewed-world.json /private/approved-signing.pem /private/world-packet.json
+node deployment/privacy/fulfill.mjs --construct-graveyard /run/kingdom-erasure/world-packet.json
+```
+
+No new infrastructure, key or credential is installed by this PR. The constructor
+uses the same exclusive realm lock, exact schema, bounded transaction and all-row
+preservation guarantees. Before/after full-row hashes stay inside PostgreSQL; no
+old rows or credential hashes cross the capability boundary. Admission carry and
+closed-day cutoffs prevent double counting without requiring permanent personal
+metadata merely to verify NPC provenance. This does not implement an automatic
+personal-ledger expiry or weaken the original restore fence.
+
+## Restore behavior of independent world state
+
+Pre-erasure restores reconcile only the original human suppression intents using
+fresh exact-copy permits and create no NPC. A pre-construction backup has no cohort;
+a post-construction backup retains the original signed cohort/IDs. No automatic
+reconstruction or extra cohort is invented during restore. Source permits cannot
+write another DB/OID. The original private journal fence verifies all suppressed
+humans; an additional permanent world-receipt fence verifies cohort approvals,
+public definitions, aggregate admission and complete roster membership. Missing or
+tampered evidence fails closed. These checks neither rewrite backups nor approve
+restoration/deployment. The synthetic suite tests real backups on both sides of
+construction and verifies archive bytes remain unchanged.

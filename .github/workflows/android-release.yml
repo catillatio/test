@@ -43,7 +43,7 @@ jobs:
           python3 - <<'PYTHON'
           import os, re
           value=os.environ.get('ANDROID_APPLICATION_ID','')
-          assert re.fullmatch(r'[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*){2,}',value) and value!='game.kingdomcome.alpha','OWNER_ACTION_REQUIRED: permanent package ID'
+          assert value=='game.kingdomcome.rpg','OWNER_ACTION_REQUIRED: approved permanent package ID game.kingdomcome.rpg'
           PYTHON
       - name: Install checksum-pinned JDK
         run: |

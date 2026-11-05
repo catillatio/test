@@ -63,3 +63,11 @@ installed state; it does not establish the internal reason the ADB client waited
 The narrow reconciliation now checks **both** APKs and all required queries. It
 never accepts missing/mismatched bytes, missing instrumentation, another stage
 or another error code, and never disables package verification.
+
+
+Permanent release identity is **game.kingdomcome.rpg**, pending actual Play Console
+confirmation. No alternate permanent package is authorized. The protected release
+workflow, signing helper and signed-bundle verifier reject any other ID. Unsigned
+CI continues using the explicitly separate `game.kingdomcome.alpha` preview; that
+is not a substitute permanent ID or a Play-uploadable artifact. Public title stays
+**Kingdom Come**. No Console registration availability or owner signing is inferred.

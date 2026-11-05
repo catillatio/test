@@ -30,7 +30,7 @@ import {contentCatalog,equipmentCatalogFor} from './expansion-content.js';
 import {resolveArmy} from './compatibility-rules.js';
 
 export interface CharacterRow {
-  identity_kind?:'human'|'abandoned'|'integrity_anchor';development_bot?:boolean;id:string;account_id:string|null;name:string;xp:number;health:number;energy:number;
+  world_garrison?:number;identity_kind?:'human'|'abandoned'|'integrity_anchor';development_bot?:boolean;id:string;account_id:string|null;name:string;xp:number;health:number;energy:number;
   health_updated_at:Date;energy_updated_at:Date;attack_ready_at:Date;state_version:number;
   max_health:number;mana:number;max_mana:number;spirit:number;max_spirit:number;
   mana_updated_at:Date;spirit_updated_at:Date;attained_level:number;level_xp:number;
@@ -79,7 +79,7 @@ export async function materialize(sql:Sql,row:CharacterRow,now:Date):Promise<Cha
   const changed=landChanged||upkeepChanged||automaticallyFunded||botChanged||hp.value!==row.health||mana.value!==row.mana||spirit.value!==row.spirit;
   const updated=(await sql.query<CharacterRow>(`UPDATE characters SET health=$2,mana=$3,spirit=$4,health_updated_at=$5,mana_updated_at=$6,spirit_updated_at=$7,
     state_version=state_version+$8 WHERE id=$1 RETURNING *`,[row.id,hp.value,mana.value,spirit.value,hp.updated,mana.updated,spirit.updated,changed?1:0])).rows[0]!;
-  return {...updated,development_bot:isBot,...(row.identity_kind?{identity_kind:row.identity_kind}:{})};
+  return {...updated,development_bot:isBot,...(row.identity_kind?{identity_kind:row.identity_kind,world_garrison:row.world_garrison}:{})};
 }
 export async function armyLinks(sql:Sql,characterId:string,runtime:GameRuntime={}):Promise<ArmyLink[]> {
   return (await readArmyRoster(sql,characterId,runtime)).links;
@@ -89,7 +89,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   const world=await realmPolicy(sql),alpha=presentationCatalog(contentCatalog(world.catalogId),world.presentationId),equipmentCatalog=equipmentCatalogFor(world.catalogId);
   const lootById=new Map(alpha.quests.filter(q=>q.loot).map(q=>[q.loot!.id,q.loot!]));
   const wallet=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[row.id])).rows[0]!;
-  const units=(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM army_stacks WHERE character_id=$1',[row.id])).rows[0]!.quantity as number;
+  const units=row.world_garrison!==undefined?row.world_garrison-1:(await sql.query('SELECT COALESCE(SUM(quantity),0)::int AS quantity FROM army_stacks WHERE character_id=$1',[row.id])).rows[0]!.quantity as number;
   const roster=await readArmyRoster(sql,row.id,runtime),links=roster.links,allies=roster.accepted;
   const isBot=row.development_bot??!!(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[row.id])).rows.length;
   const contingent=world.expanded&&isBot?(await cohortMembers(sql,[row.id])).get(row.id):undefined;
@@ -164,11 +164,13 @@ async function chronologicalOpponents(db:Database,characterId:string,cursor?:str
     if (parts.length!==2||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/.test(after)||!Number.isFinite(Date.parse(after))||!afterId||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(afterId)) throw new GameError('INVALID_CURSOR','Invalid rival page.');
   }
   const world=await realmPolicy(db);
- const abandoned=await privacySchema(db)?"EXISTS(SELECT 1 FROM abandoned_kingdoms k WHERE k.character_id=c.id)":'false';
+ const worldInstalled=await privacySchema(db);
+ const worldUnits=worldInstalled?"coalesce((SELECT garrison-1 FROM abandoned_kingdoms k WHERE k.character_id=c.id),(SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id))":"(SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id)";
+ const abandoned=worldInstalled?"EXISTS(SELECT 1 FROM abandoned_kingdoms k WHERE k.character_id=c.id)":'false';
  const actor=(await db.query('SELECT attained_level FROM characters WHERE id=$1',[characterId])).rows[0]!;
   const range=Math.max(2,Math.ceil(actor.attained_level*0.2));
   const rows=(await db.query(`SELECT c.*,b.tier AS bot_tier,b.recovered_at AS bot_recovered_at,to_char(c.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_at,
-    (SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
+    ${worldUnits} AS units,
     (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted' AND (NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END) OR ($8 AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END AND d.active)))) AS allies
     FROM characters c LEFT JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots b ON b.character_id=c.id WHERE c.id<>$1 AND ((a.id IS NOT NULL AND NOT a.login_disabled) OR b.character_id IS NOT NULL OR ${abandoned}) AND c.attained_level BETWEEN $2 AND $3 AND ABS(c.attained_level-$6)<=GREATEST(2,CEIL(c.attained_level*0.2))
     AND (b.character_id IS NULL OR ($7 AND b.active))
@@ -193,7 +195,9 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
  if(cursor!==undefined&&cursor.split('~').length===2)return chronologicalOpponents(db,characterId,cursor,developmentBotsEnabled,developmentBotRecruitmentEnabled);
  if(rotation!==undefined&&(typeof rotation!=='string'||!uuid.test(rotation)))throw new GameError('INVALID_CURSOR','Invalid rival refresh.');
  const world=await realmPolicy(db);
- const abandoned=await privacySchema(db)?"EXISTS(SELECT 1 FROM abandoned_kingdoms k WHERE k.character_id=c.id)":'false';
+ const worldInstalled=await privacySchema(db);
+ const worldUnits=worldInstalled?"coalesce((SELECT garrison-1 FROM abandoned_kingdoms k WHERE k.character_id=c.id),(SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id))":"(SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id)";
+ const abandoned=worldInstalled?"EXISTS(SELECT 1 FROM abandoned_kingdoms k WHERE k.character_id=c.id)":'false';
  const actor=(await db.query('SELECT attained_level FROM characters WHERE id=$1',[characterId])).rows[0]!;
  const now=await clock(db);let pivot:string,after:string|null=null,phase=0,lastTarget:string|null=null;
  if(cursor!==undefined){const parts=cursor.split('~');if(parts.length!==4||parts[0]!=='r1'||!uuid.test(parts[1]!)||!['0','1'].includes(parts[2]!)||!uuid.test(parts[3]!))throw new GameError('INVALID_CURSOR','Invalid rival page.');pivot=parts[1]!.toLowerCase();phase=Number(parts[2]);after=parts[3]!.toLowerCase();
@@ -205,7 +209,7 @@ export async function listOpponents(db:Database,characterId:string,cursor?:strin
  }
  const range=Math.max(2,Math.ceil(actor.attained_level*0.2));
  const seek=async(half:number,last:string|null,limit:number)=>(await db.query(`SELECT c.*,b.tier AS bot_tier,$9::int AS rotation_phase,
-  (SELECT COALESCE(SUM(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
+  ${worldUnits} AS units,
   (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted' AND (NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END) OR ($8 AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=CASE WHEN l.low_id=c.id THEN l.high_id ELSE l.low_id END AND d.active)))) AS allies
   FROM characters c LEFT JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots b ON b.character_id=c.id
   WHERE c.id<>$1 AND ((a.id IS NOT NULL AND NOT a.login_disabled) OR b.character_id IS NOT NULL OR ${abandoned})

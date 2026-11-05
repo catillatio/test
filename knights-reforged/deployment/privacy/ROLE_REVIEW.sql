@@ -24,6 +24,6 @@ GRANT EXECUTE ON FUNCTION pg_catalog.pg_control_system() TO kc_account_eraser;
 -- Never grant UPDATE/DELETE on financial tables, equipment, Land, bounties or
 -- immutable grants. Do not execute this file to resolve a failed preflight.
 
--- The one-shot transition derives a fresh accountless NPC from a locked estate;
--- it cannot accept wallet credit or arbitrary source values. Legal review first.
-GRANT EXECUTE ON FUNCTION detach_erased_estate(uuid,uuid,uuid) TO kc_account_eraser;
+-- Erasure detaches only the historical integrity anchor and removes the login;
+-- it never creates or chooses an NPC. Legal review first.
+GRANT EXECUTE ON FUNCTION detach_erased_identity(uuid,uuid) TO kc_account_eraser;

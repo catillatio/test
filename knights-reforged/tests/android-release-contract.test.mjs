@@ -7,6 +7,7 @@ test('Android release separates unsigned PR artifacts from protected owner signi
  assert.ok(!ci.includes('secrets.'));assert.match(ci,/bundleRelease/);assert.match(ci,/api: \[29, 36\]/);
  assert.match(release,/environment: android-release/);assert.match(release,/github.ref == 'refs\/heads\/release\/production'/);assert.match(release,/verify-release-source.py/);
  assert.match(build,/targetSdk 36/);assert.match(build,/debuggable false/);assert.match(build,/signingConfig null/);assert.match(build,/applicationIdSuffix '.debug'/);
+ assert.match(release,/value=='game.kingdomcome.rpg'/);assert.match(sign,/APPROVED_APPLICATION_ID_REQUIRED/);
  assert.match(sign,/OWNER_SETUP_REQUIRED/);assert.match(sign,/PERMANENT_ID_REQUIRED/);assert.match(sign,/--require-signed/);assert.match(sign,/--expected-certificate/);
  assert.match(gate,/EXACT_HEAD_CI_REQUIRED/);
  assert.ok(!/railway (up|deploy)|fastlane|supply|google-play|upload_to_play_store/.test(release));
@@ -41,4 +42,11 @@ test('late installation reconciliation requires the exact app/test bytes, regist
   await writeFile(join(dir,'instrumentation.txt'),files['instrumentation.txt'].replace('(target=game.kingdomcome.alpha.debug)','(target=other)'));assert.equal(run().status,1);await writeFile(join(dir,'instrumentation.txt'),files['instrumentation.txt']);
   assert.equal(run('INSTALL_APP').status,1);assert.equal(run('INSTALL_TEST','1').status,1);
  }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('signed release rejects an unapproved permanent ID before decoding or accessing upload-key material',async()=>{
+ const {spawnSync}=await import('node:child_process');
+ const script=new URL('../../android/scripts/sign-release.py',import.meta.url).pathname;
+ const result=spawnSync('python3',[script],{encoding:'utf8',timeout:10000,env:{PATH:process.env.PATH,ANDROID_APPLICATION_ID:'game.unrelated.rpg',ANDROID_UPLOAD_KEYSTORE_BASE64:'invalid-not-a-key',ANDROID_STORE_PASSWORD:'synthetic',ANDROID_KEY_PASSWORD:'synthetic',ANDROID_KEY_ALIAS:'synthetic',ANDROID_UPLOAD_CERT_SHA256:'a'.repeat(64),GITHUB_REF:'refs/heads/release/production'}});
+ assert.equal(result.status,1);assert.equal(result.stdout,'');assert.match(result.stderr,/APPROVED_APPLICATION_ID_REQUIRED/);assert.ok(!result.stderr.includes('synthetic'));
 });

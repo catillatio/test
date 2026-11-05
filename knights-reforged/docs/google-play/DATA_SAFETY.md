@@ -22,11 +22,12 @@ Deletion request routes are implemented; completed fulfillment, immutable-record
 Owner reviews required/optional collection, purposes, sharing/service-provider exceptions, encryption, deletion and retention against the actual complete service. [Data Safety guidance](https://support.google.com/googleplay/android-developer/answer/10787469) and [User Data](https://support.google.com/googleplay/android-developer/answer/10144311).
 
 
-Graveyard candidate (disabled): fulfillment deletes the login account and personal
-content and separates a new accountless NPC from the old historical anchor. No
-successor mapping is retained in application receipts/journal. Inherited estate
-fingerprints, timestamps, backups and retained records can still be associated
-with the former human; **do not classify these as anonymous without substantive
-privacy review**. The NPC begins at zero gold and earns future real Land income;
-former balances remain restricted. Owner review must approve/minimize each retained
-category and its duration, or reject the candidate. See privacy/OWNER_DECISIONS.md.
+Graveyard candidate (disabled): fulfillment deletes the human account and personal
+content, creates no successor and keeps only separately proposed private integrity
+anchors/suppression evidence. A later separate operation can construct a delayed
+public roster without personal configurations, assigned origins or inherited history.
+The NPC starts at zero gold and earns future real Land income. Source-independent
+construction is tested; legal anonymity is not certified. Retained records,
+aggregate timing, backups/logs and outside knowledge still require independent
+review. Do not relabel the private anchors/journal as anonymous. See
+privacy/OWNER_DECISIONS.md and privacy/GRAVEYARD_DESIGN.md.

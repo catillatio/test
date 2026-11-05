@@ -5,6 +5,7 @@ from pathlib import Path
 required=['ANDROID_UPLOAD_KEYSTORE_BASE64','ANDROID_STORE_PASSWORD','ANDROID_KEY_PASSWORD','ANDROID_KEY_ALIAS','ANDROID_UPLOAD_CERT_SHA256','ANDROID_APPLICATION_ID']
 if any(not os.environ.get(k) for k in required):raise SystemExit('ANDROID_SIGNING: STOP — OWNER_SETUP_REQUIRED')
 if os.environ['ANDROID_APPLICATION_ID']=='game.kingdomcome.alpha':raise SystemExit('ANDROID_SIGNING: STOP — PERMANENT_ID_REQUIRED')
+if os.environ['ANDROID_APPLICATION_ID']!='game.kingdomcome.rpg':raise SystemExit('ANDROID_SIGNING: STOP — APPROVED_APPLICATION_ID_REQUIRED')
 if os.environ.get('GITHUB_REF')!='refs/heads/release/production':raise SystemExit('ANDROID_SIGNING: STOP — PROTECTED_BRANCH_REQUIRED')
 try:
  with tempfile.TemporaryDirectory(prefix='kingdom-upload-key-') as d:

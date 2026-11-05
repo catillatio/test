@@ -3,6 +3,7 @@
   "tests": [
     {"file":"tests/play-erasure-approval.test.mjs","lane":"unit","weight":1},
     {"file":"tests/play-erasure.test.ts","lane":"database","weight":6,"exclusive":true},
+    {"file":"tests/play-graveyard.test.ts","lane":"database","weight":8,"exclusive":true},
     {"file":"tests/android-release-contract.test.mjs","lane":"unit","weight":1},
     {"file":"tests/play-readiness-browser.test.mjs","lane":"browser","weight":100},
     {"file":"tests/play-account-safety.test.ts","lane":"database","weight":3},
