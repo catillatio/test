@@ -1,6 +1,6 @@
 # Kingdom Come — current authority index
 
-Reviewed 2026-11-04. This is a navigation map, not deployment authorization.
+Reviewed 2026-11-05. This is a navigation map, not deployment authorization.
 Verify current origin/HEAD, open PRs and provider state when starting a task;
 the references below are a dated snapshot, not permanently pinned task bases.
 
@@ -27,6 +27,17 @@ the references below are a dated snapshot, not permanently pinned task bases.
   remains unmerged. Do not describe its migration 027 or extra-XP allowance as
   released behavior. Other open historical/operator/Android proposals likewise
   need their own scope and current status check.
+
+## Approved interface release
+
+The owner approved the final Dark Medieval real-app gallery on 2026-11-05 and
+explicitly authorized merge and the existing protected release. The approved
+[design and browser evidence](../dark-medieval-release/README.md) cover the compact
+full-width HUD, route-specific environmental scenery, neutral player links,
+clean catalog/rival surfaces, static rewards and framed Recent Activity.
+Equipment/property thumbnails and gameplay are unchanged. This source update
+alone is not evidence of deployment: the preceding digest above remains the
+last observed production image until a new protected release succeeds.
 
 ## Architecture: open only the affected path
 

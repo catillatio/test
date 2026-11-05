@@ -4,10 +4,10 @@ import {fileURLToPath} from 'node:url';
 export const root = fileURLToPath(new URL('../../', import.meta.url));
 export const manifest = JSON.parse(readFileSync(new URL('./test-manifest.json', import.meta.url)));
 const artUnits = new Set(['coordinated-artwork','coordinated-final-artwork','coordinated-public-verification','regional-artwork','level100-beta-art','level100-launch-art','phase51b-art','fantasy-catalog','equipment-presentation']);
-const uiUnits = new Set([...artUnits,'land-client','phase48-market-client','phase48-preferences-client','realm-client','status-client','request-origin','audio-assets']);
+const uiUnits = new Set([...artUnits,'land-client','phase48-market-client','phase48-preferences-client','realm-client','status-client','request-origin','audio-assets','home-theme']);
 const uiDatabase = new Set(['rendering','phase51a-interface','phase51c-interface','phase51c-attention','phase51d-social','codespaces-origin','phase44-security','phase48-economy','equipment-presentation','phase491-reports']);
 const artBrowser = new Set(['coordinated-art-browser','regional-art-browser','equipment-presentation-browser','phase51b-browser','level100-beta-browser']);
-const uiBrowser = new Set([...artBrowser,'phase48-market-client','phase48-preferences-client','phase51a-browser','phase51c-browser','phase51d-browser','browser-phase47-test']);
+const uiBrowser = new Set([...artBrowser,'phase48-market-client','phase48-preferences-client','phase51a-browser','phase51c-browser','phase51d-browser','browser-phase47-test','dark-medieval-home-browser']);
 // Reviewed non-executable public provenance read by asset tests, never catalog,
 // policy, startup authorization or artwork-selection inputs. New registries and
 // unknown metadata remain full until their dependencies are explicitly reviewed.

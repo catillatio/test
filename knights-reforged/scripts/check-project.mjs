@@ -270,7 +270,7 @@ check('Active branding and package lock use Kingdom Come',()=>{
 });
 check('Upgraded pages bypass cached pre-expansion income clients',()=>{
   for(const example of cases){
-    const html=rendered.get(example.name);assert.ok(html.includes('/assets/realm-iron-brass.css?v=realm-beta-1'));
+    const html=rendered.get(example.name);assert.ok(html.includes('/assets/realm-iron-brass.css?v=dark-medieval-environments-11'));
     assert.equal((html.match(/<link rel="stylesheet"/g)||[]).length,1);
     assert.ok(!html.includes('/assets/phase41.css'));assert.ok(!html.includes('/assets/realm-theme.css'));
     assert.ok(html.includes('/assets/sound.js?v=phase491-quiet1'));

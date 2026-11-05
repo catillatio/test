@@ -141,11 +141,17 @@ try {
         try {
           return texts.map((text, sample) => {
             element.textContent = text;
-            const box = element.getBoundingClientRect();
+            // The approved compact wallet uses an underlight on its fitted
+            // amount wrapper. Other wallets/rewards retain an element halo.
+            const underlight = label === "balance" && document.body.matches(
+              ".screen-home, .screen-battle, .screen-armory, .screen-land",
+            );
+            const host = underlight ? element.parentElement! : element;
+            const box = host.getBoundingClientRect();
             const range = document.createRange();
             range.selectNodeContents(element);
             const textBox = range.getBoundingClientRect();
-            const glow = getComputedStyle(element, "::after");
+            const glow = getComputedStyle(host, underlight ? "::before" : "::after");
             const w = parseFloat(glow.width);
             const h = parseFloat(glow.height);
             const x =
@@ -164,6 +170,7 @@ try {
             return {
               label,
               sample,
+              visible: glow.content !== "none" && glow.display !== "none" && w > 0 && h > 0,
               dx:
                 box.left +
                 x +
@@ -175,7 +182,7 @@ try {
                 y +
                 h / 2 +
                 transform.f -
-                (textBox.top + textBox.height / 2),
+                (underlight ? box.top + box.height * .72 : textBox.top + textBox.height / 2),
             };
           });
         } finally {
@@ -185,8 +192,9 @@ try {
     }, scene === "home");
     for (const sample of samples) {
       assert.ok(
-        Math.abs(sample.dx) <= 2.5 && Math.abs(sample.dy) <= 2.5,
-        `Glow centered behind rendered text: ${width}px ${scene} ${JSON.stringify(sample)}`,
+        sample.visible && Number.isFinite(sample.dx) && Number.isFinite(sample.dy) &&
+          Math.abs(sample.dx) <= 2.5 && Math.abs(sample.dy) <= 2.5,
+        `Glow stays centered on its approved text/underlight anchor: ${width}px ${scene} ${JSON.stringify(sample)}`,
       );
       glowChecks.push({ width, scene, ...sample });
     }
@@ -875,36 +883,12 @@ try {
                 "Decorative art must be positioned within its panel",
               );
           }
-          const header = await page.locator(".topbar").evaluate((e) => {
-            const brand = e
-                .querySelector(".realm-brand")!
-                .getBoundingClientRect(),
-              account = e
-                .querySelector(".account-menu")!
-                .getBoundingClientRect(),
-              bar = e.getBoundingClientRect();
-            const profile = e
-              .querySelector(".profile-link")
-              ?.getBoundingClientRect();
-            return {
-              separated: brand.right <= account.left,
-              contained: account.right <= bar.right,
-              compact: bar.height <= (innerWidth >= 700 ? 30.5 : 28.5),
-              profileFits:
-                !profile ||
-                (profile.height >= 24 &&
-                  profile.width >= 24 &&
-                  profile.top >= bar.top &&
-                  profile.bottom <= bar.bottom),
-            };
+          assert.equal(await page.locator('.topbar').count(), 0);
+          const header = await page.locator('.hud-account').evaluate((e) => {
+            const bar=e.closest('.realm-resources')!.getBoundingClientRect(),account=e.getBoundingClientRect(),profile=e.querySelector('.profile-link')!.getBoundingClientRect();
+            return account.left>=bar.left&&account.right<=bar.right&&profile.width>=24&&profile.height>=24&&profile.top>=bar.top&&profile.bottom<=bar.bottom;
           });
-          assert.ok(
-            header.separated &&
-              header.contained &&
-              header.compact &&
-              header.profileFits,
-            "header fits " + width,
-          );
+          assert.ok(header, 'compact HUD account fits '+width);
           const menu = await page.locator(".home-menu>a").evaluateAll((es) =>
             es.map((e) => {
               const r = e.getBoundingClientRect();
@@ -1176,27 +1160,10 @@ try {
             await page.locator(".primary-nav>a").count(),
             entry.actor ? 5 : 0,
           );
-          const header = await page.locator(".topbar").evaluate((element) => {
-            const brand = element
-                .querySelector(".realm-brand")!
-                .getBoundingClientRect(),
-              account = element
-                .querySelector(".account-menu")!
-                .getBoundingClientRect(),
-              bar = element.getBoundingClientRect();
-            const profile = element
-              .querySelector(".profile-link")
-              ?.getBoundingClientRect();
-            return (
-              brand.right <= account.left &&
-              account.right <= bar.right &&
-              bar.height <= (innerWidth >= 700 ? 30.5 : 28.5) &&
-              (!profile ||
-                (profile.width >= 24 &&
-                  profile.height >= 24 &&
-                  profile.top >= bar.top &&
-                  profile.bottom <= bar.bottom))
-            );
+          const header = await page.evaluate(() => {
+            const hud=document.querySelector('.hud-account');
+            if(hud){const bar=hud.closest('.realm-resources')!.getBoundingClientRect(),account=hud.getBoundingClientRect(),profile=hud.querySelector('.profile-link')!.getBoundingClientRect();return !document.querySelector('.topbar')&&account.left>=bar.left&&account.right<=bar.right&&profile.width>=24&&profile.height>=24&&profile.top>=bar.top&&profile.bottom<=bar.bottom;}
+            const masthead=document.querySelector('.topbar')!,brand=masthead.querySelector('.realm-brand')!.getBoundingClientRect(),bar=masthead.getBoundingClientRect();return brand.left>=bar.left&&brand.right<=bar.right;
           });
           assert.ok(header, "secondary header fit " + entry.name + " " + width);
           coverageChecks.push({

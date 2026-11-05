@@ -1,0 +1,411 @@
+{
+  "result": "PASS",
+  "coverage": "Final width-only recapture after comprehensive preservation pass",
+  "checks": [
+    {
+      "screen": "home",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "profile",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "profile"
+    },
+    {
+      "screen": "attack",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle"
+    },
+    {
+      "screen": "weapons",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "armor",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "spells",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "land",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "land"
+    },
+    {
+      "screen": "victory",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "defeat",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "home-attacks",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home-losses",
+      "width": 320,
+      "height": 780,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "profile",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "profile"
+    },
+    {
+      "screen": "attack",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle"
+    },
+    {
+      "screen": "weapons",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "armor",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "spells",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "land",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "land"
+    },
+    {
+      "screen": "victory",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "defeat",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "home-attacks",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home-losses",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "profile",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "profile"
+    },
+    {
+      "screen": "attack",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle"
+    },
+    {
+      "screen": "weapons",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "armor",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "spells",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "land",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "land"
+    },
+    {
+      "screen": "victory",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "defeat",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "home-attacks",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home-losses",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "profile",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "profile"
+    },
+    {
+      "screen": "attack",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle"
+    },
+    {
+      "screen": "weapons",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "armor",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "spells",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "land",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "land"
+    },
+    {
+      "screen": "victory",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "defeat",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "home-attacks",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home-losses",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    }
+  ],
+  "assetAndScriptErrors": []
+}

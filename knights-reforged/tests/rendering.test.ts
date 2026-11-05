@@ -36,7 +36,7 @@ test('shared layout renders login, registration and error HTML with no refinemen
   const file=join(projectRoot,'views/layout.ejs'),source=await readFile(file,'utf8');
   for(const [screen,mode] of [['auth','login'],['auth','register'],['error','login']]){
     const rendered=ejs.render(source,anonymousLocals(screen,mode),{filename:file});
-    assert.match(rendered,/^<!doctype html>/);assert.match(rendered,/\/assets\/realm-iron-brass\.css\?v=realm-beta-1/);assert.doesNotMatch(rendered,/\/assets\/phase41\.css/);
+    assert.match(rendered,/^<!doctype html>/);assert.match(rendered,/\/assets\/realm-iron-brass\.css\?v=dark-medieval-environments-11/);assert.doesNotMatch(rendered,/\/assets\/phase41\.css/);
     const legacy=ejs.render(source,{...anonymousLocals(screen,mode),uiTheme:false},{filename:file});assert.match(legacy,/^<!doctype html>/);assert.match(legacy,/\/assets\/phase41\.css\?v=/);
   }
 });
