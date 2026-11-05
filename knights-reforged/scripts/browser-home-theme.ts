@@ -875,36 +875,12 @@ try {
                 "Decorative art must be positioned within its panel",
               );
           }
-          const header = await page.locator(".topbar").evaluate((e) => {
-            const brand = e
-                .querySelector(".realm-brand")!
-                .getBoundingClientRect(),
-              account = e
-                .querySelector(".account-menu")!
-                .getBoundingClientRect(),
-              bar = e.getBoundingClientRect();
-            const profile = e
-              .querySelector(".profile-link")
-              ?.getBoundingClientRect();
-            return {
-              separated: brand.right <= account.left,
-              contained: account.right <= bar.right,
-              compact: bar.height <= (innerWidth >= 700 ? 30.5 : 28.5),
-              profileFits:
-                !profile ||
-                (profile.height >= 24 &&
-                  profile.width >= 24 &&
-                  profile.top >= bar.top &&
-                  profile.bottom <= bar.bottom),
-            };
+          assert.equal(await page.locator('.topbar').count(), 0);
+          const header = await page.locator('.hud-account').evaluate((e) => {
+            const bar=e.closest('.realm-resources')!.getBoundingClientRect(),account=e.getBoundingClientRect(),profile=e.querySelector('.profile-link')!.getBoundingClientRect();
+            return account.left>=bar.left&&account.right<=bar.right&&profile.width>=24&&profile.height>=24&&profile.top>=bar.top&&profile.bottom<=bar.bottom;
           });
-          assert.ok(
-            header.separated &&
-              header.contained &&
-              header.compact &&
-              header.profileFits,
-            "header fits " + width,
-          );
+          assert.ok(header, 'compact HUD account fits '+width);
           const menu = await page.locator(".home-menu>a").evaluateAll((es) =>
             es.map((e) => {
               const r = e.getBoundingClientRect();
@@ -1176,27 +1152,10 @@ try {
             await page.locator(".primary-nav>a").count(),
             entry.actor ? 5 : 0,
           );
-          const header = await page.locator(".topbar").evaluate((element) => {
-            const brand = element
-                .querySelector(".realm-brand")!
-                .getBoundingClientRect(),
-              account = element
-                .querySelector(".account-menu")!
-                .getBoundingClientRect(),
-              bar = element.getBoundingClientRect();
-            const profile = element
-              .querySelector(".profile-link")
-              ?.getBoundingClientRect();
-            return (
-              brand.right <= account.left &&
-              account.right <= bar.right &&
-              bar.height <= (innerWidth >= 700 ? 30.5 : 28.5) &&
-              (!profile ||
-                (profile.width >= 24 &&
-                  profile.height >= 24 &&
-                  profile.top >= bar.top &&
-                  profile.bottom <= bar.bottom))
-            );
+          const header = await page.evaluate(() => {
+            const hud=document.querySelector('.hud-account');
+            if(hud){const bar=hud.closest('.realm-resources')!.getBoundingClientRect(),account=hud.getBoundingClientRect(),profile=hud.querySelector('.profile-link')!.getBoundingClientRect();return !document.querySelector('.topbar')&&account.left>=bar.left&&account.right<=bar.right&&profile.width>=24&&profile.height>=24&&profile.top>=bar.top&&profile.bottom<=bar.bottom;}
+            const masthead=document.querySelector('.topbar')!,brand=masthead.querySelector('.realm-brand')!.getBoundingClientRect(),bar=masthead.getBoundingClientRect();return brand.left>=bar.left&&brand.right<=bar.right;
           });
           assert.ok(header, "secondary header fit " + entry.name + " " + width);
           coverageChecks.push({

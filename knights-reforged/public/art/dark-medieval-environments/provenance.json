@@ -1,0 +1,48 @@
+{
+  "purpose": "Isolated environmental-background concept. No catalog or equipment artwork replaced.",
+  "source": "Original OpenAI-generated environmental artwork for this preview, not derived from existing Land/property illustrations.",
+  "reviewStatus": "Owner approved the final browser gallery and authorized merge/protected deployment on 2026-11-05.",
+  "processing": "PNG output encoded as WebP quality 88 only; no painting, recoloring, or creative image alteration. Runtime cropping and dark masks use CSS.",
+  "entries": [
+    {
+      "id": "battle",
+      "path": "/assets/art/dark-medieval-environments/battle.webp",
+      "bytes": 298022,
+      "sha256": "e46e3c8c215746ad5ccfd3d8cf5e0c25c8d9208a1c187ece21d820a8683ba924",
+      "dimensions": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "id": "armory",
+      "path": "/assets/art/dark-medieval-environments/armory.webp",
+      "bytes": 210246,
+      "sha256": "d4e360a96807cf24a0630fdf41dd58fb5a63f79ed799f78c43d9168264391900",
+      "dimensions": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "id": "land",
+      "path": "/assets/art/dark-medieval-environments/land.webp",
+      "bytes": 233830,
+      "sha256": "c64415d5ca67ffb1ce382f19cb7ae059946ac6ac54c80ecc34e52b7f92ee4dee",
+      "dimensions": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "id": "profile",
+      "path": "/assets/art/dark-medieval-environments/profile.webp",
+      "bytes": 202716,
+      "sha256": "cfddbb63b0024b50eae8f7cae2d7752131d75dcf2ce6d842a573da32b1069812",
+      "dimensions": [
+        1024,
+        1536
+      ]
+    }
+  ]
+}

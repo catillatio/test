@@ -8,7 +8,7 @@
   <title><%= title %> · Kingdom Come</title>
   <link rel="icon" type="image/svg+xml" href="/assets/art/remaster-ui/crest.svg?v=phase48-mockup2">
   <% const themedRealm=typeof uiTheme==='undefined'||uiTheme; if(themedRealm) { %>
-  <link rel="stylesheet" href="/assets/realm-iron-brass.css?v=realm-beta-1">
+  <link rel="stylesheet" href="/assets/realm-iron-brass.css?v=dark-medieval-environments-11">
   <% } else { %>
   <link rel="stylesheet" href="/assets/styles.css?palette=charcoal-2">
   <link rel="stylesheet" href="/assets/kingdoms-live.css?v=phase48-mockup2&palette=charcoal-2">
@@ -42,7 +42,7 @@
   <div class="app-shell">
     <div class="page-backdrop" aria-hidden="true"></div>
     <div class="page-column">
-      <%- include('partials/realm-header') %>
+      <% if (!state) { %><%- include('partials/realm-header') %><% } %>
       <main id="main-content" class="main-content" tabindex="-1">
         <% if (state) { %>
           <header class="character-header">
@@ -64,7 +64,7 @@
   </div>
   <% if (state) { %><script type="module" src="/assets/community.js?v=<%= alpha.id %>-phase6-competition1"></script><script type="module" src="/assets/realm.js?v=<%= alpha.id %>-phase47-1"></script><% } %>
 <% if(state) { %><script type="module" src="/assets/shopping.js?v=phase51c-1"></script><% } %>
-<% if(state) { %><script type="module" src="/assets/experience.js?v=phase45-1"></script><% } %>
+<% if(state) { %><script type="module" src="/assets/experience.js?v=static-rewards-1"></script><% } %>
 <% if(state) { %><script type="module" src="/assets/status.js?v=phase51d-upkeep1"></script><% } %>
 <script type="module" src="/assets/sound.js?v=phase491-quiet1"></script>
 <% if(state) { %><script type="module" src="/assets/market.js?v=phase51a-market1"></script><script type="module" src="/assets/interface.js?v=phase48-shared1"></script><% } %>

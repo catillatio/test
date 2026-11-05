@@ -1,0 +1,1714 @@
+{
+  "base": "3e6067e448f77ffba38b191773281ccf20e56e7c",
+  "mode": "Actual EJS/Fastify/Chromium; synthetic local PostgreSQL schema",
+  "checks": [
+    {
+      "screen": "/game/home",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/quests",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/battle",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/bounties",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/armory",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/armory?category=armor",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/armory?category=spell",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/land",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/profile",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/army",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/vault",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/settings",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/champions",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/tutorial",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "/game/players/79f03a4f-75b3-456a-9077-e8538ca28301",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "victory",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "defeat",
+      "authoritativeContracts": "MATCH"
+    },
+    {
+      "screen": "home",
+      "width": 320,
+      "height": 780,
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "profilePreserved": true,
+      "overflow": false
+    },
+    {
+      "screen": "home",
+      "width": 390,
+      "height": 844,
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "profilePreserved": true,
+      "overflow": false
+    },
+    {
+      "screen": "home",
+      "width": 430,
+      "height": 932,
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "profilePreserved": true,
+      "overflow": false
+    },
+    {
+      "screen": "home",
+      "width": 1280,
+      "height": 900,
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "profilePreserved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/quests",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/battle",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/bounties",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/armory",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/armory?category=armor",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/armory?category=spell",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/land",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/profile",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/army",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/vault",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/settings",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/champions",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/tutorial",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "/game/players/79f03a4f-75b3-456a-9077-e8538ca28301",
+      "semantics": "MATCH",
+      "brandingRemoved": true,
+      "overflow": false
+    },
+    {
+      "screen": "home",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "profile",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "profile"
+    },
+    {
+      "screen": "attack",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle"
+    },
+    {
+      "screen": "weapons",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "armor",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "spells",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "land",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "land"
+    },
+    {
+      "screen": "victory",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "defeat",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "home-attacks",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home-losses",
+      "width": 390,
+      "height": 844,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "profile",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "profile"
+    },
+    {
+      "screen": "attack",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle"
+    },
+    {
+      "screen": "weapons",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "armor",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "spells",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "land",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "land"
+    },
+    {
+      "screen": "victory",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "defeat",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "home-attacks",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home-losses",
+      "width": 430,
+      "height": 932,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "profile",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "profile"
+    },
+    {
+      "screen": "attack",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle"
+    },
+    {
+      "screen": "weapons",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "armor",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "spells",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "armory"
+    },
+    {
+      "screen": "land",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "land"
+    },
+    {
+      "screen": "victory",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "defeat",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "battle",
+      "savedBattleValues": "MATCH"
+    },
+    {
+      "screen": "home-attacks",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "screen": "home-losses",
+      "width": 1280,
+      "height": 900,
+      "actualBrowserCapture": true,
+      "overflow": false,
+      "automaticMotion": false,
+      "dedicatedEnvironment": "existing-shared-castle"
+    },
+    {
+      "interaction": "First-visit reward values remain static with no-preference and fresh session storage",
+      "result": "PASS"
+    },
+    {
+      "screen": "home-attacks",
+      "width": 700,
+      "tabletTransition": "PASS",
+      "longName": "PASS"
+    },
+    {
+      "screen": "home-attacks",
+      "width": 800,
+      "tabletTransition": "PASS",
+      "longName": "PASS"
+    },
+    {
+      "screen": "/login",
+      "brandingPreserved": true
+    },
+    {
+      "screen": "/register",
+      "brandingPreserved": true
+    },
+    {
+      "interaction": "live read acknowledgments remain valid subsets of the exact authoritative notification catalog",
+      "result": "PASS"
+    },
+    {
+      "interaction": "native tutorial resume",
+      "result": "PASS"
+    },
+    {
+      "interaction": "Home Land link",
+      "result": "PASS"
+    },
+    {
+      "interaction": "compact profile access",
+      "result": "PASS"
+    },
+    {
+      "interaction": "Read-only battle feed values match saved records; native comment reporting remains intact; static resource color",
+      "result": "PASS",
+      "resourceColor": [
+        {
+          "filter": "brightness(1.16) saturate(1.18) drop-shadow(rgba(236, 72, 75, 0.6) 0px 0px 2px) drop-shadow(rgba(189, 36, 36, 0.25) 0px 0px 7px) drop-shadow(rgba(0, 0, 0, 0.733) 0px 2px 2px)",
+          "width": 21,
+          "animation": "none"
+        },
+        {
+          "filter": "brightness(1.18) saturate(1.18) drop-shadow(rgba(38, 159, 255, 0.65) 0px 0px 2px) drop-shadow(rgba(18, 123, 220, 0.29) 0px 0px 7px) drop-shadow(rgba(0, 0, 0, 0.733) 0px 2px 2px)",
+          "width": 21,
+          "animation": "none"
+        },
+        {
+          "filter": "brightness(1.16) saturate(1.16) drop-shadow(rgba(239, 196, 68, 0.6) 0px 0px 2px) drop-shadow(rgba(201, 148, 36, 0.25) 0px 0px 6px) drop-shadow(rgba(0, 0, 0, 0.733) 0px 2px 2px)",
+          "width": 21,
+          "animation": "none"
+        }
+      ]
+    },
+    {
+      "interaction": "Shared neutral player-name typography across pages, filters and viewports; unified Home header and neutral menu materials",
+      "result": "PASS"
+    },
+    {
+      "interaction": "native All/Battles/Comments/Broadcasts activity filtering",
+      "result": "PASS"
+    },
+    {
+      "interaction": "320px recovery placeholders and populated timers retain HUD height",
+      "result": "PASS"
+    },
+    {
+      "interaction": "native forms and disclosure with JavaScript disabled",
+      "result": "PASS"
+    },
+    {
+      "interaction": "Coin removed; centered gold glow and digits remain static",
+      "preference": "no-preference",
+      "result": "PASS",
+      "glow": {
+        "animations": 0,
+        "name": "none",
+        "transform": "matrix(1, 0, 0, 1, -81.125, -13)",
+        "opacity": "0.4",
+        "display": "block",
+        "number": {
+          "x": 46,
+          "y": 17.125,
+          "width": 142.25,
+          "height": 33.34375,
+          "top": 17.125,
+          "right": 188.25,
+          "bottom": 50.46875,
+          "left": 46
+        },
+        "centerError": 0,
+        "anchorError": 0
+      }
+    },
+    {
+      "interaction": "Coin removed; centered gold glow and digits remain static",
+      "preference": "reduce",
+      "result": "PASS",
+      "glow": {
+        "animations": 0,
+        "name": "none",
+        "transform": "matrix(1, 0, 0, 1, -81.125, -13)",
+        "opacity": "0.4",
+        "display": "block",
+        "number": {
+          "x": 46,
+          "y": 17.125,
+          "width": 142.25,
+          "height": 33.34375,
+          "top": 17.125,
+          "right": 188.25,
+          "bottom": 50.46875,
+          "left": 46
+        },
+        "centerError": 0,
+        "anchorError": 0
+      }
+    },
+    {
+      "interaction": "keyboard focus, reduced motion and forced-colors fallback",
+      "result": "PASS"
+    }
+  ],
+  "assetAndScriptErrors": [],
+  "readOnlyBusinessPreservation": "PASS",
+  "performance": [
+    {
+      "width": 320,
+      "mode": "before",
+      "cls": 0,
+      "shifts": [],
+      "domReadyMs": 258,
+      "resources": [
+        {
+          "path": "/assets/realm-iron-brass.css",
+          "bytes": 137037,
+          "durationMs": 34.399999998509884
+        },
+        {
+          "path": "/assets/community.js",
+          "bytes": 2919,
+          "durationMs": 44.79999999701977
+        },
+        {
+          "path": "/assets/realm.js",
+          "bytes": 5716,
+          "durationMs": 48.19999999925494
+        },
+        {
+          "path": "/assets/shopping.js",
+          "bytes": 4924,
+          "durationMs": 48.399999998509884
+        },
+        {
+          "path": "/assets/experience.js",
+          "bytes": 716,
+          "durationMs": 47.600000001490116
+        },
+        {
+          "path": "/assets/status.js",
+          "bytes": 5606,
+          "durationMs": 52.19999999925494
+        },
+        {
+          "path": "/assets/sound.js",
+          "bytes": 8829,
+          "durationMs": 52.30000000074506
+        },
+        {
+          "path": "/assets/market.js",
+          "bytes": 7676,
+          "durationMs": 55.100000001490116
+        },
+        {
+          "path": "/assets/interface.js",
+          "bytes": 1738,
+          "durationMs": 54.69999999925494
+        },
+        {
+          "path": "/assets/player-experience.js",
+          "bytes": 6687,
+          "durationMs": 60.79999999701977
+        },
+        {
+          "path": "/assets/art/remaster-ui/icons.svg",
+          "bytes": 5673,
+          "durationMs": 47.900000002235174
+        },
+        {
+          "path": "/assets/art/remaster-ui/castle-illustration.webp",
+          "bytes": 278112,
+          "durationMs": 62.30000000074506
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/resources.webp",
+          "bytes": 20698,
+          "durationMs": 71.10000000149012
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/iron.webp",
+          "bytes": 10790,
+          "durationMs": 70.10000000149012
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/panels.webp",
+          "bytes": 88342,
+          "durationMs": 70.10000000149012
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/icons.webp",
+          "bytes": 78742,
+          "durationMs": 70.69999999925494
+        },
+        {
+          "path": "/assets/audio/index.js",
+          "bytes": 821,
+          "durationMs": 19.800000000745058
+        },
+        {
+          "path": "/assets/art/remaster-ui/crest.svg",
+          "bytes": 978,
+          "durationMs": 3.800000000745058
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "mode": "after",
+      "cls": 0.00036352458805884283,
+      "shifts": [
+        {
+          "value": 0.00036352458805884283,
+          "time": 302,
+          "sources": [
+            {
+              "classes": "",
+              "before": {
+                "y": 105.9375,
+                "height": 10
+              },
+              "after": {
+                "y": 117.625,
+                "height": 10
+              }
+            },
+            {
+              "classes": "",
+              "before": {
+                "y": 117.625,
+                "height": 10
+              },
+              "after": {
+                "y": 117.625,
+                "height": 10
+              }
+            },
+            {
+              "tag": "SPAN",
+              "classes": "status-caret",
+              "before": {
+                "y": 48.890625,
+                "height": 13.046875
+              },
+              "after": {
+                "y": 48.890625,
+                "height": 13.046875
+              }
+            }
+          ]
+        }
+      ],
+      "domReadyMs": 281.69999999925494,
+      "resources": [
+        {
+          "path": "/assets/realm-iron-brass.css",
+          "bytes": 137231,
+          "durationMs": 64.69999999925494
+        },
+        {
+          "path": "/assets/community.js",
+          "bytes": 2919,
+          "durationMs": 64.30000000074506
+        },
+        {
+          "path": "/assets/realm.js",
+          "bytes": 5716,
+          "durationMs": 66.39999999850988
+        },
+        {
+          "path": "/assets/shopping.js",
+          "bytes": 4924,
+          "durationMs": 70.5
+        },
+        {
+          "path": "/assets/experience.js",
+          "bytes": 716,
+          "durationMs": 69.90000000223517
+        },
+        {
+          "path": "/assets/status.js",
+          "bytes": 5606,
+          "durationMs": 74.89999999850988
+        },
+        {
+          "path": "/assets/sound.js",
+          "bytes": 8829,
+          "durationMs": 76.39999999850988
+        },
+        {
+          "path": "/assets/market.js",
+          "bytes": 7676,
+          "durationMs": 76.5
+        },
+        {
+          "path": "/assets/interface.js",
+          "bytes": 1738,
+          "durationMs": 76
+        },
+        {
+          "path": "/assets/player-experience.js",
+          "bytes": 6687,
+          "durationMs": 78.90000000223517
+        },
+        {
+          "path": "/assets/art/remaster-ui/icons.svg",
+          "bytes": 5673,
+          "durationMs": 66.80000000074506
+        },
+        {
+          "path": "/assets/art/remaster-ui/castle-illustration.webp",
+          "bytes": 278112,
+          "durationMs": 72.59999999776483
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/resources.webp",
+          "bytes": 20698,
+          "durationMs": 73.5
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/iron.webp",
+          "bytes": 10790,
+          "durationMs": 75.69999999925494
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/panels.webp",
+          "bytes": 88342,
+          "durationMs": 75.69999999925494
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/icons.webp",
+          "bytes": 78742,
+          "durationMs": 74.39999999850988
+        },
+        {
+          "path": "/assets/audio/index.js",
+          "bytes": 821,
+          "durationMs": 16.699999999254942
+        },
+        {
+          "path": "/assets/art/remaster-ui/crest.svg",
+          "bytes": 978,
+          "durationMs": 3.600000001490116
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "before",
+      "cls": 0.00014366295972255096,
+      "shifts": [
+        {
+          "value": 0.00014366295972255096,
+          "time": 294.6000000014901,
+          "sources": [
+            {
+              "classes": "",
+              "before": {
+                "y": 110.171875,
+                "height": 10
+              },
+              "after": {
+                "y": 110.171875,
+                "height": 10
+              }
+            },
+            {
+              "classes": "",
+              "before": {
+                "y": 110.171875,
+                "height": 10
+              },
+              "after": {
+                "y": 110.171875,
+                "height": 10
+              }
+            },
+            {
+              "tag": "SPAN",
+              "classes": "status-caret",
+              "before": {
+                "y": 50.625,
+                "height": 14.5
+              },
+              "after": {
+                "y": 50.625,
+                "height": 14.5
+              }
+            }
+          ]
+        }
+      ],
+      "domReadyMs": 269.8999999985099,
+      "resources": [
+        {
+          "path": "/assets/realm-iron-brass.css",
+          "bytes": 137037,
+          "durationMs": 26.199999999254942
+        },
+        {
+          "path": "/assets/community.js",
+          "bytes": 2919,
+          "durationMs": 51.19999999925494
+        },
+        {
+          "path": "/assets/realm.js",
+          "bytes": 5716,
+          "durationMs": 52.600000001490116
+        },
+        {
+          "path": "/assets/shopping.js",
+          "bytes": 4924,
+          "durationMs": 52.400000002235174
+        },
+        {
+          "path": "/assets/experience.js",
+          "bytes": 716,
+          "durationMs": 60.5
+        },
+        {
+          "path": "/assets/status.js",
+          "bytes": 5606,
+          "durationMs": 63.19999999925494
+        },
+        {
+          "path": "/assets/sound.js",
+          "bytes": 8829,
+          "durationMs": 63.30000000074506
+        },
+        {
+          "path": "/assets/market.js",
+          "bytes": 7676,
+          "durationMs": 64
+        },
+        {
+          "path": "/assets/interface.js",
+          "bytes": 1738,
+          "durationMs": 63.69999999925494
+        },
+        {
+          "path": "/assets/player-experience.js",
+          "bytes": 6687,
+          "durationMs": 64.09999999776483
+        },
+        {
+          "path": "/assets/art/remaster-ui/icons.svg",
+          "bytes": 5673,
+          "durationMs": 53.100000001490116
+        },
+        {
+          "path": "/assets/art/remaster-ui/castle-illustration.webp",
+          "bytes": 278112,
+          "durationMs": 71.89999999850988
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/resources.webp",
+          "bytes": 20698,
+          "durationMs": 62.69999999925494
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/iron.webp",
+          "bytes": 10790,
+          "durationMs": 65.29999999701977
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/panels.webp",
+          "bytes": 88342,
+          "durationMs": 67.80000000074506
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/icons.webp",
+          "bytes": 78742,
+          "durationMs": 65.39999999850988
+        },
+        {
+          "path": "/assets/audio/index.js",
+          "bytes": 821,
+          "durationMs": 11.299999997019768
+        },
+        {
+          "path": "/assets/art/remaster-ui/crest.svg",
+          "bytes": 978,
+          "durationMs": 3.900000002235174
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "after",
+      "cls": 0.00013789914990419388,
+      "shifts": [
+        {
+          "value": 0.00013789914990419388,
+          "time": 291.80000000074506,
+          "sources": [
+            {
+              "classes": "",
+              "before": {
+                "y": 111.171875,
+                "height": 10
+              },
+              "after": {
+                "y": 111.171875,
+                "height": 10
+              }
+            },
+            {
+              "classes": "",
+              "before": {
+                "y": 111.171875,
+                "height": 10
+              },
+              "after": {
+                "y": 111.171875,
+                "height": 10
+              }
+            },
+            {
+              "tag": "SPAN",
+              "classes": "status-caret",
+              "before": {
+                "y": 51.625,
+                "height": 14.5
+              },
+              "after": {
+                "y": 51.625,
+                "height": 14.5
+              }
+            }
+          ]
+        }
+      ],
+      "domReadyMs": 276.69999999925494,
+      "resources": [
+        {
+          "path": "/assets/realm-iron-brass.css",
+          "bytes": 137231,
+          "durationMs": 51.399999998509884
+        },
+        {
+          "path": "/assets/community.js",
+          "bytes": 2919,
+          "durationMs": 54.80000000074506
+        },
+        {
+          "path": "/assets/realm.js",
+          "bytes": 5716,
+          "durationMs": 57.80000000074506
+        },
+        {
+          "path": "/assets/shopping.js",
+          "bytes": 4924,
+          "durationMs": 57.80000000074506
+        },
+        {
+          "path": "/assets/experience.js",
+          "bytes": 716,
+          "durationMs": 57.69999999925494
+        },
+        {
+          "path": "/assets/status.js",
+          "bytes": 5606,
+          "durationMs": 58
+        },
+        {
+          "path": "/assets/sound.js",
+          "bytes": 8829,
+          "durationMs": 58.19999999925494
+        },
+        {
+          "path": "/assets/market.js",
+          "bytes": 7676,
+          "durationMs": 79.10000000149012
+        },
+        {
+          "path": "/assets/interface.js",
+          "bytes": 1738,
+          "durationMs": 83.40000000223517
+        },
+        {
+          "path": "/assets/player-experience.js",
+          "bytes": 6687,
+          "durationMs": 87.30000000074506
+        },
+        {
+          "path": "/assets/art/remaster-ui/icons.svg",
+          "bytes": 5673,
+          "durationMs": 80.70000000298023
+        },
+        {
+          "path": "/assets/art/remaster-ui/castle-illustration.webp",
+          "bytes": 278112,
+          "durationMs": 85.60000000149012
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/resources.webp",
+          "bytes": 20698,
+          "durationMs": 77.89999999850988
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/iron.webp",
+          "bytes": 10790,
+          "durationMs": 81.10000000149012
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/panels.webp",
+          "bytes": 88342,
+          "durationMs": 82.39999999850988
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/icons.webp",
+          "bytes": 78742,
+          "durationMs": 82
+        },
+        {
+          "path": "/assets/audio/index.js",
+          "bytes": 821,
+          "durationMs": 17
+        },
+        {
+          "path": "/assets/art/remaster-ui/crest.svg",
+          "bytes": 978,
+          "durationMs": 8.099999997764826
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "before",
+      "cls": 0.00012132360264424633,
+      "shifts": [
+        {
+          "value": 0.00012132360264424633,
+          "time": 281.0999999977648,
+          "sources": [
+            {
+              "classes": "",
+              "before": {
+                "y": 110.171875,
+                "height": 10
+              },
+              "after": {
+                "y": 110.171875,
+                "height": 10
+              }
+            },
+            {
+              "classes": "",
+              "before": {
+                "y": 110.171875,
+                "height": 10
+              },
+              "after": {
+                "y": 110.171875,
+                "height": 10
+              }
+            },
+            {
+              "tag": "SPAN",
+              "classes": "status-caret",
+              "before": {
+                "y": 50.625,
+                "height": 14.5
+              },
+              "after": {
+                "y": 50.625,
+                "height": 14.5
+              }
+            }
+          ]
+        }
+      ],
+      "domReadyMs": 251.79999999701977,
+      "resources": [
+        {
+          "path": "/assets/realm-iron-brass.css",
+          "bytes": 137037,
+          "durationMs": 35.600000001490116
+        },
+        {
+          "path": "/assets/community.js",
+          "bytes": 2919,
+          "durationMs": 58.20000000298023
+        },
+        {
+          "path": "/assets/realm.js",
+          "bytes": 5716,
+          "durationMs": 60.899999998509884
+        },
+        {
+          "path": "/assets/shopping.js",
+          "bytes": 4924,
+          "durationMs": 61
+        },
+        {
+          "path": "/assets/experience.js",
+          "bytes": 716,
+          "durationMs": 60.19999999925494
+        },
+        {
+          "path": "/assets/status.js",
+          "bytes": 5606,
+          "durationMs": 61.400000002235174
+        },
+        {
+          "path": "/assets/sound.js",
+          "bytes": 8829,
+          "durationMs": 61.100000001490116
+        },
+        {
+          "path": "/assets/market.js",
+          "bytes": 7676,
+          "durationMs": 69.80000000074506
+        },
+        {
+          "path": "/assets/interface.js",
+          "bytes": 1738,
+          "durationMs": 69.80000000074506
+        },
+        {
+          "path": "/assets/player-experience.js",
+          "bytes": 6687,
+          "durationMs": 71.60000000149012
+        },
+        {
+          "path": "/assets/art/remaster-ui/icons.svg",
+          "bytes": 5673,
+          "durationMs": 62.599999997764826
+        },
+        {
+          "path": "/assets/art/remaster-ui/castle-illustration.webp",
+          "bytes": 278112,
+          "durationMs": 95.39999999850988
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/resources.webp",
+          "bytes": 20698,
+          "durationMs": 85.19999999925494
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/iron.webp",
+          "bytes": 10790,
+          "durationMs": 83.5
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/panels.webp",
+          "bytes": 88342,
+          "durationMs": 84.69999999925494
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/icons.webp",
+          "bytes": 78742,
+          "durationMs": 83.89999999850988
+        },
+        {
+          "path": "/assets/audio/index.js",
+          "bytes": 821,
+          "durationMs": 15
+        },
+        {
+          "path": "/assets/art/remaster-ui/crest.svg",
+          "bytes": 978,
+          "durationMs": 4.400000002235174
+        },
+        {
+          "path": "/api/v1/notifications/read",
+          "bytes": 31,
+          "durationMs": 16.800000000745058
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "after",
+      "cls": 0.0001170365495472765,
+      "shifts": [
+        {
+          "value": 0.0001170365495472765,
+          "time": 296.5,
+          "sources": [
+            {
+              "classes": "",
+              "before": {
+                "y": 111.171875,
+                "height": 10
+              },
+              "after": {
+                "y": 111.171875,
+                "height": 10
+              }
+            },
+            {
+              "classes": "",
+              "before": {
+                "y": 111.171875,
+                "height": 10
+              },
+              "after": {
+                "y": 111.171875,
+                "height": 10
+              }
+            },
+            {
+              "tag": "SPAN",
+              "classes": "status-caret",
+              "before": {
+                "y": 51.625,
+                "height": 14.5
+              },
+              "after": {
+                "y": 51.625,
+                "height": 14.5
+              }
+            }
+          ]
+        }
+      ],
+      "domReadyMs": 273.20000000298023,
+      "resources": [
+        {
+          "path": "/assets/realm-iron-brass.css",
+          "bytes": 137231,
+          "durationMs": 54.5
+        },
+        {
+          "path": "/assets/community.js",
+          "bytes": 2919,
+          "durationMs": 56.80000000074506
+        },
+        {
+          "path": "/assets/realm.js",
+          "bytes": 5716,
+          "durationMs": 59.69999999925494
+        },
+        {
+          "path": "/assets/shopping.js",
+          "bytes": 4924,
+          "durationMs": 60
+        },
+        {
+          "path": "/assets/experience.js",
+          "bytes": 716,
+          "durationMs": 59.100000001490116
+        },
+        {
+          "path": "/assets/status.js",
+          "bytes": 5606,
+          "durationMs": 60.19999999925494
+        },
+        {
+          "path": "/assets/sound.js",
+          "bytes": 8829,
+          "durationMs": 64.29999999701977
+        },
+        {
+          "path": "/assets/market.js",
+          "bytes": 7676,
+          "durationMs": 64.69999999925494
+        },
+        {
+          "path": "/assets/player-experience.js",
+          "bytes": 6687,
+          "durationMs": 70.30000000074506
+        },
+        {
+          "path": "/assets/interface.js",
+          "bytes": 1738,
+          "durationMs": 68.5
+        },
+        {
+          "path": "/assets/art/remaster-ui/icons.svg",
+          "bytes": 5673,
+          "durationMs": 59.5
+        },
+        {
+          "path": "/assets/art/remaster-ui/castle-illustration.webp",
+          "bytes": 278112,
+          "durationMs": 71.39999999850988
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/resources.webp",
+          "bytes": 20698,
+          "durationMs": 63.400000002235174
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/iron.webp",
+          "bytes": 10790,
+          "durationMs": 62.19999999925494
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/panels.webp",
+          "bytes": 88342,
+          "durationMs": 62.80000000074506
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/icons.webp",
+          "bytes": 78742,
+          "durationMs": 61.69999999925494
+        },
+        {
+          "path": "/assets/audio/index.js",
+          "bytes": 821,
+          "durationMs": 17
+        },
+        {
+          "path": "/assets/art/remaster-ui/crest.svg",
+          "bytes": 978,
+          "durationMs": 3.199999999254942
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "mode": "before",
+      "cls": 0.00008472983042399088,
+      "shifts": [
+        {
+          "value": 0.00008472983042399088,
+          "time": 381.8999999985099,
+          "sources": [
+            {
+              "classes": "",
+              "before": {
+                "y": 120.890625,
+                "height": 11
+              },
+              "after": {
+                "y": 120.890625,
+                "height": 11
+              }
+            },
+            {
+              "classes": "",
+              "before": {
+                "y": 120.890625,
+                "height": 11
+              },
+              "after": {
+                "y": 120.890625,
+                "height": 11
+              }
+            },
+            {
+              "tag": "SPAN",
+              "classes": "status-caret",
+              "before": {
+                "y": 55.5,
+                "height": 15.9375
+              },
+              "after": {
+                "y": 55.5,
+                "height": 15.9375
+              }
+            }
+          ]
+        }
+      ],
+      "domReadyMs": 335.3999999985099,
+      "resources": [
+        {
+          "path": "/assets/realm-iron-brass.css",
+          "bytes": 137037,
+          "durationMs": 55.599999997764826
+        },
+        {
+          "path": "/assets/community.js",
+          "bytes": 2919,
+          "durationMs": 65.30000000074506
+        },
+        {
+          "path": "/assets/realm.js",
+          "bytes": 5716,
+          "durationMs": 71.09999999776483
+        },
+        {
+          "path": "/assets/experience.js",
+          "bytes": 716,
+          "durationMs": 71.40000000223517
+        },
+        {
+          "path": "/assets/shopping.js",
+          "bytes": 4924,
+          "durationMs": 72.40000000223517
+        },
+        {
+          "path": "/assets/status.js",
+          "bytes": 5606,
+          "durationMs": 76.90000000223517
+        },
+        {
+          "path": "/assets/sound.js",
+          "bytes": 8829,
+          "durationMs": 77.80000000074506
+        },
+        {
+          "path": "/assets/market.js",
+          "bytes": 7676,
+          "durationMs": 78.20000000298023
+        },
+        {
+          "path": "/assets/interface.js",
+          "bytes": 1738,
+          "durationMs": 78.80000000074506
+        },
+        {
+          "path": "/assets/player-experience.js",
+          "bytes": 6687,
+          "durationMs": 80.69999999925494
+        },
+        {
+          "path": "/assets/art/remaster-ui/icons.svg",
+          "bytes": 5673,
+          "durationMs": 65.60000000149012
+        },
+        {
+          "path": "/assets/art/remaster-ui/castle-illustration.webp",
+          "bytes": 278112,
+          "durationMs": 88.60000000149012
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/resources.webp",
+          "bytes": 20698,
+          "durationMs": 84.80000000074506
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/iron.webp",
+          "bytes": 10790,
+          "durationMs": 83.80000000074506
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/panels.webp",
+          "bytes": 88342,
+          "durationMs": 91.19999999925494
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/icons.webp",
+          "bytes": 78742,
+          "durationMs": 84.80000000074506
+        },
+        {
+          "path": "/assets/audio/index.js",
+          "bytes": 821,
+          "durationMs": 19.600000001490116
+        },
+        {
+          "path": "/assets/art/remaster-ui/crest.svg",
+          "bytes": 978,
+          "durationMs": 7.699999999254942
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "mode": "after",
+      "cls": 0.00008226458231608073,
+      "shifts": [
+        {
+          "value": 0.00008226458231608073,
+          "time": 308.80000000074506,
+          "sources": [
+            {
+              "classes": "",
+              "before": {
+                "y": 121.890625,
+                "height": 11
+              },
+              "after": {
+                "y": 121.890625,
+                "height": 11
+              }
+            },
+            {
+              "classes": "",
+              "before": {
+                "y": 121.890625,
+                "height": 11
+              },
+              "after": {
+                "y": 121.890625,
+                "height": 11
+              }
+            },
+            {
+              "tag": "SPAN",
+              "classes": "status-caret",
+              "before": {
+                "y": 56.5,
+                "height": 15.9375
+              },
+              "after": {
+                "y": 56.5,
+                "height": 15.9375
+              }
+            }
+          ]
+        }
+      ],
+      "domReadyMs": 274.6000000014901,
+      "resources": [
+        {
+          "path": "/assets/realm-iron-brass.css",
+          "bytes": 137231,
+          "durationMs": 47.30000000074506
+        },
+        {
+          "path": "/assets/community.js",
+          "bytes": 2919,
+          "durationMs": 48
+        },
+        {
+          "path": "/assets/realm.js",
+          "bytes": 5716,
+          "durationMs": 50.69999999925494
+        },
+        {
+          "path": "/assets/shopping.js",
+          "bytes": 4924,
+          "durationMs": 52.099999997764826
+        },
+        {
+          "path": "/assets/experience.js",
+          "bytes": 716,
+          "durationMs": 51.69999999925494
+        },
+        {
+          "path": "/assets/status.js",
+          "bytes": 5606,
+          "durationMs": 52.100000001490116
+        },
+        {
+          "path": "/assets/market.js",
+          "bytes": 7676,
+          "durationMs": 60.19999999925494
+        },
+        {
+          "path": "/assets/sound.js",
+          "bytes": 8829,
+          "durationMs": 60.099999997764826
+        },
+        {
+          "path": "/assets/interface.js",
+          "bytes": 1738,
+          "durationMs": 59.900000002235174
+        },
+        {
+          "path": "/assets/player-experience.js",
+          "bytes": 6687,
+          "durationMs": 59
+        },
+        {
+          "path": "/assets/art/remaster-ui/icons.svg",
+          "bytes": 5673,
+          "durationMs": 43.099999997764826
+        },
+        {
+          "path": "/assets/art/remaster-ui/castle-illustration.webp",
+          "bytes": 278112,
+          "durationMs": 78.5
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/resources.webp",
+          "bytes": 20698,
+          "durationMs": 74.5
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/iron.webp",
+          "bytes": 10790,
+          "durationMs": 72.19999999925494
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/panels.webp",
+          "bytes": 88342,
+          "durationMs": 73.89999999850988
+        },
+        {
+          "path": "/assets/art/home-ui-review-1/icons.webp",
+          "bytes": 78742,
+          "durationMs": 73.39999999850988
+        },
+        {
+          "path": "/assets/audio/index.js",
+          "bytes": 821,
+          "durationMs": 23.399999998509884
+        },
+        {
+          "path": "/assets/art/remaster-ui/crest.svg",
+          "bytes": 978,
+          "durationMs": 4.699999999254942
+        }
+      ]
+    }
+  ]
+}

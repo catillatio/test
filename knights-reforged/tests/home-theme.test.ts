@@ -71,3 +71,28 @@ test("Home decorative sources and optimized atlases retain exact provenance with
     assert.equal(data.subarray(8, 12).toString(), "WEBP");
   }
 });
+
+
+test("Approved Dark Medieval scenes are local, bounded and bound to their exact provenance", async () => {
+  const { createHash } = await import("node:crypto");
+  const source = JSON.parse(await readFile("public/art/dark-medieval-environments/provenance.json", "utf8"));
+  assert.deepEqual(source.entries.map((entry: {id:string})=>entry.id), ["battle", "armory", "land", "profile"]);
+  const css = await readFile("public/realm-iron-brass.css", "utf8");
+  let total=0;
+  for(const entry of source.entries){
+    assert.match(entry.path, /^\/assets\/art\/dark-medieval-environments\/[a-z]+\.webp$/);
+    const bytes=await readFile("public/"+entry.path.slice("/assets/".length));
+    assert.equal(bytes.length,entry.bytes);
+    assert.equal(createHash("sha256").update(bytes).digest("hex"),entry.sha256);
+    assert.equal(bytes.subarray(8,12).toString(),"WEBP");
+    assert.deepEqual(entry.dimensions,[1024,1536]);
+    assert.ok(bytes.length<350000,"Each destination loads one bounded scene");
+    assert.ok(css.includes(entry.path.slice("/assets/".length)));
+    total+=bytes.length;
+  }
+  assert.ok(total<1000000,"All four scenic backgrounds stay below 1 MB combined");
+  const scenes=[...css.matchAll(/--realm-scene:\s*url\("([^"]+)"\)/g)].map(match=>match[1]!);
+  assert.equal(scenes.length,5);
+  assert.ok(scenes.every(path=>path==="art/remaster-ui/castle-illustration.webp"||path.startsWith("art/dark-medieval-environments/")),"Property and equipment artwork never becomes a screen background");
+  assert.doesNotMatch(css,/@font-face|@import|https?:\/\//);
+});
