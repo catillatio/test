@@ -41,6 +41,11 @@ public final class NavigationPolicy {
                 || path.matches("/game/(players|battles|purchases)/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")) return value;
         return HOME;
     }
+    /** A recreated Activity uses its current safe screen, not the original deep link. */
+    public static String initialUrl(String savedRecovery, String incoming) {
+        if (savedRecovery != null) return recovery(savedRecovery);
+        return isGame(incoming) ? incoming : ORIGIN + "/";
+    }
     public static boolean isAuthentication(String value) {
         if (!isGame(value)) return false;
         String path = https(value).getPath();

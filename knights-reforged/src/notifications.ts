@@ -1,3 +1,4 @@
+import {accountSafetySchema} from './account-safety-schema.js';
 import {z} from 'zod';
 import {type Database,type Sql,transaction} from './db.js';
 import {competitionSchema} from './competitive-records.js';
@@ -8,7 +9,7 @@ const eventKinds=['attack','comment','army_accepted','bounty_placed','bounty_cla
 const eventSchema=z.array(z.object({kind:z.enum(eventKinds),id:z.uuid()})).max(40);
 // Every event is unique and read independently. No time watermark can swallow
 // a late commit or another event with the same timestamp during acknowledgement.
-function eventQuery(competition:boolean){return `SELECT b.id,'attack'::text AS kind FROM battles b
+function eventQuery(competition:boolean,safety:boolean){return `SELECT b.id,'attack'::text AS kind FROM battles b
  JOIN notification_state s ON s.character_id=b.defender_id
  WHERE b.defender_id=$1 AND b.attacker_id<>$1 AND b.created_at>=s.started_at
  ${competition?`AND NOT EXISTS(SELECT 1 FROM competitive_deaths d JOIN competitive_attention_starts n ON n.character_id=$1
@@ -17,7 +18,7 @@ function eventQuery(competition:boolean){return `SELECT b.id,'attack'::text AS k
  JOIN notification_state s ON s.character_id=m.profile_id
  WHERE m.profile_id=$1 AND m.author_id<>$1 AND m.channel='comment'
  AND m.status='visible' AND m.created_at>=s.started_at
- AND NOT EXISTS(SELECT 1 FROM social_blocks b WHERE (b.character_id=$1 AND b.blocked_id=m.author_id) OR (b.character_id=m.author_id AND b.blocked_id=$1))
+ ${safety?`AND NOT EXISTS(SELECT 1 FROM social_blocks b WHERE (b.character_id=$1 AND b.blocked_id=m.author_id) OR (b.character_id=m.author_id AND b.blocked_id=$1))`:""}
  UNION ALL SELECT e.id,'army_accepted'::text AS kind FROM army_events e
  JOIN army_attention_starts s ON s.character_id=e.target_id
  WHERE e.target_id=$1 AND e.actor_id<>$1 AND e.kind='accepted' AND e.created_at>=s.started_at
@@ -29,7 +30,7 @@ function eventQuery(competition:boolean){return `SELECT b.id,'attack'::text AS k
  JOIN bounties b ON b.id=e.bounty_id JOIN competitive_attention_starts n ON n.character_id=$1
  WHERE (b.target_id=$1 OR b.sponsor_id=$1) AND b.claimant_id<>$1 AND e.kind='claimed' AND e.created_at>=n.started_at`:''}`;}
 export async function notificationSummary(sql:Sql,id:string,feed:Pick<FeedEntry,'id'|'kind'|'data'>[]=[]){
- const eventsSql=eventQuery(await competitionSchema(sql));
+ const eventsSql=eventQuery(await competitionSchema(sql),await accountSafetySchema(sql));
  const counts=(await sql.query(`SELECT
  (SELECT count(*)::int FROM (${eventsSql}) e WHERE NOT EXISTS
  (SELECT 1 FROM notification_reads r WHERE r.character_id=$1 AND r.kind=e.kind AND r.event_id=e.id)) AS home,
@@ -43,7 +44,7 @@ export async function acknowledgeNotifications(db:Database,id:string,input:unkno
  let value=input;if(typeof input==='string'){try{value=JSON.parse(input);}catch{throw new GameError('INVALID_ACKNOWLEDGEMENT','Choose displayed notifications to mark as read.');}}
  const parsed=eventSchema.safeParse(value);if(!parsed.success)throw new GameError('INVALID_ACKNOWLEDGEMENT','Choose displayed notifications to mark as read.');
  await transaction(db,async sql=>{
-  const eventsSql=eventQuery(await competitionSchema(sql));
+  const eventsSql=eventQuery(await competitionSchema(sql),await accountSafetySchema(sql));
   await sql.query('SELECT character_id FROM notification_state WHERE character_id=$1 FOR UPDATE',[id]);
   for(const kind of eventKinds){const ids=parsed.data.filter(e=>e.kind===kind).map(e=>e.id);if(!ids.length)continue;
    await sql.query(`INSERT INTO notification_reads(character_id,kind,event_id)

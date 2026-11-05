@@ -44,6 +44,8 @@ public final class MainActivity extends Activity {
     private Button retry;
     private Button home;
     private boolean failed;
+    private int restoredScrollY = -1;
+    private String restorationUrl;
     private String recovery = NavigationPolicy.HOME;
     private android.window.OnBackInvokedCallback backCallback;
 
@@ -82,15 +84,13 @@ public final class MainActivity extends Activity {
             backCallback = this::navigateBack;
             getOnBackInvokedDispatcher().registerOnBackInvokedCallback(0, backCallback);
         }
-        if (saved != null) recovery = NavigationPolicy.recovery(saved.getString("recovery"));
-        String incoming = getIntent().getDataString();
-        if (incoming != null && NavigationPolicy.isGame(incoming)) {
-            recovery = NavigationPolicy.recovery(incoming);
-            web.loadUrl(incoming);
-        } else if (saved != null) {
-            // Restore a safe page with a fresh GET; never persist or replay form bodies.
-            web.loadUrl(recovery);
-        } else web.loadUrl(NavigationPolicy.ORIGIN + "/");
+        if (saved != null) {
+            recovery = NavigationPolicy.recovery(saved.getString("recovery"));
+            restoredScrollY = Math.max(0, saved.getInt("scrollY", 0));
+            restorationUrl = recovery;
+        }
+        // Fresh GET only; no form body, password or WebView history is serialized.
+        web.loadUrl(NavigationPolicy.initialUrl(saved == null ? null : recovery, getIntent().getDataString()));
     }
 
     private void createNotice(FrameLayout root) {
@@ -154,6 +154,7 @@ public final class MainActivity extends Activity {
     @Override public void onBackPressed() { navigateBack(); }
     @Override protected void onSaveInstanceState(Bundle out) {
         out.putString("recovery", recovery);
+        out.putInt("scrollY", web.getScrollY());
         super.onSaveInstanceState(out);
     }
     @Override protected void onPause() {
@@ -203,6 +204,11 @@ public final class MainActivity extends Activity {
             progress.setVisibility(View.GONE);
             if (!failed && NavigationPolicy.isGame(url)) {
                 recovery = NavigationPolicy.recovery(url);
+                if (restoredScrollY >= 0) {
+                    int position = restorationUrl != null && restorationUrl.equals(url) ? restoredScrollY : 0;
+                    restoredScrollY = -1;
+                    web.post(() -> web.scrollTo(0, position));
+                }
                 if (NavigationPolicy.isAuthentication(url)) view.clearHistory();
                 notice.setVisibility(View.GONE);
                 CookieManager.getInstance().flush();

@@ -48,3 +48,9 @@ test('UGC consent, reporting and reversible social blocking are independent of g
   await socialSafety(r.db,a.accountId,b.id,'unblock','');assert.equal((await activityFeed(r.db,a.id,'comments',undefined,a.id)).entries.length,1);
  }finally{await r.close();}
 });
+
+test('current or partial safety schema cannot silently disable blocking checks',async()=>{
+ const r=await realm({isolated:true});
+ try{const a=await r.player('Schema Guard');await r.db.query('DROP TABLE social_blocks');await assert.rejects(activityFeed(r.db,a.id,'comments'),/Incomplete account-safety schema/);}
+ finally{await r.close();}
+});

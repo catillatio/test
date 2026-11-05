@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Disposable GitHub runner only. Never accepts SDK agreements or contacts the game.
 set -euo pipefail
+export PATH="$ANDROID_HOME/platform-tools:$PATH"
 api_level="$1"
 [[ "$api_level" == 29 || "$api_level" == 36 ]]
 image_package="system-images;android-${api_level};google_apis;x86_64"

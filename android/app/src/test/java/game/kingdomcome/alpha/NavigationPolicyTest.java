@@ -45,4 +45,10 @@ public class NavigationPolicyTest {
         assertFalse(NavigationPolicy.isAuthentication("https://evil.invalid/login"));
         assertFalse(NavigationPolicy.isAuthentication(NavigationPolicy.ORIGIN + "/game/home"));
     }
+    @Test public void recreationUsesTheCurrentSafeScreenInsteadOfTheOriginalDeepLink() {
+        assertEquals(NavigationPolicy.HOME + "?feed=battles", NavigationPolicy.initialUrl(NavigationPolicy.HOME + "?feed=battles", NavigationPolicy.ORIGIN + "/game/profile"));
+        assertEquals(NavigationPolicy.HOME, NavigationPolicy.initialUrl(NavigationPolicy.ORIGIN + "/account-deletion/requests", NavigationPolicy.ORIGIN + "/game/profile"));
+        assertEquals(NavigationPolicy.ORIGIN + "/game/profile", NavigationPolicy.initialUrl(null, NavigationPolicy.ORIGIN + "/game/profile"));
+        assertEquals(NavigationPolicy.ORIGIN + "/", NavigationPolicy.initialUrl(null, "https://attacker.invalid/"));
+    }
 }

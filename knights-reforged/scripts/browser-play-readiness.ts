@@ -36,7 +36,7 @@ try{
    const result=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth+1,nav:[...document.querySelectorAll('.primary-nav a')].map(e=>({text:e.textContent?.trim(),...((r)=>({width:r.width,height:r.height}))(e.getBoundingClientRect())})),broken:[...document.images].filter(img=>img.complete&&img.naturalWidth===0).map(img=>img.getAttribute('src')),buttons:[...document.querySelectorAll<HTMLButtonElement>('button.button')].filter(e=>e.getBoundingClientRect().width>0).map(e=>({text:e.textContent?.trim(),height:e.getBoundingClientRect().height}))}));
    if(result.overflow||result.broken.length||result.nav.some(n=>n.width<44||n.height<44))failures.push({name,width,height,...result});
    if(actor)assert.equal(result.nav.length,5,name);
-   checks.push({name,width,height,overflow:result.overflow,brokenArtwork:result.broken.length,navTargets:result.nav.length});
+   checks.push({name,width,height,overflow:result.overflow,brokenArtwork:result.broken.length,navTargets:result.nav.length,minButtonHeight:result.buttons.length?Math.min(...result.buttons.map(b=>b.height)):null});
    if(width===390&&['home','battle','victory','defeat','weapons','land','profile','activity','settings','deletion'].includes(name))await page.screenshot({path:out+'/screenshots/'+name+'-390.png'});
   }
  }
@@ -59,7 +59,8 @@ try{
  await store.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
  const storePage=await store.newPage();await store.addCookies([{name:'kr_session',value:r.owner.cookie.split('=')[1]!,url:origin,httpOnly:true,sameSite:'Lax'}]);
  for(const name of ['home','quests','battle','victory','weapons','land','profile','army']){const scene=scenes.find(x=>x[0]===name)!;assert.equal((await storePage.goto(origin+scene[1]))?.status(),200);await storePage.evaluate(async()=>{await document.fonts.ready;for(const img of document.images)img.loading='eager';await Promise.all([...document.images].map(img=>img.decode().catch(()=>{})));});await storePage.screenshot({path:out+'/screenshots/store-'+name+'.png'});}
+ for(const [name,width,height,path]of [['tablet-home-portrait',800,1280,'/game/home'],['tablet-land-landscape',1280,800,'/game/land']] as const){await storePage.setViewportSize({width,height});assert.equal((await storePage.goto(origin+path))?.status(),200);await storePage.evaluate(async()=>{await document.fonts.ready;for(const img of document.images)img.loading='eager';await Promise.all([...document.images].map(img=>img.decode().catch(()=>{})));});await storePage.screenshot({path:out+'/screenshots/store-'+name+'.png'});}
  await store.close();
- await writeFile(out+'/verification.json',JSON.stringify({source:'real Fastify/EJS with isolated synthetic PostgreSQL',browser:'Chromium; not Android device certification',checks,failures,errors,storeScreenshots:8},null,2)+'\n');
+ await writeFile(out+'/verification.json',JSON.stringify({source:'real Fastify/EJS with isolated synthetic PostgreSQL',browser:'Chromium; not Android device certification',checks,failures,errors,storeScreenshots:8,tabletLayoutScreenshots:2},null,2)+'\n');
  console.log('PLAY_BROWSER: PASS — '+checks.length+' real-view viewport cases; synthetic native social form; 8 genuine listing captures');
 }finally{await context.close();await browser.close();await app.close();await r.close();}

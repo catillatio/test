@@ -22,7 +22,7 @@ PASS means the listed source/local evidence exists. Exact-head CI artifacts and 
 | Release non-debuggable / sole Internet permission | PASS | Release build type and compiled-manifest verifier; confirm exact-head artifact |
 | Restricted WebView / HTTPS / cookies | PASS | `NavigationPolicy`, shared `WebViewSecurity`; no JS bridge, file/content/mixed access or third-party cookies |
 | Private upload-key preparation | PASS | Separate manual protected `android-release` workflow; no generated owner key, public cert match, no Play upload |
-| Android back / safe recovery / lifecycle / insets | PASS | Existing platform callbacks, safe GET allowlist, no POST resubmit, IME/cutout/system insets; physical behavior separately unverified |
+| Android back / safe recovery / lifecycle / insets | PASS | Existing platform callbacks, safe GET allowlist, no POST resubmit, IME/cutout/system insets and safe same-page scroll restoration; recreation prioritizes saved screen over original deep link; physical behavior separately unverified |
 | Renderer and native HTTP-auth failure | PASS | Fail-safe error/restart panel; HTTP-auth request cancelled; no credentials requested natively |
 | Android real-WebView smoke | NOT VERIFIED | New API29/API36 cloud emulator jobs produce actual `ANDROID_WEBVIEW` evidence; read exact-head job results, not browser screenshots |
 | Physical Galaxy S/A, Pixel, budget device | NOT VERIFIED | Requires actual hardware/Play pre-launch test; no invented performance claim |
@@ -59,7 +59,7 @@ PASS means the listed source/local evidence exists. Exact-head CI artifacts and 
 ## Evidence and artifacts
 
 - Local targeted: `tests/play-account-safety.test.ts`, existing `tests/community-social.test.ts`, `npm run typecheck`, `npm run check:static`; commands/results summarized in final PR. Browser evidence is `test-results/play-readiness/verification.json` with 297 passed screen/dimension cases and genuine screenshots when successful.
-- Required final PR **Kingdom Come checks** remains unchanged in scope/requirements; the additional screenshot folder is retained as evidence. Unknown paths continue using the full profile. No skipped/removed assertions or recovery bypass is authorized.
+- Required final PR **Kingdom Come checks** remains unchanged in scope/requirements; the additional screenshot folder is retained as evidence. Unknown paths continue using the full profile. The strict post-deployment schema-head assertion advances to migration 027, with stale 026 still rejected. Container/worker fixtures assert the new migration and all four safety tables. No skipped/removed assertions or recovery bypass is authorized.
 - **Kingdom Come Android readiness** adds `apk` plus API29/API36 real-emulator jobs. Artifact includes unsigned release AAB, debug APK/test APK, SHA256 and `bundle-verification.json`; signing status is explicit. No release key is available to ordinary PR builds.
 - Signed release artifacts can only be generated later by **Kingdom Come signed Android bundle**, after owner identity/key/environment setup and authorized merge. See [Android release guide](../../../android/PLAY_RELEASE.md).
 
