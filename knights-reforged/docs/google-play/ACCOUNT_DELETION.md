@@ -48,14 +48,14 @@ The transaction takes the existing realm-wide **exclusive** expansion lock; norm
 commands/session creation hold its shared counterpart. It waits at most ten seconds
 for the lock, bounds each SQL statement at 120 seconds and the PostgreSQL 18
 transaction at five minutes. Process interruption closes/rolls back the transaction.
-The durable external signed intent is written **before** row changes with O_EXCL,
+The durable external signed intent, approved policy and original execution proof are written **before** row changes with O_EXCL,
 0600 permissions and file/directory fsync. A torn file or unexpected journal entry
 blocks further processing; it is never discarded or rewritten automatically.
 
 For supported ordinary accounts, fulfillment removes credentials and linked
 personal/social rows, reserves a non-login account tombstone, redacts only typed
 identity labels in battle snapshots/results and other players' receipts, and
-completes the original request with a minimal append-only receipt. It removes army
+completes the original request with a minimal append-only receipt including the signed proof for that actual execution. Permanent journal approvals remain verifiable after their execution window expires; freshness is required again for each new execution. It removes army
 relationships as deletion of that account's social links; future roster contribution
 naturally ceases. It never transfers/refunds gold, changes combat numbers, rewrites
 item names or creates rewards. The exact retained game records are disclosed in
@@ -66,7 +66,7 @@ fields stop fulfillment before a journal/row write. PostgreSQL hashes every full
 row under the expected approved erasure projection; the after-state must match.
 Node receives batches of 500 digests, never full battle histories. Other password
 hashes are compared through a private SECURITY DEFINER witness and never returned
-as password values or logged. No credential-derived witness is published. Any
+as password values or logged. No credential-derived witness is published. Unrelated battle/receipt rows are not rewritten merely to store identical data. Any
 unexpected financial/data change rolls back the entire transaction.
 
 Active escrow, bot/operator identities and immutable identifying administrative

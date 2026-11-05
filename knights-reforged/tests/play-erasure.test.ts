@@ -41,6 +41,9 @@ test('signed ordinary fulfillment erases credentials/content, preserves money an
   const battleId=randomUUID(),commandId=randomUUID(),result={attackerId:a.id,defenderId:b.id,attackerName:'Erase Subject',defenderName:'Other Warrior',winnerId:a.id,winnerName:'Erase Subject',gold:750,xp:11,attackEquipment:[{id:'sword',name:'Erase Subject'}]};
   await r.db.query(`INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,created_at) VALUES($1,$2,$3,'${alpha.id}','attacker_win',$4,$5,now())`,[battleId,a.id,b.id,{attacker:{id:a.id,name:'Erase Subject'},defender:{id:b.id,name:'Other Warrior'}},result]);
   await r.db.query(`INSERT INTO command_receipts(account_id,command_id,kind,intent_hash,result) VALUES($1,$2,'attack','fixture',$3)`,[b.accountId,commandId,{message:'Erase Subject won the battle.',data:{battle:result}}]);
+  const third=await r.player('Third Warrior'),untouched=randomUUID();
+  await r.db.query(`INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,created_at) VALUES($1,$2,$3,'${alpha.id}','attacker_win','{}','{}',now())`,[untouched,b.id,third.id]);
+  await r.db.query(`CREATE FUNCTION reject_unrelated_rewrite() RETURNS trigger LANGUAGE plpgsql AS $$BEGIN IF OLD.id='${untouched}'::uuid THEN RAISE EXCEPTION 'unrelated rewrite'; END IF; RETURN NEW; END$$;CREATE TRIGGER unrelated_battle BEFORE UPDATE ON battles FOR EACH ROW EXECUTE FUNCTION reject_unrelated_rewrite()`);
   const before=await finances(r),username=(await r.db.query('SELECT username FROM accounts WHERE id=$1',[a.accountId])).rows[0]!.username;
   const completed=await fulfillErasure(r.db,await f.options());assert.equal(completed.result,'erased');assert.equal(await finances(r),before);
   assert.equal((await r.db.query('SELECT count(*)::int AS n FROM realm_messages')).rows[0]!.n,0);
@@ -55,6 +58,10 @@ test('signed ordinary fulfillment erases credentials/content, preserves money an
   assert.equal((await r.db.query('SELECT status FROM account_deletion_requests WHERE account_id=$1',[a.accountId])).rows[0]!.status,'completed');
   assert.equal((await fulfillErasure(r.db,await f.options())).result,'erased');
   await assertErasureFence(r.db,{required:true,journalPath:f.directory,publicKey});
+  const audit=(await r.db.query('SELECT execution_proof FROM account_erasures')).rows[0]!.execution_proof;
+  assert.equal(JSON.parse(Buffer.from(audit.payload,'base64url').toString()).encryptedBackupSha256,'b'.repeat(64));
+  const durable=JSON.parse(await readFile(join(f.directory,'entry-000000000001.json'),'utf8'));
+  assert.ok(durable.policy.signature&&durable.approval.signature,'Original signed policy and execution approval are independently retained');
   await assert.rejects(r.db.query('DELETE FROM account_erasures'),/append-only/);
   await assert.rejects(r.db.query('TRUNCATE account_erasures'),/append-only/);
   await assert.rejects(r.db.query("UPDATE accounts SET login_disabled=false WHERE id=$1",[a.accountId]),/protected/);

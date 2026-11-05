@@ -6,6 +6,7 @@ CREATE TABLE account_erasures (
  request_id uuid NOT NULL,
  intent_sha256 char(64) NOT NULL CHECK(intent_sha256~'^[a-f0-9]{64}$'),
  policy_id text NOT NULL,
+ execution_proof jsonb NOT NULL,
  source_scope_sha256 char(64) NOT NULL CHECK(source_scope_sha256~'^[a-f0-9]{64}$'),
  outcome text NOT NULL CHECK(outcome IN ('erased','absent_in_restore')),
  completed_at timestamptz NOT NULL DEFAULT clock_timestamp()
@@ -31,6 +32,7 @@ CREATE FUNCTION erase_account_identity_labels(value jsonb,subject uuid,account_s
  RETURNS jsonb LANGUAGE plpgsql IMMUTABLE STRICT AS $$
 DECLARE result jsonb; pair record; part jsonb; own boolean; label boolean; prefix text;
 BEGIN
+ IF NOT attacker AND NOT defender AND NOT owned_object AND strpos(value::text,subject::text)=0 AND strpos(value::text,account_subject::text)=0 THEN RETURN value; END IF;
  IF jsonb_typeof(value)='object' THEN
   result:='{}';
   own:=owned_object OR value->>'id'=subject::text OR value->>'characterId'=subject::text

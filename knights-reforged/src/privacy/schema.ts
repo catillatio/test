@@ -2,7 +2,7 @@
 export const privacyColumns:Record<string,string>={
  "account_deletion_requests":"id:uuid:NO|account_id:uuid:NO|requested_at:timestamptz:NO|status:text:NO|resolved_at:timestamptz:YES",
  "account_erasure_checkpoints":"sequence:int8:NO|root_sha256:bpchar:NO|source_scope_sha256:bpchar:NO|verified_at:timestamptz:NO",
- "account_erasures":"operation_id:uuid:NO|account_id:uuid:NO|character_id:uuid:NO|request_id:uuid:NO|intent_sha256:bpchar:NO|policy_id:text:NO|source_scope_sha256:bpchar:NO|outcome:text:NO|completed_at:timestamptz:NO",
+ "account_erasures":"operation_id:uuid:NO|account_id:uuid:NO|character_id:uuid:NO|request_id:uuid:NO|intent_sha256:bpchar:NO|policy_id:text:NO|execution_proof:jsonb:NO|source_scope_sha256:bpchar:NO|outcome:text:NO|completed_at:timestamptz:NO",
  "accounts":"id:uuid:NO|username:varchar:NO|password_hash:text:NO|created_at:timestamptz:NO|login_disabled:bool:NO",
  "army_attention_starts":"character_id:uuid:NO|started_at:timestamptz:NO",
  "army_events":"id:uuid:NO|actor_id:uuid:NO|target_id:uuid:NO|kind:text:NO|command_id:uuid:NO|ruleset_id:text:NO|created_at:timestamptz:NO",

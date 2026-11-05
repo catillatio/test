@@ -3,7 +3,7 @@ import {createHash} from 'node:crypto';
 import {type Database,type Sql,transaction} from '../db.js';
 import {privacySchema} from './gate.js';
 import {privacyColumns} from './schema.js';
-import {authorize,sha256,type SignedRecord,type ErasureIntent} from './authorization.js';
+import {authenticate,permitContract,authorize,sha256,type SignedRecord,type ErasureIntent} from './authorization.js';
 import {appendIntent,readJournal,type JournalState} from './journal.js';
 const q=(name:string)=>'"'+name.replaceAll('"','""')+'"';
 const deletedName='Deleted Warrior';
@@ -89,15 +89,15 @@ async function preconditions(sql:Sql,intent:ErasureIntent,restore:boolean){
  if(!restore)assert.equal((await sql.query("SELECT 1 FROM account_deletion_requests WHERE id=$1 AND account_id=$2 AND status='pending' FOR UPDATE",[intent.requestId,intent.accountId])).rowCount,1,'Authenticated pending deletion request required.');
  return true;
 }
-async function erase(sql:Sql,intent:ErasureIntent,policyId:string,intentDigest:string,sourceDigest:string,restore:boolean){
+async function erase(sql:Sql,intent:ErasureIntent,policyId:string,intentDigest:string,sourceDigest:string,restore:boolean,execution:SignedRecord){
  const old=(await sql.query('SELECT * FROM account_erasures WHERE operation_id=$1 OR account_id=$2',[intent.operationId,intent.accountId])).rows;
  if(old.length){assert.equal(old.length,1);assert.equal(old[0]!.intent_sha256,intentDigest);assert.equal(old[0]!.operation_id,intent.operationId);await verifyErased(sql,intent,old[0]!.outcome);return old[0]!.outcome as string;}
  const exists=await preconditions(sql,intent,restore),now=new Date();
  if(exists){
   const params=[intent.characterId,intent.accountId,intent.requestId,tombstone(intent.accountId),now.toISOString()];
   const before=await witness(sql,params,true);
-  await sql.query(`UPDATE command_receipts SET result=${receiptRedaction()} WHERE account_id<>$2`,params.slice(0,2));
-  await sql.query(`UPDATE battles SET snapshot=erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1),result=erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1)`,params.slice(0,2));
+  await sql.query(`UPDATE command_receipts SET result=${receiptRedaction()} WHERE account_id<>$2 AND result IS DISTINCT FROM ${receiptRedaction()}`,params.slice(0,2));
+  await sql.query(`UPDATE battles SET snapshot=erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1),result=erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1) WHERE snapshot IS DISTINCT FROM erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1) OR result IS DISTINCT FROM erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1)`,params.slice(0,2));
   for(const [table,predicate] of Object.entries(deletes)){
    // Keep dependent social/attention rows ahead of their parents. Accounts still
    // contain the original username here, so its rate-limit keys can be erased.
@@ -109,7 +109,7 @@ async function erase(sql:Sql,intent:ErasureIntent,policyId:string,intentDigest:s
   const after=await witness(sql,params,false);for(const table of Object.keys(before))assert.ok(after[table]===before[table],'Erasure preservation mismatch: '+table);
  }
  const outcome=exists?'erased':'absent_in_restore';
- await sql.query(`INSERT INTO account_erasures(operation_id,account_id,character_id,request_id,intent_sha256,policy_id,source_scope_sha256,outcome) VALUES($1,$2,$3,$4,$5,$6,$7,$8)`,[intent.operationId,intent.accountId,intent.characterId,intent.requestId,intentDigest,policyId,sourceDigest,outcome]);
+ await sql.query(`INSERT INTO account_erasures(operation_id,account_id,character_id,request_id,intent_sha256,policy_id,source_scope_sha256,outcome,execution_proof) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,[intent.operationId,intent.accountId,intent.characterId,intent.requestId,intentDigest,policyId,sourceDigest,outcome,execution]);
  await verifyErased(sql,intent,outcome);return outcome;
 }
 async function typedQuery(sql:Sql,statement:string,params:unknown[]){return sql.query(`WITH erasure_types AS (SELECT $1::uuid AS character,$2::uuid AS account,$3::uuid AS request,$4::text AS tombstone,$5::timestamptz AS completed) ${statement}`,params);}
@@ -135,15 +135,29 @@ export async function fulfillErasure(db:Database,options:ErasureOptions){
   const already=state.entries.find(e=>e.intent.operationId===auth.intent.operationId);
   if(!already)await preconditions(sql,auth.intent,auth.permit.mode==='restore');
   authorize(options.policy,options.intent,options.permit,options.publicKey);
-  const next=auth.permit.mode==='fulfill'?await appendIntent(options.journalPath,options.publicKey,options.intent,state):state;
+  const next=auth.permit.mode==='fulfill'?await appendIntent(options.journalPath,options.publicKey,options.intent,options.policy,options.permit,state):state;
   assert.ok(next.entries.some(e=>e.entry.intent.payload===options.intent.payload&&e.entry.intent.signature===options.intent.signature),'Restore must use a previously recorded permanent erasure intent.');
-  const result=await erase(sql,auth.intent,auth.policy.policyId,auth.intentDigest,sha256(JSON.stringify(auth.intent.sourceScope)),auth.permit.mode==='restore');
-  await checkpoint(sql,next,sha256(JSON.stringify(auth.intent.sourceScope)));authorize(options.policy,options.intent,options.permit,options.publicKey);return {result,sequence:next.sequence,journalDurable:true};
+  const result=await erase(sql,auth.intent,auth.policy.policyId,auth.intentDigest,sha256(JSON.stringify(auth.intent.sourceScope)),auth.permit.mode==='restore',options.permit);
+  await checkpoint(sql,next,sha256(JSON.stringify(auth.intent.sourceScope)),options.publicKey);authorize(options.policy,options.intent,options.permit,options.publicKey);return {result,sequence:next.sequence,journalDurable:true};
  },{expansionLock:'exclusive'});
 }
-async function checkpoint(sql:Sql,state:JournalState,scope:string){
+function verifyReceiptApproval(receipt:Record<string,any>,entry:JournalState['entries'][number],publicKey:string){
+ const {intent}=entry,execution=authenticate(receipt.execution_proof,publicKey,permitContract);
+ assert.ok(receipt.operation_id===intent.operationId&&receipt.intent_sha256===sha256(entry.entry.intent.payload)&&receipt.account_id===intent.accountId&&receipt.character_id===intent.characterId&&receipt.request_id===intent.requestId&&receipt.source_scope_sha256===sha256(JSON.stringify(intent.sourceScope)),'Erasure receipt binding mismatch.');
+ assert.equal(receipt.policy_id,JSON.parse(Buffer.from(entry.entry.policy.payload,'base64url').toString('utf8')).policyId);
+ assert.ok(execution.operationId===intent.operationId&&execution.intentDigest===sha256(entry.entry.intent.payload)&&execution.policyDigest===intent.policyDigest,'Execution approval binding mismatch.');
+ const issued=Date.parse(execution.issuedAt),expires=Date.parse(execution.expiresAt);
+ assert.ok(expires>issued&&expires-issued<=900000&&+receipt.completed_at>=issued-30000&&+receipt.completed_at<=expires,'Execution approval time mismatch.');
+ assert.ok(Date.parse(execution.recoveryVerifiedAt)<=issued+30000&&issued-Date.parse(execution.recoveryVerifiedAt)<=7200000);
+ if(execution.mode==='fulfill'){assert.equal(execution.targetDatabase,intent.sourceScope.database);assert.equal(execution.targetClusterDigest,intent.sourceScope.clusterDigest);assert.equal(receipt.outcome,'erased');}
+}
+async function checkpoint(sql:Sql,state:JournalState,scope:string,publicKey:string){
  // Only checkpoint a journal head after ALL its intents are verified here.
- for(const {intent} of state.entries){const receipt=(await sql.query('SELECT outcome,intent_sha256 FROM account_erasures WHERE operation_id=$1',[intent.operationId])).rows[0];if(!receipt)return;assert.equal(receipt.intent_sha256,sha256(state.entries.find(x=>x.intent.operationId===intent.operationId)!.entry.intent.payload));await verifyErased(sql,intent,receipt.outcome);}
+ for(const entry of state.entries){
+  const receipt=(await sql.query('SELECT * FROM account_erasures WHERE operation_id=$1',[entry.intent.operationId])).rows[0];
+  if(!receipt)return; // A multi-intent old restore remains fenced until complete.
+  verifyReceiptApproval(receipt,entry,publicKey);await verifyErased(sql,entry.intent,receipt.outcome);
+ }
  const old=(await sql.query('SELECT root_sha256 FROM account_erasure_checkpoints WHERE sequence=$1',[state.sequence])).rows[0];
  if(old)assert.equal(old.root_sha256,state.root);else await sql.query('INSERT INTO account_erasure_checkpoints(sequence,root_sha256,source_scope_sha256) VALUES($1,$2,$3)',[state.sequence,state.root,scope]);
 }
@@ -154,9 +168,13 @@ export async function assertErasureFence(db:Database,options:{required:boolean;j
  assert.ok(installed&&options.required&&options.journalPath&&options.publicKey,'Erasure reconciliation is required before startup.');
  const state=await readJournal(options.journalPath,options.publicKey);
  await transaction(db,async sql=>{
+  await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");
   const receipts=(await sql.query('SELECT * FROM account_erasures')).rows;
   assert.equal(receipts.length,state.entries.length,'Unreconciled restored account data.');
-  for(const {entry,intent} of state.entries){const receipt=receipts.find(r=>r.operation_id===intent.operationId);assert.ok(receipt);assert.ok(receipt.intent_sha256===sha256(entry.intent.payload)&&receipt.account_id===intent.accountId&&receipt.character_id===intent.characterId&&receipt.request_id===intent.requestId&&receipt.source_scope_sha256===sha256(JSON.stringify(intent.sourceScope)),'Erasure receipt binding mismatch.');await verifyErased(sql,intent,receipt.outcome);}
+  for(const entry of state.entries){
+   const receipt=receipts.find(r=>r.operation_id===entry.intent.operationId);assert.ok(receipt);
+   verifyReceiptApproval(receipt,entry,options.publicKey!);await verifyErased(sql,entry.intent,receipt.outcome);
+  }
   if(state.sequence){const mark=(await sql.query('SELECT root_sha256 FROM account_erasure_checkpoints WHERE sequence=$1',[state.sequence])).rows[0];assert.equal(mark?.root_sha256,state.root,'Journal checkpoint mismatch.');}
  },{expansionLock:'exclusive'});
  }catch{throw new Error('Account erasure reconciliation failed; startup/promotion is blocked.');}
