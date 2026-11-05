@@ -1,3 +1,4 @@
+import {assertErasureFence} from '../../dist/privacy/erasure.js';
 import {populationEvidence} from '../../dist/expansion-population.js';
 import {checkPopulationEvidence} from './protocol.mjs';
 // A private, single-use Railway start command, not an HTTP/SSH endpoint.
@@ -93,6 +94,7 @@ async function readStatus(url){
    EXISTS(SELECT 1 FROM private_alpha_initializations WHERE id='railway-phase43-private-alpha-v1') AS initialized,
    pg_database_size(current_database())::text AS "sourceBytes",
    (SELECT system_identifier::text FROM pg_control_system()) AS "clusterId"`)).rows[0];
+  row.erasureRecorded=row.schemaHead==='028_account_erasure.sql'&&(await client.query('SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')).rows[0].recorded;
   row.population=await populationEvidence(client);const bots=checkPopulationEvidence(row.population);assert.equal(row.bots,bots);assert.ok(row.accounts>=bots+1);assert.equal(row.initialized,true);
   return row;
  }finally{await client.query('ROLLBACK').catch(()=>{});client.release();await db.end();}
@@ -105,6 +107,7 @@ async function main(){
  gate='candidate-fingerprint';assert.equal(await candidateDigest(),request.candidateDigest,'The private job is not the checked candidate.');
  gate='read-only-source-status';
  const sourceStatus=await readStatus(source.url);
+ assert.ok(!sourceStatus.erasureRecorded||process.env.KINGDOM_ERASURE_RECONCILIATION_REQUIRED==='1','Erasure restore guard must remain enabled.');
  const sourceClusterDigest=createHash('sha256').update(sourceStatus.clusterId).digest('hex');
  const report={...Object.fromEntries(['jobId','mode','sha','candidateDigest','projectId','environmentId','gameServiceId','workerServiceId','sourceHost','sourceDatabase','restoreHost','copy'].map(key=>[key,request[key]])),
   protocol,passed:true,workerDeploymentId:process.env.RAILWAY_DEPLOYMENT_ID,sourceClusterDigest,accounts:sourceStatus.accounts,bots:sourceStatus.bots,population:sourceStatus.population};
@@ -149,6 +152,11 @@ async function main(){
   await execute('pg_restore',['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+request.copy,restored],{env:pgEnvironment(restore)});
   gate='copy-migrations-and-preservation';const result=await execute(process.execPath,['deployment/check-upgrade.mjs'],{env:{...process.env,KINGDOM_RESTORE_TEST_DATABASE:request.copy},progress:true});
   report.restoredCopy=JSON.parse(result);
+  if(process.env.KINGDOM_ERASURE_RECONCILIATION_REQUIRED==='1'||sourceStatus.erasureRecorded){
+   gate='copy-erasure-reconciliation';const copyUrl=new URL(restore.url);copyUrl.pathname='/'+request.copy;const copyDb=createDatabase(copyUrl.href);
+   try{await assertErasureFence(copyDb,{required:true,journalPath:process.env.KINGDOM_ERASURE_JOURNAL_PATH,publicKey:process.env.KINGDOM_ERASURE_VERIFY_KEY});}
+   finally{await copyDb.end();}
+  }
   report.backup={sha256:plain.sha256,bytes:plain.bytes,encryptedSha256:cipher.sha256,encryptedBytes:cipher.bytes,recipient:request.backupRecipient,conditionalWriteVerified:true,exportRoundTripVerified:true};
   // Optional metadata preparation is isolated from every mandatory safety gate.
   // Capture OID before upload so independently retained evidence supports replay.

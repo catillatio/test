@@ -1,3 +1,4 @@
+import {assertAccountNotErased} from './privacy/gate.js';
 import {randomUUID} from 'node:crypto';
 import {type Database,transaction,type Sql} from './db.js';
 import {GameError} from './errors.js';
@@ -7,6 +8,7 @@ export const communityPolicyVersion='community-2026-11-05-draft-1';
 // A request is deliberately not represented as completed deletion or deactivation.
 export async function requestAccountDeletion(db:Database,accountId:string){
  return transaction(db,async sql=>{
+  await assertAccountNotErased(sql,accountId);
   if(!(await sql.query('SELECT id FROM accounts WHERE id=$1 FOR UPDATE',[accountId])).rowCount)
    throw new GameError('SIGN_IN_REQUIRED','Sign in to request deletion.',401);
   const existing=(await sql.query("SELECT id,requested_at,status FROM account_deletion_requests WHERE account_id=$1 AND status='pending'",[accountId])).rows[0];
@@ -24,6 +26,7 @@ export async function requireCommunityPolicy(sql:Sql,characterId:string){
 }
 export async function socialSafety(db:Database,accountId:string,targetId:string,action:'block'|'unblock'|'report',reason:string){
  return transaction(db,async sql=>{
+  await assertAccountNotErased(sql,accountId);
   const actor=(await sql.query('SELECT id FROM characters WHERE account_id=$1',[accountId])).rows[0]?.id;
   if(!actor)throw new GameError('SIGN_IN_REQUIRED','Sign in to manage social safety.',401);
   if(actor===targetId)throw new GameError('SELF_SOCIAL_ACTION','Choose another player.');

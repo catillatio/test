@@ -97,6 +97,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   app.addHook('onRequest', async (request, reply) => {
     if (request.url.startsWith('/assets/') || request.url.split('?')[0] === '/healthz') return;
     request.realmSession = await findSession(db, request.cookies.kr_session);
+    if(request.cookies.kr_session&&!request.realmSession)reply.header('Clear-Site-Data','"storage", "cache"');
     if (!request.realmSession && (request.method === 'GET' || request.method === 'HEAD')) {
       const fresh = await createSession(db, null);
       request.realmSession = fresh.session;
@@ -243,6 +244,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.post('/logout', async (request, reply) => {
     if (request.realmSession) await db.query('DELETE FROM sessions WHERE token_hash=$1', [request.realmSession.token_hash]);
+    reply.header('Clear-Site-Data','"storage", "cache"');
     reply.clearCookie('kr_session', { path: '/',httpOnly:true,secure:config.secureCookies,sameSite:'lax' });
     return reply.redirect('/login', 303);
   });

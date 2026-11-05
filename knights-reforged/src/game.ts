@@ -1,3 +1,4 @@
+import {assertAccountNotErased} from './privacy/gate.js';
 import {presentationCatalog} from './equipment-presentation.js';
 import {cohortMembers,botArmy} from './expansion-bot-rules.js';
 import {createHash} from 'node:crypto';
@@ -140,6 +141,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
 }
 export async function getState(db:Database,accountId:string,runtime:GameRuntime={}):Promise<CharacterState> {
   return transaction(db,async client=>{
+    await assertAccountNotErased(client,accountId);
     const requestedAt=await clock(client);
     const overdue=(await client.query("SELECT sponsor_id FROM bounties WHERE sponsor_id=(SELECT id FROM characters WHERE account_id=$1) AND status='active' AND expires_at<=$2 LIMIT 1",[accountId,requestedAt])).rows[0];
     if(overdue){await lockBountyEscrow(client);await settleExpiredBounties(client,await clock(client),null,overdue.sponsor_id);}

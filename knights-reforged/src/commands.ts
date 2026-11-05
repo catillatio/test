@@ -1,3 +1,4 @@
+import {assertAccountNotErased} from './privacy/gate.js';
 import {presentedItem} from './equipment-presentation.js';
 import {contentCatalog} from './expansion-content.js';
 import {realmPolicy} from './realm-policy.js';
@@ -76,6 +77,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
   if (!parsed.success) throw new GameError('INVALID_INTENT',parsed.error.issues[0]?.message??'Invalid action.');
   const intent=parsed.data as Record<string,unknown>,hash=fingerprint(kind,intent),key=command.data;
   return transaction(db,async sql=>{
+    await assertAccountNotErased(sql,accountId);
     const inserted=await sql.query('INSERT INTO command_receipts(account_id,command_id,kind,intent_hash) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING RETURNING command_id',[accountId,key,kind,hash]);
     if (!inserted.rows.length) {
       const old=(await sql.query('SELECT intent_hash,result FROM command_receipts WHERE account_id=$1 AND command_id=$2',[accountId,key])).rows[0]!;

@@ -92,3 +92,5 @@ historical records rather than rewriting them.
 ## Android / Google Play candidate (2026-11-05)
 
 Isolated readiness work reconciles PR20 with the approved Dark Medieval release. Start with [readiness matrix](../google-play/PLAY_STORE_READINESS.md) and [Android build/signing guide](../../../android/PLAY_RELEASE.md). Legal text is explicitly draft; deletion requests do not assert completed erasure. No Play submission, production compliance deployment, final package/signing identity or physical-device certification is implied.
+
+PR #88 continuation adds disabled, signed-policy-gated account erasure, external suppression journal and restore/startup reconciliation. Read [retention decisions](../google-play/privacy/OWNER_DECISIONS.md) before any activation; synthetic tests do not approve a production retention policy. Android inputs/matrices remain unchanged from green a0a058a.

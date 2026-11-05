@@ -1,3 +1,4 @@
+import {assertErasureFence} from './privacy/erasure.js';
 import {startBotCombat} from './bot-combat.js';
 import {startBotIncome} from './bot-income.js';
 import {startBotEconomy} from './bot-economy.js';
@@ -15,6 +16,7 @@ let stopBotEconomy=async()=>{};
 let stopBotCombat=async()=>{};
 try {
   await assertInstalledRulesets(db);
+  await assertErasureFence(db,{required:process.env.KINGDOM_ERASURE_RECONCILIATION_REQUIRED==='1',journalPath:process.env.KINGDOM_ERASURE_JOURNAL_PATH,publicKey:process.env.KINGDOM_ERASURE_VERIFY_KEY});
   const schema = await db.query("SELECT name FROM schema_migrations WHERE name='020_game_feel.sql'");
   if (!schema.rows.length) throw new Error('Phase 4.7 migrations are incomplete. Run node deployment/migrate.mjs before starting.');
   if(config.privateAlpha)await assertPrivateAlphaInitialized(db);

@@ -23,7 +23,7 @@ for(const [module,names]of[[http,['request','get']],[https,['request','get']],[n
  [child,['spawn','exec','execFile','fork','spawnSync','execSync','execFileSync']],[workers,['Worker']]])for(const name of names)module[name]=block;
 syncBuiltinESMExports();globalThis.fetch=block;
 
-const status={accounts:452,bots:450,active_bots:450,schemaHead:'027_play_account_safety.sql',initialized:true,sourceBytes:'2000000',clusterId:'1234567890'};
+const status={accounts:452,bots:450,active_bots:450,schemaHead:'028_account_erasure.sql',initialized:true,sourceBytes:'2000000',clusterId:'1234567890'};
 const plain={sha256:'1'.repeat(64),bytes:200000},cipher={sha256:'2'.repeat(64),bytes:200500};
 const temporary='/offline-worker-only/kingdom-release-fixture';
 const source={
@@ -31,6 +31,7 @@ const source={
   async query(sql){
    if(sql==='BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY'){record('source-read-only');return {rows:[]};}
    if(sql==='ROLLBACK'){record('source-rollback');return {rows:[]};}
+   if(sql==='SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')return {rows:[{recorded:false}]};
    if(sql.includes('FROM accounts')&&sql.includes('pg_control_system()')){record('source-status');return {rows:[status]};}
    return block();
   },release(){record('source-release');}

@@ -94,10 +94,13 @@ try{
     assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'19');
     check('native Phase 4.6 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals');
   }
-  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'27');
-  check('separate compiled pre-deploy runner installs all 27 migrations without initialization');
+  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'28');
+  check('separate compiled pre-deploy runner installs all 28 migrations without initialization');
   assert.equal(sql('railway_test',"SELECT count(*) FROM information_schema.tables WHERE table_schema='public' AND table_name IN ('account_deletion_requests','social_blocks','social_user_reports','community_policy_acceptances')"),'4');
   check('new account-safety schema is installed without changing existing game rows');
+  assert.equal(sql('railway_test',"SELECT count(*) FROM information_schema.tables WHERE table_schema='public' AND table_name IN ('account_erasures','account_erasure_checkpoints')"),'2');
+  assert.equal(sql('railway_test','SELECT count(*) FROM account_erasures'),'0');
+  check('erasure infrastructure installs empty and performs no account fulfillment');
   if(alphaMode){
     assert.equal(sql('railway_test','SELECT count(*) FROM private_alpha_initializations'),'1');
     assert.equal(sql('railway_test','SELECT count(*) FROM accounts'),'451');
@@ -105,7 +108,7 @@ try{
     assert.equal(sql('railway_test',"SELECT w.balance||':'||(s.quantity+1) FROM accounts a JOIN characters c ON c.account_id=a.id JOIN wallets w ON w.character_id=c.id JOIN army_stacks s ON s.character_id=c.id WHERE a.username='dev'"),'50000:10');
     check('Phase 4.7 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.6 rivals');
     const status=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/status.mjs']));
-    assert.equal(status.release,'phase4.7');assert.equal(status.schemaHead,'027_play_account_safety.sql');assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
+    assert.equal(status.release,'phase4.7');assert.equal(status.schemaHead,'028_account_erasure.sql');assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
     assert.equal(status.dev.username,'dev');assert.equal(status.dev.gold,50000);assert.equal(status.dev.recruited_army,10);
     assert.equal(status.maximum_bot_army,10);assert.equal(status.minimum_bot_plots,3);assert.equal(status.population.length,50);
     for(const level of status.population)assert.equal(level.rivals,9);
