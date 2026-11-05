@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from './community-policy.js';
 import {assertAccountNotErased,privacySchema} from './privacy/gate.js';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { hash, verify, Algorithm } from '@node-rs/argon2';
@@ -19,7 +20,8 @@ export const hashPassword=(password:string)=>hash(password,passwordOptions);
 export const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
 export interface Session { token_hash: string; csrf_token: string; account_id: string | null; username?: string; }
 
-export async function registerAccount(db: Database, input: unknown, options:{soundEnabled?:boolean}={}) {
+export async function registerAccount(db: Database, input: unknown, options:{soundEnabled?:boolean;communityPolicy?:string}={}) {
+  if(options.communityPolicy!==undefined&&options.communityPolicy!==communityPolicyVersion)throw new GameError('COMMUNITY_TERMS_REQUIRED','Accept the current Terms and Community Guidelines before creating a public character.',409);
   const parsed = registration.safeParse(input);
   if (!parsed.success) throw new GameError('INVALID_ACCOUNT', parsed.error.issues[0]?.message ?? 'Invalid account.');
   const { username, name, password } = parsed.data;
@@ -31,6 +33,7 @@ export async function registerAccount(db: Database, input: unknown, options:{sou
     await transaction(db, async client => {
       await client.query('INSERT INTO accounts(id,username,password_hash) VALUES($1,$2,$3)', [accountId, username, passwordHash]);
       await client.query('INSERT INTO characters(id,account_id,name) VALUES($1,$2,$3)', [characterId, accountId, name]);
+      if(options.communityPolicy)await client.query('INSERT INTO community_policy_acceptances(character_id,policy_version) VALUES($1,$2)',[characterId,communityPolicyVersion]);
       await client.query('INSERT INTO wallets(character_id,balance) VALUES($1,$2)', [characterId, alpha.startingGold]);
       await client.query('INSERT INTO army_stacks(character_id,unit_definition_id,quantity) VALUES($1,$2,0)', [characterId, rules.unit.id]);
       // New humans opt into action sounds, subject to the browser gesture gate.

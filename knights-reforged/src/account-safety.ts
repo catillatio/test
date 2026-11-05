@@ -4,7 +4,8 @@ import {type Database,transaction,type Sql} from './db.js';
 import {GameError} from './errors.js';
 import {community} from './community-rules.js';
 import {lockCharacters} from './game.js';
-export const communityPolicyVersion='community-2026-11-05-draft-1';
+import {communityPolicyVersion} from './community-policy.js';
+export {communityPolicyVersion} from './community-policy.js';
 // A request is deliberately not represented as completed deletion or deactivation.
 export async function requestAccountDeletion(db:Database,accountId:string){
  return transaction(db,async sql=>{

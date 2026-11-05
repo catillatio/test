@@ -1,4 +1,4 @@
-package game.kingdomcome.alpha;
+package game.kingdomcome.rpg;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.CookieManager;

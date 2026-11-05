@@ -32,7 +32,7 @@ def run(tool, *values):
     return subprocess.check_output([str(args.tools / tool), *map(str, values)], text=True, stderr=subprocess.STDOUT)
 
 badging = run('aapt', 'dump', 'badging', args.apk)
-assert "package: name='game.kingdomcome.alpha.debug'" in badging
+assert "package: name='game.kingdomcome.rpg.debug'" in badging
 assert "sdkVersion:'26'" in badging and "targetSdkVersion:'36'" in badging
 assert re.findall(r"uses-permission: name='([^']+)'", badging) == ['android.permission.INTERNET']
 assert 'testOnly' not in badging
@@ -51,7 +51,7 @@ artifact = out / 'kingdom-come-alpha-debug.apk'
 shutil.copyfile(args.apk, artifact)
 digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
 (out / 'SHA256SUMS.txt').write_text(digest + '  ' + artifact.name + '\n')
-report = {'package':'game.kingdomcome.alpha.debug','version':'0.2.0-beta.1','minSdk':26,'targetSdk':36,
+report = {'package':'game.kingdomcome.rpg.debug','version':'0.2.0-beta.1','minSdk':26,'targetSdk':36,
           'permissions':['android.permission.INTERNET'],'sha256':digest,'bytes':artifact.stat().st_size,
           'signerCertificateSha256':fingerprint[1].lower(),'signing':'Ephemeral Android debug key; not stable release signing.',
           'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),'productionContacted':False}

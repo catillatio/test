@@ -13,8 +13,9 @@ await r.db.query('UPDATE accounts SET username=$2 WHERE id=$1',[r.owner.accountI
 await r.db.query('UPDATE accounts SET username=$2 WHERE id=$1',[r.rival.accountId,'cedricblackthorn']);
 const origin=await app.listen({host:'127.0.0.1',port:0});config.origin=origin;
 const browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTABLE??'/usr/bin/chromium',args:['--no-sandbox','--disable-dev-shm-usage']});
+const foreignRequests=new Set<string>();
 const context=await browser.newContext({hasTouch:true,viewport:{width:390,height:844},reducedMotion:'reduce'});
-await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
+await context.route('**/*',route=>{const target=new URL(route.request().url());if(target.origin===origin)return route.continue();foreignRequests.add(target.origin);return route.abort();});
 const page=await context.newPage(),errors:string[]=[],checks:unknown[]=[],failures:unknown[]=[];
 page.on('pageerror',e=>errors.push(e.message));page.on('response',res=>{if(res.status()>=400&&new URL(res.url()).pathname.startsWith('/assets/'))errors.push('Missing local asset: '+new URL(res.url()).pathname);});
 const scenes:[string,string,Player|null][]=[
@@ -56,11 +57,12 @@ try{
  assert.deepEqual(errors,[]);assert.deepEqual(failures,[],'Responsive failures');
  // Genuine uncomposited phone screenshots: 1080x1920, within Play aspect-ratio requirements.
  const store=await browser.newContext({viewport:{width:432,height:768},deviceScaleFactor:2.5,isMobile:true,hasTouch:true,reducedMotion:'reduce'});
- await store.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
+ await store.route('**/*',route=>{const target=new URL(route.request().url());if(target.origin===origin)return route.continue();foreignRequests.add(target.origin);return route.abort();});
  const storePage=await store.newPage();await store.addCookies([{name:'kr_session',value:r.owner.cookie.split('=')[1]!,url:origin,httpOnly:true,sameSite:'Lax'}]);
  for(const name of ['home','quests','battle','victory','weapons','land','profile','army']){const scene=scenes.find(x=>x[0]===name)!;assert.equal((await storePage.goto(origin+scene[1]))?.status(),200);await storePage.evaluate(async()=>{await document.fonts.ready;for(const img of document.images)img.loading='eager';await Promise.all([...document.images].map(img=>img.decode().catch(()=>{})));});await storePage.screenshot({path:out+'/screenshots/store-'+name+'.png'});}
  for(const [name,width,height,path]of [['tablet-home-portrait',800,1280,'/game/home'],['tablet-land-landscape',1280,800,'/game/land']] as const){await storePage.setViewportSize({width,height});assert.equal((await storePage.goto(origin+path))?.status(),200);await storePage.evaluate(async()=>{await document.fonts.ready;for(const img of document.images)img.loading='eager';await Promise.all([...document.images].map(img=>img.decode().catch(()=>{})));});await storePage.screenshot({path:out+'/screenshots/store-'+name+'.png'});}
+ assert.deepEqual([...foreignRequests],[],'Unexpected third-party resource transmission attempt');
  await store.close();
- await writeFile(out+'/verification.json',JSON.stringify({source:'real Fastify/EJS with isolated synthetic PostgreSQL',browser:'Chromium; not Android device certification',checks,failures,errors,storeScreenshots:8,tabletLayoutScreenshots:2},null,2)+'\n');
+ await writeFile(out+'/verification.json',JSON.stringify({source:'real Fastify/EJS with isolated synthetic PostgreSQL',browser:'Chromium; not Android device certification',checks,failures,errors,storeScreenshots:8,tabletLayoutScreenshots:2,foreignRequestOrigins:[...foreignRequests],viewportWidths:[320,360,384,390,393,412,432,600,800,1280]},null,2)+'\n');
  console.log('PLAY_BROWSER: PASS — '+checks.length+' real-view viewport cases; synthetic native social form; 8 genuine listing captures');
 }finally{await context.close();await browser.close();await app.close();await r.close();}

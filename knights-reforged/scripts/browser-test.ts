@@ -22,6 +22,7 @@ async function register(context:BrowserContext,suffix:string){
   await page.getByLabel('Account name',{exact:true}).fill(prefix+suffix);
   await page.getByLabel('Warrior name',{exact:true}).fill(name);
   await page.getByLabel('Password',{exact:true}).fill(randomUUID()+'!aA1');
+  await page.locator('#registration-policy').check();
   await Promise.all([page.waitForURL('**/game/home'),page.getByRole('button',{name:'Create your warrior'}).click()]);
   return {page,name};
 }

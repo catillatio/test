@@ -1,4 +1,4 @@
-package game.kingdomcome.alpha;
+package game.kingdomcome.rpg;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

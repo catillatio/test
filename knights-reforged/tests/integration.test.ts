@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 import { after, before, describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
@@ -43,7 +44,7 @@ describe('PostgreSQL + Fastify integration', { skip: !databaseUrl ? 'Set TEST_DA
     assert.ok(csrf);
     const response = await app.inject({ method: 'POST', url: '/register', headers: {
       cookie: sessionCookie(form), origin: config.origin, 'content-type': 'application/x-www-form-urlencoded',
-    }, payload: new URLSearchParams({ csrf, username, name: 'Test Warrior ' + counter, password: 'IntegrationPass!2026' }).toString() });
+    }, payload: new URLSearchParams({ csrf, communityPolicy:communityPolicyVersion, username, name: 'Test Warrior ' + counter, password: 'IntegrationPass!2026' }).toString() });
     assert.equal(response.statusCode, 303, response.body);
     const cookie = sessionCookie(response);
     const me = await app.inject({ method: 'GET', url: '/api/v1/me', headers: { cookie } });

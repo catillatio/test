@@ -10,15 +10,11 @@ It queues an authenticated request for account and associated-data deletion. It 
 
 ## Fulfillment requirements
 
-Credentials, sessions, identifiable character/profile data, social content, reports and links must be reviewed for erasure or irreversible de-identification. Shared battle reports, financial ledgers, bounty escrow and other players’ records cannot be blindly cascade-deleted. Any retained record needs a documented legitimate purpose, minimized fields, access controls and a defined expiry.
-
-## Proposed abandoned kingdoms
-
-Account deletion and generic abandoned kingdoms are separate proposals and remain disabled. Deletion would remove the human login account and reviewed personal/social data; it never creates, schedules, funds or counts toward an NPC. A separately authorized population policy can create predefined public kingdoms with no copied personal configuration, history or former-player assignment. These NPCs cannot log in, be reclaimed, post, recruit, buy, spend or attack autonomously. They start with zero gold and earn future Land income. Former wallet/Vault funds stay in restricted integrity records under a proposed exception, never transferred to NPCs. Retained records, backups and suppression evidence still require qualified privacy/legal review; this is not a claim of anonymity or completed deletion compliance.
+Approved fulfillment deletes the login account and password hash, revokes sessions, removes reviewed personal/social/preferences and mutable progress records, and clears the old private profile traits and timestamps. It preserves unrelated players’ balances and shared historical amounts. Any retained opaque identifiers, sealed assets, financial/combat journals or backup-suppression proof remain restricted associated data and need a justified purpose and defined retention handling; they are not automatically anonymous. Retention categories/periods and response time: [OWNER TO COMPLETE].
 
 ## Backups and recovery
 
-Encrypted backups and recovery copies require a documented expiry and erasure-reapplication process before any restored copy becomes active. This feature does not change existing recovery protections or authorize recovery-copy retirement.
+Encrypted backups remain protected. An independently stored signed suppression record must be reconciled before any restored account data becomes accessible. Routine expiry, protected-copy handling and provider log retention: [OWNER TO COMPLETE]. This is not permission to rewrite immutable backups, delete recovery copies or bypass recovery integrity checks.
 
 ## Owner completion required
 

@@ -22,10 +22,15 @@ Deletion request routes are implemented; completed fulfillment, immutable-record
 Owner reviews required/optional collection, purposes, sharing/service-provider exceptions, encryption, deletion and retention against the actual complete service. [Data Safety guidance](https://support.google.com/googleplay/android-developer/answer/10787469) and [User Data](https://support.google.com/googleplay/android-developer/answer/10144311).
 
 
-Independent abandoned kingdoms (disabled) use public predefined configurations and
-separate population authorization. Account deletion creates, schedules, funds and
-counts toward none. No inherited estate/history or former-player assignment enters
-that system. This removes the need to retain personal deletion metadata for NPC
-admission; the actual suppression ledger and immutable history exceptions remain
-independently proposed requirements, not anonymous records or approved retention.
-See privacy/OWNER_DECISIONS.md. Both activation decisions remain separate and blocked.
+Optional NPC/population work is preserved outside the launch-critical path and is
+not a Data Safety or erasure prerequisite. No real NPC or account is created/deleted
+by this task. Fulfillment tests now also clear the old mutable current-profile
+traits/timestamps and prevent reintroduction, while preserving restricted financial
+references/amounts. Retained associated records still require explicit purpose and
+period; no anonymization/certification claim is made.
+
+The actual browser audit rejects unexpected foreign resource attempts rather than
+silently masking them. Native security is verified separately. OS/System WebView
+services and provider/edge logs are not exhaustively observable from that test;
+source-level absence of an SDK is not proof of zero provider processing. Complete
+Console declarations from actual full-service practices, not only APK permissions.

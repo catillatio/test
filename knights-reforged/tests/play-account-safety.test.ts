@@ -54,3 +54,16 @@ test('current or partial safety schema cannot silently disable blocking checks',
  try{const a=await r.player('Schema Guard');await r.db.query('DROP TABLE social_blocks');await assert.rejects(activityFeed(r.db,a.id,'comments'),/Incomplete account-safety schema/);}
  finally{await r.close();}
 });
+
+test('public character creation requires explicit current Terms/Guidelines consent and records it atomically',async()=>{
+ const r=await realm({isolated:true});try{
+  const form=await r.app.inject({url:'/register'}),line=String(form.headers['set-cookie']).split(';')[0]!,csrf=/name="csrf" value="([a-f0-9]{64})"/.exec(form.body)![1]!;
+  assert.match(form.body,/id="registration-policy"[^>]*type="checkbox"[^>]*required/);
+  const username='consent_'+Date.now().toString(36),payload={csrf,username,name:'Consent Knight',password:'SyntheticConsent!2026'};
+  for(const communityPolicy of [undefined,'stale']){const denied=await r.app.inject({method:'POST',url:'/register',headers:{cookie:line,origin:'http://localhost:3000'},payload:{...payload,communityPolicy}});assert.equal(denied.statusCode,409);}
+  assert.equal((await r.db.query('SELECT 1 FROM accounts WHERE username=$1',[username])).rowCount,0);
+  const ok=await r.app.inject({method:'POST',url:'/register',headers:{cookie:line,origin:'http://localhost:3000'},payload:{...payload,communityPolicy:communityPolicyVersion}});assert.equal(ok.statusCode,303,ok.body);
+  const rows=(await r.db.query('SELECT p.policy_version FROM community_policy_acceptances p JOIN characters c ON c.id=p.character_id JOIN accounts a ON a.id=c.account_id WHERE a.username=$1',[username])).rows;
+  assert.deepEqual(rows,[{policy_version:communityPolicyVersion}]);
+ }finally{await r.close();}
+});

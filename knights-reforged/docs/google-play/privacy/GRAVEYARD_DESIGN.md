@@ -10,7 +10,7 @@ It physically removes the human account/credentials and reviewed personal record
 its protected financial-retention exceptions and suppression journal remain separate
 activation blockers. No estate, account, completion count/date or individual intent
 is supplied to population management. No world-state decision is required by the
-v4 erasure policy. The personal erasure key/journal is not a population credential.
+v5 erasure policy. The personal erasure key/journal is not a population credential.
 
 A separately signed `kingdom-graveyard-population-policy-v1` authorizes a desired
 population, cap and per-operation limit. A fresh construction-v2 permit binds an

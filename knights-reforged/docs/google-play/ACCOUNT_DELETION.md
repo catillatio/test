@@ -53,11 +53,13 @@ The durable external signed intent, approved policy and original execution proof
 0600 permissions and file/directory fsync. A torn file or unexpected journal entry
 blocks further processing; it is never discarded or rewritten automatically.
 
-For supported ordinary accounts, v4 fulfillment physically deletes the human
+For supported ordinary accounts, v5 fulfillment physically deletes the human
 account, credential, sessions, linked personal/social data and deletion request.
 The completion receipt retains restricted signed audit bindings. The former
-character becomes an inaccessible private integrity anchor under an **unapproved**
-retention exception. Mutable shared reports lose typed names and account/invitation
+character becomes an inaccessible minimized FK stub: current name, level, XP,
+training, calling/resource values and original profile/recovery timestamps are
+cleared or normalized, not retained as a playable estate. Necessary sealed assets
+and historical reference records remain under an **unapproved** retention exception. Mutable shared reports lose typed names and account/invitation
 metadata. **No NPC is created by fulfillment or restore reconciliation.** No source
 estate, new world ID or donor mapping enters that transaction or its journal.
 
@@ -176,21 +178,25 @@ contains subject IDs and signatures and must never become a public Actions artif
 The signer emits only a fixed success/failure line. The operator never receives
 the private PEM. Do not run either command on real accounts under PR #88 approval.
 
-## Independent NPC population and recovery
+## Launch scope and independent recovery
 
-Population management has separate policy/permit contracts, key configuration,
-private operator mode and immutable public records; it has no erasure counts,
-cohort/delay, credits, private journal or source-account inputs. See the
-[independent design](privacy/GRAVEYARD_DESIGN.md) and
-[economic proposal](privacy/ECONOMIC_SIMULATION.md). This document authorizes none
-of its operations. Human erasure remains disabled independently.
+NPC management is disabled optional work, preserved on the archive branch linked
+in [LAUNCH_SCOPE.md](LAUNCH_SCOPE.md). It is not a Play or erasure approval gate.
+No NPC key, cohort, population policy or economic decision is needed for this
+zero-population launch. Existing conditional integrity fencing remains if world
+records are separately introduced in the future; this task does not activate them.
 
 A pre-erasure backup still requires original signed-intent reconciliation under a
-fresh exact-copy permit and creates no NPC. The original private suppression fence
-continues to require every receipt/checkpoint and externally fresh journal. The
-separate population fence requires its own public key only if world records exist.
-A pre-construction backup has none; a post-construction backup preserves original
-slots/members and never regenerates or resets them. Missing members are an integrity
-failure, not a replacement signal. The existing encrypted independent recovery and
-all-row migration checks remain mandatory before either reconciliation fence.
-No archive is rewritten, recovery copy retired or database privilege changed here.
+fresh exact-copy permit and creates no NPC. Every original signed journal entry,
+receipt and head checkpoint remains mandatory. Migration/full-row preservation and
+encrypted independent recovery run unchanged before the suppression fence. No
+archive is rewritten or recovery copy retired. New normalized profile values are
+part of the exact expected erasure projection; unrelated full rows and all financial
+amounts must remain exact. The original archive bytes remain unchanged in tests.
+
+v5 authorization requires reviewed actual personal-data scope and explicit retention
+policy. Professional certification is not a universal Play requirement; factual
+owner approval and applicable-law decisions are distinguished in OWNER_DECISIONS.md.
+The private immutable operator, public key, restricted role/journal custody and
+existing production lock/recovery proof must still be installed/verified under
+separate owner authorization. This operational setup is not performed by this PR.

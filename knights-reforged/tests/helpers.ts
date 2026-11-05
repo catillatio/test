@@ -42,7 +42,7 @@ export async function realm(options:{clock?:()=>Date;logger?:boolean;development
     const form=await app.inject({method:'GET',url:'/register'});
     const csrf=/name="csrf" value="([a-f0-9]{64})"/.exec(form.body)![1]!;
     const registered=await app.inject({method:'POST',url:'/register',headers:{cookie:session(form),origin:config.origin},
-      payload:{csrf,username:'a_'+randomUUID().replaceAll('-','').slice(0,20),name,password:'AlphaTest!2026'}});
+      payload:{csrf,communityPolicy:communityPolicyVersion,username:'a_'+randomUUID().replaceAll('-','').slice(0,20),name,password:'AlphaTest!2026'}});
     assert.equal(registered.statusCode,303,registered.body);
     const cookie=session(registered);
     const state=await app.inject({method:'GET',url:'/api/v1/me',headers:{cookie}});

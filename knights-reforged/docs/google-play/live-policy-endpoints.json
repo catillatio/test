@@ -1,0 +1,30 @@
+{
+  "observedAt": "2026-11-05T22:47:48.151398+00:00",
+  "base": "https://test-production-995c.up.railway.app",
+  "method": "bounded public HTTPS GET; no auth/commands or infrastructure API",
+  "routes": [
+    {
+      "path": "/healthz",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "health": "ready",
+      "commit": "9429e88365d112f5597371c7aa811110f967558d"
+    },
+    {
+      "path": "/legal/privacy",
+      "status": 404
+    },
+    {
+      "path": "/legal/terms",
+      "status": 404
+    },
+    {
+      "path": "/legal/community",
+      "status": 404
+    },
+    {
+      "path": "/account-deletion",
+      "status": 404
+    }
+  ]
+}

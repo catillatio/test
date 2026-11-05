@@ -18,8 +18,8 @@ inspect_emulator() {
   private_diagnostic=$(mktemp -d "$RUNNER_TEMP/kingdom-emulator-diagnostic.XXXXXX")
   if timeout 5 adb -s emulator-5554 get-state > "$private_diagnostic/adb-state.txt" 2>/dev/null; then touch "$private_diagnostic/adb-state.complete"; fi
   if timeout 5 adb -s emulator-5554 shell getprop sys.boot_completed > "$private_diagnostic/boot.txt" 2>/dev/null; then touch "$private_diagnostic/boot.complete"; fi
-  if timeout 5 adb -s emulator-5554 shell pm path game.kingdomcome.alpha.debug > "$private_diagnostic/app-path.txt" 2>/dev/null; then touch "$private_diagnostic/app-path.complete"; fi
-  if timeout 5 adb -s emulator-5554 shell pm path game.kingdomcome.alpha.debug.test > "$private_diagnostic/test-path.txt" 2>/dev/null; then touch "$private_diagnostic/test-path.complete"; fi
+  if timeout 5 adb -s emulator-5554 shell pm path game.kingdomcome.rpg.debug > "$private_diagnostic/app-path.txt" 2>/dev/null; then touch "$private_diagnostic/app-path.complete"; fi
+  if timeout 5 adb -s emulator-5554 shell pm path game.kingdomcome.rpg.debug.test > "$private_diagnostic/test-path.txt" 2>/dev/null; then touch "$private_diagnostic/test-path.complete"; fi
   if timeout 5 adb -s emulator-5554 shell pm list instrumentation > "$private_diagnostic/instrumentation.txt" 2>/dev/null; then touch "$private_diagnostic/instrumentation.complete"; fi
   if timeout 10 adb -s emulator-5554 logcat -d -t 500 -s PackageManager PackageInstaller PackageInstallerSession installd dex2oat > "$private_diagnostic/package-log.txt" 2>/dev/null; then touch "$private_diagnostic/package-log.complete"; fi
   for apk_kind in app test; do
@@ -79,7 +79,7 @@ else
 fi
 stage=INSTRUMENT
 printf '%s\n' 'ANDROID_EMULATOR_STAGE: INSTRUMENT'
-timeout 120 adb -s emulator-5554 shell am instrument -w game.kingdomcome.alpha.debug.test/game.kingdomcome.alpha.ShellInstrumentation >> android-webview-result.txt
+timeout 120 adb -s emulator-5554 shell am instrument -w game.kingdomcome.rpg.debug.test/game.kingdomcome.rpg.ShellInstrumentation >> android-webview-result.txt
 cat android-webview-result.txt
 grep -q 'ANDROID_WEBVIEW: PASS' android-webview-result.txt
 ! grep -q 'ANDROID_WEBVIEW: FAIL' android-webview-result.txt

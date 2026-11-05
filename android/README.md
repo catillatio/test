@@ -1,3 +1,5 @@
+> Current Play candidate: permanent application ID `game.kingdomcome.rpg`, debug suffix `.debug`. See [PLAY_RELEASE.md](PLAY_RELEASE.md); the older alpha identity below is historical only.
+
 > Historical PR20 sideload guide. For this reconciled Play candidate, use [PLAY_RELEASE.md](PLAY_RELEASE.md). Package suffix, version, AAB and signing procedures below are historical unless repeated there.
 
 # Kingdom Come — sideloadable Android alpha

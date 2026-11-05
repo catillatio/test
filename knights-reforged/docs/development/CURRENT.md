@@ -93,4 +93,13 @@ historical records rather than rewriting them.
 
 Isolated readiness work reconciles PR20 with the approved Dark Medieval release. Start with [readiness matrix](../google-play/PLAY_STORE_READINESS.md) and [Android build/signing guide](../../../android/PLAY_RELEASE.md). Legal text is explicitly draft; deletion requests do not assert completed erasure. No Play submission, production compliance deployment, final package/signing identity or physical-device certification is implied.
 
-PR #88 population revision from 636eef4 adds disabled, signed-policy-gated human-account erasure, external suppression journal and restore/startup reconciliation. Exact-estate inheritance is superseded by a separately authorized, capped public population manager with no deletion-history dependency; see [world-state design](../google-play/privacy/GRAVEYARD_DESIGN.md). No anonymity certification is asserted. The permanent Android ID remains `game.kingdomcome.rpg` pending actual Console confirmation; protected signing rejects alternatives. Read [retention decisions](../google-play/privacy/OWNER_DECISIONS.md) before any activation; synthetic tests do not approve a production retention policy. Native Android build inputs/matrices remain unchanged from green a0a058a; installer diagnostics preserve unverified failures; a test-APK client timeout proceeds only after exact installed-pair/component verification, then every smoke assertion.
+PR #88 launch completion continues from b94cfdb. Optional NPC/economic work is
+preserved on archive/graveyard-population-b94cfdb and is not a Play approval gate.
+Account erasure now minimizes the inert current profile in addition to physical
+login/personal-data deletion, under v5 approval and unchanged recovery/financial
+protections. Registration records explicit Terms/Guidelines consent before public
+name creation. Android release/debug packaging now consistently uses the permanent
+`game.kingdomcome.rpg` / `.debug` identity; actual Console registration and owner
+signing remain unconfirmed. Read the updated readiness matrix and policy distinction
+before activation. Both production features remain disabled; no merge/deploy/Play
+submission. See [launch scope](../google-play/LAUNCH_SCOPE.md).

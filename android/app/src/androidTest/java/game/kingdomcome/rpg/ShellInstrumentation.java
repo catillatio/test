@@ -1,4 +1,4 @@
-package game.kingdomcome.alpha;
+package game.kingdomcome.rpg;
 import android.app.Instrumentation;
 import android.app.Activity;
 import android.content.Intent;

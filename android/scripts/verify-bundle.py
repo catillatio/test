@@ -3,7 +3,8 @@
 import argparse, hashlib, json, os, re, shutil, subprocess, tempfile, zipfile
 from pathlib import Path
 import xml.etree.ElementTree as ET
-p=argparse.ArgumentParser();p.add_argument('--bundle',type=Path,required=True);p.add_argument('--bundletool',type=Path,required=True);p.add_argument('--application-id',default='game.kingdomcome.alpha');p.add_argument('--version-code',default='2');p.add_argument('--require-signed',action='store_true');p.add_argument('--expected-certificate');a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--bundle',type=Path,required=True);p.add_argument('--bundletool',type=Path,required=True);p.add_argument('--application-id',default='game.kingdomcome.rpg');p.add_argument('--version-code',default='2');p.add_argument('--require-signed',action='store_true');p.add_argument('--expected-certificate');a=p.parse_args()
+assert a.application_id=='game.kingdomcome.rpg','Approved permanent application ID required'
 root=Path(__file__).resolve().parents[1]; ns='{http://schemas.android.com/apk/res/android}'
 assert hashlib.sha256(a.bundletool.read_bytes()).hexdigest()=='a099cfa1543f55593bc2ed16a70a7c67fe54b1747bb7301f37fdfd6d91028e29','Unexpected bundletool'
 subprocess.run(['java','-jar',str(a.bundletool),'validate','--bundle='+str(a.bundle)],check=True,stdout=subprocess.DEVNULL)

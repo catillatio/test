@@ -1,4 +1,4 @@
-package game.kingdomcome.alpha;
+package game.kingdomcome.rpg;
 
 import java.net.URI;
 import java.net.URISyntaxException;

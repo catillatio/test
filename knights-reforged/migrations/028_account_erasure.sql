@@ -127,6 +127,7 @@ BEGIN
    RAISE EXCEPTION 'Erased identity is protected';
   END IF;
  ELSE
+  IF TG_OP<>'DELETE' AND EXISTS(SELECT 1 FROM account_erasures WHERE character_id=OLD.id) AND to_jsonb(NEW) IS DISTINCT FROM to_jsonb(jsonb_populate_record(NEW,'{"account_id":null,"name":"Deleted Warrior","xp":0,"health":0,"energy":0,"health_updated_at":"1970-01-01T00:00:00.000Z","energy_updated_at":"1970-01-01T00:00:00.000Z","attack_ready_at":"1970-01-01T00:00:00.000Z","state_version":1,"created_at":"1970-01-01T00:00:00.000Z","max_health":100,"mana":0,"max_mana":20,"spirit":0,"max_spirit":3,"mana_updated_at":"1970-01-01T00:00:00.000Z","spirit_updated_at":"1970-01-01T00:00:00.000Z","attained_level":1,"level_xp":0,"skill_points":0,"legacy_army_floor":1,"profile_class":"Freeblade","attack_training":0,"defense_training":0,"calling_changed_at":null}'::jsonb)) THEN RAISE EXCEPTION 'Erased profile is protected and minimized'; END IF;
   IF TG_OP<>'DELETE' AND NEW.name IS NOT DISTINCT FROM OLD.name AND NEW.account_id IS NOT DISTINCT FROM OLD.account_id THEN RETURN NEW; END IF;
   IF EXISTS(SELECT 1 FROM account_erasures WHERE character_id=OLD.id) OR EXISTS(SELECT 1 FROM abandoned_kingdoms WHERE character_id=OLD.id) THEN
    IF TG_OP='DELETE' OR NEW.name IS DISTINCT FROM OLD.name OR NEW.account_id IS DISTINCT FROM OLD.account_id THEN
@@ -205,8 +206,8 @@ BEGIN
  OR EXISTS(SELECT 1 FROM hudson_equipment_grants WHERE account_id=account_subject)
  OR EXISTS(SELECT 1 FROM private_alpha_initializations WHERE dev_account_id=account_subject)
  THEN RAISE EXCEPTION 'Identity has a protected hold'; END IF;
- UPDATE characters SET account_id=NULL,name='Deleted Warrior' WHERE id=subject;
- UPDATE champion_standings SET eligible=false WHERE character_id=subject;
+ UPDATE characters SET account_id=NULL,name='Deleted Warrior',xp=0,health=0,energy=0,health_updated_at='1970-01-01T00:00:00.000Z',energy_updated_at='1970-01-01T00:00:00.000Z',attack_ready_at='1970-01-01T00:00:00.000Z',state_version=1,created_at='1970-01-01T00:00:00.000Z',max_health=100,mana=0,max_mana=20,spirit=0,max_spirit=3,mana_updated_at='1970-01-01T00:00:00.000Z',spirit_updated_at='1970-01-01T00:00:00.000Z',attained_level=1,level_xp=0,skill_points=0,legacy_army_floor=1,profile_class='Freeblade',attack_training=0,defense_training=0,calling_changed_at=NULL WHERE id=subject;
+ UPDATE champion_standings SET eligible=false,attained_level=1,xp=0,created_at='1970-01-01T00:00:00.000Z' WHERE character_id=subject;
  DELETE FROM accounts WHERE id=account_subject;
 END $$;
 REVOKE ALL ON FUNCTION detach_erased_identity(uuid,uuid) FROM PUBLIC;

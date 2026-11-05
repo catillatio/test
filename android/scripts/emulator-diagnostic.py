@@ -20,7 +20,7 @@ try:
   'test_registered':read('test-path.txt').strip().startswith('package:/data/app/'),
   'app_query_completed':(root/'app-path.complete').is_file(),'test_query_completed':(root/'test-path.complete').is_file(),
   'instrumentation_query_completed':(root/'instrumentation.complete').is_file(),'package_log_query_completed':(root/'package-log.complete').is_file(),
-  'instrumentation_registered':any(line.split()==['instrumentation:game.kingdomcome.alpha.debug.test/game.kingdomcome.alpha.ShellInstrumentation','(target=game.kingdomcome.alpha.debug)'] for line in read('instrumentation.txt').splitlines()),
+  'instrumentation_registered':any(line.split()==['instrumentation:game.kingdomcome.rpg.debug.test/game.kingdomcome.rpg.ShellInstrumentation','(target=game.kingdomcome.rpg.debug)'] for line in read('instrumentation.txt').splitlines()),
   'exact_app_apk_bytes':read('app-apk-match.txt').strip()=='MATCH','exact_test_apk_bytes':read('test-apk-match.txt').strip()=='MATCH',
   'verification_activity':'verif' in logs,'dexopt_activity':'dexopt' in logs or 'dex2oat' in logs,
   'installer_error':'install_failed' in logs or 'failed to install' in logs,

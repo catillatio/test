@@ -1,86 +1,57 @@
-# Deletion and independent world-state decisions
+# Launch retention and operational decisions
 
-Review candidate, 2026-11-05. **Production erasure and NPC construction are disabled.**
-The owner approved abandoned kingdoms as gameplay, and requested non-fingerprinting
-construction. No legal retention exception, anonymity certification or production
-installation is inferred. This revision supersedes the exact-estate v2 proposal.
+2026-11-05. Production erasure stays disabled. This is an unapproved, narrowly scoped
+proposal, not activated retention or a legal conclusion. NPC decisions are excluded;
+see [preserved future scope](../LAUNCH_SCOPE.md).
 
-## Implemented revision
+## What fulfillment now actually removes
 
-Fulfillment physically deletes the human `accounts` row, password hash, sessions,
-request, owned personal/social/preferences/mutable-progress records and structured identity
-labels. The original character survives only as an inaccessible private integrity
-anchor under the proposed exception below. It is not an abandoned kingdom, cannot
-be used to log in or recover the account, and earns no further income.
+The human accounts/password row is physically deleted, sessions revoked, owned
+personal/social/preferences/tutorial and mutable progress removed, structured identity
+labels/account-invitation metadata redacted from shared mutable reports, and the
+current character profile reduced to a non-playable FK stub. Name becomes Deleted
+Warrior; class/level/XP/training/resource values normalize, old creation/resource
+clocks are replaced by a documented erased-value epoch sentinel, and calling history
+is cleared. Old identity/profile values cannot be reintroduced by stale writes.
+No NPC, schedule, gold transfer or population credit is created.
 
-**Erasure creates, schedules and counts toward no NPC.** This owner decision is
-implemented without an admission cohort, waiting period, completion count/date or
-private-journal dependency in population management. Human erasure is independently
-authorized by the v4 policy and original request/intent/recovery safeguards.
+The stub is not anonymous: its opaque ID remains associated with restricted
+financial/history/suppression records. Never claim that credential removal or a
+changed ID alone establishes anonymization.
 
-A different private population policy authorizes generic kingdoms from public
-catalog configurations. It uses fresh random IDs and no source assignments, inherited
-estates, personal history or actor-derived seed. Existing direct erasure capability
-cannot invoke population construction, and the constructor cannot read personal
-rows directly or invoke erasure. No role, key, credential, service or scheduler has
-been installed. See [the independent design](GRAVEYARD_DESIGN.md).
+## Small set of necessary decisions
 
-## Gameplay and funds — proposed activation policy
-
-New NPC wallet/Vault start at zero. Former wallet/Vault/treasury/reserves stay sealed
-in the private historical anchor: no duplication, redistribution or transfer to the
-NPC. Public catalog Land starts a fresh clock and produces only future genuine
-income. NPCs are discoverable, attackable and have normal human-origin attack/loot
-and repeat restrictions; they are not development bots and never join the 900-bot
-population. They cannot log in, recover, invite, post, recruit, buy, spend or attack
-autonomously. NPC equipment stays usable without automatic upkeep spending. Existing
-human/development-bot upkeep and combat formulas remain unchanged.
-
-Approve the independent population cap/endowments and public power envelope, zero-wallet/sealed-fund
-handling and NPC-only no-spending policy before activation. This is world-state
-construction, not a claim of individual estate equivalence or economy neutrality.
-
-## Verified technical properties versus legal questions
-
-Synthetic PostgreSQL tests establish no player-state inputs or assignments,
-separate authorization, zero-history construction, erasure/population state
-independence, restricted privileges, financial preservation, real income, existing
-loot, rollback, no reclaim and independent restore fences. They do not establish
-legal anonymity. Old integrity anchors, shared records and the suppression ledger
-remain associated/pseudonymous data under an unapproved retention proposal; no
-world-generation requirement justifies retaining them.
-
-Qualified independent privacy/legal review must approve necessary retained fields,
-purposes, access and periods, or require further minimization before erasure
-activation. Personal-data review remains mandatory on each signed intent. The
-population policy cannot authorize erasure and erasure approval cannot authorize
-population writes. Old mixed policy/intent versions are rejected. Independent NPCs
-are public world state, not retained former-player configurations; no legal compliance
-certification is inferred from that technical separation.
-
-## Narrow retention decisions still required
-
-| Data | Proposed period / handling | Justification and decision |
+| Retained category | Proposed purpose and minimum handling | Period decision |
 |---|---|---|
-| Human account, credentials, sessions, personal/social data, request | Delete at fulfillment; restricted request reference in completion proof only | No renamed/disabled-account substitute. Confirm subject-specific free-text review and fulfillment deadline. |
-| Old private character anchor, sealed funds, immutable financial/combat/asset journals and compatibility boundary metadata | While shared realm operates; proposed disposal within 30 days of permanent closure under a separately reviewed purge | Preserve other players' integrity and avoid cascade loss. Not a statutory retention claim. Require necessary, proportionate category-specific approval or a shorter tested minimization design. These records can remain identifiable. |
-| Independent public NPC and population operation | Permanent generic world state | Separate owner-approved population policy; no former human or deletion evidence. This is not a personal-data retention exception. |
-| Signed suppression intent, completion receipt and checkpoint | Until last relevant backup destroyed under its own authorization, then 30 days | Prevent resurrection. Contains restricted old identities. No automatic expiry/purge is implemented here. |
-| Routine future encrypted backups | Proposed maximum 30 days, subject to protected holds/minima | Not a claim about current provider expiry. Legacy/uncertain/emergency copies, including OIDs 106971/129180, remain protected; proposed protected-copy review every 30 days. Suppress erasures on every restore. |
-| Active escrow, bot/operator accounts, immutable identifying grants | Hold, never claim fulfilled | Resolve only with separate approved mechanism; no immutable-trigger bypass. |
-| Arbitrary personal mentions, provider logs, moderation/support records | Subject-specific review; justified purposes and periods required | Structured IDs cannot locate all free text or provider-side records. Owner/legal review supplies lawful scope and support process. |
+| Non-login character FK, sealed wallet/Vault/treasury, asset holdings/lots and immutable financial/asset/compatibility journals | Preserve other players' shared accounting, prohibit duplicate grants/refunds and prevent accidental value redistribution. No public profile, income accrual or player access. Current personal traits are cleared. | Existing proposed policy retains necessary integrity records while that realm operates, disposal within 30 days of permanent closure through a separately reviewed procedure. Owner must accept necessity/proportionality per category or require a shorter minimization policy; it is not a statutory entitlement. No automatic expiry is claimed. |
+| Shared immutable combat/financial numeric facts and IDs | Shared results, fraud/dispute/reconciliation integrity; remove owned mutable content and typed personal labels without rewriting other players' amounts | Same explicit category review; do not retain unrelated free text merely because it is in a shared record. Any identifying immutable special grant remains held pending specific resolution. |
+| Signed suppression intent, completion/checkpoint, old account/character/request IDs | Verify actual fulfillment and prevent credentials/personal data resurrecting from an old backup | Through destruction of the last relevant protected backup, then 30 days proposed. Independently protected journal/head custody is required. No premature journal purge. |
+| Encrypted backups and provider logs | Recovery/security under restricted access; apply suppression before restored access | Routine backup maximum 30 days and protected-copy review every 30 days proposed, subject to actual recovery holds. Existing legacy/emergency/uncertain copies remain protected, including 106971/129180. Provider log duration/access/residency must be accurately filled by owner/provider; unknown is not compliance evidence. |
 
-Existing protected owner gate, release mutex, exact code/DB binding, signed recovery
-proof, independent private journal/head freshness and fail-closed restore startup
-remain mandatory. No backup is modified/deleted, signing key regenerated or retention
-infrastructure reused without review. Approval of this PR is not activation approval.
+**Decision required:** approve the actual restricted categories/purposes/periods and
+publish those practices, or request a specific shorter design. Generic “keep all
+player data for safety” is not this proposal and cannot be signed as fulfillment.
+No policy, key, grant, journal, credential or purge is installed by this task.
 
-## Remaining product decision
+Google requires genuine deletion and accurate disclosure of legitimate retention;
+it does not universally demand an independent legal/privacy certification. The owner
+may approve factual practices within their authority. Qualified legal review is
+needed where applicable law or the unresolved retention justification requires it,
+not as an invented blanket Play gate. Code approval is not acceptance of these
+exceptions or permission to operate on real accounts.
 
-Recommend target12/cap12, up to6 new kingdoms per explicitly signed operation, no
-scheduler, modest catalog Land endowments producing594 gold/hour total. See
-[long-term economics and timings](ECONOMIC_SIMULATION.md). The hard reviewed bound
-is96; it is not an approved setting. Passive gold accumulation is permanent; loot
-transfers rather than destroys it. No source-to-NPC inheritance or cohort decision
-remains. Activation still needs separately approved population configuration/key
-custody and restricted installation; erasure needs its own retention approval.
+## Operations required before testing with real users
+
+Approve response/fulfillment time and review staffing; complete publisher/privacy/
+support contact fields. Install the reviewed restricted eraser role/public key and
+separately protected suppression journal, preserve existing production mutex and
+fresh signed encrypted-recovery requirements, then separately authorize isolated
+operational acceptance. No external legal certificate, NPC setup or extra gameplay
+system is required. Do not present the request queue as a working deletion service
+until an operator can actually fulfill requests.
+
+Active escrow waits for valid settlement/expiry. Bot/operator accounts and immutable
+identifying grants are held, not reported erased. Owner review must resolve any
+specific retained identifying grant/third-party personal mention before that account
+is fulfilled. The tool never bypasses immutable triggers or fabricates completed
+receipts. The public process must explain any genuine required steps/support path.
