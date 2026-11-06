@@ -36,3 +36,7 @@
 !deployment/release/retention/observation.mjs
 !deployment/release/retention/observations.sql
 !deployment/release/retention/register-verified.mjs
+
+# Runtime operator contains no private key/signing helper or policy installation.
+!deployment/privacy/
+!deployment/privacy/fulfill.mjs

@@ -1,0 +1,1461 @@
+{
+  "id": "graveyard-world-2",
+  "provenance": "Independent public NPC population proposal; zero association with deletion or personal configurations. Disabled until separately approved. Existing catalogs and gameplay formulas unchanged.",
+  "name": "Abandoned Kingdom",
+  "startingGold": 0,
+  "limits": {
+    "maximumPopulation": 96,
+    "maximumNewPerOperation": 12
+  },
+  "recommended": {
+    "targetPopulation": 12,
+    "maximumPopulation": 12,
+    "maximumNewPerOperation": 6
+  },
+  "rosters": {
+    "alpha-0.3": [
+      {
+        "id": "level-1-watch",
+        "level": 1,
+        "garrison": 1,
+        "health": 102,
+        "calling": "Warden",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "iron-sword",
+            "quantity": 1
+          },
+          {
+            "itemId": "padded-coat",
+            "quantity": 1
+          },
+          {
+            "itemId": "hearth-ward",
+            "quantity": 1
+          }
+        ],
+        "property": {
+          "id": "smallholding",
+          "quantity": 2
+        }
+      },
+      {
+        "id": "level-3-watch",
+        "level": 3,
+        "garrison": 2,
+        "health": 106,
+        "calling": "Warden",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "ransackers-axe",
+            "quantity": 2
+          },
+          {
+            "itemId": "warden-mail",
+            "quantity": 2
+          },
+          {
+            "itemId": "thorn-hex",
+            "quantity": 2
+          }
+        ],
+        "property": {
+          "id": "woodland",
+          "quantity": 2
+        }
+      },
+      {
+        "id": "level-6-watch",
+        "level": 6,
+        "garrison": 5,
+        "health": 112,
+        "calling": "Warden",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "wardens-halberd",
+            "quantity": 5
+          },
+          {
+            "itemId": "castellan-helm",
+            "quantity": 5
+          },
+          {
+            "itemId": "stonebinding",
+            "quantity": 5
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-10-watch",
+        "level": 10,
+        "garrison": 8,
+        "health": 120,
+        "calling": "Warden",
+        "attackTraining": 1,
+        "defenseTraining": 1,
+        "equipment": [
+          {
+            "itemId": "briarheart-bow",
+            "quantity": 8
+          },
+          {
+            "itemId": "verdant-aegis",
+            "quantity": 8
+          },
+          {
+            "itemId": "silverroot-ward",
+            "quantity": 8
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-15-watch",
+        "level": 15,
+        "garrison": 12,
+        "health": 130,
+        "calling": "Warden",
+        "attackTraining": 1,
+        "defenseTraining": 1,
+        "equipment": [
+          {
+            "itemId": "stormglass-pike",
+            "quantity": 12
+          },
+          {
+            "itemId": "frostweave-mantle",
+            "quantity": 12
+          },
+          {
+            "itemId": "silverroot-ward",
+            "quantity": 12
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-22-watch",
+        "level": 22,
+        "garrison": 18,
+        "health": 144,
+        "calling": "Warden",
+        "attackTraining": 2,
+        "defenseTraining": 2,
+        "equipment": [
+          {
+            "itemId": "moonthorn-recurve",
+            "quantity": 18
+          },
+          {
+            "itemId": "embercrest-bulwark",
+            "quantity": 18
+          },
+          {
+            "itemId": "moonwell-veil",
+            "quantity": 18
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-32-watch",
+        "level": 32,
+        "garrison": 26,
+        "health": 164,
+        "calling": "Warden",
+        "attackTraining": 3,
+        "defenseTraining": 3,
+        "equipment": [
+          {
+            "itemId": "sun-etched-warhammer",
+            "quantity": 26
+          },
+          {
+            "itemId": "dawnforge-panoply",
+            "quantity": 26
+          },
+          {
+            "itemId": "dawnstar-benediction",
+            "quantity": 26
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-40-watch",
+        "level": 40,
+        "garrison": 32,
+        "health": 180,
+        "calling": "Warden",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "astral-conductor",
+            "quantity": 32
+          },
+          {
+            "itemId": "wyrmscale-aegis",
+            "quantity": 32
+          },
+          {
+            "itemId": "dawnstar-benediction",
+            "quantity": 32
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-45-watch",
+        "level": 45,
+        "garrison": 36,
+        "health": 190,
+        "calling": "Warden",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "astral-conductor",
+            "quantity": 36
+          },
+          {
+            "itemId": "sovereigns-bastion",
+            "quantity": 36
+          },
+          {
+            "itemId": "dawnstar-benediction",
+            "quantity": 36
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-48-watch",
+        "level": 48,
+        "garrison": 38,
+        "health": 196,
+        "calling": "Warden",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "astral-conductor",
+            "quantity": 38
+          },
+          {
+            "itemId": "sovereigns-bastion",
+            "quantity": 38
+          },
+          {
+            "itemId": "seraphs-rebuke",
+            "quantity": 38
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-49-watch",
+        "level": 49,
+        "garrison": 39,
+        "health": 198,
+        "calling": "Warden",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "astral-conductor",
+            "quantity": 39
+          },
+          {
+            "itemId": "sovereigns-bastion",
+            "quantity": 39
+          },
+          {
+            "itemId": "seraphs-rebuke",
+            "quantity": 39
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-50-watch",
+        "level": 50,
+        "garrison": 40,
+        "health": 200,
+        "calling": "Warden",
+        "attackTraining": 5,
+        "defenseTraining": 5,
+        "equipment": [
+          {
+            "itemId": "astral-conductor",
+            "quantity": 40
+          },
+          {
+            "itemId": "eclipse-citadel-plate",
+            "quantity": 40
+          },
+          {
+            "itemId": "seraphs-rebuke",
+            "quantity": 40
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-1-garrison",
+        "level": 1,
+        "garrison": 3,
+        "health": 102,
+        "calling": "Freeblade",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "iron-sword",
+            "quantity": 3
+          },
+          {
+            "itemId": "padded-coat",
+            "quantity": 3
+          },
+          {
+            "itemId": "ember-word",
+            "quantity": 3
+          }
+        ],
+        "property": {
+          "id": "smallholding",
+          "quantity": 2
+        }
+      },
+      {
+        "id": "level-3-garrison",
+        "level": 3,
+        "garrison": 7,
+        "health": 106,
+        "calling": "Freeblade",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "ransackers-axe",
+            "quantity": 7
+          },
+          {
+            "itemId": "warden-mail",
+            "quantity": 7
+          },
+          {
+            "itemId": "thorn-hex",
+            "quantity": 7
+          }
+        ],
+        "property": {
+          "id": "woodland",
+          "quantity": 2
+        }
+      },
+      {
+        "id": "level-6-garrison",
+        "level": 6,
+        "garrison": 13,
+        "health": 112,
+        "calling": "Freeblade",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "sunsteel-glaive",
+            "quantity": 13
+          },
+          {
+            "itemId": "castellan-helm",
+            "quantity": 13
+          },
+          {
+            "itemId": "storm-sigil",
+            "quantity": 13
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-10-garrison",
+        "level": 10,
+        "garrison": 21,
+        "health": 120,
+        "calling": "Freeblade",
+        "attackTraining": 1,
+        "defenseTraining": 1,
+        "equipment": [
+          {
+            "itemId": "kingsguard-longsword",
+            "quantity": 21
+          },
+          {
+            "itemId": "runebound-hauberk",
+            "quantity": 21
+          },
+          {
+            "itemId": "tempest-lance",
+            "quantity": 21
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-15-garrison",
+        "level": 15,
+        "garrison": 31,
+        "health": 130,
+        "calling": "Freeblade",
+        "attackTraining": 1,
+        "defenseTraining": 1,
+        "equipment": [
+          {
+            "itemId": "stormglass-pike",
+            "quantity": 31
+          },
+          {
+            "itemId": "frostweave-mantle",
+            "quantity": 31
+          },
+          {
+            "itemId": "winters-judgment",
+            "quantity": 31
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-22-garrison",
+        "level": 22,
+        "garrison": 45,
+        "health": 144,
+        "calling": "Freeblade",
+        "attackTraining": 2,
+        "defenseTraining": 2,
+        "equipment": [
+          {
+            "itemId": "cinderwyrm-cleaver",
+            "quantity": 45
+          },
+          {
+            "itemId": "nightwatch-carapace",
+            "quantity": 45
+          },
+          {
+            "itemId": "ashen-revenant",
+            "quantity": 45
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-32-garrison",
+        "level": 32,
+        "garrison": 65,
+        "health": 164,
+        "calling": "Freeblade",
+        "attackTraining": 3,
+        "defenseTraining": 3,
+        "equipment": [
+          {
+            "itemId": "sun-etched-warhammer",
+            "quantity": 65
+          },
+          {
+            "itemId": "ossuary-raiment",
+            "quantity": 65
+          },
+          {
+            "itemId": "grave-tide",
+            "quantity": 65
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-40-garrison",
+        "level": 40,
+        "garrison": 81,
+        "health": 180,
+        "calling": "Freeblade",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "dragonwake-falchion",
+            "quantity": 81
+          },
+          {
+            "itemId": "astral-archon-robes",
+            "quantity": 81
+          },
+          {
+            "itemId": "dragons-last-breath",
+            "quantity": 81
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-45-garrison",
+        "level": 45,
+        "garrison": 91,
+        "health": 190,
+        "calling": "Freeblade",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "crown-of-ash-blade",
+            "quantity": 91
+          },
+          {
+            "itemId": "astral-archon-robes",
+            "quantity": 91
+          },
+          {
+            "itemId": "voidbound-chain",
+            "quantity": 91
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-48-garrison",
+        "level": 48,
+        "garrison": 97,
+        "health": 196,
+        "calling": "Freeblade",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "crown-of-ash-blade",
+            "quantity": 97
+          },
+          {
+            "itemId": "seraphic-vestment",
+            "quantity": 97
+          },
+          {
+            "itemId": "voidbound-chain",
+            "quantity": 97
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-49-garrison",
+        "level": 49,
+        "garrison": 99,
+        "health": 198,
+        "calling": "Freeblade",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "crown-of-ash-blade",
+            "quantity": 99
+          },
+          {
+            "itemId": "seraphic-vestment",
+            "quantity": 99
+          },
+          {
+            "itemId": "voidbound-chain",
+            "quantity": 99
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      },
+      {
+        "id": "level-50-garrison",
+        "level": 50,
+        "garrison": 101,
+        "health": 200,
+        "calling": "Freeblade",
+        "attackTraining": 5,
+        "defenseTraining": 5,
+        "equipment": [
+          {
+            "itemId": "eclipse-greatsword",
+            "quantity": 101
+          },
+          {
+            "itemId": "seraphic-vestment",
+            "quantity": 101
+          },
+          {
+            "itemId": "eclipse-invocation",
+            "quantity": 101
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        }
+      }
+    ],
+    "level100-content-1": [
+      {
+        "id": "level-1-watch",
+        "level": 1,
+        "garrison": 2,
+        "health": 102,
+        "calling": "Warden",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "iron-sword",
+            "quantity": 2
+          },
+          {
+            "itemId": "padded-coat",
+            "quantity": 2
+          },
+          {
+            "itemId": "hearth-ward",
+            "quantity": 2
+          }
+        ],
+        "property": {
+          "id": "smallholding",
+          "quantity": 2
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 1,
+          "boundaryRequirement": 12,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-3-watch",
+        "level": 3,
+        "garrison": 6,
+        "health": 106,
+        "calling": "Warden",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "ransackers-axe",
+            "quantity": 6
+          },
+          {
+            "itemId": "warden-mail",
+            "quantity": 6
+          },
+          {
+            "itemId": "thorn-hex",
+            "quantity": 6
+          }
+        ],
+        "property": {
+          "id": "woodland",
+          "quantity": 2
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 3,
+          "boundaryRequirement": 30,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-6-watch",
+        "level": 6,
+        "garrison": 12,
+        "health": 112,
+        "calling": "Warden",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "wardens-halberd",
+            "quantity": 12
+          },
+          {
+            "itemId": "castellan-helm",
+            "quantity": 12
+          },
+          {
+            "itemId": "stonebinding",
+            "quantity": 12
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 6,
+          "boundaryRequirement": 80,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-10-watch",
+        "level": 10,
+        "garrison": 20,
+        "health": 120,
+        "calling": "Warden",
+        "attackTraining": 1,
+        "defenseTraining": 1,
+        "equipment": [
+          {
+            "itemId": "briarheart-bow",
+            "quantity": 20
+          },
+          {
+            "itemId": "verdant-aegis",
+            "quantity": 20
+          },
+          {
+            "itemId": "silverroot-ward",
+            "quantity": 20
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 10,
+          "boundaryRequirement": 200,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-15-watch",
+        "level": 15,
+        "garrison": 30,
+        "health": 130,
+        "calling": "Warden",
+        "attackTraining": 1,
+        "defenseTraining": 1,
+        "equipment": [
+          {
+            "itemId": "stormglass-pike",
+            "quantity": 30
+          },
+          {
+            "itemId": "frostweave-mantle",
+            "quantity": 30
+          },
+          {
+            "itemId": "silverroot-ward",
+            "quantity": 30
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 15,
+          "boundaryRequirement": 425,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-22-watch",
+        "level": 22,
+        "garrison": 44,
+        "health": 144,
+        "calling": "Warden",
+        "attackTraining": 2,
+        "defenseTraining": 2,
+        "equipment": [
+          {
+            "itemId": "moonthorn-recurve",
+            "quantity": 44
+          },
+          {
+            "itemId": "embercrest-bulwark",
+            "quantity": 44
+          },
+          {
+            "itemId": "moonwell-veil",
+            "quantity": 44
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 22,
+          "boundaryRequirement": 740,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-32-watch",
+        "level": 32,
+        "garrison": 64,
+        "health": 164,
+        "calling": "Warden",
+        "attackTraining": 3,
+        "defenseTraining": 3,
+        "equipment": [
+          {
+            "itemId": "sun-etched-warhammer",
+            "quantity": 64
+          },
+          {
+            "itemId": "dawnforge-panoply",
+            "quantity": 64
+          },
+          {
+            "itemId": "dawnstar-benediction",
+            "quantity": 64
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 32,
+          "boundaryRequirement": 1190,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-45-watch",
+        "level": 45,
+        "garrison": 90,
+        "health": 190,
+        "calling": "Warden",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "astral-conductor",
+            "quantity": 90
+          },
+          {
+            "itemId": "sovereigns-bastion",
+            "quantity": 90
+          },
+          {
+            "itemId": "dawnstar-benediction",
+            "quantity": 90
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 45,
+          "boundaryRequirement": 1775,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-60-watch",
+        "level": 60,
+        "garrison": 120,
+        "health": 220,
+        "calling": "Warden",
+        "attackTraining": 6,
+        "defenseTraining": 6,
+        "equipment": [
+          {
+            "itemId": "guard-captains-halberd",
+            "quantity": 120
+          },
+          {
+            "itemId": "citadel-harness",
+            "quantity": 120
+          },
+          {
+            "itemId": "stonewall-oath",
+            "quantity": 120
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 60,
+          "boundaryRequirement": 2450,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-75-watch",
+        "level": 75,
+        "garrison": 150,
+        "health": 250,
+        "calling": "Warden",
+        "attackTraining": 7,
+        "defenseTraining": 7,
+        "equipment": [
+          {
+            "itemId": "march-wardens-poleaxe",
+            "quantity": 150
+          },
+          {
+            "itemId": "fortress-bastion-plate",
+            "quantity": 150
+          },
+          {
+            "itemId": "ironwall-covenant",
+            "quantity": 150
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 75,
+          "boundaryRequirement": 3125,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-90-watch",
+        "level": 90,
+        "garrison": 180,
+        "health": 280,
+        "calling": "Warden",
+        "attackTraining": 9,
+        "defenseTraining": 9,
+        "equipment": [
+          {
+            "itemId": "throneguard-polehammer",
+            "quantity": 180
+          },
+          {
+            "itemId": "sovereigns-war-bastion",
+            "quantity": 180
+          },
+          {
+            "itemId": "crown-of-wards",
+            "quantity": 180
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 90,
+          "boundaryRequirement": 3800,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-100-watch",
+        "level": 100,
+        "garrison": 200,
+        "health": 300,
+        "calling": "Warden",
+        "attackTraining": 10,
+        "defenseTraining": 10,
+        "equipment": [
+          {
+            "itemId": "eclipse-gatehammer",
+            "quantity": 200
+          },
+          {
+            "itemId": "imperial-eclipse-bastion",
+            "quantity": 200
+          },
+          {
+            "itemId": "eclipse-aegis",
+            "quantity": 200
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 100,
+          "boundaryRequirement": 4250,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-1-garrison",
+        "level": 1,
+        "garrison": 5,
+        "health": 102,
+        "calling": "Freeblade",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "iron-sword",
+            "quantity": 5
+          },
+          {
+            "itemId": "padded-coat",
+            "quantity": 5
+          },
+          {
+            "itemId": "ember-word",
+            "quantity": 5
+          }
+        ],
+        "property": {
+          "id": "smallholding",
+          "quantity": 2
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 1,
+          "boundaryRequirement": 12,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-3-garrison",
+        "level": 3,
+        "garrison": 15,
+        "health": 106,
+        "calling": "Freeblade",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "ransackers-axe",
+            "quantity": 15
+          },
+          {
+            "itemId": "warden-mail",
+            "quantity": 15
+          },
+          {
+            "itemId": "thorn-hex",
+            "quantity": 15
+          }
+        ],
+        "property": {
+          "id": "woodland",
+          "quantity": 2
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 3,
+          "boundaryRequirement": 30,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-6-garrison",
+        "level": 6,
+        "garrison": 30,
+        "health": 112,
+        "calling": "Freeblade",
+        "attackTraining": 0,
+        "defenseTraining": 0,
+        "equipment": [
+          {
+            "itemId": "sunsteel-glaive",
+            "quantity": 30
+          },
+          {
+            "itemId": "castellan-helm",
+            "quantity": 30
+          },
+          {
+            "itemId": "storm-sigil",
+            "quantity": 30
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 6,
+          "boundaryRequirement": 80,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-10-garrison",
+        "level": 10,
+        "garrison": 50,
+        "health": 120,
+        "calling": "Freeblade",
+        "attackTraining": 1,
+        "defenseTraining": 1,
+        "equipment": [
+          {
+            "itemId": "kingsguard-longsword",
+            "quantity": 50
+          },
+          {
+            "itemId": "runebound-hauberk",
+            "quantity": 50
+          },
+          {
+            "itemId": "tempest-lance",
+            "quantity": 50
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 10,
+          "boundaryRequirement": 200,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-15-garrison",
+        "level": 15,
+        "garrison": 75,
+        "health": 130,
+        "calling": "Freeblade",
+        "attackTraining": 1,
+        "defenseTraining": 1,
+        "equipment": [
+          {
+            "itemId": "stormglass-pike",
+            "quantity": 75
+          },
+          {
+            "itemId": "frostweave-mantle",
+            "quantity": 75
+          },
+          {
+            "itemId": "winters-judgment",
+            "quantity": 75
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 15,
+          "boundaryRequirement": 425,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-22-garrison",
+        "level": 22,
+        "garrison": 110,
+        "health": 144,
+        "calling": "Freeblade",
+        "attackTraining": 2,
+        "defenseTraining": 2,
+        "equipment": [
+          {
+            "itemId": "cinderwyrm-cleaver",
+            "quantity": 110
+          },
+          {
+            "itemId": "nightwatch-carapace",
+            "quantity": 110
+          },
+          {
+            "itemId": "ashen-revenant",
+            "quantity": 110
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 22,
+          "boundaryRequirement": 740,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-32-garrison",
+        "level": 32,
+        "garrison": 160,
+        "health": 164,
+        "calling": "Freeblade",
+        "attackTraining": 3,
+        "defenseTraining": 3,
+        "equipment": [
+          {
+            "itemId": "sun-etched-warhammer",
+            "quantity": 160
+          },
+          {
+            "itemId": "ossuary-raiment",
+            "quantity": 160
+          },
+          {
+            "itemId": "grave-tide",
+            "quantity": 160
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 32,
+          "boundaryRequirement": 1190,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-45-garrison",
+        "level": 45,
+        "garrison": 225,
+        "health": 190,
+        "calling": "Freeblade",
+        "attackTraining": 4,
+        "defenseTraining": 4,
+        "equipment": [
+          {
+            "itemId": "crown-of-ash-blade",
+            "quantity": 225
+          },
+          {
+            "itemId": "astral-archon-robes",
+            "quantity": 225
+          },
+          {
+            "itemId": "voidbound-chain",
+            "quantity": 225
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 45,
+          "boundaryRequirement": 1775,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-60-garrison",
+        "level": 60,
+        "garrison": 300,
+        "health": 220,
+        "calling": "Freeblade",
+        "attackTraining": 6,
+        "defenseTraining": 6,
+        "equipment": [
+          {
+            "itemId": "royal-warblade",
+            "quantity": 300
+          },
+          {
+            "itemId": "kings-marshal-harness",
+            "quantity": 300
+          },
+          {
+            "itemId": "banner-of-embers",
+            "quantity": 300
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 60,
+          "boundaryRequirement": 2450,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-75-garrison",
+        "level": 75,
+        "garrison": 375,
+        "health": 250,
+        "calling": "Freeblade",
+        "attackTraining": 7,
+        "defenseTraining": 7,
+        "equipment": [
+          {
+            "itemId": "sovereigns-zweihander",
+            "quantity": 375
+          },
+          {
+            "itemId": "ducal-warplate",
+            "quantity": 375
+          },
+          {
+            "itemId": "royal-battlefire",
+            "quantity": 375
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 75,
+          "boundaryRequirement": 3125,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-90-garrison",
+        "level": 90,
+        "garrison": 450,
+        "health": 280,
+        "calling": "Freeblade",
+        "attackTraining": 9,
+        "defenseTraining": 9,
+        "equipment": [
+          {
+            "itemId": "ash-crowned-warblade",
+            "quantity": 450
+          },
+          {
+            "itemId": "ashen-marshal-harness",
+            "quantity": 450
+          },
+          {
+            "itemId": "ashen-coronation",
+            "quantity": 450
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 90,
+          "boundaryRequirement": 3800,
+          "startingProgress": 0
+        }
+      },
+      {
+        "id": "level-100-garrison",
+        "level": 100,
+        "garrison": 500,
+        "health": 300,
+        "calling": "Freeblade",
+        "attackTraining": 10,
+        "defenseTraining": 10,
+        "equipment": [
+          {
+            "itemId": "imperial-eclipse-greatsword",
+            "quantity": 500
+          },
+          {
+            "itemId": "eclipse-war-marshal-plate",
+            "quantity": 500
+          },
+          {
+            "itemId": "astral-war-invocation",
+            "quantity": 500
+          }
+        ],
+        "property": {
+          "id": "river-mill",
+          "quantity": 1
+        },
+        "progression": {
+          "policyId": "xp-post50-150-1",
+          "boundaryLevel": 100,
+          "boundaryRequirement": 4250,
+          "startingProgress": 0
+        }
+      }
+    ]
+  }
+}

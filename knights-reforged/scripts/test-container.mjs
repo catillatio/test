@@ -94,8 +94,13 @@ try{
     assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'19');
     check('native Phase 4.6 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals');
   }
-  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'26');
-  check('separate compiled pre-deploy runner installs all 26 migrations without initialization');
+  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'28');
+  check('separate compiled pre-deploy runner installs all 28 migrations without initialization');
+  assert.equal(sql('railway_test',"SELECT count(*) FROM information_schema.tables WHERE table_schema='public' AND table_name IN ('account_deletion_requests','social_blocks','social_user_reports','community_policy_acceptances')"),'4');
+  check('new account-safety schema is installed without changing existing game rows');
+  assert.equal(sql('railway_test',"SELECT count(*) FROM information_schema.tables WHERE table_schema='public' AND table_name IN ('account_erasures','account_erasure_checkpoints','abandoned_kingdoms','graveyard_operations')"),'4');
+  assert.equal(sql('railway_test','SELECT count(*) FROM account_erasures'),'0');
+  check('erasure infrastructure installs empty and performs no account fulfillment');
   if(alphaMode){
     assert.equal(sql('railway_test','SELECT count(*) FROM private_alpha_initializations'),'1');
     assert.equal(sql('railway_test','SELECT count(*) FROM accounts'),'451');
@@ -103,7 +108,7 @@ try{
     assert.equal(sql('railway_test',"SELECT w.balance||':'||(s.quantity+1) FROM accounts a JOIN characters c ON c.account_id=a.id JOIN wallets w ON w.character_id=c.id JOIN army_stacks s ON s.character_id=c.id WHERE a.username='dev'"),'50000:10');
     check('Phase 4.7 upgrade preserves existing dev at 50000 gold/10 army and all 450 Phase 4.6 rivals');
     const status=JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/status.mjs']));
-    assert.equal(status.release,'phase4.7');assert.equal(status.schemaHead,'026_living_competition.sql');assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
+    assert.equal(status.release,'phase4.7');assert.equal(status.schemaHead,'028_account_erasure.sql');assert.equal(status.initialized,true);assert.equal(status.bots,450);assert.equal(status.active_bots,450);
     assert.equal(status.dev.username,'dev');assert.equal(status.dev.gold,50000);assert.equal(status.dev.recruited_army,10);
     assert.equal(status.maximum_bot_army,10);assert.equal(status.minimum_bot_plots,3);assert.equal(status.population.length,50);
     for(const level of status.population)assert.equal(level.rivals,9);
@@ -140,7 +145,7 @@ try{
     async function player(user='image_'+randomUUID().replaceAll('-','').slice(0,12)){
       const form=await fetch(base+'/register'),html=await form.text();assert.equal(form.status,200);
       const r=await fetch(base+'/register',{method:'POST',redirect:'manual',headers:{...headers,cookie:session(form),'content-type':'application/x-www-form-urlencoded'},
-        body:new URLSearchParams({csrf:/name="csrf" value="([a-f0-9]{64})"/.exec(html)[1],username:user,password:randomUUID()+'aA1!',name:'Image Knight'})});
+        body:new URLSearchParams({csrf:/name="csrf" value="([a-f0-9]{64})"/.exec(html)[1],username:user,password:randomUUID()+'aA1!',name:'Image Knight',communityPolicy:(await import('./dist/community-policy.js')).communityPolicyVersion})});
       assert.equal(r.status,303,await r.clone().text());const cookie=session(r),me=await state(cookie);return {cookie,csrf:me.csrfToken,id:me.state.id};
     }
     async function dev(){
@@ -167,7 +172,7 @@ try{
     await command(a,'/api/v1/health/restorations',{maxCost:injured.healing.cost},healKey);assert.equal((await state(a.cookie)).state.gold,healed.state.gold);
     const retired=await fetch(base+'/api/v1/army/recruitments',{method:'POST',headers:{...headers,cookie:a.cookie,'content-type':'application/json','x-csrf-token':a.csrf,'idempotency-key':randomUUID()},body:JSON.stringify({unitId:'militia',quantity:1})});assert.equal(retired.status,404);
 
-    const comment=await command(a,'/api/v1/comments',{profileId:b.id,body:'A respectful production-container field report.'});
+    const comment=await command(a,'/api/v1/comments',{profileId:b.id,body:'A respectful production-container field report.',communityPolicy:(await import('./dist/account-safety.js')).communityPolicyVersion});
     for(const page of ['home','profile','quests','battle','bounties','armory','army','land','vault','settings','champions','tutorial']){
       const r=await fetch(base+'/game/'+page,{headers:{cookie:a.cookie}});assert.equal(r.status,200,await r.clone().text());
     }
@@ -182,7 +187,7 @@ try{
     try{docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),image,'node','deployment/moderate.mjs','queue']);}catch(error){moderationDenied=true;assert.match(String(error.stderr),/ALLOW_REALM_MODERATION/);}
     assert.ok(moderationDenied);
     const moderate=(...args)=>JSON.parse(docker(['run','--rm','--network',network,'--env-file',join(folder,'game.env'),'-e','ALLOW_REALM_MODERATION=1','-e','REALM_MODERATOR_LABEL=Disposable security operator',image,'node','deployment/moderate.mjs',...args]));
-    assert.deepEqual(moderate('queue'),{reports:[]});
+    assert.deepEqual(moderate('queue'),{reports:[],userReports:[]});
     assert.equal(moderate('hide',played.messageId,'Regression moderation check').completed,true);
     assert.equal(sql('railway_test',"SELECT status FROM realm_messages WHERE id='"+played.messageId+"'"),'hidden');
     assert.equal(moderate('restore',played.messageId,'Verified restoration check').completed,true);

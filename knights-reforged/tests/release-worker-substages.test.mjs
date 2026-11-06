@@ -35,7 +35,7 @@ function run(mode,{jobMode='prepare',overrides={}}={}){
  }).join('\n');
  return {...result,stderr,rawStderr:result.stderr,diagnostics,progress,trace:readFileSync(trace,'utf8').trim().split('\n').filter(Boolean)};
 }
-const source=['source-pool','source-connect','source-read-only','source-status','source-rollback','source-release','source-close'];
+const source=['source-pool','source-connect','source-read-only','source-status','source-world-population','source-rollback','source-release','source-close'];
 const prerequisites=['restore-pool','restore-connect','temporary-directory','cluster-query','advisory-lock','copy-check','storage-check'];
 const cleanup=['temporary-cleanup','advisory-unlock','restore-release','restore-close'];
 const suffix='. No promotion is authorized; credentials and provider output are withheld.\n';
@@ -59,10 +59,24 @@ for(const [mode,substage,last,tail]of[
 });
 
 const successTrace=[...source,...prerequisites,'backup','archive-list','plain-digest','ephemeral-key','ephemeral-recipient','encrypt','cipher-digest',
- 'encrypted-upload','conditional-upload','encrypted-download','decrypt','restored-digest','archive-list','create-copy','restore-copy','copy-migration-check','report-upload',...cleanup];
+ 'encrypted-upload','conditional-upload','encrypted-download','decrypt','restored-digest','archive-list','create-copy','restore-copy','copy-migration-check','copy-pool','world-population-fence','copy-close','report-upload',...cleanup];
 for(const mode of ['success','one_byte_above_limit'])test('successful preparation retains the complete backup and restoration gates: '+mode,()=>{
  const result=run(mode);assert.equal(result.status,0);assert.equal(result.stderr,'');
  assert.equal(result.stdout,'Private release verification completed. No source database was changed.\n');assert.deepEqual(result.trace,successTrace);
+});
+
+test('existing independent population requires its public key before backup or restore allocation',()=>{
+ const result=run('world_missing_key');assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.stderr,'Private release verification failed at read-only-source-status'+suffix);assert.deepEqual(result.trace,source);
+});
+test('independent population fence follows migration verification and precedes every successful report',()=>{
+ const result=run('world_present',{overrides:{KINGDOM_GRAVEYARD_VERIFY_KEY:'synthetic-public-key'}});assert.equal(result.status,0);assert.equal(result.stderr,'');assert.deepEqual(result.trace,successTrace);
+});
+test('failed population reconciliation cannot upload or register successful recovery',()=>{
+ const result=run('world_copy_failure',{overrides:{KINGDOM_GRAVEYARD_VERIFY_KEY:'synthetic-public-key',KINGDOM_COPY_REGISTRATION_ENABLED:'1'}});assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.stderr,'Private release verification failed at copy-world-population-reconciliation'+suffix);
+ assert.deepEqual(result.trace,[...successTrace.slice(0,successTrace.indexOf('report-upload')),...cleanup]);
+ assert.ok(!result.trace.some(event=>event.startsWith('registration-')||event==='report-upload'));
 });
 
 test('a later backup failure retains its existing gate and never uploads recovery or a report',()=>{

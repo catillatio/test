@@ -88,3 +88,20 @@ At handoff record objective, repo/base/head, dirty work, changed paths, actual
 commands/results, pending gates and next action. Keep credentials and production
 data out. Refresh only affected rows here, with dated source/run links; preserve
 historical records rather than rewriting them.
+
+## Android / Google Play candidate (2026-11-05)
+
+Isolated readiness work reconciles PR20 with the approved Dark Medieval release. Start with [readiness matrix](../google-play/PLAY_STORE_READINESS.md) and [Android build/signing guide](../../../android/PLAY_RELEASE.md). Legal text is explicitly draft; deletion requests do not assert completed erasure. No Play submission, production compliance deployment, final package/signing identity or physical-device certification is implied.
+
+PR #88 launch completion continues from b94cfdb. Optional NPC/economic work is
+preserved on archive/graveyard-population-b94cfdb and is not a Play approval gate.
+Account erasure now minimizes the inert current profile in addition to physical
+login/personal-data deletion, under an unactivated v6 proposal and unchanged recovery/financial
+protections. Registration records explicit Terms/Guidelines consent before public
+name creation. Android release/debug packaging now consistently uses the permanent
+`game.kingdomcome.rpg` / `.debug` identity; actual Console registration and owner
+signing remain unconfirmed. Read the updated readiness matrix and policy distinction
+before activation. Both production features remain disabled; no merge/deploy/Play
+submission. See [launch scope](../google-play/LAUNCH_SCOPE.md).
+
+2026-11-06 Play retention refinement: A/D approved, C conditional, B unapproved. [v6 minimization](../google-play/privacy/RETENTION_MINIMIZATION.md) removes private current estate/cache data while preserving monetary history and minimum referenced anchors. Current release recovery artifacts remain 90-day configured/observed; 30-day routine retention is not established. No merge, deployment, credentials, erasure or cleanup activation.

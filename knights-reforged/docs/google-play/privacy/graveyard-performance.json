@@ -1,0 +1,61 @@
+{
+  "kind": "synthetic-postgresql-population-performance-v1",
+  "environment": "Owned disposable PostgreSQL 18, one synthetic human plus public NPCs, 30 rival queries per size; no production data or existing dev-bot population. Warm/cold/cache/noise and production historical tables differ; timings are not a production SLO.",
+  "rows": [
+    {
+      "population": 6,
+      "added": 6,
+      "creationMs": 111,
+      "rivalQueryMedianMs": 12.86,
+      "rivalQueryP95Ms": 22.93,
+      "publicProfileMs": 28.6,
+      "incomeSweepMs": 41.79,
+      "settled": 6,
+      "operationCount": 1
+    },
+    {
+      "population": 12,
+      "added": 6,
+      "creationMs": 82,
+      "rivalQueryMedianMs": 13.45,
+      "rivalQueryP95Ms": 20.75,
+      "publicProfileMs": 32.44,
+      "incomeSweepMs": 126.6,
+      "settled": 12,
+      "operationCount": 2
+    },
+    {
+      "population": 24,
+      "added": 12,
+      "creationMs": 186,
+      "rivalQueryMedianMs": 10.71,
+      "rivalQueryP95Ms": 26.1,
+      "publicProfileMs": 43.52,
+      "incomeSweepMs": 180.24,
+      "settled": 24,
+      "operationCount": 4
+    },
+    {
+      "population": 48,
+      "added": 24,
+      "creationMs": 673,
+      "rivalQueryMedianMs": 11.62,
+      "rivalQueryP95Ms": 16.03,
+      "publicProfileMs": 39.54,
+      "incomeSweepMs": 311.99,
+      "settled": 48,
+      "operationCount": 8
+    },
+    {
+      "population": 96,
+      "added": 48,
+      "creationMs": 898,
+      "rivalQueryMedianMs": 12.16,
+      "rivalQueryP95Ms": 19.72,
+      "publicProfileMs": 37.42,
+      "incomeSweepMs": 557.44,
+      "settled": 96,
+      "operationCount": 16
+    }
+  ]
+}

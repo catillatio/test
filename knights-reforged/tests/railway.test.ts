@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
@@ -39,7 +40,7 @@ test('Railway HTTPS forwarding preserves registration, private pages, CSRF, purc
     const csrf=/name="csrf" value="([a-f0-9]{64})"/.exec(form.body)![1]!;
     const username='rail_'+randomUUID().replaceAll('-','').slice(0,12),password=randomUUID()+'aA1!';
     const registered=await app.inject({method:'POST',url:'/register',headers:{...forwarding,cookie:cookie(form)},
-      payload:{csrf,username,password,name:'Railway Knight'}});
+      payload:{csrf,communityPolicy:communityPolicyVersion,username,password,name:'Railway Knight'}});
     assert.equal(registered.statusCode,303,registered.body);
     const authenticated=cookie(registered);assert.notEqual(authenticated,cookie(form));
     const me=await app.inject({method:'GET',url:'/api/v1/me',headers:{...forwarding,cookie:authenticated}});

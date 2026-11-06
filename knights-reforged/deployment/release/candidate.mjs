@@ -15,7 +15,7 @@ export async function candidateDigest(root=new URL('../../',import.meta.url).pat
   }
  }
  for(const path of ['dist','migrations','rulesets','views','public'])await walk(path);
- files.push('deployment/start.mjs','deployment/migrate.mjs','deployment/check-upgrade.mjs','deployment/environment.mjs',
+ files.push('deployment/privacy/fulfill.mjs','deployment/start.mjs','deployment/migrate.mjs','deployment/check-upgrade.mjs','deployment/environment.mjs',
   'deployment/release/candidate.mjs','deployment/release/protocol.mjs','deployment/release/proof.mjs','deployment/release/image-policy.mjs');
  const hash=createHash('sha256');
  for(const file of files.sort()){

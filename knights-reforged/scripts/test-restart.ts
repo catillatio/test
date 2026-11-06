@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 // Verifies the compiled production entrypoint across a real process restart.
 // Uses only an explicitly designated disposable PostgreSQL database.
 import assert from 'node:assert/strict';
@@ -45,7 +46,7 @@ async function player(suffix:string){
   const anonymous=form.headers.getSetCookie().find(line=>line.startsWith('kr_session='))!.split(';')[0]!;
   const csrf=/name="csrf" value="([a-f0-9]{64})"/.exec(html)![1]!;
   const registered=await fetch(origin+'/register',{method:'POST',redirect:'manual',headers:{cookie:anonymous,origin,'content-type':'application/x-www-form-urlencoded'},
-    body:new URLSearchParams({csrf,username:'restart_'+randomUUID().replaceAll('-','').slice(0,12),name:'Restart '+suffix,password:randomUUID()+'!aA1'})});
+    body:new URLSearchParams({csrf,communityPolicy:communityPolicyVersion,username:'restart_'+randomUUID().replaceAll('-','').slice(0,12),name:'Restart '+suffix,password:randomUUID()+'!aA1'})});
   assert.equal(registered.status,303);
   const cookie=registered.headers.getSetCookie().find(line=>line.startsWith('kr_session='))!.split(';')[0]!;
   const me=await fetch(origin+'/api/v1/me',{headers:{cookie}}).then(r=>r.json());

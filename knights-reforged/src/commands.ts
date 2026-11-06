@@ -1,3 +1,4 @@
+import {assertAccountNotErased} from './privacy/gate.js';
 import {presentedItem} from './equipment-presentation.js';
 import {contentCatalog} from './expansion-content.js';
 import {realmPolicy} from './realm-policy.js';
@@ -29,6 +30,7 @@ import {refinements} from './refinement-rules.js';
 import {progressionEconomy} from './progression-economy-rules.js';
 import {pvp} from './pvp-rules.js';
 import {vaultTransfer} from './pvp-economy.js';
+import {acceptCommunityPolicy} from './account-safety.js';
 import {postMessage,reportMessage,removeMessage,armyEvent,validateInvitation} from './community.js';
 import {lockBountyEscrow,settleExpiredBounties,placeBounty,cancelBounty} from './bounties.js';
 
@@ -57,8 +59,8 @@ const intents={
   remove:z.object({targetCharacterId:uuid}),
   reject:z.object({targetCharacterId:uuid}),
   invite_code:z.object({code:z.string().trim().toUpperCase().regex(/^[A-F0-9]{12}$/, 'Enter the 12-character invitation code.')}),
-  comment:z.object({profileId:uuid,body:z.string().min(1).max(1000)}),
-  broadcast:z.object({body:z.string().min(1).max(1000)}),
+  comment:z.object({profileId:uuid,body:z.string().min(1).max(1000),communityPolicy:z.string().max(80).optional()}),
+  broadcast:z.object({body:z.string().min(1).max(1000),communityPolicy:z.string().max(80).optional()}),
   social_report:z.object({messageId:uuid,reason:z.enum(['spam','abuse','other'])}),
   social_remove:z.object({messageId:uuid}),
   profile:z.object({className:z.enum(['Freeblade','Warden','Spellward'])}),
@@ -75,6 +77,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
   if (!parsed.success) throw new GameError('INVALID_INTENT',parsed.error.issues[0]?.message??'Invalid action.');
   const intent=parsed.data as Record<string,unknown>,hash=fingerprint(kind,intent),key=command.data;
   return transaction(db,async sql=>{
+    await assertAccountNotErased(sql,accountId);
     const inserted=await sql.query('INSERT INTO command_receipts(account_id,command_id,kind,intent_hash) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING RETURNING command_id',[accountId,key,kind,hash]);
     if (!inserted.rows.length) {
       const old=(await sql.query('SELECT intent_hash,result FROM command_receipts WHERE account_id=$1 AND command_id=$2',[accountId,key])).rows[0]!;
@@ -104,6 +107,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     let actor=locked.find(row=>row.id===actorId)!;
     actor=await materialize(sql,actor,now);
     let target=targetId?locked.find(row=>row.id===targetId)!:null;
+    if(target&&(target.identity_kind==='integrity_anchor'||target.identity_kind==='abandoned'&&kind!=='attack'))throw new GameError('OPPONENT_UNAVAILABLE','This kingdom supports battles only.',409);
     if(target&&kind==='attack'&&(await sql.query(`SELECT 1 FROM accounts a WHERE a.id=$1 AND a.login_disabled
       AND NOT EXISTS(SELECT 1 FROM development_bots b WHERE b.character_id=$2)`,[target.account_id,target.id])).rows.length)
       throw new GameError('OPPONENT_UNAVAILABLE','This opponent is no longer available for battle.',409);
@@ -129,6 +133,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
       result.data=await vaultTransfer(sql,actorId,intent.amount as number,kind==='vault_deposit',key,now);
       result.message=String(intent.amount)+' gold '+(kind==='vault_deposit'?'deposited in your protected Vault.':'withdrawn into your unbanked purse.');
     }else if(kind==='comment'||kind==='broadcast'){
+      if(intent.communityPolicy!==undefined)await acceptCommunityPolicy(sql,actorId,intent.communityPolicy);
       const posted=await postMessage(sql,actorId,kind==='comment'?targetId:null,intent.body as string,key,now,actor.attained_level,state.questsCompleted);
       result.data=posted;result.message=kind==='comment'?'Comment posted.':'Broadcast sent to the realm.';
     }else if(kind==='social_report'){
@@ -257,7 +262,7 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     result.data={...result.data,newAchievements:experience.awarded,celebration:levelCelebration(state.level,final.attained_level,final.skill_points-state.skillPoints,state.rulesetId),...(experience.tutorialCompleted?{tutorialCompleted:true}:{})};
     if(kind==='attack'&&result.battleId){
       let defenderExperience=null;
-      if(target&&!targetIsBot){const gained=await syncExperience(sql,target.id,now,'gameplay');const finalDefender=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[target.id])).rows[0]!;defenderExperience={newAchievements:gained.awarded,celebration:levelCelebration(target.attained_level,finalDefender.attained_level,finalDefender.skill_points-target.skill_points,state.rulesetId)};}
+      if(target&&!targetIsBot&&target.identity_kind!=='abandoned'){const gained=await syncExperience(sql,target.id,now,'gameplay');const finalDefender=(await sql.query('SELECT attained_level,skill_points FROM characters WHERE id=$1',[target.id])).rows[0]!;defenderExperience={newAchievements:gained.awarded,celebration:levelCelebration(target.attained_level,finalDefender.attained_level,finalDefender.skill_points-target.skill_points,state.rulesetId)};}
       await sql.query("UPDATE battles SET result=result||jsonb_build_object('playerExperience',jsonb_build_object($2::text,$3::jsonb)||CASE WHEN $4::text IS NULL THEN '{}'::jsonb ELSE jsonb_build_object($4::text,$5::jsonb) END) WHERE id=$1",[result.battleId,actorId,JSON.stringify(result.data),target&&!targetIsBot?target.id:null,JSON.stringify(defenderExperience)]);
     }
     await sql.query('UPDATE characters SET state_version=state_version+1 WHERE id=$1',[actorId]);

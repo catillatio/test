@@ -12,8 +12,9 @@ COPY views ./views
 COPY migrations ./migrations
 COPY rulesets ./rulesets
 COPY deployment ./deployment
-RUN mkdir -p /bundle/deployment/release/retention \
+RUN mkdir -p /bundle/deployment/release/retention /bundle/deployment/privacy \
  && cp -r node_modules dist package.json public views migrations rulesets /bundle/ \
+ && cp deployment/privacy/fulfill.mjs /bundle/deployment/privacy/ \
  && cp deployment/start.mjs deployment/migrate.mjs deployment/check-upgrade.mjs deployment/environment.mjs /bundle/deployment/ \
  && cp deployment/release/worker.mjs deployment/release/transfer.mjs deployment/release/candidate.mjs deployment/release/protocol.mjs deployment/release/proof.mjs deployment/release/image-policy.mjs /bundle/deployment/release/ \
  && cp deployment/release/retention/observation.mjs deployment/release/retention/observations.sql deployment/release/retention/register-verified.mjs deployment/release/retention/inspect-registrar.mjs /bundle/deployment/release/retention/

@@ -21,3 +21,8 @@
 /knights-reforged/deployment/release/*
 !/knights-reforged/deployment/release/*.mjs
 !/knights-reforged/deployment/release/Dockerfile
+
+# Exact runtime-only erasure entry point; owner signing material stays excluded.
+!knights-reforged/deployment/privacy/
+knights-reforged/deployment/privacy/*
+!knights-reforged/deployment/privacy/fulfill.mjs

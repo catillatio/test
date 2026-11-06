@@ -23,7 +23,7 @@ for(const [module,names]of[[http,['request','get']],[https,['request','get']],[n
  [child,['spawn','exec','execFile','fork','spawnSync','execSync','execFileSync']],[workers,['Worker']]])for(const name of names)module[name]=block;
 syncBuiltinESMExports();globalThis.fetch=block;
 
-const status={accounts:452,bots:450,active_bots:450,schemaHead:'026_living_competition.sql',initialized:true,sourceBytes:'2000000',clusterId:'1234567890'};
+const status={accounts:452,bots:450,active_bots:450,schemaHead:'028_account_erasure.sql',initialized:true,sourceBytes:'2000000',clusterId:'1234567890'};
 const plain={sha256:'1'.repeat(64),bytes:200000},cipher={sha256:'2'.repeat(64),bytes:200500};
 const temporary='/offline-worker-only/kingdom-release-fixture';
 const source={
@@ -31,6 +31,8 @@ const source={
   async query(sql){
    if(sql==='BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY'){record('source-read-only');return {rows:[]};}
    if(sql==='ROLLBACK'){record('source-rollback');return {rows:[]};}
+   if(sql==='SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')return {rows:[{recorded:false}]};
+   if(sql==='SELECT EXISTS(SELECT 1 FROM abandoned_kingdoms) OR EXISTS(SELECT 1 FROM graveyard_operations) AS recorded'){record('source-world-population');return {rows:[{recorded:mode.startsWith('world_')}]};}
    if(sql.includes('FROM accounts')&&sql.includes('pg_control_system()')){record('source-status');return {rows:[status]};}
    return block();
   },release(){record('source-release');}
@@ -54,6 +56,7 @@ const restore={
   },release(){record('restore-release');}
  };},async end(){record('restore-close');}
 };
+const copy={async end(){record('copy-close');}};
 let currentTool;
 const phases=['population','snapshot-before','migrate','snapshot-after','preservation-compare','migrate-replay','snapshot-replay','replay-compare'];
 const progressLines=phases.flatMap((phase,i)=>['start','complete'].map((event,j)=>'UPGRADE_PROGRESS: '+JSON.stringify({phase,event,elapsed_ms:i*2+j})+'\n'));
@@ -68,8 +71,11 @@ const fixture={
  createDatabase(url){
   if(url===process.env.DATABASE_URL){record('source-pool');return source;}
   if(url===process.env.KINGDOM_RESTORE_DATABASE_URL){record('restore-pool');if(mode==='pool_failure')return fail();return restore;}
+  const expected=new URL(process.env.KINGDOM_RESTORE_DATABASE_URL);expected.pathname='/'+request.copy;
+  if(url===expected.href){record('copy-pool');return copy;}
   return block();
  },
+ async assertGraveyardFence(db,options){record('world-population-fence');assert.equal(db,copy);assert.deepEqual(options,{publicKey:process.env.KINGDOM_GRAVEYARD_VERIFY_KEY});if(mode==='world_copy_failure')return fail();},
  readFile:block,writeFile:block,
  async mkdtemp(){record('temporary-directory');if(mode==='directory_failure')return fail();return temporary;},
  async statfs(path){
@@ -175,6 +181,7 @@ const mocks={
  'node:timers':'export const setTimeout=(...args)=>globalThis.releaseWorkerFixture.setTimeout(...args); export const clearTimeout=(...args)=>globalThis.releaseWorkerFixture.clearTimeout(...args);',
  'node:child_process':'export const spawn=(...args)=>globalThis.releaseWorkerFixture.spawn(...args);',
  'node:fs/promises':['mkdtemp','readFile','writeFile','rm','statfs'].map(name=>'export const '+name+'=(...args)=>globalThis.releaseWorkerFixture.'+name+'(...args);').join('\n'),
+ '../../dist/privacy/graveyard.js':'export const assertGraveyardFence=(...args)=>globalThis.releaseWorkerFixture.assertGraveyardFence(...args);',
  '../../dist/db.js':'export const createDatabase=(...args)=>globalThis.releaseWorkerFixture.createDatabase(...args);',
  // This historical 450-bot fixture has no installed cohort. The real 900
  // provenance SQL is exercised separately against disposable PostgreSQL.

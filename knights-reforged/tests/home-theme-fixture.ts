@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 // Synthetic isolated schema only. Never imports production operator commands.
 import { randomUUID } from "node:crypto";
 import assert from "node:assert/strict";
@@ -96,6 +97,7 @@ export async function uiThemeFixture() {
         headers: { cookie: cookieOf(form), origin: "http://localhost:3000" },
         payload: {
           csrf,
+          communityPolicy:communityPolicyVersion,
           username: "ui_" + randomUUID().replaceAll("-", "").slice(0, 20),
           name,
           password: "AlphaTest!2026",

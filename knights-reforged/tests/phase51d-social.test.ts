@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';
 import {realm,testDatabaseUrl} from './helpers.js';import {notificationSummary} from '../src/notifications.js';
 import {createApp} from '../src/app.js';import {createSession} from '../src/auth.js';import {loadConfig} from '../src/config.js';
@@ -65,7 +66,7 @@ test('new Unicode names and social validation share authoritative rules, audited
   await r.prepare(b,0,100);const battle=await r.ok(a,'/api/v1/battles',{targetCharacterId:b.id});
   for(const url of ['/game/battles/'+battle.battleId,'/game/home','/game/champions?category=level']){const view=await r.app.inject({url,headers:{cookie:a.cookie}});assert.equal(view.statusCode,200);assert.ok(view.body.includes('Éowyn ⚔️'),url);}
   const form=await r.app.inject({url:'/register'}),cookie=String(form.headers['set-cookie']).split(';')[0]!,csrf=/name="csrf" value="([a-f0-9]+)"/.exec(form.body)![1]!;
-  const rejected=await r.app.inject({method:'POST',url:'/register',headers:{cookie,origin:'http://localhost:3000'},payload:{csrf,username:'blocked_'+randomUUID().slice(0,8),name:'ＦＡＧ',password:'Phase51dAccount!2026'}});assert.equal(rejected.statusCode,422);
+  const rejected=await r.app.inject({method:'POST',url:'/register',headers:{cookie,origin:'http://localhost:3000'},payload:{csrf,communityPolicy:communityPolicyVersion,username:'blocked_'+randomUUID().slice(0,8),name:'ＦＡＧ',password:'Phase51dAccount!2026'}});assert.equal(rejected.statusCode,422);
   const audit=(await r.db.query('SELECT scope,policy_id,rule_id FROM content_policy_rejections ORDER BY scope')).rows;assert.equal(audit.length,3);assert.ok(audit.every(row=>row.policy_id==='realm-content-1'));
   for(const url of ['/login','/register','/game/home','/game/profile','/game/army?tab=dashboard','/rules']){const view=await r.app.inject({url,headers:url.startsWith('/game/')?{cookie:a.cookie}:{}});assert.equal(view.statusCode,200,url);assert.ok(view.body.includes('Kingdom Come'));assert.doesNotMatch(view.body,/>[^<]*Knights Reforged/);}
  }finally{await r.close();}
