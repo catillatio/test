@@ -1,4 +1,4 @@
-import {erasedProfile,erasedStanding} from './minimization.js';
+import {erasedProfile,erasedInventory,erasedLot,erasedHolding,erasedMaintenance} from './minimization.js';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {type Database,type Sql,transaction} from '../db.js';
@@ -13,6 +13,13 @@ async function pinRelations(sql:Sql){const schema=(await sql.query('SELECT curre
 // These are personal/social data, not balances or transaction/combat journals.
 const deletes:Record<string,string>={
  sessions:'account_id=$2',trade_quotes:'account_id=$2',
+ equipment_slots:'character_id=$1',army_stacks:'character_id=$1',income_cycles:'character_id=$1',
+ character_income_feedback:'character_id=$1',character_progression_epochs:'character_id=$1',
+ champion_standings:'character_id=$1',competitive_statistics:'character_id=$1',legacy_casualty_statistics:'character_id=$1',
+ character_achievements:'character_id=$1',
+ inventory_lots:'character_id=$1 AND NOT EXISTS(SELECT 1 FROM inventory_acquisition_events e WHERE e.lot_id=t.id)',
+ inventory_entries:'character_id=$1 AND NOT EXISTS(SELECT 1 FROM inventory_acquisition_events e WHERE e.inventory_entry_id=t.id OR e.lot_id IN(SELECT l.id FROM inventory_lots l WHERE l.inventory_entry_id=t.id))',
+ land_holdings:'character_id=$1 AND NOT EXISTS(SELECT 1 FROM land_sales s WHERE s.holding_id=t.id) AND NOT EXISTS(SELECT 1 FROM land_income_settlements s WHERE s.holding_id=t.id) AND NOT EXISTS(SELECT 1 FROM land_partial_settlements s WHERE s.holding_id=t.id)',
  character_quest_progress:'character_id=$1',character_loot:'character_id=$1',progression_awards:'character_id=$1',skill_allocations:'character_id=$1',
   social_reports:'reporter_id=$1 OR message_id IN (SELECT id FROM realm_messages WHERE author_id=$1 OR profile_id=$1)',
  social_moderation:'character_id=$1 OR actor_id=$1 OR message_id IN (SELECT id FROM realm_messages WHERE author_id=$1 OR profile_id=$1)',
@@ -26,12 +33,19 @@ const deletes:Record<string,string>={
  command_receipts:'account_id=$2',account_deletion_requests:'account_id=$2',
  authentication_limits:`key_hash IN (SELECT encode(sha256(convert_to(scope||':'||username,'UTF8')),'hex') FROM accounts WHERE id=$2)`
 };
+// Only the existing subject-bound SECURITY DEFINER capability performs asset
+// minimization or the narrowly authorized permanent-achievement removal. The
+// restricted operator never gets general financial/asset DELETE/UPDATE grants.
+const detachedDeletes=new Set(['equipment_slots','army_stacks','income_cycles','character_income_feedback',
+ 'character_progression_epochs','champion_standings','competitive_statistics','legacy_casualty_statistics',
+ 'character_achievements','inventory_entries','inventory_lots','land_holdings']);
 function expressions(table:string){
  let value='to_jsonb(t)',where='true';
  if(deletes[table])where=`NOT coalesce((${deletes[table]}),false)`;
  if(table==='accounts')where='id<>$2';
- if(table==='champion_standings')value=`CASE WHEN character_id=$1 THEN to_jsonb(jsonb_populate_record(t,'${JSON.stringify(erasedStanding)}'::jsonb)) ELSE to_jsonb(t) END`;
  if(table==='characters')value=`CASE WHEN id=$1 THEN to_jsonb(jsonb_populate_record(t,'${JSON.stringify(erasedProfile)}'::jsonb)) ELSE to_jsonb(t) END`;
+ const projection=table==='inventory_entries'?erasedInventory:table==='inventory_lots'?erasedLot:table==='land_holdings'?erasedHolding:table==='maintenance_accounts'?erasedMaintenance:null;
+ if(projection)value=`CASE WHEN character_id=$1 THEN to_jsonb(jsonb_populate_record(t,'${JSON.stringify(projection)}'::jsonb))${table==='land_holdings'?"||jsonb_build_object('closed_at',coalesce(t.closed_at,transaction_timestamp()))":''} ELSE to_jsonb(t) END`;
 
  if(table==='battles')value=`to_jsonb(t)||jsonb_build_object('snapshot',erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1),'result',erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1))`;
  if(table==='command_receipts')value=`to_jsonb(t)||jsonb_build_object('result',${receiptRedaction()})`;
@@ -93,6 +107,7 @@ async function erase(sql:Sql,intent:ErasureIntent,policyId:string,intentDigest:s
   await sql.query(`UPDATE command_receipts SET result=${receiptRedaction()} WHERE account_id<>$2 AND result IS DISTINCT FROM ${receiptRedaction()}`,params.slice(0,2));
   await sql.query(`UPDATE battles SET snapshot=erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1),result=erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1) WHERE snapshot IS DISTINCT FROM erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1) OR result IS DISTINCT FROM erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1)`,params.slice(0,2));
   for(const [table,predicate] of Object.entries(deletes)){
+   if(detachedDeletes.has(table))continue;
    // Keep dependent social/attention rows ahead of their parents. Accounts still
    // contain the original username here, so its rate-limit keys can be erased.
    await typedQuery(sql,`DELETE FROM ${q(table)} WHERE ${predicate}`,params);
@@ -112,7 +127,9 @@ export async function verifyErased(sql:Sql,intent:ErasureIntent,outcome:string){
  assert.equal(row.account_id,null);assert.equal((await sql.query('SELECT 1 FROM abandoned_kingdoms WHERE character_id=$1',[intent.characterId])).rowCount,0);assert.equal(row.name,deletedName);assert.equal(row.credentials_removed,true);
  assert.equal((await sql.query('SELECT 1 FROM accounts WHERE id=$1',[intent.accountId])).rowCount,0);
  const params=[intent.characterId,intent.accountId,intent.requestId,deletedName,new Date().toISOString()];
- for(const [table,predicate] of Object.entries(deletes))assert.equal((await typedQuery(sql,`SELECT 1 FROM ${q(table)} WHERE ${predicate} LIMIT 1`,params)).rowCount,0,'Personal data remains: '+table);
+ for(const [table,predicate] of Object.entries(deletes))assert.equal((await typedQuery(sql,`SELECT 1 FROM ${q(table)} t WHERE ${predicate} LIMIT 1`,params)).rowCount,0,'Personal data remains: '+table);
+ for(const [table,predicate] of [['inventory_entries','quantity<>0'],['inventory_lots','remaining_quantity<>0'],['land_holdings','quantity<>0 OR closed_at IS NULL'],['maintenance_accounts',"hourly_rate<>0 OR NOT paused OR settled_at<>'1970-01-01T00:00:00.000Z'::timestamptz"]])
+  assert.equal((await sql.query(`SELECT 1 FROM ${q(table!)} WHERE character_id=$1 AND (${predicate}) LIMIT 1`,[intent.characterId])).rowCount,0,'Live asset state remains: '+table);
  assert.equal((await sql.query(`SELECT 1 FROM battles WHERE snapshot IS DISTINCT FROM erase_account_identity_labels(snapshot,$1,$2,attacker_id=$1,defender_id=$1)
  OR result IS DISTINCT FROM erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1) LIMIT 1`,[intent.characterId,intent.accountId])).rowCount,0,'Unreconciled battle labels.');
  assert.equal((await sql.query(`SELECT 1 FROM command_receipts WHERE result IS DISTINCT FROM ${receiptRedaction()} LIMIT 1`,[intent.characterId,intent.accountId])).rowCount,0,'Unreconciled receipt labels.');

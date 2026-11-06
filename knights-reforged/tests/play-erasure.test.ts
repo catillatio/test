@@ -26,8 +26,8 @@ async function fixture(clock?:()=>Date){
  const a=await r.player('Erase Subject'),b=await r.player('Other Warrior');
  const live=(await r.db.query(`SELECT current_database() AS database,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;
  const scope={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),database:live.database,clusterDigest:live.cluster};
- const policy=signed({protocol:'kingdom-erasure-policy-v5',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-login-and-minimize-profile-v1',formerWallet:'sealed-integrity-anchor-no-transfer',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
- const request=await requestAccountDeletion(r.db,a.accountId),intent=signed({protocol:'kingdom-erasure-intent-v5',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
+ const policy=signed({protocol:'kingdom-erasure-policy-v6',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'reference-bound-minimal-integrity-records-v1',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-login-and-minimize-live-estate-v2',integrityReviewDays:30,formerWallet:'sealed-integrity-anchor-no-transfer',unreferencedRecordDisposalGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
+ const request=await requestAccountDeletion(r.db,a.accountId),intent=signed({protocol:'kingdom-erasure-intent-v6',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
  const permit=async(mode='fulfill')=>{const state=await readJournal(directory,publicKey);return signed({protocol:'kingdom-erasure-execution-v1',mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:live.database,targetOid:live.oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()});};
  const options=async(mode='fulfill')=>({enabled:true,publicKey,policy,intent,permit:await permit(mode),journalPath:directory,codeSha,candidateDigest});
  return{r,a,b,directory,policy,intent,options,close:async()=>{await r.close();await rm(directory,{recursive:true,force:true});}};
@@ -98,11 +98,14 @@ test('unapproved policy, disabled execution, forged permit, active escrow and un
 
 test('SQL failure rolls back rows but keeps durable intent; fresh approved resume is idempotent and stale approvals fail',async()=>{
  const f=await fixture(),{r,a}=f;try{
+  await r.prepare(a,100000,30);await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
+  await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
   await r.db.query(`CREATE FUNCTION fail_erasure_fixture() RETURNS trigger LANGUAGE plpgsql AS $$BEGIN RAISE EXCEPTION 'synthetic interruption'; END$$;CREATE TRIGGER erasure_fixture BEFORE DELETE ON accounts FOR EACH ROW EXECUTE FUNCTION fail_erasure_fixture()`);
   const permit=await f.options(),before=await finances(r);await assert.rejects(fulfillErasure(r.db,permit),/synthetic interruption/);
   assert.equal((await readJournal(f.directory,publicKey)).sequence,1);assert.equal((await r.db.query("SELECT 1 FROM abandoned_kingdoms")).rowCount,0,'An interrupted transition leaves no duplicate estate');assert.equal((await r.db.query('SELECT login_disabled FROM accounts WHERE id=$1',[a.accountId])).rows[0]!.login_disabled,false);assert.equal(await finances(r),before);
   await r.db.query('DROP TRIGGER erasure_fixture ON accounts');await assert.rejects(fulfillErasure(r.db,permit));
-  await fulfillErasure(r.db,await f.options());assert.equal(await finances(r),before);
+  const expected=JSON.parse(before);for(const row of expected){row.inventory=row.inventory?.filter((i:Record<string,unknown>)=>i.character_id!==a.id)??[];if(!row.inventory.length)row.inventory=null;row.land=row.land?.filter((h:Record<string,unknown>)=>h.character_id!==a.id)??[];if(!row.land.length)row.land=null;}
+  await fulfillErasure(r.db,await f.options());assert.deepEqual(JSON.parse(await finances(r)),expected);
   assert.equal((await r.db.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,0);
   await assert.rejects(assertErasureFence(r.db,{required:false}));
   const path=join(f.directory,'entry-000000000001.json'),bytes=await readFile(path);await writeFile(path,'{}');await assert.rejects(assertErasureFence(r.db,{required:true,journalPath:f.directory,publicKey}));await writeFile(path,bytes);
@@ -127,14 +130,18 @@ test('a real custom-format backup restored to an isolated database is blocked un
  function tool(command:string,database:string,input?:Buffer){return execFileSync('docker',['--host=unix:///var/run/docker.sock','run','--rm','-i','--network=host',...Object.keys(pgEnv).flatMap(k=>['--env',k]),'--entrypoint',command,'postgres:18-bookworm',...(command==='pg_dump'?['--format=custom','--no-owner','--no-acl']:['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+database])],{env:{...environment,...pgEnv,PGDATABASE:database},input,timeout:30000,maxBuffer:8*1024*1024,stdio:['pipe','pipe','pipe']});}
  try{
   const a=await r.player('Restored Subject'),b=await r.player('Restored Other');await r.ok(a,'/api/v1/comments',{profileId:b.id,body:'Restorable private text'});
+  await r.prepare(a,100000,30);await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
+  await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
   const request=await requestAccountDeletion(r.db,a.accountId),live=(await r.db.query(`SELECT current_database() AS database,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;
   const scope={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),database:live.database,clusterDigest:live.cluster};
-  const policy=signed({protocol:'kingdom-erasure-policy-v5',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'pseudonymous-integrity-anchors-until-service-closure',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-login-and-minimize-profile-v1',formerWallet:'sealed-integrity-anchor-no-transfer',sharedRecordClosureGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
-  const intent=signed({protocol:'kingdom-erasure-intent-v5',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
+  const policy=signed({protocol:'kingdom-erasure-policy-v6',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'reference-bound-minimal-integrity-records-v1',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-login-and-minimize-live-estate-v2',integrityReviewDays:30,formerWallet:'sealed-integrity-anchor-no-transfer',unreferencedRecordDisposalGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
+  const intent=signed({protocol:'kingdom-erasure-intent-v6',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
   async function options(mode:'fulfill'|'restore',database=live.database,oid=live.oid){
    const state=await readJournal(directory,publicKey);return {enabled:true,publicKey,policy,intent,journalPath:directory,codeSha,candidateDigest,permit:signed({protocol:'kingdom-erasure-execution-v1',mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:database,targetOid:oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()})};
   }
-  const backup=tool('pg_dump',live.database),archiveDigest=createHash('sha256').update(backup).digest('hex'),before=await finances(r);
+  const backup=tool('pg_dump',live.database),archiveDigest=createHash('sha256').update(backup).digest('hex');
+  const expected=JSON.parse(await finances(r));for(const row of expected){row.inventory=row.inventory?.filter((i:Record<string,unknown>)=>i.character_id!==a.id)??[];if(!row.inventory.length)row.inventory=null;row.land=row.land?.filter((h:Record<string,unknown>)=>h.character_id!==a.id)??[];if(!row.land.length)row.land=null;}
+  const before=JSON.stringify(expected);
   await fulfillErasure(r.db,await options('fulfill'));
   await admin.query('CREATE DATABASE "'+restoredName+'" TEMPLATE template0');created=true;tool('pg_restore',restoredName,backup);
   const restoreUrl=new URL(url);restoreUrl.pathname='/'+restoredName;restored=createDatabase(restoreUrl.href);
@@ -160,12 +167,14 @@ test('column-restricted non-owner eraser can fulfill but cannot read other passw
   await r.db.query('CREATE ROLE '+role+' NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS');
   const grants=(await readFile(new URL('../deployment/privacy/ROLE_REVIEW.sql',import.meta.url),'utf8')).replaceAll('kc_account_eraser',role).replaceAll('SCHEMA public','SCHEMA '+schema);
   await r.db.query(grants);const url=new URL(process.env.TEST_DATABASE_URL!);url.searchParams.set('options','-c search_path='+schema+' -c role='+role);operator=createDatabase(url.href);
+  await r.db.query("INSERT INTO character_achievements(character_id,achievement_id,ruleset_id,metric_at_unlock,evidence) VALUES($1,'restricted-eraser-award',$2,1,'gameplay')",[f.a.id,alpha.id]);
   await assertErasureOperator(operator,role,schema);await assert.rejects(operator.query('SELECT password_hash FROM accounts'),/permission denied/);await assert.rejects(operator.query('UPDATE wallets SET balance=0'),/permission denied/);
+  for(const statement of ['DELETE FROM inventory_entries','DELETE FROM inventory_lots','DELETE FROM land_holdings','UPDATE inventory_entries SET quantity=0','UPDATE land_holdings SET quantity=0'])await assert.rejects(operator.query(statement),/permission denied/);
   const shadow=await operator.connect();
   try{await shadow.query('CREATE TEMP TABLE accounts(id uuid,password_hash text,login_disabled boolean)');await shadow.query("INSERT INTO pg_temp.accounts VALUES($1,'!erased',true)",[f.a.accountId]);
    assert.equal((await shadow.query('SELECT account_erasure_credentials_removed($1) AS removed',[f.a.accountId])).rows[0]!.removed,false,'SECURITY DEFINER must read the qualified real account, never a caller temporary table');
   }finally{await shadow.query('DROP TABLE IF EXISTS pg_temp.accounts');shadow.release();}
-  await fulfillErasure(operator,await f.options());
+  await fulfillErasure(operator,await f.options());assert.equal((await r.db.query('SELECT 1 FROM character_achievements WHERE character_id=$1',[f.a.id])).rowCount,0);
   const pinned=await r.db.connect();try{await pinned.query('CREATE TEMP TABLE account_erasures(character_id uuid,account_id uuid)');await assert.rejects(pinned.query("UPDATE characters SET name='Reclaimed' WHERE id=$1",[f.a.id]),/protected/);}finally{await pinned.query('DROP TABLE pg_temp.account_erasures');pinned.release();}
   const attempt=await operator.connect();try{await attempt.query('CREATE TEMP TABLE account_erasures(account_id uuid,character_id uuid)');await assert.rejects(attempt.query('UPDATE accounts SET login_disabled=false WHERE id=$1',[f.a.accountId]),/permission denied/);}
   finally{await attempt.query('DROP TABLE IF EXISTS pg_temp.account_erasures');attempt.release();}
@@ -188,12 +197,19 @@ test('restore predating account creation records absence without inventing users
 });
 
 
-test('human deletion has no NPC construction, donor assignment or synchronous creation-timing side effect',async()=>{
+test('human deletion clears unreferenced estate state without NPC construction or money transfers',async()=>{
  const f=await fixture();try{
   await f.r.prepare(f.a,100000,30);await f.r.ok(f.a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:3});
   await f.r.ok(f.a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:2});
-  const before=await finances(f.r);await fulfillErasure(f.r.db,await f.options());
-  assert.equal(await finances(f.r),before);assert.equal((await f.r.db.query('SELECT 1 FROM abandoned_kingdoms')).rowCount,0);
+  await f.r.prepare(f.b,100000,30);await f.r.ok(f.b,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
+  await f.r.ok(f.b,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
+  const before=JSON.parse(await finances(f.r));
+  // Ordinary purchased gear and unpaid Land have no FK history references.
+  // Their monetary purchase journals are retained. All other fields,
+  // every wallet/ledger and the other player's whole estate remain exact.
+  for(const row of before){row.inventory=row.inventory?.filter((i:Record<string,unknown>)=>i.character_id!==f.a.id)??null;row.land=row.land?.filter((h:Record<string,unknown>)=>h.character_id!==f.a.id)??null;}
+  await fulfillErasure(f.r.db,await f.options());
+  assert.deepEqual(JSON.parse(await finances(f.r)),before);assert.equal((await f.r.db.query('SELECT 1 FROM abandoned_kingdoms')).rowCount,0);
   assert.equal((await f.r.db.query('SELECT 1 FROM graveyard_operations')).rowCount,0);
   await assert.rejects(publicProfile(f.r.db,f.a.id));await assert.rejects(createSession(f.r.db,f.a.accountId));
   await assert.rejects(executeCommand(f.r.db,f.a.accountId,randomUUID(),'profile',{className:'Warden'}));
@@ -208,7 +224,7 @@ test('personal-data review remains mandatory; population approval cannot authori
  const f=await fixture();try{
   const base=await f.options(),intent=JSON.parse(Buffer.from(base.intent.payload,'base64url').toString()),policy=JSON.parse(Buffer.from(base.policy.payload,'base64url').toString());
   await assert.rejects(fulfillErasure(f.r.db,{...base,intent:signed({...intent,personalDataReviewCompleted:false})}));
-  await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,protocol:'kingdom-erasure-policy-v3'})}));
+  await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,protocol:'kingdom-erasure-policy-v5'})}));
   await assert.rejects(fulfillErasure(f.r.db,{...base,policy:signed({...policy,protocol:'kingdom-erasure-policy-v1'})}));
   assert.equal((await readJournal(f.directory,publicKey)).sequence,0);
   assert.equal((await f.r.db.query("SELECT 1 FROM abandoned_kingdoms")).rowCount,0);
@@ -255,4 +271,69 @@ test('installing the disabled graveyard registry preserves complete existing cha
   assert.equal((await db.query('SELECT 1 FROM graveyard_operations')).rowCount,0);
   assert.equal((await db.query('SELECT 1 FROM abandoned_kingdoms')).rowCount,0);
  }finally{await db?.end();await admin.query('DROP SCHEMA '+schema+' CASCADE');await admin.end();}
+});
+
+test('erasure removes current profile caches and progress, preserving active award permanence and blocking stale rebuilding',async()=>{
+ const f=await fixture(),{r,a,b}=f;try{
+  for(const actor of [a,b])await r.db.query("INSERT INTO character_achievements(character_id,achievement_id,ruleset_id,metric_at_unlock,evidence) VALUES($1,'privacy-fixture',$2,1,'gameplay')",[actor.id,alpha.id]);
+  await assert.rejects(r.db.query('DELETE FROM character_achievements WHERE character_id=$1',[a.id]),/permanent/);
+  const before=JSON.stringify((await r.db.query('SELECT row_to_json(t) AS row FROM character_achievements t WHERE character_id=$1',[b.id])).rows);
+  await fulfillErasure(r.db,await f.options());
+  for(const table of ['equipment_slots','army_stacks','income_cycles','character_income_feedback','character_progression_epochs','character_achievements','champion_standings','competitive_statistics','legacy_casualty_statistics'])
+   assert.equal((await r.db.query('SELECT 1 FROM '+table+' WHERE character_id=$1',[a.id])).rowCount,0,table);
+  assert.equal(JSON.stringify((await r.db.query('SELECT row_to_json(t) AS row FROM character_achievements t WHERE character_id=$1',[b.id])).rows),before);
+  await assert.rejects(r.db.query('DELETE FROM character_achievements WHERE character_id=$1',[b.id]),/permanent/);
+  const shadow=await r.db.connect();try{
+   await shadow.query('CREATE TEMP TABLE characters(id uuid,account_id uuid)');await shadow.query('INSERT INTO pg_temp.characters VALUES($1,NULL)',[b.id]);
+   await assert.rejects(shadow.query('DELETE FROM character_achievements WHERE character_id=$1',[b.id]),/permanent/);
+  }finally{await shadow.query('DROP TABLE pg_temp.characters');shadow.release();}
+  for(const statement of [
+   "INSERT INTO army_stacks(character_id,unit_definition_id,quantity) VALUES($1,'militia',1)",
+   "INSERT INTO income_cycles(character_id,next_payment_at) VALUES($1,now())",
+   'INSERT INTO champion_standings(character_id,eligible,attained_level,xp,created_at) VALUES($1,false,1,0,now())',
+   'INSERT INTO competitive_statistics(character_id) VALUES($1)',
+   "INSERT INTO character_achievements(character_id,achievement_id,ruleset_id,metric_at_unlock,evidence) VALUES($1,'privacy-fixture','alpha-0.3',1,'gameplay')",
+   "INSERT INTO character_progression_epochs(character_id,policy_id,boundary_level,boundary_requirement,starting_progress) VALUES($1,'xp-legacy-1',1,1,0)"
+  ])await assert.rejects(r.db.query(statement,[a.id]),/protected/);
+  await assertErasureFence(r.db,{required:true,journalPath:f.directory,publicKey});
+ }finally{await f.close();}
+});
+
+test('only historically referenced asset anchors survive, with zero live quantities and exact original monetary history',async()=>{
+ let gameTime=new Date(Date.now()-2*3600000);const f=await fixture(()=>gameTime),{r,a,b}=f;try{
+  await r.prepare(a,100000,30);await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:3});
+  gameTime=new Date();await r.me(a); // Genuine already-paid income, not fabricated settlement evidence.
+  await r.ok(a,'/api/v1/land/sales',{propertyId:'smallholding',quantity:1});
+  await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
+  await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:2});
+  const entry=randomUUID(),lot=randomUUID(),event=randomUUID(),source=randomUUID(),command=randomUUID();
+  // Synthetic immutable acquisition/FK fixture. It does not activate rare drops
+  // or an NPC population and grants no gold. The keeper rule must respect even
+  // historical rows whose active-world catalogue is no longer selected.
+  await r.db.query("INSERT INTO inventory_entries(id,character_id,item_definition_id,ruleset_id,quantity,acquired_at) VALUES($1,$2,'historical-discovery',$3,1,now())",[entry,a.id,alpha.id]);
+  await r.db.query('INSERT INTO inventory_lots(id,inventory_entry_id,character_id,ruleset_id,acquired_quantity,remaining_quantity,unit_cost,command_id,acquired_at) VALUES($1,$2,$3,$4,1,1,0,$5,now())',[lot,entry,a.id,alpha.id,command]);
+  await r.db.query("INSERT INTO inventory_acquisition_events(id,character_id,inventory_entry_id,lot_id,item_id,quantity,unit_cost,source_kind,source_id,command_id,ruleset_id) VALUES($1,$2,$3,$4,'historical-discovery',1,0,'quest_drop',$5,$6,$7)",[event,a.id,entry,lot,source,command,alpha.id]);
+  const referenceBefore={entry:(await r.db.query('SELECT * FROM inventory_entries WHERE id=$1',[entry])).rows[0],lot:(await r.db.query('SELECT * FROM inventory_lots WHERE id=$1',[lot])).rows[0],land:(await r.db.query('SELECT h.* FROM land_holdings h WHERE character_id=$1 AND (EXISTS(SELECT 1 FROM land_sales s WHERE s.holding_id=h.id) OR EXISTS(SELECT 1 FROM land_income_settlements s WHERE s.holding_id=h.id) OR EXISTS(SELECT 1 FROM land_partial_settlements s WHERE s.holding_id=h.id)) ORDER BY id',[a.id])).rows};
+  const tables=['wallets','vault_accounts','economy_transactions','economy_entries','inventory_transactions','inventory_acquisition_events','land_sales','land_income_settlements','land_partial_settlements','treasury_retained_events'];
+  const history=async()=>{const rows:Record<string,unknown>={};for(const table of tables)rows[table]=(await r.db.query('SELECT row_to_json(t)::text AS row FROM '+table+' t ORDER BY row_to_json(t)::text')).rows;return rows;};
+  const before=await history(),maintenance=(await r.db.query('SELECT * FROM maintenance_accounts WHERE character_id=$1',[a.id])).rows[0]!,other=await r.me(b),started=Date.now();
+  await fulfillErasure(r.db,await f.options());assert.deepEqual(await history(),before);
+  assert.equal((await r.db.query('SELECT count(*)::int AS n FROM inventory_entries WHERE character_id=$1',[a.id])).rows[0]!.n,1);
+  assert.deepEqual((await r.db.query('SELECT * FROM inventory_entries WHERE id=$1',[entry])).rows[0],{...referenceBefore.entry,quantity:0});
+  assert.deepEqual((await r.db.query('SELECT * FROM inventory_lots WHERE id=$1',[lot])).rows[0],{...referenceBefore.lot,remaining_quantity:0});
+  const afterLand=(await r.db.query('SELECT * FROM land_holdings WHERE character_id=$1 ORDER BY id',[a.id])).rows;
+  assert.ok(referenceBefore.land.length>0);assert.equal(afterLand.length,referenceBefore.land.length);
+  for(let i=0;i<afterLand.length;i++){const row=afterLand[i]!,old=referenceBefore.land[i]!;
+   if(old.closed_at===null)assert.ok(row.closed_at.getTime()>=started-1000&&row.closed_at.getTime()<=Date.now()+1000);
+   else assert.deepEqual(row.closed_at,old.closed_at);
+   assert.deepEqual(row,{...old,quantity:0,closed_at:row.closed_at});
+  }
+  assert.equal((await r.me(b)).gold,other.gold);
+  const sealed=(await r.db.query('SELECT * FROM maintenance_accounts WHERE character_id=$1',[a.id])).rows[0]!;
+  assert.deepEqual(sealed,{...maintenance,hourly_rate:0,paused:true,settled_at:new Date('1970-01-01T00:00:00.000Z')});
+  await assert.rejects(r.db.query('UPDATE inventory_entries SET quantity=1 WHERE id=$1',[entry]),/protected/);
+  await assert.rejects(r.db.query('UPDATE inventory_lots SET remaining_quantity=1 WHERE id=$1',[lot]),/protected/);
+  await assert.rejects(r.db.query('UPDATE land_holdings SET quantity=1 WHERE character_id=$1',[a.id]),/protected/);
+  await fulfillErasure(r.db,await f.options());assert.deepEqual(await history(),before,'Retry cannot refund assets or rewrite financial history');
+ }finally{await f.close();}
 });

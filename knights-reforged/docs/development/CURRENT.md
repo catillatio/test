@@ -96,10 +96,12 @@ Isolated readiness work reconciles PR20 with the approved Dark Medieval release.
 PR #88 launch completion continues from b94cfdb. Optional NPC/economic work is
 preserved on archive/graveyard-population-b94cfdb and is not a Play approval gate.
 Account erasure now minimizes the inert current profile in addition to physical
-login/personal-data deletion, under v5 approval and unchanged recovery/financial
+login/personal-data deletion, under an unactivated v6 proposal and unchanged recovery/financial
 protections. Registration records explicit Terms/Guidelines consent before public
 name creation. Android release/debug packaging now consistently uses the permanent
 `game.kingdomcome.rpg` / `.debug` identity; actual Console registration and owner
 signing remain unconfirmed. Read the updated readiness matrix and policy distinction
 before activation. Both production features remain disabled; no merge/deploy/Play
 submission. See [launch scope](../google-play/LAUNCH_SCOPE.md).
+
+2026-11-06 Play retention refinement: A/D approved, C conditional, B unapproved. [v6 minimization](../google-play/privacy/RETENTION_MINIMIZATION.md) removes private current estate/cache data while preserving monetary history and minimum referenced anchors. Current release recovery artifacts remain 90-day configured/observed; 30-day routine retention is not established. No merge, deployment, credentials, erasure or cleanup activation.

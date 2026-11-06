@@ -58,7 +58,7 @@ started. [Safe public response metadata](live-policy-endpoints.json).
 
 ## Exact owner-controlled blockers
 
-1. Approve accurate category-specific retention and publish final legal/controller/
+1. A/D are approved and C is conditional; approve only the minimized B proposal in [RETENTION_MINIMIZATION.md](privacy/RETENTION_MINIMIZATION.md), and publish final legal/controller/
    privacy/support facts and response practices. Independent legal/privacy
    certification is not a universal Google requirement; resolve actual applicable
    obligations and this game's retained-record justification. No unapproved policy
@@ -97,3 +97,5 @@ not invent compliance or hide the current operational blockers.
 No Console declaration, audience choice, final upload, legal agreement or submission
 is made on the owner's behalf. No unsigned bundle, source inspection or green test
 is described as a final Play approval.
+
+The v6 B proposal removes unnecessary current assets/caches and narrows retained records to specific historical dependencies. It remains unapproved/unactivated. C verification established 90-day production recovery artifact expiry, not 30-day enforcement. No existing artifact/backup schedule is shortened and no source from another SHA approves this candidate. Final current-head CI is linked on PR #88.

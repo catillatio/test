@@ -10,7 +10,7 @@ It queues an authenticated request for account and associated-data deletion. It 
 
 ## Fulfillment requirements
 
-Approved fulfillment deletes the login account and password hash, revokes sessions, removes reviewed personal/social/preferences and mutable progress records, and clears the old private profile traits and timestamps. It preserves unrelated players’ balances and shared historical amounts. Any retained opaque identifiers, sealed assets, financial/combat journals or backup-suppression proof remain restricted associated data and need a justified purpose and defined retention handling; they are not automatically anonymous. Retention categories/periods and response time: [OWNER TO COMPLETE].
+Approved fulfillment deletes the login account and password hash, revokes sessions, removes reviewed personal/social/preferences and mutable progress records, and clears the old private profile traits and timestamps. It preserves unrelated players’ balances and shared historical amounts. Unreferenced private assets and current loadout, army, achievement and progression state are removed. Any necessary retained historical asset anchors have zero live quantities. Opaque identifiers, sealed balances, original financial/combat journals and backup-suppression proof remain restricted associated data and need a justified purpose and defined retention handling; they are not automatically anonymous. Retention categories/periods and response time: [OWNER TO COMPLETE].
 
 ## Backups and recovery
 

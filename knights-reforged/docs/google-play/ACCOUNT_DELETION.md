@@ -53,13 +53,12 @@ The durable external signed intent, approved policy and original execution proof
 0600 permissions and file/directory fsync. A torn file or unexpected journal entry
 blocks further processing; it is never discarded or rewritten automatically.
 
-For supported ordinary accounts, v5 fulfillment physically deletes the human
+For supported ordinary accounts, v6 fulfillment physically deletes the human
 account, credential, sessions, linked personal/social data and deletion request.
 The completion receipt retains restricted signed audit bindings. The former
 character becomes an inaccessible minimized FK stub: current name, level, XP,
 training, calling/resource values and original profile/recovery timestamps are
-cleared or normalized, not retained as a playable estate. Necessary sealed assets
-and historical reference records remain under an **unapproved** retention exception. Mutable shared reports lose typed names and account/invitation
+cleared or normalized, not retained as a playable estate. Unreferenced inventory/Land rows, selected equipment, army/profile caches, achievements and private progression clocks are removed. Financially referenced asset rows remain only as historical FK anchors with zero live quantities; original monetary and shared-history facts stay exact. The remaining minimal references are under the **unapproved B** exception in [RETENTION_MINIMIZATION.md](privacy/RETENTION_MINIMIZATION.md). Mutable shared reports lose typed names and account/invitation
 metadata. **No NPC is created by fulfillment or restore reconciliation.** No source
 estate, new world ID or donor mapping enters that transaction or its journal.
 
@@ -194,9 +193,11 @@ archive is rewritten or recovery copy retired. New normalized profile values are
 part of the exact expected erasure projection; unrelated full rows and all financial
 amounts must remain exact. The original archive bytes remain unchanged in tests.
 
-v5 authorization requires reviewed actual personal-data scope and explicit retention
+v6 authorization requires reviewed actual personal-data scope and explicit retention
 policy. Professional certification is not a universal Play requirement; factual
 owner approval and applicable-law decisions are distinguished in OWNER_DECISIONS.md.
 The private immutable operator, public key, restricted role/journal custody and
 existing production lock/recovery proof must still be installed/verified under
 separate owner authorization. This operational setup is not performed by this PR.
+
+Owner status: A/D approved, C conditional and B pending. See the exact v6 projection and actual 90-day artifact/provider findings in [the minimized policy](privacy/RETENTION_MINIMIZATION.md). No policy is activated, and no existing recovery artifact/copy is deleted or given a shorter expiry by this implementation.

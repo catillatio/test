@@ -28,7 +28,7 @@ export const legalPages = {
       ],
       [
         "Deletion and retention",
-        "Request account and associated-data deletion through Settings or /account-deletion. A request is not completed deletion. Protected fulfillment deletes the login account/password hash, revokes sessions, removes reviewed personal/social data and mutable progress, and clears old profile traits and timestamps. Minimal private references, sealed virtual balances and financial/combat/asset journals may need limited retention to protect other players, investigate security/fraud or reconcile recovery; they are not automatically anonymous. Necessary categories, purposes, access and retention periods, backup expiry and response time must be accurately approved and disclosed: [OWNER TO COMPLETE]. Account deletion never creates or funds an NPC."
+        "Request account and associated-data deletion through Settings or /account-deletion. A request is not completed deletion. Protected fulfillment deletes the login account/password hash, revokes sessions, removes reviewed personal/social data and mutable progress, and clears old profile traits and timestamps. Disposable profile/loadout/progression records and unreferenced private asset rows are removed; any historically referenced asset rows have no live quantities. Minimal private references, sealed virtual balances and original financial/combat/asset facts may need limited retention to protect other players, investigate security/fraud or reconcile recovery; they are not automatically anonymous. Necessary categories, purposes, access and retention periods, backup expiry and response time must be accurately approved and disclosed: [OWNER TO COMPLETE]. Account deletion never creates or funds an NPC."
       ],
       [
         "Rights, age and updates",
@@ -103,7 +103,7 @@ export const legalPages = {
       ],
       [
         "Fulfillment requirements",
-        "Approved fulfillment deletes the login account and password hash, revokes sessions, removes reviewed personal/social/preferences and mutable progress records, and clears the old private profile traits and timestamps. It preserves unrelated players’ balances and shared historical amounts. Any retained opaque identifiers, sealed assets, financial/combat journals or backup-suppression proof remain restricted associated data and need a justified purpose and defined retention handling; they are not automatically anonymous. Retention categories/periods and response time: [OWNER TO COMPLETE]."
+        "Approved fulfillment deletes the login account and password hash, revokes sessions, removes reviewed personal/social/preferences and mutable progress records, and clears the old private profile traits and timestamps. It preserves unrelated players’ balances and shared historical amounts. Unreferenced private assets and current loadout, army, achievement and progression state are removed. Any necessary retained historical asset anchors have zero live quantities. Opaque identifiers, sealed balances, original financial/combat journals and backup-suppression proof remain restricted associated data and need a justified purpose and defined retention handling; they are not automatically anonymous. Retention categories/periods and response time: [OWNER TO COMPLETE]."
       ],
       [
         "Backups and recovery",

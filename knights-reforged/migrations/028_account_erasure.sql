@@ -180,6 +180,35 @@ CREATE TRIGGER account_erasure_insert_guard BEFORE INSERT ON accounts
 CREATE TRIGGER character_erasure_insert_guard BEFORE INSERT ON characters
  FOR EACH ROW EXECUTE FUNCTION guard_erased_personal_write('id','account_id');
 
+-- These tables also serve independent world NPCs. Only completed human erasures
+-- are blocked; accountless NPCs keep their existing behavior.
+CREATE FUNCTION guard_erased_world_write() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF EXISTS(SELECT 1 FROM account_erasures WHERE character_id=NEW.character_id) THEN
+  RAISE EXCEPTION 'Erased profile state is protected';
+ END IF;
+ RETURN NEW;
+END $$;
+DO $$ DECLARE target text; BEGIN
+ FOREACH target IN ARRAY ARRAY['army_stacks','equipment_slots','income_cycles','character_income_feedback',
+  'character_progression_epochs','character_achievements','champion_standings','competitive_statistics',
+  'legacy_casualty_statistics','inventory_entries','inventory_lots','land_holdings','maintenance_accounts'] LOOP
+  EXECUTE format('CREATE TRIGGER erased_world_write_guard BEFORE INSERT OR UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION guard_erased_world_write()',target);
+ END LOOP;
+END $$;
+
+-- Award permanence still protects active accounts and world NPCs. Only the
+-- existing subject-bound owner capability may delete detached human awards.
+-- The restricted eraser gets no general DELETE grant; no trigger is disabled.
+CREATE OR REPLACE FUNCTION preserve_achievement_award() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='DELETE'
+ AND current_user=pg_get_userbyid((SELECT proowner FROM pg_proc WHERE oid='detach_erased_identity(uuid,uuid)'::regprocedure))
+ AND EXISTS(SELECT 1 FROM characters WHERE id=OLD.character_id AND account_id IS NULL)
+ AND NOT EXISTS(SELECT 1 FROM abandoned_kingdoms WHERE character_id=OLD.character_id) THEN RETURN OLD; END IF;
+ RAISE EXCEPTION 'Achievement awards are permanent';
+END $$;
+
 -- Never inherit a caller's "$user"/implicit temporary-schema lookup. Trigger
 -- relation resolution is fixed to the installation schema, with pg_temp last.
 DO $pin$
@@ -187,6 +216,7 @@ DECLARE trusted_schema text:=current_schema(); function_name text; arguments tex
 BEGIN
  FOR function_name,arguments IN SELECT * FROM (VALUES
  ('preserve_account_erasure_record',''),('guard_erased_identity',''),('guard_erased_personal_write',''),
+ ('guard_erased_world_write',''),('preserve_achievement_award',''),
  ('erase_account_identity_labels','jsonb,uuid,uuid,boolean,boolean,boolean')) AS reviewed(name,args) LOOP
   EXECUTE format('ALTER FUNCTION %I.%I(%s) SET search_path TO pg_catalog,%I,pg_temp',trusted_schema,function_name,arguments,trusted_schema);
  END LOOP;
@@ -206,8 +236,31 @@ BEGIN
  OR EXISTS(SELECT 1 FROM hudson_equipment_grants WHERE account_id=account_subject)
  OR EXISTS(SELECT 1 FROM private_alpha_initializations WHERE dev_account_id=account_subject)
  THEN RAISE EXCEPTION 'Identity has a protected hold'; END IF;
+ DELETE FROM equipment_slots WHERE character_id=subject;
+ DELETE FROM army_stacks WHERE character_id=subject;
+ DELETE FROM income_cycles WHERE character_id=subject;
+ DELETE FROM character_income_feedback WHERE character_id=subject;
+ DELETE FROM character_progression_epochs WHERE character_id=subject;
+ DELETE FROM competitive_statistics WHERE character_id=subject;
+ DELETE FROM legacy_casualty_statistics WHERE character_id=subject;
+ DELETE FROM inventory_lots l WHERE character_id=subject AND NOT EXISTS(SELECT 1 FROM inventory_acquisition_events e WHERE e.lot_id=l.id);
+ DELETE FROM inventory_entries i WHERE character_id=subject
+  AND NOT EXISTS(SELECT 1 FROM inventory_acquisition_events e WHERE e.inventory_entry_id=i.id)
+  AND NOT EXISTS(SELECT 1 FROM inventory_lots l WHERE l.inventory_entry_id=i.id);
+ DELETE FROM land_holdings h WHERE character_id=subject
+  AND NOT EXISTS(SELECT 1 FROM land_sales s WHERE s.holding_id=h.id)
+  AND NOT EXISTS(SELECT 1 FROM land_income_settlements s WHERE s.holding_id=h.id)
+  AND NOT EXISTS(SELECT 1 FROM land_partial_settlements s WHERE s.holding_id=h.id);
+ -- Historical FK facts and financial fractions stay exact. Only live quantities
+ -- are cleared. No sale/refund, income settlement or journal rewrite occurs.
+ UPDATE inventory_entries SET quantity=0 WHERE character_id=subject;
+ UPDATE inventory_lots SET remaining_quantity=0 WHERE character_id=subject;
+ UPDATE land_holdings SET quantity=0,
+  closed_at=coalesce(closed_at,transaction_timestamp()) WHERE character_id=subject;
+ UPDATE maintenance_accounts SET hourly_rate=0,paused=true,settled_at='1970-01-01T00:00:00.000Z' WHERE character_id=subject;
  UPDATE characters SET account_id=NULL,name='Deleted Warrior',xp=0,health=0,energy=0,health_updated_at='1970-01-01T00:00:00.000Z',energy_updated_at='1970-01-01T00:00:00.000Z',attack_ready_at='1970-01-01T00:00:00.000Z',state_version=1,created_at='1970-01-01T00:00:00.000Z',max_health=100,mana=0,max_mana=20,spirit=0,max_spirit=3,mana_updated_at='1970-01-01T00:00:00.000Z',spirit_updated_at='1970-01-01T00:00:00.000Z',attained_level=1,level_xp=0,skill_points=0,legacy_army_floor=1,profile_class='Freeblade',attack_training=0,defense_training=0,calling_changed_at=NULL WHERE id=subject;
- UPDATE champion_standings SET eligible=false,attained_level=1,xp=0,created_at='1970-01-01T00:00:00.000Z' WHERE character_id=subject;
+ DELETE FROM champion_standings WHERE character_id=subject;
+ DELETE FROM character_achievements WHERE character_id=subject;
  DELETE FROM accounts WHERE id=account_subject;
 END $$;
 REVOKE ALL ON FUNCTION detach_erased_identity(uuid,uuid) FROM PUBLIC;
