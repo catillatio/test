@@ -1,0 +1,40 @@
+name: Targeted operator checks
+on:
+  pull_request:
+    paths: ['knights-reforged/deployment/operator/**', 'knights-reforged/src/owner-*.ts', 'knights-reforged/tests/owner-*.test.*', 'knights-reforged/scripts/test-owner-operator.mjs', 'knights-reforged/scripts/fixtures/owner-*.mjs', '.github/workflows/owner-operator*.yml']
+  push:
+    branches: [release/production]
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - name: Validate workflows with checksum-pinned actionlint
+        run: |
+          curl --fail --silent --show-error --location --output "$RUNNER_TEMP/actionlint.tgz" https://github.com/rhysd/actionlint/releases/download/v1.7.7/actionlint_1.7.7_linux_amd64.tar.gz
+          printf '%s  %s\n' 023070a287cd8cccd71515fedc843f1985bf96c436b7effaecce67290e7e0757 "$RUNNER_TEMP/actionlint.tgz" | sha256sum --check -
+          tar --extract --gzip --file "$RUNNER_TEMP/actionlint.tgz" --directory "$RUNNER_TEMP" actionlint
+          "$RUNNER_TEMP/actionlint" .github/workflows/owner-operator.yml .github/workflows/owner-operator-checks.yml
+      - name: Build and test protocol without any production credentials
+        working-directory: knights-reforged
+        run: |
+          npm ci --no-audit --no-fund
+          npm run typecheck
+          npm run build
+          node --test tests/owner-operator.test.mjs
+      - name: Run private-worker container against populated synthetic PostgreSQL only
+        working-directory: knights-reforged
+        run: node scripts/test-owner-operator.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: synthetic-owner-operator-checks
+          path: knights-reforged/test-results/owner-operator-container.json
+          if-no-files-found: warn
+          retention-days: 14
