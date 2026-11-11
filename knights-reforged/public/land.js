@@ -47,6 +47,7 @@ if (root) {
       setText('[data-land-net]', number(state.economy?.netHourlyIncome ?? state.land.netHourlyIncome));
       const net = state.economy?.netHourlyIncome ?? state.land.netHourlyIncome;
       setText('[data-land-summary-net]', (net > 0 ? '+' : '') + number(net));
+      for(const e of document.querySelectorAll('[data-land-summary-net],[data-land-net-detail]'))e.dataset.flow=net<0?'negative':'positive';
       document.querySelectorAll('[data-wallet-gold]').forEach(element => { element.textContent = number(state.gold); });
       showTime(root.querySelector('[data-land-payment-time]'), nextPayment);
       const pending = root.querySelector('[data-land-pending]');

@@ -1,3 +1,5 @@
+import {postingRestriction} from './community.js';
+import {crownsView,rejectCrownOperation} from './crowns.js';
 import {registerOwnerRuntime} from './owner-runtime.js';
 import {legacyThemePreview} from './legacy-theme-preview.js';
 import {competitiveProfile} from './competitive-records.js';
@@ -5,7 +7,7 @@ import {approvedEquipmentArt} from './equipment-artwork.js';
 import {coordinatedArt,coordinatedArtworkStatus} from './coordinated-artwork.js';
 import {regionalArt} from './regional-artwork.js';
 import {presentationCatalog,presentationArt,recordedEquipment,presentedItem} from './equipment-presentation.js';
-import {notificationSummary,acknowledgeNotifications} from './notifications.js';
+import {notificationSummary,acknowledgeNotifications,prepareReadBatch,applyReadBatch,unreadNotificationPage} from './notifications.js';
 import {readArmyRoster,type RosterFilter} from './army-roster.js';
 import {mutedSound,soundPreferences,soundFeedback} from './sound.js';
 import {callingName,callingDescription} from './calling-presentation.js';
@@ -143,7 +145,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   async function render(request: FastifyRequest, reply: FastifyReply, screen: string, data: Record<string, unknown> = {}) {
     if (!allowedScreens.has(screen)) throw new Error('Unknown server-selected template.');
     const session = request.realmSession;
-    const state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id,config) : null);
+    let state = (data.state as CharacterState | undefined) ?? (session?.account_id ? await getState(db, session.account_id,config) : null);
     const alpha=presentationCatalog(contentCatalog(state?.rulesetId),state?.presentationId);
     let notice: string | null = null;
     let actionResult: Record<string,unknown> | null = null;
@@ -162,9 +164,11 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const purchaseFeedback=purchaseEntry&&Number.isSafeInteger(purchaseData?.quantity)&&Number(purchaseData?.quantity)>0&&Number.isSafeInteger(purchaseData?.goldSpent)&&Number(purchaseData?.goldSpent)>=0?
       {id:purchaseEntry.id,name:purchaseData?.itemName??purchaseEntry.name,quantity:purchaseData!.quantity,goldSpent:purchaseData!.goldSpent,commandId:actionResult!.commandId}:null;
     const playerExperience=state?await experienceView(db,state.id):null;
+    if(state&&session?.account_id&&playerExperience?.rewardSummary.newlyPaid.length)state=await getState(db,session.account_id,config);
     const board=data.bountyBoard as {activeCount?:number;nextExpiryAt?:string|null}|undefined;
     const counts=state&&['battle','bounties','bounty-new','bounty-confirm'].includes(screen)?board?.activeCount!==undefined?{count:board.activeCount,nextExpiryAt:board.nextExpiryAt??null}:await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):{count:0,nextExpiryAt:null};
     const notificationFeed=[...((data.feed as {entries:any[]}|undefined)?.entries??[]),...((data.bountyBoard as {attentionFeed:any[]}|undefined)?.attentionFeed??[])];
+    for(const tale of (data.tales as {entries:any[]}|undefined)?.entries??[])notificationFeed.push({id:tale.id,kind:'battle',data:{defenderId:tale.defenderId}});
     if(screen==='army'&&query.tab==='dashboard')for(const event of (data.armyEvents as any[]|undefined)??[])
       notificationFeed.push({id:event.id,kind:'army',data:{event:event.kind,actorId:event.actor_id,targetId:event.target_id}});
     const shownBattle=data.battle as {id?:string;defenderId?:string}|undefined;
@@ -173,6 +177,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       for(const event of(await db.query(`SELECT e.id,b.target_id,b.sponsor_id,b.claimant_id FROM bounty_events e JOIN bounties b ON b.id=e.bounty_id WHERE b.battle_id=$1 AND e.kind='claimed' AND b.target_id=$2`,[shownBattle.id,state.id])).rows)
         notificationFeed.push({id:event.id,kind:'bounty',data:{event:'claimed',targetId:event.target_id,sponsorId:event.sponsor_id,claimantId:event.claimant_id}});
     }
+    const readBatchId=state&&['home','notifications'].includes(screen)?await prepareReadBatch(db,state.id):null;
     const chosenRegion=regionFilter(query.area,alpha.id);
     if(screen==='quests'&&state&&chosenRegion)await rememberRegion(db,state.id,chosenRegion);
     return reply.viewAsync('layout.ejs', { uiTheme:!useLegacyTheme,
@@ -181,7 +186,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       category: ['weapon','armor','spell'].includes(query?.category??'') ? query.category : 'weapon',
       marketBulkId:typeof query.bulk==='string'?query.bulk:null,
       questArea:chosenRegion??playerExperience?.region??'all',
-      notifications:state?await notificationSummary(db,state.id,notificationFeed):{home:0,army:0,events:[]},
+      socialMute:state?await postingRestriction(db,state.id,new Date(state.serverTime)):null,readBatchId,notifications:state?await notificationSummary(db,state.id,notificationFeed):{home:0,army:0,events:[]},
       showCalling:query.calling==='1',profileTab:['skills','battles','comments'].includes(query.tab??'')?query.tab:'player',
       recruitment:{allowed:false,reason:'Review this army request in Recruit.',status:'none',automatic:false},publicCharacter:null,profileProperties:state?ownedProperties(state):[],combatTarget:null,tales:{entries:[],nextCursor:null},bountyQuote:null,bountyPlacement:{allowed:false,reason:'Review contract eligibility.'},bountyTarget:null,vaultEntries:[],
       feedTab:feedCategory((request.query as {feed?:string}).feed),feed:{entries:[],nextCursor:null},
@@ -242,6 +247,8 @@ export async function createApp(options: { db: Database; config: Config; logger?
       });
     });
   }
+  app.get('/game/crowns',{preHandler:requireAccount},async(request,reply)=>{const state=await getState(db,request.realmSession!.account_id!,config);return render(request,reply,'crowns',{title:'Crowns Market',crowns:await crownsView(db,state.id)});});
+  for(const path of ['/game/crowns/purchase','/game/crowns/consume','/game/crowns/grant','/api/v1/crowns/purchases','/api/v1/crowns/consumptions','/api/v1/crowns/grants','/api/v1/crowns/refunds'])app.post(path,{preHandler:requireAccount},async request=>{return rejectCrownOperation();});
   app.get('/game/achievements',{preHandler:requireAccount},async(request,reply)=>render(request,reply,'achievements',{title:'Achievements'}));
   app.get('/game/champions',{preHandler:requireAccount},async(request,reply)=>{
     const state=await getState(db,request.realmSession!.account_id!,config);
@@ -339,6 +346,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
         const input = route.kind === 'quest' || route.kind === 'quest_buy' ? { ...body, questId: (request.params as {id:string}).id } : body;
         let result;
         try{result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input,{developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled});}catch(error){
+          if(!wantsJson(request)&&error instanceof GameError&&error.code==='SOCIAL_MUTED')return reply.redirect(route.kind==='comment'&&uuid.safeParse(body.profileId).success?'/game/players/'+body.profileId+'?tab=comments':'/game/home?feed=broadcasts',303);
           if(route.kind==='quest'&&!wantsJson(request)&&error instanceof GameError&&error.code==='MISSING_EQUIPMENT'){ownerTelemetry?.reject(request,error.code);return reply.redirect('/game/quests/'+(request.params as {id:string}).id+'/requirements',303);}
           throw error;
         }
@@ -373,6 +381,8 @@ export async function createApp(options: { db: Database; config: Config; logger?
       });
     }
   }
+  app.get('/game/notifications',{preHandler:requireAccount},async(request,reply)=>{const state=await getState(db,request.realmSession!.account_id!,config);return render(request,reply,'notifications',{title:'Your notifications',state,unread:await unreadNotificationPage(db,state.id,(request.query as {after?:string}).after)});});
+  for(const path of ['/api/v1/notifications/read-all','/game/notifications/read-all'])app.post(path,{preHandler:requireAccount},async(request,reply)=>{const id=(await db.query('SELECT id FROM characters WHERE account_id=$1',[request.realmSession!.account_id!])).rows[0]!.id;const result=await applyReadBatch(db,id,asBody(request).batchId);return wantsJson(request)?result:reply.redirect('/game/notifications',303);});
   app.get('/api/v1/notifications',{preHandler:requireAccount},async request=>{
     const id=(await db.query('SELECT id FROM characters WHERE account_id=$1',[request.realmSession!.account_id!])).rows[0]!.id;
     return notificationSummary(db,id);

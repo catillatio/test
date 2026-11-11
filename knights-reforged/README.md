@@ -54,7 +54,7 @@ For Railway, use [RAILWAY.md](RAILWAY.md): repository Dockerfile, private Postgr
 - Persistent Home All/Battles/Comments/Broadcasts feeds, shared profile comments, plain-text rendering, posting/report limits and auditable terminal moderation.
 - Compact Home grid, Profile Comments tab, Settings and Recruit/My Army/Dashboard with persistent invitation codes and recipient consent.
 
-- Three persistent Calling specializations, modest combat/recovery tradeoffs and guarded 24-hour switching.
+- Three persistent Calling specializations, modest combat/recovery tradeoffs and versioned switching at 1,000,000 carried Gold with a seven-day cooldown for new changes.
 - A funded Bounty List: 1–10,000 gold, exact fee confirmation, one active contract per target, shared 50-placement rolling daily limit, finishing-only claims and kills, cancellation and full principal refunds after 24 hours.
 - 450 optional passive development rivals across levels 1–50, armies capped at ten, progression-based equipment/gold, natural recovery and bounded daily rewards.
 - Existing persistent `dev` identity; live updates never reset or provision it. The historical development initializer remains local-only.

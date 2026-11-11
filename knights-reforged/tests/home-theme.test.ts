@@ -1,4 +1,5 @@
 import test from "node:test";
+import {createHash} from "node:crypto";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { legacyThemePreview } from "../src/legacy-theme-preview.js";
@@ -119,4 +120,14 @@ test("Property and equipment thumbnail bindings retain their approved identities
     const block=css.split("."+className+" {")[1]?.split("}")[0];
     assert.ok(block?.includes('url("art/'+asset+'")'),className+" keeps its exact approved thumbnail");
   }
+});
+
+test('three original class portraits retain verified full-bleed square source assets',async()=>{
+ const directory='public/art/class-portraits-1/',provenance=JSON.parse(await readFile(directory+'provenance.json','utf8'));
+ assert.deepEqual(Object.keys(provenance.files).sort(),['freeblade.png','spellward.png','warden.png']);
+ const digests=[];
+ for(const [file,digest] of Object.entries(provenance.files)){
+  const bytes=await readFile(directory+file);assert.equal(bytes.subarray(1,4).toString(),'PNG');assert.equal(bytes.readUInt32BE(16),bytes.readUInt32BE(20));assert.ok(bytes.readUInt32BE(16)>=120);const actual=createHash('sha256').update(bytes).digest('hex');assert.equal(actual,digest);digests.push(actual);
+ }
+ assert.equal(new Set(digests).size,3);assert.match(provenance.status,/review/i);
 });

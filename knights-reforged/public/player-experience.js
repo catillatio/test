@@ -37,8 +37,8 @@ async function readSeen(){
  }catch{}finally{reading=false;if(delivered&&pendingRead.size)readTimer=setTimeout(readSeen,250);}
 }
 let attentionObserver=null;
-if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(!entry.isIntersecting||document.hidden)continue;try{const event=JSON.parse(entry.target.dataset.notificationEvent);pendingRead.set(event.kind+':'+event.id,event);observer.unobserve(entry.target);}catch{}}if(pendingRead.size&&!readTimer)readTimer=setTimeout(readSeen,350);},{threshold:0.5});attentionObserver=observer;for(const entry of document.querySelectorAll('[data-notification-event]'))observer.observe(entry);}
-function rescanAttention(){if(attentionObserver)for(const entry of document.querySelectorAll('[data-notification-event]')){attentionObserver.unobserve(entry);attentionObserver.observe(entry);}}
+if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(!entry.isIntersecting||document.hidden)continue;try{const source=entry.target.closest('[data-notification-event]');if(!source)return;const event=JSON.parse(source.dataset.notificationEvent);pendingRead.set(event.kind+':'+event.id,event);observer.unobserve(entry.target);}catch{}}if(pendingRead.size&&!readTimer)readTimer=setTimeout(readSeen,350);},{threshold:0.5});attentionObserver=observer;for(const entry of document.querySelectorAll('[data-notification-event]'))observer.observe(entry.querySelector('header,h2,h3')??entry);}
+function rescanAttention(){if(attentionObserver)for(const entry of document.querySelectorAll('[data-notification-event]')){const target=entry.querySelector('header,h2,h3')??entry;attentionObserver.unobserve(target);attentionObserver.observe(target);}}
 window.addEventListener('pageshow',event=>{if(event.persisted){rescanAttention();void refreshAttention();void readSeen();}});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){rescanAttention();void refreshAttention();void readSeen();}});
 window.addEventListener('online',()=>{void refreshAttention();void readSeen();});
@@ -50,4 +50,11 @@ for(const panel of document.querySelectorAll('.market-bulk-panel')){
  function choose(mode,focus=false){for(const button of buttons){const current=button.dataset.bulkModeTab===mode;button.setAttribute('aria-selected',String(current));button.tabIndex=current?0:-1;if(current&&focus)button.focus();}for(const form of forms){form.hidden=form.dataset.bulkMode!==mode;form.setAttribute('role','tabpanel');form.setAttribute('aria-labelledby','bulk-tab-'+form.dataset.bulkMode);}try{sessionStorage.setItem(key,mode);}catch{}}
  tabs.hidden=false;panel.classList.add('bulk-enhanced');let initial='buy';try{if(sessionStorage.getItem(key)==='sell')initial='sell';}catch{}choose(initial);
  for(const button of buttons){button.addEventListener('click',()=>choose(button.dataset.bulkModeTab));button.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();choose(event.key==='Home'?'buy':event.key==='End'?'sell':button.dataset.bulkModeTab==='buy'?'sell':'buy',true);}});}
+}
+
+// Presentation only. The server independently locks and quotes every switch.
+for(const form of document.querySelectorAll('[data-calling-form]')){
+ const choice=form.querySelector('[name="className"]'),button=form.querySelector('[type="submit"]');
+ const paint=()=>{const changing=choice.value!==form.dataset.currentCalling;button.disabled=changing&&(form.dataset.changeReady!=='true'||form.dataset.changeAffordable!=='true');};
+ choice.addEventListener('change',paint);paint();
 }

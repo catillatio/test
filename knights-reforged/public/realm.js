@@ -2,7 +2,7 @@
 // authenticated server state. No timers create gold, Mana, Spirit or Health.
 const root=document.querySelector('[data-realm-state]');
 if(root){
-  let serverTime=Date.parse(root.dataset.serverTime),synced=performance.now(),version=Number(root.dataset.stateVersion),inFlight=false,retryAt=0;
+  let serverTime=Date.parse(root.dataset.serverTime),synced=performance.now(),version=Number(root.dataset.stateVersion),inFlight=false,retryAt=0,remotePending=false;
   let incomeNext=Date.parse(root.dataset.incomeNext||'');
   const text=(selector,value)=>document.querySelectorAll(selector).forEach(element=>{element.textContent=String(value);});
   function apply(state){
@@ -14,13 +14,14 @@ if(root){
       const p=state.payment,element=root.querySelector('[data-payment-gold]');
       if(element){element.dataset.flow=p.gold>0?'positive':p.gold<0?'negative':'neutral';element.textContent=(p.gold>0?'+':'')+(Math.abs(p.gold)>=1000000?new Intl.NumberFormat('en',{notation:'compact',maximumFractionDigits:1}).format(p.gold):Number(p.gold).toLocaleString('en'));element.classList.toggle('cost',p.gold<0);element.classList.toggle('gold',p.gold>=0);element.title=p.gold.toLocaleString('en')+' gold';}
     }
+    const hourly=root.querySelector('[data-hourly-income]');if(hourly&&state.economy){const n=state.economy.netHourlyIncome;hourly.textContent=(n>0?'+':'')+Number(n).toLocaleString('en');hourly.dataset.flow=n<0?'negative':'positive';hourly.classList.toggle('upkeep-cost',n<0);hourly.classList.toggle('gold',n>=0);}
     text('[data-xp-remaining]',state.xpToNext);
     const xp=document.querySelector('[data-xp-meter]');if(xp){xp.max=state.levelRequirement;xp.value=state.levelXp;}
     for(const name of ['health','mana','spirit']){
       const maximum=state['max'+name[0].toUpperCase()+name.slice(1)];
       text('[data-resource-value="'+name+'"]',state[name]);text('[data-resource-max="'+name+'"]',maximum);
       const meter=root.querySelector('[data-resource-meter="'+name+'"]');if(meter){meter.max=maximum;meter.value=state[name];}
-      const timer=root.querySelector('[data-recovery="'+name+'"]');if(timer)timer.dataset.next=state[name+'NextAt']||'';
+      for(const timer of root.querySelectorAll('[data-recovery="'+name+'"]'))timer.dataset.next=state[name+'NextAt']||'';
     }
     for(const button of document.querySelectorAll('[data-quest-run]')){const quest=state.quests.find(q=>q.id===button.dataset.questRun);if(quest)button.disabled=!quest.ready;}
     text('[data-connection-status]','');tick();
@@ -31,12 +32,12 @@ if(root){
     if(document.querySelector('[data-land-screen]')&&typeof document.dispatchEvent==='function'){
       document.dispatchEvent(new CustomEvent('land-refresh'));return;
     }
-    if(inFlight||performance.now()<retryAt)return;
-    inFlight=true;retryAt=performance.now()+5000;
+    if(inFlight||(!remotePending&&performance.now()<retryAt))return;
+    inFlight=true;remotePending=false;retryAt=performance.now()+5000;
     const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),15000);
     try{const response=await fetch('/api/v1/me'+(document.querySelector('[data-bounty-count]')?'?bounties=1':''),{credentials:'same-origin',cache:'no-store',signal:controller.signal});if(!response.ok)throw new Error('refresh');const payload=await response.json();document.dispatchEvent(new CustomEvent('realm-state',{detail:payload.state}));if(payload.bounties)for(const count of document.querySelectorAll('[data-bounty-count]')){count.textContent=payload.bounties.count;count.dataset.nextExpiry=payload.bounties.nextExpiryAt||'';}}
     catch{text('[data-connection-status]','Connection interrupted. Your progress stays on the server.');retryAt=performance.now()+15000;}
-    finally{clearTimeout(timeout);inFlight=false;}
+    finally{clearTimeout(timeout);inFlight=false;if(remotePending&&!document.hidden)void refresh();}
   }
   function tick(){
     const now=serverTime+performance.now()-synced;let due=false;
@@ -51,7 +52,14 @@ if(root){
     if(due||(Number.isFinite(incomeNext)&&now>=incomeNext))void refresh();
   }
   document.addEventListener('realm-state',event=>apply(event.detail));
+  window.addEventListener('kingdom-remote-state',()=>{remotePending=true;void refresh();});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)void refresh();});
   if(typeof window!=='undefined'){window.addEventListener('online',()=>void refresh());window.addEventListener('pageshow',event=>{if(event.persisted)void refresh();});}
   setInterval(tick,1000);setInterval(()=>{if(!document.querySelector('[data-land-screen]'))void refresh();},60000);tick();
+}
+
+// Only a notification crosses tabs; authoritative state is fetched from the server.
+if(root&&'BroadcastChannel' in window){const channel=new BroadcastChannel('kingdom-income-state');channel.onmessage=event=>{if(event.data==='refresh')window.dispatchEvent(new Event('kingdom-remote-state'));};document.addEventListener('kingdom-market-complete',()=>channel.postMessage('refresh'));
+ // A native purchase returns a full document; notify existing tabs once on load.
+ channel.postMessage('refresh');
 }

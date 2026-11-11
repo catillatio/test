@@ -1652,6 +1652,9 @@ try {
   );
   await page.locator(".guide-calling>summary").click();
   await page.locator("#tutorial-calling-choice").selectOption("Spellward");
+  assert.ok(await page.locator('.guide-calling button[type="submit"]').isDisabled(),"An unfunded first switch cannot be submitted");
+  assert.match(await page.locator(".guide-calling").innerText(),/1,000,000 Gold/);
+  await page.locator("#tutorial-calling-choice").selectOption("Freeblade");
   await Promise.all([
     page.waitForNavigation(),
     page

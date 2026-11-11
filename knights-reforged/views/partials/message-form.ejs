@@ -1,7 +1,8 @@
 <% const broadcast=channel==='broadcast';const length=broadcast?community.social.broadcastCharacters:community.social.commentCharacters; %>
+<% const muted=typeof socialMute!=='undefined'?socialMute:null;if(muted) { %><section class="posting-restriction" role="alert"><h2>MUTED — <%= muted.hours %> HOURS REMAINING</h2><p>Your comments and broadcasts are temporarily restricted until <time datetime="<%= muted.untilAt %>"><%= new Date(muted.untilAt).toLocaleString('en-GB',{timeZone:'UTC'}) %> UTC</time>. Other gameplay remains available.</p><p>If this is a misunderstanding, contact administration to appeal. See the realm’s existing <a href="/game/home#royal-announcements">Royal Announcements</a> for contact instructions.</p></section><% } %>
 <form method="post" action="/game/social/<%= broadcast?'broadcast':'comment' %>" class="message-form">
   <%- include('command-fields') %><% if(!broadcast) { %><input type="hidden" name="profileId" value="<%= profileId %>"><% } %>
   <label for="social-body"><%= broadcast?'Speak to the realm':'Leave a profile comment' %></label>
-  <textarea id="social-body" name="body" maxlength="<%= length %>" rows="3" required placeholder="<%= broadcast?'A word from your kingdom…':'Write a respectful message…' %>"></textarea>
-  <div class="message-controls"><small><%= length %> characters · <%= broadcast?community.social.broadcastCooldownSeconds:community.social.commentCooldownSeconds %>s between posts</small><button class="button button-gold" type="submit"><%= broadcast?'Broadcast':'Post Comment' %></button></div>
+  <textarea<% if(muted) { %> disabled<% } %> id="social-body" name="body" maxlength="<%= length %>" rows="3" required placeholder="<%= broadcast?'A word from your kingdom…':'Write a respectful message…' %>"></textarea>
+  <div class="message-controls"><small><%= length %> characters · <%= broadcast?community.social.broadcastCooldownSeconds:community.social.commentCooldownSeconds %>s between posts</small><button class="button button-gold" type="submit"<% if(muted) { %> disabled<% } %>><%= broadcast?'Broadcast':'Post Comment' %></button></div>
 </form>

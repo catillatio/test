@@ -18,12 +18,12 @@ if (testDatabaseUrl) {
   }
 }
 export interface Player { id:string; cookie:string; csrf:string; accountId:string; }
-export async function realm(options:{clock?:()=>Date;logger?:boolean;developmentBotsEnabled?:boolean;developmentBotBountiesEnabled?:boolean;developmentBotRecruitmentEnabled?:boolean;isolated?:boolean}={}) {
+export async function realm(options:{clock?:()=>Date;logger?:boolean;developmentBotsEnabled?:boolean;developmentBotBountiesEnabled?:boolean;developmentBotRecruitmentEnabled?:boolean;isolated?:boolean;migrationThrough?:string}={}) {
   const schema=options.isolated?'fixture_'+randomUUID().replaceAll('-',''):null;
   const admin=schema?createDatabase(testDatabaseUrl!):null;
   const databaseUrl=new URL(testDatabaseUrl!);
   if(schema){await admin!.query(`CREATE SCHEMA ${schema}`);databaseUrl.searchParams.set('options','-c search_path='+schema);}
-  const pool=createDatabase(databaseUrl.href);await migrate(pool);
+  const pool=createDatabase(databaseUrl.href);await migrate(pool,options.migrationThrough?{through:options.migrationThrough}:{});
   // Test-only clock adapter. All gameplay SQL/transactions are real PostgreSQL;
   // only the server's explicit clock read is replaced. No production endpoint,
   // environment switch, balance grant or historical timestamp rewrite exists.

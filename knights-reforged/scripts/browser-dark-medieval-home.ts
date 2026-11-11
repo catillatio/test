@@ -63,7 +63,7 @@ try{
  }));}
  async function checkPlayerLinks(){
   const styles=await page.locator('.player-link').evaluateAll(es=>es.map(e=>{const s=getComputedStyle(e);return {font:s.fontFamily,size:s.fontSize,weight:s.fontWeight,lineHeight:s.lineHeight,color:s.color}}));
-  for(const style of styles)assert.deepEqual(style,{font:'Georgia, "Times New Roman", serif',size:'15px',weight:'700',lineHeight:'20.25px',color:'rgb(231, 222, 204)'},'Every player-name profile link uses the shared neutral identity style');
+  for(const style of styles)assert.deepEqual(style,{font:'Georgia, "Times New Roman", serif',size:'15px',weight:'700',lineHeight:'20.25px',color:'rgb(239, 230, 212)'},'Every player-name profile link uses the shared neutral identity style');
   return styles.length;
  }
  const sharedPaths=['/game/home','/game/quests','/game/battle','/game/bounties','/game/armory','/game/armory?category=armor','/game/armory?category=spell','/game/land','/game/profile','/game/army','/game/vault','/game/settings','/game/champions','/game/tutorial','/game/players/'+r.rival.id];
@@ -111,7 +111,7 @@ try{
    assert.ok(await page.locator('.activity-battle').count()>0,'Populated battle feed');
    assert.ok(await page.locator('.activity-army').count()>0,'Populated army/notification feed');
    await page.screenshot({path:`${out}/screenshots/${width}-activity-${mode}.jpg`,quality:94});
-   if(i){assert.equal(await page.locator('.topbar').count(),0);assert.ok(await page.locator('.gold-resource .coin-icon').isHidden(),'Home currency has no coin decoration');assert.equal(await page.locator('.hud-account .profile-link').count(),1);assert.equal(await page.locator('.home-menu>a').count(),8);assert.equal(await page.locator('.primary-nav a').count(),5);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No Home overflow');const menuHeights=await page.locator('.home-menu>a').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().height));assert.ok(menuHeights.every(h=>h>=44),'Menu touch targets');assert.ok(Math.max(...menuHeights)-Math.min(...menuHeights)<1,'Calling subtitle retains uniform menu row heights');
+   if(i){assert.equal(await page.locator('.topbar').count(),0);assert.ok(await page.locator('.gold-resource .coin-icon').isVisible(),'One original coin is visible beside carried Gold');assert.equal(await page.locator('.coin-icon').count(),1);assert.equal(await page.locator('.hud-account .profile-link').count(),1);assert.equal(await page.locator('.home-menu>a').count(),8);assert.equal(await page.locator('.primary-nav a').count(),5);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No Home overflow');const menuHeights=await page.locator('.home-menu>a').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().height));assert.ok(menuHeights.every(h=>h>=44),'Menu touch targets');assert.ok(Math.max(...menuHeights)-Math.min(...menuHeights)<1,'Calling subtitle retains uniform menu row heights');
     const menuBackgrounds=await page.locator('.home-menu>a').evaluateAll(es=>es.map(e=>getComputedStyle(e).backgroundImage));
     assert.equal(new Set(menuBackgrounds).size,1,'All Home menu buttons share one neutral material, without destination color fills');
     const homeHeader=await page.locator('.realm-resources').evaluate(e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect(),h=e.closest('.character-header')!.getBoundingClientRect();return {borderLeft:s.borderLeftWidth,borderRight:s.borderRightWidth,shadow:s.boxShadow,inset:parseFloat(s.marginLeft)+parseFloat(s.marginRight),alignment:Math.abs(r.left-h.left)+Math.abs(r.right-h.right)}});
@@ -151,7 +151,7 @@ try{
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No horizontal overflow: '+scene.name+' '+width);
    assert.equal(await page.locator('.primary-nav a').count(),5);
    assert.equal(await page.locator('.topbar').count(),0);
-   if(scene.name!=='profile')assert.ok(await page.locator('.gold-resource .coin-icon').isHidden(),'Wallet decoration removed consistently');
+   assert.ok(await page.locator('.gold-resource .coin-icon').isVisible(),'Shared HUD coin remains visible on nested screens');assert.equal(await page.locator('.coin-icon').count(),1);
    if(scene.name==='home-attacks'||scene.name==='home-losses'){
     assert.ok(await page.locator('.activity-battle').count()>=(scene.name==='home-attacks'?3:1),'Home attack feed is populated by real fixture battles');
     if(scene.name==='home-losses')assert.ok(await page.locator('.activity-loss').count()>0,'Genuine losing attacks retain their distinct outcome');

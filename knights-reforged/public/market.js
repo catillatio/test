@@ -80,6 +80,8 @@ for (const form of document.querySelectorAll('form')) {
         forget(); form.querySelector('[name="commandId"]').value = crypto.randomUUID();
         feedback(result.error?.message || 'Review the current price and try again.', true); return;
       }
+      if(result.state)document.dispatchEvent(new CustomEvent('realm-state',{detail:result.state}));
+      document.dispatchEvent(new Event('kingdom-market-complete'));
       feedback(result.message); forget(); trade.navigating = true;
       const land = result.kind === 'land_buy' || result.kind === 'land_sell';
       const savedCategory = result.data?.category ?? result.state?.inventory?.find(item => item.id === result.data?.itemId)?.category ?? new URL(location.href).searchParams.get('category');
