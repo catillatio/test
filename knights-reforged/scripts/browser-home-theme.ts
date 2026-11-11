@@ -1589,11 +1589,19 @@ try {
   assert.equal(await mousePreview.getAttribute("open"), null);
   await mouseContext.close();
   await visit(themedOrigin, "/game/armory");
-  await page
-    .locator(".catalog-row")
-    .first()
-    .getByRole("button", { name: /^Buy / })
-    .click();
+  // The enhanced trade fetches state, commits, then assigns its receipt URL.
+  // networkidle alone can refer to the old document and return before that
+  // navigation starts; visiting broadcasts then races the completed purchase.
+  await Promise.all([
+    page.waitForURL(
+      (url) => url.pathname === "/game/armory" && url.searchParams.has("command"),
+    ),
+    page
+      .locator(".catalog-row")
+      .first()
+      .getByRole("button", { name: /^Buy / })
+      .click(),
+  ]);
   await page.waitForLoadState("networkidle");
   assert.equal(await page.locator(".notice-error").count(), 0);
   await visit(themedOrigin, "/game/home?feed=broadcasts");
