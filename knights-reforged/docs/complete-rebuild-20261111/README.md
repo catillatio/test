@@ -43,12 +43,13 @@ NPC sponsorship proposals: at most two active, three placements per rolling 24h,
 
 1. Quest requirements/rewards and unlock labels are more legible, with wrapped requirements rather than cramped tiny text.
 2. Disabled Attack reasons are visible on touch screens, instead of relying solely on a hover title. Crimson controls and attack behavior are unchanged.
-3. Bounty listings identify the funding source; NPC-sponsored principal is explicitly distinguished.
+3. NPC-sponsored listings identify their origin without adding sponsor-name clutter to ordinary compact listings. Bounty payout framing uses the existing contract-scroll emblem, preserving compact repeat-combat access without duplicating the Gold coin.
 4. Disabled purchase/combat labels have improved contrast while remaining visibly unavailable.
 5. Recruit invitation codes use a readable neutral ink and restrained baseline treatment; clipboard value and invitation rules are unchanged.
 6. Profile account/sign-out controls use a constrained two-column layout with wrapping usernames, preventing overlap.
 7. Currency form numeric-keyboard hints, uniform Settings control alignment and native focus behavior are preserved/refined.
 8. Tales removes the global block-style muted-word inheritance and gives dates/report links their own compact footer.
+9. Temporary-rival help describes the active saved roster instead of incorrectly claiming that every expanded NPC is capped at ten, and distinguishes optional wallet-funded sponsorship from NPC attacks/claims.
 
 These are component fixes, not a claim that every audited page needed replacement.
 
@@ -76,6 +77,6 @@ Nothing here is merged, pushed, deployed or installed into production. No hosted
 
 The final verification manifest records exact Git HEAD, typecheck/build/static results and every local unit/PostgreSQL/Chromium lane. Tests added here include populated 026→052 preservation/replay, not merely empty-schema migration.
 
-Existing dependencies are reused, including an exact-lock cached release-controller dependency tree. Disposable PostgreSQL 18 and Chromium run in the cloud; no Windows/owner computer is accessed. This runtime's Node version differs from hosted CI's pinned Node 24.22.0 and is recorded in evidence.
+Model/effort/speed controls are unavailable in this environment; no global configuration was changed. One implementer performed this work without delegation. Existing dependencies are reused, including an exact-lock cached release-controller dependency tree. Disposable PostgreSQL 18 and Chromium run in the cloud; no Windows/owner computer is accessed. This runtime's Node version differs from hosted CI's pinned Node 24.22.0 and is recorded in evidence.
 
 The protected container recovery/image/retention delivery matrix is separate from the application test manifest. It must not be represented as passed unless actually executed at the final source. Hosted CI is unauthorized; local container capacity/prerequisites are recorded honestly in the final report. Required release guards are not skipped or weakened to compensate.

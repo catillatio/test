@@ -88,3 +88,16 @@ At handoff record objective, repo/base/head, dirty work, changed paths, actual
 commands/results, pending gates and next action. Keep credentials and production
 data out. Refresh only affected rows here, with dated source/run links; preserve
 historical records rather than rewriting them.
+
+## Local owner review — 2026-11-11
+
+The [complete clean rebuild](../complete-rebuild-20261111/README.md) starts from
+release source `d6a0c831ade5f0f7265f565906f6e4cf94330fcd`, preserving the
+merged Dark Medieval presentation and owner-runtime telemetry. It implements the
+sixteen-item request in an isolated local branch. New local schema head is
+`052_npc_sponsorship.sql`; this is **not** an observation or change of production.
+Achievement payouts and NPC sponsorship are disabled by default, Crowns commerce
+is hard-disabled, and NPC adjustment/generation is limited to disposable local
+fixtures. Source, tests, artwork provenance and review/activation boundaries are
+linked there. PR #88 remains separate. No hosted CI, push, merge or deployment
+is authorized by this local work.
