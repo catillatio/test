@@ -3,9 +3,9 @@ import {GameError} from './errors.js';
 // No env toggle, client receipt, admin/debug grant or active payment adapter.
 export const crownsPurchasingEnabled=false;
 export const crownOffers=Object.freeze([
- {id:'mana-refill',name:'Mana restoration',icon:'mana',description:'A future way to return to your quests. Your natural recovery remains free.'},
- {id:'stamina-refill',name:'Stamina restoration',icon:'spirit',description:'Prepare your company for another encounter. No attack allowance is changed.'},
- {id:'skill-reset',name:'Skill reset',icon:'help',description:'Reconsider your training. Earned levels and skill points would remain yours.'}
+ {id:'mana-refill',name:'Mana restoration',icon:'mana',description:'Restore Mana for future quests. Natural recovery stays free.'},
+ {id:'stamina-refill',name:'Stamina restoration',icon:'spirit',description:'Restore Stamina for another encounter. Existing attack limits remain.'},
+ {id:'skill-reset',name:'Skill reset',icon:'help',description:'Reallocate training. Keep your earned levels and skill points.'}
 ]);
 export async function crownsView(db:Database,id:string){return transaction(db,async sql=>{
  const actor=(await sql.query('SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.id=$1 AND NOT a.login_disabled AND NOT EXISTS(SELECT 1 FROM development_bots b WHERE b.character_id=c.id) FOR UPDATE OF c',[id])).rows[0];

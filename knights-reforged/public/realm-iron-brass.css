@@ -4930,24 +4930,69 @@
     font-size: 12px;
   }
 
-  .crowns-market { padding:2px 0 16px; }
+  /* Royal exchange: one page title, a readable reserve, one framed collection. */
+  .crowns-market { padding:2px 0 18px; }
   .home-menu>a[href="/game/crowns"] .menu-icon { background:none;color:#c9c0a8; }
-  .crown-market-heading { display:flex;align-items:center;gap:13px;padding:10px 0 18px;border-bottom:1px solid var(--line); }
-  .crown-mark { width:48px;height:48px;flex:none;fill:#79778244;stroke:#d4c8ad;stroke-width:2;stroke-linejoin:round; }
-  .crown-market-heading h2 { font:700 23px var(--serif);color:#eee5d4;margin:3px 0 5px; }
-  .crown-market-heading p { font-size:12px;line-height:1.5;color:#c6bfb1; }
-  .crown-balance { margin-left:auto;text-align:right;flex:none; }
-  .crown-balance dt { font-size:10px;color:#bfb6a4; }
-  .crown-balance dd { font:700 29px var(--serif);color:#e8e0e8; }
-  .market-status { padding:13px 0;font-size:12px;color:#cfc6b3;line-height:1.6; }
-  .crown-offer { display:grid;grid-template-columns:38px minmax(0,1fr);gap:8px 13px;align-items:center;padding:12px 1px;border-top:1px solid #ab9c7250; }
-  .crown-offer .stat-icon { width:36px;height:36px; }
-  .crown-offer h3 { font:700 19px var(--serif);margin:0 0 6px;color:#eee3cf; }
-  .crown-offer p { color:#c4bdae;font-size:12px;line-height:1.6; }
-  .crown-offer .offer-unavailable {color:#aaa496;font-size:11px; }
-  .crown-offer .offer-availability { grid-column:2;display:flex;justify-content:space-between;align-items:center;gap:12px; }
-  .crown-offer .button { font-size:12px; }
-  .crown-offers { border-bottom:1px solid var(--line);margin-bottom:14px; }
+  .crown-market-heading {
+    display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;
+    gap:12px;padding:18px 16px;border:1px solid #8b795258;
+    background:var(--iron);background-size:auto,auto,420px 420px;
+    box-shadow:inset 0 1px #d6c7a215,inset 0 -1px #000a,0 5px 14px #0005;
+  }
+  .crown-mark { width:44px;height:44px;fill:#79716b3d;stroke:#c7b58e;stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 2px 2px #0009); }
+  .crown-introduction { min-width:0; }
+  .crown-market-heading .eyebrow { color:#b7a987;font:11px/1.4 var(--sans);letter-spacing:1px;text-transform:uppercase;margin:0 0 5px; }
+  .crown-market-heading h2 { font:700 23px/1.15 var(--serif);color:var(--paper);margin:0 0 6px; }
+  .crown-market-heading p { font:13px/1.5 var(--sans);color:#cbc5b7; }
+  .crown-balance { margin:0 0 0 8px;padding-left:18px;border-left:1px solid #a18d6038;text-align:right; }
+  .crown-balance dt { font:11px/1.4 var(--sans);color:#bdb5a5; }
+  .crown-balance dd { font:700 40px/1.1 var(--serif);color:#f0e9dc;font-variant-numeric:tabular-nums;margin-top:4px;text-shadow:0 2px 2px #000; }
+  .crown-balance dd>span { display:block;margin-top:3px;font:11px/1.3 var(--sans);letter-spacing:.8px;color:#c7bcaa;text-transform:uppercase; }
+  .market-status { display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;padding:12px 14px;margin:10px 0 20px;border-left:2px solid #a28b60;background:#191919eb;font:13px/1.5 var(--sans);color:#c9c2b4; }
+  .market-status strong { color:#e8dfcb;font-weight:700; }
+  .crown-collection-heading { display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 1px 10px; }
+  .crown-collection-heading h2 { font:700 21px/1.3 var(--serif);color:var(--paper); }
+  .crown-collection-heading>span { font:11px/1.4 var(--sans);letter-spacing:.5px;color:#beb4a1; }
+  .crown-offers { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid #8c7b5659;margin-bottom:14px;background:var(--iron);background-size:auto,auto,480px 480px;box-shadow:inset 0 1px #e6d8b511,0 4px 12px #0004; }
+  .crown-offer { display:grid;grid-template-columns:36px minmax(0,1fr);grid-template-rows:auto 1fr auto;gap:10px 12px;padding:17px 15px;align-items:start;min-width:0; }
+  .crown-offer+.crown-offer { border-left:1px solid #99856342; }
+  .crown-offer .stat-icon { grid-column:1;width:36px;height:36px;margin-top:2px;color:#bcab88;filter:drop-shadow(0 2px 2px #0009); }
+  .crown-offer[data-crown-offer="mana-refill"] .stat-icon { background:url("art/home-ui-review-1/resources.webp") 0 100%/200% 200% no-repeat; }
+  .crown-offer[data-crown-offer="stamina-refill"] .stat-icon { background:url("art/home-ui-review-1/resources.webp") 100% 100%/200% 200% no-repeat; }
+  .crown-offer:is([data-crown-offer="mana-refill"],[data-crown-offer="stamina-refill"]) .stat-icon use { opacity:0; }
+  .crown-offer-copy { grid-column:2;grid-row:1/3;min-width:0; }
+  .crown-offer h3 { font:700 18px/1.25 var(--serif);margin:0 0 9px;color:#f0e7d3; }
+  .crown-offer p { color:#d0c9bb;font:13px/1.55 var(--sans); }
+  .crown-offer .offer-availability { grid-column:1/-1;grid-row:3;display:flex;margin-top:5px; }
+  .crown-offer .button:disabled { width:100%;min-height:34px;margin:0;padding:7px 10px;background:linear-gradient(#292a25,#1b1c19);color:#bbb5a7;border:1px solid #77715c66;box-shadow:inset 0 1px #dad1ba0c;font:12px/1.4 var(--sans);text-shadow:none; }
+  .crowns-market>.compact-help { padding:0 2px;color:#c6beaf;font:12px/1.65 var(--sans);margin-bottom:12px; }
+  @media (max-width:640px) {
+    .crown-market-heading { grid-template-columns:34px minmax(0,1fr) auto;padding:14px 12px;gap:10px; }
+    .crown-mark { width:34px;height:34px; }
+    .crown-market-heading h2 { font-size:21px; }
+    .crown-balance { margin-left:0;padding-left:11px; }
+    .crown-balance dd { font-size:34px; }
+    .crown-balance dt { max-width:65px; }
+    .crown-offers { grid-template-columns:minmax(0,1fr); }
+    .crown-offer { grid-template-rows:auto auto;padding:12px 13px;gap:6px 12px; }
+    .crown-offer+.crown-offer { border-left:0;border-top:1px solid #99856342; }
+    .crown-offer-copy { grid-row:1; }
+    .crown-offer h3 { margin-bottom:5px; }
+    .crown-offer .offer-availability { grid-column:2;grid-row:2;justify-content:flex-start;margin-top:2px; }
+    .crown-offer .button:disabled { width:auto;min-width:116px;min-height:28px;padding:3px 14px; }
+    .market-status { margin-bottom:16px; }
+  }
+  @media (max-width:350px) {
+    .crown-market-heading { grid-template-columns:28px minmax(0,1fr) 66px;gap:8px;padding:13px 10px; }
+    .crown-mark { width:28px;height:28px; }
+    .crown-market-heading h2 { font-size:20px; }
+    .crown-market-heading .eyebrow { font-size:10px;letter-spacing:.6px; }
+    .crown-market-heading p { font-size:12px; }
+    .crown-balance { padding-left:8px; }
+    .crown-balance dd { font-size:32px; }
+    .crown-balance dd>span { font-size:10px; }
+    .market-status { padding:10px 12px;font-size:12px; }
+  }
 
   .profile-identity>img { width:60px;height:60px;flex:0 0 60px;object-fit:cover;border:1px solid #8d7d5f; }
   .posting-restriction { margin:13px 0;padding:13px 0;border-top:2px solid #ad6b65;border-bottom:1px solid #98736b;background:#221916c9; }
@@ -5608,6 +5653,7 @@
     .menu-icon use,
     .nav-icon use,
     .resource-disclosure .stat-icon use,
+    .crown-offer .stat-icon use,
     .gold-resource .coin-icon use {
       opacity: 1;
     }

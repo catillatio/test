@@ -101,3 +101,12 @@ is hard-disabled, and NPC adjustment/generation is limited to disposable local
 fixtures. Source, tests, artwork provenance and review/activation boundaries are
 linked there. PR #88 remains separate. No hosted CI, push, merge or deployment
 is authorized by this local work.
+
+### Focused correction of owner-reviewed 536fb2d
+
+The [focused correction](../focused-correction-20261111/README.md) improves the
+funded local NPC planner, adds independent nonzero-XP pagination proof and
+finishes Crowns presentation. The 144 legacy NPCs among 164 at levels 15–30
+remain hard-capped at ten: this is an explicit policy blocker, not completed
+large-army scaling. No army/XP/combat formula, class portrait, live setting or
+activation flag is changed. Final-head focused evidence is in its review bundle.

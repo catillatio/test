@@ -911,6 +911,11 @@
       "file": "tests/complete-rebuild-browser.test.ts",
       "lane": "browser",
       "weight": 60
+    },
+    {
+      "file": "tests/crowns-refinement-browser.test.ts",
+      "lane": "browser",
+      "weight": 60
     }
   ]
 }
