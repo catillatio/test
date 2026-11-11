@@ -1,3 +1,5 @@
+import {achievementGoldEnabled,syncAchievementGold} from './achievement-gold.js';
+import {achievementGold} from './achievement-gold-policy.js';
 import {contentCatalog,expansionAchievement} from './expansion-content.js';
 import {realmPolicy} from './realm-policy.js';
 import {propertyName} from './property-presentation.js';
@@ -35,6 +37,7 @@ export async function syncExperience(sql:Sql,id:string,now:Date,evidence:'retroa
    VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING RETURNING achievement_id`,[id,definition.id,definition.id==='level100-summit'?expansionAchievement.id:experienceRules.id,String(metrics[definition.metric]),now,evidence]);
   if(saved.rows.length)awarded.push(definition.id);
  }
+ const goldAwards=await syncAchievementGold(sql,id,[...experienceRules.achievements,...(expanded?expansionAchievement.achievements:[])],now);
  const facts:Record<string,boolean>={quest:metrics.quests>0,rewards:metrics.quests>0,equipment:metrics.bought,automatic:metrics.bought&&metrics.equipped,attack:metrics.attacked,victory:metrics.wins>0,land:metrics.landPurchased>0,skills:metrics.trained};
  const newSteps:string[]=[];
  for(const [step,complete] of Object.entries(facts))if(complete){const saved=await sql.query('INSERT INTO tutorial_steps(character_id,step_id,completed_at) VALUES($1,$2,$3) ON CONFLICT DO NOTHING RETURNING step_id',[id,step,now]);if(saved.rows.length)newSteps.push(step);}
@@ -48,23 +51,25 @@ export async function syncExperience(sql:Sql,id:string,now:Date,evidence:'retroa
   AND (SELECT count(*) FROM tutorial_steps WHERE character_id=$1 AND step_id=ANY($3::text[]))=8 RETURNING character_id`,[id,now,guideSteps.map(step=>step.id)]);
  if(complete.rows.length)await sql.query(`INSERT INTO tutorial_guides(character_id,step_index,completed_at,updated_at) VALUES($1,8,$2,$2)
   ON CONFLICT(character_id) DO UPDATE SET completed_at=COALESCE(tutorial_guides.completed_at,$2),updated_at=$2`,[id,now]);
- return {awarded,metrics,tutorialCompleted:!!complete.rows.length};
+ return {awarded,metrics,goldAwards,tutorialCompleted:!!complete.rows.length};
 }
 export async function experienceView(db:Database,id:string){
  return transaction(db,async sql=>{
   await sql.query('SELECT id FROM characters WHERE id=$1 FOR UPDATE',[id]);
   const now=new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now);
-  const {metrics}=await syncExperience(sql,id,now);
+  const {metrics,goldAwards}=await syncExperience(sql,id,now);
+  const rewardsInstalled=!!(await sql.query("SELECT to_regclass('achievement_gold_receipts') AS t")).rows[0]?.t;
+  const rewardReceipts=rewardsInstalled?(await sql.query('SELECT achievement_id,amount FROM achievement_gold_receipts WHERE character_id=$1',[id])).rows:[];
   const preferences=(await sql.query('SELECT quest_region,tutorial_status FROM player_preferences WHERE character_id=$1',[id])).rows[0];
   const awards=(await sql.query('SELECT achievement_id,earned_at,evidence FROM character_achievements WHERE character_id=$1 ORDER BY earned_at,achievement_id',[id])).rows;
   const done=new Set((await sql.query('SELECT step_id FROM tutorial_steps WHERE character_id=$1',[id])).rows.map(row=>row.step_id));
   const guide=(await sql.query('SELECT step_index,replaying,completed_at FROM tutorial_guides WHERE character_id=$1',[id])).rows[0];
   const firstMissing=Math.max(0,guideSteps.findIndex(step=>!done.has(step.id)));
   const position=guide?.step_index??firstMissing+1;
-  return {rulesetId:experienceRules.id,region:preferences?.quest_region??'all',
+  return {rewardSummary:{newlyPaid:goldAwards??[],enabled:await achievementGoldEnabled(sql),paid:rewardReceipts.reduce((n,r)=>n+Number(r.amount),0)},rulesetId:experienceRules.id,region:preferences?.quest_region??'all',
    tutorial:{status:preferences?.tutorial_status??'not_started',completed:guideSteps.filter(step=>done.has(step.id)).length,position,replaying:guide?.replaying??false,completedAt:guide?.completed_at?new Date(guide.completed_at).toISOString():null,
     steps:guideSteps.map(step=>({...step,done:done.has(step.id)}))},
-   achievements:[...experienceRules.achievements,...((await realmPolicy(sql)).expanded?expansionAchievement.achievements:[])].map(definition=>{const award=awards.find(row=>row.achievement_id===definition.id);return {...definition,progress:Math.min(definition.threshold,Math.max(0,Number(metrics[definition.metric]))),earnedAt:award?new Date(award.earned_at).toISOString():null,evidence:award?.evidence??null};})};
+   achievements:[...experienceRules.achievements,...((await realmPolicy(sql)).expanded?expansionAchievement.achievements:[])].map(definition=>{const award=awards.find(row=>row.achievement_id===definition.id);return {...definition,rewardGold:achievementGold(definition.rank),rewardPaid:rewardReceipts.some(r=>r.achievement_id===definition.id),progress:Math.min(definition.threshold,Math.max(0,Number(metrics[definition.metric]))),earnedAt:award?new Date(award.earned_at).toISOString():null,evidence:award?.evidence??null};})};
  });
 }
 export async function tutorialAction(sql:Sql,id:string,action:string,now:Date){

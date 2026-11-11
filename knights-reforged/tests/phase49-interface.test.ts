@@ -25,14 +25,14 @@ test('approved reward playback hints reflect committed outcomes and select only 
 });
 test('Calling moves to Home with fixed return navigation; existing cost, cooldown, CSRF and receipt protections remain',{skip:!testDatabaseUrl},async()=>{
  const r=await realm({isolated:true});try{
-  const a=await r.player('Home Calling Review');await r.prepare(a,500,30);
+  const a=await r.player('Home Calling Review');await r.prepare(a,1500000,30);
   const home=await r.app.inject({url:'/game/home',headers:{cookie:a.cookie}});assert.equal(home.statusCode,200);assert.match(home.body,/calling-menu-link/);assert.doesNotMatch(home.body,/id="calling-choice"/);
   const opened=await r.app.inject({url:'/game/home?calling=1',headers:{cookie:a.cookie}});assert.equal(opened.statusCode,200);assert.match(opened.body,/id="calling-choice"/);assert.match(opened.body,/name="returnTo" value="home"/);
   const me=await r.app.inject({url:'/game/profile',headers:{cookie:a.cookie}});assert.equal(me.statusCode,200);assert.doesNotMatch(me.body,/id="calling-choice"/);assert.match(me.body,/Sign Out/);assert.match(me.body,/data-profile-stats/);assert.match(me.body,/data-profile-income/);
   const before=await r.me(a),commandId=randomUUID(),payload={csrf:a.csrf,commandId,className:'Spellward',returnTo:'home'};
   const change=()=>r.app.inject({method:'POST',url:'/game/profile/calling',headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload});
   const first=await change();assert.equal(first.statusCode,303);assert.equal(first.headers.location,'/game/home?calling=1&command='+commandId+'#calling');
-  assert.equal((await change()).headers.location,first.headers.location);assert.equal((await r.me(a)).gold,before.gold);
+  assert.equal((await change()).headers.location,first.headers.location);assert.equal((await r.me(a)).gold,before.gold-1000000);
   const external=await r.app.inject({method:'POST',url:'/game/profile/calling',headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:{...payload,returnTo:'https://untrusted.invalid/'}});assert.equal(external.statusCode,303);assert.equal(external.headers.location,'/game/profile?command='+commandId+'#account');
   assert.equal((await r.db.query('SELECT count(*)::int n FROM calling_changes WHERE character_id=$1',[a.id])).rows[0]!.n,1);
   const denied=await r.command(a,'/api/v1/profile',{className:'Warden'});assert.equal(denied.statusCode,409);

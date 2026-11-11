@@ -18,19 +18,21 @@ if (testDatabaseUrl) {
   }
 }
 export interface Player { id:string; cookie:string; csrf:string; accountId:string; }
-export async function realm(options:{clock?:()=>Date;logger?:boolean;developmentBotsEnabled?:boolean;developmentBotBountiesEnabled?:boolean;developmentBotRecruitmentEnabled?:boolean;isolated?:boolean}={}) {
+export async function realm(options:{clock?:()=>Date;logger?:boolean;developmentBotsEnabled?:boolean;developmentBotBountiesEnabled?:boolean;developmentBotRecruitmentEnabled?:boolean;isolated?:boolean;migrationThrough?:string;fixtureDatabaseUrl?:string}={}) {
+  const fixtureDatabaseUrl=options.fixtureDatabaseUrl??testDatabaseUrl!;
+  if(options.fixtureDatabaseUrl){const target=new URL(fixtureDatabaseUrl);assert.ok(['127.0.0.1','localhost','[::1]'].includes(target.hostname)&&target.pathname.endsWith('_test')&&!target.search&&!target.hash,'Explicit fixture targets must be local disposable databases without overrides');}
   const schema=options.isolated?'fixture_'+randomUUID().replaceAll('-',''):null;
-  const admin=schema?createDatabase(testDatabaseUrl!):null;
-  const databaseUrl=new URL(testDatabaseUrl!);
+  const admin=schema?createDatabase(fixtureDatabaseUrl):null;
+  const databaseUrl=new URL(fixtureDatabaseUrl);
   if(schema){await admin!.query(`CREATE SCHEMA ${schema}`);databaseUrl.searchParams.set('options','-c search_path='+schema);}
-  const pool=createDatabase(databaseUrl.href);await migrate(pool);
+  const pool=createDatabase(databaseUrl.href);await migrate(pool,options.migrationThrough?{through:options.migrationThrough}:{});
   // Test-only clock adapter. All gameplay SQL/transactions are real PostgreSQL;
   // only the server's explicit clock read is replaced. No production endpoint,
   // environment switch, balance grant or historical timestamp rewrite exists.
   const wrap=(sql:Sql):Sql=>({query:<T extends QueryResultRow>(statement:string,values?:unknown[])=>
     statement==='SELECT clock_timestamp() AS now'?sql.query<T>('SELECT $1::timestamptz AS now',[options.clock!().toISOString()]):sql.query<T>(statement,values)});
   const db:Database=options.clock?{...wrap(pool),connect:async()=>{const client=await pool.connect();return {...wrap(client),release:()=>client.release()};},end:()=>pool.end()}:pool;
-  const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',DATABASE_URL:testDatabaseUrl,ENABLE_DEV_BOTS:options.developmentBotsEnabled?'1':'0',ENABLE_DEV_BOT_BOUNTIES:options.developmentBotBountiesEnabled?'1':'0',ENABLE_DEV_BOT_RECRUITMENT:options.developmentBotRecruitmentEnabled?'1':'0'});
+  const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://localhost:3000',DATABASE_URL:fixtureDatabaseUrl,ENABLE_DEV_BOTS:options.developmentBotsEnabled?'1':'0',ENABLE_DEV_BOT_BOUNTIES:options.developmentBotBountiesEnabled?'1':'0',ENABLE_DEV_BOT_RECRUITMENT:options.developmentBotRecruitmentEnabled?'1':'0'});
   const app=await createApp({db,config,logger:options.logger});
   const session=(response:{headers:Record<string,unknown>}) => {
     const value=response.headers['set-cookie'];

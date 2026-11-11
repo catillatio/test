@@ -139,6 +139,9 @@ const guideSource=stripTypeScriptTypes(read('src/guide.ts'),{mode:'transform'});
 const {guideSteps}=await import('data:text/javascript;base64,'+Buffer.from(guideSource).toString('base64'));
 const tutorialExperience=status=>({tutorial:{status,position:7,completed:6,replaying:false,completedAt:status==='completed'?now:null,steps:guideSteps.map(step=>({...step,done:step.id!=='land'&&step.id!=='skills'}))},achievements:[]});
 const cases=[
+ {name:'crowns-disabled-market',data:fixture('crowns',{crowns:{balance:'0',purchasingEnabled:false,offers:[{id:'mana-refill',name:'Mana restoration',icon:'mana',description:'Preview only.'}]}})},
+ {name:'unread-personal-empty',data:fixture('notifications',{unread:{entries:[],nextCursor:null}})},
+
  {name:'champions',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[0],entries:[{id:playerId,name:'Arthur of the Vale',level:3,rank:1,score:'21',self:true}],own:{rank:'1',score:'21'}}})},
  {name:'champions-empty',data:fixture('champions',{championCategories,formatStanding,champions:{category:championCategories[1],entries:[],own:null}})},
  {name:'tutorial-introduction',data:fixture('tutorial',{experience:tutorialExperience('not_started')})},
@@ -203,8 +206,8 @@ for(const example of cases)check('Production EJS render: '+example.name,()=>{
  rendered.set(example.name,html);
 });
 const routeRegex=route=>new RegExp('^'+route.split('/').map(s=>s.startsWith(':')?'[^/]+':s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('/')+'$');
-const gets=['/game/champions','/game/tutorial','/game/achievements','/game/quests/:id/requirements','/','/login','/register','/rules','/game/profile','/game/bounties','/game/bounties/new','/game/vault','/game/settings','/game/purchases/:id','/game/players/:id',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
-const posts=['/login','/register','/logout','/game/bounties/preview',...commandRoutes.map(r=>r.html)].map(routeRegex),covered=new Set();
+const gets=['/game/crowns','/game/notifications','/game/champions','/game/tutorial','/game/achievements','/game/quests/:id/requirements','/','/login','/register','/rules','/game/profile','/game/bounties','/game/bounties/new','/game/vault','/game/settings','/game/purchases/:id','/game/players/:id',...navigation.map(n=>'/game/'+n.id),'/game/battles/:id'].map(routeRegex);
+const posts=['/game/notifications/read','/game/notifications/read-all','/login','/register','/logout','/game/bounties/preview',...commandRoutes.map(r=>r.html)].map(routeRegex),covered=new Set();
 check('Rendered links, asset references, unique IDs, labels, CSRF and command contracts',()=>{
  for(const [name,html] of rendered){
   const ids=[...html.matchAll(/\sid="([^"]*)"/g)].map(m=>m[1]);assert.equal(new Set(ids).size,ids.length,name+': duplicate ID');
@@ -236,7 +239,7 @@ check('Original five destinations, accessible original vector icons, Home-only L
  for(const example of cases){
   const links=navigationLinks(rendered.get(example.name).replace(/<span class="nav-unread"[\s\S]*?<\/span><\/span>/g,''),'Primary navigation');assert.deepEqual(links.map(l=>[l.href,l.label]),example.data.state?expected:[]);
   if(!example.data.state)continue;
-  const selected=example.data.screen==='land'?'home':example.data.screen==='purchase'?(example.data.purchase.type==='equipment'?'armory':'home'):['report','bounties','bounty-confirm','bounty-new','champions'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm','tutorial'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
+  const selected=example.data.screen==='land'?'home':example.data.screen==='purchase'?(example.data.purchase.type==='equipment'?'armory':'home'):['report','bounties','bounty-confirm','bounty-new','champions'].includes(example.data.screen)?'battle':['profile','settings','vault','achievements','trade-confirm','tutorial','crowns','notifications'].includes(example.data.screen)?'home':example.data.screen==='quest-equipment'?'quests':example.data.screen;
   for(const link of links){const id=new URL(link.href,'http://check.invalid').pathname.split('/').pop();assert.equal(link.current,id===selected);assert.equal(link.image,null);assert.ok(rendered.get(example.name).includes('/assets/art/remaster-ui/icons.svg?v=phase48-finish1#'+id));}
   assert.ok(!navigationLinks(rendered.get(example.name),'Secondary navigation').some(l=>l.href==='/game/land'));
   assert.equal((rendered.get(example.name).match(/href="\/game\/land"/g)||[]).length,example.data.screen==='home'||(example.data.screen==='purchase'&&example.data.purchase.type==='land')?1:0);
@@ -270,13 +273,13 @@ check('Active branding and package lock use Kingdom Come',()=>{
 });
 check('Upgraded pages bypass cached pre-expansion income clients',()=>{
   for(const example of cases){
-    const html=rendered.get(example.name);assert.ok(html.includes('/assets/realm-iron-brass.css?v=dark-medieval-environments-11'));
+    const html=rendered.get(example.name);assert.ok(html.includes('/assets/realm-iron-brass.css?v=dark-medieval-complete-1'));
     assert.equal((html.match(/<link rel="stylesheet"/g)||[]).length,1);
     assert.ok(!html.includes('/assets/phase41.css'));assert.ok(!html.includes('/assets/realm-theme.css'));
     assert.ok(html.includes('/assets/sound.js?v=phase491-quiet1'));
-    if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-phase47-1'));
+    if(example.data.state)assert.ok(html.includes('/assets/realm.js?v='+alpha.id+'-complete-rebuild-1'));
     if(example.data.state)assert.ok(html.includes('/assets/community.js?v='+alpha.id+'-phase6-competition1'));
-    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v='+alpha.id+'-phase48-land-polish1'));
+    if(example.data.screen==='land')assert.ok(html.includes('/assets/land.js?v=complete-rebuild-1-'+alpha.id+'-phase48-land-polish1'));
   }
 });
 check('Land retains countdown, offline payment, sale, retained-gold and no-script hooks',()=>{

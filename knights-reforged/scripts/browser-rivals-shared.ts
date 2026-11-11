@@ -12,8 +12,8 @@ if(!process.env.TEST_DATABASE_URL||!source)throw Error('Use a disposable databas
 const {realm}=await import(pathToFileURL(resolve(source,'tests/helpers.ts')).href) as typeof import('../tests/helpers.js');
 const {createApp}=await import(pathToFileURL(resolve(source,'src/app.ts')).href) as typeof import('../src/app.js');
 const {loadConfig}=await import(pathToFileURL(resolve(source,'src/config.ts')).href) as typeof import('../src/config.js');
-const approvedHash='cb1aaed28643f55b16852695016c7afebf07c7d542e296fcd685d43c5c2c96ed';
-assert.equal(createHash('sha256').update(await readFile(resolve(source,'views/bounties.ejs'))).digest('hex'),approvedHash,'approved Bounty List template is unchanged');
+const approvedHash=before?'cb1aaed28643f55b16852695016c7afebf07c7d542e296fcd685d43c5c2c96ed':'df41364ee1ae3b3543fa6cb1a0a500c3ae9d5b7959ee3179886460e478b2c827';
+assert.equal(createHash('sha256').update(await readFile(resolve(source,'views/bounties.ejs'))).digest('hex'),approvedHash,'Exact baseline or reviewed NPC-origin Bounty List template');
 const out=process.env.RIVALS_BROWSER_OUT??'test-results/rivals-shared/'+stage;await mkdir(out,{recursive:true});
 const now=new Date('2038-05-05T12:00:00Z'),r=await realm({isolated:true,clock:()=>now});
 const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://127.0.0.1:3000'}),app=await createApp({db:r.db,config}),origin=await app.listen({host:'127.0.0.1',port:0});config.origin=origin;
@@ -65,12 +65,13 @@ try{
   await prepare('/game/bounties');const bountyMetrics=new Map<string,Awaited<ReturnType<typeof style>>>();
   for(const target of targets){const row=page.locator('.bounty-list .bounty-row').filter({has:page.locator('input[name=targetCharacterId][value="'+target.id+'"]')});bountyMetrics.set(target.id,await style(row));}
   const panel=await page.locator('.bounty-list').evaluate(el=>{const s=getComputedStyle(el);return {background:s.backgroundColor,border:s.borderTopColor,radius:s.borderRadius,shadow:s.boxShadow,padding:s.padding};});
-  let compared=0;const ids:string[]=[];for(const [path,expected] of [[start,first.opponents],['/game/battle?after='+encodeURIComponent(first.nextCursor!),second.opponents]] as const){
-   await prepare(path);const rows=page.locator('#rival-list '+rowSelector);assert.equal(await rows.count(),expected.length);
+  let compared=0;const ids:string[]=[];let currentMore:string|undefined;for(const [part,expected] of [[0,first.opponents],[1,second.opponents]] as const){
+   const path=part===0?start:currentMore!;await prepare(path);if(part===0){currentMore=(await page.getByRole('link',{name:'More rivals',exact:true}).getAttribute('href'))!;const next=new URL(currentMore,origin);assert.equal(next.pathname,'/game/battle');assert.deepEqual([...next.searchParams.keys()],['after']);if(!before)assert.match(next.searchParams.get('after')!,/^r2~[a-f0-9-]{36}~20$/,'Fresh owner-bound ranked cursor');}
+   const rows=page.locator('#rival-list '+rowSelector);assert.equal(await rows.count(),expected.length);
    for(let i=0;i<expected.length;i++){const opponent=expected[i]!,row=rows.nth(i);assert.equal(await row.locator('input[name=targetCharacterId]').inputValue(),opponent.id);ids.push(opponent.id);
     const button=row.getByRole('button',{name:'Attack '+opponent.name,exact:true});assert.equal(await button.isDisabled(),opponent.health===0);assert.equal(await row.locator('input[name=bountyId]').count(),0);
     if(!before){
-     assert.equal((await row.innerText()).replace(/\s+/g,' ').trim(),opponent.name+' Level '+opponent.level+' '+opponent.className+' Army Size: '+opponent.armySize+' Attack');assert.equal(await row.locator('.bounty-amount,small,strong,time,.bot-label,.bounty-shortcut').count(),0);
+     assert.equal((await row.innerText()).replace(/\s+/g,' ').trim(),opponent.name+' Level '+opponent.level+' '+opponent.className+' Army Size: '+opponent.armySize+(opponent.health===0?' Opponent defeated — 0 Health. They must recover before another attack.':'')+' Attack');assert.equal(await row.locator('.bounty-amount,small:not(.rival-blocked-reason),strong,time,.bot-label,.bounty-shortcut').count(),0);assert.equal(await row.locator('.rival-blocked-reason').count(),opponent.health===0?1:0,'Only the disabled rival has a visible eligibility explanation');
      const metric=await style(row),standard=bountyMetrics.get(opponent.id)??[...bountyMetrics.values()][0]!;assert.deepEqual(metric.padding,standard.padding);assert.deepEqual(metric.name,standard.name);assert.deepEqual(metric.link,standard.link);assert.deepEqual(metric.level,standard.level);assert.deepEqual(metric.button,standard.button);assert.ok(metric.button.height>=44&&metric.button.width>=44);
      if(!metric.last)assert.deepEqual(metric.divider,[...bountyMetrics.values()].find(m=>!m.last)!.divider);else assert.equal(metric.divider!['border-bottom-width'],'0px');
      const army=row.locator('.rival-army-size');assert.equal(await army.innerText(),'Army Size: '+opponent.armySize);
@@ -87,7 +88,7 @@ try{
   }
   assert.equal(new Set(ids).size,28);if(!before)assert.equal(compared,4,'all four shared characters retain shared styling with inline participating armies');
   if(!before){const currentPanel=await page.locator('#rival-list').evaluate(el=>{const s=getComputedStyle(el);return {background:s.backgroundColor,border:s.borderTopColor,radius:s.borderRadius,shadow:s.boxShadow,padding:s.padding};});assert.deepEqual(currentPanel,panel);}
-  await prepare(start);const more=page.getByRole('link',{name:'More rivals',exact:true});assert.equal(await more.getAttribute('href'),'/game/battle?after='+encodeURIComponent(first.nextCursor!));await more.click();await page.waitForURL('**/game/battle?after=*');assert.equal(await page.locator('#rival-list '+rowSelector).count(),8);
+  await prepare(start);const more=page.getByRole('link',{name:'More rivals',exact:true}),moreHref=(await more.getAttribute('href'))!,moreUrl=new URL(moreHref,origin);assert.equal(moreUrl.pathname,'/game/battle');const freshCursor=moreUrl.searchParams.get('after')!;assert.ok(freshCursor);const freshPage=await api(freshCursor);assert.deepEqual(freshPage.opponents.map(o=>o.id),second.opponents.map(o=>o.id),'A fresh snapshot retains the deterministic second-page ranking');await more.click();await page.waitForURL(origin+moreHref);assert.deepEqual(await page.locator('#rival-list input[name=targetCharacterId]').evaluateAll(es=>es.map(e=>(e as HTMLInputElement).value)),freshPage.opponents.map(o=>o.id));assert.equal(await page.locator('#rival-list '+rowSelector).count(),8);
   await page.getByRole('link',{name:'Refresh rivals ›',exact:true}).click();assert.ok(new URL(page.url()).searchParams.has('rotation'));assert.equal(new URL(page.url()).hash,'#rival-list');
   await page.locator('.category-tabs').getByRole('link',{name:/Bounty List/}).click();assert.equal(new URL(page.url()).pathname,'/game/bounties');assert.equal(await page.locator('.bounty-amount').count(),4);
   await page.locator('.category-tabs').getByRole('link',{name:'Attack Rivals',exact:true}).click();assert.equal(new URL(page.url()).pathname,'/game/battle');

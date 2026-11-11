@@ -55,7 +55,7 @@ try{
  async function visit(origin:string,path:string,actor:Player|null=r.owner){await context.clearCookies();if(actor)await context.addCookies([{name:'kr_session',value:actor.cookie.split('=')[1]!,url:origin,httpOnly:true,sameSite:'Lax'}]);assert.equal((await page.goto(origin+path))?.status(),200,path);await page.waitForLoadState('networkidle');await page.evaluate(async()=>{await document.fonts.ready;for(const img of document.images){img.loading='eager';await img.decode()}});}
  async function semantics(targetPage=page){return targetPage.evaluate(()=>({
  links:[...document.querySelectorAll<HTMLAnchorElement>('a')].filter(a=>!a.classList.contains('realm-brand')).map(a=>a.getAttribute('href')?.replace(/([?&]rotation=)[0-9a-f-]{36}/,'$1<fresh-rotation>')).sort(),
- forms:[...document.forms].map(f=>({action:f.getAttribute('action'),method:f.method,fields:[...f.querySelectorAll<HTMLInputElement|HTMLSelectElement>('input,select,button,textarea')].map(i=>({tag:i.tagName,name:i.name,type:i.type,value:['csrf','commandId'].includes(i.name)?'<volatile>':i.value,disabled:i.disabled})),buttons:[...f.querySelectorAll('button')].map(b=>b.textContent?.trim())})),
+ forms:[...document.forms].map(f=>({action:f.getAttribute('action'),method:f.method,fields:[...f.querySelectorAll<HTMLInputElement|HTMLSelectElement>('input,select,button,textarea')].map(i=>({tag:i.tagName,name:i.name,type:i.type,value:(()=>{if(i.name==='batchId'&&!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(i.value))throw new Error('Read snapshot nonce is malformed');return ['csrf','commandId','batchId'].includes(i.name)?'<volatile>':i.value;})(),disabled:i.disabled})),buttons:[...f.querySelectorAll('button')].map(b=>b.textContent?.trim())})),
  values:[...document.querySelectorAll('[data-wallet-gold],[data-payment-gold],[data-level-xp],[data-level-required],[data-level],[data-resource-value],[data-resource-max]')].map(e=>e.textContent?.trim()),
  art:[...document.querySelectorAll('img,use')].filter(e=>!e.closest('.realm-brand')).map(e=>[e.getAttribute('src'),e.getAttribute('href')]),
  nav:[...document.querySelectorAll('.primary-nav a')].map(a=>[a.getAttribute('href'),a.textContent?.trim()]),
@@ -63,7 +63,7 @@ try{
  }));}
  async function checkPlayerLinks(){
   const styles=await page.locator('.player-link').evaluateAll(es=>es.map(e=>{const s=getComputedStyle(e);return {font:s.fontFamily,size:s.fontSize,weight:s.fontWeight,lineHeight:s.lineHeight,color:s.color}}));
-  for(const style of styles)assert.deepEqual(style,{font:'Georgia, "Times New Roman", serif',size:'15px',weight:'700',lineHeight:'20.25px',color:'rgb(231, 222, 204)'},'Every player-name profile link uses the shared neutral identity style');
+  for(const style of styles)assert.deepEqual(style,{font:'Georgia, "Times New Roman", serif',size:'15px',weight:'700',lineHeight:'20.25px',color:'rgb(239, 230, 212)'},'Every player-name profile link uses the shared neutral identity style');
   return styles.length;
  }
  const sharedPaths=['/game/home','/game/quests','/game/battle','/game/bounties','/game/armory','/game/armory?category=armor','/game/armory?category=spell','/game/land','/game/profile','/game/army','/game/vault','/game/settings','/game/champions','/game/tutorial','/game/players/'+r.rival.id];
@@ -111,7 +111,7 @@ try{
    assert.ok(await page.locator('.activity-battle').count()>0,'Populated battle feed');
    assert.ok(await page.locator('.activity-army').count()>0,'Populated army/notification feed');
    await page.screenshot({path:`${out}/screenshots/${width}-activity-${mode}.jpg`,quality:94});
-   if(i){assert.equal(await page.locator('.topbar').count(),0);assert.ok(await page.locator('.gold-resource .coin-icon').isHidden(),'Home currency has no coin decoration');assert.equal(await page.locator('.hud-account .profile-link').count(),1);assert.equal(await page.locator('.home-menu>a').count(),8);assert.equal(await page.locator('.primary-nav a').count(),5);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No Home overflow');const menuHeights=await page.locator('.home-menu>a').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().height));assert.ok(menuHeights.every(h=>h>=44),'Menu touch targets');assert.ok(Math.max(...menuHeights)-Math.min(...menuHeights)<1,'Calling subtitle retains uniform menu row heights');
+   if(i){assert.equal(await page.locator('.topbar').count(),0);assert.ok(await page.locator('.gold-resource .coin-icon').isVisible(),'One original coin is visible beside carried Gold');assert.equal(await page.locator('.coin-icon').count(),1);assert.equal(await page.locator('.hud-account .profile-link').count(),1);assert.equal(await page.locator('.home-menu>a').count(),8);assert.equal(await page.locator('.primary-nav a').count(),5);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No Home overflow');const menuHeights=await page.locator('.home-menu>a').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().height));assert.ok(menuHeights.every(h=>h>=44),'Menu touch targets');assert.ok(Math.max(...menuHeights)-Math.min(...menuHeights)<1,'Calling subtitle retains uniform menu row heights');
     const menuBackgrounds=await page.locator('.home-menu>a').evaluateAll(es=>es.map(e=>getComputedStyle(e).backgroundImage));
     assert.equal(new Set(menuBackgrounds).size,1,'All Home menu buttons share one neutral material, without destination color fills');
     const homeHeader=await page.locator('.realm-resources').evaluate(e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect(),h=e.closest('.character-header')!.getBoundingClientRect();return {borderLeft:s.borderLeftWidth,borderRight:s.borderRightWidth,shadow:s.boxShadow,inset:parseFloat(s.marginLeft)+parseFloat(s.marginRight),alignment:Math.abs(r.left-h.left)+Math.abs(r.right-h.right)}});
@@ -151,7 +151,7 @@ try{
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No horizontal overflow: '+scene.name+' '+width);
    assert.equal(await page.locator('.primary-nav a').count(),5);
    assert.equal(await page.locator('.topbar').count(),0);
-   if(scene.name!=='profile')assert.ok(await page.locator('.gold-resource .coin-icon').isHidden(),'Wallet decoration removed consistently');
+   assert.ok(await page.locator('.gold-resource .coin-icon').isVisible(),'Shared HUD coin remains visible on nested screens');assert.equal(await page.locator('.coin-icon').count(),1);
    if(scene.name==='home-attacks'||scene.name==='home-losses'){
     assert.ok(await page.locator('.activity-battle').count()>=(scene.name==='home-attacks'?3:1),'Home attack feed is populated by real fixture battles');
     if(scene.name==='home-losses')assert.ok(await page.locator('.activity-loss').count()>0,'Genuine losing attacks retain their distinct outcome');
@@ -287,23 +287,25 @@ try{
  for(const preference of ['no-preference','reduce'] as const){
   await page.emulateMedia({reducedMotion:preference});
   const glow=await page.evaluate(()=>{
-    const host=document.querySelector('.gold-resource>.gold')!,number=host.querySelector('[data-wallet-gold]')!;
-    const h=host.getBoundingClientRect(),n=number.getBoundingClientRect(),p=getComputedStyle(host,'::before');
-    return {animations:host.getAnimations({subtree:true}).length,name:p.animationName,transform:p.transform,opacity:p.opacity,display:p.display,number:n.toJSON(),centerError:Math.abs(h.x+h.width/2-(n.x+n.width/2)),anchorError:Math.abs(parseFloat(p.left)-h.width/2)};
+    const host=document.querySelector('[data-wallet-gold]')!,range=document.createRange();range.selectNodeContents(host);
+    const h=host.getBoundingClientRect(),n=range.getBoundingClientRect(),p=getComputedStyle(host,'::after'),matrix=new DOMMatrix(p.transform==='none'?undefined:p.transform);
+    return {animations:host.getAnimations({subtree:true}).length,name:p.animationName,transform:p.transform,opacity:p.opacity,display:p.content==='none'?'none':p.display,number:h.toJSON(),centerError:Math.abs(h.x+parseFloat(p.left)+parseFloat(p.width)/2+matrix.e-(n.x+n.width/2)),anchorError:Math.abs(parseFloat(p.top)-h.height*.72)};
   });
   assert.equal(glow.animations,0);assert.equal(glow.name,'none');assert.notEqual(glow.display,'none');
   assert.ok(glow.centerError<.5&&glow.anchorError<.5,'Static glow remains centered on the number');
   await page.waitForTimeout(200);
-  const later=await page.locator('.gold-resource>.gold').evaluate(e=>({name:getComputedStyle(e,'::before').animationName,transform:getComputedStyle(e,'::before').transform,opacity:getComputedStyle(e,'::before').opacity,number:e.querySelector('[data-wallet-gold]')!.getBoundingClientRect().toJSON()}));
+  const later=await page.locator('[data-wallet-gold]').evaluate(e=>({name:getComputedStyle(e,'::after').animationName,transform:getComputedStyle(e,'::after').transform,opacity:getComputedStyle(e,'::after').opacity,number:e.getBoundingClientRect().toJSON()}));
   assert.equal(later.name,'none');assert.equal(later.transform,glow.transform);assert.equal(later.opacity,glow.opacity);assert.deepEqual(later.number,glow.number);
-  checks.push({interaction:'Coin removed; centered gold glow and digits remain static',preference,result:'PASS',glow});
+  checks.push({interaction:'One original coin; centered gold glow and digits remain static',preference,result:'PASS',glow});
  }
  await page.locator('.home-menu>a').first().focus();
  assert.ok(await page.locator('.home-menu>a').first().evaluate(e=>getComputedStyle(e).outlineStyle!=='none'));
  await page.locator('.resource-upper>a').focus();assert.ok(await page.locator('.resource-upper>a').evaluate(e=>getComputedStyle(e).outlineStyle!=='none'),'Level link retains visible keyboard focus');
  await page.emulateMedia({forcedColors:'active',reducedMotion:'reduce'});
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
- assert.equal(await page.locator('.gold-resource>.gold').evaluate(e=>getComputedStyle(e,'::before').display),'none','High contrast suppresses decorative glow');
+ // Inspect the same amount-anchored decoration verified above, rather than
+ // the retired wrapper pseudo-element (which no longer generates content).
+ assert.equal(await page.locator('[data-wallet-gold]').evaluate(e=>getComputedStyle(e,'::after').display),'none','High contrast suppresses decorative glow');
  await page.screenshot({path:`${out}/screenshots/390-static-fallback.jpg`,quality:94});
  await page.locator('.hud-account .profile-link').click();await page.waitForURL('**/game/profile');
  checks.push({interaction:'keyboard focus, reduced motion and forced-colors fallback',result:'PASS'});

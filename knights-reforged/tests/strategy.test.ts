@@ -33,16 +33,16 @@ test('Calling bonuses remain modest, distinct and compatible with both small and
 test('Calling changes persist, serialize concurrent requests and cannot backdate faster recovery',{skip},async()=>{
   let now=new Date('2030-01-01T00:00:00Z');const r=await realm({isolated:true,clock:()=>now});
   try{
-    const p=await r.player();await r.prepare(p,500,30);const before=await r.me(p),key=randomUUID();
+    const p=await r.player();await r.prepare(p,3000000,30);const before=await r.me(p),key=randomUUID();
     await r.db.query('UPDATE characters SET mana=0,mana_updated_at=$2 WHERE id=$1',[p.id,new Date(+now-269000)]);
     const responses=await Promise.all([r.command(p,'/api/v1/profile',{className:'Spellward'},key),r.command(p,'/api/v1/profile',{className:'Warden'})]);
     assert.deepEqual(responses.map(x=>x.statusCode).sort(),[200,409]);
-    const selected=await r.me(p);assert.equal(selected.gold,before.gold);assert.equal(selected.mana,0);assert.equal(selected.maxMana,before.maxMana);assert.equal(selected.skillPoints,before.skillPoints);
+    const selected=await r.me(p);assert.equal(selected.gold,before.gold-1000000);assert.equal(selected.mana,0);assert.equal(selected.maxMana,before.maxMana);assert.equal(selected.skillPoints,before.skillPoints);
     const repeat=await r.command(p,'/api/v1/profile',{className:'Spellward'},key);if(responses[0]!.statusCode===200)assert.equal(repeat.statusCode,200);
     assert.equal((await r.db.query('SELECT count(*)::int AS n FROM calling_changes WHERE character_id=$1',[p.id])).rows[0]!.n,1);
-    now=new Date(+now+86400000);
+    now=new Date(+now+604800000);
     const destination=selected.className==='Spellward'?'Warden':'Spellward';await r.ok(p,'/api/v1/profile',{className:destination});
-    const after=await r.me(p);assert.equal(after.gold,before.gold-100);assert.equal(after.training.attack,before.training.attack);
+    const after=await r.me(p);assert.equal(after.gold,before.gold-2000000);assert.equal(after.training.attack,before.training.attack);
     assert.equal(after.attack,callingPower(after.training.untrainedAttack,strategy.callings[destination].attackPercent));
     const page=await r.app.inject({method:'GET',url:'/game/home?calling=1',headers:{cookie:p.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/>Calling<\/h2>/);assert.ok(!page.body.includes('cosmetic'));
   }finally{await r.close();}

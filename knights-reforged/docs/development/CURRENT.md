@@ -88,3 +88,25 @@ At handoff record objective, repo/base/head, dirty work, changed paths, actual
 commands/results, pending gates and next action. Keep credentials and production
 data out. Refresh only affected rows here, with dated source/run links; preserve
 historical records rather than rewriting them.
+
+## Local owner review — 2026-11-11
+
+The [complete clean rebuild](../complete-rebuild-20261111/README.md) starts from
+release source `d6a0c831ade5f0f7265f565906f6e4cf94330fcd`, preserving the
+merged Dark Medieval presentation and owner-runtime telemetry. It implements the
+sixteen-item request in an isolated local branch. New local schema head is
+`052_npc_sponsorship.sql`; this is **not** an observation or change of production.
+Achievement payouts and NPC sponsorship are disabled by default, Crowns commerce
+is hard-disabled, and NPC adjustment/generation is limited to disposable local
+fixtures. Source, tests, artwork provenance and review/activation boundaries are
+linked there. PR #88 remains separate. No hosted CI, push, merge or deployment
+is authorized by this local work.
+
+### Focused correction of owner-reviewed 536fb2d
+
+The [focused correction](../focused-correction-20261111/README.md) improves the
+funded local NPC planner, adds independent nonzero-XP pagination proof and
+finishes Crowns presentation. The 144 legacy NPCs among 164 at levels 15–30
+remain hard-capped at ten: this is an explicit policy blocker, not completed
+large-army scaling. No army/XP/combat formula, class portrait, live setting or
+activation flag is changed. Final-head focused evidence is in its review bundle.

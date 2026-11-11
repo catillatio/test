@@ -1,20 +1,87 @@
 {
   "version": 1,
   "tests": [
-    {"file":"tests/owner-runtime.test.ts","lane":"unit","weight":1},
-    {"file":"tests/bot-progressive-economy.test.ts","lane":"database","weight":10},
-    {"file":"tests/bot-loot.test.ts","lane":"unit","weight":1},
-    {"file":"tests/release-upgrade-postgres.test.mjs","lane":"database","weight":5},
-    {"file":"tests/retention-adoption-delivery.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/retention-adoption-postgres.test.mjs","lane":"database","weight":3,"exclusive":true},
-    {"file":"tests/retention-handoff-validation.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/retention-deployment-lifecycle.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/retention-installation-inspection.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/premium-classic-browser.test.mjs","lane":"browser","weight":90},
-    {"file":"tests/rivals-shared-browser.test.mjs","lane":"browser","weight":45},
-    {"file":"tests/bounty-policy.test.ts","lane":"unit","weight":1},
-    {"file":"tests/historical-bounties.test.ts","lane":"database","weight":25},
-    {"file":"tests/historical-bounties-browser.test.mjs","lane":"browser","weight":30},
+    {
+      "file": "tests/complete-rebuild-rivals-npc.test.ts",
+      "lane": "database",
+      "weight": 30
+    },
+    {
+      "file": "tests/complete-rebuild-finance.test.ts",
+      "lane": "database",
+      "weight": 15
+    },
+    {
+      "file": "tests/owner-runtime.test.ts",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/bot-progressive-economy.test.ts",
+      "lane": "database",
+      "weight": 10
+    },
+    {
+      "file": "tests/bot-loot.test.ts",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-upgrade-postgres.test.mjs",
+      "lane": "database",
+      "weight": 5
+    },
+    {
+      "file": "tests/retention-adoption-delivery.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/retention-adoption-postgres.test.mjs",
+      "lane": "database",
+      "weight": 3,
+      "exclusive": true
+    },
+    {
+      "file": "tests/retention-handoff-validation.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/retention-deployment-lifecycle.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/retention-installation-inspection.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/premium-classic-browser.test.mjs",
+      "lane": "browser",
+      "weight": 90
+    },
+    {
+      "file": "tests/rivals-shared-browser.test.mjs",
+      "lane": "browser",
+      "weight": 45
+    },
+    {
+      "file": "tests/bounty-policy.test.ts",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/historical-bounties.test.ts",
+      "lane": "database",
+      "weight": 25
+    },
+    {
+      "file": "tests/historical-bounties-browser.test.mjs",
+      "lane": "browser",
+      "weight": 30
+    },
     {
       "file": "tests/release-registrar-config.test.mjs",
       "lane": "unit",
@@ -790,15 +857,65 @@
       "lane": "unit",
       "weight": 1
     },
-    {"file":"tests/release-image-policy.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/release-image-deploy.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/release-image-transition.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/release-image-handoff.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/release-image-commit-history.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/release-image-artifacts.test.mjs","lane":"unit","weight":1},
-    {"file":"tests/home-theme.test.ts","lane":"unit","weight":1},
-    {"file":"tests/dark-medieval-home-browser.test.mjs","lane":"browser","weight":90},
-    {"file":"tests/home-theme-browser.test.mjs","lane":"browser","weight":300},
-    {"file":"tests/home-theme-desktop-browser.test.mjs","lane":"browser","weight":220}
+    {
+      "file": "tests/release-image-policy.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-image-deploy.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-image-transition.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-image-handoff.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-image-commit-history.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/release-image-artifacts.test.mjs",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/home-theme.test.ts",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/dark-medieval-home-browser.test.mjs",
+      "lane": "browser",
+      "weight": 90
+    },
+    {
+      "file": "tests/home-theme-browser.test.mjs",
+      "lane": "browser",
+      "weight": 300
+    },
+    {
+      "file": "tests/home-theme-desktop-browser.test.mjs",
+      "lane": "browser",
+      "weight": 220
+    },
+    {
+      "file": "tests/complete-rebuild-browser.test.ts",
+      "lane": "browser",
+      "weight": 60
+    },
+    {
+      "file": "tests/crowns-refinement-browser.test.ts",
+      "lane": "browser",
+      "weight": 60
+    }
   ]
 }

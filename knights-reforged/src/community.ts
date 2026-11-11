@@ -21,14 +21,18 @@ export function cleanMessage(value:string){
     throw new GameError('INVALID_MESSAGE','Use readable plain text without control characters.');
   return body;
 }
+export async function postingRestriction(sql:Sql,id:string,now:Date){
+ const row=(await sql.query('SELECT until_at FROM social_mutes WHERE character_id=$1 AND until_at>$2',[id,now])).rows[0];
+ if(!row)return null;const until=new Date(row.until_at);return {untilAt:until.toISOString(),hours:Math.max(1,Math.ceil((+until-+now)/3600000))};
+}
 // Commands hold the author character lock, serializing rate checks with inserts.
 // Hidden/deleted records still count, so deletion cannot reset a posting limit.
 export async function postMessage(sql:Sql,actorId:string,profileId:string|null,raw:string,key:string,now:Date,level:number,quests:number){
   const channel=profileId?'comment':'broadcast',body=cleanMessage(raw),limits=community.social;
   checkNewContent(body,channel);
   if(body.length>(profileId?limits.commentCharacters:limits.broadcastCharacters))throw new GameError('MESSAGE_TOO_LONG','That message is too long.');
-  if((await sql.query('SELECT 1 FROM social_mutes WHERE character_id=$1 AND until_at>$2',[actorId,now])).rows.length)
-    throw new GameError('SOCIAL_MUTED','Posting is temporarily restricted by realm moderation.',403);
+  const restriction=await postingRestriction(sql,actorId,now);
+  if(restriction)throw new GameError('SOCIAL_MUTED','MUTED — '+restriction.hours+' HOURS REMAINING. Comments and broadcasts are restricted until '+restriction.untilAt+'. Contact administration to appeal a possible misunderstanding.',403);
   if(!profileId&&(level<limits.broadcastMinimumLevel||quests<limits.broadcastMinimumQuests))
     throw new GameError('BROADCAST_ELIGIBILITY','Reach level 2 and complete three quests before broadcasting.',409);
   if(profileId&&(await sql.query('SELECT 1 FROM development_bots WHERE character_id=$1',[profileId])).rows.length)

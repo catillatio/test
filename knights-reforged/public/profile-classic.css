@@ -11,7 +11,7 @@
 .screen-profile .classic-profile-income{display:grid;gap:5px;margin:0;padding:9px 10px 11px;max-width:390px}
 .screen-profile .classic-profile-income>div{font-size:14px}
 .kingdoms-ui.screen-profile .classic-profile-income .gold,.kingdoms-ui.screen-profile .classic-profile-income [data-flow=positive]{color:#e8c77c}
-.kingdoms-ui.screen-profile .classic-profile-income .upkeep-cost,.kingdoms-ui.screen-profile .classic-profile-income [data-flow=negative]{color:#e6a28a}
+.kingdoms-ui.screen-profile .classic-profile-income .upkeep-cost,.kingdoms-ui.screen-profile .classic-profile-income [data-flow=negative]{color:#e79a94}
 .screen-profile .profile-inventory>.profile-section-heading:first-child{margin-top:0}
 @media(min-width:700px){.screen-profile .classic-profile-stats>div,.screen-profile .classic-profile-income>div{font-size:16px}.screen-profile .classic-profile-stats{padding:12px;gap:8px 24px}.screen-profile .classic-profile-income{padding:12px}.screen-profile .classic-profile-section>.profile-section-heading{font-size:19px}}
 
