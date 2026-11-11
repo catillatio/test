@@ -127,7 +127,8 @@ test('three original class portraits retain verified full-bleed square source as
  assert.deepEqual(Object.keys(provenance.files).sort(),['freeblade.png','spellward.png','warden.png']);
  const digests=[];
  for(const [file,digest] of Object.entries(provenance.files)){
-  const bytes=await readFile(directory+file);assert.equal(bytes.subarray(1,4).toString(),'PNG');assert.equal(bytes.readUInt32BE(16),bytes.readUInt32BE(20));assert.ok(bytes.readUInt32BE(16)>=120);const actual=createHash('sha256').update(bytes).digest('hex');assert.equal(actual,digest);digests.push(actual);
+  const bytes=await readFile(directory+file);assert.equal(bytes.subarray(1,4).toString(),'PNG');assert.equal(bytes.readUInt32BE(16),120);assert.equal(bytes.readUInt32BE(20),120);assert.equal(bytes[25],2,'Opaque full-bleed RGB');assert.ok(bytes.length<64000,'Small runtime portrait at 2x display density');const actual=createHash('sha256').update(bytes).digest('hex');assert.equal(actual,digest);digests.push(actual);
+  const master=provenance.masters[file];assert.match(master.path,/^docs\/complete-rebuild-20261111\/portrait-masters\//);const original=await readFile(master.path);assert.equal(createHash('sha256').update(original).digest('hex'),master.sha256);assert.equal(original.readUInt32BE(16),original.readUInt32BE(20));assert.ok(original.readUInt32BE(16)>=1024);
  }
  assert.equal(new Set(digests).size,3);assert.match(provenance.status,/review/i);
 });

@@ -1,19 +1,24 @@
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync,statSync,mkdtempSync,mkdirSync,existsSync,rmSync} from 'node:fs';
+import {readFileSync,readdirSync,statSync,mkdtempSync,mkdirSync,existsSync,rmSync,copyFileSync} from 'node:fs';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {join} from 'node:path';
+import {join,dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 
 const root=fileURLToPath(new URL('../../',import.meta.url)),app='knights-reforged/';
 const folder=mkdtempSync(join(tmpdir(),'game-upload-packaging-'));
 after(()=>rmSync(folder,{recursive:true,force:true}));
+const tracked=execFileSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
+// A clean matcher repository has no worktree .git file or cached dependency
+// symlinks. It uses the real ignore files and the same literal source paths.
+const matcher=join(folder,'matcher');mkdirSync(matcher);execFileSync('git',['-c','init.defaultBranch=fixture','init','--quiet',matcher]);
+for(const path of tracked.filter(p=>p==='.gitignore'||p.endsWith('/.gitignore'))){const target=join(matcher,path);mkdirSync(dirname(target),{recursive:true});copyFileSync(join(root,path),target);}
 // Local Git wildmatch exercises the standard ignore/negation rules used by the
 // pinned CLI's ignore walker. No CLI, provider, credentials or network is used.
 function ignored(paths){
  const result=spawnSync('git',['-c','core.excludesFile='+join(root,'.railwayignore'),'check-ignore','--no-index','-z','--stdin'],
-  {cwd:root,input:paths.join('\0')+'\0',encoding:'utf8',timeout:10000});
+  {cwd:matcher,input:paths.join('\0')+'\0',encoding:'utf8',timeout:10000});
  assert.ok(result.status===0||result.status===1,'Local ignore matcher must complete.');
  return new Set(result.stdout.split('\0').filter(Boolean));
 }
@@ -21,7 +26,7 @@ function walk(path){return readdirSync(join(root,path),{withFileTypes:true}).fla
  const next=path+'/'+entry.name;assert.ok(!entry.isSymbolicLink(),'Production sources cannot be symbolic links.');
  return entry.isDirectory()?walk(next):[next];
 });}
-const tracked=execFileSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
+
 const excluded=ignored(tracked),selected=tracked.filter(path=>!excluded.has(path));
 const required=[...['Dockerfile','.dockerignore','railway.json','package.json','package-lock.json','tsconfig.json'].map(p=>app+p),
  ...['src','views','public','migrations','rulesets'].flatMap(p=>walk(app+p)),
@@ -47,7 +52,10 @@ test('game upload excludes recovery, credentials, local dependencies, research, 
 });
 
 test('game upload stays bounded instead of accumulating review documents and reference artwork',()=>{
- const total=tracked.reduce((sum,p)=>sum+statSync(join(root,p)).size,0);
+ // Available tracked files are a conservative lower bound in a sparse
+ // checkout. Every selected production input still must exist and be read.
+ assert.ok(selected.every(p=>existsSync(join(root,p))),'Every selected production input is materialized');
+ const total=tracked.filter(p=>existsSync(join(root,p))).reduce((sum,p)=>sum+statSync(join(root,p)).size,0);
  const bytes=selected.reduce((sum,p)=>sum+statSync(join(root,p)).size,0);
  assert.ok(bytes<20*1024*1024,'Review any production source bundle above 20 MiB.');
  assert.ok(bytes<total/10,'The production upload must exclude the large nonproduction corpus.');
