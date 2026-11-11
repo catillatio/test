@@ -1,0 +1,61 @@
+name: Kingdom Come Android alpha APK
+on:
+  pull_request:
+    paths: ['android/**', '.github/workflows/android-alpha.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: kingdom-android-alpha-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  apk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Install checksum-pinned Temurin JDK
+        # Four-part vendor patch versions are not supported by setup-java's SemVer input.
+        run: |
+          curl --fail --silent --show-error --location --output "$RUNNER_TEMP/kingdom-jdk.tar.gz" https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk_x64_linux_hotspot_17.0.20.1_1.tar.gz
+          printf '%s  %s\n' 3808d1d15e3ec6bd5b84057fb5d84c33d8a1536a258146bcea2e603fc726e08e "$RUNNER_TEMP/kingdom-jdk.tar.gz" | sha256sum --check -
+          mkdir -p "$RUNNER_TEMP/kingdom-jdk"
+          tar --extract --gzip --file "$RUNNER_TEMP/kingdom-jdk.tar.gz" --directory "$RUNNER_TEMP/kingdom-jdk" --strip-components=1
+          echo "JAVA_HOME=$RUNNER_TEMP/kingdom-jdk" >> "$GITHUB_ENV"
+          echo "$RUNNER_TEMP/kingdom-jdk/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/kingdom-jdk/bin/javac" -version
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+        with:
+          cmdline-tools-version: '16111833'
+          packages: 'platforms;android-36 build-tools;36.0.0'
+          log-accepted-android-sdk-licenses: false
+      - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+      - name: Test, lint and assemble without contacting the game
+        run: ./gradlew --no-daemon --console=plain testDebugUnitTest lintDebug assembleDebug
+      - name: Verify installable APK and publish checksum
+        run: python3 scripts/verify-apk.py --apk app/build/outputs/apk/debug/app-debug.apk --tools "$ANDROID_HOME/build-tools/36.0.0"
+      - name: Retain installable alpha APK
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kingdom-come-android-alpha-${{ github.run_id }}
+          path: android/dist/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Retain Android test and lint reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kingdom-come-android-checks-${{ github.run_id }}
+          path: |
+            android/app/build/reports/tests/
+            android/app/build/reports/lint-results-debug.*
+          if-no-files-found: warn
+          retention-days: 14
