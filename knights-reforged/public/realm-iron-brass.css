@@ -1260,8 +1260,7 @@
   /* One ordinary coin beside carried Gold on every authenticated screen. */
   :is(.screen-home, .screen-battle, .screen-armory, .screen-land) .gold-resource > .gold { width: fit-content; max-width: 100%; }
   :is(.screen-home, .screen-battle, .screen-armory, .screen-land) .gold-resource [data-wallet-gold] { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
-  :is(.screen-home, .screen-battle, .screen-armory, .screen-land) .gold-resource [data-wallet-gold]::after { content: none; }
-  :is(.screen-home, .screen-battle, .screen-armory, .screen-land) .gold-resource > .gold::before {
+  :is(.screen-home, .screen-battle, .screen-armory, .screen-land) .gold-resource [data-wallet-gold]::after {
     content: "";
     position: absolute;
     z-index: -1;
@@ -2521,7 +2520,7 @@
     font-size: 11px;
     line-height: 1.55;
   }
-  .rival-blocked-reason,.bounty-sponsor-label { display:block;font-size:11px;line-height:1.5;color:#cbbba5;margin-top:5px; }
+  .rival-blocked-reason { display:block;font-size:11px;line-height:1.5;color:#cbbba5;margin-top:5px; }
   .bounty-target .rival-army-size {
     color: #c9c0ae;
   }
@@ -5633,7 +5632,6 @@
       color: CanvasText;
       filter: none;
     }
-    .screen-home .gold-resource > .gold::before,
     .gold-resource [data-wallet-gold]::after,
     .victory-celebration .battle-gold-reward dd::after,
     .victory-celebration .battle-outcome-heading h2::after {

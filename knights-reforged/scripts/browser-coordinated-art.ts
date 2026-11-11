@@ -47,7 +47,7 @@ async function businessSnapshot(){
  const result:Record<string,unknown>={};
  for(const {table_name:table} of(await r.db.query("SELECT table_name FROM information_schema.tables WHERE table_schema=current_schema() AND table_type='BASE TABLE' ORDER BY table_name")).rows){
   assert.match(table,/^[a-z_]+$/);
-  if(['notification_reads','notification_state'].includes(table))continue; // Normal view acknowledgements are intentionally persisted.
+  if(['notification_reads','notification_state','notification_read_batches','rival_recommendation_snapshots','rival_recommendation_entries'].includes(table))continue; // Exact read acknowledgments and disposable owner-bound view snapshots are intentionally persisted; all financial/receipt tables remain covered.
   result[table]=(await r.db.query('SELECT row_to_json(t) AS row FROM "'+table+'" t ORDER BY row_to_json(t)::text')).rows;
  }
  return definitionDigest(result);

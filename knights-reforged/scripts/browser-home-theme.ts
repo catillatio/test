@@ -141,17 +141,17 @@ try {
         try {
           return texts.map((text, sample) => {
             element.textContent = text;
-            // The approved compact wallet uses an underlight on its fitted
-            // amount wrapper. Other wallets/rewards retain an element halo.
+            // The compact wallet underlight stays centered on the amount itself;
+            // its adjacent coin must never shift the currency glow.
             const underlight = label === "balance" && document.body.matches(
               ".screen-home, .screen-battle, .screen-armory, .screen-land",
             );
-            const host = underlight ? element.parentElement! : element;
+            const host = element;
             const box = host.getBoundingClientRect();
             const range = document.createRange();
             range.selectNodeContents(element);
             const textBox = range.getBoundingClientRect();
-            const glow = getComputedStyle(host, underlight ? "::before" : "::after");
+            const glow = getComputedStyle(host, "::after");
             const w = parseFloat(glow.width);
             const h = parseFloat(glow.height);
             const x =
@@ -227,7 +227,7 @@ try {
           method: f.method,
           inputs: [...f.querySelectorAll<HTMLInputElement>("input")]
             .filter((i) => !["csrf", "commandId"].includes(i.name))
-            .map((i) => ({ name: i.name, value: i.value })),
+            .map((i) => {if(i.name==='batchId'){if(!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(i.value))throw new Error('Read snapshot nonce is malformed');return {name:i.name,value:'OWNER_BOUND_READ_SNAPSHOT'};}return {name:i.name,value:i.value};}),
           buttons: [...f.querySelectorAll<HTMLButtonElement>("button")].map(
             (b) => ({ text: b.textContent?.trim(), disabled: b.disabled }),
           ),
@@ -365,6 +365,8 @@ try {
   };
   const c = fixture.coverage;
   const extraCases: CoverageCase[] = [
+    {name:"crowns-market",path:"/game/crowns",template:"crowns",actor:fixture.owner,selector:".crown-offers",screenshot:true},
+    {name:"unread-personal-empty",path:"/game/notifications",template:"notifications",actor:c.newcomer,selector:".activity-feed",screenshot:true},
     {
       name: "login",
       path: "/login",

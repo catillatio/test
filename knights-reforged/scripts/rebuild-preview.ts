@@ -33,6 +33,7 @@ await transaction(r.db,sql=>sql.query("UPDATE characters SET profile_class='Ward
 await transaction(r.db,sql=>sql.query("UPDATE characters SET profile_class='Spellward' WHERE id=$1",[r.patron.id]));
 await transaction(r.db,sql=>sql.query('UPDATE characters SET health=40,health_updated_at=$2 WHERE id=$1',[r.coverage.poor.id,r.now()]));
 const muted=await r.player('Silenced Herald',10);await moderateMessage(r.db,{action:'mute',characterId:muted.id,operator:'local-synthetic-review',reason:'Never rendered private note',hours:5});
+for(const [p,username] of [[r.owner,'ladyaveline'],[r.rival,'cedricblackthorn'],[r.patron,'rowanvale'],[muted,'silencedherald']] as const)await r.db.query('UPDATE accounts SET username=$2 WHERE id=$1',[p.accountId,username]);
 // The policy is enabled only in this disposable fixture. Both renderers see
 // identical, already-paid wallets; screenshots never fake a paid receipt.
 await r.db.query('UPDATE achievement_gold_state SET enabled=true');

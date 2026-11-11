@@ -132,6 +132,6 @@ test('workflow remains manual, serialized, environment-approved and independentl
  const image=readFileSync(new URL('../deployment/release/Dockerfile',import.meta.url),'utf8');assert.match(image,/ENTRYPOINT \[\]/);assert.match(image,/USER postgres/);
 });
 
-test('E2a schema pin advancement leaves prepare backup and restoration gates mandatory',()=>{
+test('Current gameplay schema pin advancement leaves prepare backup and restoration gates mandatory',()=>{
  const r=report();for(const changed of [{restoredCopy:{...r.restoredCopy,passed:false}},{backup:{...r.backup,exportRoundTripVerified:false}}])assert.throws(()=>checkJobReport({...r,...changed},request()),{code:'ERR_ASSERTION'});
 });
