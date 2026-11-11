@@ -9,10 +9,20 @@ import {equipmentCatalogFor} from './expansion-content.js';
 import {resolveArmy} from './compatibility-rules.js';
 import {botArmy,cohortMembers} from './expansion-bot-rules.js';
 import {callingPower,callingFor,recoverySeconds} from './strategy-rules.js';
-import {botVictoryRewards} from './bot-combat-rules.js';
+import {botCombat,botVictoryRewards} from './bot-combat-rules.js';
 import {victoryExperience47} from './game-feel-rules.js';
 import {upkeepExemptions} from './equipment-entitlements.js';
 export const rivalRecommendationPolicy=Object.freeze({id:'attainable-rivals-1',pageSize:20,snapshotSeconds:600,snapshotsPerActor:3});
+/** PostgreSQL bigint counters stay exact; recommendations need only the existing
+ * reward bracket, never a rewritten or precision-lost historical win counter. */
+export function rivalRepeatStage(pair:{victories:string|number|bigint;window_started_at:Date|string}|undefined,now:Date){
+ if(!pair)return 1;
+ const started=+new Date(pair.window_started_at);if(!Number.isFinite(started)||!Number.isFinite(+now))throw new RangeError('Invalid reward window');
+ if(started<=+now-botCombat.windowSeconds*1000)return 1;
+ if(typeof pair.victories==='number'&&!Number.isSafeInteger(pair.victories))throw new RangeError('Invalid reward counter');
+ const count=BigInt(pair.victories);if(count<1n)throw new RangeError('Invalid reward counter');
+ const last=BigInt(botCombat.victoryPercentages.length);return Number(count+1n<last?count+1n:last);
+}
 /** Exact current roll grid and XP functions; never predicts a guaranteed reward. */
 export function scoreRival(a:{level:number;attack:number;health:number},d:{level:number;defense:number;health:number;bot:boolean;pairVictory:number;rewardedWins:number}){
  let winning=0;const v=alpha.combat.variation;
@@ -39,7 +49,7 @@ async function ranking(sql:Sql,id:string,now:Date,bots:boolean,recruitment:boole
  const cohorts=world.expanded?await cohortMembers(sql,ids):new Map<string,number>();
  // Only the reviewed, single entitled identity can have upkeep exemptions.
  for(const r of rows){const exempt=await upkeepExemptions(sql,r.id,world.expanded);if(exempt.size)for(const i of inventories.get(r.id)??[])if(exempt.has(i.id))i.maintenanceExempt=true;}
- const pairRows=(await sql.query('SELECT defender_id,victories,window_started_at FROM pvp_loot_sequences WHERE attacker_id=$1',[id])).rows;
+ const pairRows=(await sql.query<{defender_id:string;victories:string;window_started_at:Date}>('SELECT defender_id,victories,window_started_at FROM pvp_loot_sequences WHERE attacker_id=$1',[id])).rows;
  const humanWins=(await sql.query("SELECT defender_id,count(*)::int AS wins FROM battles WHERE attacker_id=$1 AND rewarded AND outcome='attacker_win' AND created_at>$2 GROUP BY defender_id",[id,new Date(+now-alpha.combat.rewardWindowSeconds*1000)])).rows;
  const pairs=new Map(pairRows.map(r=>[r.defender_id,r])),wins=new Map(humanWins.map(r=>[r.defender_id,r.wins]));
  const values=new Map<string,{level:number;attack:number;defense:number;health:number;army:number}>();
@@ -50,7 +60,7 @@ async function ranking(sql:Sql,id:string,now:Date,bots:boolean,recruitment:boole
    defense:callingPower(trainedPower(rules.baseDefense+(r.attained_level-1)*rules.defensePerLevel+(army.participants-1)*rules.unit.defense+defense.defense,r.defense_training),calling.defensePercent)});
  }
  const a=values.get(id)!;
- return rows.filter(r=>r.id!==id).map(r=>{const pair=pairs.get(r.id),victory=pair&&+new Date(pair.window_started_at)>+now-86400000?pair.victories+1:1;
+ return rows.filter(r=>r.id!==id).map(r=>{const victory=rivalRepeatStage(pairs.get(r.id),now);
   const score=scoreRival(a,{...values.get(r.id)!,bot:r.bot_tier!==null,pairVictory:victory,rewardedWins:wins.get(r.id)??0});
   return {id:r.id as string,...score,tie:createHash('sha256').update(id+'|'+rotation+'|'+r.id).digest('hex')};
  }).sort((a,b)=>Number(b.healthy)-Number(a.healthy)||b.expectedNumerator-a.expectedNumerator||a.similarity-b.similarity||a.tie.localeCompare(b.tie)||a.id.localeCompare(b.id));

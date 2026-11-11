@@ -3,7 +3,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import {ran
 import {realm} from './helpers.js';import {transaction,type Database} from '../src/db.js';
 import {provisionBots} from '../src/development.js';import {inspectPopulation,provisionExpansionBots} from '../src/expansion-population.js';import {inspectExpansion,activateExpansion} from '../src/expansion-activation.js';
 import {definitionDigest} from '../src/expansion-content.js';import {expansionBots,botArmy,cohortMembers} from '../src/expansion-bot-rules.js';
-import {listOpponents,getState,stateFrom,type CharacterRow} from '../src/game.js';import {areRivals} from '../src/alpha-rules.js';import {scoreRival} from '../src/rival-recommendations.js';
+import {listOpponents,getState,stateFrom,type CharacterRow} from '../src/game.js';import {areRivals} from '../src/alpha-rules.js';import {scoreRival,rivalRepeatStage} from '../src/rival-recommendations.js';
 import {proposedNpcArmy,planNpcArmy,applyLocalNpcArmy,npcArmyPolicy} from '../src/npc-army.js';
 import {runNpcSponsorship,npcSponsorshipSelected,expireBounties,cancelBounty,lockBountyEscrow} from '../src/bounties.js';
 import {experienceView} from '../src/experience.js';
@@ -14,6 +14,14 @@ test('attainable XP ranks plausible wins above unwinnable power and repeat-targe
  const a={level:20,attack:400,health:100};const match=scoreRival(a,{level:20,defense:350,health:100,bot:true,pairVictory:1,rewardedWins:0});
  const impossible=scoreRival(a,{level:24,defense:2000,health:100,bot:true,pairVictory:1,rewardedWins:0});assert.equal(impossible.expectedNumerator,0);assert.ok(match.expectedNumerator>impossible.expectedNumerator);
  const repeat=scoreRival(a,{level:20,defense:350,health:100,bot:true,pairVictory:5,rewardedWins:0});assert.ok(match.expectedNumerator>repeat.expectedNumerator);assert.equal(scoreRival(a,{level:20,defense:350,health:0,bot:false,pairVictory:1,rewardedWins:0}).expectedNumerator,0);
+});
+test('PostgreSQL bigint repeat counters preserve exact brackets, the boundary and historical values',()=>{
+ const now=new Date('2032-02-02T00:00:00Z'),active=new Date(+now-1000);
+ for(const [count,expected] of [['1',2],['4',5],['5',5],['9223372036854775807',5]] as const)assert.equal(rivalRepeatStage({victories:count,window_started_at:active},now),expected);
+ assert.equal(rivalRepeatStage({victories:'999',window_started_at:new Date(+now-86400000)},now),1);
+ assert.equal(rivalRepeatStage({victories:'999',window_started_at:new Date(+now-86399999)},now),5);
+ assert.equal(rivalRepeatStage(undefined,now),1);
+ for(const count of ['0','-1','not-a-counter'])assert.throws(()=>rivalRepeatStage({victories:count,window_started_at:active},now));
 });
 test('future NPC defaults vary deterministically, preserve legacy caps and grow across 15–30 and 50',()=>{
  const counts={weak:0,matched:0,elite:0};for(let n=0;n<1000;n++)counts[proposedNpcArmy(20,'synthetic-'+n).band]++;assert.ok(counts.weak>140&&counts.weak<260);assert.ok(counts.matched>590&&counts.matched<710);assert.ok(counts.elite>100&&counts.elite<210);
@@ -76,6 +84,11 @@ test('900 saved NPCs: complete ranked pages, indexed bounded reads, funded adjus
   assert.equal(record.result.attackerXp,record.result.outcome==='attacker_win'?expected.xp.amount:0);assert.equal(record.result.loot,record.result.outcome==='attacker_win'?expected.loot.amount:0);
   const pairAfter=(await r.db.query('SELECT character_id,balance FROM wallets WHERE character_id=ANY($1::uuid[])',[[human.id,target.id]])).rows;assert.equal(pairAfter.reduce((n,r)=>n+r.balance,0),pairBefore.reduce((n,r)=>n+r.balance,0));
   evidence.postAdjustmentCombat={battleId:fight.battleId,targetName:target.name,savedDefendingEquipment:record.result.defenseEquipment,participants:record.snapshot.defender.army.participants,outcome:record.result.outcome,xp:record.result.attackerXp,gold:record.result.loot,exactCurrentRewards:true,walletConserved:true};
+  // A real saved victory is read back as a PostgreSQL bigint string. Refresh
+  // through both the ranker and HTTP renderer without losing its repeat bracket.
+  const sequence=(await r.db.query<{victories:string;window_started_at:Date}>('SELECT victories,window_started_at FROM pvp_loot_sequences WHERE attacker_id=$1 AND defender_id=$2',[human.id,target.id])).rows[0]!;assert.equal(typeof sequence.victories,'string');assert.equal(sequence.victories,'1');assert.equal(rivalRepeatStage(sequence,now),2);
+  const repeatPage=await listOpponents(r.db,human.id,undefined,true,true);assert.ok(repeatPage.opponents.length>0);const refreshed=await r.app.inject({url:'/game/battle',headers:{cookie:human.cookie}});assert.equal(refreshed.statusCode,200,'Actual Rivals refresh after a saved bot victory');
+  assert.equal((await r.db.query('SELECT victories FROM pvp_loot_sequences WHERE attacker_id=$1 AND defender_id=$2',[human.id,target.id])).rows[0]!.victories,'1','Recommendation reads preserve the historical counter');evidence.postVictoryRivals={pgCounterType:'string',storedCounter:'1',nextRewardBracket:2,httpStatus:refreshed.statusCode};
   // Disabled is a true no-op, even with no usable database connection.
   await runNpcSponsorship({query:async()=>{throw new Error('Disabled worker queried SQL');},connect:async()=>{throw new Error('Disabled worker connected');},end:async()=>{}},false);
   const targets=[];for(let i=0;i<5;i++){const t=await r.player('Eligible Target '+i);await r.prepare(t,1000);for(let j=0;j<5;j++)await r.ok(t,'/api/v1/quests/border-patrol/runs');await transaction(r.db,sql=>sql.query('UPDATE characters SET attained_level=20 WHERE id=$1',[t.id]));targets.push(t);}

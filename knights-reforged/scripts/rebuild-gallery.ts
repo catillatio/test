@@ -47,6 +47,9 @@ try{
    }
    const metrics=await page.evaluate(()=>({scrollY,overflow:document.documentElement.scrollWidth>innerWidth,brokenImages:[...document.images].filter(i=>!i.naturalWidth).length,coins:[...document.querySelectorAll('use')].filter(e=>/#coins?$/.test(e.getAttribute('href')??'')).length}));
    if(side){assert.equal(metrics.overflow,false,s.name);assert.equal(metrics.brokenImages,0);assert.equal(metrics.coins,1);}
+   if(side&&s.name==='health-insufficient'){assert.equal(await page.locator('[data-wallet-gold]').first().innerText(),'0');assert.ok(await page.locator('[data-heal-form] button').isDisabled());assert.match(await page.locator('[data-heal-message]').innerText(),/more gold/i);}
+   if(side&&s.name==='health-full'){assert.ok(await page.locator('[data-heal-form] button').isDisabled());assert.match(await page.locator('[data-heal-message]').innerText(),/full/i);}
+   if(side&&s.name.startsWith('crowns')){assert.equal(await page.locator('.crown-offer').count(),3);assert.equal(await page.locator('.crown-offer button:enabled').count(),0);}
    const file=String(i+1).padStart(2,'0')+'-'+s.width+'-'+s.name+'-'+(side?'after':'before')+'.png';await page.screenshot({path:out+'/'+file});pair.renders.push({side:side?'after':'before',file,...metrics});
    if(side&&['profile','portrait-warden','portrait-spellward'].includes(s.name))await page.locator('.profile-identity>img').screenshot({path:out+'/'+s.name+'-actual-60.png'});
   }

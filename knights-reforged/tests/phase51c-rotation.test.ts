@@ -1,8 +1,10 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';
 import {realm,testDatabaseUrl} from './helpers.js';import {listOpponents} from '../src/game.js';
 const skip=!testDatabaseUrl;
-test('cyclic rivals cover tiny/large populations once, freeze pagination across attacks, and retain old cursors',{skip},async()=>{
- const r=await realm({isolated:true});try{
+test('legacy cyclic rivals cover tiny/large populations once, freeze pagination across attacks, and retain old cursors',{skip},async()=>{
+ // Preserve the historical r1 path; current full-window XP ranking is covered
+ // by complete-rebuild-rivals-npc with 900 saved NPCs and real repeat counters.
+ const r=await realm({isolated:true,migrationThrough:'026_living_competition.sql'});try{
   const a=await r.player('Rotating Viewer');assert.deepEqual((await listOpponents(r.db,a.id)).opponents,[]);
   const b=await r.player('Only Rival');assert.equal((await listOpponents(r.db,a.id)).opponents[0]!.id,b.id);
   for(let i=0;i<24;i++)await r.player('Rival '+i);

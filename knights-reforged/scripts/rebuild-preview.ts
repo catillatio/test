@@ -38,6 +38,10 @@ for(const [p,username] of [[r.owner,'ladyaveline'],[r.rival,'cedricblackthorn'],
 // identical, already-paid wallets; screenshots never fake a paid receipt.
 await r.db.query('UPDATE achievement_gold_state SET enabled=true');
 for(const p of [r.owner,r.rival,r.patron,r.coverage.poor,muted])await experienceView(r.db,p.id);
+// Keep the insufficient-carried-Gold example genuine after retroactive awards.
+// Existing Vault transfers preserve its funds; no fixture balance is erased.
+const poorBalance=(await r.me(r.coverage.poor)).gold;if(poorBalance)await r.ok(r.coverage.poor,'/api/v1/vault/deposits',{amount:poorBalance});
+assert.equal((await r.me(r.coverage.poor)).gold,0);
 const baselinePath='/dev/shm/kc-rebuild-baseline/knights-reforged/src/app.ts';
 const baseline=await import(pathToFileURL(baselinePath).href);
 const apps:Awaited<ReturnType<typeof createApp>>[]=[];const origins:string[]=[];
