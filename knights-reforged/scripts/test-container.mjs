@@ -94,8 +94,9 @@ try{
     assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'19');
     check('native Phase 4.6 backup restores to a separate database; compiled upgrade checker preserves every old business row and all 450 rivals');
   }
-  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'26');
-  check('separate compiled pre-deploy runner installs all 26 migrations without initialization');
+  // 26 existing migrations plus 046–052; reserved numbering gaps are intentional.
+  migrate();assert.equal(sql('railway_test','SELECT count(*) FROM schema_migrations'),'33');
+  check('separate compiled pre-deploy runner installs all 33 migrations without initialization');
   if(alphaMode){
     assert.equal(sql('railway_test','SELECT count(*) FROM private_alpha_initializations'),'1');
     assert.equal(sql('railway_test','SELECT count(*) FROM accounts'),'451');

@@ -1,8 +1,9 @@
 import {readFile} from 'node:fs/promises';
 import {meaningfulRivalPopulation,independentCombat,npcCombatComparison} from './rival-quality-fixture.js';
 import {execFileSync} from 'node:child_process';
-import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';import {mkdir,writeFile} from 'node:fs/promises';
-import {realm} from './helpers.js';import {transaction,type Database} from '../src/db.js';
+import test,{before,after} from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';import {mkdir,writeFile} from 'node:fs/promises';
+import {realm,testDatabaseUrl} from './helpers.js';import {transaction,type Database} from '../src/db.js';
+import {npcLoopbackFixture} from './npc-loopback-fixture.js';
 import {provisionBots} from '../src/development.js';import {inspectPopulation,provisionExpansionBots} from '../src/expansion-population.js';import {inspectExpansion,activateExpansion} from '../src/expansion-activation.js';
 import {definitionDigest} from '../src/expansion-content.js';import {expansionBots,botArmy,cohortMembers} from '../src/expansion-bot-rules.js';
 import {listOpponents,getState,stateFrom,type CharacterRow} from '../src/game.js';import {areRivals} from '../src/alpha-rules.js';import {scoreRival,rivalRepeatStage} from '../src/rival-recommendations.js';
@@ -12,6 +13,12 @@ import {experienceView} from '../src/experience.js';
 import {contentCatalog} from '../src/expansion-content.js';
 import {botVictoryRewards} from '../src/bot-combat-rules.js';
 import {provisionFutureLocalNpcs} from '../src/future-local-npcs.js';
+let fixture:Awaited<ReturnType<typeof npcLoopbackFixture>>;
+before(async()=>{fixture=await npcLoopbackFixture(testDatabaseUrl!);});
+after(async()=>{await fixture?.close();});
+test('NPC fixture bootstrap rejects remote, non-test and overridden targets before opening a connection',async()=>{
+ for(const url of ['postgres://fixture:disposable@database.railway.internal/realm_test','postgres://fixture:disposable@127.0.0.1/Railway','postgres://fixture:disposable@127.0.0.1/realm_test?options=unsafe','https://127.0.0.1/realm_test'])await assert.rejects(()=>npcLoopbackFixture(url),/Only an existing local disposable test URL/);
+});
 test('attainable XP ranks plausible wins above unwinnable power and repeat-target farming',()=>{
  const a={level:20,attack:400,health:100};const match=scoreRival(a,{level:20,defense:350,health:100,bot:true,pairVictory:1,rewardedWins:0});
  const impossible=scoreRival(a,{level:24,defense:2000,health:100,bot:true,pairVictory:1,rewardedWins:0});assert.equal(impossible.expectedNumerator,0);assert.ok(match.expectedNumerator>impossible.expectedNumerator);
@@ -32,7 +39,7 @@ test('future NPC defaults vary deterministically, preserve legacy caps and grow 
  assert.deepEqual(previousNpcArmyPolicy,{id:'funded-npc-armies-1',weakPercent:20,matchedPercent:65,elitePercent:15,membershipUnitCost:12,legacyMaximum:10,maximumPaidMilitia:20,upkeepIncomePercent:70});assert.notEqual(npcArmyPolicy.id,previousNpcArmyPolicy.id);
 });
 test('explicit future local generation funds its defaults and never reapplies them to existing identities',{timeout:120000},async()=>{
- const r=await realm({isolated:true,clock:()=>new Date('2032-02-01T12:00:00Z'),developmentBotsEnabled:true});
+ const r=await realm({fixtureDatabaseUrl:fixture.url,isolated:true,clock:()=>new Date('2032-02-01T12:00:00Z'),developmentBotsEnabled:true});
  try{const created=await provisionFutureLocalNpcs(r.db,{nodeEnv:'test',allowProvisioning:true});assert.equal(created.created,450);assert.equal(created.newIdentityAdjustments.length,450);assert.ok(created.newIdentityAdjustments.some(p=>p.additionalMembers>0));
   const before=(await r.db.query('SELECT character_id,balance FROM wallets ORDER BY character_id')).rows,roster=(await r.db.query('SELECT * FROM army_stacks ORDER BY character_id')).rows;
   const repeated=await provisionFutureLocalNpcs(r.db,{nodeEnv:'test',allowProvisioning:true});assert.equal(repeated.created,0);assert.equal(repeated.newIdentityAdjustments.length,0);assert.deepEqual((await r.db.query('SELECT character_id,balance FROM wallets ORDER BY character_id')).rows,before);assert.deepEqual((await r.db.query('SELECT * FROM army_stacks ORDER BY character_id')).rows,roster);
@@ -40,7 +47,7 @@ test('explicit future local generation funds its defaults and never reapplies th
  }finally{await r.close();}
 });
 test('900 saved NPCs: complete ranked pages, indexed bounded reads, funded adjustments and authentic bounty postings',{timeout:240000},async()=>{
- let start=Math.floor(Date.parse('2032-02-01T12:00:00Z')/3600000),dense:number[]=[];for(let w=start;w<start+100000;w++){const found=Array.from({length:24},(_,i)=>w+i).filter(npcSponsorshipSelected);if(found.length>=5){dense=found.slice(0,5);break;}}assert.equal(dense.length,5);let now=new Date((dense[0]!-1)*3600000);const r=await realm({isolated:true,clock:()=>now,developmentBotsEnabled:true,developmentBotRecruitmentEnabled:true});
+ let start=Math.floor(Date.parse('2032-02-01T12:00:00Z')/3600000),dense:number[]=[];for(let w=start;w<start+100000;w++){const found=Array.from({length:24},(_,i)=>w+i).filter(npcSponsorshipSelected);if(found.length>=5){dense=found.slice(0,5);break;}}assert.equal(dense.length,5);let now=new Date((dense[0]!-1)*3600000);const r=await realm({fixtureDatabaseUrl:fixture.url,isolated:true,clock:()=>now,developmentBotsEnabled:true,developmentBotRecruitmentEnabled:true});
  const evidence:Record<string,unknown>={source:'Real PostgreSQL synthetic population; not production observations',sourceHead:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim()};
  try{
   const human=await r.player('Measured Human');await r.prepare(human,1000000);for(let i=0;i<5;i++){await r.ok(human,'/api/v1/quests/border-patrol/runs');now=new Date(+now+1000);}
