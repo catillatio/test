@@ -1,6 +1,7 @@
 {
   "version": 1,
   "tests": [
+    {"file":"tests/owner-runtime.test.ts","lane":"unit","weight":1},
     {"file":"tests/bot-progressive-economy.test.ts","lane":"database","weight":10},
     {"file":"tests/bot-loot.test.ts","lane":"unit","weight":1},
     {"file":"tests/release-upgrade-postgres.test.mjs","lane":"database","weight":5},

@@ -1,3 +1,4 @@
+import {startScheduledBotWork} from './bot-schedule.js';
 import {type Database,transaction} from './db.js';
 import {clock,materialize,type CharacterRow} from './game.js';
 import {gameFeel} from './game-feel-rules.js';
@@ -34,8 +35,5 @@ export async function settleDueBotIncome(db:Database,enabled:boolean){
  return {settled,batches};
 }
 export function startBotIncome(db:Database,enabled:boolean,onError:(error:unknown)=>void){
- let pending:Promise<unknown>|null=null,stopped=false;
- const tick=()=>{if(stopped||pending||!enabled)return;pending=settleDueBotIncome(db,true).catch(onError).finally(()=>{pending=null;});};
- const timer=setInterval(tick,gameFeel.botIncome.intervalSeconds*1000);timer.unref();tick();
- return async()=>{stopped=true;clearInterval(timer);await pending;};
+ return startScheduledBotWork(()=>settleDueBotIncome(db,true),enabled,gameFeel.botIncome.intervalSeconds*1000,onError,'passive_income');
 }

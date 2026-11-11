@@ -1,3 +1,4 @@
+import {registerOwnerRuntime} from './owner-runtime.js';
 import {legacyThemePreview} from './legacy-theme-preview.js';
 import {competitiveProfile} from './competitive-records.js';
 import {approvedEquipmentArt} from './equipment-artwork.js';
@@ -73,6 +74,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   const useLegacyTheme = legacyThemePreview(options.legacyTheme,config);
   const app = Fastify({ logger: options.logger ? { level: 'info', redact: ['req.headers.cookie', 'req.headers.authorization', 'req.body.password'] } : false,
     bodyLimit: 16384, trustProxy: false });
+  const ownerTelemetry=registerOwnerRuntime(app,config);
   await app.register(cookie);
   await app.register(formbody);
   // Chromium submits Origin: null for HTML POST forms under no-referrer.
@@ -93,6 +95,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
 
   app.addHook('onRequest', async (request, reply) => {
+    if (request.method==='GET'&&request.routeOptions.url==='/owner-runtime/v1')return;
     if (request.url.startsWith('/assets/') || request.url.split('?')[0] === '/healthz') return;
     request.realmSession = await findSession(db, request.cookies.kr_session);
     if (!request.realmSession && (request.method === 'GET' || request.method === 'HEAD')) {
@@ -336,7 +339,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
         const input = route.kind === 'quest' || route.kind === 'quest_buy' ? { ...body, questId: (request.params as {id:string}).id } : body;
         let result;
         try{result = await executeCommand(db, request.realmSession!.account_id!, request.headers['idempotency-key'] ?? body.commandId, route.kind, input,{developmentBotsEnabled:config.developmentBotsEnabled,developmentBotRecruitmentEnabled:config.developmentBotRecruitmentEnabled,developmentBotBountiesEnabled:config.developmentBotBountiesEnabled});}catch(error){
-          if(route.kind==='quest'&&!wantsJson(request)&&error instanceof GameError&&error.code==='MISSING_EQUIPMENT')return reply.redirect('/game/quests/'+(request.params as {id:string}).id+'/requirements',303);
+          if(route.kind==='quest'&&!wantsJson(request)&&error instanceof GameError&&error.code==='MISSING_EQUIPMENT'){ownerTelemetry?.reject(request,error.code);return reply.redirect('/game/quests/'+(request.params as {id:string}).id+'/requirements',303);}
           throw error;
         }
         if(route.kind==='quest_buy'&&!wantsJson(request))return reply.redirect('/game/quests/'+result.data!.questId+'/requirements?command='+result.commandId,303);
@@ -439,6 +442,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.setErrorHandler(async (error, request, reply) => {
     const known = error instanceof GameError;
+    if(known&&[400,409,422,429].includes(error.status))ownerTelemetry?.reject(request,error.code);
     const reportedStatus = (error as { statusCode?: number }).statusCode;
     const status = known ? error.status : (reportedStatus && reportedStatus < 500 ? reportedStatus : 500);
     const message = known ? error.message : status === 429 ? 'Too many actions. Wait a moment and try again.' :

@@ -1,4 +1,5 @@
 import {createHash} from 'node:crypto';
+import {observeSchedule,type Job} from './owner-runtime-telemetry.js';
 
 export const scheduledNumber=(text:string)=>createHash('sha256').update(text).digest().readUInt32BE(0);
 export function scheduledCommand(policy:string,id:string,window:number){
@@ -12,10 +13,11 @@ export function scheduledCandidates(ids:string[],window:number,policy:{slots:num
  return ids.filter(id=>scheduledNumber(salt+id)%policy.slots===window%policy.slots)
   .sort((a,b)=>scheduledNumber(salt+a+':'+window)-scheduledNumber(salt+b+':'+window)||a.localeCompare(b)).slice(0,policy.maximum);
 }
-export function startScheduledBotWork(work:()=>Promise<unknown>,enabled:boolean,intervalMs:number,onError:(error:unknown)=>void){
+export function startScheduledBotWork(work:()=>Promise<unknown>,enabled:boolean,intervalMs:number,onError:(error:unknown)=>void,job?:Job){
+ const observation=observeSchedule(job,enabled,intervalMs);
  if(!enabled)return async()=>{};
  let pending:Promise<unknown>|null=null,stopped=false;
- const tick=()=>{if(stopped||pending)return;pending=work().catch(onError).finally(()=>{pending=null;});};
+ const tick=()=>{if(stopped)return;observation?.due();if(pending)return;observation?.attempt();pending=work().then(()=>observation?.success()).catch(error=>{observation?.failure(error);onError(error);}).finally(()=>{pending=null;});};
  const timer=setInterval(tick,intervalMs);timer.unref();tick();
- return async()=>{stopped=true;clearInterval(timer);await pending;};
+ return async()=>{stopped=true;observation?.stop();clearInterval(timer);await pending;};
 }
