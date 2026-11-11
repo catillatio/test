@@ -303,7 +303,9 @@ try{
  await page.locator('.resource-upper>a').focus();assert.ok(await page.locator('.resource-upper>a').evaluate(e=>getComputedStyle(e).outlineStyle!=='none'),'Level link retains visible keyboard focus');
  await page.emulateMedia({forcedColors:'active',reducedMotion:'reduce'});
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
- assert.equal(await page.locator('.gold-resource>.gold').evaluate(e=>getComputedStyle(e,'::before').display),'none','High contrast suppresses decorative glow');
+ // Inspect the same amount-anchored decoration verified above, rather than
+ // the retired wrapper pseudo-element (which no longer generates content).
+ assert.equal(await page.locator('[data-wallet-gold]').evaluate(e=>getComputedStyle(e,'::after').display),'none','High contrast suppresses decorative glow');
  await page.screenshot({path:`${out}/screenshots/390-static-fallback.jpg`,quality:94});
  await page.locator('.hud-account .profile-link').click();await page.waitForURL('**/game/profile');
  checks.push({interaction:'keyboard focus, reduced motion and forced-colors fallback',result:'PASS'});
