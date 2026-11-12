@@ -7,6 +7,7 @@ import {join,resolve,basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {candidateDigest} from '../deployment/release/candidate.mjs';
+import {waitForRecoveryArtifact} from '../deployment/release/wait-recovery-artifact.mjs';
 
 const folder=mkdtempSync(join(tmpdir(),'release-artifact-paths-'));after(()=>rmSync(folder,{recursive:true,force:true}));
 const app=fileURLToPath(new URL('../',import.meta.url)),repo=fileURLToPath(new URL('../../',import.meta.url));
@@ -95,4 +96,59 @@ test('empty recovery cannot use the original workspace files as an independent d
  const state=prepare(app),retention=retained(state,recoveryPaths.map(path=>basename(path)));assert.equal(readdirSync(retention.destination).length,0);
  assert.match(recovery,/^          if-no-files-found: error$/m);const result=check(retention);assert.equal(result.status,1);assert.equal(result.stdout,'');
  assert.equal(result.stderr,'Independent retained-recovery verification failed. No promotion is authorized.\n');
+});
+
+test('recovery download binds the upload ID, authenticated run and flat extraction before unchanged ciphertext verification',()=>{
+ const blocks=workflow.split(/(?=^      - )/m);
+ const visible=blocks.find(block=>block.includes('run: node knights-reforged/deployment/release/wait-recovery-artifact.mjs'));
+ const download=blocks.find(block=>block.includes('name: Independently download and verify retained recovery artifact'));
+ assert.ok(visible&&download);assert.ok(workflow.indexOf(recovery)<workflow.indexOf(visible)&&workflow.indexOf(visible)<workflow.indexOf(download));
+ assert.match(visible,/KINGDOM_RECOVERY_ARTIFACT_ID: \$\{\{ steps\.backup\.outputs\.artifact-id \}\}/);
+ assert.match(visible,/KINGDOM_RECOVERY_ARTIFACT_DIGEST: \$\{\{ steps\.backup\.outputs\.artifact-digest \}\}/);
+ assert.match(visible,/GH_TOKEN: \$\{\{ github\.token \}\}/);
+ for(const line of ['artifact-ids: ${{ steps.backup.outputs.artifact-id }}','github-token: ${{ github.token }}','repository: ${{ github.repository }}','run-id: ${{ github.run_id }}','merge-multiple: true','path: ${{ runner.temp }}/verified-backup'])assert.ok(download.includes(line));
+ assert.match(download,/actions\/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093/);
+ assert.doesNotMatch(download,/^          name:|continue-on-error:|if: always/m);
+ assert.ok(workflow.indexOf(download)<workflow.indexOf('check-recovery.mjs')&&workflow.indexOf('check-recovery.mjs')<workflow.indexOf('run.mjs promote'));
+});
+
+const visibilityEnv={GITHUB_REPOSITORY:'catillatio/test',GITHUB_REF:'refs/heads/release/production',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1',KINGDOM_RECOVERY_ARTIFACT_ID:'456',KINGDOM_RECOVERY_ARTIFACT_DIGEST:'b'.repeat(64),GH_TOKEN:'synthetic-token-never-log'};
+const visibilityArtifact={id:456,name:'kingdom-recovery-123-1',expired:false,size_in_bytes:1024,digest:'sha256:'+'b'.repeat(64),workflow_run:{id:123,head_sha:'a'.repeat(40)}};
+function visibilityFixture(responses){
+ let time=0;const requests=[],waits=[];
+ return {requests,waits,options:{now:()=>time,wait:async ms=>{waits.push(ms);time+=ms;},fetcher:async(url,options)=>{
+  requests.push(url);assert.equal(url,'https://api.github.com/repos/catillatio/test/actions/runs/123/artifacts?per_page=100&name=kingdom-recovery-123-1');
+  assert.equal(options.method,'GET');assert.equal(options.redirect,'error');assert.equal(options.headers.authorization,'Bearer '+visibilityEnv.GH_TOKEN);
+  const response=responses[Math.min(requests.length-1,responses.length-1)];return typeof response==='number'?new Response(null,{status:response}):Response.json(response);
+ }}};
+}
+const visibleResponse=()=>({total_count:1,artifacts:[structuredClone(visibilityArtifact)]});
+test('exact recovery receipt succeeds without waiting or mutation',async()=>{
+ const f=visibilityFixture([visibleResponse()]);assert.equal((await waitForRecoveryArtifact(visibilityEnv,f.options)).id,456);assert.equal(f.requests.length,1);assert.deepEqual(f.waits,[]);
+});
+test('only read-only absent visibility is polled, then the exact receipt must match',async()=>{
+ const f=visibilityFixture([404,{total_count:0,artifacts:[]},visibleResponse()]);assert.equal((await waitForRecoveryArtifact(visibilityEnv,f.options)).id,456);assert.equal(f.requests.length,3);assert.deepEqual(f.waits,[5000,5000]);
+});
+for(const change of ['id','name','digest','expired','size','run','source','duplicate'])test('recovery visibility rejects '+change+' mismatch without retry',async()=>{
+ const body=visibleResponse(),a=body.artifacts[0];
+ if(change==='id')a.id=457;if(change==='name')a.name='kingdom-recovery-123-2';if(change==='digest')a.digest='sha256:'+'c'.repeat(64);if(change==='expired')a.expired=true;if(change==='size')a.size_in_bytes=0;if(change==='run')a.workflow_run.id=124;if(change==='source')a.workflow_run.head_sha='c'.repeat(40);if(change==='duplicate'){body.total_count=2;body.artifacts.push(structuredClone(a));}
+ const f=visibilityFixture([body]);await assert.rejects(waitForRecoveryArtifact(visibilityEnv,f.options));assert.equal(f.requests.length,1);assert.deepEqual(f.waits,[]);
+});
+for(const status of [401,403,429,500])test('recovery visibility fails closed on HTTP '+status+' without retry',async()=>{
+ const f=visibilityFixture([status]);await assert.rejects(waitForRecoveryArtifact(visibilityEnv,f.options));assert.equal(f.requests.length,1);assert.deepEqual(f.waits,[]);
+});
+test('absent recovery receipt reaches a bounded deadline without any backup or deployment retry',async()=>{
+ const f=visibilityFixture([{total_count:0,artifacts:[]}]);await assert.rejects(waitForRecoveryArtifact(visibilityEnv,f.options));assert.equal(f.requests.length,12);assert.equal(f.waits.reduce((a,b)=>a+b,0),60000);
+});
+test('a late matching response cannot extend the visibility deadline',async()=>{
+ let time=0,requests=0;
+ await assert.rejects(waitForRecoveryArtifact(visibilityEnv,{now:()=>time,fetcher:async()=>{requests++;time=60001;return Response.json(visibleResponse());},wait:async()=>assert.fail('No wait after the deadline')}));
+ assert.equal(requests,1);
+});
+test('missing upload acknowledgment fails before network access and CLI failure never logs credential values',async()=>{
+ for(const key of ['KINGDOM_RECOVERY_ARTIFACT_ID','KINGDOM_RECOVERY_ARTIFACT_DIGEST']){
+  const f=visibilityFixture([visibleResponse()]);await assert.rejects(waitForRecoveryArtifact({...visibilityEnv,[key]:''},f.options));assert.equal(f.requests.length,0);
+ }
+ const result=spawnSync(process.execPath,[fileURLToPath(new URL('../deployment/release/wait-recovery-artifact.mjs',import.meta.url))],{encoding:'utf8',env:{...visibilityEnv,KINGDOM_RECOVERY_ARTIFACT_ID:''}});
+ assert.equal(result.status,1);assert.equal(result.stdout,'');assert.equal(result.stderr,'RECOVERY_ARTIFACT_VISIBILITY: FAIL\n');
 });
