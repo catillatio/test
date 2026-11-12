@@ -1,6 +1,8 @@
 // Real localhost HTTP/EJS + disposable PostgreSQL. A separate pinned checkout
 // supplies the before renderer; no DOM replacement or production data is used.
 import assert from 'node:assert/strict';
+// Independent UI contract; stored/API class keys remain unchanged.
+const callingLabels:Record<string,string>={Freeblade:'Barbarian',Warden:'Tank',Spellward:'Mage'};
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -73,7 +75,7 @@ try{
      for(const entry of listEntries){
       const row=scope.locator('.bounty-row').filter({has:page.locator('input[name="targetCharacterId"][value="'+entry.target.id+'"]')});
       const name=(await r.me(entry.target)).name;
-      assert.equal((await row.innerText()).replace(/\s+/g,' ').trim(),name+' Level '+entry.level+' '+entry.className+' '+entry.amount.toLocaleString('en')+' gold Attack');
+      assert.equal((await row.innerText()).replace(/\s+/g,' ').trim(),name+' Level '+entry.level+' '+callingLabels[entry.className]+' '+entry.amount.toLocaleString('en')+' gold Attack');
       const button=row.getByRole('button',{name:'Hunt '+name,exact:true});assert.equal(await button.isDisabled(),entry.disabled);
       const box=await button.boundingBox();assert.ok(box&&box.width>=44&&box.height>=44);
       if(entry.disabled){assert.ok(await button.getAttribute('title'));assert.equal(await button.getAttribute('data-attack-ready'),'false');}

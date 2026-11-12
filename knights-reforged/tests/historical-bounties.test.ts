@@ -167,7 +167,7 @@ test('profile, placement page, API quote, HTML confirmation, board and help shar
   for(const path of['/game/players/'+target.id,'/game/bounties/new?target='+target.id]){const page=await r.app.inject({url:path,headers:{cookie:sponsor.cookie}});assert.equal(page.statusCode,200,page.body);assert.match(page.body,/0 \/ 25 remaining/);assert.match(page.body,/225 \/ 250 remaining/);assert.match(page.body,/already has an active bounty/);}
   const board=await r.app.inject({url:'/game/bounties',headers:{cookie:sponsor.cookie}});assert.equal(board.statusCode,200,board.body);
   const row=/<article class="bounty-row"[\s\S]*?<\/article>/.exec(board.body)![0];
-  assert.match(row,/UI Target/);assert.match(row,/Level 100 Freeblade/);assert.match(row,/>1 gold</);assert.match(row,/>Attack</);
+  assert.match(row,/UI Target/);assert.match(row,/Level 100 Barbarian/);assert.match(row,/>1 gold</);assert.match(row,/>Attack</);
   assert.ok(!row.includes('data-bounty-quotas'));assert.ok(!row.includes('Posted by'));assert.ok(!row.includes('field-hint'));
   assert.match(row,/disabled title="Sponsors cannot claim their own contracts/);
   assert.match(board.body,/<details class="panel bounty-records">/);assert.match(board.body,/<details class="panel bounty-rules">/);
