@@ -283,10 +283,20 @@ jobs:
             .release-artifacts/backup-manifest.json
           retention-days: 90
           if-no-files-found: error
+      - name: Verify exact uploaded recovery receipt is visible through authenticated GitHub API
+        run: node knights-reforged/deployment/release/wait-recovery-artifact.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KINGDOM_RECOVERY_ARTIFACT_ID: ${{ steps.backup.outputs.artifact-id }}
+          KINGDOM_RECOVERY_ARTIFACT_DIGEST: ${{ steps.backup.outputs.artifact-digest }}
       - name: Independently download and verify retained recovery artifact
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
-          name: kingdom-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          artifact-ids: ${{ steps.backup.outputs.artifact-id }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
+          merge-multiple: true
           path: ${{ runner.temp }}/verified-backup
       - name: Verify retained ciphertext even for a backup-only rehearsal
         run: node knights-reforged/deployment/release/check-recovery.mjs
