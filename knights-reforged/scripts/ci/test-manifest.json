@@ -2,6 +2,26 @@
   "version": 1,
   "tests": [
     {
+      "file": "tests/focused-followup-assets.test.ts",
+      "lane": "unit",
+      "weight": 1
+    },
+    {
+      "file": "tests/focused-followup-browser.test.ts",
+      "lane": "browser",
+      "weight": 10
+    },
+    {
+      "file": "tests/focused-notifications-browser.test.ts",
+      "lane": "browser",
+      "weight": 5
+    },
+    {
+      "file": "tests/focused-npc-bounties.test.ts",
+      "lane": "browser",
+      "weight": 10
+    },
+    {
       "file": "tests/complete-rebuild-rivals-npc.test.ts",
       "lane": "database",
       "weight": 30

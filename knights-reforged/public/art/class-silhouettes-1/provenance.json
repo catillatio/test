@@ -1,0 +1,13 @@
+{
+  "id": "class-silhouettes-1",
+  "status": "Original small Profile-slot assets for owner review; not deployed",
+  "created": "2026-11-12",
+  "method": "Original hand-authored SVG paths; no raster tracing, imported pixels or third-party vector shapes",
+  "referenceUse": "Owner-supplied Storm8 circled silhouette for archetype language only; Kingdom Come circled Profile for exact 60x60 slot. Full-screen mockups excluded.",
+  "transparency": "No background rectangle, raster image or baked frame; alpha tested in Chromium at 180x180 and displayed at 60x60",
+  "files": {
+    "freeblade.svg": "a97561a20388d8cf60d341da479be45b28b9e2db8eff2a40972fdfae330057e2",
+    "spellward.svg": "91eed27ce64634529d339922cea3f16fbfe34cea69531b98f33307691ae6d0ac",
+    "warden.svg": "d0e3800283287255cb1e38a0493f4aba6e1819c989db3f573b0ec95193278cc5"
+  }
+}
