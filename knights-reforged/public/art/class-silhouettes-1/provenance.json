@@ -6,8 +6,9 @@
   "referenceUse": "Owner-supplied Storm8 circled silhouette for archetype language only; Kingdom Come circled Profile for exact 60x60 slot. Full-screen mockups excluded.",
   "transparency": "No background rectangle, raster image or baked frame; alpha tested in Chromium at 180x180 and displayed at 60x60",
   "files": {
-    "freeblade.svg": "a97561a20388d8cf60d341da479be45b28b9e2db8eff2a40972fdfae330057e2",
-    "spellward.svg": "91eed27ce64634529d339922cea3f16fbfe34cea69531b98f33307691ae6d0ac",
-    "warden.svg": "d0e3800283287255cb1e38a0493f4aba6e1819c989db3f573b0ec95193278cc5"
-  }
+    "freeblade.svg": "a98ae3af1ffb35282fb574c31486aa0d9165657a7628996c8661d5d2b3b2b6b9",
+    "spellward.svg": "7a3eb6c5bc0af66a68bef2c16781d68c0ba625de0ce2397222cc2047fe739a2f",
+    "warden.svg": "dd25cf8502db651e09483c1ecb6e20efc99f3dab2c85f42dd54f842842340497"
+  },
+  "revision": "finish2: same original silhouettes; 8% larger within the unchanged 60px slot, brighter restrained class-colored rims"
 }

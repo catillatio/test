@@ -1,5 +1,8 @@
 # Kingdom Come — current authority index
 
+Small continuation of reviewed `56fbd34`: [silhouette readability, compact Battle
+markers and synchronized unread controls](../finishing-pass/README.md), local only.
+
 Latest bounded follow-up: [local Profile silhouettes, class labels, charcoal
 comments and notification delivery](../focused-followup-20261112/README.md).
 Read-only observation on November 12, 2026 confirmed production merge `062f70c`

@@ -24,7 +24,24 @@ for(const item of previews){
 // Home unread means a real incoming attack or comment, not an outgoing action.
 // Recruitment badges remain until the pending request is acted on or canceled.
 const badges=[...document.querySelectorAll('[data-notification-badge]')];
-const paintAttention=data=>{if(!data||!['home','army'].every(key=>Number.isSafeInteger(data[key])&&data[key]>=0))return false;for(const badge of badges){const key=badge.dataset.notificationBadge,count=Number(data[key])||0;badge.hidden=count===0;badge.querySelector('[data-notification-number]').textContent=count>99?'99+':String(count);badge.querySelector('[data-notification-label]').textContent=count+' '+(key==='army'?'pending incoming requests':'unread personal events');}return true;};
+const paintAttention=data=>{
+ if(!data||!['home','army'].every(key=>Number.isSafeInteger(data[key])&&data[key]>=0))return false;
+ for(const badge of badges){
+  const key=badge.dataset.notificationBadge,count=Number(data[key])||0;
+  badge.hidden=count===0;
+  badge.querySelector('[data-notification-number]').textContent=count>99?'99+':String(count);
+  badge.querySelector('[data-notification-label]').textContent=count+' '+(key==='army'?'pending incoming requests':'unread personal events');
+ }
+ // These controls describe the same personal count as Home, never invitations.
+ // Keep the fixed read-batch ID intact; only reconcile presentation and affordance.
+ for(const tools of document.querySelectorAll('[data-personal-notification-tools]')){
+  tools.hidden=data.home===0;
+  const link=tools.querySelector('[data-personal-events-link]');if(link)link.textContent='View '+data.home+' unread personal events ›';
+  const form=tools.querySelector('form');
+  if(form){form.hidden=data.home===0;for(const button of form.querySelectorAll('button'))button.disabled=data.home===0;}
+ }
+ return true;
+};
 let refreshing=false;
 async function refreshAttention(){if(document.hidden||refreshing||reading)return;refreshing=true;try{const response=await fetch('/api/v1/notifications',{credentials:'same-origin',cache:'no-store'});if(response.ok)paintAttention(await response.json());}catch{}finally{refreshing=false;if(pendingRead.size&&!readTimer)readTimer=setTimeout(readSeen,350);}}
 const pendingRead=new Map();let readTimer=null,reading=false,readFailures=0;

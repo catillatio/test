@@ -2,6 +2,11 @@
   "version": 1,
   "tests": [
     {
+      "file": "tests/finishing-pass-browser.test.ts",
+      "lane": "browser",
+      "weight": 10
+    },
+    {
       "file": "tests/focused-followup-assets.test.ts",
       "lane": "unit",
       "weight": 1

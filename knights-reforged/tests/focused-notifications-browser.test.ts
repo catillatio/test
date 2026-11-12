@@ -32,6 +32,7 @@ test('viewed historical notifications recover failed acknowledgments and reconci
   await page.waitForFunction(()=>document.querySelector('[data-notification-badge=home]')?.hasAttribute('hidden'),{},{timeout:9000});
   assert.ok(requests.length>=2,'The same visible document retries after a failed transport without navigation/online events');assert.ok(requests.flat().every(id=>ids.includes(id)));
   assert.equal((await notificationSummary(r.db,owner.id)).home,0);assert.equal((await notificationSummary(r.db,owner.id)).army,1);assert.equal((await r.db.query('SELECT count(*)::int n FROM notification_reads WHERE character_id=$1',[owner.id])).rows[0]!.n,5);
+  assert.ok(await page.locator('[data-personal-notification-tools]').isHidden());assert.equal(await page.locator('[data-personal-events-link]').textContent(),'View 0 unread personal events ›');assert.ok(await page.locator('[data-personal-notification-tools] button').isDisabled());assert.doesNotMatch(await page.locator('body').innerText(),/View 5 unread personal events|Mark all current personal events as read/);
   await page.screenshot({path:out+'/notifications-0-viewed.png'});await page.unroute('**/api/v1/notifications/read');
   // A stale read in one visible tab must wake another visible document. The
   // synthetic visibility shim models side-by-side windows, not a navigation.
@@ -40,6 +41,7 @@ test('viewed historical notifications recover failed acknowledgments and reconci
   let lostOnce=false;await page.route('**/api/v1/notifications/read',async route=>{if(!lostOnce){lostOnce=true;await route.fetch();await route.abort('failed');}else await route.continue();});
   await page.bringToFront();await page.goto(origin+'/game/notifications');await page.waitForFunction(()=>document.querySelector('[data-notification-badge=home]')?.hasAttribute('hidden'),{},{timeout:9000});
   await watch.waitForFunction(()=>document.querySelector('[data-notification-badge=home]')?.hasAttribute('hidden'),{},{timeout:4000});assert.equal((await r.db.query('SELECT count(*)::int n FROM notification_reads WHERE character_id=$1 AND event_id=$2',[owner.id,lost])).rows[0]!.n,1);
+  assert.ok(await watch.locator('[data-personal-notification-tools]').isHidden());assert.equal(await watch.locator('[data-personal-events-link]').textContent(),'View 0 unread personal events ›');
   // Foreign IDs and stale page cursors cannot acknowledge another account.
   const late=await letter('Late commit shares earlier timestamp');await acknowledgeNotifications(r.db,other.id,[{kind:'comment',id:late}]);assert.equal((await notificationSummary(r.db,owner.id)).home,1);
   assert.deepEqual((await unreadNotificationPage(r.db,owner.id)).entries.map(e=>e.id),[late]);

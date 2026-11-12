@@ -2506,6 +2506,25 @@
   .bounty-target {
     min-width: 0;
   }
+  .bounty-target.battle-identity {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    column-gap: 6px;
+  }
+  .battle-identity > .class-silhouette {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    align-self: start;
+    margin-top: 1px;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    border: 0;
+    background: transparent;
+  }
+  .battle-identity > :not(.class-silhouette) {
+    grid-column: 2;
+  }
   .bounty-target h3 {
     font: 700 17px/1.2 var(--serif);
     margin-bottom: 4px;
