@@ -1,5 +1,7 @@
 // Real localhost pages, paid fixture contracts and ordinary authenticated attacks.
 import assert from 'node:assert/strict';
+// Independent UI contract; stored/API class keys remain unchanged.
+const callingLabels:Record<string,string>={Freeblade:'Barbarian',Warden:'Tank',Spellward:'Mage'};
 import {createHash,randomUUID} from 'node:crypto';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
@@ -12,8 +14,9 @@ if(!process.env.TEST_DATABASE_URL||!source)throw Error('Use a disposable databas
 const {realm}=await import(pathToFileURL(resolve(source,'tests/helpers.ts')).href) as typeof import('../tests/helpers.js');
 const {createApp}=await import(pathToFileURL(resolve(source,'src/app.ts')).href) as typeof import('../src/app.js');
 const {loadConfig}=await import(pathToFileURL(resolve(source,'src/config.ts')).href) as typeof import('../src/config.js');
-const approvedHash=before?'cb1aaed28643f55b16852695016c7afebf07c7d542e296fcd685d43c5c2c96ed':'df41364ee1ae3b3543fa6cb1a0a500c3ae9d5b7959ee3179886460e478b2c827';
-assert.equal(createHash('sha256').update(await readFile(resolve(source,'views/bounties.ejs'))).digest('hex'),approvedHash,'Exact baseline or reviewed NPC-origin Bounty List template');
+// After hash is the exact owner-approved 3c355e1 template; retain the original before pin.
+const approvedHash=before?'cb1aaed28643f55b16852695016c7afebf07c7d542e296fcd685d43c5c2c96ed':'e228a1391433b1bb579344178142480202b450bf4d25d3561c944f0c5b8885ca';
+assert.equal(createHash('sha256').update(await readFile(resolve(source,'views/bounties.ejs'))).digest('hex'),approvedHash,'Exact baseline or owner-reviewed class-marker Bounty List template');
 const out=process.env.RIVALS_BROWSER_OUT??'test-results/rivals-shared/'+stage;await mkdir(out,{recursive:true});
 const now=new Date('2038-05-05T12:00:00Z'),r=await realm({isolated:true,clock:()=>now});
 const config=loadConfig({NODE_ENV:'test',APP_ORIGIN:'http://127.0.0.1:3000'}),app=await createApp({db:r.db,config}),origin=await app.listen({host:'127.0.0.1',port:0});config.origin=origin;
@@ -71,7 +74,7 @@ try{
    for(let i=0;i<expected.length;i++){const opponent=expected[i]!,row=rows.nth(i);assert.equal(await row.locator('input[name=targetCharacterId]').inputValue(),opponent.id);ids.push(opponent.id);
     const button=row.getByRole('button',{name:'Attack '+opponent.name,exact:true});assert.equal(await button.isDisabled(),opponent.health===0);assert.equal(await row.locator('input[name=bountyId]').count(),0);
     if(!before){
-     assert.equal((await row.innerText()).replace(/\s+/g,' ').trim(),opponent.name+' Level '+opponent.level+' '+opponent.className+' Army Size: '+opponent.armySize+(opponent.health===0?' Opponent defeated — 0 Health. They must recover before another attack.':'')+' Attack');assert.equal(await row.locator('.bounty-amount,small:not(.rival-blocked-reason),strong,time,.bot-label,.bounty-shortcut').count(),0);assert.equal(await row.locator('.rival-blocked-reason').count(),opponent.health===0?1:0,'Only the disabled rival has a visible eligibility explanation');
+     assert.equal((await row.innerText()).replace(/\s+/g,' ').trim(),opponent.name+' Level '+opponent.level+' '+callingLabels[opponent.className]+' Army Size: '+opponent.armySize+(opponent.health===0?' Opponent defeated — 0 Health. They must recover before another attack.':'')+' Attack');assert.equal(await row.locator('.bounty-amount,small:not(.rival-blocked-reason),strong,time,.bot-label,.bounty-shortcut').count(),0);assert.equal(await row.locator('.rival-blocked-reason').count(),opponent.health===0?1:0,'Only the disabled rival has a visible eligibility explanation');
      const metric=await style(row),standard=bountyMetrics.get(opponent.id)??[...bountyMetrics.values()][0]!;assert.deepEqual(metric.padding,standard.padding);assert.deepEqual(metric.name,standard.name);assert.deepEqual(metric.link,standard.link);assert.deepEqual(metric.level,standard.level);assert.deepEqual(metric.button,standard.button);assert.ok(metric.button.height>=44&&metric.button.width>=44);
      if(!metric.last)assert.deepEqual(metric.divider,[...bountyMetrics.values()].find(m=>!m.last)!.divider);else assert.equal(metric.divider!['border-bottom-width'],'0px');
      const army=row.locator('.rival-army-size');assert.equal(await army.innerText(),'Army Size: '+opponent.armySize);

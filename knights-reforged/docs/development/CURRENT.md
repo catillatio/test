@@ -1,5 +1,15 @@
 # Kingdom Come — current authority index
 
+Small continuation of reviewed `56fbd34`: [silhouette readability, compact Battle
+markers and synchronized unread controls](../finishing-pass/README.md), local only.
+
+Latest bounded follow-up: [local Profile silhouettes, class labels, charcoal
+comments and notification delivery](../focused-followup-20261112/README.md).
+Read-only observation on November 12, 2026 confirmed production merge `062f70c`
+and successful protected release 43113551849. The historical snapshots below
+remain dated records. This new follow-up is local only; NPC sponsorship remains
+off and matchmaking is frozen byte-for-byte.
+
 Reviewed 2026-11-05. This is a navigation map, not deployment authorization.
 Verify current origin/HEAD, open PRs and provider state when starting a task;
 the references below are a dated snapshot, not permanently pinned task bases.

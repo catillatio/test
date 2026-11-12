@@ -24,24 +24,59 @@ for(const item of previews){
 // Home unread means a real incoming attack or comment, not an outgoing action.
 // Recruitment badges remain until the pending request is acted on or canceled.
 const badges=[...document.querySelectorAll('[data-notification-badge]')];
-const paintAttention=data=>{for(const badge of badges){const key=badge.dataset.notificationBadge,count=Number(data[key])||0;badge.hidden=count===0;badge.querySelector('[data-notification-number]').textContent=count>99?'99+':String(count);badge.querySelector('[data-notification-label]').textContent=count+' '+(key==='army'?'pending incoming requests':'unread personal events');}};
+const paintAttention=data=>{
+ if(!data||!['home','army'].every(key=>Number.isSafeInteger(data[key])&&data[key]>=0))return false;
+ for(const badge of badges){
+  const key=badge.dataset.notificationBadge,count=Number(data[key])||0;
+  badge.hidden=count===0;
+  badge.querySelector('[data-notification-number]').textContent=count>99?'99+':String(count);
+  badge.querySelector('[data-notification-label]').textContent=count+' '+(key==='army'?'pending incoming requests':'unread personal events');
+ }
+ // These controls describe the same personal count as Home, never invitations.
+ // Keep the fixed read-batch ID intact; only reconcile presentation and affordance.
+ for(const tools of document.querySelectorAll('[data-personal-notification-tools]')){
+  tools.hidden=data.home===0;
+  const link=tools.querySelector('[data-personal-events-link]');if(link)link.textContent='View '+data.home+' unread personal events ›';
+  const form=tools.querySelector('form');
+  if(form){form.hidden=data.home===0;for(const button of form.querySelectorAll('button'))button.disabled=data.home===0;}
+ }
+ return true;
+};
 let refreshing=false;
 async function refreshAttention(){if(document.hidden||refreshing||reading)return;refreshing=true;try{const response=await fetch('/api/v1/notifications',{credentials:'same-origin',cache:'no-store'});if(response.ok)paintAttention(await response.json());}catch{}finally{refreshing=false;if(pendingRead.size&&!readTimer)readTimer=setTimeout(readSeen,350);}}
-const pendingRead=new Map();let readTimer=null,reading=false;
+const pendingRead=new Map();let readTimer=null,reading=false,readFailures=0;
+// Retry only the captured event IDs. A lost acknowledgment is safe because the
+// server records each owned event idempotently; no time watermark is advanced.
+const readRetryDelays=[750,2000,5000],attentionStorageKey='kingdom:attention-changed';
+function announceAttention(){try{localStorage.setItem(attentionStorageKey,Date.now()+':'+Math.random());}catch{}}
+function scheduleRead(delay){if(pendingRead.size&&!readTimer)readTimer=setTimeout(readSeen,delay);}
+function showReadFailure(failed){for(const status of document.querySelectorAll('[data-notification-read-status]'))status.hidden=!failed;}
 async function readSeen(){
- readTimer=null;if(reading||refreshing||document.hidden||!pendingRead.size)return;
+ if(readTimer)clearTimeout(readTimer);readTimer=null;if(reading||refreshing||document.hidden||!pendingRead.size)return;
  const csrf=document.querySelector('input[name="csrf"]')?.value;if(!csrf)return;
- const entries=[...pendingRead.entries()].slice(0,40);let delivered=false;reading=true;
+ const entries=[...pendingRead.entries()].slice(0,40);let delivered=false,retryable=false;reading=true;
  try{const response=await fetch('/api/v1/notifications/read',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json','accept':'application/json','x-csrf-token':csrf},body:JSON.stringify({events:entries.map(([,e])=>e)})});
-  if(response.ok){delivered=true;paintAttention(await response.json());for(const [id] of entries)pendingRead.delete(id);for(const element of document.querySelectorAll('[data-notification-event]')){try{const e=JSON.parse(element.dataset.notificationEvent);if(entries.some(([key])=>key===e.kind+':'+e.id))delete element.dataset.notificationEvent;}catch{}}if(!document.querySelector('[data-notification-event]'))for(const form of document.querySelectorAll('.notification-read-form'))form.hidden=true;}
- }catch{}finally{reading=false;if(delivered&&pendingRead.size)readTimer=setTimeout(readSeen,250);}
+  retryable=[408,425,429].includes(response.status)||response.status>=500;
+  if(response.ok){if(!paintAttention(await response.json()))throw Error('Invalid attention acknowledgment');delivered=true;for(const [id] of entries)pendingRead.delete(id);for(const element of document.querySelectorAll('[data-notification-event]')){try{const e=JSON.parse(element.dataset.notificationEvent);if(entries.some(([key])=>key===e.kind+':'+e.id))delete element.dataset.notificationEvent;}catch{}}if(!document.querySelector('[data-notification-event]'))for(const form of document.querySelectorAll('.notification-read-form'))form.hidden=true;announceAttention();}
+ }catch{retryable=true;}finally{
+  reading=false;
+  if(delivered){readFailures=0;showReadFailure(false);scheduleRead(250);}
+  else if(retryable&&readFailures<readRetryDelays.length)scheduleRead(readRetryDelays[readFailures++]);
+  else showReadFailure(true);
+ }
 }
 let attentionObserver=null;
 if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(!entry.isIntersecting||document.hidden)continue;try{const source=entry.target.closest('[data-notification-event]');if(!source)return;const event=JSON.parse(source.dataset.notificationEvent);pendingRead.set(event.kind+':'+event.id,event);observer.unobserve(entry.target);}catch{}}if(pendingRead.size&&!readTimer)readTimer=setTimeout(readSeen,350);},{threshold:0.5});attentionObserver=observer;for(const entry of document.querySelectorAll('[data-notification-event]'))observer.observe(entry.querySelector('header,h2,h3')??entry);}
 function rescanAttention(){if(attentionObserver)for(const entry of document.querySelectorAll('[data-notification-event]')){const target=entry.querySelector('header,h2,h3')??entry;attentionObserver.unobserve(target);attentionObserver.observe(target);}}
 window.addEventListener('pageshow',event=>{if(event.persisted){rescanAttention();void refreshAttention();void readSeen();}});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){rescanAttention();void refreshAttention();void readSeen();}});
-window.addEventListener('online',()=>{void refreshAttention();void readSeen();});
+function wakeAttention(){readFailures=0;rescanAttention();void refreshAttention();void readSeen();}
+for(const retry of document.querySelectorAll('[data-notification-read-retry]'))retry.addEventListener('click',wakeAttention);
+window.addEventListener('online',wakeAttention);
+window.addEventListener('focus',wakeAttention);
+// Only a nonsecret change signal is stored. Each tab fetches its own authenticated
+// count; no notification IDs, contents, account identifiers or credentials persist.
+window.addEventListener('storage',event=>{if(event.key===attentionStorageKey)void refreshAttention();});
 
 // Switch direction without discarding either quantity, command ID or recovery state.
 for(const panel of document.querySelectorAll('.market-bulk-panel')){
