@@ -13,6 +13,7 @@ const secret='synthetic-private-proof provider-token https://private.invalid/?cr
 const oldId='77777777-7777-4777-8777-777777777777',newId='88888888-8888-4888-8888-888888888888',patchId='99999999-9999-4999-8999-999999999999';
 const failedId='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
 const capturedObservation=JSON.parse(readFileSync(new URL('./fixtures/railway-image-target-observation-5.json',import.meta.url),'utf8'));
+const capturedRelease103=JSON.parse(readFileSync(new URL('./fixtures/railway-image-target-observation-103.json',import.meta.url),'utf8'));
 function fixture(mode='success',{install=false,failedLatest=false,regional=false,providerShape=false,delta=false,existingCredentials=false,credentialDelta='both',edit}={}){
  const target={projectId:ids[0],environmentId:ids[1],serviceId:ids[2]},trace=[],logs=[];let staged,receipt,sourceUpdated=false,clock=0,inspectCount=0;
  const identity={id:oldId,...target,status:'SUCCESS',createdAt:'2026-10-01T00:00:00Z',updatedAt:'2026-10-01T00:01:00Z',deploymentStopped:false,instances:[{id:'running-game-instance',status:'RUNNING'}]};
@@ -20,9 +21,10 @@ function fixture(mode='success',{install=false,failedLatest=false,regional=false
  if(failedLatest)game.latestDeployment={...structuredClone(identity),id:failedId,status:'FAILED',createdAt:'2026-10-01T01:00:00Z',updatedAt:'2026-10-01T01:01:00Z',deploymentStopped:true,instances:[]};
  if(regional)game.numReplicas=null;
  if(providerShape){
-  const fields=capturedObservation.fields;
+  const fields=(providerShape==='release-103'?capturedRelease103:capturedObservation).fields;
   game.healthcheckTimeout=fields['game.healthcheckTimeout'];
   game.activeDeployments[0].instances=fields['active.instances.status'].map((status,i)=>({id:'synthetic-game-instance-'+i,status}));
+  if(failedLatest)game.latestDeployment.instances=fields['latest.instances.status'].map((status,i)=>({id:'synthetic-failed-instance-'+i,status}));
  }
  const {source,...snapshot}=game;
  const settings={registrySetup:install?'install-read-only':'preconfigured',sha:candidate().sha,projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,imageTargetDigest:createHash('sha256').update(canonical({...snapshot,environmentScope:{projectId:target.projectId,environmentId:target.environmentId},regionalReplicas:regional?{iad:1}:null})).digest('hex')};
@@ -249,6 +251,32 @@ test('protected inspection invokes the actual shared target checks with one read
  assert.ok(result.checks.every(c=>c.passed===true));assert.ok(result.checks.some(c=>c.field==='game.source.repo'));assert.equal(result.metadata['latest.status'],'FAILED');
  assert.doesNotMatch(JSON.stringify(result),/synthetic|private\.invalid|[a-f0-9]{8}-[a-f0-9]{4}-|sha256:|credential=|\bvalue\b/);
 });
+test('protected inspection matches a preconfigured pinned-image release without requesting registry installation',async()=>{
+ const f=fixture('success',{existingCredentials:true,edit:b=>{
+  b.game.source={image:candidate().reference,repo:null};
+  b.environment.config.services[ids[2]].source={image:candidate().reference};
+ }});
+ const result=await inspectImageTarget(inspectEnv,{api:f.api});
+ assert.equal(result.result,'MATCH');assert.equal(result.firstRejected,null);assert.equal(result.authorizesRelease,false);
+ assert.deepEqual(f.trace,['inspect']);assert.equal(result.reads,1);
+ assert.ok(result.checks.some(c=>c.field==='game.source.image'&&c.expected==='PINNED_PRIVATE_IMAGE'&&c.passed));
+ assert.doesNotMatch(JSON.stringify(result),/synthetic|private\.invalid|sha256:|credential=/);
+});
+test('registry installation mode still rejects a service that already uses a pinned image',async()=>{
+ const f=fixture('success',{install:true,existingCredentials:true,edit:b=>{
+  b.game.source={image:candidate().reference,repo:null};
+  b.environment.config.services[ids[2]].source={image:candidate().reference};
+ }});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+for(const source of [{image:'ghcr.io/catillatio/kingdom-come-deploy-canary:latest',repo:null},{image:candidate().reference,repo:'catillatio/test'},{image:'ghcr.io/other/package@sha256:'+'f'.repeat(64),repo:null}])test('preconfigured inspection rejects unsafe image identity '+(source.repo?'repo association':source.image.includes(':latest')?'mutable tag':'foreign repository'),async()=>{
+ const f=fixture('success',{existingCredentials:true,edit:b=>{
+  b.game.source=structuredClone(source);b.environment.config.services[ids[2]].source=structuredClone(source);
+ }});
+ const result=await inspectImageTarget(inspectEnv,{api:f.api});
+ assert.equal(result.result,'REJECTED');assert.ok(['game.source.repo','game.source.image'].includes(result.firstRejected.field));
+ assert.equal(result.authorizesRelease,false);assert.deepEqual(f.trace,['inspect']);
+});
 test('an observer receives detached values and cannot mutate or bypass an acceptance assertion',async()=>{
  const f=fixture('success',{failedLatest:true,regional:true,edit:b=>{b.environment.config.services[ids[2]].deploy.multiRegionConfig.iad.numReplicas=2;}});
  await assert.rejects(inspectImageTargetState(f.settings,{api:f.api,observe:(_field,_expected,value)=>{if(value&&typeof value==='object'&&value.iad)value.iad.numReplicas=1;return true;}}));
@@ -259,7 +287,7 @@ for(const [field,expected,actual,edit]of[
  ['game.restartPolicyType','ON_FAILURE','MISSING',b=>{delete b.game.restartPolicyType;}],
  ['game.rootDirectory','EXPECTED_ROOT',false,b=>{b.game.rootDirectory=null;}],
  ['active.instances.status','RUNNING_OR_REMOVED',['CREATED'],b=>{b.game.activeDeployments[0].instances[0].status='CREATED';}],
- ['latest.instances.status','ALL_EXITED',['REMOVED'],b=>{b.game.latestDeployment.instances=[{id:secret,status:'REMOVED'}];}],
+ ['latest.instances.status','ALL_EXITED_OR_STOPPED_FAILED_REMOVED',['REMOVED'],b=>{b.game.latestDeployment.deploymentStopped=false;b.game.latestDeployment.instances=[{id:secret,status:'REMOVED'}];}],
  ['game.regionalReplicas.total','1',2,b=>{b.environment.config.services[ids[2]].deploy.multiRegionConfig.iad.numReplicas=2;}],
  ['pending.appliedAt','NULL','STRING',b=>{b.pending={environmentId:ids[1],status:'STAGED',lastAppliedError:null,id:secret,appliedAt:secret};}],
  ['pending.lastAppliedError','NULL','STRING',b=>{b.pending={environmentId:ids[1],status:'STAGED',lastAppliedError:secret};}]
@@ -469,6 +497,51 @@ test('captured sanitized provider shape passes the shared read-only guard with s
 test('complete synthetic first handoff preserves raw null timeout and all removed/running identities through the exact commit',async()=>{
  const f=fixture('success',{install:true,failedLatest:true,regional:true,providerShape:true});assert.equal(await f.run(),newId);
  assert.deepEqual(f.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','source','receipt','receipt','deploy','identity']);
+});
+const release103Fixture=(edit)=>fixture('success',{failedLatest:true,regional:true,providerShape:'release-103',existingCredentials:true,edit:(b,state)=>{
+ if(!state.sourceUpdated){b.game.source={image:candidate().reference,repo:null};b.environment.config.services[ids[2]].source={image:candidate().reference};}
+ edit?.(b,state);
+}});
+test('release 103 captured stopped removed-instance shape passes both operational and read-only image checks',async()=>{
+ const f=release103Fixture(),data=await f.api(imageInspectQuery,{projectId:ids[0],environmentId:ids[1],serviceId:ids[2]});
+ assert.deepEqual(sanitizedTargetMetadata(data,{serviceId:ids[2]}),capturedRelease103.fields);
+ assert.deepEqual(capturedRelease103.firstRejected,{field:'latest.instances.status',expected:'ALL_EXITED',actual:['REMOVED']});
+ const operational=await preflightImageTarget(f.settings,approval(),{api:f.api});
+ const baseline=JSON.parse(operational.baseline);
+ assert.equal(baseline.latestDeployment.status,'FAILED');assert.equal(baseline.latestDeployment.deploymentStopped,true);
+ assert.deepEqual(baseline.latestDeployment.instances,[{id:'synthetic-failed-instance-0',status:'REMOVED'}]);
+ assert.equal(baseline.activeDeployments[0].status,'SUCCESS');assert.deepEqual(baseline.activeDeployments[0].instances.map(i=>i.status),['REMOVED','RUNNING']);
+ const inspected=release103Fixture(),result=await inspectImageTarget(inspectEnv,{api:inspected.api});
+ assert.equal(result.result,'MATCH');assert.equal(result.firstRejected,null);assert.equal(result.authorizesRelease,false);assert.deepEqual(inspected.trace,['inspect']);
+ const promoted=release103Fixture();assert.equal(await promoted.run(),newId);
+ assert.deepEqual(promoted.trace,['inspect','stage','inspect','commit','workflow','receipt','receipt','source','receipt','receipt','deploy','identity']);
+});
+for(const status of ['WAITING','NEEDS_APPROVAL','QUEUED','CREATED','INITIALIZING','BUILDING','DEPLOYING','RUNNING','RESTARTING','REMOVING','CRASHED','STOPPED','SKIPPED','OTHER',null,undefined])test('stopped failed history never admits a live or uncertain instance: '+String(status),async()=>{
+ const f=release103Fixture(b=>{b.game.latestDeployment.instances[0].status=status;});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+for(const stopped of [false,null,undefined,'true'])test('removed failed instance requires explicit stopped evidence: '+String(stopped),async()=>{
+ const f=release103Fixture(b=>{b.game.latestDeployment.deploymentStopped=stopped;});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+for(const status of ['REMOVED','SKIPPED','SUCCESS','CRASHED','SLEEPING','BUILDING','QUEUED','DEPLOYING','OTHER'])test('removed-instance exception is limited to a failed attempt: '+status,async()=>{
+ const f=release103Fixture(b=>{b.game.latestDeployment.status=status;});
+ await assert.rejects(preflightImageTarget(f.settings,approval(),{api:f.api}));assert.deepEqual(f.trace,['inspect']);
+});
+for(const statuses of [[],['EXITED'],['REMOVED'],['EXITED','REMOVED']])test('terminal failed history keeps the sole authoritative active deployment: '+statuses.join(','),async()=>{
+ const f=release103Fixture(b=>{b.game.latestDeployment.instances=statuses.map((status,i)=>({id:'synthetic-failed-'+i,status}));});
+ const result=await preflightImageTarget(f.settings,approval(),{api:f.api});
+ assert.equal(JSON.parse(result.baseline).activeDeployments[0].id,oldId);assert.deepEqual(f.trace,['inspect']);
+});
+for(const phase of ['precommit','postcommit'])for(const field of ['removed instance identity','removed instance status','stopped flag'])test('release 103 raw failed-history snapshot rejects drift '+phase+' '+field,async()=>{
+ const f=release103Fixture((b,state)=>{
+  if(!state.staged||state.committed!==(phase==='postcommit'))return;
+  const latest=b.game.latestDeployment;
+  if(field==='removed instance identity')latest.instances[0].id='other-removed-instance';
+  if(field==='removed instance status')latest.instances[0].status='EXITED';
+  if(field==='stopped flag')latest.deploymentStopped=false;
+ });
+ await assert.rejects(f.run());assert.deepEqual(f.trace.filter(x=>['stage','commit','source','deploy'].includes(x)),phase==='precommit'?['stage']:['stage','commit']);
 });
 for(const value of [undefined,0,-1,121,300,Number.NaN,'120','300',{},[]])test('timeout rejects unsupported/missing explicit setting '+String(value),async()=>{
  const f=fixture('success',{failedLatest:true,regional:true,providerShape:true,edit:b=>{b.game.healthcheckTimeout=value;}});

@@ -1,5 +1,13 @@
 # Kingdom Come — current authority index
 
+2026-11-13: [Release 103 preflight correction](../release-image-preflight-103/README.md)
+is prepared locally against production `98756a0`: stopped failed-instance history
+and diagnostic registry mode. The protected read-only diagnostic identified the
+first rejection; no release retry, configuration change or activation is included.
+[PR #93](https://github.com/catillatio/test/pull/93) also includes the authorized
+test-only notification snapshot correction after its first CI run exposed hidden
+zero-unread DOM differences. No application or feature activation is included.
+
 Small continuation of reviewed `56fbd34`: [silhouette readability, compact Battle
 markers and synchronized unread controls](../finishing-pass/README.md), local only.
 
