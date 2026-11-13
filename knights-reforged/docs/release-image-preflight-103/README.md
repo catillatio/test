@@ -57,6 +57,22 @@ deployment statuses, live/unknown instance states, and raw snapshot drift before
 and after commit. Existing receipt, credential, concurrency and lost-response
 tests remain required.
 
+The first PR CI run, [43497051085](https://github.com/catillatio/test/actions/runs/43497051085),
+passed eight jobs but exposed an existing desktop theme comparison mismatch:
+sequential visits share notification reads, so counts can change between renders,
+and one DOM can retain hidden zero-unread controls that the next render omits.
+The owner-authorized test-only follow-up settles a bounded set of this disposable
+fixture owner's exact personal-event IDs before comparing, verifies zero unread
+and unchanged pending invitations, and keeps live counts strict. It also
+canonicalizes acknowledged controls in a detached snapshot after
+validating their zero count, disabled action, destination and nonce. Live unread
+controls and all other content/command/resource comparisons remain required.
+A registered Chromium regression exercises the unchanged notification client and
+rejects broken hidden-control states. The real five-event acknowledgment, failed
+transport, cross-tab, restart, late-event and invitation tests remain unchanged.
+Application code and the preflight correction
+are unchanged by this test follow-up; fresh exact-head CI remains mandatory.
+
 No protected release has been retried. The existing production deployment
 `8084fa33-e185-46ae-a553-cd5b475b77b9` remained successful and `/healthz` returned
 HTTP 200 / ready at source `98756a0449b2b260c62c26d52491a23954f82788` after the
