@@ -81,3 +81,10 @@ this first internal upload. No independent legal certificate is universally requ
 See [official policy mapping](POLICY_REQUIREMENTS.md), [Data Safety worksheet](DATA_SAFETY.md),
 [App Content](APP_CONTENT.md), [asset audit](ASSET_LICENSE_AUDIT.md), and
 [retention approvals](privacy/OWNER_DECISIONS.md).
+
+Dependency validation found four moderate advisories in the deployed dependency
+baseline. Narrow fixes: `@fastify/static`10.1.6→10.1.10 (patched send/glob/minimatch
+transitives), `fast-uri`4.2.2→4.2.3 and AJV's3.1.8→3.1.9. No new application SDK,
+permission or gameplay behavior is introduced. Both production dependency trees
+report zero current npm advisories after these updates; final CI independently
+checks the locked versions. No global npm setting or shared worktree was changed.
