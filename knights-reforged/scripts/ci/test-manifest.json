@@ -993,6 +993,11 @@
       "file": "tests/home-theme-semantics-browser.test.ts",
       "lane": "browser",
       "weight": 10
+    },
+    {
+      "file": "tests/public-branding.test.mjs",
+      "lane": "unit",
+      "weight": 1
     }
   ]
 }

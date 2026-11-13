@@ -1,4 +1,4 @@
-name: Kingdom Come signed Android bundle
+name: Kingdoms Restored signed Android bundle
 on:
   workflow_dispatch:
     inputs:

@@ -5,7 +5,7 @@ See [Play readiness](../google-play/PLAY_STORE_READINESS.md). Production erasure
 NPC creation, signing, and PR #88 merge/deployment remain owner-gated. Prior
 A/B/D policy approvals stand; C remains conditional. The owner-authorized
 Kingdoms Restored rebrand is a separate review change; internal identifiers stay
-unchanged.
+unchanged. See [current rebrand review](../google-play/REBRAND_REVIEW.md).
 
 2026-11-13: [Release 103 preflight correction](../release-image-preflight-103/README.md)
 was merged in [PR #93](https://github.com/catillatio/test/pull/93), including the

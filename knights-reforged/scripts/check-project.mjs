@@ -267,9 +267,9 @@ check('Legacy HTML command routes are preserved through the alpha expansion',()=
  const baseline=json('tests/fixtures/land-form-contracts.json');
  for(const forms of Object.values(baseline.fixtures))for(const form of forms){if(form.action==='/game/army/recruit'){assert.ok(!posts.some(p=>p.test(form.action)));continue;}assert.ok(posts.some(p=>p.test(form.action)),form.action);}
 });
-check('Active branding and package lock use Kingdom Come',()=>{
+check('Public Kingdoms Restored branding preserves the legacy package identity',()=>{
   const pkg=json('package.json'),lock=json('package-lock.json');assert.equal(pkg.name,'kingdom-come');assert.equal(lock.name,pkg.name);assert.equal(lock.packages[''].name,pkg.name);
-  for(const html of rendered.values()){assert.ok(html.includes('Kingdom Come'));assert.ok(!html.includes('Knights Reforged'));}
+  for(const html of rendered.values()){assert.ok(html.includes('Kingdoms Restored'));assert.ok(!/kingdom\s+come/i.test(html));assert.ok(!html.includes('Knights Reforged'));}
 });
 check('Upgraded pages bypass cached pre-expansion income clients',()=>{
   for(const example of cases){

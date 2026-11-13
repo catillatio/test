@@ -1,7 +1,7 @@
-# Kingdom Come — Android release candidate
+# Kingdoms Restored — Android release candidate
 
 Permanent application ID and Java namespace: **game.kingdomcome.rpg**. Public name:
-**Kingdom Come**. Actual Play Console registration/availability is owner-confirmed;
+**Kingdoms Restored**. Actual Play Console registration/availability is owner-confirmed;
 public search is not proof. Gradle, the release manifest verifier and protected
 signer reject any other permanent ID. Debug uses `game.kingdomcome.rpg.debug` and
 cannot overwrite the release app. No unrelated ID is substituted.

@@ -35,7 +35,7 @@ try {
   stopBotEconomy=startBotEconomy(db,config.livingBotEconomyEnabled,()=>app.log.error('Autonomous rival purchase check failed; committed decisions will not repeat.'));
   stopBotCombat=startBotCombat(db,config.livingBotCombatEnabled,()=>app.log.error('Autonomous rival duel check failed; committed battles will not repeat.'));
   stopNpcSponsorship=startNpcSponsorship(db,!!config.npcSponsorshipEnabled,()=>app.log.error('NPC sponsorship failed; committed window decisions will not repeat.'));
-  console.log(`Kingdom Come is ready at ${config.origin}`);
+  console.log(`Kingdoms Restored is ready at ${config.origin}`);
 } catch (error) {
   app.log.error(error, 'Startup failed. Run npm run db:migrate before starting.');
   await db.end();

@@ -1,4 +1,4 @@
-name: Kingdom Come Android readiness
+name: Kingdoms Restored Android readiness
 on:
   pull_request:
     paths: ['android/**', '.github/workflows/android-alpha.yml']

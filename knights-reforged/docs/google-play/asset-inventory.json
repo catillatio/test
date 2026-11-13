@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "public/alpha.css",
-      "bytes": 11557,
-      "sha256": "3f95aad75a620b32f1f505ed2f016b1f8e9d80d1c46e012d8c41637bffa0026b"
+      "bytes": 11562,
+      "sha256": "fa8c22c682efbeba31ca8da3df1b3429432e2afa6ebb8ff106c47b2ff59ae80c"
     },
     {
       "path": "public/art/alpha/axe.svg",
@@ -1123,8 +1123,8 @@
     },
     {
       "path": "public/phase44.css",
-      "bytes": 11241,
-      "sha256": "9e78ef52cf89894d7d5b5e347087ed13022122774bfc20c8b2c4b21821277ad6"
+      "bytes": 11246,
+      "sha256": "e5d10f6c0cb37336e888efe12b22755f03decd7f9939a8894f24391397cfa27a"
     },
     {
       "path": "public/phase45.css",
@@ -1193,8 +1193,8 @@
     },
     {
       "path": "public/refinements.css",
-      "bytes": 7742,
-      "sha256": "a94459882dd315183fedb17c4294d77fdfaaf3c4eb07c718eaa4ab7ccc5e3b42"
+      "bytes": 7747,
+      "sha256": "056fcd3d1518d297448e82c7ae87dbc993ce03351a22890f37ba85a40dab59b9"
     },
     {
       "path": "public/remaster.css",

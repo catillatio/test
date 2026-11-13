@@ -195,7 +195,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
       armyTab:query.tab==='army'||query.tab==='dashboard'?query.tab:'recruit',armyEvents:[],rosterFilter:['accepted','incoming','outgoing'].includes(query.roster??'')?query.roster:'all',
       csrf: session?.csrf_token ?? '', accountName: session?.username ?? '',
       commandId: randomUUID, notice, error: null, opponents: [], nextOpponentCursor:null, battles: [], battle: null,
-      sound:state?await soundPreferences(db,state.id):mutedSound,soundEvent:soundFeedback(data.actionResult??actionResult,data.battle,state?.id),experience:playerExperience,title: 'Kingdom Come', authMode: 'login', returnTo:safeReturn((request.query as {returnTo?:string}).returnTo??asBody(request).returnTo),formValues: { username: '', name: '' }, ...data,
+      sound:state?await soundPreferences(db,state.id):mutedSound,soundEvent:soundFeedback(data.actionResult??actionResult,data.battle,state?.id),experience:playerExperience,title: 'Kingdoms Restored', authMode: 'login', returnTo:safeReturn((request.query as {returnTo?:string}).returnTo??asBody(request).returnTo),formValues: { username: '', name: '' }, ...data,
     });
   }
 
