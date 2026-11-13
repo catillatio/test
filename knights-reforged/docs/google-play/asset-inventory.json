@@ -1,5 +1,5 @@
 {
-  "purpose": "Current candidate runtime asset inventory, including branch-local policy CSS; no approved image bytes modified; rights assessed separately",
+  "purpose": "Integrated candidate runtime inventory; exact current bytes; no production image/art changes. Rights and original-reference exclusions reviewed separately.",
   "files": [
     {
       "path": "public/alpha.css",
@@ -100,6 +100,46 @@
       "path": "public/art/alpha/woodland.svg",
       "bytes": 903,
       "sha256": "a76f61f03ac0ccb295ead939d63b53a1ca57080e908c560a842901bf1d820656"
+    },
+    {
+      "path": "public/art/class-portraits-1/freeblade.png",
+      "bytes": 26264,
+      "sha256": "9ba1a9b4813c9d609c14001b021a35e31baff19afff2de535203877847297033"
+    },
+    {
+      "path": "public/art/class-portraits-1/provenance.json",
+      "bytes": 1600,
+      "sha256": "b87711fceb7dfa6815a6bda03f55b6d4b8a4e4a7efb986f8bfc2f127b681c92b"
+    },
+    {
+      "path": "public/art/class-portraits-1/spellward.png",
+      "bytes": 22564,
+      "sha256": "53d49affefbfcde6e930bbcb0bb4d866f865f7b11672826dcdca146ad5212071"
+    },
+    {
+      "path": "public/art/class-portraits-1/warden.png",
+      "bytes": 25134,
+      "sha256": "8525da9a152e9ccff6f64188136ca8c71aaa0ab2eb9b866ae14575cbf35b0d12"
+    },
+    {
+      "path": "public/art/class-silhouettes-1/freeblade.svg",
+      "bytes": 1861,
+      "sha256": "a98ae3af1ffb35282fb574c31486aa0d9165657a7628996c8661d5d2b3b2b6b9"
+    },
+    {
+      "path": "public/art/class-silhouettes-1/provenance.json",
+      "bytes": 976,
+      "sha256": "3dca994655be7c24ae61a5db0be732a4e296be87a7d6e13aff81aff780eb44e1"
+    },
+    {
+      "path": "public/art/class-silhouettes-1/spellward.svg",
+      "bytes": 1700,
+      "sha256": "7a3eb6c5bc0af66a68bef2c16781d68c0ba625de0ce2397222cc2047fe739a2f"
+    },
+    {
+      "path": "public/art/class-silhouettes-1/warden.svg",
+      "bytes": 1876,
+      "sha256": "dd25cf8502db651e09483c1ecb6e20efc99f3dab2c85f42dd54f842842340497"
     },
     {
       "path": "public/art/coordinated-art-1/argent-sentinel-plate.webp",
@@ -1058,13 +1098,13 @@
     },
     {
       "path": "public/land.js",
-      "bytes": 6245,
-      "sha256": "90d4ca35b73a9e0a9656181a5fe66e094192cc8e595b9874324e0d408f578036"
+      "bytes": 6386,
+      "sha256": "213f3d46be67dc59a2c78c470d713a36b3975ab7fcfb4345948e57340efb3d80"
     },
     {
       "path": "public/market.js",
-      "bytes": 7676,
-      "sha256": "1d1759077627193f6bc63526a25fc0c3287262c6a7679bb7d214da84e5999d95"
+      "bytes": 7844,
+      "sha256": "1bc5d879b9e86ade5b370fdc67a1aefe4c5eb684d81879d4ae1269a1dfe44f59"
     },
     {
       "path": "public/phase41.css",
@@ -1123,8 +1163,8 @@
     },
     {
       "path": "public/player-experience.js",
-      "bytes": 6687,
-      "sha256": "c63c60b558100d50f80dda37e1eaf52e01af20365b42b6c57e2bbbd341f16b0e"
+      "bytes": 9546,
+      "sha256": "1b82d5fb4456fb43921b584e2220cd25dedaf64539e7a5d619281ce362f587c4"
     },
     {
       "path": "public/preferences.js",
@@ -1134,12 +1174,12 @@
     {
       "path": "public/profile-classic.css",
       "bytes": 2428,
-      "sha256": "9bc57d8a78c84e1506e293da73c7d5bf63dd955595769976f14613f867403c0f"
+      "sha256": "2e3a04d8fc5a83823e4137a51efd7670046d1092bcb9f8ddef7055fe8bc6c5cb"
     },
     {
       "path": "public/realm-iron-brass.css",
-      "bytes": 137212,
-      "sha256": "e466267927fb497441273925e37d461ce3d2d31dbead9aa7553b0d8e2fe63c42"
+      "bytes": 147691,
+      "sha256": "3175328e4fb3d0b47be39b46895cd24bc49478ccc0e74f08ca8290e176413c18"
     },
     {
       "path": "public/realm-theme.css",
@@ -1148,8 +1188,8 @@
     },
     {
       "path": "public/realm.js",
-      "bytes": 5716,
-      "sha256": "296e075b47a189b54d68f0a729460df9cd7a99eaa250954c8be1993dd8265da7"
+      "bytes": 6732,
+      "sha256": "2641f5bcf20f2c7a9ba963bfe5e661f104ee4986366b3074f98925036a955994"
     },
     {
       "path": "public/refinements.css",
@@ -1163,8 +1203,8 @@
     },
     {
       "path": "public/shopping.js",
-      "bytes": 4924,
-      "sha256": "e551d31b309ea63bd29e2c78f5829330f5a599e9ef5baf3728af4966cbf975d6"
+      "bytes": 4990,
+      "sha256": "687a8f98aa17beda42c437f080858e05003bca05a241169fba293e0d47517199"
     },
     {
       "path": "public/sound.js",
@@ -1173,8 +1213,8 @@
     },
     {
       "path": "public/status.js",
-      "bytes": 5606,
-      "sha256": "1d746c930779fbfd34755d3cfebaf9ade7f980fece28f4bf53dceec81f72046c"
+      "bytes": 5796,
+      "sha256": "5883dfc28a4a3a8567ff8465e51453e5ca548025749d4e77723d5c12aed57823"
     },
     {
       "path": "public/strategy.css",
