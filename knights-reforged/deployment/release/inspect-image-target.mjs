@@ -75,7 +75,10 @@ export async function inspectImageTarget(env,{api}={}){
    if(query===imageInspectQuery)metadata=sanitizedTargetMetadata(data,target);
    return data;
   };
-  await inspectImageTargetState({projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,registrySetup:'install-read-only'},{api:read,observe});
+  // Match ordinary image-release with credential installation OFF. The shared
+  // guard also checks a GitHub source before its first image transition; forcing
+  // installation here incorrectly rejects an already configured pinned image.
+  await inspectImageTargetState({projectId:target.projectId,environmentId:target.environmentId,gameServiceId:target.serviceId,registrySetup:'preconfigured'},{api:read,observe});
   if(current)checks.push({...current,passed:true});
   return {kind:'READ_ONLY_FIRST_IMAGE_HANDOFF',result:'MATCH',firstRejected:null,checks,metadata,reads,authorizesRelease:false};
  }catch(error){
