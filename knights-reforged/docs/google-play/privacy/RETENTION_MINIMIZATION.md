@@ -1,11 +1,11 @@
-# Minimal retained records — unactivated v6 proposal
+# Minimal retained records — owner-approved v6 policy, execution disabled
 
-2026-11-06, PR #88. Owner approved A (prompt deletion, ordinarily seven days) and D
-(minimal protected restore-suppression evidence), and conditionally approved C's
-30-day routine-backup target. **B remains unapproved.** No approved signed v6 policy,
-production key/role/journal, erasure/NPC activation or real-account operation is
-created by this implementation. v5 signatures cannot authorize this narrower v6
-projection. Optional abandoned kingdoms are outside launch/deletion scope.
+Owner approved A/B/D, including the exact v6 B proposal at `3d273e8`.
+[Approval provenance](APPROVED_POLICY_SOURCE.json) preserves its original byte hash.
+This integrated candidate changes the signed wire format to v7 only to represent
+conditional C honestly and bind a real protected GitHub coordinator. It does not
+broaden B or require B reapproval. No production policy/key, role, journal,
+credentials or execution has been installed or activated.
 
 ## What changes at fulfillment
 
@@ -70,10 +70,10 @@ particular ledger schema, or an independent legal/privacy certificate. Owner
 approval must reflect actual necessity and applicable law; code approval alone
 is not approval to retain data or to execute production erasure.
 
-**Requested decision B:** approve this reference-bound policy and the explicit
-remaining associated records, or specify the narrower categories/periods needed.
-A/D are already approved; C remains conditional. No repeated key generation,
-credential setup or production deletion is needed to review this proposal.
+**Decision B approved:** review necessity every 30 days and dispose of a retained
+record within 30 days after its final legitimate dependency/hold ends, through a
+separately authorized integrity-checked procedure. This is not authority to purge
+financial history automatically. A/D approved; C remains conditional.
 
 ## C — verified facts and remaining access limit
 
@@ -83,11 +83,11 @@ run #41962151527 confirms the two artifacts expire **2027-02-03T03:31:43Z** (abo
 days after the 2026-11-05 run). No artifact contents were downloaded or expiry
 changed. This is not an enforced 30-day routine-backup schedule.
 
-Railway read-only service metadata confirms the existing Postgres and
-KingdomReleaseCopy services/volumes have no staged changes; it does **not** expose
-backup schedules, locks, PITR retention or object expiry. Targeted protected/repo
-backup-variable reads were unavailable/denied; no secret values were read and no
-new authentication or diagnostic workflow is requested.
+The owner completed both production Backups-tab checks. Postgres has no volume
+backup schedule and PITR is disabled; KingdomReleaseCopy has no schedule and its
+current image does not support PITR. The two/three online-resize entries are not
+scheduled backups. Neither inspection establishes expiry or protected/manual holds.
+See [recorded owner evidence](DECISION_C_OWNER_EVIDENCE.json); do not repeat this check.
 
 Published Railway documentation describes daily 6-day, weekly 27-day and monthly 89-day
 volume retention; those are product capabilities, not proof any schedule is enabled
@@ -98,14 +98,11 @@ unverified; do not infer 30-day deletion from a presigned URL expiring or a GitH
 artifact's separate expiry. Restored PostgreSQL databases are another independent
 retained copy, with existing adoption/retirement requirements unchanged.
 
-Minimum owner read-only check, when convenient: open the existing **Postgres** and
-**KingdomReleaseCopy** service **Backups** tabs and report only enabled schedules,
-displayed expiry/PITR window and whether protected/manual/locked backups exist.
-Do not create a backup, change a schedule, restore, unlock or delete anything. Do
-not look for a native S3 lifecycle switch that the provider does not support.
-Any future routine expiry change must preserve current/pinned/emergency/uncertain
-copies and independent recoverability. OIDs 106971/129180 remain protected. Approval
-of a target is not authorization to shorten existing retention or run cleanup.
+C remains conditional until separately managed recovery objects/databases,
+provider retention practices and all protected/manual holds are accounted for.
+No new backup survey or retention change is necessary to prepare this candidate.
+Emergency OIDs 106971/129180, pinned/current/uncertain copies and 90-day GitHub
+artifacts remain protected. A 30-day target is not a current maximum or guarantee.
 
 Sources: [Railway backups](https://docs.railway.com/volumes/backups),
 [storage buckets](https://docs.railway.com/storage-buckets),

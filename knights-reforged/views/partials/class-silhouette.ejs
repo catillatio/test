@@ -1,0 +1,1 @@
+<% const silhouetteFile=({Freeblade:'freeblade',Warden:'warden',Spellward:'spellward'})[classKey]??'freeblade'; %><img class="class-silhouette" src="/assets/art/class-silhouettes-1/<%= silhouetteFile %>.svg?v=finish2" width="<%= markerSize %>" height="<%= markerSize %>" alt="<%= decorative?'':callingName(classKey)+' silhouette' %>"<% if(decorative) { %> aria-hidden="true"<% } %>>

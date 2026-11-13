@@ -1,38 +1,20 @@
-# Owner decisions and remaining retention approval
+# Recorded retention decisions — no new policy approval requested
 
-2026-11-06. Production erasure and NPC construction stay disabled. No keys,
-credentials, production role/journal, source merge or deployment is authorized.
-
-| Decision | Owner state | Practical effect |
+| Decision | State | Operational meaning |
 |---|---|---|
-| A — prompt personal/account deletion | Approved; ordinarily within seven days | The engine genuinely removes credentials/personal data; operational fulfillment still needs separately authorized setup. No new acknowledgment deadline is invented. |
-| B — retained records | **Not approved** | Replaced the broad estate/realm-lifetime proposal with the unactivated [v6 minimization/reference-bound policy](RETENTION_MINIMIZATION.md). Review the explicit remaining associated records and necessary dependency period. |
-| C — routine backups | Conditionally approved 30-day target | Current encrypted GitHub artifacts are 90 days; Railway schedules/locks/PITR and object expiry are not established. Do not advertise or enforce 30-day expiry yet. Preserve every protected/emergency copy until separately reviewed. |
-| D — restore suppression/audit | Approved | Keep minimal independently protected erasure evidence until the last affected backup is actually destroyed, plus 30 days proposed grace; prevent resurrection before restored access. No private signing key is generated. |
+| A | Approved | Prompt account/personal-data deletion, ordinarily within seven days, after authorized operational setup. |
+| B | Approved at `3d273e8` | Only necessary financial/shared-history/security/recovery references; remove unnecessary personal data. Review necessity every 30 days; dispose within 30 days after the final dependency/hold ends, through a separately approved procedure. |
+| C | Conditional | 30-day routine-backup target is not enforced. GitHub recovery artifacts are about 90 days. Owner verified both Railway services have no scheduled volume backups; Postgres PITR is off, ReleaseCopy PITR unavailable. Resize entries prove no retention window or holds. Other copies/provider practices/holds remain unresolved and protected. |
+| D | Approved | Minimal protected erasure evidence prevents resurrection until the last relevant backup is destroyed, plus 30 days. |
 
-The proposed v6 erasure now deletes private profile caches, loadout/army state,
-progression/achievement records and unreferenced assets. Historical FK anchors
-have zero live asset quantities; their original financial facts and all monetary
-balances/fractions/journals remain exact. No NPC, refund, gift or new income is
-created. Remaining opaque references are **associated data**, not automatically
-anonymous. B is not approved merely because minimization tests pass.
+The exact approved v6 B text is preserved by hash in
+[APPROVED_POLICY_SOURCE.json](APPROVED_POLICY_SOURCE.json). Current v7 signed packets
+retain these terms, explicitly encode conditional C, and bind the real release
+mutex. No new key or production signature was created. No policy is activated.
+[Completed C evidence](DECISION_C_OWNER_EVIDENCE.json) must not be requested again.
 
-Review [the exact B proposal and verified C findings](RETENTION_MINIMIZATION.md).
-The remaining policy checkpoint is B; A and D must not be requested again. C's
-actual-provider verification must distinguish GitHub artifacts, object-store
-copies, volume snapshots/PITR and restored databases. No cleanup authorization is
-implied. Emergency OIDs 106971/129180 and all other holds remain protected.
-
-After B and final factual notices are approved, the next operational checkpoint is
-explicit authorization for the normal protected backend release and restricted
-operator/journal/signing/restore-guard installation and synthetic acceptance.
-Actual production mutex coordination must exist; an environment attestation is
-not itself a GitHub lock. Do not present a queue or unpublished engine as a live
-fulfilled deletion service. Backend publication and real erasure remain distinct.
-
-There is no universal Google Play independent legal/privacy certification
-requirement. Resolve actual category-specific necessity and applicable legal
-obligations without inventing declarations, time limits or a new gameplay system.
-Publisher/privacy/support facts and lost-access assistance must be finalized for
-the actual webpages, independently of the owner's Console forms. No such personal
-information is requested during this implementation task.
+Remaining owner actions are factual publisher/contact/legal text, separate
+backend deployment and private restricted operator/journal installation approval,
+then synthetic operational acceptance. Real erasure remains separately disabled.
+No universal Google Play independent legal certification is asserted. Optional
+abandoned kingdoms are independent, archived and excluded from this launch.

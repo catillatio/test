@@ -1,0 +1,3 @@
+/** Proposed balance for review; independent of immutable player-experience-1. */
+export const achievementGoldPolicy=Object.freeze({id:'achievement-gold-1',provenance:'Original one-time milestone rewards proposed 2026-11-11; individual amounts are delegated design choices, not an assertion of owner-approved balance.',ranks:Object.freeze([500,2500,10000,50000,100000,150000]),npcEligible:false});
+export function achievementGold(rank:number){if(!Number.isSafeInteger(rank)||rank<1||rank>achievementGoldPolicy.ranks.length)throw new RangeError('Unknown achievement rank');return achievementGoldPolicy.ranks[rank-1]!;}

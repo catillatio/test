@@ -13,7 +13,7 @@ GRANT UPDATE(result) ON command_receipts TO kc_account_eraser;
 -- PostgreSQL requires one UPDATE column privilege for SELECT ... FOR UPDATE.
 GRANT UPDATE(status) ON account_deletion_requests TO kc_account_eraser;
 GRANT INSERT ON account_erasures,account_erasure_checkpoints TO kc_account_eraser;
-GRANT DELETE ON character_quest_progress,character_loot,progression_awards,skill_allocations,sessions,trade_quotes,social_reports,social_moderation,social_mutes,
+GRANT DELETE ON rival_recommendation_entries,rival_recommendation_snapshots,notification_read_batches,npc_sponsorship_holds,character_quest_progress,character_loot,progression_awards,skill_allocations,sessions,trade_quotes,social_reports,social_moderation,social_mutes,
  social_blocks,social_user_reports,army_links,army_invitation_codes,notification_reads,
  realm_messages,army_events,competitive_attention_starts,army_attention_starts,
  notification_state,player_preferences,sound_preferences,tutorial_steps,tutorial_guides,

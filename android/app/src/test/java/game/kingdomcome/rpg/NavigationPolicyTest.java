@@ -29,7 +29,7 @@ public class NavigationPolicyTest {
         assertEquals(NavigationPolicy.HOME, NavigationPolicy.recovery(url));
     }
     @Test public void recoveryKeepsKnownScreensAndFilters() {
-        for (String suffix : new String[]{"/account-deletion", "/legal/privacy", "/legal/terms", "/game/land", "/game/armory?category=weapon", "/game/army?tab=dashboard", "/login?returnTo=%2Fgame%2Fland", "/game/battles/11111111-1111-4111-8111-111111111111"}) {
+        for (String suffix : new String[]{"/game/crowns", "/game/notifications?cursor=old", "/account-deletion", "/legal/privacy", "/legal/terms", "/game/land", "/game/armory?category=weapon", "/game/army?tab=dashboard", "/login?returnTo=%2Fgame%2Fland", "/game/battles/11111111-1111-4111-8111-111111111111"}) {
             assertEquals(NavigationPolicy.ORIGIN + suffix, NavigationPolicy.recovery(NavigationPolicy.ORIGIN + suffix));
         }
     }

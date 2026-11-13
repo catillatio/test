@@ -95,8 +95,8 @@ async function readStatus(url){
    EXISTS(SELECT 1 FROM private_alpha_initializations WHERE id='railway-phase43-private-alpha-v1') AS initialized,
    pg_database_size(current_database())::text AS "sourceBytes",
    (SELECT system_identifier::text FROM pg_control_system()) AS "clusterId"`)).rows[0];
-  row.erasureRecorded=row.schemaHead==='028_account_erasure.sql'&&(await client.query('SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')).rows[0].recorded;
-  row.worldRecorded=row.schemaHead==='028_account_erasure.sql'&&(await client.query('SELECT EXISTS(SELECT 1 FROM abandoned_kingdoms) OR EXISTS(SELECT 1 FROM graveyard_operations) AS recorded')).rows[0].recorded;
+  row.erasureRecorded=row.schemaHead==='054_account_erasure.sql'&&(await client.query('SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')).rows[0].recorded;
+  row.worldRecorded=row.schemaHead==='054_account_erasure.sql'&&(await client.query('SELECT EXISTS(SELECT 1 FROM abandoned_kingdoms) OR EXISTS(SELECT 1 FROM graveyard_operations) AS recorded')).rows[0].recorded;
   row.population=await populationEvidence(client);const bots=checkPopulationEvidence(row.population);assert.equal(row.bots,bots);assert.ok(row.accounts>=bots+1);assert.equal(row.initialized,true);
   return row;
  }finally{await client.query('ROLLBACK').catch(()=>{});client.release();await db.end();}
@@ -157,7 +157,7 @@ async function main(){
   report.restoredCopy=JSON.parse(result);
   if(process.env.KINGDOM_ERASURE_RECONCILIATION_REQUIRED==='1'||sourceStatus.erasureRecorded){
    gate='copy-erasure-reconciliation';const copyUrl=new URL(restore.url);copyUrl.pathname='/'+request.copy;const copyDb=createDatabase(copyUrl.href);
-   try{await assertErasureFence(copyDb,{required:true,journalPath:process.env.KINGDOM_ERASURE_JOURNAL_PATH,publicKey:process.env.KINGDOM_ERASURE_VERIFY_KEY});}
+   try{assert.ok(process.env.KINGDOM_ERASURE_JOURNAL_URL,'Independent erasure journal reader required.');await assertErasureFence(copyDb,{required:true,publicKey:process.env.KINGDOM_ERASURE_VERIFY_KEY,journalUrl:process.env.KINGDOM_ERASURE_JOURNAL_URL,journalToken:process.env.KINGDOM_ERASURE_JOURNAL_READ_TOKEN,journalScope:process.env.KINGDOM_ERASURE_SCOPE_DIGEST});}
    finally{await copyDb.end();}
   }
   gate='copy-world-population-reconciliation';const worldCopyUrl=new URL(restore.url);worldCopyUrl.pathname='/'+request.copy;const worldCopyDb=createDatabase(worldCopyUrl.href);

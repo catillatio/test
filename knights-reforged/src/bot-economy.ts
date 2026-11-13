@@ -144,5 +144,5 @@ export async function runBotEconomy(db:Database,enabled:boolean){
  return result;
 }
 export function startBotEconomy(db:Database,enabled:boolean,onError:(error:unknown)=>void){
- return startScheduledBotWork(()=>runBotEconomy(db,true),enabled,livingEconomy.intervalMs,onError);
+ return startScheduledBotWork(()=>runBotEconomy(db,true),enabled,livingEconomy.intervalMs,onError,'autonomous_economy');
 }

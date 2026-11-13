@@ -13,6 +13,7 @@ on:
 permissions:
   contents: read
   actions: read
+  deployments: read
 concurrency:
   group: kingdom-android-signed-bundle
   cancel-in-progress: false
@@ -29,6 +30,7 @@ jobs:
       ANDROID_APPLICATION_ID: ${{ vars.ANDROID_APPLICATION_ID }}
       ANDROID_VERSION_CODE: ${{ inputs.version_code }}
       ANDROID_VERSION_NAME: ${{ inputs.version_name }}
+      KINGDOM_ANDROID_EXPECTED_SHA: ${{ github.sha }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:

@@ -7,24 +7,29 @@ export const sha256=(bytes:string|Buffer)=>createHash('sha256').update(bytes).di
 const uuid=z.uuid(),digest=z.string().regex(/^[a-f0-9]{64}$/);
 export const scopeContract=z.object({projectId:uuid,environmentId:uuid,gameServiceId:uuid,
  database:z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,62}$/),clusterDigest:digest}).strict();
-export const policyContract=z.object({protocol:z.literal('kingdom-erasure-policy-v6'),policyId:uuid,
+export const policyContract=z.object({protocol:z.literal('kingdom-erasure-policy-v7'),policyId:uuid,
  repository:z.literal('catillatio/test'),approved:z.literal(true),approvedAt:z.iso.datetime(),
  // Explicitly proposed exceptions. No implicit legal policy or default approval.
  sharedRecords:z.literal('reference-bound-minimal-integrity-records-v1'),
  backupRecords:z.literal('suppress-on-restore-until-protected-backups-expire'),
  journalRetention:z.literal('last-relevant-backup-destruction-plus-30-days'),
  personalData:z.literal('erase-login-and-minimize-live-estate-v2'),
- integrityReviewDays:z.literal(30),formerWallet:z.literal('sealed-integrity-anchor-no-transfer'),unreferencedRecordDisposalGraceDays:z.literal(30),routineBackupMaximumDays:z.literal(30),protectedBackupReviewDays:z.literal(30),erasureLedgerGraceDays:z.literal(30),scope:scopeContract}).strict();
-export const intentContract=z.object({protocol:z.literal('kingdom-erasure-intent-v6'),operationId:uuid,
+ integrityReviewDays:z.literal(30),formerWallet:z.literal('sealed-integrity-anchor-no-transfer'),unreferencedRecordDisposalGraceDays:z.literal(30),
+ // C is conditional: a target is not an established universal backup expiry.
+ routineBackupMaximumDays:z.null(),routineBackupTargetDays:z.literal(30),routineBackupTargetEnforced:z.literal(false),
+ protectedRecoveryArtifactDays:z.literal(90),otherProviderRetention:z.literal('not-fully-established'),
+ protectedBackupReviewDays:z.literal(30),erasureLedgerGraceDays:z.literal(30),scope:scopeContract}).strict();
+export const intentContract=z.object({protocol:z.literal('kingdom-erasure-intent-v7'),operationId:uuid,
  accountId:uuid,characterId:uuid,requestId:uuid,policyDigest:digest,sourceScope:scopeContract,
  issuedAt:z.iso.datetime(),personalDataReviewCompleted:z.literal(true)}).strict();
-export const permitContract=z.object({protocol:z.literal('kingdom-erasure-execution-v1'),
+export const permitContract=z.object({protocol:z.literal('kingdom-erasure-execution-v2'),
  mode:z.enum(['fulfill','restore']),operationId:uuid,intentDigest:digest,policyDigest:digest,
  journalSequence:z.number().int().nonnegative(),journalRoot:digest,targetDatabase:z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,62}$/),
  targetOid:z.string().regex(/^[1-9][0-9]*$/),targetClusterDigest:digest,candidateDigest:digest,codeSha:z.string().regex(/^[a-f0-9]{40}$/),
  issuedAt:z.iso.datetime(),expiresAt:z.iso.datetime(),externalHoldsCleared:z.literal(true),
  restoreGuardInstalled:z.literal(true),independentRecoveryVerified:z.literal(true),encryptedBackupSha256:digest,
- recoveryEvidenceSha256:digest,recoveryVerifiedAt:z.iso.datetime()}).strict();
+ recoveryEvidenceSha256:digest,recoveryVerifiedAt:z.iso.datetime(),
+ coordinator:z.object({protocol:z.literal('kingdom-production-mutex-v1'),runId:z.string().regex(/^[1-9][0-9]{0,15}$/),runAttempt:z.number().int().positive(),jobId:z.string().regex(/^[1-9][0-9]{0,15}$/)}).strict()}).strict();
 export type ErasureIntent=z.infer<typeof intentContract>;
 export type ErasurePolicy=z.infer<typeof policyContract>;
 export type ErasurePermit=z.infer<typeof permitContract>;

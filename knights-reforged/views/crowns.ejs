@@ -1,0 +1,18 @@
+<section class="crowns-market" aria-labelledby="crown-balance-title">
+  <header class="crown-market-heading">
+    <svg class="crown-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="m7 20 13 9 12-17 12 17 13-9-7 28H14Z"/><path d="M16 54h32M15 42h34"/><circle cx="32" cy="35" r="3"/></svg>
+    <div class="crown-introduction"><p class="eyebrow">The royal exchange</p><h2 id="crown-balance-title">Your Crowns</h2><p>Separate from your carried Gold.</p></div>
+    <dl class="crown-balance"><dt>Available balance</dt><dd><%= crowns.balance %><span>Crowns</span></dd></dl>
+  </header>
+  <p class="market-status" role="status"><strong>Market not yet open</strong><span>Purchases and item use remain unavailable.</span></p>
+  <div class="crown-collection-heading"><h2>Future offers</h2><span>Preview only</span></div>
+  <div class="crown-offers"><% for(const offer of crowns.offers) { %>
+    <article class="crown-offer" data-crown-offer="<%= offer.id %>">
+      <svg class="stat-icon" viewBox="0 0 40 40" width="36" height="36" aria-hidden="true"><use href="/assets/art/remaster-ui/icons.svg?v=phase48-finish1#<%= offer.icon %>"></use></svg>
+      <div class="crown-offer-copy"><h3><%= offer.name %></h3><p><%= offer.description %></p></div>
+      <div class="offer-availability"><button type="button" class="button button-outline" disabled aria-label="<%= offer.name %> unavailable">Unavailable</button></div>
+    </article>
+  <% } %></div>
+  <p class="compact-help">No prices or checkout are active. No Crowns are awarded, spent or converted to Gold. Existing regeneration, training and gameplay rules are unchanged.</p>
+  <a href="/game/home" class="text-link">Return Home ›</a>
+</section>

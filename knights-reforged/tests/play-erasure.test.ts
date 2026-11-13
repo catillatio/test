@@ -4,7 +4,7 @@ import {alpha} from '../src/alpha-rules.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash,generateKeyPairSync,randomUUID,sign} from 'node:crypto';
-import {mkdtemp,rm,readFile,writeFile,chmod} from 'node:fs/promises';
+import {mkdtemp,rm,readFile,writeFile,chmod,mkdir} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {transaction} from '../src/db.js';
@@ -13,24 +13,29 @@ import {requestAccountDeletion} from '../src/account-safety.js';
 import {fulfillErasure,assertErasureFence} from '../src/privacy/erasure.js';
 import {sha256,authorize,type SignedRecord} from '../src/privacy/authorization.js';
 import {emptyRoot,readJournal} from '../src/privacy/journal.js';
+import {readRemoteJournal} from '../src/privacy/journal-remote.js';
+import {createJournalRelay} from '../deployment/privacy/journal-server.mjs';
 import {registerAccount,createSession,authenticate} from '../src/auth.js';
 import {executeCommand} from '../src/commands.js';
 import {publicProfile,recruitmentAvailability} from '../src/profiles.js';
 import {settleDueAbandonedIncome} from '../src/bot-income.js';
 import {listOpponents,getState} from '../src/game.js';
+import {syncAchievementGold} from '../src/achievement-gold.js';
+import {experienceRules} from '../src/experience-rules.js';
+import {prepareReadBatch} from '../src/notifications.js';
 const keys=generateKeyPairSync('ed25519'),publicKey=keys.publicKey.export({format:'pem',type:'spki'}).toString();
 const signed=(payload:unknown):SignedRecord=>{const bytes=Buffer.from(JSON.stringify(payload));return{payload:bytes.toString('base64url'),signature:sign(null,bytes,keys.privateKey).toString('base64url')};};
 const codeSha='a'.repeat(40),candidateDigest='d'.repeat(64);
 async function fixture(clock?:()=>Date){
- const r=await realm({isolated:true,clock}),directory=await mkdtemp(join(tmpdir(),'erasure-test-'));await chmod(directory,0o700);
+ const r=await realm({isolated:true,clock}),root=await mkdtemp(join(tmpdir(),'erasure-test-')),directory=join(root,'journal');await chmod(root,0o700);await mkdir(directory,{mode:0o700});
  const a=await r.player('Erase Subject'),b=await r.player('Other Warrior');
  const live=(await r.db.query(`SELECT current_database() AS database,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;
  const scope={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),database:live.database,clusterDigest:live.cluster};
- const policy=signed({protocol:'kingdom-erasure-policy-v6',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'reference-bound-minimal-integrity-records-v1',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-login-and-minimize-live-estate-v2',integrityReviewDays:30,formerWallet:'sealed-integrity-anchor-no-transfer',unreferencedRecordDisposalGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
- const request=await requestAccountDeletion(r.db,a.accountId),intent=signed({protocol:'kingdom-erasure-intent-v6',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
- const permit=async(mode='fulfill')=>{const state=await readJournal(directory,publicKey);return signed({protocol:'kingdom-erasure-execution-v1',mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:live.database,targetOid:live.oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()});};
- const options=async(mode='fulfill')=>({enabled:true,publicKey,policy,intent,permit:await permit(mode),journalPath:directory,codeSha,candidateDigest});
- return{r,a,b,directory,policy,intent,options,close:async()=>{await r.close();await rm(directory,{recursive:true,force:true});}};
+ const policy=signed({protocol:'kingdom-erasure-policy-v7',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'reference-bound-minimal-integrity-records-v1',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-login-and-minimize-live-estate-v2',integrityReviewDays:30,formerWallet:'sealed-integrity-anchor-no-transfer',unreferencedRecordDisposalGraceDays:30,routineBackupMaximumDays:null,routineBackupTargetDays:30,routineBackupTargetEnforced:false,protectedRecoveryArtifactDays:90,otherProviderRetention:'not-fully-established',protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
+ const request=await requestAccountDeletion(r.db,a.accountId),intent=signed({protocol:'kingdom-erasure-intent-v7',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
+ const permit=async(mode='fulfill')=>{const state=await readJournal(directory,publicKey);return signed({protocol:'kingdom-erasure-execution-v2',coordinator:{protocol:'kingdom-production-mutex-v1',runId:'123',runAttempt:1,jobId:'456'},mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:live.database,targetOid:live.oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()});};
+ const options=async(mode='fulfill')=>({enabled:true,publicKey,policy,intent,permit:await permit(mode),journalPath:directory,codeSha,candidateDigest,verifyCoordinator:async()=>{}});
+ return{r,a,b,directory,root,policy,intent,options,close:async()=>{await r.close();await rm(root,{recursive:true,force:true});}};
 }
 async function finances(r:Awaited<ReturnType<typeof realm>>){return JSON.stringify((await r.db.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS land`)).rows);}
 
@@ -134,10 +139,10 @@ test('a real custom-format backup restored to an isolated database is blocked un
   await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
   const request=await requestAccountDeletion(r.db,a.accountId),live=(await r.db.query(`SELECT current_database() AS database,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;
   const scope={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),database:live.database,clusterDigest:live.cluster};
-  const policy=signed({protocol:'kingdom-erasure-policy-v6',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'reference-bound-minimal-integrity-records-v1',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-login-and-minimize-live-estate-v2',integrityReviewDays:30,formerWallet:'sealed-integrity-anchor-no-transfer',unreferencedRecordDisposalGraceDays:30,routineBackupMaximumDays:30,protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
-  const intent=signed({protocol:'kingdom-erasure-intent-v6',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
+  const policy=signed({protocol:'kingdom-erasure-policy-v7',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'reference-bound-minimal-integrity-records-v1',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-login-and-minimize-live-estate-v2',integrityReviewDays:30,formerWallet:'sealed-integrity-anchor-no-transfer',unreferencedRecordDisposalGraceDays:30,routineBackupMaximumDays:null,routineBackupTargetDays:30,routineBackupTargetEnforced:false,protectedRecoveryArtifactDays:90,otherProviderRetention:'not-fully-established',protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
+  const intent=signed({protocol:'kingdom-erasure-intent-v7',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
   async function options(mode:'fulfill'|'restore',database=live.database,oid=live.oid){
-   const state=await readJournal(directory,publicKey);return {enabled:true,publicKey,policy,intent,journalPath:directory,codeSha,candidateDigest,permit:signed({protocol:'kingdom-erasure-execution-v1',mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:database,targetOid:oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()})};
+   const state=await readJournal(directory,publicKey);return {enabled:true,publicKey,policy,intent,journalPath:directory,codeSha,candidateDigest,verifyCoordinator:async()=>{},permit:signed({protocol:'kingdom-erasure-execution-v2',coordinator:{protocol:'kingdom-production-mutex-v1',runId:'123',runAttempt:1,jobId:'456'},mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:database,targetOid:oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()})};
   }
   const backup=tool('pg_dump',live.database),archiveDigest=createHash('sha256').update(backup).digest('hex');
   const expected=JSON.parse(await finances(r));for(const row of expected){row.inventory=row.inventory?.filter((i:Record<string,unknown>)=>i.character_id!==a.id)??[];if(!row.inventory.length)row.inventory=null;row.land=row.land?.filter((h:Record<string,unknown>)=>h.character_id!==a.id)??[];if(!row.land.length)row.land=null;}
@@ -255,7 +260,7 @@ test('installing the disabled graveyard registry preserves complete existing cha
  let db:ReturnType<typeof createDatabase>|undefined;
  try{
   await admin.query('CREATE SCHEMA '+schema);db=createDatabase(url.href);
-  await migrate(db,{through:'027_play_account_safety.sql'});
+  await migrate(db,{through:'053_play_account_safety.sql'});
   const human=await registerAccount(db,{username:'migration_subject',password:'Synthetic!2026',name:'Original Subject'});
   const tables=['accounts','characters','wallets','inventory_entries','land_holdings','economy_entries','economy_transactions'];
   const snapshot=async()=>{const value:Record<string,unknown>={};for(const table of tables)value[table]=(await db!.query('SELECT row_to_json(t)::text AS row FROM '+table+' t ORDER BY row_to_json(t)::text')).rows;return value;};
@@ -336,4 +341,72 @@ test('only historically referenced asset anchors survive, with zero live quantit
   await assert.rejects(r.db.query('UPDATE land_holdings SET quantity=1 WHERE character_id=$1',[a.id]),/protected/);
   await fulfillErasure(r.db,await f.options());assert.deepEqual(await history(),before,'Retry cannot refund assets or rewrite financial history');
  }finally{await f.close();}
+});
+
+test('current-production receipt tables retain exact finances while disposable ranking/notification caches and stale holds are erased',async()=>{
+ const f=await fixture(),{r,a,b}=f;
+ try{
+  const c=await r.player('Unrelated Cache Owner'),d=await r.player('Unrelated Author');
+  await r.ok(a,'/api/v1/comments',{profileId:b.id,body:'Remove this personal message'});
+  await r.ok(b,'/api/v1/comments',{profileId:a.id,body:'Subject wall'});
+  await r.ok(d,'/api/v1/comments',{profileId:c.id,body:'Keep this unrelated message'});
+  await prepareReadBatch(r.db,a.id);await prepareReadBatch(r.db,b.id);await prepareReadBatch(r.db,c.id);
+  const unrelated=(await r.db.query('SELECT row_to_json(t) AS row FROM notification_read_batches t WHERE character_id=$1',[c.id])).rows;
+  await listOpponents(r.db,a.id);await listOpponents(r.db,b.id);
+  assert.ok((await r.db.query('SELECT 1 FROM rival_recommendation_snapshots WHERE actor_id=$1',[a.id])).rowCount);
+  await r.db.query("INSERT INTO npc_sponsorship_holds(character_id,until_at) VALUES($1,now()+interval '1 day')",[a.id]);
+  await transaction(r.db,async sql=>{
+   await sql.query('UPDATE achievement_gold_state SET enabled=true WHERE singleton');
+   await sql.query("INSERT INTO character_achievements(character_id,achievement_id,ruleset_id,metric_at_unlock,earned_at,evidence) VALUES($1,'quests-1','player-experience-1',5,now(),'gameplay') ON CONFLICT DO NOTHING",[a.id]);
+   await syncAchievementGold(sql,a.id,experienceRules.achievements,new Date());
+   await sql.query('UPDATE achievement_gold_state SET enabled=false WHERE singleton');
+  });
+  assert.equal((await r.db.query('SELECT count(*)::int n FROM achievement_gold_receipts WHERE character_id=$1',[a.id])).rows[0]!.n,1);
+  const finances=async()=>{const rows:Record<string,unknown>={};for(const table of ['wallets','vault_accounts','achievement_gold_receipts','economy_transactions','economy_entries','treasury_retained_events','crown_wallets','crown_transactions','npc_army_adjustments','npc_army_memberships','npc_sponsored_bounties','npc_sponsorship_windows'])rows[table]=(await r.db.query('SELECT row_to_json(t) row FROM '+table+' t ORDER BY row_to_json(t)::text')).rows;return rows;};
+  const before=await finances();await fulfillErasure(r.db,await f.options());assert.deepEqual(await finances(),before);
+  for(const [table,field] of [['notification_read_batches','character_id'],['npc_sponsorship_holds','character_id'],['rival_recommendation_snapshots','actor_id'],['rival_recommendation_entries','target_id']])assert.equal((await r.db.query(`SELECT 1 FROM ${table} WHERE ${field}=$1`,[a.id])).rowCount,0,table);
+  assert.deepEqual((await r.db.query('SELECT row_to_json(t) AS row FROM notification_read_batches t WHERE character_id=$1',[c.id])).rows,unrelated);
+  await assert.rejects(r.db.query("INSERT INTO notification_read_batches(id,character_id,events,created_at,expires_at) VALUES($1,$2,'[]',now(),now()+interval '1 minute')",[randomUUID(),a.id]),/Erased identity/);
+  await assert.rejects(r.db.query("INSERT INTO rival_recommendation_snapshots(id,actor_id,created_at,expires_at,policy_id,actor_level) VALUES($1,$2,now(),now()+interval '1 minute','fixture',1)",[randomUUID(),a.id]),/Erased identity/);
+ }finally{await f.close();}
+});
+
+test('lost protected coordinator before commit rolls back deletion and retains durable suppression intent',async()=>{
+ const f=await fixture();try{
+  let checks=0;const options=await f.options();
+  await assert.rejects(fulfillErasure(f.r.db,{...options,verifyCoordinator:async()=>{if(++checks===3)throw new Error('Coordinator cancelled');}}),/Coordinator cancelled/);
+  assert.equal(checks,3);assert.equal((await f.r.db.query('SELECT 1 FROM accounts WHERE id=$1',[f.a.accountId])).rowCount,1);
+  assert.equal((await f.r.db.query('SELECT 1 FROM account_erasures')).rowCount,0);
+  assert.equal((await readJournal(f.directory,publicKey)).sequence,1,'Durable intent must not be silently removed after rollback');
+  await assert.rejects(assertErasureFence(f.r.db,{required:true,journalPath:f.directory,publicKey}),/blocked/);
+  assert.equal((await fulfillErasure(f.r.db,await f.options())).result,'erased');
+ }finally{await f.close();}
+});
+
+test('independent private HTTP journal fences an old restore, authenticates readers and fails closed on corruption or outage',async()=>{
+ const f=await fixture(),old=await realm({isolated:true}),scope=JSON.parse(Buffer.from(f.intent.payload,'base64url').toString()).sourceScope;
+ const scopeDigest=sha256(JSON.stringify(scope)),readToken='synthetic_private_reader_credential_00000000';let server:any;
+ try{
+  const config={journalPath:f.directory,publicKey,readToken,scopeDigest};
+  await assert.rejects(createJournalRelay(config),'An uninitialized volume cannot serve an empty journal');
+  await writeFile(join(f.root,'installation.json'),JSON.stringify({protocol:'kingdom-erasure-journal-installation-v1',scopeSha256:scopeDigest,publicKeySha256:sha256(publicKey)}),{mode:0o600});
+  server=await createJournalRelay(config);await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
+  const base='http://127.0.0.1:'+server.address().port;
+  const fetcher:typeof fetch=async(url,options)=>{assert.equal(String(url),'http://eraser.railway.internal/v1/journal');assert.equal(options?.redirect,'error');return fetch(base+'/v1/journal',options);};
+  const reader={journalUrl:'http://eraser.railway.internal/v1/journal',journalToken:readToken,journalScope:scopeDigest,publicKey,fetcher};
+  assert.equal((await readRemoteJournal(reader)).sequence,0);
+  assert.equal((await fetch(base+'/v1/journal')).status,401);
+  assert.equal((await fetch(base+'/v1/journal',{method:'POST',headers:{authorization:'Bearer '+readToken}})).status,405);
+  await assert.rejects(readRemoteJournal({...reader,journalToken:'wrong_credential_000000000000000000'}));
+  await assert.rejects(readRemoteJournal({...reader,journalScope:'0'.repeat(64)}));
+  for(const journalUrl of ['https://public.example/v1/journal','http://eraser.railway.internal/v1/journal?token=x','http://user@eraser.railway.internal/v1/journal'])await assert.rejects(readRemoteJournal({...reader,journalUrl}));
+  await fulfillErasure(f.r.db,await f.options());assert.equal((await readRemoteJournal(reader)).sequence,1);
+  await assertErasureFence(f.r.db,{required:true,...reader});
+  await assert.rejects(assertErasureFence(old.db,{required:true,...reader}),/blocked/);
+  const entry=join(f.directory,'entry-000000000001.json'),original=await readFile(entry);await writeFile(entry,'{}');
+  assert.equal((await fetch(base+'/v1/journal',{headers:{authorization:'Bearer '+readToken}})).status,503);
+  await assert.rejects(assertErasureFence(f.r.db,{required:true,...reader}),/blocked/);await writeFile(entry,original);
+  await new Promise<void>(resolve=>server.close(resolve));server=null;
+  await assert.rejects(assertErasureFence(f.r.db,{required:true,...reader,journalPath:f.directory}),/blocked/,'An available local copy must not mask loss of the independent journal');
+ }finally{if(server)await new Promise<void>(resolve=>server.close(resolve));await old.close();await f.close();}
 });

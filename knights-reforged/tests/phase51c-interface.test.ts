@@ -31,12 +31,12 @@ test('profiles disclose authoritative weapon/armor/spell stats without exposing 
 
 test('optional Calling introduction preserves all eight tutorial cursors, completed/skip/replay states and existing costs',{skip},async()=>{
  const r=await realm({isolated:true});try{
-  const a=await r.player('Calling Apprentice');await r.prepare(a,1000);
+  const a=await r.player('Calling Apprentice');await r.prepare(a,1500000);
   await r.ok(a,'/api/v1/tutorial',{action:'start'});
   await r.db.query('UPDATE tutorial_guides SET step_index=4 WHERE character_id=$1',[a.id]);
-  const page=await r.app.inject({url:'/game/tutorial',headers:{cookie:a.cookie}});assert.match(page.body,/Optional: choose your Calling/);assert.match(page.body,/first change is free/);assert.match(page.body,/Next Lesson/);
+  const page=await r.app.inject({url:'/game/tutorial',headers:{cookie:a.cookie}});assert.match(page.body,/Optional: choose your Calling/);assert.match(page.body,/1,000,000 Gold/);assert.match(page.body,/Next Lesson/);
   const changed=await r.app.inject({method:'POST',url:'/game/profile/calling',headers:{cookie:a.cookie,origin:'http://localhost:3000'},payload:{csrf:a.csrf,commandId:crypto.randomUUID(),className:'Warden',returnTo:'tutorial'}});
-  assert.equal(changed.statusCode,303,changed.body);assert.match(changed.headers.location!,/^\/game\/tutorial\?command=/);assert.equal((await r.me(a)).gold,1000+alpha.startingGold);assert.equal((await r.me(a)).className,'Warden');
+  assert.equal(changed.statusCode,303,changed.body);assert.match(changed.headers.location!,/^\/game\/tutorial\?command=/);assert.equal((await r.me(a)).gold,500000+alpha.startingGold);assert.equal((await r.me(a)).className,'Warden');
   assert.equal((await r.command(a,'/api/v1/profile',{className:'Spellward'})).json().error.code,'CALLING_COOLDOWN');
   assert.equal((await r.db.query('SELECT step_index FROM tutorial_guides WHERE character_id=$1',[a.id])).rows[0]!.step_index,4);
   await r.ok(a,'/api/v1/tutorial',{action:'next'});await r.ok(a,'/api/v1/tutorial',{action:'skip'});

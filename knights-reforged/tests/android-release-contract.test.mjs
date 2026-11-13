@@ -50,3 +50,9 @@ test('signed release rejects an unapproved permanent ID before decoding or acces
  const result=spawnSync('python3',[script],{encoding:'utf8',timeout:10000,env:{PATH:process.env.PATH,ANDROID_APPLICATION_ID:'game.unrelated.rpg',ANDROID_UPLOAD_KEYSTORE_BASE64:'invalid-not-a-key',ANDROID_STORE_PASSWORD:'synthetic',ANDROID_KEY_PASSWORD:'synthetic',ANDROID_KEY_ALIAS:'synthetic',ANDROID_UPLOAD_CERT_SHA256:'a'.repeat(64),GITHUB_REF:'refs/heads/release/production'}});
  assert.equal(result.status,1);assert.equal(result.stdout,'');assert.match(result.stderr,/APPROVED_APPLICATION_ID_REQUIRED/);assert.ok(!result.stderr.includes('synthetic'));
 });
+
+test('compiled-bundle and exact-source signing boundaries reject stale, debug, wrong-certificate and missing CI evidence',async()=>{
+ const {spawnSync}=await import('node:child_process');
+ const result=spawnSync('python3',[new URL('../../android/scripts/tests/test_release_verification.py',import.meta.url).pathname],{encoding:'utf8',timeout:10000});
+ assert.equal(result.status,0,result.stderr);assert.match(result.stderr,/Ran 10 tests/);assert.match(result.stderr,/OK/);
+});

@@ -26,3 +26,6 @@
 !knights-reforged/deployment/privacy/
 knights-reforged/deployment/privacy/*
 !knights-reforged/deployment/privacy/fulfill.mjs
+!knights-reforged/deployment/privacy/release-window.mjs
+!knights-reforged/deployment/privacy/journal-server.mjs
+!knights-reforged/deployment/privacy/initialize-journal.mjs

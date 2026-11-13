@@ -4,7 +4,7 @@ export const legalPages = {
     [
       [
         "Status and controller",
-        "Review draft — not a final legal notice. Publisher/controller: [OWNER TO COMPLETE]. Privacy contact and effective date: [OWNER TO COMPLETE]. These fields and the retention schedule must be completed before Play submission."
+        "Review draft — not a final legal notice. Publisher/controller: [OWNER TO COMPLETE]. Privacy contact and effective date: [OWNER TO COMPLETE]. These factual fields must be completed before the notice is published for testing."
       ],
       [
         "Account and gameplay data",
@@ -28,7 +28,7 @@ export const legalPages = {
       ],
       [
         "Deletion and retention",
-        "Request account and associated-data deletion through Settings or /account-deletion. A request is not completed deletion. Protected fulfillment deletes the login account/password hash, revokes sessions, removes reviewed personal/social data and mutable progress, and clears old profile traits and timestamps. Disposable profile/loadout/progression records and unreferenced private asset rows are removed; any historically referenced asset rows have no live quantities. Minimal private references, sealed virtual balances and original financial/combat/asset facts may need limited retention to protect other players, investigate security/fraud or reconcile recovery; they are not automatically anonymous. Necessary categories, purposes, access and retention periods, backup expiry and response time must be accurately approved and disclosed: [OWNER TO COMPLETE]. Account deletion never creates or funds an NPC."
+        "Request account and associated-data deletion through Settings or /account-deletion. A request is not completed deletion. Protected fulfillment deletes the login account/password hash, revokes sessions, removes reviewed personal/social data and mutable progress, and clears old profile traits and timestamps. Disposable profile/loadout/progression records and unreferenced private asset rows are removed; any historically referenced asset rows have no live quantities. Minimal private references, sealed virtual balances and original financial/combat/asset facts may need limited retention to protect other players, investigate security/fraud or reconcile recovery; they are not automatically anonymous. Deletion is ordinarily fulfilled within seven days once the protected service is operational. Only records necessary for financial integrity, shared gameplay/transaction history, security or recovery remain restricted. Their necessity is reviewed every 30 days; disposal occurs within 30 days after their final legitimate dependency or hold ends, through an approved procedure. Minimal erasure evidence remains until the last affected backup is destroyed plus 30 days. GitHub protected recovery artifacts are retained for about 90 days. A 30-day routine-backup target is not enforced; other recovery copies, provider retention and protected holds have not all been established and are not promised a maximum expiry. Account deletion never creates or funds an NPC."
       ],
       [
         "Rights, age and updates",
@@ -103,15 +103,15 @@ export const legalPages = {
       ],
       [
         "Fulfillment requirements",
-        "Approved fulfillment deletes the login account and password hash, revokes sessions, removes reviewed personal/social/preferences and mutable progress records, and clears the old private profile traits and timestamps. It preserves unrelated players’ balances and shared historical amounts. Unreferenced private assets and current loadout, army, achievement and progression state are removed. Any necessary retained historical asset anchors have zero live quantities. Opaque identifiers, sealed balances, original financial/combat journals and backup-suppression proof remain restricted associated data and need a justified purpose and defined retention handling; they are not automatically anonymous. Retention categories/periods and response time: [OWNER TO COMPLETE]."
+        "Approved fulfillment deletes the login account and password hash, revokes sessions, removes reviewed personal/social/preferences and mutable progress records, and clears the old private profile traits and timestamps. It preserves unrelated players’ balances and shared historical amounts. Unreferenced private assets and current loadout, army, achievement and progression state are removed. Any necessary retained historical asset anchors have zero live quantities. Opaque identifiers, sealed balances, original financial/combat journals and backup-suppression proof remain restricted associated data and need a justified purpose and defined retention handling; they are not automatically anonymous. The approved ordinary fulfillment target is seven days. Necessary retained records are reviewed every 30 days and disposed of within 30 days after their final legitimate dependency or hold ends through a separately approved procedure. This is not indefinite retention by default or a promise that all shared financial history can immediately be removed."
       ],
       [
         "Backups and recovery",
-        "Encrypted backups remain protected. An independently stored signed suppression record must be reconciled before any restored account data becomes accessible. Routine expiry, protected-copy handling and provider log retention: [OWNER TO COMPLETE]. This is not permission to rewrite immutable backups, delete recovery copies or bypass recovery integrity checks."
+        "Encrypted backups remain protected. An independently stored signed suppression record must be reconciled before any restored account data becomes accessible. Protected GitHub recovery artifacts currently last about 90 days. No routine Railway volume-backup schedule is configured; Postgres PITR is off and the recovery service image does not support PITR. A 30-day routine target is not enforced. Other copies, provider retention practices and protected/manual holds are still being accounted for; no universal expiry is promised. Minimal suppression evidence lasts until the last affected backup is destroyed plus 30 days. This is not permission to rewrite immutable backups, delete recovery copies or bypass recovery integrity checks."
       ],
       [
         "Owner completion required",
-        "Publisher, support/alternative identity-verification route, response time, retention periods, legal exceptions and the operational fulfillment procedure must be approved and implemented before claiming deletion-policy compliance. See the release-readiness report. Do not send passwords to support or in public messages."
+        "Publisher and the support/alternative identity-verification contact must be finalized. The restricted operational fulfillment and independent journal must be installed and tested before this draft is published as an operational service. Today the branch provides synthetic-tested requests and fulfillment; production has no active fulfillment operator. See the release-readiness report. Do not send passwords to support or in public messages."
       ]
     ]
   ]

@@ -1,5 +1,20 @@
 # Kingdom Come — current authority index
 
+Current local work: PR #88 internal-Play integration on deployed `98756a0`.
+See [Play readiness](../google-play/PLAY_STORE_READINESS.md). Production erasure,
+NPC creation, signing, merge and deployment remain owner-gated. Prior A/B/D
+policy approvals stand; C remains conditional.
+
+Small continuation of reviewed `56fbd34`: [silhouette readability, compact Battle
+markers and synchronized unread controls](../finishing-pass/README.md), local only.
+
+Latest bounded follow-up: [local Profile silhouettes, class labels, charcoal
+comments and notification delivery](../focused-followup-20261112/README.md).
+Read-only observation on November 12, 2026 confirmed production merge `062f70c`
+and successful protected release 43113551849. The historical snapshots below
+remain dated records. This new follow-up is local only; NPC sponsorship remains
+off and matchmaking is frozen byte-for-byte.
+
 Reviewed 2026-11-05. This is a navigation map, not deployment authorization.
 Verify current origin/HEAD, open PRs and provider state when starting a task;
 the references below are a dated snapshot, not permanently pinned task bases.
@@ -89,19 +104,31 @@ commands/results, pending gates and next action. Keep credentials and production
 data out. Refresh only affected rows here, with dated source/run links; preserve
 historical records rather than rewriting them.
 
-## Android / Google Play candidate (2026-11-05)
+## Local owner review — 2026-11-11
 
-Isolated readiness work reconciles PR20 with the approved Dark Medieval release. Start with [readiness matrix](../google-play/PLAY_STORE_READINESS.md) and [Android build/signing guide](../../../android/PLAY_RELEASE.md). Legal text is explicitly draft; deletion requests do not assert completed erasure. No Play submission, production compliance deployment, final package/signing identity or physical-device certification is implied.
+The [complete clean rebuild](../complete-rebuild-20261111/README.md) starts from
+release source `d6a0c831ade5f0f7265f565906f6e4cf94330fcd`, preserving the
+merged Dark Medieval presentation and owner-runtime telemetry. It implements the
+sixteen-item request in an isolated local branch. New local schema head is
+`052_npc_sponsorship.sql`; this is **not** an observation or change of production.
+Achievement payouts and NPC sponsorship are disabled by default, Crowns commerce
+is hard-disabled, and NPC adjustment/generation is limited to disposable local
+fixtures. Source, tests, artwork provenance and review/activation boundaries are
+linked there. PR #88 remains separate. No hosted CI, push, merge or deployment
+is authorized by this local work.
 
-PR #88 launch completion continues from b94cfdb. Optional NPC/economic work is
-preserved on archive/graveyard-population-b94cfdb and is not a Play approval gate.
-Account erasure now minimizes the inert current profile in addition to physical
-login/personal-data deletion, under an unactivated v6 proposal and unchanged recovery/financial
-protections. Registration records explicit Terms/Guidelines consent before public
-name creation. Android release/debug packaging now consistently uses the permanent
-`game.kingdomcome.rpg` / `.debug` identity; actual Console registration and owner
-signing remain unconfirmed. Read the updated readiness matrix and policy distinction
-before activation. Both production features remain disabled; no merge/deploy/Play
-submission. See [launch scope](../google-play/LAUNCH_SCOPE.md).
+### Focused correction of owner-reviewed 536fb2d
 
-2026-11-06 Play retention refinement: A/D approved, C conditional, B unapproved. [v6 minimization](../google-play/privacy/RETENTION_MINIMIZATION.md) removes private current estate/cache data while preserving monetary history and minimum referenced anchors. Current release recovery artifacts remain 90-day configured/observed; 30-day routine retention is not established. No merge, deployment, credentials, erasure or cleanup activation.
+The [focused correction](../focused-correction-20261111/README.md) improves the
+funded local NPC planner, adds independent nonzero-XP pagination proof and
+finishes Crowns presentation. The 144 legacy NPCs among 164 at levels 15–30
+remain hard-capped at ten: this is an explicit policy blocker, not completed
+large-army scaling. No army/XP/combat formula, class portrait, live setting or
+activation flag is changed. Final-head focused evidence is in its review bundle.
+
+PR88 internal-testing integration: current deployed98756a0 merged into the existing
+draft source without rewriting its history. Play additions use migrations053/054,
+all33 deployed migrations and XP matcher preserved. A/B/D approved; C conditional.
+Private erasure journal relay and actual protected release-window verification are
+prepared, not installed; Android upload signing environments/keys remain owner-only.
+See [current handoff](../google-play/PLAY_STORE_READINESS.md); no deployment/activation.

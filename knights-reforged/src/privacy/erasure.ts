@@ -7,12 +7,17 @@ import {privacySchema} from './gate.js';
 import {privacyColumns} from './schema.js';
 import {authenticate,permitContract,authorize,sha256,type SignedRecord,type ErasureIntent} from './authorization.js';
 import {appendIntent,readJournal,type JournalState} from './journal.js';
+import {readRemoteJournal} from './journal-remote.js';
 const q=(name:string)=>'"'+name.replaceAll('"','""')+'"';
 const deletedName='Deleted Warrior';
 async function pinRelations(sql:Sql){const schema=(await sql.query('SELECT current_schema() AS schema')).rows[0]!.schema;assert.match(schema,/^[a-z_][a-z0-9_]*$/);await sql.query("SELECT set_config('search_path',$1,true)",[q(schema)+',pg_catalog,pg_temp']);}
 // These are personal/social data, not balances or transaction/combat journals.
 const deletes:Record<string,string>={
  sessions:'account_id=$2',trade_quotes:'account_id=$2',
+ rival_recommendation_entries:'snapshot_id IN(SELECT id FROM rival_recommendation_snapshots WHERE actor_id=$1) OR target_id=$1',
+ rival_recommendation_snapshots:'actor_id=$1',
+ notification_read_batches:"character_id=$1 OR EXISTS(SELECT 1 FROM jsonb_array_elements(events) e WHERE e->>'id' IN(SELECT id::text FROM realm_messages WHERE author_id=$1 OR profile_id=$1 UNION SELECT id::text FROM army_events WHERE actor_id=$1 OR target_id=$1))",
+ npc_sponsorship_holds:'character_id=$1',
  equipment_slots:'character_id=$1',army_stacks:'character_id=$1',income_cycles:'character_id=$1',
  character_income_feedback:'character_id=$1',character_progression_epochs:'character_id=$1',
  champion_standings:'character_id=$1',competitive_statistics:'character_id=$1',legacy_casualty_statistics:'character_id=$1',
@@ -134,10 +139,12 @@ export async function verifyErased(sql:Sql,intent:ErasureIntent,outcome:string){
  OR result IS DISTINCT FROM erase_account_identity_labels(result,$1,$2,attacker_id=$1,defender_id=$1) LIMIT 1`,[intent.characterId,intent.accountId])).rowCount,0,'Unreconciled battle labels.');
  assert.equal((await sql.query(`SELECT 1 FROM command_receipts WHERE result IS DISTINCT FROM ${receiptRedaction()} LIMIT 1`,[intent.characterId,intent.accountId])).rowCount,0,'Unreconciled receipt labels.');
 }
-export interface ErasureOptions {enabled:boolean;publicKey:string;policy:SignedRecord;intent:SignedRecord;permit:SignedRecord;journalPath:string;codeSha:string;candidateDigest:string;}
+export interface ErasureOptions {enabled:boolean;publicKey:string;policy:SignedRecord;intent:SignedRecord;permit:SignedRecord;journalPath:string;codeSha:string;candidateDigest:string;verifyCoordinator:()=>Promise<unknown>;}
 export async function fulfillErasure(db:Database,options:ErasureOptions){
  assert.equal(options.enabled,true,'Erasure execution is disabled.');
+ assert.equal(typeof options.verifyCoordinator,'function','Protected release coordinator required.');
  const auth=authorize(options.policy,options.intent,options.permit,options.publicKey);assert.equal(auth.permit.codeSha,options.codeSha);assert.equal(auth.permit.candidateDigest,options.candidateDigest);
+ await options.verifyCoordinator();
  return transaction(db,async sql=>{
   await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");await pinRelations(sql);await assertReviewedSchema(sql);
   const live=await identity(sql);assert.equal(live.name,auth.permit.targetDatabase);assert.equal(live.oid,auth.permit.targetOid);assert.equal(live.cluster,auth.permit.targetClusterDigest);
@@ -146,10 +153,11 @@ export async function fulfillErasure(db:Database,options:ErasureOptions){
   const already=state.entries.find(e=>e.intent.operationId===auth.intent.operationId);
   if(!already)await preconditions(sql,auth.intent,auth.permit.mode==='restore');
   authorize(options.policy,options.intent,options.permit,options.publicKey);
+  await options.verifyCoordinator();
   const next=auth.permit.mode==='fulfill'?await appendIntent(options.journalPath,options.publicKey,options.intent,options.policy,options.permit,state):state;
   assert.ok(next.entries.some(e=>e.entry.intent.payload===options.intent.payload&&e.entry.intent.signature===options.intent.signature),'Restore must use a previously recorded permanent erasure intent.');
   const result=await erase(sql,auth.intent,auth.policy.policyId,auth.intentDigest,sha256(JSON.stringify(auth.intent.sourceScope)),auth.permit.mode==='restore',options.permit);
-  await checkpoint(sql,next,sha256(JSON.stringify(auth.intent.sourceScope)),options.publicKey);authorize(options.policy,options.intent,options.permit,options.publicKey);return {result,sequence:next.sequence,journalDurable:true};
+  await checkpoint(sql,next,sha256(JSON.stringify(auth.intent.sourceScope)),options.publicKey);authorize(options.policy,options.intent,options.permit,options.publicKey);await options.verifyCoordinator();return {result,sequence:next.sequence,journalDurable:true};
  },{expansionLock:'exclusive'});
 }
 function verifyReceiptApproval(receipt:Record<string,any>,entry:JournalState['entries'][number],publicKey:string){
@@ -172,12 +180,12 @@ async function checkpoint(sql:Sql,state:JournalState,scope:string,publicKey:stri
  const old=(await sql.query('SELECT root_sha256 FROM account_erasure_checkpoints WHERE sequence=$1',[state.sequence])).rows[0];
  if(old)assert.equal(old.root_sha256,state.root);else await sql.query('INSERT INTO account_erasure_checkpoints(sequence,root_sha256,source_scope_sha256) VALUES($1,$2,$3)',[state.sequence,state.root,scope]);
 }
-export async function assertErasureFence(db:Database,options:{required:boolean;journalPath?:string;publicKey?:string}){
+export async function assertErasureFence(db:Database,options:{required:boolean;journalPath?:string;publicKey?:string;journalUrl?:string;journalToken?:string;journalScope?:string;fetcher?:typeof fetch}){
  try{
  const installed=await privacySchema(db);const hasRecords=installed&&!!(await db.query('SELECT 1 FROM account_erasures LIMIT 1')).rowCount;
  if(!options.required&&!hasRecords)return;
- assert.ok(installed&&options.required&&options.journalPath&&options.publicKey,'Erasure reconciliation is required before startup.');
- const state=await readJournal(options.journalPath,options.publicKey);
+ assert.ok(installed&&options.required&&options.publicKey&&(options.journalUrl||options.journalPath),'Erasure reconciliation is required before startup.');
+ const state=options.journalUrl?await readRemoteJournal({journalUrl:options.journalUrl,journalToken:options.journalToken??'',journalScope:options.journalScope??'',publicKey:options.publicKey,fetcher:options.fetcher}):await readJournal(options.journalPath!,options.publicKey);
  await transaction(db,async sql=>{
   await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");await pinRelations(sql);
   const receipts=(await sql.query('SELECT * FROM account_erasures')).rows;

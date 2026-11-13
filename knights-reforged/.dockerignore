@@ -40,3 +40,6 @@
 # Runtime operator contains no private key/signing helper or policy installation.
 !deployment/privacy/
 !deployment/privacy/fulfill.mjs
+!deployment/privacy/release-window.mjs
+!deployment/privacy/journal-server.mjs
+!deployment/privacy/initialize-journal.mjs

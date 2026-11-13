@@ -2,6 +2,8 @@ name: Kingdom Come Android readiness
 on:
   pull_request:
     paths: ['android/**', '.github/workflows/android-alpha.yml']
+  push:
+    branches: ['release/production']
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,6 +17,8 @@ jobs:
     defaults:
       run:
         working-directory: android
+    env:
+      KINGDOM_ANDROID_EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:

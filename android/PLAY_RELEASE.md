@@ -77,3 +77,24 @@ account-specific testing/device-verification requirements in Console.
 A signed package is insufficient while privacy/deletion endpoints or fulfillment
 are not live. See the Play readiness report for separate owner deployment, legal
 text, retention and erasure-operation approvals. None is activated automatically.
+
+## Verified setup gap and exact private environment entries
+
+Read-only GitHub metadata during the current PR88 integration lists four existing
+environments; neither `android-release` nor `account-erasure` exists. No environment
+or credentials were created. After separate approval, configure `android-release`
+with only release/production allowed, required reviewer `catillatio`, administrator
+bypass disabled and sole-owner self-review allowed. Required entries:
+
+- Secrets: `ANDROID_UPLOAD_KEYSTORE_BASE64`, `ANDROID_STORE_PASSWORD`,
+  `ANDROID_KEY_PASSWORD`, `ANDROID_KEY_ALIAS`.
+- Public variables: `ANDROID_APPLICATION_ID=game.kingdomcome.rpg`,
+  `ANDROID_UPLOAD_CERT_SHA256` (64 hexadecimal characters; your upload certificate).
+- Dispatch inputs: `version_code` (positive, unique and higher than all prior
+  uploads), `version_name` (reviewed semantic version).
+
+The workflow checks complete successful exact production-source application AND
+API29/API36 Android CI, current branch and actual owner environment approval before
+accessing private signing material. It accepts no debug/unknown signer, alternate
+package, stale source, missing compiled SDK/version or unsigned release substitute.
+Private signing and Play upload are not authorized by merely preparing this PR.

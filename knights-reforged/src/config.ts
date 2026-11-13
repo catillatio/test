@@ -19,6 +19,7 @@ export interface Config {
   developmentBotRecruitmentEnabled:boolean;
   livingBotEconomyEnabled:boolean;
   livingBotCombatEnabled:boolean;
+  npcSponsorshipEnabled?:boolean;
 }
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const port = Number(env.PORT ?? 3000);
@@ -58,8 +59,11 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   if(env.ENABLE_LIVING_BOT_COMBAT!==undefined&&!['0','1'].includes(env.ENABLE_LIVING_BOT_COMBAT))throw new Error('Invalid autonomous rival combat switch.');
   const livingBotCombatEnabled=env.ENABLE_LIVING_BOT_COMBAT==='1';
   if(livingBotCombatEnabled&&(env.ENABLE_DEV_BOTS!=='1'||nodeEnv==='production'&&!privateAlpha))throw new Error('Autonomous duels require enabled development rivals in the private alpha.');
+  if(env.ENABLE_NPC_SPONSORSHIP!==undefined&&!['0','1'].includes(env.ENABLE_NPC_SPONSORSHIP))throw new Error('Invalid NPC sponsorship switch.');
+  const npcSponsorshipEnabled=env.ENABLE_NPC_SPONSORSHIP==='1';
+  if(npcSponsorshipEnabled&&(env.ENABLE_DEV_BOTS!=='1'||nodeEnv==='production'&&!privateAlpha))throw new Error('NPC sponsorship requires the approved private-alpha rival population.');
   return {
-    nodeEnv, host: env.HOST ?? '0.0.0.0', port, origin: origin.origin,
+    npcSponsorshipEnabled,nodeEnv, host: env.HOST ?? '0.0.0.0', port, origin: origin.origin,
     originSource:automatic?'codespaces':configured?'explicit':'local-default',
     codespacesOrigin:codespaceOrigin,
     databaseUrl: env.DATABASE_URL ?? 'postgres://knights:knights_local@127.0.0.1:54329/knights',

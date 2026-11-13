@@ -1,0 +1,2 @@
+CREATE TABLE notification_read_batches(id uuid PRIMARY KEY,sequence bigint GENERATED ALWAYS AS IDENTITY UNIQUE,character_id uuid NOT NULL REFERENCES characters(id),events jsonb NOT NULL CHECK(jsonb_typeof(events)='array'),created_at timestamptz NOT NULL,expires_at timestamptz NOT NULL,applied_at timestamptz);
+CREATE INDEX notification_read_batches_owner ON notification_read_batches(character_id,created_at DESC);

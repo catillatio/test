@@ -1,6 +1,8 @@
 import {identifyWorldCharacter} from './world-identity.js';
 import {privacySchema} from './privacy/gate.js';
 import {assertAccountNotErased} from './privacy/gate.js';
+import {recommendedOpponents} from './rival-recommendations.js';
+import {callingChangeView} from './calling-change-policy.js';
 import {presentationCatalog} from './equipment-presentation.js';
 import {cohortMembers,botArmy} from './expansion-bot-rules.js';
 import {createHash} from 'node:crypto';
@@ -51,7 +53,7 @@ export interface CharacterState {
   battleStats:{wins:number;losses:number;total:number;kills:number;deaths:number;legacyKnockouts:number};
   accountCreatedAt:string;accountAgeDays:number;
   training:{attack:number;defense:number;attackBonusPercent:number;defenseBonusPercent:number;untrainedAttack:number;untrainedDefense:number};
-  calling:{rulesetId:string;attackPercent:number;defensePercent:number;description:string;healthSeconds:number;manaSeconds:number;spiritSeconds:number;changeReadyAt:string|null;changeCost:number};
+  calling:{rulesetId:string;attackPercent:number;defensePercent:number;description:string;healthSeconds:number;manaSeconds:number;spiritSeconds:number;changeReadyAt:string|null;changeCost:number;changePolicyId?:string;changeCooldownSeconds?:number};
   maintenance:{hourlyRate:number;reserveGold:string;arrearsGold:string;paused:boolean;resumeCost:number};
   army:ReturnType<typeof activeArmy>&{allies:number;mercenaries:number;links:ArmyLink[];incoming:number;outgoing:number;nextCursor:string|null};
   attackEquipment:ReturnType<typeof selectEquipment>;defenseEquipment:ReturnType<typeof selectEquipment>;
@@ -109,6 +111,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
   });
   const next=(value:number,max:number,updated:Date,seconds:number)=>value<max?new Date(new Date(updated).getTime()+seconds*1000).toISOString():null;
   const calling=callingFor(row.profile_class);
+  const callingChange=await callingChangeView(sql,row);
   const healthSeconds=recoverySeconds(row.profile_class,'health',alpha.resources.healthSeconds),manaSeconds=recoverySeconds(row.profile_class,'mana',alpha.resources.manaSeconds),spiritSeconds=recoverySeconds(row.profile_class,'spirit',alpha.resources.spiritSeconds);
   const manaNextAt=next(row.mana,row.max_mana,row.mana_updated_at,manaSeconds);
   const sword=inventory.find(i=>i.id===rules.weapon.id&&i.quantity>0);
@@ -138,7 +141,7 @@ export async function stateFrom(sql:Sql,row:CharacterRow,now:Date,runtime:GameRu
     spiritNextAt:next(row.spirit,row.max_spirit,row.spirit_updated_at,spiritSeconds),
     healthNextAt:next(row.health,row.max_health,row.health_updated_at,healthSeconds),
     calling:{rulesetId:strategy.id,description:callingDescription(row.profile_class),attackPercent:calling.attackPercent,defensePercent:calling.defensePercent,healthSeconds,manaSeconds,spiritSeconds,
-      changeReadyAt:row.calling_changed_at?new Date(+new Date(row.calling_changed_at)+strategy.callingChange.cooldownSeconds*1000).toISOString():null,changeCost:row.calling_changed_at?strategy.callingChange.laterCost:0},
+      changeReadyAt:callingChange.readyAt,changeCost:callingChange.cost,changePolicyId:callingChange.policyId,changeCooldownSeconds:callingChange.cooldownSeconds},
     land,economy,battleStats,...(world.presentationId?{presentationId:world.presentationId}:{}),rulesetId:alpha.id,army,attackEquipment,defenseEquipment,
     accountCreatedAt:accountCreated.toISOString(),accountAgeDays:Math.max(0,Math.floor((+now-+accountCreated)/86400000)),
     training:{attack:row.attack_training,defense:row.defense_training,attackBonusPercent:row.attack_training*alpha.combatSkills.percentPerRating,defenseBonusPercent:row.defense_training*alpha.combatSkills.percentPerRating,untrainedAttack,untrainedDefense},
@@ -189,7 +192,7 @@ async function chronologicalOpponents(db:Database,characterId:string,cursor?:str
 /** Cyclic indexed UUID seeks. Cursors bind the pivot and half for a complete,
  * duplicate-free traversal, even when another attack changes the next-page seed.
  * Old timestamp cursors remain valid for clients using chronological pagination. */
-export async function listOpponents(db:Database,characterId:string,cursor?:string,developmentBotsEnabled=false,developmentBotRecruitmentEnabled=false,rotation?:unknown){
+async function rotatedOpponents(db:Database,characterId:string,cursor?:string,developmentBotsEnabled=false,developmentBotRecruitmentEnabled=false,rotation?:unknown){
  const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
  if(cursor!==undefined&&typeof cursor!=='string')throw new GameError('INVALID_CURSOR','Invalid rival page.');
  if(cursor!==undefined&&cursor.split('~').length===2)return chronologicalOpponents(db,characterId,cursor,developmentBotsEnabled,developmentBotRecruitmentEnabled);
@@ -234,4 +237,11 @@ export async function getBattle(db:Database,accountId:string,battleId:string) {
   const row=(await db.query(`SELECT b.id,b.result,b.ruleset_id,b.created_at,b.attacker_id,b.defender_id,b.outcome FROM battles b JOIN characters c ON c.account_id=$1
     WHERE b.id=$2 AND (b.attacker_id=c.id OR b.defender_id=c.id)`,[accountId,battleId])).rows[0];
   if (!row) throw new GameError('BATTLE_NOT_FOUND','This battle is unavailable to your character.',404);return row;
+}
+
+export async function listOpponents(db:Database,characterId:string,cursor?:string,developmentBotsEnabled=false,developmentBotRecruitmentEnabled=false,rotation?:unknown){
+ if(cursor!==undefined&&typeof cursor!=='string')throw new GameError('INVALID_CURSOR','Invalid rival page.');
+ if(cursor?.startsWith('r1~')||cursor?.split('~').length===2)return rotatedOpponents(db,characterId,cursor,developmentBotsEnabled,developmentBotRecruitmentEnabled,rotation);
+ if(!(await db.query("SELECT to_regclass('rival_recommendation_snapshots') AS t")).rows[0]?.t)return rotatedOpponents(db,characterId,cursor,developmentBotsEnabled,developmentBotRecruitmentEnabled,rotation);
+ return recommendedOpponents(db,characterId,cursor,developmentBotsEnabled,developmentBotRecruitmentEnabled,rotation);
 }

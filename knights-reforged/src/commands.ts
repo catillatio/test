@@ -1,4 +1,5 @@
 import {assertAccountNotErased} from './privacy/gate.js';
+import {callingChangeView} from './calling-change-policy.js';
 import {presentedItem} from './equipment-presentation.js';
 import {contentCatalog} from './expansion-content.js';
 import {realmPolicy} from './realm-policy.js';
@@ -206,12 +207,12 @@ export async function executeCommand(db:Database,accountId:string,commandId:unkn
     } else if (kind==='profile') {
       if(actor.profile_class===intent.className){result.message='You already follow the '+callingName(String(intent.className))+' Calling.';}
       else{
-        if(actor.calling_changed_at&&+now<+new Date(actor.calling_changed_at)+strategy.callingChange.cooldownSeconds*1000)
-          throw new GameError('CALLING_COOLDOWN','You may change your Calling once every 24 hours.',409);
-        const cost=actor.calling_changed_at?strategy.callingChange.laterCost:0;
-        if(cost)await ledger(sql,key,'calling_change',[{characterId:actorId,amount:-cost}],strategy.id);
+        const change=await callingChangeView(sql,actor);
+        if(change.readyAt&&+now<Date.parse(change.readyAt))throw new GameError('CALLING_COOLDOWN','Your next Calling change is available '+change.readyAt+'.',409);
+        const cost=change.cost;
+        if(cost)await ledger(sql,key,'calling_change',[{characterId:actorId,amount:-cost}],change.policyId);
         await sql.query('UPDATE characters SET profile_class=$2,calling_changed_at=$3,health_updated_at=$3,mana_updated_at=$3,spirit_updated_at=$3 WHERE id=$1',[actorId,intent.className,now]);
-        await sql.query('INSERT INTO calling_changes(id,character_id,old_calling,new_calling,gold_cost,command_id,ruleset_id,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)',[randomUUID(),actorId,actor.profile_class,intent.className,cost,key,strategy.id,now]);
+        await sql.query('INSERT INTO calling_changes(id,character_id,old_calling,new_calling,gold_cost,command_id,ruleset_id,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)',[randomUUID(),actorId,actor.profile_class,intent.className,cost,key,change.policyId,now]);
         result.message='Your Calling is now '+callingName(String(intent.className))+'. Recovery starts a fresh interval; your skill allocations are preserved.';
       }
     } else if(kind==='bounty_place'&&target){

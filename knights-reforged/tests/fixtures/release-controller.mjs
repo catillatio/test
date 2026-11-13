@@ -32,7 +32,7 @@ function grant(method='GET'){
 function reportFor(request){
  const {urls,...publicRequest}=request;
  return {...publicRequest,passed:true,workerDeploymentId:deploymentId,sourceClusterDigest:'1'.repeat(64),restoreClusterDigest:'2'.repeat(64),accounts:452,bots:450,
-  ...(request.mode==='verify'?{schemaHead:'028_account_erasure.sql',active_bots:450,initialized:true}:{}),
+  ...(request.mode==='verify'?{schemaHead:'054_account_erasure.sql',active_bots:450,initialized:true}:{}),
   backup:{sha256:'3'.repeat(64),bytes:200000,encryptedSha256:'4'.repeat(64),encryptedBytes:200500,recipient:request.backupRecipient,conditionalWriteVerified:true,exportRoundTripVerified:true},
   restoredCopy:{passed:true,accounts:452,bots:450,existingTablesVerified:64,migrationReplay:'unchanged',liveDatabaseConnected:false,
    restoredDatabase:request.copy,restoredHost:request.restoreHost,sha256:'5'.repeat(64)}};

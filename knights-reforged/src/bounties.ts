@@ -1,6 +1,10 @@
+import {createHash} from 'node:crypto';
+import {scheduledCommand,startScheduledBotWork} from './bot-schedule.js';
 import {randomUUID} from 'node:crypto';
 import type {Database,Sql} from './db.js';
 import {transaction} from './db.js';
+import {settleLand} from './land.js';
+import {settleMaintenance} from './maintenance.js';
 import {GameError} from './errors.js';
 import {regenerate} from './rules.js';
 import {recoverySeconds} from './strategy-rules.js';
@@ -92,6 +96,11 @@ export async function placeBounty(sql:Sql,sponsorId:string,targetId:string,amoun
   // The command owns the escrow lock before sorted character locks, spanning
   // this fresh count, both ledger entries, placement/event and saved receipt.
   await bountyQuote(sql,sponsorId,targetId,amount,now,botTargetsEnabled);
+  return writeBountyPlacement(sql,sponsorId,targetId,amount,commandId,now);
+}
+// Both public human placements and the narrowly bounded private worker use this
+// exact escrow/principal/fee/event operation, under the same escrow lock.
+async function writeBountyPlacement(sql:Sql,sponsorId:string,targetId:string,amount:number,commandId:string,now:Date){
   const fee=finalizedBountyFee(amount),id=randomUUID();
   await ledger(sql,commandId,'bounty_escrow',[{characterId:sponsorId,amount:-amount}],pvp.id);
   await ledger(sql,commandId,'bounty_fee',[{characterId:sponsorId,amount:-fee}],pvp.id);
@@ -170,7 +179,7 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
     const active=(await sql.query<BountyRecord>(`SELECT b.*,count(*) OVER()::int AS visible_total,min(b.expires_at) OVER() AS next_expiry,c.name,c.attained_level AS level,c.profile_class,c.health,c.health_updated_at,c.max_health,c.legacy_army_floor,
       (SELECT COALESCE(sum(quantity),0)::int FROM army_stacks WHERE character_id=c.id) AS units,
       (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted') AS allies,
-      EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS temporary_rival, sponsor.name AS sponsor_name FROM bounties b JOIN characters c ON c.id=b.target_id JOIN characters sponsor ON sponsor.id=b.sponsor_id
+      EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS temporary_rival, EXISTS(SELECT 1 FROM npc_sponsored_bounties n WHERE n.bounty_id=b.id) AS npc_sponsored,sponsor.name AS sponsor_name FROM bounties b JOIN characters c ON c.id=b.target_id JOIN characters sponsor ON sponsor.id=b.sponsor_id
       JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots d ON d.character_id=c.id
       WHERE ${visibleBounties} ORDER BY b.amount DESC,b.created_at,b.id LIMIT 100`,[now,botTargetsEnabled])).rows;
     const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name,h.name AS claimant_name,f.outcome AS battle_outcome,(d.battle_id IS NOT NULL) AS verified_death,(k.bounty_id IS NOT NULL) AS recorded_claim FROM bounties b
@@ -193,3 +202,49 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
     return {attentionFeed,active:listings,activeCount:Number(active[0]?.visible_total??0),nextExpiryAt:active[0]?.next_expiry?new Date(active[0].next_expiry).toISOString():null,history,eligible:await qualified(sql,characterId),botTargetsEnabled,serverTime:now.toISOString(),rulesetId:pvp.id};
   });
 }
+
+export const npcSponsorshipPolicy=Object.freeze({id:'npc-sponsorship-1',maximumPopulation:900,intervalMs:3600000,chancePercent:5,maximumActive:2,maximumRollingDay:3,targetCooldownHours:72,minimumGold:250,maximumGold:2000});
+export function npcSponsorshipSelected(window:number){return createHash('sha256').update(npcSponsorshipPolicy.id+':'+window).digest().readUInt32BE(0)%100<npcSponsorshipPolicy.chancePercent;}
+// Internal server worker only. No HTTP intent, client capability or public grant.
+export async function runNpcSponsorship(db:Database,enabled:boolean){
+ if(!enabled)return {status:'disabled' as const};
+ return transaction(db,async sql=>{
+  const now=new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now),window=Math.floor(+now/npcSponsorshipPolicy.intervalMs);
+  if(!await tryLockBountyEscrow(sql))return {status:'busy' as const};
+  const previous=(await sql.query('SELECT * FROM npc_sponsorship_windows WHERE decision_window=$1',[window])).rows[0];if(previous)return {status:'already-decided' as const,bountyId:previous.bounty_id,window};
+  const command=scheduledCommand(npcSponsorshipPolicy.id,'global',window);
+  async function finish(status:string,bountyId:string|null=null){await sql.query('INSERT INTO npc_sponsorship_windows(decision_window,command_id,status,bounty_id,created_at) VALUES($1,$2,$3,$4,$5)',[window,command,status,bountyId,now]);return {status,bountyId,window};}
+  if(!npcSponsorshipSelected(window))return finish('not-selected');
+  const population=Number((await sql.query('SELECT count(*) AS n FROM development_bots WHERE active')).rows[0]!.n);
+  if(![450,900].includes(population))return finish('population-review-required');
+  const counts=(await sql.query(`SELECT count(*) FILTER(WHERE b.status='active' AND b.expires_at>$1)::int AS active,count(*) FILTER(WHERE n.created_at>$2 AND n.created_at<=$1)::int AS placed FROM npc_sponsored_bounties n JOIN bounties b ON b.id=n.bounty_id`,[now,new Date(+now-86400000)])).rows[0]!;
+  if(counts.active>=2||counts.placed>=3)return finish('at-limit');
+  const sponsor=(await sql.query(`SELECT c.id,c.account_id,c.attained_level FROM development_bots d JOIN characters c ON c.id=d.character_id JOIN accounts a ON a.id=c.account_id JOIN wallets w ON w.character_id=c.id WHERE d.active AND a.login_disabled AND c.attained_level>=3 AND w.balance>=5000 AND NOT EXISTS(SELECT 1 FROM npc_sponsorship_holds h WHERE h.character_id=c.id AND h.until_at>$1) ORDER BY md5(c.id::text||$2),c.id LIMIT 1`,[now,String(window)])).rows[0];
+  if(!sponsor)return finish('no-funded-sponsor');
+  const pending=!!(await sql.query("SELECT to_regclass('account_deletion_requests') AS t")).rows[0]?.t;
+  const suppressed=!!(await sql.query("SELECT to_regclass('account_erasures') AS t")).rows[0]?.t;
+  const target=(await sql.query(`SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id WHERE NOT a.login_disabled AND a.id<>$1 AND c.attained_level>=$2 AND NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=c.id) AND (SELECT coalesce(sum(completions),0) FROM character_quest_progress WHERE character_id=c.id)>=$3 AND EXISTS(SELECT 1 FROM quest_runs q WHERE q.character_id=c.id AND q.created_at>$4) AND NOT EXISTS(SELECT 1 FROM army_links l WHERE l.low_id=least(c.id,$5::uuid) AND l.high_id=greatest(c.id,$5::uuid) AND l.status='accepted') AND NOT EXISTS(SELECT 1 FROM npc_sponsored_bounties n WHERE n.target_id=c.id AND n.created_at>$6) AND NOT EXISTS(SELECT 1 FROM bounties b WHERE b.target_id=c.id AND b.status='active' AND b.expires_at>$7) AND NOT EXISTS(SELECT 1 FROM npc_sponsorship_holds h WHERE h.character_id=c.id AND h.until_at>$7) ${pending?"AND NOT EXISTS(SELECT 1 FROM account_deletion_requests r WHERE r.account_id=a.id AND r.status='pending')":''} ${suppressed?'AND NOT EXISTS(SELECT 1 FROM account_erasures e WHERE e.character_id=c.id)':''} ORDER BY md5(c.id::text||$8),c.id LIMIT 1`,[sponsor.account_id,rule.minimumLevel,rule.minimumQuests,new Date(+now-7*86400000),sponsor.id,new Date(+now-72*3600000),now,String(window)])).rows[0];
+  if(!target)return finish('no-eligible-target');
+  await settleExpiredBounties(sql,now,target.id);
+  await sql.query('SELECT id FROM characters WHERE id=ANY($1::uuid[]) ORDER BY id FOR UPDATE',[[sponsor.id,target.id]]);
+  // Recheck every effective restriction after the sorted identity locks.
+  const active=(await sql.query('SELECT d.active,a.login_disabled FROM development_bots d JOIN characters c ON c.id=d.character_id JOIN accounts a ON a.id=c.account_id WHERE c.id=$1',[sponsor.id])).rows[0];
+  if(!active?.active||!active.login_disabled||!await qualified(sql,target.id)||await allies(sql,sponsor.id,target.id))return finish('ineligible');
+  if((await sql.query('SELECT 1 FROM npc_sponsorship_holds WHERE character_id=ANY($1::uuid[]) AND until_at>$2',[[sponsor.id,target.id],now])).rows.length)return finish('held');
+  const targetAccount=(await sql.query('SELECT a.id,a.login_disabled FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.id=$1',[target.id])).rows[0];if(!targetAccount||targetAccount.login_disabled)return finish('ineligible');
+  if(pending&&(await sql.query("SELECT 1 FROM account_deletion_requests WHERE account_id=$1 AND status='pending'",[targetAccount.id])).rowCount)return finish('ineligible');
+  if(suppressed&&(await sql.query('SELECT 1 FROM account_erasures WHERE character_id=$1',[target.id])).rowCount)return finish('ineligible');
+  requirePlacement(await bountyPlacementStatus(sql,sponsor.id,target.id,now));
+  // Settle only genuine saved Land and maintenance before reviewing the purse.
+  // No endowment, Vault transfer or bot-wallet replenishment is available here.
+  await settleLand(sql,sponsor.id,now);await settleMaintenance(sql,sponsor.id,now);
+  const upkeep=(await sql.query('SELECT paused,arrears_gold FROM maintenance_accounts WHERE character_id=$1',[sponsor.id])).rows[0];
+  if(upkeep&&(upkeep.paused||BigInt(upkeep.arrears_gold)>0n))return finish('upkeep-due');
+  const balance=(await sql.query('SELECT balance FROM wallets WHERE character_id=$1',[sponsor.id])).rows[0]!.balance as number;
+  const amount=Math.min(2000,250+sponsor.attained_level*10,Math.floor(balance/20));if(amount<250||amount+finalizedBountyFee(amount)>balance)return finish('insufficient-funds');
+  const placed=await writeBountyPlacement(sql,sponsor.id,target.id,amount,command,now);
+  await sql.query('INSERT INTO npc_sponsored_bounties(bounty_id,decision_window,policy_id,sponsor_id,target_id,created_at) VALUES($1,$2,$3,$4,$5,$6)',[placed.bountyId,window,npcSponsorshipPolicy.id,sponsor.id,target.id,now]);
+  return finish('placed',placed.bountyId);
+ });
+}
+export function startNpcSponsorship(db:Database,enabled:boolean,onError:(error:unknown)=>void){return startScheduledBotWork(()=>runNpcSponsorship(db,enabled),enabled,npcSponsorshipPolicy.intervalMs,onError);}

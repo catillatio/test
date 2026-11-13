@@ -13,5 +13,12 @@ try:
  jobs=api('repos/catillatio/test/actions/runs/'+str(run['id'])+'/jobs?per_page=100')['jobs']
  assert len(jobs)>=10 and all(x['status']=='completed' and x['conclusion']=='success' for x in jobs)
  assert {'plan','validation','recovery','checks'}<=set(x['name'] for x in jobs)
+ native=api('repos/catillatio/test/actions/workflows/android-alpha.yml/runs?head_sha='+sha+'&per_page=20')['workflow_runs']
+ checked=next(x for x in native if x['head_sha']==sha and x['head_branch']=='release/production' and x['event'] in ['push','workflow_dispatch'] and x['status']=='completed' and x['conclusion']=='success')
+ android_jobs=api('repos/catillatio/test/actions/runs/'+str(checked['id'])+'/jobs?per_page=100')['jobs']
+ assert len(android_jobs)==3 and all(x['status']=='completed' and x['conclusion']=='success' for x in android_jobs)
+ assert {x['name'] for x in android_jobs}=={'apk','webview (29)','webview (36)'}
+ approvals=api('repos/catillatio/test/actions/runs/'+os.environ['GITHUB_RUN_ID']+'/approvals')
+ assert any(x['state']=='approved' and x['user']['login']=='catillatio' and any(e['name']=='android-release' for e in x['environments']) for x in approvals)
 except Exception:raise SystemExit('ANDROID_SOURCE: STOP — EXACT_HEAD_CI_REQUIRED')
 print('ANDROID_SOURCE: PASS — protected branch and complete exact-head push CI')

@@ -36,7 +36,7 @@ public final class NavigationPolicy {
         if (path == null) return HOME;
         if (path.matches("/(login|register|rules|account-deletion)?")
                 || path.matches("/legal/(privacy|terms|community|deletion)")
-                || path.matches("/game/(home|quests|battle|armory|land|profile|army|vault|settings|champions|tutorial|achievements|bounties)")
+                || path.matches("/game/(home|quests|battle|armory|land|profile|army|vault|settings|champions|tutorial|achievements|bounties|crowns|notifications)")
                 || path.equals("/game/bounties/new")
                 || path.matches("/game/(players|battles|purchases)/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")) return value;
         return HOME;

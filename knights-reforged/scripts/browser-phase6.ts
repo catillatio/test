@@ -1,5 +1,8 @@
 // Real saved commands and authenticated local pages; never contact production.
-import assert from 'node:assert/strict';import {mkdir,writeFile} from 'node:fs/promises';import {randomUUID} from 'node:crypto';
+import assert from 'node:assert/strict';
+// Independent UI contract; stored/API class keys remain unchanged.
+const callingLabels:Record<string,string>={Freeblade:'Barbarian',Warden:'Tank',Spellward:'Mage'};
+import {mkdir,writeFile} from 'node:fs/promises';import {randomUUID} from 'node:crypto';
 import {chromium,type Page} from 'playwright-core';import {competitionFixture,prepareRareQuest,withQuestDraw,syntheticRecovery} from '../tests/phase6-fixtures.js';
 import {testDatabaseUrl} from '../tests/helpers.js';import {createApp} from '../src/app.js';import {loadConfig} from '../src/config.js';import {transaction} from '../src/db.js';
 import {syntheticCutover} from '../tests/level100-e2b-fixture.js';import {definitionDigest} from '../src/expansion-content.js';import {inspectRarity,setRarityAuthorization} from '../src/rarity-activation.js';
@@ -19,7 +22,7 @@ try{
  const bounty=await r.ok(patron,'/api/v1/bounties/placements',{targetCharacterId:target.id,amount:1000});
  const native=await context(hunter.cookie,false),page=await native.newPage();monitor(page);await visit(page,'/game/bounties');const hunt=page.locator('form').filter({has:page.locator('input[name=bountyId][value="'+bounty.data.bountyId+'"]')}).first();assert.equal(await hunt.getByRole('button').isEnabled(),true);
  const marked=await r.me(target),listing=page.locator('.bounty-list .bounty-row').filter({has:page.locator('input[name=bountyId][value="'+bounty.data.bountyId+'"]')});
- assert.equal((await listing.innerText()).replace(/\s+/g,' ').trim(),marked.name+' Level '+marked.level+' '+marked.className+' 1,000 gold Attack');
+ assert.equal((await listing.innerText()).replace(/\s+/g,' ').trim(),marked.name+' Level '+marked.level+' '+callingLabels[marked.className]+' 1,000 gold Attack');
  assert.equal(await listing.locator('[data-bounty-quotas],small,time,.field-hint').count(),0,'the open listing contains only its four intended fields');
  await Promise.all([page.waitForURL(/\/game\/battles\//),hunt.getByRole('button').click()]);const firstReport=new URL(page.url()).pathname;
  const firstSaved=(await r.db.query('SELECT result FROM battles WHERE id=$1',[firstReport.split('/').at(-1)])).rows[0]!.result;

@@ -1,13 +1,13 @@
 # Policy sources and requirement classification
 
-Reviewed2026-11-05 against official Google sources. This is an engineering mapping,
+Official references rechecked2026-11-13 against official Google sources. This is an engineering mapping,
 not a legal opinion, publisher declaration or guarantee of Play acceptance.
 
 | Category | Requirement / evidence | Implementation or responsibility |
 |---|---|---|
 | Explicit Play | New submissions/updates target API 36+ from August 31, 2026 | compile/target36, min26; real compiled AAB verified, no speculative SDK increase |
 | Explicit Play | Account creation requires discoverable in-app and public web deletion paths and associated-data fulfillment | Settings/footer plus `/account-deletion`; signed operator physically deletes account/credentials, removes personal records, minimizes current profile; genuine isolated restore tests |
-| Explicit Play | Any legitimate retained data must be transparently disclosed; freezing an account alone is insufficient | Narrow retention decision and accurately finalized privacy notice required; no anonymous-record claim or unapproved policy activation |
+| Explicit Play | Any legitimate retained data must be transparently disclosed; freezing an account alone is insufficient | A/B/D decisions approved; accurate final factual privacy notice required; no anonymous-record claim or unapproved policy activation |
 | Explicit Play | Active publicly accessible, non-geofenced HTML privacy URL, app/developer identification, contact/retention disclosures | `/legal/privacy` implemented; live deployment and owner-completed factual placeholders remain required |
 | Explicit Play | Accurate Data Safety/app-content declarations where required | Source/browser/native data-flow evidence; owner declares actual full backend practices, not merely the WebView APK |
 | Explicit Play | UGC terms acceptance before publication, prohibited content policy, report/block and ongoing moderation | Registration checks current Terms/Guidelines before public name creation; posting consent, message/user reports, blocks and private moderation queue tested |
@@ -33,7 +33,7 @@ actually complete requests and accurately explain its process/retention. A queue
 with no operational fulfillment is insufficient. This candidate implements the
 fulfillment engine but is not live and cannot claim active deletion support yet.
 
-Internal-track Data Safety display exemptions do not justify false disclosures or
+Exclusively internal-track Data Safety form exemption do not justify false disclosures or
 ignoring data/user safety. Closed testing uses the actual applicable Console forms.
 For personal accounts created after November 13, 2023, the published production-access
 rule is 12 continuously opted-in closed testers for 14 days; this is conditional on

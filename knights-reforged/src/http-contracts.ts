@@ -11,7 +11,7 @@ export const navigation = [
   { id: 'land', label: 'Land', icon: 'land' },
 ] as const;
 
-export const templateScreens = ['champions','tutorial','achievements','quest-equipment','trade-confirm','purchase', 'home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'bounty-new', 'vault', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
+export const templateScreens = ['crowns','notifications','champions','tutorial','achievements','quest-equipment','trade-confirm','purchase', 'home', 'quests', 'battle', 'bounties', 'bounty-confirm', 'bounty-new', 'vault', 'armory', 'army', 'land', 'profile', 'settings', 'auth', 'report', 'rules', 'error'] as const;
 
 export const commandRoutes = [
   {kind:'sound',html:'/game/settings/sound',api:'/api/v1/settings/sound'},

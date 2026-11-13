@@ -1,5 +1,7 @@
 // Isolated real application with synthetic accounts; never connects to production.
 import assert from 'node:assert/strict';
+import {randomUUID} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {chromium} from 'playwright-core';
 import {uiThemeFixture} from '../tests/home-theme-fixture.js';
@@ -25,7 +27,8 @@ const scenes:[string,string,Player|null][]=[
  ['army','/game/army?tab=dashboard',r.owner],['profile','/game/profile',r.owner],['public-profile','/game/players/'+r.rival.id,r.owner],['settings','/game/settings',r.owner],
  ['vault','/game/vault',r.owner],['champions','/game/champions',r.owner],['achievements','/game/achievements',r.owner],['tutorial','/game/tutorial',r.coverage.students[7]!],
  ['purchase','/game/purchases/'+r.coverage.equipmentPurchase,r.owner],['activity','/game/home?feed=battles',r.owner],['broadcasts','/game/home?feed=broadcasts',r.owner],
- ['login','/login',null],['register','/register',null],['privacy','/legal/privacy',null],['terms','/legal/terms',null],['deletion','/account-deletion',null]
+ ['crowns','/game/crowns',r.owner],['notifications','/game/notifications',r.owner],
+ ['login','/login',null],['register','/register',null],['privacy','/legal/privacy',null],['terms','/legal/terms',null],['community','/legal/community',null],['deletion','/account-deletion',null]
 ];
 async function visit(path:string,actor:Player|null){await context.clearCookies();if(actor)await context.addCookies([{name:'kr_session',value:actor.cookie.split('=')[1]!,url:origin,httpOnly:true,sameSite:'Lax'}]);const response=await page.goto(origin+path);assert.equal(response?.status(),200,path);await page.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].filter(img=>img.complete).map(img=>img.decode().catch(()=>{})));});}
 try{
@@ -54,6 +57,24 @@ try{
  const form=page.locator('form[action="/game/social/broadcast"]');await form.locator('textarea').fill('Synthetic Play readiness verification.');await form.locator('input[name="communityPolicy"]').check();await form.getByRole('button').click();await page.waitForLoadState('networkidle');assert.ok((await page.locator('.activity-feed').innerText()).includes('Synthetic Play readiness verification.'));
  // Explicitly record expected social mutation separately; financial/game rows stay exact.
  const afterPost=await profileBusinessSnapshot(r.db);for(const table of ['wallets','economy_entries','economy_transactions','vault_accounts','vault_entries','inventory_transactions','battles','bounties','bounty_events'])assert.deepEqual(afterPost[table],before[table],'Social posting does not change '+table);
+ // Actual browser forms, not mocked HTTP: a new synthetic account consents,
+ // reports/blocks a real fixture player and requests its own deletion.
+ await visit('/register',null);const username='play_'+randomUUID().replaceAll('-','').slice(0,16);
+ await page.locator('#username').fill(username);await page.locator('#warrior-name').fill('Internal Test Knight');await page.locator('#password').fill('SyntheticPlay!2026');await page.locator('#registration-policy').check();
+ await page.locator('form[action="/register"] button[type="submit"]').click();await page.waitForURL('**/game/tutorial');
+ const account=(await r.db.query('SELECT a.id,c.id AS character FROM accounts a JOIN characters c ON c.account_id=a.id WHERE a.username=$1',[username])).rows[0]!;
+ assert.equal((await r.db.query('SELECT 1 FROM community_policy_acceptances WHERE character_id=$1',[account.character])).rowCount,1);
+ await page.goto(origin+'/game/players/'+r.rival.id);await page.getByText('Player safety',{exact:true}).click();
+ await page.locator('form[action="/game/safety/report"] button').click();await page.waitForURL('**/game/settings');
+ assert.equal((await r.db.query('SELECT 1 FROM social_user_reports WHERE reporter_id=$1 AND target_id=$2',[account.character,r.rival.id])).rowCount,1);
+ await page.goto(origin+'/game/players/'+r.rival.id);await page.getByText('Player safety',{exact:true}).click();
+ await page.locator('form[action="/game/safety/block"] button').click();await page.waitForURL('**/game/settings');
+ assert.equal((await r.db.query('SELECT 1 FROM social_blocks WHERE character_id=$1 AND blocked_id=$2',[account.character,r.rival.id])).rowCount,1);
+ await page.goto(origin+'/account-deletion');await page.locator('#username').fill(username);await page.locator('#password').fill('SyntheticPlay!2026');await page.locator('#confirm').check();
+ await page.locator('form[action="/account-deletion/requests"] button').click();await page.waitForLoadState('networkidle');assert.match(await page.locator('[role="status"]').innerText(),/Deletion is not complete/);
+ assert.equal((await r.db.query("SELECT 1 FROM account_deletion_requests WHERE account_id=$1 AND status='pending'",[account.id])).rowCount,1);
+ assert.equal((await r.db.query('SELECT 1 FROM accounts WHERE id=$1',[account.id])).rowCount,1,'A request must never silently activate real erasure');
+ await page.screenshot({path:out+'/screenshots/deletion-request-receipt-390.png'});
  assert.deepEqual(errors,[]);assert.deepEqual(failures,[],'Responsive failures');
  // Genuine uncomposited phone screenshots: 1080x1920, within Play aspect-ratio requirements.
  const store=await browser.newContext({viewport:{width:432,height:768},deviceScaleFactor:2.5,isMobile:true,hasTouch:true,reducedMotion:'reduce'});
@@ -63,6 +84,6 @@ try{
  for(const [name,width,height,path]of [['tablet-home-portrait',800,1280,'/game/home'],['tablet-land-landscape',1280,800,'/game/land']] as const){await storePage.setViewportSize({width,height});assert.equal((await storePage.goto(origin+path))?.status(),200);await storePage.evaluate(async()=>{await document.fonts.ready;for(const img of document.images)img.loading='eager';await Promise.all([...document.images].map(img=>img.decode().catch(()=>{})));});await storePage.screenshot({path:out+'/screenshots/store-'+name+'.png'});}
  assert.deepEqual([...foreignRequests],[],'Unexpected third-party resource transmission attempt');
  await store.close();
- await writeFile(out+'/verification.json',JSON.stringify({source:'real Fastify/EJS with isolated synthetic PostgreSQL',browser:'Chromium; not Android device certification',checks,failures,errors,storeScreenshots:8,tabletLayoutScreenshots:2,foreignRequestOrigins:[...foreignRequests],viewportWidths:[320,360,384,390,393,412,432,600,800,1280]},null,2)+'\n');
+ await writeFile(out+'/verification.json',JSON.stringify({sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),chromium:browser.version(),syntheticBrowserFlows:['registration-and-consent','broadcast-consent','player-report','social-block','authenticated-deletion-request'],source:'real Fastify/EJS with isolated synthetic PostgreSQL',browser:'Chromium; not Android device certification',checks,failures,errors,storeScreenshots:8,tabletLayoutScreenshots:2,foreignRequestOrigins:[...foreignRequests],viewportWidths:[320,360,384,390,393,412,432,600,800,1280]},null,2)+'\n');
  console.log('PLAY_BROWSER: PASS — '+checks.length+' real-view viewport cases; synthetic native social form; 8 genuine listing captures');
 }finally{await context.close();await browser.close();await app.close();await r.close();}

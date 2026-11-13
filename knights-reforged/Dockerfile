@@ -21,7 +21,7 @@ COPY --chown=node:node rulesets ./rulesets
 COPY --chown=node:node migrations ./migrations
 COPY --chown=node:node deployment/start.mjs deployment/migrate.mjs deployment/environment.mjs deployment/status.mjs deployment/grant-gray.mjs deployment/check-upgrade.mjs deployment/moderate.mjs deployment/audit-bots.mjs ./deployment/
 COPY --chown=node:node deployment/release/candidate.mjs deployment/release/protocol.mjs deployment/release/proof.mjs deployment/release/image-policy.mjs ./deployment/release/
-COPY --chown=node:node deployment/privacy/fulfill.mjs ./deployment/privacy/
+COPY --chown=node:node deployment/privacy/fulfill.mjs deployment/privacy/release-window.mjs deployment/privacy/journal-server.mjs deployment/privacy/initialize-journal.mjs ./deployment/privacy/
 ARG KINGDOM_IMAGE_SOURCE_SHA=""
 ARG KINGDOM_IMAGE_CANDIDATE_DIGEST=""
 # Static identity exists only for the separately approved OCI transport. It has

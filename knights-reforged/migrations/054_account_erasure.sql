@@ -165,6 +165,7 @@ BEGIN
  ('social_reports','reporter_id'),('social_moderation','character_id,actor_id'),('social_mutes','character_id'),
  ('social_blocks','character_id,blocked_id'),('social_user_reports','reporter_id,target_id'),
  ('army_links','low_id,high_id,inviter_id'),('army_events','actor_id,target_id'),('army_invitation_codes','character_id'),
+ ('notification_read_batches','character_id'),('rival_recommendation_snapshots','actor_id'),('rival_recommendation_entries','target_id'),('npc_sponsorship_holds','character_id'),
  ('notification_reads','character_id'),('notification_state','character_id'),('competitive_attention_starts','character_id'),
  ('army_attention_starts','character_id'),('player_preferences','character_id'),('sound_preferences','character_id'),
  ('tutorial_steps','character_id'),('tutorial_guides','character_id'),('community_policy_acceptances','character_id'),
@@ -299,7 +300,7 @@ END $pin_identity$;
 -- aggregate capacity/public world entities, never source accounts or estates.
 CREATE FUNCTION graveyard_snapshot(expected jsonb) RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER AS $$
  SELECT jsonb_build_object(
-  'installed',EXISTS(SELECT 1 FROM schema_migrations WHERE name='028_account_erasure.sql'),
+  'installed',EXISTS(SELECT 1 FROM schema_migrations WHERE name='054_account_erasure.sql'),
   'definitions_match',(SELECT definition=expected->'world' FROM rulesets WHERE id='graveyard-world-2')
    AND (SELECT definition=expected#>'{catalogs,alpha-0.3}' FROM rulesets WHERE id='alpha-0.3')
    AND (SELECT definition=expected#>'{catalogs,level100-content-1}' FROM rulesets WHERE id='level100-content-1'),

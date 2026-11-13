@@ -1,0 +1,24 @@
+{
+  "repository": "catillatio/test",
+  "pullRequest": 88,
+  "approvedSourceCommit": "3d273e806575ea63e22148b7c04fae91e259e5a8",
+  "proposalPath": "knights-reforged/docs/google-play/privacy/RETENTION_MINIMIZATION.md",
+  "proposalSha256": "cd7d7d97435ee94afe33a2dfb1b3f453a8efd6658892028033ef4b41451ac3dd",
+  "evidence": "Explicit owner instruction in this conversation; policy approval only, not a cryptographic execution permit or GitHub review impersonation.",
+  "decisions": {
+    "A": "APPROVED: prompt deletion, ordinarily within seven days",
+    "B": "APPROVED: retain only genuinely necessary financial-integrity, shared-transaction, security and recovery records; review every 30 days; dispose within 30 days after final legitimate dependency or hold ends using a separately approved procedure",
+    "C": "CONDITIONAL: verify actual backup settings before claiming a 30-day routine-backup target is enforced; preserve protected and emergency copies",
+    "D": "APPROVED: minimal protected erasure evidence preventing restoration resurrection"
+  },
+  "authorization": {
+    "merge": false,
+    "deploy": false,
+    "credentialInstallation": false,
+    "deletionActivation": false,
+    "realAccountErasure": false,
+    "backupAlteration": false,
+    "npcActivation": false
+  },
+  "observedAt": "2026-11-06T02:31:05.797008+00:00"
+}

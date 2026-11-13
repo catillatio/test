@@ -100,5 +100,5 @@ export async function runBotCombat(db:Database,enabled:boolean){
  return result;
 }
 export function startBotCombat(db:Database,enabled:boolean,onError:(error:unknown)=>void){
- return startScheduledBotWork(()=>runBotCombat(db,true),enabled,livingCombat.intervalMs,onError);
+ return startScheduledBotWork(()=>runBotCombat(db,true),enabled,livingCombat.intervalMs,onError,'autonomous_combat');
 }

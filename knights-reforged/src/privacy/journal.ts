@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {createPublicKey} from 'node:crypto';
 import {lstat,open,readdir,readFile,realpath} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {authenticate,intentContract,policyContract,permitContract,sha256,type SignedRecord,type ErasureIntent} from './authorization.js';
@@ -11,17 +12,16 @@ async function privateDirectory(path:string){
  assert.equal(await realpath(path),path);
 }
 function entryRoot(sequence:number,previous:string,intent:SignedRecord,policy:SignedRecord,approval:SignedRecord){return sha256(JSON.stringify({sequence,previous,intent,policy,approval}));}
-export async function readJournal(path:string,publicKey:string):Promise<JournalState>{
- await privateDirectory(path);let root=emptyRoot,sequence=0;const entries:JournalState['entries']=[];
- const files=(await readdir(path)).sort();assert.ok(files.every(f=>/^entry-[0-9]{12}\.json$/.test(f)),'Unexpected erasure journal entry.');
- const operations=new Set(),accounts=new Set();
- for(const file of files){
-  const info=await lstat(path+'/'+file);assert.ok(info.isFile()&&!info.isSymbolicLink());assert.equal(info.mode&0o077,0);
-  assert.ok(info.size<=24000,'Invalid journal entry.');
-  const entry=JSON.parse(await readFile(path+'/'+file,'utf8')) as JournalEntry;
-  assert.deepEqual(Object.keys(entry).sort(),['approval','intent','policy','previous','root','sequence']);
-  assert.equal(entry.sequence,sequence+1);assert.equal(file,`entry-${String(entry.sequence).padStart(12,'0')}.json`);
-  assert.equal(entry.previous,root);assert.equal(entry.root,entryRoot(entry.sequence,root,entry.intent,entry.policy,entry.approval));
+// The same signature/hash-chain verification protects local authoritative writes
+// and remote read-only recovery readers. No partially trusted entries are used.
+export function verifyJournalEntries(records:unknown[],publicKey:string):JournalState{
+ assert.ok(publicKey.startsWith('-----BEGIN PUBLIC KEY-----'));
+ const key=createPublicKey(publicKey);assert.equal(key.asymmetricKeyType,'ed25519');assert.equal(key.export({format:'pem',type:'spki'}).toString(),publicKey);
+ assert.ok(Array.isArray(records)&&records.length<=100000);
+ let root=emptyRoot,sequence=0;const entries:JournalState['entries']=[],operations=new Set(),accounts=new Set();
+ for(const raw of records){
+  const entry=raw as JournalEntry;assert.deepEqual(Object.keys(entry).sort(),['approval','intent','policy','previous','root','sequence']);
+  assert.equal(entry.sequence,sequence+1);assert.equal(entry.previous,root);assert.equal(entry.root,entryRoot(entry.sequence,root,entry.intent,entry.policy,entry.approval));
   const intent=authenticate(entry.intent,publicKey,intentContract),policy=authenticate(entry.policy,publicKey,policyContract),approval=authenticate(entry.approval,publicKey,permitContract);
   assert.equal(intent.policyDigest,sha256(entry.policy.payload));assert.deepEqual(intent.sourceScope,policy.scope);
   assert.equal(approval.intentDigest,sha256(entry.intent.payload));assert.equal(approval.policyDigest,intent.policyDigest);assert.equal(approval.operationId,intent.operationId);
@@ -35,6 +35,16 @@ export async function readJournal(path:string,publicKey:string):Promise<JournalS
   operations.add(intent.operationId);accounts.add(intent.accountId);root=entry.root;sequence=entry.sequence;entries.push({entry,intent});
  }
  return {sequence,root,entries};
+}
+export async function readJournal(path:string,publicKey:string):Promise<JournalState>{
+ await privateDirectory(path);const files=(await readdir(path)).sort();
+ assert.ok(files.every((file,index)=>file===`entry-${String(index+1).padStart(12,'0')}.json`),'Unexpected or missing erasure journal entry.');
+ const records:unknown[]=[];
+ for(const file of files){
+  const info=await lstat(path+'/'+file);assert.ok(info.isFile()&&!info.isSymbolicLink());assert.equal(info.mode&0o077,0);assert.ok(info.size<=24000,'Invalid journal entry.');
+  records.push(JSON.parse(await readFile(path+'/'+file,'utf8')));
+ }
+ return verifyJournalEntries(records,publicKey);
 }
 // Caller holds the realm's exclusive writer lock and the protected release mutex.
 // O_EXCL prevents a second writer from replacing/committing a different next entry.

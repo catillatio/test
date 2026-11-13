@@ -2,7 +2,7 @@
 
 ## Status and controller
 
-Review draft — not a final legal notice. Publisher/controller: [OWNER TO COMPLETE]. Privacy contact and effective date: [OWNER TO COMPLETE]. These fields and the retention schedule must be completed before Play submission.
+Review draft — not a final legal notice. Publisher/controller: [OWNER TO COMPLETE]. Privacy contact and effective date: [OWNER TO COMPLETE]. These factual fields must be completed before the notice is published for testing.
 
 ## Account and gameplay data
 
@@ -26,7 +26,7 @@ Account data enables sign-in, server-authoritative gameplay, security, support a
 
 ## Deletion and retention
 
-Request account and associated-data deletion through Settings or /account-deletion. A request is not completed deletion. Protected fulfillment deletes the login account/password hash, revokes sessions, removes reviewed personal/social data and mutable progress, and clears old profile traits and timestamps. Disposable profile/loadout/progression records and unreferenced private asset rows are removed; any historically referenced asset rows have no live quantities. Minimal private references, sealed virtual balances and original financial/combat/asset facts may need limited retention to protect other players, investigate security/fraud or reconcile recovery; they are not automatically anonymous. Necessary categories, purposes, access and retention periods, backup expiry and response time must be accurately approved and disclosed: [OWNER TO COMPLETE]. Account deletion never creates or funds an NPC.
+Request account and associated-data deletion through Settings or /account-deletion. A request is not completed deletion. Protected fulfillment deletes the login account/password hash, revokes sessions, removes reviewed personal/social data and mutable progress, and clears old profile traits and timestamps. Disposable profile/loadout/progression records and unreferenced private asset rows are removed; any historically referenced asset rows have no live quantities. Minimal private references, sealed virtual balances and original financial/combat/asset facts may need limited retention to protect other players, investigate security/fraud or reconcile recovery; they are not automatically anonymous. Deletion is ordinarily fulfilled within seven days once the protected service is operational. Only records necessary for financial integrity, shared gameplay/transaction history, security or recovery remain restricted. Their necessity is reviewed every 30 days; disposal occurs within 30 days after their final legitimate dependency or hold ends, through an approved procedure. Minimal erasure evidence remains until the last affected backup is destroyed plus 30 days. GitHub protected recovery artifacts are retained for about 90 days. A 30-day routine-backup target is not enforced; other recovery copies, provider retention and protected holds have not all been established and are not promised a maximum expiry. Account deletion never creates or funds an NPC.
 
 ## Rights, age and updates
 

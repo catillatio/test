@@ -67,3 +67,14 @@ test('public character creation requires explicit current Terms/Guidelines conse
   assert.deepEqual(rows,[{policy_version:communityPolicyVersion}]);
  }finally{await r.close();}
 });
+
+test('published draft retains approved A/B/D terms and conditional C without claiming active fulfillment or enforced backup expiry',async()=>{
+ const {legalPages}=await import('../src/legal-content.js');const {readFile}=await import('node:fs/promises');
+ for(const page of ['privacy','terms','community','deletion'] as const){
+  const text=await readFile(new URL('../docs/google-play/LEGAL_'+page.toUpperCase()+'.md',import.meta.url),'utf8');
+  for(const [heading,body]of legalPages[page][1]){assert.ok(text.includes('## '+heading));assert.ok(text.replaceAll('\n',' ').includes(body));}
+ }
+ const notice=JSON.stringify([legalPages.privacy,legalPages.deletion]);
+ assert.match(notice,/seven days/);assert.match(notice,/every 30 days/);assert.match(notice,/within 30 days after/);assert.match(notice,/90 days/);assert.match(notice,/not enforced/);assert.match(notice,/no active fulfillment operator/);
+ assert.ok(!notice.includes('B remains unapproved'));
+});

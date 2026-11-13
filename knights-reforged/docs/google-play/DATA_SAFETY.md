@@ -1,6 +1,6 @@
 # Data Safety worksheet — owner declaration draft
 
-Scope: current server plus Android client, not only the small APK. Reviewed 2026-11-05. Owner completes Play Console; these are evidence-backed prompts, not submitted answers.
+Scope: current server plus Android client, not only the small APK. Updated2026-11-13 against the integrated current backend. Owner completes Play Console; these are evidence-backed prompts, not submitted answers.
 
 | Data | Actual processing / evidence | Draft classification | Unresolved declaration |
 |---|---|---|---|
@@ -26,8 +26,8 @@ Optional NPC/population work is preserved outside the launch-critical path and i
 not a Data Safety or erasure prerequisite. No real NPC or account is created/deleted
 by this task. Fulfillment tests now also clear the old mutable current-profile
 traits/timestamps and prevent reintroduction, while preserving restricted financial
-references/amounts. Retained associated records still require explicit purpose and
-period; no anonymization/certification claim is made.
+references/amounts. A/B/D retain only approved necessary associated records; C remains conditional.
+ no anonymization/certification claim is made.
 
 The actual browser audit rejects unexpected foreign resource attempts rather than
 silently masking them. Native security is verified separately. OS/System WebView

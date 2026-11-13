@@ -1,0 +1,42 @@
+{
+  "id": "class-portraits-1",
+  "source": "Original image generation commissioned for this request; no original-game pixels copied.",
+  "status": "Local owner review only, not released.",
+  "composition": "Square full-bleed head/shoulders; CSS rendered 60x60; no matte.",
+  "files": {
+    "warden.png": "8525da9a152e9ccff6f64188136ca8c71aaa0ab2eb9b866ae14575cbf35b0d12",
+    "spellward.png": "53d49affefbfcde6e930bbcb0bb4d866f865f7b11672826dcdca146ad5212071",
+    "freeblade.png": "9ba1a9b4813c9d609c14001b021a35e31baff19afff2de535203877847297033"
+  },
+  "masters": {
+    "warden.png": {
+      "path": "docs/complete-rebuild-20261111/portrait-masters/warden.png",
+      "sha256": "c20ab5210c1b03b64e3be261a979f9cf0d0653318ecd5b8baed95ed9c82c1aab",
+      "width": 1254,
+      "height": 1254
+    },
+    "spellward.png": {
+      "path": "docs/complete-rebuild-20261111/portrait-masters/spellward.png",
+      "sha256": "65a13444fe3b616a338a102a29106122a48cf8c86ea06d1e13273559f3d1867b",
+      "width": 1254,
+      "height": 1254
+    },
+    "freeblade.png": {
+      "path": "docs/complete-rebuild-20261111/portrait-masters/freeblade.png",
+      "sha256": "81dcaaf6934bc53761f24a42f112332bc17a38bf03a35316159f88d9e1156b46",
+      "width": 1254,
+      "height": 1254
+    }
+  },
+  "runtimeDerivation": {
+    "tool": "ImageMagick (existing cloud tool)",
+    "filter": "Lanczos",
+    "dimensions": [
+      120,
+      120
+    ],
+    "format": "opaque RGB PNG",
+    "compression": "lossless PNG24",
+    "purpose": "60x60 at 2x density; original painted masters retained byte-for-byte; no crop or repaint"
+  }
+}

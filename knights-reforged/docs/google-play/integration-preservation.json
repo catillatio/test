@@ -1,0 +1,18 @@
+{
+  "productionSource": "98756a0449b2b260c62c26d52491a23954f82788",
+  "priorPrHead": "3d273e806575ea63e22148b7c04fae91e259e5a8",
+  "method": "non-rewriting merge preserving both parents; no force push",
+  "unchangedSourceFiles": {
+    "knights-reforged/src/rival-recommendations.ts": "c6bb4ef1c604996b5eca94f3747c0933cee4701f72ba24fd14aa37b27bc0ae6a",
+    "knights-reforged/src/human-pvp-loot.ts": "db2a32076f8b6a2fbfade560e81f1d08fb3286e29bebf6aaf3642714de520216",
+    "knights-reforged/src/bot-loot.ts": "eacfe61758bcf596c6f86aa6747d3d5cd0f2edaefce357632930088dccff8f3f",
+    "knights-reforged/src/land.ts": "6ba170eb6c8bc2d445382793a4aadd7c42474e050ed941e7e34c84d02f72e209",
+    "knights-reforged/src/economy.ts": "8a623dd24781fe42a2bf561950a1868e517f86d66c7a0edaace975c6e6964933"
+  },
+  "immutableProductionMigrations": 33,
+  "productionMigrationHead": "052_npc_sponsorship.sql",
+  "candidateMigrationHead": "054_account_erasure.sql",
+  "candidateMigrationCount": 35,
+  "productionAssetChanges": [],
+  "productionWrites": false
+}

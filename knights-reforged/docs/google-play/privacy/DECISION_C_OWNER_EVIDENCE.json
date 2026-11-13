@@ -1,0 +1,47 @@
+{
+  "repository": "catillatio/test",
+  "pullRequest": 88,
+  "sourceCommitUnchanged": "3d273e806575ea63e22148b7c04fae91e259e5a8",
+  "evidence": "Owner-provided Railway Backups screenshots, visually inspected, plus explicit owner-confirmed interpretation; not an API proof of backup restorability, expiry or holds.",
+  "observedAt": "2026-11-06T02:37:59.212695+00:00",
+  "decisions": {
+    "A": "APPROVED",
+    "B": "APPROVED_AT_3d273e8",
+    "C": "CONDITIONAL",
+    "D": "APPROVED"
+  },
+  "services": [
+    {
+      "service": "KingdomReleaseCopy",
+      "screenshotFile": "1-1000032476.jpg",
+      "screenshotSha256": "8b305b8cec1032008f55c411a788239589dbd3c28a1e943b060638649a19d231",
+      "volumeBackupSchedule": "NONE_CONFIGURED_OWNER_CONFIRMED",
+      "pitr": "UNAVAILABLE_WITH_CURRENT_IMAGE",
+      "historicalOnlineResizeEntries": 3,
+      "entriesAreScheduledBackups": false,
+      "restorabilityProven": false,
+      "expiryOrHoldStateProven": false
+    },
+    {
+      "service": "Postgres",
+      "screenshotFile": "2-1000032474.jpg",
+      "screenshotSha256": "fc1aa5c19c7f67ec19a0ed253bd701c18ac629990beadbf482e1e3dd8cdd904d",
+      "volumeBackupSchedule": "NONE_CONFIGURED_OWNER_CONFIRMED",
+      "pitr": "DISABLED",
+      "historicalOnlineResizeEntries": 2,
+      "entriesAreScheduledBackups": false,
+      "restorabilityProven": false,
+      "expiryOrHoldStateProven": false
+    }
+  ],
+  "githubRecoveryArtifactRetention": "Approximately 90 days, established by separate authenticated artifact metadata.",
+  "routine30DayTargetEnforced": false,
+  "protectedOrManualHoldsEstablishedByScreenshots": false,
+  "automaticRetentionWindowEstablishedByScreenshots": false,
+  "remainingCAccounting": [
+    "Separately managed object-store recovery artifacts",
+    "Restored recovery databases and protected/emergency/current/pinned or uncertain holds",
+    "Provider retention practices and any historical volume recovery material"
+  ],
+  "authorization": "Read-only evidence recording and launch preparation only; no backup, credential, activation, merge or deployment change."
+}
