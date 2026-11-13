@@ -1,9 +1,19 @@
 # Kingdom Come — current authority index
 
-Current local work: PR #88 internal-Play integration on deployed `98756a0`.
+Current local work: reconcile PR #88 with deployed production `c8247df`.
 See [Play readiness](../google-play/PLAY_STORE_READINESS.md). Production erasure,
-NPC creation, signing, merge and deployment remain owner-gated. Prior A/B/D
-policy approvals stand; C remains conditional.
+NPC creation, signing, and PR #88 merge/deployment remain owner-gated. Prior
+A/B/D policy approvals stand; C remains conditional. The owner-authorized
+Kingdoms Restored rebrand is a separate review change; internal identifiers stay
+unchanged.
+
+2026-11-13: [Release 103 preflight correction](../release-image-preflight-103/README.md)
+was merged in [PR #93](https://github.com/catillatio/test/pull/93), including the
+notification snapshot test correction. Protected release
+[43511938434](https://github.com/catillatio/test/actions/runs/43511938434) succeeded
+at `c8247dfa891c9f2c0458ff7df523f09fa24f0cfa`; the game is on the exact prepared
+image. This reconciliation preserves those changes and all Play-specific tests.
+Source integration is not authorization to activate erasure or merge PR #88.
 
 Small continuation of reviewed `56fbd34`: [silhouette readability, compact Battle
 markers and synchronized unread controls](../finishing-pass/README.md), local only.

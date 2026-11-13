@@ -4,6 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
 import {once} from 'node:events';
+import {readFileSync} from 'node:fs';
 import {generateKeyPairSync,createHash} from 'node:crypto';
 import {deployImage,preflightImageTarget,imageReleaseKeys,imageSourceMutation,imageTargetSnapshot} from '../deployment/release/image-deploy.mjs';
 import {railwayClient} from '../deployment/release/registrar-config.mjs';
@@ -12,9 +13,10 @@ import {candidate,approval,proof,runtimeEnv,ids} from './fixtures/release-image.
 
 const privateToken='synthetic-project-access-token',registryPassword='synthetic-registry-read-password';
 const oldId='77777777-7777-4777-8777-777777777777',newId='88888888-8888-4888-8888-888888888888',patchId='99999999-9999-4999-8999-999999999999';
+const release103=JSON.parse(readFileSync(new URL('./fixtures/railway-image-target-observation-103.json',import.meta.url),'utf8')).fields;
 async function listen(server){server.listen(0,'127.0.0.1');await once(server,'listening');return 'http://127.0.0.1:'+server.address().port;}
 async function close(server){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
-async function rehearsal(t,{install=true,delta=true,existingCredentials=false,mode='success'}={}){
+async function rehearsal(t,{install=true,delta=true,existingCredentials=false,mode='success',providerShape}={}){
  const target={projectId:ids[0],environmentId:ids[1],serviceId:ids[2]},calls=[],logs=[],requests=[];
  const keys=generateKeyPairSync('ed25519'),publicKey=keys.publicKey.export({type:'spki',format:'pem'}),p=proof();
  const signed=signProof(p,keys.privateKey),values={KINGDOM_AUTOMATED_RELEASES:'1',KINGDOM_RELEASE_SHA:p.sha,KINGDOM_RESTORE_TEST_DATABASE:p.copy,KINGDOM_RELEASE_BACKUP_PROOF:signed,
@@ -28,6 +30,16 @@ async function rehearsal(t,{install=true,delta=true,existingCredentials=false,mo
  const initialConfig={services:{[ids[2]]:{source:{repo:'catillatio/test',branch:'old-github-branch',commitSha:'0'.repeat(40),rootDirectory:'/knights-reforged'},build:{builder:'RAILPACK',watchPatterns:['src/**']},
   deploy:{startCommand:'node deployment/start.mjs',...(!install||existingCredentials?{registryCredentials:{username:'catillatio',password:registryPassword}}:{})},variables:{PRIVATE:{value:'unchanged-fixture'},KINGDOM_AUTOMATED_RELEASES:{value:'1'}}},
   [ids[4]]:{variables:{WORKER_PRIVATE:{value:'unchanged-worker-fixture'}}}},sharedVariables:{UNCHANGED_SHARED:{value:'shared-fixture'}}};
+ if(providerShape==='release-103'){
+  assert.equal(install,false);
+  const priorImage=candidate().reference.replace(/sha256:[a-f0-9]{64}$/,'sha256:'+'f'.repeat(64));
+  game.source={image:priorImage,repo:null};game.healthcheckTimeout=release103['game.healthcheckTimeout'];game.numReplicas=release103['game.numReplicas'];
+  game.latestDeployment={...structuredClone(identity),id:ids[5],status:release103['latest.status'],deploymentStopped:release103['latest.deploymentStopped'],createdAt:'2026-10-01T01:00:00Z',updatedAt:'2026-10-01T01:01:00Z',instances:release103['latest.instances.status'].map((status,i)=>({id:'failed-instance-'+i,status}))};
+  game.activeDeployments[0].instances=release103['active.instances.status'].map((status,i)=>({id:status==='RUNNING'?oldIdentity.instanceId:'removed-active-'+i,status}));
+  initialConfig.services[ids[2]].source={image:priorImage,rootDirectory:'/knights-reforged'};
+  initialConfig.services[ids[2]].deploy.multiRegionConfig={iad:{numReplicas:1}};
+ }
+ const initialSource=structuredClone(game.source);
  let config=structuredClone(initialConfig),staged=null,receipt=null,sourceApplied=false,queued=false,receiptReads=0;
  const inspect=()=>{
   const data={project:{id:ids[0],name:'merry-patience',environments:{edges:[{node:{id:ids[1],projectId:ids[0],deletedAt:null}}],pageInfo:{hasNextPage:false,hasPreviousPage:false}}},
@@ -66,7 +78,7 @@ async function rehearsal(t,{install=true,delta=true,existingCredentials=false,mo
    }else if(query===imageSourceMutation){
     calls.push('source');assert.deepEqual(v,{serviceId:ids[2],environmentId:ids[1],input:{source:{image:candidate().reference,repo:null}}});assert.ok(receipt);assert.equal(staged,null);assert.equal(queued,false);
     for(const name of imageReleaseKeys)assert.equal(config.services[ids[2]].variables[name].value,values[name]);
-    assert.deepEqual(game.source,{repo:'catillatio/test',image:null});
+    assert.deepEqual(game.source,initialSource);
     sourceApplied=true;config.services[ids[2]].source={image:candidate().reference,rootDirectory:'/knights-reforged'};game.source={image:candidate().reference,repo:mode==='repo_retained'?'catillatio/test':null};
     if(mode==='implicit_source_restart')game.activeDeployments[0].instances[0].id='unapproved-restarted-instance';
     if(mode==='source_ack_lost'){req.socket.destroy();return;}
@@ -98,6 +110,18 @@ for(const install of [true,false])for(const delta of [true,false])test('HTTP run
  assert.ok(f.state().healthReads>=f.calls.length);assert.equal(f.state().queued,true);
  assert.deepEqual(f.state().config.services[ids[4]],f.initialConfig.services[ids[4]]);assert.deepEqual(f.state().config.sharedVariables,f.initialConfig.sharedVariables);
  assert.ok(!JSON.stringify(f.logs).includes(registryPassword)&&!JSON.stringify(f.logs).includes(f.values.KINGDOM_RELEASE_BACKUP_PROOF));
+});
+test('HTTP release 103 shape preserves the healthy process and signed image transition behind stopped failed history',async t=>{
+ const f=await rehearsal(t,{install:false,providerShape:'release-103'});await f.health();
+ assert.equal(f.settings.registrySetup,'preconfigured');assert.equal(await f.run(),newId);await f.health();
+ assert.deepEqual(f.calls,['inspect','stage','inspect','commit','workflow','receipt','receipt','source','receipt','receipt','deploy','identity']);
+ assert.deepEqual(f.logs,['PATCH_STAGED','CONFIG_COMMITTED_NO_DEPLOY','SOURCE_UPDATE_REQUESTED','SOURCE_VERIFIED_NO_DEPLOY','DEPLOYMENT_QUEUED']);
+ const before=f.initialConfig.services[ids[2]],after=f.state().config.services[ids[2]];
+ assert.notEqual(before.source.image,after.source.image);assert.equal(after.source.image,candidate().reference);
+ assert.deepEqual(after.deploy,before.deploy);assert.deepEqual(after.deploy.registryCredentials,{username:'catillatio',password:registryPassword});
+ assert.deepEqual(f.state().config.services[ids[4]],f.initialConfig.services[ids[4]]);assert.deepEqual(f.state().config.sharedVariables,f.initialConfig.sharedVariables);
+ for(const name of ['stage','commit','source','deploy'])assert.equal(f.calls.filter(c=>c===name).length,1);
+ assert.ok(f.state().healthReads>=f.calls.length);assert.equal(f.state().queued,true);
 });
 for(const delta of [true,false])test('HTTP first handoff with already installed credentials authenticates an omitted credential delta: '+delta,async t=>{
  const f=await rehearsal(t,{existingCredentials:true,delta});assert.equal(await f.run(),newId);await f.health();

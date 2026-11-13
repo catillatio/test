@@ -12,6 +12,8 @@ import { loadConfig } from "../src/config.js";
 import { uiThemeFixture } from "../tests/home-theme-fixture.js";
 import { profileBusinessSnapshot } from "../tests/classic-profile-fixture.js";
 import { testDatabaseUrl } from "../tests/helpers.js";
+import { homeThemeSemantics } from "../tests/home-theme-semantics.js";
+import { acknowledgeNotifications, notificationSummary, unreadNotificationPage } from "../src/notifications.js";
 if (!testDatabaseUrl)
   throw Error("A local disposable *_test database is required.");
 const viewportModes = ["--quick", "--mobile", "--desktop"].filter((flag) =>
@@ -200,68 +202,10 @@ try {
       glowChecks.push({ width, scene, ...sample });
     }
   }
-  // Compare all product content and command contracts, excluding volatile tokens.
+  // Compare the same player-facing content after notification acknowledgment,
+  // preserving all command, resource, artwork and active-control assertions.
   async function semantics() {
-    return page.evaluate(() => ({
-      headings: [...document.querySelectorAll("h1,h2,h3")].map(
-        (e) => e.textContent,
-      ),
-      links: [...document.querySelectorAll<HTMLAnchorElement>("a")].map(
-        (e) => ({
-          href: (() => {
-            const href = e.getAttribute("href");
-            if (!href) return href;
-            const u = new URL(href, location.origin);
-            if (u.origin !== location.origin) return href;
-            if (u.pathname === "/game/battle")
-              u.searchParams.delete("rotation");
-            return u.pathname + u.search + u.hash;
-          })(),
-          text: e.textContent?.replace(/\s+/g, " ").trim(),
-          current: e.getAttribute("aria-current"),
-        }),
-      ),
-      forms: [...document.querySelectorAll<HTMLFormElement>("form")]
-        .filter((f) => !f.matches(".notification-read-form"))
-        .map((f) => ({
-          action: f.getAttribute("action"),
-          method: f.method,
-          inputs: [...f.querySelectorAll<HTMLInputElement>("input")]
-            .filter((i) => !["csrf", "commandId"].includes(i.name))
-            .map((i) => {if(i.name==='batchId'){if(!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(i.value))throw new Error('Read snapshot nonce is malformed');return {name:i.name,value:'OWNER_BOUND_READ_SNAPSHOT'};}return {name:i.name,value:i.value};}),
-          buttons: [...f.querySelectorAll<HTMLButtonElement>("button")].map(
-            (b) => ({ text: b.textContent?.trim(), disabled: b.disabled }),
-          ),
-          selects: [...f.querySelectorAll("select")].map((s) => s.outerHTML),
-          textareas: [...f.querySelectorAll("textarea")].map((s) => ({
-            name: s.name,
-            max: s.maxLength,
-          })),
-        })),
-      modules: [
-        ...document.querySelectorAll(
-          "main>section,main>article,main>.compact-help,main>nav",
-        ),
-      ].map((e) => ({
-        class: e.className,
-        text: e.textContent?.replace(/\s+/g, " ").trim(),
-      })),
-      artwork: [...document.querySelectorAll(".catalog-art")].map((e) => ({
-        id:
-          e.getAttribute("data-expansion-item") ?? e.getAttribute("aria-label"),
-        source:
-          e.getAttribute("src") ??
-          getComputedStyle(e).backgroundImage.replaceAll(location.origin, ""),
-      })),
-      icons: [...document.querySelectorAll("svg use")].map((e) =>
-        e.getAttribute("href"),
-      ),
-      resourceValues: [
-        ...document.querySelectorAll(
-          "[data-wallet-gold],[data-level],[data-level-xp],[data-level-required],[data-resource-value],[data-resource-max]",
-        ),
-      ].map((e) => e.textContent),
-    }));
+    return page.evaluate(homeThemeSemantics);
   }
   type StoredReport = {
     attacker_id: string;
@@ -842,6 +786,19 @@ try {
         throw Error("Invalid Home UI atlas");
     }
   });
+  // These paired renders share one disposable fixture. Natural viewing can
+  // acknowledge different events as viewport/theme geometry changes. Settle
+  // only this synthetic owner's existing exact event IDs before comparing;
+  // never normalize live unread counts or bypass actual notification tests.
+  const attentionBeforeComparison = await notificationSummary(fixture.db, fixture.owner.id);
+  for (let batch = 0; batch < 5; batch++) {
+    const unread = await unreadNotificationPage(fixture.db, fixture.owner.id);
+    if (!unread.entries.length) break;
+    await acknowledgeNotifications(fixture.db, fixture.owner.id, unread.entries.map(({kind,id})=>({kind,id})));
+  }
+  const attentionForComparison = await notificationSummary(fixture.db, fixture.owner.id);
+  assert.equal(attentionForComparison.home, 0, "Synthetic comparison owner must have a settled personal-notification baseline");
+  assert.equal(attentionForComparison.army, attentionBeforeComparison.army, "Settling personal event IDs must not acknowledge pending invitations");
   const saved = await profileBusinessSnapshot(fixture.db);
   for (const width of widths) {
     await page.setViewportSize({ width, height: width >= 700 ? 1000 : 844 });

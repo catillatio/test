@@ -1,6 +1,6 @@
 {
-  "productionSource": "98756a0449b2b260c62c26d52491a23954f82788",
-  "priorPrHead": "3d273e806575ea63e22148b7c04fae91e259e5a8",
+  "productionSource": "c8247dfa891c9f2c0458ff7df523f09fa24f0cfa",
+  "priorPrHead": "6f34d5e1b60c6937e83848f1fbd4a548938023d0",
   "method": "non-rewriting merge preserving both parents; no force push",
   "unchangedSourceFiles": {
     "knights-reforged/src/rival-recommendations.ts": "c6bb4ef1c604996b5eca94f3747c0933cee4701f72ba24fd14aa37b27bc0ae6a",
@@ -14,5 +14,14 @@
   "candidateMigrationHead": "054_account_erasure.sql",
   "candidateMigrationCount": 35,
   "productionAssetChanges": [],
-  "productionWrites": false
+  "productionWrites": false,
+  "previousIntegration": {
+    "productionSource": "98756a0449b2b260c62c26d52491a23954f82788",
+    "priorPrHead": "3d273e806575ea63e22148b7c04fae91e259e5a8"
+  },
+  "testManifestEntries": 195,
+  "resolvedConflicts": [
+    "knights-reforged/docs/development/CURRENT.md",
+    "knights-reforged/scripts/ci/test-manifest.json"
+  ]
 }

@@ -146,7 +146,11 @@ function gameSnapshot(data,target,observe){
   // A failed/removed/skipped attempt is not the running deployment. Neither
   // history scanning nor arbitrary selection of an older success is allowed.
   check('latest.status','TERMINAL_ATTEMPT',latest.status,()=>assert.ok(['FAILED','REMOVED','SKIPPED'].includes(latest.status)));
-  check('latest.instances.status','ALL_EXITED',latest.instances.map(i=>i.status),()=>assert.ok(latest.instances.every(i=>i.status==='EXITED')));
+  // Railway retains REMOVED instances after a failed pre-deploy attempt. They
+  // are terminal history only with explicit stopped-deployment evidence; live
+  // or uncertain instances must still block the release. Preserve the raw
+  // statuses, identities and stopped flag in the exact snapshot below.
+  check('latest.instances.status','ALL_EXITED_OR_STOPPED_FAILED_REMOVED',latest.instances.map(i=>i.status),()=>assert.ok(latest.instances.every(i=>i.status==='EXITED'||i.status==='REMOVED'&&latest.status==='FAILED'&&latest.deploymentStopped===true)));
   check('latest.activeCreatedOrder','VALID_ORDER',Date.parse(latest.createdAt)>=Date.parse(active.createdAt),()=>assert.ok(Date.parse(latest.createdAt)>=Date.parse(active.createdAt)));
  }
  // Source changes are intentional; running deployment/config identity is not.

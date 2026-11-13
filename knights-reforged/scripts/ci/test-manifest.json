@@ -988,6 +988,11 @@
       "file": "tests/training.test.ts",
       "lane": "database",
       "weight": 1
+    },
+    {
+      "file": "tests/home-theme-semantics-browser.test.ts",
+      "lane": "browser",
+      "weight": 10
     }
   ]
 }
