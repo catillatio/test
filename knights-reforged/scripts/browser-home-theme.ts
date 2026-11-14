@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 // Actual realm HTML, browser scripts and commands on a disposable schema only.
 import assert from "node:assert/strict";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -718,6 +719,7 @@ try {
         .fill("NotARealPassword!2026");
       if (entry.mode === "register-error") {
         await page.locator('input[name="name"]').fill("X");
+        await page.locator('#registration-policy').check();
         await page.locator(".auth-form").evaluate((form) => {
           (form as HTMLFormElement).noValidate = true;
         });
@@ -749,6 +751,12 @@ try {
         )?.textContent;
         return !!status && !status.startsWith("Requesting");
       });
+    // Both themes share one real database. Automatic visible-notification
+    // acknowledgments must finish before comparing their live badge semantics.
+    // Otherwise one side can be sampled before the 350 ms read and the next
+    // side after it. Keep the complete semantic assertion, including counters.
+    if (await page.locator("[data-notification-event]").count())
+      await page.waitForLoadState("networkidle");
     if (entry.selector)
       assert.ok(
         await page.locator(entry.selector).count(),
@@ -1252,6 +1260,7 @@ try {
           ? { csrf, targetCharacterId: fixture.patron.id, amount: 1000 }
           : {
               csrf,
+              communityPolicy: communityPolicyVersion,
               username: "ui_" + randomUUID().replaceAll("-", "").slice(0, 20),
               name: "X",
               password: "NotARealPassword!2026",
@@ -1567,6 +1576,7 @@ try {
   await message
     .locator("textarea")
     .fill("Synthetic preview: the realm stands ready.");
+  await message.locator('input[name="communityPolicy"]').check();
   await message.getByRole("button").click();
   await page.waitForLoadState("networkidle");
   assert.equal(await page.locator(".notice-error").count(), 0);
@@ -1592,6 +1602,7 @@ try {
   const browserUsername = "ui_" + randomUUID().replaceAll("-", "").slice(0, 18);
   await page.locator("#username").fill(browserUsername);
   await page.locator("#warrior-name").fill("Aster New Banner");
+  await page.locator("#registration-policy").check();
   await page.locator("#password").fill("AlphaTest!2026");
   await Promise.all([
     page.waitForNavigation(),

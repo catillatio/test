@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID,createHash} from 'node:crypto';
@@ -14,7 +15,7 @@ test('registration introduces Tutorial once; skip/completion and sound choices p
  const r=await realm({isolated:true});try{
   const form=await r.app.inject({url:'/register'}),csrf=/name="csrf" value="([a-f0-9]+)"/.exec(form.body)![1]!;
   const cookie=String(form.headers['set-cookie']).split(';')[0]!;
-  const registered=await r.app.inject({method:'POST',url:'/register',headers:{cookie,origin:'http://localhost:3000'},payload:{csrf,username:'guide_'+randomUUID().slice(0,8),name:'New Tutorial Explorer',password:'TestOnly!2048'}});
+  const registered=await r.app.inject({method:'POST',url:'/register',headers:{cookie,origin:'http://localhost:3000'},payload:{csrf,communityPolicy:communityPolicyVersion,username:'guide_'+randomUUID().slice(0,8),name:'New Tutorial Explorer',password:'TestOnly!2048'}});
   assert.equal(registered.statusCode,303);assert.equal(registered.headers.location,'/game/tutorial');
   const actor=await r.player('Returning Explorer');
   const before=await r.me(actor);await r.ok(actor,'/api/v1/tutorial',{action:'skip'});

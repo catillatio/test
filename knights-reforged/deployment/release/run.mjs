@@ -93,7 +93,7 @@ async function main(){
   let deploymentId;
   try{
    for(const path of ['package.json','package-lock.json','tsconfig.json','src','public','views','migrations','rulesets',
-    'deployment/start.mjs','deployment/migrate.mjs','deployment/check-upgrade.mjs','deployment/environment.mjs',
+    'deployment/privacy/journal-server.mjs','deployment/privacy/initialize-journal.mjs','deployment/privacy/fulfill.mjs','deployment/privacy/release-window.mjs','deployment/start.mjs','deployment/migrate.mjs','deployment/check-upgrade.mjs','deployment/environment.mjs',
     ...['worker','transfer','candidate','protocol','proof','image-policy'].map(name=>'deployment/release/'+name+'.mjs'),
     ...['observation.mjs','observations.sql','register-verified.mjs','inspect-registrar.mjs'].map(name=>'deployment/release/retention/'+name)]){
     await mkdir(dirname(join(bundle,path)),{recursive:true});await cp(join(base,path),join(bundle,path),{recursive:true,errorOnExist:true,force:false});

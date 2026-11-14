@@ -10,7 +10,10 @@
 <%- include('bounty-quotas',{quota:bountyPlacement.quotas??null,compact:true}) %>
 </section>
 
+<% if(!character.abandonedKingdom) { %>
 <section class="profile-recruitment" aria-label="Army request">
 <form method="post" action="/game/army/invite"><%- include('command-fields') %><input type="hidden" name="targetCharacterId" value="<%= character.id %>"><button class="button button-outline" type="submit"<% if(!recruitment.allowed) { %> disabled<% } %>>Invite to Army</button></form>
 <p class="field-hint"><%= recruitment.reason??(recruitment.automatic?'Development rival: immediately accepts a valid request and uses one army place.':'Send a persistent request. This player chooses whether to accept.') %><% if(recruitment.status==='declined') { %> Previous request declined or removed; normal re-invitation rules apply.<% } %></p>
 </section>
+
+<% } %>

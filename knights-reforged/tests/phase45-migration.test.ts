@@ -14,7 +14,7 @@ import {ledger} from '../src/economy.js';
 import {vaultTransfer} from '../src/pvp-economy.js';
 import {executeCommand} from '../src/commands.js';
 import {placeBounty} from '../src/bounties.js';
-import {postMessage} from '../src/community.js';
+
 async function snapshot(db:Database){
  const tables=(await db.query("SELECT table_name FROM information_schema.tables WHERE table_schema=current_schema() AND table_type='BASE TABLE' ORDER BY table_name")).rows;
  const map:Record<string,string[]>={};for(const {table_name:table} of tables){assert.match(table,/^[a-z_]+$/);map[table]=(await db.query('SELECT row_to_json(t)::text AS row FROM "'+table+'" t')).rows.map(r=>r.row).sort();}return map;
@@ -46,7 +46,8 @@ test('populated Phase 4.4 migration preserves every business row, 450 bots, sess
    }
    for(const step of ['quest','rewards','equipment','automatic'])await sql.query('INSERT INTO tutorial_steps(character_id,step_id) VALUES($1,$2)',[a.characterId,step]);
    await placeBounty(sql,a.characterId,b.characterId,100,randomUUID(),new Date());
-   await postMessage(sql,a.characterId,b.characterId,'An enduring greeting from Phase 4.4.',randomUUID(),new Date(),4,5);
+   // Preserve a pre-027 historical post using its original row shape; current posting requires explicit policy consent.
+   await sql.query("INSERT INTO realm_messages(id,author_id,profile_id,channel,body,command_id,ruleset_id,created_at) VALUES($1,$2,$3,'comment','An enduring greeting from Phase 4.4.',$4,'community-0.1',now())",[randomUUID(),a.characterId,b.characterId,randomUUID()]);
   });
   const key=randomUUID(),intent={unitId:'militia',quantity:2},oldResult={commandId:key,kind:'recruit',message:'Historical troops recruited.',data:{quantity:2,goldSpent:24}};
   await db.query('UPDATE army_stacks SET quantity=2 WHERE character_id=$1',[a.characterId]);

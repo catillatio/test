@@ -87,6 +87,7 @@ try{
   await newcomer.getByLabel('Account name',{exact:true}).fill('new_https_'+suffix);
   await newcomer.getByLabel('Warrior name',{exact:true}).fill('New HTTPS Knight '+suffix);
   await newcomer.getByLabel('Password',{exact:true}).fill(randomUUID()+'Aa1!');
+  await newcomer.locator('#registration-policy').check();
   await Promise.all([newcomer.waitForURL(config.origin+'/game/home'),newcomer.getByRole('button',{name:'Create your warrior',exact:false}).click()]);
   const registeredCookie=(await context.cookies()).find(cookie=>cookie.name==='kr_session')!;
   assert.equal(registeredCookie.secure,true);assert.equal(registeredCookie.httpOnly,true);assert.equal(registeredCookie.sameSite,'Lax');

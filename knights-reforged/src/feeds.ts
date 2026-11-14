@@ -1,3 +1,4 @@
+import {accountSafetySchema} from './account-safety-schema.js';
 import {type Sql} from './db.js';
 import {GameError} from './errors.js';
 import {community} from './community-rules.js';
@@ -14,7 +15,7 @@ export function cursorParts(value:unknown):[string|null,string|null]{
 }
 /** Public, deliberately limited history. Private snapshots remain combatant-only. */
 export async function battleTales(sql:Sql,subjectId:string,viewerId:string,cursor?:unknown){
-  const [after,afterId]=cursorParts(cursor);
+  const [after,afterId]=cursorParts(cursor),safety=await accountSafetySchema(sql);
   const rows=(await sql.query(`SELECT b.id,b.created_at,b.attacker_id,b.defender_id,b.outcome,
     COALESCE(b.result->>'attackerName',a.name) AS attacker_name,COALESCE(b.result->>'defenderName',d.name) AS defender_name,
     b.result->'defenderXp' AS defender_xp,b.result->'loot' AS loot,b.result->'attackerXp' AS xp,b.result->'attackerDamage' AS attacker_damage,
@@ -32,7 +33,7 @@ export async function battleTales(sql:Sql,subjectId:string,viewerId:string,curso
 }
 export interface FeedEntry {id:string;kind:'battle'|'comment'|'broadcast'|'bounty'|'army';createdAt:string;cursor:string;data:Record<string,any>;}
 export async function activityFeed(sql:Sql,viewerId:string,category:FeedCategory,cursor?:unknown,profileId?:string){
-  const [after,afterId]=cursorParts(cursor);
+  const [after,afterId]=cursorParts(cursor),safety=await accountSafetySchema(sql);
   const queries:string[]=[];
   if(category==='all'||category==='battles')queries.push(`SELECT b.id,b.created_at,'battle' AS kind,
     jsonb_build_object('attackerId',b.attacker_id,'defenderId',b.defender_id,'attackerName',a.name,'defenderName',d.name,'outcome',b.outcome,
@@ -43,7 +44,7 @@ export async function activityFeed(sql:Sql,viewerId:string,category:FeedCategory
   if(category==='all'||category==='comments'||category==='broadcasts')queries.push(`SELECT m.id,m.created_at,m.channel AS kind,
     jsonb_build_object('authorId',m.author_id,'authorName',a.name,'profileId',m.profile_id,'profileName',p.name,'body',m.body,
     'reported',EXISTS(SELECT 1 FROM social_reports r WHERE r.message_id=m.id AND r.reporter_id=$1)) AS data
-    FROM realm_messages m JOIN characters a ON a.id=m.author_id LEFT JOIN characters p ON p.id=m.profile_id WHERE m.status='visible' AND
+    FROM realm_messages m JOIN characters a ON a.id=m.author_id LEFT JOIN characters p ON p.id=m.profile_id WHERE m.status='visible' AND ${safety?"(m.author_id=$1 OR NOT EXISTS(SELECT 1 FROM social_blocks sb WHERE (sb.character_id=$1 AND sb.blocked_id=m.author_id) OR (sb.character_id=m.author_id AND sb.blocked_id=$1)))":"TRUE"} AND
     ${profileId?"m.channel='comment' AND m.profile_id=$4::uuid":category==='comments'?"m.channel='comment' AND (m.profile_id=$1 OR m.author_id=$1)":category==='broadcasts'?"m.channel='broadcast'":"m.channel='comment' AND (m.profile_id=$1 OR m.author_id=$1)"}`);
   if(category==='all'){
     queries.push(`SELECT e.id,e.created_at,'bounty' AS kind,jsonb_build_object('event',e.kind,'amount',e.amount,'targetId',b.target_id,'targetName',t.name,

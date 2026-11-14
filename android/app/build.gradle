@@ -1,0 +1,41 @@
+plugins { id 'com.android.application' }
+
+def requestedId = providers.gradleProperty('kingdomApplicationId').getOrElse('game.kingdomcome.rpg')
+def requestedCode = providers.gradleProperty('kingdomVersionCode').getOrElse('2')
+def requestedName = providers.gradleProperty('kingdomVersionName').getOrElse('0.2.0-beta.1')
+if (requestedId != 'game.kingdomcome.rpg') throw new GradleException('Only the approved permanent application ID game.kingdomcome.rpg is allowed')
+if (!(requestedCode ==~ /[1-9][0-9]{0,8}/)) throw new GradleException('Invalid versionCode')
+if (!(requestedName ==~ /[0-9]+\.[0-9]+\.[0-9]+[a-zA-Z0-9.+-]*/)) throw new GradleException('Invalid versionName')
+android {
+    namespace 'game.kingdomcome.rpg'
+    compileSdk 36
+    buildToolsVersion '36.0.0'
+    defaultConfig {
+        applicationId requestedId
+        minSdk 26
+        targetSdk 36
+        versionCode requestedCode.toInteger()
+        versionName requestedName
+        testInstrumentationRunner 'game.kingdomcome.rpg.ShellInstrumentation'
+    }
+    buildTypes {
+        debug { applicationIdSuffix '.debug' }
+        release {
+            debuggable false
+            // Owner upload keys are applied by the separate protected signing helper.
+            // Never fall back to the debug certificate.
+            signingConfig null
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    lint {
+        abortOnError true
+        warningsAsErrors true
+        // API 36 is deliberately pinned; keep API/security checks strict.
+        disable 'AndroidGradlePluginVersion', 'OldTargetApi'
+    }
+}
+dependencies { testImplementation 'junit:junit:4.13.2' }

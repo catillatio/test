@@ -8,6 +8,9 @@ import { migrate } from '../src/migrate.js';
 import { lockCharacters, clock, type CharacterState } from '../src/game.js';
 import { ledger } from '../src/economy.js';
 import { grantExperience } from '../src/progression.js';
+import {accountSafetySchema} from '../src/account-safety-schema.js';
+import {acceptCommunityPolicy,communityPolicyVersion} from '../src/account-safety.js';
+import {registerAccount,createSession} from '../src/auth.js';
 import { alpha } from '../src/alpha-rules.js';
 
 export const testDatabaseUrl = process.env.TEST_DATABASE_URL;
@@ -40,16 +43,25 @@ export async function realm(options:{clock?:()=>Date;logger?:boolean;development
     assert.ok(line);return line.split(';')[0]!;
   };
   async function player(name='Alpha Warrior'):Promise<Player> {
+    // Historical upgrade fixtures run the exact old schema before installing
+    // Play consent tables. Seed through the original account/session primitives;
+    // current-schema tests still exercise the mandatory public consent form.
+    if(!await accountSafetySchema(db)){
+      const account=await registerAccount(db,{username:'a_'+randomUUID().replaceAll('-','').slice(0,20),name,password:'AlphaTest!2026'});
+      const fresh=await createSession(db,account.accountId);
+      return {id:account.characterId,accountId:account.accountId,cookie:'kr_session='+fresh.token,csrf:fresh.session.csrf_token};
+    }
     const form=await app.inject({method:'GET',url:'/register'});
     const csrf=/name="csrf" value="([a-f0-9]{64})"/.exec(form.body)![1]!;
     const registered=await app.inject({method:'POST',url:'/register',headers:{cookie:session(form),origin:config.origin},
-      payload:{csrf,username:'a_'+randomUUID().replaceAll('-','').slice(0,20),name,password:'AlphaTest!2026'}});
+      payload:{csrf,communityPolicy:communityPolicyVersion,username:'a_'+randomUUID().replaceAll('-','').slice(0,20),name,password:'AlphaTest!2026'}});
     assert.equal(registered.statusCode,303,registered.body);
     const cookie=session(registered);
     const state=await app.inject({method:'GET',url:'/api/v1/me',headers:{cookie}});
     assert.equal(state.statusCode,200,state.body);
     const id=state.json().state.id;
     const accountId=(await db.query('SELECT account_id FROM characters WHERE id=$1',[id])).rows[0]!.account_id as string;
+    if(await accountSafetySchema(db))await acceptCommunityPolicy(db,id,communityPolicyVersion);
     return {id,cookie,csrf:state.json().csrfToken,accountId};
   }
   async function me(actor:Player):Promise<CharacterState> {

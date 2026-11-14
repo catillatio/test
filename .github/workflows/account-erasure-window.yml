@@ -1,0 +1,42 @@
+name: Kingdom Come private erasure window
+run-name: Account erasure window ${{ inputs.operation_digest }}
+on:
+  workflow_dispatch:
+    inputs:
+      operation_digest:
+        description: SHA256 of the separately reviewed private operation UUID; no account data
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+  deployments: read
+concurrency:
+  group: kingdom-come-production
+  cancel-in-progress: false
+jobs:
+  window:
+    if: github.ref == 'refs/heads/release/production'
+    environment: account-erasure
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, ref: '${{ github.sha }}'}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '24.22.0'}
+      - name: Require protected production source and successful full CI
+        run: node knights-reforged/deployment/release/preflight.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KINGDOM_RELEASE_ENABLED: ${{ vars.KINGDOM_RELEASE_ENABLED }}
+          KINGDOM_RAILWAY_AUTODEPLOY_DISABLED: ${{ vars.KINGDOM_RAILWAY_AUTODEPLOY_DISABLED }}
+          KINGDOM_RELEASE_OWNER: ${{ vars.KINGDOM_RELEASE_OWNER }}
+          KINGDOM_RELEASE_TRANSPORT: ${{ vars.KINGDOM_RELEASE_TRANSPORT }}
+      - name: Hold the production release mutex
+        run: node knights-reforged/deployment/privacy/release-window.mjs hold
+        env:
+          ERASURE_OPERATION_DIGEST: ${{ inputs.operation_digest }}
+        # No SQL, Railway credential, private key or account identifier enters this
+        # job. Owner cancels after the private operator reports VERIFIED. A missing,
+        # cancelled or expired window makes the operator roll back, never retry.

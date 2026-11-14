@@ -1,6 +1,6 @@
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync,statSync,mkdtempSync,mkdirSync,existsSync,rmSync,copyFileSync} from 'node:fs';
+import {readFileSync,readdirSync,statSync,mkdtempSync,mkdirSync,existsSync,rmSync,writeFileSync,copyFileSync} from 'node:fs';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {join,dirname} from 'node:path';
@@ -28,7 +28,7 @@ function walk(path){return readdirSync(join(root,path),{withFileTypes:true}).fla
 });}
 
 const excluded=ignored(tracked),selected=tracked.filter(path=>!excluded.has(path));
-const required=[...['Dockerfile','.dockerignore','railway.json','package.json','package-lock.json','tsconfig.json'].map(p=>app+p),
+const required=[app+'deployment/privacy/journal-server.mjs',app+'deployment/privacy/initialize-journal.mjs',app+'deployment/privacy/release-window.mjs',app+'deployment/privacy/fulfill.mjs',...['Dockerfile','.dockerignore','railway.json','package.json','package-lock.json','tsconfig.json'].map(p=>app+p),
  ...['src','views','public','migrations','rulesets'].flatMap(p=>walk(app+p)),
  ...['deployment','deployment/release'].flatMap(p=>readdirSync(join(root,app+p),{withFileTypes:true})
   .filter(e=>e.isFile()&&(e.name.endsWith('.mjs')||e.name==='Dockerfile')).map(e=>app+p+'/'+e.name))];
@@ -43,7 +43,7 @@ test('game upload retains every production source, runtime asset and original mo
 test('game upload excludes recovery, credentials, local dependencies, research, screenshots and unrelated tooling',()=>{
  const forbidden=['.git/config','.env','.release-artifacts/realm.dump.age','.release-artifacts/backup-manifest.json','.github/workflows/production-release.yml',
   ...['.env','node_modules/fixture.js','dist/server.js','test-results/fixture.json','docs/phase51c/screenshots/after/390-home.png',
-   'original-reference/fixture.png','android/app/build/fixture.apk','tests/fixture.test.mjs','scripts/seed.ts','saved-backup.dump','private.pem'].map(p=>app+p)];
+   'original-reference/fixture.png','android/app/build/fixture.apk','tests/fixture.test.mjs','scripts/seed.ts','deployment/privacy/approve.mjs','deployment/privacy/ROLE_REVIEW.sql','saved-backup.dump','private.pem'].map(p=>app+p)];
  assert.equal(ignored(forbidden).size,forbidden.length);
  const archived=tracked.filter(p=>p.startsWith(app+'docs/level100-launch/art/archived-runtime-level100-1/')&&p.endsWith('.webp'));
  assert.equal(archived.length,45);assert.equal(ignored(archived).size,45,'all rejected/Hudson renderings stay outside the runtime bundle');
@@ -72,4 +72,12 @@ test('offline selected-file archive preserves exact bytes and all original Docke
   for(const path of sources)assert.ok(existsSync(join(extracted,app,path)),'Docker build source missing: '+path);
  }
  assert.deepEqual(readFileSync(join(extracted,app,'railway.json')),readFileSync(join(root,app,'railway.json')));
+});
+
+test('Docker context includes only the runtime erasure entry point, excluding owner signing and private inputs',()=>{
+ const context=join(folder,'docker-ignore');mkdirSync(context);execFileSync('git',['init','--quiet'],{cwd:context,stdio:'pipe'});
+ writeFileSync(join(context,'.gitignore'),readFileSync(join(root,app,'.dockerignore')));
+ const paths=['deployment/privacy/fulfill.mjs','deployment/privacy/approve.mjs','deployment/privacy/ROLE_REVIEW.sql','deployment/privacy/private.pem'];
+ const result=spawnSync('git',['-c','core.excludesFile=/dev/null','check-ignore','--no-index','-z','--stdin'],{cwd:context,input:paths.join('\0')+'\0',encoding:'utf8',timeout:10000});
+ assert.equal(result.status,0);assert.deepEqual(result.stdout.split('\0').filter(Boolean),paths.slice(1));
 });

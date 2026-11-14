@@ -1,3 +1,4 @@
+import {graveyardWorld} from './privacy/graveyard-roster.js';
 import {npcSponsorshipPolicy} from './bounties.js';
 import {npcArmyPolicy,previousNpcArmyPolicy} from './npc-army.js';
 import {rivalRecommendationPolicy} from './rival-recommendations.js';
@@ -32,7 +33,7 @@ import {compatibility} from './compatibility-rules.js';
 import {expansionBots,expansionBotEconomy,expansionBotCombat} from './expansion-bot-rules.js';
 import {expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,artworkRegistries,betaArtworkPolicy} from './expansion-content.js';
 
-const definitions=[npcSponsorshipPolicy,previousNpcArmyPolicy,npcArmyPolicy,rivalRecommendationPolicy,achievementGoldPolicy,callingChangePolicy,humanPvpLoot,equipmentPresentation,...artworkRegistries,betaArtworkPolicy,expansionBots,expansionBotEconomy,expansionBotCombat,expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,compatibility,automaticUpkeep,previousBotCombat,previousBotCombatV2,botCombat,gameFeel,gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
+const definitions=[graveyardWorld,npcSponsorshipPolicy,previousNpcArmyPolicy,npcArmyPolicy,rivalRecommendationPolicy,achievementGoldPolicy,callingChangePolicy,humanPvpLoot,equipmentPresentation,...artworkRegistries,betaArtworkPolicy,expansionBots,expansionBotEconomy,expansionBotCombat,expandedContent,expansionEngine,expansionAchievement,questRarities,hudsonGrant,compatibility,automaticUpkeep,previousBotCombat,previousBotCombatV2,botCombat,gameFeel,gameplay,experienceRules,rules,landRules,...alphaCatalogs,previousStrategy,previousBotCatalog,phase4BotCatalog,strategy,phase41BotCatalog,phase42BotCatalog,botCatalog,community,refinements,pvp,initialProgressionEconomy,progressionEconomy];
 const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normalize):
   value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort().map(([key,item])=>[key,normalize(item)])):value;
 
@@ -58,7 +59,7 @@ export async function reconcileLevelMilestones(sql:Sql) {
   for(const milestone of alpha.progression.milestones??[]) {
     await sql.query(`WITH awarded AS (
       INSERT INTO progression_awards(character_id,award_id,points)
-      SELECT id,$1,$2 FROM characters WHERE attained_level>=$3
+      SELECT id,$1,$2 FROM characters WHERE account_id IS NOT NULL AND attained_level>=$3
       ON CONFLICT DO NOTHING RETURNING character_id,points)
       UPDATE characters c SET skill_points=c.skill_points+a.points FROM awarded a WHERE c.id=a.character_id`,[milestone.id,milestone.points,milestone.level]);
   }

@@ -1,3 +1,4 @@
+import {community} from '../src/community-rules.js';
 import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID,createHash} from 'node:crypto';import {mkdir,writeFile} from 'node:fs/promises';
 import {createDatabase,transaction,type Database} from '../src/db.js';import {migrate,reconcileLevelMilestones} from '../src/migrate.js';
 import {registerAccount,createSession} from '../src/auth.js';import {executeCommand} from '../src/commands.js';import {provisionBots} from '../src/development.js';
@@ -8,12 +9,13 @@ test('populated 5.1B upgrade adds attention state without modifying 452 accounts
  try{
   await migrate(db,{through:'020_game_feel.sql'});const a=await registerAccount(db,{username:'prior_a',password:'Phase51cFixture!2026',name:'Previous Knight'}),b=await registerAccount(db,{username:'prior_b',password:'Phase51cFixture!2026',name:'Previous Rival'});
   const session=await createSession(db,a.accountId);await executeCommand(db,a.accountId,randomUUID(),'buy',{itemId:'squires-blade',quantity:1});
-  await executeCommand(db,b.accountId,randomUUID(),'comment',{profileId:a.characterId,body:'Old personal comment'});await executeCommand(db,b.accountId,randomUUID(),'attack',{targetCharacterId:a.characterId});
+  // The pre-027 fixture represents an existing historical post, not new posting under today's consent contract.
+  await db.query("INSERT INTO realm_messages(id,author_id,profile_id,channel,body,command_id,ruleset_id,created_at) VALUES($1,$2,$3,'comment','Old personal comment',$4,$5,now())",[randomUUID(),b.characterId,a.characterId,randomUUID(),community.id]);await executeCommand(db,b.accountId,randomUUID(),'attack',{targetCharacterId:a.characterId});
   await provisionBots(db,{nodeEnv:'test',allowProvisioning:true});await transaction(db,reconcileLevelMilestones);
   const pair=(await db.query('SELECT character_id FROM development_bots ORDER BY character_id LIMIT 2')).rows,duel=randomUUID();
   await db.query("INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result) VALUES($1,$2,$3,'alpha-0.3','attacker_win','{}','{}')",[duel,pair[0]!.character_id,pair[1]!.character_id]);
-  assert.ok(!(await activityFeed(db,a.characterId,'all')).entries.some(e=>e.id===duel));
   const before=await snapshot(db);await migrate(db);const after=await snapshot(db);
+  assert.ok(!(await activityFeed(db,a.characterId,'all')).entries.some(e=>e.id===duel),'Current feed still excludes the preserved historical bot duel after upgrade');
   for(const [table,rows]of Object.entries(before)){if(table==='schema_migrations')assert.ok(rows.every(row=>after[table]!.includes(row)));else assert.deepEqual(after[table],rows,table);}
   assert.equal(after.development_bots!.length,450);assert.equal(after.accounts!.length,452);assert.equal(after.notification_state!.length,452);
   assert.deepEqual(await notificationSummary(db,a.characterId),{home:0,army:0,events:[]},'historical events are not a new unread backlog');

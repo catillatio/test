@@ -41,7 +41,7 @@ test('the rename/training migration preserves existing Phase 3.5 allocations, po
       const cookie='kr_session='+session.token;
       const me=await app.inject({method:'GET',url:'/api/v1/me',headers:{cookie}});assert.equal(me.statusCode,200,me.body);
       const state=me.json().state;assert.equal(state.skillPoints,4);assert.equal(state.maxHealth,130);assert.equal(state.maxMana,23);assert.equal(state.maxSpirit,4);assert.equal(state.training.attack,0);assert.equal(state.training.defense,0);assert.equal(state.attack,callingPower(state.training.untrainedAttack,state.calling.attackPercent));assert.equal(state.defense,callingPower(state.training.untrainedDefense,state.calling.defensePercent));
-      const skills=await app.inject({method:'GET',url:'/game/profile?tab=skills',headers:{cookie}});assert.equal(skills.statusCode,200);assert.match(skills.body,/Kingdom Come/);
+      const skills=await app.inject({method:'GET',url:'/game/profile?tab=skills',headers:{cookie}});assert.equal(skills.statusCode,200);assert.match(skills.body,/Kingdoms Restored/);
       const allocated=await app.inject({method:'POST',url:'/api/v1/skills',headers:{cookie,origin:'http://localhost:3000','x-csrf-token':session.session.csrf_token,'idempotency-key':randomUUID()},payload:{resource:'defense'}});assert.equal(allocated.statusCode,200,allocated.body);assert.equal(allocated.json().state.skillPoints,3);assert.equal(allocated.json().state.training.defense,1);
       const allocations=(await db.query('SELECT * FROM skill_allocations WHERE character_id=$1',[owner])).rows;assert.equal(allocations.length,4);assert.equal(allocations.find(row=>row.resource==='defense')!.ruleset_id,'alpha-0.3');
     }finally{await app.close();}

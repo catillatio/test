@@ -1,12 +1,19 @@
 # Kingdom Come — current authority index
 
+Current local work: reconcile PR #88 with deployed production `c8247df`.
+See [Play readiness](../google-play/PLAY_STORE_READINESS.md). Production erasure,
+NPC creation, signing, and PR #88 merge/deployment remain owner-gated. Prior
+A/B/D policy approvals stand; C remains conditional. The owner-authorized
+Kingdoms Restored rebrand is a separate review change; internal identifiers stay
+unchanged. See [current rebrand review](../google-play/REBRAND_REVIEW.md).
+
 2026-11-13: [Release 103 preflight correction](../release-image-preflight-103/README.md)
-is prepared locally against production `98756a0`: stopped failed-instance history
-and diagnostic registry mode. The protected read-only diagnostic identified the
-first rejection; no release retry, configuration change or activation is included.
-[PR #93](https://github.com/catillatio/test/pull/93) also includes the authorized
-test-only notification snapshot correction after its first CI run exposed hidden
-zero-unread DOM differences. No application or feature activation is included.
+was merged in [PR #93](https://github.com/catillatio/test/pull/93), including the
+notification snapshot test correction. Protected release
+[43511938434](https://github.com/catillatio/test/actions/runs/43511938434) succeeded
+at `c8247dfa891c9f2c0458ff7df523f09fa24f0cfa`; the game is on the exact prepared
+image. This reconciliation preserves those changes and all Play-specific tests.
+Source integration is not authorization to activate erasure or merge PR #88.
 
 Small continuation of reviewed `56fbd34`: [silhouette readability, compact Battle
 markers and synchronized unread controls](../finishing-pass/README.md), local only.
@@ -128,3 +135,10 @@ finishes Crowns presentation. The 144 legacy NPCs among 164 at levels 15–30
 remain hard-capped at ten: this is an explicit policy blocker, not completed
 large-army scaling. No army/XP/combat formula, class portrait, live setting or
 activation flag is changed. Final-head focused evidence is in its review bundle.
+
+PR88 internal-testing integration: current deployed98756a0 merged into the existing
+draft source without rewriting its history. Play additions use migrations053/054,
+all33 deployed migrations and XP matcher preserved. A/B/D approved; C conditional.
+Private erasure journal relay and actual protected release-window verification are
+prepared, not installed; Android upload signing environments/keys remain owner-only.
+See [current handoff](../google-play/PLAY_STORE_READINESS.md); no deployment/activation.

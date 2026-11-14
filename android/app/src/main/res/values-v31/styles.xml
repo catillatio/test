@@ -1,0 +1,13 @@
+<resources>
+    <style name="AppTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#D2AE61</item>
+        <item name="android:windowBackground">#141310</item>
+        <item name="android:statusBarColor">#141310</item>
+        <item name="android:navigationBarColor">#141310</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowSplashScreenBackground">#141310</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/kingdom_crest</item>
+    </style>
+</resources>

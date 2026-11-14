@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
@@ -63,7 +64,7 @@ test('Codespaces port 3001 registration and authenticated POSTs survive Origin r
     const username='origin_'+randomUUID().replaceAll('-','').slice(0,12);
     const password=randomUUID()+'Aa1!';
     const registered=await app.inject({method:'POST',url:'/register',headers:{...forwarded,cookie:cookie(form)},
-      payload:{csrf,username,name:'Forwarded Knight',password}});
+      payload:{csrf,communityPolicy:communityPolicyVersion,username,name:'Forwarded Knight',password}});
     assert.equal(registered.statusCode,303,registered.body);
     const authenticated=cookie(registered);
     assert.notEqual(authenticated,cookie(form));

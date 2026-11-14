@@ -12,7 +12,7 @@ const skip=!testDatabaseUrl;
 test('clear tutorial entry, every Show Me destination, persistent Next/Back/Skip/Resume, voluntary finish and explicit replay give no rewards',{skip},async()=>{
  const r=await realm({isolated:true});try{
   const a=await r.player('Young Adventurer'),headers={cookie:a.cookie};const before=await r.me(a);
-  const home=await r.app.inject({url:'/game/home',headers});assert.match(home.body,/New to Kingdom Come\?/);assert.match(home.body,/>Start Tutorial</);assert.doesNotMatch(home.body,/Your short adventure guide is ready/);
+  const home=await r.app.inject({url:'/game/home',headers});assert.match(home.body,/New to Kingdoms Restored\?/);assert.match(home.body,/>Start Tutorial</);assert.doesNotMatch(home.body,/Your short adventure guide is ready/);
   await r.ok(a,'/api/v1/tutorial',{action:'start'});assert.equal((await r.command(a,'/api/v1/tutorial',{action:'finish'})).statusCode,409);
   for(let index=0;index<8;index++){
    const state=await experienceView(r.db,a.id);assert.equal(state.tutorial.position,index+1);
@@ -33,7 +33,7 @@ test('clear tutorial entry, every Show Me destination, persistent Next/Back/Skip
   const key=randomUUID();await r.ok(a,'/api/v1/tutorial',{action:'finish'},key);await r.ok(a,'/api/v1/tutorial',{action:'finish'},key);
   const finished=await experienceView(r.db,a.id);assert.equal(finished.tutorial.status,'completed');assert.ok(finished.tutorial.completedAt);assert.equal(finished.tutorial.completed,0,'Reading the guide does not fabricate gameplay evidence.');
   const page=await r.app.inject({url:'/game/tutorial',headers});assert.match(page.body,/TUTORIAL COMPLETE!/);assert.match(page.body,/Continue Playing/);
-  const completeHome=await r.app.inject({url:'/game/home',headers});assert.doesNotMatch(completeHome.body,/New to Kingdom Come\?|Start Tutorial|Continue Tutorial/);
+  const completeHome=await r.app.inject({url:'/game/home',headers});assert.doesNotMatch(completeHome.body,/New to Kingdoms Restored\?|Start Tutorial|Continue Tutorial/);
   await r.ok(a,'/api/v1/tutorial',{action:'skip'});assert.equal((await experienceView(r.db,a.id)).tutorial.status,'completed');
   await r.ok(a,'/api/v1/tutorial',{action:'replay'});assert.equal((await experienceView(r.db,a.id)).tutorial.position,1);assert.equal((await experienceView(r.db,a.id)).tutorial.status,'completed');assert.equal((await experienceView(r.db,a.id)).tutorial.replaying,true);
   const after=await r.me(a);for(const key of ['gold','xp','inventory','army','skillPoints','bankedGold','land'] as const)assert.deepEqual(after[key],before[key]);assert.equal(finished.achievements.filter(a=>a.earnedAt).length,0);

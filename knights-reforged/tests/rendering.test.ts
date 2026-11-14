@@ -1,3 +1,4 @@
+import {communityPolicyVersion} from '../src/community-policy.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
@@ -18,7 +19,7 @@ import {realm,testDatabaseUrl} from './helpers.js';
 // Deliberately omit Phase 4.1's page locals: this is the previously valid
 // anonymous render contract used by an older compiled/in-memory renderer.
 const anonymousLocals=(screen='auth',authMode='login')=>({screen,authMode,state:null,title:'Enter the realm',
-  nav:navigation,rules,landRules,alpha,strategy,community,notice:null,error:null,csrf:'a'.repeat(64),
+  nav:navigation,rules,landRules,alpha,strategy,community,communityPolicyVersion,notice:null,error:null,csrf:'a'.repeat(64),
   accountName:'',formValues:{username:'',name:''},commandId:randomUUID});
 const unavailableDatabase:Database={
   async query(){throw new Error('Synthetic database failure; private diagnostic must not be rendered.');},
@@ -69,7 +70,7 @@ test('anonymous HTTP pages and authentication validation/CSRF errors render full
       const cookie=String(form.headers['set-cookie']).split(';')[0]!;
       const csrf=/name="csrf" value="([a-f0-9]{64})"/.exec(form.body)![1]!;
       const invalid=await r.app.inject({method:'POST',url:'/'+mode,headers:{cookie,origin:'http://localhost:3000'},
-        payload:{csrf,username:mode==='register'?'!':'missing_account',name:'Test Knight',password:'short'}});
+        payload:{csrf,communityPolicy:communityPolicyVersion,username:mode==='register'?'!':'missing_account',name:'Test Knight',password:'short'}});
       html(invalid,mode==='register'?422:401);assert.match(invalid.body,/class="auth-form"/);
       const rejected=await r.app.inject({method:'POST',url:'/'+mode,headers:{cookie,origin:'http://localhost:3000'},payload:{csrf:'0'.repeat(64)}});
       html(rejected,403);assert.match(rejected.body,/Your session changed or the form expired/);

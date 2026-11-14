@@ -1,0 +1,54 @@
+{
+  "kind": "synthetic-independent-population-economy-v1",
+  "worldDefinitionDigest": "af85c5b6802ccce8dc9e2146e30fd1df6c3f768cd083a9b5bf461c3d16a42db4",
+  "modelSha256": "608cd929fa67e5eaecbd6015921665840649bffe2bd2c13816f6a29f993cffd7",
+  "recommended": {
+    "targetPopulation": 12,
+    "maximumPopulation": 12,
+    "maximumNewPerOperation": 6
+  },
+  "assumptions": [
+    "No real player data or wallets. No database writes.",
+    "All initial wallets zero; hourly actual catalog net Land income, exact existing integer credit and retained overflow.",
+    "Scheduled successful eligible victories per attacker-target pair; existing human PvP anchored 24-hour gold sequence and integer loot.",
+    "Farmers are eligible attackers per NPC, not a claimed realm population. No missed attacks, defeats, HP/Stamina or discovery friction: optimistic loot-access sensitivity.",
+    "No XP, bounties, dev bots, player purchases, sinks, behavioral response or real-money economy modeled. Transfers do not burn gold."
+  ],
+  "previousProposal": {
+    "population": 24,
+    "hourlyGold": 442576,
+    "oneYear": {
+      "days": 365,
+      "population": 24,
+      "farmersPerNpc": 0,
+      "winsPerDay": 1,
+      "generatedGold": "3876965760",
+      "npcWalletGold": "3876965760",
+      "retainedGold": "0",
+      "playerLootGold": "0",
+      "successfulAttacks": 0,
+      "nextFirstVictoryGold": {
+        "minimum": 3679,
+        "maximum": 35004960
+      },
+      "conservation": true
+    },
+    "threeYears": {
+      "days": 1095,
+      "population": 24,
+      "farmersPerNpc": 0,
+      "winsPerDay": 1,
+      "generatedGold": "11630897280",
+      "npcWalletGold": "9934024574",
+      "retainedGold": "1696872706",
+      "playerLootGold": "0",
+      "successfulAttacks": 0,
+      "nextFirstVictoryGold": {
+        "minimum": 11037,
+        "maximum": 64424509
+      },
+      "conservation": true
+    }
+  },
+  "elapsedMs": 5065
+}

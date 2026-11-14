@@ -2,6 +2,7 @@ import {randomBytes,randomUUID} from 'node:crypto';
 import {type Sql,type Database,transaction} from './db.js';
 import {GameError} from './errors.js';
 import {community} from './community-rules.js';
+import {requireCommunityPolicy} from './account-safety.js';
 import {checkNewContent} from './content-policy.js';
 
 export async function invitationCode(sql:Sql,characterId:string):Promise<string>{
@@ -28,6 +29,8 @@ export async function postingRestriction(sql:Sql,id:string,now:Date){
 // Commands hold the author character lock, serializing rate checks with inserts.
 // Hidden/deleted records still count, so deletion cannot reset a posting limit.
 export async function postMessage(sql:Sql,actorId:string,profileId:string|null,raw:string,key:string,now:Date,level:number,quests:number){
+  await requireCommunityPolicy(sql,actorId);
+  if(profileId&&(await sql.query('SELECT 1 FROM social_blocks WHERE (character_id=$1 AND blocked_id=$2) OR (character_id=$2 AND blocked_id=$1)',[actorId,profileId])).rowCount)throw new GameError('SOCIAL_BLOCKED','Social contact is blocked.',403);
   const channel=profileId?'comment':'broadcast',body=cleanMessage(raw),limits=community.social;
   checkNewContent(body,channel);
   if(body.length>(profileId?limits.commentCharacters:limits.broadcastCharacters))throw new GameError('MESSAGE_TOO_LONG','That message is too long.');

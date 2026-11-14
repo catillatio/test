@@ -487,6 +487,7 @@
   }
   .page-footer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 14px;
     padding-top: 12px;
@@ -495,6 +496,7 @@
     color: #9f9787;
     font-size: 10px;
   }
+  .page-footer a { min-height: 44px; display: inline-flex; align-items: center; }
   .topbar a:focus-visible {
     outline-offset: -1px;
   }
@@ -4357,6 +4359,12 @@
     justify-content: space-between;
     margin-top: 9px;
   }
+  .community-consent {
+    flex-basis: 100%;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .community-consent input { width: 22px; height: 22px; vertical-align: middle; }
   .message-controls small {
     font-size: 10px;
     color: var(--muted);

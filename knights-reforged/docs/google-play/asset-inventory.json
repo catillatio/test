@@ -1,0 +1,1236 @@
+{
+  "purpose": "Integrated candidate runtime inventory; exact current bytes; no production image/art changes. Rights and original-reference exclusions reviewed separately.",
+  "files": [
+    {
+      "path": "public/alpha.css",
+      "bytes": 11562,
+      "sha256": "fa8c22c682efbeba31ca8da3df1b3429432e2afa6ebb8ff106c47b2ff59ae80c"
+    },
+    {
+      "path": "public/art/alpha/axe.svg",
+      "bytes": 836,
+      "sha256": "caf9559cd49225c56e665e23848089c8db6b555cf27bd4585cf34193f26e15f7"
+    },
+    {
+      "path": "public/art/alpha/blade.svg",
+      "bytes": 820,
+      "sha256": "8ce94f4c1d2389fd555dac3648f6e3005f5f7f1b964b9621386cecc759d53531"
+    },
+    {
+      "path": "public/art/alpha/buckler.svg",
+      "bytes": 903,
+      "sha256": "fa4e6f72cc70e89ca2d1220e125450a6a18a68619982652964afeb3a349bf564"
+    },
+    {
+      "path": "public/art/alpha/coat.svg",
+      "bytes": 877,
+      "sha256": "75fe33590d3b51d80eef1f4b31fdd7eee35dc19bd32da1a4c813c948287d8615"
+    },
+    {
+      "path": "public/art/alpha/ember.svg",
+      "bytes": 906,
+      "sha256": "f9f3993c21b98e3349d356350c8eb59c118a8cb4184467dfecc5e2a003481f2a"
+    },
+    {
+      "path": "public/art/alpha/fields.svg",
+      "bytes": 905,
+      "sha256": "81b19fc6f4d2238e9cc265ecf6ae9923280c274d031dbf7af10d281c437d4f1a"
+    },
+    {
+      "path": "public/art/alpha/glaive.svg",
+      "bytes": 831,
+      "sha256": "fa13496be86a02929c31ba51d2443cce07b4ceb9c0caeecd99c187f48cd00025"
+    },
+    {
+      "path": "public/art/alpha/harbour.svg",
+      "bytes": 992,
+      "sha256": "fecd1e912f2263a3bc134089487171fd5aefae4922b894529e09d8e7e98898b9"
+    },
+    {
+      "path": "public/art/alpha/helm.svg",
+      "bytes": 923,
+      "sha256": "d306a922bdc8d803d040e1aae3af2a6f63ad3cf790943ca14c7bd88bd0dcb534"
+    },
+    {
+      "path": "public/art/alpha/mail.svg",
+      "bytes": 961,
+      "sha256": "12c8446b1ee5a4dcbcb518a280bddfa3157d62bf3d12c7d5e68c7e7c904e8922"
+    },
+    {
+      "path": "public/art/alpha/mill.svg",
+      "bytes": 998,
+      "sha256": "d07093bfef21d6985adb945d32273c8a78095f3a4b4a3fa8283f177aa52ee97a"
+    },
+    {
+      "path": "public/art/alpha/provenance.json",
+      "bytes": 2393,
+      "sha256": "73f85ce0f9dc7bb78a3882bfdccc8b139cf12280d409f4a270744ed0740f0ef6"
+    },
+    {
+      "path": "public/art/alpha/spear.svg",
+      "bytes": 770,
+      "sha256": "8c19ac0aca1bf1604ccea0aaeb25925c756a6fa58a41d432dee157c0ba046d68"
+    },
+    {
+      "path": "public/art/alpha/storm.svg",
+      "bytes": 901,
+      "sha256": "f6fa291721d209781528e1f14ff93d7a890aba72ed5cb158bb3d61a8e37027f0"
+    },
+    {
+      "path": "public/art/alpha/sword.svg",
+      "bytes": 866,
+      "sha256": "159ab836af585fefe69edb9f815cffac1c7c7db9c3c488d17218f6e1a0d104fc"
+    },
+    {
+      "path": "public/art/alpha/thorn.svg",
+      "bytes": 911,
+      "sha256": "9d35a2c3c29b645b1d0b554333e81f42c68f982d0e25fa0353da033838ee77fb"
+    },
+    {
+      "path": "public/art/alpha/tower.svg",
+      "bytes": 932,
+      "sha256": "a45c3b3710accb4febd8b91c4d9187a5492bd37c95e24b82009452e1354db0f1"
+    },
+    {
+      "path": "public/art/alpha/ward.svg",
+      "bytes": 953,
+      "sha256": "76399ae7acca0703e17746f6d8ccb6a32331c27d65b07787e1cf39ac4b8eae0b"
+    },
+    {
+      "path": "public/art/alpha/woodland.svg",
+      "bytes": 903,
+      "sha256": "a76f61f03ac0ccb295ead939d63b53a1ca57080e908c560a842901bf1d820656"
+    },
+    {
+      "path": "public/art/class-portraits-1/freeblade.png",
+      "bytes": 26264,
+      "sha256": "9ba1a9b4813c9d609c14001b021a35e31baff19afff2de535203877847297033"
+    },
+    {
+      "path": "public/art/class-portraits-1/provenance.json",
+      "bytes": 1600,
+      "sha256": "b87711fceb7dfa6815a6bda03f55b6d4b8a4e4a7efb986f8bfc2f127b681c92b"
+    },
+    {
+      "path": "public/art/class-portraits-1/spellward.png",
+      "bytes": 22564,
+      "sha256": "53d49affefbfcde6e930bbcb0bb4d866f865f7b11672826dcdca146ad5212071"
+    },
+    {
+      "path": "public/art/class-portraits-1/warden.png",
+      "bytes": 25134,
+      "sha256": "8525da9a152e9ccff6f64188136ca8c71aaa0ab2eb9b866ae14575cbf35b0d12"
+    },
+    {
+      "path": "public/art/class-silhouettes-1/freeblade.svg",
+      "bytes": 1861,
+      "sha256": "a98ae3af1ffb35282fb574c31486aa0d9165657a7628996c8661d5d2b3b2b6b9"
+    },
+    {
+      "path": "public/art/class-silhouettes-1/provenance.json",
+      "bytes": 976,
+      "sha256": "3dca994655be7c24ae61a5db0be732a4e296be87a7d6e13aff81aff780eb44e1"
+    },
+    {
+      "path": "public/art/class-silhouettes-1/spellward.svg",
+      "bytes": 1700,
+      "sha256": "7a3eb6c5bc0af66a68bef2c16781d68c0ba625de0ce2397222cc2047fe739a2f"
+    },
+    {
+      "path": "public/art/class-silhouettes-1/warden.svg",
+      "bytes": 1876,
+      "sha256": "dd25cf8502db651e09483c1ecb6e20efc99f3dab2c85f42dd54f842842340497"
+    },
+    {
+      "path": "public/art/coordinated-art-1/argent-sentinel-plate.webp",
+      "bytes": 88070,
+      "sha256": "208ee8942c52b9c25284a84d292cc993b56a1bfa728c0121f4d90e9cddb67b39"
+    },
+    {
+      "path": "public/art/coordinated-art-1/astral-archon-robes.webp",
+      "bytes": 63068,
+      "sha256": "149ec27da31f4f5f68d361f875023b4ead9df6151fc531018ee5f45011ae9efa"
+    },
+    {
+      "path": "public/art/coordinated-art-1/astral-conductor.webp",
+      "bytes": 40472,
+      "sha256": "4e13a04f9454223643225faf5b413507b6616d57d394c4145abef04db2cd3a2e"
+    },
+    {
+      "path": "public/art/coordinated-art-1/astral-tempest.webp",
+      "bytes": 54504,
+      "sha256": "ae33ff07a02a2baa9b73644ed641e6258437ec58bcfb452bcd61088ca1d97de7"
+    },
+    {
+      "path": "public/art/coordinated-art-1/banner-of-embers.webp",
+      "bytes": 53336,
+      "sha256": "ade563eab919097ee81eb5c0c8a40731007f7cdf014933a4342befa10add0a56"
+    },
+    {
+      "path": "public/art/coordinated-art-1/battlebrand.webp",
+      "bytes": 45390,
+      "sha256": "0eebf2e9f1026c95f2f7b6c8f5215f8c4c1fcc851c6a12aea7f89d6895037fb5"
+    },
+    {
+      "path": "public/art/coordinated-art-1/captains-brigandine.webp",
+      "bytes": 90108,
+      "sha256": "78aa0ae3f7b00d19958b6d8ff4d29c8c8886d368ffdde7baa163f02452ed86a1"
+    },
+    {
+      "path": "public/art/coordinated-art-1/citadel-harness.webp",
+      "bytes": 90976,
+      "sha256": "a7b391613a60a33f1cbf59f6ef437dacb05d2d600327bdba1a3a6407b83376d1"
+    },
+    {
+      "path": "public/art/coordinated-art-1/crown-of-ash-blade.webp",
+      "bytes": 49160,
+      "sha256": "9d807f5b382f7a3aab2f770ad07838a644d01e153d401fb0013d4b8dfe3fa4ed"
+    },
+    {
+      "path": "public/art/coordinated-art-1/crown-of-wards.webp",
+      "bytes": 51616,
+      "sha256": "ade532dbf169074c902dcd0dc806031b3f721c4c0c5093ff62b0c65b446b5f63"
+    },
+    {
+      "path": "public/art/coordinated-art-1/dawnforge-panoply.webp",
+      "bytes": 71578,
+      "sha256": "2e2e92352e8d34fe447ffb773d2beb4f98c03ed6d244e4450fbd9162fb1e2f84"
+    },
+    {
+      "path": "public/art/coordinated-art-1/dawnstar-benediction.webp",
+      "bytes": 45530,
+      "sha256": "cf8fd0d22089b957eb189e7e921448fcde9ea3c694007b89352c7413a6e6d6d6"
+    },
+    {
+      "path": "public/art/coordinated-art-1/dragons-last-breath.webp",
+      "bytes": 51270,
+      "sha256": "5532eae89584774d0ca544ea0bc912089e51d526519fdb0f0665562734b1be03"
+    },
+    {
+      "path": "public/art/coordinated-art-1/dragonwake-falchion.webp",
+      "bytes": 46894,
+      "sha256": "aaf6e811b46f5ddcc0659e4efb8dec0d292eead3ab14c6294394dab4752b075f"
+    },
+    {
+      "path": "public/art/coordinated-art-1/ducal-warplate.webp",
+      "bytes": 115086,
+      "sha256": "87fd1eff02c93a46589e629a01f5a9547ed4ee076e67e04bd413d2b3325e9c02"
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-aegis.webp",
+      "bytes": 43196,
+      "sha256": "ec6eb7521ad2701225d3ea3a8666321304673415f4ddf95ce79811adca5d70e5"
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-citadel-plate.webp",
+      "bytes": 107130,
+      "sha256": "cc9ac29d255373bfbd1aa73512acbc1d4da79cfadc446169e0afe147b2233c85"
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-greatsword.webp",
+      "bytes": 43792,
+      "sha256": "a17c4df5bd52ab156bf9fe2ec03f060c34ecdbe33a52b503eeec979196675619"
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-invocation.webp",
+      "bytes": 52586,
+      "sha256": "f5ffd127d1d2870fcb1bd397c23bba95faa7ed03561f96284e253c4d75939fd4"
+    },
+    {
+      "path": "public/art/coordinated-art-1/eclipse-war-marshal-plate.webp",
+      "bytes": 91542,
+      "sha256": "80277c93c3ff079673428705a3e80238a800657526ee78233d5cd1a72e50a859"
+    },
+    {
+      "path": "public/art/coordinated-art-1/fortress-bastion-plate.webp",
+      "bytes": 98242,
+      "sha256": "fd6a53387e0e95612fe5043e5d3edf298b709ba9ad1a931dca189c153c8c644a"
+    },
+    {
+      "path": "public/art/coordinated-art-1/fortress-glaive.webp",
+      "bytes": 42866,
+      "sha256": "da47455c8d28fa31fb2c8bd5f04b82cac84c01994b1b2a802ae7eda13e783e45"
+    },
+    {
+      "path": "public/art/coordinated-art-1/grave-tide.webp",
+      "bytes": 58908,
+      "sha256": "0991cb5e97749c22830be935565ca5acd5081647e6a74d6701829fc43156f6a6"
+    },
+    {
+      "path": "public/art/coordinated-art-1/gravewarden-scythe.webp",
+      "bytes": 41172,
+      "sha256": "27fe1b914c1d7de237dac7d6efc84710f4d9b8375cb6c02a7861b0141f936415"
+    },
+    {
+      "path": "public/art/coordinated-art-1/guard-captains-halberd.webp",
+      "bytes": 36448,
+      "sha256": "f6b35070d68ba16ef70e0071bfece674b0db51e5cc2e6df106b805224cc96e52"
+    },
+    {
+      "path": "public/art/coordinated-art-1/ironwall-covenant.webp",
+      "bytes": 55300,
+      "sha256": "f18dcda4751479ac75d542d49cebd58121028e4577cffa0ccefa9bde737c923b"
+    },
+    {
+      "path": "public/art/coordinated-art-1/kings-marshal-harness.webp",
+      "bytes": 95548,
+      "sha256": "45d57ddf424dd34379c34a495feeb88cd97108bc4f8ee48bd1e2725939d4635b"
+    },
+    {
+      "path": "public/art/coordinated-art-1/marcher-greatsword.webp",
+      "bytes": 45812,
+      "sha256": "97f12f71d75069e0b02aa4729816f1a5105818f6f3253d448fb0f1b1d844904e"
+    },
+    {
+      "path": "public/art/coordinated-art-1/ossuary-raiment.webp",
+      "bytes": 75050,
+      "sha256": "a8ad3843da3a9449a5234c9cde954a142a99c6758152fd20f720a96ae418014a"
+    },
+    {
+      "path": "public/art/coordinated-art-1/rampart-ward.webp",
+      "bytes": 134918,
+      "sha256": "766fd79283d397091b4257a34321ec3ae5640b847f9335b60d586502f1b08094"
+    },
+    {
+      "path": "public/art/coordinated-art-1/royal-battlefire.webp",
+      "bytes": 47016,
+      "sha256": "e611ec6fca775cd46f55bf1fa882687d68cc2fc069c4feaa9adae49f9e5a806e"
+    },
+    {
+      "path": "public/art/coordinated-art-1/runic-convergence.webp",
+      "bytes": 54540,
+      "sha256": "501b7017183348a657b36e500ea0c0ceded1ac8142f2f7eef07b3d382ef49e48"
+    },
+    {
+      "path": "public/art/coordinated-art-1/seraphic-vestment.webp",
+      "bytes": 84528,
+      "sha256": "dd0ec1fb5b7f459532c242bc4d9b75e3d104e1e0cb546b6524bbe5ace5e2dd54"
+    },
+    {
+      "path": "public/art/coordinated-art-1/seraphs-rebuke.webp",
+      "bytes": 57290,
+      "sha256": "49890bcbfdfb3b94d874ff670f1de1cfd29e82214211e69ae283d39634a18185"
+    },
+    {
+      "path": "public/art/coordinated-art-1/siegeguard-plate.webp",
+      "bytes": 81246,
+      "sha256": "3b7545b4f70bcbdbb4183421dd80d1aad22ea6632aa34fcb3b10c2945c8e6cb6"
+    },
+    {
+      "path": "public/art/coordinated-art-1/sovereigns-bastion.webp",
+      "bytes": 97886,
+      "sha256": "5f13fc4f86f1764336810992246054372470467e4728238932e7a4bd3a26e324"
+    },
+    {
+      "path": "public/art/coordinated-art-1/stonewall-oath.webp",
+      "bytes": 51672,
+      "sha256": "373c2c985a6e4e0592b9cd331131dd45c786475c713df28ae087e0922fd42fe6"
+    },
+    {
+      "path": "public/art/coordinated-art-1/stormglass-pike.webp",
+      "bytes": 32526,
+      "sha256": "01b6245a8a66130169479ec36425de04960e30c8744104043ec0382995f76868"
+    },
+    {
+      "path": "public/art/coordinated-art-1/sun-etched-warhammer.webp",
+      "bytes": 53060,
+      "sha256": "156cd97c73cf3cdcd154b19586f7d34f2e6ae0bdf45b27c23ae7fdbb3d56b2cb"
+    },
+    {
+      "path": "public/art/coordinated-art-1/voidbound-chain.webp",
+      "bytes": 43214,
+      "sha256": "b559cd6721bc2c25a94a18a2ce4ff39205b566492cbed4e07c578a9a739eae4e"
+    },
+    {
+      "path": "public/art/coordinated-art-1/wyrmscale-aegis.webp",
+      "bytes": 71248,
+      "sha256": "372070e823e3c902ad3dfb82ca7287fa6bfdde010e2691324dc80674199a377e"
+    },
+    {
+      "path": "public/art/coordinated-art-2/eclipse-gatehammer.webp",
+      "bytes": 49284,
+      "sha256": "bb6aa68bb47cfcc5cab9f26675b322ccae73994d8544d78d1196c31dda52ae41"
+    },
+    {
+      "path": "public/art/coordinated-art-2/march-wardens-poleaxe.webp",
+      "bytes": 36078,
+      "sha256": "07136c231c3bc5e544362a5612710b7371dbfad5a2ba51d18082d0d8a566f4a7"
+    },
+    {
+      "path": "public/art/coordinated-art-2/royal-warblade.webp",
+      "bytes": 56142,
+      "sha256": "4e6f3e3bc4bde3c89000b8cedd7114115b3d812c9a2fb7e4ba3627d89fb29d82"
+    },
+    {
+      "path": "public/art/coordinated-art-2/sovereigns-zweihander.webp",
+      "bytes": 56614,
+      "sha256": "6c260adac54855e520a38d334b54e4cd3605ceee1393bf1fad0bf655374d607c"
+    },
+    {
+      "path": "public/art/coordinated-art-2/throneguard-polehammer.webp",
+      "bytes": 50146,
+      "sha256": "cde93d738356bfe9e38fb35d94a6c64ce4ae67d004f65e8da0e39ef4b7d3b62b"
+    },
+    {
+      "path": "public/art/dark-medieval-environments/armory.webp",
+      "bytes": 210246,
+      "sha256": "d4e360a96807cf24a0630fdf41dd58fb5a63f79ed799f78c43d9168264391900"
+    },
+    {
+      "path": "public/art/dark-medieval-environments/battle.webp",
+      "bytes": 298022,
+      "sha256": "e46e3c8c215746ad5ccfd3d8cf5e0c25c8d9208a1c187ece21d820a8683ba924"
+    },
+    {
+      "path": "public/art/dark-medieval-environments/land.webp",
+      "bytes": 233830,
+      "sha256": "c64415d5ca67ffb1ce382f19cb7ae059946ac6ac54c80ecc34e52b7f92ee4dee"
+    },
+    {
+      "path": "public/art/dark-medieval-environments/profile.webp",
+      "bytes": 202716,
+      "sha256": "cfddbb63b0024b50eae8f7cae2d7752131d75dcf2ce6d842a573da32b1069812"
+    },
+    {
+      "path": "public/art/dark-medieval-environments/provenance.json",
+      "bytes": 1603,
+      "sha256": "d4f120240ba622119530099f49d8db4814895cd217d0338d42e6de322fe5165c"
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/crown-of-ash-blade.webp",
+      "bytes": 43354,
+      "sha256": "ef5ad5697d6070b42ddf9b9c8ff321c512ff1452e183a2b4bb2a105738739eb8"
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/eclipse-citadel-plate.webp",
+      "bytes": 49660,
+      "sha256": "5f55f676806db52c4f844f4bd2afe4dbcfc4253e7a1f69dba3e1724aed7a1fec"
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/eclipse-greatsword.webp",
+      "bytes": 45208,
+      "sha256": "67374ab63c7057af66bf8ccb17e7a164dda07b976cf17527f98930c9f7181752"
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/oathbound-greatsword.webp",
+      "bytes": 47216,
+      "sha256": "50e937d5f392cdee1171a960aea0a77c4b9f6b79a275942c706c18c72a000815"
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/provenance.json",
+      "bytes": 7390,
+      "sha256": "cc9d13d86f823e1614d6ac0b80a62a56e5bc0f7cc0c5342ea9ee126a2afd8cf5"
+    },
+    {
+      "path": "public/art/equipment-51b-current-1/sovereigns-bastion.webp",
+      "bytes": 53656,
+      "sha256": "8cc9291c0dc3dda6c704c84439144bf761391ff2f0eea9550f4b9bc92ee19822"
+    },
+    {
+      "path": "public/art/equipment-artwork-1/king-hudsons-meteor-shower.webp",
+      "bytes": 488002,
+      "sha256": "f2e3a6038d78fef26f7ba923fca1362869c36263826d52c4f7772b1bacc3d8b7"
+    },
+    {
+      "path": "public/art/equipment-artwork-1/king-hudsons-shield.webp",
+      "bytes": 355466,
+      "sha256": "0df78f3f548e07e15e6e1df55040502bad9fc93772f37f9b21c264306afcf6b0"
+    },
+    {
+      "path": "public/art/equipment-artwork-1/king-hudsons-sword.webp",
+      "bytes": 294612,
+      "sha256": "4454c62eaba848ac0e0efa6b1b492d843d5148927c8db5b9705549aac029f883"
+    },
+    {
+      "path": "public/art/fantasy-0.2/armor.webp",
+      "bytes": 296830,
+      "sha256": "1210ae0ce0be9f37a613c754533738dceee3a4b63f43094bdd526d2998149fd1"
+    },
+    {
+      "path": "public/art/fantasy-0.2/prompts.json",
+      "bytes": 12039,
+      "sha256": "3911ff21b3c021da2cae85bba67aed5b603731a4fa08794631ef7e21da1e1386"
+    },
+    {
+      "path": "public/art/fantasy-0.2/properties.webp",
+      "bytes": 487488,
+      "sha256": "cbce02b53f639b98f1b9761fd021c3e2bc7763b2ffda691cc114d78c783982b1"
+    },
+    {
+      "path": "public/art/fantasy-0.2/provenance.json",
+      "bytes": 14144,
+      "sha256": "6b8aa8e6cdabd7e757e3274fe32c5f60bc6d2bee1df87f1e60b359989b02f1ae"
+    },
+    {
+      "path": "public/art/fantasy-0.2/spells.webp",
+      "bytes": 348390,
+      "sha256": "c2666f9b99be6d4cd885181cc9ab2e60b707524d67b9bda1089adf0772b7cb67"
+    },
+    {
+      "path": "public/art/fantasy-0.2/weapons.webp",
+      "bytes": 156344,
+      "sha256": "002ee3c426c29bc7626036bc39d78313c14955bfd69b79efae7d55a1cfb06030"
+    },
+    {
+      "path": "public/art/home-ui-review-1/icons.webp",
+      "bytes": 78742,
+      "sha256": "7d159de5871f59a6d3d86f028903af5c2b6df296dee059d73035ca3c0b3a133d"
+    },
+    {
+      "path": "public/art/home-ui-review-1/iron.webp",
+      "bytes": 10790,
+      "sha256": "e5ea1a164d953008564e562f70aa4e535d842afabf00563c1a437977337f48f0"
+    },
+    {
+      "path": "public/art/home-ui-review-1/panels.webp",
+      "bytes": 88342,
+      "sha256": "b09646f8a0f1fc5377961b2fcae2bf802fc3b477339bb266154676ca3ad73ee8"
+    },
+    {
+      "path": "public/art/home-ui-review-1/resources.webp",
+      "bytes": 20698,
+      "sha256": "0b530715400911b3d3c1c705a9efaaad6a62c779671645e7e5a7cba437d43907"
+    },
+    {
+      "path": "public/art/land-review/castle-landscape.webp",
+      "bytes": 326642,
+      "sha256": "b76d1107f7d35dc1fdc22f671f36ee4775ba20a8f1fedc5d7199949ce67f7057"
+    },
+    {
+      "path": "public/art/land-review/interface-icons.webp",
+      "bytes": 351170,
+      "sha256": "9e6bf5a2bac61b5991d4acd67e6e8ec51d5d47c717e8df4e9cfea9ba9cc166b1"
+    },
+    {
+      "path": "public/art/land-review/painted-properties.webp",
+      "bytes": 608884,
+      "sha256": "74180fb5be6813543797ec8de021de15cc436e7efa0da9f2ea1b7c4998f23b7b"
+    },
+    {
+      "path": "public/art/land-review/provenance.json",
+      "bytes": 2337,
+      "sha256": "4997a0070badfc2923970decb1a7add41a4d9b58e0ca3d87cd672520274ab051"
+    },
+    {
+      "path": "public/art/land-simple-0.1/properties.webp",
+      "bytes": 495452,
+      "sha256": "343c5c7e128b27a98e12102b4d4b7ba0354d5e109491ecf0e97040f098682ea2"
+    },
+    {
+      "path": "public/art/land-simple-0.1/provenance.json",
+      "bytes": 2896,
+      "sha256": "c29ab123836df9650d0df715cab6442930300af49f53dc4431f7f31e85ad2459"
+    },
+    {
+      "path": "public/art/level100-beta-1/armor.webp",
+      "bytes": 882,
+      "sha256": "6caccf3378dcd9352b33ce8a60930ffd5e5f820ec4c5c428c864f35d4c2eb21b"
+    },
+    {
+      "path": "public/art/level100-beta-1/land.webp",
+      "bytes": 590,
+      "sha256": "86ed4f1ad1cd95429f31255f56ae25980073ade00631c4db391e4c70a1fd004d"
+    },
+    {
+      "path": "public/art/level100-beta-1/provenance.json",
+      "bytes": 2934,
+      "sha256": "4351dbb29c1f0923739c3aeebe883ad58709fe5c8bfd4e949b5357e028574c1d"
+    },
+    {
+      "path": "public/art/level100-beta-1/shield.webp",
+      "bytes": 1022,
+      "sha256": "de4924f6642d1c42c59e0c9f73dafc78a91d1b65b1fc5e3441de9aeffb6f4ccf"
+    },
+    {
+      "path": "public/art/level100-beta-1/spell.webp",
+      "bytes": 998,
+      "sha256": "da2d2d89f104479c239dd254cde2984bb296941db01fa06b3e53333b20630c8a"
+    },
+    {
+      "path": "public/art/level100-beta-1/weapon.webp",
+      "bytes": 508,
+      "sha256": "c574fb4c9ce3869a8f843d3f29f96b42fb264ca82d62a17909e7b8e42e8eb3fc"
+    },
+    {
+      "path": "public/art/properties-49/gold-mine.webp",
+      "bytes": 96282,
+      "sha256": "c997008b7854f2031b06a02ba04935aca0e032b90d61d90fb12a6cd17e1580fa"
+    },
+    {
+      "path": "public/art/properties-49/provenance.json",
+      "bytes": 1333,
+      "sha256": "e507eb513fed61fb601b9e967dc2644cdf00910930600b5e2fcaaf3bc2920edf"
+    },
+    {
+      "path": "public/art/properties-49/wyrmcrest-keep.webp",
+      "bytes": 87410,
+      "sha256": "94d833a312ef80d1a36a5afb0f854988af113b93b6843a0791f55482195596a2"
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/astral-observatory.webp",
+      "bytes": 189018,
+      "sha256": "c26f1b4fb3573892b877f6e70cab353d453e32d7a89c5a6bbc4f425a3b424934"
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/dawnspire-cathedral.webp",
+      "bytes": 188040,
+      "sha256": "567469aab78e14e17dfc1216d2139857e851c5ed39a3b551fc9583f8fb347523"
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/eclipse-citadel.webp",
+      "bytes": 153214,
+      "sha256": "7e68dfe43c55196026df772acbf5e8ed2a7eac98fec1abaf63c2f3465b99f6c9"
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/provenance.json",
+      "bytes": 10023,
+      "sha256": "f3a99916424a38047899d0d7df16295c55e879644a442487432dcbb8fd10907e"
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/tempest-port.webp",
+      "bytes": 183202,
+      "sha256": "03d6b7f4f72bbbaac29b0f597d1b63b7b1fab5722d0ab1134c87358ce93fc8cf"
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/throne-of-ash.webp",
+      "bytes": 158042,
+      "sha256": "20164ec090bc5b4a1a6aaa8e77b8702d4994676028f34931612ee1f1c71d8091"
+    },
+    {
+      "path": "public/art/properties-51b-fullbleed-2/wyrmcrest-keep.webp",
+      "bytes": 211988,
+      "sha256": "78b07fde97546de72087d278d3b69997d0aa76f2a582cc4a775a4b1cbcfa682b"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/astral-conductor.webp",
+      "bytes": 48842,
+      "sha256": "47aa5980ed62f570691dd24b815ba12c600c9532d6348d638f3112b4eae23c55"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/crown-of-ash-blade.webp",
+      "bytes": 69744,
+      "sha256": "482a75454f41046baabf830a69a405381068a766e752af782134c656dfc7bba1"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/crown-river-port.webp",
+      "bytes": 188876,
+      "sha256": "b4ac7783def2f3a0c51af75451cd90d9aed75a79089659895d82c8ddc0c84432"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/dragonwake-falchion.webp",
+      "bytes": 52550,
+      "sha256": "3f8878c8ad52ca62d8837d3cd56c9832210c571f0672f916383a42c33b954184"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/eclipse-crown-citadel.webp",
+      "bytes": 187996,
+      "sha256": "c3d79bfa5e679c194b470ade107f12d0b227ac7b7e7096b5209a09d799356dcf"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/eclipse-gatehammer.webp",
+      "bytes": 67192,
+      "sha256": "10230a6339967ffa13b9c1489f6b9d08d7cfb97ba2c5e2d75c38849d6d046752"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/eclipse-greatsword.webp",
+      "bytes": 56662,
+      "sha256": "bc2dceccc9b60a66e168c337bc1153a0237a9ceecca03946ff53e3157f1ddec9"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/fortress-glaive.webp",
+      "bytes": 67884,
+      "sha256": "48618a9fdc040c8f38833002d6506b1fbc70a7b53875312b2251f6f3c4ea9e3e"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/gravewarden-scythe.webp",
+      "bytes": 39126,
+      "sha256": "09360678f3e430b2cd7f94a43fb0e3f80932d445d1cd903189be8aa0f87ac92f"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/guard-captains-halberd.webp",
+      "bytes": 55962,
+      "sha256": "a00a6f30fca9c606c68b212d6c54ef4a511edb14a1df651cefbccd44067050aa"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/imperial-siegeworks.webp",
+      "bytes": 178810,
+      "sha256": "3a2a16d7c6facddffa619b3e3f2bbcf654e94f035744c4dcde5e7e65e2ec3fc1"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/king-hudsons-sword.webp",
+      "bytes": 294612,
+      "sha256": "4454c62eaba848ac0e0efa6b1b492d843d5148927c8db5b9705549aac029f883"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/march-wardens-poleaxe.webp",
+      "bytes": 73192,
+      "sha256": "54016bcd2467ecb116cbdb6fdd1b432ff1a8f0ff02032ba4fea0f7979084bcfd"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/marcher-greatsword.webp",
+      "bytes": 73678,
+      "sha256": "c8c7e3a7c811bc6865058c5156a111d5cb26cbef4b217e2b10a86c9eb400bb9b"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/marcher-stronghold.webp",
+      "bytes": 205626,
+      "sha256": "19f33d4ef3fdaf07c667a0ed6cafb1bdda4217d512b238e2c9c7cf1e54981729"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/provenance.json",
+      "bytes": 27880,
+      "sha256": "8ab565c624913efadd1372c482e7db14596508980d650ae240602b47b6a7de3f"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/royal-border-fortress.webp",
+      "bytes": 182610,
+      "sha256": "04db525708f6c0e388363cdb7dc5db87b92300a64e3ec8bcdd96d81b1ff097bd"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/royal-warblade.webp",
+      "bytes": 65834,
+      "sha256": "27b3f302742c91c976f21d309c515dddecb4e273c5edbd0b229aeec7b6b61799"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/sovereign-castle.webp",
+      "bytes": 176016,
+      "sha256": "6df56e278fd8cb9aae1ca22ba3bb1fad1e61a781fa92212bb86c429ee39b7175"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/sovereigns-zweihander.webp",
+      "bytes": 61210,
+      "sha256": "263c6b1ec19fd7a78b1240ca23be81db39a4a5b8c215ef96c0a15eb8c0dfda9f"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/stormglass-pike.webp",
+      "bytes": 42234,
+      "sha256": "d502db25859727566b55ced8f3d97a35e669fbc00b5a53c114c9867da95bdc94"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/sun-etched-warhammer.webp",
+      "bytes": 43626,
+      "sha256": "4a28d7e6c4604f33e2f1a5f4e4adf879263a47c367e934098b212eb86c079739"
+    },
+    {
+      "path": "public/art/regional-weapon-land-1/throneguard-polehammer.webp",
+      "bytes": 62146,
+      "sha256": "894e53059e0c725508b7f50ca50c1a28795d8d881a341b1b952708f4f4f829e3"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/astral-conductor.webp",
+      "bytes": 40282,
+      "sha256": "f772f3ab2ddbc404edd6dffcb1a9a5d5e51802b91e5f9e78c8debb94bec6775e"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/crown-of-ash-blade.webp",
+      "bytes": 38820,
+      "sha256": "ce9fe08f49d6275eb0ecf1029a91bf165a65ba126b3723d911a436862a103e9f"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/dragonwake-falchion.webp",
+      "bytes": 38054,
+      "sha256": "237a5631ea03e0e8ff48427c909bf878b9f0ef9b35cb66fdebd407d4bc645052"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/eclipse-gatehammer.webp",
+      "bytes": 47804,
+      "sha256": "a61094ee2ab774d0debb903519e549b7520ec83f85da29241705d33ab04c3cf8"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/eclipse-greatsword.webp",
+      "bytes": 35730,
+      "sha256": "f810cc5c383817b196f3f74ad4273cd4ac6bd77744a9ec5937acbbf065c237dd"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/fortress-glaive.webp",
+      "bytes": 30770,
+      "sha256": "788b51c8f35db8eeec9cdcc6eaa9adb1e6b603183704744a30cc057973d57462"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/gravewarden-scythe.webp",
+      "bytes": 38722,
+      "sha256": "9b9307c73d1cfdbbb22d30b7b27875a1ad082f50d29fc0b5eb51e57216ee6761"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/guard-captains-halberd.webp",
+      "bytes": 35072,
+      "sha256": "7143883d2eb588ed378c43bd0add1303e10701f90527e86a00257e1b06c8c006"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/march-wardens-poleaxe.webp",
+      "bytes": 47440,
+      "sha256": "619c66deab3a750f12d6835f5645605d46318e8505027734c42127cce82aeab7"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/marcher-greatsword.webp",
+      "bytes": 51114,
+      "sha256": "06d704fff02335ebe12f7f75795d5cdae5545a6c52fe3ea375ba81ae2770afb5"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/provenance.json",
+      "bytes": 39038,
+      "sha256": "195399e28d09d2422b316945c641794e5209cbb6633969f0fb01de2f28a9859d"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/royal-warblade.webp",
+      "bytes": 40502,
+      "sha256": "318d3cdbf97b4210ae9c811b49f5910ce4f3a1230e430b7a7e9ecf97b2aa8ae0"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/sovereigns-zweihander.webp",
+      "bytes": 46610,
+      "sha256": "7de7f78b76bd07f5da99ea9922f758bcb7efcde5488be83d0ae3039e11089201"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/stormglass-pike.webp",
+      "bytes": 36700,
+      "sha256": "94930afd04a2f47acbd4be7c92d4e2e99dca834958617d5fa8522548c7a04402"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/sun-etched-warhammer.webp",
+      "bytes": 38298,
+      "sha256": "dd3ad8be3b51ee8c2cd9a64d0127f800f2c7c85e6be36d953b9878adbd8c7765"
+    },
+    {
+      "path": "public/art/regional-weapon-land-2/throneguard-polehammer.webp",
+      "bytes": 35376,
+      "sha256": "53cf8df0c81a9eeb8fb4cf13c026db3c13b7e66a33f1ce88190103c2e3b28157"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/astral-conductor.webp",
+      "bytes": 18158,
+      "sha256": "a85d79f399653ddcaa5d269fbc9b1e69a5bf744bff67a6380d444f72843155aa"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/background.webp",
+      "bytes": 31578,
+      "sha256": "1568be06e4dd7f04e1b7d0ad3017cc70f16c22e800d17d359457df4c0ddc2a7c"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/crown-of-ash-blade.webp",
+      "bytes": 22922,
+      "sha256": "d3d111eeb8d4600129dbcd7f7d1de67770785513413facd9308804baaa8d5338"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/dragonwake-falchion.webp",
+      "bytes": 22040,
+      "sha256": "7528c45a020a256c44ea5e6c60ee781d0f25eb75d44498556c942d2b018430f5"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/eclipse-gatehammer.webp",
+      "bytes": 24822,
+      "sha256": "198a03b2a729969c72cfe7b410695131e18ca63b539831a90d818c9cccb92dcf"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/eclipse-greatsword.webp",
+      "bytes": 20150,
+      "sha256": "22fc84d637a3f8a7c567734617cc82c6d94692f0725bfcea068d3e660a06e156"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/fortress-glaive.webp",
+      "bytes": 16582,
+      "sha256": "472d64a854276dd5d51650b8cb280c99c46dac7e517aeb8cde463d7633b1c18d"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/gravewarden-scythe.webp",
+      "bytes": 19398,
+      "sha256": "712d19fd8217d0149b2c724226cb9ab2b40a0f900393173cbad28ef03e7e554d"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/guard-captains-halberd.webp",
+      "bytes": 18630,
+      "sha256": "6e393810463f30751574555c3141ec69a87b59f2df823165a8c42b6c312a170b"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/march-wardens-poleaxe.webp",
+      "bytes": 21110,
+      "sha256": "ea7159815f650ac8c5725d369fea11a4fa71b17b814b98753c1482a61645c857"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/marcher-greatsword.webp",
+      "bytes": 18062,
+      "sha256": "4ba1b4b2d5165daaf76a930ecbed9325290d0919c222aaee0b179bfb7ea902d0"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/provenance.json",
+      "bytes": 54363,
+      "sha256": "e9c36bafdc644c56cd0a8f96499a219dda711c943891dee2f6d1d07365e72cdd"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/royal-warblade.webp",
+      "bytes": 22880,
+      "sha256": "db3698a95343a455569bdb32607ee92092087e077ebc6db36fae0f9171952e0f"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/sovereigns-zweihander.webp",
+      "bytes": 18916,
+      "sha256": "288c70816019bfd60ecc91de776269f8a3f530d161355ee6a2d7a4bb30f1c736"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/stormglass-pike.webp",
+      "bytes": 14634,
+      "sha256": "4cffadc32b21244edfeab30637280c37ed70ce646dce82df931ff490ade5f11f"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/sun-etched-warhammer.webp",
+      "bytes": 26806,
+      "sha256": "a8b59dc0a4b47d6956853d176d4307f9b3299df29f336aaf1393919e5faf579e"
+    },
+    {
+      "path": "public/art/regional-weapon-land-3/throneguard-polehammer.webp",
+      "bytes": 23926,
+      "sha256": "1c5bacf402370c551c50868a181e224464fc1204f5f3bac03e0e65846929d3ad"
+    },
+    {
+      "path": "public/art/remaster-ui/LICENSE.txt",
+      "bytes": 233,
+      "sha256": "a9549ac9308cecdbe85eae2cbec261fa6a67439de82796e74438dde0ba487e57"
+    },
+    {
+      "path": "public/art/remaster-ui/castle-illustration.webp",
+      "bytes": 278112,
+      "sha256": "05ca54a94af424951b533386b53d3d2def33e172d60094ea4539fc41ede5f754"
+    },
+    {
+      "path": "public/art/remaster-ui/castle-provenance.json",
+      "bytes": 972,
+      "sha256": "8658505eae37ee9f4b4f2af0a8e2acbae2d3b6b99a037940465e8b357da7efe9"
+    },
+    {
+      "path": "public/art/remaster-ui/courtyard.svg",
+      "bytes": 1283,
+      "sha256": "943b99232d62f19902a8745e38153ad9c98d5d9bb5dab7198e1d4bb009327cec"
+    },
+    {
+      "path": "public/art/remaster-ui/crest.svg",
+      "bytes": 978,
+      "sha256": "349b1efacc3a5e79fafe89c7e4bd6b15d9ccade450e2045709b1cafae432dab8"
+    },
+    {
+      "path": "public/art/remaster-ui/icons.svg",
+      "bytes": 5673,
+      "sha256": "05d766373a123142b33b2e9279dd44d81b2792deb2d49b60834f43b9a37719e0"
+    },
+    {
+      "path": "public/art/remaster-ui/provenance.json",
+      "bytes": 797,
+      "sha256": "0c9744d9e4c88c2068dc512c1c3fc90d11cdb4590ae6800051b1488b7a7382c1"
+    },
+    {
+      "path": "public/audio/LICENSE-ORCHESTRAL-CUES-CC0.txt",
+      "bytes": 6838,
+      "sha256": "3dee0650b08ff65c8e55ff59c55ababcaedab5af83f4fce777da8911f97c3990"
+    },
+    {
+      "path": "public/audio/LICENSE-VSCO-CC0.txt",
+      "bytes": 6555,
+      "sha256": "36ffd9dc085d529a7e60e1276d73ae5a030b020313e6c5408593a6ae2af39673"
+    },
+    {
+      "path": "public/audio/LICENSE.txt",
+      "bytes": 674,
+      "sha256": "daaee4f3fa83544d7a5e97b2564f21b8010c8f765596a842f197819e1d6ad519"
+    },
+    {
+      "path": "public/audio/achievement.m4a",
+      "bytes": 10591,
+      "sha256": "fb75f0e887d5b61478f6bb5dfb7bdcf6b78d3dc7e397013d811b267c38addd10"
+    },
+    {
+      "path": "public/audio/alliance.m4a",
+      "bytes": 8086,
+      "sha256": "aaaa2936e41aca3e23363b7dc7d2617a23f3bc2da860d519d1c4c6ba73f3ba6e"
+    },
+    {
+      "path": "public/audio/bounty.m4a",
+      "bytes": 11254,
+      "sha256": "7963978d0158fd699998f58cca824118fd752b3f9674e61bfb98ebe4fa265346"
+    },
+    {
+      "path": "public/audio/click.m4a",
+      "bytes": 3072,
+      "sha256": "e01bef907fe123df0b873af5877a9a0a77f573f9b83896958e61841ecc79e04d"
+    },
+    {
+      "path": "public/audio/coins.m4a",
+      "bytes": 6157,
+      "sha256": "e86f7ef70b851715c671fd07999336ebdb573ea21197343c7b77fab7069adaae"
+    },
+    {
+      "path": "public/audio/decisive.m4a",
+      "bytes": 60198,
+      "sha256": "fdacc3b7963cf80381ceb94ae96c2bbdb476905826a30b82f4fd38beddfd9b7b"
+    },
+    {
+      "path": "public/audio/defeat.m4a",
+      "bytes": 59925,
+      "sha256": "1caed90386d2b33cc3db6d1d29170a29768821d6e485621a77dafa38adaac39f"
+    },
+    {
+      "path": "public/audio/equipment.m4a",
+      "bytes": 6793,
+      "sha256": "94767965c8eaaf2a333410fe48c50d0aec7816d28c9aa0939a24e78ebc6dff17"
+    },
+    {
+      "path": "public/audio/error.m4a",
+      "bytes": 3920,
+      "sha256": "7a8fa2b279c7366af88342ed0e2fe1cc1a79a6915db5703960b0aeddd18062f8"
+    },
+    {
+      "path": "public/audio/healing.m4a",
+      "bytes": 8871,
+      "sha256": "e6bceb8d0346b977153677969bf27371b42673111c453aec31f7659168d67eda"
+    },
+    {
+      "path": "public/audio/income.m4a",
+      "bytes": 7573,
+      "sha256": "562ac0f71721272a5c72ab7000adcf81d02058b938e423d0e1dd70a413b4fb6e"
+    },
+    {
+      "path": "public/audio/index.js",
+      "bytes": 821,
+      "sha256": "4f8893eba47dc3f7e395cdddb0b130bca4a970c5a032ed9f006e0dd0776d3c21"
+    },
+    {
+      "path": "public/audio/inventory.json",
+      "bytes": 8201,
+      "sha256": "e400b09edb3bb8a9f4f992c99e07cce3fd37457d5ccd2464be9bedbda63fd426"
+    },
+    {
+      "path": "public/audio/land.m4a",
+      "bytes": 7532,
+      "sha256": "3287e712dc7956919085f83272eabf0c46e3994277d13a2e6d3c269b505d1999"
+    },
+    {
+      "path": "public/audio/level.m4a",
+      "bytes": 74438,
+      "sha256": "87f0c9daf15ed15fc27594a8d1063ef3450a685e1bd03cfee58a43d121fefa2e"
+    },
+    {
+      "path": "public/audio/navigate.m4a",
+      "bytes": 3829,
+      "sha256": "0421c56ee2b0f125a37b2cbd69c7eb7da3089e819e9690ecc82d43096e70118d"
+    },
+    {
+      "path": "public/audio/orchestral-sources.json",
+      "bytes": 29988,
+      "sha256": "766f00c255eeb0292f9c2fbe84a3e71f9ce528fc63b9b717d345190937f14361"
+    },
+    {
+      "path": "public/audio/quest.m4a",
+      "bytes": 65140,
+      "sha256": "0c0b0c595106d62eedc58326dc3715fba859737c68fdabadef3fd5be398da83e"
+    },
+    {
+      "path": "public/audio/realm.m4a",
+      "bytes": 441263,
+      "sha256": "02030c03acd9b87fb8859cb14daaa18726cafccf8d12fcb816e94420d189a947"
+    },
+    {
+      "path": "public/audio/sale.m4a",
+      "bytes": 5386,
+      "sha256": "f51ea7dede1bb3ee25dbc20f61faf73c9929711acb43a761abff9bd1916fd77a"
+    },
+    {
+      "path": "public/audio/spend.m4a",
+      "bytes": 5169,
+      "sha256": "1f97c68066b5b158d5c28fd8437841ca517a2953ba6c9388ccf85602a435176e"
+    },
+    {
+      "path": "public/audio/tutorial.m4a",
+      "bytes": 11933,
+      "sha256": "c686827b486503eb9d72c79c4172dd773708f1fbfe3197224ef40e8b676e1157"
+    },
+    {
+      "path": "public/audio/victory.m4a",
+      "bytes": 60198,
+      "sha256": "fdacc3b7963cf80381ceb94ae96c2bbdb476905826a30b82f4fd38beddfd9b7b"
+    },
+    {
+      "path": "public/bounties.js",
+      "bytes": 3143,
+      "sha256": "eed7959d50bf3f16ef411a8fb91ad63708acf0673d8c93637549a7fbca3fa5eb"
+    },
+    {
+      "path": "public/bounty-list.css",
+      "bytes": 2112,
+      "sha256": "0ad3ff3fd3d0194d51769f2f6d635df08ca5eac0582f2990861149ff235f7c01"
+    },
+    {
+      "path": "public/community.css",
+      "bytes": 4845,
+      "sha256": "b81ca3ec87ea7b78e8da72bbf602abedf75180a0675e8723e7ac00eacde052e4"
+    },
+    {
+      "path": "public/community.js",
+      "bytes": 2919,
+      "sha256": "5645993647475f15ea81744aea3989bea14b9ad20e345d529c8e8a8031c70bb0"
+    },
+    {
+      "path": "public/equipment-images.css",
+      "bytes": 2483,
+      "sha256": "b37ce041efa15c9752ba67679f217b606e368150d1078273c7b15fa943adb93c"
+    },
+    {
+      "path": "public/experience.js",
+      "bytes": 716,
+      "sha256": "3a6d58e7096097a0165143a477a911d54bb054f540b9443a5d34847e11d44ec2"
+    },
+    {
+      "path": "public/interface.js",
+      "bytes": 1738,
+      "sha256": "f099bd65d8c3a4e915ae27f794301406d085bbb002f128db8ffbbefcb4a94276"
+    },
+    {
+      "path": "public/kingdoms-live.css",
+      "bytes": 9037,
+      "sha256": "8aa295036a9faa5998384fde56c8ad4800e7225d3d6db1d03172378aab8e3327"
+    },
+    {
+      "path": "public/land-premium-preview.css",
+      "bytes": 4207,
+      "sha256": "28d0a3a81846c1433f178c25ad717232a74e972b48910694f98db4480781d1c1"
+    },
+    {
+      "path": "public/land-review.css",
+      "bytes": 18945,
+      "sha256": "7a556e64ddf30a8432f0851069ecbd83d275d4c7131350c7015c43e9a0580439"
+    },
+    {
+      "path": "public/land.js",
+      "bytes": 6386,
+      "sha256": "213f3d46be67dc59a2c78c470d713a36b3975ab7fcfb4345948e57340efb3d80"
+    },
+    {
+      "path": "public/market.js",
+      "bytes": 7844,
+      "sha256": "1bc5d879b9e86ade5b370fdc67a1aefe4c5eb684d81879d4ae1269a1dfe44f59"
+    },
+    {
+      "path": "public/phase41.css",
+      "bytes": 4161,
+      "sha256": "dbd229d997baebb96cb624bfdb0636334cd41f9deb27f065ccc2205e99fe8d26"
+    },
+    {
+      "path": "public/phase42.css",
+      "bytes": 1444,
+      "sha256": "5df562b81a444c8010d79a68a0216f738e4d150f4624794b131b8d9fa8bb5d89"
+    },
+    {
+      "path": "public/phase43.css",
+      "bytes": 2540,
+      "sha256": "352f18695534eecd782ccee03e30b0ff259dfbed69751fa95e055be0acfcf49b"
+    },
+    {
+      "path": "public/phase44.css",
+      "bytes": 11246,
+      "sha256": "e5d10f6c0cb37336e888efe12b22755f03decd7f9939a8894f24391397cfa27a"
+    },
+    {
+      "path": "public/phase45.css",
+      "bytes": 5875,
+      "sha256": "9b6eb1f0ff38027341aec46482db36c06c7738907e36b40f05468e029b78aa34"
+    },
+    {
+      "path": "public/phase46.css",
+      "bytes": 7994,
+      "sha256": "57d61bdde02f3fd6982f0c8b9311efa84986a72d0fec667d6a569114f06bf13b"
+    },
+    {
+      "path": "public/phase47.css",
+      "bytes": 5271,
+      "sha256": "35bbb03bcdfe004b544462c3f4dc4a7ead6e2c354eed65db9e32fa03e1d638ff"
+    },
+    {
+      "path": "public/phase49.css",
+      "bytes": 11524,
+      "sha256": "4f8101b762198fe8fe8f1d3b02b78c2fc8f4bf3e0975cb3255de579546f73195"
+    },
+    {
+      "path": "public/phase491.css",
+      "bytes": 4292,
+      "sha256": "df8fffc6bc9b43fface06da8df3d037906e658ac45687694dcf43dc6c6de18a3"
+    },
+    {
+      "path": "public/phase51c.css",
+      "bytes": 6885,
+      "sha256": "28dc6ea35a9085bac8432778de8dc912dca02759f6c81944e825e38bc5cd5a8c"
+    },
+    {
+      "path": "public/play-policy.css",
+      "bytes": 1104,
+      "sha256": "5322631c6106eb17a6d81f65c8d360b02c486f0ca10e88f5c5f301a0888e2626"
+    },
+    {
+      "path": "public/player-experience.js",
+      "bytes": 9546,
+      "sha256": "1b82d5fb4456fb43921b584e2220cd25dedaf64539e7a5d619281ce362f587c4"
+    },
+    {
+      "path": "public/preferences.js",
+      "bytes": 3861,
+      "sha256": "0b38d0bd3f237ff56a3cab4cb08b07f8a773818b403082cbd7595c08a074c3c9"
+    },
+    {
+      "path": "public/profile-classic.css",
+      "bytes": 2428,
+      "sha256": "2e3a04d8fc5a83823e4137a51efd7670046d1092bcb9f8ddef7055fe8bc6c5cb"
+    },
+    {
+      "path": "public/realm-iron-brass.css",
+      "bytes": 147691,
+      "sha256": "3175328e4fb3d0b47be39b46895cd24bc49478ccc0e74f08ca8290e176413c18"
+    },
+    {
+      "path": "public/realm-theme.css",
+      "bytes": 35134,
+      "sha256": "5a4162c84da59f9b5dcfc26740668cb11e36c0318c200778d68ddb9e04d38398"
+    },
+    {
+      "path": "public/realm.js",
+      "bytes": 6732,
+      "sha256": "2641f5bcf20f2c7a9ba963bfe5e661f104ee4986366b3074f98925036a955994"
+    },
+    {
+      "path": "public/refinements.css",
+      "bytes": 7747,
+      "sha256": "056fcd3d1518d297448e82c7ae87dbc993ce03351a22890f37ba85a40dab59b9"
+    },
+    {
+      "path": "public/remaster.css",
+      "bytes": 26196,
+      "sha256": "e9b100dd2fd0123f2280877c49d3e9cd778091de1bf5a86c5726eb70d755de14"
+    },
+    {
+      "path": "public/shopping.js",
+      "bytes": 4990,
+      "sha256": "687a8f98aa17beda42c437f080858e05003bca05a241169fba293e0d47517199"
+    },
+    {
+      "path": "public/sound.js",
+      "bytes": 8829,
+      "sha256": "969905247e750065a4664524ce80b183b192662eda247ba1313b4879c36291c1"
+    },
+    {
+      "path": "public/status.js",
+      "bytes": 5796,
+      "sha256": "5883dfc28a4a3a8567ff8465e51453e5ca548025749d4e77723d5c12aed57823"
+    },
+    {
+      "path": "public/strategy.css",
+      "bytes": 2910,
+      "sha256": "8f37996841ab9c4429975624ee2c6bf2800114d05cc93784124fdeb740ccc1dc"
+    },
+    {
+      "path": "public/styles.css",
+      "bytes": 25973,
+      "sha256": "cb1f9a50caed93cc53834b65529b9a29c6bdf7f62fdecd1f91935355ae65427a"
+    },
+    {
+      "path": "public/ui-components.css",
+      "bytes": 7594,
+      "sha256": "09c546d078075b3db139ee5571406a44e2dd3226ca42241f5b31b3df7fd40b4f"
+    }
+  ],
+  "sourceBaseCommit": "9429e88365d112f5597371c7aa811110f967558d"
+}

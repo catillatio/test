@@ -113,6 +113,7 @@ jobs:
             knights-reforged/test-results/ci-*/
             knights-reforged/test-results/phase47-browser/
             knights-reforged/test-results/coordinated-art-browser/
+            knights-reforged/test-results/play-readiness/
           if-no-files-found: error
           retention-days: 14
           compression-level: 0

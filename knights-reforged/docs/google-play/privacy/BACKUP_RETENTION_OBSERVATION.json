@@ -1,0 +1,21 @@
+{
+  "run": 41962151527,
+  "sourceCommit": "9429e88365d112f5597371c7aa811110f967558d",
+  "observedAt": "2026-11-06T01:23:36.391355+00:00",
+  "artifacts": [
+    {
+      "name": "kingdom-release-verification-41962151527-1",
+      "createdAt": "2026-11-05T03:50:42Z",
+      "expiresAt": "2027-02-03T03:31:43Z",
+      "expired": false,
+      "retentionDays": 89.98681712962963
+    },
+    {
+      "name": "kingdom-recovery-41962151527-1",
+      "createdAt": "2026-11-05T03:44:38Z",
+      "expiresAt": "2027-02-03T03:31:43Z",
+      "expired": false,
+      "retentionDays": 89.9910300925926
+    }
+  ]
+}

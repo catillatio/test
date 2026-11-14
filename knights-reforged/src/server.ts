@@ -1,6 +1,8 @@
+import {assertGraveyardFence} from './privacy/graveyard.js';
+import {assertErasureFence} from './privacy/erasure.js';
 import {startNpcSponsorship} from './bounties.js';
 import {startBotCombat} from './bot-combat.js';
-import {startBotIncome} from './bot-income.js';
+import {startBotIncome,startAbandonedIncome} from './bot-income.js';
 import {startBotEconomy} from './bot-economy.js';
 import { loadConfig } from './config.js';
 import { createDatabase } from './db.js';
@@ -13,26 +15,32 @@ const db = createDatabase(config.databaseUrl);
 const app = await createApp({ db, config, logger: true });
 let stopNpcSponsorship=async()=>{};
 let stopBotIncome=async()=>{};
+let stopAbandonedIncome=async()=>{};
 let stopBotEconomy=async()=>{};
 let stopBotCombat=async()=>{};
 try {
   await assertInstalledRulesets(db);
-  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='052_npc_sponsorship.sql'");
+  if(process.env.NODE_ENV==='production'&&process.env.KINGDOM_ERASURE_RECONCILIATION_REQUIRED==='1'&&!process.env.KINGDOM_ERASURE_JOURNAL_URL)throw new Error('Independent journal reader required before erasure activation.');
+  await assertErasureFence(db,{required:process.env.KINGDOM_ERASURE_RECONCILIATION_REQUIRED==='1',journalPath:process.env.KINGDOM_ERASURE_JOURNAL_PATH,publicKey:process.env.KINGDOM_ERASURE_VERIFY_KEY,journalUrl:process.env.KINGDOM_ERASURE_JOURNAL_URL,journalToken:process.env.KINGDOM_ERASURE_JOURNAL_READ_TOKEN,journalScope:process.env.KINGDOM_ERASURE_SCOPE_DIGEST});
+  await assertGraveyardFence(db,{publicKey:process.env.KINGDOM_GRAVEYARD_VERIFY_KEY});
+  const schema = await db.query("SELECT name FROM schema_migrations WHERE name='054_account_erasure.sql'");
   if (!schema.rows.length) throw new Error('Approved gameplay migrations are incomplete. Run node deployment/migrate.mjs before starting.');
   if(config.privateAlpha)await assertPrivateAlphaInitialized(db);
   await app.listen({ host: config.host, port: config.port });
   app.log.info({event:'realm_origin_configuration',origin:config.origin,originSource:config.originSource,
     codespacesOrigin:config.codespacesOrigin,port:config.port,secureCookies:config.secureCookies},'Resolved realm origin');
+  // Optional world population is excluded from internal-test launch.
+  if(process.env.KINGDOM_GRAVEYARD_INCOME_ENABLED==='1')stopAbandonedIncome=startAbandonedIncome(db,()=>app.log.error('Abandoned kingdom income check failed; saved cursors remain authoritative.'));
   stopBotIncome=startBotIncome(db,config.developmentBotsEnabled,error=>app.log.error({err:error},'Passive rival income check failed; saved cursors will retry.'));
   stopBotEconomy=startBotEconomy(db,config.livingBotEconomyEnabled,()=>app.log.error('Autonomous rival purchase check failed; committed decisions will not repeat.'));
   stopBotCombat=startBotCombat(db,config.livingBotCombatEnabled,()=>app.log.error('Autonomous rival duel check failed; committed battles will not repeat.'));
   stopNpcSponsorship=startNpcSponsorship(db,!!config.npcSponsorshipEnabled,()=>app.log.error('NPC sponsorship failed; committed window decisions will not repeat.'));
-  console.log(`Kingdom Come is ready at ${config.origin}`);
+  console.log(`Kingdoms Restored is ready at ${config.origin}`);
 } catch (error) {
   app.log.error(error, 'Startup failed. Run npm run db:migrate before starting.');
   await db.end();
   process.exit(1);
 }
 for (const signal of ['SIGINT', 'SIGTERM']) {
-  process.once(signal, async () => { await stopNpcSponsorship(); await stopBotCombat(); await stopBotEconomy(); await stopBotIncome(); await app.close(); await db.end(); process.exit(0); });
+  process.once(signal, async () => { await stopAbandonedIncome(); await stopNpcSponsorship(); await stopBotCombat(); await stopBotEconomy(); await stopBotIncome(); await app.close(); await db.end(); process.exit(0); });
 }

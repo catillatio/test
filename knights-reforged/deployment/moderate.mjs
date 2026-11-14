@@ -26,7 +26,8 @@ try{
     const rows=(await db.query(`SELECT m.id,m.author_id,a.name,m.channel,m.body,m.status,m.created_at,count(r.id)::int AS reports,
       array_agg(DISTINCT r.reason) AS reasons FROM realm_messages m JOIN social_reports r ON r.message_id=m.id JOIN characters a ON a.id=m.author_id
       GROUP BY m.id,a.name ORDER BY max(r.created_at) DESC LIMIT 50`)).rows;
-    console.log(JSON.stringify({reports:rows},null,2));
+    const users=(await db.query('SELECT id,reporter_id,target_id,reason,created_at FROM social_user_reports ORDER BY created_at DESC LIMIT 50')).rows;
+    console.log(JSON.stringify({reports:rows,userReports:users},null,2));
   }else{
     const hours=action==='mute'?Number(words.shift()):undefined;
     await moderateMessage(db,{action,messageId:action==='hide'||action==='restore'?id:undefined,
