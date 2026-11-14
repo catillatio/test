@@ -2,7 +2,7 @@
 
 ## Public posting agreement
 
-Review draft, version community-2026-11-05-draft-1. Posting requires explicit acceptance of this version and the Terms. Final publisher/contact details and enforcement policy require owner review before release.
+Review draft, version community-2026-11-05-draft-1. Posting requires explicit acceptance of this version and the Terms. Final publisher/contact details and enforcement policy require owner review before release. Support and appeals: m055allsupport@gmail.com.
 
 ## Prohibited content
 
@@ -18,4 +18,4 @@ Use Report on a message or Report player on a human profile. Choose the appropri
 
 ## Moderation
 
-Author removal, profile-owner hiding, operator hiding/restoration and timed posting restrictions are available and auditable. Reports must be reviewed by the designated moderation operator; reviewer staffing, response expectations, escalation and appeal/contact path: [OWNER TO COMPLETE]. Report volume alone does not establish wrongdoing.
+Author removal, profile-owner hiding, operator hiding/restoration and timed posting restrictions are available and auditable. Reports must be reviewed by the designated moderation operator; Appeals and support: m055allsupport@gmail.com. Reviewer staffing, response expectations and escalation: [OWNER TO COMPLETE]. Report volume alone does not establish wrongdoing.

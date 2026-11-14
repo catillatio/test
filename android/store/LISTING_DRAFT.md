@@ -1,6 +1,6 @@
 # Listing draft — owner review, no submission
 
-Name (12/30 characters): **Kingdom Come**
+Name (17/30 characters): **Kingdoms Restored**
 
 Short description (77/80 characters):
 
@@ -8,13 +8,13 @@ Build your medieval realm, rally an army, and challenge rivals in a dark RPG.
 
 Full description:
 
-Enter Kingdom Come, a compact multiplayer medieval fantasy RPG built for quick decisions and an enduring realm.
+Enter Kingdoms Restored, a compact multiplayer medieval fantasy RPG built for quick decisions and an enduring realm.
 
 Complete quests, build your army, acquire weapons, armor and spells, and invest in land. Challenge rivals, review detailed battle reports, and pursue player-posted bounties. Manage your exposed gold and protect savings in the Vault. Follow your character's progression, achievements and standing in the Hall of Champions.
 
 The Dark Medieval interface combines illustrated equipment and environments with readable resource displays and five familiar gameplay destinations. Public profile comments and realm broadcasts let players interact; reporting and social-blocking controls help manage those interactions.
 
-An internet connection and a Kingdom Come account are required. Gameplay and transactions are processed by the server. This is a pre-release candidate: final availability, terms and publisher details require owner confirmation.
+An internet connection and a Kingdoms Restored account are required. Gameplay and transactions are processed by the server. This is a pre-release candidate: final availability, terms and publisher details require owner confirmation.
 
 Do not claim offline progression, real-money winnings, rankings, prices or features not actually offered. Remove the pre-release sentence only when factually appropriate. Final wording is subject to owner's audience, monetization and distribution choices.
 
@@ -32,3 +32,5 @@ First Android release candidate: secure HTTPS game access, Android navigation an
 - Two genuine browser-rendered tablet-layout captures: portrait Home at 2000×3200 and landscape Land at 3200×2000. These show actual app layouts, not physical-tablet certification. Do not claim tablet hardware is tested merely because layouts render at 600/800 CSS pixels.
 
 Publisher contacts, privacy URL, data deletion URL, App access instructions, audience, content-rating questionnaire, countries, Data Safety and ads/monetization declarations are owner-completed Console items. See `knights-reforged/docs/google-play/APP_CONTENT.md`. Store dimensions and limits follow [Google's asset requirements](https://support.google.com/googleplay/android-developer/answer/9866151).
+
+Support and privacy contact: **m055allsupport@gmail.com**. Publisher/controller identity remains owner-supplied; the game title is not a legal entity.

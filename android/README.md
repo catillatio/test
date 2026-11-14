@@ -2,7 +2,7 @@
 
 > Historical PR20 sideload guide. For this reconciled Play candidate, use [PLAY_RELEASE.md](PLAY_RELEASE.md). Package suffix, version, AAB and signing procedures below are historical unless repeated there.
 
-# Kingdom Come — sideloadable Android alpha
+# Kingdoms Restored — sideloadable Android alpha
 
 Implements [Issue #19](https://github.com/catillatio/test/issues/19). A small Java/platform WebView shell loads **https://test-production-995c.up.railway.app** in its own window. Application ID: `game.kingdomcome.alpha`; version `0.1.0-alpha.1` / code `1`; Android 8.0/API 26 or newer. The intended first physical test device is the owner's Samsung Galaxy S24. The APK is an online client, not an offline game or a copy of the server/database.
 
@@ -10,7 +10,7 @@ A native shell avoids Capacitor, AndroidX and a duplicate game UI/API. Existing 
 
 ## Download the actual APK from GitHub
 
-1. Open the Android draft PR → **Checks → Kingdom Come Android alpha APK → Details** (or repository **Actions → Kingdom Come Android alpha APK**).
+1. Open the Android draft PR → **Checks → Kingdoms Restored Android alpha APK → Details** (or repository **Actions → Kingdoms Restored Android alpha APK**).
 2. Select the completed successful run for the reviewed commit. Under **Artifacts**, download **`kingdom-come-android-alpha-<run ID>`**. GitHub requires sign-in to download artifacts. Extraction produces `kingdom-come-alpha-debug.apk`, `SHA256SUMS.txt` and `verification.json` with package, version, build commit, APK hash and public signing-certificate fingerprint. Never install the checks/reports artifact or a source-code ZIP.
 3. Artifacts are retained for **30 days**. On Android, extract the ZIP with **My Files**. Preserve the checksum/report with the APK. On a trusted desktop, `sha256sum --check SHA256SUMS.txt` verifies the extracted file.
 
@@ -20,7 +20,7 @@ The Android workflow runs on relevant PR changes and can be manually requested a
 
 1. Download/extract the reviewed artifact above, then tap `kingdom-come-alpha-debug.apk` in My Files.
 2. If Android requests it, allow **Install unknown apps** for the specific app you used to open the APK, then choose **Install**. Return that install permission to its previous state afterwards. Samsung Auto Blocker/device-management policy may prohibit sideloading; use an owner-approved test-device configuration or the browser game rather than bypassing an organizational restriction.
-3. Open **Kingdom Come Alpha**. Log in with the existing game account. The app has its own private WebView cookie storage, so a Chrome login is not automatically imported. Existing characters/progress remain on the same server.
+3. Open **Kingdoms Restored**. Log in with the existing game account. The app has its own private WebView cookie storage, so a Chrome login is not automatically imported. Existing characters/progress remain on the same server.
 4. Enable sound only in the game's Settings if desired. Saved server sound/mute/volume preferences are not overridden; playback still requires a browser-recognized user gesture. Ordinary navigation remains silent.
 
 Only INTERNET permission is declared. There is no camera, storage, contacts, location, notifications, billing, tracking SDK, native credential storage, native JavaScript bridge or background bot worker. The original temporary icon/splash provenance is in [ASSETS.md](ASSETS.md).

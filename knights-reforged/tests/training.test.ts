@@ -49,7 +49,7 @@ describe('Persistent combat training and reference-inspired Profile',{skip:!test
     const state=await r.me(p);assert.equal(state.accountAgeDays,73);
     for(const tab of ['player','skills','battles']){
       const response=await r.app.inject({method:'GET',url:'/game/profile?tab='+tab,headers:{cookie:p.cookie}});assert.equal(response.statusCode,200,response.body);
-      assert.match(response.body,/Kingdom Come/);assert.ok(!response.body.includes('Knights Reforged'));assert.ok(!response.body.includes('Post Comment'));
+      assert.match(response.body,/Kingdoms Restored/);assert.ok(!response.body.includes('Knights Reforged'));assert.ok(!response.body.includes('Post Comment'));
       assert.equal((/aria-label="Character sections">([\s\S]*?)<\/nav>/.exec(response.body)![1]!.match(/<a /g)??[]).length,4);
       assert.doesNotMatch(response.body,/Joined [^<]*73 days/);assert.match(response.body,/action="\/logout"/);
       if(tab==='player'){assert.match(response.body,/73 days/);assert.match(response.body,/Owned Weapons/);assert.match(response.body,/Iron sword, owned 2/);assert.match(response.body,/Total Income/);assert.match(response.body,/data-art-atlas="weapons"/);assert.ok(!response.body.includes('name="resource"'));}

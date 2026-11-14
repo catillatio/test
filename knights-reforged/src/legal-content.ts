@@ -4,7 +4,7 @@ export const legalPages = {
     [
       [
         "Status and controller",
-        "Review draft — not a final legal notice. Publisher/controller: [OWNER TO COMPLETE]. Privacy contact and effective date: [OWNER TO COMPLETE]. These factual fields must be completed before the notice is published for testing."
+        "Review draft — not a final legal notice. Publisher/controller: [OWNER TO COMPLETE]. Privacy/support contact: m055allsupport@gmail.com. Effective date: [OWNER TO COMPLETE]. These factual fields must be completed before the notice is published for testing."
       ],
       [
         "Account and gameplay data",
@@ -20,7 +20,7 @@ export const legalPages = {
       ],
       [
         "Operations and providers",
-        "Traffic is transmitted over HTTPS to the Kingdom Come service hosted on Railway. PostgreSQL stores account/game records. Encrypted recovery artifacts and independently restored recovery copies exist. Runtime HTTP logging may process request/network metadata; provider-side logging, access, locations, retention and subprocessors require owner confirmation. No analytics, advertising, billing or push SDK is bundled in the reviewed native client. This is not a claim that providers collect no operational data."
+        "Traffic is transmitted over HTTPS to the Kingdoms Restored service hosted on Railway. PostgreSQL stores account/game records. Encrypted recovery artifacts and independently restored recovery copies exist. Runtime HTTP logging may process request/network metadata; provider-side logging, access, locations, retention and subprocessors require owner confirmation. No analytics, advertising, billing or push SDK is bundled in the reviewed native client. This is not a claim that providers collect no operational data."
       ],
       [
         "Purpose and disclosure",
@@ -41,7 +41,7 @@ export const legalPages = {
     [
       [
         "Draft and parties",
-        "Review draft. Publisher/legal entity, contact, effective date, applicable law and minimum age: [OWNER TO COMPLETE]. Do not present this draft as final legal advice or a completed contract."
+        "Review draft. Publisher/legal entity, effective date, applicable law and minimum age: [OWNER TO COMPLETE]. Support/privacy contact: m055allsupport@gmail.com. Do not present this draft as final legal advice or a completed contract."
       ],
       [
         "Accounts and security",
@@ -49,7 +49,7 @@ export const legalPages = {
       ],
       [
         "Game service",
-        "Kingdom Come is an evolving multiplayer fantasy game. Quests, battles, bounties, property, army and virtual gold follow the displayed rules. Virtual gold is a game resource; the reviewed client provides no cash-out, real-money wager or native billing integration. Publisher decisions concerning purchases, refunds, changes, service availability and virtual-item rights require final review."
+        "Kingdoms Restored is an evolving multiplayer fantasy game. Quests, battles, bounties, property, army and virtual gold follow the displayed rules. Virtual gold is a game resource; the reviewed client provides no cash-out, real-money wager or native billing integration. Publisher decisions concerning purchases, refunds, changes, service availability and virtual-item rights require final review."
       ],
       [
         "Public content",
@@ -70,7 +70,7 @@ export const legalPages = {
     [
       [
         "Public posting agreement",
-        "Review draft, version community-2026-11-05-draft-1. Posting requires explicit acceptance of this version and the Terms. Final publisher/contact details and enforcement policy require owner review before release."
+        "Review draft, version community-2026-11-05-draft-1. Posting requires explicit acceptance of this version and the Terms. Final publisher/contact details and enforcement policy require owner review before release. Support and appeals: m055allsupport@gmail.com."
       ],
       [
         "Prohibited content",
@@ -86,7 +86,7 @@ export const legalPages = {
       ],
       [
         "Moderation",
-        "Author removal, profile-owner hiding, operator hiding/restoration and timed posting restrictions are available and auditable. Reports must be reviewed by the designated moderation operator; reviewer staffing, response expectations, escalation and appeal/contact path: [OWNER TO COMPLETE]. Report volume alone does not establish wrongdoing."
+        "Author removal, profile-owner hiding, operator hiding/restoration and timed posting restrictions are available and auditable. Reports must be reviewed by the designated moderation operator; Appeals and support: m055allsupport@gmail.com. Reviewer staffing, response expectations and escalation: [OWNER TO COMPLETE]. Report volume alone does not establish wrongdoing."
       ]
     ]
   ],

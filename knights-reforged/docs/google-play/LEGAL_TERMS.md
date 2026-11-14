@@ -2,7 +2,7 @@
 
 ## Draft and parties
 
-Review draft. Publisher/legal entity, contact, effective date, applicable law and minimum age: [OWNER TO COMPLETE]. Do not present this draft as final legal advice or a completed contract.
+Review draft. Publisher/legal entity, effective date, applicable law and minimum age: [OWNER TO COMPLETE]. Support/privacy contact: m055allsupport@gmail.com. Do not present this draft as final legal advice or a completed contract.
 
 ## Accounts and security
 
@@ -10,7 +10,7 @@ Use an account you are authorized to control. Keep your password private, do not
 
 ## Game service
 
-Kingdom Come is an evolving multiplayer fantasy game. Quests, battles, bounties, property, army and virtual gold follow the displayed rules. Virtual gold is a game resource; the reviewed client provides no cash-out, real-money wager or native billing integration. Publisher decisions concerning purchases, refunds, changes, service availability and virtual-item rights require final review.
+Kingdoms Restored is an evolving multiplayer fantasy game. Quests, battles, bounties, property, army and virtual gold follow the displayed rules. Virtual gold is a game resource; the reviewed client provides no cash-out, real-money wager or native billing integration. Publisher decisions concerning purchases, refunds, changes, service availability and virtual-item rights require final review.
 
 ## Public content
 

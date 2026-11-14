@@ -2,7 +2,7 @@
 
 ## Status and controller
 
-Review draft — not a final legal notice. Publisher/controller: [OWNER TO COMPLETE]. Privacy contact and effective date: [OWNER TO COMPLETE]. These factual fields must be completed before the notice is published for testing.
+Review draft — not a final legal notice. Publisher/controller: [OWNER TO COMPLETE]. Privacy/support contact: m055allsupport@gmail.com. Effective date: [OWNER TO COMPLETE]. These factual fields must be completed before the notice is published for testing.
 
 ## Account and gameplay data
 
@@ -18,7 +18,7 @@ The first-party kr_session cookie is HTTP-only, SameSite=Lax and Secure on HTTPS
 
 ## Operations and providers
 
-Traffic is transmitted over HTTPS to the Kingdom Come service hosted on Railway. PostgreSQL stores account/game records. Encrypted recovery artifacts and independently restored recovery copies exist. Runtime HTTP logging may process request/network metadata; provider-side logging, access, locations, retention and subprocessors require owner confirmation. No analytics, advertising, billing or push SDK is bundled in the reviewed native client. This is not a claim that providers collect no operational data.
+Traffic is transmitted over HTTPS to the Kingdoms Restored service hosted on Railway. PostgreSQL stores account/game records. Encrypted recovery artifacts and independently restored recovery copies exist. Runtime HTTP logging may process request/network metadata; provider-side logging, access, locations, retention and subprocessors require owner confirmation. No analytics, advertising, billing or push SDK is bundled in the reviewed native client. This is not a claim that providers collect no operational data.
 
 ## Purpose and disclosure
 
