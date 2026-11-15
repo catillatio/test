@@ -151,8 +151,15 @@ async function main(){
   await execute('age',['--decrypt','--identity',identity,'--output',restored,downloaded]);
   assert.deepEqual(await fileDigest(restored),plain,'The exported encrypted recovery object cannot restore the original archive.');
   await execute('pg_restore',['--list',restored]);
+  // The encrypted object has passed conditional-write, download, decryption and
+  // plaintext SHA-256 checks. Release only redundant per-job temporary files;
+  // the retained recovery object and the independently restored database stay.
+  gate='verified-transfer-temporary-cleanup';
+  for(const file of [dump,encrypted,downloaded])await rm(file);
   gate='isolated-restore';await execute('createdb',['--maintenance-db='+restore.name,'--',request.copy],{env:pgEnvironment(restore)});
   await execute('pg_restore',['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+request.copy,restored],{env:pgEnvironment(restore)});
+  // pg_restore exited successfully; preservation snapshots read the database.
+  gate='restored-archive-temporary-cleanup';await rm(restored);
   gate='copy-migrations-and-preservation';const result=await execute(process.execPath,['deployment/check-upgrade.mjs'],{env:{...process.env,KINGDOM_RESTORE_TEST_DATABASE:request.copy},progress:true});
   report.restoredCopy=JSON.parse(result);
   if(process.env.KINGDOM_ERASURE_RECONCILIATION_REQUIRED==='1'||sourceStatus.erasureRecorded){

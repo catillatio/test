@@ -83,7 +83,13 @@ const fixture={
   const required=Number(status.sourceBytes)*5+134217728;
   return {bavail:mode==='insufficient_space'?required-1:mode==='exact_space_limit'?required:mode==='one_byte_above_limit'?required+1:1000000000,bsize:1};
  },
- async rm(path,options){record('temporary-cleanup');assert.equal(path,temporary);assert.deepEqual(options,{recursive:true,force:true});},
+ async rm(path,options){
+  if(options){record('temporary-cleanup');assert.equal(path,temporary);assert.deepEqual(options,{recursive:true,force:true});return;}
+  const name=path.slice(temporary.length+1);
+  assert.equal(path,temporary+'/'+name);assert.ok(['realm.dump','realm.dump.age','downloaded.dump.age','restored.dump'].includes(name));
+  record('temporary-unlink:'+name);
+  if((mode==='transfer_cleanup_failure'&&name==='realm.dump')||(mode==='restored_cleanup_failure'&&name==='restored.dump'))return fail();
+ },
  async fileDigest(path){
   if(path===temporary+'/realm.dump.age'){record('cipher-digest');return cipher;}
   if(path===temporary+'/realm.dump'){record('plain-digest');return plain;}
@@ -182,6 +188,7 @@ const mocks={
  'node:child_process':'export const spawn=(...args)=>globalThis.releaseWorkerFixture.spawn(...args);',
  'node:fs/promises':['mkdtemp','readFile','writeFile','rm','statfs'].map(name=>'export const '+name+'=(...args)=>globalThis.releaseWorkerFixture.'+name+'(...args);').join('\n'),
  '../../dist/privacy/graveyard.js':'export const assertGraveyardFence=(...args)=>globalThis.releaseWorkerFixture.assertGraveyardFence(...args);',
+ '../../dist/privacy/erasure.js':'export const assertErasureFence=async()=>{throw new Error("Unexpected erasure-fence boundary in this offline fixture");};',
  '../../dist/db.js':'export const createDatabase=(...args)=>globalThis.releaseWorkerFixture.createDatabase(...args);',
  // This historical 450-bot fixture has no installed cohort. The real 900
  // provenance SQL is exercised separately against disposable PostgreSQL.
