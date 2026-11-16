@@ -27,7 +27,7 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
  if(autonomousPolicy&&(!actor.development_bot||!target.development_bot||!targetIsBot))throw new Error('Invalid autonomous combat identities.');
       if(bountyId){
         if(autonomousPolicy)throw new Error('Autonomous bounty hunting is not authorized.');
-        await authorizeBountyHunt(sql,actorId,target.id,bountyId,now,!!runtime.developmentBotsEnabled&&!!runtime.developmentBotBountiesEnabled);
+        await authorizeBountyHunt(sql,actorId,target.id,bountyId,now,!!runtime.developmentBotsEnabled&&!!runtime.developmentBotBountiesEnabled,!!runtime.developmentBotsEnabled);
       }else if (!areRivals(actor.attained_level,target.attained_level)) throw new GameError('RIVAL_LEVEL_RANGE','Choose an opponent nearer your level.',409);
       if(actor.health<alpha.combat.minimumHealth)throw new GameError('NEEDS_RECOVERY','You need at least '+alpha.combat.minimumHealth+' Health to attack.',409);
       if(target.health<community.combat.defenderMinimumHealth)throw new GameError('OPPONENT_DEFEATED','This opponent has been defeated (0 Health). They must recover before another attack.',409);
@@ -89,7 +89,7 @@ export async function resolveBattle(sql:Sql,context:{actor:CharacterRow;target:C
       await sql.query('INSERT INTO battles(id,attacker_id,defender_id,ruleset_id,outcome,snapshot,result,rewarded,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
         [result.battleId,actorId,target.id,alpha.id,combat.outcome,{attacker:state,defender:targetState},battle,rewarded,now]);
       if(!autonomousPolicy&&combat.defenderHealthAfter===0){
-        battle.bountyClaim=await claimBounty(sql,actorId,target.id,result.battleId,key,now,!!runtime.developmentBotsEnabled&&!!runtime.developmentBotBountiesEnabled);
+        battle.bountyClaim=await claimBounty(sql,actorId,target.id,result.battleId,key,now,!!runtime.developmentBotsEnabled&&!!runtime.developmentBotBountiesEnabled,!!runtime.developmentBotsEnabled);
         if(battle.bountyClaim)await sql.query('UPDATE battles SET result=$2 WHERE id=$1',[result.battleId,battle]);
       }
       await awardMilestones(sql,actorId);
