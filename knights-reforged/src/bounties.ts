@@ -119,11 +119,13 @@ export async function cancelBounty(sql:Sql,sponsorId:string,bountyId:string,comm
   await sql.query("INSERT INTO bounty_events(id,bounty_id,kind,character_id,amount,command_id,created_at) VALUES($1,$2,'canceled',$3,$4,$5,$6)",[randomUUID(),bountyId,sponsorId,row.amount,commandId,now]);
   return {bountyId,refund:row.amount as number};
 }
-async function claimBlockedReason(sql:Sql,claimantId:string,row:Record<string,any>,now:Date,battleLevels?:[number,number],botTargetsEnabled=false):Promise<string|null>{
+async function claimBlockedReason(sql:Sql,claimantId:string,row:Record<string,any>,now:Date,battleLevels?:[number,number],botTargetsEnabled=false,npcBotTargetsEnabled=false):Promise<string|null>{
   if(row.sponsor_id===claimantId)return 'Sponsors cannot claim their own contracts.';
   if(row.target_id===claimantId)return 'You are this contract’s target.';
   const bot=(await sql.query('SELECT active FROM development_bots WHERE character_id=$1',[row.target_id])).rows[0];
-  if(bot&&(!botTargetsEnabled||!bot.active))return 'Temporary-target bounties require the development bounty flag.';
+  // Only a specifically recorded NPC-sponsored contract permits a registered active bot target without manual bot-bounty permissions.
+  const npcOrigin=!!bot&&npcBotTargetsEnabled&&!!(await sql.query('SELECT 1 FROM npc_sponsored_bounties WHERE bounty_id=$1',[row.id])).rows.length;
+  if(bot&&(!bot.active||(!botTargetsEnabled&&!npcOrigin)))return 'Bot bounties require an active bot and an authorized contract.';
   if((battleLevels&&battleLevels[0]<rule.minimumLevel)||!await qualified(sql,claimantId))return 'Reach level 3 and complete five quests.';
   // A bounty is an independently authorized hunt, never normal matchmaking.
   // Level affects combat power, not contract eligibility.
@@ -131,19 +133,19 @@ async function claimBlockedReason(sql:Sql,claimantId:string,row:Record<string,an
   // Sponsor/self restrictions and authoritative finishing evidence still apply.
   return null;
 }
-export async function bountyHuntAvailability(sql:Sql,claimantId:string,targetId:string,bountyId:string,now:Date,botTargetsEnabled=false){
+export async function bountyHuntAvailability(sql:Sql,claimantId:string,targetId:string,bountyId:string,now:Date,botTargetsEnabled=false,npcBotTargetsEnabled=false){
  const row=(await sql.query("SELECT * FROM bounties WHERE id=$1 AND target_id=$2 AND status='active' AND expires_at>$3",[bountyId,targetId,now])).rows[0];
  if(!row)return {allowed:false,reason:'That exact bounty is no longer active.',bountyId};
- const reason=await claimBlockedReason(sql,claimantId,row,now,undefined,botTargetsEnabled);
+ const reason=await claimBlockedReason(sql,claimantId,row,now,undefined,botTargetsEnabled,npcBotTargetsEnabled);
  return {allowed:!reason,reason,bountyId};
 }
 // Caller holds the established escrow lock and both character locks. A supplied
 // closed/mismatched contract fails; it never falls back to an ordinary attack.
-export async function authorizeBountyHunt(sql:Sql,claimantId:string,targetId:string,bountyId:string,now:Date,botTargetsEnabled=false){
- const eligibility=await bountyHuntAvailability(sql,claimantId,targetId,bountyId,now,botTargetsEnabled);
+export async function authorizeBountyHunt(sql:Sql,claimantId:string,targetId:string,bountyId:string,now:Date,botTargetsEnabled=false,npcBotTargetsEnabled=false){
+ const eligibility=await bountyHuntAvailability(sql,claimantId,targetId,bountyId,now,botTargetsEnabled,npcBotTargetsEnabled);
  if(!eligibility.allowed)throw new GameError('BOUNTY_HUNT_UNAVAILABLE',eligibility.reason!,409);
 }
-export async function claimBounty(sql:Sql,claimantId:string,targetId:string,battleId:string,commandId:string,now:Date,botTargetsEnabled=false){
+export async function claimBounty(sql:Sql,claimantId:string,targetId:string,battleId:string,commandId:string,now:Date,botTargetsEnabled=false,npcBotTargetsEnabled=false){
   const row=(await sql.query("SELECT * FROM bounties WHERE target_id=$1 AND status='active' AND expires_at>$2 FOR UPDATE",[targetId,now])).rows[0];
   if(!row)return null;
   // Prove the finishing action from the server's saved combat result. A prior
@@ -155,7 +157,7 @@ export async function claimBounty(sql:Sql,claimantId:string,targetId:string,batt
     AND result->>'bountyContractId'=$6 AND result->>'commandId'=$7 AND created_at=$8
     AND NOT EXISTS(SELECT 1 FROM bounty_kills k WHERE k.battle_id=battles.id)`,[battleId,claimantId,targetId,row.created_at,row.expires_at,row.id,commandId,now])).rows[0];
   if(!battle||!Number.isInteger(battle.attacker_level)||!Number.isInteger(battle.defender_level)||
-    await claimBlockedReason(sql,claimantId,row,now,[battle.attacker_level,battle.defender_level],botTargetsEnabled))return null;
+    await claimBlockedReason(sql,claimantId,row,now,[battle.attacker_level,battle.defender_level],botTargetsEnabled,npcBotTargetsEnabled))return null;
   const claimed=await sql.query("UPDATE bounties SET status='claimed',claimant_id=$2,battle_id=$3,settled_at=$4 WHERE id=$1 AND status='active' RETURNING id",[row.id,claimantId,battleId,now]);
   if(!claimed.rows.length)return null;
   await creditGold(sql,claimantId,BigInt(row.amount),commandId,'bounty_reward',row.ruleset_id);
@@ -165,14 +167,14 @@ export async function claimBounty(sql:Sql,claimantId:string,targetId:string,batt
 }
 // One visibility rule shared by the board and its lightweight count.
 const visibleBounties=`b.status='active' AND b.expires_at>$1 AND
- ((d.character_id IS NULL AND NOT a.login_disabled) OR ($2 AND d.active))`;
-export async function activeBountyCount(sql:Sql,now:Date,botTargetsEnabled=false){
+ ((d.character_id IS NULL AND NOT a.login_disabled) OR (d.active AND ($2 OR ($3 AND EXISTS(SELECT 1 FROM npc_sponsored_bounties n WHERE n.bounty_id=b.id)))))`;
+export async function activeBountyCount(sql:Sql,now:Date,botTargetsEnabled=false,npcBotTargetsEnabled=false){
  const row=(await sql.query(`SELECT count(*)::int AS count,min(b.expires_at) AS next_expiry
   FROM bounties b JOIN characters c ON c.id=b.target_id JOIN accounts a ON a.id=c.account_id
-  LEFT JOIN development_bots d ON d.character_id=c.id WHERE ${visibleBounties}`,[now,botTargetsEnabled])).rows[0]!;
+  LEFT JOIN development_bots d ON d.character_id=c.id WHERE ${visibleBounties}`,[now,botTargetsEnabled,npcBotTargetsEnabled])).rows[0]!;
  return {count:row.count as number,nextExpiryAt:row.next_expiry?new Date(row.next_expiry).toISOString():null};
 }
-export async function bountyBoard(db:Database,characterId:string,botTargetsEnabled=false){
+export async function bountyBoard(db:Database,characterId:string,botTargetsEnabled=false,npcBotTargetsEnabled=false){
   return transaction(db,async sql=>{
     await lockBountyEscrow(sql);const now=new Date((await sql.query('SELECT clock_timestamp() AS now')).rows[0]!.now);
     await settleExpiredBounties(sql,now);
@@ -181,7 +183,7 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
       (SELECT count(*)::int FROM army_links l WHERE c.id IN (l.low_id,l.high_id) AND l.status='accepted') AS allies,
       EXISTS(SELECT 1 FROM development_bots WHERE character_id=c.id) AS temporary_rival, EXISTS(SELECT 1 FROM npc_sponsored_bounties n WHERE n.bounty_id=b.id) AS npc_sponsored,sponsor.name AS sponsor_name FROM bounties b JOIN characters c ON c.id=b.target_id JOIN characters sponsor ON sponsor.id=b.sponsor_id
       JOIN accounts a ON a.id=c.account_id LEFT JOIN development_bots d ON d.character_id=c.id
-      WHERE ${visibleBounties} ORDER BY b.amount DESC,b.created_at,b.id LIMIT 100`,[now,botTargetsEnabled])).rows;
+      WHERE ${visibleBounties} ORDER BY b.amount DESC,b.created_at,b.id LIMIT 100`,[now,botTargetsEnabled,npcBotTargetsEnabled])).rows;
     const history=(await sql.query(`SELECT b.*,c.name AS target_name,s.name AS sponsor_name,h.name AS claimant_name,f.outcome AS battle_outcome,(d.battle_id IS NOT NULL) AS verified_death,(k.bounty_id IS NOT NULL) AS recorded_claim FROM bounties b
       JOIN characters c ON c.id=b.target_id JOIN characters s ON s.id=b.sponsor_id LEFT JOIN characters h ON h.id=b.claimant_id LEFT JOIN battles f ON f.id=b.battle_id
       LEFT JOIN competitive_deaths d ON d.battle_id=b.battle_id
@@ -194,7 +196,7 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
       // attack that has just reduced the defender to zero Health.
       listings.push({...row,health,armySize:Math.min(row.temporary_rival?10:Number.MAX_SAFE_INTEGER,activeArmy(row.level,row.units,row.allies,row.legacy_army_floor).participants),
         placement:await bountyPlacementStatus(sql,characterId,row.target_id,now),
-        attackBlockedReason:health===0?'Opponent defeated — 0 Health. Wait for their recovery.':null,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now,undefined,botTargetsEnabled)});
+        attackBlockedReason:health===0?'Opponent defeated — 0 Health. Wait for their recovery.':null,claimBlockedReason:await claimBlockedReason(sql,characterId,row,now,undefined,botTargetsEnabled,npcBotTargetsEnabled)});
     }
     const attentionFeed=(await sql.query(`SELECT e.id,e.kind,b.id AS bounty_id,b.target_id,b.sponsor_id,b.claimant_id FROM bounty_events e JOIN bounties b ON b.id=e.bounty_id
       WHERE b.id=ANY($1::uuid[]) AND e.kind IN ('placed','claimed') AND NOT EXISTS(SELECT 1 FROM notification_reads r WHERE r.character_id=$2 AND r.event_id=e.id AND r.kind='bounty_'||e.kind)
@@ -203,8 +205,11 @@ export async function bountyBoard(db:Database,characterId:string,botTargetsEnabl
   });
 }
 
-export const npcSponsorshipPolicy=Object.freeze({id:'npc-sponsorship-1',maximumPopulation:900,intervalMs:3600000,chancePercent:5,maximumActive:2,maximumRollingDay:3,targetCooldownHours:72,minimumGold:250,maximumGold:2000});
+export const previousNpcSponsorshipPolicy=Object.freeze({id:'npc-sponsorship-1',maximumPopulation:900,intervalMs:3600000,chancePercent:5,maximumActive:2,maximumRollingDay:3,targetCooldownHours:72,minimumGold:250,maximumGold:2000});
+// Preserve the existing funded frequency/caps; prefer bots in 98% of selected windows. Limit human targets to one per rolling 30 days globally.
+export const npcSponsorshipPolicy=Object.freeze({...previousNpcSponsorshipPolicy,id:'npc-sponsorship-2',humanTargetPercent:2,humanCooldownDays:30});
 export function npcSponsorshipSelected(window:number){return createHash('sha256').update(npcSponsorshipPolicy.id+':'+window).digest().readUInt32BE(0)%100<npcSponsorshipPolicy.chancePercent;}
+export function npcSponsorshipHumanTarget(window:number){return createHash('sha256').update(npcSponsorshipPolicy.id+':human:'+window).digest().readUInt32BE(0)%100<npcSponsorshipPolicy.humanTargetPercent;}
 // Internal server worker only. No HTTP intent, client capability or public grant.
 export async function runNpcSponsorship(db:Database,enabled:boolean){
  if(!enabled)return {status:'disabled' as const};
