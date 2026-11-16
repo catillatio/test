@@ -8,6 +8,11 @@
       "script": true
     },
     {
+      "file": "tests/achievement-gold-performance.test.ts",
+      "lane": "database",
+      "weight": 3
+    },
+    {
       "file": "tests/alpha-integration.test.ts",
       "lane": "database",
       "weight": 1

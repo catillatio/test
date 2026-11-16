@@ -142,3 +142,15 @@ all33 deployed migrations and XP matcher preserved. A/B/D approved; C conditiona
 Private erasure journal relay and actual protected release-window verification are
 prepared, not installed; Android upload signing environments/keys remain owner-only.
 See [current handoff](../google-play/PLAY_STORE_READINESS.md); no deployment/activation.
+
+## Local request-latency correction — 2026-11-16
+
+The [measured correction](../performance/2026-11-16/README.md) batches exact
+achievement-receipt verification and adds selective lookup index migration 055.
+It starts at release `dbdd96e`, preserving its bounty changes; deployed `59f6f75`
+has the same affected runtime modules. Matched local PostgreSQL/HTTP fixtures
+improve latency without changing rewards or balances. Live SQL/wait measurements
+are pending the one bounded read-only Console packet; no claim of a deployed fix.
+Privacy-history release guards remain effective after 054, and exact head 055 is
+required. Security and recovery-investigation branches remain separate; required
+CI, recovery verification, merge and deployment are owner-gated and not executed.

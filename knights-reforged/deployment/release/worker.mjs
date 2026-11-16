@@ -95,8 +95,9 @@ async function readStatus(url){
    EXISTS(SELECT 1 FROM private_alpha_initializations WHERE id='railway-phase43-private-alpha-v1') AS initialized,
    pg_database_size(current_database())::text AS "sourceBytes",
    (SELECT system_identifier::text FROM pg_control_system()) AS "clusterId"`)).rows[0];
-  row.erasureRecorded=row.schemaHead==='054_account_erasure.sql'&&(await client.query('SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')).rows[0].recorded;
-  row.worldRecorded=row.schemaHead==='054_account_erasure.sql'&&(await client.query('SELECT EXISTS(SELECT 1 FROM abandoned_kingdoms) OR EXISTS(SELECT 1 FROM graveyard_operations) AS recorded')).rows[0].recorded;
+  const privacyInstalled=(await client.query("SELECT EXISTS(SELECT 1 FROM schema_migrations WHERE name='054_account_erasure.sql') AS installed")).rows[0].installed;
+  row.erasureRecorded=privacyInstalled&&(await client.query('SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')).rows[0].recorded;
+  row.worldRecorded=privacyInstalled&&(await client.query('SELECT EXISTS(SELECT 1 FROM abandoned_kingdoms) OR EXISTS(SELECT 1 FROM graveyard_operations) AS recorded')).rows[0].recorded;
   row.population=await populationEvidence(client);const bots=checkPopulationEvidence(row.population);assert.equal(row.bots,bots);assert.ok(row.accounts>=bots+1);assert.equal(row.initialized,true);
   return row;
  }finally{await client.query('ROLLBACK').catch(()=>{});client.release();await db.end();}

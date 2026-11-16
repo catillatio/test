@@ -8,11 +8,31 @@ import {experienceRules,type AchievementDefinition} from './experience-rules.js'
 export async function achievementGoldEnabled(sql:Sql){return !!(await sql.query("SELECT to_regclass('achievement_gold_state') AS t")).rows[0]?.t&&!!(await sql.query('SELECT enabled FROM achievement_gold_state WHERE singleton')).rows[0]?.enabled;}
 export async function reconcileAchievementGold(sql:Sql,id:string){
  const receipts=(await sql.query('SELECT * FROM achievement_gold_receipts WHERE character_id=$1',[id])).rows;
+ if(!receipts.length)return receipts;
+ // Validate every immutable receipt before querying its journals. Keep the
+ // comparison per command; character-wide sums could hide offsetting errors.
  for(const r of receipts){
   const definition=[...experienceRules.achievements,...expansionAchievement.achievements].find(a=>a.id===r.achievement_id);
   assert.ok(definition,'Unknown achievement reward receipt');assert.equal(r.reward_policy_id,achievementGoldPolicy.id,'Unknown achievement Gold policy');assert.equal(BigInt(r.amount),BigInt(achievementGold(definition.rank)),'Achievement reward amount mismatch');
-  const totals=(await sql.query(`SELECT coalesce((SELECT sum(e.amount) FROM economy_transactions t JOIN economy_entries e ON e.transaction_id=t.id WHERE t.command_id=$2 AND t.reason='achievement_gold' AND t.ruleset_id=$3 AND e.character_id=$1),0)::text AS credited,coalesce((SELECT sum(amount) FROM treasury_retained_events WHERE character_id=$1 AND command_id=$2 AND reason='achievement_gold'),0)::text AS retained`,[id,r.command_id,r.reward_policy_id])).rows[0]!;
-  assert.equal(BigInt(totals.credited),BigInt(r.credited_gold),'Achievement wallet receipt mismatch');assert.equal(BigInt(totals.retained),BigInt(r.retained_gold),'Achievement retained receipt mismatch');assert.equal(BigInt(r.amount),BigInt(r.credited_gold)+BigInt(r.retained_gold));
+ }
+ // Aggregate each journal independently before joining: joining raw wallet and
+ // retained rows would multiply split/multi-event payments. No history rows are
+ // loaded into Node, and all existing amount/reason/policy checks remain exact.
+ const totals=(await sql.query(`WITH wallet AS (
+  SELECT t.command_id,sum(e.amount) AS credited FROM economy_entries e
+  JOIN economy_transactions t ON t.id=e.transaction_id
+  WHERE e.character_id=$1 AND t.command_id=ANY($2::uuid[]) AND t.reason='achievement_gold' AND t.ruleset_id=$3
+  GROUP BY t.command_id
+ ), retained AS (
+  SELECT command_id,sum(amount) AS retained FROM treasury_retained_events
+  WHERE character_id=$1 AND command_id=ANY($2::uuid[]) AND reason='achievement_gold' GROUP BY command_id
+ ) SELECT wanted.command_id,coalesce(wallet.credited,0)::text AS credited,coalesce(retained.retained,0)::text AS retained
+ FROM unnest($2::uuid[]) AS wanted(command_id)
+ LEFT JOIN wallet USING(command_id) LEFT JOIN retained USING(command_id)`,[id,receipts.map(r=>r.command_id),achievementGoldPolicy.id])).rows;
+ const byCommand=new Map(totals.map(row=>[row.command_id,row]));
+ for(const r of receipts){
+  const total=byCommand.get(r.command_id);assert.ok(total,'Missing achievement journal totals');
+  assert.equal(BigInt(total.credited),BigInt(r.credited_gold),'Achievement wallet receipt mismatch');assert.equal(BigInt(total.retained),BigInt(r.retained_gold),'Achievement retained receipt mismatch');assert.equal(BigInt(r.amount),BigInt(r.credited_gold)+BigInt(r.retained_gold));
  }
  return receipts;
 }

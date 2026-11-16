@@ -35,7 +35,7 @@ function run(mode,{jobMode='prepare',overrides={}}={}){
  }).join('\n');
  return {...result,stderr,rawStderr:result.stderr,diagnostics,progress,trace:readFileSync(trace,'utf8').trim().split('\n').filter(Boolean)};
 }
-const source=['source-pool','source-connect','source-read-only','source-status','source-world-population','source-rollback','source-release','source-close'];
+const source=['source-pool','source-connect','source-read-only','source-status','source-privacy-schema','source-erasure-status','source-world-population','source-rollback','source-release','source-close'];
 const prerequisites=['restore-pool','restore-connect','temporary-directory','cluster-query','advisory-lock','copy-check','storage-check'];
 const cleanup=['temporary-cleanup','advisory-unlock','restore-release','restore-close'];
 const suffix='. No promotion is authorized; credentials and provider output are withheld.\n';
@@ -206,4 +206,10 @@ test('real local child deadline and spawn error retain safe metadata without dat
  const missing=JSON.parse(messages.at(-1).slice('PRIVATE_VERIFICATION_TOOL: '.length));
  assert.equal(missing.category,'SPAWN_FAILURE');assert.equal(missing.signal,null);assert.equal(missing.exit_code,null);
  assert.doesNotMatch(messages.join('\n'),/nonexistent-|setTimeout|PATH|Private verification tool failed/);
+});
+
+for(const mode of ['later_erasure_missing_guard','later_world_missing_key'])test('schema 055 still detects protected privacy history before backup: '+mode,()=>{
+ const result=run(mode);assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.stderr,'Private release verification failed at read-only-source-status'+suffix);assert.deepEqual(result.trace,source);
+ assert.equal(result.trace.includes('backup'),false);
 });
