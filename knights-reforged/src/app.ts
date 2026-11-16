@@ -168,7 +168,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const playerExperience=state?await experienceView(db,state.id):null;
     if(state&&session?.account_id&&playerExperience?.rewardSummary.newlyPaid.length)state=await getState(db,session.account_id,config);
     const board=data.bountyBoard as {activeCount?:number;nextExpiryAt?:string|null}|undefined;
-    const counts=state&&['battle','bounties','bounty-new','bounty-confirm'].includes(screen)?board?.activeCount!==undefined?{count:board.activeCount,nextExpiryAt:board.nextExpiryAt??null}:await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):{count:0,nextExpiryAt:null};
+    const counts=state&&['battle','bounties','bounty-new','bounty-confirm'].includes(screen)?board?.activeCount!==undefined?{count:board.activeCount,nextExpiryAt:board.nextExpiryAt??null}:await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled,config.developmentBotsEnabled):{count:0,nextExpiryAt:null};
     const notificationFeed=[...((data.feed as {entries:any[]}|undefined)?.entries??[]),...((data.bountyBoard as {attentionFeed:any[]}|undefined)?.attentionFeed??[])];
     for(const tale of (data.tales as {entries:any[]}|undefined)?.entries??[])notificationFeed.push({id:tale.id,kind:'battle',data:{defenderId:tale.defenderId}});
     if(screen==='army'&&query.tab==='dashboard')for(const event of (data.armyEvents as any[]|undefined)??[])
@@ -351,7 +351,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const accountId=request.realmSession!.account_id!;
     const character=(await db.query('SELECT id FROM characters WHERE account_id=$1',[accountId])).rows[0];
     if(!character)throw new GameError('CHARACTER_NOT_FOUND','Your character was not found.',404);
-    const board=await loadBountyBoard(db,character.id,config.developmentBotBountiesEnabled);
+    const board=await loadBountyBoard(db,character.id,config.developmentBotBountiesEnabled,config.developmentBotsEnabled);
     const state=await getState(db,accountId,config);
     return render(request,reply,'bounties',{title:'Bounty List',state,bountyBoard:board});
   });
@@ -363,7 +363,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const opponentId=battle.attacker_id===state.id?battle.defender_id:battle.attacker_id;
     let combatTarget;
     try{
-      const hunt=battle.attacker_id===state.id&&typeof battle.result.bountyHuntId==='string'?await bountyHuntAvailability(db,state.id,opponentId,battle.result.bountyHuntId,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):null;
+      const hunt=battle.attacker_id===state.id&&typeof battle.result.bountyHuntId==='string'?await bountyHuntAvailability(db,state.id,opponentId,battle.result.bountyHuntId,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled,config.developmentBotsEnabled):null;
       combatTarget={...attackAvailability(state,await publicProfile(db,opponentId,config),config.developmentBotsEnabled,!!hunt?.allowed),...(hunt?.allowed?{bountyId:hunt.bountyId}:{})};
     }
     catch(error){if(!(error instanceof GameError)||error.code!=='CHARACTER_NOT_FOUND')throw error;combatTarget=opponentUnavailable(opponentId);}
@@ -427,7 +427,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.get('/api/v1/me', { preHandler: requireAccount }, async request => {
     const state=await getState(db,request.realmSession!.account_id!,config);
-    const counts=(request.query as {bounties?:string}).bounties==='1'?await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):undefined;
+    const counts=(request.query as {bounties?:string}).bounties==='1'?await activeBountyCount(db,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled,config.developmentBotsEnabled):undefined;
     return {state,sound:await soundPreferences(db,state.id),csrfToken:request.realmSession!.csrf_token,rulesetId:alpha.id,...(counts?{bounties:counts}:{})};
   });
   app.get('/api/v1/opponents', { preHandler: requireAccount }, async request => {
@@ -452,7 +452,7 @@ export async function createApp(options: { db: Database; config: Config; logger?
     const state=await getState(db,request.realmSession!.account_id!,config);
     const requested=(request.query as {bountyId?:unknown}).bountyId;
     if(requested!==undefined&&!uuid.safeParse(requested).success)throw new GameError('BOUNTY_HUNT_UNAVAILABLE','Invalid bounty contract.',409);
-    const hunt=typeof requested==='string'?await bountyHuntAvailability(db,state.id,id,requested,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled):null;
+    const hunt=typeof requested==='string'?await bountyHuntAvailability(db,state.id,id,requested,new Date(state.serverTime),config.developmentBotsEnabled&&config.developmentBotBountiesEnabled,config.developmentBotsEnabled):null;
     const combat=attackAvailability(state,await publicProfile(db,id,config),config.developmentBotsEnabled,!!hunt?.allowed);
     return {combatTarget:hunt&&!hunt.allowed?{...combat,allowed:false,eligible:false,reason:hunt.reason}:{...combat,...(hunt?{bountyId:hunt.bountyId}:{})},state};
   });
