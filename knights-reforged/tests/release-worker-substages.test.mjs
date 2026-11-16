@@ -59,7 +59,7 @@ for(const [mode,substage,last,tail]of[
 });
 
 const successTrace=[...source,...prerequisites,'backup','archive-list','plain-digest','ephemeral-key','ephemeral-recipient','encrypt','cipher-digest',
- 'encrypted-upload','conditional-upload','encrypted-download','decrypt','restored-digest','archive-list','create-copy','restore-copy','copy-migration-check','copy-pool','world-population-fence','copy-close','report-upload',...cleanup];
+ 'encrypted-upload','conditional-upload','encrypted-download','decrypt','restored-digest','archive-list','temporary-unlink:realm.dump','temporary-unlink:realm.dump.age','temporary-unlink:downloaded.dump.age','create-copy','restore-copy','temporary-unlink:restored.dump','copy-migration-check','copy-pool','world-population-fence','copy-close','report-upload',...cleanup];
 for(const mode of ['success','one_byte_above_limit'])test('successful preparation retains the complete backup and restoration gates: '+mode,()=>{
  const result=run(mode);assert.equal(result.status,0);assert.equal(result.stderr,'');
  assert.equal(result.stdout,'Private release verification completed. No source database was changed.\n');assert.deepEqual(result.trace,successTrace);
@@ -206,4 +206,25 @@ test('real local child deadline and spawn error retain safe metadata without dat
  const missing=JSON.parse(messages.at(-1).slice('PRIVATE_VERIFICATION_TOOL: '.length));
  assert.equal(missing.category,'SPAWN_FAILURE');assert.equal(missing.signal,null);assert.equal(missing.exit_code,null);
  assert.doesNotMatch(messages.join('\n'),/nonexistent-|setTimeout|PATH|Private verification tool failed/);
+});
+
+// The real worker runs through mocked external boundaries. Cleanup is never a
+// substitute for recovery verification, and cleanup failure cannot promote.
+test('verified temporary archive cleanup cannot skip backup or preservation gates',()=>{
+ const result=run('success');assert.equal(result.status,0);const t=result.trace;
+ assert.ok(t.indexOf('temporary-unlink:realm.dump')>t.indexOf('restored-digest'));
+ assert.ok(t.indexOf('temporary-unlink:downloaded.dump.age')<t.indexOf('create-copy'));
+ assert.ok(t.indexOf('temporary-unlink:restored.dump')>t.indexOf('restore-copy'));
+ assert.ok(t.indexOf('temporary-unlink:restored.dump')<t.indexOf('copy-migration-check'));
+ assert.ok(t.indexOf('copy-migration-check')<t.indexOf('report-upload'));
+ assert.deepEqual(t.slice(-4),cleanup);
+});
+for(const [mode,gate,blocked]of [
+ ['transfer_cleanup_failure','verified-transfer-temporary-cleanup','create-copy'],
+ ['restored_cleanup_failure','restored-archive-temporary-cleanup','copy-migration-check']
+])test('temporary cleanup failure stops before dependent verification: '+mode,()=>{
+ const result=run(mode);assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.stderr,'Private release verification failed at '+gate+suffix);
+ assert.ok(!result.trace.includes(blocked)&&!result.trace.includes('report-upload'));
+ assert.deepEqual(result.trace.slice(-4),cleanup);
 });
