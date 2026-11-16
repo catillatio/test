@@ -228,15 +228,38 @@ export async function runNpcSponsorship(db:Database,enabled:boolean){
   if(!sponsor)return finish('no-funded-sponsor');
   const pending=!!(await sql.query("SELECT to_regclass('account_deletion_requests') AS t")).rows[0]?.t;
   const suppressed=!!(await sql.query("SELECT to_regclass('account_erasures') AS t")).rows[0]?.t;
-  const target=(await sql.query(`SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id WHERE NOT a.login_disabled AND a.id<>$1 AND c.attained_level>=$2 AND NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=c.id) AND (SELECT coalesce(sum(completions),0) FROM character_quest_progress WHERE character_id=c.id)>=$3 AND EXISTS(SELECT 1 FROM quest_runs q WHERE q.character_id=c.id AND q.created_at>$4) AND NOT EXISTS(SELECT 1 FROM army_links l WHERE l.low_id=least(c.id,$5::uuid) AND l.high_id=greatest(c.id,$5::uuid) AND l.status='accepted') AND NOT EXISTS(SELECT 1 FROM npc_sponsored_bounties n WHERE n.target_id=c.id AND n.created_at>$6) AND NOT EXISTS(SELECT 1 FROM bounties b WHERE b.target_id=c.id AND b.status='active' AND b.expires_at>$7) AND NOT EXISTS(SELECT 1 FROM npc_sponsorship_holds h WHERE h.character_id=c.id AND h.until_at>$7) ${pending?"AND NOT EXISTS(SELECT 1 FROM account_deletion_requests r WHERE r.account_id=a.id AND r.status='pending')":''} ${suppressed?'AND NOT EXISTS(SELECT 1 FROM account_erasures e WHERE e.character_id=c.id)':''} ORDER BY md5(c.id::text||$8),c.id LIMIT 1`,[sponsor.account_id,rule.minimumLevel,rule.minimumQuests,new Date(+now-7*86400000),sponsor.id,new Date(+now-72*3600000),now,String(window)])).rows[0];
+  // Count the historical v1 human postings too. If the bot pool is exhausted,
+  // never silently fall back to a human.
+  const recentHuman=(await sql.query(`SELECT 1 FROM npc_sponsored_bounties n
+    WHERE n.created_at>$1 AND NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=n.target_id) LIMIT 1`,
+    [new Date(+now-npcSponsorshipPolicy.humanCooldownDays*86400000)])).rows.length>0;
+  const humanTarget=npcSponsorshipHumanTarget(window)&&!recentHuman;
+  const target=(await sql.query(`SELECT c.id FROM characters c JOIN accounts a ON a.id=c.account_id
+    WHERE a.id<>$1 AND c.id<>$5::uuid AND
+      (($9::boolean AND NOT a.login_disabled AND c.attained_level>=$2
+        AND NOT EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=c.id)
+        AND (SELECT coalesce(sum(completions),0) FROM character_quest_progress WHERE character_id=c.id)>=$3
+        AND EXISTS(SELECT 1 FROM quest_runs q WHERE q.character_id=c.id AND q.created_at>$4))
+       OR (NOT $9::boolean AND a.login_disabled
+        AND EXISTS(SELECT 1 FROM development_bots d WHERE d.character_id=c.id AND d.active)))
+      AND NOT EXISTS(SELECT 1 FROM army_links l WHERE l.low_id=least(c.id,$5::uuid) AND l.high_id=greatest(c.id,$5::uuid) AND l.status='accepted')
+      AND NOT EXISTS(SELECT 1 FROM npc_sponsored_bounties n WHERE n.target_id=c.id AND n.created_at>$6)
+      AND NOT EXISTS(SELECT 1 FROM bounties b WHERE b.target_id=c.id AND b.status='active' AND b.expires_at>$7)
+      AND NOT EXISTS(SELECT 1 FROM npc_sponsorship_holds h WHERE h.character_id=c.id AND h.until_at>$7)
+      ${pending?"AND NOT EXISTS(SELECT 1 FROM account_deletion_requests r WHERE r.account_id=a.id AND r.status='pending')":''}
+      ${suppressed?'AND NOT EXISTS(SELECT 1 FROM account_erasures e WHERE e.character_id=c.id)':''}
+    ORDER BY md5(c.id::text||$8),c.id LIMIT 1`,
+    [sponsor.account_id,rule.minimumLevel,rule.minimumQuests,new Date(+now-7*86400000),sponsor.id,new Date(+now-npcSponsorshipPolicy.targetCooldownHours*3600000),now,String(window),humanTarget])).rows[0];
   if(!target)return finish('no-eligible-target');
   await settleExpiredBounties(sql,now,target.id);
   await sql.query('SELECT id FROM characters WHERE id=ANY($1::uuid[]) ORDER BY id FOR UPDATE',[[sponsor.id,target.id]]);
   // Recheck every effective restriction after the sorted identity locks.
   const active=(await sql.query('SELECT d.active,a.login_disabled FROM development_bots d JOIN characters c ON c.id=d.character_id JOIN accounts a ON a.id=c.account_id WHERE c.id=$1',[sponsor.id])).rows[0];
-  if(!active?.active||!active.login_disabled||!await qualified(sql,target.id)||await allies(sql,sponsor.id,target.id))return finish('ineligible');
+  if(!active?.active||!active.login_disabled||await allies(sql,sponsor.id,target.id))return finish('ineligible');
   if((await sql.query('SELECT 1 FROM npc_sponsorship_holds WHERE character_id=ANY($1::uuid[]) AND until_at>$2',[[sponsor.id,target.id],now])).rows.length)return finish('held');
-  const targetAccount=(await sql.query('SELECT a.id,a.login_disabled FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.id=$1',[target.id])).rows[0];if(!targetAccount||targetAccount.login_disabled)return finish('ineligible');
+  const targetAccount=(await sql.query('SELECT a.id,a.login_disabled FROM characters c JOIN accounts a ON a.id=c.account_id WHERE c.id=$1',[target.id])).rows[0];
+  const targetBot=(await sql.query('SELECT active FROM development_bots WHERE character_id=$1',[target.id])).rows[0];
+  if(!targetAccount||(humanTarget?(targetAccount.login_disabled||!!targetBot||!await qualified(sql,target.id)):(!targetAccount.login_disabled||!targetBot?.active)))return finish('ineligible');
   if(pending&&(await sql.query("SELECT 1 FROM account_deletion_requests WHERE account_id=$1 AND status='pending'",[targetAccount.id])).rowCount)return finish('ineligible');
   if(suppressed&&(await sql.query('SELECT 1 FROM account_erasures WHERE character_id=$1',[target.id])).rowCount)return finish('ineligible');
   requirePlacement(await bountyPlacementStatus(sql,sponsor.id,target.id,now));
