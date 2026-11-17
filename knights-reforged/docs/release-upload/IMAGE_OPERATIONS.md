@@ -1,13 +1,22 @@
 # Owner procedure: private immutable-image releases
 
+> **Verified live operation (2026-11-17 UTC):** The protected
+> [image preparation](https://github.com/catillatio/test/actions/runs/44012465228)
+> and [image release](https://github.com/catillatio/test/actions/runs/44016282262) both succeeded at source `c8222ea`.
+> Railway runs the exact digest-pinned image from that preparation. The first
+> registry transition is complete; **do not repeat first-install credential
+> operations**. For each future source release, use fresh exact-head CI,
+> image preparation and a separately authorized protected promotion. See
+> [the production evidence record](PRODUCTION_RELEASE_20261117.md).
+
 This procedure separates completed owner setup from future release authorization.
 The owner has approved the alternate existing registry, verified it is Private and
 confirmed `catillatio/test` already has Admin Actions access (which includes Write).
-The image transport remains inactive. Do not dispatch a protected
-workflow, publish a game image or change production configuration as part of PR
+The image transport is now active. Do not dispatch protected workflows,
+publish an image or change production configuration merely as part of PR
 review. No local CLI/software or Windows access is required.
 
-## One-time prerequisites, after review and separate authorization
+## One-time prerequisites (historical first transition; do not repeat)
 
 1. Merge the reviewed implementation only after exact-head CI and owner approval;
    wait for successful exact-production-commit push CI. Preserve existing required
@@ -147,8 +156,8 @@ never requires access to the owner's computer.
 ## First-transition evidence and failure boundary
 
 See [contract and evidence limits](REGISTRY_TRANSITION.md). The combined credential
-transition is implemented and fixture-tested, but has not been executed against
-production or a new billable canary. Unknown/redacted staged shapes fail closed.
+transition was originally fixture-tested and has since completed through the
+protected production flow; the earlier limitation no longer describes live state. Unknown/redacted staged shapes fail closed.
 The typed source update is now supported by the completed isolated
 configuration-only canary. Its broader non-fork environment scope is guarded by
 complete single-environment enumeration on every read. See
