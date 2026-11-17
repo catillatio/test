@@ -88,7 +88,9 @@ test('actual PostgreSQL preservation snapshots retain every full row across migr
    const r=await run('success');assert.equal(r.status,0,r.stderr);const report=JSON.parse(r.stdout);
    assert.equal(report.passed,true);assert.equal(report.existingTablesVerified,11);assert.equal(report.migrationReplay,'unchanged');assert.equal(report.liveDatabaseConnected,false);
    assert.equal(r.operations.filter(x=>x.operation==='commit').length,3);
-   const queries=r.operations.filter(x=>x.operation==='declare').map(x=>x.sql);
+   assert.equal(r.operations.filter(x=>x.operation==='scan-plan').length,3);assert.ok(r.operations.filter(x=>x.operation==='plan-reset').every(x=>x.value==='on'),'Planner hint must reset on commit/rollback');
+   const queries=r.operations.filter(x=>x.operation==='stream').map(x=>x.sql);
+   assert.equal(r.operations.filter(x=>x.operation==='stream-end').length,33);assert.ok(r.operations.filter(x=>x.operation==='stream-end').every(x=>x.retainedRows===0),'The actual pg driver never accumulates streamed rows');
    assert.equal(queries.filter(q=>q.includes('FROM public."battles" t ORDER BY t."id"')).length,3);
    assert.equal(queries.filter(q=>q.includes('FROM public."composite_history" t ORDER BY t."zone""code",t."sequence"')).length,3);
    assert.equal(queries.filter(q=>q.endsWith('FROM public."included_history" t ORDER BY t."id"')).length,3,'INCLUDE columns are not primary-key ordering columns');
@@ -105,8 +107,8 @@ test('actual PostgreSQL preservation snapshots retain every full row across migr
   });
   for(const mode of ['physical-reorder','add-primary','replace-primary','new-table'])await t.test(mode+' preserves the baseline ordering across all snapshots',async()=>{
    const r=await run(mode);assert.equal(r.status,0,r.stderr);assert.equal(JSON.parse(r.stdout).migrationReplay,'unchanged');
-   if(mode==='add-primary')assert.equal(r.operations.filter(x=>x.operation==='declare'&&x.sql.includes('FROM public."key_later" t ORDER BY row_to_json(t)::text')).length,3);
-   if(mode==='replace-primary')assert.equal(r.operations.filter(x=>x.operation==='declare'&&x.sql.includes('FROM public."numeric_keys" t ORDER BY t."id"')).length,3);
+   if(mode==='add-primary')assert.equal(r.operations.filter(x=>x.operation==='stream'&&x.sql.includes('FROM public."key_later" t ORDER BY row_to_json(t)::text')).length,3);
+   if(mode==='replace-primary')assert.equal(r.operations.filter(x=>x.operation==='stream'&&x.sql.includes('FROM public."numeric_keys" t ORDER BY t."id"')).length,3);
   });
   await t.test('dropping a baseline ordering column fails and rolls back the snapshot',async()=>{
    const r=await run('drop-ordered-column');assert.equal(r.status,1);assert.equal(r.stdout,'');

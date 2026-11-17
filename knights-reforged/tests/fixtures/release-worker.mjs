@@ -23,7 +23,7 @@ for(const [module,names]of[[http,['request','get']],[https,['request','get']],[n
  [child,['spawn','exec','execFile','fork','spawnSync','execSync','execFileSync']],[workers,['Worker']]])for(const name of names)module[name]=block;
 syncBuiltinESMExports();globalThis.fetch=block;
 
-const status={accounts:452,bots:450,active_bots:450,schemaHead:'054_account_erasure.sql',initialized:true,sourceBytes:'2000000',clusterId:'1234567890'};
+const status={accounts:452,bots:450,active_bots:450,schemaHead:request.mode==='verify'||mode.startsWith('later_')?'055_achievement_gold_lookup.sql':'054_account_erasure.sql',initialized:true,sourceBytes:'2000000',clusterId:'1234567890'};
 const plain={sha256:'1'.repeat(64),bytes:200000},cipher={sha256:'2'.repeat(64),bytes:200500};
 const temporary='/offline-worker-only/kingdom-release-fixture';
 const source={
@@ -31,8 +31,9 @@ const source={
   async query(sql){
    if(sql==='BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY'){record('source-read-only');return {rows:[]};}
    if(sql==='ROLLBACK'){record('source-rollback');return {rows:[]};}
-   if(sql==='SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')return {rows:[{recorded:false}]};
-   if(sql==='SELECT EXISTS(SELECT 1 FROM abandoned_kingdoms) OR EXISTS(SELECT 1 FROM graveyard_operations) AS recorded'){record('source-world-population');return {rows:[{recorded:mode.startsWith('world_')}]};}
+   if(sql==="SELECT EXISTS(SELECT 1 FROM schema_migrations WHERE name='054_account_erasure.sql') AS installed"){record('source-privacy-schema');return {rows:[{installed:true}]};}
+   if(sql==='SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded'){record('source-erasure-status');return {rows:[{recorded:mode==='later_erasure_missing_guard'}]};}
+   if(sql==='SELECT EXISTS(SELECT 1 FROM abandoned_kingdoms) OR EXISTS(SELECT 1 FROM graveyard_operations) AS recorded'){record('source-world-population');return {rows:[{recorded:mode.startsWith('world_')||mode==='later_world_missing_key'}]};}
    if(sql.includes('FROM accounts')&&sql.includes('pg_control_system()')){record('source-status');return {rows:[status]};}
    return block();
   },release(){record('source-release');}
@@ -128,7 +129,7 @@ const fixture={
    assert.deepEqual(args,['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+request.copy,temporary+'/restored.dump']);
   }else if(executable===process.execPath&&args[0]==='deployment/check-upgrade.mjs'){
    record('copy-migration-check');assert.equal(options.env.KINGDOM_RESTORE_TEST_DATABASE,request.copy);
-   if(['migration_failure','migration_progress_failure'].includes(mode))failed=true;
+   if(['migration_failure','migration_progress_failure','migration_table_progress_failure'].includes(mode))failed=true;
    if(mode==='migration_spawn_throw')return fail();
    output=JSON.stringify({passed:mode!=='invalid_migration_report',accounts:452,bots:450,existingTablesVerified:64,migrationReplay:'unchanged',liveDatabaseConnected:false,restoredDatabase:request.copy,restoredHost:request.restoreHost,sha256:'3'.repeat(64)});
   }else return block();
@@ -147,7 +148,7 @@ const fixture={
     task.stdout.end(output);task.stderr.end(secret);task.emit('close',null,mode==='migration_signal'?'SIGKILL':secret);return;
    }
    if(mode==='backup_progress_spoof'&&!upgrade)for(const line of progressLines)task.stderr.write(line);
-   if(upgrade&&['migration_progress_valid','migration_progress_spoof','migration_progress_failure'].includes(mode)){
+   if(upgrade&&['migration_progress_valid','migration_progress_spoof','migration_progress_failure','migration_table_progress','migration_table_progress_failure'].includes(mode)){
     if(mode==='migration_progress_spoof'){
      for(const record of [null,[],{phase:'private-'+secret,event:'start',elapsed_ms:0},
       {phase:'population',event:'start',elapsed_ms:0,secret},
@@ -159,13 +160,20 @@ const fixture={
      task.stderr.write('UPGRADE_PROGRESS: '+secret.repeat(30)+'\n');
      task.stderr.write('provider '+progressLines[0]);
     }
-    const limit=mode==='migration_progress_failure'?3:progressLines.length;
+    if(mode==='migration_table_progress')task.stderr.write('UPGRADE_TABLE: '+JSON.stringify({phase:'snapshot-before',table:'battles',rows:1,duration_ms:0,elapsed_ms:0})+'\n');
+    const limit=['migration_progress_failure','migration_table_progress_failure'].includes(mode)?3:progressLines.length;
     for(let n=0;n<limit;n++){
      if(mode==='migration_progress_spoof'){
       // Chunked lines, duplicate events and backwards elapsed values are all bounded.
       const line=progressLines[n];task.stderr.write(line.slice(0,11));task.stderr.write(line.slice(11));
       task.stderr.write(line);if(n===1)task.stderr.write('UPGRADE_PROGRESS: '+JSON.stringify({phase:'snapshot-before',event:'start',elapsed_ms:0})+'\n');
      }else task.stderr.write(progressLines[n]);
+     if(mode.startsWith('migration_table_progress')&&n%2===0&&['snapshot-before','snapshot-after','snapshot-replay'].includes(phases[n/2])){
+      const event={phase:phases[n/2],table:'battles',rows:1002,duration_ms:1,elapsed_ms:n};
+      for(const invalid of [null,[],{...event,secret},{...event,table:secret},{...event,rows:-1},{...event,rows:.5},{...event,elapsed_ms:600001},{...event,duration_ms:n+1},{...event,phase:'migrate'}])task.stderr.write('UPGRADE_TABLE: '+JSON.stringify(invalid)+'\n');
+      const line='UPGRADE_TABLE: '+JSON.stringify(event)+'\n';task.stderr.write(line.slice(0,13));task.stderr.write(line.slice(13));task.stderr.write(line);
+      task.stderr.write('UPGRADE_TABLE: '+secret.repeat(30)+'\n');
+     }
     }
     if(mode==='migration_progress_spoof')task.stderr.write(progressLines.join(''));
    }

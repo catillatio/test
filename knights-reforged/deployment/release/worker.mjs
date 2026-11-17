@@ -42,9 +42,23 @@ function execute(executable,args,{env=process.env,input,timeout=600000,progress=
   // Own the same SIGTERM deadline so its cause survives the child's close event.
   // This never changes the ceiling, retries a tool, or certifies partial output.
   timer=setTimeout(()=>{if(settled)return;firstFailure??='TIMEOUT';try{child.kill('SIGTERM');}catch{}},timeout);
-  let line='',discarding=false,nextProgress=0,lastProgress=-1;const seen=new Set();
+  let line='',discarding=false,nextProgress=0,lastProgress=-1;const seen=new Set(),seenTables=new Set();
   const acceptProgress=text=>{
-   if(!progress||settled||firstFailure||!text.startsWith('UPGRADE_PROGRESS: '))return;
+   if(!progress||settled||firstFailure)return;
+   if(text.startsWith('UPGRADE_TABLE: ')){
+    try{
+     const event=JSON.parse(text.slice('UPGRADE_TABLE: '.length));
+     if(!event||Array.isArray(event)||Object.keys(event).sort().join(',')!=='duration_ms,elapsed_ms,phase,rows,table')return;
+     if(!['snapshot-before','snapshot-after','snapshot-replay'].includes(event.phase)||nextProgress%2!==1||event.phase!==upgradePhases[Math.floor(nextProgress/2)])return;
+     if(typeof event.table!=='string'||!/^[a-z_]{1,63}$/.test(event.table))return;
+     if(![event.duration_ms,event.elapsed_ms,event.rows].every(Number.isSafeInteger)||event.rows<0||event.duration_ms<0||event.duration_ms>event.elapsed_ms||event.elapsed_ms<lastProgress||event.elapsed_ms>timeout)return;
+     const key=event.phase+':'+event.table;if(seenTables.has(key)||seenTables.size>=4096)return;
+     seenTables.add(key);lastProgress=event.elapsed_ms;
+     console.error('UPGRADE_TABLE: '+JSON.stringify({phase:event.phase,table:event.table,rows:event.rows,duration_ms:event.duration_ms,elapsed_ms:event.elapsed_ms}));
+    }catch{} // Only validated aggregate metadata leaves the private child.
+    return;
+   }
+   if(!text.startsWith('UPGRADE_PROGRESS: '))return;
    try{
     const event=JSON.parse(text.slice('UPGRADE_PROGRESS: '.length));
     if(!event||Array.isArray(event)||Object.keys(event).sort().join(',')!=='elapsed_ms,event,phase')return;
@@ -95,8 +109,9 @@ async function readStatus(url){
    EXISTS(SELECT 1 FROM private_alpha_initializations WHERE id='railway-phase43-private-alpha-v1') AS initialized,
    pg_database_size(current_database())::text AS "sourceBytes",
    (SELECT system_identifier::text FROM pg_control_system()) AS "clusterId"`)).rows[0];
-  row.erasureRecorded=row.schemaHead==='054_account_erasure.sql'&&(await client.query('SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')).rows[0].recorded;
-  row.worldRecorded=row.schemaHead==='054_account_erasure.sql'&&(await client.query('SELECT EXISTS(SELECT 1 FROM abandoned_kingdoms) OR EXISTS(SELECT 1 FROM graveyard_operations) AS recorded')).rows[0].recorded;
+  const privacyInstalled=(await client.query("SELECT EXISTS(SELECT 1 FROM schema_migrations WHERE name='054_account_erasure.sql') AS installed")).rows[0].installed;
+  row.erasureRecorded=privacyInstalled&&(await client.query('SELECT EXISTS(SELECT 1 FROM account_erasures) AS recorded')).rows[0].recorded;
+  row.worldRecorded=privacyInstalled&&(await client.query('SELECT EXISTS(SELECT 1 FROM abandoned_kingdoms) OR EXISTS(SELECT 1 FROM graveyard_operations) AS recorded')).rows[0].recorded;
   row.population=await populationEvidence(client);const bots=checkPopulationEvidence(row.population);assert.equal(row.bots,bots);assert.ok(row.accounts>=bots+1);assert.equal(row.initialized,true);
   return row;
  }finally{await client.query('ROLLBACK').catch(()=>{});client.release();await db.end();}

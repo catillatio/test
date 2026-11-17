@@ -20,12 +20,20 @@ globalThis.upgradePostgresFixture={
   pool=new pg.Pool({connectionString:local.href,max:2,connectionTimeoutMillis:5000,statement_timeout:10000});
   return {query:(...args)=>pool.query(...args),async connect(){
    const client=await pool.connect();
-   return {async query(sql,...args){
+   return {connectionParameters:client.connectionParameters,query(sql,...args){
+    if(typeof sql!=='string'){
+     trace({operation:'stream',sql:sql.text});assert.equal(sql.callback,undefined);assert.ok(sql.listenerCount('row')>0);
+     sql.once('end',result=>trace({operation:'stream-end',retainedRows:result.rows.length,rowCount:result.rowCount}));
+     return client.query(sql,...args);
+    }
+    return (async()=>{
     const result=await client.query(sql,...args);
     if(sql.startsWith('BEGIN '))trace({operation:'begin'});
-    if(sql==='COMMIT'||sql==='ROLLBACK')trace({operation:sql.toLowerCase()});
+    if(sql==='SET LOCAL enable_indexscan=off')trace({operation:'scan-plan'});
+    if(sql==='COMMIT'||sql==='ROLLBACK'){trace({operation:sql.toLowerCase()});trace({operation:'plan-reset',value:(await client.query('SHOW enable_indexscan')).rows[0].enable_indexscan});}
     if(sql.startsWith('DECLARE preservation_rows '))trace({operation:'declare',sql});
     return result;
+    })();
    },release(){trace({operation:'release'});client.release();}};
   },async end(){trace({operation:'end'});await pool.end();}};
  },async populationEvidence(){return null;},
