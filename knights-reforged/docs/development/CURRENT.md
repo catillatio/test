@@ -1,5 +1,14 @@
 # Kingdoms Restored — current authority index
 
+### Pending reviewed security integration — 2026-11-17 UTC
+
+The [two confirmed Medium fixes](../security/2026-11-16-practical-review.md)
+for shared authentication attempts (AUTH-01) and recovery-function permissions
+(PG-01) have been applied to the current source for exact-head CI review.
+The original local review was at commit `6c96115a42336573737edaa925e96b327354c929`.
+This candidate is **not a deployed security release**; protected recovery and
+production promotion remain separately gated.
+
 ## Verified production release — 2026-11-17 UTC
 
 The latest verified live source is `c8222eaac6ee7a2b6392279b13415fadda3d788e`

@@ -1,3 +1,4 @@
+import {assertApplicationPrivileges,reconcileApplicationPrivileges} from './application-privileges.js';
 import {graveyardWorld} from './privacy/graveyard-roster.js';
 import {npcSponsorshipPolicy,previousNpcSponsorshipPolicy} from './bounties.js';
 import {npcArmyPolicy,previousNpcArmyPolicy} from './npc-army.js';
@@ -40,6 +41,7 @@ const normalize=(value:unknown):unknown=>Array.isArray(value)?value.map(normaliz
 // Read-only validation at both migration and runtime startup. Skipping migration
 // must not let edited JSON silently redefine an already installed ruleset ID.
 export async function assertInstalledRulesets(sql:Sql) {
+  await assertApplicationPrivileges(sql);
   await verifyActiveCoordinatedArtwork();
   await verifyEquipmentArtwork();
   await verifyPresentationAssets();
@@ -79,6 +81,7 @@ export async function migrate(db: Database, options: { through?: string } = {}) 
     for (const definition of definitions) {
       await client.query('INSERT INTO rulesets(id,definition) VALUES($1,$2) ON CONFLICT DO NOTHING', [definition.id, definition]);
     }
+    await reconcileApplicationPrivileges(client);
     await assertInstalledRulesets(client);
     if((await client.query("SELECT name FROM schema_migrations WHERE name='006_fantasy_progression.sql'")).rows.length) {
       await reconcileLevelMilestones(client);
