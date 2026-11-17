@@ -5,6 +5,7 @@ import {checkPopulationEvidence} from './release/protocol.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {performance} from 'node:perf_hooks';
+import pg from 'pg';
 import {createDatabase} from '../dist/db.js';
 import {migrate} from '../dist/migrate.js';
 import {requireRailwayOperator} from '../dist/operator.js';
@@ -46,14 +47,51 @@ const snapshotTablesSql=`SELECT t.table_name,p.key_columns
  ) p ON p.nspname=t.table_schema AND p.relname=t.table_name
  WHERE t.table_schema='public' AND t.table_type='BASE TABLE' ORDER BY t.table_name`;
 const quoteIdentifier=value=>'"'+value.replaceAll('"','""')+'"';
-async function snapshot(){
+// A callback-free Query emits one row at a time without retaining result.rows.
+// Unlike a DECLARE/FETCH cursor, this consumes one complete ordered SELECT and
+// does not pay a database round trip for each 500 row digests.
+async function streamRows(sql,text,consume){
+ assert.ok(!sql.connectionParameters?.query_timeout,'Client query timeouts cannot accumulate preservation rows');
+ await new Promise((resolve,reject)=>{
+  const query=new pg.Query({text});let count=0,firstError,settled=false;
+  const fail=error=>{if(!settled){settled=true;reject(error);}};
+  query.on('row',row=>{
+   count++;
+   // pg emits row outside its parser catch. Drain a failed query before the
+   // existing snapshot catch queues ROLLBACK; never throw out of this listener.
+   if(!firstError)try{assert.ok(Number.isSafeInteger(count));consume(row);}catch(error){firstError=error;}
+  });
+  query.on('error',fail);
+  query.once('end',result=>{
+   if(settled)return;
+   try{
+    if(firstError)throw firstError;
+    assert.ok(result&&!Array.isArray(result)&&result.command==='SELECT','Invalid preservation stream completion');
+    assert.ok(Number.isSafeInteger(result.rowCount)&&result.rowCount>=0&&result.rowCount===count,'Incomplete preservation stream');
+    assert.ok(Array.isArray(result.rows)&&result.rows.length===0,'Preservation stream retained rows');
+    settled=true;resolve();
+   }catch(error){fail(error);}
+  });
+  try{const submitted=sql.query(query);if(submitted?.then)submitted.catch(fail);}catch(error){fail(error);}
+ });
+}
+function tableProgress(phase,table,rows,started){
+ const now=performance.now();progressElapsed=Math.max(progressElapsed,Math.floor(now-progressStarted));
+ console.error('UPGRADE_TABLE: '+JSON.stringify({phase,table,rows,duration_ms:Math.max(0,Math.floor(now-started)),elapsed_ms:progressElapsed}));
+}
+async function snapshot(phase){
  const sql=await db.connect();
  try{
   await sql.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
+  // Every row is required. Random PK heap walks repeatedly dirty/evict freshly
+  // restored pages while setting commit hint bits. Scan the heap once and let
+  // PostgreSQL sort the projected key/digest, retaining the same total order.
+  await sql.query('SET LOCAL enable_indexscan=off');
   const tables=(await sql.query(snapshotTablesSql)).rows;
   const data={};
   for(const {table_name:table,key_columns:keys} of tables){
    assert.match(table,/^[a-z_]+$/);
+   const started=performance.now();
    // Only the small append-only migration registries need their original rows.
    // PostgreSQL hashes every complete UTF-8 business row before transfer; only
    // fixed-size digests stream to Node, never historical battle payloads.
@@ -67,16 +105,13 @@ async function snapshot(){
     snapshotOrders.set(table,!append&&keys?keys.map(key=>'t.'+quoteIdentifier(key)).join(','):'row_to_json(t)::text');
    }
    const projection=append?'row_to_json(t)::text AS row':"pg_catalog.sha256(pg_catalog.convert_to(row_to_json(t)::text,'UTF8')) AS row_sha256";
-   await sql.query('DECLARE preservation_rows NO SCROLL CURSOR FOR SELECT '+projection+' FROM public.'+quoteIdentifier(table)+' t ORDER BY '+snapshotOrders.get(table));
-   for(;;){const batch=(await sql.query('FETCH FORWARD 500 FROM preservation_rows')).rows;if(!batch.length)break;
-    for(const {row,row_sha256:rowDigest} of batch){
+   await streamRows(sql,'SELECT '+projection+' FROM public.'+quoteIdentifier(table)+' t ORDER BY '+snapshotOrders.get(table),({row,row_sha256:rowDigest})=>{
      if(append){digest.update(String(Buffer.byteLength(row))+':'+row);rows.push(row);}
      else{assert.ok(Buffer.isBuffer(rowDigest)&&rowDigest.length===32,'Invalid preservation row digest');digest.update(rowDigest);}
      count++;
-    }
-   }
-   await sql.query('CLOSE preservation_rows');
+   });
    data[table]=append?rows:{count,sha256:digest.digest('hex')};
+   tableProgress(phase,table,count,started);
   }
   await sql.query('COMMIT');return data;
  }catch(error){await sql.query('ROLLBACK').catch(()=>{});throw error;}finally{sql.release();}
@@ -87,9 +122,9 @@ try{
  const population=await populationEvidence(db);assert.equal(counts.bots,checkPopulationEvidence(population),'The exact original and registered bot identities must be retained.');
  assert.ok(counts.accounts>0,'The restored copy has no accounts; this is not a verified game backup.');
  progress('population','complete');
- progress('snapshot-before','start');const before=await snapshot();progress('snapshot-before','complete');
+ progress('snapshot-before','start');const before=await snapshot('snapshot-before');progress('snapshot-before','complete');
  progress('migrate','start');await migrate(db);progress('migrate','complete');
- progress('snapshot-after','start');const after=await snapshot();progress('snapshot-after','complete');
+ progress('snapshot-after','start');const after=await snapshot('snapshot-after');progress('snapshot-after','complete');
  progress('preservation-compare','start');
  for(const [table,rows] of Object.entries(before)){
   if(['schema_migrations','rulesets'].includes(table)){const existing=new Set(after[table]);assert.ok(rows.every(row=>existing.has(row)),table+' rewrote an existing row');}
@@ -98,7 +133,7 @@ try{
  progress('preservation-compare','complete');
  const stable=JSON.stringify(after);
  progress('migrate-replay','start');await migrate(db);progress('migrate-replay','complete');
- progress('snapshot-replay','start');const replay=await snapshot();progress('snapshot-replay','complete');
+ progress('snapshot-replay','start');const replay=await snapshot('snapshot-replay');progress('snapshot-replay','complete');
  progress('replay-compare','start');assert.equal(JSON.stringify(replay),stable,'Migration replay changed data.');progress('replay-compare','complete');
  upgradeReport={passed:true,restoredDatabase:target,restoredHost:url.hostname,accounts:counts.accounts,bots:counts.bots,population,existingTablesVerified:Object.keys(before).length,sha256:createHash('sha256').update(stable).digest('hex'),migrationReplay:'unchanged',liveDatabaseConnected:false};
  console.log(JSON.stringify(upgradeReport,null,2));

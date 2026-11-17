@@ -13,6 +13,12 @@
       "weight": 3
     },
     {
+      "file": "tests/achievement-index-locking.test.ts",
+      "lane": "database",
+      "weight": 3,
+      "exclusive": true
+    },
+    {
       "file": "tests/alpha-integration.test.ts",
       "lane": "database",
       "weight": 1

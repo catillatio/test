@@ -27,13 +27,14 @@ function run(mode,{jobMode='prepare',overrides={}}={}){
  assert.equal(result.error,undefined,'The offline worker subprocess must finish.');
  assert.equal(existsSync(forbidden),false,'Real network, DNS, child processes and unexpected external operations are blocked.');
  assert.doesNotMatch(result.stdout+result.stderr,/SYNTHETIC_UNSAFE_EXCEPTION_DETAIL_MUST_NOT_BE_LOGGED|synthetic-credential-must-not-leak|fixture\.invalid|railway\.internal|postgres:/,'Raw tool/provider output and credentials stay private');
- const diagnostics=[],progress=[];
+ const diagnostics=[],progress=[],tables=[];
  const stderr=result.stderr.split('\n').filter(line=>{
   if(line.startsWith('PRIVATE_VERIFICATION_TOOL: ')){diagnostics.push(JSON.parse(line.slice('PRIVATE_VERIFICATION_TOOL: '.length)));return false;}
   if(line.startsWith('UPGRADE_PROGRESS: ')){progress.push(JSON.parse(line.slice('UPGRADE_PROGRESS: '.length)));return false;}
+  if(line.startsWith('UPGRADE_TABLE: ')){tables.push(JSON.parse(line.slice('UPGRADE_TABLE: '.length)));return false;}
   return true;
  }).join('\n');
- return {...result,stderr,rawStderr:result.stderr,diagnostics,progress,trace:readFileSync(trace,'utf8').trim().split('\n').filter(Boolean)};
+ return {...result,stderr,rawStderr:result.stderr,diagnostics,progress,tables,trace:readFileSync(trace,'utf8').trim().split('\n').filter(Boolean)};
 }
 const source=['source-pool','source-connect','source-read-only','source-status','source-privacy-schema','source-erasure-status','source-world-population','source-rollback','source-release','source-close'];
 const prerequisites=['restore-pool','restore-connect','temporary-directory','cluster-query','advisory-lock','copy-check','storage-check'];
@@ -212,4 +213,15 @@ for(const mode of ['later_erasure_missing_guard','later_world_missing_key'])test
  const result=run(mode);assert.equal(result.status,1);assert.equal(result.stdout,'');
  assert.equal(result.stderr,'Private release verification failed at read-only-source-status'+suffix);assert.deepEqual(result.trace,source);
  assert.equal(result.trace.includes('backup'),false);
+});
+
+
+test('per-table progress forwards only bounded aggregate records in the active snapshot phase',()=>{
+ const result=run('migration_table_progress');assert.equal(result.status,0);assert.equal(result.stderr,'');assert.deepEqual(result.progress,expectedProgress);
+ assert.deepEqual(result.tables,['snapshot-before','snapshot-after','snapshot-replay'].map(phase=>({phase,table:'battles',rows:1002,duration_ms:1,elapsed_ms:upgradePhases.indexOf(phase)*2})));
+ assert.doesNotMatch(JSON.stringify(result.tables),/PRIVATE_|UNSAFE_|SELECT|postgres/);assert.deepEqual(result.trace,successTrace);
+});
+test('table timings cannot certify a failed checker or create a recovery registration',()=>{
+ const result=run('migration_table_progress_failure',{overrides:{KINGDOM_COPY_REGISTRATION_ENABLED:'1'}});assert.equal(result.status,1);assert.equal(result.stdout,'');assert.equal(result.tables.length,1);
+ assert.equal(result.diagnostics.at(-1).category,'EXIT_NONZERO');assert.ok(!result.trace.some(event=>event.startsWith('registration-')||event==='report-upload'));assert.deepEqual(result.trace.slice(-cleanup.length),cleanup);
 });

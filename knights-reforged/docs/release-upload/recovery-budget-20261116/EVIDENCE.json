@@ -1,0 +1,607 @@
+{
+  "synthetic": true,
+  "productionConnected": false,
+  "baselineCommit": "cd1fc8e5052c023bb95f9a808ed7ebe1be4c482a",
+  "checkerBaselineSha256": "eb0ef41d6f03fd68bf205e2620960670a5fe73ac8f5a471a14a236b916c2bfec",
+  "checkerCandidateSha256": "8af663512f102114b90b36919c8bbd84425f1a6a2c61f22317b4148ace2f77d8",
+  "archiveSha256": "81f321af2886c84003fb41ea198b83fdc055a85617435ae508c4bca618e5c1b2",
+  "runtimeHashes": {
+    "deployment/check-upgrade.mjs": "8af663512f102114b90b36919c8bbd84425f1a6a2c61f22317b4148ace2f77d8",
+    "deployment/release/worker.mjs": "8e3e792196e2245d9b0253e56e2f9ae0a6347a91371e489ce438e9fa16f81090",
+    "migrations/055_achievement_gold_lookup.sql": "b2e126bbcbe5a0851cb9c34d096e54425719df50954aacc700c1d9f3eda49c08",
+    "src/achievement-gold.ts": "689801ad148794af04afb4efc6d535507b53950ebcf7195575b3db4ab98d3499",
+    "src/bounties.ts": "4cf2c6be9a7cd4b38e2cd548937e6162a79245a32be45e669ea79fd1fb310f86",
+    "src/rival-recommendations.ts": "c6bb4ef1c604996b5eca94f3747c0933cee4701f72ba24fd14aa37b27bc0ae6a"
+  },
+  "publicTablesPerSnapshot": 106,
+  "snapshotsPerRun": 3,
+  "independentFreshRestores": 4,
+  "allCountsAndBusinessCommitmentsEqual": true,
+  "registryComparison": "Before registry commitments equal across runs; appended migration-055 timestamps naturally differ between runs; every actual checker validates registry append membership and exact after/replay equality.",
+  "rowsPerSnapshot": 3877353,
+  "settings": [
+    {
+      "name": "autovacuum",
+      "setting": "off",
+      "unit": null
+    },
+    {
+      "name": "checkpoint_timeout",
+      "setting": "300",
+      "unit": "s"
+    },
+    {
+      "name": "data_checksums",
+      "setting": "on",
+      "unit": null
+    },
+    {
+      "name": "fsync",
+      "setting": "on",
+      "unit": null
+    },
+    {
+      "name": "full_page_writes",
+      "setting": "on",
+      "unit": null
+    },
+    {
+      "name": "jit",
+      "setting": "off",
+      "unit": null
+    },
+    {
+      "name": "max_parallel_workers_per_gather",
+      "setting": "2",
+      "unit": null
+    },
+    {
+      "name": "max_wal_size",
+      "setting": "1024",
+      "unit": "MB"
+    },
+    {
+      "name": "shared_buffers",
+      "setting": "16384",
+      "unit": "8kB"
+    },
+    {
+      "name": "work_mem",
+      "setting": "4096",
+      "unit": "kB"
+    }
+  ],
+  "controlledConditions": "Two CPU cgroup, 8GiB memory, real PostgreSQL18.6, same archive and sequential runs. Autovacuum disabled only in the local benchmark cluster for all controlled runs; JIT off, checksums/fsync/full_page_writes on. auto_explain and streaming digest observer common to both versions. No simultaneous tests.",
+  "summary": {
+    "baseline": {
+      "checkerMs": [
+        174356.89678,
+        168605.381737
+      ],
+      "restoreMs": [
+        129330.645481,
+        126616.15539
+      ],
+      "medianCheckerMs": 171481.1392585,
+      "perPhaseMs": {
+        "population": [
+          11,
+          13
+        ],
+        "snapshot-before": [
+          59283,
+          57260
+        ],
+        "migrate": [
+          587,
+          660
+        ],
+        "snapshot-after": [
+          57774,
+          55338
+        ],
+        "preservation-compare": [
+          1,
+          2
+        ],
+        "migrate-replay": [
+          405,
+          466
+        ],
+        "snapshot-replay": [
+          56041,
+          54599
+        ],
+        "replay-compare": [
+          2,
+          3
+        ]
+      },
+      "tableQueriesPerSnapshot": [
+        8086
+      ],
+      "walBytes": [
+        "499118320",
+        "525451632"
+      ],
+      "maxRssKiB": [
+        183448,
+        199060
+      ],
+      "medianTableMs": {
+        "abandoned_kingdoms": 3.2255059999949367,
+        "account_deletion_requests": 0.8069020000039018,
+        "account_erasure_checkpoints": 0.7348334999978903,
+        "account_erasures": 0.6168510000040897,
+        "accounts": 4.766676000000004,
+        "achievement_gold_receipts": 1.3536974999996971,
+        "achievement_gold_state": 0.7080735000032519,
+        "army_attention_starts": 3.0133659999992233,
+        "army_events": 0.6902970000031843,
+        "army_invitation_codes": 0.9648254999980281,
+        "army_links": 0.6222085000004114,
+        "army_stacks": 2.8254724999958967,
+        "authentication_limits": 1.107600999998951,
+        "authorized_gold_grants": 0.48839150000145537,
+        "battles": 21089.811793999997,
+        "bot_finance_cycles": 0.6421540000010282,
+        "bot_finance_events": 0.6231994999907329,
+        "bounties": 1.0105324999985896,
+        "bounty_events": 0.4751815000017814,
+        "bounty_kills": 0.43640350000350736,
+        "calling_changes": 0.43653350000386126,
+        "calling_policy_epochs": 0.45783099999971455,
+        "champion_standings": 3.181149499998355,
+        "character_achievements": 0.4530185000039637,
+        "character_income_feedback": 0.3423114999968675,
+        "character_loot": 0.34868649999407353,
+        "character_progression_epochs": 0.3204884999940987,
+        "character_quest_progress": 0.3474640000058571,
+        "characters": 4.465546999999788,
+        "command_receipts": 0.5884875000119791,
+        "community_policy_acceptances": 0.37879099999554455,
+        "competitive_attention_starts": 1.757411000005959,
+        "competitive_deaths": 0.6416380000009667,
+        "competitive_statistics": 1.9854154999939055,
+        "content_policy_rejections": 0.7883744999926421,
+        "crown_transactions": 0.4133284999988973,
+        "crown_wallets": 0.40436000000772765,
+        "development_account_resets": 0.4595430000044871,
+        "development_accounts": 0.4535995000114781,
+        "development_bot_estates": 5.0017359999983455,
+        "development_bot_events": 3.588343999996141,
+        "development_bots": 2.727709999999206,
+        "economy_entries": 9762.487591000005,
+        "economy_transactions": 13845.134637000003,
+        "equipment_slots": 3.0666810000002442,
+        "equipment_upkeep_entitlements": 2.1003134999991744,
+        "expansion_bot_activations": 1.9784489999983634,
+        "expansion_bot_autonomy_events": 0.6089589999864984,
+        "expansion_bot_cohorts": 0.5224580000030983,
+        "expansion_bot_members": 0.5629744999896502,
+        "graveyard_operations": 0.6928604999957315,
+        "health_restorations": 0.5247065000003204,
+        "hudson_equipment_grants": 0.42836150000221096,
+        "income_cycles": 3.387740499994834,
+        "inventory_acquisition_events": 0.7713785000014468,
+        "inventory_entries": 10.476524500001688,
+        "inventory_lots": 12.715442999993684,
+        "inventory_transactions": 1.0341254999984812,
+        "land_accounts": 0.6253939999878639,
+        "land_holdings": 45.3007460000008,
+        "land_income_settlements": 0.6422394999972312,
+        "land_partial_settlements": 0.9160625000004075,
+        "land_sales": 0.9158669999960694,
+        "legacy_casualty_statistics": 0.49465649999910966,
+        "legacy_field_statistics": 0.4438745000043127,
+        "maintenance_accounts": 3.8162320000046748,
+        "maintenance_events": 0.889963000001444,
+        "maintenance_rate_events": 2.6369125000055647,
+        "notification_read_batches": 0.8488359999973909,
+        "notification_reads": 0.591788000001543,
+        "notification_state": 1.9682544999996026,
+        "npc_army_adjustments": 0.6858944999949017,
+        "npc_army_memberships": 1.2802165000102832,
+        "npc_sponsored_bounties": 0.8847049999967567,
+        "npc_sponsorship_holds": 0.4992679999995744,
+        "npc_sponsorship_windows": 0.7732620000024326,
+        "player_preferences": 0.5160985000002256,
+        "private_alpha_initializations": 1.7777470000000903,
+        "progression_awards": 8.99163000000408,
+        "pvp_loot_sequences": 0.5943115000118269,
+        "quest_equipment_outcomes": 0.5541960000009567,
+        "quest_runs": 0.8432874999998603,
+        "rare_equipment_authorizations": 0.5518974999868078,
+        "realm_expansion_events": 0.704973500003689,
+        "realm_expansion_state": 0.8085544999994454,
+        "realm_messages": 0.8831270000082441,
+        "rival_recommendation_entries": 0.9807699999983015,
+        "rival_recommendation_snapshots": 0.7710080000033486,
+        "rivalry_totals": 2.218917000001966,
+        "rulesets": 23.795865499992942,
+        "schema_migrations": 4.844408499990095,
+        "sessions": 0.5152374999888707,
+        "skill_allocations": 1.0942305000062333,
+        "social_blocks": 0.5289030000058119,
+        "social_moderation": 0.6184985000036249,
+        "social_mutes": 0.39434049999545095,
+        "social_reports": 0.42511150000063935,
+        "social_user_reports": 2.0356115000031423,
+        "sound_preferences": 0.4843010000004142,
+        "trade_quotes": 0.45026949999737553,
+        "treasury_retained_events": 11525.663341999989,
+        "tutorial_guides": 4.322776500001055,
+        "tutorial_steps": 1.1887984999957553,
+        "vault_accounts": 2.8166239999954996,
+        "vault_entries": 5.116209499999968,
+        "wallets": 4.360764000004565
+      }
+    },
+    "candidate": {
+      "checkerMs": [
+        94102.30267500001,
+        94642.470046
+      ],
+      "restoreMs": [
+        125511.099187,
+        130675.17974899999
+      ],
+      "medianCheckerMs": 94372.38636050001,
+      "perPhaseMs": {
+        "population": [
+          11,
+          16
+        ],
+        "snapshot-before": [
+          31590,
+          31594
+        ],
+        "migrate": [
+          269,
+          323
+        ],
+        "snapshot-after": [
+          30771,
+          30916
+        ],
+        "preservation-compare": [
+          0,
+          1
+        ],
+        "migrate-replay": [
+          187,
+          189
+        ],
+        "snapshot-replay": [
+          31049,
+          31366
+        ],
+        "replay-compare": [
+          5,
+          3
+        ]
+      },
+      "tableQueriesPerSnapshot": [
+        106
+      ],
+      "walBytes": [
+        "425405200",
+        "425405512"
+      ],
+      "maxRssKiB": [
+        146176,
+        145812
+      ],
+      "medianTableMs": {
+        "abandoned_kingdoms": 0.3426920000001701,
+        "account_deletion_requests": 0.335691999998744,
+        "account_erasure_checkpoints": 0.28866050000033283,
+        "account_erasures": 0.3496225000017148,
+        "accounts": 2.1900239999995392,
+        "achievement_gold_receipts": 0.5749625000003107,
+        "achievement_gold_state": 0.4038094999978057,
+        "army_attention_starts": 1.4903135000004113,
+        "army_events": 0.46262300000246626,
+        "army_invitation_codes": 0.37907149999942646,
+        "army_links": 0.38359850000051665,
+        "army_stacks": 1.668217000000368,
+        "authentication_limits": 0.2914794999996957,
+        "authorized_gold_grants": 0.27846049999971,
+        "battles": 21007.445474999997,
+        "bot_finance_cycles": 1.6090225000043574,
+        "bot_finance_events": 0.3961280000003171,
+        "bounties": 0.5482969999939087,
+        "bounty_events": 0.42369899999539484,
+        "bounty_kills": 0.3869440000016766,
+        "calling_changes": 0.45788100000027043,
+        "calling_policy_epochs": 0.5122525000006135,
+        "champion_standings": 2.2630189999927097,
+        "character_achievements": 0.42324850000295555,
+        "character_income_feedback": 0.29420350000509643,
+        "character_loot": 0.45784050000111165,
+        "character_progression_epochs": 0.35437450000608806,
+        "character_quest_progress": 0.27307200000359444,
+        "characters": 4.010656000005838,
+        "command_receipts": 0.4376700000066194,
+        "community_policy_acceptances": 0.32971750000069733,
+        "competitive_attention_starts": 1.538225500002227,
+        "competitive_deaths": 0.3693569999995816,
+        "competitive_statistics": 1.6041025000013178,
+        "content_policy_rejections": 0.34538099999554106,
+        "crown_transactions": 0.4048304999996617,
+        "crown_wallets": 0.315475499999593,
+        "development_account_resets": 0.41322300000138057,
+        "development_accounts": 0.4720470000011119,
+        "development_bot_estates": 4.109539999995832,
+        "development_bot_events": 3.465748499997062,
+        "development_bots": 2.2117920000055165,
+        "economy_entries": 2839.2674985000012,
+        "economy_transactions": 2908.4218645,
+        "equipment_slots": 0.8511139999973238,
+        "equipment_upkeep_entitlements": 0.39465000000018335,
+        "expansion_bot_activations": 0.3617060000033234,
+        "expansion_bot_autonomy_events": 0.40367849999893224,
+        "expansion_bot_cohorts": 0.2792059999992489,
+        "expansion_bot_members": 0.3478350000004866,
+        "graveyard_operations": 0.3163669999994454,
+        "health_restorations": 0.34669299999950454,
+        "hudson_equipment_grants": 0.36792500000228756,
+        "income_cycles": 1.5657970000011119,
+        "inventory_acquisition_events": 0.45068499999797496,
+        "inventory_entries": 4.816511000000901,
+        "inventory_lots": 5.6013050000037765,
+        "inventory_transactions": 0.4073294999998325,
+        "land_accounts": 0.3647304999976768,
+        "land_holdings": 20.164441500000976,
+        "land_income_settlements": 0.4224725000021863,
+        "land_partial_settlements": 0.34853549999388633,
+        "land_sales": 0.2825209999937215,
+        "legacy_casualty_statistics": 0.2794465000042692,
+        "legacy_field_statistics": 0.3044140000019979,
+        "maintenance_accounts": 1.7580570000009175,
+        "maintenance_events": 0.3993774999980815,
+        "maintenance_rate_events": 0.35658299999886367,
+        "notification_read_batches": 0.3571490000013,
+        "notification_reads": 0.2744490000040969,
+        "notification_state": 1.271778499998618,
+        "npc_army_adjustments": 0.3188265000062529,
+        "npc_army_memberships": 0.3223310000048514,
+        "npc_sponsored_bounties": 0.2824315000034403,
+        "npc_sponsorship_holds": 0.2700074999993376,
+        "npc_sponsorship_windows": 0.28017199999885634,
+        "player_preferences": 0.258184500002244,
+        "private_alpha_initializations": 0.34973250000257394,
+        "progression_awards": 3.8849740000005113,
+        "pvp_loot_sequences": 0.3524814999982482,
+        "quest_equipment_outcomes": 0.3481949999986682,
+        "quest_runs": 0.3052160000006552,
+        "rare_equipment_authorizations": 0.330257999998139,
+        "realm_expansion_events": 0.30872099999396596,
+        "realm_expansion_state": 0.3476139999966108,
+        "realm_messages": 0.36798550000821706,
+        "rival_recommendation_entries": 0.30385849999220227,
+        "rival_recommendation_snapshots": 0.300783999995474,
+        "rivalry_totals": 0.29064800000196556,
+        "rulesets": 9.798327500000596,
+        "schema_migrations": 0.5077209999944898,
+        "sessions": 0.3650505000005069,
+        "skill_allocations": 0.35222149999935937,
+        "social_blocks": 0.30947200000082375,
+        "social_moderation": 0.2999375000017608,
+        "social_mutes": 0.2798519999960263,
+        "social_reports": 0.31371300000319025,
+        "social_user_reports": 0.3200124999948457,
+        "sound_preferences": 0.2931924999993498,
+        "trade_quotes": 0.3456210000022111,
+        "treasury_retained_events": 4214.712528,
+        "tutorial_guides": 1.4012339999972028,
+        "tutorial_steps": 0.3926175000051444,
+        "vault_accounts": 1.5418115000065882,
+        "vault_entries": 2.4985244999988936,
+        "wallets": 1.486582500001532
+      }
+    }
+  },
+  "runs": [
+    {
+      "synthetic": true,
+      "productionConnected": false,
+      "label": "baseline",
+      "sourceSha256": "eb0ef41d6f03fd68bf205e2620960670a5fe73ac8f5a471a14a236b916c2bfec",
+      "archiveSha256": "81f321af2886c84003fb41ea198b83fdc055a85617435ae508c4bca618e5c1b2",
+      "restoreMs": 129330.645481,
+      "checkerMs": 174356.89678,
+      "localRestoreAndCheckerMs": 303687.542261,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "countersBefore": {
+        "temp_files": "20",
+        "temp_bytes": "255101472",
+        "blks_read": "150092",
+        "blks_hit": "1861991",
+        "blk_read_time": 70.649,
+        "blk_write_time": 6217.002
+      },
+      "countersAfter": {
+        "temp_files": "22",
+        "temp_bytes": "255117856",
+        "blks_read": "1807361",
+        "blks_hit": "12741460",
+        "blk_read_time": 9165.292,
+        "blk_write_time": 7346.149
+      },
+      "walBytes": "499118320",
+      "nodeUsage": {
+        "operation": "node-usage",
+        "maxRssKiB": 183448,
+        "heapUsed": 12395776,
+        "cpu": {
+          "user": 153079244,
+          "system": 7177814
+        }
+      },
+      "runId": "baseline-913545ea2fac4b069320f52c59d20f25",
+      "phaseDurationsMs": {
+        "population": 11,
+        "snapshot-before": 59283,
+        "migrate": 587,
+        "snapshot-after": 57774,
+        "preservation-compare": 1,
+        "migrate-replay": 405,
+        "snapshot-replay": 56041,
+        "replay-compare": 2
+      }
+    },
+    {
+      "synthetic": true,
+      "productionConnected": false,
+      "label": "baseline",
+      "sourceSha256": "eb0ef41d6f03fd68bf205e2620960670a5fe73ac8f5a471a14a236b916c2bfec",
+      "archiveSha256": "81f321af2886c84003fb41ea198b83fdc055a85617435ae508c4bca618e5c1b2",
+      "restoreMs": 126616.15539,
+      "checkerMs": 168605.381737,
+      "localRestoreAndCheckerMs": 295221.537127,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "countersBefore": {
+        "temp_files": "20",
+        "temp_bytes": "255076896",
+        "blks_read": "142431",
+        "blks_hit": "1869652",
+        "blk_read_time": 28.952,
+        "blk_write_time": 5545.314
+      },
+      "countersAfter": {
+        "temp_files": "22",
+        "temp_bytes": "255093280",
+        "blks_read": "1799673",
+        "blks_hit": "12749148",
+        "blk_read_time": 8765.28,
+        "blk_write_time": 6498.546
+      },
+      "walBytes": "525451632",
+      "nodeUsage": {
+        "operation": "node-usage",
+        "maxRssKiB": 199060,
+        "heapUsed": 12442168,
+        "cpu": {
+          "user": 143396527,
+          "system": 6769985
+        }
+      },
+      "runId": "baseline-a52a9465a1f14d349963c98dcc9c1f60",
+      "phaseDurationsMs": {
+        "population": 13,
+        "snapshot-before": 57260,
+        "migrate": 660,
+        "snapshot-after": 55338,
+        "preservation-compare": 2,
+        "migrate-replay": 466,
+        "snapshot-replay": 54599,
+        "replay-compare": 3
+      }
+    },
+    {
+      "synthetic": true,
+      "productionConnected": false,
+      "label": "candidate",
+      "sourceSha256": "8af663512f102114b90b36919c8bbd84425f1a6a2c61f22317b4148ace2f77d8",
+      "archiveSha256": "81f321af2886c84003fb41ea198b83fdc055a85617435ae508c4bca618e5c1b2",
+      "restoreMs": 125511.099187,
+      "checkerMs": 94102.30267500001,
+      "localRestoreAndCheckerMs": 219613.401862,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "countersBefore": {
+        "temp_files": "20",
+        "temp_bytes": "255093280",
+        "blks_read": "150663",
+        "blks_hit": "1861420",
+        "blk_read_time": 52.513,
+        "blk_write_time": 5851.708
+      },
+      "countersAfter": {
+        "temp_files": "43",
+        "temp_bytes": "935561760",
+        "blks_read": "841921",
+        "blks_hit": "2198234",
+        "blk_read_time": 3012.988,
+        "blk_write_time": 5949.325
+      },
+      "walBytes": "425405200",
+      "nodeUsage": {
+        "operation": "node-usage",
+        "maxRssKiB": 146176,
+        "heapUsed": 40499944,
+        "cpu": {
+          "user": 8351334,
+          "system": 511631
+        }
+      },
+      "runId": "candidate-00126226b03a43f7b58f9e38be80641e",
+      "phaseDurationsMs": {
+        "population": 11,
+        "snapshot-before": 31590,
+        "migrate": 269,
+        "snapshot-after": 30771,
+        "preservation-compare": 0,
+        "migrate-replay": 187,
+        "snapshot-replay": 31049,
+        "replay-compare": 5
+      }
+    },
+    {
+      "synthetic": true,
+      "productionConnected": false,
+      "label": "candidate",
+      "sourceSha256": "8af663512f102114b90b36919c8bbd84425f1a6a2c61f22317b4148ace2f77d8",
+      "archiveSha256": "81f321af2886c84003fb41ea198b83fdc055a85617435ae508c4bca618e5c1b2",
+      "restoreMs": 130675.17974899999,
+      "checkerMs": 94642.470046,
+      "localRestoreAndCheckerMs": 225317.64979499998,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "countersBefore": {
+        "temp_files": "20",
+        "temp_bytes": "255085088",
+        "blks_read": "150313",
+        "blks_hit": "1861770",
+        "blk_read_time": 41.763,
+        "blk_write_time": 6410.784
+      },
+      "countersAfter": {
+        "temp_files": "43",
+        "temp_bytes": "935569952",
+        "blks_read": "841567",
+        "blks_hit": "2198590",
+        "blk_read_time": 3539.537,
+        "blk_write_time": 6557.611
+      },
+      "walBytes": "425405512",
+      "nodeUsage": {
+        "operation": "node-usage",
+        "maxRssKiB": 145812,
+        "heapUsed": 37378896,
+        "cpu": {
+          "user": 8644175,
+          "system": 622525
+        }
+      },
+      "runId": "candidate-0c9cb431d2574743af46764d904bdfa3",
+      "phaseDurationsMs": {
+        "population": 16,
+        "snapshot-before": 31594,
+        "migrate": 323,
+        "snapshot-after": 30916,
+        "preservation-compare": 1,
+        "migrate-replay": 189,
+        "snapshot-replay": 31366,
+        "replay-compare": 3
+      }
+    }
+  ]
+}

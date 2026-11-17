@@ -42,9 +42,23 @@ function execute(executable,args,{env=process.env,input,timeout=600000,progress=
   // Own the same SIGTERM deadline so its cause survives the child's close event.
   // This never changes the ceiling, retries a tool, or certifies partial output.
   timer=setTimeout(()=>{if(settled)return;firstFailure??='TIMEOUT';try{child.kill('SIGTERM');}catch{}},timeout);
-  let line='',discarding=false,nextProgress=0,lastProgress=-1;const seen=new Set();
+  let line='',discarding=false,nextProgress=0,lastProgress=-1;const seen=new Set(),seenTables=new Set();
   const acceptProgress=text=>{
-   if(!progress||settled||firstFailure||!text.startsWith('UPGRADE_PROGRESS: '))return;
+   if(!progress||settled||firstFailure)return;
+   if(text.startsWith('UPGRADE_TABLE: ')){
+    try{
+     const event=JSON.parse(text.slice('UPGRADE_TABLE: '.length));
+     if(!event||Array.isArray(event)||Object.keys(event).sort().join(',')!=='duration_ms,elapsed_ms,phase,rows,table')return;
+     if(!['snapshot-before','snapshot-after','snapshot-replay'].includes(event.phase)||nextProgress%2!==1||event.phase!==upgradePhases[Math.floor(nextProgress/2)])return;
+     if(typeof event.table!=='string'||!/^[a-z_]{1,63}$/.test(event.table))return;
+     if(![event.duration_ms,event.elapsed_ms,event.rows].every(Number.isSafeInteger)||event.rows<0||event.duration_ms<0||event.duration_ms>event.elapsed_ms||event.elapsed_ms<lastProgress||event.elapsed_ms>timeout)return;
+     const key=event.phase+':'+event.table;if(seenTables.has(key)||seenTables.size>=4096)return;
+     seenTables.add(key);lastProgress=event.elapsed_ms;
+     console.error('UPGRADE_TABLE: '+JSON.stringify({phase:event.phase,table:event.table,rows:event.rows,duration_ms:event.duration_ms,elapsed_ms:event.elapsed_ms}));
+    }catch{} // Only validated aggregate metadata leaves the private child.
+    return;
+   }
+   if(!text.startsWith('UPGRADE_PROGRESS: '))return;
    try{
     const event=JSON.parse(text.slice('UPGRADE_PROGRESS: '.length));
     if(!event||Array.isArray(event)||Object.keys(event).sort().join(',')!=='elapsed_ms,event,phase')return;

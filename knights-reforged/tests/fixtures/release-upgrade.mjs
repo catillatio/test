@@ -53,8 +53,41 @@ function rows(table){
  return values.sort((a,b)=>{a=JSON.parse(a);b=JSON.parse(b);for(const key of keys){if(a[key]<b[key])return -1;if(a[key]>b[key])return 1;}return 0;});
 }
 const snapshotPhase=()=>pass===1?'snapshot-before':pass===2?'snapshot-after':'snapshot-replay';
-const client={async query(sql){
+function stream(query){
+ const select=/^SELECT (row_to_json\(t\)::text AS row|pg_catalog\.sha256\(pg_catalog\.convert_to\(row_to_json\(t\)::text,'UTF8'\)\) AS row_sha256) FROM public\."([a-z_]+)" t ORDER BY (row_to_json\(t\)::text|t\."(?:[^"]|"")+"(?:,t\."(?:[^"]|"")+")*)$/.exec(query.text);
+ assert.ok(select);assert.equal(inTransaction,true);assert.equal(query.callback,undefined);assert.equal(query.rows,undefined);assert.ok(query.listenerCount('row')>0);
+ currentProjection=select[1];currentTable=select[2];currentOrder=select[3];
+ record({op:'stream',pass,table:currentTable,order:currentOrder,projection:currentProjection});
+ if(mode==='submit-failure')fail();
+ queueMicrotask(()=>{
+  if(mode===snapshotPhase()&&currentTable==='battles'||mode==='stream-error-before'){query.emit('error',new Error(secret));return;}
+  const values=rows(currentTable);let emitted=0;
+  for(const row of values){
+   if(mode==='truncated-stream'&&currentTable==='battles'&&emitted===values.length-1)break;
+   query.emit('row',currentProjection.endsWith(' AS row')?{row:mode==='malformed-registry'&&currentTable==='rulesets'?undefined:row}:{row_sha256:
+    mode==='malformed-rowhash'&&currentTable==='battles'?Buffer.alloc(31):
+    mode==='string-rowhash'&&currentTable==='battles'?'0'.repeat(64):
+    mode==='missing-rowhash'&&currentTable==='battles'?undefined:createHash('sha256').update(row,'utf8').digest()});
+   emitted++;
+   if(mode==='stream-error-after'&&currentTable==='battles'){query.emit('error',new Error(secret));query.emit('end',{command:'SELECT',rowCount:values.length,rows:[]});return;}
+  }
+  record({op:'stream-drained',pass,table:currentTable,rows:emitted});
+  const result={command:mode==='wrong-command'?'INSERT':'SELECT',rowCount:values.length,rows:mode==='accumulated-result'?[{}]:[]};
+  if(mode==='missing-count')delete result.rowCount;
+  if(mode==='negative-count')result.rowCount=-1;
+  if(mode==='unsafe-count')result.rowCount=Number.MAX_SAFE_INTEGER+1;
+  if(mode==='string-count')result.rowCount=String(values.length);
+  query.emit('end',mode==='multiple-results'?[result]:result);
+ });
+ return query;
+}
+const client={connectionParameters:{query_timeout:mode==='client-query-timeout'?100:0},query(sql){
+ if(typeof sql!=='string')return stream(sql);
+ return stringQuery(sql);
+ },release(){assert.equal(inTransaction,false);record({op:'release',pass});}};
+async function stringQuery(sql){
  if(sql==='BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY'){assert.equal(inTransaction,false);inTransaction=true;pass++;record({op:'begin',pass});return {rows:[]};}
+ if(sql==='SET LOCAL enable_indexscan=off'){assert.equal(inTransaction,true);record({op:'scan-plan',pass});return {rows:[]};}
  if(sql.startsWith('SELECT t.table_name,p.key_columns\n')){
   assert.equal(inTransaction,true);
   for(const condition of ['i.indisprimary','i.indisunique','i.indisvalid','i.indisready','a.attnotnull','NOT a.attisdropped','k.ordinality<=i.indnkeyatts',"t.table_schema='public'", "t.table_type='BASE TABLE'"] )assert.ok(sql.includes(condition));
@@ -74,7 +107,7 @@ const client={async query(sql){
  if(sql==='CLOSE preservation_rows'){assert.ok(currentTable);record({op:'cursor-close',pass,table:currentTable});currentTable=undefined;return {rows:[]};}
  if(sql==='COMMIT'||sql==='ROLLBACK'){assert.equal(inTransaction,true);inTransaction=false;currentTable=undefined;record({op:sql.toLowerCase(),pass});return {rows:[]};}
  return block();
- },release(){assert.equal(inTransaction,false);record({op:'release',pass});}};
+}
 const db={async query(sql){
  assert.equal(sql,'SELECT (SELECT count(*) FROM accounts)::int AS accounts,(SELECT count(*) FROM development_bots)::int AS bots');
  record({op:'counts'});if(mode==='population')fail();return {rows:[{accounts:1,bots:mode==='population-mismatch'?449:450}]};

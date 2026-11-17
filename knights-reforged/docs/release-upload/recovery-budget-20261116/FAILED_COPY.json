@@ -1,0 +1,22 @@
+{
+  "runId": "43831109552",
+  "attempt": 1,
+  "source": "dbdd96e1b78f2416044554d8328ca1815a192adb",
+  "workerDeployment": "a8cdc493-7f3e-41ae-b223-c5cb22eb0fd0",
+  "classification": "UNVERIFIED",
+  "completed": ["population", "snapshot-before", "migrate"],
+  "interrupted": "snapshot-after",
+  "preservationComparisonCompleted": false,
+  "migrationReplayCompleted": false,
+  "snapshotReplayCompleted": false,
+  "replayComparisonCompleted": false,
+  "mayAuthorizePromotion": false,
+  "mayBeReusedAsVerifiedRecovery": false,
+  "deletionAuthorized": false,
+  "databaseName": null,
+  "databaseOid": null,
+  "identityNote": "Exact historical request binding is not present in the retained phase-only logs. No name, OID or external-hold clearance is fabricated.",
+  "reconciliationAction": "Evidence classification only; no production or recovery-catalog mutation.",
+  "databaseDeletedOrRepurposed": false,
+  "encryptedArtifactsTouched": false
+}

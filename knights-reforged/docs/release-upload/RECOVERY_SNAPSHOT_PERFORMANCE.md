@@ -1,5 +1,12 @@
 # Recovery snapshot performance correction
 
+Current local follow-up: [complete-checker budget correction](recovery-budget-20261116/README.md)
+retains this full-row digest protocol and all three snapshots, replacing partial
+cursor planning/fetches with transaction-local sequential planning and a bounded
+row stream. Its fresh-restored mixed-history benchmark, locking guard and failed
+run 43831109552 disposition are documented there. The original incident and
+measurements below remain historical evidence; no new production run is implied.
+
 ## Confirmed incident
 
 Protected release [41146460943](https://github.com/catillatio/test/actions/runs/41146460943), based on PR #82 merge `563025246edb53ff31fada1373c08999c740d444`, failed at `copy-migrations-and-preservation`. Authenticated Railway logs for worker `a9d86591-88e6-4c6a-bbcc-6dea49b54f10` confirm `TIMEOUT`, elapsed 600171 ms, limit 600000 ms, SIGTERM. The game was not promoted.
