@@ -140,6 +140,11 @@
       "weight": 1
     },
     {
+      "file": "tests/credential-attempts-http.test.ts",
+      "lane": "database",
+      "weight": 3
+    },
+    {
       "file": "tests/crowns-refinement-browser.test.ts",
       "lane": "browser",
       "weight": 60
@@ -750,6 +755,11 @@
       "file": "tests/realm-client.test.mjs",
       "lane": "unit",
       "weight": 1
+    },
+    {
+      "file": "tests/recovery-privileges.test.ts",
+      "lane": "database",
+      "weight": 3
     },
     {
       "file": "tests/refinements-migration.test.ts",

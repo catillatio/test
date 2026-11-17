@@ -57,7 +57,12 @@ const restore={
   },release(){record('restore-release');}
  };},async end(){record('restore-close');}
 };
-const copy={async end(){record('copy-close');}};
+const copy={async query(sql){
+ if(sql.startsWith('SELECT EXISTS(SELECT 1 FROM pg_catalog.pg_proc')){record('restore-privilege-inspect');return {rows:[{present:mode==='privilege_target_not_empty'}]};}
+ if(sql.startsWith('SELECT EXISTS(SELECT 1 FROM pg_catalog.pg_default_acl')){record('restore-privilege-verify');return {rows:[{public_execute:mode==='privilege_schema_default'}]};}
+ if(sql==='ALTER DEFAULT PRIVILEGES REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC'){record('restore-privilege-defaults');if(mode==='privilege_defaults_failure')return fail();return {rows:[]};}
+ return block();
+},async end(){record('copy-close');}};
 let currentTool;
 const phases=['population','snapshot-before','migrate','snapshot-after','preservation-compare','migrate-replay','snapshot-replay','replay-compare'];
 const progressLines=phases.flatMap((phase,i)=>['start','complete'].map((event,j)=>'UPGRADE_PROGRESS: '+JSON.stringify({phase,event,elapsed_ms:i*2+j})+'\n'));

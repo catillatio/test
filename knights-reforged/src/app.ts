@@ -245,7 +245,6 @@ export async function createApp(options: { db: Database; config: Config; logger?
   });
   app.post('/login', authLimit, async (request, reply) => {
     const body = asBody(request);
-    await authenticationAttempt(db,'login',body.username);
     const account = await authenticate(db, body.username, body.password);
     const fresh = await createSession(db, account.accountId, request.realmSession?.token_hash);
     setSessionCookie(reply, fresh.token, true);

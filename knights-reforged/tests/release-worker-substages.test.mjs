@@ -60,7 +60,7 @@ for(const [mode,substage,last,tail]of[
 });
 
 const successTrace=[...source,...prerequisites,'backup','archive-list','plain-digest','ephemeral-key','ephemeral-recipient','encrypt','cipher-digest',
- 'encrypted-upload','conditional-upload','encrypted-download','decrypt','restored-digest','archive-list','create-copy','restore-copy','copy-migration-check','copy-pool','world-population-fence','copy-close','report-upload',...cleanup];
+ 'encrypted-upload','conditional-upload','encrypted-download','decrypt','restored-digest','archive-list','create-copy','copy-pool','restore-privilege-inspect','restore-privilege-defaults','restore-privilege-verify','copy-close','restore-copy','copy-migration-check','copy-pool','world-population-fence','copy-close','report-upload',...cleanup];
 for(const mode of ['success','one_byte_above_limit'])test('successful preparation retains the complete backup and restoration gates: '+mode,()=>{
  const result=run(mode);assert.equal(result.status,0);assert.equal(result.stderr,'');
  assert.equal(result.stdout,'Private release verification completed. No source database was changed.\n');assert.deepEqual(result.trace,successTrace);
@@ -207,6 +207,16 @@ test('real local child deadline and spawn error retain safe metadata without dat
  const missing=JSON.parse(messages.at(-1).slice('PRIVATE_VERIFICATION_TOOL: '.length));
  assert.equal(missing.category,'SPAWN_FAILURE');assert.equal(missing.signal,null);assert.equal(missing.exit_code,null);
  assert.doesNotMatch(messages.join('\n'),/nonexistent-|setTimeout|PATH|Private verification tool failed/);
+});
+
+
+for(const mode of ['privilege_target_not_empty','privilege_defaults_failure','privilege_schema_default'])test('unsafe restore privilege preparation prevents restore and success evidence: '+mode,()=>{
+ const result=run(mode);assert.equal(result.status,1);assert.equal(result.stdout,'');
+ assert.equal(result.stderr,'Private release verification failed at isolated-restore'+suffix);
+ assert.ok(result.trace.includes('restore-privilege-inspect'));
+ assert.equal(result.trace.includes('restore-copy'),false);assert.equal(result.trace.includes('copy-migration-check'),false);
+ assert.equal(result.trace.includes('report-upload'),false);assert.equal(result.trace.includes('registration-write'),false);
+ assert.ok(result.trace.includes('copy-close'));assert.deepEqual(result.trace.slice(-cleanup.length),cleanup);
 });
 
 for(const mode of ['later_erasure_missing_guard','later_world_missing_key'])test('schema 055 still detects protected privacy history before backup: '+mode,()=>{

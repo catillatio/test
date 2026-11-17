@@ -1,3 +1,4 @@
+import {prepareRecoveryFunctionPrivileges} from '../../dist/application-privileges.js';
 import {assertGraveyardFence} from '../../dist/privacy/graveyard.js';
 import {assertErasureFence} from '../../dist/privacy/erasure.js';
 import {populationEvidence} from '../../dist/expansion-population.js';
@@ -167,6 +168,9 @@ async function main(){
   assert.deepEqual(await fileDigest(restored),plain,'The exported encrypted recovery object cannot restore the original archive.');
   await execute('pg_restore',['--list',restored]);
   gate='isolated-restore';await execute('createdb',['--maintenance-db='+restore.name,'--',request.copy],{env:pgEnvironment(restore)});
+  const restoreCopyUrl=new URL(restore.url);restoreCopyUrl.pathname='/'+request.copy;
+  const restoreCopyDb=createDatabase(restoreCopyUrl.href);
+  try{await prepareRecoveryFunctionPrivileges(restoreCopyDb);}finally{await restoreCopyDb.end();}
   await execute('pg_restore',['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+request.copy,restored],{env:pgEnvironment(restore)});
   gate='copy-migrations-and-preservation';const result=await execute(process.execPath,['deployment/check-upgrade.mjs'],{env:{...process.env,KINGDOM_RESTORE_TEST_DATABASE:request.copy},progress:true});
   report.restoredCopy=JSON.parse(result);

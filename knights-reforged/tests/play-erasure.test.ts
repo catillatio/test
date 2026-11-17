@@ -1,3 +1,4 @@
+import {postgresClient} from './postgres-client.js';
 import {erasedProfile} from '../src/privacy/minimization.js';
 import {humanVictoryLoot} from '../src/human-pvp-loot.js';
 import {alpha} from '../src/alpha-rules.js';
@@ -126,13 +127,14 @@ test('exclusive realm lock serializes an already-running command and deletion; s
 });
 
 test('a real custom-format backup restored to an isolated database is blocked until its signed erasure is replayed', {timeout:120000},async()=>{
- const {execFileSync}=await import('node:child_process');const{createDatabase}=await import('../src/db.js');
+ const{createDatabase}=await import('../src/db.js');
  const url=new URL(process.env.TEST_DATABASE_URL!),r=await realm(),directory=await mkdtemp(join(tmpdir(),'erasure-restore-test-'));await chmod(directory,0o700);
  assert.ok(['127.0.0.1','localhost'].includes(url.hostname)&&url.pathname.endsWith('_test'));
  const restoredName='privacy_'+randomUUID().replaceAll('-','')+'_test',admin=createDatabase(url.href);let restored:ReturnType<typeof createDatabase>|undefined,created=false;
- const environment={...process.env};for(const name of ['DOCKER_HOST','DOCKER_CONTEXT','DOCKER_TLS','DOCKER_TLS_VERIFY','DOCKER_CERT_PATH'])delete environment[name];
- const pgEnv={PGHOST:url.hostname,PGPORT:url.port||'5432',PGUSER:decodeURIComponent(url.username),PGPASSWORD:decodeURIComponent(url.password),PGDATABASE:decodeURIComponent(url.pathname.slice(1))};
- function tool(command:string,database:string,input?:Buffer){return execFileSync('docker',['--host=unix:///var/run/docker.sock','run','--rm','-i','--network=host',...Object.keys(pgEnv).flatMap(k=>['--env',k]),'--entrypoint',command,'postgres:18-bookworm',...(command==='pg_dump'?['--format=custom','--no-owner','--no-acl']:['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+database])],{env:{...environment,...pgEnv,PGDATABASE:database},input,timeout:30000,maxBuffer:8*1024*1024,stdio:['pipe','pipe','pipe']});}
+ function tool(command:'pg_dump'|'pg_restore',database:string,input?:Buffer){
+  const target=new URL(url);target.pathname='/'+database;
+  return postgresClient(command,target.href,command==='pg_dump'?['--format=custom','--no-owner','--no-acl']:['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+database],input);
+ }
  try{
   const a=await r.player('Restored Subject'),b=await r.player('Restored Other');await r.ok(a,'/api/v1/comments',{profileId:b.id,body:'Restorable private text'});
   await r.prepare(a,100000,30);await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});

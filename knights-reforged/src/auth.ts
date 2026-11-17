@@ -1,4 +1,5 @@
 import {communityPolicyVersion} from './community-policy.js';
+import {authenticationAttempt} from './security.js';
 import {assertAccountNotErased,privacySchema} from './privacy/gate.js';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { hash, verify, Algorithm } from '@node-rs/argon2';
@@ -54,6 +55,9 @@ export async function registerAccount(db: Database, input: unknown, options:{sou
 
 let dummyHash: Promise<string> | undefined;
 export async function authenticate(db: Database, username: unknown, password: unknown) {
+  // Every password-verification caller shares the existing durable login budget.
+  // Charge before validation, as login historically did; failures must commit.
+  await authenticationAttempt(db,'login',username);
   if (typeof username !== 'string' || typeof password !== 'string' || password.length > 128) {
     throw new GameError('INVALID_CREDENTIALS', 'Account name or password is incorrect.', 401);
   }
