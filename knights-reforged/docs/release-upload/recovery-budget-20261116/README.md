@@ -71,7 +71,8 @@ stdout proofs and stderr timings.
 The synthetic fixture uses the real 054 schema and original 450-NPC initializer,
 all 106 public tables, 1,362,737 entries and transactions, 1,110,000 retained
 events and 26,018 wide battle reports. Battle storage is 1,460,649,984 bytes.
-Each snapshot checks 3,877,353 rows. NPC/account configuration is synthetic;
+The initial snapshot checks 3,877,353 rows; after/replay each include the one
+new migration receipt (3,877,354 rows). NPC/account configuration is synthetic;
 no real player data or production/recovery copy is used. The reviewed 900-NPC
 production population is not regenerated or modified for this experiment.
 
@@ -167,20 +168,34 @@ source fingerprints must match the final reviewed commit's runtime files.
 
 The reviewed achievement predicate/index is unchanged. Only its installation is
 hardened. The 1.11-million-row local build took 73–101 ms. A ten-second statement
-ceiling is deliberately fail-closed, preserves any stricter existing nonzero
-limit, and does not increase a release deadline. SHARE NOWAIT refuses a currently
-conflicting writer/maintenance operation without queuing. A lock conflict or
-timeout rolls back DDL and the migration receipt; no automatic retry is added.
+ceiling is deliberately fail-closed and preserves any stricter existing nonzero
+limit. A fifteen-second transaction ceiling covers remaining Node/SQL validation
+while SHARE is held. It leaves a stricter existing transaction timer untouched,
+including its deadline; it does not reset that timer to the same value. These
+are new bounds, not increases to any release deadline. SHARE NOWAIT refuses a
+currently conflicting writer/maintenance operation without queuing.
 
 Ordinary CREATE INDEX is transactional. Reads continue; new journal writers may
-wait until the **whole migration transaction commits**, including its remaining
-validation. The ten-second limit bounds the index statement, not every possible
-delay outside SQL or the entire migration transaction. The complete local
-migration timings above include those remaining checks. This is not a zero-pause
-or production-duration guarantee. CONCURRENTLY is not substituted inside the
-existing atomic migration transaction. Real PostgreSQL tests hold a conflicting
-writer, cancel an intentionally slow index at ten seconds, retain a stricter
-100 ms timeout and verify rollback/session-setting restoration and replay.
+wait until commit or timeout rollback. The transaction ceiling is installed
+before the lock: even a Node filesystem stall between SQL calls cannot hold it
+indefinitely. PostgreSQL terminates the timed-out backend, rolls back both DDL
+and migration receipt, and releases its locks. No retry is added. This uses
+PostgreSQL 17+ transaction_timeout and fails closed on unsupported servers;
+the observed production/recovery and fixture servers use PostgreSQL 18.
+CONCURRENTLY is not substituted inside the atomic migration transaction.
+
+Real PostgreSQL tests hold a conflicting writer, cancel slow index DDL at ten
+seconds, retain a stricter 100 ms statement and five-second transaction timer,
+and deliberately stall Node after the real migration receipt insert. The stall
+must produce SQLSTATE 25P04, exit nonzero after one attempt, leave no new index or
+receipt, preserve business state and release both table and migration locks.
+The paired performance comparison above used the same statement-bound migration
+for both verifier versions. A separate final-source full restore/checker run
+validates the added whole-transaction guard; its exact SQL hash/result is recorded
+under finalSafetyValidation in EVIDENCE.json: all three snapshots and comparisons
+passed in 96.33 seconds (216.59 seconds including its fresh restore). Each of the
+318 table counts and every comparable business commitment matches the paired
+reference. No prior measurements are relabeled.
 
 ## Failed run and release boundary
 

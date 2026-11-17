@@ -50,6 +50,7 @@ try{
    temporaryChecker=join(root,'deployment/kr-budget-baseline-'+nonce+'.mjs');await writeFile(temporaryChecker,source.stdout,{flag:'wx',mode:0o600});checker=temporaryChecker;
   }
   const sourceHash=async()=>createHash('sha256').update(await readFile(checker)).digest('hex'),sourceSha256=await sourceHash();
+  const migrationHash=async()=>createHash('sha256').update(await readFile(join(root,'migrations/055_achievement_gold_lookup.sql'))).digest('hex'),migration055Sha256=await migrationHash();
   const archiveSha256=await archiveDigest();if(process.env.SNAPSHOT_ARCHIVE_SHA256)assert.equal(archiveSha256,process.env.SNAPSHOT_ARCHIVE_SHA256,'Fixture archive changed');
   const settings=(await admin.query("SELECT name,setting,unit FROM pg_settings WHERE name=ANY($1::text[])",[['autovacuum','shared_buffers','work_mem','data_checksums','jit','max_parallel_workers_per_gather','max_wal_size','checkpoint_timeout','fsync','full_page_writes']])).rows;
   const postgresLog=process.env.SNAPSHOT_PG_LOG;const logStart=postgresLog?(await stat(postgresLog)).size:0;
@@ -64,12 +65,13 @@ try{
    FIXTURE_POSTGRES_URL:target.href,FIXTURE_TRACE:trace,FIXTURE_CHECKER_URL:new URL('file://'+checker).href
   });
   const checkerMs=performance.now()-started;assert.equal(await sourceHash(),sourceSha256,'Checker source changed during measurement');
+  assert.equal(await migrationHash(),migration055Sha256,'Migration source changed during measurement');
   const counters=(await admin.query('SELECT temp_files,temp_bytes,blks_read,blks_hit,blk_read_time,blk_write_time FROM pg_stat_database WHERE datname=$1',[name])).rows[0];
   const walBytes=(await admin.query('SELECT pg_wal_lsn_diff(pg_current_wal_insert_lsn(),$1)::text AS bytes',[lsn])).rows[0].bytes;
   await writeFile(prefix+'-stdout.json',result.stdout);await writeFile(prefix+'-stderr.log',result.stderr);
   if(postgresLog)await writeFile(prefix+'-postgres.log',(await readFile(postgresLog)).subarray(logStart));
   const phases=result.stderr.split('\n').filter(l=>l.startsWith('UPGRADE_PROGRESS: ')).map(l=>JSON.parse(l.slice('UPGRADE_PROGRESS: '.length)));
-  const report={synthetic:true,productionConnected:false,label,sourceSha256,archiveSha256,restoreMs,checkerMs,localRestoreAndCheckerMs:restoreMs+checkerMs,code:result.code,signal:result.signal,timedOut:result.timedOut,phases,settings,countersBefore,countersAfter:counters,walBytes,trace};
+  const report={synthetic:true,productionConnected:false,label,sourceSha256,migration055Sha256,archiveSha256,restoreMs,checkerMs,localRestoreAndCheckerMs:restoreMs+checkerMs,code:result.code,signal:result.signal,timedOut:result.timedOut,phases,settings,countersBefore,countersAfter:counters,walBytes,trace};
   await writeFile(prefix+'-result.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
   assert.equal(result.code,0,'Checker failed; retain the evidence, do not count this as passing');assert.equal(phases.length,16);assert.equal(JSON.parse(result.stdout).migrationReplay,'unchanged');
  }

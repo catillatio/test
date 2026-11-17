@@ -5,20 +5,17 @@
   "checkerBaselineSha256": "eb0ef41d6f03fd68bf205e2620960670a5fe73ac8f5a471a14a236b916c2bfec",
   "checkerCandidateSha256": "8af663512f102114b90b36919c8bbd84425f1a6a2c61f22317b4148ace2f77d8",
   "archiveSha256": "81f321af2886c84003fb41ea198b83fdc055a85617435ae508c4bca618e5c1b2",
-  "runtimeHashes": {
-    "deployment/check-upgrade.mjs": "8af663512f102114b90b36919c8bbd84425f1a6a2c61f22317b4148ace2f77d8",
-    "deployment/release/worker.mjs": "8e3e792196e2245d9b0253e56e2f9ae0a6347a91371e489ce438e9fa16f81090",
-    "migrations/055_achievement_gold_lookup.sql": "b2e126bbcbe5a0851cb9c34d096e54425719df50954aacc700c1d9f3eda49c08",
-    "src/achievement-gold.ts": "689801ad148794af04afb4efc6d535507b53950ebcf7195575b3db4ab98d3499",
-    "src/bounties.ts": "4cf2c6be9a7cd4b38e2cd548937e6162a79245a32be45e669ea79fd1fb310f86",
-    "src/rival-recommendations.ts": "c6bb4ef1c604996b5eca94f3747c0933cee4701f72ba24fd14aa37b27bc0ae6a"
-  },
   "publicTablesPerSnapshot": 106,
   "snapshotsPerRun": 3,
-  "independentFreshRestores": 4,
+  "independentFreshRestores": 5,
   "allCountsAndBusinessCommitmentsEqual": true,
   "registryComparison": "Before registry commitments equal across runs; appended migration-055 timestamps naturally differ between runs; every actual checker validates registry append membership and exact after/replay equality.",
-  "rowsPerSnapshot": 3877353,
+  "rowsPerSnapshot": {
+    "before": 3877353,
+    "after": 3877354,
+    "replay": 3877354,
+    "difference": "One actual migration-055 receipt appended; all business-row counts unchanged."
+  },
   "settings": [
     {
       "name": "autovacuum",
@@ -603,5 +600,210 @@
         "replay-compare": 3
       }
     }
-  ]
+  ],
+  "pairedRuntimeHashes": {
+    "deployment/check-upgrade.mjs": "8af663512f102114b90b36919c8bbd84425f1a6a2c61f22317b4148ace2f77d8",
+    "deployment/release/worker.mjs": "8e3e792196e2245d9b0253e56e2f9ae0a6347a91371e489ce438e9fa16f81090",
+    "migrations/055_achievement_gold_lookup.sql": "b2e126bbcbe5a0851cb9c34d096e54425719df50954aacc700c1d9f3eda49c08",
+    "src/achievement-gold.ts": "689801ad148794af04afb4efc6d535507b53950ebcf7195575b3db4ab98d3499",
+    "src/bounties.ts": "4cf2c6be9a7cd4b38e2cd548937e6162a79245a32be45e669ea79fd1fb310f86",
+    "src/rival-recommendations.ts": "c6bb4ef1c604996b5eca94f3747c0933cee4701f72ba24fd14aa37b27bc0ae6a"
+  },
+  "finalRuntimeHashes": {
+    "deployment/check-upgrade.mjs": "8af663512f102114b90b36919c8bbd84425f1a6a2c61f22317b4148ace2f77d8",
+    "deployment/release/worker.mjs": "8e3e792196e2245d9b0253e56e2f9ae0a6347a91371e489ce438e9fa16f81090",
+    "migrations/055_achievement_gold_lookup.sql": "9bfc9e63421f8bc082c9b9c6a2ba5a7e519facb903a7a384bdd3741755eec9be",
+    "src/achievement-gold.ts": "689801ad148794af04afb4efc6d535507b53950ebcf7195575b3db4ab98d3499",
+    "src/bounties.ts": "4cf2c6be9a7cd4b38e2cd548937e6162a79245a32be45e669ea79fd1fb310f86",
+    "src/rival-recommendations.ts": "c6bb4ef1c604996b5eca94f3747c0933cee4701f72ba24fd14aa37b27bc0ae6a"
+  },
+  "finalSafetyValidation": {
+    "synthetic": true,
+    "productionConnected": false,
+    "label": "candidate",
+    "sourceSha256": "8af663512f102114b90b36919c8bbd84425f1a6a2c61f22317b4148ace2f77d8",
+    "migration055Sha256": "9bfc9e63421f8bc082c9b9c6a2ba5a7e519facb903a7a384bdd3741755eec9be",
+    "archiveSha256": "81f321af2886c84003fb41ea198b83fdc055a85617435ae508c4bca618e5c1b2",
+    "restoreMs": 120259.622065,
+    "checkerMs": 96333.74639199999,
+    "localRestoreAndCheckerMs": 216593.368457,
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "phases": [
+      {
+        "phase": "population",
+        "event": "start",
+        "elapsed_ms": 0
+      },
+      {
+        "phase": "population",
+        "event": "complete",
+        "elapsed_ms": 14
+      },
+      {
+        "phase": "snapshot-before",
+        "event": "start",
+        "elapsed_ms": 14
+      },
+      {
+        "phase": "snapshot-before",
+        "event": "complete",
+        "elapsed_ms": 32367
+      },
+      {
+        "phase": "migrate",
+        "event": "start",
+        "elapsed_ms": 32367
+      },
+      {
+        "phase": "migrate",
+        "event": "complete",
+        "elapsed_ms": 32673
+      },
+      {
+        "phase": "snapshot-after",
+        "event": "start",
+        "elapsed_ms": 32673
+      },
+      {
+        "phase": "snapshot-after",
+        "event": "complete",
+        "elapsed_ms": 64757
+      },
+      {
+        "phase": "preservation-compare",
+        "event": "start",
+        "elapsed_ms": 64757
+      },
+      {
+        "phase": "preservation-compare",
+        "event": "complete",
+        "elapsed_ms": 64758
+      },
+      {
+        "phase": "migrate-replay",
+        "event": "start",
+        "elapsed_ms": 64768
+      },
+      {
+        "phase": "migrate-replay",
+        "event": "complete",
+        "elapsed_ms": 64948
+      },
+      {
+        "phase": "snapshot-replay",
+        "event": "start",
+        "elapsed_ms": 64949
+      },
+      {
+        "phase": "snapshot-replay",
+        "event": "complete",
+        "elapsed_ms": 96072
+      },
+      {
+        "phase": "replay-compare",
+        "event": "start",
+        "elapsed_ms": 96072
+      },
+      {
+        "phase": "replay-compare",
+        "event": "complete",
+        "elapsed_ms": 96079
+      }
+    ],
+    "settings": [
+      {
+        "name": "autovacuum",
+        "setting": "off",
+        "unit": null
+      },
+      {
+        "name": "checkpoint_timeout",
+        "setting": "300",
+        "unit": "s"
+      },
+      {
+        "name": "data_checksums",
+        "setting": "on",
+        "unit": null
+      },
+      {
+        "name": "fsync",
+        "setting": "on",
+        "unit": null
+      },
+      {
+        "name": "full_page_writes",
+        "setting": "on",
+        "unit": null
+      },
+      {
+        "name": "jit",
+        "setting": "off",
+        "unit": null
+      },
+      {
+        "name": "max_parallel_workers_per_gather",
+        "setting": "2",
+        "unit": null
+      },
+      {
+        "name": "max_wal_size",
+        "setting": "1024",
+        "unit": "MB"
+      },
+      {
+        "name": "shared_buffers",
+        "setting": "16384",
+        "unit": "8kB"
+      },
+      {
+        "name": "work_mem",
+        "setting": "4096",
+        "unit": "kB"
+      }
+    ],
+    "countersBefore": {
+      "temp_files": "20",
+      "temp_bytes": "255093280",
+      "blks_read": "141563",
+      "blks_hit": "1870520",
+      "blk_read_time": 47.018,
+      "blk_write_time": 6053.673
+    },
+    "countersAfter": {
+      "temp_files": "43",
+      "temp_bytes": "935586336",
+      "blks_read": "832907",
+      "blks_hit": "2207270",
+      "blk_read_time": 3413.464,
+      "blk_write_time": 6239.935
+    },
+    "walBytes": "425342864",
+    "runId": "candidate-788b172a38b8496784770186877945cd",
+    "phaseDurationsMs": {
+      "population": 14,
+      "snapshot-before": 32353,
+      "migrate": 306,
+      "snapshot-after": 32084,
+      "preservation-compare": 1,
+      "migrate-replay": 180,
+      "snapshot-replay": 31123,
+      "replay-compare": 7
+    },
+    "all318CountsMatchPairedReference": true,
+    "allBusinessCommitmentsMatchPairedReference": true,
+    "all106AfterReplayCommitmentsEqual": true,
+    "nodeUsage": {
+      "operation": "node-usage",
+      "maxRssKiB": 144140,
+      "heapUsed": 25001416,
+      "cpu": {
+        "user": 8902722,
+        "system": 482489
+      }
+    }
+  },
+  "pairedComparisonFreshRestores": 4
 }

@@ -163,6 +163,8 @@ It keeps full-row cryptography, every table and three complete snapshots while
 using sequential full-result planning and streaming. Four controlled fresh
 restores measured 168.6–174.4s baseline versus 94.1–94.7s candidate, including
 actual migration/replay. Migration 055 now refuses conflicting writers and has
-a bounded index statement. Run 43831109552's copy remains unverified and untouched.
+ten-second statement and fifteen-second whole-transaction bounds, preserving
+stricter existing deadlines. A fifth fresh restore validates the final guard
+and full checker in 96.3s. Run 43831109552's copy remains unverified and untouched.
 Security work and PR #95 remain separate. Required exact-head CI and protected
 production promotion are still pending separate owner authorization.

@@ -6,6 +6,8 @@ import {realm} from './helpers.js';
 import {migrate} from '../src/migrate.js';
 import type {Database,Connection} from '../src/db.js';
 import type {QueryResultRow} from 'pg';
+import {spawnSync} from 'node:child_process';
+import {mkdir,writeFile} from 'node:fs/promises';
 
 type Realm=Awaited<ReturnType<typeof realm>>;
 async function state(r:Realm){return (await r.db.query(`SELECT
@@ -14,10 +16,10 @@ async function state(r:Realm){return (await r.db.query(`SELECT
  (SELECT count(*)::int FROM treasury_retained_events) AS retained,
  (SELECT sum(balance)::text FROM wallets) AS gold,
  to_regclass('achievement_gold_retained_lookup_idx')::text AS index_name`)).rows[0]!;}
-function bound(client:Connection,onIndex:(value:string)=>void):Database{
+function bound(client:Connection,onIndex:(value:string,transaction:string)=>void):Database{
  return {query:client.query.bind(client),async connect(){return {query:async<T extends QueryResultRow>(sql:string,values?:unknown[])=>{
   const result=await client.query<T>(sql,values);
-  if(sql.includes('CREATE INDEX achievement_gold_retained_lookup_idx'))onIndex((await client.query('SHOW statement_timeout')).rows[0]!.statement_timeout);
+  if(sql.includes('CREATE INDEX achievement_gold_retained_lookup_idx'))onIndex((await client.query('SHOW statement_timeout')).rows[0]!.statement_timeout,(await client.query('SHOW transaction_timeout')).rows[0]!.transaction_timeout);
   return result;
  },release(){}};},async end(){}};
 }
@@ -65,8 +67,22 @@ test('index DDL never raises a stricter existing timeout and leaves every busine
 test('successful index installation preserves a stricter timeout and resets transaction-local settings',async()=>{
  const r=await realm({isolated:true,migrationThrough:'054_account_erasure.sql'}),client=await r.db.connect();
  try{
-  await client.query("SET statement_timeout='1s'");const limits:string[]=[];await migrate(bound(client,value=>limits.push(value)));
-  assert.deepEqual(limits,['1s']);assert.equal((await client.query('SHOW statement_timeout')).rows[0]!.statement_timeout,'1s');
+  await client.query("SET statement_timeout='1s'; SET transaction_timeout='5s'");const limits:string[]=[],transactions:string[]=[];await migrate(bound(client,(value,transaction)=>{limits.push(value);transactions.push(transaction);}));
+  assert.deepEqual(limits,['1s']);assert.deepEqual(transactions,['5s']);assert.equal((await client.query('SHOW statement_timeout')).rows[0]!.statement_timeout,'1s');assert.equal((await client.query('SHOW transaction_timeout')).rows[0]!.transaction_timeout,'5s');
   assert.ok((await state(r)).index_name);await migrate(bound(client,()=>assert.fail('Index DDL must not replay')));
- }finally{await client.query("SET statement_timeout='0'");client.release();await r.close();}
+ }finally{await client.query("SET statement_timeout='0'; SET transaction_timeout='0'");client.release();await r.close();}
+});
+
+test('a post-index Node stall terminates the whole transaction, releases locks and never records success',{timeout:25000},async()=>{
+ const r=await realm({isolated:true,migrationThrough:'054_account_erasure.sql'});
+ try{
+  const before=await state(r),schema=(await r.db.query('SELECT current_schema() AS name')).rows[0]!.name;
+  assert.match(schema,/^fixture_[a-f0-9]{32}$/);
+  const result=spawnSync(process.execPath,['--import','tsx','tests/fixtures/index-transaction-stall.mjs'],{encoding:'utf8',timeout:22000,env:{PATH:process.env.PATH,TEST_DATABASE_URL:process.env.TEST_DATABASE_URL,FIXTURE_INDEX_SCHEMA:schema}});
+  assert.equal(result.error,undefined,result.stderr);assert.equal(result.status,1,result.stderr);
+  const report=JSON.parse(result.stdout);assert.equal(report.result,'STOP');assert.equal(report.code,'25P04');assert.equal(report.attempts,1);assert.equal(report.receiptInsertedBeforeStall,true);
+  assert.ok(report.elapsedMs>=14000&&report.elapsedMs<20000,'The whole transaction must terminate while Node is between SQL calls');assert.deepEqual(await state(r),before);
+  const writer=await r.db.connect();try{await writer.query('BEGIN');await writer.query('LOCK TABLE treasury_retained_events IN ROW EXCLUSIVE MODE NOWAIT');assert.equal((await writer.query('SELECT pg_try_advisory_xact_lock(61824004) AS acquired')).rows[0]!.acquired,true);}finally{await writer.query('ROLLBACK');writer.release();}
+  await mkdir('test-results',{recursive:true});await writeFile('test-results/achievement-index-transaction-timeout.json',JSON.stringify({...report,exitStatus:result.status,tableLockReleased:true,migrationLockReleased:true,businessStateUnchanged:true},null,2)+'\n');
+ }finally{await r.close();}
 });
