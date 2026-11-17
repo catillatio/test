@@ -1,5 +1,11 @@
 # Recovery verification budget correction
 
+> **Released 2026-11-17 UTC:** This source was merged in
+> [PR #97](https://github.com/catillatio/test/pull/97) and deployed through
+> [protected release 44016282262](https://github.com/catillatio/test/actions/runs/44016282262). See
+> [actual Railway timing and artifact evidence](../PRODUCTION_RELEASE_20261117.md).
+> The original local-development notes below remain historical.
+
 Local branch `performance/recovery-snapshot-budget-20261116`, based on reviewed
 achievement fix `cd1fc8e5052c023bb95f9a808ed7ebe1be4c482a` and release
 `dbdd96e1b78f2416044554d8328ca1815a192adb`. No push, hosted CI, merge, deployment,
@@ -212,8 +218,8 @@ unchanged. The separate security correction remains separate. Future integration
 must preserve its restored-SQL ACL guards and both sets of appended release tests.
 PR #95, storage, service settings and the cache experiment are untouched.
 
-Next, with owner authorization: push the reviewed candidate, run the existing
-required exact-head CI and review the resulting PR. Merge needs separate approval
+At the time of this original local review, the next step was to push the candidate,
+run required exact-head CI and review the PR; that was later completed. Merge needs separate approval
 and successful production-commit checks. Prepare a **new** immutable image for
 the merged source; previous image preparations cannot certify this checker.
 Promote only through the protected image-release workflow with fresh encrypted
@@ -225,3 +231,21 @@ Stop at any failed gate. No cleanup or deadline increase is a recovery shortcut.
 Focused test commands/results, exact final head, complete changed-file list,
 patch and Git bundle are in the final review bundle. Local verification is not
 hosted CI or evidence of production promotion.
+
+## Verified production follow-through — 2026-11-17 UTC
+
+The exact merge `c8222eaac6ee7a2b6392279b13415fadda3d788e` passed required
+application CI ([44000561124](https://github.com/catillatio/test/actions/runs/44000561124))
+and Android readiness ([44000561987](https://github.com/catillatio/test/actions/runs/44000561987)).
+Image preparation [44012465228](https://github.com/catillatio/test/actions/runs/44012465228)
+and protected image release [44016282262](https://github.com/catillatio/test/actions/runs/44016282262) succeeded.
+
+The Railway private worker recorded snapshot-before **107.210s**, snapshot-after
+**55.396s**, snapshot-replay **53.854s**, and full checker **217.011s** within
+its unchanged **600s** deadline. Preservation and migration-replay comparisons
+completed; copy registration passed; the release retained encrypted recovery
+and independently verified the artifact before promoting the exact image.
+This is real restored-copy execution evidence, not a synthetic benchmark.
+It does not promise future timings or authorize cleanup of run 43831109552's
+**UNVERIFIED** copy. Full release provenance is in
+[PRODUCTION_RELEASE_20261117.md](../PRODUCTION_RELEASE_20261117.md).

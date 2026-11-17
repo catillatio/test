@@ -1,5 +1,14 @@
 # Authenticated request latency — local correction, 2026-11-16
 
+> **Production update (2026-11-17 UTC):** The reviewed batching/index change
+> and bounded migration 055 are included in the successfully promoted source
+> `c8222ea` ([protected release 44016282262](https://github.com/catillatio/test/actions/runs/44016282262)).
+> The earlier production SQL diagnostic confirmed an unindexed historical
+> retained-event scan. The replacement image is live, but post-deployment
+> authenticated request timings, exact index validity and runtime contention
+> have not been independently remeasured. See the
+> [release evidence index](../../release-upload/PRODUCTION_RELEASE_20261117.md).
+
 ## Source and limits of the conclusion
 
 Repository `catillatio/test`; baseline `dbdd96e1b78f2416044554d8328ca1815a192adb`,
@@ -9,7 +18,7 @@ branch `performance/achievement-sync-20261116`. The deployed game was
 `sha256:6abf8df9e81a5c857cde30ea020ba7b006ca4939160f8c49fe1090495d71613b`.
 The achievement, experience and shared game modules are byte-identical between
 that deployed source and this baseline. The newer release branch's bounty work
-is preserved. This correction has **not** been pushed or deployed.
+is preserved. At the time of this local benchmark this correction had **not** been pushed or deployed; the current state is documented above.
 
 Authenticated Railway log reads reproduced the reported issue during
 10:34–10:40 UTC: attack POSTs 2,333–2,589 ms, quest POSTs 2,354–2,465 ms,
@@ -24,7 +33,7 @@ They do not establish PostgreSQL query time, lock waits or the application's
 live pool queue. The connector cannot execute SQL or expose live pool counters.
 The single bounded [read-only Console packet](READ_ONLY_APP_DB_PROFILE.sh)
 has been prepared for the outstanding live SQL/catalog/connection measurements;
-its production result is **pending**. Therefore the entire live 1.3–4.8 second
+the production result was **pending at the time of this local report**; the later read-only Console run confirmed the original scan plan. Therefore the entire live 1.3–4.8 second
 delay is not yet causally attributed. In particular, the slow Profile outlier
 could include lock queuing or other work. Do not present local timings below as
 post-deployment measurements or claim proven live pool exhaustion.

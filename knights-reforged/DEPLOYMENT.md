@@ -1,5 +1,13 @@
 # Kingdom Come deployment and development reference
 
+> **Current verified production release:** Kingdoms Restored is deployed at
+> `c8222eaac6ee7a2b6392279b13415fadda3d788e` through
+> [protected release 44016282262](https://github.com/catillatio/test/actions/runs/44016282262). The immutable Railway
+> image and backup/restore proof are documented in
+> [the 2026-11-17 release record](docs/release-upload/PRODUCTION_RELEASE_20261117.md).
+> Procedures and phase notes below are historical; they are not authorization
+> for new migrations, replay, provisioning or direct Railway deployments.
+
 **Current Railway instructions:** [RAILWAY.md](RAILWAY.md) supersedes the historical container preparation below. Use the mount-free Dockerfile and `railway.json`, a private PostgreSQL URL and a separate pre-deploy migration. `RUN_MIGRATIONS=1` is no longer supported at server startup.
 
 **Current live Railway upgrade:** follow [PHASE_4_4_RELEASE.md](PHASE_4_4_RELEASE.md) for backup/export, restored-copy migration verification, manual deployment and the separate owner-run `gray` grant. Do not rerun initialization/reset or touch the original Codespaces database. [RAILWAY_INITIALIZATION.md](RAILWAY_INITIALIZATION.md) is historical first-launch reference only.

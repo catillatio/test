@@ -1,9 +1,17 @@
 # Source-upload reliability investigation
 
+> **Later verified production status (2026-11-17 UTC):** The protected image
+> release [44016282262](https://github.com/catillatio/test/actions/runs/44016282262) successfully deployed the
+> immutable image from commit `c8222ea` after fresh backup, isolated restore,
+> encrypted artifact retention and health verification. This document records
+> an *earlier* upload investigation, not the present deployment state. See
+> [the exact release record](PRODUCTION_RELEASE_20261117.md).
+
 This change adds bounded, secret-safe upload diagnostics and a protected,
 default-disabled immutable-image transport. The isolated private-image canary
-succeeded and was removed. No game image was published and no production
-configuration, recovery or deployment was changed during this work.
+succeeded and was removed. During this earlier investigation, no game image was published and no production
+configuration, recovery or deployment was changed **by that investigation**;
+the later protected release is documented above.
 
 ## Established facts
 

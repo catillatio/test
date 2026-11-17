@@ -1,6 +1,33 @@
-# Kingdom Come — current authority index
+# Kingdoms Restored — current authority index
 
-Current local work: reconcile PR #88 with deployed production `c8247df`.
+## Verified production release — 2026-11-17 UTC
+
+The latest verified live source is `c8222eaac6ee7a2b6392279b13415fadda3d788e`
+([PR #97](https://github.com/catillatio/test/pull/97)), deployed through
+[protected image release 44016282262](https://github.com/catillatio/test/actions/runs/44016282262). Exact-merge
+[application CI](https://github.com/catillatio/test/actions/runs/44000561124)
+passed 10/10 and
+[Android readiness](https://github.com/catillatio/test/actions/runs/44000561987)
+passed 3/3 (not a signed Android release). Image preparation
+[44012465228](https://github.com/catillatio/test/actions/runs/44012465228)
+published the exact digest pinned on Railway. Live game deployment is
+`bdd050bb-4b7c-49b7-9870-fd08e77c16d6`, image
+`sha256:51c8d045d1dc643d4f00d0d5a81856ad2a79681a2e6dac9a7596afd23b869f`.
+
+Protected backup, independent restore, retained encrypted recovery, all three
+complete cryptographic snapshots, migration/replay comparisons and health checks
+passed. The real Railway checker completed in **217.011 seconds** against its
+unchanged 600-second limit. This releases the PR #96 NPC sponsorship target
+correction and the reviewed achievement/recovery performance source; optional
+feature activation, live gameplay behavior and real-user latency improvement
+have not independently been confirmed. The separate security branch is not
+included. Failed recovery run 43831109552 remains **UNVERIFIED**; do not clean
+up or reuse its copy.
+
+See the [full immutable release evidence](../release-upload/PRODUCTION_RELEASE_20261117.md).
+All lower sections are dated historical handoffs, not the latest deployed image.
+
+Historical 2026-11-13 handoff: reconcile PR #88 with then-deployed production `c8247df`.
 See [Play readiness](../google-play/PLAY_STORE_READINESS.md). Production erasure,
 NPC creation, signing, and PR #88 merge/deployment remain owner-gated. Prior
 A/B/D policy approvals stand; C remains conditional. The owner-authorized
@@ -29,7 +56,7 @@ Reviewed 2026-11-05. This is a navigation map, not deployment authorization.
 Verify current origin/HEAD, open PRs and provider state when starting a task;
 the references below are a dated snapshot, not permanently pinned task bases.
 
-## Identity and release state
+## Identity and release state (historical 2026-11-05 snapshot; see current state above)
 
 - Repository: [`catillatio/test`](https://github.com/catillatio/test), default
   branch `release/production`. `catillatio/kingdom-come` is not the verified repo.
@@ -46,8 +73,9 @@ the references below are a dated snapshot, not permanently pinned task bases.
   (`47a56e8e-aa72-40df-a5c4-0e5feb0f5cdd`). Separate recovery-copy,
   verification and retention services exist. Do not infer enabled cleanup from
   a successful service deployment.
-- SQL source head is `026_living_competition.sql`. This is not a fresh query of
-  production schema or data. No database credentials belong in this index.
+- The historical 2026-11-05 SQL source head was `026_living_competition.sql`.
+  The 2026-11-17 release contains migration `055_achievement_gold_lookup.sql`.
+  This index is not a direct query of live database data or permissions.
 - [PR #63](https://github.com/catillatio/test/pull/63), bounded XP-cliff changes,
   remains unmerged. Do not describe its migration 027 or extra-XP allowance as
   released behavior. Other open historical/operator/Android proposals likewise
@@ -60,9 +88,8 @@ explicitly authorized merge and the existing protected release. The approved
 [design and browser evidence](../dark-medieval-release/README.md) cover the compact
 full-width HUD, route-specific environmental scenery, neutral player links,
 clean catalog/rival surfaces, static rewards and framed Recent Activity.
-Equipment/property thumbnails and gameplay are unchanged. This source update
-alone is not evidence of deployment: the preceding digest above remains the
-last observed production image until a new protected release succeeds.
+Equipment/property thumbnails and gameplay are unchanged. That historic source update was distinct from deployment; the newer verified
+production image is now recorded at the top of this index.
 
 ## Architecture: open only the affected path
 
@@ -143,7 +170,7 @@ Private erasure journal relay and actual protected release-window verification a
 prepared, not installed; Android upload signing environments/keys remain owner-only.
 See [current handoff](../google-play/PLAY_STORE_READINESS.md); no deployment/activation.
 
-## Local request-latency correction — 2026-11-16
+## Historical local request-latency correction — 2026-11-16 (subsequently deployed)
 
 The [measured correction](../performance/2026-11-16/README.md) batches exact
 achievement-receipt verification and adds selective lookup index migration 055.
@@ -155,7 +182,7 @@ Privacy-history release guards remain effective after 054, and exact head 055 is
 required. Security and recovery-investigation branches remain separate; required
 CI, recovery verification, merge and deployment are owner-gated and not executed.
 
-## Local recovery-budget correction — 2026-11-16
+## Historical local recovery-budget correction — 2026-11-16 (subsequently deployed)
 
 The [restored-fixture correction](../release-upload/recovery-budget-20261116/README.md)
 continues reviewed achievement source `cd1fc8e` without editing gameplay modules.
