@@ -78,7 +78,7 @@ test('a post-index Node stall terminates the whole transaction, releases locks a
  try{
   const before=await state(r),schema=(await r.db.query('SELECT current_schema() AS name')).rows[0]!.name;
   assert.match(schema,/^fixture_[a-f0-9]{32}$/);
-  const result=spawnSync(process.execPath,['--import','tsx','tests/fixtures/index-transaction-stall.mjs'],{encoding:'utf8',timeout:22000,env:{PATH:process.env.PATH,TEST_DATABASE_URL:process.env.TEST_DATABASE_URL,FIXTURE_INDEX_SCHEMA:schema}});
+  const result=spawnSync(process.execPath,['--import=tsx','tests/fixtures/index-transaction-stall.mjs'],{encoding:'utf8',timeout:22000,env:{PATH:process.env.PATH,TEST_DATABASE_URL:process.env.TEST_DATABASE_URL,FIXTURE_INDEX_SCHEMA:schema}});
   assert.equal(result.error,undefined,result.stderr);assert.equal(result.status,1,result.stderr);
   const report=JSON.parse(result.stdout);assert.equal(report.result,'STOP');assert.equal(report.code,'25P04');assert.equal(report.attempts,1);assert.equal(report.receiptInsertedBeforeStall,true);
   assert.ok(report.elapsedMs>=14000&&report.elapsedMs<20000,'The whole transaction must terminate while Node is between SQL calls');assert.deepEqual(await state(r),before);
