@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import {randomUUID,generateKeyPairSync} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {mkdtemp,rm} from 'node:fs/promises';
@@ -15,6 +16,23 @@ import {coordinator,input,frame,makeReceipt,signArm,verifyArm} from '../deployme
 import {roleFiles} from '../deployment/release/retention/delivery/bundle.mjs';
 import {checkEnvironment,checkAuthorizerEnvironment,hash} from '../deployment/release/retention/protocol.mjs';
 import {fixture,scope,scenario} from './fixtures/release-retention.mjs';
+
+test('GitHub retention entry points load without the PostgreSQL driver', () => {
+ const entries = ['coordinator.mjs', 'approve-adoption.mjs'].map(file =>
+  new URL('../deployment/release/retention/delivery/' + file, import.meta.url).href);
+ execFileSync(process.execPath, ['--input-type=module', '-e', `
+  import assert from 'node:assert/strict';
+  import {registerHooks} from 'node:module';
+  registerHooks({
+   resolve(specifier, context, nextResolve) {
+    assert.notEqual(specifier, 'pg', 'GitHub installs only the release controller dependencies');
+    return nextResolve(specifier, context);
+   }
+  });
+  for (const entry of process.argv.slice(1)) await import(entry);
+ `, '--', ...entries]);
+});
+
 const clone=v=>structuredClone(v),privateText='synthetic-private-admin-value-must-never-escape';
 function context(){
  const now=Date.now(),copies=[fixture(910,{now,age:0,owner:'postgres'}),fixture(911,{now,age:0,owner:'postgres'})];
