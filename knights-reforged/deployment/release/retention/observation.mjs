@@ -2,7 +2,6 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
-import pg from 'pg';
 import {checkJobReport,copyName,privateDatabase,uuid,digest,protocol,httpsOrigin} from '../protocol.mjs';
 const hash=value=>createHash('sha256').update(JSON.stringify(value,(_key,item)=>item&&typeof item==='object'&&!Array.isArray(item)?Object.fromEntries(Object.keys(item).sort().map(k=>[k,item[k]])):item)).digest('hex');
 const pick=(value,keys)=>Object.fromEntries(keys.map(key=>[key,value[key]]));
@@ -141,6 +140,8 @@ export async function recordObservation(client,payload){
  assert.equal(String(result.database_oid),payload.oid);assert.ok(Number.isFinite(+new Date(result.first_observed_at)));assert.equal(+new Date(result.first_observed_at),+new Date(result.verified_at));return result;
 }
 async function withRegistrarClient(url,{readOnly=false}={},operation){
+ // The GitHub coordinator and reviewer use observationPayload without the PostgreSQL driver.
+ const {default:pg}=await import('pg');
  const client=new pg.Client({connectionString:url,connectionTimeoutMillis:5000,query_timeout:5000,options:'-c statement_timeout=5000 -c lock_timeout=2000'+(readOnly?' -c default_transaction_read_only=on':''),application_name:readOnly?'kingdom-registrar-preflight':'kingdom-copy-registration'});
  let disconnected=false;client.on('error',()=>{disconnected=true;});
  const timeout=setTimeout(()=>{disconnected=true;client.end().catch(()=>{});},20000);timeout.unref();
