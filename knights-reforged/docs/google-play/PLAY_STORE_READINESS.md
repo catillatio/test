@@ -1,5 +1,9 @@
 # Private Google Play INTERNAL testing — PR #88
 
+> **Current status (2026-11-23):** PR #88 was merged on November 14, not still draft. The security fixes in PR #99 were merged and deployed November 17, and the production branch's November 18 application/Android checks passed. The **owner-only Play, legal and account-erasure gates remain**. See the [current handoff](INTERNAL_TEST_HANDOFF_20261123.md). The evidence and statements below are preserved **as a historical PR #88 candidate snapshot**, not a description of today's deployment.
+
+## Historical PR #88 candidate notes
+
 Candidate reconciled with deployed `c8247dfa891c9f2c0458ff7df523f09fa24f0cfa`.
 PR remains draft. No merge, deployment, real erasure, credential installation,
 provider change, Play upload or public release is performed. Current exact-head
