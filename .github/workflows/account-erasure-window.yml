@@ -1,4 +1,4 @@
-name: Kingdom Come private erasure window
+name: Kingdoms Restored private erasure window
 run-name: Account erasure window ${{ inputs.operation_digest }}
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ concurrency:
 jobs:
   window:
     if: github.ref == 'refs/heads/release/production'
-    environment: account-erasure
+    environment: Production
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:

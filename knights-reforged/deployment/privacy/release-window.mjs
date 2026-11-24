@@ -27,7 +27,7 @@ export async function verifyErasureWindow(permit,{token,fetcher=globalThis.fetch
  assert.ok(job.steps.some(s=>s.name==='Hold the production release mutex'&&s.status==='in_progress'));
  const started=Date.parse(job.started_at);assert.ok(Number.isFinite(started)&&started<=now()+30000&&now()-started<1200000);
  const approvals=await get('/actions/runs/'+c.runId+'/approvals');
- assert.ok(Array.isArray(approvals)&&approvals.some(a=>a.state==='approved'&&a.user?.login==='catillatio'&&a.environments?.some(e=>e.name==='account-erasure')),'Owner environment approval required.');
+ assert.ok(Array.isArray(approvals)&&approvals.some(a=>a.state==='approved'&&a.user?.login==='catillatio'&&a.environments?.some(e=>e.name?.toLowerCase()==='production')),'Owner Production environment approval required.');
  return {runId:c.runId,jobId:c.jobId,runAttempt:c.runAttempt};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){

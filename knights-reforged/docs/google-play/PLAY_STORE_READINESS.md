@@ -56,10 +56,9 @@ results/artifact links are recorded on the PR, never borrowed from `3d273e8`.
    `release/production`, required reviewer `catillatio`, no administrator bypass;
    self-review must allow this sole owner to approve. Privately configure the four
    upload-key secrets and two public variables listed in [Android guide](../../../android/PLAY_RELEASE.md).
-   No key/password belongs in chat or a repository. Configure separate protected
-   `account-erasure` similarly for the credential-free mutex, with existing release
-   preflight flags deliberately reviewed for that environment. The actual private
-   signer/key and operator installation remain separately approved.
+   No key/password belongs in chat or a repository. The credential-free erasure
+   mutex uses the existing protected **Production** environment. Private signer
+   custody and staged operator installation remain separately approved.
 4. In actual Play Console confirm package `game.kingdomcome.rpg` and intended
    LLC/operator developer-profile exposure, enroll Play App Signing, and choose the
    existing upload identity or privately create one by your explicit choice. Pick
