@@ -16,6 +16,7 @@ import {sha256,authorize,type SignedRecord} from '../src/privacy/authorization.j
 import {emptyRoot,readJournal} from '../src/privacy/journal.js';
 import {readRemoteJournal} from '../src/privacy/journal-remote.js';
 import {createJournalRelay} from '../deployment/privacy/journal-server.mjs';
+import {verifyErasureWindow} from '../deployment/privacy/release-window.mjs';
 import {registerAccount,createSession,authenticate} from '../src/auth.js';
 import {executeCommand} from '../src/commands.js';
 import {publicProfile,recruitmentAvailability} from '../src/profiles.js';
@@ -376,7 +377,23 @@ test('current-production receipt tables retain exact finances while disposable r
 test('lost protected coordinator before commit rolls back deletion and retains durable suppression intent',async()=>{
  const f=await fixture();try{
   let checks=0;const options=await f.options();
-  await assert.rejects(fulfillErasure(f.r.db,{...options,verifyCoordinator:async()=>{if(++checks===3)throw new Error('Coordinator cancelled');}}),/Coordinator cancelled/);
+  const permit=authorize(options.policy,options.intent,options.permit,options.publicKey).permit;
+  const startedAt=new Date().toISOString();
+  const verifyCoordinator=async()=>{
+   checks++;
+   return verifyErasureWindow(permit,{token:'synthetic-actions-read-only-token',fetcher:async input=>{
+    const path=new URL(input instanceof Request?input.url:input).pathname;
+    if(path.endsWith('/approvals'))return Response.json([{state:'approved',user:{login:'catillatio'},environments:[{name:'Production'}]}]);
+    if(path.endsWith('/jobs'))return Response.json({jobs:[{id:456,name:'window',status:'in_progress',conclusion:null,started_at:startedAt,
+     steps:[{name:'Hold the production release mutex',status:'in_progress'}]}]});
+    assert.equal(path,'/repos/catillatio/test/actions/runs/123');
+    return Response.json({id:123,run_attempt:1,event:'workflow_dispatch',path:'.github/workflows/account-erasure-window.yml',
+     head_repository:{full_name:'catillatio/test'},head_branch:'release/production',head_sha:permit.codeSha,
+     status:checks===3?'completed':'in_progress',conclusion:checks===3?'cancelled':null,
+     display_title:'Account erasure window '+createHash('sha256').update(permit.operationId).digest('hex')});
+   }});
+  };
+  await assert.rejects(fulfillErasure(f.r.db,{...options,verifyCoordinator}),/in_progress/);
   assert.equal(checks,3);assert.equal((await f.r.db.query('SELECT 1 FROM accounts WHERE id=$1',[f.a.accountId])).rowCount,1);
   assert.equal((await f.r.db.query('SELECT 1 FROM account_erasures')).rowCount,0);
   assert.equal((await readJournal(f.directory,publicKey)).sequence,1,'Durable intent must not be silently removed after rollback');
