@@ -1,11 +1,11 @@
 # Kingdoms Restored — current authority index
 
-## Current source/release/Play snapshot — read-only check 2026-11-23
+## Current source/release/Play snapshot — verified 2026-11-24
 
-- Production branch observed at `fa2584a7b9e948754dc584ad22de998d14df00c5`. Private Play candidate [PR #88](https://github.com/catillatio/test/pull/88) was merged November 14; [security PR #99](https://github.com/catillatio/test/pull/99) merged November 17 at `d8f913e64d8b2eb56a3e0066bcbbe49067c4567d`.
+- Production branch observed at `b4b66871d9f1448450f6087712cbcd243975c4dd`, the merge of [PR #103](https://github.com/catillatio/test/pull/103). The private Play source is merged in [PR #88](https://github.com/catillatio/test/pull/88).
 - Security exact-head [checks 44033291263](https://github.com/catillatio/test/actions/runs/44033291263) succeeded; post-merge protected production [release 44193347444](https://github.com/catillatio/test/actions/runs/44193347444) succeeded. Railway shows production game deployment `1496456e-6cfa-438c-aa08-a6332ab4a574` (SUCCESS), image `sha256:2659dbd820f938d1f0ffd55e567dbb8a5a1fdbc0444bcad6155f4c3692bad792`. Never equate branch SHA with image digest.
-- On observed production branch `fa2584a7`, [application checks](https://github.com/catillatio/test/actions/runs/44225427170) and [Android readiness](https://github.com/catillatio/test/actions/runs/44225427126) passed November 18. Android readiness AAB is **unsigned and not Play-uploadable**. No signed-AAB owner dispatch was verified.
-- No private account-erasure operator or dedicated erasure-journal volume appears in the live Railway production resource inventory. Draft legal source still has `[OWNER TO COMPLETE]` fields. Developer identity/Play Console registration, owner key/cert, signed Android bundle, operational deletion, final notices and tester access remain separate gates.
+- On production source `b4b6687`, [application checks](https://github.com/catillatio/test/actions/runs/45514450662) passed 10/10 and [Android readiness](https://github.com/catillatio/test/actions/runs/45514450598) passed 3/3. The Android readiness AAB is unsigned and cannot be uploaded to Play.
+- The private erasure operator and 512 MB journal volume are staged and undeployed. The existing GitHub **Production** environment is the account-erasure approval gate. See the [installation and rehearsal checklist](../google-play/ACCOUNT_ERASURE_INSTALLATION_20261124.md). Draft legal and Play Console gates remain.
 - **Current private Play owner/technical handoff:** [INTERNAL_TEST_HANDOFF_20261123.md](../google-play/INTERNAL_TEST_HANDOFF_20261123.md). Older release/security/play descriptions below are deliberately retained as **dated historical records** and must not override current provider observations. No new deployment or configuration mutation was performed in this documentation update.
 
 ### Pending reviewed security integration — 2026-11-17 UTC
