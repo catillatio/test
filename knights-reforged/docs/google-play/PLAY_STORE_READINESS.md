@@ -1,5 +1,9 @@
 # Private Google Play INTERNAL testing — PR #88
 
+> **Current status (2026-11-24):** PR #88 and the shared Production erasure gate in PR #103 are merged. The exact PR #103 merge commit passed application and Android CI. The private operator and journal remain staged. See the [current handoff](INTERNAL_TEST_HANDOFF_20261123.md). The candidate notes below record historical PR #88 evidence.
+
+## Historical PR #88 candidate notes
+
 Candidate reconciled with deployed `c8247dfa891c9f2c0458ff7df523f09fa24f0cfa`.
 PR remains draft. No merge, deployment, real erasure, credential installation,
 provider change, Play upload or public release is performed. Current exact-head
