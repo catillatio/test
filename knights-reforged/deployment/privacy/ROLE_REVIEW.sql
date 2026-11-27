@@ -20,6 +20,9 @@ GRANT DELETE ON rival_recommendation_entries,rival_recommendation_snapshots,noti
  community_policy_acceptances,content_policy_rejections,command_receipts,
  account_deletion_requests,authentication_limits TO kc_account_eraser;
 GRANT EXECUTE ON FUNCTION account_erasure_credentials_witness(uuid),account_erasure_credentials_removed(uuid) TO kc_account_eraser;
+-- The protected --no-acl restore removes default PUBLIC execution. Replay
+-- still needs this pure JSON projection for its before/after row witnesses.
+GRANT EXECUTE ON FUNCTION erase_account_identity_labels(jsonb,uuid,uuid,boolean,boolean,boolean) TO kc_account_eraser;
 GRANT EXECUTE ON FUNCTION pg_catalog.pg_control_system() TO kc_account_eraser;
 -- Never grant UPDATE/DELETE on financial tables, equipment, Land, bounties or
 -- immutable grants. Do not execute this file to resolve a failed preflight.
