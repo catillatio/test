@@ -22,6 +22,11 @@ export const policyContract=z.object({protocol:z.literal('kingdom-erasure-policy
 export const intentContract=z.object({protocol:z.literal('kingdom-erasure-intent-v7'),operationId:uuid,
  accountId:uuid,characterId:uuid,requestId:uuid,policyDigest:digest,sourceScope:scopeContract,
  issuedAt:z.iso.datetime(),personalDataReviewCompleted:z.literal(true)}).strict();
+const dashboardReviewContract=z.object({
+ accountId:uuid,characterId:uuid,targetDatabase:scopeContract.shape.database,
+ targetOid:z.string().regex(/^[1-9][0-9]*$/),targetClusterDigest:digest,reviewedAt:z.iso.datetime(),
+ matchingCases:z.literal(0),matchingOperations:z.literal(0),unstructuredReviewed:z.literal(true)
+}).strict();
 export const permitContract=z.object({protocol:z.literal('kingdom-erasure-execution-v2'),
  mode:z.enum(['fulfill','restore']),operationId:uuid,intentDigest:digest,policyDigest:digest,
  journalSequence:z.number().int().nonnegative(),journalRoot:digest,targetDatabase:z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,62}$/),
@@ -29,10 +34,20 @@ export const permitContract=z.object({protocol:z.literal('kingdom-erasure-execut
  issuedAt:z.iso.datetime(),expiresAt:z.iso.datetime(),externalHoldsCleared:z.literal(true),
  restoreGuardInstalled:z.literal(true),independentRecoveryVerified:z.literal(true),encryptedBackupSha256:digest,
  recoveryEvidenceSha256:digest,recoveryVerifiedAt:z.iso.datetime(),
+ ownerDashboardReview:dashboardReviewContract.optional(),
  coordinator:z.object({protocol:z.literal('kingdom-production-mutex-v1'),runId:z.string().regex(/^[1-9][0-9]{0,15}$/),runAttempt:z.number().int().positive(),jobId:z.string().regex(/^[1-9][0-9]{0,15}$/)}).strict()}).strict();
 export type ErasureIntent=z.infer<typeof intentContract>;
 export type ErasurePolicy=z.infer<typeof policyContract>;
 export type ErasurePermit=z.infer<typeof permitContract>;
+export function assertDashboardReview(permit:ErasurePermit,intent:ErasureIntent){
+ const review=permit.ownerDashboardReview;
+ assert.ok(review,'Signed owner-dashboard data review required.');
+ assert.ok(review.accountId===intent.accountId&&review.characterId===intent.characterId&&
+  review.targetDatabase===permit.targetDatabase&&review.targetOid===permit.targetOid&&
+  review.targetClusterDigest===permit.targetClusterDigest,'Owner-dashboard review scope mismatch.');
+ const age=Date.parse(permit.issuedAt)-Date.parse(review.reviewedAt);
+ assert.ok(age>=0&&age<=900000,'Fresh owner-dashboard data review required.');
+}
 export interface SignedRecord {payload:string;signature:string;}
 export function authenticate<T>(record:SignedRecord,pem:string,contract:z.ZodType<T>):T{
  assert.deepEqual(Object.keys(record).sort(),['payload','signature']);
@@ -55,5 +70,6 @@ export function authorize(policyRecord:SignedRecord,intentRecord:SignedRecord,pe
  assert.ok(Date.parse(policy.approvedAt)<=now&&Date.parse(intent.issuedAt)>=Date.parse(policy.approvedAt)&&Date.parse(intent.issuedAt)<=issued+30000);
  assert.ok(Date.parse(permit.recoveryVerifiedAt)<=now&&Date.parse(permit.recoveryVerifiedAt)>=now-7200000,'Current independently verified recovery evidence required.');
  if(permit.mode==='fulfill'){assert.equal(permit.targetDatabase,policy.scope.database);assert.equal(permit.targetClusterDigest,policy.scope.clusterDigest);}
+ if(permit.ownerDashboardReview)assertDashboardReview(permit,intent);
  return {policy,intent,permit,policyDigest,intentDigest};
 }

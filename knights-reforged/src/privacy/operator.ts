@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {type Sql} from '../db.js';
 import {privacyColumns} from './schema.js';
+import {dashboardObjects} from './reviewed-schema.js';
 export const erasureDeleteTables=['rival_recommendation_entries','rival_recommendation_snapshots','notification_read_batches','npc_sponsorship_holds','character_quest_progress','character_loot','progression_awards','skill_allocations','sessions','trade_quotes','social_reports','social_moderation','social_mutes','social_blocks','social_user_reports','army_links','army_invitation_codes','notification_reads','realm_messages','army_events','competitive_attention_starts','army_attention_starts','notification_state','player_preferences','sound_preferences','tutorial_steps','tutorial_guides','community_policy_acceptances','content_policy_rejections','command_receipts','account_deletion_requests','authentication_limits'];
 const updates:Record<string,string[]>={account_deletion_requests:['status'],battles:['snapshot','result'],command_receipts:['result']};
 export async function assertErasureOperator(sql:Sql,expectedRole='kc_account_eraser',expectedSchema='public'){
@@ -13,6 +14,11 @@ export async function assertErasureOperator(sql:Sql,expectedRole='kc_account_era
  for(const key of ['rolsuper','rolcreaterole','rolcreatedb','rolreplication','rolbypassrls','member','owns_objects','can_create'])assert.equal(role[key],false,'Restricted erasure role required.');
  assert.equal((await sql.query("SELECT has_function_privilege('detach_erased_identity(uuid,uuid)','EXECUTE') AS allowed")).rows[0]!.allowed,true,'Reviewed identity erasure permission required.');
  assert.equal((await sql.query("SELECT has_function_privilege('construct_public_graveyard(uuid,jsonb,jsonb,integer[],bigint,bigint,text,jsonb,jsonb)','EXECUTE') AS allowed")).rows[0]!.allowed,false,'Eraser must not construct world NPCs.');
+ const dashboardAccess=(await sql.query(`SELECT EXISTS(SELECT 1 FROM pg_class c
+  WHERE c.relnamespace=$1::regnamespace AND c.relname=ANY($2::text[])
+  AND (has_table_privilege(c.oid,'SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER, MAINTAIN')
+    OR has_any_column_privilege(c.oid,'SELECT, INSERT, UPDATE, REFERENCES'))) AS allowed`,[expectedSchema,dashboardObjects])).rows[0]!.allowed;
+ assert.equal(dashboardAccess,false,'Unexpected erasure privilege on an owner-dashboard object.');
  for(const [table,definition] of Object.entries(privacyColumns)){
   const rights=(await sql.query(`SELECT has_table_privilege($1,'DELETE') AS remove,has_table_privilege($1,'TRUNCATE') AS truncate`,[table])).rows[0]!;
   assert.equal(rights.remove,erasureDeleteTables.includes(table),'Unexpected erasure delete privilege.');assert.equal(rights.truncate,false);

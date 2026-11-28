@@ -5,7 +5,7 @@ import {join,isAbsolute} from 'node:path';
 // Test-only real PostgreSQL clients. CI keeps its existing client image;
 // a constrained local workstation can explicitly select compatible host tools.
 // No fallback, SQL mocking or connection to a non-disposable database.
-export function postgresClient(command:'pg_dump'|'pg_restore',databaseUrl:string,args:string[],input?:Buffer){
+export function postgresClient(command:'pg_dump'|'pg_restore'|'psql',databaseUrl:string,args:string[],input?:Buffer){
  const url=new URL(databaseUrl);
  assert.ok(['127.0.0.1','localhost'].includes(url.hostname)&&url.pathname.endsWith('_test')&&!url.search&&!url.hash);
  const values={PGHOST:url.hostname,PGPORT:url.port||'5432',PGUSER:decodeURIComponent(url.username),PGPASSWORD:decodeURIComponent(url.password),PGDATABASE:decodeURIComponent(url.pathname.slice(1))};

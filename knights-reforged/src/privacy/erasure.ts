@@ -5,7 +5,7 @@ import {type Database,type Sql,transaction} from '../db.js';
 import {assertReviewedColumns} from './reviewed-schema.js';
 import {privacySchema} from './gate.js';
 import {privacyColumns} from './schema.js';
-import {authenticate,permitContract,authorize,sha256,type SignedRecord,type ErasureIntent} from './authorization.js';
+import {authenticate,permitContract,authorize,assertDashboardReview,sha256,type SignedRecord,type ErasureIntent} from './authorization.js';
 import {appendIntent,readJournal,type JournalState} from './journal.js';
 import {readRemoteJournal} from './journal-remote.js';
 const q=(name:string)=>'"'+name.replaceAll('"','""')+'"';
@@ -62,7 +62,7 @@ function receiptRedaction(){return `CASE WHEN result IS NULL THEN result ELSE
   OR result#>>'{data,battle,attackerId}'=$1::text OR result#>>'{data,battle,defenderId}'=$1::text
  THEN erase_account_identity_labels(result,$1,$2)||jsonb_build_object('message','Action recorded.')
  ELSE erase_account_identity_labels(result,$1,$2) END END`;}
-export async function assertReviewedSchema(sql:Sql){assert.ok(await privacySchema(sql),'Current privacy schema required.');await assertReviewedColumns(sql);}
+export async function assertReviewedSchema(sql:Sql){assert.ok(await privacySchema(sql),'Current privacy schema required.');return assertReviewedColumns(sql);}
 // Every full row is covered. Expected projection models ONLY approved personal
 // removals. PostgreSQL hashes rows; Node receives 500 fixed-size digests at once,
 // never whole historical battle payloads. Unchanged financial records must match.
@@ -146,7 +146,8 @@ export async function fulfillErasure(db:Database,options:ErasureOptions){
  const auth=authorize(options.policy,options.intent,options.permit,options.publicKey);assert.equal(auth.permit.codeSha,options.codeSha);assert.equal(auth.permit.candidateDigest,options.candidateDigest);
  await options.verifyCoordinator();
  return transaction(db,async sql=>{
-  await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");await pinRelations(sql);await assertReviewedSchema(sql);
+  await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");await pinRelations(sql);const dashboard=await assertReviewedSchema(sql);
+  if(dashboard)assertDashboardReview(auth.permit,auth.intent);
   const live=await identity(sql);assert.equal(live.name,auth.permit.targetDatabase);assert.equal(live.oid,auth.permit.targetOid);assert.equal(live.cluster,auth.permit.targetClusterDigest);
   const state=await readJournal(options.journalPath,options.publicKey);
   assert.equal(state.sequence,auth.permit.journalSequence);assert.equal(state.root,auth.permit.journalRoot);
@@ -157,25 +158,26 @@ export async function fulfillErasure(db:Database,options:ErasureOptions){
   const next=auth.permit.mode==='fulfill'?await appendIntent(options.journalPath,options.publicKey,options.intent,options.policy,options.permit,state):state;
   assert.ok(next.entries.some(e=>e.entry.intent.payload===options.intent.payload&&e.entry.intent.signature===options.intent.signature),'Restore must use a previously recorded permanent erasure intent.');
   const result=await erase(sql,auth.intent,auth.policy.policyId,auth.intentDigest,sha256(JSON.stringify(auth.intent.sourceScope)),auth.permit.mode==='restore',options.permit);
-  await checkpoint(sql,next,sha256(JSON.stringify(auth.intent.sourceScope)),options.publicKey);authorize(options.policy,options.intent,options.permit,options.publicKey);await options.verifyCoordinator();return {result,sequence:next.sequence,journalDurable:true};
+  await checkpoint(sql,next,sha256(JSON.stringify(auth.intent.sourceScope)),options.publicKey,dashboard);authorize(options.policy,options.intent,options.permit,options.publicKey);await options.verifyCoordinator();return {result,sequence:next.sequence,journalDurable:true};
  },{expansionLock:'exclusive'});
 }
-function verifyReceiptApproval(receipt:Record<string,any>,entry:JournalState['entries'][number],publicKey:string){
+function verifyReceiptApproval(receipt:Record<string,any>,entry:JournalState['entries'][number],publicKey:string,dashboard:boolean){
  const {intent}=entry,execution=authenticate(receipt.execution_proof,publicKey,permitContract);
  assert.ok(receipt.operation_id===intent.operationId&&receipt.intent_sha256===sha256(entry.entry.intent.payload)&&receipt.account_id===intent.accountId&&receipt.character_id===intent.characterId&&receipt.request_id===intent.requestId&&receipt.source_scope_sha256===sha256(JSON.stringify(intent.sourceScope)),'Erasure receipt binding mismatch.');
  assert.equal(receipt.policy_id,JSON.parse(Buffer.from(entry.entry.policy.payload,'base64url').toString('utf8')).policyId);
  assert.ok(execution.operationId===intent.operationId&&execution.intentDigest===sha256(entry.entry.intent.payload)&&execution.policyDigest===intent.policyDigest,'Execution approval binding mismatch.');
+ if(dashboard)assertDashboardReview(execution,intent);
  const issued=Date.parse(execution.issuedAt),expires=Date.parse(execution.expiresAt);
  assert.ok(expires>issued&&expires-issued<=900000&&+receipt.completed_at>=issued-30000&&+receipt.completed_at<=expires,'Execution approval time mismatch.');
  assert.ok(Date.parse(execution.recoveryVerifiedAt)<=issued+30000&&issued-Date.parse(execution.recoveryVerifiedAt)<=7200000);
  if(execution.mode==='fulfill'){assert.equal(execution.targetDatabase,intent.sourceScope.database);assert.equal(execution.targetClusterDigest,intent.sourceScope.clusterDigest);assert.equal(receipt.outcome,'erased');}
 }
-async function checkpoint(sql:Sql,state:JournalState,scope:string,publicKey:string){
+async function checkpoint(sql:Sql,state:JournalState,scope:string,publicKey:string,dashboard:boolean){
  // Only checkpoint a journal head after ALL its intents are verified here.
  for(const entry of state.entries){
   const receipt=(await sql.query('SELECT * FROM account_erasures WHERE operation_id=$1',[entry.intent.operationId])).rows[0];
   if(!receipt)return; // A multi-intent old restore remains fenced until complete.
-  verifyReceiptApproval(receipt,entry,publicKey);await verifyErased(sql,entry.intent,receipt.outcome);
+  verifyReceiptApproval(receipt,entry,publicKey,dashboard);await verifyErased(sql,entry.intent,receipt.outcome);
  }
  const old=(await sql.query('SELECT root_sha256 FROM account_erasure_checkpoints WHERE sequence=$1',[state.sequence])).rows[0];
  if(old)assert.equal(old.root_sha256,state.root);else await sql.query('INSERT INTO account_erasure_checkpoints(sequence,root_sha256,source_scope_sha256) VALUES($1,$2,$3)',[state.sequence,state.root,scope]);
@@ -188,11 +190,12 @@ export async function assertErasureFence(db:Database,options:{required:boolean;j
  const state=options.journalUrl?await readRemoteJournal({journalUrl:options.journalUrl,journalToken:options.journalToken??'',journalScope:options.journalScope??'',publicKey:options.publicKey,fetcher:options.fetcher}):await readJournal(options.journalPath!,options.publicKey);
  await transaction(db,async sql=>{
   await sql.query("SET LOCAL statement_timeout='120s'; SET LOCAL transaction_timeout='300s'");await pinRelations(sql);
+  const dashboard=await assertReviewedSchema(sql);
   const receipts=(await sql.query('SELECT * FROM account_erasures')).rows;
   assert.equal(receipts.length,state.entries.length,'Unreconciled restored account data.');
   for(const entry of state.entries){
    const receipt=receipts.find(r=>r.operation_id===entry.intent.operationId);assert.ok(receipt);
-   verifyReceiptApproval(receipt,entry,options.publicKey!);await verifyErased(sql,entry.intent,receipt.outcome);
+   verifyReceiptApproval(receipt,entry,options.publicKey!,dashboard);await verifyErased(sql,entry.intent,receipt.outcome);
   }
   if(state.sequence){const mark=(await sql.query('SELECT root_sha256 FROM account_erasure_checkpoints WHERE sequence=$1',[state.sequence])).rows[0];assert.equal(mark?.root_sha256,state.root,'Journal checkpoint mismatch.');}
  },{expansionLock:'exclusive'});

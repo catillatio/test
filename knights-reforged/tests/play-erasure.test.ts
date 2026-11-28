@@ -11,7 +11,7 @@ import {join} from 'node:path';
 import {transaction} from '../src/db.js';
 import {realm,type Player} from './helpers.js';
 import {requestAccountDeletion} from '../src/account-safety.js';
-import {fulfillErasure,assertErasureFence} from '../src/privacy/erasure.js';
+import {fulfillErasure,assertErasureFence,assertReviewedSchema} from '../src/privacy/erasure.js';
 import {sha256,authorize,type SignedRecord} from '../src/privacy/authorization.js';
 import {emptyRoot,readJournal} from '../src/privacy/journal.js';
 import {readRemoteJournal} from '../src/privacy/journal-remote.js';
@@ -25,6 +25,8 @@ import {listOpponents,getState} from '../src/game.js';
 import {syncAchievementGold} from '../src/achievement-gold.js';
 import {experienceRules} from '../src/experience-rules.js';
 import {prepareReadBatch} from '../src/notifications.js';
+import {assertApplicationPrivileges,prepareRecoveryFunctionPrivileges} from '../src/application-privileges.js';
+import {assertErasureOperator} from '../src/privacy/operator.js';
 const keys=generateKeyPairSync('ed25519'),publicKey=keys.publicKey.export({format:'pem',type:'spki'}).toString();
 const signed=(payload:unknown):SignedRecord=>{const bytes=Buffer.from(JSON.stringify(payload));return{payload:bytes.toString('base64url'),signature:sign(null,bytes,keys.privateKey).toString('base64url')};};
 const codeSha='a'.repeat(40),candidateDigest='d'.repeat(64);
@@ -39,7 +41,7 @@ async function fixture(clock?:()=>Date){
  const options=async(mode='fulfill')=>({enabled:true,publicKey,policy,intent,permit:await permit(mode),journalPath:directory,codeSha,candidateDigest,verifyCoordinator:async()=>{}});
  return{r,a,b,directory,root,policy,intent,options,close:async()=>{await r.close();await rm(root,{recursive:true,force:true});}};
 }
-async function finances(r:Awaited<ReturnType<typeof realm>>){return JSON.stringify((await r.db.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS land`)).rows);}
+async function finances(r:Pick<Awaited<ReturnType<typeof realm>>,'db'>){return JSON.stringify((await r.db.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS land`)).rows);}
 
 test('signed ordinary fulfillment erases credentials/content, preserves money and report numbers, rejects stale sessions and command replay',async()=>{
  const f=await fixture(),{r,a,b}=f;
@@ -127,48 +129,166 @@ test('exclusive realm lock serializes an already-running command and deletion; s
  }finally{await f.close();}
 });
 
-test('a real custom-format backup restored to an isolated database is blocked until its signed erasure is replayed', {timeout:120000},async()=>{
+test('the restricted operator and private HTTP journal fence a real backup until its signed erasure is replayed', {timeout:120000},async()=>{
  const{createDatabase}=await import('../src/db.js');
- const url=new URL(process.env.TEST_DATABASE_URL!),r=await realm(),directory=await mkdtemp(join(tmpdir(),'erasure-restore-test-'));await chmod(directory,0o700);
- assert.ok(['127.0.0.1','localhost'].includes(url.hostname)&&url.pathname.endsWith('_test'));
- const restoredName='privacy_'+randomUUID().replaceAll('-','')+'_test',admin=createDatabase(url.href);let restored:ReturnType<typeof createDatabase>|undefined,created=false;
- function tool(command:'pg_dump'|'pg_restore',database:string,input?:Buffer){
-  const target=new URL(url);target.pathname='/'+database;
-  return postgresClient(command,target.href,command==='pg_dump'?['--format=custom','--no-owner','--no-acl']:['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+database],input);
+ const url=new URL(process.env.TEST_DATABASE_URL!),recovery=new URL(process.env.TEST_ERASURE_RESTORE_DATABASE_URL??url.href);
+ for(const endpoint of [url,recovery])assert.ok(['127.0.0.1','localhost'].includes(endpoint.hostname)&&endpoint.pathname.endsWith('_test')&&!endpoint.search&&!endpoint.hash);
+ const r=await realm(),root=await mkdtemp(join(tmpdir(),'erasure-restore-test-')),directory=join(root,'journal');await chmod(root,0o700);await mkdir(directory,{mode:0o700});
+ const restoredName='privacy_'+randomUUID().replaceAll('-','')+'_test',admin=createDatabase(recovery.href);
+ const restoreUrl=new URL(recovery);restoreUrl.pathname='/'+restoredName;
+ const dashboardReviewSql=await readFile(new URL('../deployment/privacy/owner-dashboard-review.sql',import.meta.url));
+ const dashboardReview=(endpoint:URL,accountId:string,characterId:string)=>({
+  ...JSON.parse(postgresClient('psql',endpoint.href,['-X','-qAt','-v','account_id='+accountId,'-v','character_id='+characterId],dashboardReviewSql).toString()),
+  unstructuredReviewed:true
+ });
+ const grants=await readFile(new URL('../deployment/privacy/ROLE_REVIEW.sql',import.meta.url),'utf8');
+ const sourceRole='privacy_live_'+randomUUID().replaceAll('-',''),restoreRole='privacy_copy_'+randomUUID().replaceAll('-','');
+ let restored:ReturnType<typeof createDatabase>|undefined,sourceOperator:ReturnType<typeof createDatabase>|undefined,restoreOperator:ReturnType<typeof createDatabase>|undefined;
+ let created=false,createdSourceRole=false,createdRestoreRole=false,relay:Awaited<ReturnType<typeof createJournalRelay>>|undefined;
+ const createRole=async(owner:ReturnType<typeof createDatabase>,role:string)=>{
+  const password=randomUUID();
+  await owner.query("CREATE ROLE "+role+" LOGIN PASSWORD '"+password+"' NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOREPLICATION NOBYPASSRLS");
+  return password;
+ };
+ async function connectOperator(owner:ReturnType<typeof createDatabase>,endpoint:URL,role:string,password:string){
+  await transaction(owner,sql=>sql.query(grants.replaceAll('kc_account_eraser',role)));
+  const target=new URL(endpoint);target.username=role;target.password=password;
+  return createDatabase(target.href);
+ }
+ async function validateOperator(db:ReturnType<typeof createDatabase>,role:string){
+  assert.deepEqual((await db.query('SELECT session_user AS login, current_user AS active')).rows[0],{login:role,active:role});
+  await assertErasureOperator(db,role);
+  for(const sql of ['SELECT password_hash FROM accounts','UPDATE wallets SET balance=0','DELETE FROM economy_entries','TRUNCATE account_erasures',
+   'SELECT * FROM owner_dashboard_cases','SELECT * FROM owner_dashboard_operations','SELECT * FROM owner_console_activity'])await assert.rejects(db.query(sql),/permission denied/);
  }
  try{
   const a=await r.player('Restored Subject'),b=await r.player('Restored Other');await r.ok(a,'/api/v1/comments',{profileId:b.id,body:'Restorable private text'});
   await r.prepare(a,100000,30);await r.ok(a,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
   await r.ok(a,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
+  await r.prepare(b,95000,30);await r.ok(b,'/api/v1/land/purchases',{propertyId:'smallholding',quantity:1});
+  await r.ok(b,'/api/v1/inventory/purchases',{itemId:'iron-sword',quantity:1});
+  const other=(await r.db.query('SELECT username FROM accounts WHERE id=$1',[b.accountId])).rows[0]!.username;
+  const subject=(await r.db.query('SELECT username FROM accounts WHERE id=$1',[a.accountId])).rows[0]!.username;
+  await r.db.query(`CREATE TABLE owner_dashboard_cases(report_id uuid PRIMARY KEY,state text NOT NULL,version integer NOT NULL,changed_at timestamptz NOT NULL DEFAULT now());
+   CREATE TABLE owner_dashboard_operations(id uuid PRIMARY KEY,report_id uuid NOT NULL,target_id uuid NOT NULL,operator_label varchar(80) NOT NULL,
+     action text NOT NULL,reason varchar(200) NOT NULL,intent_hash char(64) NOT NULL,before_state jsonb NOT NULL,after_state jsonb NOT NULL,
+     result jsonb NOT NULL,created_at timestamptz NOT NULL DEFAULT now());
+   CREATE VIEW owner_console_activity AS SELECT account_id,kind,created_at,true AS successful FROM command_receipts WHERE result IS NOT NULL`);
+  assert.equal(await assertReviewedSchema(r.db),true);
+  const report=randomUUID(),otherReport=randomUUID(),linkedOperation=randomUUID(),textOperation=randomUUID(),otherOperation=randomUUID();
+  const message=(await r.db.query('SELECT id FROM realm_messages WHERE author_id=$1',[a.id])).rows[0]!.id;
+  await r.db.query("INSERT INTO social_reports(id,message_id,reporter_id,reason,created_at) VALUES($1,$2,$3,'abuse',now())",[report,message,b.id]);
+  await r.db.query("INSERT INTO owner_dashboard_cases(report_id,state,version) VALUES($1,'resolved',1),($2,'resolved',1)",[report,otherReport]);
+  await r.db.query(`INSERT INTO owner_dashboard_operations(id,report_id,target_id,operator_label,action,reason,intent_hash,before_state,after_state,result)
+   VALUES($1,$2,$3,'Fixture operator','resolved','Linked report','fixture','{}','{}','{}'),
+         ($4,$5,$6,'Fixture operator','resolved','Unrelated report','fixture','{}','{}',$7),
+         ($8,$5,$6,'Fixture operator','resolved','Unrelated report','fixture','{}','{}','{}')`,
+   [linkedOperation,report,a.id,textOperation,otherReport,b.id,{subject:'Restored Subject'},otherOperation]);
+  const commandId=randomUUID();
+  await r.db.query("INSERT INTO command_receipts(account_id,command_id,kind,intent_hash,result) VALUES($1,$2,'fixture','fixture','{}')",[a.accountId,commandId]);
+  const clearFixtureEvidence=async(db:ReturnType<typeof createDatabase>)=>{
+   // Simulate authorized, subject-specific disposition. The production eraser has no such grants.
+   await db.query('DELETE FROM owner_dashboard_operations WHERE id IN($1,$2)',[linkedOperation,textOperation]);
+   await db.query('DELETE FROM owner_dashboard_cases WHERE report_id=$1',[report]);
+  };
   const request=await requestAccountDeletion(r.db,a.accountId),live=(await r.db.query(`SELECT current_database() AS database,(SELECT oid::text FROM pg_database WHERE datname=current_database()) AS oid,encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS cluster`)).rows[0]!;
   const scope={projectId:randomUUID(),environmentId:randomUUID(),gameServiceId:randomUUID(),database:live.database,clusterDigest:live.cluster};
   const policy=signed({protocol:'kingdom-erasure-policy-v7',policyId:randomUUID(),repository:'catillatio/test',approved:true,approvedAt:new Date().toISOString(),sharedRecords:'reference-bound-minimal-integrity-records-v1',backupRecords:'suppress-on-restore-until-protected-backups-expire',journalRetention:'last-relevant-backup-destruction-plus-30-days',personalData:'erase-login-and-minimize-live-estate-v2',integrityReviewDays:30,formerWallet:'sealed-integrity-anchor-no-transfer',unreferencedRecordDisposalGraceDays:30,routineBackupMaximumDays:null,routineBackupTargetDays:30,routineBackupTargetEnforced:false,protectedRecoveryArtifactDays:90,otherProviderRetention:'not-fully-established',protectedBackupReviewDays:30,erasureLedgerGraceDays:30,scope});
   const intent=signed({protocol:'kingdom-erasure-intent-v7',operationId:randomUUID(),accountId:a.accountId,characterId:a.id,requestId:request.id,policyDigest:sha256(policy.payload),sourceScope:scope,personalDataReviewCompleted:true,issuedAt:new Date().toISOString()});
-  async function options(mode:'fulfill'|'restore',database=live.database,oid=live.oid){
-   const state=await readJournal(directory,publicKey);return {enabled:true,publicKey,policy,intent,journalPath:directory,codeSha,candidateDigest,verifyCoordinator:async()=>{},permit:signed({protocol:'kingdom-erasure-execution-v2',coordinator:{protocol:'kingdom-production-mutex-v1',runId:'123',runAttempt:1,jobId:'456'},mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:database,targetOid:oid,targetClusterDigest:live.cluster,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()})};
+  const scopeDigest=sha256(JSON.stringify(scope)),readToken='synthetic_restore_reader_credential_00000';
+  await writeFile(join(root,'installation.json'),JSON.stringify({protocol:'kingdom-erasure-journal-installation-v1',scopeSha256:scopeDigest,publicKeySha256:sha256(publicKey)}),{mode:0o600});
+  relay=await createJournalRelay({journalPath:directory,publicKey,scopeDigest,readToken});
+  const server=relay;await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
+  const address=server.address();assert.ok(address&&typeof address==='object');
+  const journalUrl='http://kingdom-account-erasure.railway.internal:8080/v1/journal';
+  const fetcher:typeof fetch=async(input,init)=>{assert.equal(String(input),journalUrl);return fetch('http://127.0.0.1:'+address.port+'/v1/journal',init);};
+  const reader={journalUrl,journalToken:readToken,journalScope:scopeDigest,publicKey,fetcher};
+  assert.equal((await readRemoteJournal(reader)).sequence,0);
+  async function options(mode:'fulfill'|'restore',database=live.database,oid=live.oid,cluster=live.cluster,ownerDashboardReview?:unknown){
+   const state=await readJournal(directory,publicKey);return {enabled:true,publicKey,policy,intent,journalPath:directory,codeSha,candidateDigest,verifyCoordinator:async()=>{},permit:signed({protocol:'kingdom-erasure-execution-v2',coordinator:{protocol:'kingdom-production-mutex-v1',runId:'123',runAttempt:1,jobId:'456'},mode,operationId:JSON.parse(Buffer.from(intent.payload,'base64url').toString()).operationId,intentDigest:sha256(intent.payload),policyDigest:sha256(policy.payload),journalSequence:state.sequence,journalRoot:state.root,targetDatabase:database,targetOid:oid,targetClusterDigest:cluster,ownerDashboardReview,candidateDigest,codeSha,issuedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+600000).toISOString(),externalHoldsCleared:true,restoreGuardInstalled:true,independentRecoveryVerified:true,encryptedBackupSha256:'b'.repeat(64),recoveryEvidenceSha256:'c'.repeat(64),recoveryVerifiedAt:new Date().toISOString()})};
   }
-  const backup=tool('pg_dump',live.database),archiveDigest=createHash('sha256').update(backup).digest('hex');
+  const sourcePassword=await createRole(r.db,sourceRole);createdSourceRole=true;
+  sourceOperator=await connectOperator(r.db,url,sourceRole,sourcePassword);await validateOperator(sourceOperator,sourceRole);
+  const backup=postgresClient('pg_dump',url.href,['--format=custom','--no-owner','--no-acl']),archiveDigest=createHash('sha256').update(backup).digest('hex');
+  const review=dashboardReview(url,a.accountId,a.id);
+  assert.equal(review.matchingCases,1);assert.equal(review.matchingOperations,2);
+  await assert.rejects(fulfillErasure(sourceOperator,await options('fulfill')),/Signed owner-dashboard data review required/);
+  await assert.rejects(fulfillErasure(sourceOperator,await options('fulfill',live.database,live.oid,live.cluster,review)));
+  assert.equal((await readRemoteJournal(reader)).sequence,0,'No journal intent until the dashboard evidence is cleared');
+  await r.db.query('GRANT SELECT (report_id) ON owner_dashboard_cases TO '+sourceRole);
+  await assert.rejects(assertErasureOperator(sourceOperator,sourceRole),/Unexpected erasure privilege on an owner-dashboard object/);
+  await r.db.query('REVOKE SELECT (report_id) ON owner_dashboard_cases FROM '+sourceRole);
+  await r.db.query('CREATE TABLE unreviewed_privacy_table ()');
+  await assert.rejects(assertReviewedSchema(sourceOperator),/Unreviewed privacy schema/);
+  await r.db.query('DROP TABLE unreviewed_privacy_table');
+  await r.db.query('ALTER TABLE owner_dashboard_cases ADD COLUMN unreviewed text');
+  await assert.rejects(assertReviewedSchema(sourceOperator),/Unreviewed privacy schema/);
+  await r.db.query('ALTER TABLE owner_dashboard_cases DROP COLUMN unreviewed');
+  await r.db.query('CREATE VIEW unreviewed_privacy_view AS SELECT 1');
+  await assert.rejects(assertReviewedSchema(sourceOperator),/Unreviewed privacy schema/);
+  await r.db.query('DROP VIEW unreviewed_privacy_view');
+  await clearFixtureEvidence(r.db);
+  const cleared=dashboardReview(url,a.accountId,a.id);
+  assert.equal(cleared.matchingCases,0);assert.equal(cleared.matchingOperations,0);
+  await assert.rejects(fulfillErasure(sourceOperator,await options('fulfill',live.database,live.oid,live.cluster,
+   {...cleared,reviewedAt:new Date(Date.now()-901000).toISOString()})),/Fresh owner-dashboard data review required/);
   const expected=JSON.parse(await finances(r));for(const row of expected){row.inventory=row.inventory?.filter((i:Record<string,unknown>)=>i.character_id!==a.id)??[];if(!row.inventory.length)row.inventory=null;row.land=row.land?.filter((h:Record<string,unknown>)=>h.character_id!==a.id)??[];if(!row.land.length)row.land=null;}
   const before=JSON.stringify(expected);
-  await fulfillErasure(r.db,await options('fulfill'));
-  await admin.query('CREATE DATABASE "'+restoredName+'" TEMPLATE template0');created=true;tool('pg_restore',restoredName,backup);
-  const restoreUrl=new URL(url);restoreUrl.pathname='/'+restoredName;restored=createDatabase(restoreUrl.href);
-  await assert.rejects(assertErasureFence(restored,{required:true,journalPath:directory,publicKey}),/blocked/);
+  await fulfillErasure(sourceOperator,await options('fulfill',live.database,live.oid,live.cluster,cleared));assert.equal(await finances(r),before);
+  assert.equal((await r.db.query('SELECT 1 FROM owner_console_activity WHERE account_id=$1',[a.accountId])).rowCount,0);
+  const survivingOperations=(await r.db.query('SELECT * FROM owner_dashboard_operations ORDER BY id')).rows;
+  assert.deepEqual(survivingOperations.map(row=>row.id),[otherOperation]);
+  assert.equal((await readRemoteJournal(reader)).sequence,1);
+  await assertErasureFence(r.db,{required:true,...reader});
+  await admin.query('CREATE DATABASE "'+restoredName+'" TEMPLATE template0');created=true;restored=createDatabase(restoreUrl.href);
+  await prepareRecoveryFunctionPrivileges(restored);
+  postgresClient('pg_restore',restoreUrl.href,['--single-transaction','--exit-on-error','--no-owner','--no-acl','--dbname='+restoredName],backup);
+  await assertApplicationPrivileges(restored);
+  assert.equal((await restored.query('SELECT 1 FROM accounts WHERE id=$1',[a.accountId])).rowCount,1,'The old archive contained the erased login');
+  await assert.rejects(assertErasureFence(restored,{required:true,...reader}),/blocked/);
   assert.equal((await restored.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,0);
   const oid=(await admin.query('SELECT oid::text FROM pg_database WHERE datname=$1',[restoredName])).rows[0]!.oid;
-  const approved=await options('restore',restoredName,oid);
-  await fulfillErasure(restored,approved);assert.equal((await restored.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,0);await assertErasureFence(restored,{required:true,journalPath:directory,publicKey});
-  assert.equal(JSON.stringify((await restored.query(`SELECT (SELECT jsonb_agg(t ORDER BY character_id) FROM wallets t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS wallets,(SELECT jsonb_agg(t ORDER BY id) FROM economy_entries t) AS ledger,(SELECT jsonb_agg(t ORDER BY character_id) FROM vault_accounts t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS vault,(SELECT jsonb_agg(t ORDER BY id) FROM inventory_entries t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS inventory,(SELECT jsonb_agg(t ORDER BY id) FROM land_holdings t WHERE character_id NOT IN(SELECT character_id FROM abandoned_kingdoms)) AS land`)).rows),before);
+  const cluster=(await restored.query("SELECT encode(sha256(convert_to((SELECT system_identifier::text FROM pg_control_system()),'UTF8')),'hex') AS digest")).rows[0]!.digest;
+  if(process.env.TEST_ERASURE_RESTORE_DATABASE_URL)assert.notEqual(cluster,live.cluster,'Explicit recovery fixture must be an independent cluster');
+  const restorePassword=await createRole(admin,restoreRole);createdRestoreRole=true;
+  restoreOperator=await connectOperator(restored,restoreUrl,restoreRole,restorePassword);await validateOperator(restoreOperator,restoreRole);
+  if(cluster!==live.cluster){
+   await assert.rejects(fulfillErasure(restoreOperator,await options('restore',restoredName,oid,live.cluster)));
+   await assert.rejects(assertErasureFence(restored,{required:true,...reader}),/blocked/);
+  }
+  const restoredReview=dashboardReview(restoreUrl,a.accountId,a.id);
+  assert.equal(restoredReview.matchingCases,1);assert.equal(restoredReview.matchingOperations,2);
+  await assert.rejects(fulfillErasure(restoreOperator,await options('restore',restoredName,oid,cluster)),/Signed owner-dashboard data review required/);
+  await assert.rejects(fulfillErasure(restoreOperator,await options('restore',restoredName,oid,cluster,cleared)),/Owner-dashboard review scope mismatch/);
+  await assert.rejects(fulfillErasure(restoreOperator,await options('restore',restoredName,oid,cluster,restoredReview)));
+  await assert.rejects(assertErasureFence(restored,{required:true,...reader}),/blocked/);
+  await clearFixtureEvidence(restored);
+  const approved=await options('restore',restoredName,oid,cluster,dashboardReview(restoreUrl,a.accountId,a.id));
+  await fulfillErasure(restoreOperator,approved);assert.equal((await restored.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,0);await assertErasureFence(restored,{required:true,...reader});
+  assert.equal(await finances({db:restored}),before);
+  assert.deepEqual((await restored.query('SELECT * FROM owner_dashboard_operations ORDER BY id')).rows,survivingOperations);
+  assert.equal((await restored.query('SELECT 1 FROM owner_console_activity WHERE account_id=$1',[a.accountId])).rowCount,0);
+  await assert.rejects(authenticate(restored,subject,'AlphaTest!2026'),/incorrect/);
+  assert.equal((await authenticate(restored,other,'AlphaTest!2026')).accountId,b.accountId);
   assert.equal((await restored.query('SELECT count(*)::int AS n FROM realm_messages WHERE author_id=$1',[a.id])).rows[0]!.n,0);
   assert.equal(createHash('sha256').update(backup).digest('hex'),archiveDigest,'The original recovery artifact remains immutable');
-  assert.equal((await fulfillErasure(restored,await options('restore',restoredName,oid))).result,'erased');
+  assert.equal((await fulfillErasure(restoreOperator,approved)).result,'erased');
+  assert.equal((await readRemoteJournal(reader)).sequence,1);
   assert.equal((await restored.query("SELECT count(*)::int AS n FROM abandoned_kingdoms")).rows[0]!.n,0);
   assert.equal((await restored.query('SELECT 1 FROM accounts WHERE id=$1',[a.accountId])).rowCount,0);
- }finally{await restored?.end();if(created)await admin.query('DROP DATABASE "'+restoredName+'"');await admin.end();await r.close();await rm(directory,{recursive:true,force:true});}
+ }finally{
+  if(relay){const server=relay;await new Promise<void>(resolve=>{server.close(()=>resolve());server.closeAllConnections();});}
+  await restoreOperator?.end();await restored?.end();
+  if(created)await admin.query('DROP DATABASE "'+restoredName+'"');
+  if(createdRestoreRole)await admin.query('DROP ROLE '+restoreRole);
+  await admin.end();await sourceOperator?.end();
+  if(createdSourceRole){await r.db.query('DROP OWNED BY '+sourceRole);await r.db.query('DROP ROLE '+sourceRole);}
+  await r.close();await rm(root,{recursive:true,force:true});
+ }
 });
 
 test('column-restricted non-owner eraser can fulfill but cannot read other password hashes or change money',async()=>{
- const {assertErasureOperator}=await import('../src/privacy/operator.js');const {createDatabase}=await import('../src/db.js');
+ const {createDatabase}=await import('../src/db.js');
  const f=await fixture(),{r}=f,role='privacy_'+randomUUID().replaceAll('-','');let operator:ReturnType<typeof createDatabase>|undefined;
  try{
   const schema=(await r.db.query('SELECT current_schema() AS name')).rows[0]!.name;
