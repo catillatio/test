@@ -70,6 +70,34 @@ independent journal. Never install database superuser credentials in this servic
 The signer private key stays owner-private; it is never installed in the operator,
 game, verification worker, GitHub window job or journal relay.
 
+## Owner-dashboard data review
+
+The production catalog has two dashboard tables and an activity view. The tables
+can retain report and target identifiers, operator labels, reasons and JSON state.
+The activity view derives its account identifier from command receipts. Erasure
+removes the subject's receipts and their view rows through the normal receipt
+cleanup.
+
+The schema guard validates the three dashboard objects independently of gameplay
+and privacy tables. The restricted role has no table or column privileges on them.
+When the dashboard is present, both fulfillment and restore replay require an
+owner-signed review for the exact subject, database OID and cluster. Run
+`deployment/privacy/owner-dashboard-review.sql` with `psql -X -qAt` as the trusted
+database owner, passing `account_id` and `character_id` through private psql
+variables. Run it in the existing exclusive window with owner-dashboard writes
+paused through commit. The output contains only subject/target binding and counts.
+Review free text, JSON and orphaned report references privately because zero
+matches cannot rule out indirect identifiers. Positive matches or unresolved
+personal data require a separately approved disposition before proceeding. This
+operation never rewrites or deletes dashboard evidence.
+
+After a clean review, add the result plus `"unstructuredReviewed": true` as
+`permit.ownerDashboardReview` in the existing private approval packet and sign
+within 15 minutes of the review. Keep the packet private. For an old archive
+containing dashboard evidence, perform the same review on the independent
+restored target and use a fresh target-bound permit. The startup and promotion
+fences verify the signed review in erasure receipts when the dashboard is present.
+
 ## Independent journal — one private operator service / dedicated volume
 
 Reuse the already staged **KingdomAccountErasure** service and its dedicated
